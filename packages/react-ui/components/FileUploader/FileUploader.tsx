@@ -27,15 +27,15 @@ export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) =
 
   const handleStart = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Loading);
-  }, []);
+  }, [setFileStatus]);
 
   const handleSuccess = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Uploaded);
-  }, []);
+  }, [setFileStatus]);
 
   const handleError = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Error);
-  }, []);
+  }, [setFileStatus]);
 
   const upload = useCallback((file: IUploadFile) => {
     const {id} = file;
@@ -47,8 +47,6 @@ export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) =
     if (!controlError) {
       files.forEach(async file => {
         const validationMessage = fileValidation && await fileValidation(file);
-
-        console.log({validationMessage});
 
         if (!validationMessage) {
           upload(file);

@@ -45,6 +45,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
     setFiles(files => {
       return updateFile(files, fileId, file => {
         return {
+          status,
           validationResult: status === UploadFileStatus.Error
             ? ValidationResult.error('Файл не удалось загрузить на сервер, повторите попытку позже')
             : file.validationResult
