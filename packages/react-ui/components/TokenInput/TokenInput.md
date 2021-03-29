@@ -57,7 +57,7 @@ const tokenColors = {
 </div>;
 ```
 
-#### Локали по умолчанию (см. `LocaleProvider`)
+#### Локали по умолчанию
 
 ```typescript static
 interface TokenInputLocale {

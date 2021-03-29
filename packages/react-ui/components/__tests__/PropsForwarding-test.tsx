@@ -4,10 +4,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import * as ReactUI from '../../index';
 
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
-  return (
-    isPublicComponent((ReactUI as any)[name]) &&
-    !['LocaleProvider', 'LocaleConsumer', 'ThemeProvider', 'ThemeConsumer'].includes(name)
-  );
+  return isPublicComponent((ReactUI as any)[name]);
 });
 
 const DEFAULT_PROPS = {
@@ -22,8 +19,6 @@ const DEFAULT_PROPS = {
   RadioGroup: { items: [] },
   Dropdown: { caption: 'caption' },
   DropdownMenu: { caption: 'caption' },
-  Fias: { baseUrl: '/' },
-  FiasSearch: { api: new ReactUI.FiasAPI('/') },
   Gapped: { children: '' },
   MenuHeader: { children: '' },
   Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 0 },

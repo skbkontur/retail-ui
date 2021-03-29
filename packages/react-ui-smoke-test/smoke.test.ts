@@ -10,7 +10,7 @@ const LOAD_PAGE_TIMEOUT = 60000;
 const BUILD_REACTUI_TIMEOUT = 120000;
 const TIMEOUT = 240000;
 
-const deprecatedComponents = ['Fias', 'FiasSearch', 'Logotype', 'TopBar', 'Logotype', 'LocaleProvider'];
+const deprecatedComponents = [];
 
 describe('React-ui smoke test', () => {
   let serveProcess: ChildProcess | undefined;
