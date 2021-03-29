@@ -49,6 +49,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<T[]>;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
 export interface CustomComboBoxState<T> {
@@ -238,6 +239,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
       leftIcon: this.props.leftIcon,
+      inputMode: this.props.inputMode,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,
