@@ -103,6 +103,41 @@ describe('Props Forwarding', () => {
     );
   });
 
+  // check that "inputMode" prop gets forwarded to all relevant input-like components
+  describe('"inputMode" prop', () => {
+    const getTestWrapper = (compName: string, wrapper: ReactWrapper) => {
+      switch (compName) {
+        case 'TokenInput':
+        case 'Textarea':
+          return wrapper.find('textarea');
+        case 'ComboBox':
+          wrapper.find('[tabIndex]').simulate('focus');
+          return wrapper.find('input');
+        default:
+          return wrapper.find('input');
+      }
+    };
+
+    it.each<keyof typeof ReactUI>([
+      'Input',
+      'FxInput',
+      'CurrencyInput',
+      'PasswordInput',
+      'Autocomplete',
+      'Textarea',
+      'ComboBox',
+      'TokenInput',
+    ])('%s', compName => {
+      const props = {
+        inputMode: 'numeric',
+      };
+      const wrapper = createWrapper(compName, props);
+      const testWrapper = getTestWrapper(compName, wrapper);
+
+      expect(testWrapper.props()).toMatchObject(props);
+    });
+  });
+
   // check that the width prop still works
   describe('"width" Prop', () => {
     const getTestDOMNode = (compName: string, wrapper: ReactWrapper) => {
