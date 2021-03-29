@@ -336,8 +336,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       },
     };
 
-    const useIsCustom = this.props.use !== 'default';
-
     return (
       <Button {...buttonProps}>
         <span {...labelProps}>
@@ -345,7 +343,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         </span>
 
         <div className={jsStyles.arrowWrap(this.theme)} style={{ right: this.getLegacyArrowShift() }}>
-          <ArrowChevronDownIcon />
+          <ArrowChevronDownIcon style={{ marginBottom: '-3px' }} />
         </div>
       </Button>
     );
