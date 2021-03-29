@@ -343,7 +343,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         </span>
 
         <div className={jsStyles.arrowWrap(this.theme)} style={{ right: this.getLegacyArrowShift() }}>
-          <ArrowChevronDownIcon style={{ marginBottom: '-3px' }} />
+          <ArrowChevronDownIcon
+            color={this.props.use === 'link' ? this.theme.btnLinkColor : undefined}
+            style={{ marginBottom: '-3px' }}
+          />
         </div>
       </Button>
     );
