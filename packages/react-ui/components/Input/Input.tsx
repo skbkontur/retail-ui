@@ -525,11 +525,7 @@ export class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return this.props.disabled ? (
-      <span className={jsStyles.disabledPrefix(this.theme)}>{prefix}</span>
-    ) : (
-      <span className={jsStyles.prefix(this.theme)}>{prefix}</span>
-    );
+    return <span className={jsStyles.prefix(this.theme)}>{prefix}</span>;
   };
 
   private renderSuffix = () => {
@@ -539,10 +535,6 @@ export class Input extends React.Component<InputProps, InputState> {
       return null;
     }
 
-    return this.props.disabled ? (
-      <span className={jsStyles.disabledSuffix(this.theme)}>{suffix}</span>
-    ) : (
-      <span className={jsStyles.suffix(this.theme)}>{suffix}</span>
-    );
+    return <span className={jsStyles.suffix(this.theme)}>{suffix}</span>;
   };
 }

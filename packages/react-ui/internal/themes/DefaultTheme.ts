@@ -41,7 +41,6 @@ export class DefaultTheme {
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.15)';
   public static placeholderColor = '#a0a0a0';
-  public static placeholderDisabledColor = '#808080';
   public static outlineColorFocus = '#fff';
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
@@ -56,6 +55,7 @@ export class DefaultTheme {
   public static textColorDefault = '#404040';
   public static textColorInvert = '#fff';
   public static textColorDisabled = '#a0a0a0';
+  public static textColorDisabledOnDark = '#808080';
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
@@ -120,7 +120,9 @@ export class DefaultTheme {
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
-  public static tokenTextColorDisabled = '#808080';
+  public static get tokenTextColorDisabled() {
+    return this.textColorDisabledOnDark;
+  }
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
@@ -242,7 +244,7 @@ export class DefaultTheme {
     return this.inputTextColor;
   }
   public static get tokenInputTextColorDisabled() {
-    return this.inputTextColorDisabled;
+    return this.textColorDisabledOnDark;
   }
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '4px';
@@ -281,7 +283,6 @@ export class DefaultTheme {
     return this.btnOutlineWidth;
   }
   public static btnFocusBorder = 'none';
-  public static btnDisabledTextColor = '#808080';
   public static btnDisabledBorderColor = 'transparent';
   public static btnCheckedBg = '#737373';
   public static btnCheckedDisabledBg = '#a0a0a0';
@@ -521,11 +522,16 @@ export class DefaultTheme {
   public static get btnLinkDisabledColor() {
     return this.linkDisabledColor;
   }
+  public static get btnDisabledTextColor() {
+    return this.textColorDisabledOnDark;
+  }
   //#endregion
   //#region Select
   public static selectPlaceholderColor = '#a0a0a0';
-  public static selectPlaceholderDisabledColor = '#808080';
   public static selectBorderWidth = '1px';
+  public static get selectPlaceholderDisabledColor() {
+    return this.textColorDisabledOnDark;
+  }
   public static get selectOutlineWidth() {
     return this.controlOutlineWidth;
   }
@@ -751,12 +757,14 @@ export class DefaultTheme {
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
-  public static inputTextColorDisabled = '#808080';
   public static inputShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
   public static inputColor = 'inherit';
   public static inputWidth = '250px';
+  public static get inputTextColorDisabled() {
+    return this.textColorDisabledOnDark;
+  }
   public static get inputFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -844,7 +852,7 @@ export class DefaultTheme {
     return this.placeholderColor;
   }
   public static get inputPlaceholderDisabledColor() {
-    return this.placeholderDisabledColor;
+    return this.textColorDisabledOnDark;
   }
   public static get inputPlaceholderColorLight() {
     return this.placeholderColorLight;
@@ -947,12 +955,17 @@ export class DefaultTheme {
   public static get textareaColor() {
     return this.black;
   }
-  public static textareaTextColorDisabled = '#808080';
+  public static get textareaTextColorDisabled() {
+    return this.textColorDisabledOnDark;
+  }
   public static get textareaPlaceholderColorLight() {
     return this.placeholderColorLight;
   }
   public static get textareaPlaceholderColor() {
     return this.placeholderColor;
+  }
+  public static get textareaPlaceholderDisabledColor() {
+    return this.textColorDisabledOnDark;
   }
   public static textareaShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static get textareaFontSize() {

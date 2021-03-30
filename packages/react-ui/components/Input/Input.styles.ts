@@ -203,6 +203,12 @@ const styles = {
       ${cssName(styles.input(t))}::placeholder {
         -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
       }
+      ${cssName(styles.suffix(t))} {
+        color: ${t.inputPlaceholderDisabledColor};
+      }
+      ${cssName(styles.prefix(t))} {
+        color: ${t.inputPlaceholderDisabledColor};
+      }
     `;
   },
 
@@ -304,21 +310,9 @@ const styles = {
     `;
   },
 
-  disabledPrefix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderDisabledColor};
-    `;
-  },
-
   suffix(t: Theme) {
     return css`
       color: ${t.inputPlaceholderColor};
-    `;
-  },
-
-  disabledSuffix(t: Theme) {
-    return css`
-      color: ${t.inputPlaceholderDisabledColor};
     `;
   },
 
