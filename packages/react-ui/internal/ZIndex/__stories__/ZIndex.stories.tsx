@@ -938,3 +938,40 @@ export const ModalSidePageStack = () => {
   );
 };
 ModalSidePageStack.story = { name: 'Modal and SidePage Stack', parameters: { creevey: { skip: [true] } } };
+
+export const ModalAndToast: CSFStory<JSX.Element> = () => {
+  const toast = React.useRef<Toast>(null);
+  const showNotification = () => {
+    if (toast.current) {
+      toast.current.push('Toast');
+    }
+  };
+
+  return (
+    <div>
+      <Toast ref={toast} />
+      <Modal>
+        <Modal.Header>Modal</Modal.Header>
+        <Modal.Body>
+          <Button onClick={showNotification}>Show Toast</Button>
+        </Modal.Body>
+      </Modal>
+    </div>
+  );
+};
+ModalAndToast.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async toastShown() {
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Button"] button' }))
+            .perform();
+
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
