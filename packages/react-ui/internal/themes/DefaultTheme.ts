@@ -706,6 +706,7 @@ export class DefaultTheme {
   public static modalCloseButtonPadding = '35px';
   public static modalCloseButtonLegacyShift = '15px';
   public static modalCloseButtonBottomPadding = '20px';
+  public static modalCloseButtonClickArea = '10px';
   public static modalCloseIconSize = '14px';
   public static modalCloseLegacyGap = '26px';
   public static modalCloseWrapperLegacyGap = '7px';

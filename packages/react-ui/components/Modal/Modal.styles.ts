@@ -79,18 +79,13 @@ const styles = {
   },
 
   close(t: Theme) {
-    const margin = 0;
     const padding = parseInt(t.modalCloseButtonPadding);
-    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
-    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
       position: absolute;
-      right: ${margin}px;
-      top: ${margin}px;
-      width: ${blockSizeX}px;
-      height: ${blockSizeY}px;
+      display: flex;
+      right: ${padding}px;
+      top: ${padding}px;
       background: none;
       background: transparent;
       cursor: pointer;
@@ -106,7 +101,8 @@ const styles = {
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
-        padding: ${padding}px ${padding}px ${paddingBottom}px;
+        padding: ${t.modalCloseButtonClickArea};
+        margin: -${t.modalCloseButtonClickArea};
         box-sizing: content-box;
       }
     `;
@@ -124,14 +120,6 @@ const styles = {
       float: right;
       width: ${blockSizeX + legacyGap}px;
       height: ${blockSizeY}px;
-
-      & ${cssName(styles.close(t))} {
-        width: ${blockSizeX}px;
-
-        svg {
-          padding-left: ${padding - legacyShift}px;
-        }
-      }
     `;
   },
 
@@ -146,20 +134,20 @@ const styles = {
   },
 
   closeOutline(t: Theme) {
-    const padding = parseInt(t.modalCloseButtonPadding) - parseInt(t.modalCloseIconSize) / 2 - 2;
+    const outlineWidth = 2;
     return css`
       ${cssName(styles.close(t))} & {
         display: none;
       }
 
       ${cssName(styles.close(t))}:focus & {
-        border: 2px solid ${t.borderColorFocus};
+        border: ${outlineWidth}px solid ${t.borderColorFocus};
         position: absolute;
         display: block;
-        top: ${padding}px;
-        right: ${padding}px;
-        width: ${parseInt(t.modalCloseIconSize) * 2}px;
-        height: ${parseInt(t.modalCloseIconSize) * 2}px;
+        top: -${parseInt(t.modalCloseButtonClickArea) + outlineWidth}px;
+        right: -${parseInt(t.modalCloseButtonClickArea) + outlineWidth}px;
+        width: ${parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseButtonClickArea) * 2}px;
+        height: ${parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseButtonClickArea) * 2}px;
       }
     `;
   },
