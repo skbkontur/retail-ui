@@ -164,6 +164,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const isError = !!this.props.error;
     const isWarning = !!this.props.warning;
+    const isFocused = this.state.focusedByTab || !!this.props.visuallyFocused;
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -173,13 +174,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.root(this.theme)]: true,
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
         [jsStyles.active(this.theme)]: !!this.props.active,
-        [jsStyles.validationRoot(this.theme)]: isError || isWarning,
         [jsStyles.narrow()]: !!this.props.narrow,
         [jsStyles.noPadding()]: !!this.props._noPadding,
         [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
         [sizeClass]: true,
         [jsStyles.borderless(this.theme)]: !!this.props.borderless,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsStyles.focus(this.theme)]: isFocused,
         [jsStyles.checked(this.theme)]: !!this.props.checked,
         [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
         [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
@@ -215,9 +215,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let error = null;
     if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
+      error = <div className={cn({ [jsStyles.error(this.theme)]: !isFocused })} />;
     } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+      error = <div className={cn({ [jsStyles.warning(this.theme)]: !isFocused })} />;
     }
 
     let loading = null;
@@ -245,9 +245,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <div
           className={cn({
             [jsStyles.arrow()]: true,
-            [jsStyles.arrowWarning(this.theme)]: isWarning,
-            [jsStyles.arrowError(this.theme)]: isError,
-            [jsStyles.arrowFocus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+            [jsStyles.arrowWarning(this.theme)]: isWarning && !isFocused,
+            [jsStyles.arrowError(this.theme)]: isError && !isFocused,
+            [jsStyles.arrowFocus(this.theme)]: isFocused,
             [jsStyles.arrowLeft()]: this.props.arrow === 'left',
           })}
         >

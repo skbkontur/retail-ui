@@ -290,8 +290,9 @@ export class DefaultTheme {
   public static btnBorderRadiusLarge = '3px';
 
   public static btnBorderWidth = '1px';
+  public static btnInsetWidth = '1px';
   public static get btnOutlineWidth() {
-    return this.controlOutlineWidth;
+    return `${parseInt(this.btnBorderWidth, 10) + 1}px`;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
@@ -446,6 +447,7 @@ export class DefaultTheme {
   public static get btnOutlineColorFocus() {
     return this.outlineColorFocus;
   }
+  public static btnInsetColor = '#fff';
   public static get btnBorderColorFocus() {
     return this.borderColorFocus;
   }

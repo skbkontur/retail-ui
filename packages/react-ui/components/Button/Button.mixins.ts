@@ -124,11 +124,11 @@ export const buttonSizeMixin = (
   `;
 };
 
-export const arrowFocusMixin = (
-  borderWidth: string,
-  borderColor: string,
+export const arrowBordersMixin = (
+  insetWidth: string,
+  outlineColor: string,
   outlineWidth: string,
-  outlineColorFocus: string,
+  insetColor: string,
   selectorArrow: string,
   selectorArrowTop: string,
   selectorArrowBottom: string,
@@ -136,22 +136,22 @@ export const arrowFocusMixin = (
   return css`
     ${selectorArrow} {
       &${selectorArrowTop} {
-        box-shadow: inset -${borderWidth} ${borderWidth} 0 0 ${outlineColorFocus}, ${outlineWidth} 0 0 0 ${borderColor} !important;
+        box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important;
       }
 
       &${selectorArrowBottom} {
-        box-shadow: inset -${borderWidth} -${borderWidth} 0 0 ${outlineColorFocus}, ${outlineWidth} 0 0 0 ${borderColor} !important;
+        box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important;
       }
 
       // don't hide inner outline
       // and keep the middle-line fix
       &:before {
-        top: ${borderWidth};
-        right: ${borderWidth};
-        left: ${borderWidth};
+        top: ${insetWidth};
+        right: ${insetWidth};
+        left: ${insetWidth};
       }
       &${selectorArrowBottom}:before {
-        bottom: ${borderWidth};
+        bottom: ${insetWidth};
       }
     }
   `;

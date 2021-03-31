@@ -3,7 +3,13 @@ import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 import { isFirefox } from '../../lib/client';
 
-import { buttonUseMixin, buttonHoverMixin, buttonActiveMixin, buttonSizeMixin, arrowFocusMixin } from './Button.mixins';
+import {
+  buttonUseMixin,
+  buttonHoverMixin,
+  buttonActiveMixin,
+  buttonSizeMixin,
+  arrowBordersMixin,
+} from './Button.mixins';
 
 const styles = {
   root(t: Theme) {
@@ -49,7 +55,8 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning};
+      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
+        inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
@@ -61,7 +68,7 @@ const styles = {
       bottom: 0;
       left: 0;
       right: 0;
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError};
+      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}, inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
     `;
   },
 
@@ -167,15 +174,10 @@ const styles = {
           &:hover,
           &:active,
           ${cssName(styles.active(t))} {
-            box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${
+            box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus}, 0 0 0 ${t.btnFocusShadowWidth} ${
       t.btnBorderColorFocus
     };
             border-color: ${t.btnBorderColorFocus};
-
-            &${cssName(styles.warning(t))}, &${cssName(styles.error(t))} {
-              box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
-              border-color: transparent;
-            }
         }
       }
     `;
@@ -221,27 +223,38 @@ const styles = {
     `;
   },
 
-  validationRoot(t: Theme) {
-    return css`
-      ${cssName(styles.focus(t))}& {
-        box-shadow: inset 0 0 0 1px ${t.btnOutlineColorFocus} !important;
-        border-color: transparent !important;
-      }
-    `;
-  },
-
   arrowWarning(t: Theme) {
     return css`
-      ${cssName(styles.arrowHelper())} {
-        box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorWarning} !important;
-      }
-    `;
+    ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
+      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+
+      ${arrowBordersMixin(
+        t.btnInsetWidth,
+        t.btnBorderColorWarning,
+        t.btnOutlineWidth,
+        t.btnInsetColor,
+        cssName(styles.arrowHelper()),
+        cssName(styles.arrowHelperTop()),
+        cssName(styles.arrowHelperBottom()),
+      )}
+    }
+  `;
   },
 
   arrowError(t: Theme) {
     return css`
-      ${cssName(styles.arrowHelper())} {
-        box-shadow: ${t.btnOutlineWidth} 0 0 0 ${t.btnBorderColorError} !important;
+    ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
+        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+
+        ${arrowBordersMixin(
+          t.btnInsetWidth,
+          t.btnBorderColorError,
+          t.btnOutlineWidth,
+          t.btnInsetColor,
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
+          cssName(styles.arrowHelperBottom()),
+        )}
       }
     `;
   },
@@ -249,10 +262,10 @@ const styles = {
   arrowFocus(t: Theme) {
     return css`
       ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
-        box-shadow: inset 0 0 0 ${t.btnBorderWidth} ${t.btnOutlineColorFocus};
+        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus};
 
-        ${arrowFocusMixin(
-          t.btnBorderWidth,
+        ${arrowBordersMixin(
+          t.btnInsetWidth,
           t.btnBorderColorFocus,
           t.btnOutlineWidth,
           t.btnOutlineColorFocus,
@@ -260,28 +273,6 @@ const styles = {
           cssName(styles.arrowHelperTop()),
           cssName(styles.arrowHelperBottom()),
         )}
-
-        &${cssName(styles.arrowWarning(t))} {
-          ${arrowFocusMixin(
-            t.btnBorderWidth,
-            t.btnBorderColorWarning,
-            t.btnOutlineWidth,
-            t.btnOutlineColorFocus,
-            cssName(styles.arrowHelper()),
-            cssName(styles.arrowHelperTop()),
-            cssName(styles.arrowHelperBottom()),
-          )} }
-
-        &${cssName(styles.arrowError(t))} {
-          ${arrowFocusMixin(
-            t.btnBorderWidth,
-            t.btnBorderColorError,
-            t.btnOutlineWidth,
-            t.btnOutlineColorFocus,
-            cssName(styles.arrowHelper()),
-            cssName(styles.arrowHelperTop()),
-            cssName(styles.arrowHelperBottom()),
-          )} }
       }
     `;
   },
