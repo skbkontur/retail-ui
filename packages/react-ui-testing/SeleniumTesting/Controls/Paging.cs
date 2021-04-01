@@ -13,7 +13,7 @@ namespace SKBKontur.SeleniumTesting.Controls
     public class Paging : ControlList<Label>
     {
         public Paging(ISearchContainer container, ISelector selector)
-            : base(container, selector, new BySelector(By.CssSelector("[data-comp-name='component']")))
+            : base(container, selector, new BySelector(By.CssSelector("[data-comp-name~='component']")))
         {
         }
 
