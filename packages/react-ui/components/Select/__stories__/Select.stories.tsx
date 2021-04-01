@@ -151,20 +151,14 @@ Simple.story = {
   },
 };
 
-export const Disabled: CSFStory<JSX.Element> = () => <Select disabled />;
-Disabled.story = {
-  name: 'disabled',
-  parameters: {
-    creevey: {
-      tests: {
-        async disabledSelect() {
-          const element = await this.browser.findElement({ css: '.dropdown-test-container' });
-          await this.expect(await element.takeScreenshot()).to.matchImage();
-        },
-      },
-    },
-  },
-};
+export const Disabled: CSFStory<JSX.Element> = () => (
+  <>
+    <Select disabled items={['value']} value="value" />
+    <Select disabled placeholder="placeholder" />
+  </>
+);
+
+Disabled.story = { name: 'disabled' };
 
 export const ComplexValues = () => <SelectWrapper />;
 ComplexValues.story = { name: 'Complex values', parameters: { creevey: { skip: [true] } } };
