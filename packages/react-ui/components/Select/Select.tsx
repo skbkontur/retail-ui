@@ -328,6 +328,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       className: cn({
         [jsStyles.label()]: this.props.use !== 'link',
         [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
+        [jsStyles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {

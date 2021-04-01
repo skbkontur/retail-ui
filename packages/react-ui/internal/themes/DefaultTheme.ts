@@ -246,6 +246,9 @@ export class DefaultTheme {
   public static get tokenInputTextColorDisabled() {
     return this.textColorDisabledOnDark;
   }
+  public static get tokenInputPlaceholderDisabledColor() {
+    return this.textColorDisabledOnDark;
+  }
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '4px';
   public static get tokenInputFontSize() {

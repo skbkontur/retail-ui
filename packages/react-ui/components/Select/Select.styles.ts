@@ -13,9 +13,12 @@ const styles = {
     return css`
       color: ${t.selectPlaceholderColor};
       text-overflow: ellipsis;
-      &:disabled {
-        color: ${t.selectPlaceholderDisabledColor} !important;
-      }
+    `;
+  },
+
+  placeholderDisabled(t: Theme) {
+    return css`
+      color: ${t.selectPlaceholderDisabledColor};
     `;
   },
 
