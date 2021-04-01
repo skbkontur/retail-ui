@@ -763,7 +763,7 @@ export class DefaultTheme {
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
-  public static sidePageCloseButtonClickArea = '6px';
+  public static sidePageCloseButtonClickAreaX = '10px';
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
