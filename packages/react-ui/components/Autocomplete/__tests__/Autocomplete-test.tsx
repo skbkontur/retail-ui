@@ -5,6 +5,12 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import { Autocomplete, AutocompleteProps } from '../Autocomplete';
 import { delay } from '../../../lib/utils';
 
+function clickOutside() {
+  const event = document.createEvent('HTMLEvents');
+  event.initEvent('mousedown', true, true);
+
+  document.body.dispatchEvent(event);
+}
 describe('<Autocomplete />', () => {
   it('renders with given value', () => {
     const onValueChange = jest.fn();
@@ -153,6 +159,18 @@ describe('<Autocomplete />', () => {
     });
     await delay(500);
     expect(wrapper.state('items')).toEqual(['1']);
+  });
+
+  it(`don't call handleBlur() method when where is no focus`, () => {
+    const handleBlur = jest.fn();
+    const props = { value: '', source: [], onValueChange: () => '' };
+    const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
+    // @ts-ignore
+    wrapper.instance().handleBlur = handleBlur;
+
+    clickOutside();
+
+    expect(handleBlur).not.toBeCalled();
   });
 });
 

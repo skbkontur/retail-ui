@@ -83,6 +83,24 @@ export interface TokenInputProps<T> extends CommonProps {
    * Функция отрисовки кнопки добавления в выпадающем списке
    */
   renderAddButton?: (query?: string, onAddItem?: () => void) => ReactNode;
+  /**
+   * Функция для обработки ситуации, когда была введена
+   * строка в инпут и был потерян фокус с компонента
+   *
+   * Функция срабатывает с аргументом инпута строки
+   *
+   * Если при потере фокуса в выпадающем списке будет только один
+   * элемент и  результат `valueToString` с этим элементом будет
+   * совпадать со значение в текстовом поле, то
+   * сработает `onValueChange` со значением данного элемента
+   *
+   * Сама функция также может вернуть значение,
+   * неравное `undefined`, с которым будет вызван `onValueChange`.
+   * Если возвращаемое значение будет равно `null`,
+   * то сработает очистка текущего значения инпута,
+   * а в режиме редактирования токен будет удален
+   */
+  onUnexpectedInput?: (value: string) => void | null | undefined | T;
 }
 
 export interface TokenInputState<T> {
@@ -181,8 +199,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
     }
-    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible && !this.isEditingMode) {
-      this.tryGetItems(this.state.inputValue);
+    if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
+      this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
     }
   }
 
@@ -403,9 +421,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleInputBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
     const isBlurToMenu = this.isBlurToMenu(event);
-    if (!isBlurToMenu && this.isEditingMode) {
-      this.finishTokenEdit();
+
+    if (!isBlurToMenu) {
+      this.handleOutsideBlur();
     }
+
     if (isBlurToMenu || this.state.preventBlur) {
       event.preventDefault();
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
@@ -415,16 +435,72 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
-    }
-    if (this.props.onBlur) {
-      this.props.onBlur(event);
+      this.props.onBlur?.(event);
     }
   };
+
+  private handleOutsideBlur = () => {
+    const { inputValue, autocompleteItems } = this.state;
+    const { valueToString } = this.props;
+
+    if (inputValue === '') {
+      // если стерли содержимое токена в режиме редактирования, то удаляем токен
+      if (this.isEditingMode) {
+        this.finishTokenEdit();
+      }
+      return;
+    }
+
+    // если не изменилось значение токена при редактировании
+    if (this.isEditingMode && !this.isTokenValueChanged) {
+      this.finishTokenEdit();
+      return;
+    }
+
+    // чекаем автокомплит на совпадение с введеным значением в инпут
+    if (autocompleteItems && autocompleteItems.length === 1) {
+      const item = autocompleteItems[0];
+
+      if (valueToString(item) === inputValue) {
+        this.isEditingMode ? this.finishTokenEdit() : this.selectItem(item);
+
+        return;
+      }
+    }
+
+    if (this.isInputChanged) this.checkForUnexpectedInput();
+  };
+
+  private get isInputChanged() {
+    if (this.isEditingMode) {
+      return this.isTokenValueChanged;
+    }
+
+    return this.isInputValueChanged;
+  }
+
+  private get isInputValueChanged() {
+    const { inputValue } = this.state;
+
+    return inputValue !== '';
+  }
+
+  private get isTokenValueChanged() {
+    const { inputValue, editingTokenIndex } = this.state;
+    const { selectedItems, valueToString } = this.props;
+
+    if (this.isEditingMode) {
+      return valueToString(selectedItems[editingTokenIndex]) !== inputValue;
+    }
+
+    return false;
+  }
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef) {
       const menu = findDOMNode(this.menuRef) as HTMLElement | null;
       const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
+
       if (menu && menu.contains(relatedTarget)) {
         return true;
       }
@@ -754,16 +830,41 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (newItems.length === selectedItems.length) {
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
-    } else if (editingTokenIndex > 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex - 1]] });
-    } else if (newItems.length > 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[0]] });
+    }
+  };
+
+  private checkForUnexpectedInput = () => {
+    const { inputValue } = this.state;
+    const { onUnexpectedInput } = this.props;
+
+    if (onUnexpectedInput) {
+      // чекаем не возвращает ли что-нибудь обработчик
+      const returnedValue = onUnexpectedInput(inputValue);
+
+      if (returnedValue === undefined) {
+        return;
+      }
+
+      if (returnedValue === null) {
+        this.dispatch({ type: 'CLEAR_INPUT' }, () => {
+          if (this.isEditingMode) {
+            this.finishTokenEdit();
+          }
+        });
+
+        return;
+      }
+
+      if (returnedValue) {
+        this.selectItem(returnedValue);
+      }
     }
   };
 
   private handleChangeInputValue = (event: ChangeEvent<HTMLTextAreaElement>) => {
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     let query = event.target.value.trimLeft();
+
     if (query.endsWith(' ')) {
       query = query.trimRight() + ' ';
     }
@@ -810,13 +911,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // TODO useCallback
     const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
       event.stopPropagation();
-      this.handleRemoveToken(item);
+      if (!this.isEditingMode) {
+        this.handleRemoveToken(item);
+      }
     };
 
     // TODO useCallback
     const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = event => {
       event.stopPropagation();
-      this.handleTokenClick(event, item);
+      if (!this.isEditingMode) {
+        this.handleTokenClick(event, item);
+      }
     };
 
     const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = event => {
