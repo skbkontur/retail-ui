@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.14](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.13...retail-ui@0.53.14) (2021-04-02)
+
+
+### Bug Fixes
+
+* **ComboBox:** keep focus after Enter key press on the list item ([39047b7](https://github.com/skbkontur/retail-ui/commit/39047b7)), closes [#1532](https://github.com/skbkontur/retail-ui/issues/1532)
+
+
+
+
+
 ## [0.53.13](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.12...retail-ui@0.53.13) (2020-11-12)
 
 
