@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "0.53.13",
+  "version": "0.53.14",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
