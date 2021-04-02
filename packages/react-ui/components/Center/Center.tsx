@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Center.styles';
 
@@ -38,22 +38,23 @@ export class Center extends React.Component<CenterProps> {
   };
 
   public render() {
-    const { align, children, ...rest } = this.props;
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+  }
+  private renderMain = (props: CommonWrapperRestProps<CenterProps>) => {
+    const { align, ...rest } = props;
 
     return (
-      <CommonWrapper {...this.props}>
-        <div
-          className={cn({
-            [jsStyles.root()]: true,
-            [jsStyles.rootAlignLeft()]: align === 'left',
-            [jsStyles.rootAlignRight()]: align === 'right',
-          })}
-          {...rest}
-        >
-          <span className={jsStyles.spring()} />
-          <span className={jsStyles.container()}>{children}</span>
-        </div>
-      </CommonWrapper>
+      <div
+        {...rest}
+        className={cn({
+          [jsStyles.root()]: true,
+          [jsStyles.rootAlignLeft()]: align === 'left',
+          [jsStyles.rootAlignRight()]: align === 'right',
+        })}
+      >
+        <span className={jsStyles.spring()} />
+        <span className={jsStyles.container()}>{this.props.children}</span>
+      </div>
     );
-  }
+  };
 }

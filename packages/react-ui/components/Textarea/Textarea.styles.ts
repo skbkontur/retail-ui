@@ -155,6 +155,12 @@ const styles = {
       cursor: pointer;
     `;
   },
+
+  disableAnimations() {
+    return css`
+      transition: none;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

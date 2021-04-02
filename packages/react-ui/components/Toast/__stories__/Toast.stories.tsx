@@ -1,74 +1,78 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { CreeveyStoryParams } from 'creevey';
+import { StoryFn } from '@storybook/addons';
 
 import { Toast } from '../Toast';
-import { Button } from '../../Button';
-import { Modal } from '../../Modal';
-import { Nullable } from '../../../typings/utility-types';
 
-class TestNotifier extends React.Component<any, any> {
-  public state = {
-    modal: false,
+const TestNotifier = ({ complex }: { complex?: boolean }) => {
+  const toastRef = React.useRef<Toast>(null);
+  const showNotification = () => {
+    const { current: toast } = toastRef;
+    if (toast) {
+      complex
+        ? toast.push('Successfully saved', {
+            label: 'Cancel',
+            handler: action('cancel_save'),
+          })
+        : toast.push('Successfully saved');
+    }
   };
 
-  private notifier: Nullable<Toast>;
+  return (
+    <div>
+      <Toast ref={toastRef} onClose={action('close')} onPush={action('push')} />
+      <button data-tid="show-toast" onClick={showNotification}>
+        Show Toast
+      </button>
+    </div>
+  );
+};
 
-  public render() {
-    return (
-      <div>
-        <Toast ref={el => (this.notifier = el)} onClose={action('close')} onPush={action('push')} />
-        <Button onClick={this.showNotification}>Show notification</Button>
-        <Button onClick={() => this.setState({ modal: true })}>Show Modal</Button>
-        {this.state.modal && this.renderModal()}
+export default {
+  title: 'Toast',
+  decorators: [
+    (story: StoryFn<JSX.Element>) => (
+      <div
+        // make some space for Toast
+        style={{
+          padding: '30px 0',
+        }}
+      >
+        {story()}
       </div>
-    );
-  }
+    ),
+  ],
+  parameters: {
+    creevey: {
+      captureElement: 'body',
+      tests: {
+        async toastShown() {
+          const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
 
-  private showNotification = () => {
-    if (this.props.complex) {
-      this.showComplexNotification();
-    } else {
-      this.showSimpleNotification();
-    }
-  };
+          await this.browser
+            .actions({ bridge: true })
+            .click(showToast)
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
 
-  private showSimpleNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved');
-    }
-  }
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    } as CreeveyStoryParams,
+  },
+};
 
-  private showComplexNotification() {
-    if (this.notifier) {
-      this.notifier.push('Successfully saved', {
-        label: 'Cancel',
-        handler: action('cancel_save'),
-      });
-    }
-  }
+export const SimpleNotification = () => <TestNotifier />;
+SimpleNotification.story = { name: 'simple notification' };
 
-  private renderModal() {
-    return (
-      <Modal>
-        <Modal.Header>Modalka</Modal.Header>
-        <Modal.Body>
-          <Button onClick={this.showNotification}>Show notification</Button>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => this.setState({ modal: false })}>Close Modal</Button>
-        </Modal.Footer>
-      </Modal>
-    );
-  }
-}
+export const ComplexNotification = () => <TestNotifier complex />;
+ComplexNotification.story = { name: 'complex notification' };
 
-export default { title: 'Toast', parameters: { creevey: { skip: [true] } } };
-
-export const SimpleNotifiacation = () => <TestNotifier />;
-SimpleNotifiacation.story = { name: 'simple notifiacation' };
-
-export const ComplexNotifiacation = () => <TestNotifier complex />;
-ComplexNotifiacation.story = { name: 'complex notifiacation' };
-
-export const StaticMethod = () => <Button onClick={() => Toast.push('Static method call')}>Show static</Button>;
+export const StaticMethod = () => (
+  <button data-tid="show-toast" onClick={() => Toast.push('Static method call')}>
+    Show static
+  </button>
+);
 StaticMethod.story = { name: 'static method' };
