@@ -104,19 +104,25 @@ export default {
 export const Small: CSFStory<JSX.Element> = () => <SomethingWithKebab size="small" />;
 Small.story = {
   name: '14px',
-  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
+  parameters: {
+    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
+  },
 };
 
 export const Medium: CSFStory<JSX.Element> = () => <SomethingWithKebab size="medium" />;
 Medium.story = {
   name: '18px',
-  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
+  parameters: {
+    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
+  },
 };
 
 export const Large: CSFStory<JSX.Element> = () => <SomethingWithKebab size="large" />;
 Large.story = {
   name: '20px',
-  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }], tests: kebabTests } },
+  parameters: {
+    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
+  },
 };
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
