@@ -113,7 +113,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div ref={this.refWrapper}>
+        <div ref={this.refWrapper} className={jsStyles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
@@ -170,7 +170,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
         if (side === 'top') {
           stopped = stopRect.top - outerHeight < 0;
-          relativeTop = stopRect.top - height - top;
+          relativeTop = stopRect.top - prevHeight - top;
         } else {
           stopped = stopRect.bottom + outerHeight > windowHeight;
           relativeTop = stopRect.bottom - top;

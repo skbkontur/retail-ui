@@ -3,6 +3,7 @@ import { CSFStory } from 'creevey';
 
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
+import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
@@ -241,5 +242,34 @@ export const ActivateLoaderAfterMountOnLargeContent = () => {
     <ContentComponent additionalStyle={{ height: 600, overflow: 'auto' }} loaderProps={{ active }}>
       <NumberList itemsCount={100} />
     </ContentComponent>
+  );
+};
+
+export const WithCustomComponent: CSFStory = () => {
+  const getTestComponent = () => {
+    return (
+      <div style={{ display: 'inline-block', textAlign: 'center' }}>
+        <EyeOpenedIcon color={'blue'} size={25} />
+        <span style={{ display: 'block', color: 'red' }}>Загрузка</span>
+      </div>
+    );
+  };
+
+  const testText = 'Lorem ipsum dolor sit '.repeat(40);
+
+  return (
+    <div>
+      <Loader active component={getTestComponent()}>
+        {testText}
+      </Loader>
+      <div style={{ height: '15px' }} />
+      <Loader active component={'Загрузка'}>
+        {testText}
+      </Loader>
+      <div style={{ height: '15px' }} />
+      <Loader active component={null}>
+        {testText}
+      </Loader>
+    </div>
   );
 };
