@@ -334,35 +334,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static spinnerPaddingYMedium = '-2px';
   public static spinnerPaddingYLarge = '2px';
   //#endregion
-  //#region SpinnerOld
-  public static get spinnerOldFontSizeSmall() {
-    return this.spinnerFontSizeSmall;
-  }
-  public static get spinnerOldFontSizeMedium() {
-    return this.spinnerFontSizeMedium;
-  }
-  public static get spinnerOldFontSizeLarge() {
-    return this.spinnerFontSizeLarge;
-  }
-  public static get spinnerOldLineHeightSmall() {
-    return this.spinnerLineHeightSmall;
-  }
-  public static get spinnerOldLineHeightMedium() {
-    return this.spinnerLineHeightMedium;
-  }
-  public static get spinnerOldLineHeightLarge() {
-    return this.spinnerLineHeightLarge;
-  }
-  public static get spinnerOldPaddingXSmall() {
-    return this.spinnerPaddingXSmall;
-  }
-  public static get spinnerOldPaddingYMedium() {
-    return this.spinnerPaddingYMedium;
-  }
-  public static get spinnerOldPaddingYLarge() {
-    return this.spinnerPaddingYLarge;
-  }
-  //#endregion
   //#region Link
   public static linkIconMarginRight = '4px';
   public static linkButtonLineHeight = '34px';
