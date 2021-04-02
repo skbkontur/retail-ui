@@ -38,7 +38,7 @@
     "storybook:test:default": "cross-env NODE_ENV=test start-storybook --ci -p 6060",
     "storybook:test:flat": "cross-env NODE_ENV=test STORYBOOK_FLAT_UI=true start-storybook --ci -p 6062",
     "storybook:test:default8px": "cross-env NODE_ENV=test STORYBOOK_8PX=true start-storybook --ci -p 6061",
-    "storybook:test:flat8px": "cross-env NODE_ENV=test STORYBOOK_FLAT_UI=true STORYBOOK_8PX=true start-storybook --ci -p 6063",
+    "storybook:test:flat8px": "cross-env NODE_ENV=test STORYBOOK_FLAT_8PX=true start-storybook --ci -p 6063",
     "storybook:serve": "run-p storybook:serve:*",
     "storybook:serve:default": "serve -l 6060 .storybook/build/default",
     "storybook:serve:default8px": "serve -l 6061 .storybook/build/default8px",
