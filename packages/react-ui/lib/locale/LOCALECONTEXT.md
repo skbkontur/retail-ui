@@ -1,6 +1,6 @@
 Локализации компонентов через контекст `React.Context<LocaleContextProps>`
 
-```typescript
+```typescript static
 interface LocaleContextProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
@@ -9,7 +9,7 @@ interface LocaleContextProps {
 
 Доступные языки
 
-```typescript
+```typescript static
 enum LangCodes {
   ru_RU = 'ru_RU',
   en_GB = 'en_GB',
@@ -18,7 +18,7 @@ enum LangCodes {
 
 <details><summary>LocaleControls</summary>
 
-```typescript
+```typescript static
 interface LocaleControls {
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;

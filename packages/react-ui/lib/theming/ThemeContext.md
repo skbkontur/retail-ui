@@ -200,7 +200,7 @@ const NestedThemes = () => (
 
 Несколько функций по работе с цветом вынесены из less в js, их можно использовать в своих темах (_ColorFunctions.ts_):
 
-```typescript
+```typescript static
 lighten(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
 darken(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
 contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43): string
@@ -218,7 +218,7 @@ isValid(colorString: string): boolean // проверяет, можно ли р�
 Если распарсить `colorString` не получилось - выбрасывается исключение.
 Если это возможно, результат возвращается в том же виде, что и входная строка:
 
-```typescript
+```typescript static
 lighten('hsl(90, 0.8, 0.2)', '20%') === 'hsl(90, 0.8, 0.4)';
 lighten('rgba(50, 50, 50, 0.2)', '20%') === 'rgba(102, 102, 102, 0.2)';
 lighten('#80e619', 0.2) === '#b3f075';
@@ -227,7 +227,7 @@ lighten('crimson', '20%') === '#f16581';
 
 Для работы с размерами предусмотрена одна функция (_DimensionFunctions.ts_):
 
-```typescript
+```typescript static
 shift(value: string, shift: string): string
 
 // пример
