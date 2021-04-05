@@ -16,7 +16,7 @@ enum LangCodes {
 }
 ```
 
-<details><summary>LocaleControls</summary>
+LocaleControls
 
 ```typescript static
 interface LocaleControls {
@@ -28,8 +28,6 @@ interface LocaleControls {
   DatePicker?: DatePickerLocale;
 }
 ```
-
-</details>
 
 ### Использование
 

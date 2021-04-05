@@ -1,7 +1,7 @@
 ```jsx harmony
 import { Button, Toggle } from '@skbkontur/react-ui';
 
-let initialState = { opened: false };
+const [opened, setOpened] = React.useState(false);
 
 function renderModal() {
   return (
@@ -23,15 +23,15 @@ function renderModal() {
 }
 
 function open() {
-  setState({ opened: true });
+  setOpened(true);
 }
 
 function close() {
-  setState({ opened: false });
+  setOpened(false);
 }
 
 <div>
-  {state.opened && renderModal()}
+  {opened && renderModal()}
   <Button onClick={open}>Open</Button>
 </div>;
 ```

@@ -16,44 +16,43 @@ DatePicker.validate: (value: string, range?: { minDate?: string; maxDate?: strin
 import { Gapped, Tooltip } from '@skbkontur/react-ui';
 import { ViewDateInputValidateChecks } from '@skbkontur/react-ui/components/DateInput/ViewDateInputValidateChecks';
 
-let initialState = {
-  value: '',
-  error: false,
-  tooltip: false,
-  minDate: '22.12.2012',
-  maxDate: '02.05.2018',
+const [value, setValue] = React.useState();
+const [error, setError] = React.useState(false);
+const [tooltip, setTooltip] = React.useState(false);
+
+const minDate = '22.12.2012';
+const maxDate = '02.05.2018';
+
+const unvalidate = () => {
+  setError(false);
+  setTooltip(false);
 };
 
-let handleChange = value => setState({ value });
+const validate = () => {
+  const errorNew = !!value && !DatePicker.validate(value, { minDate: minDate, maxDate: maxDate });
+  setError(errorNew);
+  setTooltip(errorNew);
+};
 
-let unvalidate = () => setState({ error: false, tooltip: false });
-
-let validate = () =>
-  setState(state => {
-    const error =
-      !!state.value && !DatePicker.validate(state.value, { minDate: state.minDate, maxDate: state.maxDate });
-    return { error, tooltip: error };
-  });
-
-let removeTooltip = () => setState(state => ({ tooltip: false }));
+let removeTooltip = () => setTooltip(false);
 
 <Gapped gap={10} vertical>
-  <ViewDateInputValidateChecks value={state.value} minDate={state.minDate} maxDate={state.maxDate} />
+  <ViewDateInputValidateChecks value={value} minDate={minDate} maxDate={maxDate} />
   <pre>
-    minDate = {state.minDate}
+    minDate = {minDate}
     <br />
-    maxDate = {state.maxDate}
+    maxDate = {maxDate}
   </pre>
 
-  <Tooltip trigger={state.tooltip ? 'opened' : 'closed'} render={() => 'Невалидная дата'} onCloseClick={removeTooltip}>
+  <Tooltip trigger={tooltip ? 'opened' : 'closed'} render={() => 'Невалидная дата'} onCloseClick={removeTooltip}>
     <DatePicker
-      error={state.error}
-      value={state.value}
-      onValueChange={handleChange}
+      error={error}
+      value={value}
+      onValueChange={setValue}
       onFocus={unvalidate}
       onBlur={validate}
-      minDate={state.minDate}
-      maxDate={state.maxDate}
+      minDate={minDate}
+      maxDate={maxDate}
       enableTodayLink
     />
   </Tooltip>
@@ -67,11 +66,7 @@ let removeTooltip = () => setState(state => ({ tooltip: false }));
 ```jsx harmony
 import * as DatePickerHelpers from './DatePickerHelpers';
 
-const initialState = {
-  value: '',
-};
-
-const handleChange = value => setState({ value });
+const [value, setValue] = React.useState();
 
 const createRandomHolidays = () => {
   const holidays = new Array(10);
@@ -108,7 +103,7 @@ const isHoliday = (day, isWeekend) => {
   return isWeekend;
 };
 
-<DatePicker isHoliday={isHoliday} value={state.value} onValueChange={handleChange} enableTodayLink />;
+<DatePicker isHoliday={isHoliday} value={value} onValueChange={setValue} enableTodayLink />;
 ```
 
 ### Производственный календарь
@@ -120,10 +115,9 @@ const isHoliday = (day, isWeekend) => {
 Docs:
 https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
 
-API:
-
-```jsx static
-https://data.gov.ru/api/json/dataset/7708660670-proizvcalendar/version/20151123T183036/content?search=2019&access_token=31de6d0b90f51a7aa3ee2d518d50f4e9
+Request:
+```md
+https://data.gov.ru/api/json/dataset/7708660670-proizvcalendar/version/20151123T183036/content?search=2021&access_token=31de6d0b90f51a7aa3ee2d518d50f4e9
 ```
 
 Response:
@@ -131,53 +125,53 @@ Response:
 ```json
 [
   {
-    "Год/Месяц": "2019",
-    "Январь": "1,2,3,4,5,6,7,8,12,13,19,20,26,27",
-    "Февраль": "2,3,9,10,16,17,22*,23,24",
-    "Март": "2,3,7*,8,9,10,16,17,23,24,30,31",
-    "Апрель": "6,7,13,14,20,21,27,28,30*",
-    "Май": "1,2,3,4,5,8*,9,10,11,12,18,19,25,26",
-    "Июнь": "1,2,8,9,11*,12,15,16,22,23,29,30",
-    "Июль": "6,7,13,14,20,21,27,28",
-    "Август": "3,4,10,11,17,18,24,25,31",
-    "Сентябрь": "1,7,8,14,15,21,22,28,29",
-    "Октябрь": "5,6,12,13,19,20,26,27",
-    "Ноябрь": "2,3,4,9,10,16,17,23,24,30",
-    "Декабрь": "1,7,8,14,15,21,22,28,29,31*",
-    "Всего рабочих дней": "247",
-    "Всего праздничных и выходных дней": "118",
-    "Количество рабочих часов при 40-часовой рабочей неделе": "1970",
-    "Количество рабочих часов при 36-часовой рабочей неделе": "1772.4",
-    "Количество рабочих часов при 24-часовой рабочей неделе": "1179.6"
+    "Год/Месяц": "2021",
+    "Январь": "1,2,3,4,5,6,7,8,9,10,16,17,23,24,30,31",
+    "Февраль": "6,7,13,14,20,21,22*,23,27,28",
+    "Март": "6,7,8*,13,14,20,21,27,28",
+    "Апрель": "3,4,10,11,17,18,24,25,30*",
+    "Май": "1,2,3+,8,9,10+,15,16,22,23,29,30",
+    "Июнь": "5,6,11*,12,13,14+,19,20,26,27",
+    "Июль": "3,4,10,11,17,18,24,25,31",
+    "Август": "1,7,8,14,15,21,22,28,29",
+    "Сентябрь": "4,5,11,12,18,19,25,26",
+    "Октябрь": "2,3,9,10,16,17,23,24,30,31",
+    "Ноябрь": "3*,4,6,7,13,14,20,21,27,28",
+    "Декабрь": "4,5,11,12,18,19,25,26,31*",
+    "Всего рабочих дней": "249",
+    "Всего праздничных и выходных дней": "116",
+    "Количество рабочих часов при 40-часовой рабочей неделе": "1987",
+    "Количество рабочих часов при 36-часовой рабочей неделе": "1787.8",
+    "Количество рабочих часов при 24-часовой рабочей неделе": "1190.2"
   }
 ]
 ```
 
 </details>
 
-```jsx
+```jsx harmony
 const today = new Date();
 const year = today.getFullYear();
 const response = [
   {
     'Год/Месяц': '2019',
-    Январь: '1,2,3,4,5,6,7,8,12,13,19,20,26,27',
-    Февраль: '2,3,9,10,16,17,22*,23,24',
-    Март: '2,3,7*,8,9,10,16,17,23,24,30,31',
-    Апрель: '6,7,13,14,20,21,27,28,30*',
-    Май: '1,2,3,4,5,8*,9,10,11,12,18,19,25,26',
-    Июнь: '1,2,8,9,11*,12,15,16,22,23,29,30',
-    Июль: '6,7,13,14,20,21,27,28',
-    Август: '3,4,10,11,17,18,24,25,31',
-    Сентябрь: '1,7,8,14,15,21,22,28,29',
-    Октябрь: '5,6,12,13,19,20,26,27',
-    Ноябрь: '2,3,4,9,10,16,17,23,24,30',
-    Декабрь: '1,7,8,14,15,21,22,28,29,31*',
-    'Всего рабочих дней': '247',
-    'Всего праздничных и выходных дней': '118',
-    'Количество рабочих часов при 40-часовой рабочей неделе': '1970',
-    'Количество рабочих часов при 36-часовой рабочей неделе': '1772.4',
-    'Количество рабочих часов при 24-часовой рабочей неделе': '1179.6',
+    Январь: '1,2,3,4,5,6,7,8,9,10,16,17,23,24,30,31',
+    Февраль: '6,7,13,14,20,21,22*,23,27,28',
+    Март: '6,7,8*,13,14,20,21,27,28',
+    Апрель: '3,4,10,11,17,18,24,25,30*',
+    Май: '1,2,3+,8,9,10+,15,16,22,23,29,30',
+    Июнь: '5,6,11*,12,13,14+,19,20,26,27',
+    Июль: '3,4,10,11,17,18,24,25,31',
+    Август: '1,7,8,14,15,21,22,28,29',
+    Сентябрь: '4,5,11,12,18,19,25,26',
+    Октябрь: '2,3,9,10,16,17,23,24,30,31',
+    Ноябрь: '3*,4,6,7,13,14,20,21,27,28',
+    Декабрь: '4,5,11,12,18,19,25,26,31*',
+    'Всего рабочих дней': '249',
+    'Всего праздничных и выходных дней': '116',
+    'Количество рабочих часов при 40-часовой рабочей неделе': '1987',
+    'Количество рабочих часов при 36-часовой рабочей неделе': '1787.8',
+    'Количество рабочих часов при 24-часовой рабочей неделе': '1190.2',
   },
 ];
 let result = [];

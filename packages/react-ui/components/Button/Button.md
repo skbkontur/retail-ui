@@ -65,25 +65,28 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { Button, Spinner } from '@skbkontur/react-ui';
 
-const initialState = {
-  loading: false,
-  success: false,
-};
+const [loading, setLoading] = React.useState(false);
+const [success, setSuccess] = React.useState(false);
 
 const delay = (time = 0) => data => new Promise(resolve => setTimeout(resolve, time, data));
 
 const handleLoadingStart = () => {
   delay(2000)()
-    .then(() => new Promise(resolve => setState({ loading: false, success: true }, resolve)))
+    .then(() => {
+      setLoading(false);
+      setSuccess(true);
+    })
     .then(delay(1000))
-    .then(() => setState({ success: false }));
+    .then(() => setSuccess(false));
 };
 
 const handleClick = () => {
-  setState({ loading: true, success: false }, handleLoadingStart);
+  setLoading(true);
+  setSuccess(false);
+  handleLoadingStart();
 };
 
-<Button width={150} onClick={handleClick} disabled={state.loading}>
-  {state.loading ? <Spinner type="mini" caption={null} /> : state.success ? <OkIcon /> : 'Сохранить'}
+<Button width={150} onClick={handleClick} disabled={loading}>
+  {loading ? <Spinner type="mini" caption={null} /> : success ? <OkIcon /> : 'Сохранить'}
 </Button>;
 ```
