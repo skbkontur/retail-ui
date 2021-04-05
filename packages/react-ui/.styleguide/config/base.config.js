@@ -241,5 +241,6 @@ module.exports = {
   },
   styleguideComponents: {
     PathlineRenderer: require.resolve('../components/Pathline/PathlineRenderer.tsx'),
+    ArgumentRenderer: require.resolve('../components/Argument/ArgumentRenderer.tsx'),
   },
 };
