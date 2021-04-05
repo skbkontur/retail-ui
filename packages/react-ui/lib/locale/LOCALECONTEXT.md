@@ -35,7 +35,8 @@ interface LocaleControls {
 
 ```jsx harmony
 import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />
@@ -46,7 +47,8 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 ```jsx harmony
 import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const customLocale = {
   TokenInput: {
@@ -66,7 +68,7 @@ const customLocale = {
 ```jsx harmony
 import { Gapped, LangCodes, LocaleContext, Spinner, TokenInput } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const customLocale = {
   Spinner: {
@@ -123,7 +125,7 @@ import {
 } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const items = [
   { label: 'aaa', value: 1 },

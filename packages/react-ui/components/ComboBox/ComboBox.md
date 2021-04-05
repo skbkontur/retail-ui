@@ -3,7 +3,7 @@ Combobox with error handling
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
 
-let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 let maybeReject = x => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
 
@@ -121,7 +121,7 @@ let renderItem = item => (
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { Tooltip } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const getItems = q =>
   Promise.resolve(
@@ -240,7 +240,7 @@ const customRenderValue = item => (
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const getItems = query =>
   Promise.resolve(
@@ -320,7 +320,7 @@ const renderItem = item => {
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 class ComboboxExample extends React.Component {
   constructor(props) {
