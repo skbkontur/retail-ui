@@ -47,7 +47,7 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 Кастомная локализация `<TokenInput />`
 
 ```jsx harmony
-import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
+import { LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -56,7 +56,7 @@ const customLocale = {
   },
 };
 
-<LocaleContext.Provider value={{ locale: customLocale, langCode: LangCodes.en_GB }}>
+<LocaleContext.Provider value={{ locale: customLocale }}>
   <TokenInput type={TokenInputType.Combined} delimiters={[' ']} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleContext.Provider>;
 ```
@@ -78,7 +78,7 @@ const customLocale = {
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <Gapped vertical gap={10}>
-    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB, locale: customLocale }}>
+    <LocaleContext.Provider value={{ locale: customLocale }}>
       <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     </LocaleContext.Provider>
     <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
@@ -153,11 +153,6 @@ class LocalizationControls extends React.Component {
   }
 
   render() {
-    const customLocaleRU = {};
-    const customLocaleEN = {};
-
-    const locale = this.state.langCode === LangCodes.en_GB ? customLocaleEN : customLocaleRU;
-
     return (
       <Gapped vertical gap={10}>
         <Select
@@ -172,7 +167,7 @@ class LocalizationControls extends React.Component {
           items={Object.values(LocalizationControlNames)}
           onValueChange={controlName => this.setState({ controlName })}
         />
-        <LocaleContext.Provider value={{ langCode: this.state.langCode, locale: locale }}>
+        <LocaleContext.Provider value={{ langCode: this.state.langCode }}>
           {this.getControl(this.state.controlName)}
         </LocaleContext.Provider>
       </Gapped>
