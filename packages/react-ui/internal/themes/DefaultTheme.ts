@@ -286,8 +286,8 @@ export class DefaultTheme {
   public static btnCheckedShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)';
   public static btnCheckedDisabledShadow = 'none';
   public static btnBorderRadiusSmall = '2px';
-  public static btnBorderRadiusMedium = '3px';
-  public static btnBorderRadiusLarge = '3px';
+  public static btnBorderRadiusMedium = '2px';
+  public static btnBorderRadiusLarge = '2px';
 
   public static btnBorderWidth = '1px';
   public static btnInsetWidth = '1px';
