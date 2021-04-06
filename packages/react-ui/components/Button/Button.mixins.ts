@@ -124,7 +124,7 @@ export const buttonSizeMixin = (
   `;
 };
 
-export const arrowBordersMixin = (
+export const arrowOutlineMixin = (
   insetWidth: string,
   outlineColor: string,
   outlineWidth: string,

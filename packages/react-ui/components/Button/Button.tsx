@@ -165,6 +165,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const isError = !!this.props.error;
     const isWarning = !!this.props.warning;
     const isFocused = this.state.focusedByTab || !!this.props.visuallyFocused;
+    const isLink = this.props.use === 'link';
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -214,10 +215,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     let error = null;
-    if (this.props.error) {
-      error = <div className={cn({ [jsStyles.error(this.theme)]: !isFocused })} />;
-    } else if (this.props.warning) {
-      error = <div className={cn({ [jsStyles.warning(this.theme)]: !isFocused })} />;
+    if (!isFocused || isLink) {
+      if (isError) {
+        error = <div className={jsStyles.error(this.theme)} />;
+      } else if (isWarning) {
+        error = <div className={jsStyles.warning(this.theme)} />;
+      }
     }
 
     let loading = null;
@@ -231,7 +234,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <span
           className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
             [jsStyles.iconNoRightPadding()]: !this.props.children,
-            [jsStyles.iconLink(this.theme)]: this.props.use === 'link',
+            [jsStyles.iconLink(this.theme)]: isLink,
           })}
         >
           {this.props.loading ? this.getLoadingSpinner() : this.props.icon}
@@ -258,7 +261,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     // Force disable all props and features, that cannot be use with Link
-    if (this.props.use === 'link') {
+    if (isLink) {
       rootProps.className = cn({
         [jsStyles.root(this.theme)]: true,
         [sizeClass]: true,
@@ -267,9 +270,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
       });
       Object.assign(wrapProps, {
-        className: cn(jsStyles.wrap(this.theme), {
-          [jsStyles.wrapLink(this.theme)]: this.props.use === 'link',
-        }),
+        className: cn(jsStyles.wrap(this.theme), jsStyles.wrapLink(this.theme)),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;

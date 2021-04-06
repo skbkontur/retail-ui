@@ -8,7 +8,7 @@ import {
   buttonHoverMixin,
   buttonActiveMixin,
   buttonSizeMixin,
-  arrowBordersMixin,
+  arrowOutlineMixin,
 } from './Button.mixins';
 
 const styles = {
@@ -228,7 +228,7 @@ const styles = {
     ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
       box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
 
-      ${arrowBordersMixin(
+      ${arrowOutlineMixin(
         t.btnInsetWidth,
         t.btnBorderColorWarning,
         t.btnOutlineWidth,
@@ -246,7 +246,7 @@ const styles = {
     ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
 
-        ${arrowBordersMixin(
+        ${arrowOutlineMixin(
           t.btnInsetWidth,
           t.btnBorderColorError,
           t.btnOutlineWidth,
@@ -264,7 +264,7 @@ const styles = {
       ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus};
 
-        ${arrowBordersMixin(
+        ${arrowOutlineMixin(
           t.btnInsetWidth,
           t.btnBorderColorFocus,
           t.btnOutlineWidth,
