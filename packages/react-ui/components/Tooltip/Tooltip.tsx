@@ -180,7 +180,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
-    useWrapper: true,
+    useWrapper: false,
     closeOnChildrenMouseLeave: false,
   };
 
