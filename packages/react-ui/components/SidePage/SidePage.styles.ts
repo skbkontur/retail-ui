@@ -156,8 +156,8 @@ const styles = {
       text-align: center;
       text-decoration: none;
       width: ${t.sidePageCloseIconSize};
-      padding: ${t.sidePageCloseButtonClickArea};
-      margin: -${t.sidePageCloseButtonClickArea};
+      padding: 0 ${t.sidePageCloseButtonClickAreaX};
+      margin: 0 -${t.sidePageCloseButtonClickAreaX};
 
       &:hover {
         color: ${t.sidePageCloseButtonHoverColor};

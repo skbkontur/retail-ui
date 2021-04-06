@@ -79,34 +79,34 @@ const styles = {
   },
 
   close(t: Theme) {
-    const margin = 0;
     const padding = parseInt(t.modalCloseButtonPadding);
-    const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
-    const blockSizeX = parseInt(t.modalCloseIconSize) + 2 * padding;
-    const blockSizeY = parseInt(t.modalCloseIconSize) + padding + paddingBottom;
     return css`
       ${resetButton()};
       position: absolute;
-      right: ${margin}px;
-      top: ${margin}px;
-      width: ${blockSizeX}px;
-      height: ${blockSizeY}px;
+      display: flex;
+      right: ${padding}px;
+      top: ${padding}px;
       background: none;
       background: transparent;
       cursor: pointer;
       color: ${t.modalCloseButtonColor};
       text-align: center;
       vertical-align: middle;
+      padding: ${t.modalCloseButtonClickArea} !important;
+      margin: -${t.modalCloseButtonClickArea} !important;
 
       &:focus,
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
       }
 
+      &:focus {
+        outline: 2px solid ${t.borderColorFocus};
+      }
+
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
-        padding: ${padding}px ${padding}px ${paddingBottom}px;
         box-sizing: content-box;
       }
     `;
@@ -124,14 +124,6 @@ const styles = {
       float: right;
       width: ${blockSizeX + legacyGap}px;
       height: ${blockSizeY}px;
-
-      & ${cssName(styles.close(t))} {
-        width: ${blockSizeX}px;
-
-        svg {
-          padding-left: ${padding - legacyShift}px;
-        }
-      }
     `;
   },
 
@@ -141,25 +133,6 @@ const styles = {
         pointer-events: none;
         cursor: default;
         color: ${t.modalCloseButtonDisabledColor};
-      }
-    `;
-  },
-
-  closeOutline(t: Theme) {
-    const padding = parseInt(t.modalCloseButtonPadding) - parseInt(t.modalCloseIconSize) / 2 - 2;
-    return css`
-      ${cssName(styles.close(t))} & {
-        display: none;
-      }
-
-      ${cssName(styles.close(t))}:focus & {
-        border: 2px solid ${t.borderColorFocus};
-        position: absolute;
-        display: block;
-        top: ${padding}px;
-        right: ${padding}px;
-        width: ${parseInt(t.modalCloseIconSize) * 2}px;
-        height: ${parseInt(t.modalCloseIconSize) * 2}px;
       }
     `;
   },
