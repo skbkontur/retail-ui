@@ -25,11 +25,8 @@ const styles = {
 
   arrowWrap(t: Theme) {
     return css`
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
       color: ${t.selectMenuArrowColor};
+      flex-shrink: 0;
     `;
   },
 
@@ -43,28 +40,24 @@ const styles = {
 
   label() {
     return css`
-      box-sizing: border-box;
-      display: inline-block;
-      max-width: 100%;
-      width: auto;
-      position: relative;
-    `;
-  },
-
-  labelText() {
-    return css`
-      display: inline-block;
-      max-width: 100%;
-      overflow: hidden;
+      flex: 1 1 auto;
       text-overflow: ellipsis;
-      vertical-align: top;
       white-space: nowrap;
+      overflow: hidden;
     `;
   },
 
   search() {
     return css`
       margin: 1px 4px 4px;
+    `;
+  },
+
+  selectButtonContainer() {
+    return css`
+      width: 100%;
+      display: inline-flex;
+      justify-content: space-between;
     `;
   },
 };

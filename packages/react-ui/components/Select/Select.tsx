@@ -58,7 +58,7 @@ const PASS_BUTTON_PROPS = {
 
 export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
-  _icon?: React.ReactElement<any>;
+  _icon?: React.ReactNode;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
@@ -318,13 +318,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       active: params.opened,
     };
 
-    if (this.props._icon) {
-      Object.assign(buttonProps, {
-        icon: this.props._icon,
-        _noRightPadding: true,
-      });
-    }
-
     const labelProps = {
       className: cn({
         [jsStyles.label()]: this.props.use !== 'link',
@@ -332,58 +325,50 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
-        paddingRight: this.getLabelPaddingRight(),
+        paddingRight: this.getSelectIconGap(),
       },
     };
 
     return (
       <Button {...buttonProps}>
-        <span {...labelProps}>
-          <span className={jsStyles.labelText()}>{params.label}</span>
-        </span>
+        <div className={jsStyles.selectButtonContainer()}>
+          {this.props._icon && <div style={{ paddingRight: this.getLeftIconGap() }}>{this.props._icon}</div>}
+          <span {...labelProps}>{params.label}</span>
 
-        <div className={jsStyles.arrowWrap(this.theme)} style={{ right: this.getLegacyArrowShift() }}>
-          <ArrowChevronDownIcon
-            color={this.props.use === 'link' ? this.theme.btnLinkColor : undefined}
-            style={{ marginBottom: '-3px' }}
-          />
+          <div className={jsStyles.arrowWrap(this.theme)}>
+            <ArrowChevronDownIcon
+              color={this.props.use === 'link' ? this.theme.btnLinkColor : undefined}
+              style={{ marginBottom: '-3px' }}
+            />
+          </div>
         </div>
       </Button>
     );
   }
 
-  private getLabelPaddingRight(): number {
+  private getSelectIconGap(): number {
     const getArrowPadding = () => {
       switch (this.props.size) {
         case 'large':
-          return this.theme.selectPaddingArrowLarge;
+          return this.theme.selectIconGapLarge;
         case 'medium':
-          return this.theme.selectPaddingArrowMedium;
+          return this.theme.selectIconGapMedium;
         case 'small':
         default:
-          return this.theme.selectPaddingArrowSmall;
+          return this.theme.selectIconGapSmall;
       }
     };
-    const ARROW_WIDTH = 8;
     const arrowLeftPadding = parseFloat(getArrowPadding()) || 0;
 
-    return ARROW_WIDTH + arrowLeftPadding + (this.props._icon ? 10 : 0) + this.getLegacyArrowShift();
+    return arrowLeftPadding;
   }
 
-  private getLegacyArrowShift(): number {
-    const getSelectPadding = () => {
-      switch (this.props.size) {
-        case 'large':
-          return this.theme.selectPaddingXLarge;
-        case 'medium':
-          return this.theme.selectPaddingXMedium;
-        case 'small':
-        default:
-          return this.theme.selectPaddingXSmall;
-      }
-    };
-    const selectPadding = parseFloat(getSelectPadding()) || 0;
-    return this.props.use === 'link' ? 10 : 1 + (this.props._icon ? selectPadding : 0);
+  private getLeftIconGap(): number {
+    if (this.props.use === 'link') {
+      return parseFloat(this.theme.btnLinkIconMarginRight);
+    }
+
+    return this.getSelectIconGap();
   }
 
   private renderMenu(): React.ReactNode {
