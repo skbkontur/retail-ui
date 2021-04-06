@@ -661,7 +661,7 @@ DynamicTriggersStory.story = {
 };
 
 export const RenderInFirstAvailablePosition: CSFStory<JSX.Element> = () => (
-  <div style={{ padding: '150px' }}>
+  <div style={{ padding: '100px' }}>
     <DynamicContentTooltip />
   </div>
 );
