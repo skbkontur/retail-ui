@@ -92,17 +92,21 @@ const styles = {
       color: ${t.modalCloseButtonColor};
       text-align: center;
       vertical-align: middle;
+      padding: ${t.modalCloseButtonClickArea} !important;
+      margin: -${t.modalCloseButtonClickArea} !important;
 
       &:focus,
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
       }
 
+      &:focus {
+        outline: 2px solid ${t.borderColorFocus};
+      }
+
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
-        padding: ${t.modalCloseButtonClickArea};
-        margin: -${t.modalCloseButtonClickArea};
         box-sizing: content-box;
       }
     `;
@@ -129,25 +133,6 @@ const styles = {
         pointer-events: none;
         cursor: default;
         color: ${t.modalCloseButtonDisabledColor};
-      }
-    `;
-  },
-
-  closeOutline(t: Theme) {
-    const outlineWidth = 2;
-    return css`
-      ${cssName(styles.close(t))} & {
-        display: none;
-      }
-
-      ${cssName(styles.close(t))}:focus & {
-        border: ${outlineWidth}px solid ${t.borderColorFocus};
-        position: absolute;
-        display: block;
-        top: -${parseInt(t.modalCloseButtonClickArea) + outlineWidth}px;
-        right: -${parseInt(t.modalCloseButtonClickArea) + outlineWidth}px;
-        width: ${parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseButtonClickArea) * 2}px;
-        height: ${parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseButtonClickArea) * 2}px;
       }
     `;
   },
