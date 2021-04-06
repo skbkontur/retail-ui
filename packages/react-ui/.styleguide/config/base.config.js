@@ -1,5 +1,4 @@
 const path = require('path');
-const semver = require('semver');
 const parseTsComponent = require('react-docgen-typescript').withCustomConfig(
   path.join(__dirname, '../../tsconfig.json'),
   {
@@ -85,6 +84,7 @@ const styles = {
     },
     isSelected: {
       fontWeight: 'normal',
+      background: 'rgba(255, 255, 255, .3)',
     },
   },
   SectionHeading: {
@@ -212,8 +212,7 @@ module.exports = {
   pagePerSection: true,
   styles,
   title: 'React UI',
-  require: ['babel-polyfill'],
-  resolver: require('react-docgen').resolver.findAllComponentDefinitions,
+  require: ['core-js'],
   propsParser: (path, ...rest) => {
     if (/\.tsx$/.test(path)) {
       return parseTsComponent(path, ...rest);
@@ -221,10 +220,6 @@ module.exports = {
     return parseJsComponent(...rest);
   },
   webpackConfig,
-  dangerouslyUpdateWebpackConfig: config => {
-    config.resolve.extensions = ['.ts', '.tsx', '.js', '.jsx', '.json'];
-    return config;
-  },
   version: publishVersion,
   ribbon: {
     url: 'https://github.com/skbkontur/retail-ui',
