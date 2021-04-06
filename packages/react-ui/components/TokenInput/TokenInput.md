@@ -2,6 +2,8 @@
 import { Token } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
+const [selectedItems, setSelectedItems] = React.useState([]);
+
 const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const getItems = q =>
@@ -46,8 +48,8 @@ const tokenColors = {
   <TokenInput
     type={TokenInputType.Combined}
     getItems={getItems}
-    selectedItems={state.selectedItems}
-    onValueChange={itemsNew => setState({ selectedItems: itemsNew })}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
     renderToken={(item, tokenProps) => (
       <Token key={item.toString()} colors={tokenColors[item] || tokenColors.default} {...tokenProps}>
         {item}
