@@ -330,9 +330,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get spinnerLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
-  public static spinnerPaddingXSmall = '9px';
-  public static spinnerPaddingYMedium = '-2px';
-  public static spinnerPaddingYLarge = '2px';
+  public static spinnerCaptionGapSmall = '6px';
+  public static spinnerCaptionGapMedium = '-4px';
+  public static spinnerCaptionGapLarge = '-3px';
   //#endregion
   //#region SpinnerOld
   public static get spinnerOldFontSizeSmall() {
@@ -353,15 +353,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get spinnerOldLineHeightLarge() {
     return this.spinnerLineHeightLarge;
   }
-  public static get spinnerOldPaddingXSmall() {
-    return this.spinnerPaddingXSmall;
-  }
-  public static get spinnerOldPaddingYMedium() {
-    return this.spinnerPaddingYMedium;
-  }
-  public static get spinnerOldPaddingYLarge() {
-    return this.spinnerPaddingYLarge;
-  }
+  public static spinnerOldCaptionGapSmall = '6px';
+  public static spinnerOldCaptionGapMedium = '-3px';
+  public static spinnerOldCaptionGapLarge = '2px';
   //#endregion
   //#region Link
   public static linkIconMarginRight = '4px';
