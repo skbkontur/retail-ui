@@ -109,7 +109,7 @@ export class Hint extends React.Component<HintProps, HintState> {
               value={ThemeFactory.create(
                 {
                   popupPinOffset: '8px',
-                  popupMargin: '15px',
+                  popupMargin: '8px',
                 },
                 this.theme,
               )}

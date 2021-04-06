@@ -222,7 +222,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
               value={ThemeFactory.create(
                 {
                   popupPinOffset: '17px',
-                  popupMargin: '15px',
+                  popupMargin: '10px',
                 },
                 theme,
               )}
