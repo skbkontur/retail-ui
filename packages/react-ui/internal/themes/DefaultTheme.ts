@@ -845,15 +845,6 @@ export class DefaultTheme {
   public static toastCloseHoverColor = 'white';
   public static toastCloseSize = '8px';
   //#endregion
-  //#region TopBar
-  public static tbBg = '#fff';
-  public static tbShadow = '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)';
-  public static tdDividerBg = '#dfdfdf';
-  //#endregion
-  //#region Logotype
-  public static logoColor = '#000';
-  public static logoHoverColor = '#000';
-  //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
   public static get dropdownMenuHoverBg() //deprecated
@@ -1378,29 +1369,6 @@ export class DefaultTheme {
   public static spinnerCaptionGapSmall = '8px';
   public static spinnerCaptionGapMedium = '-6px';
   public static spinnerCaptionGapLarge = '-8px';
-  //#endregion
-  //#region SpinnerOld
-  public static get spinnerOldBgColor() {
-    return this.grayXLight;
-  }
-  public static get spinnerOldColor() {
-    return this.red;
-  }
-  public static get spinnerOldDimmedColor() {
-    return this.gray;
-  }
-  public static get spinnerOldCaptionColor() {
-    return this.gray;
-  }
-  public static spinnerOldFontSizeSmall = '14px';
-  public static spinnerOldFontSizeMedium = '14px';
-  public static spinnerOldFontSizeLarge = '14px';
-  public static spinnerOldLineHeightSmall = 'inherit';
-  public static spinnerOldLineHeightMedium = 'inherit';
-  public static spinnerOldLineHeightLarge = 'inherit';
-  public static spinnerOldCaptionGapSmall = '5px';
-  public static spinnerOldCaptionGapMedium = '0px';
-  public static spinnerOldCaptionGapLarge = '0px';
   //#endregion
   //#region Switcher
   public static switcherOutlineWidth = '2px';

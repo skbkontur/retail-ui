@@ -6,6 +6,7 @@ import { SpinnerLocale } from '../../components/Spinner/locale';
 import { TokenInputLocale } from '../../components/TokenInput/locale';
 
 export interface LocaleControls {
+  [key: string]: any;
   Spinner?: Partial<SpinnerLocale>;
   TokenInput?: Partial<TokenInputLocale>;
   ComboBox?: Partial<ComboBoxLocale>;

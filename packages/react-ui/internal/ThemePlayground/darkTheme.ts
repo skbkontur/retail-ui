@@ -215,11 +215,7 @@ export const darkTheme = ThemeFactory.create({
   toastLinkColor: '#80caff',
   toastCloseColor: '#a0a0a0',
   toastCloseHoverColor: 'white',
-  tbBg: '#262626',
-  tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
   tdDividerBg: '#808080',
-  logoColor: 'white',
-  logoHoverColor: '#000',
   menuItemPaddingForIcon: '36px',
   menuBorder: 'rgba(0, 0, 0, 0)',
   menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
@@ -242,4 +238,10 @@ export const darkTheme = ThemeFactory.create({
   specificityLevel: '0',
   textareaBg: 'none',
   textareaColor: 'inherit',
+
+  // react-ui-addons vars
+  tbBg: '#262626',
+  tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
+  logoColor: 'white',
+  logoHoverColor: '#000',
 });

@@ -1,7 +1,7 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
 
 import { Theme, ThemeIn } from './Theme';
-import { isFullTheme, is8pxTheme, markAs8pxTheme } from './ThemeHelpers';
+import { isFullTheme } from './ThemeHelpers';
 
 export class ThemeFactory {
   public static create<T extends {}>(theme: ThemeIn & T, baseTheme: Theme = DefaultThemeInternal): Readonly<Theme & T> {
@@ -33,18 +33,7 @@ export class ThemeFactory {
   }
 
   private static constructTheme(base: Theme, theme: ThemeIn) {
-    const newTheme = Object.create(base);
-    Object.keys(theme).forEach(propName => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, propName)!;
-      Object.defineProperty(newTheme, propName, descriptor);
-    });
-
-    if (is8pxTheme(theme)) {
-      // 8px key isn't enumerable
-      // so replicate it manually
-      markAs8pxTheme(newTheme);
-    }
-
+    const newTheme = Object.create(base, Object.getOwnPropertyDescriptors(theme));
     return Object.freeze(newTheme);
   }
 }
