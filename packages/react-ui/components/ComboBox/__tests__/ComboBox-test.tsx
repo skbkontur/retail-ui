@@ -34,9 +34,7 @@ describe('ComboBox', () => {
   });
 
   it('focuses on focus call', () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />, {
-      attachTo: document.getElementById('enzymeContainer'),
-    });
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
@@ -146,11 +144,9 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />, {
-      attachTo: document.getElementById('enzymeContainer'),
-    });
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={x => x} />);
 
-    wrapper.instance().focus();
+    wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
 
@@ -171,9 +167,7 @@ describe('ComboBox', () => {
   it('calls onUnexpectedInput on click outside', async () => {
     const [search, promise] = searchFactory(Promise.reject());
     const onUnexpectedInput = jest.fn();
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />, {
-      attachTo: document.getElementById('enzymeContainer'),
-    });
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} onUnexpectedInput={onUnexpectedInput} />);
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     wrapper.update();
@@ -616,7 +610,6 @@ describe('ComboBox', () => {
       [search, promise] = searchFactory(Promise.resolve(ITEMS));
       wrapper = mount<ComboBox<string>>(
         <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={x => x} />,
-        { attachTo: document.getElementById('enzymeContainer') },
       );
       wrapper.find(ComboBoxView).prop('onFocus')?.();
 
@@ -650,7 +643,7 @@ describe('ComboBox', () => {
 
     it('Enter on item', async () => {
       wrapper
-        .find('label')
+        .find('input')
         .simulate('keydown', { key: 'ArrowDown' })
         .simulate('keydown', { key: 'Enter' });
 

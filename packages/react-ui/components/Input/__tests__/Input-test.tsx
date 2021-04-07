@@ -6,8 +6,7 @@ import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { Input, InputProps } from '../Input';
 import { jsStyles } from '../Input.styles';
 
-const render = (props: InputProps) =>
-  mount<Input, InputProps>(React.createElement(Input, props), { attachTo: document.getElementById('enzymeContainer') });
+const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
 describe('<Input />', () => {
   it('renders', () => {

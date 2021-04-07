@@ -4,6 +4,12 @@ import { mount } from 'enzyme';
 import { Textarea } from '../Textarea';
 
 describe('Textarea', () => {
+  afterEach(() => {
+    if (document.activeElement instanceof HTMLElement) {
+      document.activeElement.blur();
+    }
+  });
+
   it('render without crash', () => {
     const wrapper = mount<Textarea>(<Textarea />);
 
@@ -11,9 +17,7 @@ describe('Textarea', () => {
   });
 
   it('setSelectionRange works', () => {
-    const wrapper = mount<Textarea>(<Textarea value={'text here'} />, {
-      attachTo: document.getElementById('enzymeContainer'),
-    });
+    const wrapper = mount<Textarea>(<Textarea value={'text here'} />);
     const SELECTION_START = 0;
     const SELECTION_END = 4;
 
@@ -25,9 +29,7 @@ describe('Textarea', () => {
 
   it('selectAll works by method', () => {
     const VALUE = 'Text for test';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} />, {
-      attachTo: document.getElementById('enzymeContainer'),
-    });
+    const wrapper = mount<Textarea>(<Textarea value={VALUE} />);
 
     wrapper.instance().selectAll();
 
@@ -37,9 +39,7 @@ describe('Textarea', () => {
 
   it('selectAllOnFocus prop works', () => {
     const VALUE = 'selectAllOnFocus prop works';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />, {
-      attachTo: document.getElementById('enzymeContainer'),
-    });
+    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />);
 
     wrapper.find('textarea').simulate('focus');
 
@@ -48,7 +48,7 @@ describe('Textarea', () => {
   });
 
   it('manual focus', () => {
-    const wrapper = mount<Textarea>(<Textarea />, { attachTo: document.getElementById('enzymeContainer') });
+    const wrapper = mount<Textarea>(<Textarea />);
 
     expect(document.activeElement).toBeInstanceOf(HTMLBodyElement);
 
