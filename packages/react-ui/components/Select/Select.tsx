@@ -307,6 +307,39 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
+  private getArrowColor(use: ButtonUse | undefined) {
+    switch (use) {
+      case 'link':
+        return this.theme.btnLinkColor;
+      case 'danger':
+        return this.theme.btnDangerTextColor;
+      case 'pay':
+        return this.theme.btnPayTextColor;
+      case 'primary':
+        return this.theme.btnPrimaryTextColor;
+      case 'success':
+        return this.theme.btnSuccessTextColor;
+      default:
+        return undefined;
+    }
+  }
+
+  private getLeftIconClass(size: ButtonSize | undefined) {
+    if (this.props.use === 'link') {
+      return jsStyles.leftIconLink(this.theme);
+    }
+
+    switch (size) {
+      case 'large':
+        return jsStyles.leftIconLarge(this.theme);
+      case 'medium':
+        return jsStyles.leftIconMedium(this.theme);
+      case 'small':
+      default:
+        return jsStyles.leftIconSmall(this.theme);
+    }
+  }
+
   private renderDefaultButton(params: ButtonParams) {
     const buttonProps: ButtonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
@@ -332,14 +365,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <Button {...buttonProps}>
         <div className={jsStyles.selectButtonContainer()}>
-          {this.props._icon && <div style={{ paddingRight: this.getLeftIconGap() }}>{this.props._icon}</div>}
+          {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
           <div className={jsStyles.arrowWrap(this.theme)}>
-            <ArrowChevronDownIcon
-              color={this.props.use === 'link' ? this.theme.btnLinkColor : undefined}
-              style={{ marginBottom: '-3px' }}
-            />
+            <ArrowChevronDownIcon color={this.getArrowColor(this.props.use)} />
           </div>
         </div>
       </Button>
@@ -361,14 +391,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const arrowLeftPadding = parseFloat(getArrowPadding()) || 0;
 
     return arrowLeftPadding;
-  }
-
-  private getLeftIconGap(): number {
-    if (this.props.use === 'link') {
-      return parseFloat(this.theme.btnLinkIconMarginRight);
-    }
-
-    return this.getSelectIconGap();
   }
 
   private renderMenu(): React.ReactNode {

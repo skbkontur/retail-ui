@@ -21,7 +21,7 @@ const SvgIcon: React.SFC<SvgIconProps> = ({ color, size, style, children, ...res
 
 export const ArrowChevronDownIcon = (props: SvgIconProps) => (
   <SvgIcon {...props}>
-    <svg viewBox="0 0 16 16" style={{ marginBottom: '-3px' }}>
+    <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -33,7 +33,7 @@ export const ArrowChevronDownIcon = (props: SvgIconProps) => (
 
 export const ArrowChevronUpIcon = (props: SvgIconProps) => (
   <SvgIcon {...props}>
-    <svg viewBox="0 0 16 16" style={{ marginBottom: '-3px' }}>
+    <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
       <path
         fillRule="evenodd"
         clipRule="evenodd"

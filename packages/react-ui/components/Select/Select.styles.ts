@@ -53,6 +53,33 @@ const styles = {
     `;
   },
 
+  leftIconSmall(t: Theme) {
+    return css`
+      padding-right: ${t.selectIconGapSmall};
+      width: ${t.btnIconSizeSmall};
+    `;
+  },
+
+  leftIconMedium(t: Theme) {
+    return css`
+      padding-right: ${t.selectIconGapMedium};
+      width: ${t.btnIconSizeMedium};
+    `;
+  },
+
+  leftIconLarge(t: Theme) {
+    return css`
+      padding-right: ${t.selectIconGapLarge};
+      width: ${t.btnIconSizeLarge};
+    `;
+  },
+
+  leftIconLink(t: Theme) {
+    return css`
+      padding-right: ${t.btnLinkIconMarginRight};
+    `;
+  },
+
   selectButtonContainer() {
     return css`
       width: 100%;
