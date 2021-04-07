@@ -68,6 +68,12 @@ const styles = {
       }
     `;
   },
+
+  spinnerComponentWrapper() {
+    return css`
+      display: inline-block;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

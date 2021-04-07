@@ -6,9 +6,6 @@ import { DefaultThemeInternal } from './DefaultTheme';
 // TODO Delete repeated values from flat theme
 
 export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
-  //#region Common variables
-  public static borderColorFocus = '#1d85d0';
-  //#endregion
   //#region Button
   public static btnHeightShift = '0';
   public static btnWrapPadding = '0';
