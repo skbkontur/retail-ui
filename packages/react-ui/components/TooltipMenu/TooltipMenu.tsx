@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
@@ -44,7 +43,6 @@ export interface TooltipMenuProps extends CommonProps {
  * Если ```positions``` передан или передан пустой массив, используются все возможные положения.
  */
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
-  private theme!: Theme;
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
 
   public static defaultProps = {
@@ -62,15 +60,15 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     return (
       <ThemeContext.Consumer>
         {theme => {
-          this.theme = theme;
           return (
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: '15px',
-                  popupMargin: '10px',
+                  popupPinOffset: theme.tooltipMenuPinOffset,
+                  popupMargin: theme.tooltipMenuMargin,
+                  popupPinSize: theme.tooltipMenuPinSize,
                 },
-                this.theme,
+                theme,
               )}
             >
               {this.renderMain()}

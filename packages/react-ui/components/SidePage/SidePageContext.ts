@@ -7,6 +7,9 @@ export interface SidePageContextType {
   getWidth: () => number | string;
   updateLayout: () => void;
   footerRef: (ref: SidePageFooter | null) => void;
+  hasHeader?: boolean;
+  hasFooter?: boolean;
+  hasPanel?: boolean;
 }
 
 export const SidePageContext = React.createContext<SidePageContextType>({

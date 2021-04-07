@@ -19,9 +19,10 @@ const styles = {
       border-top: ${t.pickerTodayWrapperBorderTop};
       color: ${t.linkColor};
       display: block;
-      font-size: 14px;
-      padding-bottom: 8px;
-      padding-top: 7px;
+      font-size: ${t.pickerTodayWrapperFontSize};
+      padding-bottom: ${t.pickerTodayWrapperPaddingBottom};
+      padding-top: ${t.pickerTodayWrapperPaddingTop};
+      line-height: ${t.pickerTodayWrapperLineHeight};
       width: 100%;
 
       &:hover {
