@@ -33,12 +33,7 @@ export class ThemeFactory {
   }
 
   private static constructTheme(base: Theme, theme: ThemeIn) {
-    const newTheme = Object.create(base);
-    Object.keys(theme).forEach(propName => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, propName)!;
-      Object.defineProperty(newTheme, propName, descriptor);
-    });
-
+    const newTheme = Object.create(base, Object.getOwnPropertyDescriptors(theme));
     return Object.freeze(newTheme);
   }
 }
