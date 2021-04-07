@@ -11,12 +11,13 @@
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.3.0",
     "env-cmd": "^10.1.0",
-    "husky": "^4.3.8",
+    "husky": "^6.0.0",
     "lerna": "^3.22.1"
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd lerna version"
+    "release": "env-cmd lerna version",
+    "prepare": "husky install"
   },
   "jest": {
     "projects": [
@@ -29,11 +30,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }
