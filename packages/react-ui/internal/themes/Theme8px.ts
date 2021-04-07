@@ -1,4 +1,4 @@
-import { exposeGetters, markAs8pxTheme } from '../../lib/theming/ThemeHelpers';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 import { DefaultThemeInternal } from './DefaultTheme';
 
@@ -430,4 +430,4 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXLarge = '15px';
 }
 
-export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
+export const Theme8pxInternal = exposeGetters(Theme8px);
