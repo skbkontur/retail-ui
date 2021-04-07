@@ -109,10 +109,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
     const containerClassNames = cn(jsStyles.container(this.theme), {
-      [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
       [jsStyles.isLoading(this.theme)]: !!loading,
-      [jsStyles.isWarning(this.theme)]: !color && !!warning,
-      [jsStyles.isError(this.theme)]: !color && !!error,
     });
 
     const labelClassNames = cn(jsStyles.root(this.theme), {
@@ -131,36 +128,44 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     return (
       <CommonWrapper {...this.props}>
         <label className={labelClassNames}>
-          <span className={jsStyles.wrapper(this.theme)}>
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={this.handleChange}
-              className={jsStyles.input(this.theme)}
-              onFocus={this.handleFocus}
-              onBlur={this.handleBlur}
-              ref={this.inputRef}
-              disabled={disabled}
-            />
-            <div
-              className={containerClassNames}
-              style={
-                checked && color
-                  ? {
-                      backgroundColor: color,
-                      borderColor: color,
-                      boxShadow: `inset 0 0 0 1px ${color}`,
-                    }
-                  : undefined
-              }
-            >
-              <div
-                className={jsStyles.activeBackground()}
-                style={checked && color ? { backgroundColor: color } : undefined}
+          <div
+            className={cn(jsStyles.outline(this.theme), {
+              [jsStyles.isWarning(this.theme)]: !!warning,
+              [jsStyles.isError(this.theme)]: !!error,
+              [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
+            })}
+          >
+            <span className={jsStyles.wrapper(this.theme)}>
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={this.handleChange}
+                className={jsStyles.input(this.theme)}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                ref={this.inputRef}
+                disabled={disabled}
               />
-            </div>
-            <div className={jsStyles.handle(this.theme)} />
-          </span>
+              <div
+                className={containerClassNames}
+                style={
+                  checked && color
+                    ? {
+                        backgroundColor: color,
+                        borderColor: color,
+                        boxShadow: `inset 0 0 0 1px ${color}`,
+                      }
+                    : undefined
+                }
+              >
+                <div
+                  className={jsStyles.activeBackground()}
+                  style={checked && color ? { backgroundColor: color } : undefined}
+                />
+              </div>
+              <div className={jsStyles.handle(this.theme)} />
+            </span>
+          </div>
           {caption}
         </label>
       </CommonWrapper>
