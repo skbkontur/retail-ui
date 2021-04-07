@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
+import warning from 'warning';
 
 import { tabListener } from '../../lib/events/tabListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -8,6 +9,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Toggle.styles';
+
+let colorWarningShown = false;
 
 export interface ToggleProps extends CommonProps {
   children?: React.ReactNode;
@@ -46,6 +49,12 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: PropTypes.bool,
     warning: PropTypes.bool,
     onValueChange: PropTypes.func,
+    color(props: ToggleProps) {
+      if (props.color && !colorWarningShown) {
+        warning(false, `[Toggle]: prop 'color' is deprecated. Please, use theme variable 'toggleBgChecked' instead. `);
+        colorWarningShown = true;
+      }
+    },
   };
 
   public static defaultProps = {
