@@ -59,14 +59,14 @@ export class ToastView extends React.Component<ToastViewProps> {
     const { action, onClose, ...rest } = props;
 
     const link = action ? (
-      <span className={jsStyles.link(this.theme)} onClick={action.handler}>
+      <span data-tid="ToastView__action" className={jsStyles.link(this.theme)} onClick={action.handler}>
         {action.label}
       </span>
     ) : null;
 
     const close = action ? (
       <span className={jsStyles.closeWrapper()}>
-        <span className={jsStyles.close(this.theme)} onClick={onClose}>
+        <span data-tid="ToastView__close" className={jsStyles.close(this.theme)} onClick={onClose}>
           <CrossIcon />
         </span>
       </span>
