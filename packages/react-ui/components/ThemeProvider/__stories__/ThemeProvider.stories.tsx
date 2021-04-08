@@ -13,6 +13,7 @@ Playground.story = {
     creevey: {
       tests: {
         async ['default theme top']() {
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('default theme top');
         },
         async ['default theme bottom']() {
@@ -26,7 +27,7 @@ Playground.story = {
             .actions({ bridge: true })
             .click(this.browser.findElement({ css: '[data-prop-id="flat"]' }))
             .perform();
-          await delay(500);
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('flat theme top');
         },
         async ['flat theme bottom']() {
@@ -44,7 +45,7 @@ Playground.story = {
             .actions({ bridge: true })
             .click(this.browser.findElement({ css: '[data-prop-id="dark"]' }))
             .perform();
-          await delay(500);
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('dark theme top');
         },
         async ['dark theme bottom']() {
