@@ -308,7 +308,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   //#endregion
   //#region TokenInput
-  public static tokenInputLineHeight = '26px';
+  public static tokenInputLineHeight = '22px';
   //#endregion
   //#region Spinner
 
