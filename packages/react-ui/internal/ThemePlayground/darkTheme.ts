@@ -240,6 +240,8 @@ export const darkTheme = ThemeFactory.create({
   textareaColor: 'inherit',
 
   // react-ui-addons vars
+  // live here because
+  // dark theme is unofficial
   tbBg: '#262626',
   tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
   logoColor: 'white',

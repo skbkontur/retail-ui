@@ -198,11 +198,11 @@ const NestedThemes = () => (
 
 Компоненты `@skbkontur/react-ui-addons` так же поддерживают кастомизацию через `ThemeContext` из `@skbkontur/react-ui`. Достаточно переопределить нужные переменные, которые перечислены на страницах компонентов в [докумендации аддонов](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
 
-```jsx static
+```tsx static
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
-import { Logotype } from '@skbkontur/react-ui-addons';
+import { Logotype, AddonsThemeIn } from '@skbkontur/react-ui-addons';
 
-const myTheme = ThemeFactory.create({
+const myTheme = ThemeFactory.create<AddonsThemeIn>({
   logoColor: 'black',
 });
 
@@ -210,24 +210,6 @@ const myTheme = ThemeFactory.create({
   <Logotype />
 </ThemeContext.Provider>;
 ```
-
-Если вы в своем приложении используете тему, отличную от `DEFAULT_THEME`, то для корректной стилизации аддонов следует импортировать и использовать глобально соответсвующую тему из них, а не из `@skbkontur/react-ui`.
-
-```jsx static
-import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
-import { ADDONS_FLAT_THEME } from '@skbkontur/react-ui-addons';
-
-<ThemeContext.Provider value={ThemeFactory.create(ADDONS_FLAT_THEME)}>...</ThemeContext.Provider>;
-```
-
-Список тем с аддонами:
-
-| Имя                     | Описание          |
-| ----------------------- | ----------------- |
-| `ADDONS_THEME`          | Тема по умолчанию |
-| `ADDONS_FLAT_THEME`     | Плоская тема      |
-| `ADDONS_THEME_8PX`      | 8px тема          |
-| `ADDONS_FLAT_THEME_8PX` | Плоская 8px тема  |
 
 ## Дополнительно
 
