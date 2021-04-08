@@ -205,6 +205,7 @@ SimpleComboboxStory.story = {
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .pause(500)
             .sendKeys('Second')
+            .pause(500)
             .perform();
           await this.browser
             .actions({
