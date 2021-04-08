@@ -307,23 +307,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
-  private getArrowColor(use: ButtonUse | undefined) {
-    switch (use) {
-      case 'link':
-        return this.theme.btnLinkColor;
-      case 'danger':
-        return this.theme.btnDangerTextColor;
-      case 'pay':
-        return this.theme.btnPayTextColor;
-      case 'primary':
-        return this.theme.btnPrimaryTextColor;
-      case 'success':
-        return this.theme.btnSuccessTextColor;
-      default:
-        return undefined;
-    }
-  }
-
   private getLeftIconClass(size: ButtonSize | undefined) {
     if (this.props.use === 'link') {
       return jsStyles.leftIconLink(this.theme);
@@ -362,14 +345,16 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       },
     };
 
+    const useIsCustom = this.props.use !== 'default';
+
     return (
       <Button {...buttonProps}>
         <div className={jsStyles.selectButtonContainer()}>
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
-          <div className={jsStyles.arrowWrap(this.theme)}>
-            <ArrowChevronDownIcon color={this.getArrowColor(this.props.use)} />
+          <div className={cn(jsStyles.arrowWrap(this.theme), useIsCustom && jsStyles.customUseArrow())}>
+            <ArrowChevronDownIcon />
           </div>
         </div>
       </Button>

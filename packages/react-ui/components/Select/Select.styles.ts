@@ -32,8 +32,7 @@ const styles = {
 
   customUseArrow() {
     return css`
-      border-top-color: inherit;
-      color: inherit;
+      color: inherit !important;
       opacity: 0.7;
     `;
   },
