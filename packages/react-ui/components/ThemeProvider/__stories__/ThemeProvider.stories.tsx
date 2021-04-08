@@ -11,6 +11,13 @@ Playground.story = {
   name: 'playground',
   parameters: {
     creevey: {
+      skip: [
+        {
+          tests: ['default theme top', 'flat theme top', 'dark theme top'],
+          in: ['ie118px'],
+          reason: 'flacky input outlines',
+        },
+      ],
       tests: {
         async ['default theme top']() {
           await delay(1000);
