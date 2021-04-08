@@ -566,6 +566,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get menuItemLineHeight() {
     return this.controlLineHeightSmall;
   }
+  public static menuItemPaddingY = '6px';
   public static menuItemIconLegacyMargin = '0px';
   public static menuItemIconLegacyShift = '0px';
   public static menuItemLegacyPaddingX = '0px';
