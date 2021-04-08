@@ -487,6 +487,8 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static pickerTodayWrapperLineHeight = '20px';
   public static pickerTodayWrapperPaddingTop = '6px';
   public static pickerTodayWrapperPaddingBottom = '6px';
+  public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
+
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e9e9e9';
@@ -580,6 +582,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static menuHeaderLegacyPaddingRight = '0px';
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorBorderWidth = '1px';
+  public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
+  public static menuBorder = 'none';
+
   //#endregion
   //#region TooltipMenu
   public static get tooltipMenuPinOffset() {
@@ -591,6 +596,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.popupPinOffset;
   }
   public static kebabMargin = '4px';
+  //#endregion
+  //#region Popup
+  public static popupDropShadow = 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.16))';
+  public static popupBoxShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
   //#endregion
 }
 
