@@ -152,7 +152,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                   checked && color
                     ? {
                         backgroundColor: color,
-                        borderColor: color,
                         boxShadow: `inset 0 0 0 1px ${color}`,
                       }
                     : undefined
