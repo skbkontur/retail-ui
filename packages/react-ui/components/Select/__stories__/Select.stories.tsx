@@ -145,7 +145,7 @@ Simple.story = {
   parameters: {
     creevey: {
       captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
       tests: selectTests,
     },
   },
@@ -166,7 +166,7 @@ UseLink.story = {
   parameters: {
     creevey: {
       captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
       tests: selectTests,
     },
   },
@@ -180,7 +180,7 @@ UseLinkWithIcon.story = {
   parameters: {
     creevey: {
       captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
       tests: selectTests,
     },
   },
@@ -194,7 +194,7 @@ WithTextOverflow.story = {
   parameters: {
     creevey: {
       captureElement: '.dropdown-test-container',
-      skip: [{ in: 'ie11', tests: 'MenuItem hover' }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
       tests: selectTests,
     },
   },

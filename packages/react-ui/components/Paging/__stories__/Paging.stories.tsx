@@ -121,7 +121,7 @@ GoToAbsensePageStory.story = {
   name: 'GoToAbsensePage',
   parameters: {
     creevey: {
-      skip: [{ in: 'ie11', tests: 'hover' }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: 'hover' }],
       tests: {
         async plain() {
           await this.expect(await this.takeScreenshot()).to.matchImage('plain');

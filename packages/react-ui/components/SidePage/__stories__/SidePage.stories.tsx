@@ -725,8 +725,10 @@ TestUpdateLayoutMethodStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
+            .pause(1000)
             .click(this.browser.findElement({ css: '[data-tid="update"]' }))
             .perform();
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('update layout');
         },
       },
