@@ -3,6 +3,7 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
+  public static fontFamilyCompensationBaseline = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
@@ -110,12 +111,6 @@ export class DefaultTheme {
   }
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
-  //#endregion
-  //#region Dropdown
-  public static dropdownMenuSelectedBg = '#f1f1f1';
-  public static get dropdownMenuHoverBg() {
-    return this.bgActive;
-  }
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
@@ -523,8 +518,44 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Tooltip
+  public static tooltipPaddingY = '15px';
+  public static tooltipPaddingX = '20px';
+  public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
+  public static get tooltipBorder() {
+    return this.popupBorder;
+  }
+  public static get tooltipBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '17px';
+  public static tooltipPinOffsetY = '17px';
+  public static tooltipMargin = '15px';
+  public static get tooltipPinSize() {
+    return this.popupPinSize;
+  }
+  //#endregion
+  //#region TooltipMenu
+  public static tooltipMenuPinOffset = '15px';
+  public static get tooltipMenuMargin() {
+    return this.popupMargin;
+  }
+  public static get tooltipMenuPinSize() {
+    return this.popupPinSize;
+  }
+  //#endregion
+  //#region Kebab
+  public static kebabPinOffset = '15px';
+  public static get kebabPinSize() {
+    return this.popupPinSize;
+  }
+  public static kebabMargin = '5px';
+  public static kebabBackground = 'transparent';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
+  public static kebabBorderRadius = '50%';
+  public static kebabBorder = '2px solid transparent';
   //#endregion
   //#region Modal
   public static modalBackBg = '#333';
@@ -532,17 +563,67 @@ export class DefaultTheme {
   public static modalCloseButtonColor = '#808080';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
+  public static modalCloseButtonPadding = '35px';
+  public static modalCloseButtonLegacyShift = '15px';
+  public static modalCloseButtonBottomPadding = '20px';
+  public static modalCloseButtonClickArea = '10px';
+  public static modalCloseIconSize = '14px';
+  public static modalCloseLegacyGap = '26px';
+  public static modalCloseWrapperLegacyGap = '7px';
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';
   public static modalFixedFooterShadow = '0 -1px 10px #000000';
   public static modalFooterBg = '#e9e9e9';
   public static modalAdaptiveThreshold = '425px';
+  public static modalPaddingTop = '30px';
+  public static modalPaddingLeft = '30px';
+  public static modalPaddingRight = '35px';
+  public static modalHeaderFontSize = '22px';
+  public static modalHeaderLineHeight = '30px';
+  public static modalHeaderPaddingBottom = '11px';
+  public static modalHeaderPaddingTop = '24px';
+  public static modalFixedHeaderPaddingBottom = '11px';
+  public static modalBodyPaddingBottom = '25px';
+  public static modalFooterPaddingTop = '0px';
+  public static modalFooterPaddingBottom = '30px';
+  public static modalPaddingBottom = '30px';
+  public static modalFooterPanelPaddingTop = '20px';
+  public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePageBackingBg = '#333';
+  public static sidePageBackingBgOpacity = '0.6';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
+  public static sidePagePaddingLeft = '30px';
+  public static sidePagePaddingRight = '35px';
+  public static sidePagePaddingTop = '25px';
+  public static sidePagePaddingBottom = '20px';
+  public static sidePageFooterPaddingTop = '20px';
+  public static sidePageFooterPaddingBottom = '20px';
+  public static get sidePageBgDefault() {
+    return this.bgDefault;
+  }
+  public static get sidePageBorderColor() {
+    return this.borderColorGrayLight;
+  }
+
+  public static sidePageHeaderFontSize = '22px';
+  public static sidePageHeaderLineHeight = '30px';
+  public static sidePageHeaderPaddingBottom = '25px';
+  public static sidePageHeaderPaddingTop = '25px';
+  public static sidePageHeaderFixedFontSize = '18px';
+  public static sidePageHeaderFixedLineHeight = '24px';
+  public static sidePageHeaderFixedPaddingY = '13px';
+  public static sidePageHeaderStickyOffset = '11px';
+  public static sidePageCloseButtonPadding = '36px';
+  public static sidePageCloseButtonLegacyPaddingLeft = '37px';
+  public static sidePageFooterPanelPaddingTop = '20px';
+  public static sidePageFooterPanelPaddingBottom = '20px';
+  public static sidePageCloseIconSize = '12px';
+  public static sidePageCloseButtonClickAreaX = '10px';
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
@@ -557,20 +638,52 @@ export class DefaultTheme {
   public static calendarCellTodayBorder = '1px solid #8b8b8b';
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
+  public static calendarCellSize = '30px';
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
+  public static calendarPaddingX = '15px';
+  public static calendarMonthTitleLineHeight = '24px';
+  public static calendarMonthTitlePaddingTop = '8px';
+  public static calendarMonthTitlePaddingBottom = '8px';
+  public static calendarMonthTitleMarginX = '0';
+  public static calendarMonthTitleMarginBottom = '10px';
+  public static calendarWrapperHeight = ' 330px';
+  public static calendarMonthMarginBottom = '10px';
+  public static calendarMaxMonthsToAppendOnScroll = '5';
   //#endregion
   //#region DatePicker
+  public static dateSelectLineHeight = '24px';
+  public static dateSelectFontSize = '14px';
+  public static dateSelectFontWeight = 'bold';
   public static dateSelectMenuItemBgSelected = '#ececec';
+  public static get dateSelectTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get dateSelectTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static get dateSelectLinkColor() {
+    return this.linkColor;
+  }
+  public static get dateSelectPopupBoxShadow() {
+    return this.popupBoxShadow;
+  }
+  public static get dateSelectTextColorInvert() {
+    return this.textColorInvert;
+  }
   public static datePickerOpenBtnColor = '#333';
   public static pickerBg = '#fff';
   public static pickerShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
   public static pickerTodayWrapperBgColor = 'white';
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
+  public static pickerTodayWrapperFontSize = '14px';
+  public static pickerTodayWrapperLineHeight = 'normal';
+  public static pickerTodayWrapperPaddingTop = '7px';
+  public static pickerTodayWrapperPaddingBottom = '8px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
@@ -593,11 +706,27 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Paging
+  public static pagingFontSize = '16px';
+  public static pagingForwardIconSize = '18px';
+  public static pagingForwardIconMarginTop = '0px';
+  public static pagingPageLinkPaddingX = '10px';
+  public static pagingPageLinkPaddingY = '2px';
+  public static pagingPageLinkLegacyPaddingY = '5px';
+  public static pagingPageLinkMinWidth = 'initial';
+  public static pagingPageForwardLinkMarginTop = '4px';
+  public static pagingPageForwardLinkMarginLeft = '10px';
+  public static pagingPageForwardLinkPaddingRight = '22px';
+  public static pagingLineHeight = 'initial';
   public static pagingDotsColor = 'gray';
+  public static pagingDotsPadding = '6px 10px 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
   public static pagingPageLinkActiveColor = 'black';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static pagingPageLinkHintColor = '#bbb';
+  public static pagingPageLinkHintFontSize = '11px';
+  public static pagingPageLinkHintLineHeight = '15px';
+  public static pagingPageLinkBorderRadius = '16px';
+  public static pagingPageLinkMargin = '2px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
   }
@@ -605,15 +734,46 @@ export class DefaultTheme {
     return this.linkDisabledColor;
   }
   //#endregion
-  //#region Menu
-  public static menuSeparatorBorderColor = '#e6e6e6';
+  //#region Hint
+  public static get hintColor() {
+    return this.textColorInvert;
+  }
+  public static get hintFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get hintLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static hintMaxWidth = '200px';
+  public static hintPaddingY = '6px';
+  public static hintPaddingX = '8px';
+  public static hintTextAlign = 'center';
+  public static get hintBorder() {
+    return this.popupBorder;
+  }
+  public static get hintBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static hintPinOffset = '8px';
+  public static hintMargin = '15px';
   //#endregion
   //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static toastLineHeight = '20px';
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '20px';
+  public static toastBorderRadius = '2px';
+  public static toastBorder = 'none';
+  public static toastTop = '20px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
+  public static toastClosePadding = '16px';
   public static toastCloseColor = '#a0a0a0';
   public static toastCloseHoverColor = 'white';
+  public static toastCloseSize = '8px';
   //#endregion
   //#region TopBar
   public static tbBg = '#fff';
@@ -624,10 +784,72 @@ export class DefaultTheme {
   public static logoColor = '#000';
   public static logoHoverColor = '#000';
   //#endregion
+  //#region Dropdown
+  public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static get dropdownMenuHoverBg() //deprecated
+  {
+    return this.bgActive;
+  }
+  //#endregion
   //#region Menu
-  public static menuItemPaddingForIcon = '36px';
+  public static get menuBgDefault() {
+    return this.bgDefault;
+  }
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
+  public static menuPaddingY = '5px';
+  // menuItem
+  public static get menuItemSelectedBg() {
+    return this.dropdownMenuSelectedBg;
+  }
+  public static get menuItemHoverBg() {
+    return this.dropdownMenuHoverBg;
+  }
+  public static menuItemIconWidth = '16px';
+  public static menuItemIconGap = '5px';
+  public static menuItemIconLegacyMargin = '7px';
+  public static menuItemIconLegacyShift = '-1px';
+  public static get menuItemPaddingForIcon() {
+    return `${parseInt(this.menuItemPaddingX) +
+      parseInt(this.menuItemIconWidth) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)}px`;
+  }
+  public static menuItemLineHeight = '18px';
+  public static get menuItemFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static menuItemPaddingX = '8px';
+  public static get menuItemPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static menuItemLegacyPaddingX = '10px';
+  public static menuItemLegacyPaddingY = '1px';
+  public static get menuItemHoverColor() {
+    return this.textColorInvert;
+  }
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
+  public static get menuItemLinkColor() {
+    return this.linkColor;
+  }
+  public static menuItemCommentColor = '#a0a0a0';
+  public static menuItemCommentColorHover = '#fff';
+  //menuHeader
+  public static menuHeaderColor = '#a0a0a0';
+  public static menuHeaderLineHeight = 'inherit';
+  public static menuHeaderFontSize = '12px';
+  public static get menuHeaderPaddingX() {
+    return this.menuItemPaddingX;
+  }
+  public static menuHeaderPaddingTop = '6px';
+  public static menuHeaderPaddingBottom = '7px';
+  public static menuHeaderLegacyPaddingRight = '10px';
+  //menuSeparator
+  public static menuSeparatorBorderColor = '#e6e6e6';
+  public static menuSeparatorMarginY = '5px';
+  public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
   public static toggleHandleActiveWidthIncrement = '4px';
@@ -674,7 +896,9 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
-  public static popupPinOffset = '16px';
+  public static popupPinOffset = '0'; // deprecated
+  public static popupPinOffsetX = '16px';
+  public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
   //#endregion
