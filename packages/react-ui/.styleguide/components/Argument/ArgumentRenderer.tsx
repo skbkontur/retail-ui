@@ -15,10 +15,10 @@ export const ArgumentRenderer: typeof Argument = props => {
     type.type = 'ParameterType';
     type.expression = { type: 'NameExpression', name: '' };
   }
-  console.log(props);
+
   return (
     <ErrorBoundary>
-      <div style={{minWidth: 200}}>
+      <div style={{ minWidth: 200 }}>
         <Argument {...props} />
       </div>
     </ErrorBoundary>
