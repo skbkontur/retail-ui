@@ -80,17 +80,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
-  public static btnSmallArrowTop = '7px';
-  public static btnSmallArrowRight = '-8px';
-
-  public static btnSmallArrowLength = '16px';
-  public static btnMediumArrowTop = '8px';
-  public static btnMediumArrowLength = '21.2px';
-  public static btnMediumArrowRight = '-11px';
-  public static btnLargeArrowLength = '25px';
-  public static btnLargeArrowLeft = '-12px';
-  public static btnLargeArrowRight = '-12px';
-
   //#endregion
   //#region Input
   public static get inputHeightSmall() {
@@ -159,7 +148,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static inputIconSizeLarge = '20px';
   //#endregion
   //#region Select
-  public static selectWidth = '200px';
   public static get selectBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -493,7 +481,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageFooterPaddingBottom = '32px';
   public static sidePageCloseButtonPadding = '36px';
   public static sidePageCloseButtonLegacyPaddingLeft = '36px';
-  public static sidePageCloseButtonClickArea = '10px';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
