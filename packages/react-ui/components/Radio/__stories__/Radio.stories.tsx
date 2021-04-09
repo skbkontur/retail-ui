@@ -20,7 +20,10 @@ export const RadioWithDifferentStates = () => (
     </Gapped>
   </div>
 );
-RadioWithDifferentStates.story = { name: 'Radio with different states' };
+RadioWithDifferentStates.story = {
+  name: 'Radio with different states',
+  parameters: { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } },
+};
 
 export const Playground = () => {
   class Comp extends React.Component<{}, any> {

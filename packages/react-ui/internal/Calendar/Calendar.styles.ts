@@ -3,19 +3,20 @@ import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root(t: Theme) {
+    const width = parseInt(t.calendarCellSize) * 7;
     return css`
       box-sizing: content-box;
       color: ${t.textColorDefault};
       display: block;
-      padding: 0 15px;
-      width: 210px;
+      padding: 0 ${t.calendarPaddingX};
+      width: ${width}px;
+      overflow: hidden;
     `;
   },
 
   wrapper() {
     return css`
       font-size: 14px;
-      overflow: hidden;
       position: relative;
     `;
   },

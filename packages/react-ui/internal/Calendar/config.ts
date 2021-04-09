@@ -1,29 +1,38 @@
-export const config = {
-  /**
-   * Day cell size
-   */
-  DAY_HEIGHT: 30,
+import { Theme } from '../../lib/theming/Theme';
+import { memo } from '../../lib/memo';
 
-  MONTH_TITLE_HEIGHT: 40,
+const getConfig = memo(
+  (
+    monthTitleLineHeight: string,
+    monthTitlePaddingTop: string,
+    monthTitlePaddingBottom: string,
+    monthTitleMarginBottom: string,
+    cellSize: string,
+    wrapperHeight: string,
+    monthMarginBottom: string,
+    maxMonthsToAppendOnScroll: string,
+  ) => {
+    const monthTitleHeight =
+      parseInt(monthTitleLineHeight) + parseInt(monthTitlePaddingTop) + parseInt(monthTitlePaddingBottom);
+    return {
+      DAY_SIZE: parseInt(cellSize),
+      MONTH_TITLE_HEIGHT: monthTitleHeight,
+      MONTH_TITLE_OFFSET_HEIGHT: monthTitleHeight + parseInt(monthTitleMarginBottom) + 1, // + 1px separator line
+      WRAPPER_HEIGHT: parseInt(wrapperHeight),
+      MONTH_BOTTOM_MARGIN: parseInt(monthMarginBottom),
+      MAX_MONTHS_TO_APPEND_ON_SCROLL: parseInt(maxMonthsToAppendOnScroll),
+    };
+  },
+);
 
-  /**
-   * MONTH_TITLE_HEIGHT + MONTH_BOTTOM_MARGIN + 1px separator line
-   */
-  MONTH_TITLE_OFFSET_HEIGHT: 51,
-
-  /**
-   * Calendar height
-   */
-  WRAPPER_HEIGHT: 330,
-
-  /**
-   * Margin between months
-   */
-  MONTH_BOTTOM_MARGIN: 10,
-
-  /**
-   * Maximal count of month appending on scrollTo method call
-   * with large intervals
-   */
-  MAX_MONTHS_TO_APPEND_ON_SCROLL: 5,
-};
+export const themeConfig = (t: Theme) =>
+  getConfig(
+    t.calendarMonthTitleLineHeight,
+    t.calendarMonthTitlePaddingTop,
+    t.calendarMonthTitlePaddingBottom,
+    t.calendarMonthTitleMarginBottom,
+    t.calendarCellSize,
+    t.calendarWrapperHeight,
+    t.calendarMonthMarginBottom,
+    t.calendarMaxMonthsToAppendOnScroll,
+  );

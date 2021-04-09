@@ -11,7 +11,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ArrowTriangleDownIcon, ArrowTriangleUpDownIcon, ArrowTriangleUpIcon } from '../icons/16px';
+import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 
 import { jsStyles } from './DateSelect.styles';
 
@@ -300,7 +300,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
                   onTouchEnd={this.handleLongClickStop}
                 >
                   <span>
-                    <ArrowTriangleUpIcon />
+                    <ArrowChevronUpIcon />
                   </span>
                 </div>
               )}
@@ -320,7 +320,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
                   onTouchEnd={this.handleLongClickStop}
                 >
                   <span>
-                    <ArrowTriangleDownIcon />
+                    <ArrowChevronDownIcon />
                   </span>
                 </div>
               )}

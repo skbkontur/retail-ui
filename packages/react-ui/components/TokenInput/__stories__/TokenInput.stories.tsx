@@ -549,6 +549,7 @@ OnUnexpectedInputValidation.story = {
             .sendKeys('clear')
             .move({ x: 0, y: 0 })
             .click()
+            .pause(1000)
             .perform();
 
           const clearedOnNullReturn = await this.takeScreenshot();
