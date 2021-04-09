@@ -54,8 +54,8 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -131,8 +131,8 @@ class ColoredWrapper extends React.Component<any, any> {
     const selectedItems = props.selectedItems
       ? props.selectedItems
       : props.numberItems
-        ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-        : [];
+      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
+      : [];
     this.state = { selectedItems };
   }
 
@@ -549,7 +549,7 @@ OnUnexpectedInputValidation.story = {
             .sendKeys('clear')
             .move({ x: 0, y: 0 })
             .click()
-            .pause(500)
+            .pause(1000)
             .perform();
 
           const clearedOnNullReturn = await this.takeScreenshot();
