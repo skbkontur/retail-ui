@@ -16,7 +16,7 @@ export class DefaultTheme {
   public static grayDark = '#333';
   public static black = '#000';
   public static blueXxLight = '#e4f3ff';
-  public static blueLight = '#5199db';
+  public static blueLight = '#1d85d0';
   public static blue = '#3072c4';
   public static blueDark = '#1e5aa4';
   public static blueXDark = '#044785';
