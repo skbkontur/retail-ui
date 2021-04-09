@@ -227,6 +227,7 @@ SimpleComboboxStory.story = {
             .actions({
               bridge: true,
             })
+            .pause(1000)
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
             .sendKeys('Second')
             .pause(500)
@@ -847,7 +848,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
       .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
         [].concat(
           popularItems,
-          popularItems.length ? ((<MenuSeparator />) as any) : [],
+          popularItems.length ? (<MenuSeparator /> as any) : [],
           itemsToShow,
           this.renderTotalCount(itemsToShow.length, totalCount),
         ),
@@ -1030,10 +1031,9 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private getItems = (q: string) =>
     Promise.resolve(
-      [
-        { value: '1', label: 'First' },
-        { value: '2', label: 'Second' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
+      [{ value: '1', label: 'First' }, { value: '2', label: 'Second' }].filter(
+        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q,
+      ),
     );
 
   private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });
