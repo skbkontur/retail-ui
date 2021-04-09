@@ -91,6 +91,7 @@ const styles = {
         t.btnLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
+        t.fontFamilyCompensationBaseline,
         cssName(styles.link(t)),
         cssName(styles.fallback(t)),
       )};
@@ -122,6 +123,7 @@ const styles = {
         t.btnLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
+        t.fontFamilyCompensationBaseline,
         cssName(styles.link(t)),
         cssName(styles.fallback(t)),
       )};
@@ -149,6 +151,7 @@ const styles = {
         t.btnLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
+        t.fontFamilyCompensationBaseline,
         cssName(styles.link(t)),
         cssName(styles.fallback(t)),
       )};
