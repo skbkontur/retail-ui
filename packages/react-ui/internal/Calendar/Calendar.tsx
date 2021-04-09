@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
 
-import { config } from './config';
+import { themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
@@ -41,8 +41,6 @@ const getTodayDate = () => {
     year: date.getFullYear(),
   };
 };
-
-const wrapperStyle = { height: config.WRAPPER_HEIGHT };
 
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
@@ -131,7 +129,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       return;
     }
 
-    const maxMonthsToAdd = config.MAX_MONTHS_TO_APPEND_ON_SCROLL;
+    const maxMonthsToAdd = themeConfig(this.theme).MAX_MONTHS_TO_APPEND_ON_SCROLL;
 
     const onEnd = () =>
       this.setState({
@@ -167,11 +165,11 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
           }
           return {
             months: monthsToPrepend.concat(state.months),
-            scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend),
+            scrollPosition: -CalendarUtils.getMonthsHeight(monthsToPrepend, this.theme),
           };
         },
         () => {
-          const targetPosition = this.state.months[0].height;
+          const targetPosition = this.state.months[0].getHeight(this.theme);
           this.scrollTo(targetPosition, onEnd);
         },
       );
@@ -198,7 +196,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
           return { months: state.months.concat(monthsToAppend) };
         },
         () => {
-          const targetPosition = -1 * CalendarUtils.getMonthsHeight(this.state.months.slice(1, -2));
+          const targetPosition = -1 * CalendarUtils.getMonthsHeight(this.state.months.slice(1, -2), this.theme);
           this.scrollTo(targetPosition, onEnd);
         },
       );
@@ -207,12 +205,13 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private renderMain = () => {
     const positions = this.getMonthPositions();
+    const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
       <div ref={this.refRoot} className={jsStyles.root(this.theme)}>
         <div style={wrapperStyle} className={jsStyles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
-            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month))
+            .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
             .map(this.renderMonth, this)}
         </div>
       </div>
@@ -248,9 +247,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private getMonthPositions() {
     const { scrollPosition, months } = this.state;
-    const positions = [scrollPosition - months[0].height];
+
+    const positions = [scrollPosition - months[0].getHeight(this.theme)];
     for (let i = 1; i < months.length; i++) {
-      const position = positions[i - 1] + months[i - 1].height;
+      const position = positions[i - 1] + months[i - 1].getHeight(this.theme);
       positions.push(position);
     }
     return positions;
@@ -268,13 +268,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const { pixelY } = normalizeWheel(event);
 
     this.setState(({ months, scrollPosition, scrollTarget }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY).scrollPosition;
+      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
+        .scrollPosition;
       return { scrollTarget: targetPosition };
     }, this.handleWheelEnd);
 
     this.animation.animate(pixelY, deltaY =>
       // FIXME: Typescript not resolving setState cb type
-      this.setState(CalendarUtils.applyDelta(deltaY) as any),
+      this.setState(CalendarUtils.applyDelta(deltaY, this.theme) as any),
     );
 
     CalendarScrollEvents.emit();
@@ -290,7 +291,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;
 
-    const trasholdHeight = config.MONTH_TITLE_OFFSET_HEIGHT + config.DAY_HEIGHT;
+    const trasholdHeight = themeConfig(this.theme).MONTH_TITLE_OFFSET_HEIGHT + themeConfig(this.theme).DAY_SIZE;
 
     if (scrollTarget < trasholdHeight) {
       let targetPosition = 0;
@@ -302,7 +303,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         const amount = scrollTarget - targetPosition;
         this.animation.animate(amount, deltaY =>
           // FIXME: Typescript not resolving setState cb type
-          this.setState(CalendarUtils.applyDelta(deltaY) as any),
+          this.setState(CalendarUtils.applyDelta(deltaY, this.theme) as any),
         );
       });
     }

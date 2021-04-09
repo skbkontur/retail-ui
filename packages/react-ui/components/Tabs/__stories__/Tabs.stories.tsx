@@ -367,7 +367,7 @@ Simple.story = {
   name: 'simple',
   parameters: {
     creevey: {
-      skip: [{ in: 'ie11', tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }],
       tests: {
         ...tabsTests,
         async ['move focus forward']() {
@@ -457,7 +457,7 @@ HrefsSecond.story = { name: 'hrefs second', parameters: { creevey: { skip: [true
 export const Vertical: CSFStory<JSX.Element> = () => <UncTabs vertical />;
 Vertical.story = {
   name: 'vertical',
-  parameters: { creevey: { skip: [{ in: 'ie11', tests: 'hovered' }], tests: tabsTests } },
+  parameters: { creevey: { skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }], tests: tabsTests } },
 };
 
 export const WithComponent = () => <TabsWithMyLink />;
@@ -472,7 +472,7 @@ WithUnexpectedTabSizeChange.story = {
 export const WithDisabledTab: CSFStory<JSX.Element> = () => <DisabledTab />;
 WithDisabledTab.story = {
   name: 'with disabled tab',
-  parameters: { creevey: { skip: [{ in: 'ie11', tests: 'hovered' }], tests: tabsTests } },
+  parameters: { creevey: { skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }], tests: tabsTests } },
 };
 
 export const TabsInModalStory = () => <TabsInModal />;
