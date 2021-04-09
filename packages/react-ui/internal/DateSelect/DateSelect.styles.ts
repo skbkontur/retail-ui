@@ -4,26 +4,26 @@ import { Theme } from '../../lib/theming/Theme';
 const styles = {
   root(t: Theme) {
     return css`
-      color: ${t.textColorDefault};
+      color: ${t.dateSelectTextColorDefault};
       cursor: pointer;
       display: inline-block;
-      font-size: 14px;
-      line-height: 24px;
+      font-size: ${t.dateSelectFontSize};
+      line-height: ${t.dateSelectLineHeight};
       outline: 0;
       padding-right: 2px;
       position: relative;
       text-align: left;
 
       &:hover {
-        color: ${t.linkColor};
+        color: ${t.dateSelectLinkColor} !important;
       }
     `;
   },
 
   disabled() {
     return css`
-      color: inherit;
-      cursor: default;
+      color: inherit !important;
+      cursor: default !important;
     `;
   },
 
@@ -35,9 +35,9 @@ const styles = {
 
   arrow(t: Theme) {
     return css`
-      color: ${t.textColorDisabled};
+      color: ${t.dateSelectTextColorDisabled};
       float: right;
-      line-height: 24px;
+      line-height: ${t.dateSelectLineHeight};
       opacity: 1;
       position: absolute;
       right: 4px;
@@ -55,10 +55,10 @@ const styles = {
   menuHolder(t: Theme) {
     return css`
       background: ${t.dateSelectMenuBg};
-      box-shadow: ${t.popupBoxShadow};
+      box-shadow: ${t.dateSelectPopupBoxShadow};
       box-sizing: content-box;
-      color: ${t.textColorDefault};
-      font-size: 14px;
+      color: ${t.dateSelectTextColorDefault};
+      font-size: ${t.dateSelectFontSize};
       margin-top: -11px;
       overflow: hidden;
       position: absolute;
@@ -88,7 +88,7 @@ const styles = {
 
   menuItem(t: Theme) {
     return css`
-      color: ${t.textColorDefault};
+      color: ${t.dateSelectTextColorDefault};
       cursor: pointer;
       height: 24px;
       line-height: 24px;
@@ -107,15 +107,15 @@ const styles = {
 
   menuItemActive(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgActive};
-      color: ${t.dateSelectMenuItemFontActive};
+      background: ${t.dateSelectMenuItemBgActive} !important;
+      color: ${t.dateSelectMenuItemFontActive} !important;
     `;
   },
 
   menuItemDisabled(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgDisabled};
-      color: ${t.textColorDisabled};
+      background: ${t.dateSelectMenuItemBgDisabled} !important;
+      color: ${t.dateSelectTextColorDisabled} !important;
       pointer-events: none;
     `;
   },
@@ -131,11 +131,11 @@ const styles = {
       user-select: none;
 
       background: ${t.dateSelectMenuBg};
-      color: ${t.textColorDefault};
+      color: ${t.dateSelectTextColorDefault};
 
       &:hover {
         background: ${t.dateSelectMenuItemBgActive};
-        color: ${t.textColorInvert};
+        color: ${t.dateSelectTextColorInvert};
       }
     `;
   },

@@ -79,7 +79,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
                 }}
               >
                 <div
-                  className={cn(jsStyles.footerContent(), {
+                  className={cn(jsStyles.footerContent(this.theme), {
                     [jsStyles.panel(this.theme)]: !!this.props.panel,
                     [jsStyles.footerFixed(this.theme)]: this.state.fixed,
                   })}

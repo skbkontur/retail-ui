@@ -15,7 +15,7 @@ let complexRadioGroup = (
     <h2>Numbers</h2>
     <RadioGroup name="number-complex" defaultValue="3">
       <Gapped gap={40}>
-        <Gapped vertical gap={10}>
+        <Gapped vertical gap={0}>
           <b>Odd</b>
           <Radio value="1">One</Radio>
           <Radio value="3">Three</Radio>
@@ -24,7 +24,7 @@ let complexRadioGroup = (
           </Radio>
           <Radio value="7">Seven</Radio>
         </Gapped>
-        <Gapped vertical gap={10}>
+        <Gapped vertical gap={0}>
           <b>Even</b>
           <Radio value="2">Two</Radio>
           <Radio value="4">Four</Radio>

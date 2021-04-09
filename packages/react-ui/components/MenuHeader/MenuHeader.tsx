@@ -21,7 +21,7 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
     <CommonWrapper {...rest}>
       <div
         className={cn({
-          [jsStyles.root()]: true,
+          [jsStyles.root(theme)]: true,
           [jsStyles.withLeftPadding(theme)]: _enableIconPadding,
         })}
       >
