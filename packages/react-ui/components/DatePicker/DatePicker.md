@@ -116,6 +116,7 @@ Docs:
 https://data.gov.ru/api-portala-otkrytyh-dannyh-rf-polnoe-rukovodstvo
 
 Request:
+
 ```md
 https://data.gov.ru/api/json/dataset/7708660670-proizvcalendar/version/20151123T183036/content?search=2021&access_token=31de6d0b90f51a7aa3ee2d518d50f4e9
 ```
@@ -154,7 +155,7 @@ const today = new Date();
 const year = today.getFullYear();
 const response = [
   {
-    'Год/Месяц': '2019',
+    'Год/Месяц': '2021',
     Январь: '1,2,3,4,5,6,7,8,9,10,16,17,23,24,30,31',
     Февраль: '6,7,13,14,20,21,22*,23,27,28',
     Март: '6,7,8*,13,14,20,21,27,28',
