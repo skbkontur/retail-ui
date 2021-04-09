@@ -335,7 +335,7 @@ BlurAlwaysAfterChange.story = {
     creevey: {
       tests: {
         async ['value not changed']() {
-          this.browser.executeScript(() => {
+          await this.browser.executeScript(() => {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.browser
@@ -348,7 +348,7 @@ BlurAlwaysAfterChange.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
         },
         async ['value changed']() {
-          this.browser.executeScript(() => {
+          await this.browser.executeScript(() => {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.browser
@@ -371,7 +371,7 @@ BlurAlwaysAfterChange.story = {
               return new window.OldDate(2000, 0, 1);
             };
           });
-          this.browser.executeScript(() => {
+          await this.browser.executeScript(() => {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.browser
