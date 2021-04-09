@@ -62,7 +62,7 @@ import { ThemeContext, DEFAULT_THEME } from '@skbkontur/react-ui';
 - diadocLinkIcon (DropDown, Select)
 - cloud (Spinner, Loader)
 
-Помимо этого, были переименованы некотрые переменные темы. Подробнее в [#2286](https://github.com/skbkontur/retail-ui/pull/2286).
+Помимо этого, были переименованы некоторые переменные темы. Подробнее в [#2286](https://github.com/skbkontur/retail-ui/pull/2286).
 
 ### Обновленные кнопки
 
