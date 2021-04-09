@@ -27,13 +27,13 @@ export interface ToastProps extends CommonProps {
 }
 
 /**
- * Toast manages notifications
- * method `push` is sending notification,
- * then automatically hides it after 3 or 7 seconds,
- * depending on if this notification contains action or not.
+ * Показывает уведомления.
  *
- * Can be used like `Toast.push('message')` or
- * `Toast.push('message', {label: 'Cancel', handler: cancelHandler})`
+ * Доступен статический метод: `Toast.push(notification, action?)`.
+ * Однако, при его использовании не работает кастомизация и могут быть проблемы
+ * с перекрытием уведомления другими элементами страницы.
+ *
+ * Рекомендуется использовать Toast через `ref` (см. примеры).
  */
 export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
@@ -72,6 +72,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   /**
    * Показывает тост с `notification` в качестве сообщения.
+   * Тост автоматически скрывается через 3 или 7 секунд,
+   * в зависимости от наличия у него кнопки `action`.
    *
    * `action` опциональный параметр формата `{ label: string, handler: function }` добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
    * @public
