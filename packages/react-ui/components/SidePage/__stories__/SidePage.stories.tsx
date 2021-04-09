@@ -66,15 +66,17 @@ class Sample extends React.Component<SampleProps, SampleState> {
       )}
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
-          {this.props.total && this.props.current && this.props.total > this.props.current && (
-            <Sample
-              current={this.props.current + 1}
-              total={this.props.total}
-              ignoreBackgroundClick={this.props.ignoreBackgroundClick}
-              withContent={this.props.withContent}
-              blockBackground={this.props.blockBackground}
-            />
-          )}
+          {this.props.total &&
+            this.props.current &&
+            this.props.total > this.props.current && (
+              <Sample
+                current={this.props.current + 1}
+                total={this.props.total}
+                ignoreBackgroundClick={this.props.ignoreBackgroundClick}
+                withContent={this.props.withContent}
+                blockBackground={this.props.blockBackground}
+              />
+            )}
           <div>
             <Toggle
               checked={this.state.panel}
@@ -728,6 +730,7 @@ TestUpdateLayoutMethodStory.story = {
             .pause(1000)
             .click(this.browser.findElement({ css: '[data-tid="update"]' }))
             .perform();
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('update layout');
         },
       },
