@@ -28,6 +28,7 @@ import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -57,7 +58,7 @@ const PASS_BUTTON_PROPS = {
 
 export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
-  _icon?: React.ReactElement<any>;
+  _icon?: React.ReactNode;
   /** @ignore */
   _renderButton?: (params: ButtonParams) => React.ReactNode;
   defaultValue?: TValue;
@@ -306,6 +307,22 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
   }
 
+  private getLeftIconClass(size: ButtonSize | undefined) {
+    if (this.props.use === 'link') {
+      return jsStyles.leftIconLink(this.theme);
+    }
+
+    switch (size) {
+      case 'large':
+        return jsStyles.leftIconLarge(this.theme);
+      case 'medium':
+        return jsStyles.leftIconMedium(this.theme);
+      case 'small':
+      default:
+        return jsStyles.leftIconSmall(this.theme);
+    }
+  }
+
   private renderDefaultButton(params: ButtonParams) {
     const buttonProps: ButtonProps = {
       ...filterProps(this.props, PASS_BUTTON_PROPS),
@@ -317,13 +334,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       active: params.opened,
     };
 
-    if (this.props._icon) {
-      Object.assign(buttonProps, {
-        icon: this.props._icon,
-        _noRightPadding: true,
-      });
-    }
-
     const labelProps = {
       className: cn({
         [jsStyles.label()]: this.props.use !== 'link',
@@ -331,7 +341,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
       }),
       style: {
-        paddingRight: this.getLabelPaddingRight(),
+        paddingRight: this.getSelectIconGap(),
       },
     };
 
@@ -339,48 +349,33 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <Button {...buttonProps}>
-        <span {...labelProps}>
-          <span className={jsStyles.labelText()}>{params.label}</span>
-        </span>
-        <div className={jsStyles.arrowWrap()} style={{ right: this.getLegacyArrowShift() }}>
-          <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
+        <div className={jsStyles.selectButtonContainer()}>
+          {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
+          <span {...labelProps}>{params.label}</span>
+
+          <div className={cn(jsStyles.arrowWrap(this.theme), useIsCustom && jsStyles.customUseArrow())}>
+            <ArrowChevronDownIcon />
+          </div>
         </div>
       </Button>
     );
   }
 
-  private getLabelPaddingRight(): number {
+  private getSelectIconGap(): number {
     const getArrowPadding = () => {
       switch (this.props.size) {
         case 'large':
-          return this.theme.selectPaddingArrowLarge;
+          return this.theme.selectIconGapLarge;
         case 'medium':
-          return this.theme.selectPaddingArrowMedium;
+          return this.theme.selectIconGapMedium;
         case 'small':
         default:
-          return this.theme.selectPaddingArrowSmall;
+          return this.theme.selectIconGapSmall;
       }
     };
-    const ARROW_WIDTH = 8;
     const arrowLeftPadding = parseFloat(getArrowPadding()) || 0;
 
-    return ARROW_WIDTH + arrowLeftPadding + (this.props._icon ? 10 : 0) + this.getLegacyArrowShift();
-  }
-
-  private getLegacyArrowShift(): number {
-    const getSelectPadding = () => {
-      switch (this.props.size) {
-        case 'large':
-          return this.theme.selectPaddingXLarge;
-        case 'medium':
-          return this.theme.selectPaddingXMedium;
-        case 'small':
-        default:
-          return this.theme.selectPaddingXSmall;
-      }
-    };
-    const selectPadding = parseFloat(getSelectPadding()) || 0;
-    return this.props.use === 'link' ? 10 : 1 + (this.props._icon ? selectPadding : 0);
+    return arrowLeftPadding;
   }
 
   private renderMenu(): React.ReactNode {

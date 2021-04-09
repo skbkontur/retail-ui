@@ -477,7 +477,6 @@ export class DefaultTheme {
   public static get selectIconGapSmall() {
     return this.btnIconGapSmall;
   }
-  public static selectPaddingArrowSmall = '10px';
   public static get selectLineHeightMedium() {
     return this.controlLineHeightMedium;
   }
@@ -494,7 +493,6 @@ export class DefaultTheme {
   public static get selectIconGapMedium() {
     return this.btnIconGapMedium;
   }
-  public static selectPaddingArrowMedium = '10px';
   public static get selectLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
@@ -511,7 +509,6 @@ export class DefaultTheme {
   public static get selectIconGapLarge() {
     return this.btnIconGapLarge;
   }
-  public static selectPaddingArrowLarge = '13px';
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }

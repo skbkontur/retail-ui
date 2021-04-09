@@ -9,7 +9,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { ArrowTriangleDownIcon } from '../icons/16px';
+import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -280,7 +280,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     if (drawArrow) {
       return (
         <span className={jsStyles.arrowWrapper()}>
-          <ArrowTriangleDownIcon />
+          <ArrowChevronDownIcon />
         </span>
       );
     }
