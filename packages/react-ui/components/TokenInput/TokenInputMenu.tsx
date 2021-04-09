@@ -6,6 +6,7 @@ import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
@@ -57,7 +58,13 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     } = this.props;
 
     return (
-      <Popup opened={opened!} positions={['bottom left']} anchorElement={this.props.anchorElement} popupOffset={5}>
+      <Popup
+        opened={opened!}
+        positions={['bottom left']}
+        anchorElement={this.props.anchorElement}
+        popupOffset={5}
+        hasShadow={is8pxTheme(this.theme)}
+      >
         <ComboBoxMenu
           items={items}
           loading={loading}

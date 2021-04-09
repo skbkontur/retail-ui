@@ -75,4 +75,6 @@ export const DEPRECATED_VARIABLES: Array<keyof Theme> = [
   'chbCheckedActiveShadow',
   'chbShadowActive',
   'textareaHeight',
+  'popupPinOffset',
+  'tooltipPinOffset',
 ];

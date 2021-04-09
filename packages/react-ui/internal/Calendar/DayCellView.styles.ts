@@ -14,10 +14,16 @@ const styles = {
       padding: 0;
       text-align: center;
       user-select: none;
+      position: relative;
+
+      width: ${t.calendarCellSize};
+      height: ${t.calendarCellSize};
+      line-height: ${parseInt(t.calendarCellSize) - 2}px;
+      border-radius: 50%;
 
       &:hover {
-        background-color: ${t.calendarCellHoverBgColor};
-        color: ${t.calendarCellHoverColor};
+        background-color: ${t.calendarCellHoverBgColor} !important;
+        color: ${t.calendarCellHoverColor} !important;
         cursor: pointer;
       }
       &:disabled {
@@ -32,20 +38,20 @@ const styles = {
 
   selected(t: Theme) {
     return css`
-      background-color: ${t.calendarCellSelectedBgColor};
-      color: ${t.calendarCellSelectedFontColor};
+      background-color: ${t.calendarCellSelectedBgColor} !important;
+      color: ${t.calendarCellSelectedFontColor} !important;
     `;
   },
 
   weekend(t: Theme) {
     return css`
-      color: ${t.calendarCellWeekendColor};
+      color: ${t.calendarCellWeekendColor} !important;
     `;
   },
 
   today(t: Theme) {
     return css`
-      border: ${t.calendarCellTodayBorder};
+      border: ${t.calendarCellTodayBorder} !important;
     `;
   },
 };
