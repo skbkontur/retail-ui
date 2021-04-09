@@ -12,50 +12,58 @@ const config = {
     chrome: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       platformName: 'linux',
+      limit: 2,
     },
     chrome8px: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6061',
       platformName: 'linux',
+      limit: 2,
     },
     chromeFlat: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6062',
       platformName: 'linux',
+      limit: 2,
     },
     chromeFlat8px: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6063',
       platformName: 'linux',
+      limit: 2,
     },
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
+      limit: 2,
     },
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6061',
+      limit: 2,
     },
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6062',
+      limit: 2,
     },
     firefoxFlat8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6063',
+      limit: 2,
     },
     ie11: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       limit: 2,
+
       // NOTE Enable after switch new separate pool for IE to allow test hover
       // 'se:ieOptions': {
       //   enablePersistentHover: true,
@@ -70,16 +78,19 @@ const config = {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6061',
+      limit: 2,
     },
     ie11Flat: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6062',
+      limit: 2,
     },
     ie11Flat8px: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       storybookUrl: 'http://localhost:6063',
+      limit: 2,
     },
   },
 };
