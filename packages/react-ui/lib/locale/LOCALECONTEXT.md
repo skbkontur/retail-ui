@@ -153,6 +153,12 @@ class LocalizationControls extends React.Component {
   }
 
   render() {
+    // попробуйте кастомизировать локаль любого контрола
+    const customLocaleRU = {};
+    const customLocaleEN = {};
+
+    const locale = this.state.langCode === LangCodes.en_GB ? customLocaleEN : customLocaleRU;
+
     return (
       <Gapped vertical gap={10}>
         <Select
@@ -167,7 +173,7 @@ class LocalizationControls extends React.Component {
           items={Object.values(LocalizationControlNames)}
           onValueChange={controlName => this.setState({ controlName })}
         />
-        <LocaleContext.Provider value={{ langCode: this.state.langCode }}>
+        <LocaleContext.Provider value={{ langCode: this.state.langCode, locale: locale }}>
           {this.getControl(this.state.controlName)}
         </LocaleContext.Provider>
       </Gapped>
