@@ -140,7 +140,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         <span
           tabIndex={0}
           data-tid={this.props['data-tid']}
-          className={jsStyles.paging()}
+          className={jsStyles.paging(this.theme)}
           onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -199,8 +199,8 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         pageNumber={'forward' as const}
       >
         {caption || forward}
-        <span className={jsStyles.forwardIcon()}>
-          <ArrowChevronRightIcon size="18px" />
+        <span className={jsStyles.forwardIcon(this.theme)}>
+          <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
         </span>
       </Component>
     );
@@ -256,7 +256,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
       );
     }
 
-    return <div className={jsStyles.pageLinkHintPlaceHolder()} />;
+    return <div className={jsStyles.pageLinkHintPlaceHolder(this.theme)} />;
   };
 
   private handleMouseDown = () => {

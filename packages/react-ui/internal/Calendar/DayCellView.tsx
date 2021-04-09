@@ -5,7 +5,6 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import * as CDS from './CalendarDateShape';
-import { config } from './config';
 import { jsStyles } from './DayCellView.styles';
 
 interface DayCellViewProps {
@@ -18,15 +17,6 @@ interface DayCellViewProps {
   isWeekend?: boolean;
 }
 
-const size = config.DAY_HEIGHT;
-
-const cellStyle = {
-  width: size,
-  height: size,
-  lineHeight: size - 2 + 'px',
-  borderRadius: size / 2,
-};
-
 export function DayCellView(props: DayCellViewProps) {
   const { date, minDate, maxDate, today, value, isWeekend, onDateClick } = props;
   const theme = useContext(ThemeContext);
@@ -38,7 +28,6 @@ export function DayCellView(props: DayCellViewProps) {
 
   return (
     <button
-      style={cellStyle}
       tabIndex={-1}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cn({

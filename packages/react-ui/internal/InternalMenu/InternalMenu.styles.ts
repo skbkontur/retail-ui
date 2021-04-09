@@ -11,10 +11,10 @@ const styles = {
     `;
   },
 
-  shadow() {
+  shadow(t: Theme) {
     return css`
-      border: 1px solid #d5d5d5;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      border: ${t.menuBorder};
+      box-shadow: ${t.menuShadow};
     `;
   },
 

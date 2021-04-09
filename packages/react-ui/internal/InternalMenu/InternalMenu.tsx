@@ -110,7 +110,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       <div
         className={cn({
           [jsStyles.root(this.theme)]: true,
-          [jsStyles.shadow()]: this.props.hasShadow,
+          [jsStyles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
           width: this.props.width,
