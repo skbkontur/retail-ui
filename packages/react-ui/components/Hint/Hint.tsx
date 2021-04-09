@@ -72,7 +72,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     opened: false,
     maxWidth: 200,
     disableAnimations: isTestEnv,
-    useWrapper: true,
+    useWrapper: false,
   };
 
   public state: HintState = {
