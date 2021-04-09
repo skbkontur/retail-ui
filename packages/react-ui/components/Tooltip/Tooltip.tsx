@@ -221,8 +221,13 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: '17px',
-                  popupMargin: '15px',
+                  popupPinOffset: theme.tooltipPinOffset,
+                  popupMargin: theme.tooltipMargin,
+                  popupBorder: theme.tooltipBorder,
+                  popupBorderRadius: theme.tooltipBorderRadius,
+                  popupPinSize: theme.tooltipPinSize,
+                  popupPinOffsetX: theme.tooltipPinOffsetX,
+                  popupPinOffsetY: theme.tooltipPinOffsetY,
                 },
                 theme,
               )}
@@ -242,7 +247,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div ref={this.refContent} className={jsStyles.tooltipContent()}>
+      <div ref={this.refContent} className={jsStyles.tooltipContent(this.theme)}>
         {content}
         {this.renderCloseButton()}
       </div>

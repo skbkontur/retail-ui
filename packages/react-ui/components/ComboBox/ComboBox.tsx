@@ -149,6 +149,8 @@ export interface ComboBoxProps<T> extends CommonProps {
   onMouseLeave?: (e: React.MouseEvent) => void;
 
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
 export interface ComboBoxItem {

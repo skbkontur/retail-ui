@@ -89,7 +89,7 @@ Plain.story = {
   name: 'plain',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
       tests: {
         async idle() {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -246,7 +246,7 @@ Indeterminate.story = {
   name: 'indeterminate',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
       tests: {
         async plain() {
           const element = await this.browser.findElement({ css: '#screenshot-capture' });

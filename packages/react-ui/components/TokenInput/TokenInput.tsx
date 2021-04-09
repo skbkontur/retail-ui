@@ -101,6 +101,7 @@ export interface TokenInputProps<T> extends CommonProps {
    * а в режиме редактирования токен будет удален
    */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
+  inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
 }
 
 export interface TokenInputState<T> {
@@ -237,6 +238,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       hideMenuIfEmptyInputValue,
       onMouseEnter,
       onMouseLeave,
+      inputMode,
     } = this.props;
 
     const {
@@ -304,7 +306,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               ref={this.inputRef}
               value={inputValue}
               style={inputInlineStyles}
-              autoComplete="off"
               spellCheck={false}
               disabled={disabled}
               className={inputClassName}
@@ -314,6 +315,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               onChange={this.handleChangeInputValue}
               onKeyDown={this.handleKeyDown}
               onPaste={this.handleInputPaste}
+              inputMode={inputMode}
             />
             {showMenu && (
               <TokenInputMenu

@@ -106,7 +106,7 @@ Playground.story = {
   name: 'playground',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
       tests: buttonTests,
     },
   },
@@ -131,7 +131,7 @@ UseLink.story = {
   name: 'use link',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
       tests: buttonTests,
     },
   },
@@ -146,7 +146,7 @@ UseLinkWithIcon.story = {
   name: 'use link with icon',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
       tests: buttonTests,
     },
   },
@@ -165,7 +165,7 @@ MultilineTextWithLinkButton.story = {
   name: 'multiline text with link button',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
       tests: buttonTests,
     },
   },
@@ -187,8 +187,8 @@ WithError.story = {
   parameters: {
     creevey: {
       skip: [
-        { in: ['ie11', 'ie11Flat'], tests: 'hover' },
-        { in: 'chrome', tests: ['pressed', 'clicked'] },
+        { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
+        { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
       ],
       tests: buttonTests,
     },
@@ -205,8 +205,8 @@ ArrowWithError.story = {
   parameters: {
     creevey: {
       skip: [
-        { in: ['ie11', 'ie11Flat'], tests: 'hover' },
-        { in: 'chrome', tests: ['pressed', 'clicked'] },
+        { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
+        { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
       ],
       tests: buttonTests,
     },

@@ -68,9 +68,9 @@ const render = () => (
 
 <div style={{ fontFamily: 'Segoe UI' }}>
   <Tooltip useWrapper={false} render={render} pos="right top">
-    <div style={{ padding: '16px 0', display: 'inline-block' }}>
+    <div style={{ padding: '10px 0', display: 'inline-block' }}>
       <RadioGroup>
-        <Gapped vertical gap={10}>
+        <Gapped vertical gap={0}>
           <Radio value="2">Two</Radio>
           <Radio value="4">Four</Radio>
           <Radio value="6">Six</Radio>
