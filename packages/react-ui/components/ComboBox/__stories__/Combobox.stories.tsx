@@ -27,7 +27,7 @@ SimpleComboboxStory.story = {
   name: 'simple combobox',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: ['hovered', 'selected_2'] }],
       tests: {
         async plain() {
           await this.expect(await this.takeScreenshot()).to.matchImage('plain');
