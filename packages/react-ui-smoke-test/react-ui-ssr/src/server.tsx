@@ -17,7 +17,7 @@ const element = (
   </CacheProvider>
 );
 
-export const page = getPageHTML(extractCritical(renderToString(element)));
+export const page = getPageHTML(cache.key, extractCritical(renderToString(element)));
 
 fs.writeFile('./dist/index.html', page, function(err) {
   if (err) {
