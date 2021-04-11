@@ -101,8 +101,13 @@ const styles = {
 
   pageLinkFocused(t: Theme) {
     return css`
-      margin: 0 -1px !important;
-      border: solid 2px ${t.borderColorFocus};
+      ${is8pxTheme(t)
+        ? `
+          box-shadow: 0 0 0 2px ${t.borderColorFocus};
+        `
+        : `
+          margin: 0 -1px !important;
+          border: solid 2px ${t.borderColorFocus};`}
     `;
   },
 
