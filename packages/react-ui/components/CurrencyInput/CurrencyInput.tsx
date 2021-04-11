@@ -82,6 +82,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     fractionDigits: 2,
     hideTrailingZeros: false,
     value: null,
+    inputMode: 'decimal',
   };
 
   public state: CurrencyInputState = {

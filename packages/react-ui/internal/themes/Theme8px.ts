@@ -262,7 +262,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static toggleWidth = '32px';
   public static toggleHeight = '20px';
   public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeight} / 2)`;
+    return `calc(${this.toggleHeight} * 0.5)`;
   }
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
