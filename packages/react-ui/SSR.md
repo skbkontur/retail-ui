@@ -55,3 +55,5 @@ ReactDOM.hydrate(
   document.getElementById('root'),
 );
 ```
+
+Для `react-ui` версии `2.x` актуален [старый пример](https://github.com/skbkontur/retail-ui/blob/2.x/packages/react-ui/SSR.md) с Emotion 10.
