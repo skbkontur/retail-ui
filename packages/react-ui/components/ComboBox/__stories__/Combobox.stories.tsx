@@ -203,7 +203,7 @@ SimpleComboboxStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-            .pause(500)
+            .pause(1000)
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -223,13 +223,12 @@ SimpleComboboxStory.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('select_1');
         },
         async selected_2() {
-          await delay(1000);
-
           await this.browser
             .actions({
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+            .pause(1000)
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -851,7 +850,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
       .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
         [].concat(
           popularItems,
-          popularItems.length ? (<MenuSeparator /> as any) : [],
+          popularItems.length ? ((<MenuSeparator />) as any) : [],
           itemsToShow,
           this.renderTotalCount(itemsToShow.length, totalCount),
         ),
@@ -1034,9 +1033,10 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private getItems = (q: string) =>
     Promise.resolve(
-      [{ value: '1', label: 'First' }, { value: '2', label: 'Second' }].filter(
-        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q,
-      ),
+      [
+        { value: '1', label: 'First' },
+        { value: '2', label: 'Second' },
+      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
     );
 
   private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });
