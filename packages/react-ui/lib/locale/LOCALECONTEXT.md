@@ -47,7 +47,7 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 Кастомная локализация `<TokenInput />`
 
 ```jsx harmony
-import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
+import { LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
 const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 const customLocale = {
@@ -56,7 +56,7 @@ const customLocale = {
   },
 };
 
-<LocaleContext.Provider value={{ locale: customLocale, langCode: LangCodes.en_GB }}>
+<LocaleContext.Provider value={{ locale: customLocale }}>
   <TokenInput type={TokenInputType.Combined} delimiters={[' ']} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleContext.Provider>;
 ```
@@ -78,7 +78,7 @@ const customLocale = {
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <Gapped vertical gap={10}>
-    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB, locale: customLocale }}>
+    <LocaleContext.Provider value={{ locale: customLocale }}>
       <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     </LocaleContext.Provider>
     <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
@@ -153,6 +153,7 @@ class LocalizationControls extends React.Component {
   }
 
   render() {
+    // попробуйте кастомизировать локаль любого контрола
     const customLocaleRU = {};
     const customLocaleEN = {};
 
@@ -213,3 +214,8 @@ class LocalizationControls extends React.Component {
 
 <LocalizationControls />;
 ```
+
+### Локализация @skbkontur/react-ui-addons
+
+Компоненты `@skbkontur/react-ui-addons` так же поддерживают локализацию через `LocaleContext` из `@skbkontur/react-ui`.
+См. пример с кастомной локализацией. Дефолтные локали описаны для каждого компонента в [докумендации аддонов](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
