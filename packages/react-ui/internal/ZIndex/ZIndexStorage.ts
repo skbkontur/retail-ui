@@ -3,7 +3,7 @@ import { globalThat } from '../../lib/SSRSafe';
 export type LayerComponentName = keyof typeof componentPriorities;
 
 const componentPriorities = {
-  Toast: 10,
+  Toast: 10000,
   Sidepage: 9,
   Modal: 9,
   Sticky: 7,

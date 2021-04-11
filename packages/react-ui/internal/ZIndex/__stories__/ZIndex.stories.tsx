@@ -975,3 +975,73 @@ ModalAndToast.story = {
     },
   },
 };
+
+export const ToastOverEverything: CSFStory<JSX.Element> = () => {
+  const toast = React.useRef<Toast>(null);
+  const showRefToast = () => {
+    if (toast.current) {
+      toast.current.push('Toast via Ref');
+    }
+  };
+
+  return (
+    <SidePage>
+      <SidePage.Body>
+        <SidePage.Header>SidePage</SidePage.Header>
+        <Modal>
+          <Modal.Header>Modal</Modal.Header>
+          <Modal.Body>
+            <Toast ref={toast} />
+            <button data-tid="ref-toast" onClick={showRefToast}>
+              Ref Toast
+            </button>
+            <button
+              data-tid="static-toast"
+              onClick={() => Toast.push('Static Toast', { label: 'Close', handler: Toast.close })}
+            >
+              Static Toast
+            </button>
+          </Modal.Body>
+        </Modal>
+      </SidePage.Body>
+    </SidePage>
+  );
+};
+ToastOverEverything.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async staticToast() {
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-tid~="static-toast"]' }))
+            .pause(1000)
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+
+          const shown = await this.browser.takeScreenshot();
+
+          // Toast rendered by static method doesn't get removed
+          // when story switches, so we have to close it manually
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-tid~="ToastView__close"]' }))
+            .pause(500)
+            .perform();
+
+          await this.expect(shown).to.matchImage();
+        },
+        async refToast() {
+          await this.browser
+            .actions({ bridge: true })
+            .click(this.browser.findElement({ css: '[data-tid~="ref-toast"]' }))
+            .pause(1000)
+            .click(this.browser.findElement({ css: 'body' }))
+            .perform();
+
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
