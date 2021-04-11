@@ -46,18 +46,18 @@ addDecorator(story => (
 addDecorator(story => {
   const getTheme = () => {
     switch (true) {
-      case Boolean(process.env.STORYBOOK_8PX):
-        return DEFAULT_THEME_8PX;
-      case Boolean(process.env.STORYBOOK_FLAT_8PX):
+      case Boolean(process.env.STORYBOOK_OLD):
+        return DEFAULT_THEME;
+      case Boolean(process.env.STORYBOOK_FLAT):
         return FLAT_THEME_8PX;
-      case Boolean(process.env.STORYBOOK_FLAT_UI):
+      case Boolean(process.env.STORYBOOK_FLAT_OLD):
         return FLAT_THEME;
       default:
-        return DEFAULT_THEME;
+        return DEFAULT_THEME_8PX;
     }
   };
   const theme = getTheme();
-  if (theme !== DEFAULT_THEME) {
+  if (theme !== DEFAULT_THEME_8PX) {
     return <ThemeContext.Provider value={theme}>{story()}</ThemeContext.Provider>;
   }
   return story();

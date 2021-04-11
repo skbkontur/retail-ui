@@ -14,7 +14,7 @@ describe('Tabs', () => {
         </Tabs>,
       );
 
-      expect(wrapper.find(Indicator).instance().state).toMatchObject({ styles: { top: -3, left: 0 } });
+      expect(wrapper.find(Indicator).instance().state).toMatchObject({ styles: { top: -2, left: 0 } });
     });
   });
 
