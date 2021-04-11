@@ -39,6 +39,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   maxLength?: number;
   maxMenuHeight?: number | string;
   leftIcon?: InputIconType;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 
   onValueChange?: (value: T) => void;
   onClickOutside?: (e: Event) => void;
@@ -202,6 +203,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       warning,
       refInputLikeText,
       leftIcon,
+      inputMode,
     } = this.props;
 
     const rightIcon = this.getRightIcon();
@@ -227,6 +229,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           size={size}
           ref={this.refInput}
           warning={warning}
+          inputMode={inputMode}
         />
       );
     }

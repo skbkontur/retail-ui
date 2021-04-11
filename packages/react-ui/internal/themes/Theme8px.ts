@@ -1,4 +1,4 @@
-import { exposeGetters, markAs8pxTheme } from '../../lib/theming/ThemeHelpers';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 import { DefaultThemeInternal } from './DefaultTheme';
 
@@ -262,7 +262,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static toggleWidth = '32px';
   public static toggleHeight = '20px';
   public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeight} / 2)`;
+    return `calc(${this.toggleHeight} * 0.5)`;
   }
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
@@ -333,29 +333,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static spinnerCaptionGapSmall = '6px';
   public static spinnerCaptionGapMedium = '-4px';
   public static spinnerCaptionGapLarge = '-3px';
-  //#endregion
-  //#region SpinnerOld
-  public static get spinnerOldFontSizeSmall() {
-    return this.spinnerFontSizeSmall;
-  }
-  public static get spinnerOldFontSizeMedium() {
-    return this.spinnerFontSizeMedium;
-  }
-  public static get spinnerOldFontSizeLarge() {
-    return this.spinnerFontSizeLarge;
-  }
-  public static get spinnerOldLineHeightSmall() {
-    return this.spinnerLineHeightSmall;
-  }
-  public static get spinnerOldLineHeightMedium() {
-    return this.spinnerLineHeightMedium;
-  }
-  public static get spinnerOldLineHeightLarge() {
-    return this.spinnerLineHeightLarge;
-  }
-  public static spinnerOldCaptionGapSmall = '6px';
-  public static spinnerOldCaptionGapMedium = '-3px';
-  public static spinnerOldCaptionGapLarge = '2px';
   //#endregion
   //#region Link
   public static linkIconMarginRight = '4px';
@@ -603,4 +580,4 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
+export const Theme8pxInternal = exposeGetters(Theme8px);

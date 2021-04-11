@@ -1,9 +1,9 @@
 ```jsx harmony
-let items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
+const [value, setValue] = React.useState();
 
-let initialState = {};
+const items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
-<Select items={items} value={state.value} onValueChange={value => setState({ value })} />;
+<Select items={items} value={value} onValueChange={setValue} />;
 ```
 
 Пример использования пропа `_renderButton`:
@@ -12,9 +12,9 @@ let initialState = {};
 import { Link } from '@skbkontur/react-ui';
 import PeopleIcon from '@skbkontur/react-icons/People';
 
-let items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
+const [value, setValue] = React.useState();
 
-let initialState = {};
+const  items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
 const renderLinkButton = params => {
   const linkProps = {
@@ -32,15 +32,15 @@ const renderLinkButton = params => {
 
 <Select
   items={items}
-  value={state.value}
-  onValueChange={value => setState({ value })}
+  value={value}
+  onValueChange={setValue}
   _renderButton={renderLinkButton}
 />;
 ```
 
 #### Локали по умолчанию
 
-```typescript
+```typescript static
 interface SelectLocale {
   placeholder?: React.ReactNode;
 }

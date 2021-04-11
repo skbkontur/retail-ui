@@ -5,18 +5,19 @@
   ],
   "private": true,
   "devDependencies": {
-    "@commitlint/cli": "^8.2.0",
-    "@commitlint/config-conventional": "^8.2.0",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
     "@skbkontur/eslint-config": "*",
-    "commitizen": "^4.0.3",
-    "cz-conventional-changelog": "^3.0.2",
-    "env-cmd": "^10.0.1",
-    "husky": "^3.1.0",
-    "lerna": "^3.19.0"
+    "commitizen": "^4.2.3",
+    "cz-conventional-changelog": "^3.3.0",
+    "env-cmd": "^10.1.0",
+    "husky": "^6.0.0",
+    "lerna": "^4.0.0"
   },
   "scripts": {
     "commit": "git-cz",
-    "release": "env-cmd lerna version"
+    "release": "env-cmd lerna version",
+    "prepare": "husky install"
   },
   "jest": {
     "projects": [
@@ -29,11 +30,6 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   }
 }

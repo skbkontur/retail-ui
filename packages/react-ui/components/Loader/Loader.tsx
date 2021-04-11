@@ -200,7 +200,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       return;
     }
 
-    const spinnerStyle = {
+    const spinnerStyle: {
+      top?: number;
+      right: number;
+      bottom: number;
+      left: number;
+    } = {
       top: 30,
       right: 0,
       bottom: 30,

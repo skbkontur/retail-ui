@@ -86,7 +86,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
   private listener: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private timeout: number | undefined;
+  private timeout: NodeJS.Timeout | undefined;
   private longClickTimer = 0;
   private setPositionRepeatTimer = 0;
   private yearStep = 3;

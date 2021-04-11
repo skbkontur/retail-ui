@@ -3,7 +3,9 @@
 ```
 
 ```jsx harmony
-<DateInput value={state.value} onValueChange={v => setState({ value: v })} />
+const [value, setValue] = React.useState();
+
+<DateInput value={value} onValueChange={setValue} />
 ```
 
 ```jsx harmony

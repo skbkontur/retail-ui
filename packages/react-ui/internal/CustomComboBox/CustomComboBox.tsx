@@ -49,6 +49,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   valueToString: (value: T) => string;
   itemToValue: (item: T) => string | number;
   getItems: (query: string) => Promise<T[]>;
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
 export interface CustomComboBoxState<T> {
@@ -86,7 +87,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
-  public loaderShowDelay: Nullable<Promise<never>>;
+  public loaderShowDelay: Nullable<Promise<void>>;
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
 
@@ -141,7 +142,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
-      this.loaderShowDelay = new Promise(resolve => {
+      this.loaderShowDelay = new Promise<void>(resolve => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
           setTimeout(resolve, LOADER_SHOW_TIME);
@@ -238,6 +239,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
       leftIcon: this.props.leftIcon,
+      inputMode: this.props.inputMode,
 
       onValueChange: this.handleValueChange,
       onClickOutside: this.handleClickOutside,

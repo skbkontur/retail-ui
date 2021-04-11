@@ -14,7 +14,7 @@ Playground.story = {
       skip: [
         {
           tests: ['default theme top', 'flat theme top', 'dark theme top'],
-          in: ['ie118px'],
+          in: ['ie11', 'ie118px'],
           reason: 'flacky input outlines',
         },
       ],
