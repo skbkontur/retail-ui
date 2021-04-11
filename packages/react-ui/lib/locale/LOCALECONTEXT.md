@@ -1,6 +1,6 @@
 Локализации компонентов через контекст `React.Context<LocaleContextProps>`
 
-```typescript
+```typescript static
 interface LocaleContextProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
@@ -9,16 +9,16 @@ interface LocaleContextProps {
 
 Доступные языки
 
-```typescript
+```typescript static
 enum LangCodes {
   ru_RU = 'ru_RU',
   en_GB = 'en_GB',
 }
 ```
 
-<details><summary>LocaleControls</summary>
+LocaleControls
 
-```typescript
+```typescript static
 interface LocaleControls {
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;
@@ -29,15 +29,14 @@ interface LocaleControls {
 }
 ```
 
-</details>
-
 ### Использование
 
 Дефолтная локализация `<TokenInput />`
 
 ```jsx harmony
 import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />
@@ -48,7 +47,8 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 
 ```jsx harmony
 import { LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const customLocale = {
   TokenInput: {
@@ -68,7 +68,7 @@ const customLocale = {
 ```jsx harmony
 import { Gapped, LangCodes, LocaleContext, Spinner, TokenInput } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const customLocale = {
   Spinner: {
@@ -125,7 +125,7 @@ import {
 } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const items = [
   { label: 'aaa', value: 1 },

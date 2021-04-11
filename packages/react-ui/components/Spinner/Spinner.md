@@ -19,7 +19,7 @@ const reactNodeCaption = (
 
 #### Локали по умолчанию
 
-```typescript
+```typescript static
 interface SpinnerLocale {
   loading?: React.ReactNode;
 }

@@ -1,10 +1,10 @@
 ```jsx harmony
-let intialState = {};
+const [value, setValue] = React.useState();
 
 <Switcher
   label="Switch the switcher"
   items={['One', 'Two', 'Three']}
-  value={state.value}
-  onValueChange={value => setState({ value })}
+  value={value}
+  onValueChange={setValue}
 />;
 ```

@@ -131,9 +131,9 @@ export const DefaultState = {
   inputValueHeight: 22,
 };
 
-const defaultToKey = <T extends any>(item: T): string => item.toString();
-const identity = <T extends any>(item: T): T => item;
-const defaultRenderToken = <T extends any>(
+const defaultToKey = <T extends {}>(item: T): string => item.toString();
+const identity = <T extends {}>(item: T): T => item;
+const defaultRenderToken = <T extends {}>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
 ) => (
