@@ -14,7 +14,7 @@ export interface TextWidthHelperProps {
   theme: Theme;
 }
 /**
- * Херпер позволяет вычислить размеры блока с текстом
+ * Хелпер позволяет вычислить размеры блока с текстом
  * для последующего выставления размеров input
  */
 export class TextWidthHelper extends React.Component<TextWidthHelperProps> {

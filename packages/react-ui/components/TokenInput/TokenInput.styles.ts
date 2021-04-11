@@ -11,11 +11,17 @@ const styles = {
       box-sizing: border-box;
       cursor: text;
       padding: ${t.tokenInputPaddingY} ${t.tokenInputPaddingX};
-      display: flex;
+      display: inline-flex;
       flex-wrap: wrap;
-      align-items: start;
+      align-items: center;
       outline: none;
       position: relative;
+    `;
+  },
+
+  labelFallback(t: Theme) {
+    return css`
+      align-items: baseline;
     `;
   },
 
