@@ -80,9 +80,7 @@ const styles = {
 
   focused(t: Theme) {
     return css`
-      ${cssName(styles.container(t))}&, ${cssName(styles.input(t))}:checked ~ & {
-        box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
-      }
+      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor} !important;
     `;
   },
 
@@ -112,27 +110,19 @@ const styles = {
 
   isWarning(t: Theme) {
     return css`
-      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
-        background: ${t.toggleBgWarning};
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgWarning};
-
-        ${cssName(styles.activeBackground())} {
-          background: ${t.toggleBgWarning};
-        }
-      }
+      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorWarning};
     `;
   },
 
   isError(t: Theme) {
     return css`
-      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
-        background: ${t.toggleBgError};
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgError};
+      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleShadowColorError};
+    `;
+  },
 
-        ${cssName(styles.activeBackground())} {
-          background: ${t.toggleBgError};
-        }
-      }
+  outline(t: Theme) {
+    return css`
+      border-radius: ${t.toggleBorderRadius};
     `;
   },
 
@@ -153,11 +143,14 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      opacity: 0.3;
       cursor: default !important;
 
       ${cssName(styles.container(t))} {
         background: ${t.toggleBgDisabled};
+      }
+
+      ${cssName(styles.wrapper(t))} {
+        opacity: 0.3;
       }
     `;
   },

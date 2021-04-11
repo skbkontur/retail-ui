@@ -866,10 +866,10 @@ export class DefaultTheme {
   public static get toggleBgActive() {
     return this.toggleBgChecked;
   }
-  public static get toggleBgError() {
+  public static get toggleShadowColorError() {
     return this.errorMain;
   }
-  public static get toggleBgWarning() {
+  public static get toggleShadowColorWarning() {
     return this.warningMain;
   }
   public static get toggleFocusShadowColor() {
