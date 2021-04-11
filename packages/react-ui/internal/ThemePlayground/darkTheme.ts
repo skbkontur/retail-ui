@@ -213,17 +213,13 @@ export const darkTheme = ThemeFactory.create({
   toastLinkColor: '#80caff',
   toastCloseColor: '#a0a0a0',
   toastCloseHoverColor: 'white',
-  tbBg: '#262626',
-  tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
   tdDividerBg: '#808080',
-  logoColor: 'white',
-  logoHoverColor: '#000',
   menuItemPaddingForIcon: '36px',
   menuBorder: 'rgba(0, 0, 0, 0)',
   menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
   toggleBgChecked: '#3072c4',
-  toggleBgWarning: '#f69c00',
-  toggleBgError: '#d70c17',
+  toggleShadowColorWarning: '#f69c00',
+  toggleShadowColorError: '#d70c17',
   toggleBgActive: '#e5e5e5',
   toggleFocusShadowColor: '#5199db',
   toggleBorderColor: '#d0d0d0',
@@ -240,4 +236,12 @@ export const darkTheme = ThemeFactory.create({
   specificityLevel: '0',
   textareaBg: 'none',
   textareaColor: 'inherit',
+
+  // react-ui-addons vars
+  // live here because
+  // dark theme is unofficial
+  tbBg: '#262626',
+  tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
+  logoColor: 'white',
+  logoHoverColor: '#000',
 });

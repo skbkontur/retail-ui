@@ -27,7 +27,7 @@ SimpleComboboxStory.story = {
   name: 'simple combobox',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: ['hovered', 'selected_2'] }],
       tests: {
         async plain() {
           await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -203,6 +203,7 @@ SimpleComboboxStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+            .pause(500)
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -222,6 +223,8 @@ SimpleComboboxStory.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('select_1');
         },
         async selected_2() {
+          await delay(1000);
+
           await this.browser
             .actions({
               bridge: true,
@@ -235,8 +238,10 @@ SimpleComboboxStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: 'body' }))
-            .pause(500)
             .perform();
+
+          await delay(1000);
+
           await this.browser
             .actions({
               bridge: true,
@@ -259,7 +264,7 @@ OpenToTop.story = {
   name: 'open to top',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
       tests: {
         async plain() {
           const element = await this.browser.findElement({ css: '[data-tid="container"]' });
@@ -846,7 +851,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
       .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
         [].concat(
           popularItems,
-          popularItems.length ? ((<MenuSeparator />) as any) : [],
+          popularItems.length ? (<MenuSeparator /> as any) : [],
           itemsToShow,
           this.renderTotalCount(itemsToShow.length, totalCount),
         ),
@@ -1029,10 +1034,9 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private getItems = (q: string) =>
     Promise.resolve(
-      [
-        { value: '1', label: 'First' },
-        { value: '2', label: 'Second' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
+      [{ value: '1', label: 'First' }, { value: '2', label: 'Second' }].filter(
+        x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q,
+      ),
     );
 
   private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });

@@ -274,7 +274,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.story = {
   name: 'Tooltips without wrapper around inline-block with 50% width',
   parameters: {
     creevey: {
-      skip: [{ in: 'ie11' }],
+      skip: [{ in: ['ie11', 'ie118px'] }],
       tests: {
         async hover() {
           await this.browser
@@ -484,7 +484,7 @@ DynamicTriggersStory.story = {
   parameters: {
     creevey: {
       captureElement: '[data-comp-name~="TestTooltip"]',
-      skip: [{ in: 'ie11', tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
+      skip: [{ in: ['ie11', 'ie118px'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
       tests: {
         async ['without trigger']() {
           await delay(100);
@@ -661,7 +661,7 @@ DynamicTriggersStory.story = {
 };
 
 export const RenderInFirstAvailablePosition: CSFStory<JSX.Element> = () => (
-  <div style={{ padding: '150px' }}>
+  <div style={{ padding: '100px' }}>
     <DynamicContentTooltip />
   </div>
 );
