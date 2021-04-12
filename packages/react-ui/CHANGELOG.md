@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.16.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.15.0...@skbkontur/react-ui@2.16.0) (2021-04-12)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** set default inputMode as "decimal" ([2a8154c](https://github.com/skbkontur/retail-ui/commit/2a8154c7c9b869457817978c8b1f3422e7be1da1)), closes [#1678](https://github.com/skbkontur/retail-ui/issues/1678)
+* **Toast:** increase z-index to always render on top of everything ([23d5178](https://github.com/skbkontur/retail-ui/commit/23d5178b96013768df751a2936bb1d81046747c1))
+
+
+### Features
+
+* **ComboBox:** support "inputMode" prop ([259ea32](https://github.com/skbkontur/retail-ui/commit/259ea32c2e3107d6f81bbd0da57969a1a49ca307))
+* **react-ui:** complete 8px theme ([#2322](https://github.com/skbkontur/retail-ui/issues/2322)) ([f6ac143](https://github.com/skbkontur/retail-ui/commit/f6ac1431c49191b6b151eace72b81eba0f23a6ff))
+* **TokenInput:** support "inputMode" prop ([452eb0c](https://github.com/skbkontur/retail-ui/commit/452eb0c995e80858467e235c480d04f54e685320))
+
+
+
+
+
 # [2.15.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.14.1...@skbkontur/react-ui@2.15.0) (2021-03-18)
 
 
