@@ -266,27 +266,33 @@ export function reducer<T>(
       return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
     }
     case 'KeyPress': {
-      const { event } = action;
+      const event = action.event as React.KeyboardEvent<HTMLElement>;
+      const effects = [];
+      let nextState = state;
+
       switch (event.key) {
         case 'Enter':
           event.preventDefault();
-          return [state, [Effect.SelectMenuItem(event as React.KeyboardEvent<HTMLElement>)]];
+          effects.push(Effect.SelectMenuItem(event));
+          break;
         case 'ArrowUp':
         case 'ArrowDown':
           event.preventDefault();
-          const effects = [Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down')];
+          effects.push(Effect.MoveMenuHighlight(event.key === 'ArrowUp' ? 'up' : 'down'));
           if (!state.opened) {
             effects.push(Effect.Search(state.textValue));
           }
-          return [state, effects];
+          break;
         case 'Escape':
-          return {
+          nextState = {
+            ...state,
             items: null,
             opened: false,
           };
-        default:
-          return state;
+          break;
       }
+
+      return [nextState, [...effects, Effect.InputKeyDown(event)]];
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
