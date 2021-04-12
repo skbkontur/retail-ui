@@ -78,7 +78,7 @@ import { ThemeContext, DEFAULT_THEME } from '@skbkontur/react-ui';
 
 ### Зависимости
 
-Обновили все зависимости, в том числе Emotion 11. Если вы используете SSR, то загляните в обновленную [инструкцию](https://tech.skbkontur.ru/react-ui/#/SSR).
+Обновили все зависимости, в том числе Emotion 11. Если вы используете SSR, то загляните в обновленную [инструкцию](https://github.com/skbkontur/retail-ui/blob/%40skbkontur/react-ui%403.0.0-beta.0/packages/react-ui/SSR.md).
 
 ### useWrapper в Tooltip и Hint
 
