@@ -485,7 +485,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Tooltip
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
-  public static tooltipMargin = '16px';
+  public static tooltipMargin = '10px';
   public static tooltipPinOffset = '0px'; // deprecated
   public static tooltipPinOffsetX = '16px';
   public static tooltipPinOffsetY = '18px';
@@ -493,7 +493,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Hint
   public static hintBorder = 'none';
   public static hintBorderRadius = '2px';
-  public static hintMargin = '16px';
+  public static hintMargin = '8px';
   //#endregion
   //#region Modal
   public static modalCloseButtonPadding = '36px';
