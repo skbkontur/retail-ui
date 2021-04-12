@@ -57,7 +57,7 @@ const styles = {
       }
 
       &:disabled::placeholder {
-        color: ${t.textareaPlaceholderDisabledColor};
+        color: ${t.textareaPlaceholderColorDisabled};
       }
 
       &:-moz-placeholder {

@@ -18,7 +18,7 @@ const styles = {
 
   placeholderDisabled(t: Theme) {
     return css`
-      color: ${t.selectPlaceholderDisabledColor};
+      color: ${t.selectPlaceholderColorDisabled};
     `;
   },
 

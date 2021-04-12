@@ -107,7 +107,7 @@ const styles = {
         color: ${t.inputPlaceholderColorLight};
       }
       ${cssName(styles.disabled(t))} & {
-        color: ${t.inputPlaceholderDisabledColor};
+        color: ${t.inputPlaceholderColorDisabled};
       }
     `;
   },
@@ -195,19 +195,19 @@ const styles = {
         -webkit-text-fill-color: ${t.inputTextColorDisabled};
       }
       ${cssName(styles.input(t))}:-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
       }
       ${cssName(styles.input(t))}::-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
       }
       ${cssName(styles.input(t))}::placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderDisabledColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
       }
       ${cssName(styles.suffix(t))} {
-        color: ${t.inputPlaceholderDisabledColor};
+        color: ${t.inputPlaceholderColorDisabled};
       }
       ${cssName(styles.prefix(t))} {
-        color: ${t.inputPlaceholderDisabledColor};
+        color: ${t.inputPlaceholderColorDisabled};
       }
     `;
   },
