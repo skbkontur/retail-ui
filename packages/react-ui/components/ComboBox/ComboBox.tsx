@@ -149,6 +149,8 @@ export interface ComboBoxProps<T> extends CommonProps {
   onMouseLeave?: (e: React.MouseEvent) => void;
 
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
+
+  inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 }
 
 export interface ComboBoxItem {
@@ -190,8 +192,10 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   /**
-   * @public Открывает выпадающий список и запускает поиск элементов
-   * @param {string} [query] - Текст поиска. По умолчанию берется
+   * Открывает выпадающий список и запускает поиск элементов
+   *
+   * @public
+   * @param {string} [query] Текст поиска. По умолчанию берется
    * текст из инпута или результат `valueToString(value)`
    */
   public search(query?: string) {

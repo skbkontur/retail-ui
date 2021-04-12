@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import MaskedInput from 'react-input-mask';
 
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { DEFAULT_THEME_8PX } from '../../../lib/theming/themes/DefaultTheme8px';
 import { Input, InputProps } from '../Input';
 import { jsStyles } from '../Input.styles';
 
@@ -46,12 +46,12 @@ describe('<Input />', () => {
 
   it('applies error styles on error prop', () => {
     const wrapper = render({ value: '', error: true });
-    expect(wrapper.find(`.${jsStyles.error(DEFAULT_THEME as any)}`)).toHaveLength(1);
+    expect(wrapper.find(`.${jsStyles.error(DEFAULT_THEME_8PX as any)}`)).toHaveLength(1);
   });
 
   it('applies warning styles on warning prop', () => {
     const wrapper = render({ value: '', warning: true });
-    expect(wrapper.find(`.${jsStyles.warning(DEFAULT_THEME as any)}`)).toHaveLength(1);
+    expect(wrapper.find(`.${jsStyles.warning(DEFAULT_THEME_8PX as any)}`)).toHaveLength(1);
   });
 
   it('applies borderless styles on borderless prop', () => {
@@ -94,18 +94,14 @@ describe('<Input />', () => {
       onMouseOver: () => undefined,
       onMouseLeave: () => undefined,
     };
-    const inputProps: React.HTMLAttributes<HTMLLabelElement> = render({
+    const labelProps = render({
       ...props,
       value: 'hello',
     })
       .find('label')
       .props();
 
-    for (const prop in props as React.HTMLAttributes<HTMLLabelElement>) {
-      expect(inputProps[prop as keyof React.HTMLAttributes<HTMLLabelElement>]).toBe(
-        props[prop as keyof React.HTMLAttributes<HTMLLabelElement>],
-      );
-    }
+    expect(labelProps).toMatchObject(props);
   });
 
   it('applies align prop on input', () => {

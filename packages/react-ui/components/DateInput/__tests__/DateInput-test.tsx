@@ -1,5 +1,5 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React, { HTMLAttributes } from 'react';
+import React from 'react';
 
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { DefaultizeProps } from '../../../lib/utils';
@@ -27,10 +27,9 @@ const render = (
   propsLocale: LocaleContextProps = {},
 ) => mount<LocaleDateInputProps>(<LocaleDateInput {...{ propsDateInput, propsLocale }} />);
 
-const getInput = (root: ReactWrapper<LocaleDateInputProps, {}>): ReactWrapper<HTMLAttributes<HTMLInputElement>> =>
-  root.find('[data-tid="InputLikeText__input"]');
+const getInput = (root: ReactWrapper<LocaleDateInputProps, {}>) => root.find('[data-tid="InputLikeText__input"]');
 
-const getValue = (input: ReactWrapper<HTMLAttributes<HTMLInputElement>>) => input.text();
+const getValue = (input: ReactWrapper) => input.text();
 
 describe('DateInput as InputlikeText', () => {
   describe('without min/max date', () => {

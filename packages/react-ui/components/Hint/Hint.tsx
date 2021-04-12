@@ -72,7 +72,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     opened: false,
     maxWidth: 200,
     disableAnimations: isTestEnv,
-    useWrapper: true,
+    useWrapper: false,
   };
 
   public state: HintState = {
@@ -108,8 +108,10 @@ export class Hint extends React.Component<HintProps, HintState> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: '8px',
-                  popupMargin: '15px',
+                  popupPinOffset: theme.hintPinOffset,
+                  popupMargin: theme.hintMargin,
+                  popupBorder: theme.hintBorder,
+                  popupBorderRadius: theme.hintBorderRadius,
                 },
                 this.theme,
               )}
@@ -150,8 +152,8 @@ export class Hint extends React.Component<HintProps, HintState> {
 
     const { pos, maxWidth } = this.props;
     const className = cn({
-      [jsStyles.content()]: true,
-      [jsStyles.contentCenter()]: pos === 'top' || pos === 'bottom',
+      [jsStyles.content(this.theme)]: true,
+      [jsStyles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
     });
     return (
       <div className={className} style={{ maxWidth }}>

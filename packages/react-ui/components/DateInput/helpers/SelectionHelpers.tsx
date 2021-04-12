@@ -2,7 +2,7 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
   if (!node) {
     return;
   }
-  if (document.createRange) {
+  if ('createRange' in document) {
     try {
       const selection = window.getSelection();
       const range = window.document.createRange();

@@ -1,16 +1,23 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
 
-import { ThemeContextPlayground } from '../ThemeContextPlayground';
+import { ThemeContextPlayground } from '../../../internal/ThemePlayground/ThemeContextPlayground';
 import { delay } from '../../../lib/utils';
 
-export default { title: 'ThemePlayground' };
+export default { title: 'ThemeProvider' };
 
 export const Playground: CSFStory<JSX.Element> = () => <ThemeContextPlayground />;
 Playground.story = {
   name: 'playground',
   parameters: {
     creevey: {
+      skip: [
+        {
+          tests: ['default theme top', 'flat theme top', 'dark theme top'],
+          in: ['ie11', 'ie118px'],
+          reason: 'flacky input outlines',
+        },
+      ],
       tests: {
         async ['default theme top']() {
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('default theme top');

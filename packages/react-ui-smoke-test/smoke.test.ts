@@ -10,8 +10,6 @@ const LOAD_PAGE_TIMEOUT = 60000;
 const BUILD_REACTUI_TIMEOUT = 120000;
 const TIMEOUT = 240000;
 
-const deprecatedComponents = [];
-
 describe('React-ui smoke test', () => {
   let serveProcess: ChildProcess | undefined;
   const globalConsoleError = console.error;
@@ -106,8 +104,6 @@ function serveApplication(appFolder: string): ChildProcess {
   });
 }
 
-const deprecatedComponentWarning = new RegExp(`^Warning: (${deprecatedComponents.join('|')}) has been deprecated`);
-
 async function openPageOnBrowser(screenshotPath: string) {
   const browser = await puppeteer.launch();
   const page = await browser.newPage();
@@ -118,7 +114,7 @@ async function openPageOnBrowser(screenshotPath: string) {
   });
 
   page.on('console', msg => {
-    if (msg.type() === 'error' && !deprecatedComponentWarning.test(msg.text())) {
+    if (msg.type() === 'error') {
       console.error(`BROWSER: ${msg.text()}`);
     }
   });

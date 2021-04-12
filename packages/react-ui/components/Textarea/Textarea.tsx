@@ -264,6 +264,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   /**
    * @public
+   * @param {number} start
+   * @param {number} end
    */
   public setSelectionRange = (start: number, end: number) => {
     if (!this.node) {

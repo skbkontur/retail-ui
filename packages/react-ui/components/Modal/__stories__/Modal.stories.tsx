@@ -432,7 +432,7 @@ WithIconInput.story = {
             })
             .click(this.browser.findElement({ css: 'button' }))
             .perform();
-          await delay(100);
+          await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
         },
       },

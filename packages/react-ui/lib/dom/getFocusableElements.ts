@@ -1,15 +1,15 @@
-import tabbable from 'tabbable';
+import { tabbable, isFocusable, FocusableElement } from 'tabbable';
 
 /**
  * Поиск всех фокусируемых элементов в переданном родителе
  * или на всей странице
  * @param {Element|Document|null} [parent=document] - Родительский элемент,
  * внутри которого осуществляется поиск.
- * @return {HTMLElement[]} - Массив найденных элементов
+ * @return {FocusableElement[]} - Массив найденных элементов
  */
 
-export const getFocusableElements = (parent: Element | Document | null = document): HTMLElement[] => {
-  if (!parent || !parent.children.length) {
+export const getFocusableElements = (parent: Element | Document | null = document): FocusableElement[] => {
+  if (!parent || !parent.children.length || !(parent instanceof Element)) {
     return [];
   }
   return tabbable(parent);
@@ -23,7 +23,7 @@ export const getFocusableElements = (parent: Element | Document | null = documen
  * @return {HTMLElement|null} - Найденный элемент или null
  */
 
-export const getFirstFocusableElement = (parent: Element | Document | null = document): HTMLElement | null => {
+export const getFirstFocusableElement = (parent: Element | Document | null = document): FocusableElement | null => {
   if (!parent || !parent.children.length) {
     return null;
   }
@@ -52,7 +52,7 @@ export const getNextFocusableElement = (
   current: HTMLElement,
   parent: Element | Document | null = document,
   recursive = true,
-): HTMLElement | null => {
+): FocusableElement | null => {
   if (!parent || !parent.contains(current)) {
     return null;
   }
@@ -84,5 +84,5 @@ export const getClosestFocusableElement = (current: HTMLElement | null): HTMLEle
     return null;
   }
 
-  return tabbable.isFocusable(current) ? current : getClosestFocusableElement(current.parentElement);
+  return isFocusable(current) ? current : getClosestFocusableElement(current.parentElement);
 };

@@ -1,6 +1,6 @@
 Локализации компонентов через контекст `React.Context<LocaleContextProps>`
 
-```typescript
+```typescript static
 interface LocaleContextProps {
   locale?: LocaleControls;
   langCode?: LangCodes;
@@ -9,16 +9,16 @@ interface LocaleContextProps {
 
 Доступные языки
 
-```typescript
+```typescript static
 enum LangCodes {
   ru_RU = 'ru_RU',
   en_GB = 'en_GB',
 }
 ```
 
-<details><summary>LocaleControls</summary>
+LocaleControls
 
-```typescript
+```typescript static
 interface LocaleControls {
   Spinner?: SpinnerLocale;
   TokenInput?: TokenInputLocale;
@@ -29,15 +29,14 @@ interface LocaleControls {
 }
 ```
 
-</details>
-
 ### Использование
 
 Дефолтная локализация `<TokenInput />`
 
 ```jsx harmony
 import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <TokenInput type={TokenInputType.Combined} getItems={() => Promise.resolve([]).then(delay(500))} />
@@ -47,8 +46,9 @@ const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
 Кастомная локализация `<TokenInput />`
 
 ```jsx harmony
-import { LangCodes, LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+import { LocaleContext, TokenInput, TokenInputType } from '@skbkontur/react-ui';
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const customLocale = {
   TokenInput: {
@@ -56,7 +56,7 @@ const customLocale = {
   },
 };
 
-<LocaleContext.Provider value={{ locale: customLocale, langCode: LangCodes.en_GB }}>
+<LocaleContext.Provider value={{ locale: customLocale }}>
   <TokenInput type={TokenInputType.Combined} delimiters={[' ']} getItems={() => Promise.resolve([]).then(delay(500))} />
 </LocaleContext.Provider>;
 ```
@@ -68,7 +68,7 @@ const customLocale = {
 ```jsx harmony
 import { Gapped, LangCodes, LocaleContext, Spinner, TokenInput } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const customLocale = {
   Spinner: {
@@ -78,7 +78,7 @@ const customLocale = {
 
 <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
   <Gapped vertical gap={10}>
-    <LocaleContext.Provider value={{ langCode: LangCodes.en_GB, locale: customLocale }}>
+    <LocaleContext.Provider value={{ locale: customLocale }}>
       <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
     </LocaleContext.Provider>
     <TokenInput getItems={() => Promise.resolve([]).then(delay(1500))} />
@@ -125,7 +125,7 @@ import {
 } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const items = [
   { label: 'aaa', value: 1 },
@@ -153,6 +153,7 @@ class LocalizationControls extends React.Component {
   }
 
   render() {
+    // попробуйте кастомизировать локаль любого контрола
     const customLocaleRU = {};
     const customLocaleEN = {};
 
@@ -213,3 +214,8 @@ class LocalizationControls extends React.Component {
 
 <LocalizationControls />;
 ```
+
+### Локализация @skbkontur/react-ui-addons
+
+Компоненты `@skbkontur/react-ui-addons` так же поддерживают локализацию через `LocaleContext` из `@skbkontur/react-ui`.
+См. пример с кастомной локализацией. Дефолтные локали описаны для каждого компонента в [докумендации аддонов](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).

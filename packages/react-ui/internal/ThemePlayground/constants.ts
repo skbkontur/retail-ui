@@ -4,8 +4,8 @@ export enum ThemeType {
   Default = 'default',
   Flat = 'flat',
   Dark = 'dark',
-  Default8px = 'default8px',
-  Flat8px = 'flat8px',
+  DefaultOld = 'defaultOld',
+  FlatOld = 'flatOld',
 }
 
 export const VARIABLES_GROUPS = [

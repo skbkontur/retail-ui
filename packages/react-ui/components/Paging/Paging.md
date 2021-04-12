@@ -28,7 +28,7 @@ class Paginator3000 extends React.Component {
 
 #### Локали по умолчанию
 
-```typescript
+```typescript static
 interface PagingLocale {
   forward?: string;
 }

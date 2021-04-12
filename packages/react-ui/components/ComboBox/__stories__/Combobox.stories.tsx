@@ -27,7 +27,7 @@ SimpleComboboxStory.story = {
   name: 'simple combobox',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: ['hovered', 'selected_2'] }],
       tests: {
         async plain() {
           await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -203,6 +203,7 @@ SimpleComboboxStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+            .pause(1000)
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -222,11 +223,14 @@ SimpleComboboxStory.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('select_1');
         },
         async selected_2() {
+          await delay(1000);
+
           await this.browser
             .actions({
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+            .pause(1000)
             .sendKeys('Second')
             .pause(500)
             .perform();
@@ -235,8 +239,10 @@ SimpleComboboxStory.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: 'body' }))
-            .pause(500)
             .perform();
+
+          await delay(1000);
+
           await this.browser
             .actions({
               bridge: true,
@@ -259,7 +265,7 @@ OpenToTop.story = {
   name: 'open to top',
   parameters: {
     creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hovered' }],
+      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
       tests: {
         async plain() {
           const element = await this.browser.findElement({ css: '[data-tid="container"]' });
