@@ -16,6 +16,12 @@ const styles = {
     `;
   },
 
+  placeholderDisabled(t: Theme) {
+    return css`
+      color: ${t.selectPlaceholderColorDisabled};
+    `;
+  },
+
   customUsePlaceholder() {
     return css`
       color: inherit;

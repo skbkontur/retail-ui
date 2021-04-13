@@ -151,6 +151,15 @@ Simple.story = {
   },
 };
 
+export const Disabled: CSFStory<JSX.Element> = () => (
+  <>
+    <Select disabled items={['value']} value="value" />
+    <Select disabled placeholder="placeholder" />
+  </>
+);
+
+Disabled.story = { name: 'disabled' };
+
 export const ComplexValues = () => <SelectWrapper />;
 ComplexValues.story = { name: 'Complex values', parameters: { creevey: { skip: [true] } } };
 
