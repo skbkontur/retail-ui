@@ -30,6 +30,8 @@ export interface PopupMenuProps extends CommonProps {
   menuMaxHeight?: number | string;
   /** Ширина меню */
   menuWidth?: number | string;
+  /** Ширина контейнера и caption */
+  width?: React.CSSProperties['width'];
 
   /**
    * Элемент или функция возвращающая элемент,
@@ -94,7 +96,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div className={jsStyles.container()}>
+          <div className={jsStyles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -155,6 +157,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           data-tid="PopupMenu__caption"
           className={jsStyles.caption()}
           ref={element => (this.captionWrapper = element)}
+          style={{ width: this.props.width }}
         >
           {caption}
         </span>
@@ -168,6 +171,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         onKeyDown={this.handleCaptionKeyDown}
         ref={element => (this.captionWrapper = element)}
         className={jsStyles.caption()}
+        style={{ width: this.props.width }}
       >
         {this.props.caption}
       </span>
