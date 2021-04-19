@@ -4,7 +4,7 @@ const config = {
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: 'http://screen:shot@grid.testkontur.ru/wd/hub',
+  gridUrl: 'https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub',
   storybookUrl: 'http://localhost:6060',
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
