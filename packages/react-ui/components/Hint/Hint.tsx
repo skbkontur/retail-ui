@@ -86,7 +86,10 @@ export class Hint extends React.Component<HintProps, HintState> {
     if (!nextProps.manual) {
       return;
     }
-
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = null;
+    }
     if (nextProps.opened !== this.props.opened) {
       this.setState({ opened: !!nextProps.opened });
     }
