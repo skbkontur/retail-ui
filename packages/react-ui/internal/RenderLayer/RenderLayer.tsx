@@ -1,5 +1,6 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
+import tabbable from 'tabbable';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
@@ -60,7 +61,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
 
   private attachListeners() {
     this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
-    window.addEventListener('blur', this.handleFocusOutside);
+    window.addEventListener('focusout', this.handleFocusOutside);
     document.addEventListener(
       'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
       this.handleNativeDocClick,
@@ -73,7 +74,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
       this.focusOutsideListenerToken = null;
     }
 
-    window.removeEventListener('blur', this.handleFocusOutside);
+    window.removeEventListener('focusout', this.handleFocusOutside);
     document.removeEventListener(
       'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
       this.handleNativeDocClick,
@@ -85,7 +86,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private handleFocusOutside = (event: Event) => {
-    if (this.props.onFocusOutside) {
+    if (this.props.onFocusOutside && event.target && tabbable?.isFocusable(event.target as HTMLElement)) {
       this.props.onFocusOutside(event);
     }
   };
