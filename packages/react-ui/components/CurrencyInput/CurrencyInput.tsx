@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
-
 import debounce from 'lodash.debounce';
+
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -183,7 +183,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   private readonly debouncedSetSelection: (s: Selection) => void = debounce(
     (selection: Selection) => this.setState({ selection: selection }),
     500,
-    { trailing: false }
+    { trailing: false },
   );
 
   private handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
