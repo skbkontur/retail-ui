@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import tabbable from 'tabbable';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
@@ -86,7 +85,14 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private handleFocusOutside = (event: Event) => {
-    if (this.props.onFocusOutside && event.target && tabbable?.isFocusable(event.target as HTMLElement)) {
+    const target = event.target;
+    const node = this.getDomNode();
+
+    if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+      return;
+    }
+
+    if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
     }
   };
