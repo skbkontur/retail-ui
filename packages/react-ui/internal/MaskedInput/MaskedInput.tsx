@@ -99,6 +99,8 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
 
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
+        {/*
+        // @ts-ignore*/}
         <ReactInputMask
           {...inputProps}
           maskChar={null}
@@ -110,7 +112,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
           value={value}
           inputRef={this.refInput}
           ref={this.refMaskedInput}
-          style={{ ...style }}
+          style={{ ...style } as any}
         />
         {this.isMaskVisible() && (
           <span className={cn(jsStyles.inputMask(this.theme), leftClass)}>

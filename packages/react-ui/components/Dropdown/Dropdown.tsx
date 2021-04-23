@@ -175,7 +175,7 @@ export class Dropdown extends React.Component<DropdownProps> {
         ref={this._refSelect}
         {...filterProps(props, PASS_PROPS)}
         value={caption}
-        items={items}
+        items={items as any}
         _icon={icon}
         renderValue={renderValue}
       />

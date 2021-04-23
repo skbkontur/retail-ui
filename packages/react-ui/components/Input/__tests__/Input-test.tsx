@@ -94,7 +94,7 @@ describe('<Input />', () => {
       onMouseOver: () => undefined,
       onMouseLeave: () => undefined,
     };
-    const inputProps: React.HTMLAttributes<HTMLLabelElement> = render({
+    const inputProps: any = render({
       ...props,
       value: 'hello',
     })

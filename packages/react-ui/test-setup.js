@@ -1,7 +1,7 @@
 /* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import { configure } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 import React from 'react';
 
 configure({ adapter: new Adapter() });
