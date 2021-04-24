@@ -573,8 +573,7 @@ OnUnexpectedInputValidation.story = {
             .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
             .sendKeys('bbb')
             .sendKeys(this.keys.ENTER)
-            .move({ x: 0, y: 0 })
-            .click()
+            .sendKeys(this.keys.TAB)
             .perform();
 
           const withSelectedTokens = await this.takeScreenshot();
