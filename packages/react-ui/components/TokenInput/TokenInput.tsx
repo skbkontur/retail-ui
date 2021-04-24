@@ -38,7 +38,7 @@ export enum TokenInputType {
   Combined,
 }
 
-export interface TokenInputProps<T> extends CommonProps {
+export interface TokenInputProps<T = string> extends CommonProps {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
@@ -132,9 +132,9 @@ export const DefaultState = {
   inputValueHeight: 22,
 };
 
-const defaultToKey = <T extends any>(item: T): string => item.toString();
-const identity = <T extends any>(item: T): T => item;
-const defaultRenderToken = <T extends any>(
+const defaultToKey = <T extends { toString(): string }>(item: T): string => item.toString();
+const identity = <T extends { toString(): string }>(item: T): T => item;
+const defaultRenderToken = <T extends { toString(): string }>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
 ) => (
