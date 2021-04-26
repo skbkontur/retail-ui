@@ -4,6 +4,7 @@ const styles = {
   caption() {
     return css`
       display: inline-block;
+      width: 100%;
     `;
   },
   container() {

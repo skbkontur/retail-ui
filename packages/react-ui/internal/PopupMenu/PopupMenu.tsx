@@ -157,7 +157,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           data-tid="PopupMenu__caption"
           className={jsStyles.caption()}
           ref={element => (this.captionWrapper = element)}
-          style={{ width: this.props.width }}
         >
           {caption}
         </span>
@@ -171,7 +170,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         onKeyDown={this.handleCaptionKeyDown}
         ref={element => (this.captionWrapper = element)}
         className={jsStyles.caption()}
-        style={{ width: this.props.width }}
       >
         {this.props.caption}
       </span>
