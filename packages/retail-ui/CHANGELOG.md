@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.53.15](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.14...retail-ui@0.53.15) (2021-04-27)
+
+
+### Bug Fixes
+
+* **ComboBox:** call `onInputKeyDown` handler ([418a5ac](https://github.com/skbkontur/retail-ui/commit/418a5ac))
+
+
+
+
+
 ## [0.53.14](https://github.com/skbkontur/retail-ui/compare/retail-ui@0.53.13...retail-ui@0.53.14) (2021-04-02)
 
 
