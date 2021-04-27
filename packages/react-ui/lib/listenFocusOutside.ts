@@ -10,7 +10,7 @@ interface FocusOutsideEventHandler {
 const handlers: FocusOutsideEventHandler[] = [];
 
 function addHandleEvent() {
-  document.body.addEventListener('focusin', handleNativeFocus);
+  document.body.addEventListener('focusin', handleNativeFocus, { capture: true });
 }
 
 if (isBrowser) {
