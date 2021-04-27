@@ -50,7 +50,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   private mountContainer() {
-    if (this.domContainer?.getAttribute('data-rendered-container-id') !== this.rootId) {
+    if (!this.domContainer) {
       this.createContainer();
     }
     if (this.domContainer && this.domContainer.parentNode !== document.body) {
@@ -70,8 +70,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   private unmountContainer() {
     if (this.domContainer && this.domContainer.parentNode) {
-      // Disabled due to `unstable_flushDiscreteUpdates` warning in React 17
-      // this.domContainer.parentNode.removeChild(this.domContainer);
+      this.domContainer.parentNode.removeChild(this.domContainer);
 
       if (window.ReactTesting) {
         window.ReactTesting.removeRenderContainer(this.rootId);
