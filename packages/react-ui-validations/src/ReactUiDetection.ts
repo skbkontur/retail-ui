@@ -19,4 +19,8 @@ export class ReactUiDetection {
   public static isTokenInput(childrenArray: any): boolean {
     return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'TokenInput';
   }
+
+  public static isSwitcher(childrenArray: any): boolean {
+    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'Switcher';
+  }
 }
