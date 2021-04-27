@@ -1,30 +1,4 @@
 import { css } from '../../lib/theming/Emotion';
-import { shift } from '../../lib/styles/DimensionFunctions';
-
-const getBtnPadding = (
-  fontSize: string,
-  paddingY: string,
-  paddingX: string,
-  fontFamilyCompensation: string,
-  additionalOffset = 0,
-): string => {
-  let paddingTop = paddingY;
-  let paddingBottom = paddingY;
-  const offset = parseInt(fontFamilyCompensation) || 0;
-
-  const shiftUp = (top: string, bottom: string, offset: number) => {
-    return [shift(top, `${-offset}`), shift(bottom, `${offset}`)];
-  };
-
-  if (fontSize === '16px' && offset) {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, offset);
-  }
-  if (additionalOffset) {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, additionalOffset);
-  }
-
-  return `${paddingTop} ${paddingX} ${paddingBottom}`;
-};
 
 export const buttonUseMixin = (
   btnBackground: string,
@@ -112,9 +86,7 @@ export const buttonSizeMixin = (
   lineHeight: string,
   paddingX: string,
   paddingY: string,
-  fontFamilyCompensation: string,
   selectorLink: string,
-  selectorFallback: string,
 ) => {
   return css`
     font-size: ${fontSize} !important;
@@ -122,12 +94,8 @@ export const buttonSizeMixin = (
     &:not(${selectorLink}) {
       box-sizing: border-box;
       height: ${height};
-      padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
+      padding: ${paddingY} ${paddingX};
       line-height: ${lineHeight};
-
-      &${selectorFallback} {
-        padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
-      }
     }
   `;
 };

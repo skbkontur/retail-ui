@@ -1,7 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { isIE11, isEdge } from '../../lib/client';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -183,7 +182,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.focus(this.theme)]: isFocused,
         [jsStyles.checked(this.theme)]: !!this.props.checked,
         [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
-        [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
       }),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,

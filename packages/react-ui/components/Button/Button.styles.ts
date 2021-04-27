@@ -82,9 +82,7 @@ const styles = {
         t.btnLineHeightSmall,
         t.btnPaddingXSmall,
         t.btnPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
         cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
       )};
     `;
   },
@@ -99,9 +97,7 @@ const styles = {
         t.btnLineHeightMedium,
         t.btnPaddingXMedium,
         t.btnPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
         cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
       )};
     `;
   },
@@ -116,9 +112,7 @@ const styles = {
         t.btnLineHeightLarge,
         t.btnPaddingXLarge,
         t.btnPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
         cssName(styles.link(t)),
-        cssName(styles.fallback(t)),
       )};
     `;
   },
@@ -211,17 +205,6 @@ const styles = {
         ${cssName(styles.caption())} {
           transform: none !important;
         }
-      }
-    `;
-  },
-
-  fallback(t: Theme) {
-    return css`
-      &${cssName(styles.disabled(t))} {
-        outline-color: transparent;
-      }
-      &:not(${cssName(styles.link(t))}) {
-        line-height: normal !important;
       }
     `;
   },

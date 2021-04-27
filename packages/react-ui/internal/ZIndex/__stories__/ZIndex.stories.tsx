@@ -394,7 +394,7 @@ class TooltipAndSelect extends React.Component<{}> {
         style={{
           width: 250,
           fontSize: 14,
-          fontFamily: 'Segoe UI',
+          fontFamily: 'Lab Grotesque',
         }}
       >
         Задача организации, в особенности же рамки и место обучения кадров влечет за собой процесс внедрения и
