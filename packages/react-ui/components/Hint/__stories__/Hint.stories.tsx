@@ -136,7 +136,9 @@ const HandleClickHint = () => {
   return (
     <div>
       <Hint text="Should not displayed after click" manual={manual} opened={!manual}>
-        <button onClick={onClick}>Hover me and click</button>
+        <div onClick={onClick} id="main">
+          Hover me and click
+        </div>
       </Hint>
     </div>
   );
@@ -151,7 +153,7 @@ SetManualAndOpenedPropOnClick.story = {
         async ['click on hint']() {
           await this.browser
             .actions()
-            .click(this.browser.findElement({ css: 'button' }))
+            .click(this.browser.findElement({ css: '#main' }))
             .perform();
           await delay(1000);
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
