@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.0...@skbkontur/react-ui@2.16.1) (2021-04-28)
+
+
+### Bug Fixes
+
+* **SidePage:** fix sidepage counting for adding margins and shadows ([bb24bf6](https://github.com/skbkontur/retail-ui/commit/bb24bf6f08d953ba0cd935bbf17f88c125fcef8a))
+
+
+
+
+
 # [2.16.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.15.0...@skbkontur/react-ui@2.16.0) (2021-04-12)
 
 
