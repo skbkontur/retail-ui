@@ -592,7 +592,7 @@ const styles = {
       white-space: nowrap;
       display: inline-block;
       width: 100%;
-      vertical-align: top;
+      vertical-align: middle;
     `;
   },
 
