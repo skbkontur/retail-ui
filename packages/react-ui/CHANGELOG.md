@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.1...@skbkontur/react-ui@2.16.2) (2021-04-30)
+
+
+### Bug Fixes
+
+* **Hint:** clear opening timer ([0a03c36](https://github.com/skbkontur/retail-ui/commit/0a03c36eef19dbaff51a774cee066a3255db5d3d))
+* **locale:** add check that 'name' field is configurable ([b895bc2](https://github.com/skbkontur/retail-ui/commit/b895bc237bb6c4de115d08f61749175cb0e314a0)), closes [#2370](https://github.com/skbkontur/retail-ui/issues/2370)
+
+
+
+
+
 ## [2.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.0...@skbkontur/react-ui@2.16.1) (2021-04-28)
 
 
