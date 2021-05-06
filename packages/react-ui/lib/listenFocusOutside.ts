@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom';
+import debounce from 'lodash.debounce';
 
-import { isBrowser } from './client';
+import { isBrowser, isFirefox } from './client';
 
 interface FocusOutsideEventHandler {
   elements: HTMLElement[] | (() => HTMLElement[]);
@@ -10,7 +11,19 @@ interface FocusOutsideEventHandler {
 const handlers: FocusOutsideEventHandler[] = [];
 
 function addHandleEvent() {
-  document.body.addEventListener('focusin', handleNativeFocus, { capture: true });
+  /**
+   * Firefox do not supports 'focusin' event.
+   * Focus events bubbles multiple time
+   * without possibilty to cancell bubbling.
+   * Using debounce to capture only first focus event
+   * Mozilla Firefix
+   *   ¯\_(ツ)_/¯
+   */
+  document.body.addEventListener(
+    isFirefox ? 'focus' : ('focusin' as 'focus'),
+    isFirefox ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
+    isFirefox,
+  );
 }
 
 if (isBrowser) {
