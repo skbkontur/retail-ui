@@ -20,9 +20,15 @@ namespace SKBKontur.ValidationTests.Infrastructure
 
         public static string CreateStoryId(string kind, string story)
         {
-            return $"{kind}--{story}".Replace("_", "-").ToLower();
+            story = ConvertCamelCaseToKebabCase(story);
+            return $"{kind}--{story}".ToLower();
         }
 
         private static readonly Regex storybookNamespacePattern = new Regex(@"^.*\.Storybook\.(?<Kind>.*)\.(?<Story>.*)", RegexOptions.Compiled);
-    }
+
+        private static string ConvertCamelCaseToKebabCase(string source)
+        {
+            return String.Join('-'.ToString(), Regex.Split(source, @"(?<!^)(?=[A-Z])")).ToLower();
+        }
+  }
 }

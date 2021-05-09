@@ -1,58 +1,90 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Token } from '@skbkontur/react-ui/components/Token';
 import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
+import { CSFStory } from 'creevey';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip, text } from '../src';
+import { tooltip, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-storiesOf('TokenInput', module).add('required', () => <TokenInputStory />);
+import { delay } from './tools/tools';
 
 async function getItems(query: string) {
-  return ['aaa', 'bbb'].filter(s => s.includes(query));
+  return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
 
-interface TokenInputStoryState {
-  checked: boolean;
-  selectedItems: Array<any>;
-}
+export default { title: `TokenInput` };
 
-class TokenInputStory extends React.Component<{}, TokenInputStoryState> {
-  public state: TokenInputStoryState = {
-    checked: false,
-    selectedItems: [],
-  };
+export const TokenInputStory: CSFStory<JSX.Element> = () => {
+  const [checked] = React.useState<boolean>(false);
+  const [selectedItems, setSelectedItems] = React.useState<any[]>([]);
+  const [, refContainer] = React.useState<ValidationContainer | null>(null);
 
-  private container: ValidationContainer | null = null;
-
-  public validate(): Nullable<ValidationInfo> {
-    const { checked } = this.state;
-    if (checked === false) {
+  const validate = (): Nullable<ValidationInfo> => {
+    if (!checked) {
       return { message: 'Поле обязательно', type: 'immediate' };
     }
     return null;
-  }
+  };
+  return (
+    <div style={{ padding: '20px 300px 60px 20px' }}>
+      <ValidationContainer ref={refContainer}>
+        <ValidationWrapper validationInfo={validate()} renderMessage={tooltip('right middle')}>
+          <TokenInput
+            data-tid="TokenInput"
+            getItems={getItems}
+            selectedItems={selectedItems}
+            onValueChange={setSelectedItems}
+            renderToken={(item, { isActive, onClick, onRemove }) => (
+              <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
+                {item}
+              </Token>
+            )}
+          />
+        </ValidationWrapper>
+      </ValidationContainer>
+    </div>
+  );
+};
 
-  public render() {
-    return (
-      <div style={{ padding: '10px' }}>
-        <ValidationContainer ref={this.refContainer}>
-          <ValidationWrapper validationInfo={this.validate()} renderMessage={tooltip('right middle')}>
-            <TokenInput
-              getItems={getItems}
-              selectedItems={this.state.selectedItems}
-              onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
-              renderToken={(item, { isActive, onClick, onRemove }) => (
-                <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
-                  {item}
-                </Token>
-              )}
-            />
-          </ValidationWrapper>
-        </ValidationContainer>
-      </div>
-    );
+TokenInputStory.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ['not valid']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }) })
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
+        },
+        async ['not valid 2']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            }).click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+            .perform();
+          await delay(1000);
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ origin: this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }) })
+            .perform();
+          await delay(1000);
+          await this.expect(await this.takeScreenshot()).to.matchImage('notValid');
+        },
+      }
+    }
   }
-
-  private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
