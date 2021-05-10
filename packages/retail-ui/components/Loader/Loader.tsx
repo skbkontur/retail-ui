@@ -96,6 +96,12 @@ class Loader extends React.Component<LoaderProps, LoaderState> {
     this.layoutEvents = LayoutEvents.addListener(this.checkSpinnerPosition);
   }
 
+  public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
+    if (this.props.active && !prevProps.active) {
+      this.checkSpinnerPosition();
+    }
+  }
+
   public componentWillUnmount() {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
