@@ -68,7 +68,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             {
                 if (webDriver != null) return webDriver;
 
-                var wdHub = "http://screen:shot@grid.testkontur.ru/wd/hub";
+                var wdHub = "https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub";
                 ChromeOptions options = new ChromeOptions();
 
                 options.AddAdditionalCapability(CapabilityType.Platform, "windows", true);

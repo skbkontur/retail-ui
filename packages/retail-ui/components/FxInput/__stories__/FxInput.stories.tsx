@@ -5,9 +5,14 @@ import FxInput from '../FxInput';
 import { createPropsGetter } from '../../internal/createPropsGetter';
 import { InputType } from '../../Input/Input';
 
+const noop = () => {
+  /* do nothing */
+};
+
 storiesOf('FxInput', module)
   .add('type text', () => <TestFxInput />)
   .add('type currency', () => <TestFxInput type={'currency'} fractionDigits={4} />)
+  .add('with disabled', () => <FxInput disabled onChange={noop} />)
   .add('borderless', () => (
     <TestWrapper>
       <TestFxInput borderless />

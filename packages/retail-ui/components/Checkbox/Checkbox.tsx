@@ -31,6 +31,8 @@ export type CheckboxProps = Override<
     onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
     /** Состояние частичного выделения */
     initialIndeterminate?: boolean;
+    /** Вызывается при изменении `value` */
+    onValueChange?: (value: boolean) => void;
   }
 >;
 
@@ -55,6 +57,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
     onMouseOver: PropTypes.func,
+    onValueChange: PropTypes.func,
   };
 
   public state = {
@@ -143,6 +146,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onMouseLeave,
       onMouseOver,
       onChange,
+      onValueChange,
       style,
       className,
       type,
@@ -168,6 +172,7 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
+      onClick: this.handleClick,
       ref: this.inputRef,
     };
 
@@ -224,11 +229,38 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
+    if (this.props.onValueChange) {
+      this.props.onValueChange(checked);
+    }
     if (this.props.onChange) {
       this.props.onChange(event, checked);
     }
 
     this.resetIndeterminate();
+  };
+
+  private handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    // support IE11's and old Edge's special behavior
+    // https://github.com/jquery/jquery/issues/1698
+    if (this.state.indeterminate && (isIE11 || isEdge)) {
+      this.resetIndeterminate();
+      // simulate correct behavior only if onValueChange is used
+      // because we cant simulate real native onChange event
+      if (this.props.onValueChange && this.input) {
+        const checked = !this.input.checked;
+
+        if (this.props.checked === undefined) {
+          // in case of uncontrolled mode
+          this.input.checked = checked;
+        }
+
+        this.props.onValueChange(checked);
+      }
+    }
+
+    if (this.props.onClick) {
+      this.props.onClick(e);
+    }
   };
 }
 

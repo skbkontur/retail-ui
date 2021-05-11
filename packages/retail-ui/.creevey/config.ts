@@ -18,7 +18,7 @@ const config: CreeveyConfig = {
   testDir: path.join(__dirname, 'tests'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: 'http://screen:shot@grid.testkontur.ru/wd/hub',
+  gridUrl: 'https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub',
   storybookUrl: 'http://localhost:6060',
   threshold: 0,
   // NOTE Should refactor Button styles without 1px-border

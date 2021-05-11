@@ -7,7 +7,7 @@ import Button from '../../Button';
 import { css } from '../../../lib/theming/Emotion';
 
 const loaderClass = css`
-  {
+   {
     height: 100%;
   }
 `;
@@ -22,7 +22,7 @@ class ContentComponent extends React.Component<{
   loaderProps?: LoaderProps;
 }> {
   public render() {
-    const { additionalStyle, loaderProps, children} = this.props;
+    const { additionalStyle, loaderProps, children } = this.props;
     return (
       <div style={{ ...wrapperStyle, ...additionalStyle }}>
         <Loader active type={'big'} {...loaderProps}>
@@ -52,6 +52,24 @@ class NumberList extends React.Component<{
       items.push(i);
     }
     return items;
+  }
+}
+
+class ActivateOnLargeContent extends React.Component {
+  public state = {
+    active: false,
+  };
+
+  public componentDidMount() {
+    this.setState({ active: true });
+  }
+  public render() {
+    const { active } = this.state;
+    return (
+      <ContentComponent additionalStyle={{ height: 600, overflow: 'auto' }} loaderProps={{ active }}>
+        <NumberList itemsCount={100} />
+      </ContentComponent>
+    );
   }
 }
 
@@ -104,8 +122,9 @@ storiesOf('Loader', module)
   .add('Simple', () => <Loader active />)
   .add('Type "big"', () => (
     <ContentComponent>
-      <NumberList itemsCount={10}/>
-    </ContentComponent>))
+      <NumberList itemsCount={10} />
+    </ContentComponent>
+  ))
   .add('Type "big" with text', () => (
     <div style={{ width: 400 }}>
       <h1>
@@ -183,29 +202,33 @@ storiesOf('Loader', module)
   ))
   .add('Vertical scroll', () => (
     <ContentComponent>
-      <NumberList itemsCount={200}/>
-    </ContentComponent>))
+      <NumberList itemsCount={200} />
+    </ContentComponent>
+  ))
   .add('Horizontal scroll', () => (
     <ContentComponent additionalStyle={{ width: '2500px' }}>
-      <NumberList itemsCount={10}/>
-    </ContentComponent>))
+      <NumberList itemsCount={10} />
+    </ContentComponent>
+  ))
   .add('Both dimensions scrollable content with spaces around', () => (
     <ContentComponent additionalStyle={{ width: '2500px', margin: '600px 200px' }}>
-      <NumberList itemsCount={200}/>
-    </ContentComponent>))
+      <NumberList itemsCount={200} />
+    </ContentComponent>
+  ))
   .add('Active loader', () => <LoaderAndButton active />)
   .add('Inactive loader', () => <LoaderAndButton active={false} />)
   .add('Wrapper with custom height and inactive loader', () => (
     <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: false }}>
       <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
-        <NumberList itemsCount={10}/>
+        <NumberList itemsCount={10} />
       </div>
     </ContentComponent>
   ))
   .add('Wrapper with custom height and active loader', () => (
     <ContentComponent additionalStyle={{ height: '600px' }} loaderProps={{ className: loaderClass, active: true }}>
       <div style={{ height: '100%', backgroundColor: '#DEDEDE' }}>
-        <NumberList itemsCount={10}/>
+        <NumberList itemsCount={10} />
       </div>
     </ContentComponent>
-  ));
+  ))
+  .add('Activate Loader after mount on large content', () => <ActivateOnLargeContent />);
