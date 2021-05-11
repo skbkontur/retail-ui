@@ -26,7 +26,12 @@ export function locale<C>(controlName: keyof LocaleControls, localeHelper: Local
         return this.context.langCode ?? defaultLangCode;
       }
     };
-    Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });
+
+    const nameDescriptor = Object.getOwnPropertyDescriptor(LocaleDecorator, 'name');
+    if (!nameDescriptor || nameDescriptor.configurable) {
+      Object.defineProperty(LocaleDecorator, 'name', { value: constructor.name });
+    }
+
     return LocaleDecorator;
   };
 }
