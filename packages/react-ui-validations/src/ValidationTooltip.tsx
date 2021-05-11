@@ -27,7 +27,11 @@ export class ValidationTooltip extends React.Component<ValidationTooltipProps> {
   public render() {
     const onlyChild = React.Children.only(this.props.children);
     const child = onlyChild && onlyChild.props ? onlyChild.props.children : null;
-    if (ReactUiDetection.isRadioGroup(child) || ReactUiDetection.isTokenInput(child)) {
+    if (
+      ReactUiDetection.isRadioGroup(child) ||
+      ReactUiDetection.isTokenInput(child) ||
+      ReactUiDetection.isSwitcher(child)
+    ) {
       return (
         <Tooltip
           useWrapper={false}

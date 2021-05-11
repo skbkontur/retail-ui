@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import cn from 'classnames';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -8,6 +9,8 @@ import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { jsStyles } from './PasswordInput.styles';
 
@@ -42,6 +45,8 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     capsLockEnabled: false,
   };
 
+  private theme!: Theme;
+
   private input: Nullable<Input>;
 
   public UNSAFE_componentWillMount() {
@@ -58,7 +63,14 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+        }}
+      </ThemeContext.Consumer>
+    );
   }
 
   /**
@@ -128,6 +140,18 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     }
   };
 
+  private getEyeWrapperClassname(right = false) {
+    switch (this.props.size) {
+      case 'large':
+        return jsStyles.eyeWrapperLarge(this.theme);
+      case 'medium':
+        return jsStyles.eyeWrapperMedium(this.theme);
+      case 'small':
+      default:
+        return jsStyles.eyeWrapperSmall(this.theme);
+    }
+  }
+
   private renderEye = () => {
     const { capsLockEnabled } = this.state;
 
@@ -136,7 +160,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
         {capsLockEnabled && <span className={jsStyles.capsLockDetector()} />}
         <span
           data-tid="PasswordInputEyeIcon"
-          className={jsStyles.toggleVisibility()}
+          className={cn(jsStyles.toggleVisibility(), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
           {this.state.visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />}

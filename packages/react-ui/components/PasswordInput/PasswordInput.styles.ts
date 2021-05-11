@@ -1,3 +1,4 @@
+import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 const styles = {
@@ -47,6 +48,25 @@ const styles = {
     return css`
       display: flex;
       align-items: center;
+      justify-content: flex-end;
+    `;
+  },
+
+  eyeWrapperSmall(t: Theme) {
+    return css`
+      min-width: ${t.inputIconSizeSmall};
+    `;
+  },
+
+  eyeWrapperMedium(t: Theme) {
+    return css`
+      min-width: ${t.inputIconSizeMedium};
+    `;
+  },
+
+  eyeWrapperLarge(t: Theme) {
+    return css`
+      min-width: ${t.inputIconSizeLarge};
     `;
   },
 };
