@@ -219,10 +219,12 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     if (icon instanceof Function) {
-      return <span className={className}>{icon()}</span>;
+      return <span className={cn(jsInputStyles.icon(), className)}>{icon()}</span>;
     }
 
-    return <span className={cn(className, jsInputStyles.useDefaultColor(this.theme))}>{icon}</span>;
+    return (
+      <span className={cn(jsInputStyles.icon(), className, jsInputStyles.useDefaultColor(this.theme))}>{icon}</span>
+    );
   };
 
   private renderPrefix = (): JSX.Element | null => {
