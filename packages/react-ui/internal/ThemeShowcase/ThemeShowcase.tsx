@@ -2,8 +2,8 @@ import React from 'react';
 import cn from 'classnames';
 import { Theme } from 'react-ui/lib/theming/Theme';
 
-import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
-import { FLAT_THEME as flatVariables } from '../../lib/theming/themes/FlatTheme';
+import { DEFAULT_THEME_OLD as defaultVariables } from '../../lib/theming/themes/DefaultThemeOld';
+import { FLAT_THEME_OLD as flatVariables } from '../../lib/theming/themes/FlatThemeOld';
 import { ComboBox, ComboBoxItem } from '../../components/ComboBox';
 import { Gapped } from '../../components/Gapped';
 import { Link } from '../../components/Link';
