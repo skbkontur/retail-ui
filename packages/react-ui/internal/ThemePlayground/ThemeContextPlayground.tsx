@@ -3,10 +3,10 @@ import React, { ReactNode } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
+import { FLAT_THEME_OLD } from '../../lib/theming/themes/FlatThemeOld';
+import { DEFAULT_THEME_OLD } from '../../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
-import { DEFAULT_THEME_8PX } from '../../lib/theming/themes/DefaultTheme8px';
-import { FLAT_THEME_8PX } from '../../lib/theming/themes/FlatTheme8px';
+import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
@@ -63,15 +63,15 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   constructor(props: PlaygroundProps) {
     super(props);
     this.state = {
-      currentTheme: DEFAULT_THEME_8PX,
+      currentTheme: DEFAULT_THEME,
       currentThemeType: ThemeType.Default,
       editorOpened: false,
       themes: {
-        default: DEFAULT_THEME_8PX,
-        defaultOld: DEFAULT_THEME,
+        default: DEFAULT_THEME,
+        defaultOld: DEFAULT_THEME_OLD,
         dark: darkTheme,
-        flat: FLAT_THEME_8PX,
-        flatOld: FLAT_THEME,
+        flat: FLAT_THEME,
+        flatOld: FLAT_THEME_OLD,
       },
       themesErrors: {
         default: {},
@@ -138,7 +138,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     const themeObject: Writeable<ThemeIn> = {};
     ThemeFactory.getKeys(currentTheme).forEach(key => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
-      if (descriptor && !descriptor.get && DEFAULT_THEME[key] && currentTheme[key] !== DEFAULT_THEME[key]) {
+      if (descriptor && !descriptor.get && DEFAULT_THEME_OLD[key] && currentTheme[key] !== DEFAULT_THEME_OLD[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
       }
     });

@@ -6,10 +6,10 @@ import { withCreevey } from 'creevey';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
+import { FLAT_THEME_OLD } from '../lib/theming/themes/FlatThemeOld';
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
-import { FLAT_THEME_8PX } from '../lib/theming/themes/FlatTheme8px';
+import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
-import { DEFAULT_THEME_8PX } from '../lib/theming/themes/DefaultTheme8px';
 
 setFilter(fiber => {
   // Транслируем все пропы только для контролов
@@ -47,17 +47,17 @@ addDecorator(story => {
   const getTheme = () => {
     switch (true) {
       case Boolean(process.env.STORYBOOK_OLD):
-        return DEFAULT_THEME;
+        return DEFAULT_THEME_OLD;
       case Boolean(process.env.STORYBOOK_FLAT):
-        return FLAT_THEME_8PX;
-      case Boolean(process.env.STORYBOOK_FLAT_OLD):
         return FLAT_THEME;
+      case Boolean(process.env.STORYBOOK_FLAT_OLD):
+        return FLAT_THEME_OLD;
       default:
-        return DEFAULT_THEME_8PX;
+        return DEFAULT_THEME;
     }
   };
   const theme = getTheme();
-  if (theme !== DEFAULT_THEME_8PX) {
+  if (theme !== DEFAULT_THEME) {
     return <ThemeContext.Provider value={theme}>{story()}</ThemeContext.Provider>;
   }
   return story();
