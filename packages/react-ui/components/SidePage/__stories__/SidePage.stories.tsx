@@ -320,6 +320,47 @@ class SidePageWithLeftPosition extends React.Component<{
   }
 }
 
+class LeftSidePageWithRightSidePage extends React.Component<{
+  disableAnimations?: boolean;
+}> {
+  public render() {
+    return (
+      <>
+        <SidePage disableAnimations={this.props.disableAnimations} fromLeft={true}>
+          <SidePage.Header>test</SidePage.Header>
+          <SidePage.Body>
+            <SidePage.Container>
+              {textSample}
+              {textSample}
+            </SidePage.Container>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Gapped>
+              <Button use="primary">Ok</Button>
+              <Button>Cancel</Button>
+            </Gapped>
+          </SidePage.Footer>
+        </SidePage>
+        <SidePage disableAnimations={this.props.disableAnimations} fromLeft={false}>
+          <SidePage.Header>test</SidePage.Header>
+          <SidePage.Body>
+            <SidePage.Container>
+              {textSample}
+              {textSample}
+            </SidePage.Container>
+          </SidePage.Body>
+          <SidePage.Footer panel>
+            <Gapped>
+              <Button use="primary">Ok</Button>
+              <Button>Cancel</Button>
+            </Gapped>
+          </SidePage.Footer>
+        </SidePage>
+      </>
+    );
+  }
+}
+
 class SimpleSidePage extends React.Component<{}, {}> {
   public render() {
     return (
@@ -612,6 +653,12 @@ export const SidePageWithLeftPositionStory = () => (
 );
 SidePageWithLeftPositionStory.story = {
   name: 'SidePage with left position',
+  parameters: { creevey: { captureElement: null } },
+};
+
+export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSidePage disableAnimations />;
+LeftSidePageWithRightSidePageStory.story = {
+  name: 'Left SidePage With Right SidePage',
   parameters: { creevey: { captureElement: null } },
 };
 
