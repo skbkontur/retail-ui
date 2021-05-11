@@ -123,6 +123,37 @@ SimpleExample.story = {
   },
 };
 
+export const CaptionWidth: CSFStory<JSX.Element> = () => (
+  <div style={{ width: '300px' }}>
+    <DropdownMenu
+      caption={
+        <Button width={'100%'} use="primary">
+          Открыть меню
+        </Button>
+      }
+      width={'100%'}
+    >
+      <MenuHeader>Заголовок меню</MenuHeader>
+      <MenuSeparator />
+      <MenuItem onClick={() => Toast.push('Раз')}>Раз</MenuItem>
+      <MenuItem onClick={() => Toast.push('Два')}>Два</MenuItem>
+      <MenuItem onClick={() => Toast.push('Три')}>Три</MenuItem>
+    </DropdownMenu>
+  </div>
+);
+CaptionWidth.story = {
+  name: 'Caption width 100%',
+  parameters: {
+    creevey: {
+      tests: {
+        async plain() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+        },
+      },
+    },
+  },
+};
+
 export const ExampleWithWidthOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
     <MenuHeader>Заголовок меню</MenuHeader>

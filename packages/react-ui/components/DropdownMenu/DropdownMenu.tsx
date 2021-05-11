@@ -13,6 +13,9 @@ export interface DropdownMenuProps extends CommonProps {
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
   menuWidth?: React.CSSProperties['width'];
+  /** Ширина caption */
+  width?: React.CSSProperties['width'];
+
   /**
    * Элемент или функция возвращающая элемент,
    * если передана, используется вместо ```caption```,
@@ -97,6 +100,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           disableAnimations={this.props.disableAnimations}
           header={this.props.header}
           footer={this.props.footer}
+          width={this.props.width}
         >
           {this.props.children}
         </PopupMenu>

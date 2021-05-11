@@ -22,7 +22,7 @@ function addHandleEvent() {
   document.body.addEventListener(
     isFirefox ? 'focus' : ('focusin' as 'focus'),
     isFirefox ? debounce(handleNativeFocus, 0, { leading: true, trailing: false }) : handleNativeFocus,
-    isFirefox,
+    { capture: true },
   );
 }
 

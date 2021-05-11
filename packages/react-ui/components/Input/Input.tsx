@@ -468,7 +468,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
-      this.input ? this.selectAll() : this.delaySelectAll();
+      this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {
