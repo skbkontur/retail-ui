@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.0...react-ui-validations@1.4.1) (2021-04-28)
+
+
+### Bug Fixes
+
+* **Switcher:** add check for switcher in validation tooltip ([89a826d](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/89a826dd328bc9392664c11826714f64c3f65c78))
+
+
+
+
+
 # [1.4.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.3.2...react-ui-validations@1.4.0) (2020-12-23)
 
 
