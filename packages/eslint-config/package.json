@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/eslint-config",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "4.21.0",

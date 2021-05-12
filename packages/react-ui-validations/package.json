@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.4.1",
+  "version": "1.4.2",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
