@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.17.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.2...@skbkontur/react-ui@2.17.0) (2021-05-12)
+
+
+### Features
+
+* support React 17 ([#2360](https://github.com/skbkontur/retail-ui/issues/2360)) ([066ff68](https://github.com/skbkontur/retail-ui/commit/066ff681477d415177a6312c218e49ed5baa4c44))
+* **DropdownMenu:** add prop width ([b49e8c0](https://github.com/skbkontur/retail-ui/commit/b49e8c0d05d085ac7e175899ec064d5cc7192507))
+
+
+
+
+
 ## [2.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.1...@skbkontur/react-ui@2.16.2) (2021-04-30)
 
 
