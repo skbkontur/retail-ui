@@ -1,4 +1,4 @@
-import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { Theme8px as DefaultThemeInternal } from '../../internal/themes/Theme8px';
 
 import { Theme, ThemeIn } from './Theme';
 import { isFullTheme } from './ThemeHelpers';
