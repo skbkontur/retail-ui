@@ -53,7 +53,7 @@ export class DefaultTheme {
   public static controlPaddingYSmall = '6px';
   public static controlPaddingYMedium = '9px';
   public static controlPaddingYLarge = '10px';
-  public static textColorDefault = '#404040';
+  public static textColorDefault = '#333333';
   public static textColorInvert = '#fff';
   public static textColorDisabled = '#a0a0a0';
   public static textColorDisabledContrast = '#808080';
