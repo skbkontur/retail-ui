@@ -1,16 +1,8 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const getVerticalPaddingsWithCompensation = (theme: Theme) => {
-  const { toastPaddingY, fontFamilyCompensationBaseline } = theme;
-  const paddingY = parseInt(toastPaddingY);
-  const compensation = parseInt(fontFamilyCompensationBaseline);
-  return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
-};
-
 const styles = {
   root(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
       background: ${t.toastBg};
       border-radius: ${t.toastBorderRadius};
@@ -20,7 +12,7 @@ const styles = {
       font-size: ${t.toastFontSize};
       line-height: ${t.toastLineHeight};
       opacity: 1;
-      padding: ${paddingTop} ${t.toastPaddingX} ${paddingBottom};
+      padding: ${t.toastPaddingY} ${t.toastPaddingX};
       position: relative;
       top: ${t.toastTop};
     `;
@@ -38,15 +30,13 @@ const styles = {
   },
 
   closeWrapper(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
       display: flex;
-      margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} -${t.toastClosePadding};
+      margin: -${t.toastPaddingY} -${t.toastPaddingX} -${t.toastPaddingY} -${t.toastClosePadding};
     `;
   },
 
   link(t: Theme) {
-    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
     return css`
       color: ${t.toastLinkColor};
@@ -54,9 +44,9 @@ const styles = {
       display: inline-block;
       font-weight: 600;
 
-      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
+      margin: -${t.toastPaddingY} ${marginRight} -${t.toastPaddingY} ${t.toastPaddingX};
 
-      padding: ${paddingTop} 0 ${paddingBottom};
+      padding: ${t.toastPaddingY} 0 ${t.toastPaddingY};
 
       &:hover {
         text-decoration: underline;
