@@ -399,6 +399,49 @@ class Example7 extends React.Component<{}, Example7State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
+interface Example9State {
+  value: string;
+}
+
+class Example9 extends React.Component<{}, Example9State> {
+  public state: Example9State = {
+    value: '',
+  };
+
+  private container: ValidationContainer | null = null;
+  private refContainer = (el: ValidationContainer | null) => (this.container = el);
+
+  public validateValue(): Nullable<ValidationInfo> {
+    const { value } = this.state;
+    if (value === '') {
+      return { message: 'Должно быть не пусто', type: 'submit' };
+    }
+    if (!/^\+7\s\d{3}\s\d{3}-\d{2}-\d{2}$/.test(value)) {
+      return { message: 'Неверный телефон', type: 'lostfocus' };
+    }
+    return null;
+  }
+
+  public render() {
+    return (
+      <ValidationContainer ref={this.refContainer}>
+        <div style={{ padding: 10 }}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+            <Input
+              mask={'+7 999 999-99-99'}
+              value={this.state.value}
+              onValueChange={value => this.setState({ value })}
+            />
+          </ValidationWrapper>
+          <div style={{ padding: '30px 0' }}>
+            <Button onClick={() => this.container && this.container.validate()}>Check</Button>
+          </div>
+        </div>
+      </ValidationContainer>
+    );
+  }
+}
+
 storiesOf('Input', module)
   .add('#1', () => {
     return <Example1 />;
@@ -423,4 +466,7 @@ storiesOf('Input', module)
   })
   .add('#8 Промотка с фиксированной плашкой снизу', () => {
     return <Example8 />;
+  })
+  .add('#9 Валидация с маской', () => {
+    return <Example9 />;
   });
