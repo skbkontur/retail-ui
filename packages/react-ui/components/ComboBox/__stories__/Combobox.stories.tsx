@@ -223,6 +223,8 @@ SimpleComboboxStory.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('select_1');
         },
         async selected_2() {
+          await delay(1000);
+
           await this.browser
             .actions({
               bridge: true,

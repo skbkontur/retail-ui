@@ -5,10 +5,7 @@ import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
-  return (
-    isPublicComponent((ReactUI as any)[name]) &&
-    !['LocaleProvider', 'LocaleConsumer', 'ThemeProvider', 'ThemeConsumer'].includes(name)
-  );
+  return isPublicComponent((ReactUI as any)[name]);
 });
 
 // some components have required props
@@ -26,8 +23,6 @@ const DEFAULT_PROPS = {
   RadioGroup: { items: [] },
   Dropdown: { caption: 'caption' },
   DropdownMenu: { caption: 'caption' },
-  Fias: { baseUrl: '/' },
-  FiasSearch: { api: new ReactUI.FiasAPI('/') },
   Gapped: { children: '' },
   MenuHeader: { children: '' },
   Paging: { activePage: 0, onPageChange: jest.fn(), pagesCount: 0 },

@@ -67,7 +67,13 @@ export class FxInput extends React.Component<FxInputProps> {
       inputProps.leftIcon = <FunctionIcon />;
     } else {
       button = (
-        <Button narrow onClick={this.props.onRestore} borderless={this.props.borderless} disabled={this.props.disabled}>
+        <Button
+          size={this.props.size}
+          narrow
+          onClick={this.props.onRestore}
+          borderless={this.props.borderless}
+          disabled={this.props.disabled}
+        >
           <UndoIcon />
         </Button>
       );

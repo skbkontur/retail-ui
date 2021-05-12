@@ -27,8 +27,6 @@ const PASS_PROPS = {
   onMouseEnter: true,
   onMouseLeave: true,
   onMouseOver: true,
-
-  diadocLinkIcon: true, // @deprecated TODO remove in 3.0.
 };
 
 export interface DropdownProps extends CommonProps {
@@ -168,7 +166,7 @@ export class Dropdown extends React.Component<DropdownProps> {
   }
 
   public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {
-    const items = React.Children.map(this.props.children, item => item);
+    const items = React.Children.map(this.props.children, item => item) || [];
 
     return (
       <Select<React.ReactNode, React.ReactNode>

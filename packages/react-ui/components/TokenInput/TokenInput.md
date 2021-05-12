@@ -2,7 +2,9 @@
 import { Token } from '@skbkontur/react-ui';
 import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const [selectedItems, setSelectedItems] = React.useState([]);
+
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const getItems = q =>
   Promise.resolve(
@@ -46,8 +48,8 @@ const tokenColors = {
   <TokenInput
     type={TokenInputType.Combined}
     getItems={getItems}
-    selectedItems={state.selectedItems}
-    onValueChange={itemsNew => setState({ selectedItems: itemsNew })}
+    selectedItems={selectedItems}
+    onValueChange={setSelectedItems}
     renderToken={(item, tokenProps) => (
       <Token key={item.toString()} colors={tokenColors[item] || tokenColors.default} {...tokenProps}>
         {item}
@@ -57,9 +59,9 @@ const tokenColors = {
 </div>;
 ```
 
-#### Локали по умолчанию (см. `LocaleProvider`)
+#### Локали по умолчанию
 
-```typescript
+```typescript static
 interface TokenInputLocale {
   addButtonComment?: string;
   addButtonTitle?: string;

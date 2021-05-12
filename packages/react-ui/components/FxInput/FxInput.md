@@ -1,13 +1,16 @@
 ```jsx harmony
-let initialState = { auto: false };
+const [auto, setAuto] = React.useState(false);
+const [value, setValue] = React.useState();
 
 function handleValueChange(value) {
-  setState({ auto: false, value });
+  setAuto(false);
+  setValue(value);
 }
 
 function handleRestore() {
-  setState({ auto: true, value: 'auto' });
+  setAuto(true);
+  setValue('auto');
 }
 
-<FxInput auto={state.auto} value={state.value} onValueChange={handleValueChange} onRestore={handleRestore} />;
+<FxInput auto={auto} value={value} onValueChange={handleValueChange} onRestore={handleRestore} />;
 ```

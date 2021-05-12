@@ -1,7 +1,6 @@
 import React from 'react';
 import Helmet from 'react-helmet';
 import { NavLink, withRouter } from 'react-router-dom';
-import { Logotype } from '@skbkontur/react-ui/components/Logotype';
 import styled from 'styled-components';
 
 import { Displaying } from './Pages/Displaying';
@@ -15,9 +14,9 @@ export const Layout = withRouter(props => {
     <Root>
       <Helmet defaultTitle="React-UI Validations" titleTemplate="%s | React-UI Validations" />
       <NavigationBar>
-        <LogoContainer>
-          <Logotype suffix="ui-validations" href="#/" color="#fff" textColor="#fff" />
-        </LogoContainer>
+        <MainHeader>
+          <h3>react-ui-validations</h3>
+        </MainHeader>
         <div>
           <NavigationLink activeClassName={'active'} to="/api">
             API reference
@@ -52,6 +51,10 @@ const Divider = styled.div`
   height: 1px;
   margin: 10px 20px;
   background-color: #888;
+`;
+
+const MainHeader = styled.div`
+  padding: 10px 20px;
 `;
 
 const Header = styled.div`
@@ -128,11 +131,6 @@ const Content = styled.div`
 const ContentWrapper = styled.div`
   max-width: 800px;
   margin: 0 auto;
-`;
-
-const LogoContainer = styled.div`
-  display: block;
-  padding: 30px 20px;
 `;
 
 const NavigationLink = styled(NavLink)`

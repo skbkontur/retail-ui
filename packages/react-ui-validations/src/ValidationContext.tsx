@@ -9,7 +9,6 @@ export interface ValidationContextSettings {
   disableSmoothScroll: boolean;
 }
 
-// eslint-disable-next-line @typescript-eslint/interface-name-prefix
 export interface IValidationContext {
   register(wrapper: ValidationWrapperInternal): void;
   unregister(wrapper: ValidationWrapperInternal): void;

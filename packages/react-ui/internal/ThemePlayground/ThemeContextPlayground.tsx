@@ -3,10 +3,10 @@ import React, { ReactNode } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
+import { FLAT_THEME_OLD } from '../../lib/theming/themes/FlatThemeOld';
+import { DEFAULT_THEME_OLD } from '../../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
-import { DEFAULT_THEME_8PX } from '../../lib/theming/themes/DefaultTheme8px';
-import { FLAT_THEME_8PX } from '../../lib/theming/themes/FlatTheme8px';
+import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
@@ -30,17 +30,17 @@ interface PlaygroundState {
 }
 interface Themes {
   default: Theme;
-  default8px: Theme;
+  defaultOld: Theme;
   dark: Theme;
   flat: Theme;
-  flat8px: Theme;
+  flatOld: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
-  default8px: ThemeErrorsType;
+  defaultOld: ThemeErrorsType;
   dark: ThemeErrorsType;
   flat: ThemeErrorsType;
-  flat8px: ThemeErrorsType;
+  flatOld: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -54,9 +54,9 @@ export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
-    { value: ThemeType.Default8px, label: 'Дефолтная 8px' },
+    { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
     { value: ThemeType.Flat, label: 'Плоская' },
-    { value: ThemeType.Flat8px, label: 'Плоская 8px' },
+    { value: ThemeType.FlatOld, label: 'Старая Плоская' },
     { value: ThemeType.Dark, label: 'Темная' },
   ];
 
@@ -68,17 +68,17 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
-        default8px: DEFAULT_THEME_8PX,
+        defaultOld: DEFAULT_THEME_OLD,
         dark: darkTheme,
         flat: FLAT_THEME,
-        flat8px: FLAT_THEME_8PX,
+        flatOld: FLAT_THEME_OLD,
       },
       themesErrors: {
         default: {},
-        default8px: {},
+        defaultOld: {},
         dark: {},
         flat: {},
-        flat8px: {},
+        flatOld: {},
       },
     };
   }
@@ -138,7 +138,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     const themeObject: Writeable<ThemeIn> = {};
     ThemeFactory.getKeys(currentTheme).forEach(key => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
-      if (descriptor && !descriptor.get && DEFAULT_THEME[key] && currentTheme[key] !== DEFAULT_THEME[key]) {
+      if (descriptor && !descriptor.get && DEFAULT_THEME_OLD[key] && currentTheme[key] !== DEFAULT_THEME_OLD[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
       }
     });

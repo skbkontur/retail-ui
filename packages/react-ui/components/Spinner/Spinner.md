@@ -17,9 +17,9 @@ const reactNodeCaption = (
 </Gapped>;
 ```
 
-#### Локали по умолчанию (см. `LocaleProvider`)
+#### Локали по умолчанию
 
-```typescript
+```typescript static
 interface SpinnerLocale {
   loading?: React.ReactNode;
 }

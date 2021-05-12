@@ -3,7 +3,7 @@ Combobox with error handling
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
 
-let delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 let maybeReject = x => (Math.random() * 3 < 1 ? Promise.reject() : Promise.resolve(x));
 
@@ -21,26 +21,30 @@ let getItems = q =>
     .then(delay(500))
     .then(maybeReject);
 
-let initialState = {
-  selected: { value: 3, label: 'Third' },
-  error: false,
+const [selected, setSelected] = React.useState({ value: 3, label: 'Third' });
+const [error, setError] = React.useState(false);
+
+let handleValueChange = value => {
+  setSelected(value);
+  setError(false);
 };
 
-let handleValueChange = value => setState({ selected: value, error: false });
+let handleUnexpectedInput = () => {
+  setSelected(null);
+  setError(true);
+};
 
-let handleUnexpectedInput = () => setState({ error: true, selected: null });
+let handleFocus = () => setError(false);
 
-let handleFocus = () => setState({ error: false });
-
-<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={error ? 'opened' : 'closed'}>
   <ComboBox
-    error={state.error}
+    error={error}
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
-    value={state.selected}
+    value={selected}
   />
 </Tooltip>;
 ```
@@ -57,24 +61,20 @@ let popularItems = [
   { Id: 4980, City: 'Екатеринбург' },
 ];
 
-let handleValueChange = value => setState({ value });
-
-let initialState = {
-  value: null,
-};
+const [value, setValue] = React.useState(null);
 
 let mapCity = ({ Id, City }) => ({
   value: Id,
   label: City,
 });
 
-let hasSelectedItem = itemsSets => itemsSets.some(items => items.find(item => state.value.value === item.Id));
+let hasSelectedItem = itemsSets => itemsSets.some(items => items.find(item => value.value === item.Id));
 
-let shouldInsertSelectedItem = (query, items) => state.value && !query && !hasSelectedItem([items, popularItems]);
+let shouldInsertSelectedItem = (query, items) => value && !query && !hasSelectedItem([items, popularItems]);
 
 let getPopularItems = query => (query ? [] : popularItems.map(mapCity));
 let renderSeparator = query => (query ? [] : <MenuSeparator />);
-let getSelectedItem = (query, items) => (!shouldInsertSelectedItem(query, items) ? [] : state.value);
+let getSelectedItem = (query, items) => (!shouldInsertSelectedItem(query, items) ? [] : value);
 
 let prepareItems = (query, items) =>
   (!shouldInsertSelectedItem(query, items) ? items : items.slice(0, -1)).map(mapCity);
@@ -107,10 +107,10 @@ let renderItem = item => (
 );
 
 <ComboBox
-  onValueChange={handleValueChange}
+  onValueChange={setValue}
   getItems={getItems}
   placeholder="Начните вводить название"
-  value={state.value}
+  value={value}
   renderItem={renderItem}
 />;
 ```
@@ -121,7 +121,7 @@ let renderItem = item => (
 import OkIcon from '@skbkontur/react-icons/Ok';
 import { Tooltip } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const getItems = q =>
   Promise.resolve(
@@ -135,16 +135,25 @@ const getItems = q =>
     ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
   ).then(delay(500));
 
-const initialState = {
-  selected: { approved: false, value: 3, label: 'Розенкранц Харитонов', email: 'third@skbkontur.ru' },
-  error: false,
+const [selected, setSelected] = React.useState({
+  approved: false,
+  value: 3,
+  label: 'Розенкранц Харитонов',
+  email: 'third@skbkontur.ru',
+});
+const [error, setError] = React.useState(false);
+
+const handleValueChange = value => {
+  setSelected(value);
+  setError(false);
 };
 
-const handleValueChange = value => setState({ selected: value, error: false });
+const handleUnexpectedInput = () => {
+  setSelected(null);
+  setError(true);
+};
 
-const handleUnexpectedInput = () => setState({ error: true, selected: null });
-
-const handleFocus = () => setState({ error: false });
+const handleFocus = () => setError(false);
 
 const customRenderItem = item => (
   <div
@@ -210,15 +219,15 @@ const customRenderValue = item => (
   </div>
 );
 
-<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={error ? 'opened' : 'closed'}>
   <ComboBox
-    error={state.error}
+    error={error}
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
-    value={state.selected}
+    value={selected}
     renderItem={customRenderItem}
     renderValue={customRenderValue}
     width="400px"
@@ -231,7 +240,7 @@ const customRenderValue = item => (
 ```jsx harmony
 import { Tooltip } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 const getItems = query =>
   Promise.resolve(
@@ -269,16 +278,20 @@ const getItems = query =>
       }),
   ).then(delay(500));
 
-const initialState = {
-  selected: { value: 3, label: 'Third' },
-  error: false,
+const [selected, setSelected] = React.useState({ value: 3, label: 'Third' });
+const [error, setError] = React.useState(false);
+
+let handleValueChange = value => {
+  setSelected(value);
+  setError(false);
 };
 
-const handleValueChange = value => setState({ selected: value, error: false });
+let handleUnexpectedInput = () => {
+  setSelected(null);
+  setError(true);
+};
 
-const handleUnexpectedInput = () => setState({ error: true, selected: null });
-
-const handleFocus = () => setState({ error: false });
+let handleFocus = () => setError(false);
 
 const renderItem = item => {
   if (item.highlightedLabel) {
@@ -288,15 +301,15 @@ const renderItem = item => {
   return item.label;
 };
 
-<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={state.error ? 'opened' : 'closed'}>
+<Tooltip closeButton={false} render={() => 'Item must be selected!'} trigger={error ? 'opened' : 'closed'}>
   <ComboBox
-    error={state.error}
+    error={error}
     getItems={getItems}
     onValueChange={handleValueChange}
     onFocus={handleFocus}
     onUnexpectedInput={handleUnexpectedInput}
     placeholder="Enter number"
-    value={state.selected}
+    value={selected}
     renderItem={renderItem}
   />
 </Tooltip>;
@@ -307,7 +320,7 @@ const renderItem = item => {
 ```jsx harmony
 import { MenuItem } from '@skbkontur/react-ui';
 
-const delay = ms => v => new Promise(resolve => setTimeout(resolve, ms, v));
+const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
 class ComboboxExample extends React.Component {
   constructor(props) {
@@ -409,9 +422,9 @@ class ComboboxExample extends React.Component {
 <ComboboxExample />;
 ```
 
-#### Локали по умолчанию (см. `LocaleProvider`)
+#### Локали по умолчанию
 
-```typescript
+```typescript static
 interface ComboBoxLocale {
   notFound?: string;
   errorNetworkButton?: string;

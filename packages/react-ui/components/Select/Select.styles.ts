@@ -16,6 +16,12 @@ const styles = {
     `;
   },
 
+  placeholderDisabled(t: Theme) {
+    return css`
+      color: ${t.selectPlaceholderColorDisabled};
+    `;
+  },
+
   customUsePlaceholder() {
     return css`
       color: inherit;
@@ -23,66 +29,67 @@ const styles = {
     `;
   },
 
-  arrow(t: Theme) {
+  arrowWrap(t: Theme) {
     return css`
-      border: 4px solid transparent;
-      border-bottom-width: 0;
-      border-top-color: ${t.selectMenuArrowColor};
-
-      display: inline-block;
-      margin-bottom: 3px;
-      vertical-align: middle;
-    `;
-  },
-
-  arrowWrap() {
-    return css`
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 0;
-
-      &::before {
-        content: '';
-        display: inline-block;
-        height: 100%;
-        vertical-align: middle;
-      }
+      color: ${t.selectMenuArrowColor};
+      flex-shrink: 0;
     `;
   },
 
   customUseArrow() {
     return css`
-      border-top-color: inherit;
-      color: inherit;
+      color: inherit !important;
       opacity: 0.7;
     `;
   },
 
   label() {
     return css`
-      box-sizing: border-box;
-      display: inline-block;
-      max-width: 100%;
-      width: auto;
-      position: relative;
-    `;
-  },
-
-  labelText() {
-    return css`
-      display: inline-block;
-      max-width: 100%;
-      overflow: hidden;
+      flex: 1 1 auto;
       text-overflow: ellipsis;
-      vertical-align: top;
       white-space: nowrap;
+      overflow: hidden;
     `;
   },
 
   search() {
     return css`
       margin: 1px 4px 4px;
+    `;
+  },
+
+  leftIconSmall(t: Theme) {
+    return css`
+      padding-right: ${t.selectIconGapSmall};
+      width: ${t.btnIconSizeSmall};
+    `;
+  },
+
+  leftIconMedium(t: Theme) {
+    return css`
+      padding-right: ${t.selectIconGapMedium};
+      width: ${t.btnIconSizeMedium};
+    `;
+  },
+
+  leftIconLarge(t: Theme) {
+    return css`
+      padding-right: ${t.selectIconGapLarge};
+      width: ${t.btnIconSizeLarge};
+    `;
+  },
+
+  leftIconLink(t: Theme) {
+    return css`
+      padding-right: ${t.btnLinkIconMarginRight};
+    `;
+  },
+
+  selectButtonContainer() {
+    return css`
+      width: 100%;
+      display: inline-flex;
+      justify-content: space-between;
     `;
   },
 };

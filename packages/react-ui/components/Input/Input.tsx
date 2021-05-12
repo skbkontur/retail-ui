@@ -181,6 +181,8 @@ export class Input extends React.Component<InputProps, InputState> {
 
   /**
    * @public
+   * @param {number} start
+   * @param {number} end
    */
   public setSelectionRange(start: number, end: number) {
     if (!this.input) {
