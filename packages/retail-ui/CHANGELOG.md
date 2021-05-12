@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.11.8](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.7...retail-ui@1.11.8) (2021-05-12)
+
+
+### Bug Fixes
+
+* **Autocomplete:** use prop `active` from `RenderLayer` ([d96fb88](https://github.com/skbkontur/retail-ui/commit/d96fb88))
+* **Checkbox:** fix indeterminate state in IE11/Edge ([c4aecd0](https://github.com/skbkontur/retail-ui/commit/c4aecd0)), closes [#2320](https://github.com/skbkontur/retail-ui/issues/2320)
+* **FxInput:** add prop `disabled` to button `restore` ([c1af0fb](https://github.com/skbkontur/retail-ui/commit/c1af0fb)), closes [#2051](https://github.com/skbkontur/retail-ui/issues/2051) [#2050](https://github.com/skbkontur/retail-ui/issues/2050)
+* **Loader:** update loader position on became active ([2e24935](https://github.com/skbkontur/retail-ui/commit/2e24935)), closes [#2097](https://github.com/skbkontur/retail-ui/issues/2097)
+* **Select:** fix span width with left icon ([c7976b0](https://github.com/skbkontur/retail-ui/commit/c7976b0)), closes [#2119](https://github.com/skbkontur/retail-ui/issues/2119)
+* **Sticky:** avoid collapsing margins ([b6c7b6b](https://github.com/skbkontur/retail-ui/commit/b6c7b6b))
+
+
+
+
+
 ## [1.11.7](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.6...retail-ui@1.11.7) (2020-11-09)
 
 
