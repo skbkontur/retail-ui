@@ -3,7 +3,6 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 import { DefaultThemeInternal } from './DefaultTheme';
 
 export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
-  public static textColorDefault = '#333333';
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '16px';
   public static fontSizeLarge = '18px';
