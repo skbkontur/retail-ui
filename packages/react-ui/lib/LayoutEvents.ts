@@ -10,13 +10,13 @@ function getEmitter() {
 }
 
 function listenBrowserEvents() {
-  window.addEventListener('scroll', emit);
-  window.addEventListener('resize', emit);
+  window.addEventListener('scroll', emit, { capture: true });
+  window.addEventListener('resize', emit, { capture: true });
 }
 
 function unlistenBrowserEvents() {
-  window.removeEventListener('scroll', emit);
-  window.removeEventListener('resize', emit);
+  window.removeEventListener('scroll', emit, { capture: true });
+  window.removeEventListener('resize', emit, { capture: true });
 }
 
 export function addListener(callback: () => void) {

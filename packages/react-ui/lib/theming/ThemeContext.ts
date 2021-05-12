@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { DEFAULT_THEME_8PX } from './themes/DefaultTheme8px';
+import { DEFAULT_THEME } from './themes/DefaultTheme';
 
-export const ThemeContext = React.createContext(DEFAULT_THEME_8PX);
+export const ThemeContext = React.createContext(DEFAULT_THEME);
 
 ThemeContext.displayName = 'ThemeContext';

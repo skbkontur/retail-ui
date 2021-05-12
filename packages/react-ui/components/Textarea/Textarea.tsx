@@ -2,6 +2,7 @@ import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import cn from 'classnames';
+import raf from 'raf';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
@@ -11,7 +12,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { isBrowser } from '../../lib/client';
+import { isBrowser, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
@@ -189,6 +190,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private theme!: Theme;
+  private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
   private counter: Nullable<TextareaCounterRef>;
@@ -221,6 +223,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if (this.props.showLengthCounter && this.textareaObserver) {
       this.textareaObserver.disconnect();
     }
+    this.cancelDelayedSelectAll();
   }
 
   public componentDidUpdate(prevProps: TextareaProps) {
@@ -285,6 +288,15 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public selectAll = () => {
     if (this.node) {
       this.setSelectionRange(0, this.node.value.length);
+    }
+  };
+
+  private delaySelectAll = (): number => (this.selectAllId = raf(this.selectAll));
+
+  private cancelDelayedSelectAll = (): void => {
+    if (this.selectAllId) {
+      raf.cancel(this.selectAllId);
+      this.selectAllId = null;
     }
   };
 
@@ -499,7 +511,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     this.setState({ isCounterVisible: true });
 
     if (this.props.selectAllOnFocus) {
-      this.selectAll();
+      // https://github.com/facebook/react/issues/7769
+      this.node && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {
