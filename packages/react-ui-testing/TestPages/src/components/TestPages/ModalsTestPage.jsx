@@ -11,7 +11,7 @@ export default class InputTextPage extends React.Component {
     showModalWithoutComp: false,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Модальные окна">
         <Case title="Модальное окно на stateless компоненте, которое принимает свойство show">

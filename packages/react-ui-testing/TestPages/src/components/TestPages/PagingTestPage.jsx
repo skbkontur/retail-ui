@@ -11,7 +11,7 @@ export default class PagingTestPage extends React.Component {
     paging20: 1,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Paging">
         <Case title="Paging1">

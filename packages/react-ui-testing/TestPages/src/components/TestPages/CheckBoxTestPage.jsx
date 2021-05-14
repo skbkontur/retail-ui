@@ -11,7 +11,7 @@ export default class CheckboxTestPage extends React.Component {
     value4: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Checkbox">
         <Case title="Simple Checkbox">

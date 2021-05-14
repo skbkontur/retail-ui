@@ -8,7 +8,7 @@ export default class RadioTestPage extends React.Component {
     value: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Radio">
         <Case title="Simple Radio">

@@ -11,7 +11,7 @@ type LayoutProps = {
     location: any,
 };
 
-function Layout({ children, location }: LayoutProps): React.Element<*> {
+function Layout({ children, location }: LayoutProps) {
     return (
         <Root>
             <Helmet defaultTitle="React-UI selenium testing" titleTemplate="%s | React-UI selenium testing" />
