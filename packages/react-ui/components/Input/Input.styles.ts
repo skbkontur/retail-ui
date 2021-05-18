@@ -184,7 +184,7 @@ const styles = {
     return css`
       background: ${t.inputDisabledBg} !important;
       border-color: ${t.inputDisabledBorderColor} !important;
-      box-shadow: none;
+      box-shadow: none !important;
 
       ${cssName(styles.icon())} {
         cursor: default;
