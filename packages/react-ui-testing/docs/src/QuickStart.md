@@ -1,5 +1,3 @@
-# Быстрый старт
-
 ### Начальные требования
 
 -   Microsoft Visual Studio 2015+
@@ -13,8 +11,7 @@
 -   Добавить в зависимости Selnium.WebDriver и NUnit
 -   Запустить простейший тест:
 
-Code:
-
+```markup static
     using System;
     using NUnit.Framework;
     using OpenQA.Selenium.Remote;
@@ -64,3 +61,4 @@ Code:
             public Label ValueLabel { get; set; }
         }
     }
+```
