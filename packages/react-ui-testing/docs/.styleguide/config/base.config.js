@@ -120,7 +120,7 @@ const styles = {
 
 module.exports = {
   pagePerSection: true,
-  title: 'react-ui-validations docs',
+  title: 'react-ui-testing',
   require: ['core-js'],
   styles,
   sections: [
@@ -145,6 +145,5 @@ module.exports = {
       exampleMode: 'expand',
     },
   ],
-  defaultExample: '../MockReadme.md',
   styleguideDir: path.join(__dirname, '../../build'),
 };
