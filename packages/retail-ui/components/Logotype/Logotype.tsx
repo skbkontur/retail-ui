@@ -7,10 +7,13 @@ import { Nullable } from '../../typings/utility-types';
 import { LogotypeLocale, LogotypeLocaleHelper } from './locale';
 import ProductWidget from './ProductWidget';
 import styles from './Logotype.module.less';
-import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Logotype.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import cn from 'classnames';
+import { isIE11 } from '../../lib/utils';
+
+const LOGO_SIZE = 24;
 
 const createCloud = (size: number, color: string) => {
   const INITIAL_WIDTH = 23;
@@ -77,6 +80,16 @@ export interface LogotypeProps {
    * @default { prefix: 'к', suffix: 'нтур' }
    */
   locale?: LogotypePropLocale;
+  /**
+   * Логотип Контура
+   * @see [@skbkontur/logos](/#/logos)
+   */
+  konturLogo: React.ReactElement<any> | null;
+  /**
+   * Логотип продукта
+   * @see [@skbkontur/logos](/#/logos)
+   */
+  productLogo: React.ReactElement<any> | null;
 }
 
 @locale('Logotype', LogotypeLocaleHelper)
@@ -102,6 +115,8 @@ class Logotype extends React.Component<LogotypeProps> {
     textColor: '#000',
     component: 'a',
     href: '/',
+    konturLogo: null,
+    productLogo: null
   };
 
   private theme!: ITheme;
@@ -134,47 +149,90 @@ class Logotype extends React.Component<LogotypeProps> {
 
   private renderMain() {
     const {
-      color,
-      textColor,
+      konturLogo,
       component: Component,
-      suffix,
-      size,
+      size: sizeProp,
       href,
       withWidget,
-      locale: propLocale = this.locale,
       onArrowClick,
     } = this.props;
-    const dropdownClassName = cx(styles.dropdown, {
-      [styles.inline]: !withWidget,
+
+    const isOldBehavior = !konturLogo;
+    const componentClassName = cn(jsStyles.root(), isOldBehavior && jsStyles.rootOld(this.theme));
+    const dividerClassName = cn(
+      !isOldBehavior && jsStyles.divider(this.theme),
+      isOldBehavior && jsStyles.dividerOld(this.theme)
+    );
+    const buttonClassName = cn({
+      [styles.button]: !isOldBehavior,
+      [styles.buttonIE11Fallback]: !isOldBehavior && isIE11,
+      [styles.buttonOld]: isOldBehavior
     });
+    const styleComponent = isOldBehavior ? { fontSize: `${sizeProp}px` } : { height: this.getSize() };
+    const logo = isOldBehavior ? this.renderLogoOld() : this.renderLogo();
+    const arrowStyles = isOldBehavior ? {} : { height: 24 };
+
+    const dropdownClassName = cn({
+      [jsStyles.dropdown()]: !isOldBehavior,
+      [jsStyles.dropdownOld()]: isOldBehavior
+    });
+
+    const component = (
+      <Component
+        href={href}
+        tabIndex="-1"
+        className={componentClassName}
+        style={styleComponent}
+        {...(isOldBehavior ? {} : { ['data-logotype-component']: '' })}
+      >
+        {logo}
+      </Component>
+    );
 
     return (
       <div id="spwDropdown" className={dropdownClassName}>
         <span ref={this.refLogoWrapper} className={styles.widgetWrapper}>
-          <Component
-            href={href}
-            tabIndex="-1"
-            className={cx(styles.root, jsStyles.root(this.theme))}
-            style={{ fontSize: `${size}px` }}
-          >
-            <span style={{ color: textColor }}>{propLocale.prefix}</span>
-            <span style={{ color }}>{createCloud(size, color)}</span>
-            <span style={{ color: textColor }}>
-              {propLocale.suffix}
-              {suffix && '.'}
-            </span>
-            {suffix && <span style={{ color }}>{suffix}</span>}
-          </Component>
-          {withWidget && <span className={cx(styles.divider, jsStyles.divider(this.theme))} />}
+          {component}
+          {withWidget && <span className={dividerClassName} />}
         </span>
         {withWidget && (
-          <button className={styles.button} onClick={onArrowClick}>
-            <ArrowChevronDownIcon color="#aaa" size={20} />
+          <button className={buttonClassName} onClick={onArrowClick}>
+            <ArrowChevronDownIcon color="#aaa" size={20} style={arrowStyles} />
           </button>
         )}
       </div>
-    );
+    )
   }
+
+  private getSize = (): number => (this.props.size == Logotype.defaultProps.size ? LOGO_SIZE : this.props.size);
+
+  private renderLogo = () => {
+    const { konturLogo, productLogo } = this.props;
+    const size = this.getSize();
+
+    return (
+      <>
+        <span className={jsStyles.konturLogo()}>{konturLogo && React.cloneElement(konturLogo, { size })}</span>
+        {productLogo && <span className={jsStyles.productLogo()}>{React.cloneElement(productLogo, { size })}</span>}
+      </>
+    );
+  };
+
+  private renderLogoOld = () => {
+    const { size, suffix, locale: propLocale = this.locale, color, textColor } = this.props;
+
+    return (
+      <>
+        <span style={{ color: textColor }}>{propLocale.prefix}</span>
+        <span style={{ color }}>{createCloud(size, color)}</span>
+        <span style={{ color: textColor }}>
+              {propLocale.suffix}
+          {suffix && '.'}
+            </span>
+        {suffix && <span style={{ color }}>{suffix}</span>}
+      </>
+    );
+  };
 
   private refLogoWrapper = (el: Nullable<HTMLElement>) => {
     if (this.logoWrapper) {

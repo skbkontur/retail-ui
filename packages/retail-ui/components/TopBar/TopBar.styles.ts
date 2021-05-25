@@ -6,6 +6,10 @@ const jsStyles = {
     return css`
       background: ${t.tbBg};
       box-shadow: ${t.tbShadow};
+
+      & [data-logotype-component] {
+        bottom: 1px;
+      }
     `;
   },
 
