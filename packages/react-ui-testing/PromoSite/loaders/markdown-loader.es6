@@ -2,7 +2,7 @@ import { markdown } from 'markdown';
 
 class Renderer {
     renderContent(content) {
-        return content.map(x => this.renderTree(x)).join('\n');
+        return content.map((x) => this.renderTree(x)).join('\n');
     }
 
     splitTree(tree) {
@@ -66,7 +66,7 @@ class Renderer {
     }
 }
 
-module.exports = function(content) {
+module.exports = function (content) {
     const markdownTree = markdown.parse(content);
     const renderer = new Renderer();
     const result = renderer.renderTree(markdownTree);
@@ -98,7 +98,7 @@ function Header({ level, children }) {
 }
 
 export default class GettingStarted extends React.Component {
-    render(): React.Element<*> {
+    render() {
         return (
             <div>
                 ${header}

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Router, Route, browserHistory } from 'react-router';
+import { Router, Route, Switch } from 'react-router';
+import { createBrowserHistory } from 'history';
 
 import Layout from './components/Layout';
 import TestPage from './components/TestPage';
@@ -33,35 +34,46 @@ else SidePageTestPage = () => <div>Does not work</div>;
 import './styles/reset.less';
 import './styles/typography.less';
 import AutocompleteTestPage from './components/TestPages/AutocompleteTestPage';
-import ToastTestPage from "./components/TestPages/ToastTestPage";
-import ToggleTestPage from "./components/TestPages/ToggleTestPage";
+import ToastTestPage from './components/TestPages/ToastTestPage';
+import ToggleTestPage from './components/TestPages/ToggleTestPage';
 
+const customHistory = createBrowserHistory();
+const basePath = process.env.baseUrl + '/';
+
+// eslint-disable-next-line import/no-default-export
 export default function ReactTestApplication() {
   return (
-    <Router history={browserHistory}>
-      <Route path={process.env.baseUrl + '/'} component={Layout}>
-        <Route path="TestPage" component={TestPage} />
-        <Route path="Input" component={InputTestPage} />
-        <Route path="Lists" component={ListsTestPage} />
-        <Route path="Modals" component={ModalsTestPage} />
-        <Route path="ComboBoxes" component={ComboBoxTestPage} />
-        <Route path="Select" component={SelectTestPage} />
-        <Route path="DatePicker" component={DatePickerTestPage} />
-        <Route path="Button" component={ButtonTestPage} />
-        <Route path="CheckBox" component={CheckBoxTestPage} />
-        <Route path="Link" component={LinkTestPage} />
-        <Route path="RadioGroup" component={RadioGroupTestPage} />
-        <Route path="Radio" component={RadioTestPage} />
-        <Route path="Textarea" component={TextAreaTestPage} />
-        <Route path="Tooltip" component={TooltipTestPage} />
-        <Route path="ExposeTidToDom" component={ExposeTidToDomTestPage} />
-        <Route path="Kebab" component={KebabTestPage} />
-        <Route path="Paging" component={PagingTestPage} />
-        <Route path="SidePage" component={SidePageTestPage} />
-        <Route path="Autocomplete" component={AutocompleteTestPage} />
-        <Route path="Toast" component={ToastTestPage}/>
-        <Route path="Toggle" component={ToggleTestPage} />
-      </Route>
+    <Router history={customHistory}>
+      <Route
+        path={basePath}
+        render={({ match: { url } }) => (
+          <Layout>
+            <Switch>
+              <Route path={`${url}/TestPage`} component={TestPage} />
+              <Route path={`${url}/Input`} component={InputTestPage} />
+              <Route path={`${url}/Lists`} component={ListsTestPage} />
+              <Route path={`${url}/Modals`} component={ModalsTestPage} />
+              <Route path={`${url}/ComboBoxes`} component={ComboBoxTestPage} />
+              <Route path={`${url}/Select`} component={SelectTestPage} />
+              <Route path={`${url}/DatePicker`} component={DatePickerTestPage} />
+              <Route path={`${url}/Button`} component={ButtonTestPage} />
+              <Route path={`${url}/CheckBox`} component={CheckBoxTestPage} />
+              <Route path={`${url}/Link`} component={LinkTestPage} />
+              <Route path={`${url}/RadioGroup`} component={RadioGroupTestPage} />
+              <Route path={`${url}/Radio`} component={RadioTestPage} />
+              <Route path={`${url}/Textarea`} component={TextAreaTestPage} />
+              <Route path={`${url}/Tooltip`} component={TooltipTestPage} />
+              <Route path={`${url}/ExposeTidToDom`} component={ExposeTidToDomTestPage} />
+              <Route path={`${url}/Kebab`} component={KebabTestPage} />
+              <Route path={`${url}/Paging`} component={PagingTestPage} />
+              <Route path={`${url}/SidePage`} component={SidePageTestPage} />
+              <Route path={`${url}/Autocomplete`} component={AutocompleteTestPage} />
+              <Route path={`${url}/Toast`} component={ToastTestPage} />
+              <Route path={`${url}/Toggle`} component={ToggleTestPage} />
+            </Switch>
+          </Layout>
+        )}
+      ></Route>
     </Router>
   );
 }

@@ -12,9 +12,10 @@ import { RadioGroup } from '@skbkontur/react-ui/components/RadioGroup';
 import { Select } from '@skbkontur/react-ui/components/Select';
 import { Textarea } from '@skbkontur/react-ui/components/Textarea';
 import { Tooltip } from '@skbkontur/react-ui/components/Tooltip';
+
 import { Label } from '../common/Label';
 
-function bind(name) {
+function stateChanger(name) {
   return {
     value: this.state[name],
     onValueChange: v => {
@@ -76,6 +77,7 @@ function renderTooltip() {
   return <div data-tid="tooltipHint">Hello, kitty</div>;
 }
 
+// eslint-disable-next-line import/no-default-export
 export default class TestPage extends React.Component {
   constructor(props) {
     super(props);
@@ -93,6 +95,8 @@ export default class TestPage extends React.Component {
       textAreaValue: '',
       buttonText: 'bla',
     };
+
+    this.stateChanger = stateChanger.bind(this);
   }
 
   render() {
@@ -101,7 +105,7 @@ export default class TestPage extends React.Component {
     return (
       <div>
         <h4>Input</h4>
-        <Input data-tid="input" {...this::bind('inputValue')} />
+        <Input data-tid="input" {...this.stateChanger('inputValue')} />
         <hr />
 
         <h4>ComboBox</h4>
@@ -172,7 +176,7 @@ export default class TestPage extends React.Component {
         <hr />
 
         <h4>Textarea</h4>
-        <Textarea data-tid="textarea" {...this::bind('textAreaValue')}>
+        <Textarea data-tid="textarea" {...this.stateChanger('textAreaValue')}>
           TextArea
         </Textarea>
         <hr />
@@ -194,7 +198,7 @@ export default class TestPage extends React.Component {
         <hr />
 
         <h4>Autocomplete</h4>
-        <Autocomplete {...this::bind('acValue')} data-tid="autocomplete" source={autocompleteValue} />
+        <Autocomplete {...this.stateChanger('acValue')} data-tid="autocomplete" source={autocompleteValue} />
         <hr />
 
         <h4>List</h4>
@@ -210,7 +214,7 @@ export default class TestPage extends React.Component {
         />
         <hr />
         <h4>DatePicker</h4>
-        <DatePicker {...this::bind('datePickerValue')} data-tid="datePicker" />
+        <DatePicker {...this.stateChanger('datePickerValue')} data-tid="datePicker" />
         <hr />
         <h4>Tooltip</h4>
         <Tooltip data-tid="tooltip" render={renderTooltip} trigger="click">
