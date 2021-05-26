@@ -20,7 +20,7 @@ const Bookmarklet = styled.a`
 `;
 
 export default class BookmarkletsPage extends React.Component {
-    createHrefToBookmarklet(filename): string {
+    createHrefToBookmarklet(filename) {
         return (
             'javascript: (function () { ' +
             'var jsCode = document.createElement("script"); ' +
@@ -30,7 +30,7 @@ export default class BookmarkletsPage extends React.Component {
         );
     }
 
-    render(): React.Element<*> {
+    render() {
         return (
             <ContentWrapper>
                 <Content>

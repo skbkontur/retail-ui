@@ -13,7 +13,7 @@ export default class InputTextPage extends React.Component {
     case6State: 1,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Механизм переноса props-ов в DOM">
         <Case title="Разные элементы переключаются между одним дом элементом" data-tid="SameDomElementCase">

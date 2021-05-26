@@ -9,7 +9,7 @@ export default class KebabTestPage extends React.Component {
     kebabValue: 'none',
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Kebab">
         <Case title="Disabled">
