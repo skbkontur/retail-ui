@@ -10,7 +10,7 @@ class ListBasedAutocomplete extends React.Component {
     value: '',
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <Autocomplete
         source={suggestions}
@@ -27,7 +27,7 @@ class FetchBasedAutocomplete extends React.Component {
     value: '',
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <Autocomplete
         source={pattern => Promise.resolve(suggestions.filter(s => s.startsWith(pattern)))}
@@ -39,12 +39,12 @@ class FetchBasedAutocomplete extends React.Component {
   }
 }
 
-class DelayedFetchBasedAutocomplete extends React.Component<{ sleepTimeInMs: number }> {
+class DelayedFetchBasedAutocomplete extends React.Component {
   state = {
     value: '',
   };
 
-  render(): React.Element<*> {
+  render() {
     const { sleepTimeInMs } = this.props;
     return (
       <Autocomplete
@@ -62,7 +62,7 @@ class DelayedFetchBasedAutocomplete extends React.Component<{ sleepTimeInMs: num
 }
 
 export default class AutocompleteTestPage extends React.Component {
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Autocomplete">
         <Case title="List Based Autocomplete">

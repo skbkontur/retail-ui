@@ -9,7 +9,7 @@ export default class SelectTestPage extends React.Component {
     select2: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Селекты">
         <Case title="Простой селект где, value == caption">
