@@ -102,6 +102,7 @@ const styles = {
     return css`
       position: relative;
       background-color: ${t.radioCheckedBgColor};
+      border-color: ${t.radioCheckedBorderColor} !important;
 
       &::before {
         content: ' ';
