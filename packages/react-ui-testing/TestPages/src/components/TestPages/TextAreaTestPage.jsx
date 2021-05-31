@@ -8,7 +8,7 @@ export default class TextareaTestPage extends React.Component {
     value: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Textarea">
         <Case title="Simple Textarea">

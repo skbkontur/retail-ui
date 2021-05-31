@@ -8,7 +8,7 @@ export default class RadioGroupTestPage extends React.Component {
     value: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="RadioGroup">
         <Case title="Simple RadioGroup">
