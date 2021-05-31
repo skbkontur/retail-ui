@@ -8,7 +8,12 @@
     "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet build --configuration Release",
     "test": "dotnet test ./Tests/Tests.csproj --configuration Release --verbosity detailed --framework netcoreapp3.1",
-    "start": "yarn --cwd ./TestPages start"
+    "start": "yarn --cwd ./TestPages start",
+    "styleguide": "styleguidist server --config ./docs/.styleguide/config/base.config.js",
+    "styleguide:build": "styleguidist build --config ./docs/.styleguide/config/base.config.js"
+  },
+  "devDependencies": {
+    "react-styleguidist": "^11.1.6"
   },
   "author": "",
   "license": "ISC"
