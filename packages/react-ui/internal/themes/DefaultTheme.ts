@@ -1228,6 +1228,7 @@ export class DefaultTheme {
   }
   public static radioFocusShadow = 'none';
   public static radioCheckedBgColor = 'transparent';
+  public static radioCheckedBorderColor = 'inherit';
   public static radioCheckedBulletColor = '#404040';
   public static get radioCheckedHoverBgColor() {
     return this.radioHoverBg;
