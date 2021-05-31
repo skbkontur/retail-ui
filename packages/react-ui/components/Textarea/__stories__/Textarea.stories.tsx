@@ -117,6 +117,18 @@ DifferentStates.story = {
             .perform();
           await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
         },
+        async FocusedByTab() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .move({ x: 0, y: 0 })
+            .click()
+            .sendKeys(this.keys.TAB)
+            .sendKeys(this.keys.TAB)
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('Focused by tab');
+        },
         async Typed() {
           await this.browser
             .actions({
