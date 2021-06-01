@@ -27,6 +27,7 @@ setFilter(fiber => {
 addParameters({
   creevey: {
     captureElement: '#test-element',
+    delay: 500,
     skip: [
       {
         in: ['chromeFlat', 'firefoxFlat', 'ie11Flat', 'chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
@@ -43,24 +44,28 @@ addDecorator(story => (
   </div>
 ));
 
-addDecorator(story => {
-  const getTheme = () => {
-    switch (true) {
-      case Boolean(process.env.STORYBOOK_OLD):
-        return DEFAULT_THEME_OLD;
-      case Boolean(process.env.STORYBOOK_FLAT):
-        return FLAT_THEME;
-      case Boolean(process.env.STORYBOOK_FLAT_OLD):
-        return FLAT_THEME_OLD;
-      default:
-        return DEFAULT_THEME;
-    }
-  };
-  const theme = getTheme();
-  if (theme !== DEFAULT_THEME) {
-    return <ThemeContext.Provider value={theme}>{story()}</ThemeContext.Provider>;
+const getTheme = () => {
+  switch (true) {
+    case Boolean(process.env.STORYBOOK_OLD):
+      return DEFAULT_THEME_OLD;
+    case Boolean(process.env.STORYBOOK_FLAT):
+      return FLAT_THEME;
+    case Boolean(process.env.STORYBOOK_FLAT_OLD):
+      return FLAT_THEME_OLD;
+    default:
+      return DEFAULT_THEME;
   }
-  return story();
+};
+
+const ThemeWrapper: React.FC = ({ children }) => {
+  const theme = getTheme();
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => setMounted(true), []);
+  return <ThemeContext.Provider value={mounted ? theme : DEFAULT_THEME}>{children}</ThemeContext.Provider>;
+};
+
+addDecorator(story => {
+  return <ThemeWrapper>{story()}</ThemeWrapper>;
 });
 
 addParameters({
