@@ -242,13 +242,13 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static chbCheckedColor = '#fff';
   public static get chbCheckedShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #1768a3`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedBg}`;
   }
   public static get chbCheckedHoverShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.chbCheckedHoverBg}`;
   }
   public static get chbCheckedActiveShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.chbCheckedActiveBg}`;
   }
   public static get chbHoverBg() {
     return this.btnDefaultHoverBg;
@@ -301,6 +301,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioHoverShadow = 'none';
   public static radioActiveShadow = 'none';
   public static radioCheckedBulletColor = '#fff';
+  public static radioCheckedBorderColor = 'transparent';
   public static radioDisabledShadow = 'none';
   public static radioLabelDisplay = 'inline-block';
   public static get radioHoverBg() {
