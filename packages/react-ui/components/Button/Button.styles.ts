@@ -753,6 +753,8 @@ const styles = {
     const disabled = cssName(styles.disabled(t));
     const checked = cssName(styles.checked(t));
     const active = cssName(styles.active(t));
+    const arrowWarning = cssName(styles.arrowWarning(t));
+    const arrowError = cssName(styles.arrowError(t));
 
     return css`
       &:not(${focus}):not(${disabled}):not(${active}):not(${checked}) {
@@ -760,6 +762,14 @@ const styles = {
         &:hover,
         &:active {
           box-shadow: none !important;
+          border-color: transparent !important;
+        }
+
+        ${cssName(styles.arrow())}, ${cssName(styles.arrowLeft(t))} {
+          &:not(${arrowWarning}):not(${arrowError}) {
+            box-shadow: none !important;
+            border-color: transparent !important;
+          }
         }
       }
     `;
