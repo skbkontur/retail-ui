@@ -9,7 +9,7 @@ export default class DatePickerTestPage extends React.Component {
     date2: '31.12.2017',
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Дейтпикеры">
         <Case title="Простой дейтпикер">

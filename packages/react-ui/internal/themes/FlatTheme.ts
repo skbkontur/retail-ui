@@ -142,13 +142,13 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static checkboxCheckedColor = '#fff';
   public static get checkboxCheckedShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #1768a3`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedBg}`;
   }
   public static get checkboxCheckedHoverShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedHoverBg}`;
   }
   public static get checkboxCheckedActiveShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedActiveBg}`;
   }
   public static get checkboxHoverBg() {
     return this.btnDefaultHoverBg;
@@ -215,6 +215,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get radioCheckedBgColor() {
     return this.checkboxCheckedBg;
   }
+  public static radioCheckedBorderColor = 'transparent';
   public static get radioCheckedHoverBgColor() {
     return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }

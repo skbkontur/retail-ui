@@ -12,7 +12,7 @@ export default class InputTextPage extends React.Component {
     showInput: false,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Текстовые поля">
         <Case title="Простой инпут">
