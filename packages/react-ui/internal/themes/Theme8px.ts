@@ -256,7 +256,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlBorderWidth;
   }
   public static get toggleOutlineWidth() {
-    return `calc(${this.controlOutlineWidth} + 1px)`;
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${outlineWidth + borderWidth}px`;
   }
   //#endregion
   //#region Token
