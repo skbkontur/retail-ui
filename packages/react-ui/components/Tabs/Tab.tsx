@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import invariant from 'invariant';
 import cn from 'classnames';
 
+import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { tabListener } from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
@@ -224,7 +225,13 @@ export class Tab extends React.Component<TabProps, TabState> {
           ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
           href={href}
         >
-          {children}
+          <ResizeDetector
+            onResize={event => {
+              this.context.notifyUpdate();
+            }}
+          >
+            {children}
+          </ResizeDetector>
           {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}
         </Component>
       </CommonWrapper>
