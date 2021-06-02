@@ -66,6 +66,7 @@ const styles = {
 
   close(t: Theme) {
     return css`
+      box-sizing: content-box !important;
       color: ${t.toastCloseColor};
       cursor: pointer;
       display: inline-block;

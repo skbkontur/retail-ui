@@ -8,7 +8,7 @@ export default class ButtonTestPage extends React.Component {
     value: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Button">
         <Case title="Simple Button">
