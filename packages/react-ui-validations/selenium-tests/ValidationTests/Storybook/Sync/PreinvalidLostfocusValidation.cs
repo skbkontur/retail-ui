@@ -10,10 +10,25 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
     public class PreinvalidLostfocusValidation : StorybookTestBase
     {
         [Test]
-        public void TestInvalidByDefault()
+        public void TestValidByDefault()
         {
             var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
+            page.Input.WaitNoError();
+            page.InputValidation.Label.WaitAbsent();
+        }
+
+        [Test]
+        public void TestInvalidAfterBlur()
+        {
+            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            page.Input.Value.Wait().EqualTo("bad");
+
+            page.Input.WaitNoError();
+            page.InputValidation.Label.WaitAbsent();
+
+            page.Input.Click();
+            page.Input.TabOut();
             page.Input.WaitError();
             page.InputValidation.Label.WaitText("incorrect value");
         }
@@ -23,6 +38,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         {
             var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
+
+            page.Input.Click();
+            page.Input.TabOut();
+            page.Input.WaitError();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.InputValue("ok");
             page.Input.WaitNoError();
@@ -38,6 +58,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
         {
             var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.Input.Value.Wait().EqualTo("bad");
+
+            page.Input.Click();
+            page.Input.TabOut();
+            page.Input.WaitError();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.Click();
             page.Input.SendKeys(Keys.End);
@@ -64,7 +89,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.Input.SendKeys(Keys.End);
             page.Input.SendKeys("d");
             page.Input.WaitNoError();
-            page.InputValidation.Label.WaitText("incorrect value");
+            page.InputValidation.Label.WaitAbsent();
 
             page.Input.TabOut();
             page.Input.WaitError();
