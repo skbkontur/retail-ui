@@ -225,13 +225,7 @@ export class Tab extends React.Component<TabProps, TabState> {
           ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
           href={href}
         >
-          <ResizeDetector
-            onResize={event => {
-              this.context.notifyUpdate();
-            }}
-          >
-            {children}
-          </ResizeDetector>
+          <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
           {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}
         </Component>
       </CommonWrapper>
