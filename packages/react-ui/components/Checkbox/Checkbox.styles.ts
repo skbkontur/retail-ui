@@ -28,6 +28,15 @@ const styles = {
   rootFallback() {
     return css`
       display: inline-table !important;
+
+      & > * {
+        /*
+          fix root's :active state in IE11
+          that gets blocked by nested elements
+        */
+
+        pointer-events: none;
+      }
     `;
   },
 
