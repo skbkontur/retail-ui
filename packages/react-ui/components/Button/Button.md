@@ -63,7 +63,7 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 
 ```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
-import { Button, Spinner } from '@skbkontur/react-ui';
+import { Button } from '@skbkontur/react-ui';
 
 const [loading, setLoading] = React.useState(false);
 const [success, setSuccess] = React.useState(false);
@@ -86,7 +86,7 @@ const handleClick = () => {
   handleLoadingStart();
 };
 
-<Button width={150} onClick={handleClick} disabled={loading}>
-  {loading ? <Spinner type="mini" caption={null} /> : success ? <OkIcon /> : 'Сохранить'}
+<Button width={150} onClick={handleClick} disabled={loading} loading={loading}>
+  {success ? <OkIcon /> : 'Сохранить'}
 </Button>;
 ```
