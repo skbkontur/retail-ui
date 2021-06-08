@@ -41,6 +41,10 @@ export interface KebabProps extends CommonProps {
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+  /**
+   * Кастомная иконка
+   */
+  icon?: React.ReactNode;
 }
 
 export interface KebabState {
@@ -208,28 +212,24 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    switch (this.props.size) {
-      case 'small':
-        return (
-          <div className={jsStyles.iconsmall(this.theme)}>
-            <MenuKebabIcon size="14px" color="#757575" />
-          </div>
-        );
-      case 'medium':
-        return (
-          <div className={jsStyles.iconmedium(this.theme)}>
-            <MenuKebabIcon size="18px" color="#757575" />
-          </div>
-        );
-      case 'large':
-        return (
-          <div className={jsStyles.iconlarge(this.theme)}>
-            <MenuKebabIcon size="20px" color="#757575" style={{ verticalAlign: -2 }} />
-          </div>
-        );
-      default:
-        throw new Error(`Unexpected size '${this.props.size}'`);
+    const defaultParams = {
+      small: { size: '14px', classNames: jsStyles.iconsmall(this.theme), style: {} },
+      medium: { size: '18px', classNames: jsStyles.iconmedium(this.theme), style: {} },
+      large: { size: '20px', classNames: jsStyles.iconlarge(this.theme), style: { verticalAlign: -2 } }
+    }[this.props.size];
+
+    if (defaultParams === undefined) {
+      return null;
     }
+
+    return (
+      <div className={defaultParams.classNames}>
+        {
+          this.props.icon && <span style={defaultParams.style}>{this.props.icon}</span> ||
+          <MenuKebabIcon size={defaultParams.size} color="#757575" style={defaultParams.style}/>
+        }
+      </div>
+    );
   }
 }
 

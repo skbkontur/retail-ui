@@ -8,6 +8,10 @@ import { MenuItem } from '../../MenuItem';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
+import { OkIcon } from '../../../internal/icons/16px';
+import { jsStyles } from '../Kebab.styles';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+
 interface KebabItem {
   text: string;
   action: string;
@@ -125,6 +129,42 @@ Large.story = {
   },
 };
 
+const kebabWithCustomIconTests: CreeveyStoryParams['tests'] = {
+  async plain() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+  }
+};
+
+export const SmallWithCustomIcon: CSFStory<JSX.Element> = () => {
+  return <SomethingWithKebab size="small" icon={<OkIcon size="14px" color="#757575"/>}/>;
+}
+SmallWithCustomIcon.story = {
+  name: '14px with custom icon',
+  parameters: {
+    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'custom icon' }], tests: kebabWithCustomIconTests },
+  }
+}
+
+export const MediumWithCustomIcon: CSFStory<JSX.Element> = () => {
+  return <SomethingWithKebab size="medium" icon={<OkIcon size="18px" color="#757575"/>}/>;
+}
+MediumWithCustomIcon.story = {
+  name: '18px with custom icon',
+  parameters: {
+    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'custom icon' }], tests: kebabWithCustomIconTests },
+  }
+}
+
+export const LargeWithCustomIcon: CSFStory<JSX.Element> = () => {
+  return <SomethingWithKebab size="large" icon={<OkIcon size="20px" color="#757575"/>}/>;
+}
+LargeWithCustomIcon.story = {
+  name: '20px with custom icon',
+  parameters: {
+    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'custom icon' }], tests: kebabWithCustomIconTests },
+  }
+}
+
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
 LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
 
@@ -142,6 +182,7 @@ class SomethingWithKebab extends Component<{
   items?: KebabItem[];
   menuMaxHeight?: string | number;
   disableAnimations?: boolean;
+  icon?: React.ReactNode;
 }> {
   public render() {
     const itemsList = this.props.items || defaultItemsList;
@@ -163,6 +204,7 @@ class SomethingWithKebab extends Component<{
           disabled={this.props.disabled}
           menuMaxHeight={this.props.menuMaxHeight}
           disableAnimations={this.props.disableAnimations}
+          icon={this.props.icon}
         >
           {menuItems}
         </Kebab>
