@@ -5,10 +5,9 @@ import { CreeveyStoryParams, CSFStory } from 'creevey';
 
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
+import { OkIcon } from '../../../internal/icons/16px';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
-
-import { OkIcon } from '../../../internal/icons/16px';
 
 interface KebabItem {
   text: string;
