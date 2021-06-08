@@ -86,10 +86,15 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.Input.Value.Wait().EqualTo("bad");
 
             page.Input.Click();
+            page.Input.TabOut();
+            page.Input.WaitError();
+            page.InputValidation.Label.WaitText("incorrect value");
+
+            page.Input.Click();
             page.Input.SendKeys(Keys.End);
             page.Input.SendKeys("d");
             page.Input.WaitNoError();
-            page.InputValidation.Label.WaitAbsent();
+            page.InputValidation.Label.WaitText("incorrect value");
 
             page.Input.TabOut();
             page.Input.WaitError();
