@@ -9,8 +9,6 @@ import { MenuItem } from '../../MenuItem';
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
 import { OkIcon } from '../../../internal/icons/16px';
-import { jsStyles } from '../Kebab.styles';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 interface KebabItem {
   text: string;
