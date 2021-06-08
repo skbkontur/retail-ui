@@ -41,13 +41,13 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   private removeTabUpdatesListener: Nullable<() => void> = null;
 
   public componentDidMount() {
-    this.eventListener = LayoutEvents.addListener(this.throttledReflow);
+    this.eventListener = LayoutEvents.addListener(this.reflow);
     this.removeTabUpdatesListener = this.props.tabUpdates.on(this.reflow);
     this.reflow();
   }
 
   public componentWillUnmount() {
-    this.throttledReflow.cancel();
+    this.reflow.cancel();
 
     if (this.eventListener) {
       this.eventListener.remove();
@@ -97,7 +97,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     );
   }
 
-  private reflow = () => {
+  private reflow = throttle(() => {
     const { getTab, activeTab } = this.context;
     const node = getTab(activeTab);
     const nodeStyles = this.getStyles(node);
@@ -107,9 +107,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     if (stylesUpdated) {
       this.setState({ styles: nodeStyles });
     }
-  };
-
-  private throttledReflow = throttle(this.reflow, 100);
+  }, 100);
 
   private getStyles(node: any): React.CSSProperties {
     if (node instanceof React.Component) {

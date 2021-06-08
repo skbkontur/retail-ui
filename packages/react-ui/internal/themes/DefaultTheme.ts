@@ -1062,7 +1062,7 @@ export class DefaultTheme {
     return this.checkboxShadow;
   }
   public static get checkboxCheckedActiveShadow() {
-    return this.btnDefaultActiveShadow;
+    return `${this.checkboxShadow}, ${this.btnDefaultActiveShadow}`;
   }
   public static get checkboxBorderColorFocus() {
     return this.borderColorFocus;
@@ -1092,7 +1092,7 @@ export class DefaultTheme {
     return this.btnDefaultActiveBg;
   }
   public static get checkboxShadowActive() {
-    return this.btnDefaultActiveShadow;
+    return `${this.checkboxShadow}, ${this.btnDefaultActiveShadow}`;
   }
   //#endregion
   //#region TextArea
@@ -1228,6 +1228,7 @@ export class DefaultTheme {
   }
   public static radioFocusShadow = 'none';
   public static radioCheckedBgColor = 'transparent';
+  public static radioCheckedBorderColor = 'inherit';
   public static radioCheckedBulletColor = '#404040';
   public static get radioCheckedHoverBgColor() {
     return this.radioHoverBg;

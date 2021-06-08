@@ -33,7 +33,7 @@ export default class ComboBoxTestPage extends React.Component {
     filledComboBoxValue: testItems[0],
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Комбобоксы">
         <Case title="Простой комбобокс">

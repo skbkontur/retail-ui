@@ -348,6 +348,12 @@ const styles = {
       transform-origin: bottom;
       background-position-y: bottom;
       border-top-right-radius: 1px;
+
+      // fix ugly line in the
+      // middle of the button
+      &:before {
+        top: -1px;
+      }
     `;
   },
 

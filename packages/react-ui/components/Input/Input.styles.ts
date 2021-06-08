@@ -63,8 +63,8 @@ const styles = {
 
   focus(t: Theme) {
     return css`
-      border-color: ${t.inputBorderColorFocus};
-      box-shadow: ${t.inputFocusShadow};
+      border-color: ${t.inputBorderColorFocus} !important;
+      box-shadow: ${t.inputFocusShadow} !important;
       outline: none;
       z-index: 2;
 
@@ -82,8 +82,8 @@ const styles = {
 
   focusFallback(t: Theme) {
     return css`
-      box-shadow: none;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
+      box-shadow: none !important;
+      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline} !important;
     `;
   },
 
@@ -184,7 +184,7 @@ const styles = {
     return css`
       background: ${t.inputDisabledBg} !important;
       border-color: ${t.inputDisabledBorderColor} !important;
-      box-shadow: none;
+      box-shadow: none !important;
 
       ${cssName(styles.icon())} {
         cursor: default;
