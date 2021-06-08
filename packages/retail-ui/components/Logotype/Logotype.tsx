@@ -204,7 +204,7 @@ class Logotype extends React.Component<LogotypeProps> {
     )
   }
 
-  private getSize = (): number => (this.props.size == Logotype.defaultProps.size ? LOGO_SIZE : this.props.size);
+  private getSize = (): number => (this.props.size === Logotype.defaultProps.size ? LOGO_SIZE : this.props.size);
 
   private renderLogo = () => {
     const { konturLogo, productLogo } = this.props;
