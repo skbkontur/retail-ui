@@ -59,7 +59,7 @@ import { Gapped, Button } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-Кнопка в сочетании со спиннером
+Кнопка в состоянии загрузки
 
 ```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
@@ -86,7 +86,7 @@ const handleClick = () => {
   handleLoadingStart();
 };
 
-<Button width={150} onClick={handleClick} disabled={loading} loading={loading}>
+<Button width={150} onClick={handleClick} loading={loading}>
   {success ? <OkIcon /> : 'Сохранить'}
 </Button>;
 ```
