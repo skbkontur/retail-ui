@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.12.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.8...retail-ui@1.12.0) (2021-06-09)
+
+
+### Features
+
+* add support new Kontur logos from [@skbkontur](https://github.com/skbkontur)/logos ([b077071](https://github.com/skbkontur/retail-ui/commit/b077071))
+
+
+
+
+
 ## [1.11.8](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.7...retail-ui@1.11.8) (2021-05-12)
 
 
