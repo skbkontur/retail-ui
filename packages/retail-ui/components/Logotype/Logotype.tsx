@@ -13,13 +13,14 @@ import { ITheme } from '../../lib/theming/Theme';
 import cn from 'classnames';
 import { isIE11 } from '../../lib/utils';
 
-const LOGO_SIZE = 24;
+const DEFAULT_LOGO_SIZE = 24;
+const DEFAULT_LOGO_SIZE_OLD = 22;
 
 const createCloud = (size: number, color: string) => {
   const INITIAL_WIDTH = 23;
   const INITIAL_HEIGHT = 17;
   const INITIAL_VERTICAL_ALIGN = -1;
-  const INITIAL_FONT_SIZE = Logotype.defaultProps.size;
+  const INITIAL_FONT_SIZE = DEFAULT_LOGO_SIZE_OLD;
 
   return (
     <svg
@@ -37,7 +38,7 @@ const createCloud = (size: number, color: string) => {
       />
     </svg>
   );
-}
+};
 
 interface LogotypePropLocale {
   suffix: string;
@@ -62,7 +63,7 @@ export interface LogotypeProps {
    * Размер шрифта логотипа в пикселях.
    * @default 22
    */
-  size: number;
+  size?: number;
   /**
    * Цвет логотипа Контура в rgb, rgba, hex
    */
@@ -111,12 +112,11 @@ class Logotype extends React.Component<LogotypeProps> {
 
   public static defaultProps = {
     color: '#D92932',
-    size: 22,
     textColor: '#000',
     component: 'a',
     href: '/',
     konturLogo: null,
-    productLogo: null
+    productLogo: null,
   };
 
   private theme!: ITheme;
@@ -148,33 +148,28 @@ class Logotype extends React.Component<LogotypeProps> {
   }
 
   private renderMain() {
-    const {
-      konturLogo,
-      component: Component,
-      size: sizeProp,
-      href,
-      withWidget,
-      onArrowClick,
-    } = this.props;
+    const { component: Component, href, withWidget, onArrowClick } = this.props;
 
-    const isOldBehavior = !konturLogo;
+    const { isOldBehavior } = this;
+    const size = this.getSize();
+
     const componentClassName = cn(jsStyles.root(), isOldBehavior && jsStyles.rootOld(this.theme));
     const dividerClassName = cn(
       !isOldBehavior && jsStyles.divider(this.theme),
-      isOldBehavior && jsStyles.dividerOld(this.theme)
+      isOldBehavior && jsStyles.dividerOld(this.theme),
     );
     const buttonClassName = cn({
       [styles.button]: !isOldBehavior,
       [styles.buttonIE11Fallback]: !isOldBehavior && isIE11,
-      [styles.buttonOld]: isOldBehavior
+      [styles.buttonOld]: isOldBehavior,
     });
-    const styleComponent = isOldBehavior ? { fontSize: `${sizeProp}px` } : { height: this.getSize() };
+    const styleComponent = isOldBehavior ? { fontSize: `${size}px` } : { height: size };
     const logo = isOldBehavior ? this.renderLogoOld() : this.renderLogo();
     const arrowStyles = isOldBehavior ? {} : { height: 24 };
 
     const dropdownClassName = cn({
       [jsStyles.dropdown()]: !isOldBehavior,
-      [jsStyles.dropdownOld()]: isOldBehavior
+      [jsStyles.dropdownOld()]: isOldBehavior,
     });
 
     const component = (
@@ -201,10 +196,22 @@ class Logotype extends React.Component<LogotypeProps> {
           </button>
         )}
       </div>
-    )
+    );
   }
 
-  private getSize = (): number => (this.props.size === Logotype.defaultProps.size ? LOGO_SIZE : this.props.size);
+  private get isOldBehavior(): boolean {
+    return !this.props.konturLogo;
+  }
+
+  private getSize = (): number => {
+    const { size } = this.props;
+
+    if (size !== null && size !== undefined) {
+      return size;
+    }
+
+    return this.isOldBehavior ? DEFAULT_LOGO_SIZE_OLD : DEFAULT_LOGO_SIZE;
+  };
 
   private renderLogo = () => {
     const { konturLogo, productLogo } = this.props;
@@ -219,16 +226,17 @@ class Logotype extends React.Component<LogotypeProps> {
   };
 
   private renderLogoOld = () => {
-    const { size, suffix, locale: propLocale = this.locale, color, textColor } = this.props;
+    const { suffix, locale: propLocale = this.locale, color, textColor } = this.props;
+    const size = this.getSize();
 
     return (
       <>
         <span style={{ color: textColor }}>{propLocale.prefix}</span>
         <span style={{ color }}>{createCloud(size, color)}</span>
         <span style={{ color: textColor }}>
-              {propLocale.suffix}
+          {propLocale.suffix}
           {suffix && '.'}
-            </span>
+        </span>
         {suffix && <span style={{ color }}>{suffix}</span>}
       </>
     );
