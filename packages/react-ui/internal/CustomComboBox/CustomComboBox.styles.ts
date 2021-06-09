@@ -15,7 +15,7 @@ const styles = {
     `;
   },
 
-  arrowWrapper() {
+  rightIconWrapper() {
     return css`
       display: inline-block;
       margin-right: -3px;

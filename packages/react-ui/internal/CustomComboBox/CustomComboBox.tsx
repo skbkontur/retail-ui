@@ -24,6 +24,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
+  rightIcon?: InputIconType;
   searchOnFocus?: boolean;
   onValueChange?: (value: T) => void;
   onInputValueChange?: (value: string) => Nullable<string> | void;
@@ -239,6 +240,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
       leftIcon: this.props.leftIcon,
+      rightIcon: this.props.rightIcon,
       inputMode: this.props.inputMode,
 
       onValueChange: this.handleValueChange,
