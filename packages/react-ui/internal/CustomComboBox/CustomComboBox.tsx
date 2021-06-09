@@ -24,7 +24,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
-  rightIcon?: React.ReactNode;
+  rightIcon?: InputIconType;
   searchOnFocus?: boolean;
   onValueChange?: (value: T) => void;
   onInputValueChange?: (value: string) => Nullable<string> | void;

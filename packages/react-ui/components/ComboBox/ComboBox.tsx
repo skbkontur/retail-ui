@@ -36,7 +36,7 @@ export interface ComboBoxProps<T> extends CommonProps {
 
   leftIcon?: InputIconType;
 
-  rightIcon?: React.ReactNode;
+  rightIcon?: InputIconType;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.

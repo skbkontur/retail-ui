@@ -39,7 +39,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   maxLength?: number;
   maxMenuHeight?: number | string;
   leftIcon?: InputIconType;
-  rightIcon?: React.ReactNode;
+  rightIcon?: InputIconType;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 
   onValueChange?: (value: T) => void;
