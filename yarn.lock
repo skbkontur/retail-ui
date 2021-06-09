@@ -3530,6 +3530,11 @@
     react-lifecycles-compat "^3.0.4"
     warning "^3.0.0"
 
+"@skbkontur/logos@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@skbkontur/logos/-/logos-1.0.0.tgz#b546233118e78adf4d669074c7f6b56f91195ba5"
+  integrity sha512-IOhJJer7P/NRSIFAIJLNGYpmNVkmKeXx5D9GkSuqljA3p/Ok4txzIlUqL4kLozJPdnUM9j+5hZ6apo9bsw3DTA==
+
 "@skbkontur/react-icons@^3.1.8":
   version "3.1.10"
   resolved "https://registry.yarnpkg.com/@skbkontur/react-icons/-/react-icons-3.1.10.tgz#699ce56f2ce650456bfdb8ae9e4f74634ebe3838"

@@ -4,6 +4,7 @@
 
 ```jsx
 const BabyIcon = require('@skbkontur/react-icons/Baby').default;
+const { Kontur, Ofd } = require ('@skbkontur/logos');
 
 let pageStyle = {
   background: '#e6e6e6',
@@ -22,7 +23,7 @@ let contentStyle = {
   <TopBar>
     <TopBar.Start>
       <TopBar.ItemStatic>
-        <Logotype suffix="ui" withWidget />
+        <Logotype konturLogo={<Kontur />} productLogo={<Ofd />} withWidget />
       </TopBar.ItemStatic>
       <TopBar.Item>
         <BabyIcon color="#666" />

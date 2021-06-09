@@ -1,40 +1,7 @@
 :local {
-  .root {
-    font-weight: 400;
-    text-decoration: none;
-    position: relative;
-    bottom: 2px;
-    outline: none;
-    user-select: none;
-  }
-
   .cloud {
     display: inline-block;
     position: relative;
-  }
-
-  .inner {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-  }
-
-  .dropdown {
-    height: 100%;
-    display: flex;
-    flex-wrap: nowrap;
-
-    &.inline {
-      display: inline-flex;
-    }
-  }
-
-  .divider {
-    height: 60%;
-    margin: 0 0 0 10px;
-    width: 1px;
   }
 
   .widgetWrapper {
@@ -43,6 +10,30 @@
   }
 
   .button {
+    height: 100%;
+    width: 20px;
+    box-sizing: content-box;
+    display: inline-block;
+    align-items: center;
+    margin: 0;
+    cursor: pointer;
+    outline: 0;
+    padding: 0 10px;
+    position: relative;
+    background: none;
+    border: none;
+
+    &:hover,
+    &:focus {
+      background: rgba(0, 0, 0, 0.06);
+    }
+  }
+
+  .buttonIE11Fallback {
+    align-items: baseline;
+  }
+
+  .buttonOld {
     display: flex;
     align-items: center;
     margin: 0;
