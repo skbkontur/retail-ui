@@ -40,7 +40,7 @@
   "peerDependencies": {
     "react": ">=16.9",
     "react-dom": ">=16.9",
-    "retail-ui": ">=0.53.7 <3.0.0"
+    "retail-ui": ">=0.53.7"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
