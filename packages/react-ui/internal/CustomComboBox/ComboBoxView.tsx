@@ -39,6 +39,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   maxLength?: number;
   maxMenuHeight?: number | string;
   leftIcon?: InputIconType;
+  rightIcon?: React.ReactNode;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 
   onValueChange?: (value: T) => void;
@@ -274,16 +275,16 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   );
 
   private getRightIcon = () => {
-    const { loading, items, drawArrow } = this.props;
+    const { loading, items, drawArrow, rightIcon } = this.props;
 
     if (loading && items && !!items.length) {
       return this.renderSpinner();
     }
 
-    if (drawArrow) {
+    if (rightIcon || drawArrow) {
       return (
-        <span className={jsStyles.arrowWrapper()}>
-          <ArrowChevronDownIcon />
+        <span className={jsStyles.rightIconWrapper()}>
+          {rightIcon ?? <ArrowChevronDownIcon />}
         </span>
       );
     }

@@ -1060,3 +1060,13 @@ export const WithLeftIcon = () => (
   </Gapped>
 );
 WithLeftIcon.story = { name: 'with left icon' };
+
+export const WithRightIcon = () => (
+  <Gapped vertical>
+    <SimpleCombobox rightIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox rightIcon={<SearchIcon />} size="small"/>
+    <SimpleCombobox rightIcon={<SearchIcon />} size="medium"/>
+    <SimpleCombobox rightIcon={<SearchIcon />} size="large"/>
+  </Gapped>
+);
+WithRightIcon.story = { name: 'with right icon' };
