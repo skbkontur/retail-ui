@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.0.0...@skbkontur/react-ui@3.1.0) (2021-06-09)
+
+
+### Bug Fixes
+
+* **Button:** remove middle line on arrows ([51f9395](https://github.com/skbkontur/retail-ui/commit/51f93953ff3f1e9a9afaecf866184e8c7e704dda))
+* **Checkbox:** fix not triggered onFocus handler ([c8b1247](https://github.com/skbkontur/retail-ui/commit/c8b12479ce9f74c26a936bf05b2a5a65bc87453d))
+* **Input,Textarea,Toggle,Checkbox:** fix regress after 3.0 ([#2397](https://github.com/skbkontur/retail-ui/issues/2397)) ([0905743](https://github.com/skbkontur/retail-ui/commit/09057434064423f97f0c99a5ad12714a120f2b8b))
+* **Radio, Checkbox:** remove borders in flat theme ([a927027](https://github.com/skbkontur/retail-ui/commit/a927027d3482f60c2e18ab38cfb269b0dc79bff6))
+* **Tabs:** add resize detector in tab for updating indicator place ([347e672](https://github.com/skbkontur/retail-ui/commit/347e672e9cd964541ec0d6d1c2da5fbaef2a6b21))
+* **Textarea:** skip tab focus on iframe ([6f5aa39](https://github.com/skbkontur/retail-ui/commit/6f5aa39c77eb47e21654284c106c104bdf49e0d5))
+
+
+### Features
+
+* **Combobox:** add right icon ([#2431](https://github.com/skbkontur/retail-ui/issues/2431)) ([2c0d2c9](https://github.com/skbkontur/retail-ui/commit/2c0d2c9c990c1200d52e521434495e91f34bd9b0))
+
+
+
+
+
 # [3.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.0...@skbkontur/react-ui@3.0.0) (2021-05-12)
 
 

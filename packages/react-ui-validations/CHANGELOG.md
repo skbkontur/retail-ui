@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.2...react-ui-validations@1.4.3) (2021-06-09)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** fix lostfocus validation after first render ([ce56422](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/ce56422bcb258afecc031a61708bdf3507b3e68b))
+
+
+
+
+
 ## [1.4.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.1...react-ui-validations@1.4.2) (2021-05-12)
 
 **Note:** Version bump only for package react-ui-validations
