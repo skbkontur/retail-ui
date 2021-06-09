@@ -123,6 +123,32 @@ SimpleExample.story = {
   },
 };
 
+export const MenuOutOfViewPort: CSFStory = () => {
+  return (
+    <div
+      style={{
+        overflow: 'hidden',
+        width: '105vw',
+        marginLeft: '-100px',
+        marginRight: '-100px',
+        padding: '5px',
+        height: '1000px',
+        display: 'flex',
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
+      }}
+    >
+      <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
+        <MenuHeader>Заголовок меню</MenuHeader>
+        <MenuSeparator />
+        <MenuItem>Раз два три четыре пять</MenuItem>
+        <MenuItem>Раз два три четыре пять</MenuItem>
+        <MenuItem>Раз два три четыре пять</MenuItem>
+      </DropdownMenu>
+    </div>
+  );
+};
+
 export const CaptionWidth: CSFStory<JSX.Element> = () => (
   <div style={{ width: '300px' }}>
     <DropdownMenu
