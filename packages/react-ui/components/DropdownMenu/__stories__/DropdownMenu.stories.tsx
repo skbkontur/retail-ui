@@ -5,7 +5,7 @@ import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
-import { CSFStory } from 'creevey';
+import { CreeveyStoryParams, CSFStory } from 'creevey';
 
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
@@ -14,6 +14,7 @@ import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Input } from '../../Input';
+import { Gapped } from '../../Gapped';
 
 export default {
   title: 'DropdownMenu',
@@ -123,30 +124,109 @@ SimpleExample.story = {
   },
 };
 
-export const MenuOutOfViewPort: CSFStory = () => {
+const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   return (
     <div
       style={{
-        overflow: 'hidden',
-        width: '105vw',
+        overflow: 'auto',
+        width: '100vw',
+        height: '300px',
         marginLeft: '-100px',
         marginRight: '-100px',
-        padding: '5px',
-        height: '1000px',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        alignItems: 'flex-start',
+        marginBottom: '-150px',
       }}
+      data-tid="container"
     >
-      <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
-        <MenuHeader>Заголовок меню</MenuHeader>
-        <MenuSeparator />
-        <MenuItem>Раз два три четыре пять</MenuItem>
-        <MenuItem>Раз два три четыре пять</MenuItem>
-        <MenuItem>Раз два три четыре пять</MenuItem>
-      </DropdownMenu>
+      <div
+        style={{
+          width: 'calc(100% + 50px)',
+          display: 'flex',
+          justifyContent: `${side === 'right' ? 'flex-end' : 'flex-start'}`,
+          alignItems: 'flex-start',
+        }}
+      >
+        <Gapped vertical>
+          <DropdownMenu data-tid={'firstMenu'} caption={<Button use="primary">Открыть меню</Button>}>
+            <MenuHeader>Заголовок меню</MenuHeader>
+            <MenuSeparator />
+            <MenuItem>Раз два три раз два три</MenuItem>
+            <MenuItem>Раз два три раз два три</MenuItem>
+            <MenuItem>Раз два три раз два три</MenuItem>
+          </DropdownMenu>
+          <DropdownMenu data-tid={'secondMenu'} menuWidth={300} caption={<Button use="primary">Открыть меню</Button>}>
+            <MenuHeader>Заголовок меню</MenuHeader>
+            <MenuSeparator />
+            <MenuItem>Раз два три раз два три</MenuItem>
+            <MenuItem>Раз два три раз два три</MenuItem>
+            <MenuItem>Раз два три раз два три</MenuItem>
+          </DropdownMenu>
+        </Gapped>
+      </div>
     </div>
   );
+};
+
+const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = side => {
+  return {
+    async ['out of viewport']() {
+      if (side === 'left') {
+        await this.browser.executeScript(function() {
+          // @ts-ignore
+          const container: Element = window.document.querySelector('[data-tid="container"]');
+          container.scrollLeft = container.scrollWidth;
+        });
+      }
+
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
+    },
+    async ['out of edge with min menu width']() {
+      if (side === 'left') {
+        await this.browser.executeScript(function() {
+          // @ts-ignore
+          const container: Element = window.document.querySelector('[data-tid="container"]');
+          container.scrollLeft = container.scrollWidth;
+        });
+      }
+
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
+        .perform();
+      await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
+    },
+  };
+};
+
+export const MenuOutOfViewPortRight: CSFStory = () => {
+  return <MenuOutOfViewPortSample side={'right'} />;
+};
+MenuOutOfViewPortRight.story = {
+  name: 'Menu out of viewport right',
+  parameters: {
+    creevey: {
+      tests: outOfViewTests('right'),
+    },
+  },
+};
+
+export const MenuOutOfViewPortLeft: CSFStory = () => {
+  return <MenuOutOfViewPortSample side={'left'} />;
+};
+MenuOutOfViewPortLeft.story = {
+  name: 'Menu out of viewport left',
+  parameters: {
+    creevey: {
+      tests: outOfViewTests('left'),
+    },
+  },
 };
 
 export const CaptionWidth: CSFStory<JSX.Element> = () => (
