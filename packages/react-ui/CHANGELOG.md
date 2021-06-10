@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.0...@skbkontur/react-ui@2.17.1) (2021-06-10)
+
+
+### Bug Fixes
+
+* **Button:** fix flat theme borderless prop ([f4c7627](https://github.com/skbkontur/retail-ui/commit/f4c7627f4559c4801a5efa531f5f1ae61e15c72b))
+* **Checkbox:** fix not triggered onFocus handler ([64cd01b](https://github.com/skbkontur/retail-ui/commit/64cd01b06c3e96f1d91a3c20a64cedde84e75f7f))
+* **Radio, Checkbox:** remove borders in flat theme ([1dc2fde](https://github.com/skbkontur/retail-ui/commit/1dc2fde21518f11a5e1e4386d6f83246e1832ec6))
+* **Textarea:** skip tab focus on iframe ([6dbfd3d](https://github.com/skbkontur/retail-ui/commit/6dbfd3d2a3a6e02091d97fb3c907dcfa2de76951))
+
+
+
+
+
 # [2.17.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.2...@skbkontur/react-ui@2.17.0) (2021-05-12)
 
 
