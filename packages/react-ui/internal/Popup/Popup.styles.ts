@@ -8,6 +8,8 @@ const styles = {
       min-width: 18px;
       border-radius: ${t.popupBorderRadius};
       border: ${t.popupBorder} ${t.popupBorderColor};
+      display: flex;
+      flex-shrink: 0;
     `;
   },
 
@@ -21,6 +23,8 @@ const styles = {
     return css`
       overflow: hidden;
       border-radius: ${t.popupBorderRadius};
+      display: flex;
+      flex-shrink: 0;
     `;
   },
 

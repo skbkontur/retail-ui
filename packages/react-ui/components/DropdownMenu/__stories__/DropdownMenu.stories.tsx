@@ -15,6 +15,7 @@ import { Button } from '../../Button';
 import { Toast } from '../../Toast';
 import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'DropdownMenu',
@@ -183,6 +184,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = 
         })
         .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
         .perform();
+      await delay(500);
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
     },
     async ['out of edge with min menu width']() {
@@ -200,6 +202,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = 
         })
         .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
         .perform();
+      await delay(500);
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
     },
   };

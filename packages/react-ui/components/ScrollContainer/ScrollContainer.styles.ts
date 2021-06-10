@@ -5,8 +5,6 @@ const styles = {
     return css`
       height: 100%;
       overflow: hidden;
-      width: auto;
-      white-space: nowrap;
       position: relative;
     `;
   },
