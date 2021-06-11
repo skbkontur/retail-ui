@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
@@ -16,8 +15,6 @@ export interface MenuItemProps extends CommonProps {
   /** @ignore */
   _enableIconPadding?: boolean;
 
-  /** @deprecated @ignore */
-  alkoLink?: boolean;
   comment?: React.ReactNode;
   disabled?: boolean;
   icon?: React.ReactElement<any>;
@@ -47,8 +44,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {
-    alkoLink: PropTypes.bool,
-
     comment: PropTypes.node,
 
     disabled: PropTypes.bool,
@@ -82,7 +77,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
     const {
-      alkoLink,
       link,
       comment,
       icon,
@@ -95,21 +89,19 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = props;
 
-    warning(alkoLink === undefined, "[MenuItem]: Prop 'alkoLink' was deprecated please use 'link' instead");
-
     const hover = state === 'hover' && !this.props.disabled;
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={jsStyles.icon()}>{icon}</div>;
+      iconElement = <div className={jsStyles.icon(this.theme)}>{icon}</div>;
     }
 
     const className = cn({
-      [jsStyles.root()]: true,
+      [jsStyles.root(this.theme)]: true,
       [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',
-      [jsStyles.link(this.theme)]: !!link || !!alkoLink,
+      [jsStyles.link(this.theme)]: !!link,
       [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
       [jsStyles.disabled(this.theme)]: !!this.props.disabled,
     });
@@ -138,8 +130,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
           <div
             data-tid="MenuItem__comment"
             className={cn({
-              [jsStyles.comment()]: true,
-              [jsStyles.commentHover()]: hover,
+              [jsStyles.comment(this.theme)]: true,
+              [jsStyles.commentHover(this.theme)]: hover,
             })}
           >
             {comment}

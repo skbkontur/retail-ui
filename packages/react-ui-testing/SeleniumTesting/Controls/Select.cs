@@ -116,9 +116,9 @@ namespace SKBKontur.SeleniumTesting.Controls
                 {
                     x.Click();
                     var renderContainer = GetRenderContainer();
-                    renderContainer.FindElements(By.CssSelector($"[data-comp-name='{"MenuItem"}']"))
+                    renderContainer.FindElements(By.CssSelector("[data-comp-name~='MenuItem']"))
                                    .Skip(index)
-                                   .FirstOrDefault()
+                                   .First()
                                    .Click();
                 },
                           $"SelectItemByIndex({index})");

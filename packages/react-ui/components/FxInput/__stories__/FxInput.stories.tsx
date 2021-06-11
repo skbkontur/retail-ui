@@ -3,13 +3,23 @@ import { CSFStory } from 'creevey';
 
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
+import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
-import { InputType } from '../../Input';
+import { InputSize, InputType } from '../../Input';
 
 export default { title: 'FxInput' };
 
 export const TypeText = () => <TestFxInput />;
 TypeText.story = { name: 'type text' };
+
+export const DifferentSizesFxInput = () => (
+  <Gapped vertical>
+    <TestFxInput size="small" />
+    <TestFxInput size="medium" />
+    <TestFxInput size="large" />
+  </Gapped>
+);
+DifferentSizesFxInput.story = { name: 'different sizes' };
 
 export const TypeCurrency = () => <TestFxInput type={'currency'} fractionDigits={4} />;
 TypeCurrency.story = { name: 'type currency' };
@@ -54,6 +64,7 @@ interface TestFxInputProps {
   autoFocus?: boolean;
   borderless?: boolean;
   fractionDigits?: number;
+  size?: InputSize;
 }
 
 interface TestFxInputState {
@@ -86,6 +97,7 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
         value={this.state.value}
         onRestore={this.handleRestore}
         onValueChange={this.handleChange}
+        size={this.props.size}
       />
     );
   }

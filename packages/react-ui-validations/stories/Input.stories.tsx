@@ -399,6 +399,33 @@ class Example7 extends React.Component<{}, Example7State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
+interface Example9State {
+  value: string;
+}
+
+class Example9 extends React.Component<{}, Example9State> {
+  public state: Example9State = {
+    value: '',
+  };
+
+  public validateValue(): Nullable<ValidationInfo> {
+    const { value } = this.state;
+    return !value ? { message: 'Error msg', type: 'lostfocus' } : null;
+  }
+
+  public render() {
+    return (
+      <ValidationContainer>
+        <div style={{ padding: 10 }}>
+          <ValidationWrapper validationInfo={this.validateValue()} renderMessage={text('bottom')}>
+            <Input value={this.state.value} onValueChange={value => this.setState({ value })} />
+          </ValidationWrapper>
+        </div>
+      </ValidationContainer>
+    );
+  }
+}
+
 storiesOf('Input', module)
   .add('#1', () => {
     return <Example1 />;
@@ -423,4 +450,7 @@ storiesOf('Input', module)
   })
   .add('#8 Промотка с фиксированной плашкой снизу', () => {
     return <Example8 />;
+  })
+  .add('#9 lostfocus не срабатывает после первого рендера', () => {
+    return <Example9 />;
   });

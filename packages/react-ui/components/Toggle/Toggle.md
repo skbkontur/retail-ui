@@ -1,10 +1,8 @@
 ```jsx harmony
-let initialState = { checked: false };
-
-let toggle = () => setState(state => ({ checked: !state.checked }));
+const [checked, setChecked] = React.useState(false);
 
 <div>
-  <Toggle checked={state.checked} onValueChange={toggle} /> {state.checked ? 'On' : 'Off'}
+  <Toggle checked={checked} onValueChange={setChecked} /> {checked ? 'On' : 'Off'}
 </div>;
 ```
 
@@ -12,12 +10,10 @@ let toggle = () => setState(state => ({ checked: !state.checked }));
 Положение `children` относительно переключателя указывается в `captionPosition`.
 
 ```jsx harmony
-let initialState = { checked: false };
-
-let toggle = () => setState(state => ({ checked: !state.checked }));
+const [checked, setChecked] = React.useState(false);
 
 <div>
-  <Toggle checked={state.checked} onValueChange={toggle} captionPosition="left">
+  <Toggle checked={checked} onValueChange={setChecked} captionPosition="left">
     <span>Показывать уведомления</span>
   </Toggle>
 </div>;

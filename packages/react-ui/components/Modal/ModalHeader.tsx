@@ -27,10 +27,10 @@ function ModalHeader(props: ModalHeaderProps) {
     return (
       <div
         className={cn({
-          [jsStyles.header()]: true,
+          [jsStyles.header(theme)]: true,
           [jsStyles.fixedHeader(theme)]: fixed,
           [jsStyles.headerAddPadding()]: Boolean(additionalPadding),
-          [jsStyles.headerWithClose()]: Boolean(close),
+          [jsStyles.headerWithClose(theme)]: Boolean(close),
         })}
       >
         {close && <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />}

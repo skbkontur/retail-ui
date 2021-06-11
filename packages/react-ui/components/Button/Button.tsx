@@ -5,6 +5,7 @@ import { isIE11, isEdge } from '../../lib/client';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Button.styles';
@@ -163,6 +164,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const isError = !!this.props.error;
     const isWarning = !!this.props.warning;
+    const isFocused = this.state.focusedByTab || !!this.props.visuallyFocused;
+    const isLink = this.props.use === 'link';
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -172,13 +175,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [jsStyles.root(this.theme)]: true,
         [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
         [jsStyles.active(this.theme)]: !!this.props.active,
-        [jsStyles.validationRoot(this.theme)]: isError || isWarning,
         [jsStyles.narrow()]: !!this.props.narrow,
         [jsStyles.noPadding()]: !!this.props._noPadding,
         [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
         [sizeClass]: true,
         [jsStyles.borderless(this.theme)]: !!this.props.borderless,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
+        [jsStyles.focus(this.theme)]: isFocused,
         [jsStyles.checked(this.theme)]: !!this.props.checked,
         [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
         [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
@@ -213,20 +215,31 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     };
 
     let error = null;
-    if (this.props.error) {
-      error = <div className={jsStyles.error(this.theme)} />;
-    } else if (this.props.warning) {
-      error = <div className={jsStyles.warning(this.theme)} />;
+    if (!isFocused || isLink) {
+      if (isError) {
+        error = <div className={jsStyles.error(this.theme)} />;
+      } else if (isWarning) {
+        error = <div className={jsStyles.warning(this.theme)} />;
+      }
     }
 
     let loading = null;
-    if (this.props.loading) {
-      loading = <div className={jsStyles.loading()} />;
+    if (this.props.loading && !this.props.icon) {
+      loading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
     let icon = this.props.icon;
     if (this.props.icon) {
-      icon = <span className={cn(jsStyles.icon(), this.getSizeIconClassName())}>{this.props.icon}</span>;
+      icon = (
+        <span
+          className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
+            [jsStyles.iconNoRightPadding()]: !this.props.children,
+            [jsStyles.iconLink(this.theme)]: isLink,
+          })}
+        >
+          {this.props.loading ? this.getLoadingSpinner() : this.props.icon}
+        </span>
+      );
     }
 
     let arrow = null;
@@ -234,32 +247,33 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       arrow = (
         <div
           className={cn({
-            [jsStyles.arrowWarning(this.theme)]: isWarning,
-            [jsStyles.arrowError(this.theme)]: isError,
             [jsStyles.arrow()]: true,
-            [jsStyles.arrowLeft(this.theme)]: this.props.arrow === 'left',
+            [jsStyles.arrowWarning(this.theme)]: isWarning && !isFocused,
+            [jsStyles.arrowError(this.theme)]: isError && !isFocused,
+            [jsStyles.arrowFocus(this.theme)]: isFocused,
+            [jsStyles.arrowLeft()]: this.props.arrow === 'left',
           })}
-        />
+        >
+          <div className={cn(jsStyles.arrowHelper(), jsStyles.arrowHelperTop())} />
+          <div className={cn(jsStyles.arrowHelper(), jsStyles.arrowHelperBottom())} />
+        </div>
       );
     }
 
     // Force disable all props and features, that cannot be use with Link
-    if (this.props.use === 'link') {
+    if (isLink) {
       rootProps.className = cn({
         [jsStyles.root(this.theme)]: true,
         [sizeClass]: true,
         [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
         [jsStyles.link(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled,
+        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
       });
       Object.assign(wrapProps, {
-        className: cn(jsStyles.wrap(this.theme), {
-          [jsStyles.wrapLink(this.theme)]: this.props.use === 'link',
-        }),
+        className: cn(jsStyles.wrap(this.theme), jsStyles.wrapLink(this.theme)),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      loading = null;
       arrow = null;
     }
 
@@ -272,7 +286,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             {arrow}
             <div className={jsStyles.caption()}>
               {icon}
-              {this.props.children}
+              <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
             </div>
           </button>
         </span>
@@ -280,23 +294,22 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     );
   }
 
+  private getLoadingSpinner() {
+    return <Spinner caption={null} dimmed type="mini" />;
+  }
+
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cn(jsStyles.sizeLarge(this.theme), {
-          [jsStyles.sizeLargeLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeLarge(this.theme));
       case 'medium':
-        return cn(jsStyles.sizeMedium(this.theme), {
-          [jsStyles.sizeMediumLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeMedium(this.theme));
       case 'small':
       default:
-        return cn(jsStyles.sizeSmall(this.theme), {
-          [jsStyles.sizeSmallLoading(this.theme)]: this.props.loading,
-        });
+        return cn(jsStyles.sizeSmall(this.theme));
     }
   }
+
   private getSizeIconClassName() {
     switch (this.props.size) {
       case 'large':

@@ -181,6 +181,8 @@ export class Input extends React.Component<InputProps, InputState> {
 
   /**
    * @public
+   * @param {number} start
+   * @param {number} end
    */
   public setSelectionRange(start: number, end: number) {
     if (!this.input) {
@@ -466,7 +468,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
     if (this.props.selectAllOnFocus) {
       // https://github.com/facebook/react/issues/7769
-      this.input ? this.selectAll() : this.delaySelectAll();
+      this.input && !isIE11 ? this.selectAll() : this.delaySelectAll();
     }
 
     if (this.props.onFocus) {

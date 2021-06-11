@@ -20,7 +20,6 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
       data-tid="modal-close"
     >
       <CrossIcon />
-      <span className={jsStyles.closeOutline(theme)} />
     </button>
   );
 }

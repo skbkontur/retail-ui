@@ -1,18 +1,28 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+const getVerticalPaddingsWithCompensation = (theme: Theme) => {
+  const { toastPaddingY, fontFamilyCompensationBaseline } = theme;
+  const paddingY = parseInt(toastPaddingY);
+  const compensation = parseInt(fontFamilyCompensationBaseline);
+  return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
+};
+
 const styles = {
   root(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
       background: ${t.toastBg};
-      border-radius: 2px;
+      border-radius: ${t.toastBorderRadius};
+      border: ${t.toastBorder};
       color: ${t.toastColor};
-      display: inline-block;
-      font-size: 14px;
+      display: inline-flex;
+      font-size: ${t.toastFontSize};
+      line-height: ${t.toastLineHeight};
       opacity: 1;
-      padding: 10px 20px 11px;
+      padding: ${paddingTop} ${t.toastPaddingX} ${paddingBottom};
       position: relative;
-      top: 20px;
+      top: ${t.toastTop};
     `;
   },
 
@@ -27,24 +37,26 @@ const styles = {
     `;
   },
 
-  closeWrapper() {
+  closeWrapper(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
-      display: inline-block;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      line-height: 40px;
+      display: flex;
+      margin: -${paddingTop} -${t.toastPaddingX} -${paddingBottom} -${t.toastClosePadding};
     `;
   },
 
   link(t: Theme) {
+    const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
+    const marginRight = `${Math.round(parseInt(t.toastPaddingX) * 1.5)}px`;
     return css`
       color: ${t.toastLinkColor};
       cursor: pointer;
       display: inline-block;
       font-weight: 600;
-      margin: -10px 24px -11px 4px;
-      padding: 10px 10px 11px;
+
+      margin: -${paddingTop} ${marginRight} -${paddingBottom} ${t.toastPaddingX};
+
+      padding: ${paddingTop} 0 ${paddingBottom};
 
       &:hover {
         text-decoration: underline;
@@ -54,15 +66,15 @@ const styles = {
 
   close(t: Theme) {
     return css`
+      box-sizing: content-box !important;
       color: ${t.toastCloseColor};
       cursor: pointer;
       display: inline-block;
-      height: 8px;
+      height: ${t.toastCloseSize};
       line-height: 0;
-      margin: -12px -8px;
-      padding: 12px 8px;
+      padding: ${t.toastClosePadding};
       text-align: center;
-      width: 8px;
+      width: ${t.toastCloseSize};
 
       &:hover {
         color: ${t.toastCloseHoverColor};

@@ -1,14 +1,19 @@
 {
   "name": "react-ui-testing",
   "private": true,
-  "version": "3.2.1",
+  "version": "3.2.5",
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {
     "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet build --configuration Release",
     "test": "dotnet test ./Tests/Tests.csproj --configuration Release --verbosity detailed --framework netcoreapp3.1",
-    "start": "yarn --cwd ./TestPages start"
+    "start": "yarn --cwd ./TestPages start",
+    "styleguide": "styleguidist server --config ./docs/.styleguide/config/base.config.js",
+    "styleguide:build": "styleguidist build --config ./docs/.styleguide/config/base.config.js"
+  },
+  "devDependencies": {
+    "react-styleguidist": "^11.1.6"
   },
   "author": "",
   "license": "ISC"

@@ -130,10 +130,10 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
       case ThemeType.Dark:
         return ThemeType.Dark;
       case ThemeType.Flat:
-      case ThemeType.Flat8px:
+      case ThemeType.FlatOld:
         return ThemeType.Flat;
       case ThemeType.Default:
-      case ThemeType.Default8px:
+      case ThemeType.DefaultOld:
       default:
         return ThemeType.Default;
     }
@@ -141,8 +141,8 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
 
   private get is8pxTheme(): boolean {
     switch (this.props.currentThemeType) {
-      case ThemeType.Default8px:
-      case ThemeType.Flat8px:
+      case ThemeType.Default:
+      case ThemeType.Flat:
         return true;
       default:
         return false;
@@ -153,15 +153,15 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     const { currentThemeType, onThemeChange } = this.props;
     switch (currentThemeType) {
       case ThemeType.Default:
-        onThemeChange(ThemeType.Default8px);
+        onThemeChange(ThemeType.DefaultOld);
         break;
-      case ThemeType.Default8px:
+      case ThemeType.DefaultOld:
         onThemeChange(ThemeType.Default);
         break;
       case ThemeType.Flat:
-        onThemeChange(ThemeType.Flat8px);
+        onThemeChange(ThemeType.FlatOld);
         break;
-      case ThemeType.Flat8px:
+      case ThemeType.FlatOld:
         onThemeChange(ThemeType.Flat);
         break;
     }
@@ -213,6 +213,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
       { children: 'Primary', use: 'primary' },
       { children: 'Danger', use: 'danger' },
       { children: 'Pay', use: 'pay' },
+      { children: 'Success', use: 'success' },
       { children: 'Disabled', disabled: true },
       { children: 'Back', arrow: 'left', size: 'medium', width: 110 },
       { children: 'Forward', arrow: true, size: 'medium', use: 'primary', width: 110 },

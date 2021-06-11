@@ -1,11 +1,11 @@
-import { EmotionCritical } from 'create-emotion-server';
+import { EmotionCritical } from '@emotion/server/create-instance';
 
-export function getPageHTML({ html, css, ids }: EmotionCritical) {
+export function getPageHTML(key: string, { html, css, ids }: EmotionCritical) {
   return `<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <style data-emotion-css="${ids.join(' ')}">${css}</style>
+    <style data-emotion-css="${key} ${ids.join(' ')}">${css}</style>
     <title>Server side rendering</title>
   </head>
   <body>

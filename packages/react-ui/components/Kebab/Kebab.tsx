@@ -94,8 +94,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
             <ThemeContext.Provider
               value={ThemeFactory.create(
                 {
-                  popupPinOffset: '15px',
-                  popupMargin: '5px',
+                  popupPinOffset: theme.kebabPinOffset,
+                  popupMargin: theme.kebabMargin,
+                  popupPinSize: theme.kebabPinSize,
                 },
                 theme,
               )}
@@ -147,9 +148,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         className={cn({
-          [jsStyles.kebab()]: true,
-          [jsStyles.opened()]: captionProps.opened,
-          [jsStyles.disabled()]: disabled,
+          [jsStyles.kebab(this.theme)]: true,
+          [jsStyles.opened(this.theme)]: captionProps.opened,
+          [jsStyles.disabled(this.theme)]: disabled,
           [jsStyles.focused(this.theme)]: this.state.focusedByTab,
         })}
       >
@@ -210,19 +211,19 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     switch (this.props.size) {
       case 'small':
         return (
-          <div className={jsStyles.iconsmall()}>
+          <div className={jsStyles.iconsmall(this.theme)}>
             <MenuKebabIcon size="14px" color="#757575" />
           </div>
         );
       case 'medium':
         return (
-          <div className={jsStyles.iconmedium()}>
+          <div className={jsStyles.iconmedium(this.theme)}>
             <MenuKebabIcon size="18px" color="#757575" />
           </div>
         );
       case 'large':
         return (
-          <div className={jsStyles.iconlarge()}>
+          <div className={jsStyles.iconlarge(this.theme)}>
             <MenuKebabIcon size="20px" color="#757575" style={{ verticalAlign: -2 }} />
           </div>
         );

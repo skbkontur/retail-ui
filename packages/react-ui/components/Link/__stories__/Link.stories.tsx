@@ -23,7 +23,10 @@ const linkTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export default { title: 'Link', parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat'], tests: 'hover' }] } } };
+export default {
+  title: 'Link',
+  parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }] } },
+};
 
 export const Simple: CSFStory<JSX.Element> = () => <Link>Simple Link</Link>;
 Simple.story = { parameters: { creevey: { tests: linkTests } } };

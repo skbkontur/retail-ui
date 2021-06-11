@@ -55,6 +55,10 @@ const styles = {
       &:hover {
         opacity: 1;
       }
+      ${cssName(jsTokenColors.defaultDisabled(t))} & {
+        fill: ${t.tokenTextColorDisabled};
+        opacity: 1;
+      }
     `;
   },
 };
@@ -126,11 +130,6 @@ export const jsTokenColors = [
       return css`
         background-color: ${t.tokenDisabledBg};
         box-shadow: ${t.tokenShadowDisabled}};
-
-        & ${cssName(jsStyles.removeIcon(t))} {
-          fill: ${t.tokenTextColorDisabled};
-          opacity: 1;
-        }
       `;
     },
     defaultDisabledWarning(t: Theme) {

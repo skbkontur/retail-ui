@@ -1,7 +1,7 @@
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 
-let initialState = { opened: false };
+const [opened, setOpened] = React.useState(false);
 
 function renderSidePage() {
   return (
@@ -34,15 +34,15 @@ function renderSidePage() {
 }
 
 function open() {
-  setState({ opened: true });
+  setOpened(true);
 }
 
 function close() {
-  setState({ opened: false });
+  setOpened(false);
 }
 
 <div>
-  {state.opened && renderSidePage()}
+  {opened && renderSidePage()}
   <Button onClick={open}>Open</Button>
 </div>;
 ```

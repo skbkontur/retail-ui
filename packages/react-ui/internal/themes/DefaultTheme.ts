@@ -3,6 +3,7 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
+  public static fontFamilyCompensationBaseline = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
@@ -16,7 +17,7 @@ export class DefaultTheme {
   public static grayDark = '#333';
   public static black = '#000';
   public static blueXxLight = '#e4f3ff';
-  public static blueLight = '#5199db';
+  public static blueLight = '#1d85d0';
   public static blue = '#3072c4';
   public static blueDark = '#1e5aa4';
   public static blueXDark = '#044785';
@@ -52,9 +53,10 @@ export class DefaultTheme {
   public static controlPaddingYSmall = '6px';
   public static controlPaddingYMedium = '9px';
   public static controlPaddingYLarge = '10px';
-  public static textColorDefault = '#404040';
+  public static textColorDefault = '#333333';
   public static textColorInvert = '#fff';
   public static textColorDisabled = '#a0a0a0';
+  public static textColorDisabledContrast = '#808080';
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
@@ -111,16 +113,10 @@ export class DefaultTheme {
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
   //#endregion
-  //#region Dropdown
-  public static dropdownMenuSelectedBg = '#f1f1f1';
-  public static get dropdownMenuHoverBg() {
-    return this.bgActive;
-  }
-  //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
   public static get tokenTextColorDisabled() {
-    return this.textColorDisabled;
+    return this.textColorDisabledContrast;
   }
   public static get tokenFontSize() {
     return this.fontSizeSmall;
@@ -243,7 +239,10 @@ export class DefaultTheme {
     return this.inputTextColor;
   }
   public static get tokenInputTextColorDisabled() {
-    return this.inputTextColorDisabled;
+    return this.textColorDisabledContrast;
+  }
+  public static get tokenInputPlaceholderColorDisabled() {
+    return this.textColorDisabledContrast;
   }
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '4px';
@@ -266,51 +265,32 @@ export class DefaultTheme {
   public static loaderOpacity = '0.8';
   //#endregion
   //#region Button
-  public static get btnWrapPadding() {
-    return this.btnBorderWidth;
-  }
-  public static get btnHeightShift() {
-    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
-    return `-${2 * borderWidth}px`;
-  }
+  public static btnArrowBgImageActive =
+    'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
+  public static btnArrowBgImageChecked =
+    'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
   public static btnLinkBorderRadius = '1px';
   public static get btnFocusShadowWidth() {
-    return this.btnOutlineWidth;
+    const outlineWidth = parseInt(this.btnOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    return `${outlineWidth - borderWidth}px`;
   }
-  public static btnFocusBorder = 'none';
-  public static btnDisabledTextColor = '#a0a0a0';
-  public static btnDisabledBorderColor = 'transparent';
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static btnCheckedBg = '#737373';
   public static btnCheckedDisabledBg = '#a0a0a0';
   public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';
-  public static btnCheckedHoverBorderColor = 'transparent';
   public static btnCheckedTextColor = '#fff';
-  public static btnCheckedDisabledBorderColor = 'transparent';
+  public static btnCheckedDisabledBorderColor = 'rgba(161,161,161,1)';
+  public static btnCheckedShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)';
+  public static btnCheckedDisabledShadow = 'none';
+  public static btnBorderRadiusSmall = '2px';
+  public static btnBorderRadiusMedium = '2px';
+  public static btnBorderRadiusLarge = '2px';
 
-  public static get btnCheckedShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.3)`;
-  }
-  public static btnCheckedShadowColorArrow = 'rgba(0, 0, 0, 0.3)';
-  public static btnCheckedShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset 0 4px 2px -3px rgba(0, 0, 0, 0.3)';
-  public static btnCheckedShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.6), inset -4px 0 2px -3px rgba(0, 0, 0, 0.3)';
-  public static btnCheckedDisabledShadow = '0 0 0 1px rgba(0, 0, 0, 0.37)';
-  public static btnCheckedDisabledShadowArrow = '1px -1px 0 0 #a0a0a0, inset 0 4px 2px -3px #a0a0a0';
-
-  public static btnArrowBorderRadius = '2px 2px 2px 16px';
-  public static btnSmallBorderRadius = '1px'; // todo: deprecated
-  public static btnBorderRadius = '2px'; // todo: deprecated
-  public static get btnBorderRadiusSmall() {
-    return this.btnSmallBorderRadius;
-  }
-  public static get btnBorderRadiusMedium() {
-    return this.btnBorderRadius;
-  }
-  public static get btnBorderRadiusLarge() {
-    return this.btnBorderRadius;
-  }
   public static btnBorderWidth = '1px';
+  public static btnInsetWidth = '1px';
   public static get btnOutlineWidth() {
-    return this.controlOutlineWidth;
+    return `${parseInt(this.btnBorderWidth, 10) + 1}px`;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
@@ -324,185 +304,83 @@ export class DefaultTheme {
   public static btnDefaultBg = 'none';
   public static btnDefaultBgStart = '#fff';
   public static btnDefaultBgEnd = '#ebebeb';
-  public static btnSmallArrowLength = '18px';
-  public static btnSmallArrowRight = '-8.8px';
-  public static btnSmallArrowLeft = '-8px';
-  public static btnSmallArrowBorderRadius = '2px 2px 2px 16px';
-  public static btnMediumArrowTop = '9px';
-  public static btnMediumArrowLength = '20.2px';
-  public static btnMediumArrowLeft = '-9.8px';
-  public static btnMediumArrowLeftLoadingLeft = '-208px';
-  public static btnMediumArrowTransform = 'rotate(53deg) skewX(24deg) skewY(8deg)';
-  public static btnDeprecatedSizeMediumFontSize = '16px';
-  public static btnDeprecatedSizeMediumPaddingShift = '1';
-  public static btnLargeArrowTop = '10.2px';
-  public static btnLargeArrowLength = '22.2px';
-  public static btnLargeArrowLeft = '-10px';
-  public static btnLargeArrowRight = '-10.8px';
-  public static btnLargeArrowTransform = 'rotate(53deg) skewX(25deg) skewY(10deg)';
-  public static btnLargeArrowBg = 'linear-gradient(-56deg, transparent 48.2%, #ccc 0, #ccc 63.4%, transparent 0)';
-  public static btnDefaultBgArrowStart = '#fff';
-  public static btnDefaultBgArrowEnd = '#ebebeb';
-  public static btnDefaultCheckedShadowArrow = 'none';
-  public static btnDefaultCheckedBorder = 'none';
+  public static btnDefaultCheckedBorderColor = 'rgba(102,102,102,1)';
   public static get btnDefaultTextColor() {
     return this.textColorDefault;
   }
   public static btnDefaultHoverBg = 'none';
-  public static btnDefaultHoverBorderColor = 'transparent';
-  public static btnDefaultActiveBorderColor = 'none';
-  public static btnDefaultBorder = 'none';
-  public static get btnDefaultShadow() {
-    return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.15)`;
-  }
-  public static btnDefaultShadowArrow = '1.2px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.15)';
-  public static btnDefaultShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.15)';
   public static btnDefaultHoverBgStart = '#f2f2f2';
   public static btnDefaultHoverBgEnd = '#dfdfdf';
-  public static get btnDefaultHoverShadow() {
-    return `0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2)`;
-  }
-  public static btnDefaultHoverShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 1px 0 0 0 rgba(0, 0, 0, 0.2)';
-  public static btnDefaultHoverShadowArrowLeft = '1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 -1px 0 0 rgba(0, 0, 0, 0.2)';
   public static btnDefaultActiveBg = '#e1e1e1';
-  public static get btnDefaultActiveShadow() {
-    return `0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.1), 0 0 0 ${this.btnBorderWidth} rgba(0, 0, 0, 0.2), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
-  }
-  public static btnDefaultActiveShadowArrow =
-    '0 -2px 0 -1px rgba(0, 0, 0, 0.1), 1px -1px 0 0 rgba(0, 0, 0, 0.2), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1)';
-  public static btnDefaultActiveShadowArrowLeft =
-    '0 -1px 0 0 rgba(0, 0, 0, 0.1), 1px -0.3px 0 0 rgba(0, 0, 0, 0.2), inset -4px 0 5px -4px rgba(0, 0, 0, 0.2)';
+  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.2)';
+  public static btnDefaultHoverBorderBottomColor = 'rgba(0, 0, 0, 0.35)';
+  public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.2)';
+  public static btnDefaultActiveBorderTopColor = 'rgba(0, 0, 0, 0.35)';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static btnDefaultBorderBottomColor = 'rgba(0, 0, 0, 0.28)';
+  public static btnDefaultActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnSuccessBg = '#419d14';
   public static btnSuccessHoverBg = 'none';
-  public static btnSuccessHoverBorderColor = 'transparent';
-  public static btnSuccessDisabledBg = 'none';
-  public static btnSuccessBorder = 'none';
+  public static btnSuccessHoverBorderColor = 'rgba(8, 73, 2, 0.7)';
+  public static btnSuccessHoverBorderBottomColor = 'rgba(8, 73, 2, 0.9)';
+  public static btnSuccessBorderColor = 'rgba(25, 103, 6, 0.7)';
+  public static btnSuccessBorderBottomColor = 'rgba(23, 89, 7, 0.9)';
   public static btnSuccessBgStart = '#4ba91d';
   public static btnSuccessBgEnd = '#37910b';
-  public static btnSuccessBgArrowStart = '#4ba91d';
-  public static btnSuccessBgArrowEnd = '#37910b';
   public static btnSuccessTextColor = '#fff';
-  public static get btnSuccessShadow() {
-    return `0 0 0 ${this.btnBorderWidth}  rgba(25, 103, 6, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(21, 80, 7, 0.5)`;
-  }
-  public static btnSuccessShadowArrow = '1px -1px 0 0 rgba(25, 103, 6, 0.7), 1px 0 0 0 rgba(21, 80, 7, 0.5)';
-  public static btnSuccessShadowArrowLeft = '1px -1px 0 0 rgba(25, 103, 6, 0.7), 0 -1px 0 0 rgba(21, 80, 7, 0.5)';
   public static btnSuccessHoverBgStart = '#3b8d13';
   public static btnSuccessHoverBgEnd = '#317e0b';
-  public static get btnSuccessHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth}  rgba(7, 73, 1, 0.7), 0 ${this.btnBorderWidth}  0 0 rgba(16, 70, 4, 0.3)`;
-  }
-  public static btnSuccessHoverShadowArrow = '1px -1px 0 0 rgba(7, 73, 1, 0.7), 1px 0 0 0 rgba(16, 70, 4, 0.3)';
-  public static btnSuccessHoverShadowArrowLeft = '1px -1px 0 0 rgba(7, 73, 1, 0.7), 0 -1px 0 0 rgba(16, 70, 4, 0.3)';
   public static btnSuccessActiveBg = '#35840e';
-  public static get btnSuccessActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(4, 63, 0, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(9, 32, 4, 0.6), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
-  }
-  public static btnSuccessActiveShadowArrow =
-    '1px -1px 0 0 rgba(4, 63, 0, 0.75), 0 -2px 0 -1px rgba(9, 32, 4, 0.6), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1)';
-  public static btnSuccessActiveShadowArrowLeft =
-    '1px -1px 0 0 rgba(4, 63, 0, 0.75), 0 0 0 -1px rgba(9, 32, 4, 0.6), inset -4px 0 5px -4px rgba(0, 0, 0, 0.2)';
+  public static btnSuccessActiveBorderColor = 'rgba(8, 73, 2, 0.7)';
+  public static btnSuccessActiveBorderTopColor = 'rgba(8, 73, 2, 0.9)';
+  public static btnSuccessActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnPrimaryBg = '#1e8dd4';
   public static btnPrimaryHoverBg = 'none';
-  public static btnPrimaryHoverBorderColor = 'transparent';
-  public static btnPrimaryDisabledBg = 'none';
-  public static btnPrimaryBorder = 'none';
+  public static btnPrimaryHoverBorderColor = 'rgba(5, 61, 100, 0.7)';
+  public static btnPrimaryHoverBorderBottomColor = 'rgba(5, 61, 100, 0.9)';
+  public static btnPrimaryBorderColor = 'rgba(14, 81, 129, 0.7)';
+  public static btnPrimaryBorderBottomColor = 'rgba(14, 81, 129, 0.9)';
   public static btnPrimaryBgStart = '#2899ea';
   public static btnPrimaryBgEnd = '#167ac1';
-  public static btnPrimaryBgArrowStart = '#2899ea';
-  public static btnPrimaryBgArrowEnd = '#167ac1';
   public static btnPrimaryTextColor = '#fff';
-  public static get btnPrimaryShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(14, 81, 129, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.5)`;
-  }
-  public static btnPrimaryShadowArrow = '1px -1px 0 0 rgba(14, 81, 129, 0.7), 1px 0 0 0 rgba(7, 37, 80, 0.5)';
-  public static btnPrimaryShadowArrowLeft = '1px -1px 0 0 rgba(14, 81, 129, 0.7), 0 -1px 0 0 rgba(7, 37, 80, 0.5)';
   public static btnPrimaryHoverBgStart = '#0087d5';
   public static btnPrimaryHoverBgEnd = '#167ac1';
-  public static get btnPrimaryHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(5, 60, 99, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(7, 37, 80, 0.3)`;
-  }
-  public static btnPrimaryHoverShadowArrow = '1px -1px 0 0 rgba(5, 60, 99, 0.7), 1px 0 0 0 rgba(7, 37, 80, 0.3)';
-  public static btnPrimaryHoverShadowArrowLeft = '1px -1px 0 0 rgba(5, 60, 99, 0.7), 0 -1px 0 0 rgba(7, 37, 80, 0.3)';
   public static btnPrimaryActiveBg = '#0079c3';
-  public static get btnPrimaryActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(10, 63, 99, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(8, 45, 96, 0.5), inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)`;
-  }
-  public static btnPrimaryActiveShadowArrow =
-    '1px -1px 0 0 rgba(10, 63, 99, 0.75), 0 -2px 0 -1px rgba(8, 45, 96, 0.5), inset 0 4px 5px -4px rgba(0, 0, 0, 0.2)';
-  public static btnPrimaryActiveShadowArrowLeft =
-    '1px -1px 0 0 rgba(10, 63, 99, 0.75), 0 0 0 -1px rgba(8, 45, 96, 0.5), inset -4px 0 5px -4px rgba(0, 0, 0, 0.2)';
+  public static btnPrimaryActiveBorderColor = 'rgba(5, 61, 100, 0.7) ';
+  public static btnPrimaryActiveBorderTopColor = 'rgba(5, 61, 100, 0.9)';
+  public static btnPrimaryActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.2)';
   public static btnDangerBg = '#e14c30';
   public static btnDangerHoverBg = 'none';
-  public static btnDangerHoverBorderColor = 'transparent';
-  public static btnDangerDisabledBg = 'none';
-  public static btnDangerBorder = 'none';
+  public static btnDangerHoverBorderColor = 'rgba(145, 0, 0, 0.7)';
+  public static btnDangerHoverBorderBottomColor = 'rgba(145, 0, 0, 0.95)';
+  public static btnDangerBorderColor = 'rgba(173,15,0,0.7)';
+  public static btnDangerBorderBottomColor = 'rgba(173,15,0,0.9)';
   public static btnDangerBgStart = '#ec5438';
   public static btnDangerBgEnd = '#d44327';
-  public static btnDangerBgArrowStart = '#ec5438';
-  public static btnDangerBgArrowEnd = '#d44327';
   public static btnDangerTextColor = '#fff';
-  public static get btnDangerShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(173, 15, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.4)`;
-  }
-  public static btnDangerShadowArrow = '1px -1px 0 0 rgba(173, 15, 0, 0.7), 1px 0 0 0 rgba(0, 0, 0, 0.4)';
-  public static btnDangerShadowArrowLeft = '1px -1px 0 0 rgba(173, 15, 0, 0.7), 0 -1px 0 0 rgba(0, 0, 0, 0.4)';
   public static btnDangerHoverBgStart = '#d44227';
   public static btnDangerHoverBgEnd = '#c73013';
-  public static get btnDangerHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(145, 0, 0, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4)`;
-  }
-  public static btnDangerHoverShadowArrow = '1px -1px 0 0 rgba(145, 0, 0, 0.7), 1px 0 0 0 rgba(90, 3, 3, 0.4)';
-  public static btnDangerHoverShadowArrowLeft = '1px -1px 0 0 rgba(145, 0, 0, 0.7), 0 -1px 0 0 rgba(90, 3, 3, 0.4)';
   public static btnDangerActiveBg = '#cd381b';
-  public static get btnDangerActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(108, 7, 7, 0.75), 0 -${this.btnBorderWidth} 0 0 rgba(90, 3, 3, 0.4), inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)`;
-  }
-  public static btnDangerActiveShadowArrow =
-    '1px -1px 0 0 rgba(108, 7, 7, 0.75), 0 -2px 0 -1px rgba(90, 3, 3, 0.4), inset 0 4px 5px -4px rgba(0, 0, 0, 0.1)';
-  public static btnDangerActiveShadowArrowLeft =
-    '1px -1px 0 0 rgba(108, 7, 7, 0.75), 0 0 0 -1px rgba(90, 3, 3, 0.4), inset -4px 0 5px -4px rgba(0, 0, 0, 0.1)';
+  public static btnDangerActiveBorderColor = 'rgba(145, 0, 0, 0.7)';
+  public static btnDangerActiveBorderTopColor = 'rgba(145, 0, 0, 0.95)';
+  public static btnDangerActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)';
   public static btnPayBg = '#ffc943';
   public static btnPayHoverBg = 'none';
-  public static btnPayHoverBorderColor = 'transparent';
-  public static btnPayDisabledBg = 'none';
-  public static btnPayBorder = 'none';
+  public static btnPayHoverBorderColor = 'rgba(227, 142, 8, 0.7)';
+  public static btnPayHoverBorderBottomColor = 'rgba(227, 142, 8, 0.95)';
+  public static btnPayBorderColor = 'rgba(238, 169, 34, 0.7)';
+  public static btnPayBorderBottomColor = 'rgba(217, 144, 3, 0.9)';
   public static btnPayBgStart = '#ffd54b';
   public static btnPayBgEnd = '#ffbb39';
-  public static btnPayBgArrowStart = '#ffd54b';
-  public static btnPayBgArrowEnd = '#ffbb39';
-  public static get btnPayShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(238, 169, 34, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(77, 16, 0, 0.56)`;
-  }
   public static get btnPayTextColor() {
     return this.textColorDefault;
   }
-  public static btnPayShadowArrow = '1px -1px 0 0 rgba(238, 169, 34, 0.7), 1px -0.3px 0 0 rgba(77, 16, 0, 0.56)';
-  public static btnPayShadowArrowLeft =
-    '1px -1px 0 0 rgba(238, 169, 34, 0.7), 0.2px -1px 0 -0.3px rgba(77, 16, 0, 0.56)';
   public static btnPayHoverBgStart = '#ffbd3a';
   public static btnPayHoverBgEnd = '#f8a91d';
-  public static get btnPayHoverShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(227, 142, 8, 0.7), 0 ${this.btnBorderWidth} 0 0 rgba(93, 20, 3, 0.4)`;
-  }
-  public static btnPayHoverShadowArrow = '1px -1px 0 0 rgba(227, 142, 8, 0.7), 1px -0.3px 0 0 rgba(93, 20, 3, 0.4)';
-  public static btnPayHoverShadowArrowLeft = '1px -1px 0 0 rgba(227, 142, 8, 0.7), 0 -1px 0 0 rgba(93, 20, 3, 0.4)';
   public static btnPayActiveBg = '#fbb028';
-  public static get btnPayActiveShadow() {
-    return `0 0 0 ${this.btnBorderWidth} rgba(210, 144, 0, 0.7), 0 -${this.btnBorderWidth} 0 0 rgba(0, 0, 0, 0.44), inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)`;
-  }
-  public static btnPayActiveShadowArrow =
-    '1px -1px 0 0 rgba(210, 144, 0, 0.7), 0 -2px 0 -1px rgba(0, 0, 0, 0.44), inset 0 4px 5px -4px rgba(0, 0, 0, 0.05)';
-  public static btnPayActiveShadowArrowLeft =
-    '1px -1px 0 0 rgba(210, 144, 0, 0.7), 2px -0.3px 0 -1px rgba(0, 0, 0, 0.44), inset -4px 0 5px -4px rgba(0, 0, 0, 0.05)';
-  public static btnDeprecatedSizeMediumPaddingShiftIe = '1';
-  public static btnSmallArrowTop = '7px';
-  public static btnSmallArrowLeftLoadingDelay = '0.23s';
-  public static btnSmallArrowBg = 'linear-gradient(-54deg, transparent 48%, #ccc 0, #ccc 72%, transparent 0)';
-  public static btnMediumArrowRight = '-10px';
-  public static btnMediumArrowBg = 'linear-gradient(-58deg, transparent 47.5%, #ccc 0, #ccc 70.5%, transparent 0)';
-  public static btnMediumArrowLeftLoadingDelay = '0.2s';
-  public static btnLargeArrowLeftLoadingDelay = '0s';
+  public static btnPayActiveBorderColor = 'rgba(227, 142, 8, 0.7)';
+  public static btnPayActiveBorderTopColor = 'rgba(227, 142, 8, 0.95)';
+  public static btnPayActiveShadow = 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.05)';
   public static btnMenuArrowColor = '#a6a6a6';
   public static get btnFontSizeSmall() {
     return this.fontSizeSmall;
@@ -534,18 +412,6 @@ export class DefaultTheme {
   public static get btnDisabledBg() {
     return this.bgDisabled;
   }
-  public static get btnDisabledShadowColor() {
-    return this.borderColorGrayLight;
-  }
-  public static get btnDisabledShadow() {
-    return `0 0 0 ${this.btnBorderWidth} ${this.btnDisabledShadowColor}`;
-  }
-  public static get btnDisabledShadowArrow() {
-    return `1px -1px 0 0 ${this.btnDisabledShadowColor}`;
-  }
-  public static get btnTextColorDefault() {
-    return this.textColorDefault;
-  }
   public static get btnBorderColorWarning() {
     return this.borderColorWarning;
   }
@@ -570,9 +436,6 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static get btnLinkActiveColor() {
-    return this.linkActiveColor;
-  }
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
   }
@@ -582,19 +445,23 @@ export class DefaultTheme {
   public static get btnOutlineColorFocus() {
     return this.outlineColorFocus;
   }
+  public static btnInsetColor = '#fff';
   public static get btnBorderColorFocus() {
     return this.borderColorFocus;
   }
   public static get btnLinkDisabledColor() {
     return this.linkDisabledColor;
   }
+  public static get btnDisabledTextColor() {
+    return this.textColorDisabledContrast;
+  }
   //#endregion
   //#region Select
-  public static sltPlaceholderColor = '#a0a0a0';
-  public static get selectPlaceholderColor() {
-    return this.sltPlaceholderColor;
-  }
+  public static selectPlaceholderColor = '#a0a0a0';
   public static selectBorderWidth = '1px';
+  public static get selectPlaceholderColorDisabled() {
+    return this.textColorDisabledContrast;
+  }
   public static get selectOutlineWidth() {
     return this.controlOutlineWidth;
   }
@@ -614,7 +481,6 @@ export class DefaultTheme {
   public static get selectIconGapSmall() {
     return this.btnIconGapSmall;
   }
-  public static selectPaddingArrowSmall = '10px';
   public static get selectLineHeightMedium() {
     return this.controlLineHeightMedium;
   }
@@ -631,7 +497,6 @@ export class DefaultTheme {
   public static get selectIconGapMedium() {
     return this.btnIconGapMedium;
   }
-  public static selectPaddingArrowMedium = '10px';
   public static get selectLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
@@ -648,7 +513,6 @@ export class DefaultTheme {
   public static get selectIconGapLarge() {
     return this.btnIconGapLarge;
   }
-  public static selectPaddingArrowLarge = '13px';
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
@@ -663,8 +527,44 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Tooltip
+  public static tooltipPaddingY = '15px';
+  public static tooltipPaddingX = '20px';
+  public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
+  public static get tooltipBorder() {
+    return this.popupBorder;
+  }
+  public static get tooltipBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '17px';
+  public static tooltipPinOffsetY = '17px';
+  public static tooltipMargin = '15px';
+  public static get tooltipPinSize() {
+    return this.popupPinSize;
+  }
+  //#endregion
+  //#region TooltipMenu
+  public static tooltipMenuPinOffset = '15px';
+  public static get tooltipMenuMargin() {
+    return this.popupMargin;
+  }
+  public static get tooltipMenuPinSize() {
+    return this.popupPinSize;
+  }
+  //#endregion
+  //#region Kebab
+  public static kebabPinOffset = '15px';
+  public static get kebabPinSize() {
+    return this.popupPinSize;
+  }
+  public static kebabMargin = '5px';
+  public static kebabBackground = 'transparent';
+  public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
+  public static kebabBorderRadius = '50%';
+  public static kebabBorder = '2px solid transparent';
   //#endregion
   //#region Modal
   public static modalBackBg = '#333';
@@ -672,17 +572,67 @@ export class DefaultTheme {
   public static modalCloseButtonColor = '#808080';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
+  public static modalCloseButtonPadding = '35px';
+  public static modalCloseButtonLegacyShift = '15px';
+  public static modalCloseButtonBottomPadding = '20px';
+  public static modalCloseButtonClickArea = '10px';
+  public static modalCloseIconSize = '14px';
+  public static modalCloseLegacyGap = '26px';
+  public static modalCloseWrapperLegacyGap = '7px';
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';
   public static modalFixedFooterShadow = '0 -1px 10px #000000';
   public static modalFooterBg = '#e9e9e9';
   public static modalAdaptiveThreshold = '425px';
+  public static modalPaddingTop = '30px';
+  public static modalPaddingLeft = '30px';
+  public static modalPaddingRight = '35px';
+  public static modalHeaderFontSize = '22px';
+  public static modalHeaderLineHeight = '30px';
+  public static modalHeaderPaddingBottom = '11px';
+  public static modalHeaderPaddingTop = '24px';
+  public static modalFixedHeaderPaddingBottom = '11px';
+  public static modalBodyPaddingBottom = '25px';
+  public static modalFooterPaddingTop = '0px';
+  public static modalFooterPaddingBottom = '30px';
+  public static modalPaddingBottom = '30px';
+  public static modalFooterPanelPaddingTop = '20px';
+  public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePageBackingBg = '#333';
+  public static sidePageBackingBgOpacity = '0.6';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
+  public static sidePagePaddingLeft = '30px';
+  public static sidePagePaddingRight = '35px';
+  public static sidePagePaddingTop = '25px';
+  public static sidePagePaddingBottom = '20px';
+  public static sidePageFooterPaddingTop = '20px';
+  public static sidePageFooterPaddingBottom = '20px';
+  public static get sidePageBgDefault() {
+    return this.bgDefault;
+  }
+  public static get sidePageBorderColor() {
+    return this.borderColorGrayLight;
+  }
+
+  public static sidePageHeaderFontSize = '22px';
+  public static sidePageHeaderLineHeight = '30px';
+  public static sidePageHeaderPaddingBottom = '25px';
+  public static sidePageHeaderPaddingTop = '25px';
+  public static sidePageHeaderFixedFontSize = '18px';
+  public static sidePageHeaderFixedLineHeight = '24px';
+  public static sidePageHeaderFixedPaddingY = '13px';
+  public static sidePageHeaderStickyOffset = '11px';
+  public static sidePageCloseButtonPadding = '36px';
+  public static sidePageCloseButtonLegacyPaddingLeft = '37px';
+  public static sidePageFooterPanelPaddingTop = '20px';
+  public static sidePageFooterPanelPaddingBottom = '20px';
+  public static sidePageCloseIconSize = '12px';
+  public static sidePageCloseButtonClickAreaX = '10px';
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
@@ -697,20 +647,52 @@ export class DefaultTheme {
   public static calendarCellTodayBorder = '1px solid #8b8b8b';
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
+  public static calendarCellSize = '30px';
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
+  public static calendarPaddingX = '15px';
+  public static calendarMonthTitleLineHeight = '24px';
+  public static calendarMonthTitlePaddingTop = '8px';
+  public static calendarMonthTitlePaddingBottom = '8px';
+  public static calendarMonthTitleMarginX = '0';
+  public static calendarMonthTitleMarginBottom = '10px';
+  public static calendarWrapperHeight = ' 330px';
+  public static calendarMonthMarginBottom = '10px';
+  public static calendarMaxMonthsToAppendOnScroll = '5';
   //#endregion
   //#region DatePicker
+  public static dateSelectLineHeight = '24px';
+  public static dateSelectFontSize = '14px';
+  public static dateSelectFontWeight = 'bold';
   public static dateSelectMenuItemBgSelected = '#ececec';
+  public static get dateSelectTextColorDisabled() {
+    return this.textColorDisabled;
+  }
+  public static get dateSelectTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static get dateSelectLinkColor() {
+    return this.linkColor;
+  }
+  public static get dateSelectPopupBoxShadow() {
+    return this.popupBoxShadow;
+  }
+  public static get dateSelectTextColorInvert() {
+    return this.textColorInvert;
+  }
   public static datePickerOpenBtnColor = '#333';
   public static pickerBg = '#fff';
   public static pickerShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
   public static pickerTodayWrapperBgColor = 'white';
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
+  public static pickerTodayWrapperFontSize = '14px';
+  public static pickerTodayWrapperLineHeight = 'normal';
+  public static pickerTodayWrapperPaddingTop = '7px';
+  public static pickerTodayWrapperPaddingBottom = '8px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
@@ -733,11 +715,27 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Paging
+  public static pagingFontSize = '16px';
+  public static pagingForwardIconSize = '18px';
+  public static pagingForwardIconMarginTop = '0px';
+  public static pagingPageLinkPaddingX = '10px';
+  public static pagingPageLinkPaddingY = '2px';
+  public static pagingPageLinkLegacyPaddingY = '5px';
+  public static pagingPageLinkMinWidth = 'initial';
+  public static pagingPageForwardLinkMarginTop = '4px';
+  public static pagingPageForwardLinkMarginLeft = '10px';
+  public static pagingPageForwardLinkPaddingRight = '22px';
+  public static pagingLineHeight = 'initial';
   public static pagingDotsColor = 'gray';
+  public static pagingDotsPadding = '6px 10px 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
   public static pagingPageLinkActiveColor = 'black';
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static pagingPageLinkHintColor = '#bbb';
+  public static pagingPageLinkHintFontSize = '11px';
+  public static pagingPageLinkHintLineHeight = '15px';
+  public static pagingPageLinkBorderRadius = '16px';
+  public static pagingPageLinkMargin = '2px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
   }
@@ -745,29 +743,113 @@ export class DefaultTheme {
     return this.linkDisabledColor;
   }
   //#endregion
-  //#region Menu
-  public static menuSeparatorBorderColor = '#e6e6e6';
+  //#region Hint
+  public static get hintColor() {
+    return this.textColorInvert;
+  }
+  public static get hintFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get hintLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static hintMaxWidth = '200px';
+  public static hintPaddingY = '6px';
+  public static hintPaddingX = '8px';
+  public static hintTextAlign = 'center';
+  public static get hintBorder() {
+    return this.popupBorder;
+  }
+  public static get hintBorderRadius() {
+    return this.popupBorderRadius;
+  }
+  public static hintPinOffset = '8px';
+  public static hintMargin = '15px';
   //#endregion
   //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static toastLineHeight = '20px';
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '20px';
+  public static toastBorderRadius = '2px';
+  public static toastBorder = 'none';
+  public static toastTop = '20px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
+  public static toastClosePadding = '16px';
   public static toastCloseColor = '#a0a0a0';
   public static toastCloseHoverColor = 'white';
+  public static toastCloseSize = '8px';
   //#endregion
-  //#region TopBar
-  public static tbBg = '#fff';
-  public static tbShadow = '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)';
-  public static tdDividerBg = '#dfdfdf';
-  //#endregion
-  //#region Logotype
-  public static logoColor = '#000';
-  public static logoHoverColor = '#000';
+  //#region Dropdown
+  public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
+  public static get dropdownMenuHoverBg() //deprecated
+  {
+    return this.bgActive;
+  }
   //#endregion
   //#region Menu
-  public static menuItemPaddingForIcon = '36px';
+  public static get menuBgDefault() {
+    return this.bgDefault;
+  }
   public static menuBorder = '1px solid #d5d5d5';
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
+  public static menuPaddingY = '5px';
+  // menuItem
+  public static get menuItemSelectedBg() {
+    return this.dropdownMenuSelectedBg;
+  }
+  public static get menuItemHoverBg() {
+    return this.dropdownMenuHoverBg;
+  }
+  public static menuItemIconWidth = '16px';
+  public static menuItemIconGap = '5px';
+  public static menuItemIconLegacyMargin = '7px';
+  public static menuItemIconLegacyShift = '-1px';
+  public static get menuItemPaddingForIcon() {
+    return `${parseInt(this.menuItemPaddingX) +
+      parseInt(this.menuItemIconWidth) +
+      parseInt(this.menuItemIconGap) +
+      parseInt(this.menuItemIconLegacyMargin)}px`;
+  }
+  public static menuItemLineHeight = '18px';
+  public static get menuItemFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static menuItemPaddingX = '8px';
+  public static get menuItemPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static menuItemLegacyPaddingX = '10px';
+  public static menuItemLegacyPaddingY = '1px';
+  public static get menuItemHoverColor() {
+    return this.textColorInvert;
+  }
+  public static get menuItemDisabledColor() {
+    return this.textColorDisabled;
+  }
+  public static get menuItemLinkColor() {
+    return this.linkColor;
+  }
+  public static menuItemCommentColor = '#a0a0a0';
+  public static menuItemCommentColorHover = '#fff';
+  //menuHeader
+  public static menuHeaderColor = '#a0a0a0';
+  public static menuHeaderLineHeight = 'inherit';
+  public static menuHeaderFontSize = '12px';
+  public static get menuHeaderPaddingX() {
+    return this.menuItemPaddingX;
+  }
+  public static menuHeaderPaddingTop = '6px';
+  public static menuHeaderPaddingBottom = '7px';
+  public static menuHeaderLegacyPaddingRight = '10px';
+  //menuSeparator
+  public static menuSeparatorBorderColor = '#e6e6e6';
+  public static menuSeparatorMarginY = '5px';
+  public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
   public static toggleHandleActiveWidthIncrement = '4px';
@@ -793,10 +875,10 @@ export class DefaultTheme {
   public static get toggleBgActive() {
     return this.toggleBgChecked;
   }
-  public static get toggleBgError() {
+  public static get toggleShadowColorError() {
     return this.errorMain;
   }
-  public static get toggleBgWarning() {
+  public static get toggleShadowColorWarning() {
     return this.warningMain;
   }
   public static get toggleFocusShadowColor() {
@@ -814,20 +896,22 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgDefault;
   }
-  public static popupPinOffset = '16px';
+  public static popupPinOffset = '0'; // deprecated
+  public static popupPinOffsetX = '16px';
+  public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
   public static popupPinSize = '8px';
   //#endregion
   //#region Input
   public static inputTextColor = 'none';
-  public static get inputTextColorDisabled() {
-    return this.textColorDisabled;
-  }
   public static inputShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
   public static inputColor = 'inherit';
   public static inputWidth = '250px';
+  public static get inputTextColorDisabled() {
+    return this.textColorDisabledContrast;
+  }
   public static get inputFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -914,6 +998,9 @@ export class DefaultTheme {
   public static get inputPlaceholderColor() {
     return this.placeholderColor;
   }
+  public static get inputPlaceholderColorDisabled() {
+    return this.textColorDisabledContrast;
+  }
   public static get inputPlaceholderColorLight() {
     return this.placeholderColorLight;
   }
@@ -921,192 +1008,91 @@ export class DefaultTheme {
     return this.blinkColor;
   }
   //#endregion
-  //#region Checkbox chb
-  public static get chbFontSize() {
+  //#region Checkbox
+  public static checkboxBorderWidthCompensation = '0px';
+  public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
-  public static get chbLineHeight() {
+  public static get checkboxLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static chbBoxSize = '16px';
-  public static chbPaddingX = '10px';
-  public static chbPaddingY = '0';
-  public static chbBgStart = '#fdfdfd';
-  public static chbBgEnd = '#ededed';
-  public static get chbTextColorDefault() {
-    return this.textColorDefault;
-  }
-  public static get chbTextColorDisabled() {
-    return this.textColorDisabled;
-  }
-  public static get chbIndeterminateBg() {
-    return this.textColorDefault;
-  }
-  public static get chbShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
-  }
-  public static get chbShadowDisabled() {
-    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
-  }
-  public static chbBorder = 'none';
-  public static get chbShadowHover() {
-    return this.chbShadow;
-  }
-  public static get chbCheckedColor() {
-    return this.textColorDefault;
-  }
-  public static get chbOutlineColorFocus() {
-    return this.outlineColorFocus;
-  }
-  public static get chbBorderColorWarning() {
-    return this.borderColorWarning;
-  }
-  public static get chbBorderColorError() {
-    return this.borderColorError;
-  }
-  public static get chbCheckedHoverShadow() {
-    return this.chbShadow;
-  }
-  public static chbBorderRadius = '1px';
-  public static chbShadowWidth = '2px';
-  public static get chbCheckedShadow() {
-    return this.chbShadow;
-  }
-  public static get chbBorderColorFocus() {
-    return this.borderColorFocus;
-  }
-  public static get chbBg() {
-    return `linear-gradient(${this.checkboxBgStart}, ${this.checkboxBgEnd})`;
-  }
-  public static get chbHoverBg() {
-    return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
-  }
-  public static get chbActiveBg() {
-    return this.btnDefaultActiveBg;
-  }
-  public static get chbCheckedBg() {
-    return this.chbBg;
-  }
-  public static get chbBgDisabled() {
-    return this.bgDisabled;
-  }
-  public static get chbBoxIndeterminateBg() {
-    return this.chbBg;
-  }
-  public static get chbCheckedHoverBg() {
-    return this.chbHoverBg;
-  }
-  public static get chbCheckedActiveBg() {
-    return this.btnDefaultActiveBg;
-  }
-  public static get chbCheckedActiveShadow() {
-    return this.btnDefaultActiveShadow;
-  }
-  public static get chbShadowActive() {
-    return this.btnDefaultActiveShadow;
-  }
-  public static checkboxBorderWidthCompensation = '0px';
-  //#endregion
-  //#region Checkbox
-  public static get checkboxFontSize() {
-    return this.chbFontSize;
-  }
-  public static get checkboxLineHeight() {
-    return this.chbLineHeight;
-  }
-  public static get checkboxBoxSize() {
-    return this.chbBoxSize;
-  }
-  public static get checkboxLabelGap() {
-    return this.chbPaddingX;
-  }
-  public static get checkboxPaddingY() {
-    return this.chbPaddingY;
-  }
-  public static get checkboxBgStart() {
-    return this.chbBgStart;
-  }
-  public static get checkboxBgEnd() {
-    return this.chbBgEnd;
-  }
+  public static checkboxBoxSize = '16px';
+  public static checkboxLabelGap = '10px';
+  public static checkboxPaddingY = '0';
+  public static checkboxBgStart = '#fdfdfd';
+  public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
-    return this.chbTextColorDefault;
+    return this.textColorDefault;
   }
   public static get checkboxTextColorDisabled() {
-    return this.chbTextColorDisabled;
+    return this.textColorDisabled;
   }
   public static get checkboxIndeterminateBg() {
-    return this.chbIndeterminateBg;
+    return this.textColorDefault;
   }
   public static get checkboxShadowDisabled() {
-    return this.chbShadowDisabled;
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
-  public static get checkboxBorder() {
-    return this.chbBorder;
-  }
+  public static checkboxBorder = 'none';
   public static checkboxBorderWidth = '1px';
   public static get checkboxShadow() {
-    return this.chbShadow;
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
   public static get checkboxShadowHover() {
-    return this.chbShadowHover;
+    return this.checkboxShadow;
   }
   public static get checkboxCheckedColor() {
-    return this.chbCheckedColor;
+    return this.textColorDefault;
   }
   public static get checkboxOutlineColorFocus() {
-    return this.chbOutlineColorFocus;
+    return this.outlineColorFocus;
   }
   public static get checkboxBorderColorWarning() {
-    return this.chbBorderColorWarning;
+    return this.borderColorWarning;
   }
   public static get checkboxBorderColorError() {
-    return this.chbBorderColorError;
+    return this.borderColorError;
   }
   public static get checkboxCheckedHoverShadow() {
-    return this.chbCheckedHoverShadow;
+    return this.checkboxShadow;
   }
-  public static get checkboxBorderRadius() {
-    return this.chbBorderRadius;
-  }
-  public static get checkboxOutlineWidth() {
-    return this.chbShadowWidth;
-  }
+  public static checkboxBorderRadius = '1px';
+  public static checkboxOutlineWidth = '2px';
   public static get checkboxCheckedShadow() {
-    return this.chbCheckedShadow;
+    return this.checkboxShadow;
   }
   public static get checkboxCheckedActiveShadow() {
-    return this.chbCheckedActiveShadow;
+    return `${this.checkboxShadow}, ${this.btnDefaultActiveShadow}`;
   }
   public static get checkboxBorderColorFocus() {
-    return this.chbBorderColorFocus;
+    return this.borderColorFocus;
   }
   public static get checkboxBg() {
-    return this.chbBg;
+    return `linear-gradient(${this.checkboxBgStart}, ${this.checkboxBgEnd})`;
   }
   public static get checkboxHoverBg() {
-    return this.chbHoverBg;
+    return `linear-gradient(-180deg, ${this.btnDefaultHoverBgStart} 0, ${this.btnDefaultHoverBgEnd} 100%)`;
   }
   public static get checkboxActiveBg() {
-    return this.chbActiveBg;
+    return this.btnDefaultActiveBg;
   }
   public static get checkboxCheckedBg() {
-    return this.chbCheckedBg;
+    return this.checkboxBg;
   }
   public static get checkboxBgDisabled() {
-    return this.chbBgDisabled;
+    return this.bgDisabled;
   }
   public static get checkboxBoxIndeterminateBg() {
-    return this.chbBoxIndeterminateBg;
+    return this.checkboxBg;
   }
   public static get checkboxCheckedHoverBg() {
-    return this.chbCheckedHoverBg;
+    return this.checkboxHoverBg;
   }
   public static get checkboxCheckedActiveBg() {
-    return this.chbCheckedActiveBg;
+    return this.btnDefaultActiveBg;
   }
   public static get checkboxShadowActive() {
-    return this.chbShadowActive;
+    return `${this.checkboxShadow}, ${this.btnDefaultActiveShadow}`;
   }
   //#endregion
   //#region TextArea
@@ -1117,13 +1103,16 @@ export class DefaultTheme {
     return this.black;
   }
   public static get textareaTextColorDisabled() {
-    return this.textColorDisabled;
+    return this.textColorDisabledContrast;
   }
   public static get textareaPlaceholderColorLight() {
     return this.placeholderColorLight;
   }
   public static get textareaPlaceholderColor() {
     return this.placeholderColor;
+  }
+  public static get textareaPlaceholderColorDisabled() {
+    return this.textColorDisabledContrast;
   }
   public static textareaShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static get textareaFontSize() {
@@ -1147,15 +1136,12 @@ export class DefaultTheme {
   public static get textareaOutlineWidth() {
     return this.controlBorderWidth;
   }
-  public static get textareaHeight() {
+  public static get textareaMinHeight() {
     const lineHeight = parseInt(this.textareaLineHeight, 10) || 0;
     const paddingY = parseInt(this.textareaPaddingY, 10) || 0;
     const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
 
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
-  }
-  public static get textareaMinHeight() {
-    return this.textareaHeight;
   }
   public static textareaWidth = '250px';
   public static get textareaPaddingX() {
@@ -1242,6 +1228,7 @@ export class DefaultTheme {
   }
   public static radioFocusShadow = 'none';
   public static radioCheckedBgColor = 'transparent';
+  public static radioCheckedBorderColor = 'inherit';
   public static radioCheckedBulletColor = '#404040';
   public static get radioCheckedHoverBgColor() {
     return this.radioHoverBg;
@@ -1328,29 +1315,6 @@ export class DefaultTheme {
   public static spinnerCaptionGapSmall = '8px';
   public static spinnerCaptionGapMedium = '-6px';
   public static spinnerCaptionGapLarge = '-8px';
-  //#endregion
-  //#region SpinnerOld
-  public static get spinnerOldBgColor() {
-    return this.grayXLight;
-  }
-  public static get spinnerOldColor() {
-    return this.red;
-  }
-  public static get spinnerOldDimmedColor() {
-    return this.gray;
-  }
-  public static get spinnerOldCaptionColor() {
-    return this.gray;
-  }
-  public static spinnerOldFontSizeSmall = '14px';
-  public static spinnerOldFontSizeMedium = '14px';
-  public static spinnerOldFontSizeLarge = '14px';
-  public static spinnerOldLineHeightSmall = 'inherit';
-  public static spinnerOldLineHeightMedium = 'inherit';
-  public static spinnerOldLineHeightLarge = 'inherit';
-  public static spinnerOldCaptionGapSmall = '5px';
-  public static spinnerOldCaptionGapMedium = '0px';
-  public static spinnerOldCaptionGapLarge = '0px';
   //#endregion
   //#region Switcher
   public static switcherOutlineWidth = '2px';

@@ -9,7 +9,7 @@ export default class TooltipTestPage extends React.Component {
     value: null,
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Tooltip">
         <Case title="Simple Tooltip">

@@ -6,10 +6,10 @@ import { withCreevey } from 'creevey';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
+import { FLAT_THEME_OLD } from '../lib/theming/themes/FlatThemeOld';
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
-import { FLAT_THEME_8PX } from '../lib/theming/themes/FlatTheme8px';
+import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
-import { DEFAULT_THEME_8PX } from '../lib/theming/themes/DefaultTheme8px';
 
 setFilter(fiber => {
   // Транслируем все пропы только для контролов
@@ -29,7 +29,7 @@ addParameters({
     captureElement: '#test-element',
     skip: [
       {
-        in: ['chromeFlat', 'firefoxFlat', 'ie11Flat'],
+        in: ['chromeFlat', 'firefoxFlat', 'ie11Flat', 'chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
     ],
@@ -46,12 +46,12 @@ addDecorator(story => (
 addDecorator(story => {
   const getTheme = () => {
     switch (true) {
-      case Boolean(process.env.STORYBOOK_8PX):
-        return DEFAULT_THEME_8PX;
-      case Boolean(process.env.STORYBOOK_FLAT_8PX):
-        return FLAT_THEME_8PX;
-      case Boolean(process.env.STORYBOOK_FLAT_UI):
+      case Boolean(process.env.STORYBOOK_OLD):
+        return DEFAULT_THEME_OLD;
+      case Boolean(process.env.STORYBOOK_FLAT):
         return FLAT_THEME;
+      case Boolean(process.env.STORYBOOK_FLAT_OLD):
+        return FLAT_THEME_OLD;
       default:
         return DEFAULT_THEME;
     }

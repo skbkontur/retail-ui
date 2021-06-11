@@ -1,4 +1,4 @@
-import { exposeGetters, markAs8pxTheme } from '../../lib/theming/ThemeHelpers';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 import { DefaultThemeInternal } from './DefaultTheme';
 
@@ -70,9 +70,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get btnPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
-  public static btnBorderRadiusSmall = '1px';
-  public static btnBorderRadiusMedium = '1px';
-  public static btnBorderRadiusLarge = '1px';
+  public static btnBorderRadiusSmall = '2px';
+  public static btnBorderRadiusMedium = '2px';
+  public static btnBorderRadiusLarge = '2px';
 
   public static btnIconGapSmall = '4px';
   public static btnIconGapMedium = '4px';
@@ -80,17 +80,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
-  public static btnSmallArrowTop = '7px';
-  public static btnSmallArrowRight = '-8px';
-
-  public static btnSmallArrowLength = '16px';
-  public static btnMediumArrowTop = '8px';
-  public static btnMediumArrowLength = '21.2px';
-  public static btnMediumArrowRight = '-11px';
-  public static btnLargeArrowLength = '25px';
-  public static btnLargeArrowLeft = '-12px';
-  public static btnLargeArrowRight = '-12px';
-
   //#endregion
   //#region Input
   public static get inputHeightSmall() {
@@ -159,7 +148,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static inputIconSizeLarge = '20px';
   //#endregion
   //#region Select
-  public static selectWidth = '200px';
   public static get selectBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -262,13 +250,15 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static toggleWidth = '32px';
   public static toggleHeight = '20px';
   public static get toggleBorderRadius() {
-    return `calc(${this.toggleHeight} / 2)`;
+    return `calc(${this.toggleHeight} * 0.5)`;
   }
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
   }
   public static get toggleOutlineWidth() {
-    return `calc(${this.controlOutlineWidth} + 1px)`;
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${outlineWidth + borderWidth}px`;
   }
   //#endregion
   //#region Token
@@ -308,7 +298,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   //#endregion
   //#region TokenInput
-  public static tokenInputLineHeight = '26px';
+  public static tokenInputLineHeight = '22px';
   //#endregion
   //#region Spinner
 
@@ -330,38 +320,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get spinnerLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
-  public static spinnerPaddingXSmall = '9px';
-  public static spinnerPaddingYMedium = '-2px';
-  public static spinnerPaddingYLarge = '2px';
-  //#endregion
-  //#region SpinnerOld
-  public static get spinnerOldFontSizeSmall() {
-    return this.spinnerFontSizeSmall;
-  }
-  public static get spinnerOldFontSizeMedium() {
-    return this.spinnerFontSizeMedium;
-  }
-  public static get spinnerOldFontSizeLarge() {
-    return this.spinnerFontSizeLarge;
-  }
-  public static get spinnerOldLineHeightSmall() {
-    return this.spinnerLineHeightSmall;
-  }
-  public static get spinnerOldLineHeightMedium() {
-    return this.spinnerLineHeightMedium;
-  }
-  public static get spinnerOldLineHeightLarge() {
-    return this.spinnerLineHeightLarge;
-  }
-  public static get spinnerOldPaddingXSmall() {
-    return this.spinnerPaddingXSmall;
-  }
-  public static get spinnerOldPaddingYMedium() {
-    return this.spinnerPaddingYMedium;
-  }
-  public static get spinnerOldPaddingYLarge() {
-    return this.spinnerPaddingYLarge;
-  }
+  public static spinnerCaptionGapSmall = '6px';
+  public static spinnerCaptionGapMedium = '-4px';
+  public static spinnerCaptionGapLarge = '-3px';
   //#endregion
   //#region Link
   public static linkIconMarginRight = '4px';
@@ -374,7 +335,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlBorderWidth;
   }
   public static get textareaOutlineWidth() {
-    return `calc(${this.controlOutlineWidth} - 1px)`;
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${outlineWidth - borderWidth}px`;
   }
   public static get textareaFontSize() {
     return this.fontSizeSmall;
@@ -422,6 +385,26 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';
   //#endregion
+  //#region Paging
+  public static get pagingFontSize() {
+    return this.fontSizeMedium;
+  }
+  public static pagingPageLinkLegacyPaddingY = '0';
+  public static pagingPageForwardLinkMarginTop = '0.35em';
+  public static pagingLineHeight = '1.375em';
+  public static pagingPageLinkPaddingX = '0.625em';
+  public static pagingPageLinkPaddingY = '0.3125em';
+  public static pagingPageLinkMinWidth = '0.75em';
+  public static pagingPageLinkHintFontSize = '12px';
+  public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkBorderRadius = '50%';
+  public static pagingPageLinkMargin = '0px 1px';
+  public static get pagingForwardIconSize() {
+    return this.pagingFontSize;
+  }
+  public static pagingForwardIconMarginTop = '1px';
+  public static pagingPageForwardLinkPaddingRight = '1.375em';
+  public static pagingDotsPadding = '0.375em 0.625em 0';
   //#endregion
   //#region Switcher
   public static get switcherOutlineWidth() {
@@ -457,6 +440,135 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonPaddingXSmall = '7px';
   public static switcherButtonPaddingXMedium = '11px';
   public static switcherButtonPaddingXLarge = '15px';
+  //#endregion
+  //#region Calendar
+  public static calendarCellSize = '32px';
+  public static calendarPaddingX = '18px';
+  public static calendarMonthTitleMarginBottom = '6px';
+  public static calendarMonthTitleLineHeight = '20px';
+  public static calendarMonthTitlePaddingTop = '12px';
+  public static calendarMonthTitlePaddingBottom = '8px';
+  public static calendarMonthTitleMarginX = '6px';
+  public static calendarMonthMarginBottom = '6px';
+  //#endregion
+  //#region DatePicker
+  public static dateSelectLineHeight = '20px';
+  public static pickerTodayWrapperLineHeight = '20px';
+  public static pickerTodayWrapperPaddingTop = '6px';
+  public static pickerTodayWrapperPaddingBottom = '6px';
+  public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
+
+  //#endregion
+  //#region SidePage
+  public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePagePaddingLeft = '32px';
+  public static sidePagePaddingRight = '36px';
+  public static sidePagePaddingTop = '24px';
+  public static sidePagePaddingBottom = '40px';
+  public static get sidePageBgDefault() {
+    return this.bgDefault;
+  }
+  public static get sidePageBorderColor() {
+    return this.borderColorGrayLight;
+  }
+
+  public static sidePageHeaderFontSize = '24px';
+  public static sidePageHeaderLineHeight = '32px';
+  public static sidePageHeaderPaddingBottom = '16px';
+  public static sidePageHeaderPaddingTop = '24px';
+  public static sidePageHeaderFixedFontSize = '18px';
+  public static sidePageHeaderFixedLineHeight = '28px';
+  public static sidePageHeaderFixedPaddingY = '10px';
+  public static sidePageHeaderStickyOffset = '7px';
+  public static sidePageFooterPanelPaddingBottom = '20px';
+  public static sidePageFooterPaddingTop = '24px';
+  public static sidePageFooterPaddingBottom = '32px';
+  public static sidePageCloseButtonPadding = '36px';
+  public static sidePageCloseButtonLegacyPaddingLeft = '36px';
+  //#endregion
+  //#region Tooltip
+  public static tooltipPaddingY = '16px';
+  public static tooltipPaddingX = '16px';
+  public static tooltipMargin = '10px';
+  public static tooltipPinOffset = '0px'; // deprecated
+  public static tooltipPinOffsetX = '16px';
+  public static tooltipPinOffsetY = '18px';
+  //#endregion
+  //#region Hint
+  public static hintBorder = 'none';
+  public static hintBorderRadius = '2px';
+  public static hintMargin = '8px';
+  //#endregion
+  //#region Modal
+  public static modalCloseButtonPadding = '36px';
+  public static modalCloseIconSize = '12px';
+
+  public static modalCloseLegacyGap = '0px';
+  public static modalCloseWrapperLegacyGap = '0px';
+  public static modalCloseButtonLegacyShift = '0px';
+  public static modalPaddingTop = '24px';
+
+  public static modalPaddingLeft = '32px';
+  public static modalPaddingRight = '36px';
+  public static modalHeaderFontSize = '24px';
+  public static modalHeaderLineHeight = '32px';
+  public static modalHeaderPaddingBottom = '16px';
+  public static get modalFixedHeaderPaddingBottom() {
+    return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
+  }
+  public static modalBodyPaddingBottom = '24px';
+  public static modalFooterPaddingBottom = '32px';
+  public static modalPaddingBottom = '40px';
+  //#endregion
+  //#region Toast
+  public static get toastFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toastLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static toastPaddingY = '10px';
+  public static toastPaddingX = '16px';
+  public static toastTop = '24px';
+  public static toastClosePadding = '16px';
+  //#endregion
+  //#region Menu
+  public static get menuItemLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static menuItemPaddingY = '6px';
+  public static menuItemIconLegacyMargin = '0px';
+  public static menuItemIconLegacyShift = '0px';
+  public static menuItemLegacyPaddingX = '0px';
+  public static menuItemLegacyPaddingY = '0px';
+  public static menuItemIconGap = '4px';
+  public static menuHeaderLineHeight = '16px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuPaddingY = '4px';
+  public static menuHeaderPaddingTop = '12px';
+  public static menuHeaderPaddingBottom = '4px';
+  public static menuHeaderLegacyPaddingRight = '0px';
+  public static menuSeparatorMarginY = '2px';
+  public static menuSeparatorBorderWidth = '1px';
+  public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
+  public static menuBorder = 'none';
+
+  //#endregion
+  //#region TooltipMenu
+  public static get tooltipMenuPinOffset() {
+    return this.popupPinOffset;
+  }
+  //#endregion
+  //#region Kebab
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
+  public static kebabMargin = '4px';
+  //#endregion
+  //#region Popup
+  public static popupDropShadow = 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.16))';
+  public static popupBoxShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
+  //#endregion
 }
 
-export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
+export const Theme8pxInternal = exposeGetters(Theme8px);

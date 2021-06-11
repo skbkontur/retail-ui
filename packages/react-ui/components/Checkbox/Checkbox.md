@@ -1,7 +1,7 @@
 ```jsx harmony
-let initialState = { checked: false };
+const [checked, setChecked] = React.useState(false);
 
-<Checkbox checked={state.checked} onValueChange={checked => setState({ checked })}>
+<Checkbox checked={checked} onValueChange={setChecked}>
   Checkbox
 </Checkbox>;
 ```

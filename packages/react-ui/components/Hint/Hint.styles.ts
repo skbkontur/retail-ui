@@ -1,22 +1,24 @@
+import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 const styles = {
-  content() {
+  content(t: Theme) {
     return css`
       box-sizing: border-box;
-      color: #fff;
-      font-size: 14px;
-      max-width: 200px;
+      color: ${t.hintColor};
+      font-size: ${t.hintFontSize};
+      line-height: ${t.hintLineHeight}
+      max-width: ${t.hintMaxWidth};
       overflow-wrap: break-word;
-      padding: 6px 8px;
+      padding: ${t.hintPaddingY} ${t.hintPaddingX};
       word-break: break-word;
       word-wrap: break-word;
     `;
   },
 
-  contentCenter() {
+  contentCenter(t: Theme) {
     return css`
-      text-align: center;
+      text-align: ${t.hintTextAlign};
     `;
   },
 };

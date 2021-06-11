@@ -2,13 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
+import { Theme } from '../../lib/theming/Theme';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 export interface GappedProps extends CommonProps {
   /**
    * Расстояние между элементами в пикселях
-   * @default 10
+   * @default 8
    */
-  gap: number;
+  gap?: number;
   /**
    * Вертикальное выравнивание
    * @default "baseline"
@@ -50,8 +53,9 @@ export class Gapped extends React.Component<GappedProps> {
     verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
   };
 
+  private theme!: Theme;
+
   public static defaultProps = {
-    gap: 10,
     wrap: false,
     vertical: false,
     verticalAlign: 'baseline',
@@ -59,15 +63,33 @@ export class Gapped extends React.Component<GappedProps> {
 
   public render() {
     return (
-      <CommonWrapper {...this.props}>
-        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
-      </CommonWrapper>
+      <ThemeContext.Consumer>
+        {theme => {
+          this.theme = theme;
+          return (
+            <CommonWrapper {...this.props}>
+              {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+            </CommonWrapper>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
+  }
+
+  private getGapValue() {
+    // DEPRECATED remove in 4.0
+    const { gap: propsGap } = this.props;
+    if (propsGap !== undefined && propsGap !== null) {
+      return propsGap;
+    } else {
+      const gap = is8pxTheme(this.theme) ? 8 : 10;
+      return gap;
+    }
   }
 
   private renderVertical() {
     const subsequentItemStyle: React.CSSProperties = {
-      paddingTop: this.props.gap,
+      paddingTop: this.getGapValue(),
     };
     let isFirst = true;
     const children = React.Children.map(this.props.children, child => {
@@ -85,7 +107,8 @@ export class Gapped extends React.Component<GappedProps> {
   }
 
   private renderHorizontal() {
-    const { gap, children, verticalAlign, wrap } = this.props;
+    const { children, verticalAlign, wrap } = this.props;
+    const gap = this.getGapValue();
     const itemStyle: React.CSSProperties = {
       display: 'inline-block',
       verticalAlign,

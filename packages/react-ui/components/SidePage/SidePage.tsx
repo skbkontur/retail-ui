@@ -16,10 +16,11 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
-import { SidePageContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { jsStyles } from './SidePage.styles';
+import { isFooter, isHeader } from './helpers';
 
 export interface SidePageProps extends CommonProps {
   /**
@@ -128,6 +129,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderMain() {
     const { blockBackground, disableAnimations } = this.props;
+
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
@@ -170,18 +172,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
             data-tid="SidePage__container"
-            className={cn(jsStyles.container(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
+            className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
             <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
-              <SidePageContext.Provider
-                value={{
-                  requestClose: this.requestClose,
-                  getWidth: this.getWidth,
-                  updateLayout: this.updateLayout,
-                  footerRef: this.footerRef,
-                }}
-              >
+              <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
               </SidePageContext.Provider>
             </div>
@@ -190,6 +185,36 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       </ZIndex>
     );
   }
+
+  private getSidePageContextProps = (): SidePageContextType => {
+    let hasHeader = false;
+    let hasFooter = false;
+    let hasPanel = false;
+
+    React.Children.toArray(this.props.children).forEach(child => {
+      if (isHeader(child)) {
+        hasHeader = true;
+      }
+      if (isFooter(child)) {
+        hasFooter = true;
+        if (child.props.panel) {
+          hasPanel = true;
+        }
+      }
+    });
+
+    const sidePageContextProps: SidePageContextType = {
+      hasHeader,
+      hasFooter,
+      hasPanel,
+      requestClose: this.requestClose,
+      getWidth: this.getWidth,
+      updateLayout: this.updateLayout,
+      footerRef: this.footerRef,
+    };
+
+    return sidePageContextProps;
+  };
 
   private getWidth = () => {
     if (!this.layoutRef) {
@@ -206,7 +231,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           key="overlay"
           className={cn({
             [jsStyles.background()]: true,
-            [jsStyles.backgroundGray()]: this.state.hasBackground,
+            [jsStyles.backgroundGray(this.theme)]: this.state.hasBackground,
           })}
         />
       </ZIndex>
@@ -241,7 +266,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    const sidePages = stack.filter(x => x instanceof SidePage);
+    const sidePages = stack.filter(x => x instanceof SidePage && x.props.fromLeft === this.props.fromLeft);
     const currentSidePagePosition = sidePages.indexOf(this);
 
     const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;

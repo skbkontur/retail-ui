@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import warning from 'warning';
 import cn from 'classnames';
 import debounce from 'lodash.debounce';
 
@@ -28,12 +27,6 @@ export interface LoaderProps extends CommonProps {
   component?: React.ReactNode;
   className?: string;
   type?: 'mini' | 'normal' | 'big';
-  /**
-   * @deprecated Старое поведение спиннера - облачко при среднем и большом размере - исчезнет в 3.0 поведение пересено в `@skbkontur/react-ui-addons` смотри [миграцию](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
-   *
-   * @default false
-   */
-  cloud?: boolean;
 }
 
 export interface LoaderState {
@@ -80,12 +73,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
-    /**
-     * @deprecated Старое поведение спиннера - облачко при среднем и большом размере
-     *
-     * @default false - исчезнет в 3.0
-     */
-    cloud: PropTypes.bool,
   };
 
   private theme!: Theme;
@@ -98,11 +85,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.containerNode = null;
     this.spinnerNode = null;
-
-    warning(
-      !this.props.cloud,
-      'cloud is deprecated, will removed in 3.0, if you want cloud use prop component instead. ',
-    );
 
     this.state = {
       isStickySpinner: false,
@@ -185,7 +167,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             this.spinnerNode = element;
           }}
         >
-          {component !== undefined ? component : <Spinner type={type} caption={caption} cloud={this.props.cloud} />}
+          {component !== undefined ? component : <Spinner type={type} caption={caption} />}
         </div>
       </span>
     );
@@ -218,7 +200,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       return;
     }
 
-    const spinnerStyle = {
+    const spinnerStyle: {
+      top?: number;
+      right: number;
+      bottom: number;
+      left: number;
+    } = {
       top: 30,
       right: 0,
       bottom: 30,

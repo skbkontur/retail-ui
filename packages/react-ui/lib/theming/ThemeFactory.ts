@@ -1,11 +1,13 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { Theme8pxInternal } from '../../internal/themes/Theme8px';
 
 import { Theme, ThemeIn } from './Theme';
-import { isFullTheme, is8pxTheme, markAs8pxTheme } from './ThemeHelpers';
+import { isFullTheme, markAs8pxTheme } from './ThemeHelpers';
 
 export class ThemeFactory {
-  public static create<T extends {}>(theme: ThemeIn & T, baseTheme: Theme = DefaultThemeInternal): Readonly<Theme & T> {
-    return this.constructTheme(baseTheme, theme);
+  public static create<T extends {}>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
+    const base = baseTheme || markAs8pxTheme(this.constructTheme(DefaultThemeInternal, Theme8pxInternal));
+    return this.constructTheme(base, theme);
   }
 
   public static isFullTheme(theme: ThemeIn | Theme): theme is Theme {
@@ -38,12 +40,6 @@ export class ThemeFactory {
       const descriptor = Object.getOwnPropertyDescriptor(theme, propName)!;
       Object.defineProperty(newTheme, propName, descriptor);
     });
-
-    if (is8pxTheme(theme)) {
-      // 8px key isn't enumerable
-      // so replicate it manually
-      markAs8pxTheme(newTheme);
-    }
 
     return Object.freeze(newTheme);
   }

@@ -3,6 +3,41 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.5](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.4...react-ui-testing@3.2.5) (2021-06-09)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
+## [3.2.4](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.3...react-ui-testing@3.2.4) (2021-05-12)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
+## [3.2.3](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.2...react-ui-testing@3.2.3) (2021-04-28)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
+## [3.2.2](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.1...react-ui-testing@3.2.2) (2021-04-12)
+
+
+### Bug Fixes
+
+* **seleniumtesting:** fix selectors for MenuItem,Radio,Paging ([#2328](https://github.com/skbkontur/retail-ui/issues/2328)) ([e15c0b4](https://github.com/skbkontur/retail-ui/commit/e15c0b46f77150fa5eb1e7b31082524778693bf6))
+
+
+
+
+
 ## [3.2.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.0...react-ui-testing@3.2.1) (2021-03-15)
 
 **Note:** Version bump only for package react-ui-testing

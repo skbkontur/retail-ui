@@ -207,6 +207,10 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
           this.setState({ focusedByTab: true });
         }
       });
+
+      if (this.props.onFocus) {
+        this.props.onFocus(e);
+      }
     }
   };
 

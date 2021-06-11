@@ -31,7 +31,7 @@ export interface LinkProps
         /** Состояние загрузки */
         loading?: boolean;
         /** onClick */
-        onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
       }
     > {}
 

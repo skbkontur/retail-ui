@@ -18,6 +18,10 @@ export function getVisibleValidation(
     return from('immediate') ? null : visible;
   }
 
+  if (from(null) && to('lostfocus')) {
+    return null;
+  }
+
   if (to('lostfocus')) {
     return actual;
   }

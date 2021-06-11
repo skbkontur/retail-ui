@@ -1,11 +1,14 @@
+import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  paging() {
+  paging(t: Theme) {
     return css`
       user-select: none;
       outline: 0;
+      font-size: ${t.pagingFontSize};
+      line-height: ${t.pagingLineHeight};
     `;
   },
 
@@ -13,8 +16,7 @@ const styles = {
     return css`
       color: ${t.pagingDotsColor};
       display: inline-block;
-      font-size: 16px;
-      padding: 6px 10px 0;
+      padding: ${t.pagingDotsPadding};
     `;
   },
 
@@ -23,10 +25,10 @@ const styles = {
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: inline-block;
-      font-size: 16px;
-      margin: 4px 0 2px 10px;
+      margin-top: ${t.pagingPageForwardLinkMarginTop};
+      margin-left: ${t.pagingPageForwardLinkMarginLeft};
       outline: none;
-      padding-right: 22px;
+      padding-right: ${t.pagingPageForwardLinkPaddingRight};
       position: relative;
       text-decoration: none;
       user-select: none;
@@ -40,10 +42,11 @@ const styles = {
     `;
   },
 
-  forwardIcon() {
+  forwardIcon(t: Theme) {
     return css`
       vertical-align: -2px;
       position: absolute;
+      margin-top: ${t.pagingForwardIconMarginTop};
       right: 0;
     `;
   },
@@ -58,8 +61,8 @@ const styles = {
 
   pageLinkWrapper() {
     return css`
-      display: inline-block;
-      font-size: 0;
+      display: inline-flex;
+      flex-flow: column nowrap;
       text-align: center;
       user-select: none;
       vertical-align: top;
@@ -68,14 +71,15 @@ const styles = {
 
   pageLink(t: Theme) {
     return css`
-      border-radius: 16px;
+      border-radius: ${t.pagingPageLinkBorderRadius};
       color: ${t.pagingForwardLinkColor};
       cursor: pointer;
       display: block;
-      font-size: 16px;
-      margin: 2px 1px;
+      margin: ${t.pagingPageLinkMargin};
       outline: none;
-      padding: 2px 10px 5px;
+      min-width: ${t.pagingPageLinkMinWidth};
+      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX}
+        ${is8pxTheme(t) ? t.pagingPageLinkPaddingY : t.pagingPageLinkLegacyPaddingY};
       text-decoration: none;
 
       &:not(${cssName(styles.active())}):hover {
@@ -97,8 +101,13 @@ const styles = {
 
   pageLinkFocused(t: Theme) {
     return css`
-      margin: 0 -1px !important;
-      border: solid 2px ${t.borderColorFocus};
+      ${is8pxTheme(t)
+        ? `
+          box-shadow: 0 0 0 2px ${t.borderColorFocus};
+        `
+        : `
+          margin: 0 -1px !important;
+          border: solid 2px ${t.borderColorFocus};`}
     `;
   },
 
@@ -108,9 +117,10 @@ const styles = {
     `;
   },
 
-  pageLinkHintPlaceHolder() {
+  pageLinkHintPlaceHolder(t: Theme) {
     return css`
-      height: 15px;
+      height: ${t.pagingPageLinkHintLineHeight};
+      line-height: ${t.pagingPageLinkHintLineHeight};
     `;
   },
 
@@ -118,7 +128,8 @@ const styles = {
     return css`
       display: inline-block;
       margin: 0 -20px;
-      font-size: 11px;
+      font-size: ${t.pagingPageLinkHintFontSize};
+      line-height: ${t.pagingPageLinkHintLineHeight};
 
       ${cssName(styles.pageLinkWrapper())} & {
         color: ${t.pagingPageLinkHintColor};

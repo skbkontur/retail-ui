@@ -10,7 +10,7 @@ export default class InputTextPage extends React.Component {
     input3: '',
   };
 
-  render(): React.Element<*> {
+  render() {
     return (
       <CaseSuite title="Списки">
         <Case title="Hardcoded-список инпутов без tid-ов">

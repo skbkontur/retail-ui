@@ -1,16 +1,23 @@
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
-const getBtnPadding = (fontSize: string, paddingY: string, paddingX: string, additionalOffset = 0): string => {
+const getBtnPadding = (
+  fontSize: string,
+  paddingY: string,
+  paddingX: string,
+  fontFamilyCompensation: string,
+  additionalOffset = 0,
+): string => {
   let paddingTop = paddingY;
   let paddingBottom = paddingY;
+  const offset = parseInt(fontFamilyCompensation) || 0;
 
   const shiftUp = (top: string, bottom: string, offset: number) => {
     return [shift(top, `${-offset}`), shift(bottom, `${offset}`)];
   };
 
-  if (fontSize === '16px') {
-    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, 1);
+  if (fontSize === '16px' && offset) {
+    [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, offset);
   }
   if (additionalOffset) {
     [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, additionalOffset);
@@ -23,37 +30,23 @@ export const buttonUseMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
-  arrowBackgroundStart: string,
-  arrowBackgroundEnd: string,
-  shadow: string,
-  shadowArrow: string,
-  shadowArrowLeft: string,
   color: string,
-  border: string,
+  borderColor: string,
+  borderBottomColor: string,
+  borderWidth: string,
   selectorChecked: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
+  const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
-    background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-      ? btnBackground
-      : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
+    background-color: ${hasGradient ? `initial` : btnBackground};
+    background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     color: ${color};
-    box-shadow: ${shadow};
-    border: ${border};
+    border-color: ${borderColor};
+    border-bottom-color: ${borderBottomColor};
 
     &:not(${selectorChecked}) ${selectorArrow} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrow};
-    }
-
-    &:not(${selectorChecked}) ${selectorArrowLeft} {
-      background: ${arrowBackgroundStart === arrowBackgroundEnd
-        ? arrowBackgroundStart
-        : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-      box-shadow: ${shadowArrowLeft};
+      box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
   `;
 };
@@ -62,35 +55,21 @@ export const buttonHoverMixin = (
   btnBackground: string,
   btnBackgroundStart: string,
   btnBackgroundEnd: string,
-  arrowBackgroundStart: string,
-  arrowBackgroundEnd: string,
-  btnShadow: string,
-  arrowShadow: string,
-  arrowLeftShadow: string,
-  btnBorder: string,
+  borderColor: string,
+  borderBottomColor: string,
+  borderWidth: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
 ) => {
+  const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
     &:hover {
-      background: ${btnBackgroundStart === btnBackgroundEnd && btnBackground
-        ? btnBackground
-        : `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})`};
-      box-shadow: ${btnShadow};
-      border-color: ${btnBorder};
+      background-color: ${hasGradient ? `initial` : btnBackground};
+      background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
+      border-color: ${borderColor};
+      border-bottom-color: ${borderBottomColor};
 
       ${selectorArrow} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to bottom right, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowShadow};
-      }
-
-      ${selectorArrowLeft} {
-        background: ${arrowBackgroundStart === arrowBackgroundEnd
-          ? arrowBackgroundStart
-          : `linear-gradient(to top left, ${arrowBackgroundStart}, ${arrowBackgroundEnd})`};
-        box-shadow: ${arrowLeftShadow};
+        box-shadow: ${borderWidth} 0 0 ${borderColor};
       }
     }
   `;
@@ -98,29 +77,30 @@ export const buttonHoverMixin = (
 
 export const buttonActiveMixin = (
   btnBackground: string,
-  arrowBackground: string,
-  arrowLeftBackground: string,
   btnShadow: string,
-  arrowShadow: string,
-  arrowLeftShadow: string,
+  borderColor: string,
+  borderTopColor: string,
+  borderWidth: string,
   selectorActive: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  selectorArrowTop: string,
+  arrowBgImage: string,
 ) => {
   return css`
     &:active,
     &${selectorActive} {
-      background: ${btnBackground};
+      background-image: none;
+      background-color: ${btnBackground};
       box-shadow: ${btnShadow};
+      border-color: ${borderColor};
+      border-top-color: ${borderTopColor};
 
       ${selectorArrow} {
-        background: ${arrowBackground};
-        box-shadow: ${arrowShadow};
-      }
+        box-shadow: ${borderWidth} 0 0 ${borderColor};
 
-      ${selectorArrowLeft} {
-        background: ${arrowLeftBackground};
-        box-shadow: ${arrowLeftShadow};
+        &${selectorArrowTop} {
+          background-image: ${arrowBgImage} !important;
+        }
       }
     }
   `;
@@ -129,10 +109,10 @@ export const buttonActiveMixin = (
 export const buttonSizeMixin = (
   fontSize: string,
   height: string, // todo: remove, in IE broke screenshots without height
-  heightShift: string, // todo: remove, in IE broke screenshots without height
   lineHeight: string,
   paddingX: string,
   paddingY: string,
+  fontFamilyCompensation: string,
   selectorLink: string,
   selectorFallback: string,
 ) => {
@@ -141,76 +121,46 @@ export const buttonSizeMixin = (
 
     &:not(${selectorLink}) {
       box-sizing: border-box;
-      height: ${shift(height, heightShift)};
-      padding: ${getBtnPadding(fontSize, paddingY, paddingX)};
+      height: ${height};
+      padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
       line-height: ${lineHeight};
 
       &${selectorFallback} {
-        padding: ${getBtnPadding(fontSize, paddingY, paddingX, 1)};
+        padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
       }
     }
   `;
 };
 
-export const buttonArrowMixin = (
-  top: string,
-  left: string,
-  right: string,
-  size: string,
-  transform: string,
+export const arrowOutlineMixin = (
+  insetWidth: string,
+  outlineColor: string,
+  outlineWidth: string,
+  insetColor: string,
   selectorArrow: string,
-  selectorArrowLeft: string,
+  selectorArrowTop: string,
+  selectorArrowBottom: string,
 ) => {
   return css`
     ${selectorArrow} {
-      top: ${top};
-      right: ${right};
-      height: ${size};
-      width: ${size};
-      transform: ${transform};
-      overflow: hidden;
-    }
+      &${selectorArrowTop} {
+        box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important;
+      }
 
-    ${selectorArrowLeft} {
-      left: ${left};
-      transform: rotate(232deg) skewX(25deg) skewY(8deg) !important;
-    }
-  `;
-};
+      &${selectorArrowBottom} {
+        box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important;
+      }
 
-export const buttonLoadingArrowMixin = (
-  top: string,
-  leftArrowTop: string,
-  left: string,
-  height: string,
-  background: string,
-  delay: string,
-  btn_loading_arrow: string,
-  selectorArrow: string,
-  selectorArrowLeft: string,
-) => {
-  return css`
-    ${selectorArrow}::before {
-      content: '';
-      display: block;
-      position: absolute;
-      top: ${top};
-      left: -207px;
-      right: -72px;
-      height: ${height};
-      background: ${background};
-      background-size: 41px 100%;
-      opacity: 0.2;
-      transform: translateX(50px) rotate(-44.3deg);
-      animation: ${btn_loading_arrow} 1s linear infinite;
-    }
-
-    ${selectorArrowLeft}::before {
-      top: ${leftArrowTop};
-      left: ${left};
-      animation-direction: reverse;
-      transform: translateX(42px) rotate(-44.3deg);
-      animation-delay: ${delay};
+      // don't hide inner outline
+      // and keep the middle-line fix
+      &:before {
+        top: ${insetWidth};
+        right: ${insetWidth};
+        left: ${insetWidth};
+      }
+      &${selectorArrowBottom}:before {
+        bottom: ${insetWidth};
+      }
     }
   `;
 };

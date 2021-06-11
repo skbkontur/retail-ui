@@ -35,7 +35,7 @@ function createConfig(reactVersion, reactUIVersion) {
       filename: '[name].js',
     },
     module: {
-      loaders: [
+      rules: [
         {
           test: /\.(css)$/,
           loaders: ['style-loader', 'css-loader'],
@@ -54,11 +54,12 @@ function createConfig(reactVersion, reactUIVersion) {
           loader: 'babel-loader',
           query: {
             babelrc: false,
-            presets: [
-              require.resolve('babel-preset-react'),
-              require.resolve('babel-preset-es2015'),
-              require.resolve('babel-preset-stage-0'),
-            ],
+            // presets: [
+            //   require.resolve('babel-preset-react'),
+            //   require.resolve('babel-preset-es2015'),
+            //   require.resolve('babel-preset-stage-0'),
+            // ],
+            presets: ['@babel/preset-react', '@babel/preset-env'],
           },
         },
       ],

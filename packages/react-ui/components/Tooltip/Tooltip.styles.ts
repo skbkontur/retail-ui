@@ -8,10 +8,10 @@ const styles = {
       cursor: pointer;
       height: 8px;
       line-height: 0;
-      padding: 4px;
+      padding: ${t.tooltipCloseBtnPadding};
       position: absolute;
-      right: 4px;
-      top: 4px;
+      right: 0;
+      top: 0;
       width: 8px;
       box-sizing: content-box;
 
@@ -21,9 +21,9 @@ const styles = {
     `;
   },
 
-  tooltipContent() {
+  tooltipContent(t: Theme) {
     return css`
-      padding: 15px 20px;
+      padding: ${t.tooltipPaddingY} ${t.tooltipPaddingX};
       position: relative;
     `;
   },

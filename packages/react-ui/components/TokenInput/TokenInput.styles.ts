@@ -79,6 +79,10 @@ const styles = {
         color: ${t.tokenInputPlaceholderColor};
         -webkit-text-fill-color: ${t.tokenInputPlaceholderColor};
       }
+      &:disabled::placeholder {
+        color: ${t.tokenInputPlaceholderColorDisabled};
+        -webkit-text-fill-color: ${t.tokenInputPlaceholderColorDisabled};
+      }
       &:focus::placeholder {
         color: ${t.tokenInputPlaceholderColorLight};
         -webkit-text-fill-color: ${t.tokenInputPlaceholderColorLight};
