@@ -1,7 +1,7 @@
 import { Nullable, Omit } from '../typings/Types';
 
 import { ScrollOffset } from './ValidationContainer';
-import { isBrowser } from './client';
+import { isBrowser } from './utils';
 
 export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
   const scrollableParent = findScrollableParent(element);
