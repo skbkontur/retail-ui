@@ -161,12 +161,12 @@ export const Effect: EffectFactory = {
     if (index >= 0) {
       // FIXME: accessing private props
       // @ts-ignore
-      process.nextTick(() => menu && menu.scrollToSelected());
+      requestAnimationFrame(() => menu && menu.scrollToSelected());
       return;
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      process.nextTick(() => menu && menu.down());
+      requestAnimationFrame(() => menu && menu.down());
     }
   },
   SelectMenuItem: event => (dispatch, getState, getProps, getInstance) => {

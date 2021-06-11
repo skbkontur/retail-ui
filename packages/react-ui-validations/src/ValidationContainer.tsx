@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../typings/Types';
 
+import { isTestEnv } from './utils';
 import { ValidationContext } from './ValidationContext';
 
 export interface ScrollOffset {
@@ -20,7 +21,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
 
   public static defaultProps = {
-    disableSmoothScroll: process.env.NODE_ENV === 'test'
+    disableSmoothScroll: isTestEnv,
   };
 
   public static propTypes = {

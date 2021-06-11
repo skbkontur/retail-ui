@@ -297,7 +297,7 @@ export class Tab extends React.Component<TabProps, TabState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
-    process.nextTick(() => {
+    requestAnimationFrame(() => {
       if (tabListener.isTabPressed || this.isArrowKeyPressed) {
         this.setState({ focusedByKeyboard: true });
       }
