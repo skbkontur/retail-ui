@@ -53,6 +53,14 @@ const styles = {
     `;
   },
 
+  icon() {
+    return css`
+    {
+      color: #757575;
+    }
+    `;
+  },
+
   iconsmall(t: Theme) {
     return css`
       ${cssName(styles.kebab(t))} & {

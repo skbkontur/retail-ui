@@ -64,7 +64,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
     disableAnimations: isTestEnv,
-    icon: <MenuKebabIcon color="#757575"/>,
+    icon: <MenuKebabIcon/>,
   };
 
   public state = {
@@ -213,24 +213,16 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    let defaultStylesParams;
-    switch (this.props.size) {
-      case ('small'):
-        defaultStylesParams = jsStyles.iconsmall(this.theme);
-        break;
-      case ('medium'):
-        defaultStylesParams = jsStyles.iconmedium(this.theme);
-        break;
-      case ('large'):
-        defaultStylesParams = jsStyles.iconlarge(this.theme);
-        break;
-    }
-
-    if (defaultStylesParams === undefined) {
-      return null;
-    }
-
-    return <div className={defaultStylesParams}>{this.props.icon}</div>;
+    return (
+      <div className={cn({
+        [jsStyles.icon()]: true,
+        [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
+        [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',
+        [jsStyles.iconlarge(this.theme)]: this.props.size === 'large',
+      })}>
+        {this.props.icon}
+      </div>
+    );
   }
 }
 
