@@ -64,6 +64,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
     disableAnimations: isTestEnv,
+    icon: <MenuKebabIcon color="#757575"/>,
   };
 
   public state = {
@@ -212,24 +213,24 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    const defaultParams = {
-      small: { size: '14px', classNames: jsStyles.iconsmall(this.theme), style: {} },
-      medium: { size: '18px', classNames: jsStyles.iconmedium(this.theme), style: {} },
-      large: { size: '20px', classNames: jsStyles.iconlarge(this.theme), style: { verticalAlign: -2 } }
-    }[this.props.size];
+    let defaultStylesParams;
+    switch (this.props.size) {
+      case ('small'):
+        defaultStylesParams = jsStyles.iconsmall(this.theme);
+        break;
+      case ('medium'):
+        defaultStylesParams = jsStyles.iconmedium(this.theme);
+        break;
+      case ('large'):
+        defaultStylesParams = jsStyles.iconlarge(this.theme);
+        break;
+    }
 
-    if (defaultParams === undefined) {
+    if (defaultStylesParams === undefined) {
       return null;
     }
 
-    return (
-      <div className={defaultParams.classNames}>
-        {
-          this.props.icon && <span style={defaultParams.style}>{this.props.icon}</span> ||
-          <MenuKebabIcon size={defaultParams.size} color="#757575" style={defaultParams.style}/>
-        }
-      </div>
-    );
+    return <div className={defaultStylesParams}>{this.props.icon}</div>;
   }
 }
 

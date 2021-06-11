@@ -58,6 +58,7 @@ const styles = {
       ${cssName(styles.kebab(t))} & {
         margin-top: 1px;
         margin-left: 0.8124px;
+        font-size: 14px;
       }
     `;
   },
@@ -67,6 +68,7 @@ const styles = {
       ${cssName(styles.kebab(t))} & {
         margin-top: -2px;
         margin-left: 0.5px;
+        font-size: 18px;
       }
     `;
   },
@@ -76,7 +78,9 @@ const styles = {
       ${cssName(styles.kebab(t))} & {
         margin-top: -4px;
         margin-left: 0.5px;
-      }
+        font-size: 20px;
+        display: inline-block;
+        vertical-align: -2px;
     `;
   },
 

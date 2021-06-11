@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 import { CreeveyStoryParams, CSFStory } from 'creevey';
+import OkIcon from "@skbkontur/react-icons/Ok";
 
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
-import { OkIcon } from '../../../internal/icons/16px';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
@@ -126,41 +126,16 @@ Large.story = {
   },
 };
 
-const kebabWithCustomIconTests: CreeveyStoryParams['tests'] = {
-  async plain() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-  }
-};
-
-export const SmallWithCustomIcon: CSFStory<JSX.Element> = () => {
-  return <SomethingWithKebab size="small" icon={<OkIcon size="14px" color="#757575"/>}/>;
+export const KebabWithCustomIcon: CSFStory<JSX.Element> = () => {
+  return (
+    <>
+      <SomethingWithKebab size="small" icon={<OkIcon color="#757575"/>}/>
+      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575"/>}/>
+      <SomethingWithKebab size="large" icon={<OkIcon color="#757575"/>}/>
+    </>
+  );
 }
-SmallWithCustomIcon.story = {
-  name: '14px with custom icon',
-  parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'custom icon' }], tests: kebabWithCustomIconTests },
-  }
-}
-
-export const MediumWithCustomIcon: CSFStory<JSX.Element> = () => {
-  return <SomethingWithKebab size="medium" icon={<OkIcon size="18px" color="#757575"/>}/>;
-}
-MediumWithCustomIcon.story = {
-  name: '18px with custom icon',
-  parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'custom icon' }], tests: kebabWithCustomIconTests },
-  }
-}
-
-export const LargeWithCustomIcon: CSFStory<JSX.Element> = () => {
-  return <SomethingWithKebab size="large" icon={<OkIcon size="20px" color="#757575"/>}/>;
-}
-LargeWithCustomIcon.story = {
-  name: '20px with custom icon',
-  parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'custom icon' }], tests: kebabWithCustomIconTests },
-  }
-}
+KebabWithCustomIcon.story = {}
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
 LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
