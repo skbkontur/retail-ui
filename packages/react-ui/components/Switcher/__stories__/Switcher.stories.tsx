@@ -68,4 +68,7 @@ export const Disabled = () => {
   );
 };
 
-Disabled.story = { name: 'disabled', parameters: { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } } };
+Disabled.story = {
+  name: 'disabled',
+  parameters: { creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'] }] } },
+};

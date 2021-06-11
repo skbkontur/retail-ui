@@ -202,11 +202,15 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      process.nextTick(() => {
+      requestAnimationFrame(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });
+
+      if (this.props.onFocus) {
+        this.props.onFocus(e);
+      }
     }
   };
 

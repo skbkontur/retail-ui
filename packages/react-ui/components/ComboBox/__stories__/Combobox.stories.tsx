@@ -223,6 +223,8 @@ SimpleComboboxStory.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('select_1');
         },
         async selected_2() {
+          await delay(1000);
+
           await this.browser
             .actions({
               bridge: true,
@@ -1058,3 +1060,13 @@ export const WithLeftIcon = () => (
   </Gapped>
 );
 WithLeftIcon.story = { name: 'with left icon' };
+
+export const WithRightIcon = () => (
+  <Gapped vertical>
+    <SimpleCombobox rightIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox rightIcon={<SearchIcon />} size="small"/>
+    <SimpleCombobox rightIcon={<SearchIcon />} size="medium"/>
+    <SimpleCombobox rightIcon={<SearchIcon />} size="large"/>
+  </Gapped>
+);
+WithRightIcon.story = { name: 'with right icon' };

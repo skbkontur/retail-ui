@@ -37,5 +37,3 @@ WithReactNodeInCaption.story = { name: 'With ReactNode in caption' };
 
 export const SpinnerAndIconSameSizes = () => <SpinnerLikeIcon />;
 SpinnerAndIconSameSizes.story = { name: 'Spinner and Icon same sizes' };
-
-export const Old = () => <Spinner type="big" cloud />;

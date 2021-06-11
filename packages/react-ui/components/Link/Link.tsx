@@ -31,7 +31,7 @@ export interface LinkProps
         /** Состояние загрузки */
         loading?: boolean;
         /** onClick */
-        onClick?: (event?: React.MouseEvent<HTMLAnchorElement>) => void;
+        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
       }
     > {}
 
@@ -137,7 +137,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      process.nextTick(() => {
+      requestAnimationFrame(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

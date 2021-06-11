@@ -35,12 +35,12 @@ public context: Theme = this.context;
 
 Список существующих тем:
 
-| Имя                 | Описание          |
-| ------------------- | ----------------- |
-| `DEFAULT_THEME`     | Тема по умолчанию |
-| `FLAT_THEME`        | Плоская тема      |
-| `DEFAULT_THEME_8PX` | 8px тема          |
-| `FLAT_THEME_8PX`    | Плоская 8px тема  |
+| Имя                 | Описание         |
+| ------------------- | ---------------- |
+| `DEFAULT_THEME`     | Дефолтная (8px)  |
+| `FLAT_THEME`        | Плоская (8px)    |
+| `DEFAULT_THEME_OLD` | Старая дефолтная |
+| `FLAT_THEME_OLD`    | Старая плоская   |
 
 ## Примеры использования
 
@@ -63,7 +63,7 @@ import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/Show
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
-const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
+const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });
 
 <ThemeContext.Provider value={myTheme}>
   <ShowcaseGroup title="My Theme" />
@@ -76,7 +76,7 @@ const myTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' });
 import { ThemeFactory } from '@skbkontur/react-ui';
 import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 
-const myFlatTheme = ThemeFactory.create({ btnSmallBorderRadius: '10px' }, FLAT_THEME);
+const myFlatTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' }, FLAT_THEME);
 ```
 
 ### Использование темы в своих компонентах
@@ -194,13 +194,30 @@ const NestedThemes = () => (
 <NestedThemes />;
 ```
 
+## Кастомизация @skbkontur/react-ui-addons
+
+Компоненты `@skbkontur/react-ui-addons` так же поддерживают кастомизацию через `ThemeContext` из `@skbkontur/react-ui`. Достаточно переопределить нужные переменные, которые перечислены на страницах компонентов в [докумендации аддонов](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
+
+```tsx static
+import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { Logotype, AddonsThemeIn } from '@skbkontur/react-ui-addons';
+
+const myTheme = ThemeFactory.create<AddonsThemeIn>({
+  logoColor: 'black',
+});
+
+<ThemeContext.Provider value={myTheme}>
+  <Logotype />
+</ThemeContext.Provider>;
+```
+
 ## Дополнительно
 
 ### ColorFunctions.ts / DimensionFunctions.ts
 
 Несколько функций по работе с цветом вынесены из less в js, их можно использовать в своих темах (_ColorFunctions.ts_):
 
-```typescript
+```typescript static
 lighten(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
 darken(colorString: string, amount: number | string, method?: 'absolute' | 'relative'): string
 contrast(colorString: string, darkString?: string, lightString?: string, threshold: number = 0.43): string
@@ -218,7 +235,7 @@ isValid(colorString: string): boolean // проверяет, можно ли р�
 Если распарсить `colorString` не получилось - выбрасывается исключение.
 Если это возможно, результат возвращается в том же виде, что и входная строка:
 
-```typescript
+```typescript static
 lighten('hsl(90, 0.8, 0.2)', '20%') === 'hsl(90, 0.8, 0.4)';
 lighten('rgba(50, 50, 50, 0.2)', '20%') === 'rgba(102, 102, 102, 0.2)';
 lighten('#80e619', 0.2) === '#b3f075';
@@ -227,7 +244,7 @@ lighten('crimson', '20%') === '#f16581';
 
 Для работы с размерами предусмотрена одна функция (_DimensionFunctions.ts_):
 
-```typescript
+```typescript static
 shift(value: string, shift: string): string
 
 // пример

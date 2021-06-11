@@ -24,6 +24,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   menuAlign?: 'left' | 'right';
   drawArrow?: boolean;
   leftIcon?: InputIconType;
+  rightIcon?: InputIconType;
   searchOnFocus?: boolean;
   onValueChange?: (value: T) => void;
   onInputValueChange?: (value: string) => Nullable<string> | void;
@@ -87,7 +88,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public menu: Nullable<Menu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
-  public loaderShowDelay: Nullable<Promise<never>>;
+  public loaderShowDelay: Nullable<Promise<void>>;
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
 
@@ -142,7 +143,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
-      this.loaderShowDelay = new Promise(resolve => {
+      this.loaderShowDelay = new Promise<void>(resolve => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
           setTimeout(resolve, LOADER_SHOW_TIME);
@@ -239,6 +240,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       maxLength: this.props.maxLength,
       maxMenuHeight: this.props.maxMenuHeight,
       leftIcon: this.props.leftIcon,
+      rightIcon: this.props.rightIcon,
       inputMode: this.props.inputMode,
 
       onValueChange: this.handleValueChange,

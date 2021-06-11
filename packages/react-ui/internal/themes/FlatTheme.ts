@@ -6,264 +6,164 @@ import { DefaultThemeInternal } from './DefaultTheme';
 // TODO Delete repeated values from flat theme
 
 export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
-  //#region Common variables
-  public static borderColorFocus = '#1d85d0';
-  //#endregion
   //#region Button
-  public static btnHeightShift = '0';
-  public static btnWrapPadding = '0';
   public static btnLinkBorderRadius = '2px';
   public static btnBorderRadiusSmall = '2px';
-  public static get btnFocusShadowWidth() {
-    const borderFocus = parseInt(this.btnOutlineWidth, 10) || 0;
-    const border = parseInt(this.btnBorderWidth, 10) || 0;
-    return `${borderFocus - border}px`;
-  }
+  public static btnBorderRadiusMedium = '2px';
+  public static btnBorderRadiusLarge = '2px';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedShadow = 'none';
-  public static btnDisabledShadow = 'none';
-  public static get btnDisabledShadowColor() {
+  public static btnCheckedDisabledShadow = 'none';
+  public static get btnCheckedDisabledBorderColor() {
+    return this.btnCheckedDisabledBg;
+  }
+  public static btnArrowBgImageActive = 'none';
+  public static btnArrowBgImageChecked = 'none';
+  public static get btnDisabledBorderColor() {
     return this.bgDisabled;
   }
-  public static btnDefaultBgArrowEnd = '#fff';
-  public static btnDefaultHoverBg = 'rgba(0, 0, 0, 0.05)';
-  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.15)';
-  public static btnDefaultActiveBg = '#e5e5e5';
-  public static btnDefaultActiveBorderColor = '#cccccc';
-  public static get btnDefaultBorder() {
-    return `${this.btnBorderWidth} solid rgba(0, 0, 0, 0.15)`;
+  public static btnDefaultHoverBg = '#f2f2f2';
+  public static btnDefaultHoverBorderColor = '#d9d9d9';
+  public static get btnDefaultHoverBorderBottomColor() {
+    return this.btnDefaultHoverBorderColor;
   }
-  public static btnDefaultShadow = 'none';
-  public static btnDefaultShadowArrow = '1px -1px 0 0 rgba(0, 0, 0, 0.15)';
+  public static btnDefaultActiveBg = '#e5e5e5';
+  public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static get btnDefaultActiveBorderTopColor() {
+    return this.btnDefaultActiveBorderColor;
+  }
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static get btnDefaultBorderBottomColor() {
+    return this.btnDefaultBorderColor;
+  }
   public static btnDefaultBg = '#fff';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
   public static btnDefaultHoverBgEnd = '#f2f2f2';
-  public static btnDefaultHoverShadow = 'none';
   public static btnDefaultActiveShadow = 'none';
   public static btnPrimaryBg = '#1d85d0';
   public static btnPrimaryHoverBg = '#1b7dc3';
   public static btnPrimaryActiveBg = '#1974b6';
-  public static btnPrimaryDisabledBg = '#1d85d0';
-  public static get btnPrimaryBorder() {
-    return `${this.btnBorderWidth} solid transparent`;
+  public static btnPrimaryActiveBorderColor = '#1974b6';
+  public static get btnPrimaryActiveBorderTopColor() {
+    return this.btnPrimaryActiveBorderColor;
+  }
+  public static btnPrimaryBorderColor = '#1d85d0';
+  public static get btnPrimaryBorderBottomColor() {
+    return this.btnPrimaryBorderColor;
   }
   public static btnPrimaryBgStart = '#1d85d0';
   public static btnPrimaryBgEnd = '#1d85d0';
-  public static btnPrimaryBgArrowStart = '#1d85d0';
-  public static btnPrimaryBgArrowEnd = '#1d85d0';
   public static btnPrimaryHoverBgStart = '#1b7dc3';
   public static btnPrimaryHoverBgEnd = '#1b7dc3';
-  public static btnPrimaryShadow = 'none';
-  public static btnPrimaryHoverShadow = 'none';
+  public static btnPrimaryHoverBorderColor = '#1b7dc3';
+  public static get btnPrimaryHoverBorderBottomColor() {
+    return this.btnPrimaryHoverBorderColor;
+  }
   public static btnPrimaryActiveShadow = 'none';
   public static btnSuccessHoverBg = '#3c9312';
   public static btnSuccessActiveBg = '#398911';
-  public static btnSuccessDisabledBg = '#419d14';
-  public static get btnSuccessBorder() {
-    return `${this.btnBorderWidth} solid transparent`;
+  public static btnSuccessActiveBorderColor = '#398911';
+  public static get btnSuccessActiveBorderTopColor() {
+    return this.btnSuccessActiveBorderColor;
+  }
+  public static btnSuccessBorderColor = '#419d14';
+  public static get btnSuccessBorderBottomColor() {
+    return this.btnSuccessBorderColor;
   }
   public static btnSuccessBgStart = '#419d14';
   public static btnSuccessBgEnd = '#419d14';
-  public static btnSuccessBgArrowStart = '#419d14';
-  public static btnSuccessBgArrowEnd = '#419d14';
   public static btnSuccessHoverBgStart = '#3c9312';
   public static btnSuccessHoverBgEnd = '#3c9312';
-  public static btnSuccessShadow = 'none';
-  public static btnSuccessHoverShadow = 'none';
+  public static btnSuccessHoverBorderColor = '#3c9312';
+  public static get btnSuccessHoverBorderBottomColor() {
+    return this.btnSuccessHoverBorderColor;
+  }
   public static btnSuccessActiveShadow = 'none';
   public static btnDangerBg = '#d9472b';
   public static btnDangerHoverBg = '#cc4228';
   public static btnDangerActiveBg = '#be3e25';
-  public static btnDangerDisabledBg = '#d9472b';
-  public static get btnDangerBorder() {
-    return `${this.btnBorderWidth} solid transparent`;
+  public static btnDangerActiveBorderColor = '#be3e25';
+  public static get btnDangerActiveBorderTopColor() {
+    return this.btnDangerActiveBorderColor;
+  }
+  public static btnDangerBorderColor = '#d9472b';
+  public static get btnDangerBorderBottomColor() {
+    return this.btnDangerBorderColor;
   }
   public static btnDangerBgStart = '#d9472b';
   public static btnDangerBgEnd = '#d9472b';
-  public static btnDangerBgArrowStart = '#d9472b';
-  public static btnDangerBgArrowEnd = '#d9472b';
   public static btnDangerHoverBgStart = '#cc4228';
   public static btnDangerHoverBgEnd = '#cc4228';
-  public static btnDangerShadow = 'none';
-  public static btnDangerHoverShadow = 'none';
+  public static btnDangerHoverBorderColor = '#cc4228';
+  public static get btnDangerHoverBorderBottomColor() {
+    return this.btnDangerHoverBorderColor;
+  }
   public static btnDangerActiveShadow = 'none';
   public static btnPayBg = '#ffca43';
   public static btnPayHoverBg = '#f0be3f';
   public static btnPayActiveBg = '#e0b13a';
-  public static btnPayDisabledBg = '#ffca43';
-  public static get btnPayBorder() {
-    return `${this.btnBorderWidth} solid transparent`;
+  public static btnPayActiveBorderColor = '#e0b13a';
+  public static get btnPayActiveBorderTopColor() {
+    return this.btnPayActiveBorderColor;
+  }
+  public static btnPayBorderColor = '#ffca43';
+  public static get btnPayBorderBottomColor() {
+    return this.btnPayBorderColor;
   }
   public static btnPayBgStart = '#ffca43';
   public static btnPayBgEnd = '#ffca43';
-  public static btnPayBgArrowStart = '#ffca43';
-  public static btnPayBgArrowEnd = '#ffca43';
   public static btnPayHoverBgStart = '#f0be3f';
   public static btnPayHoverBgEnd = '#f0be3f';
-  public static btnPayShadow = 'none';
-  public static btnPayHoverShadow = 'none';
+  public static btnPayHoverBorderColor = '#f0be3f';
+  public static get btnPayHoverBorderBottomColor() {
+    return this.btnPayHoverBorderColor;
+  }
   public static btnPayActiveShadow = 'none';
-  public static btnSmallArrowLength = '17px';
-  public static btnSmallArrowTop = '7.5px';
-  public static btnSmallArrowRight = '-8px';
-  public static btnSmallArrowLeft = '-8.2px';
-  public static btnSmallArrowBorderRadius = '2px 2px 4px 16px';
-  public static btnSmallArrowBg = 'linear-gradient(-53deg, transparent 48%, #ccc 0, #ccc 72%, transparent 0)';
-  public static btnMediumArrowLeft = '-10px';
-  public static btnMediumArrowLeftLoadingLeft = '-207px';
-  public static btnMediumArrowTransform = 'rotate(53deg) skewX(25deg) skewY(8deg)';
-  public static btnMediumArrowBg = 'linear-gradient(-56deg, transparent 48%, #ccc 0, #ccc 70%, transparent 0)';
-  public static btnMediumArrowLeftLoadingDelay = '0.45s';
-  public static btnDeprecatedSizeMediumPaddingShiftIe = '2';
-  public static btnLargeArrowLeft = '-10.8px';
-  public static btnLargeArrowTransform = 'rotate(53deg) skewX(26deg) skewY(10deg)';
   public static btnFontSizeMedium = '16px';
-  public static get btnCheckedShadowArrow() {
-    return `0 0 0 1px ${this.btnCheckedBg}`;
-  }
-  public static get btnCheckedShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnCheckedBg}`;
-  }
-  public static get btnFocusBorder() {
-    return `${this.btnBorderWidth} solid ${this.borderColorFocus}`;
-  }
-  public static get btnCheckedHoverBorderColor() {
+  public static get btnDefaultCheckedBorderColor() {
     return this.btnCheckedBg;
-  }
-  public static get btnDefaultShadowArrowLeft() {
-    return this.btnDefaultShadowArrow;
-  }
-  public static get btnDefaultCheckedBorder() {
-    return `${this.btnBorderWidth} solid transparent`;
-  }
-  public static get btnDefaultCheckedShadowArrow() {
-    return `1px -1px 0 0 rgba(0, 0, 0, 0.15), 0 0 0 1px ${this.btnCheckedBg}`;
-  }
-  public static get btnDefaultHoverShadowArrow() {
-    return `1px -1px 0 0 ${this.btnDefaultHoverBorderColor}, 1px -1px 0 0 ${this.btnDefaultHoverBg}`;
-  }
-  public static get btnDefaultHoverShadowArrowLeft() {
-    return `1px -1px 0 0 ${this.btnDefaultHoverBorderColor}, 1px -1px 0 0 ${this.btnDefaultHoverBg}`;
-  }
-  public static get btnDefaultActiveShadowArrow() {
-    return `1px -1px 0 0 ${this.btnDefaultActiveBorderColor}, 1px -1px 0 0 ${this.btnDefaultActiveBg}`;
-  }
-  public static get btnDefaultActiveShadowArrowLeft() {
-    return `1px -1px 0 0 ${this.btnDefaultActiveBorderColor}, 1px -1px 0 0 ${this.btnDefaultActiveBg}`;
-  }
-  public static get btnPrimaryShadowArrow() {
-    return `0 0 0 1px ${this.btnPrimaryDisabledBg}`;
-  }
-  public static get btnPrimaryShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPrimaryDisabledBg}`;
-  }
-  public static get btnPrimaryHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnPrimaryHoverBg}`;
-  }
-  public static get btnPrimaryHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPrimaryHoverBg}`;
-  }
-  public static get btnPrimaryActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnPrimaryActiveBg}`;
-  }
-  public static get btnPrimaryActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPrimaryActiveBg}`;
-  }
-  public static get btnSuccessShadowArrow() {
-    return `0 0 0 1px ${this.btnSuccessDisabledBg}`;
-  }
-  public static get btnSuccessShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnSuccessDisabledBg}`;
-  }
-  public static get btnSuccessHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnSuccessHoverBg}`;
-  }
-  public static get btnSuccessHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnSuccessHoverBg}`;
-  }
-  public static get btnSuccessActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnSuccessActiveBg}`;
-  }
-  public static get btnSuccessActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnSuccessActiveBg}`;
-  }
-  public static get btnDangerShadowArrow() {
-    return `0 0 0 1px ${this.btnDangerDisabledBg}`;
-  }
-  public static get btnDangerShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnDangerDisabledBg}`;
-  }
-  public static get btnDangerHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnDangerHoverBg}`;
-  }
-  public static get btnDangerHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnDangerHoverBg}`;
-  }
-  public static get btnDangerActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnDangerActiveBg}`;
-  }
-  public static get btnDangerActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnDangerActiveBg}`;
-  }
-  public static get btnPayShadowArrow() {
-    return `0 0 0 1px ${this.btnPayDisabledBg}`;
-  }
-  public static get btnPayShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPayDisabledBg}`;
-  }
-  public static get btnPayHoverShadowArrow() {
-    return `0 0 0 1px ${this.btnPayHoverBg}`;
-  }
-  public static get btnPayHoverShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPayHoverBg}`;
-  }
-  public static get btnPayActiveShadowArrow() {
-    return `0 0 0 1px ${this.btnPayActiveBg}`;
-  }
-  public static get btnPayActiveShadowArrowLeft() {
-    return `0 0 0 1px ${this.btnPayActiveBg}`;
   }
   //#endregion
   //#region Select
   public static selectFontSizeMedium = '16px';
   //#endregion
   //#region Checkbox
-  public static chbBg = 'none';
-  public static chbIndeterminateBg = '#fff';
-  public static get chbShadowDisabled() {
+  public static checkboxBg = 'none';
+  public static checkboxIndeterminateBg = '#fff';
+  public static get checkboxShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
   }
-  public static get chbShadowActive() {
+  public static get checkboxShadowActive() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
-  public static get chbShadowHover() {
+  public static get checkboxShadowHover() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
   }
-  public static chbCheckedColor = '#fff';
-  public static get chbCheckedShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #1768a3`;
+  public static checkboxCheckedColor = '#fff';
+  public static get checkboxCheckedShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedBg}`;
   }
-  public static get chbCheckedHoverShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+  public static get checkboxCheckedHoverShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedHoverBg}`;
   }
-  public static get chbCheckedActiveShadow() {
-    return `0 0 0 ${this.checkboxBorderWidth} #175590`;
+  public static get checkboxCheckedActiveShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedActiveBg}`;
   }
-  public static get chbHoverBg() {
+  public static get checkboxHoverBg() {
     return this.btnDefaultHoverBg;
   }
-  public static get chbCheckedBg() {
+  public static get checkboxCheckedBg() {
     return this.borderColorFocus;
   }
-  public static get chbBoxIndeterminateBg() {
-    return this.chbCheckedBg;
+  public static get checkboxBoxIndeterminateBg() {
+    return this.checkboxCheckedBg;
   }
-  public static get chbCheckedHoverBg() {
-    return ColorFunctions.darken(this.chbCheckedBg, '5%');
+  public static get checkboxCheckedHoverBg() {
+    return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
-  public static get chbCheckedActiveBg() {
-    return ColorFunctions.darken(this.chbCheckedBg, '15%');
+  public static get checkboxCheckedActiveBg() {
+    return ColorFunctions.darken(this.checkboxCheckedBg, '15%');
   }
   //#endregion
   //#region Input
@@ -304,19 +204,20 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioDisabledShadow = 'none';
   public static radioLabelDisplay = 'inline-block';
   public static get radioHoverBg() {
-    return this.chbHoverBg;
+    return this.checkboxHoverBg;
   }
   public static get radioActiveBg() {
-    return this.chbActiveBg;
+    return this.checkboxActiveBg;
   }
   public static get radioFocusShadow() {
     return `inset 0 0 0 1px ${this.outlineColorFocus}`;
   }
   public static get radioCheckedBgColor() {
-    return this.chbCheckedBg;
+    return this.checkboxCheckedBg;
   }
+  public static radioCheckedBorderColor = 'transparent';
   public static get radioCheckedHoverBgColor() {
-    return ColorFunctions.darken(this.chbCheckedBg, '5%');
+    return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
   public static switcherButtonDisabledBorderColor: 'rgba(0, 0, 0, 0.15)';
 

@@ -1,4 +1,4 @@
-import { exposeGetters, markAs8pxTheme } from '../../lib/theming/ThemeHelpers';
+import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 import { DefaultThemeInternal } from './DefaultTheme';
 
@@ -70,9 +70,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get btnPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
-  public static btnBorderRadiusSmall = '1px';
-  public static btnBorderRadiusMedium = '1px';
-  public static btnBorderRadiusLarge = '1px';
+  public static btnBorderRadiusSmall = '2px';
+  public static btnBorderRadiusMedium = '2px';
+  public static btnBorderRadiusLarge = '2px';
 
   public static btnIconGapSmall = '4px';
   public static btnIconGapMedium = '4px';
@@ -80,17 +80,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '18px';
   public static btnIconSizeLarge = '20px';
-  public static btnSmallArrowTop = '7px';
-  public static btnSmallArrowRight = '-8px';
-
-  public static btnSmallArrowLength = '16px';
-  public static btnMediumArrowTop = '8px';
-  public static btnMediumArrowLength = '21.2px';
-  public static btnMediumArrowRight = '-11px';
-  public static btnLargeArrowLength = '25px';
-  public static btnLargeArrowLeft = '-12px';
-  public static btnLargeArrowRight = '-12px';
-
   //#endregion
   //#region Input
   public static get inputHeightSmall() {
@@ -159,7 +148,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static inputIconSizeLarge = '20px';
   //#endregion
   //#region Select
-  public static selectWidth = '200px';
   public static get selectBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -268,7 +256,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlBorderWidth;
   }
   public static get toggleOutlineWidth() {
-    return `calc(${this.controlOutlineWidth} + 1px)`;
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${outlineWidth + borderWidth}px`;
   }
   //#endregion
   //#region Token
@@ -334,29 +324,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static spinnerCaptionGapMedium = '-4px';
   public static spinnerCaptionGapLarge = '-3px';
   //#endregion
-  //#region SpinnerOld
-  public static get spinnerOldFontSizeSmall() {
-    return this.spinnerFontSizeSmall;
-  }
-  public static get spinnerOldFontSizeMedium() {
-    return this.spinnerFontSizeMedium;
-  }
-  public static get spinnerOldFontSizeLarge() {
-    return this.spinnerFontSizeLarge;
-  }
-  public static get spinnerOldLineHeightSmall() {
-    return this.spinnerLineHeightSmall;
-  }
-  public static get spinnerOldLineHeightMedium() {
-    return this.spinnerLineHeightMedium;
-  }
-  public static get spinnerOldLineHeightLarge() {
-    return this.spinnerLineHeightLarge;
-  }
-  public static spinnerOldCaptionGapSmall = '6px';
-  public static spinnerOldCaptionGapMedium = '-3px';
-  public static spinnerOldCaptionGapLarge = '2px';
-  //#endregion
   //#region Link
   public static linkIconMarginRight = '4px';
   public static linkButtonLineHeight = '34px';
@@ -368,7 +335,9 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlBorderWidth;
   }
   public static get textareaOutlineWidth() {
-    return `calc(${this.controlOutlineWidth} - 1px)`;
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${outlineWidth - borderWidth}px`;
   }
   public static get textareaFontSize() {
     return this.fontSizeSmall;
@@ -516,12 +485,11 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageFooterPaddingBottom = '32px';
   public static sidePageCloseButtonPadding = '36px';
   public static sidePageCloseButtonLegacyPaddingLeft = '36px';
-  public static sidePageCloseButtonClickArea = '10px';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
-  public static tooltipMargin = '16px';
+  public static tooltipMargin = '10px';
   public static tooltipPinOffset = '0px'; // deprecated
   public static tooltipPinOffsetX = '16px';
   public static tooltipPinOffsetY = '18px';
@@ -529,7 +497,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#region Hint
   public static hintBorder = 'none';
   public static hintBorderRadius = '2px';
-  public static hintMargin = '16px';
+  public static hintMargin = '8px';
   //#endregion
   //#region Modal
   public static modalCloseButtonPadding = '36px';
@@ -603,4 +571,4 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const Theme8pxInternal = exposeGetters(markAs8pxTheme(Theme8px));
+export const Theme8pxInternal = exposeGetters(Theme8px);

@@ -3,6 +3,129 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.0.0...@skbkontur/react-ui@3.1.0) (2021-06-09)
+
+
+### Bug Fixes
+
+* **Button:** remove middle line on arrows ([51f9395](https://github.com/skbkontur/retail-ui/commit/51f93953ff3f1e9a9afaecf866184e8c7e704dda))
+* **Checkbox:** fix not triggered onFocus handler ([c8b1247](https://github.com/skbkontur/retail-ui/commit/c8b12479ce9f74c26a936bf05b2a5a65bc87453d))
+* **Input,Textarea,Toggle,Checkbox:** fix regress after 3.0 ([#2397](https://github.com/skbkontur/retail-ui/issues/2397)) ([0905743](https://github.com/skbkontur/retail-ui/commit/09057434064423f97f0c99a5ad12714a120f2b8b))
+* **Radio, Checkbox:** remove borders in flat theme ([a927027](https://github.com/skbkontur/retail-ui/commit/a927027d3482f60c2e18ab38cfb269b0dc79bff6))
+* **Tabs:** add resize detector in tab for updating indicator place ([347e672](https://github.com/skbkontur/retail-ui/commit/347e672e9cd964541ec0d6d1c2da5fbaef2a6b21))
+* **Textarea:** skip tab focus on iframe ([6f5aa39](https://github.com/skbkontur/retail-ui/commit/6f5aa39c77eb47e21654284c106c104bdf49e0d5))
+
+
+### Features
+
+* **Combobox:** add right icon ([#2431](https://github.com/skbkontur/retail-ui/issues/2431)) ([2c0d2c9](https://github.com/skbkontur/retail-ui/commit/2c0d2c9c990c1200d52e521434495e91f34bd9b0))
+
+
+
+
+
+# [3.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.0...@skbkontur/react-ui@3.0.0) (2021-05-12)
+
+
+### Bug Fixes
+
+* **react-ui:** update default text color ([57189e6](https://github.com/skbkontur/retail-ui/commit/57189e6bebbfa63e293844c77c43b52153d13ea6))
+* **ThemeFactory:** create themes based on 8px by default ([141cf24](https://github.com/skbkontur/retail-ui/commit/141cf24b91a084c11fa641df0b3faf8dd3ea1612))
+* change the text color of disabled controls ([#2304](https://github.com/skbkontur/retail-ui/issues/2304)) ([09e27e9](https://github.com/skbkontur/retail-ui/commit/09e27e9a6aadefdf23b2ad801923f840f03f6828)), closes [#2207](https://github.com/skbkontur/retail-ui/issues/2207)
+* focus border color and menu items bg color changed to `[#1](https://github.com/skbkontur/retail-ui/issues/1)D85D0` ([35c325d](https://github.com/skbkontur/retail-ui/commit/35c325dd1cdf96c58d5bc680a9c93bfa025d5365)), closes [#1D85D0](https://github.com/skbkontur/retail-ui/issues/1D85D0) [#2330](https://github.com/skbkontur/retail-ui/issues/2330)
+* **Button:** add white-space: nowrap for linkbutton ([b5ceeed](https://github.com/skbkontur/retail-ui/commit/b5ceeedeb2216281f86e1c34a85a6ecbb16fd666))
+* **Button:** fix icon padding with empty children ([476a05d](https://github.com/skbkontur/retail-ui/commit/476a05de13f7276905bf4ac0081bf34d4dde32eb))
+* **Button:** remove transparent bg on hover from Flat theme ([#2253](https://github.com/skbkontur/retail-ui/issues/2253)) ([af72fe7](https://github.com/skbkontur/retail-ui/commit/af72fe716b135717531b1b5c7293e3f921246ba2))
+* **Theme:** improve themes markers, no need to replicate them anymore ([f635939](https://github.com/skbkontur/retail-ui/commit/f6359395fb7a20129c24ad8bb17f424368094fe7))
+* **ThemePlayground:** restore tests that was deleted by mistake ([1ea04c6](https://github.com/skbkontur/retail-ui/commit/1ea04c66462ad4c0f44ef52586787fef30aa753e)), closes [#2319](https://github.com/skbkontur/retail-ui/issues/2319)
+* **Tooltip,Hint:** change popup margin ([7c32369](https://github.com/skbkontur/retail-ui/commit/7c32369f12cb73fc0c77a46a10db2313e1dbfc43))
+
+
+### Features
+
+* **Button:** implement strokes via borders, add inner shadow for error/warning states ([#2285](https://github.com/skbkontur/retail-ui/issues/2285)) ([5bca212](https://github.com/skbkontur/retail-ui/commit/5bca212ebbcb75dba814a414dab94c4999f1e7cc))
+* **Button:** new loading state ([#2256](https://github.com/skbkontur/retail-ui/issues/2256)) ([c4d6537](https://github.com/skbkontur/retail-ui/commit/c4d65379f382c6fe5ddd4293ff9974443a3cae76))
+* **Fias:** remove component ([cd3ecdf](https://github.com/skbkontur/retail-ui/commit/cd3ecdf7d8c2bc3b7a1ce583efc786773db606d4))
+* **LocaleContext:** allow usage with any component ([cb074f6](https://github.com/skbkontur/retail-ui/commit/cb074f6231748b9a54d382c78561a00fb0c16a68))
+* **LocaleProvider:** remove component ([906b485](https://github.com/skbkontur/retail-ui/commit/906b48532150409b96643460d02265315caeb84b))
+* **Logotype:** remove component ([9455ffa](https://github.com/skbkontur/retail-ui/commit/9455ffad8d528ec312c0879622ec2c2e8032880a))
+* **MenuItem:** remove alkoLink prop ([a69ae24](https://github.com/skbkontur/retail-ui/commit/a69ae24c215ac17c1e3dd914b8c623f86553258c))
+* **react-ui:** new arrow icons ([#2331](https://github.com/skbkontur/retail-ui/issues/2331)) ([cf9e76f](https://github.com/skbkontur/retail-ui/commit/cf9e76ff124f4286d4b1bffe242807537c10d578))
+* **react-ui:** rename themes ([#2391](https://github.com/skbkontur/retail-ui/issues/2391)) ([ed2bd19](https://github.com/skbkontur/retail-ui/commit/ed2bd1959b488a97aa9d3ab96cbf40c504ca0a8a))
+* **react-ui:** turn on 8px theme by default ([b2e0087](https://github.com/skbkontur/retail-ui/commit/b2e00876762bf7ec4d40a3424110aee713ef33d6))
+* **Select, Dropdown:** remove diadocLinkIcon prop ([0374bad](https://github.com/skbkontur/retail-ui/commit/0374badf35daabae1984167a2a41751af2c18524))
+* **Spinner, Loader:** remove cloud prop ([923a57c](https://github.com/skbkontur/retail-ui/commit/923a57c9aac9aa1dff1775dca29f6dc548c5d358))
+* **SpinnerOld:** remove component ([8c76fac](https://github.com/skbkontur/retail-ui/commit/8c76fac129e503eb9e0a49f5f09e3adb90dec8a1))
+* **ThemeConsumer:** remove component ([9c01ab9](https://github.com/skbkontur/retail-ui/commit/9c01ab9e0e117fdaac03b12d49adc03db05ddba7))
+* **ThemeProvider:** remove component ([c932bb7](https://github.com/skbkontur/retail-ui/commit/c932bb75f5b2ba14238aa363e2f7756bae38adda))
+* **Toggle:** deprecate 'color' prop ([f7b9b22](https://github.com/skbkontur/retail-ui/commit/f7b9b22d154b5cdf9225a62815f94a05cc9dec77))
+* **Toggle:** implement error and warning states via shadows ([c67f8a5](https://github.com/skbkontur/retail-ui/commit/c67f8a5b81b1d5a11f0637e49ee565485effe4aa))
+* **Tooltip,Hint:** set useWrapper prop to false by default ([74bdb29](https://github.com/skbkontur/retail-ui/commit/74bdb299c19744f2c46052c3ed98b438bf1a221d))
+* **TopBar:** remove component ([5a67478](https://github.com/skbkontur/retail-ui/commit/5a67478751145fcd2445e283762ab48b729ddc23))
+
+
+### Reverts
+
+* Revert "test(Button): change size of screenshot" ([25887e6](https://github.com/skbkontur/retail-ui/commit/25887e688fb7c1a4d203baaf020c78e56d24486b))
+
+
+### BREAKING CHANGES
+
+* **react-ui:** default text color has been changed to #333333
+* **react-ui:** themes have been renamed (see migration.md)
+* **react-ui:** default theme has changed
+* Color of focus border and background of active menu items changed from `#5199db` to `#1D85D0`
+* **Tooltip,Hint:** It may affect position of Tooltips and Hints over your element due default wrapper removal. Also default offsets were changed.
+* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext
+* **ThemeConsumer:** component `ThemeConsumer` was deprecated and removed please use `ThemeContext` instead
+* **Select, Dropdown:** Prop `diadocLinkIcon` was deprecated use prop `_renderButton` instead
+* **MenuItem:** Prop `alkoLink` was deprecated please use `link` instead
+* **LocaleProvider:** Component `LocaleProvider` has been removed, please use `LocaleContext` instead
+* **Spinner, Loader:** Cloud prop in `Spinner` and `Loader` components has been removed, behavior moved to `@skbkontur/react-ui-addons` see [migration] (https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
+* **SpinnerOld:** Component `SpinnerOld` has been removed, please use component from @skbkontur/react-ui-addons
+* **Logotype:** Component `Logotype` has been removed, please use component from @skbkontur/react-ui-addons
+* **Fias:** Component `Fias` has been removed, please use component from @skbkontur/react-ui-addons
+* **TopBar:** Component `TopBar` has been removed, please use component from `@skbkontur/react-ui-addons`
+
+
+
+
+
+# [2.17.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.2...@skbkontur/react-ui@2.17.0) (2021-05-12)
+
+
+### Features
+
+* support React 17 ([#2360](https://github.com/skbkontur/retail-ui/issues/2360)) ([066ff68](https://github.com/skbkontur/retail-ui/commit/066ff681477d415177a6312c218e49ed5baa4c44))
+* **DropdownMenu:** add prop width ([b49e8c0](https://github.com/skbkontur/retail-ui/commit/b49e8c0d05d085ac7e175899ec064d5cc7192507))
+
+
+
+
+
+## [2.16.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.1...@skbkontur/react-ui@2.16.2) (2021-04-30)
+
+
+### Bug Fixes
+
+* **Hint:** clear opening timer ([0a03c36](https://github.com/skbkontur/retail-ui/commit/0a03c36eef19dbaff51a774cee066a3255db5d3d))
+* **locale:** add check that 'name' field is configurable ([b895bc2](https://github.com/skbkontur/retail-ui/commit/b895bc237bb6c4de115d08f61749175cb0e314a0)), closes [#2370](https://github.com/skbkontur/retail-ui/issues/2370)
+
+
+
+
+
+## [2.16.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.16.0...@skbkontur/react-ui@2.16.1) (2021-04-28)
+
+
+### Bug Fixes
+
+* **SidePage:** fix sidepage counting for adding margins and shadows ([bb24bf6](https://github.com/skbkontur/retail-ui/commit/bb24bf6f08d953ba0cd935bbf17f88c125fcef8a))
+
+
+
+
+
 # [2.16.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.15.0...@skbkontur/react-ui@2.16.0) (2021-04-12)
 
 

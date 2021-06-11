@@ -20,9 +20,9 @@ function clickOutside() {
   document.body.dispatchEvent(event);
 }
 
-function searchFactory<T>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<T>] {
-  let searchCalled: () => void;
-  const searchPromise = new Promise<T>(resolve => (searchCalled = async () => (await delay(0), resolve())));
+function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>>, Promise<void>] {
+  let searchCalled: () => Promise<void>;
+  const searchPromise = new Promise<void>(resolve => (searchCalled = async () => (await delay(0), resolve())));
   const search = jest.fn(() => (searchCalled(), promise));
 
   return [search, searchPromise];
@@ -133,6 +133,8 @@ describe('ComboBox', () => {
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
     wrapper.update();
+
+    await delay(100);
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
@@ -569,7 +571,7 @@ describe('ComboBox', () => {
   describe('search by method', () => {
     const VALUE = { value: 1, label: 'one' };
     let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
-    let promise: Promise<{}>;
+    let promise: Promise<void>;
     let wrapper: ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
 
     beforeEach(() => {
@@ -601,7 +603,7 @@ describe('ComboBox', () => {
   describe('keeps focus in input after', () => {
     const ITEMS = ['one', 'two', 'three'];
     let search: jest.Mock<Promise<string[]>>;
-    let promise: Promise<{}>;
+    let promise: Promise<void>;
     let wrapper: ReactWrapper<ComboBoxProps<string>, {}, ComboBox<string>>;
     const onFocus = jest.fn();
     const onBlur = jest.fn();
@@ -669,7 +671,7 @@ describe('ComboBox', () => {
       comboboxWrapper.find('input').simulate('click');
     };
     let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
-    let promise: Promise<{}>;
+    let promise: Promise<void>;
     let wrapper: TComboBoxWrapper;
 
     describe('in default mode', () => {

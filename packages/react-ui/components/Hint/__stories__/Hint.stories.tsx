@@ -7,6 +7,7 @@ import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'Hint',
@@ -125,4 +126,39 @@ export const HintsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Eleme
 HintsWithoutWrapperAroundInlineBlockWith50Width.story = {
   name: 'Hints without wrapper around inline-block with 50% width',
   parameters: { creevey: { delay: 500 } },
+};
+
+const HandleClickHint = () => {
+  const [manual, setManual] = React.useState(false);
+
+  const onClick = () => setManual(true);
+
+  return (
+    <div>
+      <Hint text="Should not displayed after click" manual={manual} opened={!manual}>
+        <div onClick={onClick} id="main">
+          Hover me and click
+        </div>
+      </Hint>
+    </div>
+  );
+};
+
+export const SetManualAndOpenedPropOnClick: CSFStory<JSX.Element> = () => <HandleClickHint />;
+
+SetManualAndOpenedPropOnClick.story = {
+  parameters: {
+    creevey: {
+      tests: {
+        async ['click on hint']() {
+          await this.browser
+            .actions()
+            .click(this.browser.findElement({ css: '#main' }))
+            .perform();
+          await delay(1000);
+          await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
+        },
+      },
+    },
+  },
 };

@@ -40,7 +40,7 @@ describe('ValidationHelper', () => {
         visible: null,
         actual: actual.lostfocus,
         expectedWhenChanging: null,
-        expectedWhenNotChanging: actual.lostfocus,
+        expectedWhenNotChanging: null,
       },
       {
         visible: null,

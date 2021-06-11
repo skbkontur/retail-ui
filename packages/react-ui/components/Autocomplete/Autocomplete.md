@@ -1,7 +1,7 @@
-```jsx
+```jsx harmony
 let items = ['Grey Face', 'Grey Space', 'Kappa', 'Keepo', 'Resident Sleeper'];
 
-let initialState = { value: 'Kappa' };
+const [value, setValue] = React.useState('Kappa');
 
-<Autocomplete source={items} value={state.value} onValueChange={value => setState({ value })} />;
+<Autocomplete source={items} value={value} onValueChange={setValue} />;
 ```

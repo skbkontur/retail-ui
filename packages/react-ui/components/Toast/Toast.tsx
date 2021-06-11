@@ -75,10 +75,10 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    * Тост автоматически скрывается через 3 или 7 секунд,
    * в зависимости от наличия у него кнопки `action`.
    *
-   * `action` опциональный параметр формата `{ label: string, handler: function }` добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
    * @public
-   * @param notification
-   * @param action
+   * @param {string} notification
+   * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
+   * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
    */
   public push(notification: string, action?: Action) {
     if (this.state.notification) {

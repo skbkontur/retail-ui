@@ -63,8 +63,8 @@ const styles = {
 
   focus(t: Theme) {
     return css`
-      border-color: ${t.inputBorderColorFocus};
-      box-shadow: ${t.inputFocusShadow};
+      border-color: ${t.inputBorderColorFocus} !important;
+      box-shadow: ${t.inputFocusShadow} !important;
       outline: none;
       z-index: 2;
 
@@ -82,8 +82,8 @@ const styles = {
 
   focusFallback(t: Theme) {
     return css`
-      box-shadow: none;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
+      box-shadow: none !important;
+      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline} !important;
     `;
   },
 
@@ -105,6 +105,9 @@ const styles = {
 
       ${cssName(styles.focus(t))} & {
         color: ${t.inputPlaceholderColorLight};
+      }
+      ${cssName(styles.disabled(t))} & {
+        color: ${t.inputPlaceholderColorDisabled};
       }
     `;
   },
@@ -181,7 +184,7 @@ const styles = {
     return css`
       background: ${t.inputDisabledBg} !important;
       border-color: ${t.inputDisabledBorderColor} !important;
-      box-shadow: none;
+      box-shadow: none !important;
 
       ${cssName(styles.icon())} {
         cursor: default;
@@ -192,13 +195,19 @@ const styles = {
         -webkit-text-fill-color: ${t.inputTextColorDisabled};
       }
       ${cssName(styles.input(t))}:-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
       }
       ${cssName(styles.input(t))}::-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
       }
       ${cssName(styles.input(t))}::placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColor};
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+      }
+      ${cssName(styles.suffix(t))} {
+        color: ${t.inputPlaceholderColorDisabled};
+      }
+      ${cssName(styles.prefix(t))} {
+        color: ${t.inputPlaceholderColorDisabled};
       }
     `;
   },
@@ -342,42 +351,42 @@ const styles = {
 
   leftIconSmall(t: Theme) {
     return css`
-      width: ${t.inputIconSizeSmall};
+      min-width: ${t.inputIconSizeSmall};
       padding-right: ${t.inputIconGapSmall};
     `;
   },
 
   rightIconSmall(t: Theme) {
     return css`
-      width: ${t.inputIconSizeSmall};
+      min-width: ${t.inputIconSizeSmall};
       padding-left: ${t.inputIconGapSmall};
     `;
   },
 
   leftIconMedium(t: Theme) {
     return css`
-      width: ${t.inputIconSizeMedium};
+      min-width: ${t.inputIconSizeMedium};
       padding-right: ${t.inputIconGapMedium};
     `;
   },
 
   rightIconMedium(t: Theme) {
     return css`
-      width: ${t.inputIconSizeMedium};
+      min-width: ${t.inputIconSizeMedium};
       padding-left: ${t.inputIconGapMedium};
     `;
   },
 
   leftIconLarge(t: Theme) {
     return css`
-      width: ${t.inputIconSizeLarge};
+      min-width: ${t.inputIconSizeLarge};
       padding-right: ${t.inputIconGapLarge};
     `;
   },
 
   rightIconLarge(t: Theme) {
     return css`
-      width: ${t.inputIconSizeLarge};
+      min-width: ${t.inputIconSizeLarge};
       padding-left: ${t.inputIconGapLarge};
     `;
   },

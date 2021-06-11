@@ -9,7 +9,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
-import { ArrowTriangleDownIcon } from '../icons/16px';
+import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
@@ -39,6 +39,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   maxLength?: number;
   maxMenuHeight?: number | string;
   leftIcon?: InputIconType;
+  rightIcon?: InputIconType;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
 
   onValueChange?: (value: T) => void;
@@ -274,16 +275,16 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   );
 
   private getRightIcon = () => {
-    const { loading, items, drawArrow } = this.props;
+    const { loading, items, drawArrow, rightIcon } = this.props;
 
     if (loading && items && !!items.length) {
       return this.renderSpinner();
     }
 
-    if (drawArrow) {
+    if (rightIcon || drawArrow) {
       return (
-        <span className={jsStyles.arrowWrapper()}>
-          <ArrowTriangleDownIcon />
+        <span className={jsStyles.rightIconWrapper()}>
+          {rightIcon ?? <ArrowChevronDownIcon />}
         </span>
       );
     }

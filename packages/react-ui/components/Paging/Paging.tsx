@@ -196,7 +196,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         className={classes}
         onClick={disabled ? emptyHandler : this.goForward}
         tabIndex={-1}
-        pageNumber={'forward' as 'forward'}
+        pageNumber={'forward' as const}
       >
         {caption || forward}
         <span className={jsStyles.forwardIcon(this.theme)}>
@@ -322,7 +322,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    process.nextTick(() => {
+    requestAnimationFrame(() => {
       if (tabListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }

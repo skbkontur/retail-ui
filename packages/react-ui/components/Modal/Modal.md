@@ -1,7 +1,8 @@
 ```jsx harmony
 import { Button, Toggle } from '@skbkontur/react-ui';
 
-let initialState = { opened: false };
+const [opened, setOpened] = React.useState(false);
+const [panel, setPanel] = React.useState(false);
 
 function renderModal() {
   return (
@@ -11,11 +12,11 @@ function renderModal() {
         <p>Use rxjs operators with react hooks</p>
 
         <div>
-          <Toggle checked={state.panel} onValueChange={() => setState(({ panel }) => ({ panel: !panel }))} /> Panel{' '}
-          {state.panel ? 'enabled' : 'disabled'}
+          <Toggle checked={panel} onValueChange={setPanel} /> Panel{' '}
+          {panel ? 'enabled' : 'disabled'}
         </div>
       </Modal.Body>
-      <Modal.Footer panel={state.panel}>
+      <Modal.Footer panel={panel}>
         <Button onClick={close}>Close</Button>
       </Modal.Footer>
     </Modal>
@@ -23,15 +24,15 @@ function renderModal() {
 }
 
 function open() {
-  setState({ opened: true });
+  setOpened(true);
 }
 
 function close() {
-  setState({ opened: false });
+  setOpened(false);
 }
 
 <div>
-  {state.opened && renderModal()}
+  {opened && renderModal()}
   <Button onClick={open}>Open</Button>
 </div>;
 ```

@@ -1,15 +1,7 @@
-const path = require('path');
 const webpack = require('webpack');
 
 module.exports = async ({ config, mode }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
-
-  config.entry.unshift('react-ui-testing/react-selenium-testing');
-
-  config.entry.push(
-    path.join(__dirname, '../stories/styles/reset.less'),
-    path.join(__dirname, '../stories/styles/typography.less'),
-  );
 
   config.module.rules = [
     {
@@ -44,7 +36,6 @@ module.exports = async ({ config, mode }) => {
             },
           },
         },
-        'less-loader',
       ],
     },
     {

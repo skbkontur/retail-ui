@@ -115,7 +115,10 @@ Playground.story = {
 export const DifferentContent = () => (
   <Gapped vertical>
     <Button icon={<OkIcon />}>text with icon</Button>
+    <span>icon as children</span>
     <Button>{<OkIcon />}</Button>
+    <span>icon as prop and without children</span>
+    <Button icon={<OkIcon />} />
     <Button icon={<OkIcon />} use={'primary'}>
       icon with long text and color
     </Button>
@@ -253,6 +256,15 @@ export const DifferentAligns = () => (
   />
 );
 DifferentAligns.story = { name: 'different aligns' };
+
+export const differentWidths: CSFStory<JSX.Element> = () => (
+  <ComponentCombinator
+    Component={Button}
+    presetProps={{ children: 'long-long-long text' }}
+    combinations={[widthStates, [{ props: { use: 'link' } }, { props: { use: 'default' } }]]}
+  />
+);
+differentWidths.story = { name: 'different widths' };
 
 export const DefaultCombinations: CSFStory<JSX.Element> = () => (
   <ComponentCombinator
@@ -415,11 +427,13 @@ const sizeStates = getProps('size', ['small', 'medium', 'large']);
 
 const arrowStates = getProps('arrow', [true, 'left']);
 
-const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'link']);
+const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'success']);
 
 const widthStates = getProps('width', [100, 'auto']);
 
-const visualStates = [{ narrow: true }, { borderless: true }].map(x => ({ props: x }));
+const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map(x => ({
+  props: x,
+}));
 
 const contentStates = [
   { icon: <SearchIcon /> },

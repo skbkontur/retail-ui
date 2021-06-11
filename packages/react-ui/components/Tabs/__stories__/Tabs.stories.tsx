@@ -10,6 +10,15 @@ import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
 const { Tab } = Tabs;
 
+const Img: React.FC<{ size: string }> = ({ size }) => (
+  <img
+    src={`data:image/svg+xml;base64,${btoa(
+      `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}"><rect fill="grey" width="100%" height="100%" /></svg>`,
+    )}`}
+    alt="test"
+  />
+);
+
 class UncTabs extends React.Component<any, any> {
   public state = {
     active: 'fuji',
@@ -480,3 +489,38 @@ TabsInModalStory.story = { name: 'tabs in modal', parameters: { creevey: { skip:
 
 export const HoverTable = () => <TabsTable />;
 HoverTable.story = { name: 'hover table', parameters: { creevey: { skip: [true] } } };
+
+export const TabsWithImage: CSFStory<JSX.Element> = () => {
+  const [activeTab, setActiveTab] = React.useState('search4');
+
+  return (
+    <Tabs value={activeTab} vertical onValueChange={tab => setActiveTab(tab)}>
+      <Tabs.Tab id="search1">
+        <Img size={'75px'} />
+      </Tabs.Tab>
+      <Tabs.Tab id="search2">
+        <Img size={'105px'} />
+      </Tabs.Tab>
+      <Tabs.Tab id="search3">
+        <Img size={'25px'} />
+      </Tabs.Tab>
+      <Tabs.Tab id="search4">
+        <Img size={'150px'} />
+      </Tabs.Tab>
+      <Tabs.Tab id="search5">
+        <Img size={'30px'} />
+      </Tabs.Tab>
+      <Tabs.Tab id="search6">
+        <Img size={'100px'} />
+      </Tabs.Tab>
+    </Tabs>
+  );
+};
+TabsWithImage.story = {
+  name: 'Tabs with images',
+  parameters: {
+    creevey: {
+      delay: 500,
+    },
+  },
+};
