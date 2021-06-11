@@ -322,7 +322,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
-    process.nextTick(() => {
+    requestAnimationFrame(() => {
       if (tabListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
