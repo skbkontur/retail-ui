@@ -195,17 +195,7 @@ const styles = {
       margin-bottom: 10px;
       padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
-
-      &:after {
-        bottom: 11px;
-        content: '';
-        position: absolute;
-        height: 1px;
-        width: 100%;
-        left: 0;
-        z-index: -1;
-        box-shadow: ${t.modalFixedHeaderShadow};
-      }
+      box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.1);
     `;
   },
 
@@ -215,17 +205,7 @@ const styles = {
         padding-top: 20px;
         margin-top: 10px;
         background: ${t.modalFixedHeaderBg};
-      }
-
-      &:before {
-        top: 11px;
-        content: '';
-        position: absolute;
-        height: 1px;
-        width: 100%;
-        left: 0;
-        z-index: -1;
-        box-shadow: ${t.modalFixedFooterShadow};
+        box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.1)
       }
     `;
   },

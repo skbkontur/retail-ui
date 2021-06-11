@@ -582,7 +582,7 @@ export class DefaultTheme {
   public static modalFixedHeaderBg = '#fff';
   public static modalFixedHeaderShadow = '0 1px 10px #000000';
   public static modalFixedFooterShadow = '0 -1px 10px #000000';
-  public static modalFooterBg = '#e9e9e9';
+  public static modalFooterBg = '#e5e5e5';
   public static modalAdaptiveThreshold = '425px';
   public static modalPaddingTop = '30px';
   public static modalPaddingLeft = '30px';
