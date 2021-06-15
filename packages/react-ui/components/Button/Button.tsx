@@ -326,7 +326,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
-      process.nextTick(() => {
+      requestAnimationFrame(() => {
         if (tabListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }

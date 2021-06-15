@@ -1,5 +1,6 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
+import OkIcon from "@skbkontur/react-icons/Ok";
 
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
@@ -39,6 +40,10 @@ export const InputLikeText: CSFStory<JSX.Element> = () => (
     <ComboBoxView error textValue="error" />
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
+    <div>
+      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" />
+      {' '}ComboBoxView с правой иконкой в состоянии загрузки
+    </div>
   </Gapped>
 );
 InputLikeText.story = {

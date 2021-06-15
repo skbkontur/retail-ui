@@ -13,6 +13,9 @@ const buildConfig = config => {
   execSync(`yarn styleguidist build --config ${config}`, {
     shell: true,
   });
+};
+
+const copyBuildFiles = config => {
   // styleguidist clears the directory before each build,
   // so we need to copy the files somewhere after each one
   // in order to deploy them together
@@ -21,6 +24,7 @@ const buildConfig = config => {
 
 const buildStyleguideRoot = () => {
   buildConfig(ROOT_CONFIG);
+  copyBuildFiles();
 };
 
 const buildStyleguideVersion = tag => {
@@ -43,6 +47,8 @@ const buildStyleguideVersion = tag => {
     removeSync(BUILD_DIR);
     console.log(`Style guide removed from: ${BUILD_DIR}`);
   }
+
+  copyBuildFiles();
 };
 
 buildStyleguideVersion(distTag);

@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -40,7 +40,7 @@
   "peerDependencies": {
     "react": ">=16.9",
     "react-dom": ">=16.9",
-    "retail-ui": ">=0.53.7 <3.0.0"
+    "retail-ui": ">=0.53.7"
   },
   "dependencies": {
     "prop-types": "^15.7.2",

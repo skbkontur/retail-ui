@@ -5,7 +5,7 @@ import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
 
-import { isBrowser } from './client';
+import { isBrowser } from './utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
