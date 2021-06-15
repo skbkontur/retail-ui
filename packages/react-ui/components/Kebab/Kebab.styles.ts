@@ -55,9 +55,7 @@ const styles = {
 
   icon() {
     return css`
-    {
       color: #757575;
-    }
     `;
   },
 
