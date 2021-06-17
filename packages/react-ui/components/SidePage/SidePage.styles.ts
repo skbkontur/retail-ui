@@ -87,10 +87,20 @@ const styles = {
   headerFixed(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
-      box-shadow: 0 1px ${t.sidePageBorderColor};
       font-size: ${t.sidePageHeaderFixedFontSize};
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+
+      &:after {
+        bottom: 0px;
+        content: '';
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        left: 0;
+        z-index: -1;
+        box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.3);
+      }
     `;
   },
 
@@ -207,7 +217,17 @@ const styles = {
   footerFixed(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
-      border-top: 1px solid ${t.sidePageBorderColor};
+
+      &:before {
+        top: 0px;
+        content: '';
+        position: absolute;
+        height: 1px;
+        width: 100%;
+        left: 0;
+        z-index: -1;
+        box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.3);
+      }
     `;
   },
 

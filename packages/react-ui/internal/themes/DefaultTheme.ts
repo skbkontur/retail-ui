@@ -600,7 +600,7 @@ export class DefaultTheme {
   public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region SidePage
-  public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePageFooterPanelBg = '#e5e5e5';
   public static sidePageBackingBg = '#333';
   public static sidePageBackingBgOpacity = '0.6';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
