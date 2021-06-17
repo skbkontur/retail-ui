@@ -6,6 +6,8 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
+import { isSupportTouch } from '../../lib/client';
+import { letBodyScroll, stopBodyScroll } from '../../lib/utils';
 
 import { themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -31,6 +33,7 @@ export interface CalendarState {
   today: CalendarDateShape;
   scrollDirection: number;
   scrollTarget: number;
+  touchStart: number;
 }
 
 const getTodayDate = () => {
@@ -78,6 +81,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       today,
       scrollDirection: 1,
       scrollTarget: 0,
+      touchStart: 0,
     };
   }
 
@@ -221,9 +225,17 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private refRoot = (element: HTMLElement | null) => {
     if (!this.root && element) {
       element.addEventListener('wheel', this.handleWheel, { passive: false });
+      if (isSupportTouch) {
+        element.addEventListener('touchstart', this.handleTouchStart);
+        element.addEventListener('touchend', this.handleTouchEnd);
+      }
     }
     if (this.root && !element) {
       this.root.removeEventListener('wheel', this.handleWheel);
+      if (isSupportTouch) {
+        this.root.removeEventListener('touchstart', this.handleTouchStart);
+        this.root.removeEventListener('touchend', this.handleTouchEnd);
+      }
     }
     this.root = element;
   };
@@ -258,6 +270,34 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private handleMonthYearChange = (month: number, year: number) => {
     this.scrollToMonth(month, year);
+  };
+
+  private handleTouchEnd = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    letBodyScroll();
+
+    const clientY = event.changedTouches[0].clientY;
+    const deltaY = this.state.touchStart - clientY;
+
+    if (deltaY > 50) {
+      this.scrollToMonth(this.state.months[2].month, this.state.months[2].year);
+    } else if (deltaY < -50) {
+      this.scrollToMonth(this.state.months[0].month, this.state.months[0].year);
+    }
+  };
+
+  private handleTouchStart = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    stopBodyScroll();
+
+    const clientY = event.targetTouches[0].clientY;
+    this.setState({ touchStart: clientY });
   };
 
   private handleWheel = (event: Event) => {

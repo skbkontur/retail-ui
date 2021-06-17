@@ -15,3 +15,5 @@ export const isOpera = /(?:^opera.+?version|opr)\/(\d+)/.test(userAgent);
 export const isChrome = vendor.includes('google inc') && /(?:chrome|crios)\/(\d+)/.test(userAgent) && !isOpera;
 export const isEdge = userAgent.includes('edge/');
 export const isIE11 = userAgent.includes('trident/');
+
+export const isSupportTouch = 'ontouchstart' in window.document.documentElement;
