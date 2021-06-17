@@ -10,6 +10,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { jsStyles } from './Loader.styles';
 
@@ -27,12 +28,22 @@ export interface LoaderProps extends CommonProps {
   component?: React.ReactNode;
   className?: string;
   type?: 'mini' | 'normal' | 'big';
+  /**
+   * Время в миллисекундах для показа вуали без спиннера.
+   * @default 300
+   */
+  timeBeforeWhenSpinnerVisible?: number;
 }
 
 export interface LoaderState {
   isStickySpinner: boolean;
+  isSpinnerVisible: boolean;
+  needShowSpinnerMinimalTime: boolean;
   spinnerStyle?: object;
 }
+
+export const DELAY_BEFORE_SPINNER_VISIBLE = isTestEnv ? 0 : 300;
+export const SPINNER_VISIBLE_MINIMAL_TIME = 1000;
 
 /**
  * DRAFT - лоадер-контейнер
@@ -79,6 +90,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private containerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
+  private spinnerTimeouts: Array<Nullable<NodeJS.Timeout>> = [];
 
   constructor(props: LoaderProps) {
     super(props);
@@ -88,11 +100,14 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.state = {
       isStickySpinner: false,
+      isSpinnerVisible: false,
+      needShowSpinnerMinimalTime: this.props.active,
     };
   }
 
   public componentDidMount() {
     this.checkSpinnerPosition();
+    this.checkSpinner();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
   }
 
@@ -108,6 +123,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
+    this.spinnerTimeouts.map(timeout => timeout && clearTimeout(timeout));
   }
 
   public render() {
@@ -135,7 +151,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           >
             {this.props.children}
           </ZIndex>
-          {active && (
+          {(active || this.state.needShowSpinnerMinimalTime) && (
             <ZIndex
               wrapperRef={this.wrapperRef}
               priority={'Loader'}
@@ -143,7 +159,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
                 [jsStyles.active(this.theme)]: active,
               })}
             >
-              {this.renderSpinner(type, caption, component)}
+              {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
             </ZIndex>
           )}
         </div>
@@ -253,4 +269,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       spinnerStyle,
     });
   };
+
+  private checkSpinner = () => {
+    this.spinnerTimeouts.concat(setTimeout(() => {
+        this.setState({ isSpinnerVisible: true });
+        this.spinnerTimeouts.concat(setTimeout(() => this.setState({ needShowSpinnerMinimalTime: false }), SPINNER_VISIBLE_MINIMAL_TIME));
+    }, this.props.timeBeforeWhenSpinnerVisible || DELAY_BEFORE_SPINNER_VISIBLE));
+  }
 }
