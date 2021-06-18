@@ -216,52 +216,9 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-  }
-
-  public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
-    let picker = null;
-    const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
-    if (this.state.opened) {
-      picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
-          <Picker
-            value={date}
-            minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
-            maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
-            onPick={this.handlePick}
-            onSelect={this.handleSelect}
-            enableTodayLink={this.props.enableTodayLink}
-            isHoliday={this.isHoliday}
-          />
-        </DropdownContainer>
-      );
-    }
-
     return (
       <>
-        <label
-          className={jsStyles.root()}
-          style={{ width: this.props.width }}
-          onMouseEnter={this.props.onMouseEnter}
-          onMouseLeave={this.props.onMouseLeave}
-          onMouseOver={this.props.onMouseOver}
-        >
-          <DateInput
-            {...filterProps(props, INPUT_PASS_PROPS)}
-            ref={this.getInputRef}
-            value={this.props.value || ''}
-            width="100%"
-            withIcon
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
-            onBlur={this.handleBlur}
-            onFocus={this.handleFocus}
-            onClick={this.handleClick}
-            onValueChange={this.props.onValueChange}
-          />
-          {picker}
-        </label>
+        <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
         {isMobile && (
           <input
             type="date"
@@ -284,6 +241,51 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
           />
         )}
       </>
+    );
+  }
+
+  public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
+    let picker = null;
+    const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
+    if (this.state.opened) {
+      picker = (
+        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
+          <Picker
+            value={date}
+            minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
+            maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
+            onPick={this.handlePick}
+            onSelect={this.handleSelect}
+            enableTodayLink={this.props.enableTodayLink}
+            isHoliday={this.isHoliday}
+          />
+        </DropdownContainer>
+      );
+    }
+
+    return (
+      <label
+        className={jsStyles.root()}
+        style={{ width: this.props.width }}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
+      >
+        <DateInput
+          {...filterProps(props, INPUT_PASS_PROPS)}
+          ref={this.getInputRef}
+          value={this.props.value || ''}
+          width="100%"
+          withIcon
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          onClick={this.handleClick}
+          onValueChange={this.props.onValueChange}
+        />
+        {picker}
+      </label>
     );
   };
 
