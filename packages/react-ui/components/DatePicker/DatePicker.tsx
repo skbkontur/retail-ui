@@ -19,7 +19,6 @@ import { jsStyles } from './DatePicker.styles';
 import { nativeDateInputUtils } from './utils';
 
 const INPUT_PASS_PROPS = {
-  autoFocus: true,
   disabled: true,
   warning: true,
   error: true,
@@ -52,7 +51,9 @@ export interface DatePickerProps<T> extends CommonProps {
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
   /**
-   * Использовать на мобильных устройствах нативный календарь для выбора дат
+   * Использовать на мобильных устройствах нативный календарь для выбора дат.
+   *
+   * При использовании не работает проп `autoFocus`
    */
   useMobileNativeDatePicker?: boolean;
 
@@ -169,16 +170,14 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private dateInput: HTMLInputElement | null = null;
 
   public componentDidMount() {
+    const useMobile = isMobile && this.props.useMobileNativeDatePicker;
+
     // for SSR see https://reactjs.org/docs/react-dom.html#hydrate
-    if (isMobile && this.props.useMobileNativeDatePicker) {
-      this.setState({ isMobile: true }, () => {
-        if (this.props.autoFocus) {
-          this.dateInput?.click();
-        }
-      });
+    if (useMobile) {
+      this.setState({ isMobile: true });
     }
 
-    if (this.props.autoFocus) {
+    if (this.props.autoFocus && !useMobile) {
       this.focus();
     }
   }
@@ -283,6 +282,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
+          autoFocus={this.props.autoFocus && !this.props.useMobileNativeDatePicker}
           ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
