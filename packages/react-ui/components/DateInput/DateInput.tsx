@@ -53,6 +53,7 @@ export interface DateInputProps extends CommonProps {
    */
   size: 'small' | 'large' | 'medium';
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+  onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
    * Вызывается при изменении `value`
@@ -190,6 +191,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           warning={this.props.warning}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
+          onClick={this.props.onClick}
           onKeyDown={this.handleKeyDown}
           onMouseDownCapture={this.handleMouseDownCapture}
           onPaste={this.handlePaste}

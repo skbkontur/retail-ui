@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
-import { isSupportTouch } from '../../lib/client';
+import { isMobile } from '../../lib/client';
 import { letBodyScroll, stopBodyScroll } from '../../lib/utils';
 
 import { themeConfig } from './config';
@@ -225,14 +225,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private refRoot = (element: HTMLElement | null) => {
     if (!this.root && element) {
       element.addEventListener('wheel', this.handleWheel, { passive: false });
-      if (isSupportTouch) {
+      if (isMobile) {
         element.addEventListener('touchstart', this.handleTouchStart);
         element.addEventListener('touchend', this.handleTouchEnd);
       }
     }
     if (this.root && !element) {
       this.root.removeEventListener('wheel', this.handleWheel);
-      if (isSupportTouch) {
+      if (isMobile) {
         this.root.removeEventListener('touchstart', this.handleTouchStart);
         this.root.removeEventListener('touchend', this.handleTouchEnd);
       }

@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React from 'react';
+import React, { useState } from 'react';
 import { CSFStory } from 'creevey';
 
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -133,17 +133,23 @@ export default {
   title: 'DatePicker',
 };
 
-export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => (
-  <div style={{ padding: '200px 150px 350px 0px' }}>
-    <DatePicker
-      width={200}
-      value="02.07.2017"
-      onMouseEnter={() => console.count('enter')}
-      onMouseLeave={() => console.count('leave')}
-      onValueChange={action('change')}
-    />
-  </div>
-);
+export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => {
+  const [date, setDate] = useState('02.07.2017');
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <DatePicker
+        width={200}
+        value={date}
+        onMouseEnter={() => console.count('enter')}
+        onMouseLeave={() => console.count('leave')}
+        onValueChange={date => {
+          setDate(date);
+        }}
+      />
+    </div>
+  );
+};
+
 WithMouseeventHandlers.story = {
   name: 'with mouseevent handlers',
   parameters: {

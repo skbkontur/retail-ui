@@ -16,4 +16,6 @@ export const isChrome = vendor.includes('google inc') && /(?:chrome|crios)\/(\d+
 export const isEdge = userAgent.includes('edge/');
 export const isIE11 = userAgent.includes('trident/');
 
-export const isSupportTouch = 'ontouchstart' in window.document.documentElement;
+export const isMobile =
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+  'ontouchstart' in window.document.documentElement;

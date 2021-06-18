@@ -12,7 +12,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
-import { isSupportTouch } from '../../lib/client';
+import { isMobile } from '../../lib/client';
 import { stopBodyScroll, letBodyScroll } from '../../lib/utils';
 
 import { jsStyles } from './DateSelect.styles';
@@ -342,7 +342,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       this.itemsContainer.removeEventListener('wheel', this.handleWheel);
     }
 
-    if (isSupportTouch) {
+    if (isMobile) {
       if (!this.itemsContainer && element) {
         element.addEventListener('touchstart', this.handleTouchStart);
         element.addEventListener('touchend', this.handleTouchEnd);
