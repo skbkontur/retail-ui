@@ -135,17 +135,28 @@ export default {
 
 export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => {
   const [date, setDate] = useState('02.07.2017');
+
+  const getDatePicker = (useNative: boolean) => (
+    <DatePicker
+      width={200}
+      value={date}
+      onMouseEnter={() => console.count('enter')}
+      onMouseLeave={() => console.count('leave')}
+      onValueChange={date => {
+        setDate(date);
+      }}
+      useMobileNativeDatePicker={useNative}
+    />
+  );
+
   return (
     <div style={{ padding: '200px 150px 350px 0px' }}>
-      <DatePicker
-        width={200}
-        value={date}
-        onMouseEnter={() => console.count('enter')}
-        onMouseLeave={() => console.count('leave')}
-        onValueChange={date => {
-          setDate(date);
-        }}
-      />
+      <Gapped vertical>
+        <span>With DatePicker</span>
+        {getDatePicker(false)}
+        <span>With mobile native datepicker</span>
+        {getDatePicker(true)}
+      </Gapped>
     </div>
   );
 };

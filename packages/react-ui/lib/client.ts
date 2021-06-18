@@ -17,5 +17,5 @@ export const isEdge = userAgent.includes('edge/');
 export const isIE11 = userAgent.includes('trident/');
 
 export const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) &&
+  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) &&
   'ontouchstart' in window.document.documentElement;

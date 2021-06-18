@@ -51,6 +51,10 @@ export interface DatePickerProps<T> extends CommonProps {
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
   onMouseOver?: (e: React.MouseEvent<any>) => void;
+  /**
+   * Использовать на мобильных устройствах нативный календарь для выбора дат
+   */
+  useMobileNativeDatePicker?: boolean;
 
   /**
    * Функция для определения праздничных дней
@@ -65,6 +69,7 @@ export interface DatePickerProps<T> extends CommonProps {
 
 export interface DatePickerState {
   opened: boolean;
+  isMobile: boolean;
 }
 
 type DatePickerValue = string;
@@ -154,7 +159,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     });
   };
 
-  public state: DatePickerState = { opened: false };
+  public state: DatePickerState = { opened: false, isMobile: false };
 
   private input: DateInput | null = null;
   private focused = false;
@@ -164,12 +169,17 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private dateInput: HTMLInputElement | null = null;
 
   public componentDidMount() {
+    // for SSR see https://reactjs.org/docs/react-dom.html#hydrate
+    if (isMobile && this.props.useMobileNativeDatePicker) {
+      this.setState({ isMobile: true }, () => {
+        if (this.props.autoFocus) {
+          this.dateInput?.click();
+        }
+      });
+    }
+
     if (this.props.autoFocus) {
-      if (isMobile) {
-        this.dateInput?.click();
-      } else {
-        this.focus();
-      }
+      this.focus();
     }
   }
 
@@ -219,7 +229,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     return (
       <>
         <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
-        {isMobile && (
+        {this.state.isMobile && (
           <input
             type="date"
             min={nativeDateInputUtils.getDateForNative(this.props.minDate)}
@@ -316,7 +326,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
-    if (this.focused && isMobile) {
+    if (this.focused && this.state.isMobile) {
       this.dateInput?.click();
     }
   };
@@ -328,7 +338,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     this.focused = true;
 
-    if (!isMobile) {
+    if (!this.state.isMobile) {
       this.setState({ opened: true });
     }
 
