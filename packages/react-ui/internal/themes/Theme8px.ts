@@ -468,9 +468,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }
-  public static get sidePageBorderColor() {
-    return this.borderColorGrayLight;
-  }
 
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
