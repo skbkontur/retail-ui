@@ -189,10 +189,11 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   }
 
   // for IE11
-  private readonly debouncedSetSelectionFromEvent = debounce(this.setSelectionFromEvent, 200);
+  private readonly debouncedSetSelectionFromEvent = debounce(this.setSelectionFromEvent, 300);
 
   private handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
     if (isIE11) {
+      event.persist();
       this.debouncedSetSelectionFromEvent(event);
     } else {
       this.setSelectionFromEvent(event);
