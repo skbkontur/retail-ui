@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 
+import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -12,6 +13,7 @@ import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelpe
 import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
+
 export interface CurrencyInputProps
   extends CommonProps,
     Override<
@@ -180,16 +182,21 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     };
   }
 
-  private readonly debouncedSetSelection: (s: Selection) => void = debounce(
-    (selection: Selection) => this.setState({ selection: selection }),
-    500,
-    { trailing: false },
-  );
+  private setSelectionFromEvent(event: React.MouseEvent<HTMLInputElement>) {
+    const selection = getInputSelectionFromEvent(event.target);
+    const normilized = CurrencyInputHelper.normalizeSelection(this.state.formatted, selection);
+    this.setState({ selection: normilized });
+  }
+
+  // for IE11
+  private readonly debouncedSetSelectionFromEvent = debounce(this.setSelectionFromEvent, 200);
 
   private handleMouseUp = (event: React.MouseEvent<HTMLInputElement>) => {
-    const selection = getInputSelection(event.target);
-    const normilized = CurrencyInputHelper.normalizeSelection(this.state.formatted, selection);
-    this.debouncedSetSelection(normilized);
+    if (isIE11) {
+      this.debouncedSetSelectionFromEvent(event);
+    } else {
+      this.setSelectionFromEvent(event);
+    }
   };
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -276,7 +283,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   };
 
   private getSelection = (input: EventTarget): Selection => {
-    const selection = getInputSelection(input);
+    const selection = getInputSelectionFromEvent(input);
     return {
       start: selection.start,
       end: selection.end,
@@ -403,10 +410,11 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   };
 }
 
-function getInputSelection(input: EventTarget): Selection {
+function getInputSelectionFromEvent(input: EventTarget): Selection {
   if (!(input instanceof HTMLInputElement)) {
     throw new Error('input is not HTMLInputElement');
   }
+
   return {
     start: input.selectionStart!,
     end: input.selectionEnd!,
