@@ -99,7 +99,7 @@ const styles = {
         width: 100%;
         left: 0;
         z-index: -1;
-        box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: ${t.sidePageFixedHeaderShadow};
       }
     `;
   },
@@ -178,7 +178,6 @@ const styles = {
   panel(t: Theme) {
     return css`
       background: ${t.sidePageFooterPanelBg} !important;
-      border-top: 0 !important;
       padding: ${t.sidePageFooterPanelPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPanelPaddingBottom}
         ${t.sidePagePaddingLeft};
     `;
@@ -226,7 +225,7 @@ const styles = {
         width: 100%;
         left: 0;
         z-index: -1;
-        box-shadow: 0 0 16px 1px rgba(0, 0, 0, 0.3);
+        box-shadow: ${t.sidePageFixedFooterShadow};
       }
     `;
   },

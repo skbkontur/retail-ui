@@ -615,9 +615,6 @@ export class DefaultTheme {
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }
-  public static get sidePageBorderColor() {
-    return this.borderColorGrayLight;
-  }
 
   public static sidePageHeaderFontSize = '22px';
   public static sidePageHeaderLineHeight = '30px';
@@ -633,6 +630,8 @@ export class DefaultTheme {
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
   public static sidePageCloseButtonClickAreaX = '10px';
+  public static sidePageFixedHeaderShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
+  public static sidePageFixedFooterShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
