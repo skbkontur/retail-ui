@@ -41,6 +41,10 @@ export interface KebabProps extends CommonProps {
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+  /**
+   * Кастомная иконка
+   */
+  icon?: React.ReactNode;
 }
 
 export interface KebabState {
@@ -60,6 +64,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
     disableAnimations: isTestEnv,
+    icon: <MenuKebabIcon/>,
   };
 
   public state = {
@@ -208,28 +213,16 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    switch (this.props.size) {
-      case 'small':
-        return (
-          <div className={jsStyles.iconsmall(this.theme)}>
-            <MenuKebabIcon size="14px" color="#757575" />
-          </div>
-        );
-      case 'medium':
-        return (
-          <div className={jsStyles.iconmedium(this.theme)}>
-            <MenuKebabIcon size="18px" color="#757575" />
-          </div>
-        );
-      case 'large':
-        return (
-          <div className={jsStyles.iconlarge(this.theme)}>
-            <MenuKebabIcon size="20px" color="#757575" style={{ verticalAlign: -2 }} />
-          </div>
-        );
-      default:
-        throw new Error(`Unexpected size '${this.props.size}'`);
-    }
+    return (
+      <div className={cn({
+        [jsStyles.icon()]: true,
+        [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
+        [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',
+        [jsStyles.iconlarge(this.theme)]: this.props.size === 'large',
+      })}>
+        {this.props.icon}
+      </div>
+    );
   }
 }
 

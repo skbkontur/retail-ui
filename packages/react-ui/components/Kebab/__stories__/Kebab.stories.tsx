@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 import { CreeveyStoryParams, CSFStory } from 'creevey';
+import OkIcon from "@skbkontur/react-icons/Ok";
 
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
@@ -125,6 +126,17 @@ Large.story = {
   },
 };
 
+export const KebabWithCustomIcon: CSFStory<JSX.Element> = () => {
+  return (
+    <>
+      <SomethingWithKebab size="small" icon={<OkIcon color="#757575"/>}/>
+      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575"/>}/>
+      <SomethingWithKebab size="large" icon={<OkIcon color="#757575"/>}/>
+    </>
+  );
+}
+KebabWithCustomIcon.story = {}
+
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
 LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
 
@@ -142,6 +154,7 @@ class SomethingWithKebab extends Component<{
   items?: KebabItem[];
   menuMaxHeight?: string | number;
   disableAnimations?: boolean;
+  icon?: React.ReactNode;
 }> {
   public render() {
     const itemsList = this.props.items || defaultItemsList;
@@ -163,6 +176,7 @@ class SomethingWithKebab extends Component<{
           disabled={this.props.disabled}
           menuMaxHeight={this.props.menuMaxHeight}
           disableAnimations={this.props.disableAnimations}
+          icon={this.props.icon}
         >
           {menuItems}
         </Kebab>
