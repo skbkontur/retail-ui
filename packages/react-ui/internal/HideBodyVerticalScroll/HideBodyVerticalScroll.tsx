@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+import { isFirefox } from '../../lib/client';
 
 export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
@@ -29,11 +30,9 @@ export class HideBodyVerticalScroll extends React.Component {
   }
 
   public componentWillUnmount() {
-    this.restoreStyles();
-
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
-      this.updateScrollVisibility();
+      this.restoreStyles();
       window.removeEventListener('resize', this.updateScrollVisibility);
     }
   }
@@ -44,27 +43,19 @@ export class HideBodyVerticalScroll extends React.Component {
 
   private updateScrollVisibility = () => {
     const { documentElement } = document;
-
-    this.restoreStyles();
-
     if (!documentElement) {
       return;
     }
 
     const { clientHeight, scrollHeight } = documentElement;
-    const shouldRestore = VerticalScrollCounter.get() === 0;
-    const shouldHide = !shouldRestore && clientHeight < scrollHeight;
+    const shouldHide = !this.disposeDocumentStyle && clientHeight < scrollHeight;
 
     if (shouldHide) {
-      this.makeSomeMagicWithScroll(documentElement);
-    }
-
-    if (shouldRestore) {
-      documentElement.scrollTop = this.initialScroll;
+      this.hideScroll(documentElement);
     }
   };
 
-  private makeSomeMagicWithScroll = (document: HTMLElement) => {
+  private hideScroll = (document: HTMLElement) => {
     const documentComputedStyle = getComputedStyle(document);
     const scrollWidth = getScrollWidth();
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
@@ -86,10 +77,17 @@ export class HideBodyVerticalScroll extends React.Component {
     if (this.disposeDocumentStyle) {
       this.disposeDocumentStyle();
       this.disposeDocumentStyle = null;
-    }
 
-    // Forcing reflow for Firefix
-    attachStylesheet('html, body { height: auto; }')();
+      if (isFirefox) {
+        // Forcing reflow for Firefix
+        attachStylesheet('html, body { height: auto; }')();
+      }
+
+      const { documentElement } = document;
+      if (documentElement) {
+        documentElement.scrollTop = this.initialScroll;
+      }
+    }
   };
 }
 
