@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
-import { CSFStory } from 'creevey';
+import { CreeveyStoryParams, CSFStory } from 'creevey';
 
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
@@ -598,6 +598,34 @@ ModalWithVariableHeightOfContent.story = {
   },
 };
 
+const TopMiddleBottomModalTests: CreeveyStoryParams['tests'] = {
+  async top() {
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+  },
+  async middle() {
+    await this.browser.executeScript(function() {
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+
+      // @ts-ignore
+      modalContainer.scrollTop = modalContent.offsetHeight / 2;
+    });
+    await delay(100);
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
+  },
+  async bottom() {
+    await this.browser.executeScript(function() {
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+
+      // @ts-ignore
+      modalContainer.scrollTop = modalContent.offsetHeight;
+    });
+    await delay(100);
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+  }
+};
+
 export const ModalWithoutStickyElements: CSFStory<JSX.Element> = () => (
   <Modal>
     <Modal.Header sticky={false}>Header</Modal.Header>
@@ -611,37 +639,7 @@ export const ModalWithoutStickyElements: CSFStory<JSX.Element> = () => (
 );
 ModalWithoutStickyElements.story = {
   name: 'Modal without sticky elements',
-  parameters: {
-    creevey: {
-      tests: {
-        async top() {
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
-        },
-        async middle() {
-          await this.browser.executeScript(function() {
-            const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-            const modalContent = window.document.querySelector('[data-tid="modal-content"]');
-
-            // @ts-ignore
-            modalContainer.scrollTop = modalContent.offsetHeight / 2;
-          });
-          await delay(100);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
-        },
-        async bottom() {
-          await this.browser.executeScript(function() {
-            const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-            const modalContent = window.document.querySelector('[data-tid="modal-content"]');
-
-            // @ts-ignore
-            modalContainer.scrollTop = modalContent.offsetHeight;
-          });
-          await delay(100);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
-        },
-      },
-    },
-  },
+  parameters: { creevey: { tests: TopMiddleBottomModalTests } }
 };
 
 export const WithAlignTop = () => (
@@ -723,20 +721,6 @@ ModalWithVeryLongHeaderWithoutSpaces.story = {
   parameters: { creevey: { captureElement: null } },
 };
 
-export const ModalWithHeaderFromOtherComponent = () => {
-  const Header = () => <Modal.Header>Header </Modal.Header>;
-  return (
-    <Modal width={350}>
-      <Header></Header>
-      <Modal.Body>asdjhaklsdkajs</Modal.Body>
-    </Modal>
-  );
-};
-ModalWithHeaderFromOtherComponent.story = {
-  name: 'Modal with Header from other Component',
-  parameters: { creevey: { skip: [true] } },
-};
-
 export const ModalBodyWithoutPadding = () => (
   <Modal width={250}>
     <Modal.Body noPadding>
@@ -767,3 +751,37 @@ export const AlignCenterAndNoClose = () => (
   </Modal>
 );
 AlignCenterAndNoClose.story = { parameters: { creevey: { captureElement: null } } };
+
+const ModalWithChildrenFromOtherComponent = (sticky = true) => {
+  const header = <Modal.Header sticky={sticky}>Header</Modal.Header>;
+  const body = (
+    <Modal.Body>
+      {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
+        <p key={index}>{item}</p>
+      ))}
+    </Modal.Body>
+  );
+  const footer = <Modal.Footer sticky={sticky}>Footer</Modal.Footer>;
+  return (
+    <Modal>
+      {header}
+      {body}
+      {footer}
+    </Modal>
+  );
+}
+
+export const ModalWithChildrenFromOtherComponentWithStickyElements: CSFStory<JSX.Element> = () => (
+  ModalWithChildrenFromOtherComponent()
+)
+
+ModalWithChildrenFromOtherComponentWithStickyElements.story = {
+  parameters: { creevey: { tests: TopMiddleBottomModalTests } }
+};
+
+export const ModalWithChildrenFromOtherComponentWithoutStickyElements: CSFStory<JSX.Element> = () => (
+  ModalWithChildrenFromOtherComponent(false)
+)
+ModalWithChildrenFromOtherComponentWithoutStickyElements.story = {
+  parameters: { creevey: { tests: TopMiddleBottomModalTests } }
+};

@@ -27,40 +27,38 @@ export interface ModalFooterProps extends CommonProps {
 function ModalFooter(props: ModalFooterProps) {
   const { sticky = true, panel, children } = props;
   const theme = useContext(ThemeContext);
+  const modal = useContext(ModalContext);
   const [scrollbarWidth, setScrollBarWidth] = useState(0);
 
   useEffect(() => {
     setScrollBarWidth(getScrollWidth());
   }, []);
 
-  const renderContent = (fixed = false) => (
-    <div
-      className={cn({
-        [jsStyles.footer(theme)]: true,
-        [jsStyles.panel(theme)]: Boolean(panel),
-        [jsStyles.fixedFooter(theme)]: fixed,
-      })}
-    >
-      {children}
-    </div>
-  );
+  const renderContent = (fixed = false) => {
+    modal.setHasFooter && modal.setHasFooter();
+    Boolean(panel) && modal.setHasPanel && modal.setHasPanel();
+
+    return (
+      <div
+        className={cn({
+          [jsStyles.footer(theme)]: true,
+          [jsStyles.panel(theme)]: Boolean(panel),
+          [jsStyles.fixedFooter(theme)]: fixed,
+        })}
+      >
+        {children}
+      </div>
+      );
+    }
 
   return (
     <CommonWrapper {...props}>
       <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
-        <ModalContext.Consumer>
-          {({ horizontalScroll }) => {
-            if (sticky) {
-              return (
-                <Sticky side="bottom" offset={horizontalScroll ? scrollbarWidth : 0}>
-                  {renderContent}
-                </Sticky>
-              );
-            }
-
-            return renderContent();
-          }}
-        </ModalContext.Consumer>
+        {
+          sticky
+            ? <Sticky side="bottom" offset={modal.horizontalScroll ? scrollbarWidth : 0}>{renderContent}</Sticky>
+            : renderContent()
+        }
       </ZIndex>
     </CommonWrapper>
   );

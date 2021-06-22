@@ -10,6 +10,9 @@ export interface ModalContextProps {
   hasHeader?: boolean;
   close?: CloseProps;
   horizontalScroll?: boolean;
+  setHasHeader?: () => void;
+  setHasFooter?: () => void;
+  setHasPanel?: () => void;
 }
 
 export const ModalContext = React.createContext<ModalContextProps>({});
