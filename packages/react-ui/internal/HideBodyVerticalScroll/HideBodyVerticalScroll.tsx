@@ -2,6 +2,7 @@ import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { isFirefox } from '../../lib/client';
+import { css } from '../../lib/theming/Emotion';
 
 export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
@@ -59,17 +60,15 @@ export class HideBodyVerticalScroll extends React.Component {
     const documentComputedStyle = getComputedStyle(document);
     const scrollWidth = getScrollWidth();
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
-    const documentStyle = generateDocumentStyle(documentMargin + scrollWidth);
+    const className = generateDocumentStyle(documentMargin + scrollWidth);
 
-    this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
+    this.disposeDocumentStyle = this.attachStyle(document, className);
   };
 
-  private attachStyle = (element: HTMLElement, style: { css: string; className: string }) => {
-    element.classList.add(style.className);
-    const removeStyleNode = attachStylesheet(style.css);
+  private attachStyle = (element: HTMLElement, className: string) => {
+    element.classList.add(className);
     return () => {
-      removeStyleNode();
-      element.classList.remove(style.className);
+      element.classList.remove(className);
     };
   };
 
@@ -78,12 +77,18 @@ export class HideBodyVerticalScroll extends React.Component {
       this.disposeDocumentStyle();
       this.disposeDocumentStyle = null;
 
+      const { documentElement } = document;
+
       if (isFirefox) {
         // Forcing reflow for Firefix
-        attachStylesheet('html, body { height: auto; }')();
+        this.attachStyle(
+          documentElement,
+          css`
+            height: auto;
+          `,
+        )();
       }
 
-      const { documentElement } = document;
       if (documentElement) {
         documentElement.scrollTop = this.initialScroll;
       }
@@ -107,39 +112,10 @@ class VerticalScrollCounter {
   };
 }
 
-function generateClassName(className: string) {
-  const { name, hash } = HideBodyVerticalScroll;
-  return `${name}-${className}-${hash}`;
-}
-
 function generateDocumentStyle(documentMargin: number) {
-  const className = generateClassName('document');
-  const css = `\
-.${className} {
-  overflow: hidden !important;
-  margin-right: ${documentMargin}px !important;
-  height: 100%;
-}
-`;
-  return { className, css };
-}
-
-function attachStylesheet(sheet: string) {
-  const style = document.createElement('style');
-  style.setAttribute('type', 'text/css');
-  // @ts-ignore IE specific api
-  if (style.styleSheet) {
-    // @ts-ignore IE specific api
-    style.styleSheet.cssText = sheet;
-  } else {
-    const textnode = document.createTextNode(sheet);
-    style.appendChild(textnode);
-  }
-  const head = document.getElementsByTagName('head')[0];
-  head.appendChild(style);
-  return () => {
-    if (head.contains(style)) {
-      head.removeChild(style);
-    }
-  };
+  return css`
+    overflow: hidden !important;
+    margin-right: ${documentMargin}px !important;
+    height: 100%;
+  `;
 }
