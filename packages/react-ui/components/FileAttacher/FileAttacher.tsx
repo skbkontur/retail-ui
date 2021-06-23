@@ -1,7 +1,6 @@
 import React from 'react';
 import { FileAttacherBase, FileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
 import {
-  UploadFilesProvider,
   withUploadFilesProvider,
 } from '../../internal/FileAttacherBase/UploadFilesProvider';
 import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';

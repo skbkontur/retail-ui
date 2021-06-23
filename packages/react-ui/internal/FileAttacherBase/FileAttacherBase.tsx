@@ -16,9 +16,6 @@ import { Tooltip } from '../../components/Tooltip';
 // FIXME @mozalov: обработать клавиши
 // FIXME @mozalov: иконки
 // FIXME @mozalov: ховеры
-// FIXME @mozalov: валидация
-// FIXME @mozalov: максимальное количество файлов и размер
-// FIXME @mozalov: вынести абстракцию ValidationResult
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
@@ -28,9 +25,9 @@ export type FileError = {
 };
 
 export interface FileAttacherBaseProps {
+  id?: string;
   name?: string;
   disabled?: boolean;
-  id?: string;
   multiple?: boolean;
   controlError?: ReactNode;
 
@@ -42,8 +39,10 @@ export interface FileAttacherBaseProps {
 
 export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {
+    id,
     name,
     multiple = false,
+    disabled,
     controlError,
     onSelect,
     onReadError
@@ -95,14 +94,15 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     [jsStyles.dragOver()]: isDraggable,
     [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
     [jsStyles.error()]: !!controlError,
+    [jsStyles.disabled()]: disabled
   });
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = !multiple && hasOneFile;
 
   const renderTooltipContent = useCallback((): ReactNode => {
-    return controlError || null;
-  }, [controlError]);
+    return (!disabled && controlError) || null;
+  }, [controlError, disabled]);
 
   return (
     <div>
@@ -126,11 +126,13 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
             </div>
           </div>
           <input
+            id={id}
             ref={inputRef}
             onClick={stopPropagation}
             className={jsStyles.fileInput()}
             type="file"
             name={name}
+            disabled={disabled}
             multiple={multiple}
             onChange={handleInputChange}
           />

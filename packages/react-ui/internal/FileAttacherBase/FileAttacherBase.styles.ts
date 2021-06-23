@@ -86,6 +86,15 @@ const styles = {
       border: 1px solid #D70C17 !important;
       box-shadow: 0px 0px 0px 1px #D70C17 !important;
     `;
+  },
+
+  disabled() {
+    return css`
+      cursor: default;
+      background: #F2F2F2;
+      border: 1px solid #F2F2F2;
+      color: #808080;
+    `;
   }
 };
 

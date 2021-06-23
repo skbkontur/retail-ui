@@ -49,3 +49,7 @@ export const MultipleFileUploaderWithFileError = () => (
   <FileUploader multiple request={successRequest} fileValidation={() => Promise.resolve("Формат файла неверный")} />
 );
 
+export const FileUploaderDisabled = () => (
+  <FileUploader request={successRequest} disabled />
+);
+
