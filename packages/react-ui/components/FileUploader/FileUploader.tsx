@@ -59,6 +59,11 @@ export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) =
 
   useValidationSetter(fileErrors);
 
+  // FIXME @mozalov: спросить у проектирования, как реагировать на то, что файлы не считались - есть 2 способа:
+  // 1. Валидировать на месте
+  // 2. Просто прокидывать через onReadError вверх, а юзер сам решит.
+  // Я думаю, что лучше 1
+
   return (
     <FileAttacherBase
       {...props}
