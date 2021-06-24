@@ -52,8 +52,8 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {files, setFiles} = useContext(UploadFilesContext);
 
   const handleClick = useCallback(() => {
-    inputRef.current?.click();
-  }, []);
+    !disabled && inputRef.current?.click();
+  }, [disabled]);
 
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
@@ -71,6 +71,10 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   }, [onReadError, onSelect, setFiles]);
 
   const handleDrop = useCallback(event => {
+    if (disabled) {
+      return;
+    }
+
     const {dataTransfer} = event;
     const {files} = dataTransfer;
 
@@ -78,7 +82,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
       handleChange(files);
       dataTransfer.clearData();
     }
-  }, [handleChange]);
+  }, [handleChange, disabled]);
 
   const {isDraggable, ref: droppableRef} = useDrop({onDrop: handleDrop});
   const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop({onDrop: handleDrop});
@@ -115,7 +119,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
           onClick={handleClick}
         >
           <div className={jsStyles.content()}>
-            <Link tabIndex={-1}>
+            <Link disabled={disabled} tabIndex={-1}>
               {hasOneFileForSingle ? "Выбран файл" : "Выберите файл"}
             </Link>
             &nbsp;

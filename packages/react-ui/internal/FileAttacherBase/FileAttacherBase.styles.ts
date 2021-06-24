@@ -94,6 +94,11 @@ const styles = {
       background: #F2F2F2;
       border: 1px solid #F2F2F2;
       color: #808080;
+
+      &:focus {
+        border: 1px solid #F2F2F2 !important;
+        box-shadow: none;
+      }
     `;
   }
 };
