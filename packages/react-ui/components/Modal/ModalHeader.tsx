@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { ReactNode, useContext, useEffect } from "react";
 import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
@@ -24,9 +24,13 @@ function ModalHeader(props: ModalHeaderProps) {
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
 
-  const renderContent = (fixed = false) => {
-    modal.setHasHeader && modal.setHasHeader();
+  useEffect(() => {
+    modal.setHasHeader?.();
 
+    return () => modal.setHasHeader?.(false);
+  }, []);
+
+  const renderContent = (fixed = false) => {
     return (
       <div
         className={cn({

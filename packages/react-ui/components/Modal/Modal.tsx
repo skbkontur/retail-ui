@@ -157,11 +157,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     const { hasHeader, hasFooter, hasPanel }= this.state;
 
     const modalContextProps: ModalContextProps = {
-      hasHeader,
       horizontalScroll: this.state.horizontalScroll,
-      setHasHeader: this.updateHasChildState('header'),
-      setHasFooter: this.updateHasChildState('footer'),
-      setHasPanel: this.updateHasChildState('panel'),
+      setHasHeader: this.setHasHeader,
+      setHasFooter: this.setHasFooter,
+      setHasPanel: this.setHasPanel,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -290,17 +289,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     LayoutEvents.emit();
   };
 
-  private updateHasChildState = (child: 'header' | 'footer' | 'panel') => () => {
-    switch (child) {
-      case 'header':
-        !this.state.hasHeader && this.setState({ hasHeader: true });
-        break;
-      case 'footer':
-        !this.state.hasFooter && this.setState({ hasFooter: true });
-        break;
-      case "panel":
-        !this.state.hasPanel && this.setState({ hasPanel: true });
-        break;
-    }
+  private setHasHeader = (hasHeader  = true) => {
+    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  }
+
+  private setHasFooter = (hasFooter = true) => {
+    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  }
+
+  private setHasPanel = (hasPanel = true) => {
+    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   }
 }

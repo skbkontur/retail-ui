@@ -32,26 +32,29 @@ function ModalFooter(props: ModalFooterProps) {
 
   useEffect(() => {
     setScrollBarWidth(getScrollWidth());
-  }, []);
 
-  const renderContent = (fixed = false) => {
     modal.setHasFooter?.();
     if (panel) {
       modal.setHasPanel?.();
     }
 
-    return (
-      <div
-        className={cn({
-          [jsStyles.footer(theme)]: true,
-          [jsStyles.panel(theme)]: Boolean(panel),
-          [jsStyles.fixedFooter(theme)]: fixed,
-        })}
-      >
-        {children}
-      </div>
-      );
+    return () => {
+      modal.setHasFooter?.(false);
+      modal.setHasPanel?.(false);
     }
+  }, [panel]);
+
+  const renderContent = (fixed = false) => (
+    <div
+      className={cn({
+        [jsStyles.footer(theme)]: true,
+        [jsStyles.panel(theme)]: Boolean(panel),
+        [jsStyles.fixedFooter(theme)]: fixed,
+      })}
+    >
+      {children}
+    </div>
+  );
 
   return (
     <CommonWrapper {...props}>
