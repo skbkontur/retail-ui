@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-import { isFirefox } from '../../lib/client';
 import { css } from '../../lib/theming/Emotion';
 
 export class HideBodyVerticalScroll extends React.Component {
@@ -75,16 +74,6 @@ export class HideBodyVerticalScroll extends React.Component {
       this.disposeDocumentStyle = null;
 
       const { documentElement } = document;
-
-      if (isFirefox) {
-        // Forcing reflow for Firefix
-        this.attachStyle(
-          documentElement,
-          css`
-            height: auto;
-          `,
-        )();
-      }
 
       if (documentElement) {
         documentElement.scrollTop = this.initialScroll;
