@@ -115,8 +115,14 @@ export const UploadFile = (props: ReadFileProps) => {
       <Tooltip pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
             <TextWidthHelper ref={textHelperRef} text={name} />
-            <span ref={fileNameSpanRef} className={jsStyles.name()}>{truncatedFileName}</span>
-            {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
+            <span ref={fileNameSpanRef} className={jsStyles.name()}>
+              {truncatedFileName}
+            </span>
+            {!!showSize && formattedSize && (
+              <span className={jsStyles.size()}>
+                {formattedSize}
+              </span>
+            )}
             <div className={jsStyles.icon()}>
               {icon}
             </div>
