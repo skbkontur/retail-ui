@@ -7,6 +7,7 @@ export interface CloseProps {
 
 export interface ModalContextProps {
   additionalPadding?: boolean;
+  hasHeader?: boolean;
   close?: CloseProps;
   horizontalScroll?: boolean;
   setHasHeader?: (value?: boolean) => void;
