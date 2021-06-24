@@ -66,7 +66,8 @@ export const UploadFile = (props: ReadFileProps) => {
     return truncate(name, maxCharsCountInSpan);
   }, [name, fileNameSpanWidth, fileNameWidth]);
 
-  const handleRemove = useCallback(() => {
+  const handleRemove = useCallback((event: React.MouseEvent<HTMLSpanElement>) => {
+    event.stopPropagation();
     removeFile(id);
   }, [removeFile, id]);
 
