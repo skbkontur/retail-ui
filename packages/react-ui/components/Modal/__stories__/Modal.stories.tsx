@@ -752,21 +752,22 @@ export const AlignCenterAndNoClose = () => (
 );
 AlignCenterAndNoClose.story = { parameters: { creevey: { captureElement: null } } };
 
+const Header = () => <Modal.Header>Header</Modal.Header>;
+const Body = () => (
+  <Modal.Body>
+    {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
+      <p key={index}>{item}</p>
+    ))}
+  </Modal.Body>
+)
+const Footer = () => <Modal.Footer>Footer</Modal.Footer>;
+
 const ModalWithChildrenFromOtherComponent = (sticky = true) => {
-  const header = <Modal.Header sticky={sticky}>Header</Modal.Header>;
-  const body = (
-    <Modal.Body>
-      {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
-        <p key={index}>{item}</p>
-      ))}
-    </Modal.Body>
-  );
-  const footer = <Modal.Footer sticky={sticky}>Footer</Modal.Footer>;
   return (
     <Modal>
-      {header}
-      {body}
-      {footer}
+      <Header/>
+      <Body />
+      <Footer />
     </Modal>
   );
 }
@@ -776,12 +777,5 @@ export const ModalWithChildrenFromOtherComponentWithStickyElements: CSFStory<JSX
 )
 
 ModalWithChildrenFromOtherComponentWithStickyElements.story = {
-  parameters: { creevey: { tests: TopMiddleBottomModalTests } }
-};
-
-export const ModalWithChildrenFromOtherComponentWithoutStickyElements: CSFStory<JSX.Element> = () => (
-  ModalWithChildrenFromOtherComponent(false)
-)
-ModalWithChildrenFromOtherComponentWithoutStickyElements.story = {
   parameters: { creevey: { tests: TopMiddleBottomModalTests } }
 };

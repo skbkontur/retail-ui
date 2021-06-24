@@ -159,9 +159,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     const modalContextProps: ModalContextProps = {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
-      setHasHeader: () => { !hasHeader && this.setState({ hasHeader: true }) },
-      setHasFooter: () => { !hasFooter && this.setState({ hasFooter: true }) },
-      setHasPanel: () => { !hasPanel && this.setState({ hasPanel: true }) },
+      setHasHeader: this.updateHasChildState('header'),
+      setHasFooter: this.updateHasChildState('footer'),
+      setHasPanel: this.updateHasChildState('panel'),
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -289,4 +289,18 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
   };
+
+  private updateHasChildState = (child: 'header' | 'footer' | 'panel') => () => {
+    switch (child) {
+      case 'header':
+        !this.state.hasHeader && this.setState({ hasHeader: true });
+        break;
+      case 'footer':
+        !this.state.hasFooter && this.setState({ hasFooter: true });
+        break;
+      case "panel":
+        !this.state.hasPanel && this.setState({ hasPanel: true });
+        break;
+    }
+  }
 }

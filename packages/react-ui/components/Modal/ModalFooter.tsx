@@ -35,8 +35,10 @@ function ModalFooter(props: ModalFooterProps) {
   }, []);
 
   const renderContent = (fixed = false) => {
-    modal.setHasFooter && modal.setHasFooter();
-    Boolean(panel) && modal.setHasPanel && modal.setHasPanel();
+    modal.setHasFooter?.();
+    if (panel) {
+      modal.setHasPanel?.();
+    }
 
     return (
       <div
