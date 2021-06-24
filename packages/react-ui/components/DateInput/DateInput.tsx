@@ -11,11 +11,23 @@ import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { isMobile } from '../../lib/client';
+import { Input } from '../Input';
+import { filterProps } from '../../lib/filterProps';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
+
+const MOBILE_INPUT_PASS_PROPS = {
+  width: true,
+  size: true,
+  disabled: true,
+  error: true,
+  warning: true,
+  value: true,
+};
 
 export interface DateInputState {
   selected: InternalDateComponentType | null;
@@ -77,6 +89,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;
+  private input: Input | null = null;
   private dateFragmentsView: DateFragmentsView | null = null;
   private isMouseDown = false;
   private isMouseFocus = false;
@@ -118,9 +131,13 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       prevProps.maxDate !== this.props.maxDate ||
       this.iDateMediator.isChangedLocale(this.locale)
     ) {
-      this.updateFromProps();
+      if (!isMobile) {
+        this.updateFromProps();
+      }
     }
-    this.selectNode();
+    if (!isMobile) {
+      this.selectNode();
+    }
   }
 
   public selectNode = () => {
@@ -150,6 +167,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (this.inputLikeText) {
       this.inputLikeText.blur();
     }
+    if (this.input) {
+      this.input.blur();
+    }
   }
 
   public focus() {
@@ -175,38 +195,59 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     );
   }
 
+  private getMobileInput(): JSX.Element {
+    return (
+      <Input
+        {...filterProps(this.props, MOBILE_INPUT_PASS_PROPS)}
+        onBlur={this.handleBlur}
+        onFocus={this.handleFocus}
+        rightIcon={this.renderIcon()}
+        ref={this.inputRef}
+        onValueChange={value => {
+          if (this.props.onValueChange) {
+            this.props.onValueChange(value);
+          }
+        }}
+      />
+    );
+  }
+
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
 
     return (
       <CommonWrapper {...this.props}>
-        <InputLikeText
-          width={this.props.width}
-          ref={this.inputLikeTextRef}
-          size={this.props.size}
-          disabled={this.props.disabled}
-          error={this.props.error}
-          warning={this.props.warning}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onKeyDown={this.handleKeyDown}
-          onMouseDownCapture={this.handleMouseDownCapture}
-          onPaste={this.handlePaste}
-          rightIcon={this.renderIcon()}
-          onDoubleClickCapture={this.handleDoubleClick}
-          onMouseDragStart={this.handleMouseDragStart}
-          onMouseDragEnd={this.handleMouseDragEnd}
-          value={this.iDateMediator.getInternalString()}
-        >
-          <DateFragmentsView
-            ref={this.dateFragmentsViewRef}
-            fragments={fragments}
-            onSelectDateComponent={this.handleSelectDateComponent}
-            selected={selected}
-            inputMode={inputMode}
-          />
-        </InputLikeText>
+        {isMobile ? (
+          this.getMobileInput()
+        ) : (
+          <InputLikeText
+            width={this.props.width}
+            ref={this.inputLikeTextRef}
+            size={this.props.size}
+            disabled={this.props.disabled}
+            error={this.props.error}
+            warning={this.props.warning}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            onKeyDown={this.handleKeyDown}
+            onMouseDownCapture={this.handleMouseDownCapture}
+            onPaste={this.handlePaste}
+            rightIcon={this.renderIcon()}
+            onDoubleClickCapture={this.handleDoubleClick}
+            onMouseDragStart={this.handleMouseDragStart}
+            onMouseDragEnd={this.handleMouseDragEnd}
+            value={this.iDateMediator.getInternalString()}
+          >
+            <DateFragmentsView
+              ref={this.dateFragmentsViewRef}
+              fragments={fragments}
+              onSelectDateComponent={this.handleSelectDateComponent}
+              selected={selected}
+              inputMode={inputMode}
+            />
+          </InputLikeText>
+        )}
       </CommonWrapper>
     );
   }
@@ -246,6 +287,14 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
     const restored = this.iDateMediator.restore();
     this.updateValue({ focused: false, selected: null, inputMode: false });
+
+    if (isMobile) {
+      this.updateFromProps();
+      if (this.props.onBlur) {
+        this.props.onBlur(e);
+      }
+      return;
+    }
 
     if (this.props.onBlur) {
       if (restored) {
@@ -312,6 +361,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   private inputLikeTextRef = (el: InputLikeText | null) => {
     this.inputLikeText = el;
+  };
+
+  private inputRef = (el: Input | null) => {
+    this.input = el;
   };
 
   private dateFragmentsViewRef = (el: DateFragmentsView | null) => {
