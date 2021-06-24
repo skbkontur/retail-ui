@@ -42,6 +42,14 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     this.context.footerRef(this);
     this.update();
     this.layoutSub = LayoutEvents.addListener(this.update);
+    this.context.setHasFooter?.();
+    if (this.props.panel) {
+      this.context.setHasPanel?.();
+    }
+  }
+
+  public componentDidUpdate(prevProps: Readonly<SidePageFooterProps>) {
+    this.props.panel !== prevProps.panel && this.context.setHasPanel?.(this.props.panel);
   }
 
   public componentWillUnmount() {
@@ -49,6 +57,8 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     if (this.layoutSub) {
       this.layoutSub.remove();
     }
+    this.context.setHasFooter?.(false);
+    this.context.setHasPanel?.(false);
   }
 
   public render(): JSX.Element {

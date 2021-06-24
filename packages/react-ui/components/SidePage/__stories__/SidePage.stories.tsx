@@ -42,6 +42,25 @@ interface SampleState {
   panel: boolean;
 }
 
+const Header = (data: { props: SampleProps }) => {
+  return (
+    <SidePage.Header>
+      Title
+      {data.props.total && data.props.total > 1 && ` ${data.props.current} / ${data.props.total}`}
+    </SidePage.Header>
+  )
+}
+
+const Footer = (data: { state: SampleState, close: () => void }) => {
+  return (
+    <SidePage.Footer panel={data.state.panel}>
+      <Button size="large" onClick={data.close}>
+        Close
+      </Button>
+    </SidePage.Footer>
+  )
+}
+
 class Sample extends React.Component<SampleProps, SampleState> {
   public state: SampleState = {
     open: false,
@@ -59,10 +78,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
       blockBackground={this.props.blockBackground}
     >
       {!this.props.withoutHeader && (
-        <SidePage.Header>
-          Title
-          {this.props.total && this.props.total > 1 && ` ${this.props.current} / ${this.props.total}`}
-        </SidePage.Header>
+        <Header props={this.props}/>
       )}
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
@@ -107,11 +123,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
         </div>
       </SidePage.Body>
       {!this.props.withoutFooter && (
-        <SidePage.Footer panel={this.state.panel}>
-          <Button size="large" onClick={this.close}>
-            Close
-          </Button>
-        </SidePage.Footer>
+        <Footer state={this.state} close={this.close}/>
       )}
     </SidePage>
   );
