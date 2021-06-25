@@ -298,7 +298,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
   }
 
-  private setHasPanel = (hasPanel = true) => {
+  private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   }
 }
