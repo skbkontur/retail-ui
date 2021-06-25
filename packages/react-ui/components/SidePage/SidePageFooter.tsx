@@ -43,9 +43,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     this.update();
     this.layoutSub = LayoutEvents.addListener(this.update);
     this.context.setHasFooter?.();
-    if (this.props.panel) {
-      this.context.setHasPanel?.();
-    }
+    this.context.setHasPanel?.(this.props.panel);
   }
 
   public componentDidUpdate(prevProps: Readonly<SidePageFooterProps>) {

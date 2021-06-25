@@ -9,7 +9,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
-import { SidePageContext, SidePageContextType } from "./SidePageContext";
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageHeaderProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);

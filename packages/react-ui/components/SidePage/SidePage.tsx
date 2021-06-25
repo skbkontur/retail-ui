@@ -313,7 +313,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
   }
 
-  private setHasPanel = (hasPanel = true) => {
+  private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   }
 }
