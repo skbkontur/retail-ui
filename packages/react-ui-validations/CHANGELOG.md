@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.3...react-ui-validations@1.5.0) (2021-06-22)
+
+
+### Features
+
+* **react-ui-validations:** support webpack 5 ([cac91e8](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/cac91e8b8b9accb72570d73712cb3e91cefca25a))
+
+
+
+
+
 ## [1.4.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.2...react-ui-validations@1.4.3) (2021-06-09)
 
 
