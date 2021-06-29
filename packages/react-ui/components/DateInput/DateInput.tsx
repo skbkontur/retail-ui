@@ -360,16 +360,15 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
-    const restored = this.iDateMediator.restore();
-    this.updateValue({ focused: false, selected: null, inputMode: false });
-
     if (isMobile) {
-      this.updateFromProps();
       if (this.props.onBlur) {
         this.props.onBlur(e);
       }
       return;
     }
+
+    const restored = this.iDateMediator.restore();
+    this.updateValue({ focused: false, selected: null, inputMode: false });
 
     if (this.props.onBlur) {
       if (restored) {

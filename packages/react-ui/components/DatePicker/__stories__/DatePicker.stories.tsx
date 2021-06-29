@@ -138,19 +138,13 @@ export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => {
 
   return (
     <div style={{ padding: '200px 150px 350px 0px' }}>
-      <LocaleContext.Provider
-        value={{
-          locale: { DatePicker: { separator: InternalDateSeparator.Dash, order: InternalDateOrder.YMD } },
-        }}
-      >
-        <DatePicker
-          width={200}
-          value={date}
-          onMouseEnter={() => console.count('enter')}
-          onMouseLeave={() => console.count('leave')}
-          onValueChange={setDate}
-        />
-      </LocaleContext.Provider>
+      <DatePicker
+        width={200}
+        value={date}
+        onMouseEnter={() => console.count('enter')}
+        onMouseLeave={() => console.count('leave')}
+        onValueChange={setDate}
+      />
     </div>
   );
 };
