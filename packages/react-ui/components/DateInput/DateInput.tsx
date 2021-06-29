@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
-import { InternalDateComponentType } from '../../lib/date/types';
+import { InternalDateComponentType, InternalDateOrder, InternalDateSeparator } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
@@ -26,7 +26,6 @@ const MOBILE_INPUT_PASS_PROPS = {
   disabled: true,
   error: true,
   warning: true,
-  value: true,
 };
 
 export interface DateInputState {
@@ -35,6 +34,7 @@ export interface DateInputState {
   inputMode: boolean;
   focused: boolean;
   dragged: boolean;
+  inputMaskForMobile?: string;
 }
 
 export interface DateInputProps extends CommonProps {
@@ -131,6 +131,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       prevProps.maxDate !== this.props.maxDate ||
       this.iDateMediator.isChangedLocale(this.locale)
     ) {
+      if (isMobile && this.iDateMediator.isChangedLocale(this.locale)) {
+        this.updateMobileInputMaskLocale();
+      }
+
       if (!isMobile) {
         this.updateFromProps();
       }
@@ -158,6 +162,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public componentDidMount(): void {
     this.updateFromProps();
+    this.updateMobileInputMaskLocale();
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -195,6 +200,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     );
   }
 
+  private updateMobileInputMaskLocale() {
+    this.setState({
+      inputMaskForMobile: this.getMaskForMobileInput(),
+    });
+  }
+
   private getMobileInput(): JSX.Element {
     return (
       <Input
@@ -203,13 +214,77 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
         onFocus={this.handleFocus}
         rightIcon={this.renderIcon()}
         ref={this.inputRef}
+        value={this.getMobileInputValueWithMask()}
         onValueChange={value => {
-          if (this.props.onValueChange) {
-            this.props.onValueChange(value);
+          if (this.props.onValueChange && this.input) {
+            const transformedValue = this.transformMobileInputValueToDefault(value);
+            this.props.onValueChange(transformedValue);
           }
         }}
+        mask={this.state.inputMaskForMobile}
+        alwaysShowMask
+        inputMode={'numeric'}
       />
     );
+  }
+
+  private getMobileInputValueWithMask() {
+    const { value } = this.props;
+
+    const separator: InternalDateSeparator = this.iDateMediator.iDate.getSeparator();
+    const order: InternalDateOrder = this.iDateMediator.iDate.getOrder();
+    const splittedValue = value.split('.');
+
+    switch (order) {
+      case InternalDateOrder.YMD: {
+        const valueToJoin = [splittedValue[2], splittedValue[1], splittedValue[0]];
+        return valueToJoin.join(separator);
+      }
+      case InternalDateOrder.MDY: {
+        const valueToJoin = [splittedValue[1], splittedValue[0], splittedValue[2]];
+        return valueToJoin.join(separator);
+      }
+      default: {
+        return value;
+      }
+    }
+  }
+
+  private transformMobileInputValueToDefault(value: string) {
+    const separator: InternalDateSeparator = this.iDateMediator.iDate.getSeparator();
+    const order: InternalDateOrder = this.iDateMediator.iDate.getOrder();
+
+    const splittedValue = value.split(separator);
+
+    switch (order) {
+      case InternalDateOrder.YMD: {
+        const valueToJoin = [splittedValue[2], splittedValue[1], splittedValue[0]];
+        return valueToJoin.join(InternalDateSeparator.Dot);
+      }
+      case InternalDateOrder.MDY: {
+        const valueToJoin = [splittedValue[1], splittedValue[0], splittedValue[2]];
+        return valueToJoin.join(InternalDateSeparator.Dot);
+      }
+      default: {
+        return value;
+      }
+    }
+  }
+
+  private getMaskForMobileInput(): string {
+    const order: InternalDateOrder = this.iDateMediator.iDate.getOrder();
+    const separator: InternalDateSeparator = this.iDateMediator.iDate.getSeparator();
+
+    const masksForMobile: {
+      [value in InternalDateOrder]: ('99' | '9999')[];
+    } = {
+      [InternalDateOrder.DMY]: ['99', '99', '9999'],
+      [InternalDateOrder.MDY]: ['99', '99', '9999'],
+      [InternalDateOrder.YMD]: ['9999', '99', '99'],
+    };
+
+    const mask = masksForMobile[order].join(separator);
+    return mask;
   }
 
   private renderMain() {

@@ -4,6 +4,7 @@ import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { isMobile } from '../../lib/client';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 
 import { jsStyles } from './MaskedInput.styles';
@@ -87,6 +88,30 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     } = this.props;
     const { emptyValue, value } = this.state;
 
+    const input = (
+      <ReactInputMask
+        {...inputProps}
+        maskChar={isMobile ? maskChar : null}
+        beforeMaskedValueChange={this.preprocess}
+        alwaysShowMask={false}
+        onChange={this.handleChange}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        value={value}
+        inputRef={this.refInput}
+        ref={this.refMaskedInput}
+        style={{ ...style }}
+      />
+    );
+
+    if (isMobile) {
+      return (
+        <span className={jsStyles.container()} x-ms-format-detection="none">
+          {input}
+        </span>
+      );
+    }
+
     const leftHelper = style?.textAlign !== 'right' && (
       <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
     );
@@ -99,19 +124,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
 
     return (
       <span className={jsStyles.container()} x-ms-format-detection="none">
-        <ReactInputMask
-          {...inputProps}
-          maskChar={null}
-          beforeMaskedValueChange={this.preprocess}
-          alwaysShowMask={false}
-          onChange={this.handleChange}
-          onFocus={this.handleFocus}
-          onBlur={this.handleBlur}
-          value={value}
-          inputRef={this.refInput}
-          ref={this.refMaskedInput}
-          style={{ ...style }}
-        />
+        {input}
         {this.isMaskVisible() && (
           <span className={cn(jsStyles.inputMask(this.theme), leftClass)}>
             {leftHelper}
