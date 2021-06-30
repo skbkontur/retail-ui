@@ -1,5 +1,5 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
+import { CreeveyStoryParams, CSFStory } from 'creevey';
 
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
@@ -42,25 +42,6 @@ interface SampleState {
   panel: boolean;
 }
 
-const Header = (data: { props: SampleProps }) => {
-  return (
-    <SidePage.Header>
-      Title
-      {data.props.total && data.props.total > 1 && ` ${data.props.current} / ${data.props.total}`}
-    </SidePage.Header>
-  )
-}
-
-const Footer = (data: { state: SampleState, close: () => void }) => {
-  return (
-    <SidePage.Footer panel={data.state.panel}>
-      <Button size="large" onClick={data.close}>
-        Close
-      </Button>
-    </SidePage.Footer>
-  )
-}
-
 class Sample extends React.Component<SampleProps, SampleState> {
   public state: SampleState = {
     open: false,
@@ -78,7 +59,10 @@ class Sample extends React.Component<SampleProps, SampleState> {
       blockBackground={this.props.blockBackground}
     >
       {!this.props.withoutHeader && (
-        <Header props={this.props}/>
+        <SidePage.Header>
+          Title
+          {this.props.total && this.props.total > 1 && ` ${this.props.current} / ${this.props.total}`}
+        </SidePage.Header>
       )}
       <SidePage.Body>
         <div style={{ padding: '0 35px 35px 35px' }}>
@@ -123,7 +107,11 @@ class Sample extends React.Component<SampleProps, SampleState> {
         </div>
       </SidePage.Body>
       {!this.props.withoutFooter && (
-        <Footer state={this.state} close={this.close}/>
+        <SidePage.Footer panel={this.state.panel}>
+          <Button size="large" onClick={this.close}>
+            Close
+          </Button>
+        </SidePage.Footer>
       )}
     </SidePage>
   );
@@ -848,3 +836,50 @@ WithLongTitleStory.story = {
     },
   },
 };
+
+const Header = () => <SidePage.Header>Header</SidePage.Header>;
+const Footer = (data: { panel?: boolean }) => <SidePage.Footer panel={data.panel}>Footer</SidePage.Footer>;
+const tests: CreeveyStoryParams['tests'] = {
+  async top() {
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+  },
+  async bottom() {
+    await this.browser.executeScript(function() {
+      const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+      // @ts-ignore
+      sidepageContainer.scrollTop = 3000;
+    });
+    await delay(1000);
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+  },
+}
+
+export const SidePageWithChildrenFromOtherComponent: CSFStory<JSX.Element> = () => (
+  <SidePage>
+    <Header />
+    <SidePage.Body>
+      {textSample}
+      {textSample}
+      {textSample}
+      {textSample}
+    </SidePage.Body>
+    <Footer />
+  </SidePage>
+);
+SidePageWithChildrenFromOtherComponent.story = { parameters: { creevey: { tests: tests } } };
+
+
+export const SidePageWithChildrenFromOtherComponentWithPanel: CSFStory<JSX.Element> = () => (
+  <SidePage>
+    <SidePage.Body>
+      {textSample}
+      {textSample}
+      {textSample}
+      {textSample}
+    </SidePage.Body>
+    <Footer panel={true}/>
+  </SidePage>
+);
+
+SidePageWithChildrenFromOtherComponentWithPanel.story = { parameters: { creevey: { tests: tests } } };
