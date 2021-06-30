@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.2.0...@skbkontur/react-ui@3.2.1) (2021-06-29)
+
+
+### Bug Fixes
+
+* **Modal,SidePage,HideBodyVerticalScroll:** fix performance issue ([7bd9ce6](https://github.com/skbkontur/retail-ui/commit/7bd9ce6974c2eea18537b15c6a6ee1a6e6a0a351))
+* **react-ui:** add new env vars for animation disabling ([9840822](https://github.com/skbkontur/retail-ui/commit/98408221c0d80ce24cf8da8a5cdbc96fee365519))
+
+
+
+
+
 # [3.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.1.0...@skbkontur/react-ui@3.2.0) (2021-06-22)
 
 

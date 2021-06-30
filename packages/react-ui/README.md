@@ -47,9 +47,16 @@ Upgrade.setSpecificityLevel(1);
 
 ## FAQ
 
-### Есть ли способ отключить анимации во время тестирования?
+### Отключение анимаций во время тестирования
 
-Анимации в компонентах отключаются переменной окружения `process.env.NODE_ENV === 'test'`.
+Анимации в компонентах отключаются любой из следующих переменных окружения:
+
+```
+process.env.NODE_ENV === 'test'
+process.env.REACT_UI_TEST
+process.env.REACT_APP_REACT_UI_TEST
+process.env.STORYBOOK_REACT_UI_TEST
+```
 
 ### Прокидывание className и style компонентам
 
