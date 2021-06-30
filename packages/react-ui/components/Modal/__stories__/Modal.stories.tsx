@@ -760,22 +760,16 @@ const Body = () => (
     ))}
   </Modal.Body>
 )
-const Footer = () => <Modal.Footer>Footer</Modal.Footer>;
+const Footer = () => <Modal.Footer panel>Footer</Modal.Footer>;
 
-const ModalWithChildrenFromOtherComponent = (sticky = true) => {
-  return (
-    <Modal>
-      <Header/>
-      <Body />
-      <Footer />
-    </Modal>
-  );
-}
+const ModalWithChildrenFromOtherComponent = () => (
+  <Modal>
+    <Header/>
+    <Body />
+    <Footer />
+  </Modal>
+);
 
-export const ModalWithChildrenFromOtherComponentWithStickyElements: CSFStory<JSX.Element> = () => (
-  ModalWithChildrenFromOtherComponent()
-)
-
-ModalWithChildrenFromOtherComponentWithStickyElements.story = {
+ModalWithChildrenFromOtherComponent.story = {
   parameters: { creevey: { tests: TopMiddleBottomModalTests } }
 };

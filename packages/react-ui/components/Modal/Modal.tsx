@@ -100,7 +100,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     horizontalScroll: false,
     hasHeader: false,
     hasFooter: false,
-    hasPanel: false
+    hasPanel: false,
   };
 
   private theme!: Theme;
@@ -154,7 +154,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   private renderMain() {
-    const { hasHeader, hasFooter, hasPanel }= this.state;
+    const { hasHeader, hasFooter, hasPanel } = this.state;
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
@@ -290,15 +290,15 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     LayoutEvents.emit();
   };
 
-  private setHasHeader = (hasHeader  = true) => {
+  private setHasHeader = (hasHeader = true) => {
     this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
-  }
+  };
 
   private setHasFooter = (hasFooter = true) => {
     this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
-  }
+  };
 
   private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
-  }
+  };
 }
