@@ -64,7 +64,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
     size: 'small',
     disableAnimations: isTestEnv,
-    icon: <MenuKebabIcon/>,
+    icon: <MenuKebabIcon />,
   };
 
   public state = {
@@ -214,12 +214,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderIcon() {
     return (
-      <div className={cn({
-        [jsStyles.icon()]: true,
-        [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
-        [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',
-        [jsStyles.iconlarge(this.theme)]: this.props.size === 'large',
-      })}>
+      <div
+        className={cn({
+          [jsStyles.icon()]: true,
+          [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
+          [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',
+          [jsStyles.iconlarge(this.theme)]: this.props.size === 'large',
+        })}
+      >
         {this.props.icon}
       </div>
     );

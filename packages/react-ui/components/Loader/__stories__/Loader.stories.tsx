@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { CSFStory } from 'creevey';
 
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
+import { Toggle } from '../../Toggle';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
@@ -56,7 +57,15 @@ class NumberList extends React.Component<{
 
 export default { title: 'Loader' };
 
-export const Simple = () => <Loader active />;
+export const Simple = () => {
+  const [toggleValue, setToggleValue] = useState(true);
+  return (
+    <>
+      <Toggle checked={toggleValue} onValueChange={v => setToggleValue(v)} />
+      <Loader active={toggleValue} />
+    </>
+  );
+};
 Simple.story = { parameters: { creevey: { skip: [true] } } };
 
 export const TypeBig = () => (
