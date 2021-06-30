@@ -762,7 +762,7 @@ const Body = () => (
 )
 const Footer = () => <Modal.Footer panel>Footer</Modal.Footer>;
 
-const ModalWithChildrenFromOtherComponent = () => (
+export const ModalWithChildrenFromOtherComponent = () => (
   <Modal>
     <Header/>
     <Body />
