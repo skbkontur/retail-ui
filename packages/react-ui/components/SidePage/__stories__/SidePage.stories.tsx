@@ -853,7 +853,7 @@ const tests: CreeveyStoryParams['tests'] = {
     await delay(1000);
     await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
   },
-}
+};
 
 export const SidePageWithChildrenFromOtherComponent: CSFStory<JSX.Element> = () => (
   <SidePage>
@@ -869,7 +869,6 @@ export const SidePageWithChildrenFromOtherComponent: CSFStory<JSX.Element> = () 
 );
 SidePageWithChildrenFromOtherComponent.story = { parameters: { creevey: { tests: tests } } };
 
-
 export const SidePageWithChildrenFromOtherComponentWithPanel: CSFStory<JSX.Element> = () => (
   <SidePage>
     <SidePage.Body>
@@ -878,7 +877,7 @@ export const SidePageWithChildrenFromOtherComponentWithPanel: CSFStory<JSX.Eleme
       {textSample}
       {textSample}
     </SidePage.Body>
-    <Footer panel={true}/>
+    <Footer panel={true} />
   </SidePage>
 );
 
