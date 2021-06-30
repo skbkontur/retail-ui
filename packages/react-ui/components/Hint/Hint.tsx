@@ -12,7 +12,6 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Hint.styles';
 
-const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps extends CommonProps {
@@ -135,7 +134,7 @@ export class Hint extends React.Component<HintProps, HintState> {
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}
-          backgroundColor={HINT_BACKGROUND_COLOR}
+          backgroundColor={this.theme.hintBackgroundColor}
           borderColor={HINT_BORDER_COLOR}
           disableAnimations={this.props.disableAnimations}
           onMouseEnter={this.handleMouseEnter}
