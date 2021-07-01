@@ -1,8 +1,6 @@
 import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
-import { addDecorator, addParameters } from '@storybook/react';
-import { withCreevey } from 'creevey';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
@@ -24,7 +22,34 @@ setFilter(fiber => {
   return ['data-tid', 'data-testid'];
 });
 
-addParameters({
+export const decorators = [
+  Story => {
+    const getTheme = () => {
+      switch (true) {
+        case Boolean(process.env.STORYBOOK_OLD):
+          return DEFAULT_THEME_OLD;
+        case Boolean(process.env.STORYBOOK_FLAT):
+          return FLAT_THEME;
+        case Boolean(process.env.STORYBOOK_FLAT_OLD):
+          return FLAT_THEME_OLD;
+        default:
+          return DEFAULT_THEME;
+      }
+    };
+    const theme = getTheme();
+    if (theme !== DEFAULT_THEME) {
+      return <ThemeContext.Provider value={theme}>{<Story />}</ThemeContext.Provider>;
+    }
+    return <Story />;
+  },
+  Story => (
+    <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
+      {<Story />}
+    </div>
+  ),
+];
+
+export const parameters = {
   creevey: {
     captureElement: '#test-element',
     skip: [
@@ -34,40 +59,10 @@ addParameters({
       },
     ],
   },
-});
-addDecorator(withCreevey());
-
-addDecorator(story => (
-  <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-    {story()}
-  </div>
-));
-
-addDecorator(story => {
-  const getTheme = () => {
-    switch (true) {
-      case Boolean(process.env.STORYBOOK_OLD):
-        return DEFAULT_THEME_OLD;
-      case Boolean(process.env.STORYBOOK_FLAT):
-        return FLAT_THEME;
-      case Boolean(process.env.STORYBOOK_FLAT_OLD):
-        return FLAT_THEME_OLD;
-      default:
-        return DEFAULT_THEME;
-    }
-  };
-  const theme = getTheme();
-  if (theme !== DEFAULT_THEME) {
-    return <ThemeContext.Provider value={theme}>{story()}</ThemeContext.Provider>;
-  }
-  return story();
-});
-
-addParameters({
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
   },
-});
+};
 
 if (isTestEnv) {
   import('../lib/styles/HoldSelectionColor');
