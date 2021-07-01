@@ -2,6 +2,7 @@ import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { addDecorator, addParameters } from '@storybook/react';
+import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { withCreevey } from 'creevey';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -10,6 +11,23 @@ import { FLAT_THEME_OLD } from '../lib/theming/themes/FlatThemeOld';
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
+
+const customViewports = {
+  kindleFire2: {
+    name: 'Iphone 6/7/8',
+    styles: {
+      width: '375px',
+      height: '667px',
+    },
+  },
+  kindleFireHD: {
+    name: 'Iphone 6/7/8 Plus',
+    styles: {
+      width: '414px',
+      height: '736px',
+    },
+  },
+};
 
 setFilter(fiber => {
   // Транслируем все пропы только для контролов
@@ -66,6 +84,12 @@ addDecorator(story => {
 addParameters({
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
+  },
+});
+
+addParameters({
+  viewport: {
+    viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
   },
 });
 
