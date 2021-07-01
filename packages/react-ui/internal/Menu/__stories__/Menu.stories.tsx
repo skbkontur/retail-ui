@@ -27,7 +27,7 @@ export const WithItems = () => (
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
-WithItems.story = { name: 'with Items' };
+WithItems.storyName = 'with Items';
 
 export const WithItemsWithIcons = () => (
   <Menu>
@@ -46,7 +46,7 @@ export const WithHeader = () => (
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
-WithHeader.story = { name: 'with Header' };
+WithHeader.storyName = 'with Header';
 
 export const WithSeparator = () => (
   <Menu>
@@ -56,7 +56,7 @@ export const WithSeparator = () => (
     <MenuItem>MenuItem2</MenuItem>
   </Menu>
 );
-WithSeparator.story = { name: 'with Separator' };
+WithSeparator.storyName = 'with Separator';
 
 export const WithCustomChild = () => (
   <Menu>
@@ -69,7 +69,7 @@ export const WithCustomChild = () => (
     </div>
   </Menu>
 );
-WithCustomChild.story = { name: 'with Custom Child' };
+WithCustomChild.storyName = 'with Custom Child';
 
 export const WithMaxHeight: CSFStory<JSX.Element> = () => (
   <MoveControls>
@@ -83,62 +83,61 @@ export const WithMaxHeight: CSFStory<JSX.Element> = () => (
     </Menu>
   </MoveControls>
 );
-WithMaxHeight.story = {
-  name: 'with maxHeight',
-  parameters: {
-    creevey: {
-      captureElement: '[data-tid="menu-container"',
-      tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        },
-        async ['moved up from top to the last Item']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('moved up from top to the last Item');
-        },
-        async ['moved up from bottom to the first Item']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('moved up from bottom to the first Item');
-        },
-        async ['moved down from top to the last Item']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-down' }))
-            .click(this.browser.findElement({ css: '#move-down' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('moved down from top to the last Item');
-        },
-        async ['moved down from bottom to the first Item']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-up' }))
-            .click(this.browser.findElement({ css: '#move-down' }))
-            .click(this.browser.findElement({ css: '#move-down' }))
-            .click(this.browser.findElement({ css: '#move-down' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('moved down from bottom to the first Item');
-        },
+WithMaxHeight.storyName = 'with maxHeight';
+
+WithMaxHeight.parameters = {
+  creevey: {
+    captureElement: '[data-tid="menu-container"',
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async ['moved up from top to the last Item']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('moved up from top to the last Item');
+      },
+      async ['moved up from bottom to the first Item']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('moved up from bottom to the first Item');
+      },
+      async ['moved down from top to the last Item']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-down' }))
+          .click(this.browser.findElement({ css: '#move-down' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('moved down from top to the last Item');
+      },
+      async ['moved down from bottom to the first Item']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-up' }))
+          .click(this.browser.findElement({ css: '#move-down' }))
+          .click(this.browser.findElement({ css: '#move-down' }))
+          .click(this.browser.findElement({ css: '#move-down' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('moved down from bottom to the first Item');
       },
     },
   },
@@ -153,7 +152,7 @@ export const WithWidth = () => (
     <MenuItem>LongItem LongItem LongItem LongItem LongItem LongItem</MenuItem>
   </Menu>
 );
-WithWidth.story = { name: 'with width' };
+WithWidth.storyName = 'with width';
 
 export const WithLongItems = () => (
   <Menu>
@@ -164,7 +163,7 @@ export const WithLongItems = () => (
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
-WithLongItems.story = { name: 'with long Items' };
+WithLongItems.storyName = 'with long Items';
 
 export const WithoutShadow = () => (
   <Menu hasShadow={false}>
@@ -175,7 +174,7 @@ export const WithoutShadow = () => (
     <MenuItem>MenuItem3</MenuItem>
   </Menu>
 );
-WithoutShadow.story = { name: 'without Shadow' };
+WithoutShadow.storyName = 'without Shadow';
 
 export const WithDisabledMenuItem: CSFStory<JSX.Element> = () => (
   <Menu hasShadow={false}>
@@ -183,20 +182,19 @@ export const WithDisabledMenuItem: CSFStory<JSX.Element> = () => (
     <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>
   </Menu>
 );
-WithDisabledMenuItem.story = {
-  name: 'with disabled MenuItem',
-  parameters: {
-    creevey: {
-      tests: {
-        async mouseenter() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('mouseenter');
-        },
+WithDisabledMenuItem.storyName = 'with disabled MenuItem';
+
+WithDisabledMenuItem.parameters = {
+  creevey: {
+    tests: {
+      async mouseenter() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('mouseenter');
       },
     },
   },

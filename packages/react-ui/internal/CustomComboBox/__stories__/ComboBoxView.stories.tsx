@@ -46,23 +46,22 @@ export const InputLikeText: CSFStory<JSX.Element> = () => (
     </div>
   </Gapped>
 );
-InputLikeText.story = {
-  name: 'input like text',
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async ['focused first element']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
-        },
+InputLikeText.storyName = 'input like text';
+
+InputLikeText.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async ['focused first element']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
       },
     },
   },
@@ -78,7 +77,7 @@ export const InputLikeTextWithPlaceholder = () => (
     </div>
   </Gapped>
 );
-InputLikeTextWithPlaceholder.story = { name: 'input like text with placeholder' };
+InputLikeTextWithPlaceholder.storyName = 'input like text with placeholder';
 
 export const Opened = () => (
   <table>
@@ -127,7 +126,7 @@ export const Opened = () => (
     </tbody>
   </table>
 );
-Opened.story = { name: 'opened' };
+Opened.storyName = 'opened';
 
 export const WithItems = () => (
   <div style={{ paddingBottom: 400 }}>
@@ -152,7 +151,7 @@ export const WithItems = () => (
     />
   </div>
 );
-WithItems.story = { name: 'with items' };
+WithItems.storyName = 'with items';
 
 export const InFlexModal = () => (
   <Modal width="250px">
@@ -165,7 +164,8 @@ export const InFlexModal = () => (
     </Modal.Body>
   </Modal>
 );
-InFlexModal.story = { name: 'in flex modal', parameters: { creevey: { captureElement: null } } };
+InFlexModal.storyName = 'in flex modal';
+InFlexModal.parameters = { creevey: { captureElement: null } };
 
 function simpleRenderValue(value: { value: number; label: string }) {
   return value.label;

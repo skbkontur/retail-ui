@@ -65,14 +65,14 @@ export default {
 };
 
 export const SimpleNotification = () => <TestNotifier />;
-SimpleNotification.story = { name: 'simple notification' };
+SimpleNotification.storyName = 'simple notification';
 
 export const ComplexNotification = () => <TestNotifier complex />;
-ComplexNotification.story = { name: 'complex notification' };
+ComplexNotification.storyName = 'complex notification';
 
 export const StaticMethod = () => (
   <button data-tid="show-toast" onClick={() => Toast.push('Static method call')}>
     Show static
   </button>
 );
-StaticMethod.story = { name: 'static method' };
+StaticMethod.storyName = 'static method';

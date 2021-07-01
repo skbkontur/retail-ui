@@ -29,26 +29,27 @@ export default {
 };
 
 export const Simple: CSFStory<JSX.Element> = () => <Link>Simple Link</Link>;
-Simple.story = { parameters: { creevey: { tests: linkTests } } };
+Simple.parameters = { creevey: { tests: linkTests } };
 
 export const WithIcon: CSFStory<JSX.Element> = () => <Link icon={<OkIcon />}>Simple Link</Link>;
-WithIcon.story = { parameters: { creevey: { tests: linkTests } } };
+WithIcon.parameters = { creevey: { tests: linkTests } };
 
 export const Danger: CSFStory<JSX.Element> = () => (
   <Link icon={<OkIcon />} use="danger">
     Simple Link
   </Link>
 );
-Danger.story = { parameters: { creevey: { tests: linkTests } } };
+Danger.parameters = { creevey: { tests: linkTests } };
 
 export const Grayed: CSFStory<JSX.Element> = () => <Link use="grayed">Simple link</Link>;
-Grayed.story = { parameters: { creevey: { tests: linkTests } } };
+Grayed.parameters = { creevey: { tests: linkTests } };
 
 export const Disabled: CSFStory<JSX.Element> = () => <Link disabled>Simple link</Link>;
-Disabled.story = { parameters: { creevey: { tests: linkTests } } };
+Disabled.parameters = { creevey: { tests: linkTests } };
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
-WithOnClick.story = { name: 'With onClick', parameters: { creevey: { skip: [true] } } };
+WithOnClick.storyName = 'With onClick';
+WithOnClick.parameters = { creevey: { skip: [true] } };
 
 export const Loading: CSFStory<JSX.Element> = () => (
   <Gapped vertical>
@@ -68,4 +69,4 @@ export const Loading: CSFStory<JSX.Element> = () => (
     </Link>
   </Gapped>
 );
-Loading.story = { parameters: { creevey: { tests: linkTests } } };
+Loading.parameters = { creevey: { tests: linkTests } };

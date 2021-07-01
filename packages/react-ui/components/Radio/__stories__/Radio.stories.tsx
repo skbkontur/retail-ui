@@ -20,10 +20,8 @@ export const RadioWithDifferentStates = () => (
     </Gapped>
   </div>
 );
-RadioWithDifferentStates.story = {
-  name: 'Radio with different states',
-  parameters: { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } },
-};
+RadioWithDifferentStates.storyName = 'Radio with different states';
+RadioWithDifferentStates.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
 
 export const Playground = () => {
   class Comp extends React.Component<{}, any> {
@@ -69,23 +67,22 @@ export const Highlighted: CSFStory<JSX.Element> = () => {
     </div>
   );
 };
-Highlighted.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async tabPress() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'body' }))
-            .sendKeys(this.keys.TAB)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-        },
+
+Highlighted.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async tabPress() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'body' }))
+          .sendKeys(this.keys.TAB)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
     },
   },

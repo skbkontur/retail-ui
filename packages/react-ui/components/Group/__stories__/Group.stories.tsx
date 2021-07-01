@@ -18,23 +18,22 @@ export const SimpleGroupWithInputAndButton: CSFStory<JSX.Element> = () => (
     <Button icon={<SearchIcon />} />
   </Group>
 );
-SimpleGroupWithInputAndButton.story = {
-  name: 'Simple Group with Input and Button',
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async ['focused input']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'input' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('focused input');
-        },
+SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
+
+SimpleGroupWithInputAndButton.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async ['focused input']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('focused input');
       },
     },
   },
@@ -47,7 +46,7 @@ export const SimpleGroupWithCustomInputsWidth = () => (
     <Input placeholder="Search" width="100px" />
   </Group>
 );
-SimpleGroupWithCustomInputsWidth.story = { name: 'Simple Group with custom Inputs width' };
+SimpleGroupWithCustomInputsWidth.storyName = 'Simple Group with custom Inputs width';
 
 export const GroupWithInputAndMultipleButtons = () => (
   <Group>
@@ -57,10 +56,8 @@ export const GroupWithInputAndMultipleButtons = () => (
     <Button>Cancel</Button>
   </Group>
 );
-GroupWithInputAndMultipleButtons.story = {
-  name: 'Group with Input and multiple Buttons',
-  parameters: { creevey: { skip: [true] } },
-};
+GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
+GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: [true] } };
 
 export const ButtonGroup = () => (
   <Group>
@@ -69,7 +66,7 @@ export const ButtonGroup = () => (
     <Button onClick={() => Toast.push('Три')}>Три</Button>
   </Group>
 );
-ButtonGroup.story = { name: 'Button group' };
+ButtonGroup.storyName = 'Button group';
 
 export const ComplexElements = () => (
   <Group>
@@ -80,7 +77,8 @@ export const ComplexElements = () => (
     </Button>
   </Group>
 );
-ComplexElements.story = { name: 'Complex elements', parameters: { creevey: { skip: [true] } } };
+ComplexElements.storyName = 'Complex elements';
+ComplexElements.parameters = { creevey: { skip: [true] } };
 
 export const WithWidth = () => (
   <div style={{ background: '#eee', padding: '30px 10px 10px', position: 'relative' }}>
@@ -101,4 +99,4 @@ export const WithWidth = () => (
     </Group>
   </div>
 );
-WithWidth.story = { name: 'With width' };
+WithWidth.storyName = 'With width';

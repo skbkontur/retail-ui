@@ -30,10 +30,10 @@ export const Normal = () => <Spinner />;
 export const Big = () => <Spinner type="big" />;
 export const Mini = () => <Spinner type="mini" />;
 export const MiniDimmed = () => <Spinner type="mini" dimmed />;
-MiniDimmed.story = { name: 'Mini dimmed' };
+MiniDimmed.storyName = 'Mini dimmed';
 
 export const WithReactNodeInCaption = () => <Spinner type="big" caption={reactNodeCaption} />;
-WithReactNodeInCaption.story = { name: 'With ReactNode in caption' };
+WithReactNodeInCaption.storyName = 'With ReactNode in caption';
 
 export const SpinnerAndIconSameSizes = () => <SpinnerLikeIcon />;
-SpinnerAndIconSameSizes.story = { name: 'Spinner and Icon same sizes' };
+SpinnerAndIconSameSizes.storyName = 'Spinner and Icon same sizes';
