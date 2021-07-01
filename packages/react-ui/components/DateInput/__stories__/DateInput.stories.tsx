@@ -269,7 +269,7 @@ Simple.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
         },
         async focus() {
-          this.browser.executeScript(() => {
+          this.browser.executeScript(function() {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.expect(await this.takeScreenshot()).to.matchImage('focus');
@@ -298,7 +298,7 @@ Disabled.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
         },
         async focus() {
-          this.browser.executeScript(() => {
+          this.browser.executeScript(function() {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.expect(await this.takeScreenshot()).to.matchImage('focus');
@@ -318,7 +318,7 @@ WithWidth.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
         },
         async focus() {
-          this.browser.executeScript(() => {
+          this.browser.executeScript(function() {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.expect(await this.takeScreenshot()).to.matchImage('focus');
@@ -335,7 +335,7 @@ BlurAlwaysAfterChange.story = {
     creevey: {
       tests: {
         async ['value not changed']() {
-          await this.browser.executeScript(() => {
+          await this.browser.executeScript(function() {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.browser
@@ -348,7 +348,7 @@ BlurAlwaysAfterChange.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
         },
         async ['value changed']() {
-          await this.browser.executeScript(() => {
+          await this.browser.executeScript(function() {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.browser
@@ -362,7 +362,7 @@ BlurAlwaysAfterChange.story = {
           await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
         },
         async ['value restored']() {
-          await this.browser.executeScript(() => {
+          await this.browser.executeScript(function() {
             // @ts-ignore
             window.OldDate = window.Date;
             // @ts-ignore
@@ -371,7 +371,7 @@ BlurAlwaysAfterChange.story = {
               return new window.OldDate(2000, 0, 1);
             };
           });
-          await this.browser.executeScript(() => {
+          await this.browser.executeScript(function() {
             (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
           });
           await this.browser
@@ -382,7 +382,7 @@ BlurAlwaysAfterChange.story = {
             .click(this.browser.findElement({ css: 'body' }))
             .perform();
           // @ts-ignore
-          await this.browser.executeScript(() => {
+          await this.browser.executeScript(function() {
             // @ts-ignore
             if (window.OldDate) {
               // @ts-ignore

@@ -1,5 +1,5 @@
-import React from 'react';
-import { StoryFn, useState } from '@storybook/addons';
+import React, { useState } from 'react';
+import { StoryFn } from '@storybook/addons';
 import { CSFStory } from 'creevey';
 
 import { Gapped } from '../../Gapped';
