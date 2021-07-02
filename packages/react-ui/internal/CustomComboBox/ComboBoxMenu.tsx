@@ -101,9 +101,11 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     let total = null;
     if (items && renderTotalCount && totalCount && items.length < totalCount) {
+      const countItems = items.filter(item => !React.isValidElement(item)).length;
+
       total = (
         <MenuItem disabled key="total">
-          <div style={{ fontSize: 12 }}>{renderTotalCount(items.length, totalCount)}</div>
+          <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
         </MenuItem>
       );
     }

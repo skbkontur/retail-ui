@@ -1,11 +1,13 @@
 import React from 'react';
 import { CSFStory } from 'creevey';
-import OkIcon from "@skbkontur/react-icons/Ok";
+import OkIcon from '@skbkontur/react-icons/Ok';
 
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
 import { MenuItem } from '../../../components/MenuItem';
+import { MenuSeparator } from '../../../components/MenuSeparator';
+import { MenuHeader } from '../../../components/MenuHeader';
 
 export default { title: 'ComboBoxView' };
 
@@ -41,8 +43,8 @@ export const InputLikeText: CSFStory<JSX.Element> = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" />
-      {' '}ComboBoxView с правой иконкой в состоянии загрузки
+      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
+      состоянии загрузки
     </div>
   </Gapped>
 );
@@ -179,3 +181,33 @@ function complexRenderValue({ id, name }: { id: React.ReactNode; name: React.Rea
     </div>
   );
 }
+
+export const WithCountItems = () => {
+  const separator = React.useMemo(() => <MenuSeparator />, []);
+
+  return (
+    <div>
+      <ComboBoxView
+        editing
+        opened
+        textValue="one"
+        items={[
+          { id: 1, name: 'one' },
+          <MenuSeparator key="separator1" />,
+          { id: 2, name: 'two' },
+          <MenuSeparator key="separator2" />,
+          { id: 3, name: 'tree' },
+          <MenuHeader key="header1">Скоро конец</MenuHeader>,
+          { id: 4, name: 'four' },
+          separator,
+          <MenuHeader key="header2">Конец</MenuHeader>,
+        ]}
+        totalCount={221}
+        renderItem={item => complexRenderValue(item as { id: number; name: string })}
+        renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
+      />
+    </div>
+  );
+};
+
+WithCountItems.story = { name: '2066 count items' };
