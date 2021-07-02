@@ -11,7 +11,7 @@ import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
-import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { findRenderContainer } from '../../lib/listenFocusOutside';
 
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -82,13 +82,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.dragging || !node) {
       return;
     }
-    if (
-      isIE11 &&
-      Array.from(document.body.querySelectorAll('[data-rendered-container-id]')).some(
-        containsTargetOrRenderContainer(node),
-      )
-    ) {
-      // Code below causes Popup to close after triggering the blur event on the body in IE11
+    if (isIE11 && findRenderContainer(node, document.body)) {
+      // Code below causes Popup to close after triggering the focus event on the body in IE11
       return;
     }
     this.frozen = true;
