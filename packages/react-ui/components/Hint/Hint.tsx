@@ -134,7 +134,7 @@ export class Hint extends React.Component<HintProps, HintState> {
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}
-          backgroundColor={this.theme.hintBackgroundColor}
+          backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
           disableAnimations={this.props.disableAnimations}
           onMouseEnter={this.handleMouseEnter}

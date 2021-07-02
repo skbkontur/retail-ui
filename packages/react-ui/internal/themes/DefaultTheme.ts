@@ -765,7 +765,7 @@ export class DefaultTheme {
   public static hintPaddingY = '6px';
   public static hintPaddingX = '8px';
   public static hintTextAlign = 'center';
-  public static hintBackgroundColor = 'rgba(51, 51, 51, 0.8)';
+  public static hintBgColor = 'rgba(51, 51, 51, 0.8)';
   public static get hintBorder() {
     return this.popupBorder;
   }
