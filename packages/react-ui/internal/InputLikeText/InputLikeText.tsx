@@ -11,6 +11,7 @@ import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { findRenderContainer } from "../../lib/listenFocusOutside";
 
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -79,6 +80,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public selectInnerNode = (node: HTMLElement | null, start = 0, end = 1) => {
     if (this.dragging || !node) {
+      return;
+    }
+    if (isIE11 && findRenderContainer(node, document.body)) {
+      // Code below causes Popup to close after triggering the focus event on the body in IE11
       return;
     }
     this.frozen = true;
