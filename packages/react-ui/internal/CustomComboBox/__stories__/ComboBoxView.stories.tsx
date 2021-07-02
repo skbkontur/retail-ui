@@ -43,8 +43,8 @@ export const InputLikeText: CSFStory<JSX.Element> = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
-      состоянии загрузки
+      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" />
+      {' '}ComboBoxView с правой иконкой в состоянии загрузки
     </div>
   </Gapped>
 );
