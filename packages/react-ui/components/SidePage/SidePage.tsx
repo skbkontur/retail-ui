@@ -1,6 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import cn from 'classnames';
+import FocusLock from 'react-focus-lock';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -13,6 +14,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { isIE11 } from '../../lib/client';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -60,6 +62,12 @@ export interface SidePageProps extends CommonProps {
    *
    */
   disableAnimations?: boolean;
+
+  /**
+   * Не использовать фокус-лок внутри сайдпейджа.
+   * По умолчанию true для IE11.
+   */
+  disableFocusLock?: boolean;
 }
 
 export interface SidePageState {
@@ -114,6 +122,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.footer) {
       this.footer.update();
     }
+  };
+
+  public static defaultProps = {
+    // NOTE: в ie нормально не работает
+    disableFocusLock: isIE11,
   };
 
   public render(): JSX.Element {
@@ -175,11 +188,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
-              <SidePageContext.Provider value={this.getSidePageContextProps()}>
-                {this.props.children}
-              </SidePageContext.Provider>
-            </div>
+            <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
+              <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
+                <SidePageContext.Provider value={this.getSidePageContextProps()}>
+                  {this.props.children}
+                </SidePageContext.Provider>
+              </div>
+            </FocusLock>
           </div>
         </RenderLayer>
       </ZIndex>
