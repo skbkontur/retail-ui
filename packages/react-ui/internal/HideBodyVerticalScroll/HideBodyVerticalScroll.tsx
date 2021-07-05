@@ -3,13 +3,11 @@ import React from 'react';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css } from '../../lib/theming/Emotion';
 
+let disposeDocumentStyle: (() => void) | null = null;
+
 export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
 
-  public static hash = Math.random()
-    .toString(16)
-    .slice(2, 6);
-  private disposeDocumentStyle: (() => void) | null = null;
   private initialScroll = 0;
   private master = false;
 
@@ -48,7 +46,7 @@ export class HideBodyVerticalScroll extends React.Component {
     }
 
     const { clientHeight, scrollHeight } = documentElement;
-    const shouldHide = !this.disposeDocumentStyle && clientHeight < scrollHeight;
+    const shouldHide = !disposeDocumentStyle && clientHeight < scrollHeight;
 
     if (shouldHide) {
       this.hideScroll(documentElement);
@@ -61,7 +59,7 @@ export class HideBodyVerticalScroll extends React.Component {
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
     const className = generateDocumentStyle(documentMargin + scrollWidth);
 
-    this.disposeDocumentStyle = this.attachStyle(document, className);
+    disposeDocumentStyle = this.attachStyle(document, className);
   };
 
   private attachStyle = (element: HTMLElement, className: string) => {
@@ -72,9 +70,9 @@ export class HideBodyVerticalScroll extends React.Component {
   };
 
   private restoreStyles = () => {
-    if (this.disposeDocumentStyle) {
-      this.disposeDocumentStyle();
-      this.disposeDocumentStyle = null;
+    if (disposeDocumentStyle) {
+      disposeDocumentStyle();
+      disposeDocumentStyle = null;
 
       const { documentElement } = document;
 
