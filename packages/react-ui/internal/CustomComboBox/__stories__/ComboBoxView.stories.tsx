@@ -216,12 +216,6 @@ WithCountItems.story = {
   parameters: {
     creevey: {
       captureElement: null,
-
-      tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage();
-        },
-      },
     },
   },
 };
