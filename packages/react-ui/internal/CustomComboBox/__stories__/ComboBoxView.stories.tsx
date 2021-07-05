@@ -203,7 +203,7 @@ export const WithCountItems = () => {
         opened
         textValue="one"
         items={items}
-        totalCount={221}
+        totalCount={100}
         renderItem={item => complexRenderValue(item as { id: number; name: string })}
         renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
       />
@@ -219,7 +219,7 @@ WithCountItems.story = {
 
       tests: {
         async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+          await this.expect(await this.takeScreenshot()).to.matchImage();
         },
       },
     },
