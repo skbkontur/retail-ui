@@ -285,7 +285,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const style = {
       width: this.props.width,
       maxWidth: this.props.maxWidth || undefined,
-      zIndex: this.isMobileLayout ? 10000 : undefined,
     };
 
     const button = this.getButton(buttonParams);
@@ -424,11 +423,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         maxHeight={
           this.props.maxMenuHeight ||
           (this.isMobileLayout
-            ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${MOBILE_MENU_TOP_PADDING}px)`
+            ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${search ? 0 : MOBILE_MENU_TOP_PADDING}px)`
             : undefined)
         }
       >
-        {search}
+        {!this.isMobileLayout && search}
         {this.mapItems(
           (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
             if (isFunction(item)) {
@@ -462,13 +461,20 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (this.isMobileLayout) {
       return (
-        <div className={jsStyles.rootMobile()}>
+        <div
+          className={cn({
+            [jsStyles.rootMobile()]: true,
+            [jsStyles.mobileWithSearch(this.theme)]: Boolean(search),
+          })}
+        >
           <MobileMenuHeader
             caption={this.props.mobileMenuHeaderText}
             onClose={this.close}
             getHeightOnMount={height => {
               this.setState({ mobileMenuHeaderHeight: height });
             }}
+            childComponent={search || undefined}
+            withoutBorderRadius={Boolean(search)}
           />
           {menu}
         </div>

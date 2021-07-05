@@ -27,6 +27,15 @@ const styles = {
     `;
   },
 
+  mobileWithSearch(t: Theme) {
+    return css`
+      top: 0;
+      right: 0;
+      max-height: 100vh;
+      background-color: ${t.bgDefault};
+    `;
+  },
+
   placeholder(t: Theme) {
     return css`
       color: ${t.selectPlaceholderColor};

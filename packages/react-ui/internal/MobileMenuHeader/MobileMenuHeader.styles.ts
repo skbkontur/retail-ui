@@ -13,6 +13,12 @@ const styles = {
     `;
   },
 
+  withoutBorderRadius() {
+    return css`
+      border-radius: 0px;
+    `;
+  },
+
   container() {
     return css`
       position: relative;
@@ -25,6 +31,12 @@ const styles = {
     return css`
       font-size: 18px;
       line-height: 28px;
+    `;
+  },
+
+  withChild() {
+    return css`
+      padding-bottom: 12px;
     `;
   },
 

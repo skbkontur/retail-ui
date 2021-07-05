@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import cn from 'classnames';
 
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,6 +12,14 @@ interface MobileMenuHeaderProps {
   caption?: string;
   onClose: () => void;
   getHeightOnMount?: (height: number) => void;
+  /**
+   * Компонент, закрепленный ниже заголовка
+   */
+  childComponent?: React.ReactNode;
+  /**
+   * Убрать бордер-радиусы
+   */
+  withoutBorderRadius?: boolean;
 }
 
 export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
@@ -37,14 +46,23 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
   }
 
   private renderMain() {
-    const { caption } = this.props;
+    const { caption, childComponent } = this.props;
     return (
-      <div className={jsStyles.root(this.theme)} ref={el => (this.rootDiv = el)}>
+      <div
+        className={cn({
+          [jsStyles.root(this.theme)]: true,
+          [jsStyles.withoutBorderRadius()]: this.props.withoutBorderRadius,
+        })}
+        ref={el => (this.rootDiv = el)}
+      >
         <div className={jsStyles.container()}>
           <div className={jsStyles.closeWrapper()}>
             <MenuClose onClose={this.props.onClose} />
           </div>
-          <div className={jsStyles.caption()}>{caption || MASK_CHAR_EXEMPLAR}</div>
+          <div className={cn({ [jsStyles.caption()]: true, [jsStyles.withChild()]: Boolean(childComponent) })}>
+            {caption || MASK_CHAR_EXEMPLAR}
+          </div>
+          {childComponent}
         </div>
       </div>
     );

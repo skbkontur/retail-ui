@@ -7,6 +7,7 @@ import { CSFStory, CreeveyStoryParams } from 'creevey';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select } from '../Select';
+import { Gapped } from '../../Gapped';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -151,27 +152,40 @@ Simple.story = {
   },
 };
 
-export const MobileSimple: CSFStory<JSX.Element> = () => (
-  <Select
-    items={[
-      'one',
-      'two',
-      'three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '10',
-      '11',
-      '12',
-      '13',
-      '14',
-    ]}
-    mobileMenuHeaderText={'This is header'}
-  />
-);
+export const MobileSimple: CSFStory<JSX.Element> = () => {
+  const items = [
+    'one',
+    'two',
+    'three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '16',
+    'seventeen',
+    '18',
+    '19',
+    'откуда мы можем знать что это двадцать?',
+  ];
+
+  return (
+    <Gapped vertical>
+      <span>With small count of items</span>
+      <Select search items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
+      <span>With big count of items</span>
+      <Select items={items} mobileMenuHeaderText={'This is header'} />
+      <span>With search</span>
+      <Select items={items} mobileMenuHeaderText={'This is header'} search />
+    </Gapped>
+  );
+};
 MobileSimple.story = {
   parameters: {
     viewport: {
