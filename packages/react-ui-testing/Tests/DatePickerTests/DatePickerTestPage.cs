@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium;
 
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
@@ -8,7 +8,7 @@ namespace SKBKontur.SeleniumTesting.Tests.DatePickerTests
     [AutoFillControls]
     public class DatePickerTestPage : PageBase
     {
-        public DatePickerTestPage(RemoteWebDriver webDriver)
+        public DatePickerTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

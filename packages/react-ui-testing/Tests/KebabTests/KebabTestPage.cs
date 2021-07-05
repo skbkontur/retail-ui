@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.KebabTests
     [AutoFillControls]
     public class KebabTestPage : PageBase
     {
-        public KebabTestPage(RemoteWebDriver webDriver)
+        public KebabTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

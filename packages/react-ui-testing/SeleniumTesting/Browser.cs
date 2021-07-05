@@ -6,7 +6,6 @@ using Kontur.Selone.Extensions;
 using Microsoft.Win32;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 using SKBKontur.SeleniumTesting.Internals.Commons;
 
 namespace SKBKontur.SeleniumTesting
@@ -61,7 +60,7 @@ namespace SKBKontur.SeleniumTesting
             return PageBase.InitializePage<T>(WebDriver);
         }
 
-        private RemoteWebDriver WebDriver
+        private IWebDriver WebDriver
         {
             get
             {
@@ -127,7 +126,7 @@ namespace SKBKontur.SeleniumTesting
         }
 
         private const string RegistryKey = @"Software\Google\Update\Clients\{8A69D345-D564-463c-AFF1-A69D9E530F96}";
-        private RemoteWebDriver webDriver;
+        private IWebDriver webDriver;
         private readonly string defaultPort;
         private readonly string defaultDomain;
     }
