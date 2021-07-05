@@ -19,6 +19,7 @@ export type ScrollBehaviour = 'auto' | 'smooth';
 export interface ScrollContainerProps extends CommonProps {
   invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
+  maxWidth?: React.CSSProperties['maxWidth'];
   preventWindowScroll?: boolean;
   /**
    * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
@@ -43,6 +44,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   public static propTypes = {
     invert: PropTypes.bool,
+    maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     scrollBehaviour: PropTypes.oneOf(['auto', 'smooth']),
     preventWindowScroll: PropTypes.bool,
