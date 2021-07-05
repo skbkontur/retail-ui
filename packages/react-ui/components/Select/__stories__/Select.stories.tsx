@@ -151,6 +151,50 @@ Simple.story = {
   },
 };
 
+export const MobileSimple: CSFStory<JSX.Element> = () => (
+  <Select
+    items={[
+      'one',
+      'two',
+      'three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three',
+      '4',
+      '5',
+      '6',
+      '7',
+      '8',
+      '9',
+      '10',
+      '11',
+      '12',
+      '13',
+      '14',
+    ]}
+    mobileMenuHeaderText={'This is header'}
+  />
+);
+MobileSimple.story = {
+  parameters: {
+    viewport: {
+      defaultViewport: 'Iphone 6/7/8',
+    },
+    decorators: [
+      (story: StoryFn<JSX.Element>) => (
+        <div
+          style={{
+            width: 'calc(100vw - 16px)',
+            height: 'calc(100vh - 16px)',
+            backgroundColor: 'lightBlue',
+            margin: -8,
+            padding: 8,
+          }}
+        >
+          {story()}
+        </div>
+      ),
+    ],
+  },
+};
+
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
     <Select disabled items={['value']} value="value" />

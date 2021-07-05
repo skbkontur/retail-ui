@@ -1,11 +1,29 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { emotionMQS } from '../../lib/client';
+
+import { MOBILE_MENU_TOP_PADDING } from './Select';
 
 const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
       position: relative;
+
+      ${emotionMQS.sm}  {
+        width: 100%;
+      },
+    `;
+  },
+
+  rootMobile() {
+    return css`
+      left: 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-height: calc(100vh - ${MOBILE_MENU_TOP_PADDING}px);
+      z-index: 100000;
     `;
   },
 
@@ -90,6 +108,19 @@ const styles = {
       width: 100%;
       display: inline-flex;
       justify-content: space-between;
+    `;
+  },
+
+  bg(t: Theme) {
+    return css`
+      bottom: 0;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+      background: #333333;
+      opacity: 50%;
+      z-index: 9999;
     `;
   },
 };

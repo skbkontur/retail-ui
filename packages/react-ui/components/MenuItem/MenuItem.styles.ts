@@ -1,6 +1,7 @@
 import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
+import { emotionMQS } from '../../lib/client';
 
 const styles = {
   root(t: Theme) {
@@ -24,6 +25,10 @@ const styles = {
       button& {
         min-width: 100%;
       }
+
+      ${emotionMQS.sm}  {
+        padding: 12px 16px 24px;
+      },
     `;
   },
 
