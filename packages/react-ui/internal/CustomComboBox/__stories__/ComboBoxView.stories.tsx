@@ -184,6 +184,17 @@ function complexRenderValue({ id, name }: { id: React.ReactNode; name: React.Rea
 
 export const WithCountItems = () => {
   const separator = React.useMemo(() => <MenuSeparator />, []);
+  const items = [
+    { id: 1, name: 'one' },
+    <MenuSeparator key="separator1" />,
+    { id: 2, name: 'two' },
+    <MenuSeparator key="separator2" />,
+    { id: 3, name: 'tree' },
+    <MenuHeader key="header1">Скоро конец</MenuHeader>,
+    { id: 4, name: 'four' },
+    separator,
+    <MenuHeader key="header2">Конец</MenuHeader>,
+  ];
 
   return (
     <div>
@@ -191,17 +202,7 @@ export const WithCountItems = () => {
         editing
         opened
         textValue="one"
-        items={[
-          { id: 1, name: 'one' },
-          <MenuSeparator key="separator1" />,
-          { id: 2, name: 'two' },
-          <MenuSeparator key="separator2" />,
-          { id: 3, name: 'tree' },
-          <MenuHeader key="header1">Скоро конец</MenuHeader>,
-          { id: 4, name: 'four' },
-          separator,
-          <MenuHeader key="header2">Конец</MenuHeader>,
-        ]}
+        items={items}
         totalCount={221}
         renderItem={item => complexRenderValue(item as { id: number; name: string })}
         renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
@@ -210,4 +211,17 @@ export const WithCountItems = () => {
   );
 };
 
-WithCountItems.story = { name: '2066 count items' };
+WithCountItems.story = {
+  name: '2066 count items',
+  parameters: {
+    creevey: {
+      captureElement: null,
+
+      tests: {
+        async idle() {
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+      },
+    },
+  },
+};

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import { locale } from '../../lib/locale/decorators';
+import { isReactUINode } from '../../lib/utils';
 import { Menu } from '../Menu';
 import { MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
@@ -100,8 +101,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     let total = null;
-    if (items && renderTotalCount && totalCount && items.length < totalCount) {
-      const countItems = items.filter(item => !React.isValidElement(item)).length;
+    const renderedItems = items && items.map(this.renderItem);
+
+    if (renderedItems && renderTotalCount && totalCount && renderedItems.length < totalCount) {
+      const countItems = renderedItems.filter(item => isReactUINode('MenuItem', item)).length;
 
       total = (
         <MenuItem disabled key="total">
@@ -112,7 +115,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     return (
       <Menu data-tid="ComboBoxMenu__items" ref={refMenu} maxHeight={maxMenuHeight}>
-        {items && items.map(this.renderItem)}
+        {renderedItems}
         {total}
         {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}
       </Menu>
