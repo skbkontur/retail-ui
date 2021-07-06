@@ -197,7 +197,7 @@ export const WithCountItems = () => {
   ];
 
   return (
-    <div>
+    <div style={{ paddingBottom: 260 }}>
       <ComboBoxView
         editing
         opened
@@ -211,11 +211,4 @@ export const WithCountItems = () => {
   );
 };
 
-WithCountItems.story = {
-  name: '2066 count items',
-  parameters: {
-    creevey: {
-      captureElement: null,
-    },
-  },
-};
+WithCountItems.story = { name: '2066 count items' };
