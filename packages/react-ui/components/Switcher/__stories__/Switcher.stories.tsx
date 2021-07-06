@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 
@@ -27,7 +27,7 @@ class Component extends React.Component<{ items: string[]; error?: boolean }, { 
 
 export default { title: 'Switcher' };
 
-export const Horizontal: CSFStory<JSX.Element> = () => {
+export const Horizontal: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;
 };
 Horizontal.storyName = 'horizontal';

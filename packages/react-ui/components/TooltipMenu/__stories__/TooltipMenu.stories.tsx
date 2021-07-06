@@ -1,9 +1,8 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
@@ -13,7 +12,7 @@ import { Button } from '../../Button';
 export default {
   title: 'TooltipMenu',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div
         style={{
           padding: 200,
@@ -22,13 +21,13 @@ export default {
           textAlign: 'center',
         }}
       >
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
-export const SimpleExample: CSFStory<JSX.Element> = () => (
+export const SimpleExample: Story = () => (
   <TooltipMenu caption={<Button use="primary">Открыть меню</Button>}>
     <MenuHeader>Заголовок меню</MenuHeader>
     <MenuSeparator />

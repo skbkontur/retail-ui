@@ -1,7 +1,6 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
@@ -11,8 +10,14 @@ import { delay } from '../../../lib/utils';
 
 export default {
   title: 'Hint',
-  decorators: [(story: StoryFn<JSX.Element>) => <div style={{ padding: '100px 300px' }}>{story()}</div>],
-};
+  decorators: [
+    Story => (
+      <div style={{ padding: '100px 300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
 export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
 Playground.storyName = 'playground';
@@ -112,7 +117,7 @@ export const HintWithoutAnimations = () => (
 HintWithoutAnimations.storyName = 'hint without animations';
 HintWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
-export const HintsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Element> = () => (
+export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
     {PopupPositions.reduce(
       (child, position) => (
@@ -145,7 +150,7 @@ const HandleClickHint = () => {
   );
 };
 
-export const SetManualAndOpenedPropOnClick: CSFStory<JSX.Element> = () => <HandleClickHint />;
+export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 
 SetManualAndOpenedPropOnClick.parameters = {
   creevey: {

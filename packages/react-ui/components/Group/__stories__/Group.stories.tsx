@@ -2,8 +2,8 @@ import React from 'react';
 import UserIcon from '@skbkontur/react-icons/User';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { Group } from '../Group';
 import { Input } from '../../Input';
@@ -12,7 +12,7 @@ import { Toast } from '../../Toast';
 
 export default { title: 'Group' };
 
-export const SimpleGroupWithInputAndButton: CSFStory<JSX.Element> = () => (
+export const SimpleGroupWithInputAndButton: Story = () => (
   <Group width="300px">
     <Input placeholder="Search" width="100%" />
     <Button icon={<SearchIcon />} />

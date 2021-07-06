@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -418,7 +418,7 @@ export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
 WithScrollableParentContent.parameters = { creevey: { skip: [true] } };
 
-export const WithIconInput: CSFStory<JSX.Element> = () => <ModalWithIconInput />;
+export const WithIconInput: Story = () => <ModalWithIconInput />;
 
 WithIconInput.parameters = {
   creevey: {
@@ -437,7 +437,7 @@ WithIconInput.parameters = {
   },
 };
 
-export const ModalOverAnotherModalStory: CSFStory<JSX.Element> = () => <ModalOverAnotherModal />;
+export const ModalOverAnotherModalStory: Story = () => <ModalOverAnotherModal />;
 ModalOverAnotherModalStory.storyName = 'Modal over another modal';
 
 ModalOverAnotherModalStory.parameters = {
@@ -480,7 +480,7 @@ export const DisabledModal = () => (
 DisabledModal.storyName = 'Disabled modal';
 DisabledModal.parameters = { creevey: { skip: [true] } };
 
-export const ModalWithFooterPanelStory: CSFStory<JSX.Element> = () => <ModalWithFooterPanel />;
+export const ModalWithFooterPanelStory: Story = () => <ModalWithFooterPanel />;
 ModalWithFooterPanelStory.storyName = 'Modal with footer panel';
 
 ModalWithFooterPanelStory.parameters = {
@@ -500,7 +500,7 @@ ModalWithFooterPanelStory.parameters = {
   },
 };
 
-export const ModalWithoutFooterPanelStory: CSFStory<JSX.Element> = () => <ModalWithoutFooterPanel />;
+export const ModalWithoutFooterPanelStory: Story = () => <ModalWithoutFooterPanel />;
 ModalWithoutFooterPanelStory.storyName = 'Modal without footer panel';
 
 ModalWithoutFooterPanelStory.parameters = {
@@ -520,7 +520,7 @@ ModalWithoutFooterPanelStory.parameters = {
   },
 };
 
-export const ModalWithoutFooterStory: CSFStory<JSX.Element> = () => <ModalWithoutFooter />;
+export const ModalWithoutFooterStory: Story = () => <ModalWithoutFooter />;
 ModalWithoutFooterStory.storyName = 'Modal without footer';
 
 ModalWithoutFooterStory.parameters = {
@@ -556,7 +556,7 @@ export const ModalMobileViewStory = () => <ModalMobileView />;
 ModalMobileViewStory.storyName = 'Modal mobile view';
 ModalMobileViewStory.parameters = { creevey: { skip: [true] } };
 
-export const ModalWithVariableHeightOfContent: CSFStory<JSX.Element> = () => (
+export const ModalWithVariableHeightOfContent: Story = () => (
   <ModalWithVariableHeight>
     <ModalInner />
   </ModalWithVariableHeight>
@@ -594,7 +594,7 @@ ModalWithVariableHeightOfContent.parameters = {
   },
 };
 
-export const ModalWithoutStickyElements: CSFStory<JSX.Element> = () => (
+export const ModalWithoutStickyElements: Story = () => (
   <Modal>
     <Modal.Header sticky={false}>Header</Modal.Header>
     <Modal.Body>
@@ -649,7 +649,7 @@ export const WithAlignTop = () => (
 WithAlignTop.storyName = 'With alignTop';
 WithAlignTop.parameters = { creevey: { captureElement: null } };
 
-export const SmallModalOnTheTop: CSFStory<JSX.Element> = () => <SmallModalOnTop />;
+export const SmallModalOnTheTop: Story = () => <SmallModalOnTop />;
 SmallModalOnTheTop.storyName = 'Small modal on the Top';
 
 SmallModalOnTheTop.parameters = {

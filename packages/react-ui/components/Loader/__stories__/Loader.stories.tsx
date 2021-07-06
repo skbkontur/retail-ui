@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
@@ -172,7 +172,7 @@ export const BothDimensionsScrollableContentWithSpacesAround = () => (
 BothDimensionsScrollableContentWithSpacesAround.storyName = 'Both dimensions scrollable content with spaces around';
 BothDimensionsScrollableContentWithSpacesAround.parameters = { creevey: { skip: [true] } };
 
-export const ActiveLoader: CSFStory<JSX.Element> = () => <LoaderAndButton active />;
+export const ActiveLoader: Story = () => <LoaderAndButton active />;
 ActiveLoader.storyName = 'Active loader';
 
 ActiveLoader.parameters = {
@@ -193,7 +193,7 @@ ActiveLoader.parameters = {
   },
 };
 
-export const InactiveLoader: CSFStory<JSX.Element> = () => <LoaderAndButton active={false} />;
+export const InactiveLoader: Story = () => <LoaderAndButton active={false} />;
 InactiveLoader.storyName = 'Inactive loader';
 
 InactiveLoader.parameters = {
@@ -245,7 +245,7 @@ export const ActivateLoaderAfterMountOnLargeContent = () => {
   );
 };
 
-export const WithCustomComponent: CSFStory = () => {
+export const WithCustomComponent: Story = () => {
   const getTestComponent = () => {
     return (
       <div style={{ display: 'inline-block', textAlign: 'center' }}>

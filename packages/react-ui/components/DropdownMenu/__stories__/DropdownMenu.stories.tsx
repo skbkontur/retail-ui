@@ -1,12 +1,11 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
-import { CreeveyStoryParams, CSFStory } from 'creevey';
 
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
@@ -20,7 +19,7 @@ import { delay } from '../../../lib/utils';
 export default {
   title: 'DropdownMenu',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div
         style={{
           padding: '20px 120px 150px',
@@ -28,13 +27,13 @@ export default {
           overflow: 'hidden',
         }}
       >
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
-export const SimpleExample: CSFStory<JSX.Element> = () => (
+export const SimpleExample: Story = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>}>
     <MenuHeader>Заголовок меню</MenuHeader>
     <MenuSeparator />
@@ -166,7 +165,7 @@ const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   );
 };
 
-const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = side => {
+const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = side => {
   return {
     async ['out of viewport']() {
       if (side === 'left') {
@@ -207,7 +206,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = 
   };
 };
 
-export const MenuOutOfViewPortRight: CSFStory = () => {
+export const MenuOutOfViewPortRight: Story = () => {
   return <MenuOutOfViewPortSample side={'right'} />;
 };
 MenuOutOfViewPortRight.storyName = 'Menu out of viewport right';
@@ -218,7 +217,7 @@ MenuOutOfViewPortRight.parameters = {
   },
 };
 
-export const MenuOutOfViewPortLeft: CSFStory = () => {
+export const MenuOutOfViewPortLeft: Story = () => {
   return <MenuOutOfViewPortSample side={'left'} />;
 };
 MenuOutOfViewPortLeft.storyName = 'Menu out of viewport left';
@@ -229,7 +228,7 @@ MenuOutOfViewPortLeft.parameters = {
   },
 };
 
-export const CaptionWidth: CSFStory<JSX.Element> = () => (
+export const CaptionWidth: Story = () => (
   <div style={{ width: '300px' }}>
     <DropdownMenu
       caption={
@@ -354,7 +353,7 @@ export const WithoutAnimations = () => (
 WithoutAnimations.storyName = 'Without animations';
 WithoutAnimations.parameters = { creevey: { skip: [true] } };
 
-export const WithHeaderAndFooter: CSFStory<JSX.Element> = () => (
+export const WithHeaderAndFooter: Story = () => (
   <DropdownWithScrollStateChange
     disableAnimations
     caption={<Button use="primary">Открыть меню</Button>}

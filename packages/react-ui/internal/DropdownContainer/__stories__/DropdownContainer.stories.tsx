@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { MenuItem } from '../../../components/MenuItem';
 import { Toggle } from '../../../components/Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
@@ -10,9 +10,7 @@ import { Button } from '../../../components/Button';
 
 export default { title: 'DropdownContainer' };
 
-export const VariousAlignsPortalsItemsAndScrollsStory: CSFStory<JSX.Element> = () => (
-  <VariousAlignsPortalsItemsAndScrolls />
-);
+export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
 VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, items and scrolls';
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {

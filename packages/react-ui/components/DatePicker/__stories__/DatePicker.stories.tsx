@@ -1,7 +1,7 @@
 import { action } from '@storybook/addon-actions';
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -131,9 +131,9 @@ class DatePickerWithMinMax extends React.Component<any, any> {
 
 export default {
   title: 'DatePicker',
-};
+} as Meta;
 
-export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => (
+export const WithMouseeventHandlers: Story = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>
     <DatePicker
       width={200}
@@ -225,7 +225,7 @@ export const DatePickerLarge = () => <DatePickerWithError size="large" />;
 DatePickerLarge.storyName = 'DatePicker large';
 DatePickerLarge.parameters = { creevey: { skip: [true] } };
 
-export const DatePickerWithMinMaxDate: CSFStory<JSX.Element> = () => (
+export const DatePickerWithMinMaxDate: Story = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>
     <DatePickerWithMinMax />
   </div>

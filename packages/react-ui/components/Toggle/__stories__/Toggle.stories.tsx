@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { action } from '@storybook/addon-actions';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Toggle } from '../Toggle';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
@@ -199,7 +199,7 @@ class SimpleChildrenLines extends React.Component<any, any> {
 
 export default { title: 'Toggle' };
 
-export const Plain: CSFStory<JSX.Element> = () => <Simple />;
+export const Plain: Story = () => <Simple />;
 Plain.storyName = 'plain';
 
 Plain.parameters = {
@@ -246,7 +246,7 @@ Uncontrolled.parameters = { creevey: { skip: [true] } };
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'playground';
 
-export const DisabledWithTooltip: CSFStory<JSX.Element> = () => (
+export const DisabledWithTooltip: Story = () => (
   <div style={{ padding: '50px' }}>
     <Tooltip render={() => 'Hello'}>
       <Toggle disabled />
@@ -282,7 +282,7 @@ DisabledWithTooltip.parameters = {
   },
 };
 
-export const WithChildren: CSFStory<JSX.Element> = () => <SimpleChildren />;
+export const WithChildren: Story = () => <SimpleChildren />;
 WithChildren.storyName = 'with children';
 
 WithChildren.parameters = {
@@ -295,7 +295,7 @@ WithChildren.parameters = {
   },
 };
 
-export const WithLongDescription: CSFStory<JSX.Element> = () => <SimpleChildrenLines />;
+export const WithLongDescription: Story = () => <SimpleChildrenLines />;
 WithLongDescription.storyName = 'with long description';
 
 WithLongDescription.parameters = {
@@ -317,4 +317,4 @@ WithLongDescription.parameters = {
   },
 };
 
-export const WithLeftCaption: CSFStory<JSX.Element> = () => <Toggle captionPosition="left">left caption</Toggle>;
+export const WithLeftCaption: Story = () => <Toggle captionPosition="left">left caption</Toggle>;

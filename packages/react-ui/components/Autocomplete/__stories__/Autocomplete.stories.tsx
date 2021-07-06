@@ -1,26 +1,25 @@
 import React from 'react';
-import { CSFStory, CreeveyStoryParams } from 'creevey';
-import { StoryFn } from '@storybook/addons';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 
 export default {
   title: 'Autocomplete',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div
         style={{
           padding: '0 200px 200px 0',
         }}
       >
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
-const commonTests: CreeveyStoryParams['tests'] = {
+const commonTests: CreeveyTests = {
   async ['focus and type text']() {
     const screenshotElement = this.browser.findElement({ css: '#test-element' });
     const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
@@ -35,7 +34,7 @@ const commonTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Simple: CSFStory<JSX.Element> = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
+export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';
 
 Simple.parameters = {

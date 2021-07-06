@@ -1,17 +1,17 @@
 import React from 'react';
-import { CSFStory, CreeveyStoryParams } from 'creevey';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Button, ButtonProps } from '../Button';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ComponentCombinator } from '../../../internal/ComponentCombinator';
 
-export default { title: 'Button' };
+export default { title: 'Button' } as Meta;
 
-const buttonTests: CreeveyStoryParams['tests'] = {
+const buttonTests: CreeveyTests = {
   async idle() {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
@@ -64,7 +64,7 @@ const buttonTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-const combinationTest: CreeveyStoryParams['tests'] = {
+const combinationTest: CreeveyTests = {
   async simple() {
     const nextPageButton = () => this.browser.findElement({ css: '#next-page' });
     const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
@@ -101,7 +101,7 @@ const combinationTest: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Playground: CSFStory<JSX.Element> = () => <Button>Hello</Button>;
+export const Playground: Story = () => <Button>Hello</Button>;
 Playground.storyName = 'playground';
 
 Playground.parameters = {
@@ -128,7 +128,7 @@ export const DifferentContent = () => (
 );
 DifferentContent.storyName = 'different content';
 
-export const UseLink: CSFStory<JSX.Element> = () => <Button use="link">Use Link</Button>;
+export const UseLink: Story = () => <Button use="link">Use Link</Button>;
 UseLink.storyName = 'use link';
 
 UseLink.parameters = {
@@ -138,7 +138,7 @@ UseLink.parameters = {
   },
 };
 
-export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
+export const UseLinkWithIcon: Story = () => (
   <Button use="link" icon={<ArchivePackIcon />}>
     With Icon
   </Button>
@@ -152,7 +152,7 @@ UseLinkWithIcon.parameters = {
   },
 };
 
-export const MultilineTextWithLinkButton: CSFStory<JSX.Element> = () => (
+export const MultilineTextWithLinkButton: Story = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />
     You&apos;ll come <Button use="link">down</Button> <br />
@@ -170,7 +170,7 @@ MultilineTextWithLinkButton.parameters = {
   },
 };
 
-export const WithError: CSFStory<JSX.Element> = () => (
+export const WithError: Story = () => (
   <Gapped>
     <Button error>Error :(</Button>
     <Button error use="primary">
@@ -193,7 +193,7 @@ WithError.parameters = {
   },
 };
 
-export const ArrowWithError: CSFStory<JSX.Element> = () => (
+export const ArrowWithError: Story = () => (
   <Button arrow error>
     Arrow
   </Button>
@@ -251,7 +251,7 @@ export const DifferentAligns = () => (
 );
 DifferentAligns.storyName = 'different aligns';
 
-export const differentWidths: CSFStory<JSX.Element> = () => (
+export const differentWidths: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'long-long-long text' }}
@@ -260,7 +260,7 @@ export const differentWidths: CSFStory<JSX.Element> = () => (
 );
 differentWidths.storyName = 'different widths';
 
-export const DefaultCombinations: CSFStory<JSX.Element> = () => (
+export const DefaultCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button' }}
@@ -275,7 +275,7 @@ DefaultCombinations.parameters = {
   },
 };
 
-export const CombinationsWithWarning: CSFStory<JSX.Element> = () => (
+export const CombinationsWithWarning: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', warning: true }}
@@ -290,7 +290,7 @@ CombinationsWithWarning.parameters = {
   },
 };
 
-export const CombinationsWithError: CSFStory<JSX.Element> = () => (
+export const CombinationsWithError: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', error: true }}
@@ -305,7 +305,7 @@ CombinationsWithError.parameters = {
   },
 };
 
-export const CombinationsWithFocus: CSFStory<JSX.Element> = () => (
+export const CombinationsWithFocus: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', visuallyFocused: true }}
@@ -320,7 +320,7 @@ CombinationsWithFocus.parameters = {
   },
 };
 
-export const LoadingCombinations: CSFStory<JSX.Element> = () => (
+export const LoadingCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', loading: true }}
@@ -335,7 +335,7 @@ LoadingCombinations.parameters = {
   },
 };
 
-export const DisabledCombinations: CSFStory<JSX.Element> = () => (
+export const DisabledCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', disabled: true }}
@@ -350,7 +350,7 @@ DisabledCombinations.parameters = {
   },
 };
 
-export const ActiveCombinations: CSFStory<JSX.Element> = () => (
+export const ActiveCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', active: true }}
@@ -365,7 +365,7 @@ ActiveCombinations.parameters = {
   },
 };
 
-export const CheckedCombinations: CSFStory<JSX.Element> = () => (
+export const CheckedCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', checked: true }}
@@ -380,7 +380,7 @@ CheckedCombinations.parameters = {
   },
 };
 
-export const CheckedDisabledCombinations: CSFStory<JSX.Element> = () => (
+export const CheckedDisabledCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', checked: true, disabled: true }}

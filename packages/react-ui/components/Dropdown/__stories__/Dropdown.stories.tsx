@@ -1,24 +1,23 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
 import AddIcon from '@skbkontur/react-icons/Add';
 import BabyIcon from '@skbkontur/react-icons/Baby';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
 
 export default {
   title: 'Dropdown',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    (Story) => (
       <div className="dropdown-test-container" style={{ height: 150, width: 400, padding: 4 }}>
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
-export const SimpleDropdown: CSFStory<JSX.Element> = () => (
+export const SimpleDropdown: Story = () => (
   <Dropdown caption="Items">
     <MenuItem>Menu item</MenuItem>
   </Dropdown>
@@ -38,7 +37,7 @@ SimpleDropdown.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: '[data-comp-name^="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
       },
@@ -48,7 +47,7 @@ SimpleDropdown.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: '[data-comp-name^="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
         await this.browser
           .actions({
@@ -66,7 +65,7 @@ SimpleDropdown.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: '[data-comp-name^="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
         await this.browser
           .actions({
@@ -80,7 +79,7 @@ SimpleDropdown.parameters = {
   },
 };
 
-export const WithFixedWidth: CSFStory<JSX.Element> = () => (
+export const WithFixedWidth: Story = () => (
   <Dropdown caption="Items" width={300}>
     <MenuItem>Menu item</MenuItem>
   </Dropdown>
@@ -104,7 +103,7 @@ export const WithIcon = () => (
 WithIcon.storyName = 'With icon';
 WithIcon.parameters = { creevey: { captureElement: '.dropdown-test-container' } };
 
-export const WithMenuItemIcon: CSFStory<JSX.Element> = () => (
+export const WithMenuItemIcon: Story = () => (
   <Dropdown caption="Care" icon={<BabyIcon />}>
     <MenuItem icon={<AddIcon />}>Menu item</MenuItem>
     <MenuItem>Another item</MenuItem>
@@ -121,7 +120,7 @@ WithMenuItemIcon.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: '[data-comp-name^="Dropdown"]' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },

@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
 import { PopupPosition, PopupPositions } from '../../../internal/Popup';
@@ -71,7 +71,7 @@ export const ClickableTooltip = () => (
 ClickableTooltip.storyName = 'clickable tooltip';
 ClickableTooltip.parameters = { creevey: { skip: [true] } };
 
-export const FocusTooltip: CSFStory<JSX.Element> = () => (
+export const FocusTooltip: Story = () => (
   <TestTooltip trigger="focus" disableAnimations>
     <Button>Focus me</Button>
   </TestTooltip>
@@ -116,7 +116,7 @@ FocusTooltip.parameters = {
   },
 };
 
-export const FocusTooltipNativeInput: CSFStory<JSX.Element> = () => (
+export const FocusTooltipNativeInput: Story = () => (
   <TestTooltip trigger="focus" disableAnimations>
     <input />
   </TestTooltip>
@@ -254,7 +254,7 @@ export const HoverOnChildOnly = () => (
 HoverOnChildOnly.storyName = 'hover on child only';
 HoverOnChildOnly.parameters = { creevey: { skip: [true] } };
 
-export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Element> = () => (
+export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ padding: '150px', width: '500px' }}>
     {PopupPositions.reduce(
       (child, position) => (
@@ -268,7 +268,8 @@ export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.El
     )}
   </div>
 );
-TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName = 'Tooltips without wrapper around inline-block with 50% width';
+TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
+  'Tooltips without wrapper around inline-block with 50% width';
 
 TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
   creevey: {
@@ -297,7 +298,7 @@ export const OpenedTooltipWithoutWrapper = () => (
 );
 OpenedTooltipWithoutWrapper.storyName = 'Opened tooltip without wrapper';
 
-export const TooltipWithExternalDynamicContent: CSFStory<JSX.Element> = () => (
+export const TooltipWithExternalDynamicContent: Story = () => (
   <DynamicContentStory TooltipComponentClass={ExternalDynamicContentTooltip} />
 );
 TooltipWithExternalDynamicContent.storyName = 'Tooltip with external dynamic content';
@@ -440,7 +441,7 @@ export const MultipleTooltipsWithUseWrapperFalse = () => <MultipleTooltips />;
 MultipleTooltipsWithUseWrapperFalse.storyName = 'Multiple tooltips with useWrapper=false';
 MultipleTooltipsWithUseWrapperFalse.parameters = { creevey: { skip: [true] } };
 
-export const TooltipWithInputAndSwitchableContent: CSFStory<JSX.Element> = () => <TooltipWithInput />;
+export const TooltipWithInputAndSwitchableContent: Story = () => <TooltipWithInput />;
 TooltipWithInputAndSwitchableContent.storyName = 'Tooltip with Input and switchable content';
 
 TooltipWithInputAndSwitchableContent.parameters = {
@@ -471,7 +472,7 @@ TooltipWithInputAndSwitchableContent.parameters = {
   },
 };
 
-export const DynamicTriggersStory: CSFStory<JSX.Element> = () => <DynamicTriggers />;
+export const DynamicTriggersStory: Story = () => <DynamicTriggers />;
 DynamicTriggersStory.storyName = 'dynamic triggers';
 
 DynamicTriggersStory.parameters = {
@@ -652,7 +653,7 @@ DynamicTriggersStory.parameters = {
   },
 };
 
-export const RenderInFirstAvailablePosition: CSFStory<JSX.Element> = () => (
+export const RenderInFirstAvailablePosition: Story = () => (
   <div style={{ padding: '100px' }}>
     <DynamicContentTooltip />
   </div>
@@ -1082,7 +1083,7 @@ class TestTooltipForManual extends React.Component {
   }
 }
 
-export const TooltipWithManualControl: CSFStory<JSX.Element> = () => <TestTooltipForManual />;
+export const TooltipWithManualControl: Story = () => <TestTooltipForManual />;
 TooltipWithManualControl.storyName = 'manual control';
 
 TooltipWithManualControl.parameters = {

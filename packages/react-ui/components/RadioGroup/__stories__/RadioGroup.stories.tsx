@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { RadioGroup } from '../RadioGroup';
 import { Radio } from '../../Radio';
 import { Gapped } from '../../Gapped';
@@ -47,7 +47,7 @@ class Component extends React.Component<any, any> {
 
 export default { title: 'RadioGroup' };
 
-export const Vertical: CSFStory<JSX.Element> = () => {
+export const Vertical: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;
 };
 Vertical.storyName = 'vertical';

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { StoryFn } from '@storybook/addons';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { TokenInput, TokenInputProps, TokenInputType } from '../TokenInput';
@@ -14,12 +13,6 @@ interface TokenModel {
   id?: string;
   value: string;
 }
-
-const FixedWidthDecorator = (storyFn: StoryFn<JSX.Element>) => (
-  <div className="tokens-test-container" style={{ margin: 40, height: 200, width: 400, padding: 4 }}>
-    {storyFn()}
-  </div>
-);
 
 async function getItems(query: string) {
   if (!isTestEnv) {
@@ -169,8 +162,14 @@ const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }}
 
 export default {
   title: 'TokenInput',
-  decorators: [FixedWidthDecorator],
-};
+  decorators: [
+    Story => (
+      <div className="tokens-test-container" style={{ margin: 40, height: 200, width: 400, padding: 4 }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
 export const Validations = () => {
   return (
@@ -185,7 +184,7 @@ export const Validations = () => {
 Validations.storyName = 'validations';
 Validations.parameters = { creevey: { skip: [true] } };
 
-export const EmptyWithReference: CSFStory<JSX.Element> = () => {
+export const EmptyWithReference: Story = () => {
   return <Wrapper getItems={getItems} />;
 };
 EmptyWithReference.storyName = 'empty with reference';
@@ -233,7 +232,7 @@ export const EmptyWithoutReference = () => {
 EmptyWithoutReference.storyName = 'empty without reference';
 EmptyWithoutReference.parameters = { creevey: { skip: [true] } };
 
-export const EmptyCombined: CSFStory = () => {
+export const EmptyCombined: Story = () => {
   return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
 EmptyCombined.storyName = 'empty combined';
@@ -267,7 +266,7 @@ export const WithoutReferenceFilled = () => {
 WithoutReferenceFilled.storyName = '[without reference] filled';
 WithoutReferenceFilled.parameters = { creevey: { skip: [true] } };
 
-export const CombinedFilled: CSFStory = () => {
+export const CombinedFilled: Story = () => {
   return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
 };
 CombinedFilled.storyName = '[combined] filled';
@@ -434,7 +433,7 @@ export const Disabled = () => {
 };
 Disabled.storyName = 'disabled';
 
-export const CustomAddButton: CSFStory<JSX.Element> = () => {
+export const CustomAddButton: Story = () => {
   return (
     <TokenInput
       type={TokenInputType.Combined}
@@ -462,7 +461,7 @@ CustomAddButton.parameters = {
   },
 };
 
-export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
+export const OnUnexpectedInputValidation: Story = () => {
   const [isValid, setIsValid] = useState(true);
   const [selectedItems, setSelectedItems] = useState([] as string[]);
   const [alertItemMessage, setAlertItemMessage] = useState('');

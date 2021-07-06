@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { CreeveyStoryParams, CSFStory } from 'creevey';
 
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
@@ -82,7 +82,7 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
   };
 }
 
-const checkboxTests: CreeveyStoryParams['tests'] = {
+const checkboxTests: CreeveyTests = {
   async idle() {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
@@ -166,9 +166,9 @@ const checkboxTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export default { title: 'Checkbox' };
+export default { title: 'Checkbox' } as Meta;
 
-export const Plain: CSFStory<JSX.Element> = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
+export const Plain: Story = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
 Plain.storyName = 'plain';
 
 Plain.parameters = {
@@ -271,7 +271,7 @@ export const ProgrammaticFocus = () => {
 ProgrammaticFocus.storyName = 'programmatic focus';
 ProgrammaticFocus.parameters = { creevey: { skip: [true] } };
 
-export const Indeterminate: CSFStory<JSX.Element> = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
+export const Indeterminate: Story = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
 Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
@@ -318,7 +318,7 @@ Indeterminate.parameters = {
   },
 };
 
-export const Highlighted: CSFStory<JSX.Element> = () => {
+export const Highlighted: Story = () => {
   return (
     <div style={{ margin: 5 }}>
       <Gapped gap={5} vertical>

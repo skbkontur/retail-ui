@@ -1,7 +1,7 @@
 import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Input, InputSize } from '../Input';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -15,7 +15,7 @@ const styles = {
 
 export default { title: 'Input' };
 
-export const InputsWithDifferentStates: CSFStory<JSX.Element> = () => (
+export const InputsWithDifferentStates: Story = () => (
   <div>
     <div>
       <div style={styles}>Warning</div>
@@ -192,7 +192,7 @@ InputsWithDifferentStates.parameters = {
   },
 };
 
-export const InputsWithDifferentSizes: CSFStory<JSX.Element> = () => (
+export const InputsWithDifferentSizes: Story = () => (
   <div>
     <div id="small-input-wrapper" style={styles}>
       <Input size="small" />
@@ -423,7 +423,7 @@ export const PlaceholderAndMask = () => (
 );
 PlaceholderAndMask.storyName = 'Placeholder and Mask';
 
-export const InputWithPhoneMask: CSFStory<JSX.Element> = () => (
+export const InputWithPhoneMask: Story = () => (
   <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
 );
 InputWithPhoneMask.storyName = 'Input with phone mask';
@@ -473,7 +473,7 @@ InputWithPhoneMask.parameters = {
   },
 };
 
-export const SelectAllByProp: CSFStory<JSX.Element> = () => <Input defaultValue="Some value" selectAllOnFocus />;
+export const SelectAllByProp: Story = () => <Input defaultValue="Some value" selectAllOnFocus />;
 SelectAllByProp.storyName = 'Select all by prop';
 
 SelectAllByProp.parameters = {
@@ -495,7 +495,7 @@ SelectAllByProp.parameters = {
   },
 };
 
-export const SelectAllByButton: CSFStory<JSX.Element> = () => {
+export const SelectAllByButton: Story = () => {
   let input: Input | null = null;
 
   const selectAll = () => {
@@ -567,7 +567,7 @@ export const ManualBlinking = () => {
 ManualBlinking.storyName = 'Manual blinking';
 ManualBlinking.parameters = { creevey: { skip: [true] } };
 
-export const PrefixAndSuffixSmall: CSFStory<JSX.Element> = () => <InputWithPrefixSuffix size="small" />;
+export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
 PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';
 
 PrefixAndSuffixSmall.parameters = {
@@ -591,7 +591,7 @@ PrefixAndSuffixSmall.parameters = {
   },
 };
 
-export const PrefixAndSuffixMedium: CSFStory<JSX.Element> = () => <InputWithPrefixSuffix size="medium" />;
+export const PrefixAndSuffixMedium: Story = () => <InputWithPrefixSuffix size="medium" />;
 PrefixAndSuffixMedium.storyName = 'Prefix and suffix medium';
 
 PrefixAndSuffixMedium.parameters = {
@@ -615,7 +615,7 @@ PrefixAndSuffixMedium.parameters = {
   },
 };
 
-export const PrefixAndSuffixLarge: CSFStory<JSX.Element> = () => <InputWithPrefixSuffix size="large" />;
+export const PrefixAndSuffixLarge: Story = () => <InputWithPrefixSuffix size="large" />;
 PrefixAndSuffixLarge.storyName = 'Prefix and suffix large';
 
 PrefixAndSuffixLarge.parameters = {

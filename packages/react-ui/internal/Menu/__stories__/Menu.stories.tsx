@@ -1,7 +1,6 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { OkIcon } from '../../../internal/icons/16px';
 import { Menu } from '../Menu';
 import { MenuItem } from '../../../components/MenuItem';
@@ -12,13 +11,13 @@ export default {
   title: 'Menu',
   parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div id="menu-test-container" style={{ padding: 10 }}>
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
 export const WithItems = () => (
   <Menu>
@@ -71,7 +70,7 @@ export const WithCustomChild = () => (
 );
 WithCustomChild.storyName = 'with Custom Child';
 
-export const WithMaxHeight: CSFStory<JSX.Element> = () => (
+export const WithMaxHeight: Story = () => (
   <MoveControls>
     <Menu maxHeight={100}>
       <MenuHeader>MenuHeader</MenuHeader>
@@ -176,7 +175,7 @@ export const WithoutShadow = () => (
 );
 WithoutShadow.storyName = 'without Shadow';
 
-export const WithDisabledMenuItem: CSFStory<JSX.Element> = () => (
+export const WithDisabledMenuItem: Story = () => (
   <Menu hasShadow={false}>
     <MenuItem disabled>MenuItem1</MenuItem>
     <MenuItem data-tid="menuitem-notdisabled">MenuItem2</MenuItem>

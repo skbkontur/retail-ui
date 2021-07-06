@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -596,7 +596,7 @@ export const WithInputInHeader = () => <SidePageWithInputInHeader />;
 WithInputInHeader.storyName = 'With Input in header';
 WithInputInHeader.parameters = { creevey: { skip: [true] } };
 
-export const SidePageOverAnotherSidePageStory: CSFStory<JSX.Element> = () => <SidePageOverAnotherSidePage />;
+export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 
 SidePageOverAnotherSidePageStory.parameters = {
@@ -659,7 +659,7 @@ export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSi
 LeftSidePageWithRightSidePageStory.storyName = 'Left SidePage With Right SidePage';
 LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: null } };
 
-export const Simple: CSFStory<JSX.Element> = () => <SimpleSidePage />;
+export const Simple: Story = () => <SimpleSidePage />;
 
 Simple.parameters = {
   creevey: {
@@ -677,7 +677,7 @@ Simple.parameters = {
   },
 };
 
-export const BodyWithoutFooter: CSFStory<JSX.Element> = () => <Sample withoutFooter withContent withLongBody />;
+export const BodyWithoutFooter: Story = () => <Sample withoutFooter withContent withLongBody />;
 BodyWithoutFooter.storyName = 'Body without Footer';
 
 BodyWithoutFooter.parameters = {
@@ -703,7 +703,7 @@ BodyWithoutFooter.parameters = {
   },
 };
 
-export const BodyWithoutHeader: CSFStory<JSX.Element> = () => <Sample withoutHeader withContent withLongBody />;
+export const BodyWithoutHeader: Story = () => <Sample withoutHeader withContent withLongBody />;
 BodyWithoutHeader.storyName = 'Body without Header';
 
 BodyWithoutHeader.parameters = {
@@ -727,7 +727,7 @@ export const SidePageWithVariableContent = () => <WithVariableContent />;
 SidePageWithVariableContent.storyName = 'SidePage with variable content';
 SidePageWithVariableContent.parameters = { creevey: { skip: [true] } };
 
-export const TestUpdateLayoutMethodStory: CSFStory<JSX.Element> = () => <TestUpdateLayoutMethod />;
+export const TestUpdateLayoutMethodStory: Story = () => <TestUpdateLayoutMethod />;
 TestUpdateLayoutMethodStory.storyName = 'test updateLayout method';
 
 TestUpdateLayoutMethodStory.parameters = {
@@ -785,10 +785,11 @@ export const WithScrollableParentContentAndScrollingBeforeOpen = () => (
     {textSample}
   </div>
 );
-WithScrollableParentContentAndScrollingBeforeOpen.storyName = 'With scrollable parent content and scrolling before open';
+WithScrollableParentContentAndScrollingBeforeOpen.storyName =
+  'With scrollable parent content and scrolling before open';
 WithScrollableParentContentAndScrollingBeforeOpen.parameters = { creevey: { skip: [true] } };
 
-export const WithLongTitleStory: CSFStory<JSX.Element> = () => <WithLongTitle />;
+export const WithLongTitleStory: Story = () => <WithLongTitle />;
 WithLongTitleStory.storyName = 'With long title';
 
 WithLongTitleStory.parameters = {

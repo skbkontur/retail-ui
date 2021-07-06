@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
 import { Loader } from '../../../components/Loader';
@@ -692,18 +692,18 @@ DemoStory.parameters = { creevey: { skip: [true] } };
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
 LoaderCoversTooltipStory.storyName = 'Loader covers tooltip';
 
-export const ModalWithTooltipInLoaderStory: CSFStory<JSX.Element> = () => <ModalWithTooltipInLoader />;
+export const ModalWithTooltipInLoaderStory: Story = () => <ModalWithTooltipInLoader />;
 ModalWithTooltipInLoaderStory.storyName = 'Modal With Tooltip In Loader';
 ModalWithTooltipInLoaderStory.parameters = { creevey: { captureElement: null } };
 
-export const NestedElementsInLoaderStory: CSFStory<JSX.Element> = () => <NestedElementsInLoader />;
+export const NestedElementsInLoaderStory: Story = () => <NestedElementsInLoader />;
 NestedElementsInLoaderStory.storyName = 'Nested elements in loader';
 NestedElementsInLoaderStory.parameters = { creevey: { captureElement: null } };
 
 export const TooltipNearLoaderStory = () => <TooltipNearLoader />;
 TooltipNearLoaderStory.storyName = 'Tooltip near Loader';
 
-export const HintAndModalStory: CSFStory<JSX.Element> = () => <HintAndModal />;
+export const HintAndModalStory: Story = () => <HintAndModal />;
 HintAndModalStory.storyName = 'Hint and modal';
 
 HintAndModalStory.parameters = {
@@ -726,11 +726,11 @@ HintAndModalStory.parameters = {
   },
 };
 
-export const LoaderInModalStory: CSFStory<JSX.Element> = () => <LoaderInModal />;
+export const LoaderInModalStory: Story = () => <LoaderInModal />;
 LoaderInModalStory.storyName = 'Loader in Modal';
 LoaderInModalStory.parameters = { creevey: { captureElement: '[data-tid="modal-content"]' } };
 
-export const BigModalWithLoaderStory: CSFStory<JSX.Element> = () => <BigModalWithLoader />;
+export const BigModalWithLoaderStory: Story = () => <BigModalWithLoader />;
 BigModalWithLoaderStory.storyName = 'Big modal with Loader';
 
 BigModalWithLoaderStory.parameters = {
@@ -751,7 +751,7 @@ BigModalWithLoaderStory.parameters = {
   },
 };
 
-export const TooltipAndSelectStory: CSFStory<JSX.Element> = () => <TooltipAndSelect />;
+export const TooltipAndSelectStory: Story = () => <TooltipAndSelect />;
 TooltipAndSelectStory.storyName = 'Tooltip and Select';
 
 TooltipAndSelectStory.parameters = {
@@ -772,7 +772,7 @@ TooltipAndSelectStory.parameters = {
   },
 };
 
-export const LoaderInSidePageBody: CSFStory<JSX.Element> = () => <LoaderInSidePage />;
+export const LoaderInSidePageBody: Story = () => <LoaderInSidePage />;
 LoaderInSidePageBody.storyName = 'Loader in SidePage.Body';
 
 LoaderInSidePageBody.parameters = {
@@ -795,7 +795,7 @@ LoaderInSidePageBody.parameters = {
   },
 };
 
-export const SidepageAndSelect: CSFStory<JSX.Element> = () => <SidePageAndSelect />;
+export const SidepageAndSelect: Story = () => <SidePageAndSelect />;
 SidepageAndSelect.storyName = 'Sidepage and Select';
 
 SidepageAndSelect.parameters = {
@@ -829,7 +829,7 @@ SidepageAndSelect.parameters = {
 export const ToastAndLoaderStory = () => <ToastAndLoader />;
 ToastAndLoaderStory.storyName = 'Toast and Loader';
 
-export const ElementsInLoaderInModalStory: CSFStory<JSX.Element> = () => <ElementsInLoaderInModal />;
+export const ElementsInLoaderInModalStory: Story = () => <ElementsInLoaderInModal />;
 ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
 
 ElementsInLoaderInModalStory.parameters = {
@@ -841,9 +841,7 @@ ElementsInLoaderInModalStory.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
 
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-          'Open Dropdown while Loader is inactive',
-        );
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
       },
       async ['Hide Hint on active Loader']() {
         await this.browser
@@ -859,7 +857,7 @@ ElementsInLoaderInModalStory.parameters = {
   },
 };
 
-export const LoaderAndSidePageStory: CSFStory<JSX.Element> = () => <LoaderAndSidePage />;
+export const LoaderAndSidePageStory: Story = () => <LoaderAndSidePage />;
 LoaderAndSidePageStory.storyName = 'Loader and SidePage';
 
 LoaderAndSidePageStory.parameters = {
@@ -877,15 +875,15 @@ LoaderAndSidePageStory.parameters = {
   },
 };
 
-export const ModalInLoaderAndModalStory: CSFStory<JSX.Element> = () => <ModalInLoaderAndModal />;
+export const ModalInLoaderAndModalStory: Story = () => <ModalInLoaderAndModal />;
 ModalInLoaderAndModalStory.storyName = 'Modal in Loader and Modal';
 ModalInLoaderAndModalStory.parameters = { creevey: { captureElement: null } };
 
-export const StickyAndLoaderStory: CSFStory<JSX.Element> = () => <StickyAndLoader />;
+export const StickyAndLoaderStory: Story = () => <StickyAndLoader />;
 StickyAndLoaderStory.storyName = 'Sticky and Loader';
 StickyAndLoaderStory.parameters = { creevey: { captureElement: null } };
 
-export const StickyAndTooltipsStory: CSFStory<JSX.Element> = () => <StickyAndTooltips />;
+export const StickyAndTooltipsStory: Story = () => <StickyAndTooltips />;
 StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
 
 StickyAndTooltipsStory.parameters = {
@@ -928,7 +926,7 @@ export const ModalSidePageStack = () => {
 ModalSidePageStack.storyName = 'Modal and SidePage Stack';
 ModalSidePageStack.parameters = { creevey: { skip: [true] } };
 
-export const ModalAndToast: CSFStory<JSX.Element> = () => {
+export const ModalAndToast: Story = () => {
   const toast = React.useRef<Toast>(null);
   const showNotification = () => {
     if (toast.current) {
@@ -964,7 +962,7 @@ ModalAndToast.parameters = {
   },
 };
 
-export const ToastOverEverything: CSFStory<JSX.Element> = () => {
+export const ToastOverEverything: Story = () => {
   const toast = React.useRef<Toast>(null);
   const showRefToast = () => {
     if (toast.current) {

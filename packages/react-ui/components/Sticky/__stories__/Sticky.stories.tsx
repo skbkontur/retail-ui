@@ -1,7 +1,7 @@
 import React from 'react';
 import { DecoratorFn } from '@storybook/react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Sticky } from '../Sticky';
 
 const stickyContent = (fixed: boolean) => (
@@ -111,7 +111,7 @@ const withThinContainer: DecoratorFn = story => <div style={{ width: 200 }}>{sto
 
 export default { title: 'Sticky' };
 
-export const WideContainer: CSFStory<JSX.Element> = () => <StickyWithWideContainer />;
+export const WideContainer: Story = () => <StickyWithWideContainer />;
 
 WideContainer.parameters = {
   creevey: {
@@ -133,7 +133,7 @@ WideContainer.parameters = {
   },
 };
 
-export const Top: CSFStory<JSX.Element> = () => <SampleTop />;
+export const Top: Story = () => <SampleTop />;
 Top.decorators = [withThinContainer];
 
 Top.parameters = {
@@ -171,7 +171,7 @@ Top.parameters = {
   },
 };
 
-export const Bottom: CSFStory<JSX.Element> = () => <SampleBottom />;
+export const Bottom: Story = () => <SampleBottom />;
 Bottom.decorators = [withThinContainer];
 
 Bottom.parameters = {

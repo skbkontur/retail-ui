@@ -1,6 +1,7 @@
 import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
+import { Meta } from '@storybook/react';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
@@ -22,7 +23,7 @@ setFilter(fiber => {
   return ['data-tid', 'data-testid'];
 });
 
-export const decorators = [
+export const decorators: Meta['decorators'] = [
   Story => {
     const getTheme = () => {
       switch (true) {
@@ -49,7 +50,7 @@ export const decorators = [
   ),
 ];
 
-export const parameters = {
+export const parameters: Meta['parameters'] = {
   creevey: {
     captureElement: '#test-element',
     skip: [

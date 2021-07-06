@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
@@ -154,7 +154,7 @@ class Sample extends React.Component<
   };
 }
 
-export default { title: 'CurrencyInput' };
+export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: [true] } };
@@ -162,7 +162,7 @@ export const WithBorderless = () => <CurrencyInputDemo borderless={true} />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
 
-export const SampleStory: CSFStory<JSX.Element> = () => <Sample fractionDigits={0} />;
+export const SampleStory: Story = () => <Sample fractionDigits={0} />;
 SampleStory.storyName = 'Sample';
 
 SampleStory.parameters = {

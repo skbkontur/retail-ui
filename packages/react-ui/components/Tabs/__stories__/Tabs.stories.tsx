@@ -1,7 +1,7 @@
 import React from 'react';
 import { linkTo } from '@storybook/addon-links';
-import { CreeveyStoryParams, CSFStory } from 'creevey';
 
+import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
 import { TabProps } from '../Tab';
@@ -281,7 +281,7 @@ class TabsTable extends React.Component {
 
 export default { title: 'Tabs' };
 
-const tabsTests: CreeveyStoryParams['tests'] = {
+const tabsTests: CreeveyTests = {
   async plain() {
     await this.expect(await this.takeScreenshot()).to.matchImage('plain');
   },
@@ -371,7 +371,7 @@ const tabsTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Simple: CSFStory<JSX.Element> = () => <UncTabs />;
+export const Simple: Story = () => <UncTabs />;
 Simple.storyName = 'simple';
 
 Simple.parameters = {
@@ -466,7 +466,7 @@ export const HrefsSecond = () => (
 HrefsSecond.storyName = 'hrefs second';
 HrefsSecond.parameters = { creevey: { skip: [true] } };
 
-export const Vertical: CSFStory<JSX.Element> = () => <UncTabs vertical />;
+export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
 Vertical.parameters = { creevey: { skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }], tests: tabsTests } };
 
@@ -478,7 +478,7 @@ export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
 WithUnexpectedTabSizeChange.parameters = { creevey: { skip: [true] } };
 
-export const WithDisabledTab: CSFStory<JSX.Element> = () => <DisabledTab />;
+export const WithDisabledTab: Story = () => <DisabledTab />;
 WithDisabledTab.storyName = 'with disabled tab';
 WithDisabledTab.parameters = { creevey: { skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }], tests: tabsTests } };
 
@@ -490,7 +490,7 @@ export const HoverTable = () => <TabsTable />;
 HoverTable.storyName = 'hover table';
 HoverTable.parameters = { creevey: { skip: [true] } };
 
-export const TabsWithImage: CSFStory<JSX.Element> = () => {
+export const TabsWithImage: Story = () => {
   const [activeTab, setActiveTab] = React.useState('search4');
 
   return (

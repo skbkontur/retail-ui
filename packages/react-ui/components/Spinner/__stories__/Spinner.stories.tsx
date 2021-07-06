@@ -1,6 +1,6 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
 
+import { Meta } from '../../../typings/stories';
 import { Spinner } from '../Spinner';
 import { OkIcon } from '../../../internal/icons/16px';
 
@@ -23,8 +23,14 @@ const SpinnerLikeIcon = () => (
 export default {
   title: 'Spinner',
   parameters: { creevey: { skip: [{ stories: ['Big', 'Mini', 'Mini dimmed'] }] } },
-  decorators: [(story: StoryFn<JSX.Element>) => <div style={{ height: 150, width: 200, padding: 4 }}>{story()}</div>],
-};
+  decorators: [
+    Story => (
+      <div style={{ height: 150, width: 200, padding: 4 }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
 export const Normal = () => <Spinner />;
 export const Big = () => <Spinner type="big" />;

@@ -1,13 +1,13 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
 import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { InputSize, InputType } from '../../Input';
 
-export default { title: 'FxInput' };
+export default { title: 'FxInput' } as Meta;
 
 export const TypeText = () => <TestFxInput />;
 TypeText.storyName = 'type text';
@@ -34,7 +34,7 @@ export const Borderless = () => (
 );
 Borderless.storyName = 'borderless';
 
-export const WithWidthStory: CSFStory<JSX.Element> = () => <WithWidth />;
+export const WithWidthStory: Story = () => <WithWidth />;
 WithWidthStory.storyName = 'with width';
 
 WithWidthStory.parameters = {

@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { StoryFn } from '@storybook/addons';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
-import { CSFStory, CreeveyStoryParams } from 'creevey';
 
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select } from '../Select';
@@ -85,15 +84,15 @@ class SelectWithNull extends React.Component<any, any> {
 export default {
   title: 'Select',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
-const selectTests: CreeveyStoryParams['tests'] = {
+const selectTests: CreeveyTests = {
   async idle() {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
@@ -140,7 +139,7 @@ const selectTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Simple: CSFStory<JSX.Element> = () => <Select items={['one', 'two', 'three']} />;
+export const Simple: Story = () => <Select items={['one', 'two', 'three']} />;
 
 Simple.parameters = {
   creevey: {
@@ -150,7 +149,7 @@ Simple.parameters = {
   },
 };
 
-export const Disabled: CSFStory<JSX.Element> = () => (
+export const Disabled: Story = () => (
   <>
     <Select disabled items={['value']} value="value" />
     <Select disabled placeholder="placeholder" />
@@ -171,7 +170,7 @@ export const WithNull = () => <SelectWithNull />;
 WithNull.storyName = 'With null';
 WithNull.parameters = { creevey: { skip: [true] } };
 
-export const UseLink: CSFStory<JSX.Element> = () => <Select use="link" items={['one', 'two', 'three']} />;
+export const UseLink: Story = () => <Select use="link" items={['one', 'two', 'three']} />;
 UseLink.storyName = 'use link';
 
 UseLink.parameters = {
@@ -182,9 +181,7 @@ UseLink.parameters = {
   },
 };
 
-export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
-  <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />
-);
+export const UseLinkWithIcon: Story = () => <Select _icon={<AddIcon />} use="link" items={['one', 'two', 'three']} />;
 UseLinkWithIcon.storyName = 'use link with icon';
 
 UseLinkWithIcon.parameters = {
@@ -195,9 +192,7 @@ UseLinkWithIcon.parameters = {
   },
 };
 
-export const WithTextOverflow: CSFStory<JSX.Element> = () => (
-  <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />
-);
+export const WithTextOverflow: Story = () => <Select width="100px" items={['oneoneone', 'twotwotwo', 'twotwotwo']} />;
 WithTextOverflow.storyName = 'with text overflow';
 
 WithTextOverflow.parameters = {
@@ -243,7 +238,7 @@ export const ExternalFocus = () => {
 ExternalFocus.storyName = 'external focus';
 ExternalFocus.parameters = { creevey: { skip: [true] } };
 
-export const UsingOnKeyDown: CSFStory<JSX.Element> = () => {
+export const UsingOnKeyDown: Story = () => {
   class Sample extends React.Component {
     public state = {
       opened: false,
@@ -306,7 +301,7 @@ UsingOnKeyDown.parameters = {
   },
 };
 
-export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
+export const WithSearchAndVariousWidth: Story = () => {
   let selectElem: Select | null = null;
   const [width, setWidth] = useState<string>();
   const changeWidth = (w: string) => {

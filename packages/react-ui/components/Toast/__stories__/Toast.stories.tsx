@@ -1,8 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { CreeveyStoryParams } from 'creevey';
-import { StoryFn } from '@storybook/addons';
 
+import { Meta } from '../../../typings/stories';
 import { Toast } from '../Toast';
 
 const TestNotifier = ({ complex }: { complex?: boolean }) => {
@@ -32,14 +31,14 @@ const TestNotifier = ({ complex }: { complex?: boolean }) => {
 export default {
   title: 'Toast',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div
         // make some space for Toast
         style={{
           padding: '30px 0',
         }}
       >
-        {story()}
+        <Story />
       </div>
     ),
   ],
@@ -60,9 +59,9 @@ export default {
           await this.expect(await this.takeScreenshot()).to.matchImage();
         },
       },
-    } as CreeveyStoryParams,
+    },
   },
-};
+} as Meta;
 
 export const SimpleNotification = () => <TestNotifier />;
 SimpleNotification.storyName = 'simple notification';

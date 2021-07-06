@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -43,7 +43,7 @@ const TEXT_SAMPLE =
 
 export default { title: 'Textarea' };
 
-export const DifferentStates: CSFStory<JSX.Element> = () => {
+export const DifferentStates: Story = () => {
   const rowStyles = {
     display: 'flex',
     padding: 5,
@@ -179,9 +179,7 @@ export const TextareaInsideGapped = () => (
 );
 TextareaInsideGapped.storyName = 'Textarea inside Gapped';
 
-export const SelectAllByProp: CSFStory<JSX.Element> = () => (
-  <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />
-);
+export const SelectAllByProp: Story = () => <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />;
 SelectAllByProp.storyName = 'Select all by prop';
 
 SelectAllByProp.parameters = {
@@ -204,7 +202,7 @@ SelectAllByProp.parameters = {
   },
 };
 
-export const SelectAllByButton: CSFStory<JSX.Element> = () => {
+export const SelectAllByButton: Story = () => {
   let textarea: Textarea | null = null;
   const handleClick = () => {
     if (textarea) {
@@ -249,7 +247,7 @@ SelectAllByButton.parameters = {
   },
 };
 
-export const TextareaWithCounters: CSFStory<JSX.Element> = () => {
+export const TextareaWithCounters: Story = () => {
   const blockStyle = {
     padding: 5,
     width: '100%',
@@ -365,12 +363,12 @@ TextareaWithCounters.parameters = {
   },
 };
 
-export const TextareaWithSingleRow: CSFStory<JSX.Element> = () => {
+export const TextareaWithSingleRow: Story = () => {
   return <Textarea width={400} autoResize spellCheck={false} rows={1} extraRow={false} />;
 };
 TextareaWithSingleRow.storyName = 'Textarea with single row';
 
-export const TextareaWithDisabledExtraRow: CSFStory<JSX.Element> = () => {
+export const TextareaWithDisabledExtraRow: Story = () => {
   const value =
     'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse. sit amet, consectetur adipisicing elit. Modi enim voluptatum esse';
   return <Textarea width={400} autoResize spellCheck={false} extraRow={false} value={value} />;

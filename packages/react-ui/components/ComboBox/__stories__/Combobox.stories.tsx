@@ -2,8 +2,8 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { MenuItem } from '../../MenuItem';
 import { MenuSeparator } from '../../MenuSeparator';
@@ -16,9 +16,9 @@ import { delay } from '../../../lib/utils';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
-export default { title: 'ComboBox' };
+export default { title: 'ComboBox' } as Meta;
 
-export const SimpleComboboxStory: CSFStory<JSX.Element> = () => (
+export const SimpleComboboxStory: Story = () => (
   <div style={{ paddingBottom: 230, paddingRight: 40 }}>
     <SimpleCombobox />
   </div>
@@ -255,7 +255,7 @@ SimpleComboboxStory.parameters = {
   },
 };
 
-export const OpenToTop: CSFStory<JSX.Element> = () => (
+export const OpenToTop: Story = () => (
   <div data-tid="container" style={{ padding: '250px 40px 4px 4px', position: 'absolute', bottom: 0 }}>
     <SimpleCombobox />
   </div>
@@ -327,7 +327,7 @@ OpenToTop.parameters = {
   },
 };
 
-export const AlwaysReject: CSFStory<JSX.Element> = () => (
+export const AlwaysReject: Story = () => (
   <div style={{ paddingBottom: 100, paddingRight: 80 }}>
     <ComboBox getItems={() => Promise.reject()} />
   </div>
@@ -488,7 +488,7 @@ export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'
 WithMaxLength.storyName = 'with maxLength';
 WithMaxLength.parameters = { creevey: { skip: [true] } };
 
-export const ToogleError: CSFStory<JSX.Element> = () => <ComboBoxWithErrorToggler />;
+export const ToogleError: Story = () => <ComboBoxWithErrorToggler />;
 ToogleError.storyName = 'toogle error';
 
 ToogleError.parameters = {
@@ -534,7 +534,7 @@ export const WithNullOnUnexpectedInput = () => (
 WithNullOnUnexpectedInput.storyName = 'with `null` onUnexpectedInput';
 WithNullOnUnexpectedInput.parameters = { creevey: { skip: [true] } };
 
-export const WithExternalValue: CSFStory<JSX.Element> = () => <ComboBoxWithExternalValue />;
+export const WithExternalValue: Story = () => <ComboBoxWithExternalValue />;
 WithExternalValue.storyName = 'with external value';
 
 WithExternalValue.parameters = {
@@ -596,7 +596,7 @@ export const OpenCloseSearchMethods = () => {
 OpenCloseSearchMethods.storyName = 'open, close, search methods';
 OpenCloseSearchMethods.parameters = { creevey: { skip: [true] } };
 
-export const FocusFlow: CSFStory<JSX.Element> = () => (
+export const FocusFlow: Story = () => (
   <div>
     <SimpleCombobox autoFocus={true} />
     <br />
@@ -1076,9 +1076,9 @@ WithLeftIcon.storyName = 'with left icon';
 export const WithRightIcon = () => (
   <Gapped vertical>
     <SimpleCombobox rightIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="small"/>
-    <SimpleCombobox rightIcon={<SearchIcon />} size="medium"/>
-    <SimpleCombobox rightIcon={<SearchIcon />} size="large"/>
+    <SimpleCombobox rightIcon={<SearchIcon />} size="small" />
+    <SimpleCombobox rightIcon={<SearchIcon />} size="medium" />
+    <SimpleCombobox rightIcon={<SearchIcon />} size="large" />
   </Gapped>
 );
 WithRightIcon.storyName = 'with right icon';

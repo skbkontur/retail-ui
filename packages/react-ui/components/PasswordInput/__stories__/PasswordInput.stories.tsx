@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { PasswordInput } from '../PasswordInput';
 import { Nullable } from '../../../typings/utility-types';
 
@@ -46,7 +46,7 @@ class Component extends React.Component<ComponentProps> {
 
 export default { title: 'PasswordInput' };
 
-export const Plain: CSFStory<JSX.Element> = () => <Component />;
+export const Plain: Story = () => <Component />;
 Plain.parameters = {
   creevey: {
     tests: {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
 import { Select } from '../../Select';
@@ -257,9 +257,9 @@ class DateInputLastEvent extends React.Component {
   }
 }
 
-export default { title: 'DateInput' };
+export default { title: 'DateInput' } as Meta;
 
-export const Simple: CSFStory<JSX.Element> = () => <DateInputSimple defaultValue="01.02.2017" />;
+export const Simple: Story = () => <DateInputSimple defaultValue="01.02.2017" />;
 Simple.storyName = 'simple';
 
 Simple.parameters = {
@@ -278,7 +278,7 @@ Simple.parameters = {
   },
 };
 
-export const WithAutoFocus: CSFStory<JSX.Element> = () => <DateInput autoFocus />;
+export const WithAutoFocus: Story = () => <DateInput autoFocus />;
 WithAutoFocus.storyName = 'with autoFocus';
 
 export const Formatting = () => <DateInputFormatting />;
@@ -288,7 +288,7 @@ Formatting.parameters = { creevey: { skip: [true] } };
 export const DifferentFormatting = () => <DateInputDifferentFormatting />;
 DifferentFormatting.storyName = 'different formatting';
 
-export const Disabled: CSFStory<JSX.Element> = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
+export const Disabled: Story = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
 Disabled.storyName = 'disabled';
 
 Disabled.parameters = {
@@ -307,7 +307,7 @@ Disabled.parameters = {
   },
 };
 
-export const WithWidth: CSFStory<JSX.Element> = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
+export const WithWidth: Story = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
 WithWidth.storyName = 'with width';
 
 WithWidth.parameters = {
@@ -326,7 +326,7 @@ WithWidth.parameters = {
   },
 };
 
-export const BlurAlwaysAfterChange: CSFStory<JSX.Element> = () => <DateInputLastEvent />;
+export const BlurAlwaysAfterChange: Story = () => <DateInputLastEvent />;
 BlurAlwaysAfterChange.storyName = 'blur always after change';
 
 BlurAlwaysAfterChange.parameters = {

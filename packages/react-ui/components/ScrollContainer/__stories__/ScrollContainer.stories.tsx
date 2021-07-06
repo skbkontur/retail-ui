@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
 import { Gapped } from '../../Gapped';
 
@@ -101,7 +101,7 @@ export const WithScrollState = () => {
 };
 WithScrollState.storyName = 'with scroll state';
 
-export const WithDynamicContent: CSFStory<JSX.Element> = () => {
+export const WithDynamicContent: Story = () => {
   const [items, setItems] = React.useState(4);
   const [state, setState] = React.useState<ScrollContainerScrollState>('top');
   const add = () => setItems(items + 1);

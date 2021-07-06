@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { Paging } from '../Paging';
 import { delay } from '../../../lib/utils';
 
@@ -113,10 +112,16 @@ class PagingWithCustomComponent extends Component<any, any> {
 
 export default {
   title: 'Paging',
-  decorators: [(story: StoryFn<JSX.Element>) => <div>{story()}</div>],
-};
+  decorators: [
+    Story => (
+      <div>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
-export const GoToAbsensePageStory: CSFStory<JSX.Element> = () => <GoToAbsensePage />;
+export const GoToAbsensePageStory: Story = () => <GoToAbsensePage />;
 GoToAbsensePageStory.storyName = 'GoToAbsensePage';
 
 GoToAbsensePageStory.parameters = {

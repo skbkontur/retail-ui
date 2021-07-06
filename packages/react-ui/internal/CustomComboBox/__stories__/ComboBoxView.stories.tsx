@@ -1,7 +1,7 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
-import OkIcon from "@skbkontur/react-icons/Ok";
+import OkIcon from '@skbkontur/react-icons/Ok';
 
+import { Story } from '../../../typings/stories';
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
@@ -9,7 +9,7 @@ import { MenuItem } from '../../../components/MenuItem';
 
 export default { title: 'ComboBoxView' };
 
-export const InputLikeText: CSFStory<JSX.Element> = () => (
+export const InputLikeText: Story = () => (
   <Gapped vertical>
     <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
     <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
@@ -41,8 +41,8 @@ export const InputLikeText: CSFStory<JSX.Element> = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" />
-      {' '}ComboBoxView с правой иконкой в состоянии загрузки
+      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
+      состоянии загрузки
     </div>
   </Gapped>
 );
