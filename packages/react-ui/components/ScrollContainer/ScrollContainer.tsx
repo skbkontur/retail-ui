@@ -91,6 +91,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const props = this.props;
     let scroll = null;
 
+    console.log(state)
+
     if (state.scrollActive) {
       const scrollClass = cn({
         [jsStyles.scroll()]: true,
@@ -116,7 +118,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
       paddingRight: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
 
+      // hide vertical scrollbar with a little extra space
+      marginBottom: -1 * HIDE_SCROLLBAR_OFFSET,
+      paddingBottom: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
+
       maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth,
       scrollBehavior: props.scrollBehaviour,
     };
 

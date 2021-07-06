@@ -189,3 +189,27 @@ WithDynamicContent.story = {
     },
   },
 };
+
+export const WithCustomHorizontalScroll = () => {
+  const wrapper = {
+    width: '300px',
+    border: '1px solid #000',
+  };
+
+
+  return (
+    <div style={wrapper}>
+      <ScrollContainer maxHeight={200} maxWidth={150}>
+        {getItems(25).map(i => (
+          <div style={{ width: 350 }} key={i}>
+            {i}
+          </div>
+        ))}
+      </ScrollContainer>
+    </div>
+  );
+};
+
+WithCustomHorizontalScroll.story = {
+  name: 'with custom horizontal scroll'
+}
