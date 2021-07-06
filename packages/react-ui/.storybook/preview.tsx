@@ -24,20 +24,20 @@ setFilter(fiber => {
 });
 
 export const decorators: Meta['decorators'] = [
-  Story => {
-    const getTheme = () => {
-      switch (true) {
-        case Boolean(process.env.STORYBOOK_OLD):
+  (Story, context) => {
+    const getTheme = theme => {
+      switch (theme) {
+        case 'DefaultOld':
           return DEFAULT_THEME_OLD;
-        case Boolean(process.env.STORYBOOK_FLAT):
+        case 'Flat':
           return FLAT_THEME;
-        case Boolean(process.env.STORYBOOK_FLAT_OLD):
+        case 'FlatOld':
           return FLAT_THEME_OLD;
         default:
           return DEFAULT_THEME;
       }
     };
-    const theme = getTheme();
+    const theme = getTheme(context.globals.theme);
     if (theme !== DEFAULT_THEME) {
       return <ThemeContext.Provider value={theme}>{<Story />}</ThemeContext.Provider>;
     }
@@ -62,6 +62,19 @@ export const parameters: Meta['parameters'] = {
   },
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
+  },
+};
+
+export const globalTypes = {
+  theme: {
+    name: 'Theme',
+    description: 'React UI Theme',
+    defaultValue: 'Default',
+    toolbar: {
+      icon: 'paintbrush',
+      items: ['Default', 'DefaultOld', 'Flat', 'FlatOld'],
+      showName: true,
+    },
   },
 };
 
