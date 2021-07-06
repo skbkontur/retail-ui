@@ -67,7 +67,7 @@ export interface SidePageProps extends CommonProps {
    * Не использовать фокус-лок внутри сайдпейджа.
    * По умолчанию true для IE11.
    */
-  disableFocusLock?: boolean;
+  disableFocusLock: boolean;
 }
 
 export interface SidePageState {
@@ -168,7 +168,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(): JSX.Element {
-    const { width, blockBackground, fromLeft } = this.props;
+    const { width, blockBackground, fromLeft, disableFocusLock } = this.props;
 
     return (
       <ZIndex
@@ -188,7 +188,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
+            <FocusLock disabled={disableFocusLock} autoFocus={false}>
               <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
                 <SidePageContext.Provider value={this.getSidePageContextProps()}>
                   {this.props.children}
