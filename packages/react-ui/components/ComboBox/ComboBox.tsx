@@ -103,7 +103,7 @@ export interface ComboBoxProps<T> extends CommonProps {
 
   /**
    * Функция отображающая сообщение об общем количестве элементов.
-   * Учитывается только компонент MenuItem, которым по умолчанию оборачиваются объекты, возвращаемые функцией getItems().
+   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`.
    */
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
 
