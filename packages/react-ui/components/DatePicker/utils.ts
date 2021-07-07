@@ -32,13 +32,20 @@ export const nativeDateInputUtils = {
 
     Object.keys(componentDate).forEach(key => {
       const keyTyped = key as keysOfDateShape;
-
       const value = componentDate[keyTyped];
 
       editedDateShape[keyTyped] = `${value < 10 ? '0' : ''}${value}`;
     });
 
     return `${editedDateShape.year}-${editedDateShape.month}-${editedDateShape.date}`;
+  },
+
+  upMonthOfShape: (DateShape: CalendarDateShape | undefined): CalendarDateShape | undefined => {
+    if (!DateShape) {
+      return undefined;
+    }
+
+    return { ...DateShape, month: DateShape.month + 1 };
   },
 
   getDateShapeFromNativeFormat: (nativeDate: Nullable<string>): CalendarDateShape | undefined => {

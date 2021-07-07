@@ -86,15 +86,18 @@ export class Picker extends React.Component<Props, State> {
 
   private renderMain() {
     const { date } = this.state;
+    const { upMonthOfShape, getDateForNativeFromShape } = nativeDateInputUtils;
 
     return (
       <div className={jsStyles.root(this.theme)} onMouseDown={e => e.preventDefault()}>
         {this.state.useMobileNative ? (
           <input
             type="date"
-            min={nativeDateInputUtils.getDateForNativeFromShape(this.props.minDate)}
-            max={nativeDateInputUtils.getDateForNativeFromShape(this.props.maxDate)}
-            value={nativeDateInputUtils.getDateForNativeFromShape(this.props.value)}
+            // в пикер minDate и maxDate приходят с заниженным месяцем (отсчет с 0),
+            // но для натива это не нужно
+            min={getDateForNativeFromShape(upMonthOfShape(this.props.minDate))}
+            max={getDateForNativeFromShape(upMonthOfShape(this.props.maxDate))}
+            value={getDateForNativeFromShape(this.props.value)}
             onChange={this.handleNativeDateInputChange}
             ref={this.getDateInputRef}
             className={jsStyles.inputTypeDate()}
