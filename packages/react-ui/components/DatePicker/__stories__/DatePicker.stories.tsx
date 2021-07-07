@@ -122,6 +122,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             minDate={this.state.min}
             maxDate={this.state.max}
             onValueChange={action('change')}
+            useMobileNativeDatePicker
           />
         </LocaleContext.Provider>
       </Gapped>
@@ -136,27 +137,17 @@ export default {
 export const WithMouseeventHandlers: CSFStory<JSX.Element> = () => {
   const [date, setDate] = useState('02.07.2017');
 
-  const getDatePicker = (useNative: boolean) => (
-    <DatePicker
-      width={200}
-      value={date}
-      onMouseEnter={() => console.count('enter')}
-      onMouseLeave={() => console.count('leave')}
-      onValueChange={date => {
-        setDate(date);
-      }}
-      useMobileNativeDatePicker={useNative}
-    />
-  );
-
   return (
     <div style={{ padding: '200px 150px 350px 0px' }}>
-      <Gapped vertical>
-        <span>With DatePicker</span>
-        {getDatePicker(false)}
-        <span>With mobile native datepicker</span>
-        {getDatePicker(true)}
-      </Gapped>
+      <DatePicker
+        width={200}
+        value={date}
+        onMouseEnter={() => console.count('enter')}
+        onMouseLeave={() => console.count('leave')}
+        onValueChange={date => {
+          setDate(date);
+        }}
+      />
     </div>
   );
 };
@@ -219,6 +210,31 @@ WithMouseeventHandlers.story = {
       },
     },
   },
+};
+
+export const WithMobileNativeDatePicker: CSFStory<JSX.Element> = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <Gapped vertical>
+        <span>With mobile native datepicker</span>
+        <DatePicker
+          width={200}
+          value={date}
+          onMouseEnter={() => console.count('enter')}
+          onMouseLeave={() => console.count('leave')}
+          onValueChange={date => {
+            setDate(date);
+          }}
+          useMobileNativeDatePicker
+        />
+      </Gapped>
+    </div>
+  );
+};
+WithMobileNativeDatePicker.story = {
+  name: 'with native datepickers on mobile devices',
 };
 
 export const WithAutoFocus = () => (
