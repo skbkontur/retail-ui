@@ -13,7 +13,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
-import { stopBodyScroll, letBodyScroll } from '../../lib/utils';
 
 import { jsStyles } from './DateSelect.styles';
 
@@ -401,7 +400,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       return;
     }
 
-    stopBodyScroll();
+    event.preventDefault();
 
     this.touchStartY = event.targetTouches[0].clientY;
   };
@@ -428,7 +427,15 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       return;
     }
 
-    letBodyScroll();
+    const clientY = event.changedTouches[0].clientY;
+    const deltaY = (this.touchStartY || 0) - clientY;
+
+    if (Math.abs(deltaY) < 10) {
+      const target = event.changedTouches[0].target;
+      if (target && target instanceof HTMLElement) {
+        target.click();
+      }
+    }
   };
 
   private handleItemClick = (shift: number) => {

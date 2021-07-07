@@ -72,13 +72,3 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 
   return false;
 };
-
-export function stopBodyScroll() {
-  document.getElementsByTagName('body')[0].style.height = '100vh';
-  document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-}
-
-export function letBodyScroll() {
-  document.getElementsByTagName('body')[0].style.height = 'auto';
-  document.getElementsByTagName('body')[0].style.overflow = 'auto';
-}

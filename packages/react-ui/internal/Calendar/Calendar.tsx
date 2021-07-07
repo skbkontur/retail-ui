@@ -1,5 +1,6 @@
 import React from 'react';
 import normalizeWheel from 'normalize-wheel';
+import throttle from 'lodash.throttle';
 
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
 import { Nullable } from '../../typings/utility-types';
@@ -7,7 +8,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
-import { letBodyScroll, stopBodyScroll } from '../../lib/utils';
 
 import { themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -66,6 +66,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
   private animation = Animation();
+  private touchStartY: Nullable<number> = null;
 
   constructor(props: CalendarProps) {
     super(props);
@@ -224,17 +225,21 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private refRoot = (element: HTMLElement | null) => {
     if (!this.root && element) {
-      element.addEventListener('wheel', this.handleWheel, { passive: false });
       if (isMobile) {
         element.addEventListener('touchstart', this.handleTouchStart);
+        element.addEventListener('touchmove', this.throttledHandelTouchMove);
         element.addEventListener('touchend', this.handleTouchEnd);
+      } else {
+        element.addEventListener('wheel', this.handleWheel, { passive: false });
       }
     }
     if (this.root && !element) {
-      this.root.removeEventListener('wheel', this.handleWheel);
       if (isMobile) {
         this.root.removeEventListener('touchstart', this.handleTouchStart);
+        this.root.removeEventListener('touchmove', this.throttledHandelTouchMove);
         this.root.removeEventListener('touchend', this.handleTouchEnd);
+      } else {
+        this.root.removeEventListener('wheel', this.handleWheel);
       }
     }
     this.root = element;
@@ -272,20 +277,34 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     this.scrollToMonth(month, year);
   };
 
+  private executeAnimations = (pixelY: number) => {
+    this.setState(({ months, scrollPosition }) => {
+      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
+        .scrollPosition;
+      return { scrollTarget: targetPosition };
+    }, this.handleWheelEnd);
+
+    this.animation.animate(pixelY, deltaY =>
+      // FIXME: Typescript not resolving setState cb type
+      this.setState(CalendarUtils.applyDelta(deltaY, this.theme) as any),
+    );
+
+    CalendarScrollEvents.emit();
+  };
+
   private handleTouchEnd = (event: Event) => {
     if (!(event instanceof TouchEvent)) {
       return;
     }
 
-    letBodyScroll();
-
     const clientY = event.changedTouches[0].clientY;
-    const deltaY = this.state.touchStart - clientY;
+    const deltaY = (this.touchStartY || 0) - clientY;
 
-    if (deltaY > 50) {
-      this.scrollToMonth(this.state.months[2].month, this.state.months[2].year);
-    } else if (deltaY < -50) {
-      this.scrollToMonth(this.state.months[0].month, this.state.months[0].year);
+    if (Math.abs(deltaY) < 10) {
+      const target = event.changedTouches[0].target;
+      if (target && target instanceof HTMLElement) {
+        target.click();
+      }
     }
   };
 
@@ -294,11 +313,24 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       return;
     }
 
-    stopBodyScroll();
+    event.preventDefault();
 
     const clientY = event.targetTouches[0].clientY;
-    this.setState({ touchStart: clientY });
+    this.touchStartY = clientY;
   };
+
+  private handleTouchMove = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    const deltaY = (this.touchStartY || 0) - event.targetTouches[0].clientY;
+    const pixelY = deltaY / window.devicePixelRatio;
+
+    this.executeAnimations(pixelY);
+  };
+
+  private throttledHandelTouchMove = throttle(this.handleTouchMove, 40);
 
   private handleWheel = (event: Event) => {
     if (!(event instanceof WheelEvent)) {
@@ -327,7 +359,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
     this.wheelEndTimeout = window.setTimeout(this.scrollToNearestWeek, 300);
   };
-
   private scrollToNearestWeek = () => {
     const { scrollTarget, scrollDirection } = this.state;
 
