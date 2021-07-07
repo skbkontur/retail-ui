@@ -4,40 +4,12 @@ import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-import { Nullable } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './ScrollContainer.styles';
 
 const HIDE_SCROLLBAR_OFFSET = 30;
 const MIN_SCROLL_SIZE = 20;
-
-export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
-
-export type ScrollBehaviour = 'auto' | 'smooth';
-
-export interface ScrollContainerProps extends CommonProps {
-  invert?: boolean;
-  maxHeight?: React.CSSProperties['maxHeight'];
-  maxWidth?: React.CSSProperties['maxWidth'];
-  preventWindowScroll?: boolean;
-  /**
-   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
-   * @default 'auto'
-   */
-  scrollBehaviour?: ScrollBehaviour;
-  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
-  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
-}
-
-export interface ScrollContainerState {
-  scrollActive: boolean;
-  hover: boolean;
-  scrolling: boolean;
-  scrollSize: number;
-  scrollPos: number;
-  scrollState: ScrollContainerScrollState;
-}
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -91,7 +63,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const props = this.props;
     let scroll = null;
 
-    console.log(state)
+    console.log(state);
 
     if (state.scrollActive) {
       const scrollClass = cn({
@@ -117,19 +89,22 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       // hide vertical scrollbar with a little extra space
       marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
       paddingRight: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
-
-      // hide vertical scrollbar with a little extra space
-      marginBottom: -1 * HIDE_SCROLLBAR_OFFSET,
-      paddingBottom: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
-
       maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth,
       scrollBehavior: props.scrollBehaviour,
+    };
+
+    const wrapperStyle: React.CSSProperties = {
+      maxWidth: props.maxWidth,
     };
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+        <div
+          style={wrapperStyle}
+          className={jsStyles.root()}
+          onMouseMove={this.handleMouseMove}
+          onMouseLeave={this.handleMouseLeave}
+        >
           {scroll}
           <div
             data-tid="ScrollContainer__inner"
