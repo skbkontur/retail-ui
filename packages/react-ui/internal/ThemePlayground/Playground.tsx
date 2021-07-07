@@ -104,7 +104,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped gap={40}>
-          <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
+          <Tabs<string> value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
             <div className={jsStyles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
