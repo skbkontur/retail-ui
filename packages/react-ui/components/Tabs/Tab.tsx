@@ -108,7 +108,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
   public static contextType = TabsContext;
-  public context: TabsContextType = this.context;
+  public context: TabsContextType<any> = this.context;
 
   public static propTypes = {
     children: PropTypes.node,
