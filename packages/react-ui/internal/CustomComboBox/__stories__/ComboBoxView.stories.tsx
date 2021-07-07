@@ -211,4 +211,4 @@ export const WithCountItems = () => {
   );
 };
 
-WithCountItems.story = { name: '2066 count items' };
+WithCountItems.story = { name: 'with total count' };
