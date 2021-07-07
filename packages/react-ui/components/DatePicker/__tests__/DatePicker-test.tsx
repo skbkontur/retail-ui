@@ -221,7 +221,7 @@ describe('DatePicker', () => {
       const value = '2020-02-01';
       const convertedDate = nativeDateInputUtils.getDateShapeFromNativeFormat(value);
 
-      expect(convertedDate).toBe({ year: 2020, month: 2, date: 1 });
+      expect(convertedDate).toEqual({ year: 2020, month: 2, date: 1 });
     });
   });
 });
