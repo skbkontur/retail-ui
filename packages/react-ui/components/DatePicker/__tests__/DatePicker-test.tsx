@@ -4,7 +4,7 @@ import React from 'react';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
-import { Calendar } from '../../../internal/Calendar';
+import { Calendar, CalendarDateShape } from '../../../internal/Calendar';
 import { DateSelect } from '../../../internal/DateSelect';
 import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -208,6 +208,20 @@ describe('DatePicker', () => {
       const convertedDate = nativeDateInputUtils.getDateForComponent(value);
 
       expect(convertedDate).toBe('01.02.2020');
+    });
+
+    it('get correct native date input string (YYYY-MM-DD) from DateShape object', () => {
+      const date: CalendarDateShape = { year: 2020, month: 2, date: 1 };
+      const convertedDate = nativeDateInputUtils.getDateForNativeFromShape(date);
+
+      expect(convertedDate).toBe('2020-02-01');
+    });
+
+    it('get correct DateShape object from native value format (YYYY-MM-DD)', () => {
+      const value = '2020-02-01';
+      const convertedDate = nativeDateInputUtils.getDateShapeFromNativeFormat(value);
+
+      expect(convertedDate).toBe({ year: 2020, month: 2, date: 1 });
     });
   });
 });

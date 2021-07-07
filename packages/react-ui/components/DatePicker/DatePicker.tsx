@@ -12,13 +12,12 @@ import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { isMobile } from '../../lib/client';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
-import { nativeDateInputUtils } from './utils';
 
 const INPUT_PASS_PROPS = {
+  autoFocus: true,
   disabled: true,
   warning: true,
   error: true,
@@ -70,7 +69,6 @@ export interface DatePickerProps<T> extends CommonProps {
 
 export interface DatePickerState {
   opened: boolean;
-  isMobile: boolean;
 }
 
 type DatePickerValue = string;
@@ -160,24 +158,16 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     });
   };
 
-  public state: DatePickerState = { opened: false, isMobile: false };
+  public state: DatePickerState = { opened: false };
 
   private input: DateInput | null = null;
   private focused = false;
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
-  private dateInput: HTMLInputElement | null = null;
 
   public componentDidMount() {
-    const useMobile = isMobile && this.props.useMobileNativeDatePicker;
-
-    // for SSR see https://reactjs.org/docs/react-dom.html#hydrate
-    if (useMobile) {
-      this.setState({ isMobile: true });
-    }
-
-    if (this.props.autoFocus && !useMobile) {
+    if (this.props.autoFocus) {
       this.focus();
     }
   }
@@ -225,32 +215,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   }
 
   public render() {
-    return (
-      <>
-        <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
-        {this.state.isMobile && (
-          <input
-            type="date"
-            min={nativeDateInputUtils.getDateForNative(this.props.minDate)}
-            max={nativeDateInputUtils.getDateForNative(this.props.maxDate)}
-            value={nativeDateInputUtils.getDateForNative(this.props.value)}
-            onChange={this.handleNativeDateInputChange}
-            ref={this.getDateInputRef}
-            style={{
-              width: 0,
-              height: 0,
-              visibility: 'hidden',
-              padding: 0,
-              margin: 0,
-              lineHeight: 0,
-              border: 'none',
-            }}
-            disabled={this.props.disabled}
-            tabIndex={-1}
-          />
-        )}
-      </>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
@@ -267,6 +232,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
+            useMobileNativeDatePicker={this.props.useMobileNativeDatePicker}
           />
         </DropdownContainer>
       );
@@ -282,7 +248,6 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
-          autoFocus={this.props.autoFocus && !this.props.useMobileNativeDatePicker}
           ref={this.getInputRef}
           value={this.props.value || ''}
           width="100%"
@@ -291,16 +256,18 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
           maxDate={this.props.maxDate}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
-          onClick={this.handleClick}
           onValueChange={this.props.onValueChange}
+          onClick={this.props.useMobileNativeDatePicker ? this.forceNativeDatePickerOpen : undefined}
         />
         {picker}
       </label>
     );
   };
 
-  private getDateInputRef = (element: Nullable<HTMLInputElement>) => {
-    this.dateInput = element || null;
+  private forceNativeDatePickerOpen = () => {
+    if (this.state.opened) {
+      this.setState({ opened: !this.state.opened }, () => this.setState({ opened: true }));
+    }
   };
 
   private getInputRef = (ref: DateInput | null) => {
@@ -318,19 +285,6 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     return undefined;
   }
 
-  private handleNativeDateInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const date = nativeDateInputUtils.getDateForComponent(e.currentTarget.value);
-    this.props.onValueChange(date);
-  };
-
-  private handleClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-
-    if (this.focused && this.state.isMobile) {
-      this.dateInput?.click();
-    }
-  };
-
   private handleFocus = () => {
     if (this.focused) {
       return;
@@ -338,9 +292,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     this.focused = true;
 
-    if (!this.state.isMobile) {
-      this.setState({ opened: true });
-    }
+    this.setState({ opened: true });
 
     if (this.props.onFocus) {
       this.props.onFocus();
@@ -360,13 +312,17 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     }
   };
 
-  private handlePick = (dateShape: CalendarDateShape) => {
+  private handlePick = (dateShape: CalendarDateShape | undefined) => {
     this.handleSelect(dateShape);
     this.blur();
   };
 
-  private handleSelect = ({ date, month, year }: CalendarDateShape) => {
-    const value = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
+  private handleSelect = (dateShape: CalendarDateShape | undefined) => {
+    let value = '';
+    if (dateShape) {
+      const { date, month, year } = dateShape;
+      value = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
+    }
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }
