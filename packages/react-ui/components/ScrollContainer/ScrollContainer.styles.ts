@@ -1,5 +1,19 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
+const customScroll = css`
+  &::after {
+    background: #b7b7b7;
+    border-radius: 5px;
+    bottom: 1px;
+    content: '';
+    display: block;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 1px;
+  }
+`;
+
 const styles = {
   root() {
     return css`
@@ -28,21 +42,29 @@ const styles = {
       width: 4px;
       z-index: 200;
 
-      &::after {
-        background: #b7b7b7;
-        border-radius: 5px;
-        bottom: 1px;
-        content: '';
-        display: block;
-        left: 0;
-        position: absolute;
-        right: 0;
-        top: 1px;
-      }
+      ${customScroll}
     `;
   },
 
   scrollHover() {
+    return css`
+      width: 10px;
+    `;
+  },
+
+  scrollX() {
+    return css`
+      position: absolute;
+      bottom: 2px;
+      transition: height 0.2s;
+      height: 6px;
+      z-index: 200;
+
+      ${customScroll}
+    `;
+  },
+
+  scrollXHover() {
     return css`
       width: 10px;
     `;
