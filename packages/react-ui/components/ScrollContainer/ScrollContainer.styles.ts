@@ -66,7 +66,7 @@ const styles = {
 
   scrollXHover() {
     return css`
-      width: 10px;
+      height: 12px;
     `;
   },
 

@@ -39,7 +39,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private inner: Nullable<HTMLElement>;
   private scrollY: Nullable<HTMLElement>;
-  // private scrollX: Nullable<HTMLElement>;
+  private scrollX: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.reflowY();
@@ -88,6 +88,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           onMouseLeave={this.handleMouseLeave}
         >
           {scrollY}
+          {scrollX}
           <div
             data-tid="ScrollContainer__inner"
             className={jsStyles.inner()}
@@ -97,7 +98,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           >
             {props.children}
           </div>
-          {scrollX}
         </div>
       </CommonWrapper>
     );
@@ -113,16 +113,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       return null;
     }
 
+    const refScroll = scrollType === 'scrollY' ? this.refScrollY : this.refScrollX;
     const styles = scrollType === 'scrollY' ? this.getScrollYStyle() : this.getScrollXStyle();
+    const handleMouseDown = scrollType === 'scrollY' ? this.handleScrollMouseDown : this.handleScrollXMouseDown;
 
-    return (
-      <div
-        ref={this.refScroll}
-        style={styles.inline}
-        className={styles.className}
-        onMouseDown={this.handleScrollMouseDown}
-      />
-    );
+    return <div ref={refScroll} style={styles.inline} className={styles.className} onMouseDown={handleMouseDown} />;
   };
 
   /**
@@ -209,7 +204,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner = element;
   };
 
-  private refScroll = (element: HTMLElement | null) => {
+  private refScrollY = (element: HTMLElement | null) => {
     if (!this.scrollY && element) {
       element.addEventListener('wheel', this.handleScrollWheel, { passive: false });
     }
@@ -219,8 +214,19 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.scrollY = element;
   };
 
+  private refScrollX = (element: HTMLElement | null) => {
+    if (!this.scrollY && element) {
+      // element.addEventListener('wheel', this.handleScrollWheel, { passive: false });
+    }
+    if (this.scrollX && !element) {
+      // this.scrollX.removeEventListener('wheel', this.handleScrollWheel);
+    }
+    this.scrollX = element;
+  };
+
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
     this.reflowY();
+    this.reflowX();
     this.props.onScroll?.(event);
     if (this.props.preventWindowScroll) {
       event.preventDefault();
@@ -292,7 +298,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
     let scrollSize = 0;
     let scrollPos = 0;
-    let scrollState = state.scrollState;
+    const scrollState = state.scrollState;
 
     if (scrollActive) {
       scrollSize = Math.max((containerWidth / contentWidth) * containerWidth, MIN_SCROLL_SIZE);
@@ -300,7 +306,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     }
 
     if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
-      scrollState = this.getImmediateScrollState();
+      // scrollState = this.getImmediateScrollState();
 
       if (scrollState !== state.scrollState) {
         this.props.onScrollStateChange?.(scrollState);
@@ -313,7 +319,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           active: scrollActive,
           size: scrollSize,
           pos: scrollPos,
-          scrollState,
+          scrollState: 'scroll',
         },
       });
     }
@@ -333,9 +339,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         return;
       }
 
-      const ratio =
+      const ratioY =
         (this.inner.scrollHeight - this.inner.offsetHeight) / (this.inner.offsetHeight - this.state.scrollY.size);
-      const deltaY = (mouseMoveEvent.clientY - initialY) * ratio;
+      const deltaY = (mouseMoveEvent.clientY - initialY) * ratioY;
 
       this.inner.scrollTop = initialScrollTop + deltaY;
 
@@ -358,7 +364,52 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
     target.addEventListener('mousemove', mouseMove);
     target.addEventListener('mouseup', mouseUp);
+
     this.setState({ ...this.state, scrollY: { ...this.state.scrollY, scrolling: false } });
+
+    event.preventDefault();
+  };
+
+  private handleScrollXMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (!this.inner) {
+      return;
+    }
+
+    const target: Document = window.document;
+    const initialX = event.clientX;
+    const initialScrollLeft = this.inner.scrollLeft;
+
+    const mouseMove = (mouseMoveEvent: MouseEvent) => {
+      if (!this.inner) {
+        return;
+      }
+
+      const ratioX =
+        (this.inner.scrollWidth - this.inner.offsetWidth) / (this.inner.offsetWidth - this.state.scrollX.size);
+      const deltaX = (mouseMoveEvent.clientX - initialX) * ratioX;
+
+      this.inner.scrollLeft = initialScrollLeft + deltaX;
+
+      if (mouseMoveEvent.preventDefault) {
+        mouseMoveEvent.preventDefault();
+      }
+
+      if (Object.prototype.hasOwnProperty.call(mouseMoveEvent, 'returnValue')) {
+        (mouseMoveEvent as MouseEvent & {
+          returnValue: boolean;
+        }).returnValue = false;
+      }
+    };
+
+    const mouseUp = () => {
+      target.removeEventListener('mousemove', mouseMove);
+      target.removeEventListener('mouseup', mouseUp);
+      this.setState({ ...this.state, scrollX: { ...this.state.scrollX, scrolling: false } });
+    };
+
+    target.addEventListener('mousemove', mouseMove);
+    target.addEventListener('mouseup', mouseUp);
+    this.setState({ ...this.state, scrollX: { ...this.state.scrollX, scrolling: false } });
 
     event.preventDefault();
   };
@@ -398,16 +449,26 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
     const right = event.currentTarget.getBoundingClientRect().right - event.pageX;
-    this.setHover(right <= 12);
+    const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
+
+    this.setHoverrScrollY(right <= 12);
+    this.setHoverScrollX(bottom <= 12);
   };
 
   private handleMouseLeave = () => {
-    this.setHover(false);
+    this.setHoverrScrollY(false);
+    this.setHoverScrollX(false);
   };
 
-  private setHover(hover: boolean) {
+  private setHoverrScrollY(hover: boolean) {
     if (this.state.scrollY.hover !== hover) {
       this.setState({ ...this.state, scrollY: { ...this.state.scrollY, hover } });
+    }
+  }
+
+  private setHoverScrollX(hover: boolean) {
+    if (this.state.scrollX.hover !== hover) {
+      this.setState({ ...this.state, scrollX: { ...this.state.scrollX, hover } });
     }
   }
 
