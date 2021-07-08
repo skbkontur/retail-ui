@@ -55,7 +55,7 @@ export class DefaultTheme {
   public static controlPaddingYLarge = '10px';
   public static textColorDefault = '#333333';
   public static textColorInvert = '#fff';
-  public static textColorDisabled = '#808080';
+  public static textColorDisabled = '#a0a0a0';
   public static textColorDisabledContrast = '#808080';
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
