@@ -10,25 +10,11 @@ import { Nullable } from '../../typings/utility-types';
 import {
   ScrollContainerProps,
   ScrollContainerState,
-  ScrollState,
   ScrollType,
   ScrollContainerScrollState,
 } from './ScrollContainer.types';
+import { defaultScrollState, HIDE_SCROLLBAR_OFFSET, MIN_SCROLL_SIZE } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
-
-const HIDE_SCROLLBAR_OFFSET = 30;
-const MIN_SCROLL_SIZE = 20;
-
-const defaultScrollState: ScrollState = {
-  active: false,
-  size: 0,
-  pos: 0,
-  // Mouse is moving where big scrollbar can be located.
-  hover: false,
-  // True when scroll is following mouse (mouse down on scroll).
-  scrolling: false,
-  scrollState: 'top',
-};
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -74,6 +60,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const props = this.props;
 
     const scrollY = this.renderScroll('scrollY');
+    const scrollX = this.renderScroll('scrollX');
 
     const innerStyle: React.CSSProperties = {
       // hide vertical scrollbar with a little extra space
@@ -105,6 +92,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           >
             {props.children}
           </div>
+          {scrollX}
         </div>
       </CommonWrapper>
     );
