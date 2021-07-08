@@ -514,7 +514,6 @@ export const OnUnexpectedInputValidation: Story = () => {
 };
 
 OnUnexpectedInputValidation.storyName = 'validate with onUnexpectedInput';
-
 OnUnexpectedInputValidation.parameters = {
   creevey: {
     tests: {
@@ -539,6 +538,8 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
+          .sendKeys(this.keys.BACK_SPACE)
+          .sendKeys(this.keys.BACK_SPACE)
           .sendKeys('aaaccc')
           .move({ x: 0, y: 0 })
           .click()
@@ -551,6 +552,7 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(1000)
           .sendKeys('clear')
           .move({ x: 0, y: 0 })
           .click()
@@ -575,7 +577,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys('aaa')
           .sendKeys(this.keys.ENTER)
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(1000)
           .sendKeys('bbb')
           .sendKeys(this.keys.ENTER)
           .move({ x: 0, y: 0 })
@@ -599,7 +601,7 @@ OnUnexpectedInputValidation.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
           .sendKeys('aaa')
           .sendKeys(this.keys.ENTER)
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(1000)
           .sendKeys('bbb')
           .sendKeys(this.keys.ENTER)
           .perform();
@@ -633,6 +635,8 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .sendKeys(this.keys.BACK_SPACE)
+          .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
