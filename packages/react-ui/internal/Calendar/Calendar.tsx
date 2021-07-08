@@ -339,18 +339,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     event.preventDefault();
     const { pixelY } = normalizeWheel(event);
 
-    this.setState(({ months, scrollPosition, scrollTarget }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
-        .scrollPosition;
-      return { scrollTarget: targetPosition };
-    }, this.handleWheelEnd);
-
-    this.animation.animate(pixelY, deltaY =>
-      // FIXME: Typescript not resolving setState cb type
-      this.setState(CalendarUtils.applyDelta(deltaY, this.theme) as any),
-    );
-
-    CalendarScrollEvents.emit();
+    this.executeAnimations(pixelY);
   };
 
   private handleWheelEnd = () => {
