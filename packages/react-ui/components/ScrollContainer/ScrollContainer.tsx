@@ -66,6 +66,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       // hide vertical scrollbar with a little extra space
       marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
       paddingRight: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
+      marginBottom: -1 * HIDE_SCROLLBAR_OFFSET,
+      paddingBottom: HIDE_SCROLLBAR_OFFSET - getScrollWidth(),
       maxHeight: props.maxHeight,
       scrollBehavior: props.scrollBehaviour,
     };
