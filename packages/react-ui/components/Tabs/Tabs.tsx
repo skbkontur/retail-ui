@@ -59,7 +59,6 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
     value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    // onValueChange: PropTypes.func,
   };
   public static defaultProps = {
     vertical: false,
