@@ -145,7 +145,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   }
 
   // TODO что тут можно сделать ?
-  public renderScroll = (scrollType: ScrollType) => {
+  private renderScroll = (scrollType: ScrollType) => {
     const state = this.state[scrollType];
 
     if (!state.active) {
