@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
-import { isEdge, isIE11 } from '../../lib/client';
+import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../components/Input';
@@ -161,6 +161,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
       [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
       [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
+      [jsInputStyles.hideBlinkingCursor()]: isMobile,
     });
 
     const wrapperClass = cn(jsInputStyles.wrapper(), {
@@ -351,6 +352,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+    if (isMobile) {
+      e.target.setAttribute('contenteditable', 'true');
+    }
+
     if (this.props.disabled) {
       if (isIE11) {
         selectNodeContents(document.body, 0, 0);
@@ -373,6 +378,10 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleBlur = (e: React.FocusEvent<HTMLElement>) => {
+    if (isMobile) {
+      e.target.removeAttribute('contenteditable');
+    }
+
     if (this.props.disabled) {
       e.stopPropagation();
       return;
