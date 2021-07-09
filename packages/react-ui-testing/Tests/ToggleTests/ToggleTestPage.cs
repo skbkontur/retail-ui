@@ -1,4 +1,4 @@
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -7,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ToggleTests
     [AutoFillControls]
     public class ToggleTestPage : PageBase
     {
-        public ToggleTestPage(RemoteWebDriver webDriver)
+        public ToggleTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }
