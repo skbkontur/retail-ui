@@ -13,3 +13,16 @@ export const defaultScrollState: ScrollState = {
   scrolling: false,
   scrollState: 'top',
 };
+
+export const scrollSizeParameterName = {
+  x: {
+    offset: 'offsetWidth',
+    size: 'scrollWidth',
+    pos: 'scrollLeft',
+  },
+  y: {
+    offset: 'offsetHeight',
+    size: 'scrollHeight',
+    pos: 'scrollTop',
+  },
+} as const;
