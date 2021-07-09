@@ -6,6 +6,18 @@ import { MenuItem } from '../../MenuItem';
 import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
+  beforeAll(() => {
+    window.matchMedia = jest.fn().mockImplementation(query => {
+      return {
+        matches: false,
+        media: query,
+        onchange: null,
+        addListener: jest.fn(),
+        removeListener: jest.fn(),
+      };
+    });
+  });
+
   it('It renders', () => {
     const wrapper = mount(
       <Dropdown caption="button">

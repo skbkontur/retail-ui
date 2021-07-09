@@ -48,6 +48,16 @@ jest.mock('invariant', () => (...args: any[]) => {
 });
 
 const createWrapper = <T extends React.Component>(compName: string, initProps: object = {}) => {
+  window.matchMedia = jest.fn().mockImplementation(query => {
+    return {
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+    };
+  });
+
   const component = (ReactUI as any)[compName];
   const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
   return mount<T, {}, {}>(React.createElement(component, props));

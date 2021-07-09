@@ -289,31 +289,18 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const button = this.getButton(buttonParams);
 
-    const rootSpan = (
-      <span className={jsStyles.root(this.theme)} style={style}>
-        {button}
-        {!this.props.disabled && this.state.opened && this.renderMenu()}
-      </span>
-    );
-
-    const mobileLayout = (
-      <>
-        <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-          {rootSpan}
-        </RenderLayer>
-        {this.state.opened && <div className={jsStyles.bg(this.theme)} />}
-      </>
-    );
-
     return (
-      <CommonWrapper {...this.props}>
-        {this.isMobileLayout && mobileLayout}
-        {!this.isMobileLayout && (
+      <>
+        <CommonWrapper {...this.props}>
           <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-            {rootSpan}
+            <span className={jsStyles.root(this.theme)} style={style}>
+              {button}
+              {!this.props.disabled && this.state.opened && this.renderMenu()}
+            </span>
           </RenderLayer>
-        )}
-      </CommonWrapper>
+        </CommonWrapper>
+        {this.isMobileLayout && this.state.opened && <div className={jsStyles.bg(this.theme)} />}
+      </>
     );
   }
 

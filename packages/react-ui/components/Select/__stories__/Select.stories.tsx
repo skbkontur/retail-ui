@@ -152,7 +152,7 @@ Simple.story = {
   },
 };
 
-export const MobileSimple: CSFStory<JSX.Element> = () => {
+export const MobileSimple = () => {
   const items = [
     'one',
     'two',
@@ -178,7 +178,7 @@ export const MobileSimple: CSFStory<JSX.Element> = () => {
   return (
     <Gapped vertical>
       <span>With small count of items</span>
-      <Select search items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
+      <Select items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
       <span>With big count of items</span>
       <Select items={items} mobileMenuHeaderText={'This is header'} />
       <span>With search</span>
@@ -187,6 +187,7 @@ export const MobileSimple: CSFStory<JSX.Element> = () => {
   );
 };
 MobileSimple.story = {
+  name: 'Mobile stories',
   parameters: {
     viewport: {
       defaultViewport: 'Iphone 6/7/8',
@@ -206,6 +207,7 @@ MobileSimple.story = {
         </div>
       ),
     ],
+    creevey: { skip: [true] },
   },
 };
 
