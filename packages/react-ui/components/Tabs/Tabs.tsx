@@ -50,7 +50,7 @@ export interface TabsProps<T> extends CommonProps {
  *
  * contains static property `Tab`
  */
-export class Tabs<T> extends React.Component<TabsProps<T>> {
+export class Tabs<T = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
   public static propTypes = {
@@ -59,7 +59,7 @@ export class Tabs<T> extends React.Component<TabsProps<T>> {
     value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onValueChange: PropTypes.func,
+    // onValueChange: PropTypes.func,
   };
   public static defaultProps = {
     vertical: false,

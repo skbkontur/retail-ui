@@ -26,7 +26,7 @@ class UncTabs extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs<string> value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
         <Tab id="fuji">Fuji</Tab>
         <Tab id="tahat">Tahat</Tab>
         <Tab id="alps">Alps</Tab>
@@ -65,7 +65,7 @@ class TabsWithMyLink extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs<string>
+      <Tabs
         value={this.state.active}
         onValueChange={v =>
           this.setState({
@@ -115,7 +115,7 @@ class OhMyTabs extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs<string> value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })} vertical={this.props.vertical}>
         <UnexpectedUpdatedTab id="fuji">
           <span role="img" aria-label="fuji">
             🌋&nbsp;&nbsp;Fuji
@@ -143,7 +143,7 @@ class DisabledTab extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs<string> value={this.state.active} onValueChange={v => this.setState({ active: v })}>
+      <Tabs value={this.state.active} onValueChange={v => this.setState({ active: v })}>
         <Tab id="first">First</Tab>
         <Tab id="second" disabled>
           Second (disabled)
@@ -186,7 +186,7 @@ class TabsInModal extends React.Component<any, any> {
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <div style={{ marginLeft: -30 }}>
-            <Tabs<string> vertical value={this.state.active} onValueChange={v => this.setState({ active: v })}>
+            <Tabs vertical value={this.state.active} onValueChange={v => this.setState({ active: v })}>
               <Tab id="1">
                 <TabElement>Normal</TabElement>
               </Tab>
@@ -494,7 +494,7 @@ export const TabsWithImage: CSFStory<JSX.Element> = () => {
   const [activeTab, setActiveTab] = React.useState('search4');
 
   return (
-    <Tabs<string> value={activeTab} vertical onValueChange={tab => setActiveTab(tab)}>
+    <Tabs value={activeTab} vertical onValueChange={tab => setActiveTab(tab)}>
       <Tabs.Tab id="search1">
         <Img size={'75px'} />
       </Tabs.Tab>
