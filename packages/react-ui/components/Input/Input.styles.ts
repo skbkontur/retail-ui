@@ -390,6 +390,12 @@ const styles = {
       padding-left: ${t.inputIconGapLarge};
     `;
   },
+
+  hideBlinkingCursor() {
+    return css`
+      caret-color: transparent;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);
