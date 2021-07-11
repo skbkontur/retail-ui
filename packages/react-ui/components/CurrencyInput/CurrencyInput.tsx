@@ -200,6 +200,10 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     }
   };
 
+  private isCursorMoves = (action: unknown) => {
+    return action === CURRENCY_INPUT_ACTIONS.MoveCursorLeft || action === CURRENCY_INPUT_ACTIONS.MoveCursorRight;
+  };
+
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const selection = this.getSelection(event.target);
     this.tempSelectionForOnChange = selection;
@@ -217,7 +221,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       return;
     }
 
-    if (action !== CURRENCY_INPUT_ACTIONS.Unknown) {
+    if (action !== CURRENCY_INPUT_ACTIONS.Unknown && !this.isCursorMoves(action)) {
       event.preventDefault();
     }
 
