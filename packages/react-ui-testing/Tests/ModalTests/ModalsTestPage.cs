@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
 namespace SKBKontur.SeleniumTesting.Tests.ModalTests
@@ -7,7 +6,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ModalTests
     [AutoFillControls]
     public class ModalsTestPage : PageBase
     {
-        public ModalsTestPage(RemoteWebDriver webDriver)
+        public ModalsTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }
