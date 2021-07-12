@@ -102,10 +102,9 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     let total = null;
     const renderedItems = items && items.map(this.renderItem);
+    const countItems = renderedItems?.filter(item => isReactUINode('MenuItem', item)).length;
 
-    if (renderedItems && renderTotalCount && totalCount && renderedItems.length < totalCount) {
-      const countItems = renderedItems.filter(item => isReactUINode('MenuItem', item)).length;
-
+    if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
         <MenuItem disabled key="total">
           <div style={{ fontSize: 12 }}>{renderTotalCount(countItems, totalCount)}</div>
