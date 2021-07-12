@@ -16,7 +16,7 @@ const styles = {
 
       /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       padding-bottom: 1px;
-      overflow-y: scroll;
+      overflow: scroll;
     `;
   },
 
