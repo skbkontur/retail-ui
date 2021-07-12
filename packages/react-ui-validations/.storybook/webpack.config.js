@@ -44,11 +44,5 @@ module.exports = async ({ config, mode }) => {
     },
   ];
 
-  config.plugins.push(
-    new webpack.DefinePlugin({
-      'process.env.enableReactTesting': JSON.stringify(true),
-    }),
-  );
-
   return config;
 };

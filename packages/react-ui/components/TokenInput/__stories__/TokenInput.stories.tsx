@@ -534,6 +534,8 @@ OnUnexpectedInputValidation.story = {
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
             .sendKeys('aaaccc')
             .move({ x: 0, y: 0 })
             .click()
@@ -546,6 +548,7 @@ OnUnexpectedInputValidation.story = {
               bridge: true,
             })
             .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .pause(1000)
             .sendKeys('clear')
             .move({ x: 0, y: 0 })
             .click()
@@ -570,7 +573,7 @@ OnUnexpectedInputValidation.story = {
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys('aaa')
             .sendKeys(this.keys.ENTER)
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .pause(1000)
             .sendKeys('bbb')
             .sendKeys(this.keys.ENTER)
             .move({ x: 0, y: 0 })
@@ -594,7 +597,7 @@ OnUnexpectedInputValidation.story = {
             .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
             .sendKeys('aaa')
             .sendKeys(this.keys.ENTER)
-            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .pause(1000)
             .sendKeys('bbb')
             .sendKeys(this.keys.ENTER)
             .perform();
@@ -628,6 +631,8 @@ OnUnexpectedInputValidation.story = {
               bridge: true,
             })
             .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)
             .sendKeys(this.keys.BACK_SPACE)

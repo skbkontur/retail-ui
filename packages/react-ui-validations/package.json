@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.4.3",
+  "version": "1.5.1",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -16,7 +16,7 @@
     "deploy:retail-ui": "yarn --cwd ./build/retail-ui-dist publish --non-interactive",
     "deploy:react-ui": "yarn --cwd ./build/react-ui-dist publish --non-interactive",
     "deploy:docs": "gh-pages -a -d dist -r git@github.com:skbkontur/react-ui-validations.git",
-    "storybook": "start-storybook -p 8081",
+    "storybook": "cross-env STORYBOOK_REACT_UI_TEST=true start-storybook -p 8081",
     "start:docs": "webpack-dev-server -d --config webpack.docs.config.js --hot",
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit --diagnostics",

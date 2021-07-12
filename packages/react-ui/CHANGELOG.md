@@ -3,6 +3,38 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.2.0...@skbkontur/react-ui@3.2.1) (2021-06-29)
+
+
+### Bug Fixes
+
+* **Modal,SidePage,HideBodyVerticalScroll:** fix performance issue ([7bd9ce6](https://github.com/skbkontur/retail-ui/commit/7bd9ce6974c2eea18537b15c6a6ee1a6e6a0a351))
+* **react-ui:** add new env vars for animation disabling ([9840822](https://github.com/skbkontur/retail-ui/commit/98408221c0d80ce24cf8da8a5cdbc96fee365519))
+
+
+
+
+
+# [3.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.1.0...@skbkontur/react-ui@3.2.0) (2021-06-22)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** double click and deselection by click ([#2366](https://github.com/skbkontur/retail-ui/issues/2366)) ([6346d85](https://github.com/skbkontur/retail-ui/commit/6346d850b7cda6926470eb9d01841f2ffb86b5e1))
+* **Modal:** fix shadows and footer color ([#2442](https://github.com/skbkontur/retail-ui/issues/2442)) ([94064bc](https://github.com/skbkontur/retail-ui/commit/94064bc8ea613f0caac806e25eb6584849ae7d95))
+* **Popup:** don't squash content if it doesn't fit in the viewport ([#2433](https://github.com/skbkontur/retail-ui/issues/2433)) ([098a5bf](https://github.com/skbkontur/retail-ui/commit/098a5bff2de098f584dd9c5e48c1e3f3a7e5f746))
+* **SidePage:** fix shadows and footer color ([#2446](https://github.com/skbkontur/retail-ui/issues/2446)) ([6b925e6](https://github.com/skbkontur/retail-ui/commit/6b925e6464f01323172e27b692dbc2278efa902d))
+
+
+### Features
+
+* **Kebab:** add custom icon ([da3a23c](https://github.com/skbkontur/retail-ui/commit/da3a23c9f2863565120d98cb43bbad5e57303e85))
+* **react-ui:** support webpack 5 ([3b20af0](https://github.com/skbkontur/retail-ui/commit/3b20af0a0b9b9455fd7f7594b27f6bf41c09eb80))
+
+
+
+
+
 # [3.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.0.0...@skbkontur/react-ui@3.1.0) (2021-06-09)
 
 

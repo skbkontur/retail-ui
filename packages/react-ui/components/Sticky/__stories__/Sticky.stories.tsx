@@ -139,6 +139,7 @@ Top.story = {
   decorators: [withThinContainer],
   parameters: {
     creevey: {
+      skip: [{ in: ['firefox', 'firefox8px'], tests: 'stoped', reason: 'flacky stopped position' }],
       tests: {
         async top() {
           await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
@@ -178,6 +179,7 @@ Bottom.story = {
   decorators: [withThinContainer],
   parameters: {
     creevey: {
+      skip: [{ in: ['firefox', 'firefox8px'], tests: 'stoped', reason: 'flacky stopped position' }],
       tests: {
         async bottom() {
           await this.browser.executeScript(function() {
