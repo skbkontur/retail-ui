@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { CSFStory } from 'creevey';
 
 import { SidePage } from '../SidePage';
@@ -837,30 +837,28 @@ WithLongTitleStory.story = {
   },
 };
 
+const SidePageHeader = () => <SidePage.Header>Header</SidePage.Header>;
+const SidePageBody = () => {
+  return (
+    <SidePage.Body>
+      <SidePage.Container>
+        {new Array(3).fill(textSample).map((item, index) => (
+          <div key={index}>{item}</div>
+        ))}
+      </SidePage.Container>
+    </SidePage.Body>
+  );
+};
+const SidePageFooter = (data: { hasPanel: boolean }) => <SidePage.Footer panel={data.hasPanel}>Footer</SidePage.Footer>;
+
 export const SidePageWithChildrenFromOtherComponent: CSFStory<JSX.Element> = () => {
   const [hasHeader, setHasHeader] = useState(false);
   const [hasFooter, setHasFooter] = useState(false);
   const [hasPanel, setHasPanel] = useState(false);
 
-  const handleHeaderButton = () => setHasHeader(!hasHeader);
-  const handleFooterButton = () => setHasFooter(!hasFooter);
-  const handlePanelButton = () => setHasPanel(!hasPanel);
-
-  const SidePageHeader = () => <SidePage.Header>Header</SidePage.Header>;
-
-  const SidePageBody = () => {
-    return (
-      <SidePage.Body>
-        <SidePage.Container>
-          {new Array(3).fill(textSample).map((item, index) => (
-            <p key={index}>{item}</p>
-          ))}
-        </SidePage.Container>
-      </SidePage.Body>
-    );
-  };
-
-  const SidePageFooter = ({ hasPanel = false }) => <SidePage.Footer panel={hasPanel}>Footer</SidePage.Footer>;
+  const handleHeaderButton = useCallback(() => setHasHeader(!hasHeader), [setHasHeader, hasHeader]);
+  const handleFooterButton = useCallback(() => setHasFooter(!hasFooter), [setHasFooter, hasFooter]);
+  const handlePanelButton = useCallback(() => setHasPanel(!hasPanel), [setHasPanel, hasPanel]);
 
   return (
     <>
