@@ -105,7 +105,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
           })}
           onClick={requestClose}
           data-tid="SidePage__close"
-          tabIndex={0}
         >
           <span
             className={cn(jsStyles.closeIcon(this.theme), {
