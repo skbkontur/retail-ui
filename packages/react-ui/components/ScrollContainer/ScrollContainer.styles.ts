@@ -64,7 +64,7 @@ const styles = {
         display: block;
         left: 1px;
         position: absolute;
-        right: 1px;
+        right: 12px;
         top: 0;
       }
     `;

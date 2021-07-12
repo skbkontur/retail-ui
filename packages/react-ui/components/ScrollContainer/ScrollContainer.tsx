@@ -425,7 +425,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
 
     this.setHoverScrollY(right <= 12);
-    this.setHoverScrollX(bottom <= 12);
+    this.setHoverScrollX(right >= 12 && bottom <= 12);
   };
 
   private handleMouseLeave = () => {
