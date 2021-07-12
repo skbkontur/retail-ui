@@ -1,7 +1,7 @@
 # 2021
 
 - <input type="checkbox" readonly/> Старт поддержки мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
-
+- <input type="checkbox" readonly/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18
 
 ### 3.0 Май 2021
 
