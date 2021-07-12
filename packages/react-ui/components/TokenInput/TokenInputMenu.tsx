@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup } from '../../internal/Popup';
+import { DropdownContainer} from '../../internal/DropdownContainer';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
@@ -10,6 +11,8 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
+  wrapper: HTMLLabelElement | null;
+  showDropdownMenu?: boolean;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -44,6 +47,39 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
   public getMenuRef = (): any | null => this.menu;
 
   private renderMain() {
+    const { showDropdownMenu } = this.props;
+
+    return (
+      showDropdownMenu ? this.renderDropdownMenu() : this.renderPopupMenu()
+    );
+  }
+
+  private renderPopupMenu() {
+    const { opened } = this.props;
+    return (
+      <Popup
+        opened={opened!}
+        positions={['bottom left']}
+        anchorElement={this.props.anchorElement}
+        popupOffset={5}
+        hasShadow={is8pxTheme(this.theme)}
+      >
+        {this.renderComboBoxMenu()}
+      </Popup>
+    )
+  }
+
+  private renderDropdownMenu() {
+    return (
+      <DropdownContainer
+        getParent={() => this.props.wrapper}
+        offsetY={1}
+      >
+        {this.renderComboBoxMenu()}
+      </DropdownContainer>
+    )
+  }
+  private renderComboBoxMenu() {
     const {
       loading,
       maxMenuHeight,
@@ -56,30 +92,21 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       onValueChange,
       renderAddButton,
     } = this.props;
-
     return (
-      <Popup
-        opened={opened!}
-        positions={['bottom left']}
-        anchorElement={this.props.anchorElement}
-        popupOffset={5}
-        hasShadow={is8pxTheme(this.theme)}
-      >
-        <ComboBoxMenu
-          items={items}
-          loading={loading}
-          maxMenuHeight={maxMenuHeight}
-          onValueChange={onValueChange}
-          opened={opened}
-          refMenu={this.menuRef}
-          renderTotalCount={renderTotalCount}
-          renderItem={renderItem}
-          renderNotFound={renderNotFound}
-          totalCount={totalCount}
-          renderAddButton={renderAddButton}
-        />
-      </Popup>
-    );
+      <ComboBoxMenu
+        items={items}
+        loading={loading}
+        maxMenuHeight={maxMenuHeight}
+        onValueChange={onValueChange}
+        opened={opened}
+        refMenu={this.menuRef}
+        renderTotalCount={renderTotalCount}
+        renderItem={renderItem}
+        renderNotFound={renderNotFound}
+        totalCount={totalCount}
+        renderAddButton={renderAddButton}
+      />
+    )
   }
 
   private getPopupMargin = (): number => {
