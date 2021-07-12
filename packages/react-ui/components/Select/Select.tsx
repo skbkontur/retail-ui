@@ -29,7 +29,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { breakpointsMQS } from '../../lib/client';
+import { breakpointsMQS, canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
 
 import { Item } from './Item';
@@ -146,6 +146,7 @@ export interface SelectState<TValue> {
   searchPattern: string;
   value: Nullable<TValue>;
   mobileMenuHeaderHeight: number;
+  isMobileLayout: boolean;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -205,6 +206,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     value: this.props.defaultValue,
     searchPattern: '',
     mobileMenuHeaderHeight: 0,
+    isMobileLayout: false,
   };
 
   private theme!: Theme;
@@ -212,7 +214,15 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
-  private isMobileLayout = window.matchMedia(breakpointsMQS.sm).matches;
+
+  public componentDidMount() {
+    // for SSR, see https://reactjs.org/docs/react-dom.html#hydrate
+    if (canUseDOM && window.matchMedia(breakpointsMQS.sm).matches) {
+      this.setState({
+        isMobileLayout: true,
+      });
+    }
+  }
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -273,6 +283,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const { label, isPlaceholder } = this.renderLabel();
+    const { isMobileLayout } = this.state;
 
     const buttonParams: ButtonParams = {
       opened: this.state.opened,
@@ -299,7 +310,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             </span>
           </RenderLayer>
         </CommonWrapper>
-        {this.isMobileLayout && this.state.opened && <div className={jsStyles.bg(this.theme)} />}
+        {isMobileLayout && this.state.opened && <div className={jsStyles.bg(this.theme)} />}
       </>
     );
   }
@@ -394,6 +405,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private renderMenu(): React.ReactNode {
+    const { isMobileLayout } = this.state;
     const search = this.props.search ? (
       <div className={jsStyles.search()}>
         <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
@@ -405,16 +417,16 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const menu = (
       <Menu
         ref={this.refMenu}
-        width={this.isMobileLayout ? '100%' : this.props.menuWidth}
+        width={isMobileLayout ? '100%' : this.props.menuWidth}
         onItemClick={this.close}
         maxHeight={
           this.props.maxMenuHeight ||
-          (this.isMobileLayout
+          (isMobileLayout
             ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${search ? 0 : MOBILE_MENU_TOP_PADDING}px)`
             : undefined)
         }
       >
-        {!this.isMobileLayout && search}
+        {!isMobileLayout && search}
         {this.mapItems(
           (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
             if (isFunction(item)) {
@@ -446,7 +458,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       </Menu>
     );
 
-    if (this.isMobileLayout) {
+    if (isMobileLayout) {
       return (
         <div
           className={cn({
