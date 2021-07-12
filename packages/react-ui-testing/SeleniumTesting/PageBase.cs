@@ -4,14 +4,13 @@ using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Remote;
-
 using SKBKontur.SeleniumTesting.Internals;
 
 namespace SKBKontur.SeleniumTesting
 {
     public class PageBase : ISearchContainer, IRetailUiVersionProvider
     {
-        public PageBase(RemoteWebDriver webDriver)
+        public PageBase(IWebDriver webDriver)
         {
             this.webDriver = webDriver;
             ExecuteInitAction();
@@ -39,8 +38,9 @@ namespace SKBKontur.SeleniumTesting
                 throw new ArgumentException("script");
             try
             {
-                webDriver.ExecuteScript("window.callArgs = arguments", arguments);
-                return webDriver.ExecuteScript(script, arguments);
+                var javaScriptExecutor = (IJavaScriptExecutor) webDriver;
+                javaScriptExecutor.ExecuteScript("window.callArgs = arguments", arguments);
+                return javaScriptExecutor.ExecuteScript(script, arguments);
             }
             catch(StaleElementReferenceException)
             {
@@ -79,7 +79,7 @@ namespace SKBKontur.SeleniumTesting
             return new Actions(webDriver);
         }
 
-        public RemoteWebDriver DangerousGetWebDriverInstance()
+        public IWebDriver DangerousGetWebDriverInstance()
         {
             return webDriver;
         }
@@ -89,7 +89,7 @@ namespace SKBKontur.SeleniumTesting
             return InitializePage<TPage>(webDriver);
         }
 
-        public static TPage InitializePage<TPage>(RemoteWebDriver webDriver) where TPage : PageBase
+        public static TPage InitializePage<TPage>(IWebDriver webDriver) where TPage : PageBase
         {
             TPage page = (TPage)Activator.CreateInstance(typeof(TPage), webDriver);
             page.WaitLoaded();
@@ -101,6 +101,6 @@ namespace SKBKontur.SeleniumTesting
             return ExecuteScript("return window.__RETAIL_UI_VERSION__ || ''") as string;
         }
 
-        protected internal RemoteWebDriver webDriver;
+        protected internal IWebDriver webDriver;
     }
 }
