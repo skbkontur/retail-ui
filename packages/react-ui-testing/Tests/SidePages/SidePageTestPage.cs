@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.SidePages
     [AutoFillControls]
     public class SidePageTestPage: PageBase
     {
-        public SidePageTestPage(RemoteWebDriver webDriver)
+        public SidePageTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }
