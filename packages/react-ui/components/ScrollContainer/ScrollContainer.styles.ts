@@ -1,19 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const customScroll = css`
-  &::after {
-    background: #b7b7b7;
-    border-radius: 5px;
-    bottom: 1px;
-    content: '';
-    display: block;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 1px;
-  }
-`;
-
 const styles = {
   root() {
     return css`
@@ -42,7 +28,17 @@ const styles = {
       width: 4px;
       z-index: 200;
 
-      ${customScroll}
+      &::after {
+        background: #b7b7b7;
+        border-radius: 5px;
+        bottom: 1px;
+        content: '';
+        display: block;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 1px;
+      }
     `;
   },
 
@@ -57,16 +53,26 @@ const styles = {
       position: absolute;
       bottom: 2px;
       transition: height 0.2s;
-      height: 6px;
+      height: 4px;
       z-index: 200;
 
-      ${customScroll}
+      &::after {
+        background: #b7b7b7;
+        border-radius: 5px;
+        bottom: 0px;
+        content: '';
+        display: block;
+        left: 1px;
+        position: absolute;
+        right: 1px;
+        top: 0;
+      }
     `;
   },
 
   scrollXHover() {
     return css`
-      height: 12px;
+      height: 10px;
     `;
   },
 
