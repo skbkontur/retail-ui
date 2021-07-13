@@ -11,9 +11,7 @@ const styles = {
 
   inner() {
     return css`
-      margin-bottom: -1px;
-      max-height: 100%;
-
+      height: calc(100% + 10px);
       /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       padding-bottom: 1px;
       overflow: scroll;

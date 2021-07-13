@@ -9,7 +9,7 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
 
   const scrollActive = containerSize < contentSize;
 
-  containerSize -= HIDE_SCROLLBAR_OFFSET;
+  containerSize -= HIDE_SCROLLBAR_OFFSET - 10;
 
   let scrollSize = 0;
   let scrollPos = 0;
