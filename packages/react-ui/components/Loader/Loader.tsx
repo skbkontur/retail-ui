@@ -290,8 +290,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       return;
     }
 
-    this.clearSpinnersTimeouts();
-
     this.timeoutBeforeSpinnerShow = setTimeout(() => {
       if (this.props.active) {
         this.setState({
@@ -299,14 +297,18 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
           needShowSpinnerMinimalTime: true,
         });
       }
+      this.timeoutBeforeSpinnerShow && clearTimeout(this.timeoutBeforeSpinnerShow);
     }, this.props.delayBeforeSpinnerShow);
 
-    this.timeoutBeforeSpinnerHide = setTimeout(() => {
-      this.setState({ needShowSpinnerMinimalTime: false });
-      if (!this.props.active) {
-        this.setState({ isSpinnerVisible: false });
-      }
-    }, Number(this.props.delayBeforeSpinnerShow) + Number(this.props.minimalDelayBeforeSpinnerHide));
+    if (!this.timeoutBeforeSpinnerHide) {
+      this.timeoutBeforeSpinnerHide = setTimeout(() => {
+        this.setState({ needShowSpinnerMinimalTime: false });
+        if (!this.props.active) {
+          this.setState({ isSpinnerVisible: false });
+        }
+        this.timeoutBeforeSpinnerHide && clearTimeout(this.timeoutBeforeSpinnerHide);
+      }, Number(this.props.delayBeforeSpinnerShow) + Number(this.props.minimalDelayBeforeSpinnerHide));
+    }
   };
 
   private clearSpinnersTimeouts = () => {
