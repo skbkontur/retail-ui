@@ -272,13 +272,11 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 2. Добавить сценарий в параметры story
 
 ```javascript
-ButtonWithError.story = {
-  parameters: {
+ButtonWithError.parameters = {
     creevey: {
       tests: {
         async idle() {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        }
       },
     },
   },
