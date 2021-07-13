@@ -1,3 +1,4 @@
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 const styles = {
@@ -11,10 +12,22 @@ const styles = {
 
   inner() {
     return css`
-      height: calc(100% + 10px);
+      position: relative;
+      height: calc(100% + ${getScrollWidth()}px);
       /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       padding-bottom: 1px;
       overflow: scroll;
+    `;
+  },
+
+  bottomIndent() {
+    return css`
+      &::after {
+        content: '';
+        width: 100%;
+        height: 13px;
+        position: absolute;
+      }
     `;
   },
 

@@ -66,12 +66,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const scrollY = this.renderScroll('scrollY');
     const scrollX = this.renderScroll('scrollX');
 
-    const padding = HIDE_SCROLL_Y_OFFSET - getScrollWidth();
-
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
-      // hide vertical and horizontal scrollbar with a little extra spac
-      padding: `0 ${padding}px ${padding}px 0`,
+      // hide vertical scrollbar with a little extra spac
+      paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
       marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
     };
 
@@ -92,7 +90,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           {scrollX}
           <div
             data-tid="ScrollContainer__inner"
-            className={jsStyles.inner()}
+            className={cn({
+              [jsStyles.inner()]: true,
+              [jsStyles.bottomIndent()]: this.state.scrollX.active,
+            })}
             style={innerStyle}
             ref={this.refInner}
             onScroll={this.handleNativeScroll}

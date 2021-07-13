@@ -1,15 +1,15 @@
-import { MIN_SCROLL_SIZE, HIDE_SCROLL_Y_OFFSET, scrollSizeParameterName } from './ScrollContainer.constants';
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+
+import { MIN_SCROLL_SIZE, scrollSizeParameterName, HIDE_SCROLL_Y_OFFSET } from './ScrollContainer.constants';
 
 export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   const { offset, size, pos } = scrollSizeParameterName[axis];
 
   const contentSize = inner[size];
   const scrollOffset = inner[pos];
-  let containerSize = inner[offset];
+  const containerSize = inner[offset] - (axis === 'y' ? getScrollWidth() : HIDE_SCROLL_Y_OFFSET);
 
   const scrollActive = containerSize < contentSize;
-
-  containerSize -= HIDE_SCROLL_Y_OFFSET;
 
   let scrollSize = 0;
   let scrollPos = 0;
