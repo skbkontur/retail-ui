@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.LinkTests
     [AutoFillControls]
     public class LinkTestPage : PageBase
     {
-        public LinkTestPage(RemoteWebDriver webDriver)
+        public LinkTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }
