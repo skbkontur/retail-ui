@@ -1,5 +1,4 @@
 import React from 'react';
-import { DecoratorFn } from '@storybook/react';
 
 import { Story } from '../../../typings/stories';
 import { Sticky } from '../Sticky';
@@ -107,7 +106,11 @@ function StickyWithWideContainer() {
   );
 }
 
-const withThinContainer: DecoratorFn = story => <div style={{ width: 200 }}>{story()}</div>;
+const withThinContainer = (Story: Story) => (
+  <div style={{ width: 200 }}>
+    <Story />
+  </div>
+);
 
 export default { title: 'Sticky' };
 
