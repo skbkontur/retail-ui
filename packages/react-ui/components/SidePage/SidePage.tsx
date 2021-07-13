@@ -22,7 +22,6 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { jsStyles } from './SidePage.styles';
-import { isFooter, isHeader } from './helpers';
 
 export interface SidePageProps extends CommonProps {
   /**
@@ -75,6 +74,9 @@ export interface SidePageState {
   hasMargin?: boolean;
   hasShadow?: boolean;
   hasBackground?: boolean;
+  hasHeader: boolean;
+  hasFooter: boolean;
+  hasPanel: boolean;
 }
 
 const TRANSITION_TIMEOUT = 200;
@@ -95,7 +97,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Body = SidePageBody;
   public static Footer = SidePageFooter;
   public static Container = SidePageContainer;
-  public state: SidePageState = {};
+  public state: SidePageState = {
+    hasHeader: false,
+    hasFooter: false,
+    hasPanel: false,
+  };
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
@@ -202,33 +208,18 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getSidePageContextProps = (): SidePageContextType => {
-    let hasHeader = false;
-    let hasFooter = false;
-    let hasPanel = false;
-
-    React.Children.toArray(this.props.children).forEach(child => {
-      if (isHeader(child)) {
-        hasHeader = true;
-      }
-      if (isFooter(child)) {
-        hasFooter = true;
-        if (child.props.panel) {
-          hasPanel = true;
-        }
-      }
-    });
-
-    const sidePageContextProps: SidePageContextType = {
-      hasHeader,
-      hasFooter,
-      hasPanel,
+    return {
+      hasHeader: this.state.hasHeader,
+      hasFooter: this.state.hasFooter,
+      hasPanel: this.state.hasPanel,
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
       footerRef: this.footerRef,
+      setHasHeader: this.setHasHeader,
+      setHasFooter: this.setHasFooter,
+      setHasPanel: this.setHasPanel,
     };
-
-    return sidePageContextProps;
   };
 
   private getWidth = () => {
@@ -327,5 +318,17 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private footerRef = (ref: SidePageFooter | null) => {
     this.footer = ref;
+  };
+
+  private setHasHeader = (hasHeader = true) => {
+    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  };
+
+  private setHasFooter = (hasFooter = true) => {
+    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  };
+
+  private setHasPanel = (hasPanel = false) => {
+    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   };
 }
