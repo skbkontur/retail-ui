@@ -9,6 +9,11 @@ const styles = {
       background: ${t.menuBgDefault};
       padding: 12px 16px 24px;
       border-radius: 8px 8px 0px 0px;
+    `;
+  },
+
+  withShadow() {
+    return css`
       box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1);
     `;
   },

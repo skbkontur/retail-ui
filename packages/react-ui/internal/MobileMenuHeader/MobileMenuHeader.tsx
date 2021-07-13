@@ -20,6 +20,7 @@ interface MobileMenuHeaderProps {
    * Убрать бордер-радиусы
    */
   withoutBorderRadius?: boolean;
+  withShadow?: boolean;
 }
 
 export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
@@ -46,12 +47,13 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
   }
 
   private renderMain() {
-    const { caption, childComponent } = this.props;
+    const { caption, childComponent, withShadow } = this.props;
     return (
       <div
         className={cn({
           [jsStyles.root(this.theme)]: true,
           [jsStyles.withoutBorderRadius()]: this.props.withoutBorderRadius,
+          [jsStyles.withShadow()]: withShadow,
         })}
         ref={el => (this.rootDiv = el)}
       >

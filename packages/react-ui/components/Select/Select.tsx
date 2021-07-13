@@ -147,6 +147,7 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
   mobileMenuHeaderHeight: number;
   isMobileLayout: boolean;
+  isScrolled: boolean;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -207,6 +208,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     searchPattern: '',
     mobileMenuHeaderHeight: 0,
     isMobileLayout: false,
+    isScrolled: false,
   };
 
   private theme!: Theme;
@@ -220,6 +222,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     if (canUseDOM && window.matchMedia(breakpointsMQS.sm).matches) {
       this.setState({
         isMobileLayout: true,
+        isScrolled: this.menu ? this.menu.isScrolled : false,
       });
     }
   }
@@ -425,6 +428,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${search ? 0 : MOBILE_MENU_TOP_PADDING}px)`
             : undefined)
         }
+        onScroll={this.handleScroll}
       >
         {!isMobileLayout && search}
         {this.mapItems(
@@ -474,6 +478,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             }}
             childComponent={search || undefined}
             withoutBorderRadius={Boolean(search)}
+            withShadow={this.state.isScrolled}
           />
           {menu}
         </div>
@@ -491,6 +496,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       </DropdownContainer>
     );
   }
+
+  private handleScroll = () => {
+    const { menu } = this;
+
+    if (menu && menu.isScrolled !== this.state.isScrolled && this.state.isMobileLayout) {
+      this.setState({ isScrolled: menu.isScrolled });
+    }
+  };
 
   private dropdownContainerGetParent = () => {
     return ReactDOM.findDOMNode(this);
