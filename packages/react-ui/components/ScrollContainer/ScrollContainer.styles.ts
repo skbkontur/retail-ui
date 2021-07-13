@@ -25,7 +25,7 @@ const styles = {
       &::after {
         content: '';
         width: 100%;
-        height: 13px;
+        height: 12px;
         position: absolute;
       }
     `;
@@ -62,7 +62,7 @@ const styles = {
   scrollX() {
     return css`
       position: absolute;
-      bottom: 2px;
+      bottom: 1px;
       transition: height 0.2s;
       height: 4px;
       z-index: 200;
