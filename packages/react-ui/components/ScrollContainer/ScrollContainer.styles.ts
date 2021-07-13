@@ -62,7 +62,7 @@ const styles = {
         display: block;
         left: 1px;
         position: absolute;
-        right: 12px;
+        right: 6px;
         top: 0;
       }
     `;

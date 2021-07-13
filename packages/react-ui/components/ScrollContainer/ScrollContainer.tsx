@@ -73,7 +73,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       // hide vertical and horizontal scrollbar with a little extra spac
       padding: `0 ${padding}px ${padding}px 0`,
       marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
-      // height: `calc(100% + ${this.state.scrollX.active ? 10 : 15}px)`,
     };
 
     const wrapperStyle: React.CSSProperties = {
@@ -449,10 +448,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private getImmediateScrollState(): ScrollContainerScrollState {
     if (!this.inner || this.inner.scrollTop === 0) {
       return 'top';
-    } else if (this.inner.scrollTop === this.inner.scrollHeight - this.inner.clientHeight) {
-      return 'bottom';
-    } else {
-      return 'scroll';
     }
+
+    const bottom = Math.abs(this.inner.scrollTop - (this.inner.scrollHeight - this.inner.clientHeight));
+
+    if (bottom < 1) {
+      return 'bottom';
+    }
+
+    return 'scroll';
   }
 }
