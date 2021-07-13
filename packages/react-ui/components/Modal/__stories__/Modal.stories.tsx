@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
-import { Story } from '../../../typings/stories';
+import { CreeveyTests, Story } from '../../../typings/stories';
 import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -594,6 +594,34 @@ ModalWithVariableHeightOfContent.parameters = {
   },
 };
 
+const TopMiddleBottomModalTests: CreeveyTests = {
+  async top() {
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+  },
+  async middle() {
+    await this.browser.executeScript(function () {
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+
+      // @ts-ignore
+      modalContainer.scrollTop = modalContent.offsetHeight / 2;
+    });
+    await delay(100);
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
+  },
+  async bottom() {
+    await this.browser.executeScript(function () {
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+
+      // @ts-ignore
+      modalContainer.scrollTop = modalContent.offsetHeight;
+    });
+    await delay(100);
+    await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+  },
+};
+
 export const ModalWithoutStickyElements: Story = () => (
   <Modal>
     <Modal.Header sticky={false}>Header</Modal.Header>
@@ -607,37 +635,7 @@ export const ModalWithoutStickyElements: Story = () => (
 );
 ModalWithoutStickyElements.storyName = 'Modal without sticky elements';
 
-ModalWithoutStickyElements.parameters = {
-  creevey: {
-    tests: {
-      async top() {
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
-      },
-      async middle() {
-        await this.browser.executeScript(function() {
-          const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-          const modalContent = window.document.querySelector('[data-tid="modal-content"]');
-
-          // @ts-ignore
-          modalContainer.scrollTop = modalContent.offsetHeight / 2;
-        });
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
-      },
-      async bottom() {
-        await this.browser.executeScript(function() {
-          const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-          const modalContent = window.document.querySelector('[data-tid="modal-content"]');
-
-          // @ts-ignore
-          modalContainer.scrollTop = modalContent.offsetHeight;
-        });
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
-      },
-    },
-  },
-};
+ModalWithoutStickyElements.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
 
 export const WithAlignTop = () => (
   <Modal alignTop={true}>
@@ -756,3 +754,23 @@ export const AlignCenterAndNoClose = () => (
   </Modal>
 );
 AlignCenterAndNoClose.parameters = { creevey: { captureElement: null } };
+
+const Header = () => <Modal.Header>Header</Modal.Header>;
+const Body = () => (
+  <Modal.Body>
+    {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
+      <p key={index}>{item}</p>
+    ))}
+  </Modal.Body>
+);
+const Footer = () => <Modal.Footer panel>Footer</Modal.Footer>;
+
+export const ModalWithChildrenFromOtherComponent = () => (
+  <Modal>
+    <Header />
+    <Body />
+    <Footer />
+  </Modal>
+);
+
+ModalWithChildrenFromOtherComponent.parameters = { creevey: { tests: TopMiddleBottomModalTests } };

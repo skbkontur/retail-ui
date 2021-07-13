@@ -54,7 +54,9 @@
     "test:watch": "yarn test --watch",
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ http-get://localhost:6062/ http-get://localhost:6061/ http-get://localhost:6063/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
     "creevey:ui": "yarn creevey --ui",
-    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
+    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html",
+    "prettier:check": "yarn prettier --check .",
+    "prettier:fix": "yarn prettier --write ."
   },
   "license": "MIT",
   "dependencies": {
@@ -129,7 +131,7 @@
     "jest-teamcity-reporter": "^0.9.0",
     "npm-run-all": "^4.1.5",
     "output-file-sync": "^2.0.1",
-    "prettier": "^1.14.2",
+    "prettier": "2.3.2",
     "react": "16.14.0",
     "react-docgen-typescript": "^1.22.0",
     "react-dom": "^16.14.0",
