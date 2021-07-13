@@ -69,14 +69,15 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const padding = HIDE_SCROLLBAR_OFFSET - getScrollWidth();
 
     const innerStyle: React.CSSProperties = {
-      maxHeight: props.maxHeight,
       scrollBehavior: props.scrollBehaviour,
-      // hide vertical and horizontal scrollbar with a little extra space
+      // hide vertical and horizontal scrollbar with a little extra spac
       padding: `0 ${padding}px ${padding}px 0`,
-      margin: `0 -${HIDE_SCROLLBAR_OFFSET}px -${HIDE_SCROLLBAR_OFFSET}px 0`,
+      marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
+      // height: `calc(100% + ${this.state.scrollX.active ? 10 : 15}px)`,
     };
 
     const wrapperStyle: React.CSSProperties = {
+      maxHeight: props.maxHeight,
       maxWidth: props.maxWidth,
     };
 

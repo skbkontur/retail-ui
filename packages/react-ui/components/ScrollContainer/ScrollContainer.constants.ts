@@ -1,6 +1,6 @@
 import { ScrollState } from './ScrollContainer.types';
 
-export const HIDE_SCROLLBAR_OFFSET = 20;
+export const HIDE_SCROLLBAR_OFFSET = 30;
 export const MIN_SCROLL_SIZE = 20;
 
 export const defaultScrollState: ScrollState = {
