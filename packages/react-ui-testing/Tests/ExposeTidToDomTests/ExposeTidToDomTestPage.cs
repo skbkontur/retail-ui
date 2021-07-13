@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
     [AutoFillControls]
     public class ExposeTidToDomTestPage : PageBase
     {
-        public ExposeTidToDomTestPage(RemoteWebDriver webDriver)
+        public ExposeTidToDomTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

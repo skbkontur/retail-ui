@@ -1,11 +1,11 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium;
 
 namespace SKBKontur.SeleniumTesting.Tests.PageActionAttributesTests.PageActionAttributes
 {
     [TestPageAction("Root")]
     public class PageActionAttributeTestPage : Base1PageBase, IPageInterface
     {
-        public PageActionAttributeTestPage(RemoteWebDriver webDriver)
+        public PageActionAttributeTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }
