@@ -10,6 +10,8 @@ import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 
+const themes = { DEFAULT_THEME, FLAT_THEME, DEFAULT_THEME_OLD, FLAT_THEME_OLD };
+
 setFilter(fiber => {
   // Транслируем все пропы только для контролов
   const isControlComponent = !!findAmongParents(
@@ -25,27 +27,19 @@ setFilter(fiber => {
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
-    const getTheme = theme => {
-      switch (theme) {
-        case 'DefaultOld':
-          return DEFAULT_THEME_OLD;
-        case 'Flat':
-          return FLAT_THEME;
-        case 'FlatOld':
-          return FLAT_THEME_OLD;
-        default:
-          return DEFAULT_THEME;
-      }
-    };
-    const theme = getTheme(context.globals.theme);
+    const theme = themes[context.globals.theme] || DEFAULT_THEME;
     if (theme !== DEFAULT_THEME) {
-      return <ThemeContext.Provider value={theme}>{<Story />}</ThemeContext.Provider>;
+      return (
+        <ThemeContext.Provider value={theme}>
+          <Story />
+        </ThemeContext.Provider>
+      );
     }
     return <Story />;
   },
   Story => (
     <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
-      {<Story />}
+      <Story />
     </div>
   ),
 ];
@@ -69,10 +63,10 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'Default',
+    defaultValue: 'DEFAULT_THEME',
     toolbar: {
       icon: 'paintbrush',
-      items: ['Default', 'DefaultOld', 'Flat', 'FlatOld'],
+      items: Object.keys(themes),
       showName: true,
     },
   },

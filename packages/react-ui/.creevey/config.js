@@ -19,7 +19,7 @@ const config = {
       platformName: 'linux',
       limit: 2,
       _storybookGlobals: {
-        theme: 'DefaultOld',
+        theme: 'DEFAULT_THEME_OLD',
       },
     },
     chrome8px: {
@@ -28,7 +28,7 @@ const config = {
       platformName: 'linux',
       limit: 2,
       _storybookGlobals: {
-        theme: 'Default',
+        theme: 'DEFAULT_THEME',
       },
     },
     chromeFlat: {
@@ -37,7 +37,7 @@ const config = {
       platformName: 'linux',
       limit: 2,
       _storybookGlobals: {
-        theme: 'FlatOld',
+        theme: 'FLAT_THEME_OLD',
       },
     },
     chromeFlat8px: {
@@ -46,7 +46,7 @@ const config = {
       platformName: 'linux',
       limit: 2,
       _storybookGlobals: {
-        theme: 'Flat',
+        theme: 'FLAT_THEME',
       },
     },
     firefox: {
@@ -54,7 +54,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'DefaultOld',
+        theme: 'DEFAULT_THEME_OLD',
       },
     },
     firefox8px: {
@@ -62,7 +62,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'Default',
+        theme: 'DEFAULT_THEME',
       },
     },
     firefoxFlat: {
@@ -70,7 +70,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'FlatOld',
+        theme: 'FLAT_THEME_OLD',
       },
     },
     firefoxFlat8px: {
@@ -78,7 +78,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'Flat',
+        theme: 'FLAT_THEME',
       },
     },
     ie11: {
@@ -86,7 +86,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'DefaultOld',
+        theme: 'DEFAULT_THEME_OLD',
       },
 
       // NOTE Enable after switch new separate pool for IE to allow test hover
@@ -104,7 +104,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'Default',
+        theme: 'DEFAULT_THEME',
       },
     },
     ie11Flat: {
@@ -112,7 +112,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'FlatOld',
+        theme: 'FLAT_THEME_OLD',
       },
     },
     ie11Flat8px: {
@@ -120,7 +120,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       limit: 2,
       _storybookGlobals: {
-        theme: 'Flat',
+        theme: 'FLAT_THEME',
       },
     },
   },
