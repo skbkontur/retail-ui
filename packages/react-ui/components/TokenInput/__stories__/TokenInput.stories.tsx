@@ -167,6 +167,7 @@ class ColoredWrapper extends React.Component<any, any> {
 
 const FilledWrapper = (props: any) => <Wrapper {...{ ...props, numberItems: 7 }} />;
 
+
 export default {
   title: 'TokenInput',
   decorators: [FixedWidthDecorator],
@@ -183,6 +184,33 @@ export const Validations = () => {
   );
 };
 Validations.story = { name: 'validations', parameters: { creevey: { skip: [true] } } };
+
+export const DropdownMenu: CSFStory<JSX.Element> = () => {
+  return (
+    <Gapped vertical gap={10}>
+      <Wrapper showDropdownMenu={true} getItems={getItems} />
+    </Gapped>
+  );
+};
+DropdownMenu.story = {
+  name: 'dropdown menu',
+  parameters: {
+    creevey: {
+      tests: {
+        async selectFirst() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
+      },
+    },
+  },
+};
 
 export const EmptyWithReference: CSFStory<JSX.Element> = () => {
   return <Wrapper getItems={getItems} />;
