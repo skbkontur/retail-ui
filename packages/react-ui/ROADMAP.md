@@ -1,18 +1,15 @@
 # 2021
 
-- <input type="checkbox" readonly/> Создание компонента Grid Layout
-- <input type="checkbox" readonly/> Объединить Popup/DropdownContainer [#913](https://github.com/skbkontur/retail-ui/issues/913)
-- <input type="checkbox" readonly/> Интеграция скриншотных тестов КЭвеба и CandyForms в релизный цикл
-- <input type="checkbox" readonly/> Переезд документации на Storybook
+- <input type="checkbox" readonly/> Старт поддержки мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
+- <input type="checkbox" readonly/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18
+
+### 3.0 Май 2021
+
+- <input type="checkbox" readonly checked/> Релиз версии 3.0 [#2123](https://github.com/skbkontur/retail-ui/issues/2123)
+- <input type="checkbox" readonly checked/> Второй этап поддержки 8px сетки по Контур.Гайдам [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
+
 
 # 2020
-
-- <input type="checkbox" readonly/> Релиз версии 3.0 [#2123](https://github.com/skbkontur/retail-ui/issues/2123)
-- <input type="checkbox" readonly/> Старт поддержки мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
-- <input type="checkbox" readonly/> Второй этап поддержки 8px сетки по Контур.Гайдам [#1733](https://github.com/skbkontur/retail-ui/issues/1733)
-- <input type="checkbox" readonly/> Второй этап дизайн-решения по сбору телеметрии — пакет react-ui-telemetry. [#1539](https://github.com/skbkontur/retail-ui/issues/1539)
-- <input type="checkbox" readonly/> Дизайн решения по отправке телеметрии. [#1566](https://github.com/skbkontur/retail-ui/issues/1566)
-- <input type="checkbox" readonly/> Встраивание метрик [#1555](https://github.com/skbkontur/retail-ui/issues/1555)
 
 
 ### 2.4 Август 2020
