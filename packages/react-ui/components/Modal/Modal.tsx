@@ -90,7 +90,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static propTypes = {
     children(props: ModalProps, propName: keyof ModalProps, componentName: string) {
       if (
-        React.Children.toArray(props[propName]).some(child => !isHeader(child) && !isBody(child) && !isFooter(child))
+        React.Children.toArray(props[propName]).some((child) => !isHeader(child) && !isBody(child) && !isFooter(child))
       ) {
         return new Error(
           `Only 'Header/Body/Footer' components are allowed for '${propName}' prop of '${componentName}' component`,
@@ -152,7 +152,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -165,7 +165,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     let hasFooter = false;
     let hasPanel = false;
 
-    React.Children.toArray(this.props.children).forEach(child => {
+    React.Children.toArray(this.props.children).forEach((child) => {
       if (isHeader(child)) {
         hasHeader = true;
       }

@@ -223,7 +223,7 @@ export const SelectAllByButton: CSFStory<JSX.Element> = () => {
         <Textarea
           spellCheck={false}
           defaultValue={TEXT_SAMPLE}
-          ref={element => {
+          ref={(element) => {
             textarea = element;
           }}
         />

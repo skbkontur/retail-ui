@@ -23,21 +23,23 @@ function ModalHeader(props: ModalHeaderProps) {
   const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
 
-  const renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
-    return (
-      <div
-        className={cn({
-          [jsStyles.header(theme)]: true,
-          [jsStyles.fixedHeader(theme)]: fixed,
-          [jsStyles.headerAddPadding()]: Boolean(additionalPadding),
-          [jsStyles.headerWithClose(theme)]: Boolean(close),
-        })}
-      >
-        {close && <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />}
-        {children}
-      </div>
-    );
-  };
+  const renderContent =
+    (close?: CloseProps, additionalPadding?: boolean) =>
+    (fixed = false) => {
+      return (
+        <div
+          className={cn({
+            [jsStyles.header(theme)]: true,
+            [jsStyles.fixedHeader(theme)]: fixed,
+            [jsStyles.headerAddPadding()]: Boolean(additionalPadding),
+            [jsStyles.headerWithClose(theme)]: Boolean(close),
+          })}
+        >
+          {close && <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />}
+          {children}
+        </div>
+      );
+    };
 
   return (
     <CommonWrapper {...props}>

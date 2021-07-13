@@ -21,7 +21,7 @@ class Component extends React.Component<any, any> {
         <Button data-tid={'JustButton'}>Just button</Button>
         <div id="RadioGroup-wrap" style={{ padding: 10 }}>
           <RadioGroup<string>
-            ref={element => (this._radioGroup = element)}
+            ref={(element) => (this._radioGroup = element)}
             value={this.state.value}
             onValueChange={this.handleValueChange}
             {...this.props}
@@ -134,7 +134,7 @@ Inline.story = {
 };
 
 export const WithRenderItem = () => (
-  <RadioGroup<string> items={['One', 'Two']} renderItem={x => <div>Value: {x}</div>} />
+  <RadioGroup<string> items={['One', 'Two']} renderItem={(x) => <div>Value: {x}</div>} />
 );
 WithRenderItem.story = { name: 'with renderItem', parameters: { creevey: { skip: [true] } } };
 

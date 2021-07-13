@@ -366,7 +366,7 @@ BlurAlwaysAfterChange.story = {
             // @ts-ignore
             window.OldDate = window.Date;
             // @ts-ignore
-            window.Date = function() {
+            window.Date = function () {
               // @ts-ignore
               return new window.OldDate(2000, 0, 1);
             };

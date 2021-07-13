@@ -51,7 +51,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

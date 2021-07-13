@@ -36,7 +36,7 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
       <div>
         <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
           <Checkbox
-            onValueChange={checked => this.setState({ checked })}
+            onValueChange={(checked) => this.setState({ checked })}
             checked={this.state.checked}
             initialIndeterminate
             ref={this.checkboxRef}
@@ -158,10 +158,7 @@ const checkboxTests: CreeveyStoryParams['tests'] = {
       .release()
       .sendKeys(this.keys.TAB)
       .perform();
-    await this.browser
-      .actions({ bridge: true })
-      .sendKeys(this.keys.SPACE)
-      .perform();
+    await this.browser.actions({ bridge: true }).sendKeys(this.keys.SPACE).perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('spacePress');
   },
 };
@@ -263,7 +260,7 @@ export const ProgrammaticFocus = () => {
 
   return (
     <div>
-      <Checkbox ref={el => (checkbox = el)}>Label</Checkbox>
+      <Checkbox ref={(el) => (checkbox = el)}>Label</Checkbox>
       <Gapped>
         <button onClick={focus}>Focus</button>
         <button onClick={blur}>Blur</button>

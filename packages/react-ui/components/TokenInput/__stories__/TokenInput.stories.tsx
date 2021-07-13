@@ -25,14 +25,14 @@ async function getItems(query: string) {
   if (!isTestEnv) {
     await delay(400);
   }
-  return ['aaa', 'bbb'].filter(s => s.includes(query));
+  return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
 
 async function getExtendedItems(query: string) {
   if (!isTestEnv) {
     await delay(400);
   }
-  return ['aaa', 'bbb', 'aaaccc', 'bbbttt'].filter(s => s.includes(query));
+  return ['aaa', 'bbb', 'aaaccc', 'bbbttt'].filter((s) => s.includes(query));
 }
 
 const getGenericItems: () => TokenModel[] = () => [
@@ -43,9 +43,9 @@ const getGenericItems: () => TokenModel[] = () => [
 ];
 
 async function getModelItems(query: string): Promise<TokenModel[]> {
-  const sleep = (milliseconds: number) => new Promise(resolve => setTimeout(resolve, milliseconds));
+  const sleep = (milliseconds: number) => new Promise((resolve) => setTimeout(resolve, milliseconds));
   await sleep(400);
-  return getGenericItems().filter(s => s.value.includes(query));
+  return getGenericItems().filter((s) => s.value.includes(query));
 }
 
 class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
@@ -64,7 +64,7 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
       <TokenInput
         {...this.props}
         selectedItems={this.state.selectedItems}
-        onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+        onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
         renderToken={(item, tokenProps) => (
           <Token key={item.toString()} {...tokenProps}>
             {item}
@@ -159,7 +159,7 @@ class ColoredWrapper extends React.Component<any, any> {
             </Token>
           );
         }}
-        onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+        onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
       />
     );
   }
@@ -432,7 +432,7 @@ export const CustomAddButton: CSFStory<JSX.Element> = () => {
     <TokenInput
       type={TokenInputType.Combined}
       getItems={getItems}
-      renderAddButton={value => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
+      renderAddButton={(value) => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
     />
   );
 };
@@ -488,13 +488,13 @@ export const OnUnexpectedInputValidation: CSFStory<JSX.Element> = () => {
       <TokenInput
         type={TokenInputType.Combined}
         getItems={getExtendedItems}
-        onValueChange={items => {
+        onValueChange={(items) => {
           setSelectedItems(items);
         }}
         onFocus={() => {
           resetValidation();
         }}
-        onInputValueChange={value => {
+        onInputValueChange={(value) => {
           if (value === '') {
             resetValidation();
           }

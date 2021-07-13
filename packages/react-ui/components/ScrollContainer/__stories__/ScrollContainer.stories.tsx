@@ -24,7 +24,7 @@ export const WithLargeContentHeight = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {getItems(1000).map(i => (
+        {getItems(1000).map((i) => (
           <div key={i}>{i}</div>
         ))}
       </ScrollContainer>
@@ -37,7 +37,7 @@ export const WithHorizontalScroll = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {getItems(100).map(i => (
+        {getItems(100).map((i) => (
           <div style={{ width: 200 }} key={i}>
             {i}
           </div>
@@ -82,7 +82,7 @@ export const WithScrollState = () => {
           <div style={headerStyles}>header</div>
           <div style={scrollContainerWrapperStyles}>
             <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
-              {getItems(20).map(i => (
+              {getItems(20).map((i) => (
                 <div key={i}>{i}</div>
               ))}
             </ScrollContainer>
@@ -118,7 +118,7 @@ export const WithDynamicContent: CSFStory<JSX.Element> = () => {
         <Gapped vertical>
           <div style={wrapperStyle}>
             <ScrollContainer onScrollStateChange={setState}>
-              {getItems(items).map(i => (
+              {getItems(items).map((i) => (
                 <div key={i} style={{ padding: 12 }}>
                   {i}
                 </div>

@@ -66,7 +66,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -132,7 +132,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     if (this.wrapper) {
       const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
       const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
-      this.setState(state => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
+      this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
     }
   };
 

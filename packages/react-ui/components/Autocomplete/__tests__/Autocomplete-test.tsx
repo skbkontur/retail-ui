@@ -37,7 +37,7 @@ describe('<Autocomplete />', () => {
     const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
-    await new Promise(resolve => setTimeout(resolve));
+    await new Promise((resolve) => setTimeout(resolve));
     wrapper.update();
 
     const menuItems = wrapper.find('MenuItem');
@@ -53,7 +53,7 @@ describe('<Autocomplete />', () => {
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
     // wait for react batch updates
-    await new Promise(resolve => setTimeout(resolve));
+    await new Promise((resolve) => setTimeout(resolve));
     wrapper.update();
 
     const menuItems = wrapper.find('MenuItem');
@@ -71,7 +71,7 @@ describe('<Autocomplete />', () => {
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
     // wait for react batch updates
-    await new Promise(resolve => setTimeout(resolve));
+    await new Promise((resolve) => setTimeout(resolve));
     wrapper.update();
 
     expect(source).toHaveBeenCalledWith('two');
@@ -85,7 +85,7 @@ describe('<Autocomplete />', () => {
     wrapper.find('input').simulate('change', { target: { value: 'two' } });
 
     // wait for react batch updates
-    await new Promise(resolve => setTimeout(resolve));
+    await new Promise((resolve) => setTimeout(resolve));
     wrapper.update();
 
     const menuItems = wrapper.find('MenuItem');
@@ -188,6 +188,8 @@ class UncontrolledAutocomplete extends React.Component<
   };
 
   public render() {
-    return <Autocomplete {...this.props} value={this.state.value} onValueChange={value => this.setState({ value })} />;
+    return (
+      <Autocomplete {...this.props} value={this.state.value} onValueChange={(value) => this.setState({ value })} />
+    );
   }
 }

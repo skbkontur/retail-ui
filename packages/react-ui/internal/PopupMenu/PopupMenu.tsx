@@ -156,7 +156,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         <span
           data-tid="PopupMenu__caption"
           className={jsStyles.caption()}
-          ref={element => (this.captionWrapper = element)}
+          ref={(element) => (this.captionWrapper = element)}
         >
           {caption}
         </span>
@@ -168,7 +168,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         data-tid="PopupMenu__caption"
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
-        ref={element => (this.captionWrapper = element)}
+        ref={(element) => (this.captionWrapper = element)}
         className={jsStyles.caption()}
       >
         {this.props.caption}

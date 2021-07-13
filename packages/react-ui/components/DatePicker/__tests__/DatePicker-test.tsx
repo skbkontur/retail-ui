@@ -65,7 +65,7 @@ describe('DatePicker', () => {
       maxDate: '15.08.2020',
     });
     datePicker.setState({ opened: true });
-    const yearSelect = datePicker.find(DateSelect).findWhere(node => node.props().type === 'year');
+    const yearSelect = datePicker.find(DateSelect).findWhere((node) => node.props().type === 'year');
     expect(yearSelect.prop('minValue')).toEqual(2017);
     expect(yearSelect.prop('maxValue')).toEqual(2020);
   });

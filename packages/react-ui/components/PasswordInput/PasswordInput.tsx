@@ -65,7 +65,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
@@ -125,7 +125,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   };
 
   private handleToggleVisibility = () => {
-    this.setState(prevState => ({ visible: !prevState.visible }), this.handleFocus);
+    this.setState((prevState) => ({ visible: !prevState.visible }), this.handleFocus);
   };
 
   private handleFocus = () => {

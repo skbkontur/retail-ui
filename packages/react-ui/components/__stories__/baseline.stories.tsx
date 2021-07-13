@@ -146,12 +146,12 @@ class SimpleForm extends React.Component<any, any> {
     return (
       <div>
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             this.setState({ isFormSubmitted: true });
           }}
         >
-          <Input id="test-input" onValueChange={value => this.setState({ value })} />
+          <Input id="test-input" onValueChange={(value) => this.setState({ value })} />
           <Button type="submit">Click</Button>
         </form>
         {this.state.isFormSubmitted && <span id="test-input-value">{this.state.value}</span>}

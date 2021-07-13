@@ -167,11 +167,11 @@ const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   );
 };
 
-const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = side => {
+const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = (side) => {
   return {
     async ['out of viewport']() {
       if (side === 'left') {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           // @ts-ignore
           const container: Element = window.document.querySelector('[data-tid="container"]');
           container.scrollLeft = container.scrollWidth;
@@ -189,7 +189,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyStoryParams['tests'] = 
     },
     async ['out of edge with min menu width']() {
       if (side === 'left') {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           // @ts-ignore
           const container: Element = window.document.querySelector('[data-tid="container"]');
           container.scrollLeft = container.scrollWidth;
@@ -326,7 +326,7 @@ OnlyStaticElements.story = { name: 'Only static elements', parameters: { creevey
 export const CaptionAcceptsAFunction = () => (
   <DropdownMenu
     menuWidth="300px"
-    caption={captionProps => (
+    caption={(captionProps) => (
       <span
         style={{
           display: 'inline-block',
@@ -386,7 +386,7 @@ WithHeaderAndFooter.story = {
             })
             .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
             .perform();
-          await this.browser.executeScript(function() {
+          await this.browser.executeScript(function () {
             // @ts-ignore
             const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
             scrollContainer.scrollTop += 100;
@@ -400,7 +400,7 @@ WithHeaderAndFooter.story = {
             })
             .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
             .perform();
-          await this.browser.executeScript(function() {
+          await this.browser.executeScript(function () {
             // @ts-ignore
             const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
             scrollContainer.scrollTop += scrollContainer.scrollHeight;
@@ -462,7 +462,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, {
   };
 
   private switchHeaderState = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       hasHeader: !state.hasHeader,
     }));
   };

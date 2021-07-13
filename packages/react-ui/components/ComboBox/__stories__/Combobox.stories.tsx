@@ -566,13 +566,13 @@ export const OpenCloseSearchMethods = () => {
   return (
     <div>
       <ComboBox
-        ref={e => (combobox = e)}
+        ref={(e) => (combobox = e)}
         value={items[0]}
         getItems={search}
-        renderItem={i => i.name}
-        valueToString={v => v.name}
-        renderValue={v => v.name}
-        itemToValue={v => v.name}
+        renderItem={(i) => i.name}
+        valueToString={(v) => v.name}
+        renderValue={(v) => v.name}
+        itemToValue={(v) => v.name}
       />{' '}
       <span className="control-buttons">
         <button onClick={() => combobox && combobox.open()}>open</button>{' '}
@@ -654,7 +654,7 @@ export const WithAddButton = () => (
   <TestComboBox
     onSearch={search}
     renderItem={renderValue}
-    renderAddButton={query => query && <MenuItem onClick={() => alert(query)}>Добавить {query}</MenuItem>}
+    renderAddButton={(query) => query && <MenuItem onClick={() => alert(query)}>Добавить {query}</MenuItem>}
   />
 );
 WithAddButton.story = { name: 'with add button', parameters: { creevey: { skip: [true] } } };
@@ -674,8 +674,8 @@ class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogg
       <>
         <ComboBox error={this.state.error} value={this.state.value} getItems={() => Promise.resolve([{ label: 0 }])} />
         <Toggle
-          onValueChange={value =>
-            this.setState(state => ({
+          onValueChange={(value) =>
+            this.setState((state) => ({
               error: value,
               value: { label: state.value.label + 1 },
             }))
@@ -724,7 +724,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           searchOnFocus={this.props.searchOnFocus}
           autoFocus={this.props.autoFocus}
           borderless={this.props.borderless}
-          itemToValue={x => x.id}
+          itemToValue={(x) => x.id}
           disabled={this.props.disabled}
           error={this.state.error}
           warning={this.state.warning}
@@ -736,13 +736,13 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           renderItem={this.props.renderItem}
           renderValue={renderValue}
           renderAddButton={this.props.renderAddButton}
-          valueToString={x => x.name}
+          valueToString={(x) => x.name}
           placeholder="numbers"
           onValueChange={this.handleChange}
           onUnexpectedInput={this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.updateState) : undefined}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
-          ref={el => {
+          ref={(el) => {
             this.combobox = el;
           }}
         />{' '}
@@ -761,7 +761,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
     );
   }
 
-  private updateState = (newState: Partial<ComboBoxState>) => this.setState(state => ({ ...state, ...newState }));
+  private updateState = (newState: Partial<ComboBoxState>) => this.setState((state) => ({ ...state, ...newState }));
 
   private handleChange = (value: ValueType) => {
     this.setState({ value, error: false });
@@ -792,7 +792,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         {...this.props}
         value={this.state.value}
         getItems={this.getItems}
-        onValueChange={value => this.setState({ value })}
+        onValueChange={(value) => this.setState({ value })}
       />
     );
   }
@@ -807,9 +807,9 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         { value: 5, label: 'Fifth' },
         { value: 6, label: 'Sixth' },
         { value: 7, label: 'A long long long long long long time ago' },
-      ].filter(x => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
+      ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
     ).then<Array<{ value: number; label: string }>>(
-      result => new Promise(ok => setTimeout(ok, this.props.delay || 0, result)),
+      (result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)),
     );
 }
 
@@ -884,7 +884,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
 }
 
 function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
-  return x => {
+  return (x) => {
     if (x) {
       setState({ error: true });
     }
@@ -892,7 +892,7 @@ function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: a
 }
 
 function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
-  return x => {
+  return (x) => {
     if (x) {
       setState({ value: null });
     }
@@ -900,7 +900,7 @@ function nullStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: an
 }
 
 function warningStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
-  return x => {
+  return (x) => {
     if (x) {
       setState({ warning: true });
     }
@@ -925,14 +925,14 @@ const items: ValueType[] = [
 ];
 
 function search(query: string) {
-  return Promise.resolve(items.filter(x => ~x.name.toLowerCase().indexOf(query.toLowerCase())));
+  return Promise.resolve(items.filter((x) => ~x.name.toLowerCase().indexOf(query.toLowerCase())));
 }
 
 let searchCount = 0;
 function searchWithRejections(query: string): Promise<ValueType[]> {
   const random = (v: number) => Math.random() * v;
 
-  const delay = (v: any) => new Promise(resolve => setTimeout(resolve, random(5) * 100, v));
+  const delay = (v: any) => new Promise((resolve) => setTimeout(resolve, random(5) * 100, v));
 
   searchCount++;
   return Promise.resolve()
@@ -941,12 +941,12 @@ function searchWithRejections(query: string): Promise<ValueType[]> {
       if (searchCount % 2) {
         throw new Error();
       }
-      return items.filter(x => ~x.name.indexOf(query.toLowerCase()));
+      return items.filter((x) => ~x.name.indexOf(query.toLowerCase()));
     });
 }
 
 function searchWithCustomElements(query: string) {
-  const _items = items.filter(x => x.name.includes(query.toLowerCase()));
+  const _items = items.filter((x) => x.name.includes(query.toLowerCase()));
   const disabled = <MenuItem disabled>Nothing was found</MenuItem>;
   return Promise.resolve([
     <MenuItem key={1} comment="Hello" icon={<BabyIcon />} disabled>
@@ -1002,7 +1002,7 @@ class ComboBoxWithExternalValue extends React.Component {
         onValueChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
-        ref={element => (this.combobox = element)}
+        ref={(element) => (this.combobox = element)}
       />
       <Button data-tid="setValueBtn" onClick={this.fill}>
         Set `First`
@@ -1038,7 +1038,7 @@ class ComboBoxWithExternalValue extends React.Component {
       [
         { value: '1', label: 'First' },
         { value: '2', label: 'Second' },
-      ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
+      ].filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value === q),
     );
 
   private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });
@@ -1064,9 +1064,9 @@ WithLeftIcon.story = { name: 'with left icon' };
 export const WithRightIcon = () => (
   <Gapped vertical>
     <SimpleCombobox rightIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="small"/>
-    <SimpleCombobox rightIcon={<SearchIcon />} size="medium"/>
-    <SimpleCombobox rightIcon={<SearchIcon />} size="large"/>
+    <SimpleCombobox rightIcon={<SearchIcon />} size="small" />
+    <SimpleCombobox rightIcon={<SearchIcon />} size="medium" />
+    <SimpleCombobox rightIcon={<SearchIcon />} size="large" />
   </Gapped>
 );
 WithRightIcon.story = { name: 'with right icon' };

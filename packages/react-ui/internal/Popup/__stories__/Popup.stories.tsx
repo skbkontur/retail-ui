@@ -164,7 +164,7 @@ class MinWidth extends React.Component {
   public render() {
     return (
       <div style={{ padding: '100px' }}>
-        <span ref={el => (this.anchor = el)}>x</span>
+        <span ref={(el) => (this.anchor = el)}>x</span>
         {this.state.anchor && (
           <Popup hasShadow hasPin opened anchorElement={this.anchor} positions={['bottom center']}>
             <div
@@ -343,7 +343,7 @@ class FakeHint extends Component<any, any> {
   public render() {
     return (
       <div>
-        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
+        <div ref={(e) => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -381,7 +381,7 @@ class Toast extends Component<any, any> {
   public render() {
     return (
       <div>
-        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
+        <div ref={(e) => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -409,7 +409,7 @@ const COMBOBOX_ITEMS = [
   { value: 1, label: 'First' },
   { value: 2, label: 'Second' },
 ];
-const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
+const SELECT_ITEMS = COMBOBOX_ITEMS.map((i) => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
 interface DropdownValue {

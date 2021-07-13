@@ -25,11 +25,7 @@ const commonTests: CreeveyStoryParams['tests'] = {
     const screenshotElement = this.browser.findElement({ css: '#test-element' });
     const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
 
-    await this.browser
-      .actions({ bridge: true })
-      .click(autocompleteElement)
-      .sendKeys('o')
-      .perform();
+    await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
 
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   },
@@ -47,10 +43,7 @@ Simple.story = {
         async focused() {
           const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(autocompleteElement)
-            .perform();
+          await this.browser.actions({ bridge: true }).click(autocompleteElement).perform();
 
           await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
         },
@@ -135,7 +128,7 @@ class UncontrolledAutocomplete extends React.Component<any, any> {
       <Autocomplete
         {...this.props}
         value={this.state.value}
-        onValueChange={value => {
+        onValueChange={(value) => {
           this.setState({ value });
         }}
       />

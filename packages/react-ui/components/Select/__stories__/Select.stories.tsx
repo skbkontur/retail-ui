@@ -23,9 +23,9 @@ class SelectWrapper extends React.Component<{}, any> {
             { label: 'Three', value: 3 },
           ]}
           value={this.state.value}
-          onValueChange={value => this.setState({ value })}
-          renderItem={x => x.label}
-          renderValue={x => {
+          onValueChange={(value) => this.setState({ value })}
+          renderItem={(x) => x.label}
+          renderValue={(x) => {
             if (x) {
               return x.label;
             }
@@ -54,7 +54,7 @@ class ItemsWithComments extends React.Component<{}, any> {
           width={200}
           value={this.state.value}
           items={ItemsWithComments.items}
-          onValueChange={value => this.setState({ value })}
+          onValueChange={(value) => this.setState({ value })}
         />
       </div>
     );
@@ -75,7 +75,7 @@ class SelectWithNull extends React.Component<any, any> {
         <Select<number | null>
           items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
-          onValueChange={value => this.setState({ value })}
+          onValueChange={(value) => this.setState({ value })}
         />
       </div>
     );
@@ -262,7 +262,7 @@ export const UsingOnKeyDown: CSFStory<JSX.Element> = () => {
           <br />
           <Button
             onFocus={this.onFocus}
-            ref={el => {
+            ref={(el) => {
               this.button = el;
             }}
           >
@@ -329,7 +329,7 @@ export const WithSearchAndVariousWidth: CSFStory<JSX.Element> = () => {
         100%
       </Button>
       <br />
-      <Select ref={ref => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };

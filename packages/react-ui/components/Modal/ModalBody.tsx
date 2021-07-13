@@ -30,7 +30,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

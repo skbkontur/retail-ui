@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
 import { CreeveyStoryParams, CSFStory } from 'creevey';
-import OkIcon from "@skbkontur/react-icons/Ok";
+import OkIcon from '@skbkontur/react-icons/Ok';
 
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
@@ -129,13 +129,13 @@ Large.story = {
 export const KebabWithCustomIcon: CSFStory<JSX.Element> = () => {
   return (
     <>
-      <SomethingWithKebab size="small" icon={<OkIcon color="#757575"/>}/>
-      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575"/>}/>
-      <SomethingWithKebab size="large" icon={<OkIcon color="#757575"/>}/>
+      <SomethingWithKebab size="small" icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size="large" icon={<OkIcon color="#757575" />} />
     </>
   );
-}
-KebabWithCustomIcon.story = {}
+};
+KebabWithCustomIcon.story = {};
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
 LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
