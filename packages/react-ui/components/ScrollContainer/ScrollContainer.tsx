@@ -14,7 +14,7 @@ import {
   ScrollState,
   ScrollContainerScrollState,
 } from './ScrollContainer.types';
-import { defaultScrollState, HIDE_SCROLLBAR_OFFSET } from './ScrollContainer.constants';
+import { defaultScrollState, HIDE_SCROLL_Y_OFFSET } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
 
@@ -66,13 +66,13 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const scrollY = this.renderScroll('scrollY');
     const scrollX = this.renderScroll('scrollX');
 
-    const padding = HIDE_SCROLLBAR_OFFSET - getScrollWidth();
+    const padding = HIDE_SCROLL_Y_OFFSET - getScrollWidth();
 
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
       // hide vertical and horizontal scrollbar with a little extra spac
       padding: `0 ${padding}px ${padding}px 0`,
-      marginRight: -1 * HIDE_SCROLLBAR_OFFSET,
+      marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
     };
 
     const wrapperStyle: React.CSSProperties = {

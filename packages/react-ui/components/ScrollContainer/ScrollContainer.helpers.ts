@@ -1,4 +1,4 @@
-import { scrollSizeParameterName, MIN_SCROLL_SIZE, HIDE_SCROLLBAR_OFFSET } from './ScrollContainer.constants';
+import { MIN_SCROLL_SIZE, HIDE_SCROLL_Y_OFFSET, scrollSizeParameterName } from './ScrollContainer.constants';
 
 export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   const { offset, size, pos } = scrollSizeParameterName[axis];
@@ -9,7 +9,7 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
 
   const scrollActive = containerSize < contentSize;
 
-  containerSize -= HIDE_SCROLLBAR_OFFSET - 10;
+  containerSize -= HIDE_SCROLL_Y_OFFSET;
 
   let scrollSize = 0;
   let scrollPos = 0;
