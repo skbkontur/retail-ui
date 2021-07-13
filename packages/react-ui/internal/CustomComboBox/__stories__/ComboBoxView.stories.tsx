@@ -6,6 +6,8 @@ import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
 import { MenuItem } from '../../../components/MenuItem';
+import { MenuSeparator } from '../../../components/MenuSeparator';
+import { MenuHeader } from '../../../components/MenuHeader';
 
 export default { title: 'ComboBoxView' };
 
@@ -179,3 +181,34 @@ function complexRenderValue({ id, name }: { id: React.ReactNode; name: React.Rea
     </div>
   );
 }
+
+export const WithCountItems = () => {
+  const separator = React.useMemo(() => <MenuSeparator />, []);
+  const items = [
+    { id: 1, name: 'one' },
+    <MenuSeparator key="separator1" />,
+    { id: 2, name: 'two' },
+    <MenuSeparator key="separator2" />,
+    { id: 3, name: 'tree' },
+    <MenuHeader key="header1">Скоро конец</MenuHeader>,
+    { id: 4, name: 'four' },
+    separator,
+    <MenuHeader key="header2">Конец</MenuHeader>,
+  ];
+
+  return (
+    <div style={{ paddingBottom: 260 }}>
+      <ComboBoxView
+        editing
+        opened
+        textValue="one"
+        items={items}
+        totalCount={100}
+        renderItem={item => complexRenderValue(item as { id: number; name: string })}
+        renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
+      />
+    </div>
+  );
+};
+
+WithCountItems.story = { name: 'with total count' };

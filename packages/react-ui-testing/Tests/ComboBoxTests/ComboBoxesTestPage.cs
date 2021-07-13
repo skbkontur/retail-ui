@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
     [AutoFillControls]
     public class ComboBoxesTestPage : PageBase
     {
-        public ComboBoxesTestPage(RemoteWebDriver webDriver)
+        public ComboBoxesTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

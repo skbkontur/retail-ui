@@ -312,7 +312,7 @@ export class DefaultTheme {
   public static btnDefaultHoverBg = 'none';
   public static btnDefaultHoverBgStart = '#f2f2f2';
   public static btnDefaultHoverBgEnd = '#dfdfdf';
-  public static btnDefaultActiveBg = '#e1e1e1';
+  public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.2)';
   public static btnDefaultHoverBorderBottomColor = 'rgba(0, 0, 0, 0.35)';
   public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.2)';

@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TooltipTests
     [AutoFillControls]
     public class TooltipTestPage : PageBase
     {
-        public TooltipTestPage(RemoteWebDriver webDriver)
+        public TooltipTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }
