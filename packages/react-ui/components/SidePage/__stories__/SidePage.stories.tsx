@@ -856,9 +856,9 @@ export const SidePageWithChildrenFromOtherComponent: CSFStory<JSX.Element> = () 
   const [hasFooter, setHasFooter] = useState(false);
   const [hasPanel, setHasPanel] = useState(false);
 
-  const handleHeaderButton = useCallback(() => setHasHeader(!hasHeader), [setHasHeader, hasHeader]);
-  const handleFooterButton = useCallback(() => setHasFooter(!hasFooter), [setHasFooter, hasFooter]);
-  const handlePanelButton = useCallback(() => setHasPanel(!hasPanel), [setHasPanel, hasPanel]);
+  const handleHeaderButton = useCallback(() => setHasHeader(!hasHeader), [hasHeader]);
+  const handleFooterButton = useCallback(() => setHasFooter(!hasFooter), [hasFooter]);
+  const handlePanelButton = useCallback(() => setHasPanel(!hasPanel), [hasPanel]);
 
   return (
     <>
