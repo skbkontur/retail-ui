@@ -10,7 +10,6 @@ import { Nullable } from '../../typings/utility-types';
 import {
   ScrollContainerProps,
   ScrollContainerState,
-  ScrollType,
   ScrollState,
   ScrollContainerScrollState,
 } from './ScrollContainer.types';
@@ -63,8 +62,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   public render() {
     const props = this.props;
 
-    const scrollY = this.renderScroll('scrollY');
-    const scrollX = this.renderScroll('scrollX');
+    const scrollY = this.renderScrollY();
+    const scrollX = this.renderScrollX();
 
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
@@ -148,19 +147,57 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollTop = this.inner.scrollHeight - this.inner.offsetHeight;
   }
 
-  // TODO что тут можно сделать ?
-  private renderScroll = (scrollType: ScrollType) => {
-    const state = this.state[scrollType];
+  private renderScrollX = () => {
+    const state = this.state['scrollX'];
 
     if (!state.active) {
       return null;
     }
 
-    const refScroll = scrollType === 'scrollY' ? this.refScrollY : null;
-    const styles = scrollType === 'scrollY' ? this.getScrollYStyle() : this.getScrollXStyle();
-    const handleMouseDown = scrollType === 'scrollY' ? this.handleScrollYMouseDown : this.handleScrollXMouseDown;
+    const props = this.props;
 
-    return <div ref={refScroll} style={styles.inline} className={styles.className} onMouseDown={handleMouseDown} />;
+    const styles = {
+      className: cn({
+        [jsStyles.scrollX()]: true,
+        [jsStyles.scrollInvert()]: Boolean(props.invert),
+        [jsStyles.scrollXHover()]: state.hover || state.scrolling,
+      }),
+      inline: {
+        left: state.pos,
+        width: state.size,
+      },
+    };
+
+    return <div style={styles.inline} className={styles.className} onMouseDown={this.handleScrollXMouseDown} />;
+  };
+
+  private renderScrollY = () => {
+    const state = this.state['scrollY'];
+
+    if (!state.active) {
+      return null;
+    }
+
+    const props = this.props;
+    const styles = {
+      className: cn({
+        [jsStyles.scroll()]: true,
+        [jsStyles.scrollInvert()]: Boolean(props.invert),
+        [jsStyles.scrollHover()]: state.hover || state.scrolling,
+      }),
+      inline: {
+        top: state.pos,
+        height: state.size,
+      },
+    };
+    return (
+      <div
+        ref={this.refScrollY}
+        style={styles.inline}
+        className={styles.className}
+        onMouseDown={this.handleScrollYMouseDown}
+      />
+    );
   };
 
   private setStateScrollX = (state: Partial<ScrollState>) => {
@@ -185,40 +222,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         ...state,
       },
     });
-  };
-
-  private getScrollYStyle = () => {
-    const state = this.state['scrollY'];
-    const props = this.props;
-
-    return {
-      className: cn({
-        [jsStyles.scroll()]: true,
-        [jsStyles.scrollInvert()]: Boolean(props.invert),
-        [jsStyles.scrollHover()]: state.hover || state.scrolling,
-      }),
-      inline: {
-        top: state.pos,
-        height: state.size,
-      },
-    };
-  };
-
-  private getScrollXStyle = () => {
-    const state = this.state['scrollX'];
-    const props = this.props;
-
-    return {
-      className: cn({
-        [jsStyles.scrollX()]: true,
-        [jsStyles.scrollInvert()]: Boolean(props.invert),
-        [jsStyles.scrollXHover()]: state.hover || state.scrolling,
-      }),
-      inline: {
-        left: state.pos,
-        width: state.size,
-      },
-    };
   };
 
   private refInner = (element: HTMLElement | null) => {
