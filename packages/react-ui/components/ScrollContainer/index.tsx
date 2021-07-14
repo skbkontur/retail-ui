@@ -1,2 +1,2 @@
 export * from './ScrollContainer';
-export * from './ScrollContainer.types';
+export type { ScrollContainerScrollState, ScrollContainerProps } from './ScrollContainer.types';

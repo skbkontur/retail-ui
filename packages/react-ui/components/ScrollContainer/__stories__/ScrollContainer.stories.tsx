@@ -1,7 +1,8 @@
 import React, { CSSProperties } from 'react';
 import { CSFStory } from 'creevey';
 
-import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
+import { ScrollContainerScrollState } from '../ScrollContainer.types';
+import { ScrollContainer } from '../ScrollContainer';
 import { Gapped } from '../../Gapped';
 
 function getItems(count: number) {

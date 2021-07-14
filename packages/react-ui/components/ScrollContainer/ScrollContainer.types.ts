@@ -1,6 +1,6 @@
 import { CommonProps } from '../../internal/CommonWrapper';
 
-export type ScrollContainerScrollState = 'left' | 'right' | 'top' | 'scroll' | 'bottom';
+export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
 
 export type ScrollBehaviour = 'auto' | 'smooth';
 
