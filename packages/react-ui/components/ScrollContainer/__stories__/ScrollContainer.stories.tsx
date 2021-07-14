@@ -2,7 +2,6 @@ import React, { CSSProperties } from 'react';
 
 import { ScrollContainerScrollState } from '../ScrollContainer.types';
 import { ScrollContainer } from '../ScrollContainer';
-
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 
