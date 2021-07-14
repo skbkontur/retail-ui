@@ -1,6 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import cn from 'classnames';
+import FocusLock from 'react-focus-lock';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -13,6 +14,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { isIE11 } from '../../lib/client';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -20,7 +22,6 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { jsStyles } from './SidePage.styles';
-import { isFooter, isHeader } from './helpers';
 
 export interface SidePageProps extends CommonProps {
   /**
@@ -60,6 +61,12 @@ export interface SidePageProps extends CommonProps {
    *
    */
   disableAnimations?: boolean;
+
+  /**
+   * Не использовать фокус-лок внутри сайдпейджа.
+   * По умолчанию true для IE11.
+   */
+  disableFocusLock: boolean;
 }
 
 export interface SidePageState {
@@ -67,6 +74,9 @@ export interface SidePageState {
   hasMargin?: boolean;
   hasShadow?: boolean;
   hasBackground?: boolean;
+  hasHeader: boolean;
+  hasFooter: boolean;
+  hasPanel: boolean;
 }
 
 const TRANSITION_TIMEOUT = 200;
@@ -87,7 +97,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static Body = SidePageBody;
   public static Footer = SidePageFooter;
   public static Container = SidePageContainer;
-  public state: SidePageState = {};
+  public state: SidePageState = {
+    hasHeader: false,
+    hasFooter: false,
+    hasPanel: false,
+  };
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
@@ -114,6 +128,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.footer) {
       this.footer.update();
     }
+  };
+
+  public static defaultProps = {
+    // NOTE: в ie нормально не работает
+    disableFocusLock: isIE11,
   };
 
   public render(): JSX.Element {
@@ -155,7 +174,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(): JSX.Element {
-    const { width, blockBackground, fromLeft } = this.props;
+    const { width, blockBackground, fromLeft, disableFocusLock } = this.props;
 
     return (
       <ZIndex
@@ -175,11 +194,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
-              <SidePageContext.Provider value={this.getSidePageContextProps()}>
-                {this.props.children}
-              </SidePageContext.Provider>
-            </div>
+            <FocusLock disabled={disableFocusLock} autoFocus={false}>
+              <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
+                <SidePageContext.Provider value={this.getSidePageContextProps()}>
+                  {this.props.children}
+                </SidePageContext.Provider>
+              </div>
+            </FocusLock>
           </div>
         </RenderLayer>
       </ZIndex>
@@ -187,33 +208,18 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getSidePageContextProps = (): SidePageContextType => {
-    let hasHeader = false;
-    let hasFooter = false;
-    let hasPanel = false;
-
-    React.Children.toArray(this.props.children).forEach(child => {
-      if (isHeader(child)) {
-        hasHeader = true;
-      }
-      if (isFooter(child)) {
-        hasFooter = true;
-        if (child.props.panel) {
-          hasPanel = true;
-        }
-      }
-    });
-
-    const sidePageContextProps: SidePageContextType = {
-      hasHeader,
-      hasFooter,
-      hasPanel,
+    return {
+      hasHeader: this.state.hasHeader,
+      hasFooter: this.state.hasFooter,
+      hasPanel: this.state.hasPanel,
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
       footerRef: this.footerRef,
+      setHasHeader: this.setHasHeader,
+      setHasFooter: this.setHasFooter,
+      setHasPanel: this.setHasPanel,
     };
-
-    return sidePageContextProps;
   };
 
   private getWidth = () => {
@@ -312,5 +318,17 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private footerRef = (ref: SidePageFooter | null) => {
     this.footer = ref;
+  };
+
+  private setHasHeader = (hasHeader = true) => {
+    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  };
+
+  private setHasFooter = (hasFooter = true) => {
+    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  };
+
+  private setHasPanel = (hasPanel = false) => {
+    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   };
 }

@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
@@ -154,70 +154,70 @@ class Sample extends React.Component<
   };
 }
 
-export default { title: 'CurrencyInput' };
+export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
-Demo.story = { parameters: { creevey: { skip: [true] } } };
+Demo.parameters = { creevey: { skip: [true] } };
 export const WithBorderless = () => <CurrencyInputDemo borderless={true} />;
-WithBorderless.story = { name: 'With borderless', parameters: { creevey: { skip: [true] } } };
+WithBorderless.storyName = 'With borderless';
+WithBorderless.parameters = { creevey: { skip: [true] } };
 
-export const SampleStory: CSFStory<JSX.Element> = () => <Sample fractionDigits={0} />;
-SampleStory.story = {
-  name: 'Sample',
-  parameters: {
-    creevey: {
-      tests: {
-        async Plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-        },
-        async Focus() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
-        },
-        async ['Input value']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
-            .sendKeys('1')
-            .pause(500)
-            .sendKeys('2')
-            .pause(500)
-            .sendKeys('3')
-            .pause(500)
-            .sendKeys('4')
-            .pause(500)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
-        },
-        async ['External focus and input']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .sendKeys('1')
-            .pause(500)
-            .sendKeys('2')
-            .pause(500)
-            .sendKeys('3')
-            .pause(500)
-            .sendKeys('4')
-            .pause(500)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('External focus and input');
-        },
+export const SampleStory: Story = () => <Sample fractionDigits={0} />;
+SampleStory.storyName = 'Sample';
+
+SampleStory.parameters = {
+  creevey: {
+    tests: {
+      async Plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async Focus() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+      },
+      async ['Input value']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
+          .sendKeys('1')
+          .pause(500)
+          .sendKeys('2')
+          .pause(500)
+          .sendKeys('3')
+          .pause(500)
+          .sendKeys('4')
+          .pause(500)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
+      },
+      async ['External focus and input']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys('1')
+          .pause(500)
+          .sendKeys('2')
+          .pause(500)
+          .sendKeys('3')
+          .pause(500)
+          .sendKeys('4')
+          .pause(500)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('External focus and input');
       },
     },
   },
@@ -257,4 +257,5 @@ export const ManualMount = () => {
   }
   return <ManualMounting />;
 };
-ManualMount.story = { name: 'Manual mount', parameters: { creevey: { skip: [true] } } };
+ManualMount.storyName = 'Manual mount';
+ManualMount.parameters = { creevey: { skip: [true] } };

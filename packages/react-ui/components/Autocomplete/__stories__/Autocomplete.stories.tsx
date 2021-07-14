@@ -1,26 +1,25 @@
 import React from 'react';
-import { CSFStory, CreeveyStoryParams } from 'creevey';
-import { StoryFn } from '@storybook/addons';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 
 export default {
   title: 'Autocomplete',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    Story => (
       <div
         style={{
           padding: '0 200px 200px 0',
         }}
       >
-        {story()}
+        <Story />
       </div>
     ),
   ],
-};
+} as Meta;
 
-const commonTests: CreeveyStoryParams['tests'] = {
+const commonTests: CreeveyTests = {
   async ['focus and type text']() {
     const screenshotElement = this.browser.findElement({ css: '#test-element' });
     const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
@@ -35,27 +34,26 @@ const commonTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Simple: CSFStory<JSX.Element> = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
-Simple.story = {
-  name: 'simple',
-  parameters: {
-    creevey: {
-      tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        },
-        async focused() {
-          const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
+export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
+Simple.storyName = 'simple';
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(autocompleteElement)
-            .perform();
-
-          await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
-        },
-        ...commonTests,
+Simple.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
+      async focused() {
+        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
+
+        await this.browser
+          .actions({ bridge: true })
+          .click(autocompleteElement)
+          .perform();
+
+        await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
+      },
+      ...commonTests,
     },
   },
 };
@@ -66,12 +64,11 @@ export const WithRenderItem = () => (
     renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
   />
 );
-WithRenderItem.story = {
-  name: 'with renderItem',
-  parameters: {
-    creevey: {
-      tests: commonTests,
-    },
+WithRenderItem.storyName = 'with renderItem';
+
+WithRenderItem.parameters = {
+  creevey: {
+    tests: commonTests,
   },
 };
 
@@ -81,12 +78,11 @@ export const WithBigRenderItemWidth = () => (
     renderItem={(x: string) => <div style={{ width: 400 }}>Item: {x.toUpperCase()}</div>}
   />
 );
-WithBigRenderItemWidth.story = {
-  name: 'with big renderItem width',
-  parameters: {
-    creevey: {
-      tests: commonTests,
-    },
+WithBigRenderItemWidth.storyName = 'with big renderItem width';
+
+WithBigRenderItemWidth.parameters = {
+  creevey: {
+    tests: commonTests,
   },
 };
 
@@ -106,22 +102,20 @@ export const WithFixedMenuSize = () => (
     menuMaxHeight={150}
   />
 );
-WithFixedMenuSize.story = {
-  name: 'with fixed menu size',
-  parameters: {
-    creevey: {
-      tests: commonTests,
-    },
+WithFixedMenuSize.storyName = 'with fixed menu size';
+
+WithFixedMenuSize.parameters = {
+  creevey: {
+    tests: commonTests,
   },
 };
 
 export const WithOnBlurOnFocusHandlers = () => <WithBlurFocusHandlersExample />;
-WithOnBlurOnFocusHandlers.story = {
-  name: 'with onBlur/onFocus handlers',
-  parameters: {
-    creevey: {
-      skip: [true],
-    },
+WithOnBlurOnFocusHandlers.storyName = 'with onBlur/onFocus handlers';
+
+WithOnBlurOnFocusHandlers.parameters = {
+  creevey: {
+    skip: [true],
   },
 };
 
@@ -180,12 +174,11 @@ export const WithPercentageWidth = () => (
     />
   </div>
 );
-WithPercentageWidth.story = {
-  name: 'with percentage width',
-  parameters: {
-    creevey: {
-      tests: commonTests,
-    },
+WithPercentageWidth.storyName = 'with percentage width';
+
+WithPercentageWidth.parameters = {
+  creevey: {
+    tests: commonTests,
   },
 };
 
@@ -196,12 +189,11 @@ export const WithFixedWidth = () => (
     renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
   />
 );
-WithFixedWidth.story = {
-  name: 'with fixed width',
-  parameters: {
-    creevey: {
-      tests: commonTests,
-    },
+WithFixedWidth.storyName = 'with fixed width';
+
+WithFixedWidth.parameters = {
+  creevey: {
+    tests: commonTests,
   },
 };
 
@@ -212,11 +204,10 @@ export const WithZeroWidth = () => (
     renderItem={(x: string) => <div>Item: {x.toUpperCase()}</div>}
   />
 );
-WithZeroWidth.story = {
-  name: 'with zero width',
-  parameters: {
-    creevey: {
-      tests: commonTests,
-    },
+WithZeroWidth.storyName = 'with zero width';
+
+WithZeroWidth.parameters = {
+  creevey: {
+    tests: commonTests,
   },
 };
