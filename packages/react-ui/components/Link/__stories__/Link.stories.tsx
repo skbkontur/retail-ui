@@ -1,12 +1,12 @@
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import { CreeveyStoryParams, CSFStory } from 'creevey';
 
+import { Story, CreeveyTests } from '../../../typings/stories';
 import { Link } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 
-const linkTests: CreeveyStoryParams['tests'] = {
+const linkTests: CreeveyTests = {
   async idle() {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
@@ -28,29 +28,30 @@ export default {
   parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }] } },
 };
 
-export const Simple: CSFStory<JSX.Element> = () => <Link>Simple Link</Link>;
-Simple.story = { parameters: { creevey: { tests: linkTests } } };
+export const Simple: Story = () => <Link>Simple Link</Link>;
+Simple.parameters = { creevey: { tests: linkTests } };
 
-export const WithIcon: CSFStory<JSX.Element> = () => <Link icon={<OkIcon />}>Simple Link</Link>;
-WithIcon.story = { parameters: { creevey: { tests: linkTests } } };
+export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
+WithIcon.parameters = { creevey: { tests: linkTests } };
 
-export const Danger: CSFStory<JSX.Element> = () => (
+export const Danger: Story = () => (
   <Link icon={<OkIcon />} use="danger">
     Simple Link
   </Link>
 );
-Danger.story = { parameters: { creevey: { tests: linkTests } } };
+Danger.parameters = { creevey: { tests: linkTests } };
 
-export const Grayed: CSFStory<JSX.Element> = () => <Link use="grayed">Simple link</Link>;
-Grayed.story = { parameters: { creevey: { tests: linkTests } } };
+export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
+Grayed.parameters = { creevey: { tests: linkTests } };
 
-export const Disabled: CSFStory<JSX.Element> = () => <Link disabled>Simple link</Link>;
-Disabled.story = { parameters: { creevey: { tests: linkTests } } };
+export const Disabled: Story = () => <Link disabled>Simple link</Link>;
+Disabled.parameters = { creevey: { tests: linkTests } };
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
-WithOnClick.story = { name: 'With onClick', parameters: { creevey: { skip: [true] } } };
+WithOnClick.storyName = 'With onClick';
+WithOnClick.parameters = { creevey: { skip: [true] } };
 
-export const Loading: CSFStory<JSX.Element> = () => (
+export const Loading: Story = () => (
   <Gapped vertical>
     <Link loading>Simple loading </Link>
     <div style={{ width: '300px', border: '1px solid lightgrey', padding: '5px' }}>
@@ -68,4 +69,4 @@ export const Loading: CSFStory<JSX.Element> = () => (
     </Link>
   </Gapped>
 );
-Loading.story = { parameters: { creevey: { tests: linkTests } } };
+Loading.parameters = { creevey: { tests: linkTests } };
