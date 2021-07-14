@@ -71,9 +71,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       // hide vertical scrollbar with a little extra spac
       paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
       marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
-      height: `calc(100% + ${HIDE_SCROLL_X_OFFSET}px)`,
+      // hide horizontal scrollbar
       marginBottom: -1 * HIDE_SCROLL_X_OFFSET - 1,
-      // paddingBottom: HIDE_SCROLL_X_OFFSET,
+      height: `calc(100% + ${HIDE_SCROLL_X_OFFSET}px)`,
     };
 
     const wrapperStyle: React.CSSProperties = {
