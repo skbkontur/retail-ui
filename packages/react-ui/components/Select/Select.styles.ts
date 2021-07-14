@@ -1,6 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { emotionMQS } from '../../lib/client';
 
 const styles = {
   root(t: Theme) {
@@ -8,8 +7,8 @@ const styles = {
       display: inline-block;
       position: relative;
 
-      ${emotionMQS.sm}  {
-        width: 100%;
+      @media ${t.mobileMediaQuery}  {
+        width: ${t.mobileSelectWidth};
       },
     `;
   },

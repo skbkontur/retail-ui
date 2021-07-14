@@ -29,7 +29,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { breakpointsMQS, canUseDOM } from '../../lib/client';
+import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
 
 import { Item } from './Item';
@@ -219,7 +219,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public componentDidMount() {
     // for SSR, see https://reactjs.org/docs/react-dom.html#hydrate
-    if (canUseDOM && window.matchMedia(breakpointsMQS.sm).matches) {
+    if (canUseDOM && this.theme && window.matchMedia(this.theme.mobileMediaQuery).matches) {
       this.setState({
         isMobileLayout: true,
         isScrolled: this.menu ? this.menu.isScrolled : false,

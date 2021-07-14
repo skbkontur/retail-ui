@@ -1,7 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
-import { emotionMQS } from '../../lib/client';
 
 const styles = {
   root(t: Theme) {
@@ -24,7 +23,7 @@ const styles = {
       border: ${t.menuBorder};
       box-shadow: ${t.menuShadow};
 
-      ${emotionMQS.sm}  {
+      @media ${t.mobileMediaQuery}  {
         box-shadow: none;
       },
     `;

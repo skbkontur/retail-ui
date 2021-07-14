@@ -94,7 +94,7 @@ export class DefaultTheme {
     const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
     return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
   }
-
+  public static mobileMediaQuery = '(max-width: 600px) and (hover: none) and (pointer: coarse)';
   //#endregion
   //#region Link
   public static linkColor = '#3072c4';
@@ -530,6 +530,7 @@ export class DefaultTheme {
   }
 
   public static mobileSelectMenuTopPadding = '40px';
+  public static mobileSelectWidth = '100%';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '15px';

@@ -1,7 +1,6 @@
 import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
-import { emotionMQS } from '../../lib/client';
 
 const styles = {
   root(t: Theme) {
@@ -26,7 +25,7 @@ const styles = {
         min-width: 100%;
       }
 
-      ${emotionMQS.sm}  {
+      @media ${t.mobileMediaQuery}  {
         font-size: ${t.mobileFontSize};
         line-height: ${t.mobileLineHeight};
         padding: ${t.mobileMenuItemPadding};
