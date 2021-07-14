@@ -14,6 +14,6 @@ describe('ScrollContainer', () => {
       </ScrollContainer>,
     );
 
-    expect(wrapper.state('scrollState')).toEqual('top');
+    expect(wrapper.state('scrollY')).toMatchObject({ scrollState: 'top' });
   });
 });
