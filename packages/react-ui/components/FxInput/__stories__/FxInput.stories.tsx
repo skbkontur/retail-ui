@@ -1,16 +1,16 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
 import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { InputSize, InputType } from '../../Input';
 
-export default { title: 'FxInput' };
+export default { title: 'FxInput' } as Meta;
 
 export const TypeText = () => <TestFxInput />;
-TypeText.story = { name: 'type text' };
+TypeText.storyName = 'type text';
 
 export const DifferentSizesFxInput = () => (
   <Gapped vertical>
@@ -19,41 +19,40 @@ export const DifferentSizesFxInput = () => (
     <TestFxInput size="large" />
   </Gapped>
 );
-DifferentSizesFxInput.story = { name: 'different sizes' };
+DifferentSizesFxInput.storyName = 'different sizes';
 
 export const TypeCurrency = () => <TestFxInput type={'currency'} fractionDigits={4} />;
-TypeCurrency.story = { name: 'type currency' };
+TypeCurrency.storyName = 'type currency';
 
 export const WithDisabled = () => <FxInput disabled onValueChange={console.log} />;
-WithDisabled.story = { name: 'with disabled' };
+WithDisabled.storyName = 'with disabled';
 
 export const Borderless = () => (
   <TestWrapper>
     <TestFxInput borderless />
   </TestWrapper>
 );
-Borderless.story = { name: 'borderless' };
+Borderless.storyName = 'borderless';
 
-export const WithWidthStory: CSFStory<JSX.Element> = () => <WithWidth />;
-WithWidthStory.story = {
-  name: 'with width',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['inside auto container']() {
-          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
-          await this.expect(await element.takeScreenshot()).to.matchImage('inside auto container');
-        },
-        async ['inside fixed container']() {
-          const element = await this.browser.findElement({ css: '[data-tid="container"]' });
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#toggle-width' }))
-            .perform();
-          await this.expect(await element.takeScreenshot()).to.matchImage('inside fixed container');
-        },
+export const WithWidthStory: Story = () => <WithWidth />;
+WithWidthStory.storyName = 'with width';
+
+WithWidthStory.parameters = {
+  creevey: {
+    tests: {
+      async ['inside auto container']() {
+        const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+        await this.expect(await element.takeScreenshot()).to.matchImage('inside auto container');
+      },
+      async ['inside fixed container']() {
+        const element = await this.browser.findElement({ css: '[data-tid="container"]' });
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#toggle-width' }))
+          .perform();
+        await this.expect(await element.takeScreenshot()).to.matchImage('inside fixed container');
       },
     },
   },

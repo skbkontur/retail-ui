@@ -8,6 +8,10 @@ const config = {
   storybookUrl: 'http://localhost:6060',
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
+  babelOptions: options => ({
+    ...options,
+    extends: path.join(__dirname, '../.babelrc.js'),
+  }),
   browsers: {
     chrome: {
       browserName: 'chrome',

@@ -58,7 +58,7 @@
     "@skbkontur/react-icons": "^4.4.0",
     "@skbkontur/react-props2attrs": "^0.1.2",
     "@skbkontur/react-sorge": "^0.1.0",
-    "@storybook/react": "5.3.14",
+    "@storybook/react": "6.3.2",
     "@types/jest": "^26.0.20",
     "@types/react": "16.14.4",
     "@types/react-dom": "16.9.11",

@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 
@@ -27,27 +27,26 @@ class Component extends React.Component<{ items: string[]; error?: boolean }, { 
 
 export default { title: 'Switcher' };
 
-export const Horizontal: CSFStory<JSX.Element> = () => {
+export const Horizontal: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;
 };
-Horizontal.story = {
-  name: 'horizontal',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['chromeFlat', 'chromeFlat8px'], tests: 'clicked' }],
-      tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        },
-        async clicked() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-        },
+Horizontal.storyName = 'horizontal';
+
+Horizontal.parameters = {
+  creevey: {
+    skip: [{ in: ['chromeFlat', 'chromeFlat8px'], tests: 'clicked' }],
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
   },
@@ -56,7 +55,8 @@ Horizontal.story = {
 export const Errored = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
-Errored.story = { name: 'errored', parameters: { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } } };
+Errored.storyName = 'errored';
+Errored.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
 
 export const Disabled = () => {
   return (
@@ -68,7 +68,5 @@ export const Disabled = () => {
   );
 };
 
-Disabled.story = {
-  name: 'disabled',
-  parameters: { creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'] }] } },
-};
+Disabled.storyName = 'disabled';
+Disabled.parameters = { creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'] }] } };

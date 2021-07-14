@@ -1,7 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { MenuItem } from '../../../components/MenuItem';
 import { Toggle } from '../../../components/Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
@@ -10,46 +10,43 @@ import { Button } from '../../../components/Button';
 
 export default { title: 'DropdownContainer' };
 
-export const VariousAlignsPortalsItemsAndScrollsStory: CSFStory<JSX.Element> = () => (
-  <VariousAlignsPortalsItemsAndScrolls />
-);
-VariousAlignsPortalsItemsAndScrollsStory.story = {
-  name: 'various aligns, portals, items and scrolls',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['short Items']() {
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
-        },
-        async ['short Items scroll']() {
-          await this.browser.executeScript(function() {
-            // @ts-ignore
-            const innerScroll: Element = window.document.querySelector('#inner-scroll');
-            innerScroll.scrollTop = innerScroll.scrollHeight;
-            innerScroll.scrollLeft = innerScroll.scrollWidth;
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
-        },
-        async ['long Items']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '#buttons button' }))
-            .perform();
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
-        },
-        async ['long Items scroll']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '#buttons button' }))
-            .perform();
-          await this.browser.executeScript(function() {
-            // @ts-ignore
-            const innerScroll: Element = window.document.querySelector('#inner-scroll');
-            innerScroll.scrollTop = innerScroll.scrollHeight;
-            innerScroll.scrollLeft = innerScroll.scrollWidth;
-          });
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
-        },
+export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
+VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, items and scrolls';
+
+VariousAlignsPortalsItemsAndScrollsStory.parameters = {
+  creevey: {
+    tests: {
+      async ['short Items']() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
+      },
+      async ['short Items scroll']() {
+        await this.browser.executeScript(function() {
+          // @ts-ignore
+          const innerScroll: Element = window.document.querySelector('#inner-scroll');
+          innerScroll.scrollTop = innerScroll.scrollHeight;
+          innerScroll.scrollLeft = innerScroll.scrollWidth;
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
+      },
+      async ['long Items']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '#buttons button' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
+      },
+      async ['long Items scroll']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '#buttons button' }))
+          .perform();
+        await this.browser.executeScript(function() {
+          // @ts-ignore
+          const innerScroll: Element = window.document.querySelector('#inner-scroll');
+          innerScroll.scrollTop = innerScroll.scrollHeight;
+          innerScroll.scrollLeft = innerScroll.scrollWidth;
+        });
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
       },
     },
   },
