@@ -12,5 +12,5 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
     check(maxRunningBuilds == 0) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
-    maxRunningBuilds = 2
+    maxRunningBuilds = 1
 }
