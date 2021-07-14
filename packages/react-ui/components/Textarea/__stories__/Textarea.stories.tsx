@@ -217,7 +217,7 @@ export const SelectAllByButton: Story = () => {
         <Textarea
           spellCheck={false}
           defaultValue={TEXT_SAMPLE}
-          ref={element => {
+          ref={(element) => {
             textarea = element;
           }}
         />

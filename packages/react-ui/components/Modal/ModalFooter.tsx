@@ -30,14 +30,13 @@ function ModalFooter(props: ModalFooterProps) {
   const modal = useContext(ModalContext);
 
   useEffect(() => {
-
     modal.setHasFooter?.();
     modal.setHasPanel?.(panel);
 
     return () => {
       modal.setHasFooter?.(false);
       modal.setHasPanel?.(false);
-    }
+    };
   }, [panel]);
 
   const renderContent = (fixed = false) => (
@@ -55,11 +54,13 @@ function ModalFooter(props: ModalFooterProps) {
   return (
     <CommonWrapper {...props}>
       <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
-        {
-          sticky
-            ? <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>{renderContent}</Sticky>
-            : renderContent()
-        }
+        {sticky ? (
+          <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
+            {renderContent}
+          </Sticky>
+        ) : (
+          renderContent()
+        )}
       </ZIndex>
     </CommonWrapper>
   );

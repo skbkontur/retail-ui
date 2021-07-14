@@ -86,6 +86,8 @@
   - `test` — unit-тесты
   - `lint` — линтеры
   - `storybook` — Storybook
+  - `prettier:check` - проверка кода на соответствие правилам prettier
+  - `prettier:fix` - автоформатирование кода при несоответствии правилам prettier
 
 ## Issues
 

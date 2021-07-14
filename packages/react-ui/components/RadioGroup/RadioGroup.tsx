@@ -174,7 +174,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

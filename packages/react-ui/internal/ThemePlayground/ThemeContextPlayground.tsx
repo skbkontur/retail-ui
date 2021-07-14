@@ -136,7 +136,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   private handelGetTheme = () => {
     const currentTheme = this.state.currentTheme;
     const themeObject: Writeable<ThemeIn> = {};
-    ThemeFactory.getKeys(currentTheme).forEach(key => {
+    ThemeFactory.getKeys(currentTheme).forEach((key) => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
       if (descriptor && !descriptor.get && DEFAULT_THEME_OLD[key] && currentTheme[key] !== DEFAULT_THEME_OLD[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
@@ -147,9 +147,9 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   };
 
   private handleOpen = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       editorOpened: true,
-      editingThemeItem: this.editableThemesItems.find(i => i.value === state.currentThemeType),
+      editingThemeItem: this.editableThemesItems.find((i) => i.value === state.currentThemeType),
     }));
   };
 
@@ -196,7 +196,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
   };
 
   private getEditableThemesItems = (query: string) => {
-    return Promise.resolve(this.editableThemesItems.filter(i => i.label.toLowerCase().includes(query.toLowerCase())));
+    return Promise.resolve(this.editableThemesItems.filter((i) => i.label.toLowerCase().includes(query.toLowerCase())));
   };
 
   private handleEditingThemeSwitch = (item: EditingThemeItem) => {
@@ -205,7 +205,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
   private changeThemeVariable = (theme: Theme, variableName: keyof Theme, variableValue: string): Theme => {
     const result: ThemeIn = {};
-    ThemeFactory.getKeys(theme).forEach(key => {
+    ThemeFactory.getKeys(theme).forEach((key) => {
       const descriptor = findPropertyDescriptor(theme, key);
       descriptor.enumerable = true;
       descriptor.configurable = true;

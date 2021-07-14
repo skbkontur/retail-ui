@@ -10,11 +10,11 @@ import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 
-setFilter(fiber => {
+setFilter((fiber) => {
   // Транслируем все пропы только для контролов
   const isControlComponent = !!findAmongParents(
     fiber,
-    fiberParent => fiberParent.type && typeof fiberParent.type.__KONTUR_REACT_UI__ === 'string',
+    (fiberParent) => fiberParent.type && typeof fiberParent.type.__KONTUR_REACT_UI__ === 'string',
   );
   if (isTestEnv && isControlComponent) {
     return null;
@@ -24,7 +24,7 @@ setFilter(fiber => {
 });
 
 export const decorators: Meta['decorators'] = [
-  Story => {
+  (Story) => {
     const getTheme = () => {
       switch (true) {
         case Boolean(process.env.STORYBOOK_OLD):
@@ -43,7 +43,7 @@ export const decorators: Meta['decorators'] = [
     }
     return <Story />;
   },
-  Story => (
+  (Story) => (
     <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
       {<Story />}
     </div>

@@ -43,7 +43,7 @@ export class SingleInputPage extends React.Component<SingleInputPageProps, Singl
         <div style={{ padding: 30 }}>
           <Gapped vertical>
             <ValidationWrapper data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
-              <Input data-tid={'Input'} value={this.state.value} onValueChange={value => this.setState({ value })} />
+              <Input data-tid={'Input'} value={this.state.value} onValueChange={(value) => this.setState({ value })} />
             </ValidationWrapper>
             <Gapped wrap verticalAlign="middle">
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>

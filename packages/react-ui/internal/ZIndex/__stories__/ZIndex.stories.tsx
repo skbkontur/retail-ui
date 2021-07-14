@@ -130,12 +130,12 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     const { total = 0, current = 0 } = this.props;
     return (
       <Gapped vertical>
-        <Toast ref={e => (this.notifier = e)} />
+        <Toast ref={(e) => (this.notifier = e)} />
         {controls}
         <Gapped>
           <ZLoader size={150} />
-          <div ref={e => (this.popupAnchor = e)}>
-            <Toggle checked={this.state.popup} onValueChange={v => this.setState({ popup: v })} />
+          <div ref={(e) => (this.popupAnchor = e)}>
+            <Toggle checked={this.state.popup} onValueChange={(v) => this.setState({ popup: v })} />
           </div>
           {this.popupAnchor && (
             <Popup
@@ -737,7 +737,7 @@ BigModalWithLoaderStory.parameters = {
   creevey: {
     tests: {
       async ['Header covers Loader']() {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
           if (sidePage) {
@@ -779,7 +779,7 @@ LoaderInSidePageBody.parameters = {
   creevey: {
     tests: {
       async ['is covered by Header and Footer']() {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
           if (sidePage) {
