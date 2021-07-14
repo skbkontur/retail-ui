@@ -74,7 +74,6 @@
   - `build` — сборка библиотеки
   - `storybook` — Storybook
   - `storybook:test` — Storybook со стилями для тестов
-  - `storybook:flat` — Storybook c flat-темой
   - `styleguide` — Styleguidist server
   - `prettier:check` - проверка кода на соответствие правилам prettier
   - `prettier:fix` - автоформатирование кода при несоответствии правилам prettier
@@ -228,7 +227,7 @@ packages/
 | `react-ui/components/Button`                  | Компонент кнопки                         |
 | `react-ui/components/Button/__stories__/`     | [Stories](#создание-story) для Storybook |
 | `react-ui/components/Button/__tests__/`       | [Unit-тесты](#unit-тесты)                |
-| `react-ui/components/Button/Button.tsx`       | Код компонента                        |
+| `react-ui/components/Button/Button.tsx`       | Код компонента                           |
 | `react-ui/components/Button/Button.styles.ts` | Кастомизируемые стили                    |
 | `react-ui/components/Button/README.md`        | [Документация](#документация)            |
 
@@ -248,7 +247,7 @@ packages/
 
 [Storybook](https://storybook.js.org/) позволяет описывать и просматривать все имеющиеся компоненты в различных состояниях, а также взаимодействовать с ними. Он используется для ручного и скриншотного тестирования.
 
-Запускается командой `yarn workspace @skbkontur/react-ui storybook` или `yarn workspace @skbkontur/react-ui storybook:flat` в плоском варианте.
+Запускается командой `yarn workspace @skbkontur/react-ui storybook`.
 
 #### Создание story
 
