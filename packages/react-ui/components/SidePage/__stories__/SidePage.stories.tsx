@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
@@ -821,6 +821,135 @@ WithLongTitleStory.parameters = {
         });
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed header');
+      },
+    },
+  },
+};
+
+const SidePageHeader = () => <SidePage.Header>Header</SidePage.Header>;
+const SidePageBody = () => {
+  return (
+    <SidePage.Body>
+      <SidePage.Container>
+        {new Array(3).fill(textSample).map((item, index) => (
+          <div key={index}>{item}</div>
+        ))}
+      </SidePage.Container>
+    </SidePage.Body>
+  );
+};
+const SidePageFooter = (data: { hasPanel: boolean }) => <SidePage.Footer panel={data.hasPanel}>Footer</SidePage.Footer>;
+
+export const SidePageWithChildrenFromOtherComponent: Story = () => {
+  const [hasHeader, setHasHeader] = useState(false);
+  const [hasFooter, setHasFooter] = useState(false);
+  const [hasPanel, setHasPanel] = useState(false);
+
+  const handleHeaderButton = useCallback(() => setHasHeader(!hasHeader), [hasHeader]);
+  const handleFooterButton = useCallback(() => setHasFooter(!hasFooter), [hasFooter]);
+  const handlePanelButton = useCallback(() => setHasPanel(!hasPanel), [hasPanel]);
+
+  return (
+    <>
+      <div style={{ paddingBottom: 10 }}>
+        <Button data-tid={'SidePage__header-toggle'} onClick={handleHeaderButton}>
+          toggle header
+        </Button>
+      </div>
+      <div style={{ paddingBottom: 10 }}>
+        <Button data-tid="SidePage__footer-toggle" onClick={handleFooterButton}>
+          toggle footer
+        </Button>
+      </div>
+      <div style={{ paddingBottom: 10 }}>
+        <Button data-tid="SidePage__panel-toggle" onClick={handlePanelButton}>
+          toggle panel
+        </Button>
+      </div>
+      <SidePage>
+        {hasHeader && <SidePageHeader />}
+        <SidePageBody />
+        {hasFooter && <SidePageFooter hasPanel={hasPanel} />}
+      </SidePage>
+    </>
+  );
+};
+
+SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Children';
+SidePageWithChildrenFromOtherComponent.parameters = {
+  creevey: {
+    tests: {
+      async ['without header, footer']() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('without header, footer');
+      },
+      async ['scroll to bottom without header, footer']() {
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom without header, footer');
+      },
+      async ['with header, footer']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .pause(1000)
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('with header, footer');
+      },
+      async ['scroll to bottom with header, footer']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with header, footer');
+      },
+      async ['with panel']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('with panel');
+      },
+      async ['scroll to bottom with panel']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with panel');
       },
     },
   },
