@@ -1,5 +1,4 @@
-using OpenQA.Selenium.Remote;
-
+using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.AutocompleteTests
     [AutoFillControls]
     public class AutocompleteTestPage : PageBase
     {
-        public AutocompleteTestPage(RemoteWebDriver webDriver)
+        public AutocompleteTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

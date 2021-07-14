@@ -1,6 +1,6 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
 import { Loader } from '../../../components/Loader';
@@ -678,240 +678,226 @@ function StickyAndTooltips() {
 export default { title: 'ZIndex' };
 
 export const LightboxUnderLightboxStory = () => <LightboxUnderLightbox />;
-LightboxUnderLightboxStory.story = { name: 'LightboxUnderLightbox', parameters: { creevey: { skip: [true] } } };
+LightboxUnderLightboxStory.storyName = 'LightboxUnderLightbox';
+LightboxUnderLightboxStory.parameters = { creevey: { skip: [true] } };
 
 export const ZSampleStory = () => <ZSample total={3} />;
-ZSampleStory.story = { name: 'ZSample', parameters: { creevey: { skip: [true] } } };
+ZSampleStory.storyName = 'ZSample';
+ZSampleStory.parameters = { creevey: { skip: [true] } };
 
 export const DemoStory = () => <Demo />;
-DemoStory.story = { name: 'Demo', parameters: { creevey: { skip: [true] } } };
+DemoStory.storyName = 'Demo';
+DemoStory.parameters = { creevey: { skip: [true] } };
 
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
-LoaderCoversTooltipStory.story = { name: 'Loader covers tooltip' };
+LoaderCoversTooltipStory.storyName = 'Loader covers tooltip';
 
-export const ModalWithTooltipInLoaderStory: CSFStory<JSX.Element> = () => <ModalWithTooltipInLoader />;
-ModalWithTooltipInLoaderStory.story = {
-  name: 'Modal With Tooltip In Loader',
-  parameters: { creevey: { captureElement: null } },
-};
+export const ModalWithTooltipInLoaderStory: Story = () => <ModalWithTooltipInLoader />;
+ModalWithTooltipInLoaderStory.storyName = 'Modal With Tooltip In Loader';
+ModalWithTooltipInLoaderStory.parameters = { creevey: { captureElement: null } };
 
-export const NestedElementsInLoaderStory: CSFStory<JSX.Element> = () => <NestedElementsInLoader />;
-NestedElementsInLoaderStory.story = {
-  name: 'Nested elements in loader',
-  parameters: { creevey: { captureElement: null } },
-};
+export const NestedElementsInLoaderStory: Story = () => <NestedElementsInLoader />;
+NestedElementsInLoaderStory.storyName = 'Nested elements in loader';
+NestedElementsInLoaderStory.parameters = { creevey: { captureElement: null } };
 
 export const TooltipNearLoaderStory = () => <TooltipNearLoader />;
-TooltipNearLoaderStory.story = { name: 'Tooltip near Loader' };
+TooltipNearLoaderStory.storyName = 'Tooltip near Loader';
 
-export const HintAndModalStory: CSFStory<JSX.Element> = () => <HintAndModal />;
-HintAndModalStory.story = {
-  name: 'Hint and modal',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['Modal covers hint']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
+export const HintAndModalStory: Story = () => <HintAndModal />;
+HintAndModalStory.storyName = 'Hint and modal';
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '.modalBody button' }))
-            .perform();
+HintAndModalStory.parameters = {
+  creevey: {
+    tests: {
+      async ['Modal covers hint']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
-        },
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.modalBody button' }))
+          .perform();
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
       },
     },
   },
 };
 
-export const LoaderInModalStory: CSFStory<JSX.Element> = () => <LoaderInModal />;
-LoaderInModalStory.story = {
-  name: 'Loader in Modal',
-  parameters: { creevey: { captureElement: '[data-tid="modal-content"]' } },
-};
+export const LoaderInModalStory: Story = () => <LoaderInModal />;
+LoaderInModalStory.storyName = 'Loader in Modal';
+LoaderInModalStory.parameters = { creevey: { captureElement: '[data-tid="modal-content"]' } };
 
-export const BigModalWithLoaderStory: CSFStory<JSX.Element> = () => <BigModalWithLoader />;
-BigModalWithLoaderStory.story = {
-  name: 'Big modal with Loader',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['Header covers Loader']() {
-          await this.browser.executeScript(function() {
-            const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+export const BigModalWithLoaderStory: Story = () => <BigModalWithLoader />;
+BigModalWithLoaderStory.storyName = 'Big modal with Loader';
 
-            if (sidePage) {
-              sidePage.scrollTop = sidePage.offsetHeight / 3;
-            }
-          });
+BigModalWithLoaderStory.parameters = {
+  creevey: {
+    tests: {
+      async ['Header covers Loader']() {
+        await this.browser.executeScript(function() {
+          const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
-        },
+          if (sidePage) {
+            sidePage.scrollTop = sidePage.offsetHeight / 3;
+          }
+        });
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
       },
     },
   },
 };
 
-export const TooltipAndSelectStory: CSFStory<JSX.Element> = () => <TooltipAndSelect />;
-TooltipAndSelectStory.story = {
-  name: 'Tooltip and Select',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['Menu covers tooltip']() {
-          const element = await this.browser.findElement({ css: '.container' });
+export const TooltipAndSelectStory: Story = () => <TooltipAndSelect />;
+TooltipAndSelectStory.storyName = 'Tooltip and Select';
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: 'button' }))
-            .sendKeys('q')
-            .perform();
+TooltipAndSelectStory.parameters = {
+  creevey: {
+    tests: {
+      async ['Menu covers tooltip']() {
+        const element = await this.browser.findElement({ css: '.container' });
 
-          await this.expect(await element.takeScreenshot()).to.matchImage('Modal covers hint');
-        },
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: 'button' }))
+          .sendKeys('q')
+          .perform();
+
+        await this.expect(await element.takeScreenshot()).to.matchImage('Modal covers hint');
       },
     },
   },
 };
 
-export const LoaderInSidePageBody: CSFStory<JSX.Element> = () => <LoaderInSidePage />;
-LoaderInSidePageBody.story = {
-  name: 'Loader in SidePage.Body',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['is covered by Header and Footer']() {
-          await this.browser.executeScript(function() {
-            const sidePage = window.document.querySelector(`[data-tid='SidePage__container']`) as HTMLElement;
+export const LoaderInSidePageBody: Story = () => <LoaderInSidePage />;
+LoaderInSidePageBody.storyName = 'Loader in SidePage.Body';
 
-            if (sidePage) {
-              sidePage.scrollTop = sidePage.offsetHeight;
-            }
-          });
+LoaderInSidePageBody.parameters = {
+  creevey: {
+    tests: {
+      async ['is covered by Header and Footer']() {
+        await this.browser.executeScript(function() {
+          const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          await delay(500);
+          if (sidePage) {
+            sidePage.scrollTop = sidePage.offsetHeight;
+          }
+        });
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
-        },
+        await delay(500);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
       },
     },
   },
 };
 
-export const SidepageAndSelect: CSFStory<JSX.Element> = () => <SidePageAndSelect />;
-SidepageAndSelect.story = {
-  name: 'Sidepage and Select',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['SidePage covers Select and Tooltip']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '.select-container button' }))
-            .sendKeys('q')
-            .perform();
+export const SidepageAndSelect: Story = () => <SidePageAndSelect />;
+SidepageAndSelect.storyName = 'Sidepage and Select';
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '.open-sidepage-container button' }))
-            .perform();
+SidepageAndSelect.parameters = {
+  creevey: {
+    tests: {
+      async ['SidePage covers Select and Tooltip']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.select-container button' }))
+          .sendKeys('q')
+          .perform();
 
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '.sidepage-select-continer button' }))
-            .sendKeys('q')
-            .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.open-sidepage-container button' }))
+          .perform();
 
-          const element = await this.browser.findElement({ css: `[data-tid='SidePage__container']` });
-          await this.expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
-        },
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.sidepage-select-continer button' }))
+          .sendKeys('q')
+          .perform();
+
+        const element = await this.browser.findElement({ css: `[data-tid='SidePage__container']` });
+        await this.expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
       },
     },
   },
 };
 
 export const ToastAndLoaderStory = () => <ToastAndLoader />;
-ToastAndLoaderStory.story = { name: 'Toast and Loader' };
+ToastAndLoaderStory.storyName = 'Toast and Loader';
 
-export const ElementsInLoaderInModalStory: CSFStory<JSX.Element> = () => <ElementsInLoaderInModal />;
-ElementsInLoaderInModalStory.story = {
-  name: 'Elements in Loader in Modal',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['Open Dropdown while Loader is inactive']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
-            .perform();
+export const ElementsInLoaderInModalStory: Story = () => <ElementsInLoaderInModal />;
+ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-            'Open Dropdown while Loader is inactive',
-          );
-        },
-        async ['Hide Hint on active Loader']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
-            .perform();
+ElementsInLoaderInModalStory.parameters = {
+  creevey: {
+    tests: {
+      async ['Open Dropdown while Loader is inactive']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
 
-          await delay(500);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
+      },
+      async ['Hide Hint on active Loader']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
+          .perform();
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
-        },
+        await delay(500);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
       },
     },
   },
 };
 
-export const LoaderAndSidePageStory: CSFStory<JSX.Element> = () => <LoaderAndSidePage />;
-LoaderAndSidePageStory.story = {
-  name: 'Loader and SidePage',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['SidePage shadow cover Loader']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
-            .perform();
+export const LoaderAndSidePageStory: Story = () => <LoaderAndSidePage />;
+LoaderAndSidePageStory.storyName = 'Loader and SidePage';
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
-        },
+LoaderAndSidePageStory.parameters = {
+  creevey: {
+    tests: {
+      async ['SidePage shadow cover Loader']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
+          .perform();
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
       },
     },
   },
 };
 
-export const ModalInLoaderAndModalStory: CSFStory<JSX.Element> = () => <ModalInLoaderAndModal />;
-ModalInLoaderAndModalStory.story = {
-  name: 'Modal in Loader and Modal',
-  parameters: { creevey: { captureElement: null } },
-};
+export const ModalInLoaderAndModalStory: Story = () => <ModalInLoaderAndModal />;
+ModalInLoaderAndModalStory.storyName = 'Modal in Loader and Modal';
+ModalInLoaderAndModalStory.parameters = { creevey: { captureElement: null } };
 
-export const StickyAndLoaderStory: CSFStory<JSX.Element> = () => <StickyAndLoader />;
-StickyAndLoaderStory.story = { name: 'Sticky and Loader', parameters: { creevey: { captureElement: null } } };
+export const StickyAndLoaderStory: Story = () => <StickyAndLoader />;
+StickyAndLoaderStory.storyName = 'Sticky and Loader';
+StickyAndLoaderStory.parameters = { creevey: { captureElement: null } };
 
-export const StickyAndTooltipsStory: CSFStory<JSX.Element> = () => <StickyAndTooltips />;
-StickyAndTooltipsStory.story = {
-  name: 'Sticky and Tooltips',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['Sticky covers outside Popup and DropdownContainer']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
-            .perform();
+export const StickyAndTooltipsStory: Story = () => <StickyAndTooltips />;
+StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-            'Sticky covers outside Popup and DropdownContainer',
-          );
-        },
+StickyAndTooltipsStory.parameters = {
+  creevey: {
+    tests: {
+      async ['Sticky covers outside Popup and DropdownContainer']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
+          'Sticky covers outside Popup and DropdownContainer',
+        );
       },
     },
   },
@@ -937,9 +923,10 @@ export const ModalSidePageStack = () => {
     </div>
   );
 };
-ModalSidePageStack.story = { name: 'Modal and SidePage Stack', parameters: { creevey: { skip: [true] } } };
+ModalSidePageStack.storyName = 'Modal and SidePage Stack';
+ModalSidePageStack.parameters = { creevey: { skip: [true] } };
 
-export const ModalAndToast: CSFStory<JSX.Element> = () => {
+export const ModalAndToast: Story = () => {
   const toast = React.useRef<Toast>(null);
   const showNotification = () => {
     if (toast.current) {
@@ -959,24 +946,23 @@ export const ModalAndToast: CSFStory<JSX.Element> = () => {
     </div>
   );
 };
-ModalAndToast.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async toastShown() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="Button"] button' }))
-            .perform();
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-        },
+ModalAndToast.parameters = {
+  creevey: {
+    tests: {
+      async toastShown() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Button"] button' }))
+          .perform();
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },
     },
   },
 };
 
-export const ToastOverEverything: CSFStory<JSX.Element> = () => {
+export const ToastOverEverything: Story = () => {
   const toast = React.useRef<Toast>(null);
   const showRefToast = () => {
     if (toast.current) {
@@ -1007,40 +993,39 @@ export const ToastOverEverything: CSFStory<JSX.Element> = () => {
     </SidePage>
   );
 };
-ToastOverEverything.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async staticToast() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-tid~="static-toast"]' }))
-            .pause(1000)
-            .click(this.browser.findElement({ css: 'body' }))
-            .perform();
 
-          const shown = await this.browser.takeScreenshot();
+ToastOverEverything.parameters = {
+  creevey: {
+    tests: {
+      async staticToast() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="static-toast"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: 'body' }))
+          .perform();
 
-          // Toast rendered by static method doesn't get removed
-          // when story switches, so we have to close it manually
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-tid~="ToastView__close"]' }))
-            .pause(500)
-            .perform();
+        const shown = await this.browser.takeScreenshot();
 
-          await this.expect(shown).to.matchImage();
-        },
-        async refToast() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-tid~="ref-toast"]' }))
-            .pause(1000)
-            .click(this.browser.findElement({ css: 'body' }))
-            .perform();
+        // Toast rendered by static method doesn't get removed
+        // when story switches, so we have to close it manually
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="ToastView__close"]' }))
+          .pause(500)
+          .perform();
 
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage();
-        },
+        await this.expect(shown).to.matchImage();
+      },
+      async refToast() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid~="ref-toast"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: 'body' }))
+          .perform();
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },
     },
   },

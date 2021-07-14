@@ -14,7 +14,7 @@ namespace SKBKontur.ValidationTests.Infrastructure
             var kind = match.Groups["Kind"].ToString();
             var story = match.Groups["Story"].ToString();
             var port = 8081;
-            var uri = new Uri($"http://localhost:{port}/iframe.html?path=/story/{CreateStoryId(kind, story)}");
+            var uri = new Uri($"http://localhost:{port}/iframe.html?id={CreateStoryId(kind, story)}");
             GetWebDriver().Navigate().GoToUrl(uri);
         }
 
