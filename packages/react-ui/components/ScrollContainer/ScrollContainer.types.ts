@@ -18,7 +18,7 @@ export interface ScrollContainerProps extends CommonProps {
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
-export type ScrollType = 'scrollX' | 'scrollY';
+export type ScrollType = 'x' | 'y';
 
 export interface ScrollState {
   active: boolean;
@@ -26,7 +26,7 @@ export interface ScrollState {
   scrolling: boolean;
   size: number;
   pos: number;
-  scrollState: ScrollContainerScrollState;
+  scrollState?: ScrollContainerScrollState;
 }
 
 export type ScrollContainerState = Record<ScrollType, ScrollState>;
