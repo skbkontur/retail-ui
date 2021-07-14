@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { Paging } from '../Paging';
 import { delay } from '../../../lib/utils';
 
@@ -113,85 +112,90 @@ class PagingWithCustomComponent extends Component<any, any> {
 
 export default {
   title: 'Paging',
-  decorators: [(story: StoryFn<JSX.Element>) => <div>{story()}</div>],
-};
+  decorators: [
+    Story => (
+      <div>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
-export const GoToAbsensePageStory: CSFStory<JSX.Element> = () => <GoToAbsensePage />;
-GoToAbsensePageStory.story = {
-  name: 'GoToAbsensePage',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie118px'], tests: 'hover' }],
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async hover() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .move({
-              origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
-            })
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-        },
-        async ['change page by number']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
-        },
-        async ['change page by forwardLink']() {
-          // NOTE Firefox bug if click send right after click from previous test it results as double click
-          await delay(500);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
-        },
-        async focused() {
-          // NOTE Firefox bug if click send right after click from previous test it results as double click
-          await delay(500);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('focused');
-        },
-        async ['Move focus right']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-            .pause(100)
-            .sendKeys(this.keys.ARROW_RIGHT)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
-        },
-        async ['Move to page by Ender']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
-            .pause(100)
-            .sendKeys(this.keys.ARROW_RIGHT)
-            .pause(100)
-            .sendKeys(this.keys.ENTER)
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('Move to page by Ender');
-        },
+export const GoToAbsensePageStory: Story = () => <GoToAbsensePage />;
+GoToAbsensePageStory.storyName = 'GoToAbsensePage';
+
+GoToAbsensePageStory.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie118px'], tests: 'hover' }],
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async hover() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
+          })
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+      },
+      async ['change page by number']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
+      },
+      async ['change page by forwardLink']() {
+        // NOTE Firefox bug if click send right after click from previous test it results as double click
+        await delay(500);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
+      },
+      async focused() {
+        // NOTE Firefox bug if click send right after click from previous test it results as double click
+        await delay(500);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('focused');
+      },
+      async ['Move focus right']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .pause(100)
+          .sendKeys(this.keys.ARROW_RIGHT)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
+      },
+      async ['Move to page by Ender']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .pause(100)
+          .sendKeys(this.keys.ARROW_RIGHT)
+          .pause(100)
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Move to page by Ender');
       },
     },
   },
@@ -205,16 +209,20 @@ export const SimpleSamples = () => (
     <PagingWithState pagesCount={12} />
   </>
 );
-SimpleSamples.story = { name: 'SimpleSamples', parameters: { creevey: { skip: [true] } } };
+SimpleSamples.storyName = 'SimpleSamples';
+SimpleSamples.parameters = { creevey: { skip: [true] } };
 
 export const PagingWithCustomComponentStory = () => <PagingWithCustomComponent pagesCount={12} />;
-PagingWithCustomComponentStory.story = { name: 'PagingWithCustomComponent', parameters: { creevey: { skip: [true] } } };
+PagingWithCustomComponentStory.storyName = 'PagingWithCustomComponent';
+PagingWithCustomComponentStory.parameters = { creevey: { skip: [true] } };
 
 export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
-PagingWithGlobalListener.story = { name: 'Paging with global listener', parameters: { creevey: { skip: [true] } } };
+PagingWithGlobalListener.storyName = 'Paging with global listener';
+PagingWithGlobalListener.parameters = { creevey: { skip: [true] } };
 
 export const PlaygroundStory = () => <Playground />;
-PlaygroundStory.story = { name: 'Playground', parameters: { creevey: { skip: [true] } } };
+PlaygroundStory.storyName = 'Playground';
+PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
 class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
   public state = {

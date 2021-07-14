@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
-
+﻿using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -8,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
     [AutoFillControls]
     public class TextAreaTestPage : PageBase
     {
-        public TextAreaTestPage(RemoteWebDriver webDriver)
+        public TextAreaTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

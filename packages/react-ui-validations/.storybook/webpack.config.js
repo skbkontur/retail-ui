@@ -1,7 +1,13 @@
 const webpack = require('webpack');
 
+const isTestEnv = Boolean(process.env.STORYBOOK_REACT_UI_TEST);
+
 module.exports = async ({ config, mode }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
+
+  if (isTestEnv) {
+    config.entry.unshift('@skbkontur/react-props2attrs');
+  }
 
   config.module.rules = [
     {

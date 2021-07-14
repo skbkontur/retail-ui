@@ -18,7 +18,6 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
-import { isBody, isFooter, isHeader } from './helpers';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
 import { jsStyles } from './Modal.styles';
@@ -64,6 +63,9 @@ export interface ModalState {
   stackPosition: number;
   hasBackground: boolean;
   horizontalScroll: boolean;
+  hasHeader: boolean;
+  hasFooter: boolean;
+  hasPanel: boolean;
 }
 
 /**
@@ -87,18 +89,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static propTypes = {
-    children(props: ModalProps, propName: keyof ModalProps, componentName: string) {
-      if (
-        React.Children.toArray(props[propName]).some(child => !isHeader(child) && !isBody(child) && !isFooter(child))
-      ) {
-        return new Error(
-          `Only 'Header/Body/Footer' components are allowed for '${propName}' prop of '${componentName}' component`,
-        );
-      }
-    },
-  };
-
   public static defaultProps = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
@@ -108,6 +98,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     stackPosition: 0,
     hasBackground: true,
     horizontalScroll: false,
+    hasHeader: false,
+    hasFooter: false,
+    hasPanel: false,
   };
 
   private theme!: Theme;
@@ -161,25 +154,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   private renderMain() {
-    let hasHeader = false;
-    let hasFooter = false;
-    let hasPanel = false;
-
-    React.Children.toArray(this.props.children).forEach(child => {
-      if (isHeader(child)) {
-        hasHeader = true;
-      }
-      if (isFooter(child)) {
-        hasFooter = true;
-        if (child.props.panel) {
-          hasPanel = true;
-        }
-      }
-    });
+    const { hasHeader, hasFooter, hasPanel } = this.state;
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
+      setHasHeader: this.setHasHeader,
+      setHasFooter: this.setHasFooter,
+      setHasPanel: this.setHasPanel,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -306,5 +288,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
+  };
+
+  private setHasHeader = (hasHeader = true) => {
+    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  };
+
+  private setHasFooter = (hasFooter = true) => {
+    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  };
+
+  private setHasPanel = (hasPanel = false) => {
+    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   };
 }

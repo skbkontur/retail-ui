@@ -1,7 +1,6 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
-import { CSFStory } from 'creevey';
 
+import { Meta, Story } from '../../../typings/stories';
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
@@ -11,11 +10,18 @@ import { delay } from '../../../lib/utils';
 
 export default {
   title: 'Hint',
-  decorators: [(story: StoryFn<JSX.Element>) => <div style={{ padding: '100px 300px' }}>{story()}</div>],
-};
+  decorators: [
+    Story => (
+      <div style={{ padding: '100px 300px' }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
 export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
-Playground.story = { name: 'playground', parameters: { creevey: { skip: [true] } } };
+Playground.storyName = 'playground';
+Playground.parameters = { creevey: { skip: [true] } };
 
 export const TooMuchHints = () => (
   <Gapped gap={5}>
@@ -26,35 +32,36 @@ export const TooMuchHints = () => (
     ))}
   </Gapped>
 );
-TooMuchHints.story = { name: 'too much hints', parameters: { creevey: { skip: [true] } } };
+TooMuchHints.storyName = 'too much hints';
+TooMuchHints.parameters = { creevey: { skip: [true] } };
 
 export const Default = () => (
   <Hint text="Something will never be changed" manual opened>
     <span className="hint-content">Ich Liebe dich</span>
   </Hint>
 );
-Default.story = { name: 'default' };
+Default.storyName = 'default';
 
 export const Left = () => (
   <Hint pos="left" text="Something will never be changed" manual opened>
     <span className="hint-content">Je t&apos;aime</span>
   </Hint>
 );
-Left.story = { name: 'left' };
+Left.storyName = 'left';
 
 export const Right = () => (
   <Hint pos="right" text="Something will never be changed" manual opened>
     <span className="hint-content">Ti voglio bene</span>
   </Hint>
 );
-Right.story = { name: 'right' };
+Right.storyName = 'right';
 
 export const Bottom = () => (
   <Hint pos="bottom" text="Something will never be changed" manual opened>
     <span className="hint-content">Te amo</span>
   </Hint>
 );
-Bottom.story = { name: 'bottom' };
+Bottom.storyName = 'bottom';
 
 export const WithLargeWord = () => (
   <div style={{ marginTop: -100 }}>
@@ -68,7 +75,7 @@ export const WithLargeWord = () => (
     </Hint>
   </div>
 );
-WithLargeWord.story = { name: 'with large word' };
+WithLargeWord.storyName = 'with large word';
 
 export const WithBlockElement = () => (
   <Hint pos="right" text="Something will never be changed" manual opened>
@@ -83,7 +90,7 @@ export const WithBlockElement = () => (
     </div>
   </Hint>
 );
-WithBlockElement.story = { name: 'with block-element' };
+WithBlockElement.storyName = 'with block-element';
 
 export const With100WidthInput = () => (
   <span style={{ width: '400px', display: 'inline-block' }}>
@@ -92,7 +99,7 @@ export const With100WidthInput = () => (
     </Hint>
   </span>
 );
-With100WidthInput.story = { name: 'with 100%-width input' };
+With100WidthInput.storyName = 'with 100%-width input';
 
 export const HintWithoutAnimations = () => (
   <div>
@@ -107,9 +114,10 @@ export const HintWithoutAnimations = () => (
     </Hint>
   </div>
 );
-HintWithoutAnimations.story = { name: 'hint without animations', parameters: { creevey: { skip: [true] } } };
+HintWithoutAnimations.storyName = 'hint without animations';
+HintWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
-export const HintsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Element> = () => (
+export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
     {PopupPositions.reduce(
       (child, position) => (
@@ -123,10 +131,8 @@ export const HintsWithoutWrapperAroundInlineBlockWith50Width: CSFStory<JSX.Eleme
     )}
   </div>
 );
-HintsWithoutWrapperAroundInlineBlockWith50Width.story = {
-  name: 'Hints without wrapper around inline-block with 50% width',
-  parameters: { creevey: { delay: 500 } },
-};
+HintsWithoutWrapperAroundInlineBlockWith50Width.storyName = 'Hints without wrapper around inline-block with 50% width';
+HintsWithoutWrapperAroundInlineBlockWith50Width.parameters = { creevey: { delay: 500 } };
 
 const HandleClickHint = () => {
   const [manual, setManual] = React.useState(false);
@@ -144,20 +150,18 @@ const HandleClickHint = () => {
   );
 };
 
-export const SetManualAndOpenedPropOnClick: CSFStory<JSX.Element> = () => <HandleClickHint />;
+export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 
-SetManualAndOpenedPropOnClick.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async ['click on hint']() {
-          await this.browser
-            .actions()
-            .click(this.browser.findElement({ css: '#main' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
-        },
+SetManualAndOpenedPropOnClick.parameters = {
+  creevey: {
+    tests: {
+      async ['click on hint']() {
+        await this.browser
+          .actions()
+          .click(this.browser.findElement({ css: '#main' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
       },
     },
   },
