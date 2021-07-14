@@ -76,6 +76,8 @@
   - `storybook:test` — Storybook со стилями для тестов
   - `storybook:flat` — Storybook c flat-темой
   - `styleguide` — Styleguidist server
+  - `prettier:check` - проверка кода на соответствие правилам prettier
+  - `prettier:fix` - автоформатирование кода при несоответствии правилам prettier
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
   - `test` — интеграционные тесты с использованием `SeleniumTesting` (работает только во внутренней сети Контура)
@@ -272,13 +274,11 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 2. Добавить сценарий в параметры story
 
 ```javascript
-ButtonWithError.story = {
-  parameters: {
+ButtonWithError.parameters = {
     creevey: {
       tests: {
         async idle() {
           await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-        }
       },
     },
   },

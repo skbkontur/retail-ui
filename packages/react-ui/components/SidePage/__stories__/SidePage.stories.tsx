@@ -1,6 +1,6 @@
-import React from 'react';
-import { CSFStory } from 'creevey';
+import React, { useCallback, useState } from 'react';
 
+import { Story } from '../../../typings/stories';
 import { SidePage } from '../SidePage';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
@@ -589,56 +589,56 @@ class WithLongTitle extends React.Component {
 export default { title: 'SidePage' };
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
-WithScrollableParentContent.story = {
-  name: 'With scrollable parent content',
-  parameters: { creevey: { skip: [true] } },
-};
+WithScrollableParentContent.storyName = 'With scrollable parent content';
+WithScrollableParentContent.parameters = { creevey: { skip: [true] } };
 
 export const WithInputInHeader = () => <SidePageWithInputInHeader />;
-WithInputInHeader.story = { name: 'With Input in header', parameters: { creevey: { skip: [true] } } };
+WithInputInHeader.storyName = 'With Input in header';
+WithInputInHeader.parameters = { creevey: { skip: [true] } };
 
-export const SidePageOverAnotherSidePageStory: CSFStory<JSX.Element> = () => <SidePageOverAnotherSidePage />;
-SidePageOverAnotherSidePageStory.story = {
-  name: 'SidePage over another SidePage',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['open internal side-page']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
-            .perform();
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
-        },
-        async ['close internal side-page']() {
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
-            .perform();
-          await this.browser
-            .actions({ bridge: true })
-            .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
-            .perform();
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
-        },
+export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
+SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
+
+SidePageOverAnotherSidePageStory.parameters = {
+  creevey: {
+    tests: {
+      async ['open internal side-page']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
+      },
+      async ['close internal side-page']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
+          .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
       },
     },
   },
 };
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
-SidePageWithConfiguration.story = { name: 'SidePage with configuration', parameters: { creevey: { skip: [true] } } };
+SidePageWithConfiguration.storyName = 'SidePage with configuration';
+SidePageWithConfiguration.parameters = { creevey: { skip: [true] } };
 
 export const SidePageWithModal = () => <SidePageWithModalInside />;
-SidePageWithModal.story = { name: 'SidePage with Modal', parameters: { creevey: { skip: [true] } } };
+SidePageWithModal.storyName = 'SidePage with Modal';
+SidePageWithModal.parameters = { creevey: { skip: [true] } };
 
 export const DisabledSidePage = () => (
   <SidePage disableClose>
@@ -646,138 +646,129 @@ export const DisabledSidePage = () => (
     <SidePage.Body>Content of disabled body</SidePage.Body>
   </SidePage>
 );
-DisabledSidePage.story = { name: 'Disabled SidePage', parameters: { creevey: { skip: [true] } } };
+DisabledSidePage.storyName = 'Disabled SidePage';
+DisabledSidePage.parameters = { creevey: { skip: [true] } };
 
 export const SidePageWithLeftPositionStory = () => (
   <SidePageWithLeftPosition close={() => undefined} disableAnimations />
 );
-SidePageWithLeftPositionStory.story = {
-  name: 'SidePage with left position',
-  parameters: { creevey: { captureElement: null } },
-};
+SidePageWithLeftPositionStory.storyName = 'SidePage with left position';
+SidePageWithLeftPositionStory.parameters = { creevey: { captureElement: null } };
 
 export const LeftSidePageWithRightSidePageStory = () => <LeftSidePageWithRightSidePage disableAnimations />;
-LeftSidePageWithRightSidePageStory.story = {
-  name: 'Left SidePage With Right SidePage',
-  parameters: { creevey: { captureElement: null } },
-};
+LeftSidePageWithRightSidePageStory.storyName = 'Left SidePage With Right SidePage';
+LeftSidePageWithRightSidePageStory.parameters = { creevey: { captureElement: null } };
 
-export const Simple: CSFStory<JSX.Element> = () => <SimpleSidePage />;
-Simple.story = {
-  parameters: {
-    creevey: {
-      tests: {
-        async ['open side-page']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
-        },
+export const Simple: Story = () => <SimpleSidePage />;
+
+Simple.parameters = {
+  creevey: {
+    tests: {
+      async ['open side-page']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page');
       },
     },
   },
 };
 
-export const BodyWithoutFooter: CSFStory<JSX.Element> = () => <Sample withoutFooter withContent withLongBody />;
-BodyWithoutFooter.story = {
-  name: 'Body without Footer',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['scroll to bottom']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await this.browser.executeScript(function() {
-            const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+export const BodyWithoutFooter: Story = () => <Sample withoutFooter withContent withLongBody />;
+BodyWithoutFooter.storyName = 'Body without Footer';
 
-            // @ts-ignore
-            sidepageContainer.scrollTop = 3000;
-          });
-          await delay(1000);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom');
-        },
+BodyWithoutFooter.parameters = {
+  creevey: {
+    tests: {
+      async ['scroll to bottom']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.browser.executeScript(function() {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom');
       },
     },
   },
 };
 
-export const BodyWithoutHeader: CSFStory<JSX.Element> = () => <Sample withoutHeader withContent withLongBody />;
-BodyWithoutHeader.story = {
-  name: 'Body without Header',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['open side-page without header']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: 'button' }))
-            .perform();
-          await delay(100);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page without header');
-        },
+export const BodyWithoutHeader: Story = () => <Sample withoutHeader withContent withLongBody />;
+BodyWithoutHeader.storyName = 'Body without Header';
+
+BodyWithoutHeader.parameters = {
+  creevey: {
+    tests: {
+      async ['open side-page without header']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(100);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open side-page without header');
       },
     },
   },
 };
 
 export const SidePageWithVariableContent = () => <WithVariableContent />;
-SidePageWithVariableContent.story = {
-  name: 'SidePage with variable content',
-  parameters: { creevey: { skip: [true] } },
-};
+SidePageWithVariableContent.storyName = 'SidePage with variable content';
+SidePageWithVariableContent.parameters = { creevey: { skip: [true] } };
 
-export const TestUpdateLayoutMethodStory: CSFStory<JSX.Element> = () => <TestUpdateLayoutMethod />;
-TestUpdateLayoutMethodStory.story = {
-  name: 'test updateLayout method',
-  parameters: {
-    creevey: {
-      tests: {
-        async idle() {
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
-        },
-        async ['Body content has been changed']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-tid="toggle-body-content"]' }))
-            .perform();
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('Body content has been changed');
-        },
-        async ['child component content has been changed']() {
-          await delay(1000);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-            .perform();
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage(
-            'child component content has been changed',
-          );
-        },
-        async ['update layout']() {
-          await delay(1000);
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
-            .pause(1000)
-            .click(this.browser.findElement({ css: '[data-tid="update"]' }))
-            .perform();
-          await delay(1000);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('update layout');
-        },
+export const TestUpdateLayoutMethodStory: Story = () => <TestUpdateLayoutMethod />;
+TestUpdateLayoutMethodStory.storyName = 'test updateLayout method';
+
+TestUpdateLayoutMethodStory.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
+      },
+      async ['Body content has been changed']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="toggle-body-content"]' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('Body content has been changed');
+      },
+      async ['child component content has been changed']() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
+          'child component content has been changed',
+        );
+      },
+      async ['update layout']() {
+        await delay(1000);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="toggle-child-component-content"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="update"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('update layout');
       },
     },
   },
@@ -794,44 +785,171 @@ export const WithScrollableParentContentAndScrollingBeforeOpen = () => (
     {textSample}
   </div>
 );
-WithScrollableParentContentAndScrollingBeforeOpen.story = {
-  name: 'With scrollable parent content and scrolling before open',
-  parameters: { creevey: { skip: [true] } },
+WithScrollableParentContentAndScrollingBeforeOpen.storyName =
+  'With scrollable parent content and scrolling before open';
+WithScrollableParentContentAndScrollingBeforeOpen.parameters = { creevey: { skip: [true] } };
+
+export const WithLongTitleStory: Story = () => <WithLongTitle />;
+WithLongTitleStory.storyName = 'With long title';
+
+WithLongTitleStory.parameters = {
+  creevey: {
+    tests: {
+      async ['not fixed']() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
+      },
+      async ['fixed close element']() {
+        await this.browser.executeScript(function() {
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
+          const fixedHeaderHeight = 50;
+
+          // @ts-ignore
+          sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
+      },
+      async ['fixed header']() {
+        await this.browser.executeScript(function() {
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
+          const fixedHeaderHeight = 50;
+
+          // @ts-ignore
+          sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed header');
+      },
+    },
+  },
 };
 
-export const WithLongTitleStory: CSFStory<JSX.Element> = () => <WithLongTitle />;
-WithLongTitleStory.story = {
-  name: 'With long title',
-  parameters: {
-    creevey: {
-      tests: {
-        async ['not fixed']() {
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
-        },
-        async ['fixed close element']() {
-          await this.browser.executeScript(function() {
-            const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-            const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
-            const fixedHeaderHeight = 50;
+const SidePageHeader = () => <SidePage.Header>Header</SidePage.Header>;
+const SidePageBody = () => {
+  return (
+    <SidePage.Body>
+      <SidePage.Container>
+        {new Array(3).fill(textSample).map((item, index) => (
+          <div key={index}>{item}</div>
+        ))}
+      </SidePage.Container>
+    </SidePage.Body>
+  );
+};
+const SidePageFooter = (data: { hasPanel: boolean }) => <SidePage.Footer panel={data.hasPanel}>Footer</SidePage.Footer>;
 
-            // @ts-ignore
-            sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
-          });
-          await delay(1000);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
-        },
-        async ['fixed header']() {
-          await this.browser.executeScript(function() {
-            const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-            const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
-            const fixedHeaderHeight = 50;
+export const SidePageWithChildrenFromOtherComponent: Story = () => {
+  const [hasHeader, setHasHeader] = useState(false);
+  const [hasFooter, setHasFooter] = useState(false);
+  const [hasPanel, setHasPanel] = useState(false);
 
-            // @ts-ignore
-            sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
-          });
-          await delay(1000);
-          await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed header');
-        },
+  const handleHeaderButton = useCallback(() => setHasHeader(!hasHeader), [hasHeader]);
+  const handleFooterButton = useCallback(() => setHasFooter(!hasFooter), [hasFooter]);
+  const handlePanelButton = useCallback(() => setHasPanel(!hasPanel), [hasPanel]);
+
+  return (
+    <>
+      <div style={{ paddingBottom: 10 }}>
+        <Button data-tid={'SidePage__header-toggle'} onClick={handleHeaderButton}>
+          toggle header
+        </Button>
+      </div>
+      <div style={{ paddingBottom: 10 }}>
+        <Button data-tid="SidePage__footer-toggle" onClick={handleFooterButton}>
+          toggle footer
+        </Button>
+      </div>
+      <div style={{ paddingBottom: 10 }}>
+        <Button data-tid="SidePage__panel-toggle" onClick={handlePanelButton}>
+          toggle panel
+        </Button>
+      </div>
+      <SidePage>
+        {hasHeader && <SidePageHeader />}
+        <SidePageBody />
+        {hasFooter && <SidePageFooter hasPanel={hasPanel} />}
+      </SidePage>
+    </>
+  );
+};
+
+SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Children';
+SidePageWithChildrenFromOtherComponent.parameters = {
+  creevey: {
+    tests: {
+      async ['without header, footer']() {
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('without header, footer');
+      },
+      async ['scroll to bottom without header, footer']() {
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom without header, footer');
+      },
+      async ['with header, footer']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .pause(1000)
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('with header, footer');
+      },
+      async ['scroll to bottom with header, footer']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__header-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with header, footer');
+      },
+      async ['with panel']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('with panel');
+      },
+      async ['scroll to bottom with panel']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
+          .pause(1000)
+          .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with panel');
       },
     },
   },

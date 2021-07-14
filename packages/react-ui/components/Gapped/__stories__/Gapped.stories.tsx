@@ -1,16 +1,19 @@
 import React from 'react';
 
+import { Meta } from '../../../typings/stories';
 import { Gapped, GappedProps } from '../Gapped';
 import { Button } from '../../Button';
 
 export default {
   title: 'Gapped',
   decorators: [
-    (storyFn: () => JSX.Element) => (
-      <div style={{ padding: '5px', border: '1px solid black', width: '300px' }}>{storyFn()}</div>
+    Story => (
+      <div style={{ padding: '5px', border: '1px solid black', width: '300px' }}>
+        <Story />
+      </div>
     ),
   ],
-};
+} as Meta;
 
 export const Horizontal = () => (
   <Gapped gap={20}>
