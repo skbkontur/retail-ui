@@ -4,7 +4,7 @@ import { emptyHandler } from '../../lib/utils';
 
 import { Tab } from './Tab';
 
-export interface TabsContextType<T> {
+export interface TabsContextType<T = any> {
   vertical: boolean;
   activeTab: T;
   getTab: (id: T) => Tab | null | void;
@@ -15,7 +15,7 @@ export interface TabsContextType<T> {
   switchTab: (id: T) => void;
 }
 
-export const TabsContextDefaultValue: TabsContextType<any> = {
+export const TabsContextDefaultValue: TabsContextType = {
   vertical: false,
   activeTab: '',
   getTab: emptyHandler,
@@ -25,6 +25,6 @@ export const TabsContextDefaultValue: TabsContextType<any> = {
   shiftFocus: emptyHandler,
   switchTab: emptyHandler,
 };
-export const TabsContext = React.createContext<TabsContextType<any>>(TabsContextDefaultValue);
+export const TabsContext = React.createContext<TabsContextType>(TabsContextDefaultValue);
 
 TabsContext.displayName = 'TabsContext';
