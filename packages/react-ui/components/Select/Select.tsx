@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import cn from 'classnames';
+import throttle from 'lodash.throttle';
 
 import {
   isKeyArrowDown,
@@ -218,13 +219,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private getProps = createPropsGetter(Select.defaultProps);
 
   public componentDidMount() {
+    window.addEventListener('resize', this.throttledCheckForMobileLayout);
+
     // for SSR, see https://reactjs.org/docs/react-dom.html#hydrate
-    if (canUseDOM && this.theme && window.matchMedia(this.theme.mobileMediaQuery).matches) {
-      this.setState({
-        isMobileLayout: true,
-        isScrolled: this.menu ? this.menu.isScrolled : false,
-      });
-    }
+    this.checkForMobileLayout();
   }
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
@@ -234,6 +232,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     if (prevState.opened && !this.state.opened) {
       window.removeEventListener('popstate', this.close);
     }
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.throttledCheckForMobileLayout);
   }
 
   public render() {
@@ -642,6 +644,20 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         })
       : buttonElement;
   };
+
+  private isMatchMedia = () => {
+    return canUseDOM && this.theme && window.matchMedia(this.theme.mobileMediaQuery).matches;
+  };
+
+  private checkForMobileLayout = () => {
+    if (this.isMatchMedia()) {
+      this.setState({
+        isMobileLayout: true,
+      });
+    }
+  };
+
+  private throttledCheckForMobileLayout = throttle(this.checkForMobileLayout, 100);
 }
 
 function renderValue(value: any, item: any) {
