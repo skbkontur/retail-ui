@@ -132,7 +132,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
-    this.clearSpinnersTimeouts();
+    this.clearTimeoutBeforeSpinnerShow();
+    this.clearTimeoutBeforeSpinnerHide()
   }
 
   public render() {
@@ -290,30 +291,41 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       return;
     }
 
-    this.timeoutBeforeSpinnerShow = setTimeout(() => {
-      if (this.props.active) {
-        this.setState({
-          isSpinnerVisible: true,
-          needShowSpinnerMinimalTime: true,
-        });
-      }
-      this.timeoutBeforeSpinnerShow && clearTimeout(this.timeoutBeforeSpinnerShow);
-    }, this.props.delayBeforeSpinnerShow);
+    this.setTimeoutBeforeSpinnerShow();
+    this.setTimeoutBeforeSpinnerHide();
+  };
 
+  private setTimeoutBeforeSpinnerShow = () => {
+    if (!this.timeoutBeforeSpinnerShow) {
+      this.timeoutBeforeSpinnerShow = setTimeout(() => {
+        if (this.props.active) {
+          this.setState({
+            isSpinnerVisible: true,
+            needShowSpinnerMinimalTime: true,
+          });
+        }
+        this.clearTimeoutBeforeSpinnerShow();
+      }, this.props.delayBeforeSpinnerShow);
+    }
+  }
+
+  private clearTimeoutBeforeSpinnerShow = () => {
+    this.timeoutBeforeSpinnerShow && clearTimeout(this.timeoutBeforeSpinnerShow);
+  }
+
+  private setTimeoutBeforeSpinnerHide = () => {
     if (!this.timeoutBeforeSpinnerHide) {
       this.timeoutBeforeSpinnerHide = setTimeout(() => {
         this.setState({ needShowSpinnerMinimalTime: false });
         if (!this.props.active) {
           this.setState({ isSpinnerVisible: false });
         }
-        this.timeoutBeforeSpinnerHide && clearTimeout(this.timeoutBeforeSpinnerHide);
+        this.clearTimeoutBeforeSpinnerHide();
       }, Number(this.props.delayBeforeSpinnerShow) + Number(this.props.minimalDelayBeforeSpinnerHide));
     }
-  };
+  }
 
-  private clearSpinnersTimeouts = () => {
-    [this.timeoutBeforeSpinnerShow, this.timeoutBeforeSpinnerHide].forEach(
-      (t: Nullable<NodeJS.Timeout>) => t && clearTimeout(t),
-    );
-  };
+  private clearTimeoutBeforeSpinnerHide = () => {
+    this.timeoutBeforeSpinnerHide && clearTimeout(this.timeoutBeforeSpinnerHide);
+  }
 }
