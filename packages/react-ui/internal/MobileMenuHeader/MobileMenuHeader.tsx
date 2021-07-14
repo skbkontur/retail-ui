@@ -53,7 +53,7 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
         className={cn({
           [jsStyles.root(this.theme)]: true,
           [jsStyles.withoutBorderRadius()]: this.props.withoutBorderRadius,
-          [jsStyles.withShadow()]: withShadow,
+          [jsStyles.withShadow(this.theme)]: withShadow,
         })}
         ref={el => (this.rootDiv = el)}
       >
@@ -61,7 +61,12 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
           <div className={jsStyles.closeWrapper()}>
             <MenuClose onClose={this.props.onClose} />
           </div>
-          <div className={cn({ [jsStyles.caption()]: true, [jsStyles.withChild()]: Boolean(childComponent) })}>
+          <div
+            className={cn({
+              [jsStyles.caption(this.theme)]: true,
+              [jsStyles.withChild(this.theme)]: Boolean(childComponent),
+            })}
+          >
             {caption || MASK_CHAR_EXEMPLAR}
           </div>
           {childComponent}

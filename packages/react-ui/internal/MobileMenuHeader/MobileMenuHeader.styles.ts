@@ -7,14 +7,14 @@ const styles = {
     return css`
       position: relative;
       background: ${t.menuBgDefault};
-      padding: 12px 16px 24px;
-      border-radius: 8px 8px 0px 0px;
+      padding: ${t.mobileMenuHeaderPadding};
+      border-radius: ${t.mobileMenuHeaderBorderRadius};
     `;
   },
 
-  withShadow() {
+  withShadow(t: Theme) {
     return css`
-      box-shadow: 0px 0px 16px 1px rgba(0, 0, 0, 0.1);
+      box-shadow: ${t.mobileMenuHeaderShadow};
     `;
   },
 
@@ -32,16 +32,17 @@ const styles = {
     `;
   },
 
-  caption() {
+  caption(t: Theme) {
     return css`
-      font-size: 18px;
-      line-height: 28px;
+      font-size: ${t.mobileMenuHeaderFontSize};
+      line-height: ${t.mobileMenuHeaderLineHeight};
+      weight: ${t.mobileMenuHeaderFontWeight};
     `;
   },
 
-  withChild() {
+  withChild(t: Theme) {
     return css`
-      padding-bottom: 12px;
+      padding-bottom: ${t.mobileMenuHeaderChildPadding};
     `;
   },
 

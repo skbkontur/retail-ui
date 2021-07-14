@@ -60,6 +60,8 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
+  public static mobileFontSize = '18px';
+  public static mobileLineHeight = '24px';
   public static specificityLevel = '0';
   private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
@@ -526,6 +528,8 @@ export class DefaultTheme {
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
   }
+
+  public static mobileSelectMenuTopPadding = '40px';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '15px';
@@ -845,6 +849,8 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#a0a0a0';
   public static menuItemCommentColorHover = '#fff';
+
+  public static mobileMenuItemPadding = '12px 16px';
   //menuHeader
   public static menuHeaderColor = '#a0a0a0';
   public static menuHeaderLineHeight = 'inherit';
@@ -1390,6 +1396,19 @@ export class DefaultTheme {
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;
   }
+  //#endregion
+  //#region MobileMenuHeader
+  public static mobileMenuHeaderPadding = '18px 16px';
+  public static mobileMenuHeaderBorderRadius = '8px 8px 0px 0px';
+  public static mobileMenuHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
+  public static get mobileMenuHeaderFontSize() {
+    return this.mobileFontSize;
+  }
+  public static get mobileMenuHeaderLineHeight() {
+    return this.mobileLineHeight;
+  }
+  public static mobileMenuHeaderFontWeight = '500';
+  public static mobileMenuHeaderChildPadding = '12px';
   //#endregion
 }
 

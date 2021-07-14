@@ -2,8 +2,6 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { emotionMQS } from '../../lib/client';
 
-import { MOBILE_MENU_TOP_PADDING } from './Select';
-
 const styles = {
   root(t: Theme) {
     return css`
@@ -16,13 +14,12 @@ const styles = {
     `;
   },
 
-  rootMobile() {
+  rootMobile(t: Theme) {
     return css`
       left: 0;
       position: fixed;
       bottom: 0;
       width: 100%;
-      max-height: calc(100vh - ${MOBILE_MENU_TOP_PADDING}px);
       z-index: 100000;
     `;
   },

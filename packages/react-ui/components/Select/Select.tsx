@@ -425,7 +425,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         maxHeight={
           this.props.maxMenuHeight ||
           (isMobileLayout
-            ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${search ? 0 : MOBILE_MENU_TOP_PADDING}px)`
+            ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${
+                search ? '0px' : this.theme.mobileSelectMenuTopPadding
+              })`
             : undefined)
         }
         onScroll={this.handleScroll}
@@ -466,7 +468,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       return (
         <div
           className={cn({
-            [jsStyles.rootMobile()]: true,
+            [jsStyles.rootMobile(this.theme)]: true,
             [jsStyles.mobileWithSearch(this.theme)]: Boolean(search),
           })}
         >

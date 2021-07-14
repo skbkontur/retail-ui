@@ -27,7 +27,9 @@ const styles = {
       }
 
       ${emotionMQS.sm}  {
-        padding: 12px 16px 12px 24px;
+        font-size: ${t.mobileFontSize};
+        line-height: ${t.mobileLineHeight};
+        padding: ${t.mobileMenuItemPadding};
       },
     `;
   },
