@@ -1,4 +1,4 @@
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -7,7 +7,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ToastTests
     [AutoFillControls]
     public class ToastTestPage : PageBase
     {
-        public ToastTestPage(RemoteWebDriver webDriver)
+        public ToastTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

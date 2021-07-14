@@ -19,9 +19,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnArrowBgImageActive = 'none';
   public static btnArrowBgImageChecked = 'none';
-  public static get btnDisabledBorderColor() {
-    return this.bgDisabled;
-  }
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
   public static btnDefaultHoverBg = '#f2f2f2';
   public static btnDefaultHoverBorderColor = '#d9d9d9';
   public static get btnDefaultHoverBorderBottomColor() {

@@ -1,7 +1,5 @@
 using System;
 using System.Drawing;
-using System.Linq;
-using System.IO;
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -62,7 +60,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             return WebDriver.Screenshoter().GetScreenshot();
         }
 
-        private RemoteWebDriver WebDriver
+        private IWebDriver WebDriver
         {
             get
             {
@@ -91,7 +89,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
             return $"http://{defaultDomain}:{defaultPort}/{relativeUrl}/";
         }
 
-        private RemoteWebDriver webDriver;
+        private IWebDriver webDriver;
         private readonly string defaultDomain;
         private readonly string defaultPort;
         private readonly string tunnelIdentifier;
