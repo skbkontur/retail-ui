@@ -269,8 +269,11 @@ Simple.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async focus() {
-        this.browser.executeScript(function () {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('focus');
       },
@@ -298,8 +301,11 @@ Disabled.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async focus() {
-        this.browser.executeScript(function () {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('focus');
       },
@@ -317,8 +323,11 @@ WithWidth.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async focus() {
-        this.browser.executeScript(function () {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('focus');
       },
@@ -334,7 +343,10 @@ BlurAlwaysAfterChange.parameters = {
     tests: {
       async ['value not changed']() {
         await this.browser.executeScript(function () {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.browser
           .actions({
@@ -347,7 +359,10 @@ BlurAlwaysAfterChange.parameters = {
       },
       async ['value changed']() {
         await this.browser.executeScript(function () {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.browser
           .actions({
@@ -370,7 +385,10 @@ BlurAlwaysAfterChange.parameters = {
           };
         });
         await this.browser.executeScript(function () {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.browser
           .actions({

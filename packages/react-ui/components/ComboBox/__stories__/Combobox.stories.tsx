@@ -198,6 +198,7 @@ SimpleComboboxStory.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('submit');
       },
       async select_1() {
+        await delay(1000);
         await this.browser
           .actions({
             bridge: true,
@@ -213,6 +214,9 @@ SimpleComboboxStory.parameters = {
           })
           .move({ origin: this.browser.findElement({ css: 'body' }) })
           .perform();
+
+        await delay(1000);
+
         await this.browser
           .actions({
             bridge: true,

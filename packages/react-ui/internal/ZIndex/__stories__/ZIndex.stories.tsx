@@ -745,6 +745,8 @@ BigModalWithLoaderStory.parameters = {
           }
         });
 
+        await delay(500);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
       },
     },
