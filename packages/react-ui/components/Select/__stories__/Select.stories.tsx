@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select } from '../Select';
 import { Gapped } from '../../Gapped';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -174,40 +177,54 @@ export const MobileSimple = () => {
   ];
 
   return (
-    <Gapped vertical>
-      <span>With small count of items</span>
-      <Select items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
-      <span>With big count of items</span>
-      <Select items={items} mobileMenuHeaderText={'This is header'} />
-      <span>With search</span>
-      <Select items={items} mobileMenuHeaderText={'This is header'} search />
-    </Gapped>
+    <ThemeContext.Consumer>
+      {theme => {
+        return (
+          <ThemeContext.Provider
+            value={ThemeFactory.create(
+              {
+                mobileMediaQuery: '(max-width: 576px)',
+              },
+              theme,
+            )}
+          >
+            <Gapped vertical>
+              <span>With small count of items</span>
+              <Select items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
+              <span>With big count of items</span>
+              <Select items={items} mobileMenuHeaderText={'This is header'} />
+              <span>With search</span>
+              <Select items={items} mobileMenuHeaderText={'This is header'} search />
+            </Gapped>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
   );
 };
-MobileSimple.story = {
-  name: 'Mobile stories',
-  parameters: {
-    viewport: {
-      defaultViewport: 'Iphone 6/7/8',
-    },
-    decorators: [
-      (story: StoryFn<JSX.Element>) => (
-        <div
-          style={{
-            width: 'calc(100vw - 16px)',
-            height: 'calc(100vh - 16px)',
-            backgroundColor: 'lightBlue',
-            margin: -8,
-            padding: 8,
-          }}
-        >
-          {story()}
-        </div>
-      ),
-    ],
-    creevey: { skip: [true] },
+MobileSimple.title = 'Mobile stories';
+MobileSimple.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
   },
+  creevey: { skip: [true] },
 };
+MobileSimple.decorators = [
+  (Story: Story) => (
+    <div
+      style={{
+        width: 'calc(100vw - 16px)',
+        height: 'calc(100vh - 16px)',
+        backgroundColor: 'lightBlue',
+        margin: -8,
+        padding: 8,
+      }}
+    >
+      <Story />
+    </div>
+  ),
+];
+MobileSimple.creevey = { skip: [true] };
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>

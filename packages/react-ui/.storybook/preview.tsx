@@ -13,19 +13,21 @@ import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 
 const customViewports = {
-  kindleFire2: {
-    name: 'Iphone 6/7/8',
+  iphone: {
+    name: 'Iphone',
     styles: {
       width: '375px',
       height: '667px',
     },
+    type: 'mobile',
   },
-  kindleFireHD: {
-    name: 'Iphone 6/7/8 Plus',
+  iphonePlus: {
+    name: 'Iphone Plus',
     styles: {
       width: '414px',
       height: '736px',
     },
+    type: 'mobile',
   },
 };
 const themes = { DEFAULT_THEME, FLAT_THEME, DEFAULT_THEME_OLD, FLAT_THEME_OLD };
@@ -75,6 +77,9 @@ export const parameters: Meta['parameters'] = {
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
   },
+  viewport: {
+    viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
+  },
 };
 
 export const globalTypes = {
@@ -89,12 +94,6 @@ export const globalTypes = {
     },
   },
 };
-
-addParameters({
-  viewport: {
-    viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
-  },
-});
 
 if (isTestEnv) {
   import('../lib/styles/HoldSelectionColor');
