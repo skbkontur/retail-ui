@@ -72,6 +72,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
+      maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth,
       // hide vertical scrollbar with a little extra spac
       paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
       marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
@@ -80,19 +82,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       height: `calc(100% + ${HIDE_SCROLL_X_OFFSET}px)`,
     };
 
-    const wrapperStyle: React.CSSProperties = {
-      maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth,
-    };
-
     return (
       <CommonWrapper {...this.props}>
-        <div
-          style={wrapperStyle}
-          className={jsStyles.root()}
-          onMouseMove={this.handleMouseMove}
-          onMouseLeave={this.handleMouseLeave}
-        >
+        <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
           {scrollY}
           {scrollX}
           <div
