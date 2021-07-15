@@ -20,7 +20,7 @@ import {
   HIDE_SCROLL_X_OFFSET,
 } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
-import { getScrollSizeParams } from './ScrollContainer.helpers';
+import { getScrollSizeParams, getMaxHeightWithOffset } from './ScrollContainer.helpers';
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -70,16 +70,18 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const scrollY = this.renderScrollY();
     const scrollX = this.renderScrollX();
 
+    const height = getMaxHeightWithOffset(props.maxHeight);
+
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
-      maxHeight: props.maxHeight,
+      maxHeight: height,
       maxWidth: props.maxWidth,
       // hide vertical scrollbar with a little extra spac
       paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
       marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
       // hide horizontal scrollbar
       marginBottom: -1 * HIDE_SCROLL_X_OFFSET - 1,
-      height: `calc(100% + ${HIDE_SCROLL_X_OFFSET}px)`,
+      height,
     };
 
     return (

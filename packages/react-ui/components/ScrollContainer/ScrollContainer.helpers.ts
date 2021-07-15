@@ -36,3 +36,17 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
     scrollPos,
   };
 };
+
+export const getMaxHeightWithOffset = (prop: React.CSSProperties['maxHeight']) => {
+  let maxSize = '100%';
+
+  if (typeof prop === 'number') {
+    maxSize = `${prop}px`;
+  }
+
+  if (typeof prop === 'string') {
+    maxSize = prop;
+  }
+
+  return `calc(${maxSize} + ${HIDE_SCROLL_X_OFFSET}px)`;
+};
