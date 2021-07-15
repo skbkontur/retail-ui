@@ -479,7 +479,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleClick = () => {
-    this.close();
+    this.open();
   };
 
   private handleClickOutsideAnchor = (event: Event) => {
