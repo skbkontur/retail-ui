@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.3.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.5...react-ui-testing@3.3.0) (2021-07-14)
+
+
+### Features
+
+* **react-selenium-testing:** using webdriver interface ([#2468](https://github.com/skbkontur/retail-ui/issues/2468)) ([b951179](https://github.com/skbkontur/retail-ui/commit/b951179d2335f53d6d17f61b9254bf8ffff66ed0))
+
+
+
+
+
 ## [3.2.5](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.4...react-ui-testing@3.2.5) (2021-06-09)
 
 **Note:** Version bump only for package react-ui-testing

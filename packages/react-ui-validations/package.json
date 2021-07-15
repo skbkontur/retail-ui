@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -23,7 +23,9 @@
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
     "fix:eslint": "yarn lint:eslint --fix",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prettier:check": "yarn prettier --check .",
+    "prettier:fix": "yarn prettier --write ."
   },
   "main": "./index.js",
   "types": "./index.d.ts",
@@ -56,7 +58,7 @@
     "@skbkontur/react-icons": "^4.4.0",
     "@skbkontur/react-props2attrs": "^0.1.2",
     "@skbkontur/react-sorge": "^0.1.0",
-    "@storybook/react": "5.3.14",
+    "@storybook/react": "6.3.2",
     "@types/jest": "^26.0.20",
     "@types/react": "16.14.4",
     "@types/react-dom": "16.9.11",
@@ -81,7 +83,7 @@
     "less-loader": "7.3.0",
     "markdown": "^0.5.0",
     "npm-run-all": "^4.1.5",
-    "prettier": "^1.14.2",
+    "prettier": "2.3.2",
     "raw-loader": "^4.0.0",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",

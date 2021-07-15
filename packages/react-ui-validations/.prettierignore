@@ -1,0 +1,13 @@
+.idea
+.vscode
+.DS_Store
+.npmrc
+
+node_modules
+build
+
+yarn-debug.log
+yarn-error.log
+npm-debug.log
+
+*.md

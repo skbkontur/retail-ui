@@ -43,4 +43,4 @@ export const BareInputsVsTooltipInput = () => {
     </div>
   );
 };
-BareInputsVsTooltipInput.story = { name: 'Bare Inputs vs Tooltip+Input' };
+BareInputsVsTooltipInput.storyName = 'Bare Inputs vs Tooltip+Input';
