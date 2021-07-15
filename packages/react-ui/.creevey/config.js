@@ -8,7 +8,7 @@ const config = {
   storybookUrl: 'http://localhost:6060',
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
-  babelOptions: options => ({
+  babelOptions: (options) => ({
     ...options,
     extends: path.join(__dirname, '../.babelrc.js'),
   }),
@@ -17,7 +17,6 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
-      limit: 2,
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
@@ -26,7 +25,6 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
-      limit: 2,
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
@@ -35,7 +33,6 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
-      limit: 2,
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
@@ -44,7 +41,6 @@ const config = {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
-      limit: 2,
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },
@@ -52,7 +48,6 @@ const config = {
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
@@ -60,7 +55,6 @@ const config = {
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
@@ -68,7 +62,6 @@ const config = {
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
@@ -76,7 +69,6 @@ const config = {
     firefoxFlat8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },
@@ -84,7 +76,6 @@ const config = {
     ie11: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
@@ -102,7 +93,6 @@ const config = {
     ie118px: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
@@ -110,7 +100,6 @@ const config = {
     ie11Flat: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
@@ -118,7 +107,6 @@ const config = {
     ie11Flat8px: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      limit: 2,
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },

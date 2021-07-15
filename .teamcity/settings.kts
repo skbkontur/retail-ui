@@ -368,7 +368,9 @@ object ReactUI_Publish : BuildType({
 object ReactUI_ScreenshotTests : BuildType({
     name = "Screenshot tests"
 
-    artifactRules = "packages/react-ui/.creevey/report => report.zip"
+    artifactRules = ""
+
+    maxRunningBuilds = 2
 
     vcs {
         root(DslContext.settingsRoot)
