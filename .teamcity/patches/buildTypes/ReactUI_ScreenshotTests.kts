@@ -9,8 +9,13 @@ To apply the patch, change the buildType with id = 'ReactUI_ScreenshotTests'
 accordingly, and delete the patch script.
 */
 changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
+    check(artifactRules == "packages/react-ui/.creevey/report => report.zip") {
+        "Unexpected option value: artifactRules = $artifactRules"
+    }
+    artifactRules = ""
+
     check(maxRunningBuilds == 0) {
         "Unexpected option value: maxRunningBuilds = $maxRunningBuilds"
     }
-    maxRunningBuilds = 1
+    maxRunningBuilds = 2
 }
