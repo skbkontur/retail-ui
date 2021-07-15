@@ -54,12 +54,14 @@ export const getMaxHeightWithOffset = (prop: React.CSSProperties['maxHeight']) =
 };
 
 export const hideOverflowX = (isActiveScrollY: boolean) => {
+  const marginBottom = -1 * HIDE_SCROLL_X_OFFSET;
+
   return isActiveScrollY
     ? {
-        marginBottom: -1 * HIDE_SCROLL_X_OFFSET,
+        marginBottom,
       }
     : {
-        marginBottom: -2 * HIDE_SCROLL_X_OFFSET,
+        marginBottom: 2 * marginBottom,
         paddingBottom: HIDE_SCROLL_X_OFFSET,
         height: '100%',
       };
