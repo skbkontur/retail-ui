@@ -16,7 +16,7 @@ const styles = {
     return css`
       position: relative;
       /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
-      padding-bottom: 1px;
+      /* padding-bottom: 1px; */
       overflow: scroll;
     `;
   },
