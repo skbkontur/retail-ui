@@ -1,3 +1,7 @@
+import React from 'react';
+
+import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+
 import {
   MIN_SCROLL_SIZE,
   scrollSizeParameterName,
@@ -38,15 +42,33 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
 };
 
 export const getMaxHeightWithOffset = (prop: React.CSSProperties['maxHeight']) => {
-  let maxSize = '100%';
-
   if (typeof prop === 'number') {
-    maxSize = `${prop}px`;
+    return `calc(${prop}px + ${HIDE_SCROLL_X_OFFSET}px)`;
   }
 
   if (typeof prop === 'string') {
-    maxSize = prop;
+    return `calc(${prop} + ${HIDE_SCROLL_X_OFFSET}px)`;
   }
 
-  return `calc(${maxSize} + ${HIDE_SCROLL_X_OFFSET}px)`;
+  return `calc(100% + ${HIDE_SCROLL_X_OFFSET}px)`;
+};
+
+export const hideOverflowX = (isActiveScrollY: boolean) => {
+  return isActiveScrollY
+    ? {
+        marginBottom: -1 * HIDE_SCROLL_X_OFFSET,
+      }
+    : {
+        marginBottom: -2 * HIDE_SCROLL_X_OFFSET,
+        paddingBottom: HIDE_SCROLL_X_OFFSET,
+        height: '100%',
+      };
+};
+
+export const hideOverflowY = () => {
+  return {
+    // hide vertical scrollbar with a little extra spac
+    paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
+    marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
+  };
 };

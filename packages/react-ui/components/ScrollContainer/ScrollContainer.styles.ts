@@ -1,5 +1,8 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
+const scrollSize = 4;
+const hoverScrollSize = 10;
+
 const styles = {
   root() {
     return css`
@@ -23,18 +26,18 @@ const styles = {
       &::after {
         content: '';
         width: 100%;
-        height: 12px;
+        height: ${hoverScrollSize + 2}px;
         position: absolute;
       }
     `;
   },
 
-  scroll() {
+  scrollY() {
     return css`
       position: absolute;
       right: 2px;
       transition: width 0.2s;
-      width: 4px;
+      width: ${scrollSize}px;
       z-index: 200;
 
       &::after {
@@ -51,9 +54,9 @@ const styles = {
     `;
   },
 
-  scrollHover() {
+  scrollYHover() {
     return css`
-      width: 10px;
+      width: ${hoverScrollSize}px;
     `;
   },
 
@@ -62,7 +65,7 @@ const styles = {
       position: absolute;
       bottom: 1px;
       transition: height 0.2s;
-      height: 4px;
+      height: ${scrollSize}px;
       z-index: 200;
 
       &::after {
@@ -81,7 +84,7 @@ const styles = {
 
   scrollXHover() {
     return css`
-      height: 10px;
+      height: ${hoverScrollSize}px;
     `;
   },
 

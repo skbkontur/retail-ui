@@ -25,7 +25,7 @@ export const WithLargeContentHeight = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {getItems(1000).map(i => (
+        {getItems(1000).map((i) => (
           <div key={i}>{i}</div>
         ))}
       </ScrollContainer>
@@ -38,7 +38,7 @@ export const WithHorizontalScroll = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {getItems(100).map(i => (
+        {getItems(100).map((i) => (
           <div style={{ width: 200 }} key={i}>
             {i}
           </div>
@@ -83,7 +83,7 @@ export const WithScrollState = () => {
           <div style={headerStyles}>header</div>
           <div style={scrollContainerWrapperStyles}>
             <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
-              {getItems(20).map(i => (
+              {getItems(20).map((i) => (
                 <div key={i}>{i}</div>
               ))}
             </ScrollContainer>
@@ -119,7 +119,7 @@ export const WithDynamicContent: Story = () => {
         <Gapped vertical>
           <div style={wrapperStyle}>
             <ScrollContainer onScrollStateChange={setState}>
-              {getItems(items).map(i => (
+              {getItems(items).map((i) => (
                 <div key={i} style={{ padding: 12 }}>
                   {i}
                 </div>
@@ -199,7 +199,7 @@ export const WithCustomHorizontalScroll = () => {
   return (
     <div style={wrapper}>
       <ScrollContainer>
-        {getItems(25).map(i => (
+        {getItems(25).map((i) => (
           <div style={{ width: 350 }} key={i}>
             {i}
           </div>
@@ -210,5 +210,29 @@ export const WithCustomHorizontalScroll = () => {
 };
 
 WithCustomHorizontalScroll.story = {
-  name: 'with custom horizontal scroll',
+  name: 'with custom vertical and horizontal scroll',
+};
+
+export const WithOnlyCustomHorizontalScroll = () => {
+  const wrapper = {
+    width: '200px',
+    height: '150px',
+    border: '1px solid #000',
+  };
+
+  return (
+    <div style={wrapper}>
+      <ScrollContainer>
+        {getItems(5).map((i) => (
+          <div style={{ width: 350 }} key={i}>
+            {i}
+          </div>
+        ))}
+      </ScrollContainer>
+    </div>
+  );
+};
+
+WithOnlyCustomHorizontalScroll.story = {
+  name: 'with only custom horizontal scroll',
 };

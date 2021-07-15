@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 
@@ -13,14 +12,9 @@ import {
   ScrollState,
   ScrollContainerScrollState,
 } from './ScrollContainer.types';
-import {
-  defaultScrollYState,
-  defaultScrollXState,
-  HIDE_SCROLL_Y_OFFSET,
-  HIDE_SCROLL_X_OFFSET,
-} from './ScrollContainer.constants';
+import { defaultScrollYState, defaultScrollXState } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
-import { getScrollSizeParams, getMaxHeightWithOffset } from './ScrollContainer.helpers';
+import { getScrollSizeParams, getMaxHeightWithOffset, hideOverflowX, hideOverflowY } from './ScrollContainer.helpers';
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -76,12 +70,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       scrollBehavior: props.scrollBehaviour,
       maxHeight: height,
       maxWidth: props.maxWidth,
-      // hide vertical scrollbar with a little extra spac
-      paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
-      marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
-      // hide horizontal scrollbar
-      marginBottom: -1 * HIDE_SCROLL_X_OFFSET - 1,
-      height,
+      ...hideOverflowY(),
+      ...hideOverflowX(this.state.y.active),
     };
 
     return (
@@ -180,9 +170,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const props = this.props;
     const styles = {
       className: cn({
-        [jsStyles.scroll()]: true,
+        [jsStyles.scrollY()]: true,
         [jsStyles.scrollInvert()]: Boolean(props.invert),
-        [jsStyles.scrollHover()]: state.hover || state.scrolling,
+        [jsStyles.scrollYHover()]: state.hover || state.scrolling,
       }),
       inline: {
         top: state.pos,
