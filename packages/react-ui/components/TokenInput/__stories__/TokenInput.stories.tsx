@@ -556,8 +556,9 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('clear')
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
           .perform();
+
+        await delay(2000);
 
         const clearedOnNullReturn = await this.takeScreenshot();
 
