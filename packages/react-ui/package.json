@@ -31,7 +31,7 @@
     "storybook:serve": "serve -l 6060 .storybook/build",
     "styleguide": "styleguidist server --config .styleguide/config/dev.config.js",
     "styleguide:build": "node .styleguide/build",
-    "lint": "run-p -c lint:*",
+    "lint": "run-p -c lint:* && yarn run prettier:check",
     "lint:eslint": "cross-env TIMING=1 yarn eslint --ext .js,.jsx,.ts,.tsx ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "fix:eslint": "yarn lint:eslint --fix",
