@@ -133,7 +133,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     if (!this.inner) {
       return;
     }
-    this.inner.scrollTop = this.inner.scrollHeight - this.inner.offsetHeight;
+    this.inner.scrollTop = this.inner.scrollHeight - this.inner.clientHeight;
   }
 
   private renderScrollX = () => {
