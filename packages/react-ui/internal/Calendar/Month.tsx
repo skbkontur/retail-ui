@@ -57,7 +57,7 @@ export class Month extends React.Component<MonthProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -166,7 +166,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -183,7 +183,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
             display: 'inline-block',
           }}
         />
-        {this.props.days.map(day => {
+        {this.props.days.map((day) => {
           const isWeekend = this.props.isHoliday(day);
 
           return (

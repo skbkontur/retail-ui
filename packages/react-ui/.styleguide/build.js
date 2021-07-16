@@ -9,13 +9,13 @@ const { ROOT_DIR, VERSION_DIR, DEPLOY_DIR } = require('./helpers');
 const ROOT_CONFIG = path.join(__dirname, 'config/root.config.js');
 const VERSION_CONFIG = path.join(__dirname, 'config/version.config.js');
 
-const buildConfig = config => {
+const buildConfig = (config) => {
   execSync(`yarn styleguidist build --config ${config}`, {
     shell: true,
   });
 };
 
-const copyBuildFiles = config => {
+const copyBuildFiles = (config) => {
   // styleguidist clears the directory before each build,
   // so we need to copy the files somewhere after each one
   // in order to deploy them together
@@ -27,7 +27,7 @@ const buildStyleguideRoot = () => {
   copyBuildFiles();
 };
 
-const buildStyleguideVersion = tag => {
+const buildStyleguideVersion = (tag) => {
   const BUILD_DIR = VERSION_DIR;
   const FINAL_DIR = {
     [LATEST]: path.join(ROOT_DIR, publishVersion),

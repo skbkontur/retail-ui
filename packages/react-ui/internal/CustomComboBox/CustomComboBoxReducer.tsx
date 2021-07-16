@@ -70,7 +70,7 @@ const getValueString = (value: any, valueToString: CustomComboBoxProps<any>['val
 };
 
 export const Effect: EffectFactory = {
-  Search: query => (dispatch, getState, getProps, getInstance) => {
+  Search: (query) => (dispatch, getState, getProps, getInstance) => {
     getInstance().search(query);
   },
   DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
@@ -93,7 +93,7 @@ export const Effect: EffectFactory = {
       onFocus();
     }
   },
-  ValueChange: value => (dispatch, getState, getProps) => {
+  ValueChange: (value) => (dispatch, getState, getProps) => {
     const { onValueChange } = getProps();
     if (onValueChange) {
       onValueChange(value);
@@ -154,7 +154,7 @@ export const Effect: EffectFactory = {
 
     let index = -1;
     if (items && items.length && value) {
-      index = items.findIndex(x => itemToValue(x) === itemToValue(value));
+      index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
     }
     menu.highlightItem(index);
 
@@ -169,13 +169,13 @@ export const Effect: EffectFactory = {
       requestAnimationFrame(() => menu && menu.down());
     }
   },
-  SelectMenuItem: event => (dispatch, getState, getProps, getInstance) => {
+  SelectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
     const { menu } = getInstance();
     if (menu) {
       menu.enter(event);
     }
   },
-  MoveMenuHighlight: direction => (dispatch, getState, getProps, getInstance) => {
+  MoveMenuHighlight: (direction) => (dispatch, getState, getProps, getInstance) => {
     const { menu } = getInstance();
     if (menu) {
       menu[direction]();
@@ -195,7 +195,7 @@ export const Effect: EffectFactory = {
     const combobox = getInstance();
     combobox.selectInputText();
   },
-  InputKeyDown: event => (dispatch, getState, getProps, getInstance) => {
+  InputKeyDown: (event) => (dispatch, getState, getProps, getInstance) => {
     const { onInputKeyDown } = getProps();
     if (onInputKeyDown) {
       onInputKeyDown(event);

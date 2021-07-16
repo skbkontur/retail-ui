@@ -507,7 +507,7 @@ export const SelectAllByButton: Story = () => {
   return (
     <div>
       <div>
-        <Input ref={element => (input = element)} defaultValue="Some value" />
+        <Input ref={(element) => (input = element)} defaultValue="Some value" />
       </div>
       <Button onClick={selectAll}>Select all</Button>
     </div>

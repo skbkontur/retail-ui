@@ -86,9 +86,7 @@ export class InternalDate {
 
   public setComponents(components: InternalDateComponentsRaw | null, isNativeMonth = false): InternalDate {
     if (components && isNativeMonth) {
-      const clone = this.clone()
-        .setComponents(components)
-        .shiftMonth(1);
+      const clone = this.clone().setComponents(components).shiftMonth(1);
       if (clone.validate({ checks: [InternalDateValidateCheck.Native] })) {
         this.components = { ...clone.getComponentsLikeNumber() };
       }
@@ -349,11 +347,11 @@ export class InternalDate {
   }
 
   public isIncomplete(): boolean {
-    return !this.isEmpty() && Object.values(this.components).some(component => component === null);
+    return !this.isEmpty() && Object.values(this.components).some((component) => component === null);
   }
 
   public isEmpty(): boolean {
-    return Object.values(this.components).every(component => component === null);
+    return Object.values(this.components).every((component) => component === null);
   }
 
   public isEqualComponentDate(type: InternalDateComponentType | null, compared: InternalDate): boolean {

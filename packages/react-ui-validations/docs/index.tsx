@@ -19,7 +19,7 @@ const App = hot(() => (
     <Layout>
       <Switch>
         <Route exact path="/" component={GettingStarted} />
-        {[...Examples.items, ...Displaying.items, ...Validator.items, ...Concepts.items].map(page => (
+        {[...Examples.items, ...Displaying.items, ...Validator.items, ...Concepts.items].map((page) => (
           <Route key={page.url} path={`/${page.url}`} component={page.component} />
         ))}
         <Route path="/api" component={Api} />

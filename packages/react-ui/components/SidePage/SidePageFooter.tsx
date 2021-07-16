@@ -62,7 +62,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

@@ -10,9 +10,9 @@ interface State {
   email: string;
 }
 
-const validate = createValidator<string>(b => {
-  b.invalid(x => !x, 'Укажите email', 'submit');
-  b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
+const validate = createValidator<string>((b) => {
+  b.invalid((x) => !x, 'Укажите email', 'submit');
+  b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
 });
 
 export default class PrimitiveTypeDemo extends React.Component<{}, State> {
@@ -32,7 +32,7 @@ export default class PrimitiveTypeDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={this.state.email}
-                onValueChange={email => this.setState({ email })}
+                onValueChange={(email) => this.setState({ email })}
               />
             </ValidationWrapper>
           </Form.Line>

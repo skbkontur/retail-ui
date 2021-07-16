@@ -29,7 +29,7 @@ function prepareProps<TValue, TProps extends { value?: any }>(
   const { required, email, validations = [], renderErrorMessage, ...rest } = props;
   const value = props.value;
 
-  const conditions = validations.map(x => () => x(value));
+  const conditions = validations.map((x) => () => x(value));
   if (required) {
     conditions.push(() => {
       if (!value) {
@@ -81,7 +81,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
     JSX.LibraryManagedAttributes<TComponent, { value?: ExtractValue<TComponent> } & ExtractProps<TComponent>>
   >
 > {
-  return props => {
+  return (props) => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;
     return React.createElement(ValidationWrapper, validationWrapperProps, control);
@@ -95,7 +95,7 @@ export { WrappedInput as Input };
 export { WrappedDatePicker as DatePicker };
 
 export function lessThanDate(value: Date): (value: Nullable<string>) => Nullable<ValidationInfo> {
-  return actualValue => {
+  return (actualValue) => {
     const actual = parseDate(actualValue);
     if (actual && !(actual < value)) {
       return { message: 'Значение должно быть меньше чем ' + value.toString() };
