@@ -6,11 +6,9 @@ import { Token, TokenColors } from '../../components/Token';
 async function getItems(query: string) {
   return Promise.resolve(
     ['First', 'Second', 'Third', 'Fourth', 'Fifth', 'Sixth'].filter(
-      x => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query,
+      (x) => x.toLowerCase().includes(query.toLowerCase()) || x.toString() === query,
     ),
-  ).then(
-    (res: string[]) => new Promise<string[]>(resolve => setTimeout(resolve.bind(null, res), 500)),
-  );
+  ).then((res: string[]) => new Promise<string[]>((resolve) => setTimeout(resolve.bind(null, res), 500)));
 }
 
 const tokenColors: { [key: string]: TokenColors } = {
@@ -63,7 +61,7 @@ export class TokenInputPlayground extends React.Component<any, any> {
             {item}
           </Token>
         )}
-        onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+        onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
       />
     );
   }

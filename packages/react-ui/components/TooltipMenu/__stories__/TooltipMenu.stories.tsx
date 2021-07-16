@@ -12,7 +12,7 @@ import { Button } from '../../Button';
 export default {
   title: 'TooltipMenu',
   decorators: [
-    Story => (
+    (Story) => (
       <div
         style={{
           padding: 200,

@@ -39,7 +39,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={immediate}
-                onValueChange={value => this.handleChange({ immediate: value })}
+                onValueChange={(value) => this.handleChange({ immediate: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -49,7 +49,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={lostfocus}
-                onValueChange={value => this.handleChange({ lostfocus: value })}
+                onValueChange={(value) => this.handleChange({ lostfocus: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -59,7 +59,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'Только цифры'}
                 value={submit}
-                onValueChange={value => this.handleChange({ submit: value })}
+                onValueChange={(value) => this.handleChange({ submit: value })}
               />
             </ValidationWrapper>
           </Form.Line>

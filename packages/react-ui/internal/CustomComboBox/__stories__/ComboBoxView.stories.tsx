@@ -121,7 +121,7 @@ export const Opened = () => (
             items={[]}
             opened
             textValue="something"
-            renderAddButton={query => <MenuItem>Add {query}</MenuItem>}
+            renderAddButton={(query) => <MenuItem>Add {query}</MenuItem>}
           />
         </td>
       </tr>
@@ -204,7 +204,7 @@ export const WithCountItems = () => {
         textValue="one"
         items={items}
         totalCount={100}
-        renderItem={item => complexRenderValue(item as { id: number; name: string })}
+        renderItem={(item) => complexRenderValue(item as { id: number; name: string })}
         renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
       />
     </div>
