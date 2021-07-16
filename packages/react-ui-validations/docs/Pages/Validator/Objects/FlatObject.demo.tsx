@@ -11,18 +11,18 @@ interface ContactInfo {
   email: string;
 }
 
-const validate = createValidator<ContactInfo>(b => {
+const validate = createValidator<ContactInfo>((b) => {
   b.prop(
-    x => x.name,
-    b => {
-      b.invalid(x => !x, 'Укажите имя', 'submit');
+    (x) => x.name,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите имя', 'submit');
     },
   );
   b.prop(
-    x => x.email,
-    b => {
-      b.invalid(x => !x, 'Укажите email', 'submit');
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
+    (x) => x.email,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите email', 'submit');
+      b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
     },
   );
 });
@@ -48,21 +48,21 @@ export default class FlatObjectDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="Имя">
-            <ValidationWrapper validationInfo={validation.getNode(x => x.name).get()}>
+            <ValidationWrapper validationInfo={validation.getNode((x) => x.name).get()}>
               <Input
                 placeholder={'Любое'}
                 value={contactInfo.name}
-                onValueChange={name => this.handleChange({ name })}
+                onValueChange={(name) => this.handleChange({ name })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="E-mail">
-            <ValidationWrapper validationInfo={validation.getNode(x => x.email).get()}>
+            <ValidationWrapper validationInfo={validation.getNode((x) => x.email).get()}>
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={contactInfo.email}
-                onValueChange={email => this.handleChange({ email })}
+                onValueChange={(email) => this.handleChange({ email })}
               />
             </ValidationWrapper>
           </Form.Line>

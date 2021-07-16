@@ -62,10 +62,7 @@ export class InternalDateMediator {
   }
 
   public paste = (pasted: string): InternalDateMediator => {
-    this.iDate
-      .parseValue(pasted)
-      .restore()
-      .cutOffExcess();
+    this.iDate.parseValue(pasted).restore().cutOffExcess();
     return this;
   };
 

@@ -90,7 +90,7 @@ export class Tabs extends React.Component<TabsProps> {
 
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <CommonWrapper {...this.props}>
@@ -123,7 +123,7 @@ export class Tabs extends React.Component<TabsProps> {
 
   private shiftFocus = (fromTab: string, delta: number) => {
     const { tabs } = this;
-    const index = tabs.findIndex(x => x.id === fromTab);
+    const index = tabs.findIndex((x) => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
     const tab = tabs[newIndex];
 
@@ -139,7 +139,7 @@ export class Tabs extends React.Component<TabsProps> {
   };
 
   private notifyUpdate = () => {
-    this.listeners.forEach(cb => cb());
+    this.listeners.forEach((cb) => cb());
   };
 
   private switchTab = (id: string) => {
@@ -150,7 +150,7 @@ export class Tabs extends React.Component<TabsProps> {
   };
 
   private getTab = (id: string): Tab | null => {
-    const { getNode = null } = this.tabs.find(x => x.id === id) || {};
+    const { getNode = null } = this.tabs.find((x) => x.id === id) || {};
     return getNode && getNode();
   };
 
@@ -159,6 +159,6 @@ export class Tabs extends React.Component<TabsProps> {
   };
 
   private removeTab = (id: string) => {
-    this.tabs = this.tabs.filter(tab => tab.id !== id);
+    this.tabs = this.tabs.filter((tab) => tab.id !== id);
   };
 }

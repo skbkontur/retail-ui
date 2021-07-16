@@ -150,7 +150,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
