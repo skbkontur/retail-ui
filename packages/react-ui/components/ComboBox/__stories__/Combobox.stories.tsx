@@ -186,6 +186,9 @@ SimpleComboboxStory.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
+
+        await delay(1000);
+
         await this.browser
           .actions({
             bridge: true,
