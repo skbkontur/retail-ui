@@ -188,7 +188,7 @@ Validations.story = { name: 'validations', parameters: { creevey: { skip: [true]
 export const DropdownMenu: CSFStory<JSX.Element> = () => {
   return (
     <Gapped vertical gap={10}>
-      <Wrapper showDropdownMenu={true} getItems={getItems} />
+      <Wrapper useTokenInputMenu='DropdownMenu' getItems={getItems} />
     </Gapped>
   );
 };
