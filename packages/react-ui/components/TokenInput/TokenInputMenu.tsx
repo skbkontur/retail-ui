@@ -12,7 +12,7 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
   wrapper: HTMLLabelElement | null;
-  showDropdownMenu?: boolean;
+  useTokenInputMenu?: 'DropdownMenu' | 'PopupMenu';
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -47,10 +47,10 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
   public getMenuRef = (): any | null => this.menu;
 
   private renderMain() {
-    const { showDropdownMenu } = this.props;
+    const { useTokenInputMenu } = this.props;
 
     return (
-      showDropdownMenu ? this.renderDropdownMenu() : this.renderPopupMenu()
+      useTokenInputMenu === 'PopupMenu' ? this.renderPopupMenu() : this.renderDropdownMenu()
     );
   }
 
