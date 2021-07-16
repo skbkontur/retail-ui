@@ -189,30 +189,6 @@ WithDynamicContent.parameters = {
   },
 };
 
-export const WithCustomHorizontalScroll = () => {
-  const wrapper = {
-    width: '200px',
-    height: '250px',
-    border: '1px solid #000',
-  };
-
-  return (
-    <div style={wrapper}>
-      <ScrollContainer>
-        {getItems(25).map((i) => (
-          <div style={{ width: 350 }} key={i}>
-            {i}
-          </div>
-        ))}
-      </ScrollContainer>
-    </div>
-  );
-};
-
-WithCustomHorizontalScroll.story = {
-  name: 'with custom vertical and horizontal scroll',
-};
-
 export const WithOnlyCustomHorizontalScroll = () => {
   const wrapper = {
     width: '200px',
