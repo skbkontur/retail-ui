@@ -126,16 +126,16 @@ describe('PathHelper', () => {
       const tokens = new PathTokensCache();
       expect(tokens.size).toStrictEqual(0);
 
-      const has1 = tokens.has<any, any>(x => x.aaa);
+      const has1 = tokens.has<any, any>((x) => x.aaa);
       expect(has1).toStrictEqual(false);
 
-      const path1 = tokens.getOrAdd<any, any>(x => x.aaa);
+      const path1 = tokens.getOrAdd<any, any>((x) => x.aaa);
       expect(path1).toStrictEqual(['aaa']);
 
-      const has2 = tokens.has<any, any>(x => x.aaa);
+      const has2 = tokens.has<any, any>((x) => x.aaa);
       expect(has2).toStrictEqual(true);
 
-      const path2 = tokens.getOrAdd<any, any>(x => x.aaa);
+      const path2 = tokens.getOrAdd<any, any>((x) => x.aaa);
       expect(path2).toStrictEqual(['aaa']);
       expect(tokens.size).toStrictEqual(1);
     });

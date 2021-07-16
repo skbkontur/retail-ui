@@ -7,7 +7,7 @@ import { Button } from '../../Button';
 export default {
   title: 'Gapped',
   decorators: [
-    Story => (
+    (Story) => (
       <div style={{ padding: '5px', border: '1px solid black', width: '300px' }}>
         <Story />
       </div>

@@ -89,7 +89,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -99,7 +99,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => React.isValidElement(x) && x.props.icon,
+      (x) => React.isValidElement(x) && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -117,7 +117,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
-        ref={element => {
+        ref={(element) => {
           this.rootElement = element;
         }}
         tabIndex={0}
@@ -149,20 +149,20 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
               let ref = child.ref;
               const originalRef = ref;
               if (highlight) {
-                ref = menuItem => this.refHighlighted(originalRef, menuItem);
+                ref = (menuItem) => this.refHighlighted(originalRef, menuItem);
               }
 
               return React.cloneElement<MenuItemProps, MenuItem>(child, {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this.select.bind(this, index, false),
-                onMouseEnter: event => {
+                onMouseEnter: (event) => {
                   this.highlightItem(index);
                   if (isMenuItem(child) && child.props.onMouseEnter) {
                     child.props.onMouseEnter(event);
                   }
                 },
-                onMouseLeave: event => {
+                onMouseLeave: (event) => {
                   this.unhighlight();
                   if (isMenuItem(child) && child.props.onMouseLeave) {
                     child.props.onMouseLeave(event);
@@ -182,7 +182,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={el => (this.header = el)}
+        ref={(el) => (this.header = el)}
         className={cn({
           [jsStyles.header()]: true,
           [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
@@ -196,7 +196,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={el => (this.footer = el)}
+        ref={(el) => (this.footer = el)}
         className={cn({
           [jsStyles.footer()]: true,
           [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
@@ -396,7 +396,7 @@ function isExist(value: any): value is any {
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   const ret: React.ReactNode[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
-  React.Children.forEach(children, child => {
+  React.Children.forEach(children, (child) => {
     ret.push(child);
   });
   return ret;

@@ -1,9 +1,7 @@
 const { execSync } = require('child_process');
 
 const getRevisionID = () => {
-  return execSync('git rev-parse HEAD', { shell: true })
-    .toString()
-    .trim();
+  return execSync('git rev-parse HEAD', { shell: true }).toString().trim();
 };
 
 const getRevisionRefs = (revId = getRevisionID()) => {
@@ -18,8 +16,8 @@ const getRevisionRefs = (revId = getRevisionID()) => {
     .toString()
     .trim()
     .split('\n')
-    .filter(str => str.includes(revId))
-    .forEach(str => {
+    .filter((str) => str.includes(revId))
+    .forEach((str) => {
       const match = /refs\/(heads|tags)\/(.+)$/.exec(str);
       if (match) {
         const [, type, name] = match;

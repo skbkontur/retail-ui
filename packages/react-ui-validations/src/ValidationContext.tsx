@@ -52,7 +52,7 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
         top,
         bottom,
       },
-      disableSmoothScroll: this.props.disableSmoothScroll
+      disableSmoothScroll: this.props.disableSmoothScroll,
     };
   }
 
@@ -66,7 +66,7 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
   }
 
   public instanceProcessBlur(instance: ValidationWrapperInternal) {
-    for (const wrapper of this.childWrappers.filter(x => x !== instance)) {
+    for (const wrapper of this.childWrappers.filter((x) => x !== instance)) {
       wrapper.processBlur();
     }
   }
@@ -74,7 +74,7 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
   public onValidationUpdated(wrapper: ValidationWrapperInternal, isValid?: boolean) {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
-      const isValidResult = !this.childWrappers.find(x => {
+      const isValidResult = !this.childWrappers.find((x) => {
         if (x === wrapper) {
           return !isValid;
         }
@@ -85,19 +85,19 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
   }
 
   public isAnyWrapperInChangingMode(): boolean {
-    return this.childWrappers.some(x => x.isChanging);
+    return this.childWrappers.some((x) => x.isChanging);
   }
 
   public onValidationRemoved() {
     const { onValidationUpdated } = this.props;
     if (onValidationUpdated) {
-      const isValidResult = !this.childWrappers.find(x => x.hasError());
+      const isValidResult = !this.childWrappers.find((x) => x.hasError());
       onValidationUpdated(isValidResult);
     }
   }
 
   public getChildWrappersSortedByPosition(): ValidationWrapperInternal[] {
-    const wrappersWithPosition = [...this.childWrappers].map(x => ({
+    const wrappersWithPosition = [...this.childWrappers].map((x) => ({
       target: x,
       position: x.getControlPosition(),
     }));
@@ -118,12 +118,12 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
       }
       return Math.sign(xPosition.y - yPosition.y);
     });
-    return wrappersWithPosition.map(x => x.target);
+    return wrappersWithPosition.map((x) => x.target);
   }
 
   public async validate(withoutFocus: boolean): Promise<boolean> {
-    await Promise.all(this.childWrappers.map(x => x.processSubmit()));
-    const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError());
+    await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
+    const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => x.hasError());
     if (firstInvalid) {
       if (!withoutFocus) {
         firstInvalid.focus();

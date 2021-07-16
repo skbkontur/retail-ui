@@ -12,7 +12,7 @@ import { jsStyles } from './Tabs.styles';
 import { TabsContext } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps extends CommonProps {
+export interface TabsProps<T> extends CommonProps {
   /**
    * Tab component should be child of Tabs component
    */
@@ -26,12 +26,12 @@ export interface TabsProps extends CommonProps {
   /**
    * Tabs change event
    */
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: T) => void;
 
   /**
    * Active tab identifier
    */
-  value: string;
+  value: T;
 
   /**
    * Vertical indicator
@@ -50,7 +50,7 @@ export interface TabsProps extends CommonProps {
  *
  * contains static property `Tab`
  */
-export class Tabs extends React.Component<TabsProps> {
+export class Tabs<T = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
   public static propTypes = {
@@ -59,7 +59,6 @@ export class Tabs extends React.Component<TabsProps> {
     value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onValueChange: PropTypes.func,
   };
   public static defaultProps = {
     vertical: false,
@@ -71,7 +70,7 @@ export class Tabs extends React.Component<TabsProps> {
 
   private tabs: Array<{
     getNode: () => Tab | null;
-    id: string;
+    id: T;
   }> = [];
 
   private tabUpdates = {
@@ -90,7 +89,7 @@ export class Tabs extends React.Component<TabsProps> {
 
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <CommonWrapper {...this.props}>
@@ -121,9 +120,9 @@ export class Tabs extends React.Component<TabsProps> {
     );
   }
 
-  private shiftFocus = (fromTab: string, delta: number) => {
+  private shiftFocus = (fromTab: T, delta: number) => {
     const { tabs } = this;
-    const index = tabs.findIndex(x => x.id === fromTab);
+    const index = tabs.findIndex((x) => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
     const tab = tabs[newIndex];
 
@@ -139,26 +138,26 @@ export class Tabs extends React.Component<TabsProps> {
   };
 
   private notifyUpdate = () => {
-    this.listeners.forEach(cb => cb());
+    this.listeners.forEach((cb) => cb());
   };
 
-  private switchTab = (id: string) => {
+  private switchTab = (id: T) => {
     const { onValueChange, value } = this.props;
     if (id !== value && onValueChange) {
       onValueChange(id);
     }
   };
 
-  private getTab = (id: string): Tab | null => {
-    const { getNode = null } = this.tabs.find(x => x.id === id) || {};
+  private getTab = (id: T): Tab | null => {
+    const { getNode = null } = this.tabs.find((x) => x.id === id) || {};
     return getNode && getNode();
   };
 
-  private addTab = (id: string, getNode: () => any) => {
+  private addTab = (id: T, getNode: () => any) => {
     this.tabs = this.tabs.concat({ id, getNode });
   };
 
-  private removeTab = (id: string) => {
-    this.tabs = this.tabs.filter(tab => tab.id !== id);
+  private removeTab = (id: T) => {
+    this.tabs = this.tabs.filter((tab) => tab.id !== id);
   };
 }

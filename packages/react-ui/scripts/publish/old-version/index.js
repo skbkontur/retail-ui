@@ -3,7 +3,7 @@ const path = require('path');
 const { execSync } = require('child_process');
 const PACKAGE_JSON = path.join(__dirname, '../../../package.json');
 
-const run = cmd => {
+const run = (cmd) => {
   return execSync(cmd, { shell: true });
 };
 
@@ -22,7 +22,7 @@ const checkoutFiles = () => {
   try {
     run(`git checkout origin/master ${PATHS.join(' ')}`);
   } catch (e) {
-    if (!PATHS.every(p => fs.existsSync(p))) {
+    if (!PATHS.every((p) => fs.existsSync(p))) {
       console.log('Critical files are missing.');
       process.exit(1);
     }

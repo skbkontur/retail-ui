@@ -99,7 +99,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             type="text"
             value={this.state.min}
             placeholder="min"
-            onChange={e => this.setState({ min: e.target.value })}
+            onChange={(e) => this.setState({ min: e.target.value })}
           />
         </label>
         <label>
@@ -108,7 +108,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             type="text"
             value={this.state.max}
             placeholder="max"
-            onChange={e => this.setState({ max: e.target.value })}
+            onChange={(e) => this.setState({ max: e.target.value })}
           />
         </label>
         <LocaleContext.Provider
@@ -172,8 +172,7 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css:
-                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -192,8 +191,7 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css:
-                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -248,8 +246,7 @@ DatePickerWithMinMaxDate.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css:
-                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -268,8 +265,7 @@ DatePickerWithMinMaxDate.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css:
-                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();

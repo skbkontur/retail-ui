@@ -162,7 +162,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

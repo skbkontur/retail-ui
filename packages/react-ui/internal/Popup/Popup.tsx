@@ -229,7 +229,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

@@ -28,15 +28,15 @@ const findComponentsInSection = (dirPath, name) => {
   const reg = new RegExp(`${name}[a-zA-Z]*\.tsx`);
   const components = fs
     .readdirSync(dirPath)
-    .filter(item => reg.test(item) && !excludedComponents.includes(path.basename(item, '.tsx')))
-    .map(item => path.join(dirPath, item));
+    .filter((item) => reg.test(item) && !excludedComponents.includes(path.basename(item, '.tsx')))
+    .map((item) => path.join(dirPath, item));
   return {
     name,
     components,
   };
 };
 
-const findComponent = dirPath => {
+const findComponent = (dirPath) => {
   const name = path.basename(dirPath);
   const ts = path.join(dirPath, `${name}.tsx`);
   const js = path.join(dirPath, `${name}.js`);
@@ -47,21 +47,21 @@ const findComponent = dirPath => {
   return fs.existsSync(ts) ? ts : fs.existsSync(js) ? js : null;
 };
 
-const findComponentsRecursively = dirPath => {
+const findComponentsRecursively = (dirPath) => {
   if (!fs.statSync(dirPath).isDirectory()) {
     return [];
   }
   const components = [findComponent(dirPath)];
-  fs.readdirSync(dirPath).forEach(name => {
+  fs.readdirSync(dirPath).forEach((name) => {
     components.push(...findComponentsRecursively(path.join(dirPath, name)));
   });
   return components.filter(Boolean);
 };
 
-const findInComponents = dir => {
+const findInComponents = (dir) => {
   const sections = [];
   const components = [];
-  fs.readdirSync(dir).forEach(name => {
+  fs.readdirSync(dir).forEach((name) => {
     const dirPath = path.join(dir, name);
     if (sectionComponents.includes(name)) {
       sections.push(findComponentsInSection(dirPath, name));
@@ -96,15 +96,15 @@ const getCommonSections = () => {
       ],
     },
     { name: 'Components', components, sectionDepth: 2, sections },
-  ].filter(section => !section.content || fs.existsSync(section.content));
+  ].filter((section) => !section.content || fs.existsSync(section.content));
 };
 
 const getVersionsSection = () => {
   const excludeVersions = ['0.8.8', '0.18.16', '0.18.17', '0.42.2'];
   const stableVersions = npmVersions
     .reverse()
-    .filter(version => !version.includes('-'))
-    .filter(version => !excludeVersions.includes(version));
+    .filter((version) => !version.includes('-'))
+    .filter((version) => !excludeVersions.includes(version));
   const sections = [];
 
   if (npmTags.lts) {
@@ -116,7 +116,7 @@ const getVersionsSection = () => {
   }
 
   sections.push(
-    ...stableVersions.map(version => {
+    ...stableVersions.map((version) => {
       return {
         name: version,
         content: path.join(__dirname, '../README.md'),
@@ -132,16 +132,16 @@ const getVersionsSection = () => {
 };
 
 const removeProps = (obj, props) => {
-  props.forEach(prop => delete obj[prop]);
+  props.forEach((prop) => delete obj[prop]);
   return obj;
 };
 
-const removeUnsupportedConfigOptions = config => {
+const removeUnsupportedConfigOptions = (config) => {
   // @see https://github.com/styleguidist/react-styleguidist/releases/tag/v7.1.0
   if (semver.lt(styleguidistVersion, '7.1.0')) {
     const { sections } = config;
     if (sections && sections.length) {
-      config.sections = sections.map(section => removeProps(section, ['exampleMode', 'sectionDepth', 'usageMode']));
+      config.sections = sections.map((section) => removeProps(section, ['exampleMode', 'sectionDepth', 'usageMode']));
     }
 
     delete config.version;

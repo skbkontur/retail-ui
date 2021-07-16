@@ -69,7 +69,7 @@ class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
                 <Input
                   data-tid="SingleInput"
                   value={this.state.value}
-                  onValueChange={value => this.setState({ value })}
+                  onValueChange={(value) => this.setState({ value })}
                 />
               </ValidationWrapper>
               <div
@@ -149,7 +149,11 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
             validationInfo={this.validateValue()}
             renderMessage={text('bottom')}
           >
-            <Input data-tid="SingleInput" value={this.state.value} onValueChange={value => this.setState({ value })} />
+            <Input
+              data-tid="SingleInput"
+              value={this.state.value}
+              onValueChange={(value) => this.setState({ value })}
+            />
           </ValidationWrapper>
           <h2>
             <Center>Footer</Center>
@@ -180,7 +184,7 @@ class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState
                   <Input
                     data-tid="SingleInput"
                     value={this.state.value}
-                    onValueChange={value => this.setState({ value })}
+                    onValueChange={(value) => this.setState({ value })}
                   />
                 </ValidationWrapper>
               </div>

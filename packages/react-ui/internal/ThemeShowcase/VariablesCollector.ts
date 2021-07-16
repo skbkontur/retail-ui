@@ -37,26 +37,26 @@ if (IS_PROXY_SUPPORTED) {
   baseThemes.push(FLAT_THEME_OLD);
 
   const componentsContext = require.context('../../../', true, /\.styles.ts$/);
-  componentsContext.keys().forEach(fileName => {
+  componentsContext.keys().forEach((fileName) => {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
     const componentDescription: ComponentDescriptionType = {};
     const jsStyles = componentsContext(fileName).jsStyles;
 
-    Object.keys(jsStyles).forEach(elementName => {
+    Object.keys(jsStyles).forEach((elementName) => {
       const jsStyle = jsStyles[elementName];
       const variablesAccumulator = new Set<keyof Theme>();
       const dependencies: VariableDependencies = {};
       const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
-      const themes = baseThemes.map(t => new Proxy(t, elementProxyHandler));
-      themes.forEach(t => jsStyle(t));
+      const themes = baseThemes.map((t) => new Proxy(t, elementProxyHandler));
+      themes.forEach((t) => jsStyle(t));
 
       const variables = Array.from(variablesAccumulator);
 
       if (variables.length > 0) {
         componentDescription[elementName] = { variables, dependencies };
 
-        variables.forEach(variableName => {
+        variables.forEach((variableName) => {
           if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
             COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
           }
@@ -79,7 +79,7 @@ if (IS_PROXY_SUPPORTED) {
 
           const dependenciesList = dependencies[variableName];
           if (dependenciesList) {
-            dependenciesList.forEach(dependencyName => {
+            dependenciesList.forEach((dependencyName) => {
               if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
                 COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
               }

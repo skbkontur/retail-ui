@@ -19,17 +19,17 @@ interface State {
 const getDuplicatesFor = (items: string[], index: number): number[] => {
   return items
     .map((x, i) => (x === items[index] && i !== index ? i : null))
-    .filter(x => x != null) as number[];
+    .filter((x) => x != null) as number[];
 };
 
 const validate = createValidator<string[]>((b, a) => {
   b.array(
-    x => x,
+    (x) => x,
     (b, v, i) => {
-      b.invalid(x => !x, 'Укажите значение', 'submit');
-      b.invalid(x => !/^\d+$/.test(x), 'Только цифры');
+      b.invalid((x) => !x, 'Укажите значение', 'submit');
+      b.invalid((x) => !/^\d+$/.test(x), 'Только цифры');
       const d = getDuplicatesFor(a, i);
-      b.invalid(x => !!d.length, 'Дубль со строками ' + d.map(x => x + 1).join(', '));
+      b.invalid((x) => !!d.length, 'Дубль со строками ' + d.map((x) => x + 1).join(', '));
     },
   );
 });
@@ -65,7 +65,7 @@ export default class ArrayExampleDemo extends React.Component<{}, State> {
                   <Input
                     placeholder={'Только цифры'}
                     value={value}
-                    onValueChange={v => this.handleChange(v, i)}
+                    onValueChange={(v) => this.handleChange(v, i)}
                   />
                 </ValidationWrapper>
               </Group>

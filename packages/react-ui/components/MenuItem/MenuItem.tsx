@@ -67,7 +67,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
@@ -76,18 +76,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const {
-      link,
-      comment,
-      icon,
-      loose,
-      state,
-      _enableIconPadding,
-      component,
-      onMouseEnter,
-      onMouseLeave,
-      ...rest
-    } = props;
+    const { link, comment, icon, loose, state, _enableIconPadding, component, onMouseEnter, onMouseLeave, ...rest } =
+      props;
 
     const hover = state === 'hover' && !this.props.disabled;
 

@@ -12,9 +12,9 @@ interface Data {
 
 const validate = createValidator<Data>((b, root) => {
   b.prop(
-    x => x.value,
-    b => {
-      b.invalid(x => root.onlyDigits && !/^\d*$/.test(x), 'Только цифры');
+    (x) => x.value,
+    (b) => {
+      b.invalid((x) => root.onlyDigits && !/^\d*$/.test(x), 'Только цифры');
     },
   );
 });
@@ -39,17 +39,17 @@ export default class LostfocusValidationDemo extends React.Component<{}, State> 
           <Form.Line title="Только цифры">
             <Toggle
               checked={this.state.data.onlyDigits}
-              onValueChange={onlyDigits => this.handleChange({ onlyDigits })}
+              onValueChange={(onlyDigits) => this.handleChange({ onlyDigits })}
             />
           </Form.Line>
           <Form.Line title="Значение">
-            <ValidationWrapper validationInfo={v.getNode(x => x.value).get()}>
+            <ValidationWrapper validationInfo={v.getNode((x) => x.value).get()}>
               <Input
                 placeholder={
                   this.state.data.onlyDigits ? 'Только цифры' : 'Любые символы'
                 }
                 value={this.state.data.value}
-                onValueChange={value => this.handleChange({ value })}
+                onValueChange={(value) => this.handleChange({ value })}
               />
             </ValidationWrapper>
           </Form.Line>

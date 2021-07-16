@@ -35,7 +35,7 @@ class SwitcherStory extends React.Component<{}, SwitcherStoryState> {
             <Switcher
               value={this.state.value}
               items={['string1', 'string2']}
-              onValueChange={value => this.setState({ value })}
+              onValueChange={(value) => this.setState({ value })}
             />
           </ValidationWrapper>
           <div style={{ padding: '20px 0' }}>

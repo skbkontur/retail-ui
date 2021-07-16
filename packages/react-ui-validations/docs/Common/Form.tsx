@@ -23,7 +23,7 @@ interface FormLineProps {
   title: React.ReactNode;
 }
 
-const FormLine: React.SFC<FormLineProps> = props => {
+const FormLine: React.SFC<FormLineProps> = (props) => {
   return (
     <Line>
       <Title>{props.title}</Title>

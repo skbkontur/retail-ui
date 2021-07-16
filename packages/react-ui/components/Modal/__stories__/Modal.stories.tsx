@@ -315,7 +315,7 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
   public render() {
     return (
       <div id="modal-inner" style={{ width: 300 }}>
-        <Toggle checked={this.state.bigHeight} onValueChange={bigHeight => this.setState({ bigHeight })} /> конкретно
+        <Toggle checked={this.state.bigHeight} onValueChange={(bigHeight) => this.setState({ bigHeight })} /> конкретно
         увеличить высоту
         <p
           style={{
@@ -599,7 +599,7 @@ const TopMiddleBottomModalTests: CreeveyTests = {
     await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
   },
   async middle() {
-        await this.browser.executeScript(function() {
+    await this.browser.executeScript(function () {
       const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
       const modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
@@ -610,7 +610,7 @@ const TopMiddleBottomModalTests: CreeveyTests = {
     await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
   },
   async bottom() {
-        await this.browser.executeScript(function() {
+    await this.browser.executeScript(function () {
       const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
       const modalContent = window.document.querySelector('[data-tid="modal-content"]');
 

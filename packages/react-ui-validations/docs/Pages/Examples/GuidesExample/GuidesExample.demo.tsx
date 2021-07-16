@@ -107,42 +107,42 @@ const isValidInn = (value: string): boolean => {
 
 const validate = createValidator<Organization>((b, organization) => {
   b.prop(
-    x => x.name,
-    b => {
-      b.invalid(x => !x, nameRequiredMessage, 'submit');
+    (x) => x.name,
+    (b) => {
+      b.invalid((x) => !x, nameRequiredMessage, 'submit');
     },
   );
   const isKppRequired = isValidUlInn(organization.inn);
   const isKppRequiredError = isKppRequired && !organization.kpp;
   b.prop(
-    x => x.inn,
-    b => {
-      b.invalid(x => !x, 'Укажите ИНН', 'submit');
+    (x) => x.inn,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите ИНН', 'submit');
       b.invalid(
-        x => x.length !== 10 && x.length !== 12,
+        (x) => x.length !== 10 && x.length !== 12,
         'ИНН должен состоять из 10 или 12 цифр',
       );
-      b.invalid(x => !isValidInn(x), 'Неверный ИНН');
-      b.invalid(x => isKppRequiredError, kppRequiredMessage, 'submit');
+      b.invalid((x) => !isValidInn(x), 'Неверный ИНН');
+      b.invalid((x) => isKppRequiredError, kppRequiredMessage, 'submit');
     },
   );
   b.prop(
-    x => x.kpp,
-    b => {
-      b.invalid(x => isKppRequiredError, kppRequiredMessage, 'submit');
-      b.invalid(x => isKppRequired && !isValidKpp(x), 'Неверный КПП');
+    (x) => x.kpp,
+    (b) => {
+      b.invalid((x) => isKppRequiredError, kppRequiredMessage, 'submit');
+      b.invalid((x) => isKppRequired && !isValidKpp(x), 'Неверный КПП');
     },
   );
   b.prop(
-    x => x.email,
-    b => {
-      b.invalid(x => !!x && !isValidEmail(x), 'Неверный адрес почты');
+    (x) => x.email,
+    (b) => {
+      b.invalid((x) => !!x && !isValidEmail(x), 'Неверный адрес почты');
     },
   );
   b.prop(
-    x => x.phone,
-    b => {
-      b.invalid(x => !!x && !isValidPhone(x), phoneFormatMessage);
+    (x) => x.phone,
+    (b) => {
+      b.invalid((x) => !!x && !isValidPhone(x), phoneFormatMessage);
     },
   );
 });
@@ -171,28 +171,28 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="Название организации">
-            <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
+            <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
               <Input
                 value={organization.name}
-                onValueChange={value => this.handleChange({ name: value })}
+                onValueChange={(value) => this.handleChange({ name: value })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="ИНН">
-            <ValidationWrapper validationInfo={v.getNode(x => x.inn).get()}>
+            <ValidationWrapper validationInfo={v.getNode((x) => x.inn).get()}>
               <Input
                 value={organization.inn}
-                onValueChange={value => this.handleChange({ inn: value })}
+                onValueChange={(value) => this.handleChange({ inn: value })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="КПП">
-            <ValidationWrapper validationInfo={v.getNode(x => x.kpp).get()}>
+            <ValidationWrapper validationInfo={v.getNode((x) => x.kpp).get()}>
               <Input
                 value={organization.kpp}
-                onValueChange={value => this.handleChange({ kpp: value })}
+                onValueChange={(value) => this.handleChange({ kpp: value })}
               />
             </ValidationWrapper>
           </Form.Line>
@@ -200,20 +200,20 @@ export default class GuidesExampleDemo extends React.Component<{}, State> {
           <Form.LineBreak />
 
           <Form.Line title="Электронная почта">
-            <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
+            <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
               <Input
                 value={organization.email}
-                onValueChange={value => this.handleChange({ email: value })}
+                onValueChange={(value) => this.handleChange({ email: value })}
               />
             </ValidationWrapper>
           </Form.Line>
 
           <Form.Line title="Телефон">
-            <ValidationWrapper validationInfo={v.getNode(x => x.phone).get()}>
+            <ValidationWrapper validationInfo={v.getNode((x) => x.phone).get()}>
               <Input
                 mask={'+7 999 999-99-99'}
                 value={organization.phone}
-                onValueChange={value => this.handleChange({ phone: value })}
+                onValueChange={(value) => this.handleChange({ phone: value })}
               />
             </ValidationWrapper>
           </Form.Line>

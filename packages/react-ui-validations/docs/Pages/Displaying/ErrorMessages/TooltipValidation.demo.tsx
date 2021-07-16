@@ -47,7 +47,7 @@ export default class TooltipValidationDemo extends React.Component<{}, State> {
       <Input
         placeholder={'Только цифры'}
         value={this.state.value}
-        onValueChange={value => this.setState({ value })}
+        onValueChange={(value) => this.setState({ value })}
       />
     );
   };

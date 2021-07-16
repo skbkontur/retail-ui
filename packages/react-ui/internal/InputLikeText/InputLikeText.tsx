@@ -94,9 +94,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public componentDidMount() {
     if (this.node) {
-      MouseDrag.listen(this.node)
-        .onMouseDragStart(this.handleMouseDragStart)
-        .onMouseDragEnd(this.handleMouseDragEnd);
+      MouseDrag.listen(this.node).onMouseDragStart(this.handleMouseDragStart).onMouseDragEnd(this.handleMouseDragEnd);
     }
     document.addEventListener('mousedown', this.handleDocumentMouseDown);
     document.addEventListener('keydown', this.handleDocumentKeyDown);
@@ -114,7 +112,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
@@ -328,7 +326,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
-  private handleMouseDragStart: MouseDragEventHandler = e => {
+  private handleMouseDragStart: MouseDragEventHandler = (e) => {
     this.dragging = true;
     document.documentElement.classList.add(jsStyles.userSelectNone());
 
@@ -337,7 +335,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
-  private handleMouseDragEnd: MouseDragEventHandler = e => {
+  private handleMouseDragEnd: MouseDragEventHandler = (e) => {
     // Дожидаемся onMouseUp
     setTimeout(() => {
       this.dragging = false;

@@ -52,29 +52,15 @@ describe('<RadioGroup />', () => {
   it('checks radio on click', () => {
     const items = ['one', 'two', 'three'];
     const root = render({ items });
-    root
-      .find(Radio)
-      .at(0)
-      .find('input')
-      .simulate('change');
+    root.find(Radio).at(0).find('input').simulate('change');
 
-    expect(
-      root
-        .find(Radio)
-        .at(0)
-        .find('input')
-        .prop('checked'),
-    ).toBeTruthy();
+    expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
   });
 
   it('calls onValueChange on radio click', () => {
     const items = ['one', 'two', 'three'];
     const onValueChange = jest.fn();
-    render({ items, onValueChange })
-      .find(Radio)
-      .at(0)
-      .find('input')
-      .simulate('change');
+    render({ items, onValueChange }).find(Radio).at(0).find('input').simulate('change');
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('one');
@@ -84,7 +70,7 @@ describe('<RadioGroup />', () => {
     const items = ['one', 'two', 'three'];
     const wrapper = render({ items, disabled: true });
     const radios = wrapper.find(Radio);
-    radios.forEach(x => {
+    radios.forEach((x) => {
       expect(x.find('input').prop('disabled')).toBeTruthy();
     });
   });
@@ -93,7 +79,7 @@ describe('<RadioGroup />', () => {
     const items = ['one', 'two', 'three'];
     const wrapper = render({ items, name: 'SupaGroup' });
     const radios = wrapper.find(Radio);
-    radios.forEach(x => {
+    radios.forEach((x) => {
       expect(x.find('input').prop('name')).toBe('SupaGroup');
     });
   });
@@ -102,12 +88,7 @@ describe('<RadioGroup />', () => {
     const items = ['one', 'two', 'three'];
     const wrapper = render({ items, defaultValue: 'two' });
     const radios = wrapper.find(Radio);
-    expect(
-      radios
-        .at(1)
-        .find('input')
-        .prop('checked'),
-    ).toBeTruthy();
+    expect(radios.at(1).find('input').prop('checked')).toBeTruthy();
   });
 
   it('passes onMouse* events to radiogroup wrapper', () => {
@@ -117,7 +98,7 @@ describe('<RadioGroup />', () => {
       onMouseLeave: () => undefined,
     };
     const wrapper = render({ items: [], ...props }).first();
-    Object.keys(props).forEach(prop => {
+    Object.keys(props).forEach((prop) => {
       expect(wrapper.prop(prop)).toBe(props[prop as keyof typeof props]);
     });
   });
@@ -136,19 +117,9 @@ describe('<RadioGroup />', () => {
       </div>
     );
     const root = render({ children });
-    root
-      .find(Radio)
-      .at(0)
-      .find('input')
-      .simulate('change');
+    root.find(Radio).at(0).find('input').simulate('change');
 
-    expect(
-      root
-        .find(Radio)
-        .at(0)
-        .find('input')
-        .prop('checked'),
-    ).toBeTruthy();
+    expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
   });
 
   it('calls onValueChange on children radio click', () => {
@@ -160,11 +131,7 @@ describe('<RadioGroup />', () => {
       </div>
     );
     const onValueChange = jest.fn();
-    render({ children, onValueChange })
-      .find(Radio)
-      .at(0)
-      .find('input')
-      .simulate('change');
+    render({ children, onValueChange }).find(Radio).at(0).find('input').simulate('change');
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('one');
@@ -180,7 +147,7 @@ describe('<RadioGroup />', () => {
     );
     const wrapper = render({ children, disabled: true });
     const radios = wrapper.find(Radio);
-    radios.forEach(x => {
+    radios.forEach((x) => {
       expect(x.find('input').prop('disabled')).toBeTruthy();
     });
   });
@@ -195,7 +162,7 @@ describe('<RadioGroup />', () => {
     );
     const wrapper = render({ children, name: 'SupaGroup' });
     const radios = wrapper.find(Radio);
-    radios.forEach(x => {
+    radios.forEach((x) => {
       expect(x.find('input').prop('name')).toBe('SupaGroup');
     });
   });
@@ -210,12 +177,7 @@ describe('<RadioGroup />', () => {
     );
     const wrapper = render({ children, defaultValue: 'two' });
     const radios = wrapper.find(Radio);
-    expect(
-      radios
-        .at(1)
-        .find('input')
-        .prop('checked'),
-    ).toBeTruthy();
+    expect(radios.at(1).find('input').prop('checked')).toBeTruthy();
   });
 
   it('has focus method', () => {
@@ -251,31 +213,16 @@ describe('<RadioGroup />', () => {
   it('works with number values', () => {
     const items = [1, 2, 3, 4];
     const root = render({ items });
-    root
-      .find(Radio)
-      .at(0)
-      .find('input')
-      .simulate('change');
+    root.find(Radio).at(0).find('input').simulate('change');
 
-    expect(
-      root
-        .find(Radio)
-        .at(0)
-        .find('input')
-        .prop('checked'),
-    ).toBeTruthy();
+    expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
   });
 
   it('calls onBlur after radio click', () => {
     const items = ['one', 'two', 'three'];
     const onBlur = jest.fn();
     const wrapper = mount<RadioGroup<any>>(<RadioGroup items={items} onBlur={onBlur} />);
-    wrapper
-      .find(Radio)
-      .at(0)
-      .simulate('focus')
-      .simulate('blur')
-      .simulate('blur');
+    wrapper.find(Radio).at(0).simulate('focus').simulate('blur').simulate('blur');
 
     clickOutside();
 
@@ -291,16 +238,8 @@ describe('<RadioGroup />', () => {
         <Radio value="two" onBlur={onRadioBlur} />
       </RadioGroup>,
     );
-    const radioOne = wrapper
-      .find(Radio)
-      .at(0)
-      .find('input')
-      .at(0);
-    const radioTwo = wrapper
-      .find(Radio)
-      .at(1)
-      .find('input')
-      .at(0);
+    const radioOne = wrapper.find(Radio).at(0).find('input').at(0);
+    const radioTwo = wrapper.find(Radio).at(1).find('input').at(0);
 
     radioOne.simulate('focus');
     radioOne.simulate('blur');

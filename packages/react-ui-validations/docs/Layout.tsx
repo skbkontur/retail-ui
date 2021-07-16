@@ -8,7 +8,7 @@ import { Validator } from './Pages/Validator';
 import { Examples } from './Pages/Examples';
 import { Concepts } from './Pages/Concepts';
 
-export const Layout = withRouter(props => {
+export const Layout = withRouter((props) => {
   window.scrollTo(0, 0);
   return (
     <Root>
@@ -25,7 +25,7 @@ export const Layout = withRouter(props => {
           {[Displaying, Validator, Examples, Concepts].map((x, i) => (
             <React.Fragment key={i}>
               <Header>{x.caption}</Header>
-              {x.items.map(page => (
+              {x.items.map((page) => (
                 <NavigationLink key={page.url} activeClassName={'active'} to={'/' + page.url}>
                   {page.caption}
                 </NavigationLink>

@@ -23,7 +23,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

@@ -33,7 +33,7 @@ class Sample extends Component<{}, SampleState> {
         <Toggle
           checked={this.state.active}
           onValueChange={() =>
-            this.setState(state => {
+            this.setState((state) => {
               return { active: !state.active };
             })
           }

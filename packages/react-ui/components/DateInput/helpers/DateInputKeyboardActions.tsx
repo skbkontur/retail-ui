@@ -50,10 +50,10 @@ const extractAction = new KeyboardActionExctracterBuilder<Actions>()
   .add(Actions.Separator, Keyboard.someKeys(...delimiters))
   .add(Actions.Increment, Keyboard.isKeyArrowUp)
   .add(Actions.Decrement, Keyboard.isKeyArrowDown)
-  .add(Actions.ClearSelection, e => Keyboard.isKeyDelete(e))
+  .add(Actions.ClearSelection, (e) => Keyboard.isKeyDelete(e))
   .add(Actions.ClearOneChar, Keyboard.isKeyBackspace)
   .add(Actions.Digit, Keyboard.isKeyNumber)
-  .add(Actions.WrongInput, e => !Keyboard.isKeyNumber(e))
+  .add(Actions.WrongInput, (e) => !Keyboard.isKeyNumber(e))
   .build(Actions.Unknown);
 
 export { extractAction };

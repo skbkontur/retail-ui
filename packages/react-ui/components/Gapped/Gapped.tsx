@@ -64,7 +64,7 @@ export class Gapped extends React.Component<GappedProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <CommonWrapper {...this.props}>
@@ -92,7 +92,7 @@ export class Gapped extends React.Component<GappedProps> {
       paddingTop: this.getGapValue(),
     };
     let isFirst = true;
-    const children = React.Children.map(this.props.children, child => {
+    const children = React.Children.map(this.props.children, (child) => {
       if (!child) {
         return child;
       }

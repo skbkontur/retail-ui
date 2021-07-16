@@ -49,24 +49,9 @@ describe('Group', () => {
       </Group>,
     );
 
-    expect(
-      wrapper
-        .find('#test-div-1')
-        .parent()
-        .prop('class'),
-    ).toContain(jsStyles.itemFirst());
-    expect(
-      wrapper
-        .find('#test-div-2')
-        .parent()
-        .prop('class'),
-    ).not.toContain(jsStyles.itemFirst());
-    expect(
-      wrapper
-        .find('#test-div-3')
-        .parent()
-        .prop('class'),
-    ).not.toContain(jsStyles.itemFirst());
+    expect(wrapper.find('#test-div-1').parent().prop('class')).toContain(jsStyles.itemFirst());
+    expect(wrapper.find('#test-div-2').parent().prop('class')).not.toContain(jsStyles.itemFirst());
+    expect(wrapper.find('#test-div-3').parent().prop('class')).not.toContain(jsStyles.itemFirst());
   });
 
   it('width is applied to the root from props', () => {
@@ -76,11 +61,6 @@ describe('Group', () => {
       </Group>,
     );
 
-    expect(
-      wrapper
-        .find(`.${jsStyles.root()} > *`)
-        .parent()
-        .prop('style').width,
-    ).toBe('100px');
+    expect(wrapper.find(`.${jsStyles.root()} > *`).parent().prop('style').width).toBe('100px');
   });
 });

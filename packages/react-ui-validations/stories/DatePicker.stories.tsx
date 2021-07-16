@@ -32,7 +32,7 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer ref={this.refContainer}>
           <ValidationWrapper validationInfo={this.validateValue()}>
-            <DatePicker value={this.state.value as any} onValueChange={value => this.setState({ value })} />
+            <DatePicker value={this.state.value as any} onValueChange={(value) => this.setState({ value })} />
           </ValidationWrapper>
           <div style={{ padding: '100px 0' }}>
             <Button onClick={() => this.container && this.container.validate()}>Check</Button>

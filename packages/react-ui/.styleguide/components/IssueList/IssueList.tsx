@@ -76,14 +76,14 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
   };
 
   public checkGuideForComponent = (component: string) => {
-    return fetch(`${GUIDES_LINK}${component.toLowerCase()}`).then(response =>
+    return fetch(`${GUIDES_LINK}${component.toLowerCase()}`).then((response) =>
       this.setState({ componentExistsInGuide: response.status === 200 }),
     );
   };
 
   public getIssueList = (component: string) => {
     return fetch(`${API_URL}/${component}`)
-      .then(response => response.json())
+      .then((response) => response.json())
       .then((issueList: GithubIssue[]) => this.setState({ issueList }));
   };
 
@@ -134,7 +134,7 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
           <ul>
             {issuesIsOpen &&
               this.hasIssues &&
-              issueList.map(issue => {
+              issueList.map((issue) => {
                 return (
                   <li key={issue.id}>
                     <Link href={issue.html_url} target="_blank">

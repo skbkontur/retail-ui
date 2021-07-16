@@ -8,7 +8,7 @@ const isValidPosition = (position: PopupPosition): boolean => {
 };
 
 export const isValidPositions = (positions: PopupPosition[]): boolean => {
-  return positions.every(item => {
+  return positions.every((item) => {
     if (isProductionEnv) {
       return isValidPosition(item);
     } else {

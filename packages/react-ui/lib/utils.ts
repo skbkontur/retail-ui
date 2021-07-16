@@ -14,7 +14,7 @@ export type Defaultize<P, D> = P extends any
 
 export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
 
-export const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const emptyHandler = () => {
   /* noop */
@@ -49,10 +49,7 @@ export function escapeRegExpSpecChars(s: string): string {
   return s.replace(/[\\^$*+?.()|[\]{}]/g, '\\$&');
 }
 
-export const getRandomID = (): string =>
-  Math.random()
-    .toString(16)
-    .slice(2);
+export const getRandomID = (): string => Math.random().toString(16).slice(2);
 
 export const isExternalLink = (link: string): boolean => {
   return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);

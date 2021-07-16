@@ -23,7 +23,7 @@ export default class ImmediateValidationDemo extends React.Component<{}, State> 
               <Input
                 placeholder={'Только цифры'}
                 value={this.state.value}
-                onValueChange={value => this.setState({ value })}
+                onValueChange={(value) => this.setState({ value })}
               />
             </ValidationWrapper>
           </Form.Line>

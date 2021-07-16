@@ -58,7 +58,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
@@ -158,7 +158,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     return <div className={labelClassNames}>{this.props.children}</div>;
   }
 
-  private handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+  private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     this.props.onValueChange?.(this.props.value);
 
     if (this._isInRadioGroup()) {
@@ -168,15 +168,15 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     this.props.onChange?.(e);
   };
 
-  private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = e => {
+  private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseOver?.(e);
   };
 
-  private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = e => {
+  private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseEnter?.(e);
   };
 
-  private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = e => {
+  private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseLeave?.(e);
   };
 }

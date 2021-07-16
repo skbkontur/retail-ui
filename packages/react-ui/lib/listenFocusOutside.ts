@@ -38,7 +38,7 @@ function handleNativeFocus(event: UIEvent) {
   // FIXME: not safe casting
   const target: HTMLElement = (event.target || event.srcElement) as HTMLElement;
 
-  handlers.forEach(handler => {
+  handlers.forEach((handler) => {
     let elements = handler.elements;
     if (typeof elements === 'function') {
       elements = elements();

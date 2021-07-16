@@ -11,21 +11,21 @@ interface ContactInfo {
   email: string;
 }
 
-const validate = createValidator<ContactInfo[]>(b => {
+const validate = createValidator<ContactInfo[]>((b) => {
   b.array(
-    x => x,
-    b => {
+    (x) => x,
+    (b) => {
       b.prop(
-        x => x.name,
-        b => {
-          b.invalid(x => !x, 'Укажите имя', 'submit');
+        (x) => x.name,
+        (b) => {
+          b.invalid((x) => !x, 'Укажите имя', 'submit');
         },
       );
       b.prop(
-        x => x.email,
-        b => {
-          b.invalid(x => !x, 'Укажите email', 'submit');
-          b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
+        (x) => x.email,
+        (b) => {
+          b.invalid((x) => !x, 'Укажите email', 'submit');
+          b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
         },
       );
     },
@@ -59,21 +59,21 @@ export default class ObjectArrayDemo extends React.Component<{}, State> {
                 <Form.Line title={'Контакт'}>{`#${i}`}</Form.Line>
 
                 <Form.Line title={'Имя'}>
-                  <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
+                  <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
                     <Input
                       placeholder={'Любое'}
                       value={contact.name}
-                      onValueChange={name => this.handleItemChange({ name }, i)}
+                      onValueChange={(name) => this.handleItemChange({ name }, i)}
                     />
                   </ValidationWrapper>
                 </Form.Line>
 
                 <Form.Line title={'E-mail'}>
-                  <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
+                  <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
                     <Input
                       placeholder={'xxx@xxx.xx'}
                       value={contact.email}
-                      onValueChange={email => this.handleItemChange({ email }, i)}
+                      onValueChange={(email) => this.handleItemChange({ email }, i)}
                     />
                   </ValidationWrapper>
                 </Form.Line>

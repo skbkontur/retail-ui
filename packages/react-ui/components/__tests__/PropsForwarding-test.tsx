@@ -4,7 +4,7 @@ import { mount, ReactWrapper } from 'enzyme';
 import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
-const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter(name => {
+const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter((name) => {
   return isPublicComponent((ReactUI as any)[name]);
 });
 
@@ -61,10 +61,7 @@ describe('Props Forwarding', () => {
       switch (compName) {
         case 'Hint':
         case 'Tooltip':
-          return wrapper
-            .find('Portal')
-            .last()
-            .getDOMNode();
+          return wrapper.find('Portal').last().getDOMNode();
         case 'Toast':
           (wrapper as ReactWrapper<{}, {}, ReactUI.Toast>).instance().push('Tast');
           wrapper.update();
@@ -74,7 +71,7 @@ describe('Props Forwarding', () => {
       }
     };
 
-    it.each<[string, ReactWrapper]>(PUBLIC_COMPONENTS.map(name => [name, createWrapper(name)]))(
+    it.each<[string, ReactWrapper]>(PUBLIC_COMPONENTS.map((name) => [name, createWrapper(name)]))(
       '%s',
       (compName, wrapper) => {
         const props = {
@@ -122,7 +119,7 @@ describe('Props Forwarding', () => {
       'Textarea',
       'ComboBox',
       'TokenInput',
-    ])('%s', compName => {
+    ])('%s', (compName) => {
       const props = {
         inputMode: 'numeric',
       };
@@ -164,7 +161,7 @@ describe('Props Forwarding', () => {
       'SidePage',
       'Tabs',
       'TokenInput',
-    ])('%s', compName => {
+    ])('%s', (compName) => {
       const width = '99px';
       const wrapper = createWrapper(compName, { width });
       const testDOMNode = getTestDOMNode(compName, wrapper);

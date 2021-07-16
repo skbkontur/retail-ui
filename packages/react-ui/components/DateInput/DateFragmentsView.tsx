@@ -24,7 +24,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     if (this.rootNode) {
       // NOTE: NodeList doesn't support method 'forEach' in IE11
       const fragments: HTMLSpanElement[] = Array.from(this.rootNode.querySelectorAll('[data-fragment]'));
-      return fragments.some(fragment => fragment === el || fragment.contains(el as HTMLSpanElement));
+      return fragments.some((fragment) => fragment === el || fragment.contains(el as HTMLSpanElement));
     }
     return false;
   };
@@ -34,7 +34,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

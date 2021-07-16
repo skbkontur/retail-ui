@@ -64,7 +64,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

@@ -11,7 +11,7 @@ import { delay } from '../../../lib/utils';
 export default {
   title: 'Hint',
   decorators: [
-    Story => (
+    (Story) => (
       <div style={{ padding: '100px 300px' }}>
         <Story />
       </div>

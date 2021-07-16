@@ -14,7 +14,7 @@ export interface ComponentCombinatorProps<C, P, S> {
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
-  P extends React.ComponentProps<C>
+  P extends React.ComponentProps<C>,
 > extends React.Component<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
@@ -35,13 +35,13 @@ export class ComponentCombinator<
     const { combinations, Component, presetProps, presetState } = this.props;
     const pages = [];
     let row = 0;
-    const sizes = combinations.map(c => c.length);
+    const sizes = combinations.map((c) => c.length);
     const flatCombinations = ([] as typeof combinations[0]).concat(...combinations);
 
     for (let j = 0; j < sizes.length - 1; j++) {
       pages.push({
         offsetX: row,
-        offsetY: row += sizes[j],
+        offsetY: (row += sizes[j]),
       });
     }
 

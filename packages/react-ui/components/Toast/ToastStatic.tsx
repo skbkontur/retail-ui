@@ -5,7 +5,6 @@ import { Nullable } from '../../typings/utility-types';
 
 import { Toast, Action } from './Toast';
 
-
 export class ToastStatic {
   public static push = (notification: string, action?: Action) => {
     if (!ToastStatic.node) {
@@ -16,8 +15,10 @@ export class ToastStatic {
       }
       body.appendChild(ToastStatic.node);
 
-      ReactDOM.render(<Toast data-tid="StaticToast" ref={el => (ToastStatic.instance = el)} />, ToastStatic.node, () =>
-        ToastStatic._push(notification, action),
+      ReactDOM.render(
+        <Toast data-tid="StaticToast" ref={(el) => (ToastStatic.instance = el)} />,
+        ToastStatic.node,
+        () => ToastStatic._push(notification, action),
       );
     } else {
       ToastStatic._push(notification, action);

@@ -73,7 +73,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = getSwitcherTheme(theme);
           return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
@@ -122,7 +122,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private _extractValuesFromItems = (): string[] => {
-    return this.props.items.map(item => {
+    return this.props.items.map((item) => {
       const { value } = this._extractPropsFromItem(item);
       return value;
     });

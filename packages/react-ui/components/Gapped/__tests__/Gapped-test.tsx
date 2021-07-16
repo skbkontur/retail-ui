@@ -13,17 +13,7 @@ describe('Gapped', () => {
       </Gapped>,
     );
 
-    expect(
-      wrapper
-        .find('#test-div-1')
-        .parent()
-        .prop('style'),
-    ).not.toContain('margin-left');
-    expect(
-      wrapper
-        .find('#test-div-2')
-        .parent()
-        .prop('style'),
-    ).toContain('margin-left');
+    expect(wrapper.find('#test-div-1').parent().prop('style')).not.toContain('margin-left');
+    expect(wrapper.find('#test-div-2').parent().prop('style')).toContain('margin-left');
   });
 });

@@ -34,7 +34,7 @@ export class Group extends React.Component<GroupProps> {
     let first: Nullable<React.ReactElement<any>> = null;
     let last: Nullable<React.ReactElement<any>> = null;
 
-    React.Children.forEach(this.props.children, child => {
+    React.Children.forEach(this.props.children, (child) => {
       if (child && React.isValidElement(child)) {
         first = first || child;
         last = child;
@@ -44,7 +44,7 @@ export class Group extends React.Component<GroupProps> {
     return (
       <CommonWrapper {...this.props}>
         <span className={jsStyles.root()} style={style}>
-          {React.Children.map(this.props.children, child => {
+          {React.Children.map(this.props.children, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;
             }

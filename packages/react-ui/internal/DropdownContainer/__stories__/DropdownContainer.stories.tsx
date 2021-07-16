@@ -20,7 +20,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
       },
       async ['short Items scroll']() {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;
@@ -40,7 +40,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;
@@ -70,13 +70,13 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   };
 
   public componentDidMount(): void {
-    Object.keys(this.dropdowns).forEach(dropdown => this.toggle(dropdown, true));
+    Object.keys(this.dropdowns).forEach((dropdown) => this.toggle(dropdown, true));
   }
 
   public get isAllShown() {
     const { shown } = this.state;
     const all = Object.keys(shown);
-    return all.length > 0 && all.every(id => shown[id]);
+    return all.length > 0 && all.every((id) => shown[id]);
   }
 
   public toggle = (id: string, value: boolean) => {
@@ -90,7 +90,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
 
   public toggleAll = (value: boolean) => {
     const { shown } = this.state;
-    Object.keys(shown).forEach(key => {
+    Object.keys(shown).forEach((key) => {
       this.toggle(key, value);
     });
   };
@@ -136,15 +136,15 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
     return (
       <Grid rows={rows} cols={cols}>
         {(row, col) =>
-          aligns.map(align =>
-            portals.map(disablePortal => {
+          aligns.map((align) =>
+            portals.map((disablePortal) => {
               const dropdownId = `${row}-${col}-${align}-${disablePortal}`;
               return (
                 <div key={`${disablePortal}`}>
                   <DropdownWithToggle
                     ref={this.createDropdownRef(dropdownId)}
                     show={shown[dropdownId]}
-                    onToggle={value => this.toggle(dropdownId, value)}
+                    onToggle={(value) => this.toggle(dropdownId, value)}
                     dropdownProps={{ align, disablePortal }}
                   >
                     <Menu>
@@ -256,9 +256,9 @@ class Grid extends React.Component<{
           height: '100%',
         }}
       >
-        {rows.map(row => (
+        {rows.map((row) => (
           <Grid.Row key={row}>
-            {cols.map(col => (
+            {cols.map((col) => (
               <Grid.Cell key={col}>{this.props.children(row, col)}</Grid.Cell>
             ))}
           </Grid.Row>

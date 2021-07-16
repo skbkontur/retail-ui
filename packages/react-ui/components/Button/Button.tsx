@@ -150,7 +150,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

@@ -240,7 +240,7 @@ class SidePageWithCloseConfiguration extends React.Component<{}, SidePageWithClo
           withContent={this.state.withContent}
         />
         <SampleConfigurator
-          onChange={name => {
+          onChange={(name) => {
             const propertyName = name as keyof SidePageWithCloseConfigurationState;
             this.setState(
               (state: SidePageWithCloseConfigurationState) =>
@@ -432,11 +432,11 @@ class WithVariableContent extends React.Component<{}, WithVariableContentState> 
   );
 
   private hendleAddSidePageClick = () => {
-    this.setState(state => ({ sidePageText: [...state.sidePageText, 'text'] }));
+    this.setState((state) => ({ sidePageText: [...state.sidePageText, 'text'] }));
   };
 
   private handleAddPageClick = () => {
-    this.setState(state => ({ pageText: [...state.pageText, 'text'] }));
+    this.setState((state) => ({ pageText: [...state.pageText, 'text'] }));
   };
 
   private open = () => {
@@ -504,12 +504,12 @@ class TestUpdateLayoutMethod extends React.Component {
 
   public render() {
     return (
-      <SidePage blockBackground ref={ref => (this.sidePage = ref)}>
+      <SidePage blockBackground ref={(ref) => (this.sidePage = ref)}>
         <SidePage.Header>Title</SidePage.Header>
         <SidePage.Body>
           <SidePage.Container>
             {this.state.content && <TestUpdateLayoutMethod.Content />}
-            <TestUpdateLayoutMethod.ChildComp ref={ref => (this.childComp = ref)} />
+            <TestUpdateLayoutMethod.ChildComp ref={(ref) => (this.childComp = ref)} />
           </SidePage.Container>
         </SidePage.Body>
         <SidePage.Footer>
@@ -690,7 +690,7 @@ BodyWithoutFooter.parameters = {
           })
           .click(this.browser.findElement({ css: 'button' }))
           .perform();
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore
@@ -799,7 +799,7 @@ WithLongTitleStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
       },
       async ['fixed close element']() {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           const fixedHeaderHeight = 50;
@@ -811,7 +811,7 @@ WithLongTitleStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
       },
       async ['fixed header']() {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           const fixedHeaderHeight = 50;

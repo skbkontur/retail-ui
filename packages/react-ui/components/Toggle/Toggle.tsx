@@ -95,7 +95,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

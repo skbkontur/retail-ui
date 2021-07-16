@@ -42,7 +42,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
 
   public UNSAFE_componentWillMount(): void {
     if (this.props.isDebugMode) {
-      ALL_VARIABLES.forEach(variable => {
+      ALL_VARIABLES.forEach((variable) => {
         const found = ALL_USED_VARIABLES.includes(variable);
         if (!found) {
           this.variablesDiff.push(variable);
@@ -92,7 +92,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
           </Sticky>
           {Object.keys(descriptionsToRender)
             .sort()
-            .map(componentName => (
+            .map((componentName) => (
               <ComponentShowcase
                 key={componentName}
                 name={componentName}
@@ -114,9 +114,9 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
     const lowerCaseQuery = query && query.toLowerCase().trim();
     let allItems = ALL_USED_VARIABLES;
     if (lowerCaseQuery) {
-      allItems = ALL_USED_VARIABLES.filter(usedVariable => usedVariable.toLowerCase().startsWith(lowerCaseQuery));
+      allItems = ALL_USED_VARIABLES.filter((usedVariable) => usedVariable.toLowerCase().startsWith(lowerCaseQuery));
     }
-    return allItems.map(usedVariableName => ({
+    return allItems.map((usedVariableName) => ({
       value: usedVariableName,
       label: usedVariableName,
     }));
@@ -158,7 +158,7 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
     return (
       <React.Fragment>
         <Sticky side={'top'} offset={40}>
-          {isSticky => (
+          {(isSticky) => (
             <h2
               className={cn({
                 [jsStyles.heading()]: true,
@@ -179,7 +179,7 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
             </tr>
           </thead>
           <tbody>
-            {elements.map(el => (
+            {elements.map((el) => (
               <ComponentShowcaseRow
                 key={`${name}_${el}`}
                 element={el}
@@ -217,7 +217,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
           <td className={jsStyles.invisibleCell()} />
           <td className={jsStyles.invisibleCell()} />
         </tr>
-        {row.variables.map(varName => {
+        {row.variables.map((varName) => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
           const variableDefault = defaultVariables[varName] as string;
           const variableFlat = flatVariables[varName] as string;
@@ -271,7 +271,7 @@ class VariableName extends React.Component<VariableNameProps> {
         <br />
         <br />
         зависит от:
-        {dependencies.map(dependency => (
+        {dependencies.map((dependency) => (
           <DependencyName
             key={`dependency_${dependency}`}
             dependencyName={dependency}
@@ -358,7 +358,7 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
       Неиспользованные переменные ({props.diff.length}
       ):
       <ul>
-        {props.diff.sort().map(v => (
+        {props.diff.sort().map((v) => (
           <li key={v}>{v}</li>
         ))}
       </ul>

@@ -5,7 +5,7 @@ export interface SpaceFillerProps {
 }
 
 export const SpaceFiller = styled.div<SpaceFillerProps>`
-  height: ${props => props.height}px;
+  height: ${(props) => props.height}px;
   margin: 20px 0;
   border: 1px solid #dee0e3;
   display: flex;

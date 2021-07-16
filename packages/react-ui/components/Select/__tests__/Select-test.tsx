@@ -35,8 +35,8 @@ describe('Select', () => {
       <SelectExample<ValueType>
         value={currentValue}
         items={objectItems}
-        renderItem={x => x.name}
-        renderValue={x => x.name}
+        renderItem={(x) => x.name}
+        renderValue={(x) => x.name}
         areValuesEqual={(x1, x2) => x1.id === x2.id}
       />,
     );
@@ -48,7 +48,7 @@ describe('Select', () => {
     const defaultValueText = wrapper.prop('renderItem')!(currentValue, currentValue);
 
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
-    const selectedMenuItem = menu.findWhere(node => node.is('MenuItem') && node.prop('state') === 'selected');
+    const selectedMenuItem = menu.findWhere((node) => node.is('MenuItem') && node.prop('state') === 'selected');
     expect(selectedMenuItem.length).toBe(1);
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });
@@ -64,7 +64,7 @@ describe('Select', () => {
     expect(event.key).toBe('k');
   });
 
-  it('should work search with item any types', function() {
+  it('should work search with item any types', function () {
     const wrapper = mount(
       <Select
         items={[

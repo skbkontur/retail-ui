@@ -19,8 +19,8 @@ export class KeyboardActionExctracterBuilder<T> {
   }
 
   public build<P = T>(defaultAction: P): (x0: React.KeyboardEvent<HTMLElement>) => T {
-    return event => {
-      const action = this._actionMatchers.find(x => x.check(event));
+    return (event) => {
+      const action = this._actionMatchers.find((x) => x.check(event));
       return (action && action.type) || defaultAction;
     };
   }

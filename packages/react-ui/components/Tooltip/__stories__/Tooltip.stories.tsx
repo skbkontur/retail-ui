@@ -712,7 +712,7 @@ class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNo
   }
 
   private buttonClickHandler = () => {
-    this.setState(state => ({
+    this.setState((state) => ({
       content: state.opened ? state.content : state.content === SMALL_CONTENT ? LARGE_CONTENT : SMALL_CONTENT,
       opened: !state.opened,
     }));
@@ -729,7 +729,7 @@ class TooltipWithInput extends React.Component {
     return (
       <div style={{ padding: '0 10px 70px' }}>
         <Tooltip render={this.renderContent} pos="bottom right" trigger="click">
-          <Input onValueChange={v => this.setState({ show: Boolean(v) })} />
+          <Input onValueChange={(v) => this.setState({ show: Boolean(v) })} />
         </Tooltip>
       </div>
     );
@@ -1018,7 +1018,7 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     return (
       <div>
         <div style={{ marginBottom: 5 }}>
-          {triggers.map(trigger => (
+          {triggers.map((trigger) => (
             <button
               id={trigger.replace('&', '_')}
               key={trigger}
@@ -1061,7 +1061,7 @@ class TestTooltipForManual extends React.Component {
           render={() => 'Opened by Show()'}
           trigger="manual"
           pos="bottom left"
-          ref={element => {
+          ref={(element) => {
             this.tooltip = element;
           }}
         >

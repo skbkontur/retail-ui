@@ -39,7 +39,7 @@ export const CalendarWithHolidays = () => {
 
   return (
     <Calendar
-      isHoliday={date => {
+      isHoliday={(date) => {
         return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
       }}
     />
@@ -64,9 +64,9 @@ class CalendarWithButtons extends React.Component {
   public render() {
     return (
       <Gapped vertical>
-        <Calendar ref={cal => (this.cal = cal)} value={initialDate} />
+        <Calendar ref={(cal) => (this.cal = cal)} value={initialDate} />
         <Gapped vertical>
-          {datesToScroll.map(x => (
+          {datesToScroll.map((x) => (
             <Button
               key={x.year + '-' + x.month + '-' + x.date}
               width={240}

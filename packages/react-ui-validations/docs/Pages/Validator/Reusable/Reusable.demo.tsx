@@ -21,14 +21,14 @@ const isValidEmail = (value: string): boolean => {
 };
 
 const emailRequired = (b: ValidationBuilder<unknown, string>): void => {
-  b.invalid(x => !x, 'Укажите email', 'submit');
+  b.invalid((x) => !x, 'Укажите email', 'submit');
 };
 
 const emailFormat = (b: ValidationBuilder<unknown, string>): void => {
-  b.invalid(x => !isValidEmail(x), 'Неверный формат email');
+  b.invalid((x) => !isValidEmail(x), 'Неверный формат email');
 };
 
-const validateEmail: ValidationRule<unknown, string> = b => {
+const validateEmail: ValidationRule<unknown, string> = (b) => {
   emailRequired(b);
   emailFormat(b);
 };
@@ -52,7 +52,7 @@ export default class ReusableDemo extends React.Component<{}, State> {
               <Input
                 placeholder={'xxx@xxx.xx'}
                 value={this.state.email}
-                onValueChange={email => this.setState({ email })}
+                onValueChange={(email) => this.setState({ email })}
               />
             </ValidationWrapper>
           </Form.Line>

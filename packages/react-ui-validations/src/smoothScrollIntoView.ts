@@ -51,7 +51,7 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
   let context: Omit<StepContent, 'resolve'>;
   if (element === getDocumentBodyStrict()) {
     context = {
-      scrollable: (window as any) as HTMLElement,
+      scrollable: window as any as HTMLElement,
       startX: window.scrollX || window.pageXOffset,
       startY: window.scrollY || window.pageYOffset,
       method: scrollWindow,
@@ -71,7 +71,7 @@ function smoothScroll(element: HTMLElement, x: number, y: number): Promise<void>
     };
   }
 
-  return new Promise(resolve => step({ ...context, resolve }));
+  return new Promise((resolve) => step({ ...context, resolve }));
 }
 
 interface StepContent {

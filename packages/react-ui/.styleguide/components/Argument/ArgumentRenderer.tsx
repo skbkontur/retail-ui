@@ -9,7 +9,7 @@ class ErrorBoundary extends React.Component<any, { hasError: boolean }> {
   render = () => (this.state.hasError ? <span>Не удалось отобразить аргументы</span> : this.props.children);
 }
 
-export const ArgumentRenderer: typeof Argument = props => {
+export const ArgumentRenderer: typeof Argument = (props) => {
   const { type } = props;
   if (type && type.name) {
     type.type = 'ParameterType';

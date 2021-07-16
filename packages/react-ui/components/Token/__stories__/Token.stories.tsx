@@ -25,7 +25,7 @@ const newToDeprecatedColorNamesMap: { [key: string]: string } = {
 export default {
   title: 'Token',
   decorators: [
-    Story => (
+    (Story) => (
       <div className="token-test-container" style={{ margin: 40, padding: 4 }}>
         <Story />
       </div>

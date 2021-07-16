@@ -9,21 +9,11 @@ const PREFIX = 'react-ui';
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
 
-export const {
-  flush,
-  hydrate,
-  cx,
-  merge,
-  getRegisteredStyles,
-  injectGlobal,
-  keyframes,
-  css,
-  sheet,
-  cache,
-} = createEmotion({
-  key: PREFIX,
-  stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
-});
+export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
+  createEmotion({
+    key: PREFIX,
+    stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
+  });
 
 export const cssName = (className: string): string => `.${className}`;
 
@@ -54,6 +44,6 @@ const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R
 export const memoizeStyle = <S extends { [className: string]: (() => string) | ((t: Theme) => string) }>(
   styles: S,
 ): S => {
-  Object.keys(styles).forEach(className => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
+  Object.keys(styles).forEach((className) => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
   return styles;
 };

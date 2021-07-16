@@ -65,7 +65,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return (
             <ThemeContext.Provider
               value={ThemeFactory.create(

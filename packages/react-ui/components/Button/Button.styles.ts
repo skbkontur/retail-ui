@@ -148,13 +148,13 @@ const styles = {
         transform: none !important;
       }
       ${cssName(styles.warning(t))} ,
-      ${cssName(styles.error(t))}  {
+      ${cssName(styles.error(t))} {
         box-shadow: none;
         left: -2px !important;
         right: -2px !important;
         bottom: -2px !important;
       }
-      ${cssName(styles.error(t))}  {
+      ${cssName(styles.error(t))} {
         background-color: ${t.btnErrorSecondary} !important;
       }
     `;
@@ -228,25 +228,25 @@ const styles = {
 
   arrowWarning(t: Theme) {
     return css`
-    ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
+      ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
+        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
 
-      ${arrowOutlineMixin(
-        t.btnInsetWidth,
-        t.btnBorderColorWarning,
-        t.btnOutlineWidth,
-        t.btnInsetColor,
-        cssName(styles.arrowHelper()),
-        cssName(styles.arrowHelperTop()),
-        cssName(styles.arrowHelperBottom()),
-      )}
-    }
-  `;
+        ${arrowOutlineMixin(
+          t.btnInsetWidth,
+          t.btnBorderColorWarning,
+          t.btnOutlineWidth,
+          t.btnInsetColor,
+          cssName(styles.arrowHelper()),
+          cssName(styles.arrowHelperTop()),
+          cssName(styles.arrowHelperBottom()),
+        )}
+      }
+    `;
   },
 
   arrowError(t: Theme) {
     return css`
-    ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
+      ${cssName(styles.root(t))}:not(${cssName(styles.checked(t))}) & {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
 
         ${arrowOutlineMixin(

@@ -6,7 +6,7 @@ interface Props extends React.HTMLAttributes<HTMLInputElement> {
   nodeRef: (ref: HTMLInputElement | null) => void;
 }
 
-const cap: React.ReactEventHandler = e => e.stopPropagation();
+const cap: React.ReactEventHandler = (e) => e.stopPropagation();
 
 const className = css`
   position: absolute;

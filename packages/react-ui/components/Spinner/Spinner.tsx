@@ -72,7 +72,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

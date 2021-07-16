@@ -34,7 +34,7 @@ class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
           <ValidationWrapper validationInfo={this.validateSex()}>
             <Checkbox
               checked={this.state.checked ? this.state.checked : false}
-              onValueChange={v => this.setState({ checked: v })}
+              onValueChange={(v) => this.setState({ checked: v })}
             >
               Checkbox
             </Checkbox>

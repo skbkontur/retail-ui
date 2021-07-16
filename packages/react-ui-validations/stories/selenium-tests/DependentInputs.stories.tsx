@@ -56,7 +56,7 @@ class Example1 extends React.Component<{}, Example1State> {
             <Input
               data-tid="Input1"
               value={this.state.value1}
-              onValueChange={value => this.setState({ value1: value })}
+              onValueChange={(value) => this.setState({ value1: value })}
             />
           </ValidationWrapper>
           <br />
@@ -70,7 +70,7 @@ class Example1 extends React.Component<{}, Example1State> {
             <Input
               data-tid="Input2"
               value={this.state.value2}
-              onValueChange={value => this.setState({ value2: value })}
+              onValueChange={(value) => this.setState({ value2: value })}
             />
           </ValidationWrapper>
         </div>

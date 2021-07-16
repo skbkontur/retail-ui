@@ -36,20 +36,14 @@ describe('Pager', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
 
-    wrapper
-      .find(`[data-tid='Paging__pageLink']`)
-      .at(1)
-      .simulate('click');
+    wrapper.find(`[data-tid='Paging__pageLink']`).at(1).simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
 
   it('calls onPageChange with right args', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper
-      .find(`[data-tid='Paging__pageLink']`)
-      .at(1)
-      .simulate('click');
+    wrapper.find(`[data-tid='Paging__pageLink']`).at(1).simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 
@@ -61,20 +55,14 @@ describe('Pager', () => {
   it('calls onPageChange when clicked on forward button', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper
-      .find(`[data-tid='Paging__forwardLink']`)
-      .at(0)
-      .simulate('click');
+    wrapper.find(`[data-tid='Paging__forwardLink']`).at(0).simulate('click');
     expect(onPageChange).toHaveBeenCalled();
   });
 
   it('calls onPageChange on forward button with right args', () => {
     const onPageChange = jest.fn();
     const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper
-      .find(`[data-tid='Paging__forwardLink']`)
-      .at(0)
-      .simulate('click');
+    wrapper.find(`[data-tid='Paging__forwardLink']`).at(0).simulate('click');
     expect(onPageChange).toHaveBeenCalledWith(2);
   });
 

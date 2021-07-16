@@ -62,7 +62,7 @@ export class ColorObject implements ColorObjectType {
     return (
       '#' +
       this.rgb
-        .map(c => {
+        .map((c) => {
           c = clamp(Math.round(c), 255);
           return (c < 16 ? '0' : '') + c.toString(16);
         })

@@ -126,7 +126,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -388,7 +388,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   private moveFocus = (step: number) => {
     const focusedItem = this.getFocusedItem();
     const items = this.getItems();
-    let index = items.findIndex(x => x === focusedItem);
+    let index = items.findIndex((x) => x === focusedItem);
     do {
       index = (index + step + items.length) % items.length;
     } while (!this.isItemFocusable(items[index]));

@@ -59,7 +59,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           return (
             <ThemeContext.Provider
               value={ThemeFactory.create(

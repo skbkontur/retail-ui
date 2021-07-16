@@ -105,9 +105,7 @@ describe('<Input />', () => {
   });
 
   it('applies align prop on input', () => {
-    const inputStyles = render({ align: 'center', value: 'hello' })
-      .find('input')
-      .prop('style');
+    const inputStyles = render({ align: 'center', value: 'hello' }).find('input').prop('style');
 
     expect(inputStyles && inputStyles.textAlign).toBe('center');
   });

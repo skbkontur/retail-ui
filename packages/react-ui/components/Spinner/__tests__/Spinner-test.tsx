@@ -71,9 +71,10 @@ describe('Spinner', () => {
     it('render custom locale', () => {
       const customText = 'custom loading';
       const wrapper = mount(
-        <LocaleContext.Provider value={{
-          locale: { Spinner: { loading: customText }}
-        }}
+        <LocaleContext.Provider
+          value={{
+            locale: { Spinner: { loading: customText } },
+          }}
         >
           <Spinner />
         </LocaleContext.Provider>,
@@ -90,7 +91,7 @@ describe('Spinner', () => {
       );
       const expectedText = SpinnerLocaleHelper.get(LangCodes.en_GB).loading;
 
-      wrapper.setProps({ value: { langCode: LangCodes.en_GB }});
+      wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
 
       expect(getTextLoading(wrapper)).toBe(expectedText);
     });

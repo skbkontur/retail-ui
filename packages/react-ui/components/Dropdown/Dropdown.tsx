@@ -166,7 +166,7 @@ export class Dropdown extends React.Component<DropdownProps> {
   }
 
   public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {
-    const items = React.Children.map(this.props.children, item => item) || [];
+    const items = React.Children.map(this.props.children, (item) => item) || [];
 
     return (
       <Select<React.ReactNode, React.ReactNode>

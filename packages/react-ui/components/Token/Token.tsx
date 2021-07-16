@@ -40,7 +40,7 @@ export class Token extends React.Component<TokenProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}

@@ -9,7 +9,7 @@ import { Nullable } from '../typings/Types';
 storiesOf('TokenInput', module).add('required', () => <TokenInputStory />);
 
 async function getItems(query: string) {
-  return ['aaa', 'bbb'].filter(s => s.includes(query));
+  return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
 
 interface TokenInputStoryState {
@@ -41,7 +41,7 @@ class TokenInputStory extends React.Component<{}, TokenInputStoryState> {
             <TokenInput
               getItems={getItems}
               selectedItems={this.state.selectedItems}
-              onValueChange={itemsNew => this.setState({ selectedItems: itemsNew })}
+              onValueChange={(itemsNew) => this.setState({ selectedItems: itemsNew })}
               renderToken={(item, { isActive, onClick, onRemove }) => (
                 <Token key={item.toString()} isActive={isActive} onClick={onClick} onRemove={onRemove}>
                   {item}

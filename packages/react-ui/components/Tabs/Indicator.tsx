@@ -64,7 +64,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -102,7 +102,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     const node = getTab(activeTab);
     const nodeStyles = this.getStyles(node);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
-      prop => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
+      (prop) => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
     );
     if (stylesUpdated) {
       this.setState({ styles: nodeStyles });

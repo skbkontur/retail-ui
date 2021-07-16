@@ -143,7 +143,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
-      this.loaderShowDelay = new Promise<void>(resolve => {
+      this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
           setTimeout(resolve, LOADER_SHOW_TIME);
@@ -310,7 +310,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     let nextState: Pick<CustomComboBoxState<T>, never>;
 
     this.setState(
-      state => {
+      (state) => {
         const stateAndEffect = this.reducer(state, this.props, action);
 
         [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];

@@ -16,21 +16,21 @@ interface Data {
   contact: Nullable<ContactInfo>;
 }
 
-const validate = createValidator<Data>(b => {
+const validate = createValidator<Data>((b) => {
   b.prop(
-    x => x.contact,
-    b => {
+    (x) => x.contact,
+    (b) => {
       b.prop(
-        x => x.name,
-        b => {
-          b.invalid(x => !x, 'Укажите имя', 'submit');
+        (x) => x.name,
+        (b) => {
+          b.invalid((x) => !x, 'Укажите имя', 'submit');
         },
       );
       b.prop(
-        x => x.email,
-        b => {
-          b.invalid(x => !x, 'Укажите email', 'submit');
-          b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
+        (x) => x.email,
+        (b) => {
+          b.invalid((x) => !x, 'Укажите email', 'submit');
+          b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
         },
       );
     },
@@ -52,18 +52,18 @@ export default class MissingObjectNodeDemo extends React.Component<{}, State> {
 
   public render() {
     const { data } = this.state;
-    const v = validate(data).getNode(x => x.contact);
+    const v = validate(data).getNode((x) => x.contact);
     return (
       <ValidationContainer ref={this.refContainer}>
         <Form>
           <Form.Line title="Валидации">JSON</Form.Line>
 
           <Form.Line title="Имя">
-            {JSON.stringify(v.getNode(x => x.name).get())}
+            {JSON.stringify(v.getNode((x) => x.name).get())}
           </Form.Line>
 
           <Form.Line title="E-mail">
-            {JSON.stringify(v.getNode(x => x.email).get())}
+            {JSON.stringify(v.getNode((x) => x.email).get())}
           </Form.Line>
 
           <Form.LineBreak />
@@ -71,7 +71,7 @@ export default class MissingObjectNodeDemo extends React.Component<{}, State> {
           <Form.Line title="Указать контакты">
             <Toggle
               checked={!!data.contact}
-              onValueChange={checked =>
+              onValueChange={(checked) =>
                 this.handleChange({ contact: checked ? { name: '', email: '' } : null })
               }
             />
@@ -80,21 +80,21 @@ export default class MissingObjectNodeDemo extends React.Component<{}, State> {
           {data.contact && (
             <>
               <Form.Line title="Имя">
-                <ValidationWrapper validationInfo={v.getNode(x => x.name).get()}>
+                <ValidationWrapper validationInfo={v.getNode((x) => x.name).get()}>
                   <Input
                     placeholder={'Любое'}
                     value={data.contact.name}
-                    onValueChange={name => this.handleContactChange({ name })}
+                    onValueChange={(name) => this.handleContactChange({ name })}
                   />
                 </ValidationWrapper>
               </Form.Line>
 
               <Form.Line title="E-mail">
-                <ValidationWrapper validationInfo={v.getNode(x => x.email).get()}>
+                <ValidationWrapper validationInfo={v.getNode((x) => x.email).get()}>
                   <Input
                     placeholder={'xxx@xxx.xx'}
                     value={data.contact.email}
-                    onValueChange={email => this.handleContactChange({ email })}
+                    onValueChange={(email) => this.handleContactChange({ email })}
                   />
                 </ValidationWrapper>
               </Form.Line>

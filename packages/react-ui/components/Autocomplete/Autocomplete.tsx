@@ -21,7 +21,7 @@ function match(pattern: string, items: string[]) {
   }
 
   pattern = pattern.toLowerCase();
-  const filteredItems = items.filter(item => item.toLowerCase().includes(pattern));
+  const filteredItems = items.filter((item) => item.toLowerCase().includes(pattern));
   return Promise.resolve(filteredItems);
 }
 
@@ -149,7 +149,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
@@ -356,7 +356,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     } else {
       promise = match(pattern, source);
     }
-    promise.then(items => {
+    promise.then((items) => {
       if (this.opened && expectingId === this.requestId) {
         this.setState({
           items,

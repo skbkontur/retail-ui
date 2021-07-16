@@ -6,7 +6,7 @@ const { readJsonSync, writeJsonSync } = require('fs-extra');
 
 const { getRevisionID, getRevisionRefs } = require('../git');
 
-const log = message => {
+const log = (message) => {
   if (process.env.NODE_ENV !== 'test') {
     console.log(message);
   }
@@ -31,7 +31,7 @@ const updateConfig = (config, path = PACKAGE_JSON) => {
   return config;
 };
 
-const fetchPackageData = packageName => {
+const fetchPackageData = (packageName) => {
   const stdout = execSync(`npm show ${packageName} --json`, {
     shell: true,
   })
@@ -60,7 +60,7 @@ const getHomepage = (distTag, publishVersion) => {
   }
 };
 
-const getReleaseTagName = version => {
+const getReleaseTagName = (version) => {
   return `@skbkontur/react-ui@${version}`;
 };
 

@@ -6,12 +6,12 @@ import { ValidationContainer, ValidationWrapper, createValidator } from '../../.
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-const validate = createValidator<string[]>(b => {
+const validate = createValidator<string[]>((b) => {
   b.array(
-    x => x,
-    b => {
-      b.invalid(x => !x, 'Укажите email', 'submit');
-      b.invalid(x => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
+    (x) => x,
+    (b) => {
+      b.invalid((x) => !x, 'Укажите email', 'submit');
+      b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
     },
   );
 });
@@ -38,7 +38,7 @@ export default class PrimitiveTypeArrayDemo extends React.Component<{}, State> {
                 <Input
                   placeholder={'xxx@xxx.xx'}
                   value={email}
-                  onValueChange={value => this.handleEmailChange(value, i)}
+                  onValueChange={(value) => this.handleEmailChange(value, i)}
                 />
               </ValidationWrapper>
             </Form.Line>
