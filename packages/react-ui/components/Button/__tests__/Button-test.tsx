@@ -19,7 +19,7 @@ describe('Button', () => {
     expect(onClick.mock.calls.length).toBe(1);
   });
 
-  (['submit', 'button', 'reset'] as ButtonType[]).forEach(type => {
+  (['submit', 'button', 'reset'] as ButtonType[]).forEach((type) => {
     it(`sets type ${type} when type=${type} specified`, () => {
       const wrapper = mount(<Button type={type} />);
       expect(wrapper.find('button').prop('type')).toBe(type);

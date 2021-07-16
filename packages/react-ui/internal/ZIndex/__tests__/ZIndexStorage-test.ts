@@ -96,7 +96,7 @@ describe('incrementZindex', () => {
       priority: 1,
       expected: { result: 1990, storage: [1000, 1010, 1980, 1990] },
     },
-  ].forEach(testData => {
+  ].forEach((testData) => {
     const { storage, expected, priority, delta } = { ...testData, delta: 10 };
 
     it(`should create ZIndex with priority=${priority} in storage=[${storage}]`, () => {

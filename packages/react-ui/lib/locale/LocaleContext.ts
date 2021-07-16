@@ -14,4 +14,3 @@ export const LocaleContext = React.createContext<LocaleContextProps>({
 });
 
 LocaleContext.displayName = 'LocaleContext';
-

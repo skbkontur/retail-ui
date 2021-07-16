@@ -282,11 +282,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     if (rightIcon || drawArrow) {
-      return (
-        <span className={jsStyles.rightIconWrapper()}>
-          {rightIcon ?? <ArrowChevronDownIcon />}
-        </span>
-      );
+      return <span className={jsStyles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
     }
 
     return null;

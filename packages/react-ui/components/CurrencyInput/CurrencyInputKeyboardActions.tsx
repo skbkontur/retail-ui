@@ -34,5 +34,5 @@ export const extractAction = new KeyboardActionExctracterBuilder()
   .add(CURRENCY_INPUT_ACTIONS.End, Keyboard.isUnmodified(Keyboard.isKeyEnd))
   .add(CURRENCY_INPUT_ACTIONS.Backspace, Keyboard.isKeyBackspace)
   .add(CURRENCY_INPUT_ACTIONS.Delete, Keyboard.isKeyDelete)
-  .add(CURRENCY_INPUT_ACTIONS.Ignore, e => Keyboard.isModified()(e) || Keyboard.isKeyTab(e))
+  .add(CURRENCY_INPUT_ACTIONS.Ignore, (e) => Keyboard.isModified()(e) || Keyboard.isKeyTab(e))
   .build(CURRENCY_INPUT_ACTIONS.Unknown);

@@ -12,7 +12,7 @@ import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerC
 import { Nullable } from '../../../typings/utility-types';
 
 const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
-  new Promise<void>(resolve => {
+  new Promise<void>((resolve) => {
     wrapper.setProps({ opened: true }, async () => {
       await delay(100);
       resolve();
@@ -20,7 +20,7 @@ const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =
   });
 
 const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
-  new Promise<void>(resolve => {
+  new Promise<void>((resolve) => {
     wrapper.setProps({ opened: false }, async () => {
       await delay(100);
       resolve();

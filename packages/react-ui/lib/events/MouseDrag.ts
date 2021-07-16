@@ -16,7 +16,7 @@ export type MouseDragEventHandler = (e: MouseDragEvent) => void;
 
 const items: Map<HTMLElement, MouseDrag> = new Map();
 
-const documentHandleMouseUp: HandlerNative = e => items.forEach(mouseDrag => mouseDrag.handleMouseUp(e));
+const documentHandleMouseUp: HandlerNative = (e) => items.forEach((mouseDrag) => mouseDrag.handleMouseUp(e));
 
 if (canUseDOM) {
   document.documentElement.addEventListener('mouseup', documentHandleMouseUp);
@@ -99,12 +99,12 @@ export class MouseDrag {
     this.elem = null;
   };
 
-  public onMouseDragStart: On = handler => this.on(MouseDragEventType.Start, handler);
-  public onMouseDragMove: On = handler => this.on(MouseDragEventType.Move, handler);
-  public onMouseDragLeave: On = handler => this.on(MouseDragEventType.Leave, handler);
-  public onMouseDragEnd: On = handler => this.on(MouseDragEventType.End, handler);
+  public onMouseDragStart: On = (handler) => this.on(MouseDragEventType.Start, handler);
+  public onMouseDragMove: On = (handler) => this.on(MouseDragEventType.Move, handler);
+  public onMouseDragLeave: On = (handler) => this.on(MouseDragEventType.Leave, handler);
+  public onMouseDragEnd: On = (handler) => this.on(MouseDragEventType.End, handler);
 
-  public handleMouseUp: HandlerNative = e => {
+  public handleMouseUp: HandlerNative = (e) => {
     this.clicked = false;
     if (this.dragging) {
       this.dragging = false;
@@ -120,7 +120,7 @@ export class MouseDrag {
     return this;
   };
 
-  private handleMouseDown: HandlerNative = e => {
+  private handleMouseDown: HandlerNative = (e) => {
     if (!this.clicked) {
       this.clicked = true;
       this.x1 = e.pageX;
@@ -129,7 +129,7 @@ export class MouseDrag {
     }
   };
 
-  private handleMouseMove: HandlerNative = e => {
+  private handleMouseMove: HandlerNative = (e) => {
     if (this.dragging) {
       return this.dispatchEvent(this.createEvent(MouseDragEventType.Move, e));
     }
@@ -142,7 +142,7 @@ export class MouseDrag {
     }
   };
 
-  private handleMouseLeave: HandlerNative = e => {
+  private handleMouseLeave: HandlerNative = (e) => {
     if (this.dragging) {
       this.dispatchEvent(this.createEvent(MouseDragEventType.Leave, e));
     }

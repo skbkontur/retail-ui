@@ -9,7 +9,7 @@ import { TokenInput, TokenInputType } from '../TokenInput';
 import { TokenInputMenu } from '../TokenInputMenu';
 
 async function getItems(query: string) {
-  return Promise.resolve(['aaa', 'bbb', 'ccc'].filter(s => s.includes(query)));
+  return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
 }
 
 describe('<TokenInput />', () => {
@@ -41,10 +41,7 @@ describe('<TokenInput />', () => {
     let wrapper: ReactWrapper;
     const getTextComment = (): string => wrapper.find('[data-tid="MenuItem__comment"]').text();
     const focus = async (): Promise<void> => {
-      wrapper
-        .find(TokenInput)
-        .instance()
-        .setState({ inFocus: true, inputValue: '--', loading: false });
+      wrapper.find(TokenInput).instance().setState({ inFocus: true, inputValue: '--', loading: false });
       await delay(0);
       wrapper.update();
     };
@@ -127,14 +124,11 @@ describe('<TokenInput />', () => {
       <TokenInput
         type={TokenInputType.Combined}
         getItems={getItems}
-        renderAddButton={v => <span data-tid="AddButton">{getButtonText(v)}</span>}
+        renderAddButton={(v) => <span data-tid="AddButton">{getButtonText(v)}</span>}
       />,
     );
 
-    wrapper
-      .find(TokenInput)
-      .instance()
-      .setState({ inFocus: true, inputValue: value, loading: false });
+    wrapper.find(TokenInput).instance().setState({ inFocus: true, inputValue: value, loading: false });
     await delay(0);
     wrapper.update();
 
