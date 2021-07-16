@@ -58,7 +58,9 @@ export const hideOverflowX = (isActiveScrollY: boolean) => {
 
   return isActiveScrollY
     ? {
-        marginBottom,
+        /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
+        marginBottom: marginBottom - 1,
+        paddingBottom: 1,
       }
     : {
         marginBottom: 2 * marginBottom,
