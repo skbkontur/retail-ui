@@ -12,7 +12,7 @@ import {
   ScrollState,
   ScrollContainerScrollState,
 } from './ScrollContainer.types';
-import { defaultScrollYState, defaultScrollXState } from './ScrollContainer.constants';
+import { defaultScrollYState, defaultScrollXState, HIDE_SCROLL_X_OFFSET } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
 import { getScrollSizeParams, getMaxHeightWithOffset, hideOverflowX, hideOverflowY } from './ScrollContainer.helpers';
 
@@ -133,7 +133,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     if (!this.inner) {
       return;
     }
-    this.inner.scrollTop = this.inner.scrollHeight - this.inner.clientHeight;
+    this.inner.scrollTop = this.inner.scrollHeight - this.inner.offsetHeight + HIDE_SCROLL_X_OFFSET;
   }
 
   private renderScrollX = () => {
@@ -309,8 +309,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         return;
       }
 
-      const ratioY =
-        (this.inner.scrollHeight - this.inner.offsetHeight) / (this.inner.offsetHeight - this.state.y.size);
+      const offsetHeight = this.inner.offsetHeight - HIDE_SCROLL_X_OFFSET;
+
+      const ratioY = (this.inner.scrollHeight - offsetHeight) / (offsetHeight - this.state.y.size);
       const deltaY = (mouseMoveEvent.clientY - initialY) * ratioY;
 
       this.inner.scrollTop = initialScrollTop + deltaY;
