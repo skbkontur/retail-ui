@@ -73,9 +73,17 @@ const styles = {
         content: '';
         display: block;
         left: 1px;
+        right: ${scrollSize + 2}px;
         position: absolute;
-        right: 6px;
         top: 0;
+      }
+    `;
+  },
+
+  scrollXIndentRight() {
+    return css`
+      &::after {
+        right: -${scrollSize + 2}px;
       }
     `;
   },

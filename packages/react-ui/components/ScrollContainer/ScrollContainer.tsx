@@ -149,6 +149,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       className: cn({
         [jsStyles.scrollX()]: true,
         [jsStyles.scrollInvert()]: Boolean(props.invert),
+        [jsStyles.scrollXIndentRight()]: !this.state.y.active,
         [jsStyles.scrollXHover()]: state.hover || state.scrolling,
       }),
       inline: {
