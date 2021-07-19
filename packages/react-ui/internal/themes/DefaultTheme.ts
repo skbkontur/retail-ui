@@ -795,7 +795,8 @@ export class DefaultTheme {
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
-  public static get dropdownMenuHoverBg() { //deprecated
+  public static get dropdownMenuHoverBg() {
+    //deprecated
     return this.bgActive;
   }
   //#endregion
