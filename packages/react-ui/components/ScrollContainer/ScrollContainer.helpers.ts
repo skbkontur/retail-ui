@@ -14,17 +14,9 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
 
   const contentSize = inner[size];
   const scrollOffset = inner[pos];
-  let containerSize = inner[offset];
-
-  if (axis === 'y') {
-    containerSize -= HIDE_SCROLL_X_OFFSET;
-  }
+  const containerSize = inner[offset];
 
   const scrollActive = containerSize < contentSize;
-
-  if (axis === 'x') {
-    containerSize -= HIDE_SCROLL_Y_OFFSET;
-  }
 
   let scrollSize = 0;
   let scrollPos = 0;

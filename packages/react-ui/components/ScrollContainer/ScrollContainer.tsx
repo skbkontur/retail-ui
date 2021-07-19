@@ -14,7 +14,7 @@ import {
 } from './ScrollContainer.types';
 import { defaultScrollYState, defaultScrollXState, HIDE_SCROLL_X_OFFSET } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
-import { getScrollSizeParams, getMaxHeightWithOffset, hideOverflowX, hideOverflowY } from './ScrollContainer.helpers';
+import { getScrollSizeParams } from './ScrollContainer.helpers';
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -64,14 +64,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const scrollY = this.renderScrollY();
     const scrollX = this.renderScrollX();
 
-    const height = getMaxHeightWithOffset(props.maxHeight);
-
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
-      maxHeight: height,
+      maxHeight: props.maxHeight,
       maxWidth: props.maxWidth,
-      ...hideOverflowY(),
-      ...hideOverflowX(this.state.y.active),
     };
 
     return (
@@ -83,7 +79,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
             data-tid="ScrollContainer__inner"
             className={cn({
               [jsStyles.inner()]: true,
-              [jsStyles.bottomIndent()]: this.state.x.active,
+              [jsStyles.bottomIndent()]: this.state.x.active && this.state.y.active,
             })}
             style={innerStyle}
             ref={this.refInner}
@@ -149,7 +145,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       className: cn({
         [jsStyles.scrollX()]: true,
         [jsStyles.scrollInvert()]: Boolean(props.invert),
-        [jsStyles.scrollXIndentRight()]: !this.state.y.active,
+        [jsStyles.scrollXIndentRight()]: this.state.y.active,
         [jsStyles.scrollXHover()]: state.hover || state.scrolling,
       }),
       inline: {

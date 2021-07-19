@@ -16,6 +16,15 @@ const styles = {
     return css`
       position: relative;
       overflow: scroll;
+      max-height: 100%;
+      max-width: 100%;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* Internet Explorer 10+ */
+      &::-webkit-scrollbar {
+        /* WebKit */
+        width: 0;
+        height: 0;
+      }
     `;
   },
 
@@ -73,7 +82,7 @@ const styles = {
         content: '';
         display: block;
         left: 1px;
-        right: ${scrollSize + 2}px;
+        right: 1px;
         position: absolute;
         top: 0;
       }
@@ -83,7 +92,7 @@ const styles = {
   scrollXIndentRight() {
     return css`
       &::after {
-        right: -${scrollSize + 2}px;
+        right: ${hoverScrollSize + 2}px;
       }
     `;
   },
