@@ -12,6 +12,8 @@ import { DateInput } from '../DateInput';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { isMobile } from '../../lib/client';
+import { NativeDatePicker } from '../../internal/NativeDatePicker';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
@@ -51,8 +53,6 @@ export interface DatePickerProps<T> extends CommonProps {
   onMouseOver?: (e: React.MouseEvent<any>) => void;
   /**
    * Использовать на мобильных устройствах нативный календарь для выбора дат.
-   *
-   * При использовании не работает проп `autoFocus`
    */
   useMobileNativeDatePicker?: boolean;
 
@@ -69,6 +69,7 @@ export interface DatePickerProps<T> extends CommonProps {
 
 export interface DatePickerState {
   opened: boolean;
+  canUseMobileNativeDatePicker: boolean;
 }
 
 type DatePickerValue = string;
@@ -158,15 +159,21 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     });
   };
 
-  public state: DatePickerState = { opened: false };
+  public state: DatePickerState = { opened: false, canUseMobileNativeDatePicker: false };
 
   private input: DateInput | null = null;
   private focused = false;
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
+  private nativeDatePicker: NativeDatePicker | null = null;
 
   public componentDidMount() {
+    if (this.props.useMobileNativeDatePicker && isMobile) {
+      this.setState({
+        canUseMobileNativeDatePicker: true,
+      });
+    }
     if (this.props.autoFocus) {
       this.focus();
     }
@@ -221,7 +228,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
-    if (this.state.opened) {
+    if (this.state.opened && !this.state.canUseMobileNativeDatePicker) {
       picker = (
         <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
           <Picker
@@ -232,42 +239,47 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
             isHoliday={this.isHoliday}
-            useMobileNativeDatePicker={this.props.useMobileNativeDatePicker}
           />
         </DropdownContainer>
       );
     }
 
     return (
-      <label
-        className={jsStyles.root()}
-        style={{ width: this.props.width }}
-        onMouseEnter={this.props.onMouseEnter}
-        onMouseLeave={this.props.onMouseLeave}
-        onMouseOver={this.props.onMouseOver}
-      >
-        <DateInput
-          {...filterProps(props, INPUT_PASS_PROPS)}
-          ref={this.getInputRef}
-          value={this.props.value || ''}
-          width="100%"
-          withIcon
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
-          onBlur={this.handleBlur}
-          onFocus={this.handleFocus}
-          onValueChange={this.props.onValueChange}
-          onClick={this.props.useMobileNativeDatePicker ? this.forceNativeDatePickerOpen : undefined}
-        />
-        {picker}
-      </label>
+      <>
+        <label
+          className={jsStyles.root()}
+          style={{ width: this.props.width }}
+          onMouseEnter={this.props.onMouseEnter}
+          onMouseLeave={this.props.onMouseLeave}
+          onMouseOver={this.props.onMouseOver}
+        >
+          <DateInput
+            {...filterProps(props, INPUT_PASS_PROPS)}
+            ref={this.getInputRef}
+            value={this.props.value || ''}
+            width="100%"
+            withIcon
+            minDate={this.props.minDate}
+            maxDate={this.props.maxDate}
+            onBlur={this.handleBlur}
+            onFocus={this.handleFocus}
+            onValueChange={this.props.onValueChange}
+          />
+          {picker}
+        </label>
+        {this.state.canUseMobileNativeDatePicker && (
+          <NativeDatePicker
+            ref={this.refNativeDatePicker}
+            value={date}
+            onValueChange={(value) => this.handlePick(value)}
+          />
+        )}
+      </>
     );
   };
 
-  private forceNativeDatePickerOpen = () => {
-    if (this.state.opened) {
-      this.setState({ opened: !this.state.opened }, () => this.setState({ opened: true }));
-    }
+  private openNativeDatePicker = () => {
+    this.nativeDatePicker?.open();
   };
 
   private getInputRef = (ref: DateInput | null) => {
@@ -292,7 +304,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
     this.focused = true;
 
-    this.setState({ opened: true });
+    this.setState({ opened: true }, this.openNativeDatePicker);
 
     if (this.props.onFocus) {
       this.props.onFocus();
@@ -331,5 +343,9 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
     return this.props.isHoliday(dateString, isWeekend);
+  };
+
+  private refNativeDatePicker = (NativeDatePicker: NativeDatePicker | null) => {
+    this.nativeDatePicker = NativeDatePicker;
   };
 }

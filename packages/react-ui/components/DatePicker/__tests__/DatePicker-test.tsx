@@ -4,14 +4,13 @@ import React from 'react';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
-import { Calendar, CalendarDateShape } from '../../../internal/Calendar';
+import { Calendar } from '../../../internal/Calendar';
 import { DateSelect } from '../../../internal/DateSelect';
 import { DropdownContainer } from '../../../internal/DropdownContainer';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleControls, LocaleContext } from '../../../lib/locale';
-import { nativeDateInputUtils } from '../utils';
 
 const handleChange = () => undefined;
 const renderDatePicker = (props: Partial<DatePickerProps<string>> = {}) =>
@@ -194,34 +193,6 @@ describe('DatePicker', () => {
       wrapper.update();
 
       expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
-    });
-
-    it('get correct native date input string (YYYY-MM-DD) from value format (DD.MM.YYYY)', () => {
-      const value = '01.02.2020';
-      const convertedDate = nativeDateInputUtils.getDateForNative(value);
-
-      expect(convertedDate).toBe('2020-02-01');
-    });
-
-    it('get correct DatePicker string (DD.MM.YYYY) from native value format (YYYY-MM-DD)', () => {
-      const value = '2020-02-01';
-      const convertedDate = nativeDateInputUtils.getDateForComponent(value);
-
-      expect(convertedDate).toBe('01.02.2020');
-    });
-
-    it('get correct native date input string (YYYY-MM-DD) from DateShape object', () => {
-      const date: CalendarDateShape = { year: 2020, month: 2, date: 1 };
-      const convertedDate = nativeDateInputUtils.getDateForNativeFromShape(date);
-
-      expect(convertedDate).toBe('2020-02-01');
-    });
-
-    it('get correct DateShape object from native value format (YYYY-MM-DD)', () => {
-      const value = '2020-02-01';
-      const convertedDate = nativeDateInputUtils.getDateShapeFromNativeFormat(value);
-
-      expect(convertedDate).toEqual({ year: 2020, month: 2, date: 1 });
     });
   });
 });

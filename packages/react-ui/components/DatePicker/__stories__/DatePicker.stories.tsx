@@ -212,7 +212,7 @@ WithMouseeventHandlers.story = {
   },
 };
 
-export const WithMobileNativeDatePicker: CSFStory<JSX.Element> = () => {
+export const WithMobileNativeDatePicker = () => {
   const [date, setDate] = useState('02.07.2017');
 
   return (
@@ -235,6 +235,7 @@ export const WithMobileNativeDatePicker: CSFStory<JSX.Element> = () => {
 };
 WithMobileNativeDatePicker.story = {
   name: 'with native datepickers on mobile devices',
+  parameters: { creevey: { skip: [true] } },
 };
 
 export const WithAutoFocus = () => (

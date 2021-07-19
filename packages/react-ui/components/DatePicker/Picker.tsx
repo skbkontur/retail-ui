@@ -8,11 +8,9 @@ import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { isMobile } from '../../lib/client';
 
 import { jsStyles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
-import { nativeDateInputUtils } from './utils';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -22,13 +20,11 @@ interface Props {
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
-  useMobileNativeDatePicker?: boolean;
 }
 
 interface State {
   date: CalendarDateShape;
   today: CalendarDateShape;
-  useMobileNative?: boolean;
 }
 
 const getTodayCalendarDate = () => {
@@ -47,7 +43,6 @@ export class Picker extends React.Component<Props, State> {
   private theme!: Theme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
-  private dateInput: HTMLInputElement | null = null;
 
   constructor(props: Props) {
     super(props);
@@ -55,15 +50,7 @@ export class Picker extends React.Component<Props, State> {
     this.state = {
       date: this.getInitialDate(today),
       today,
-      useMobileNative: isMobile && this.props.useMobileNativeDatePicker,
     };
-  }
-  public componentDidMount() {
-    if (this.state.useMobileNative && this.dateInput) {
-      setTimeout(() => {
-        this.dateInput?.click();
-      }, 0);
-    }
   }
 
   public componentDidUpdate(prevProps: Props) {
@@ -76,7 +63,7 @@ export class Picker extends React.Component<Props, State> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -86,38 +73,20 @@ export class Picker extends React.Component<Props, State> {
 
   private renderMain() {
     const { date } = this.state;
-    const { upMonthOfShape, getDateForNativeFromShape } = nativeDateInputUtils;
 
     return (
-      <div className={jsStyles.root(this.theme)} onMouseDown={e => e.preventDefault()}>
-        {this.state.useMobileNative ? (
-          <input
-            type="date"
-            // в пикер minDate и maxDate приходят с заниженным месяцем (отсчет с 0),
-            // но для натива это не нужно
-            min={getDateForNativeFromShape(upMonthOfShape(this.props.minDate))}
-            max={getDateForNativeFromShape(upMonthOfShape(this.props.maxDate))}
-            value={getDateForNativeFromShape(this.props.value)}
-            onChange={this.handleNativeDateInputChange}
-            ref={this.getDateInputRef}
-            className={jsStyles.inputTypeDate()}
-            tabIndex={-1}
-          />
-        ) : (
-          <>
-            <Calendar
-              ref={c => (this.calendar = c)}
-              value={this.props.value}
-              initialMonth={date.month}
-              initialYear={date.year}
-              onSelect={this.props.onPick}
-              minDate={this.props.minDate}
-              maxDate={this.props.maxDate}
-              isHoliday={this.props.isHoliday}
-            />
-            {this.props.enableTodayLink && this.renderTodayLink()}{' '}
-          </>
-        )}
+      <div className={jsStyles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
+        <Calendar
+          ref={(c) => (this.calendar = c)}
+          value={this.props.value}
+          initialMonth={date.month}
+          initialYear={date.year}
+          onSelect={this.props.onPick}
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
+          isHoliday={this.props.isHoliday}
+        />
+        {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
     );
   }
@@ -167,14 +136,5 @@ export class Picker extends React.Component<Props, State> {
     }
 
     return today;
-  };
-
-  private getDateInputRef = (element: Nullable<HTMLInputElement>) => {
-    this.dateInput = element || null;
-  };
-
-  private handleNativeDateInputChange = (e: React.FormEvent<HTMLInputElement>) => {
-    const date = nativeDateInputUtils.getDateShapeFromNativeFormat(e.currentTarget.value);
-    this.props.onPick(date);
   };
 }
