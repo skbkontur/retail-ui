@@ -35,7 +35,7 @@ const styles = {
     `;
   },
 
-  bottomIndent() {
+  innerBottomIndent() {
     return css`
       &::after {
         content: '';
@@ -99,7 +99,7 @@ const styles = {
   scrollXIndentRight() {
     return css`
       &::after {
-        right: ${hoverScrollSize + 2}px;
+        right: ${hoverScrollSize + 4}px;
       }
     `;
   },
