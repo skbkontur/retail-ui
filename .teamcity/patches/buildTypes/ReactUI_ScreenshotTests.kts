@@ -12,5 +12,5 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
     check(artifactRules == "") {
         "Unexpected option value: artifactRules = $artifactRules"
     }
-    artifactRules = "-:packages/react-ui/.creevey/report"
+    artifactRules = """packages\react-ui\.creevey\report.zip"""
 }
