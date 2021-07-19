@@ -14,7 +14,7 @@ describe('MenuItem', () => {
   });
 
   it('calls children function', () => {
-    const wrapper = mount(<MenuItem state="hover">{state => state}</MenuItem>);
+    const wrapper = mount(<MenuItem state="hover">{(state) => state}</MenuItem>);
     expect(wrapper.text()).toBe('hover');
   });
 
@@ -58,11 +58,7 @@ describe('MenuItem', () => {
       const onMouseEnter = jest.fn();
       const wrapper = mount(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
 
-      wrapper
-        .find('button')
-        .simulate('mouseover')
-        .simulate('mouseleave')
-        .simulate('mouseover');
+      wrapper.find('button').simulate('mouseover').simulate('mouseleave').simulate('mouseover');
 
       expect(onMouseEnter.mock.calls.length).toBe(2);
     });

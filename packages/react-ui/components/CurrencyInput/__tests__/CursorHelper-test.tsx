@@ -21,7 +21,7 @@ describe('CursorHelper', () => {
       { value: [0, 1, 1, 2], position: 1, expected: 1 },
       { value: [0, 1, 1, 2], position: 2, expected: 1 },
       { value: [0, 1, 1, 2], position: 3, expected: 2 },
-    ].forEach(x => {
+    ].forEach((x) => {
       it(`toRawPosition([${x.value}], ${x.position}) === ${x.expected}`, () => {
         const actual = CursorHelper.toRawPosition(x.value, x.position);
         const expected = x.expected;
@@ -49,7 +49,7 @@ describe('CursorHelper', () => {
       { value: [0, 1, 1, 3], position: 0, expected: 0 },
       { value: [0, 1, 1, 3], position: 1, expected: 1 },
       { value: [0, 1, 1, 3], position: 2, expected: 3 },
-    ].forEach(x => {
+    ].forEach((x) => {
       it(`toFormattedPosition([${x.value}], ${x.position}) === ${x.expected}`, () => {
         const actual = CursorHelper.toFormattedPosition(x.value, x.position);
         const expected = x.expected;
@@ -78,7 +78,7 @@ describe('CursorHelper', () => {
       { value: [0, 2, 2, 3], position: 1, step: 1, expected: 3 },
       { value: [0, 2, 2, 3], position: 1, step: -1, expected: 0 },
       { value: [0, 2, 2, 3], position: 2, step: -1, expected: 0 },
-    ].forEach(x => {
+    ].forEach((x) => {
       it(`calculatePosition([${x.value}], ${x.position}, ${x.step}) === ${x.expected}`, () => {
         const actual = CursorHelper.calculatePosition(x.value, x.position, x.step);
         const expected = x.expected;
@@ -144,7 +144,7 @@ describe('CursorHelper', () => {
         selection: { start: 2, end: 0, direction: 'none' },
         expected: { start: 0, end: 2, direction: 'backward' },
       },
-    ].forEach(x => {
+    ].forEach((x) => {
       it(`normalizeSelection([${x.map}], ${JSON.stringify(x.selection)}) === ${JSON.stringify(x.expected)}`, () => {
         const actual = CursorHelper.normalizeSelection(x.map, x.selection as Selection);
         const expected = x.expected;
@@ -304,7 +304,7 @@ describe('CursorHelper', () => {
         step: -1,
         expected: { start: 2, end: 4, direction: 'backward' },
       },
-    ].forEach(x => {
+    ].forEach((x) => {
       it(`extendSelection('[${x.value}]', ${JSON.stringify(x.selection)}, '${x.step}') === '${JSON.stringify(
         x.expected,
       )}`, () => {

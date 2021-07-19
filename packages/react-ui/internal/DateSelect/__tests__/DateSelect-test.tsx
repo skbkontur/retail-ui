@@ -20,7 +20,7 @@ describe('DateSelect', () => {
     });
     dateSelect.find(`[data-tid='DateSelect__caption']`).simulate('click');
     const disabledItems = dateSelect.find(`[data-tid='DateSelect__menuItem'][data-prop-disabled=true]`);
-    const disabledItemsMonths = disabledItems.map(item => item.props().children);
+    const disabledItemsMonths = disabledItems.map((item) => item.props().children);
     expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
   });
 
@@ -37,7 +37,7 @@ describe('DateSelect', () => {
     });
     dateSelect.find(`[data-tid='DateSelect__caption']`).simulate('click');
     const disabledItems = dateSelect.find(`[data-tid='DateSelect__menuItem'][data-prop-disabled=true]`);
-    const disabledItemsMonths = disabledItems.map(item => item.props().children);
+    const disabledItemsMonths = disabledItems.map((item) => item.props().children);
     expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
   });
 });
