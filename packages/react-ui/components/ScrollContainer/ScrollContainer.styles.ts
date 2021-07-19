@@ -22,6 +22,8 @@ const styles = {
       /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       margin-bottom: -1px;
       padding-bottom: 1px;
+      margin-right: -1px;
+      padding-right: 1px;
 
       /* Hide scrobars without losing functionality */
       scrollbar-width: none;
