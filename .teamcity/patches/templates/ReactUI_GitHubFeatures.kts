@@ -2,7 +2,9 @@ package patches.templates
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.CommitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.PullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPublisher
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -12,7 +14,30 @@ accordingly, and delete the patch script.
 */
 changeTemplate(RelativeId("ReactUI_GitHubFeatures")) {
     features {
-        val feature1 = find<CommitStatusPublisher> {
+        val feature1 = find<PullRequests> {
+            pullRequests {
+                id = "PULL_REQUESTS"
+                provider = github {
+                    serverUrl = ""
+                    authType = token {
+                        token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    }
+                    filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
+                }
+            }
+        }
+        feature1.apply {
+            provider = github {
+                serverUrl = ""
+                authType = token {
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
+                }
+                filterSourceBranch = ""
+                filterTargetBranch = ""
+                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
+            }
+        }
+        val feature2 = find<CommitStatusPublisher> {
             commitStatusPublisher {
                 id = "COMMIT_STATUS_PUBLISHER"
                 publisher = github {
@@ -23,7 +48,7 @@ changeTemplate(RelativeId("ReactUI_GitHubFeatures")) {
                 }
             }
         }
-        feature1.apply {
+        feature2.apply {
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
