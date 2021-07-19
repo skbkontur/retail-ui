@@ -1,9 +1,5 @@
-import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-
 import { ScrollState } from './ScrollContainer.types';
 
-export const HIDE_SCROLL_X_OFFSET = getScrollWidth();
-export const HIDE_SCROLL_Y_OFFSET = 30;
 export const MIN_SCROLL_SIZE = 20;
 
 export const defaultScrollYState: ScrollState = {
@@ -27,7 +23,7 @@ export const defaultScrollXState: ScrollState = {
   scrolling: false,
 };
 
-export const scrollSizeParameterName = {
+export const scrollSizeParametersNames = {
   x: {
     offset: 'offsetWidth',
     size: 'scrollWidth',

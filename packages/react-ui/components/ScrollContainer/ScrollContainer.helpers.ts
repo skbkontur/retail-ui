@@ -1,16 +1,7 @@
-import React from 'react';
-
-import { getScrollWidth } from '../../lib/dom/getScrollWidth';
-
-import {
-  MIN_SCROLL_SIZE,
-  scrollSizeParameterName,
-  HIDE_SCROLL_Y_OFFSET,
-  HIDE_SCROLL_X_OFFSET,
-} from './ScrollContainer.constants';
+import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants';
 
 export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
-  const { offset, size, pos } = scrollSizeParameterName[axis];
+  const { offset, size, pos } = scrollSizeParametersNames[axis];
 
   const contentSize = inner[size];
   const scrollOffset = inner[pos];
@@ -30,41 +21,5 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
     scrollActive,
     scrollSize,
     scrollPos,
-  };
-};
-
-export const getMaxHeightWithOffset = (prop: React.CSSProperties['maxHeight']) => {
-  if (typeof prop === 'number') {
-    return `calc(${prop}px + ${HIDE_SCROLL_X_OFFSET}px)`;
-  }
-
-  if (typeof prop === 'string') {
-    return `calc(${prop} + ${HIDE_SCROLL_X_OFFSET}px)`;
-  }
-
-  return `calc(100% + ${HIDE_SCROLL_X_OFFSET}px)`;
-};
-
-export const hideOverflowX = (isActiveScrollY: boolean) => {
-  const marginBottom = -1 * HIDE_SCROLL_X_OFFSET;
-
-  return isActiveScrollY
-    ? {
-        /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
-        marginBottom: marginBottom - 1,
-        paddingBottom: 1,
-      }
-    : {
-        marginBottom: 2 * marginBottom,
-        paddingBottom: HIDE_SCROLL_X_OFFSET,
-        height: '100%',
-      };
-};
-
-export const hideOverflowY = () => {
-  return {
-    // hide vertical scrollbar with a little extra spac
-    paddingRight: HIDE_SCROLL_Y_OFFSET - getScrollWidth(),
-    marginRight: -1 * HIDE_SCROLL_Y_OFFSET,
   };
 };

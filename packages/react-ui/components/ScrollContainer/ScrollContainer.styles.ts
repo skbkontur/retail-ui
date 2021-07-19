@@ -18,10 +18,15 @@ const styles = {
       overflow: scroll;
       max-height: 100%;
       max-width: 100%;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* Internet Explorer 10+ */
+
+      /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
+      margin-bottom: -1px;
+      padding-bottom: 1px;
+
+      /* Hide scrobars without losing functionality */
+      scrollbar-width: none;
+      -ms-overflow-style: none;
       &::-webkit-scrollbar {
-        /* WebKit */
         width: 0;
         height: 0;
       }
