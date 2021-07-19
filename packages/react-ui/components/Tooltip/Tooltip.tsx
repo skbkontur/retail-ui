@@ -413,10 +413,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
             onBlur: this.handleBlur,
             useWrapper,
           },
-          layerProps: {
-            active: this.state.opened,
-            onClickOutside: this.handleClickOutsideAnchor,
-          },
+          // layerProps: {
+          //   active: this.state.opened,
+          //   onClickOutside: this.handleClickOutsideAnchor,
+          // },
         };
 
       case 'hover&focus':

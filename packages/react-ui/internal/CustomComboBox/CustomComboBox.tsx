@@ -360,7 +360,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
     this.focused = false;
-    this.dispatch({ type: 'Blur' });
+    requestAnimationFrame(() => this.dispatch({ type: 'Blur' }));
   };
 
   private handleInputBlur = () => {
