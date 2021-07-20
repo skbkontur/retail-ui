@@ -23,5 +23,5 @@ export const isMobile =
 export const isIOS =
   (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(platform) ||
     // iPad on iOS 13 detection
-    (navigator.userAgent.includes('Mac') && 'ontouchend' in document)) &&
+    (userAgent.includes('Mac') && 'ontouchend' in document)) &&
   'ontouchstart' in window.document.documentElement;
