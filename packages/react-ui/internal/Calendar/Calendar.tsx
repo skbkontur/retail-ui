@@ -227,8 +227,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (!this.root && element) {
       if (isMobile) {
         element.addEventListener('touchstart', this.handleTouchStart);
-        element.addEventListener('touchmove', this.throttledHandelTouchMove);
-        element.addEventListener('touchend', this.handleTouchEnd);
+        element.addEventListener('touchmove', this.throttledHandleTouchMove);
       } else {
         element.addEventListener('wheel', this.handleWheel, { passive: false });
       }
@@ -236,8 +235,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.root && !element) {
       if (isMobile) {
         this.root.removeEventListener('touchstart', this.handleTouchStart);
-        this.root.removeEventListener('touchmove', this.throttledHandelTouchMove);
-        this.root.removeEventListener('touchend', this.handleTouchEnd);
+        this.root.removeEventListener('touchmove', this.throttledHandleTouchMove);
       } else {
         this.root.removeEventListener('wheel', this.handleWheel);
       }
@@ -292,28 +290,10 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     CalendarScrollEvents.emit();
   };
 
-  private handleTouchEnd = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
-      return;
-    }
-
-    const clientY = event.changedTouches[0].clientY;
-    const deltaY = (this.touchStartY || 0) - clientY;
-
-    if (Math.abs(deltaY) < 10) {
-      const target = event.changedTouches[0].target;
-      if (target && target instanceof HTMLElement) {
-        target.click();
-      }
-    }
-  };
-
   private handleTouchStart = (event: Event) => {
     if (!(event instanceof TouchEvent)) {
       return;
     }
-
-    event.preventDefault();
 
     const clientY = event.targetTouches[0].clientY;
     this.touchStartY = clientY;
@@ -324,13 +304,15 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       return;
     }
 
-    const deltaY = (this.touchStartY || 0) - event.targetTouches[0].clientY;
-    const pixelY = deltaY / window.devicePixelRatio;
+    const { clientY } = event.changedTouches[0];
 
-    this.executeAnimations(pixelY);
+    const deltaY = (this.touchStartY || 0) - clientY;
+    this.touchStartY = clientY;
+
+    this.executeAnimations(deltaY);
   };
 
-  private throttledHandelTouchMove = throttle(this.handleTouchMove, 40);
+  private throttledHandleTouchMove = throttle(this.handleTouchMove, 40);
 
   private handleWheel = (event: Event) => {
     if (!(event instanceof WheelEvent)) {
