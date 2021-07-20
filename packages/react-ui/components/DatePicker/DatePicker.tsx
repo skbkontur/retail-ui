@@ -222,7 +222,19 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <>
+        <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>
+
+        {this.state.canUseMobileNativeDatePicker && (
+          <NativeDatePicker
+            ref={this.refNativeDatePicker}
+            value={this.internalDate ? this.internalDate.toNativeFormat() : null}
+            onValueChange={(value) => this.handlePick(value)}
+          />
+        )}
+      </>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
@@ -245,36 +257,27 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     }
 
     return (
-      <>
-        <label
-          className={jsStyles.root()}
-          style={{ width: this.props.width }}
-          onMouseEnter={this.props.onMouseEnter}
-          onMouseLeave={this.props.onMouseLeave}
-          onMouseOver={this.props.onMouseOver}
-        >
-          <DateInput
-            {...filterProps(props, INPUT_PASS_PROPS)}
-            ref={this.getInputRef}
-            value={this.props.value || ''}
-            width="100%"
-            withIcon
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
-            onBlur={this.handleBlur}
-            onFocus={this.handleFocus}
-            onValueChange={this.props.onValueChange}
-          />
-          {picker}
-        </label>
-        {this.state.canUseMobileNativeDatePicker && (
-          <NativeDatePicker
-            ref={this.refNativeDatePicker}
-            value={date}
-            onValueChange={(value) => this.handlePick(value)}
-          />
-        )}
-      </>
+      <label
+        className={jsStyles.root()}
+        style={{ width: this.props.width }}
+        onMouseEnter={this.props.onMouseEnter}
+        onMouseLeave={this.props.onMouseLeave}
+        onMouseOver={this.props.onMouseOver}
+      >
+        <DateInput
+          {...filterProps(props, INPUT_PASS_PROPS)}
+          ref={this.getInputRef}
+          value={this.props.value || ''}
+          width="100%"
+          withIcon
+          minDate={this.props.minDate}
+          maxDate={this.props.maxDate}
+          onBlur={this.handleBlur}
+          onFocus={this.handleFocus}
+          onValueChange={this.props.onValueChange}
+        />
+        {picker}
+      </label>
     );
   };
 
