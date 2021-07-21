@@ -81,6 +81,16 @@ const styles = {
       }
     `;
   },
+
+  progressBarWrapper() {
+    return css`
+      width: 100%;
+      height: 3px;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

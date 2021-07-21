@@ -1,5 +1,5 @@
 import React from 'react';
-import { func, shape, string } from 'prop-types';
+import { func, number, shape, string } from 'prop-types';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
@@ -21,6 +21,8 @@ export interface ToastViewProps extends CommonProps {
     label: string;
     handler: () => void;
   } | null;
+  progressBarColor?: string;
+  progress?: number;
   onClose?: () => void;
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
@@ -40,6 +42,14 @@ export class ToastView extends React.Component<ToastViewProps> {
      */
     children: string.isRequired,
     onClose: func,
+    progressBarColor: string,
+    progress: number,
+  };
+
+  public static defaultProps = {
+    scrollBehaviour: 'auto',
+    progressBarColor: '#1ab8e8',
+    progress: 0,
   };
 
   private theme!: Theme;
@@ -72,14 +82,33 @@ export class ToastView extends React.Component<ToastViewProps> {
       </span>
     ) : null;
 
+    const progressBar = this.renderProgressBar();
+
     return (
       <ZIndex priority="Toast" className={jsStyles.wrapper()}>
         <div data-tid="ToastView__root" {...rest} className={jsStyles.root(this.theme)}>
           <span>{this.props.children}</span>
           {link}
           {close}
+          {progressBar}
         </div>
       </ZIndex>
+    );
+  };
+
+  private renderProgressBar = () => {
+    const props = this.props;
+
+    const styleProgressBar: React.CSSProperties = {
+      height: '100%',
+      width: props.progress,
+      background: props.progressBarColor,
+    };
+
+    return (
+      <div className={jsStyles.progressBarWrapper()}>
+        <div style={styleProgressBar}></div>
+      </div>
     );
   };
 }
