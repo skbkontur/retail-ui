@@ -173,7 +173,9 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private fillProgressBar = () => {
     const timeOut = this.timeOut;
-    const passTime = (this.state.progress * timeOut) / 100;
+    const curProgress = this.state.progress;
+
+    const passTime = (curProgress * timeOut) / 100;
     const progress = (100 * (passTime + 1)) / timeOut;
 
     this.setState({ ...this.state, progress });
