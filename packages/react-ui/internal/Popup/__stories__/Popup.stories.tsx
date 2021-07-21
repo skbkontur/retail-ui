@@ -12,13 +12,14 @@ import { isTestEnv } from '../../../lib/currentEnvironment';
 export default { title: 'Popup' };
 
 export const AllPinOpened = () => <AllCases small={false} padding={'50px 100px'} />;
-AllPinOpened.story = { name: 'All pin opened' };
+AllPinOpened.storyName = 'All pin opened';
 
 export const AllPinOpenedOnSmallElements = () => <AllCases small padding={'70px 150px'} />;
-AllPinOpenedOnSmallElements.story = { name: 'All pin opened on small elements' };
+AllPinOpenedOnSmallElements.storyName = 'All pin opened on small elements';
 
 export const PositioningStory = () => <Positioning />;
-PositioningStory.story = { name: 'Positioning', parameters: { creevey: { skip: [true] } } };
+PositioningStory.storyName = 'Positioning';
+PositioningStory.parameters = { creevey: { skip: [true] } };
 
 export const DisableAnimations = () => (
   <div>
@@ -26,27 +27,29 @@ export const DisableAnimations = () => (
     <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
   </div>
 );
-DisableAnimations.story = { name: 'disableAnimations', parameters: { creevey: { skip: [true] } } };
+DisableAnimations.storyName = 'disableAnimations';
+DisableAnimations.parameters = { creevey: { skip: [true] } };
 
 export const HintStory = () => (
   <div style={{ padding: '100px' }}>
     <FakeHint positions={['top center', 'right top', 'bottom center', 'left middle']} margin={20} />
   </div>
 );
-HintStory.story = { name: 'Hint' };
+HintStory.storyName = 'Hint';
 
 export const ToastStory = () => (
   <div style={{ padding: '100px' }}>
     <Toast positions={['top center', 'right top', 'bottom center', 'left middle']} />
   </div>
 );
-ToastStory.story = { name: 'Toast' };
+ToastStory.storyName = 'Toast';
 
 export const SmallWidth = () => <MinWidth />;
-SmallWidth.story = { name: 'Small width' };
+SmallWidth.storyName = 'Small width';
 
 export const HoverBehaviourStory = () => <HoverBehaviour />;
-HoverBehaviourStory.story = { name: 'Hover behaviour', parameters: { creevey: { skip: [true] } } };
+HoverBehaviourStory.storyName = 'Hover behaviour';
+HoverBehaviourStory.parameters = { creevey: { skip: [true] } };
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>
@@ -164,7 +167,7 @@ class MinWidth extends React.Component {
   public render() {
     return (
       <div style={{ padding: '100px' }}>
-        <span ref={el => (this.anchor = el)}>x</span>
+        <span ref={(el) => (this.anchor = el)}>x</span>
         {this.state.anchor && (
           <Popup hasShadow hasPin opened anchorElement={this.anchor} positions={['bottom center']}>
             <div
@@ -343,7 +346,7 @@ class FakeHint extends Component<any, any> {
   public render() {
     return (
       <div>
-        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
+        <div ref={(e) => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -381,7 +384,7 @@ class Toast extends Component<any, any> {
   public render() {
     return (
       <div>
-        <div ref={e => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
+        <div ref={(e) => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
@@ -409,7 +412,7 @@ const COMBOBOX_ITEMS = [
   { value: 1, label: 'First' },
   { value: 2, label: 'Second' },
 ];
-const SELECT_ITEMS = COMBOBOX_ITEMS.map(i => i.label);
+const SELECT_ITEMS = COMBOBOX_ITEMS.map((i) => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
 interface DropdownValue {

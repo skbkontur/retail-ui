@@ -83,7 +83,7 @@ export class ModalStack {
 
     if (isSidePage(component)) {
       const { mounted } = ModalStack.getStackInfo();
-      const deepestSidePages = mounted.filter(i => isSidePage(i)).pop();
+      const deepestSidePages = mounted.filter((i) => isSidePage(i)).pop();
       return !!component.props.blockBackground && component === deepestSidePages;
     }
 

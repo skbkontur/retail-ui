@@ -1,9 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import { ReactComponentLike } from 'prop-types';
 
 import { Modal } from '../Modal';
-import { isFooter, isHeader } from '../helpers';
 
 function emulateRealClick(
   mouseDownTarget: Element | null,
@@ -131,10 +129,7 @@ describe('Modal', () => {
       </Modal>,
     );
     const containerNode = wrapper.find('[data-tid="modal-container"]').getDOMNode();
-    const contentNode = wrapper
-      .find(Modal.Body)
-      .find('[data-tid="modal-content"]')
-      .getDOMNode();
+    const contentNode = wrapper.find(Modal.Body).find('[data-tid="modal-content"]').getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
 
@@ -154,10 +149,7 @@ describe('Modal', () => {
         </Modal.Body>
       </Modal>,
     );
-    const contentNode = wrapper
-      .find(Modal.Body)
-      .find('[data-tid="modal-content"]')
-      .getDOMNode();
+    const contentNode = wrapper.find(Modal.Body).find('[data-tid="modal-content"]').getDOMNode();
 
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
     emulateRealClick(contentNode);
@@ -204,46 +196,6 @@ describe('Modal', () => {
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
     emulateRealClick(containerNode);
     expect(onCloseHandler).toHaveBeenCalledTimes(0);
-  });
-
-  it.each<[ReactComponentLike, boolean]>([
-    [Modal, false],
-    [Modal.Footer, false],
-    [
-      function renderDiv() {
-        return <div />;
-      },
-      false,
-    ],
-    [Modal.Header, true],
-  ])('isHeader(%p) => %s', (Component, expected) => {
-    const wrapper = mount(
-      <div>
-        <Component />
-      </div>,
-    );
-    const child = React.Children.only(wrapper.prop('children'));
-    expect(isHeader(child)).toBe(expected);
-  });
-
-  it.each<[ReactComponentLike, boolean]>([
-    [Modal, false],
-    [Modal.Footer, true],
-    [
-      function renderDiv() {
-        return <div />;
-      },
-      false,
-    ],
-    [Modal.Header, false],
-  ])('isFooter(%p) => %s', (Component, expected) => {
-    const wrapper = mount(
-      <div>
-        <Component />
-      </div>,
-    );
-    const child = React.Children.only(wrapper.prop('children'));
-    expect(isFooter(child)).toBe(expected);
   });
 
   it('correct position in stack', () => {

@@ -3,8 +3,8 @@ import { Nullable } from '../typings/Types';
 
 describe('Validator', () => {
   it('root invalid', () => {
-    const validate = createValidator<string>(b => {
-      b.invalid(x => x === 'bad', 'error');
+    const validate = createValidator<string>((b) => {
+      b.invalid((x) => x === 'bad', 'error');
     });
 
     const reader = validate('bad');
@@ -14,8 +14,8 @@ describe('Validator', () => {
   });
 
   it('root valid', () => {
-    const validate = createValidator<string>(b => {
-      b.invalid(x => x === 'bad', 'error');
+    const validate = createValidator<string>((b) => {
+      b.invalid((x) => x === 'bad', 'error');
     });
 
     const reader = validate('ok');
@@ -29,17 +29,17 @@ describe('Validator', () => {
       value: string;
     }
 
-    const validate = createValidator<Data>(b => {
+    const validate = createValidator<Data>((b) => {
       b.prop(
-        x => x.value,
-        b => {
-          b.invalid(x => x === 'bad', 'error');
+        (x) => x.value,
+        (b) => {
+          b.invalid((x) => x === 'bad', 'error');
         },
       );
     });
 
     const reader = validate({ value: 'bad' });
-    const validationInfo = reader.getNode(x => x.value).get();
+    const validationInfo = reader.getNode((x) => x.value).get();
 
     expect(validationInfo).toStrictEqual({ message: 'error', type: undefined, level: undefined });
   });
@@ -49,11 +49,11 @@ describe('Validator', () => {
       value: string;
     }
 
-    const validate = createValidator<Data>(b => {
+    const validate = createValidator<Data>((b) => {
       b.prop(
-        x => x.value,
-        b => {
-          b.invalid(x => x === 'bad', 'error');
+        (x) => x.value,
+        (b) => {
+          b.invalid((x) => x === 'bad', 'error');
         },
       );
     });
@@ -74,14 +74,14 @@ describe('Validator', () => {
     const objectRule = jest.fn();
     const valueRule = jest.fn();
 
-    const validate = createValidator<Data>(b => {
+    const validate = createValidator<Data>((b) => {
       b.prop(
-        x => x.object,
-        b => {
+        (x) => x.object,
+        (b) => {
           objectRule();
           b.prop(
-            x => x.value,
-            b => {
+            (x) => x.value,
+            (b) => {
               valueRule();
             },
           );
@@ -102,7 +102,7 @@ describe('Validator', () => {
     const validate = createValidator<Data>(() => undefined);
 
     const reader = validate({ value: 'sad' });
-    const validationInfo = reader.getNode(x => x.value).get();
+    const validationInfo = reader.getNode((x) => x.value).get();
     expect(validationInfo).toBe(null);
   });
 
@@ -111,17 +111,17 @@ describe('Validator', () => {
       value: string;
     }
 
-    const validate = createValidator<Data>(b => {
+    const validate = createValidator<Data>((b) => {
       b.prop(
-        x => x.value,
-        b => {
-          b.invalid(x => x === 'bad', 'error');
+        (x) => x.value,
+        (b) => {
+          b.invalid((x) => x === 'bad', 'error');
         },
       );
     });
 
     const reader = validate({ value: 'ok' });
-    const validationInfo = reader.getNode(x => x.value).get();
+    const validationInfo = reader.getNode((x) => x.value).get();
 
     expect(validationInfo).toBe(null);
   });
@@ -131,10 +131,10 @@ describe('Validator', () => {
     const check2 = jest.fn();
     const check3 = jest.fn();
 
-    const validate = createValidator<string>(b => {
-      b.invalid(x => check1() || x === '___', 'error1');
-      b.invalid(x => check2() || x === 'bad', 'error2');
-      b.invalid(x => check3() || x === 'bad', 'error3');
+    const validate = createValidator<string>((b) => {
+      b.invalid((x) => check1() || x === '___', 'error1');
+      b.invalid((x) => check2() || x === 'bad', 'error2');
+      b.invalid((x) => check3() || x === 'bad', 'error3');
     });
 
     const reader = validate('bad');
@@ -147,8 +147,8 @@ describe('Validator', () => {
   });
 
   it('explicit validation type and level', () => {
-    const validate = createValidator<string>(b => {
-      b.invalid(x => x === 'bad', 'error', 'submit', 'warning');
+    const validate = createValidator<string>((b) => {
+      b.invalid((x) => x === 'bad', 'error', 'submit', 'warning');
     });
 
     const reader = validate('bad');
@@ -158,11 +158,11 @@ describe('Validator', () => {
   });
 
   it('prop empty path', () => {
-    const validate = createValidator<string>(b => {
+    const validate = createValidator<string>((b) => {
       b.prop(
-        x => x,
-        b => {
-          b.invalid(x => x === 'bad', 'error');
+        (x) => x,
+        (b) => {
+          b.invalid((x) => x === 'bad', 'error');
         },
       );
     });
@@ -174,11 +174,11 @@ describe('Validator', () => {
   });
 
   it('array item invalid', () => {
-    const validate = createValidator<string[]>(b => {
+    const validate = createValidator<string[]>((b) => {
       b.array(
-        x => x,
-        b => {
-          b.invalid(x => x === 'bad', 'error');
+        (x) => x,
+        (b) => {
+          b.invalid((x) => x === 'bad', 'error');
         },
       );
     });
@@ -192,9 +192,9 @@ describe('Validator', () => {
   it('prop value argument', () => {
     const propRule = jest.fn();
 
-    const validate = createValidator<string>(b => {
+    const validate = createValidator<string>((b) => {
       b.prop(
-        x => x,
+        (x) => x,
         (b, v) => {
           propRule(v);
         },
@@ -208,9 +208,9 @@ describe('Validator', () => {
 
   it('array value index argument', () => {
     const itemRule = jest.fn();
-    const validate = createValidator<string[]>(b => {
+    const validate = createValidator<string[]>((b) => {
       b.array(
-        x => x,
+        (x) => x,
         (b, v, i, a) => {
           itemRule(v, i, a);
         },

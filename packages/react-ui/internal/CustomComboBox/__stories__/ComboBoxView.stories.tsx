@@ -1,7 +1,7 @@
 import React from 'react';
-import { CSFStory } from 'creevey';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
+import { Story } from '../../../typings/stories';
 import { ComboBoxView } from '../ComboBoxView';
 import { Gapped } from '../../../components/Gapped';
 import { Modal } from '../../../components/Modal';
@@ -11,7 +11,7 @@ import { MenuHeader } from '../../../components/MenuHeader';
 
 export default { title: 'ComboBoxView' };
 
-export const InputLikeText: CSFStory<JSX.Element> = () => (
+export const InputLikeText: Story = () => (
   <Gapped vertical>
     <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} />
     <ComboBoxView renderValue={simpleRenderValue} value={{ value: 1, label: 'hello' }} align="center" />
@@ -43,28 +43,27 @@ export const InputLikeText: CSFStory<JSX.Element> = () => (
     <ComboBoxView drawArrow />
     <ComboBoxView loading items={new Array(2)} value="Hello" />
     <div>
-      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" />
-      {' '}ComboBoxView с правой иконкой в состоянии загрузки
+      <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
+      состоянии загрузки
     </div>
   </Gapped>
 );
-InputLikeText.story = {
-  name: 'input like text',
-  parameters: {
-    creevey: {
-      tests: {
-        async plain() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-        },
-        async ['focused first element']() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
-            .perform();
-          await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
-        },
+InputLikeText.storyName = 'input like text';
+
+InputLikeText.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async ['focused first element']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
       },
     },
   },
@@ -80,7 +79,7 @@ export const InputLikeTextWithPlaceholder = () => (
     </div>
   </Gapped>
 );
-InputLikeTextWithPlaceholder.story = { name: 'input like text with placeholder' };
+InputLikeTextWithPlaceholder.storyName = 'input like text with placeholder';
 
 export const Opened = () => (
   <table>
@@ -122,14 +121,14 @@ export const Opened = () => (
             items={[]}
             opened
             textValue="something"
-            renderAddButton={query => <MenuItem>Add {query}</MenuItem>}
+            renderAddButton={(query) => <MenuItem>Add {query}</MenuItem>}
           />
         </td>
       </tr>
     </tbody>
   </table>
 );
-Opened.story = { name: 'opened' };
+Opened.storyName = 'opened';
 
 export const WithItems = () => (
   <div style={{ paddingBottom: 400 }}>
@@ -154,7 +153,7 @@ export const WithItems = () => (
     />
   </div>
 );
-WithItems.story = { name: 'with items' };
+WithItems.storyName = 'with items';
 
 export const InFlexModal = () => (
   <Modal width="250px">
@@ -167,7 +166,8 @@ export const InFlexModal = () => (
     </Modal.Body>
   </Modal>
 );
-InFlexModal.story = { name: 'in flex modal', parameters: { creevey: { captureElement: null } } };
+InFlexModal.storyName = 'in flex modal';
+InFlexModal.parameters = { creevey: { captureElement: null } };
 
 function simpleRenderValue(value: { value: number; label: string }) {
   return value.label;
@@ -204,7 +204,7 @@ export const WithCountItems = () => {
         textValue="one"
         items={items}
         totalCount={100}
-        renderItem={item => complexRenderValue(item as { id: number; name: string })}
+        renderItem={(item) => complexRenderValue(item as { id: number; name: string })}
         renderTotalCount={(found, total) => `Показано ${found} из ${total}`}
       />
     </div>

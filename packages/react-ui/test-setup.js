@@ -6,9 +6,9 @@ import React from 'react';
 
 configure({ adapter: new Adapter() });
 
-jest.mock('react-focus-lock', () => props => <div>{props.children}</div>);
+jest.mock('react-focus-lock', () => (props) => <div>{props.children}</div>);
 jest.mock('lodash.debounce', () =>
-  jest.fn(fn => {
+  jest.fn((fn) => {
     fn.cancel = jest.fn();
     return fn;
   }),

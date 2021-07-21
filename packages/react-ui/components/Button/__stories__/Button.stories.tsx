@@ -1,17 +1,17 @@
 import React from 'react';
-import { CSFStory, CreeveyStoryParams } from 'creevey';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Button, ButtonProps } from '../Button';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ComponentCombinator } from '../../../internal/ComponentCombinator';
 
-export default { title: 'Button' };
+export default { title: 'Button' } as Meta;
 
-const buttonTests: CreeveyStoryParams['tests'] = {
+const buttonTests: CreeveyTests = {
   async idle() {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
@@ -64,31 +64,19 @@ const buttonTests: CreeveyStoryParams['tests'] = {
   },
 };
 
-const combinationTest: CreeveyStoryParams['tests'] = {
+const combinationTest: CreeveyTests = {
   async simple() {
     const nextPageButton = () => this.browser.findElement({ css: '#next-page' });
     const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
 
     const page1 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page2 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page3 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page4 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page5 = await element().takeScreenshot();
 
     await this.expect({
@@ -101,14 +89,13 @@ const combinationTest: CreeveyStoryParams['tests'] = {
   },
 };
 
-export const Playground: CSFStory<JSX.Element> = () => <Button>Hello</Button>;
-Playground.story = {
-  name: 'playground',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+export const Playground: Story = () => <Button>Hello</Button>;
+Playground.storyName = 'playground';
+
+Playground.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
@@ -127,35 +114,33 @@ export const DifferentContent = () => (
     </Button>
   </Gapped>
 );
-DifferentContent.story = { name: 'different content' };
+DifferentContent.storyName = 'different content';
 
-export const UseLink: CSFStory<JSX.Element> = () => <Button use="link">Use Link</Button>;
-UseLink.story = {
-  name: 'use link',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+export const UseLink: Story = () => <Button use="link">Use Link</Button>;
+UseLink.storyName = 'use link';
+
+UseLink.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
-export const UseLinkWithIcon: CSFStory<JSX.Element> = () => (
+export const UseLinkWithIcon: Story = () => (
   <Button use="link" icon={<ArchivePackIcon />}>
     With Icon
   </Button>
 );
-UseLinkWithIcon.story = {
-  name: 'use link with icon',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+UseLinkWithIcon.storyName = 'use link with icon';
+
+UseLinkWithIcon.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
-export const MultilineTextWithLinkButton: CSFStory<JSX.Element> = () => (
+export const MultilineTextWithLinkButton: Story = () => (
   <div>
     &quot;You can&apos;t keep boogieing like this. <br />
     You&apos;ll come <Button use="link">down</Button> <br />
@@ -164,17 +149,16 @@ export const MultilineTextWithLinkButton: CSFStory<JSX.Element> = () => (
     <i>Leela</i>
   </div>
 );
-MultilineTextWithLinkButton.story = {
-  name: 'multiline text with link button',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
-      tests: buttonTests,
-    },
+MultilineTextWithLinkButton.storyName = 'multiline text with link button';
+
+MultilineTextWithLinkButton.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }],
+    tests: buttonTests,
   },
 };
 
-export const WithError: CSFStory<JSX.Element> = () => (
+export const WithError: Story = () => (
   <Gapped>
     <Button error>Error :(</Button>
     <Button error use="primary">
@@ -185,34 +169,32 @@ export const WithError: CSFStory<JSX.Element> = () => (
     </Button>
   </Gapped>
 );
-WithError.story = {
-  name: 'with error',
-  parameters: {
-    creevey: {
-      skip: [
-        { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
-        { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
-      ],
-      tests: buttonTests,
-    },
+WithError.storyName = 'with error';
+
+WithError.parameters = {
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
+      { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
+    ],
+    tests: buttonTests,
   },
 };
 
-export const ArrowWithError: CSFStory<JSX.Element> = () => (
+export const ArrowWithError: Story = () => (
   <Button arrow error>
     Arrow
   </Button>
 );
-ArrowWithError.story = {
-  name: 'arrow with error',
-  parameters: {
-    creevey: {
-      skip: [
-        { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
-        { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
-      ],
-      tests: buttonTests,
-    },
+ArrowWithError.storyName = 'arrow with error';
+
+ArrowWithError.parameters = {
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
+      { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
+    ],
+    tests: buttonTests,
   },
 };
 
@@ -245,168 +227,159 @@ export const TextStylesReset = () => (
     </Gapped>
   </div>
 );
-TextStylesReset.story = { name: 'text styles reset' };
+TextStylesReset.storyName = 'text styles reset';
 
 export const DifferentAligns = () => (
   <ComponentTable
     Component={Button}
-    rows={alignStates.map(x => ({ props: x }))}
-    cols={layoutStates.map(x => ({ props: x }))}
+    rows={alignStates.map((x) => ({ props: x }))}
+    cols={layoutStates.map((x) => ({ props: x }))}
     presetProps={{ width: 200, children: 'Button' }}
   />
 );
-DifferentAligns.story = { name: 'different aligns' };
+DifferentAligns.storyName = 'different aligns';
 
-export const differentWidths: CSFStory<JSX.Element> = () => (
+export const differentWidths: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'long-long-long text' }}
     combinations={[widthStates, [{ props: { use: 'link' } }, { props: { use: 'default' } }]]}
   />
 );
-differentWidths.story = { name: 'different widths' };
+differentWidths.storyName = 'different widths';
 
-export const DefaultCombinations: CSFStory<JSX.Element> = () => (
+export const DefaultCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button' }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-DefaultCombinations.story = {
-  name: 'default combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+DefaultCombinations.storyName = 'default combinations';
+
+DefaultCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const CombinationsWithWarning: CSFStory<JSX.Element> = () => (
+export const CombinationsWithWarning: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', warning: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CombinationsWithWarning.story = {
-  name: 'combinations with warning',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CombinationsWithWarning.storyName = 'combinations with warning';
+
+CombinationsWithWarning.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const CombinationsWithError: CSFStory<JSX.Element> = () => (
+export const CombinationsWithError: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', error: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CombinationsWithError.story = {
-  name: 'combinations with error',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CombinationsWithError.storyName = 'combinations with error';
+
+CombinationsWithError.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const CombinationsWithFocus: CSFStory<JSX.Element> = () => (
+export const CombinationsWithFocus: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', visuallyFocused: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CombinationsWithFocus.story = {
-  name: 'combinations with focus',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CombinationsWithFocus.storyName = 'combinations with focus';
+
+CombinationsWithFocus.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const LoadingCombinations: CSFStory<JSX.Element> = () => (
+export const LoadingCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', loading: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-LoadingCombinations.story = {
-  name: 'loading combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+LoadingCombinations.storyName = 'loading combinations';
+
+LoadingCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const DisabledCombinations: CSFStory<JSX.Element> = () => (
+export const DisabledCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', disabled: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-DisabledCombinations.story = {
-  name: 'disabled combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+DisabledCombinations.storyName = 'disabled combinations';
+
+DisabledCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const ActiveCombinations: CSFStory<JSX.Element> = () => (
+export const ActiveCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', active: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-ActiveCombinations.story = {
-  name: 'active combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+ActiveCombinations.storyName = 'active combinations';
+
+ActiveCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const CheckedCombinations: CSFStory<JSX.Element> = () => (
+export const CheckedCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', checked: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CheckedCombinations.story = {
-  name: 'checked combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CheckedCombinations.storyName = 'checked combinations';
+
+CheckedCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
-export const CheckedDisabledCombinations: CSFStory<JSX.Element> = () => (
+export const CheckedDisabledCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'Button', checked: true, disabled: true }}
     combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
   />
 );
-CheckedDisabledCombinations.story = {
-  name: 'checked disabled combinations',
-  parameters: {
-    creevey: {
-      tests: combinationTest,
-    },
+CheckedDisabledCombinations.storyName = 'checked disabled combinations';
+
+CheckedDisabledCombinations.parameters = {
+  creevey: {
+    tests: combinationTest,
   },
 };
 
@@ -431,19 +404,17 @@ const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'succe
 
 const widthStates = getProps('width', [100, 'auto']);
 
-const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map(x => ({
+const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map((x) => ({
   props: x,
 }));
 
-const contentStates = [
-  { icon: <SearchIcon /> },
-  { children: 'long-long-long text' },
-  { children: <SearchIcon /> },
-].map(x => ({ props: x }));
+const contentStates = [{ icon: <SearchIcon /> }, { children: 'long-long-long text' }, { children: <SearchIcon /> }].map(
+  (x) => ({ props: x }),
+);
 
 function getProps<TKey extends keyof ButtonProps>(
   key: TKey,
   values: Array<ButtonProps[TKey]>,
 ): Array<{ props: Pick<ButtonProps, TKey> }> {
-  return values.map(x => ({ props: { [key]: x } as Pick<ButtonProps, TKey> }));
+  return values.map((x) => ({ props: { [key]: x } as Pick<ButtonProps, TKey> }));
 }

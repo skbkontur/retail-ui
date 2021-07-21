@@ -1,6 +1,6 @@
 import React from 'react';
-import { StoryFn } from '@storybook/addons';
 
+import { Meta } from '../../../typings/stories';
 import { Token, TokenColors } from '../Token';
 import { Gapped } from '../../Gapped';
 
@@ -22,16 +22,16 @@ const newToDeprecatedColorNamesMap: { [key: string]: string } = {
   redActive: 'd-red',
 };
 
-const FixedWidthDecorator = (storyFn: StoryFn<JSX.Element>) => (
-  <div className="token-test-container" style={{ margin: 40, padding: 4 }}>
-    {storyFn()}
-  </div>
-);
-
 export default {
   title: 'Token',
-  decorators: [FixedWidthDecorator],
-};
+  decorators: [
+    (Story) => (
+      <div className="token-test-container" style={{ margin: 40, padding: 4 }}>
+        <Story />
+      </div>
+    ),
+  ],
+} as Meta;
 
 export const Default = () => {
   return (
@@ -41,7 +41,7 @@ export const Default = () => {
     </>
   );
 };
-Default.story = { name: 'default' };
+Default.storyName = 'default';
 
 export const Disabled = () => {
   return (
@@ -51,7 +51,7 @@ export const Disabled = () => {
     </>
   );
 };
-Disabled.story = { name: 'disabled' };
+Disabled.storyName = 'disabled';
 
 export const LongText = () => {
   return (
@@ -61,7 +61,7 @@ export const LongText = () => {
     </>
   );
 };
-LongText.story = { name: 'long text' };
+LongText.storyName = 'long text';
 
 export const Colored = () => {
   const gray: TokenColors = { idle: 'grayIdle' };
@@ -114,7 +114,7 @@ export const Colored = () => {
     </>
   );
 };
-Colored.story = { name: 'colored' };
+Colored.storyName = 'colored';
 
 export const Validations = () => {
   return (
@@ -126,4 +126,4 @@ export const Validations = () => {
     </>
   );
 };
-Validations.story = { name: 'validations' };
+Validations.storyName = 'validations';

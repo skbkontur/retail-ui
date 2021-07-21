@@ -25,7 +25,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <ThemeContext.Provider
