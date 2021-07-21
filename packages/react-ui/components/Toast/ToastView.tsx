@@ -101,7 +101,8 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     const styleProgressBar: React.CSSProperties = {
       height: '100%',
-      width: props.progress,
+      width: `${props.progress}%`,
+      transition: 'width 1s linear',
       background: props.progressBarColor,
     };
 
