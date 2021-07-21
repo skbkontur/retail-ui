@@ -14,3 +14,6 @@ export const WithAction = () => (
   </Toast>
 );
 WithAction.storyName = 'with action';
+
+export const WithProgressBar = () => <Toast progress={50}>Changes saved</Toast>;
+WithProgressBar.storyName = 'with progress bar';
