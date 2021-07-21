@@ -179,8 +179,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     this.setState({ ...this.state, progress });
 
-    console.log('here');
-
     this._progressTimeout = window.setTimeout(() => this.fillProgressBar(), 1000);
   };
 }
