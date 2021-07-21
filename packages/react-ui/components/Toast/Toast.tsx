@@ -18,6 +18,7 @@ export interface Action {
 export interface ToastState {
   notification: Nullable<string>;
   action: Nullable<Action>;
+  progress: number;
   id: number;
 }
 
@@ -48,10 +49,12 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public _toast: Nullable<ToastView>;
   private _timeout: Nullable<number> = null;
+  private _progressTimeout: Nullable<number> = null;
 
   constructor(props: ToastProps) {
     super(props);
     this.state = {
+      progress: 0,
       notification: null,
       action: null,
       id: 0,
@@ -87,7 +90,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(({ id }) => ({ notification, action, id: id + 1 }), this._setTimer);
+    this.setState(({ id }) => ({ notification, action, id: id + 1, progress: 0 }), this._setTimer);
   }
 
   /**
@@ -95,6 +98,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
    */
   public close = () => {
     safelyCall(this.props.onClose, this.state.notification, this.state.action);
+    this._clearProgressTimeout();
     this.setState({ notification: null, action: null });
   };
 
@@ -107,6 +111,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
     const toastProps: ToastViewProps = {
       onMouseEnter: this._clearTimer,
+      progress: this.state.progress,
       onMouseLeave: this._setTimer,
       onClose: this.close,
       children: notification,
@@ -128,6 +133,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         }}
         enter={!isTestEnv}
         exit={!isTestEnv}
+        onEntered={this.fillProgressBar}
       >
         <CommonWrapper {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
@@ -140,19 +146,38 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     if (this._timeout) {
       clearTimeout(this._timeout);
       this._timeout = null;
+      this._clearProgressTimeout();
+    }
+  };
+
+  private _clearProgressTimeout = () => {
+    if (this._progressTimeout) {
+      clearTimeout(this._progressTimeout);
+      this._progressTimeout = null;
     }
   };
 
   private _setTimer = () => {
     this._clearTimer();
 
-    const timeOut = this.state.action ? 7 : 3;
-
-    this._timeout = window.setTimeout(this.close, timeOut * 1000);
+    this._timeout = window.setTimeout(this.close, this.timeOut * 1000);
   };
+
+  private get timeOut() {
+    return this.state.action ? 7 : 3;
+  }
 
   private _refToast = (element: ToastView) => {
     this._toast = element;
+  };
+
+  private fillProgressBar = () => {
+    const timeOut = this.timeOut;
+    const passTime = (this.state.progress * timeOut) / 100;
+    const progress = (100 * (passTime + 1)) / timeOut;
+
+    this.setState({ ...this.state, progress });
+    this._progressTimeout = window.setTimeout(() => this.fillProgressBar(), 1000);
   };
 }
 
