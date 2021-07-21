@@ -1,4 +1,4 @@
-import { CalendarDateShape } from '../../../internal/Calendar';
+import { CalendarDateShape } from '../../Calendar';
 import { getDateForNative, getDateForComponent, getNativeDateFromShape, getShapeFromNativeDate } from '../utils';
 
 describe('NativeDatePikcer', () => {

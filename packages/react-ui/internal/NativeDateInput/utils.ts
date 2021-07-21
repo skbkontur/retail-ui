@@ -1,5 +1,5 @@
 import { Nullable } from '../../typings/utility-types';
-import { CalendarDateShape } from '../../internal/Calendar';
+import { CalendarDateShape } from '../Calendar';
 
 export const getDateForNative = (componentDate: Nullable<string>) => {
   if (!componentDate) {

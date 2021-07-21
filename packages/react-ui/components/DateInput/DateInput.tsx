@@ -11,6 +11,7 @@ import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { isMobile } from '../../lib/client';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -23,6 +24,7 @@ export interface DateInputState {
   inputMode: boolean;
   focused: boolean;
   dragged: boolean;
+  canUseMobileNativeDatePicker: boolean;
 }
 
 export interface DateInputProps extends CommonProps {
@@ -62,6 +64,7 @@ export interface DateInputProps extends CommonProps {
    */
   onValueChange?: (value: string) => void;
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
+  useNativeDatePicker?: boolean;
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -109,6 +112,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       inputMode: false,
       focused: false,
       dragged: false,
+      canUseMobileNativeDatePicker: false,
     };
   }
 
@@ -141,6 +145,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   public componentDidMount(): void {
+    if (this.props.useNativeDatePicker && isMobile) {
+      this.setState({
+        canUseMobileNativeDatePicker: true,
+      });
+    }
+
     this.updateFromProps();
     if (this.props.autoFocus) {
       this.focus();
@@ -200,6 +210,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           onMouseDragStart={this.handleMouseDragStart}
           onMouseDragEnd={this.handleMouseDragEnd}
           value={this.iDateMediator.getInternalString()}
+          type={this.props.useNativeDatePicker ? 'date' : undefined}
+          onValueChange={this.props.useNativeDatePicker ? this.props.onValueChange : undefined}
+          min={this.props.useNativeDatePicker ? this.props.minDate : undefined}
+          max={this.props.useNativeDatePicker ? this.props.maxDate : undefined}
         >
           <DateFragmentsView
             ref={this.dateFragmentsViewRef}

@@ -16,7 +16,7 @@ import { jsStyles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
+export type InputType = 'password' | 'text' | 'date';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
 export interface InputProps

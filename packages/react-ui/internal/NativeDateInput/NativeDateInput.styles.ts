@@ -8,7 +8,9 @@ const styles = {
       padding: 0px;
       margin: 0px;
       line-height: 0px;
+      transform: scale(0);
       border: none;
+      overflow: hidden;
     `;
   },
 };

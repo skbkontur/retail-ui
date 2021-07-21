@@ -11,6 +11,7 @@ import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { NativeDateInput } from '../NativeDateInput';
 
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -167,6 +168,18 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsStyles.userSelectContain()]: focused,
     });
 
+    const input =
+      this.props.type === 'date' ? (
+        <NativeDateInput
+          onValueChange={this.props.onValueChange}
+          value={this.props.value}
+          minDate={this.props.min as Nullable<string>}
+          maxDate={this.props.max as Nullable<string>}
+        />
+      ) : (
+        <input type="hidden" value={value} />
+      );
+
     return (
       <span
         {...rest}
@@ -179,7 +192,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
-        <input type="hidden" value={value} />
+        {input}
         {leftSide}
         <span className={wrapperClass}>
           <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
