@@ -12,7 +12,7 @@ import * as CalendarUtils from './CalendarUtils';
 import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
-import { jsStyles } from './Calendar.styles';
+import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
 export interface CalendarProps {
@@ -207,8 +207,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
-      <div ref={this.refRoot} className={jsStyles.root(this.theme)}>
-        <div style={wrapperStyle} className={jsStyles.wrapper()}>
+      <div ref={this.refRoot} className={styles.root(this.theme)}>
+        <div style={wrapperStyle} className={styles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
             .filter(([top, month]) => CalendarUtils.isMonthVisible(top, month, this.theme))
@@ -268,12 +268,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const { pixelY } = normalizeWheel(event);
 
     this.setState(({ months, scrollPosition, scrollTarget }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(
-        months,
-        scrollPosition,
-        pixelY,
-        this.theme,
-      ).scrollPosition;
+      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
+        .scrollPosition;
       return { scrollTarget: targetPosition };
     }, this.handleWheelEnd);
 

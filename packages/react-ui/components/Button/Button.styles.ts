@@ -12,7 +12,7 @@ import {
   buttonSizeMixinIE11,
 } from './Button.mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       ${resetButton()};
@@ -656,9 +656,7 @@ const styles = {
       visibility: hidden;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
 
 export const activeStyles = memoizeStyle({
   default(t: Theme) {

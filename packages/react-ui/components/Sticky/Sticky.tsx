@@ -9,7 +9,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Sticky.styles';
+import { styles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
@@ -113,18 +113,18 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div ref={this.refWrapper} className={jsStyles.wrapper()}>
+        <div ref={this.refWrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
-            className={cx(jsStyles.inner(), {
-              [jsStyles.fixed()]: fixed && !stopped,
-              [jsStyles.stopped()]: stopped,
+            className={cx(styles.inner(), {
+              [styles.fixed()]: fixed && !stopped,
+              [styles.stopped()]: stopped,
             })}
             style={innerStyle}
             wrapperRef={this.refInner}
           >
-            <div className={jsStyles.container()}>{children}</div>
+            <div className={styles.container()}>{children}</div>
           </ZIndex>
           {fixed && !stopped ? <div style={{ width, height }} /> : null}
         </div>

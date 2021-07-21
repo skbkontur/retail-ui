@@ -18,7 +18,7 @@ const mixins = {
   },
 };
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       cursor: pointer;
@@ -172,6 +172,4 @@ const styles = {
       display: inline-block;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

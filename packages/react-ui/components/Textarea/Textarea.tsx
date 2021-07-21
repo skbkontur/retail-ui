@@ -17,7 +17,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 
 import { getTextAreaHeight } from './TextareaHelpers';
-import { jsStyles } from './Textarea.styles';
+import { styles } from './Textarea.styles';
 import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
@@ -331,10 +331,10 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     };
 
     const textareaClassNames = cx({
-      [jsStyles.textarea(this.theme)]: true,
-      [jsStyles.error(this.theme)]: !!error,
-      [jsStyles.warning(this.theme)]: !!warning,
-      [jsStyles.disableAnimations()]: this.isAnimationsDisabled(),
+      [styles.textarea(this.theme)]: true,
+      [styles.error(this.theme)]: !!error,
+      [styles.warning(this.theme)]: !!warning,
+      [styles.disableAnimations()]: this.isAnimationsDisabled(),
     });
 
     const textareaStyle = {
@@ -344,7 +344,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     let placeholderPolyfill = null;
 
     if (this.state.polyfillPlaceholder && !textareaProps.value) {
-      placeholderPolyfill = <span className={jsStyles.placeholder()}>{placeholder}</span>;
+      placeholderPolyfill = <span className={styles.placeholder()}>{placeholder}</span>;
     }
 
     let fakeTextarea = null;
@@ -352,7 +352,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: cx(textareaClassNames, jsStyles.fake()),
+        className: cx(textareaClassNames, styles.fake()),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;
@@ -375,7 +375,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label {...rootProps} className={jsStyles.root(this.theme)}>
+        <label {...rootProps} className={styles.root(this.theme)}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea

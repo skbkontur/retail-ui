@@ -11,7 +11,7 @@ import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Playground.styles';
+import { styles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
@@ -46,9 +46,9 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   public render() {
     const { variable, theme, baseVariables, deprecated } = this.props;
     return (
-      <div className={jsStyles.variable(theme)} ref={this.rootRef} tabIndex={0}>
+      <div className={styles.variable(theme)} ref={this.rootRef} tabIndex={0}>
         <div
-          className={cx(jsStyles.variableName(theme), { [jsStyles.deprecated()]: deprecated })}
+          className={cx(styles.variableName(theme), { [styles.deprecated()]: deprecated })}
           title={variable}
         >{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}
@@ -85,9 +85,9 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderBaseVariableLink = () => {
     const baseVariables = this.props.baseVariables;
     return (
-      <div className={jsStyles.baseVariableRoot()}>
+      <div className={styles.baseVariableRoot()}>
         {this.colorIcon()}
-        <div className={jsStyles.baseLinkWrapper()}>
+        <div className={styles.baseLinkWrapper()}>
           <Gapped>
             <div style={{ textAlign: 'right' }}>
               <Gapped vertical>
@@ -133,7 +133,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderRollbackIcon() {
     return (
       <Hint text={'Вернуться к базовой переменной'}>
-        <div className={jsStyles.linkRoot()}>
+        <div className={styles.linkRoot()}>
           <Link icon={<DeleteIcon />} onClick={this.rollbackToBaseVariable} />
         </div>
       </Hint>
@@ -145,7 +145,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   };
 
   private colorIcon = () => {
-    return <div className={jsStyles.colorIcon()} style={{ background: this.state.value }} />;
+    return <div className={styles.colorIcon()} style={{ background: this.state.value }} />;
   };
 
   private handleEditLinkClick = () => {

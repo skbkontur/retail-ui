@@ -7,7 +7,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { ModalContext } from './ModalContext';
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 
 export interface ModalBodyProps extends CommonProps {
   /**
@@ -48,10 +48,10 @@ export class ModalBody extends React.Component<ModalBodyProps> {
               priority={'ModalBody'}
               createStackingContext
               className={cx({
-                [jsStyles.body(this.theme)]: true,
-                [jsStyles.bodyWithoutHeader(this.theme)]: !hasHeader,
-                [jsStyles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
-                [jsStyles.bodyWithoutPadding()]: noPadding,
+                [styles.body(this.theme)]: true,
+                [styles.bodyWithoutHeader(this.theme)]: !hasHeader,
+                [styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
+                [styles.bodyWithoutPadding()]: noPadding,
               })}
             >
               {this.props.children}

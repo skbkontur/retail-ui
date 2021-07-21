@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       display: inline-block;
@@ -159,6 +159,4 @@ const styles = {
       transition: none;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

@@ -2,7 +2,7 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   cell(t: Theme) {
     return css`
       ${resetButton()};
@@ -54,6 +54,4 @@ const styles = {
       border: ${t.calendarCellTodayBorder};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

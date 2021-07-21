@@ -3,7 +3,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   wrapper() {
     return css`
       align-items: center;
@@ -397,6 +397,4 @@ const styles = {
       padding-left: ${t.inputIconGapLarge};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

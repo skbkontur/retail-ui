@@ -20,7 +20,7 @@ import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
@@ -188,12 +188,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
-          <ZIndex priority={'Modal'} className={jsStyles.root()}>
+          <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
-            {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
+            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
             <div
               ref={this.refContainer}
-              className={jsStyles.container()}
+              className={styles.container()}
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
               onClick={this.handleContainerClick}
@@ -201,17 +201,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             >
               <div
                 className={cx({
-                  [jsStyles.centerContainer(this.theme)]: true,
-                  [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
+                  [styles.centerContainer(this.theme)]: true,
+                  [styles.alignTop(this.theme)]: Boolean(this.props.alignTop),
                 })}
                 style={containerStyle}
                 data-tid="modal-content"
               >
-                <div className={jsStyles.window(this.theme)} style={style}>
+                <div className={styles.window(this.theme)} style={style}>
                   <ResizeDetector onResize={this.handleResize}>
                     <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
                       {!hasHeader && !this.props.noClose ? (
-                        <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper(this.theme)}>
+                        <ZIndex priority={'ModalCross'} className={styles.closeWrapper(this.theme)}>
                           <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                         </ZIndex>
                       ) : null}

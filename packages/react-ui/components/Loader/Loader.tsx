@@ -11,7 +11,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Loader.styles';
+import { styles } from './Loader.styles';
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
@@ -126,7 +126,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.loader()}>
+        <div className={styles.loader()}>
           <ZIndex
             priority={'Loader'}
             applyZIndex={this.props.active}
@@ -140,7 +140,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
               wrapperRef={this.wrapperRef}
               priority={'Loader'}
               className={cx({
-                [jsStyles.active(this.theme)]: active,
+                [styles.active(this.theme)]: active,
               })}
             >
               {this.renderSpinner(type, caption, component)}
@@ -158,11 +158,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        className={cx(jsStyles.spinnerContainer(), { [jsStyles.spinnerContainerSticky()]: this.state.isStickySpinner })}
+        className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
         <div
-          className={jsStyles.spinnerComponentWrapper()}
+          className={styles.spinnerComponentWrapper()}
           ref={(element) => {
             this.spinnerNode = element;
           }}

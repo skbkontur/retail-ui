@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './DateFragmentsView.styles';
+import { styles } from './DateFragmentsView.styles';
 
 interface DateFragmentViewProps {
   selected: InternalDateComponentType | null;
@@ -44,7 +44,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
 
   private renderMain() {
     return (
-      <span ref={this.rootRef} className={jsStyles.root(this.theme)}>
+      <span ref={this.rootRef} className={styles.root(this.theme)}>
         {this.props.fragments.map((fragment, index) =>
           fragment.type === InternalDateComponentType.Separator
             ? this.renderSeparator(fragment, index)
@@ -56,8 +56,8 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
 
   private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
     const separatorClassName = cx({
-      [jsStyles.mask(this.theme)]: true,
-      [jsStyles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
+      [styles.mask(this.theme)]: true,
+      [styles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
     });
 
     return (
@@ -85,7 +85,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     return (
       <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
         {valueMask}
-        <span className={jsStyles.mask(this.theme)}>
+        <span className={styles.mask(this.theme)}>
           {Array(lengthMask)
             .fill('')
             .map((_, i) => (

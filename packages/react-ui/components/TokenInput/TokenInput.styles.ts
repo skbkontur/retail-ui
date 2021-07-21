@@ -18,7 +18,7 @@ const mixins = {
   },
 };
 
-const styles = {
+export const styles = memoizeStyle({
   label(t: Theme) {
     return css`
       background-color: ${t.tokenInputBg};
@@ -175,6 +175,4 @@ const styles = {
       word-break: break-all;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

@@ -8,7 +8,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles, activeStyles } from './Button.styles';
+import { styles, activeStyles } from './Button.styles';
 import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -195,18 +195,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
       className: cx({
-        [jsStyles.root(this.theme)]: true,
-        [jsStyles[use!](this.theme)]: true,
+        [styles.root(this.theme)]: true,
+        [styles[use!](this.theme)]: true,
         [activeStyles[use!](this.theme)]: active,
         [sizeClass]: true,
-        [jsStyles.focus(this.theme)]: isFocused && !checked,
-        [jsStyles.checked(this.theme)]: checked,
-        [jsStyles.disabled(this.theme)]: disabled || loading,
-        [jsStyles.checkedDisabled(this.theme)]: checked && disabled,
-        [jsStyles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
-        [jsStyles.narrow()]: narrow,
-        [jsStyles.noPadding()]: _noPadding,
-        [jsStyles.noRightPadding()]: _noRightPadding,
+        [styles.focus(this.theme)]: isFocused && !checked,
+        [styles.checked(this.theme)]: checked,
+        [styles.disabled(this.theme)]: disabled || loading,
+        [styles.checkedDisabled(this.theme)]: checked && disabled,
+        [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
+        [styles.narrow()]: narrow,
+        [styles.noPadding()]: _noPadding,
+        [styles.noRightPadding()]: _noRightPadding,
       }),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
@@ -228,9 +228,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const wrapProps = {
       className: cx({
-        [jsStyles.wrap()]: true,
-        [jsStyles.wrapArrow()]: arrow === true,
-        [jsStyles.wrapArrowLeft()]: arrow === 'left',
+        [styles.wrap()]: true,
+        [styles.wrapArrow()]: arrow === true,
+        [styles.wrapArrowLeft()]: arrow === 'left',
       }),
       style: {
         width: width,
@@ -241,11 +241,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!isFocused || isLink) {
       outlineNode = (
         <div
-          className={cx(jsStyles.outline(), {
-            [jsStyles.outlineWarning(this.theme)]: warning,
-            [jsStyles.outlineError(this.theme)]: error,
-            [jsStyles.outlineLink()]: isLink,
-            [jsStyles.outlineLinkError(this.theme)]: isLink && error,
+          className={cx(styles.outline(), {
+            [styles.outlineWarning(this.theme)]: warning,
+            [styles.outlineError(this.theme)]: error,
+            [styles.outlineLink()]: isLink,
+            [styles.outlineLinkError(this.theme)]: isLink && error,
           })}
         />
       );
@@ -253,16 +253,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let loadingNode = null;
     if (loading && !icon) {
-      loadingNode = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
+      loadingNode = <div className={styles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
     let iconNode = null;
     if (icon) {
       iconNode = (
         <span
-          className={cx(jsStyles.icon(), this.getSizeIconClassName(), {
-            [jsStyles.iconNoRightPadding()]: !children,
-            [jsStyles.iconLink(this.theme)]: isLink,
+          className={cx(styles.icon(), this.getSizeIconClassName(), {
+            [styles.iconNoRightPadding()]: !children,
+            [styles.iconLink(this.theme)]: isLink,
           })}
         >
           {loading ? this.getLoadingSpinner() : icon}
@@ -275,11 +275,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       arrowNode = (
         <div
           className={cx({
-            [jsStyles.arrow()]: true,
-            [jsStyles.arrowWarning(this.theme)]: !checked && warning,
-            [jsStyles.arrowError(this.theme)]: !checked && error,
-            [jsStyles.arrowFocus(this.theme)]: !checked && isFocused,
-            [jsStyles.arrowLeft()]: arrow === 'left',
+            [styles.arrow()]: true,
+            [styles.arrowWarning(this.theme)]: !checked && warning,
+            [styles.arrowError(this.theme)]: !checked && error,
+            [styles.arrowFocus(this.theme)]: !checked && isFocused,
+            [styles.arrowLeft()]: arrow === 'left',
           })}
         >
           <div data-arrow-helper data-arrow-helper-top />
@@ -291,14 +291,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
       rootProps.className = cx({
-        [jsStyles.root(this.theme)]: true,
+        [styles.root(this.theme)]: true,
         [sizeClass]: true,
-        [jsStyles.link(this.theme)]: true,
-        [jsStyles.linkFocus(this.theme)]: isFocused,
-        [jsStyles.linkDisabled(this.theme)]: disabled || loading,
+        [styles.link(this.theme)]: true,
+        [styles.linkFocus(this.theme)]: isFocused,
+        [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cx(jsStyles.wrap(), jsStyles.wrapLink()),
+        className: cx(styles.wrap(), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
@@ -313,15 +313,15 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             {loadingNode}
             {arrowNode}
             <div
-              className={cx(jsStyles.caption(), {
-                [jsStyles.captionTranslated()]: active || checked,
-                [jsStyles.captionLink()]: isLink,
-                [jsStyles.captionDisabled()]: !checked && disabled,
+              className={cx(styles.caption(), {
+                [styles.captionTranslated()]: active || checked,
+                [styles.captionLink()]: isLink,
+                [styles.captionDisabled()]: !checked && disabled,
               })}
               data-caption
             >
               {iconNode}
-              <span className={cx({ [jsStyles.visibilityHidden()]: !!loadingNode })}>{children}</span>
+              <span className={cx({ [styles.visibilityHidden()]: !!loadingNode })}>{children}</span>
             </div>
           </button>
         </span>
@@ -336,24 +336,24 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cx(jsStyles.sizeLarge(this.theme), { [jsStyles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeLarge(this.theme), { [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
       case 'medium':
-        return cx(jsStyles.sizeMedium(this.theme), { [jsStyles.sizeMediumIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeMedium(this.theme), { [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge });
       case 'small':
       default:
-        return cx(jsStyles.sizeSmall(this.theme), { [jsStyles.sizeSmallIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeSmall(this.theme), { [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge });
     }
   }
 
   private getSizeIconClassName() {
     switch (this.props.size) {
       case 'large':
-        return jsStyles.iconLarge(this.theme);
+        return styles.iconLarge(this.theme);
       case 'medium':
-        return jsStyles.iconMedium(this.theme);
+        return styles.iconMedium(this.theme);
       case 'small':
       default:
-        return jsStyles.iconSmall(this.theme);
+        return styles.iconSmall(this.theme);
     }
   }
 

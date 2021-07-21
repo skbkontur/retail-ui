@@ -21,7 +21,7 @@ import {
   ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './VariablesCollector';
-import { jsStyles } from './ThemeShowcase.styles';
+import { styles } from './ThemeShowcase.styles';
 
 const EMPTY_ARRAY: string[] = [];
 
@@ -77,7 +77,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
       <Gapped wrap gap={30} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
-            <div className={jsStyles.searchBar()} data-perf-info={`${executionTime} ${callsCount}`}>
+            <div className={styles.searchBar()} data-perf-info={`${executionTime} ${callsCount}`}>
               <Gapped gap={15}>
                 <ComboBox
                   getItems={this.getItems}
@@ -161,27 +161,27 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
           {(isSticky) => (
             <h2
               className={cx({
-                [jsStyles.heading()]: true,
-                [jsStyles.headingSticky()]: isSticky,
+                [styles.heading()]: true,
+                [styles.headingSticky()]: isSticky,
               })}
             >
               {this.props.name}
             </h2>
           )}
         </Sticky>
-        <table className={jsStyles.table()}>
+        <table className={styles.table()}>
           <thead>
             <tr>
-              <th className={jsStyles.headerCell()} style={{ width: 170 }}>
+              <th className={styles.headerCell()} style={{ width: 170 }}>
                 ClassName
               </th>
-              <th className={jsStyles.headerCell()} style={{ width: 210 }}>
+              <th className={styles.headerCell()} style={{ width: 210 }}>
                 Variable Name
               </th>
-              <th className={jsStyles.headerCell()} style={{ width: 250 }}>
+              <th className={styles.headerCell()} style={{ width: 250 }}>
                 Default Value
               </th>
-              <th className={jsStyles.headerCell()} style={{ width: 250 }}>
+              <th className={styles.headerCell()} style={{ width: 250 }}>
                 Flat Value
               </th>
             </tr>
@@ -217,13 +217,13 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 
     return (
       <React.Fragment>
-        <tr className={jsStyles.invisibleRow()}>
-          <td className={cx(jsStyles.cell(), jsStyles.majorCell())} rowSpan={rowSpan}>
-            <span className={jsStyles.elementName()}>.{el}</span>
+        <tr className={styles.invisibleRow()}>
+          <td className={cx(styles.cell(), styles.majorCell())} rowSpan={rowSpan}>
+            <span className={styles.elementName()}>.{el}</span>
           </td>
-          <td className={jsStyles.invisibleCell()} />
-          <td className={jsStyles.invisibleCell()} />
-          <td className={jsStyles.invisibleCell()} />
+          <td className={styles.invisibleCell()} />
+          <td className={styles.invisibleCell()} />
+          <td className={styles.invisibleCell()} />
         </tr>
         {row.variables.map((varName) => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
@@ -232,18 +232,18 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
-            <tr key={`${el}_${varName}`} className={cx(jsStyles.row(), { [jsStyles.suspiciousRow()]: hasNoVariables })}>
-              <td className={jsStyles.cell()}>
+            <tr key={`${el}_${varName}`} className={cx(styles.row(), { [styles.suspiciousRow()]: hasNoVariables })}>
+              <td className={styles.cell()}>
                 <VariableName
                   variableName={varName as string}
                   dependencies={dependencies}
                   onVariableSelect={this.props.onVariableSelect}
                 />
               </td>
-              <td className={jsStyles.cell()}>
+              <td className={styles.cell()}>
                 <VariableValue value={variableDefault} />
               </td>
-              <td className={jsStyles.cell()}>
+              <td className={styles.cell()}>
                 <VariableValue value={variableFlat} />
               </td>
             </tr>
@@ -264,7 +264,7 @@ class VariableName extends React.Component<VariableNameProps> {
   public render() {
     return (
       <span>
-        <span className={jsStyles.variableName()} onClick={this.handleVariableSelect}>
+        <span className={styles.variableName()} onClick={this.handleVariableSelect}>
           {this.props.variableName}
         </span>
         {this.props.dependencies.length > 0 && this.renderDependencies()}
@@ -309,7 +309,7 @@ class DependencyName extends React.Component<DependencyNameProps> {
         <br />
         &ndash;{' '}
         <Tooltip trigger={'hover'} render={this.getValues} pos={'right middle'}>
-          <span className={jsStyles.variableName()} onClick={this.handleDependencySelect}>
+          <span className={styles.variableName()} onClick={this.handleDependencySelect}>
             {this.props.dependencyName}
           </span>
         </Tooltip>
@@ -349,8 +349,8 @@ const VariableValue = (props: { value: string }) => {
   }
 
   return (
-    <span className={cx({ [jsStyles.undefined()]: !value })}>
-      {hasExample && <span className={jsStyles.colorExample()} style={{ background: value, borderColor }} />}
+    <span className={cx({ [styles.undefined()]: !value })}>
+      {hasExample && <span className={styles.colorExample()} style={{ background: value, borderColor }} />}
       {value || 'undefined'}
     </span>
   );
@@ -362,7 +362,7 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
   }
 
   return (
-    <div className={jsStyles.unusedVariablesWarning()}>
+    <div className={styles.unusedVariablesWarning()}>
       Неиспользованные переменные ({props.diff.length}
       ):
       <ul>

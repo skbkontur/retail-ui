@@ -42,10 +42,10 @@ if (IS_PROXY_SUPPORTED) {
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
     const componentDescription: ComponentDescriptionType = {};
     Object.keys(componentsContext(fileName)).forEach((exportName) => {
-      const jsStyles = componentsContext(fileName)[exportName];
+      const styles = componentsContext(fileName)[exportName];
 
-      Object.keys(jsStyles).forEach((elementName) => {
-        const jsStyle = jsStyles[elementName];
+      Object.keys(styles).forEach((elementName) => {
+        const jsStyle = styles[elementName];
         const variablesAccumulator = new Set<keyof Theme>();
         const dependencies: VariableDependencies = {};
         const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);

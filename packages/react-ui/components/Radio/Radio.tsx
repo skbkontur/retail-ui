@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Radio.styles';
+import { styles } from './Radio.styles';
 
 export interface RadioProps<T>
   extends CommonProps,
@@ -98,13 +98,13 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
 
     const radioProps = {
       className: cx({
-        [jsStyles.radio(this.theme)]: true,
-        [jsStyles.checked(this.theme)]: this.props.checked,
-        [jsStyles.focus(this.theme)]: this.props.focused,
-        [jsStyles.error(this.theme)]: error,
-        [jsStyles.warning(this.theme)]: warning,
-        [jsStyles.disabled(this.theme)]: disabled,
-        [jsStyles.checkedDisabled(this.theme)]: this.props.checked && disabled,
+        [styles.radio(this.theme)]: true,
+        [styles.checked(this.theme)]: this.props.checked,
+        [styles.focus(this.theme)]: this.props.focused,
+        [styles.error(this.theme)]: error,
+        [styles.warning(this.theme)]: warning,
+        [styles.disabled(this.theme)]: disabled,
+        [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
       }),
     };
 
@@ -116,7 +116,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: jsStyles.input(this.theme),
+      className: styles.input(this.theme),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
@@ -125,7 +125,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     };
 
     const labelProps = {
-      className: jsStyles.root(this.theme),
+      className: styles.root(this.theme),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -137,8 +137,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
       radioProps.className = cx(radioProps.className, {
-        [jsStyles.checked(this.theme)]: checked,
-        [jsStyles.checkedDisabled(this.theme)]: checked && disabled,
+        [styles.checked(this.theme)]: checked,
+        [styles.checkedDisabled(this.theme)]: checked && disabled,
       });
     }
 
@@ -146,7 +146,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       <label {...labelProps}>
         <input {...inputProps} />
         <span {...radioProps} data-radio>
-          <span className={jsStyles.placeholder()} />
+          <span className={styles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}
       </label>
@@ -157,8 +157,8 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
 
   private renderLabel() {
     const labelClassNames = cx({
-      [jsStyles.label(this.theme)]: true,
-      [jsStyles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
+      [styles.label(this.theme)]: true,
+      [styles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;

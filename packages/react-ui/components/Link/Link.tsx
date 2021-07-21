@@ -10,7 +10,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Link.styles';
+import { styles } from './Link.styles';
 
 export interface LinkProps
   extends CommonProps,
@@ -85,7 +85,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     let iconElement = null;
     if (icon) {
       iconElement = (
-        <span className={jsStyles.icon(this.theme)}>
+        <span className={styles.icon(this.theme)}>
           {loading ? <Spinner caption={null} dimmed type="mini" /> : icon}
         </span>
       );
@@ -93,7 +93,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     let arrow = null;
     if (_button) {
-      arrow = <span className={jsStyles.arrow()} />;
+      arrow = <span className={styles.arrow()} />;
     }
 
     let rel = relOrigin;
@@ -105,16 +105,16 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     const linkProps = {
       className: cx({
-        [jsStyles.root(this.theme)]: true,
-        [jsStyles.button(this.theme)]: !!_button,
-        [jsStyles.buttonOpened()]: !!_buttonOpened,
-        [jsStyles.useDefault(this.theme)]: use === 'default',
-        [jsStyles.useSuccess(this.theme)]: use === 'success',
-        [jsStyles.useDanger(this.theme)]: use === 'danger',
-        [jsStyles.useGrayed(this.theme)]: use === 'grayed',
-        [jsStyles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        [jsStyles.focus(this.theme)]: focused,
-        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
+        [styles.root(this.theme)]: true,
+        [styles.button(this.theme)]: !!_button,
+        [styles.buttonOpened()]: !!_buttonOpened,
+        [styles.useDefault(this.theme)]: use === 'default',
+        [styles.useSuccess(this.theme)]: use === 'success',
+        [styles.useDanger(this.theme)]: use === 'danger',
+        [styles.useGrayed(this.theme)]: use === 'grayed',
+        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
+        [styles.focus(this.theme)]: focused,
+        [styles.disabled(this.theme)]: !!disabled || !!loading,
       }),
       href,
       rel,

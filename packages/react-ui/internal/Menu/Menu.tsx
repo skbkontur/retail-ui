@@ -9,7 +9,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Menu.styles';
+import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
 export interface MenuProps {
@@ -110,8 +110,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         className={cx({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.root(this.theme)]: true,
+          [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
@@ -120,7 +120,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
         >
-          <div className={jsStyles.scrollContainer(this.theme)}>
+          <div className={styles.scrollContainer(this.theme)}>
             {React.Children.map(this.props.children, (child, index) => {
               if (!child) {
                 return child;

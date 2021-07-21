@@ -21,7 +21,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
-import { jsStyles } from './Popup.styles';
+import { styles } from './Popup.styles';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
@@ -356,26 +356,26 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               ref={this.refPopupElement}
               priority={'Popup'}
               className={cx({
-                [jsStyles.popup(this.theme)]: true,
-                [jsStyles.shadow(this.theme)]: hasShadow,
-                [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
-                [jsStyles.popupIgnoreHover()]: ignoreHover,
+                [styles.popup(this.theme)]: true,
+                [styles.shadow(this.theme)]: hasShadow,
+                [styles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
+                [styles.popupIgnoreHover()]: ignoreHover,
                 ...(disableAnimations
                   ? {}
                   : {
-                      [jsStyles[`transition-enter-${direction}` as keyof typeof jsStyles](this.theme)]: true,
-                      [jsStyles.transitionEnter()]: state === 'entering',
-                      [jsStyles.transitionEnterActive()]: state === 'entered',
-                      [jsStyles.transitionExit()]: state === 'exiting',
+                      [styles[`transition-enter-${direction}` as keyof typeof styles](this.theme)]: true,
+                      [styles.transitionEnter()]: state === 'entering',
+                      [styles.transitionEnterActive()]: state === 'entered',
+                      [styles.transitionExit()]: state === 'exiting',
                     }),
               })}
               style={rootStyle}
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
+              <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
                 <div
-                  className={jsStyles.contentInner(this.theme)}
+                  className={styles.contentInner(this.theme)}
                   style={{ backgroundColor }}
                   data-tid={'PopupContentInner'}
                 >

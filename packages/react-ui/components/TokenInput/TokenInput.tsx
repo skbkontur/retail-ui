@@ -27,7 +27,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
-import { jsStyles } from './TokenInput.styles';
+import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
@@ -272,15 +272,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cx(jsStyles.label(theme), {
-      [jsStyles.labelFocused(theme)]: !!inFocus,
-      [jsStyles.error(theme)]: !!error,
-      [jsStyles.warning(theme)]: !!warning,
-      [jsStyles.labelDisabled(theme)]: !!disabled,
+    const labelClassName = cx(styles.label(theme), {
+      [styles.labelFocused(theme)]: !!inFocus,
+      [styles.error(theme)]: !!error,
+      [styles.warning(theme)]: !!warning,
+      [styles.labelDisabled(theme)]: !!disabled,
     });
-    const inputClassName = cx(jsStyles.input(theme), {
-      [jsStyles.inputDisabled(theme)]: !!disabled,
-      [jsStyles.inputEditing(theme)]: this.isEditingMode,
+    const inputClassName = cx(styles.input(theme), {
+      [styles.inputDisabled(theme)]: !!disabled,
+      [styles.inputEditing(theme)]: this.isEditingMode,
     });
 
     return (
@@ -295,8 +295,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cx(jsStyles.helperText(theme), {
-                [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
+              classHelp={cx(styles.helperText(theme), {
+                [styles.helperTextEditing(theme)]: this.isEditingMode,
               })}
               text={inputValue}
               theme={this.theme}
@@ -332,7 +332,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
           </label>
         </div>
       </CommonWrapper>

@@ -12,7 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './PasswordInput.styles';
+import { styles } from './PasswordInput.styles';
 
 export interface PasswordInputProps extends CommonProps, InputProps {
   detectCapsLock?: boolean;
@@ -143,12 +143,12 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   private getEyeWrapperClassname(right = false) {
     switch (this.props.size) {
       case 'large':
-        return jsStyles.eyeWrapperLarge(this.theme);
+        return styles.eyeWrapperLarge(this.theme);
       case 'medium':
-        return jsStyles.eyeWrapperMedium(this.theme);
+        return styles.eyeWrapperMedium(this.theme);
       case 'small':
       default:
-        return jsStyles.eyeWrapperSmall(this.theme);
+        return styles.eyeWrapperSmall(this.theme);
     }
   }
 
@@ -156,11 +156,11 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     const { capsLockEnabled } = this.state;
 
     return (
-      <span className={jsStyles.iconWrapper()}>
-        {capsLockEnabled && <span className={jsStyles.capsLockDetector()} data-tid="PasswordInputCapsLockDetector" />}
+      <span className={styles.iconWrapper()}>
+        {capsLockEnabled && <span className={styles.capsLockDetector()} data-tid="PasswordInputCapsLockDetector" />}
         <span
           data-tid="PasswordInputEyeIcon"
-          className={cx(jsStyles.toggleVisibility(), this.getEyeWrapperClassname())}
+          className={cx(styles.toggleVisibility(), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
           {this.state.visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />}
@@ -182,7 +182,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
       rightIcon: this.renderEye(),
     };
     return (
-      <div className={jsStyles.root()}>
+      <div className={styles.root()}>
         <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
       </div>
     );

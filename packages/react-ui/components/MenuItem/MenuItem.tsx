@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './MenuItem.styles';
+import { styles } from './MenuItem.styles';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
@@ -83,17 +83,17 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={jsStyles.icon(this.theme)}>{icon}</div>;
+      iconElement = <div className={styles.icon(this.theme)}>{icon}</div>;
     }
 
     const className = cx({
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.loose()]: !!loose,
-      [jsStyles.hover(this.theme)]: hover,
-      [jsStyles.selected(this.theme)]: state === 'selected',
-      [jsStyles.link(this.theme)]: !!link,
-      [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
-      [jsStyles.disabled(this.theme)]: !!this.props.disabled,
+      [styles.root(this.theme)]: true,
+      [styles.loose()]: !!loose,
+      [styles.hover(this.theme)]: hover,
+      [styles.selected(this.theme)]: state === 'selected',
+      [styles.link(this.theme)]: !!link,
+      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 
     const { children } = this.props;
@@ -120,8 +120,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
           <div
             data-tid="MenuItem__comment"
             className={cx({
-              [jsStyles.comment(this.theme)]: true,
-              [jsStyles.commentHover(this.theme)]: hover,
+              [styles.comment(this.theme)]: true,
+              [styles.commentHover(this.theme)]: hover,
             })}
           >
             {comment}

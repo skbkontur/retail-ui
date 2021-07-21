@@ -15,7 +15,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Kebab.styles';
+import { styles } from './Kebab.styles';
 
 export interface KebabProps extends CommonProps {
   disabled?: boolean;
@@ -153,10 +153,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         className={cx({
-          [jsStyles.kebab(this.theme)]: true,
-          [jsStyles.opened(this.theme)]: captionProps.opened,
-          [jsStyles.disabled(this.theme)]: disabled,
-          [jsStyles.focused(this.theme)]: this.state.focusedByTab,
+          [styles.kebab(this.theme)]: true,
+          [styles.opened(this.theme)]: captionProps.opened,
+          [styles.disabled(this.theme)]: disabled,
+          [styles.focused(this.theme)]: this.state.focusedByTab,
         })}
       >
         {this.renderIcon()}
@@ -216,10 +216,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     return (
       <div
         className={cx({
-          [jsStyles.icon()]: true,
-          [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
-          [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',
-          [jsStyles.iconlarge(this.theme)]: this.props.size === 'large',
+          [styles.icon()]: true,
+          [styles.iconsmall(this.theme)]: this.props.size === 'small',
+          [styles.iconmedium(this.theme)]: this.props.size === 'medium',
+          [styles.iconlarge(this.theme)]: this.props.size === 'large',
         })}
       >
         {this.props.icon}

@@ -11,7 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './InternalMenu.styles';
+import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 
 interface MenuProps {
@@ -109,8 +109,8 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         className={cx({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.root(this.theme)]: true,
+          [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
           width: this.props.width,
@@ -184,8 +184,8 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       <div
         ref={(el) => (this.header = el)}
         className={cx({
-          [jsStyles.header()]: true,
-          [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
+          [styles.header()]: true,
+          [styles.fixedHeader()]: this.state.scrollState !== 'top',
         })}
       >
         {this.props.header}
@@ -198,8 +198,8 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       <div
         ref={(el) => (this.footer = el)}
         className={cx({
-          [jsStyles.footer()]: true,
-          [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
+          [styles.footer()]: true,
+          [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
         })}
       >
         {this.props.footer}

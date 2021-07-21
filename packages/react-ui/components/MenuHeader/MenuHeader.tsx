@@ -4,7 +4,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './MenuHeader.styles';
+import { styles } from './MenuHeader.styles';
 
 export interface MenuHeaderProps extends CommonProps {
   _enableIconPadding?: boolean;
@@ -21,8 +21,8 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
     <CommonWrapper {...rest}>
       <div
         className={cx({
-          [jsStyles.root(theme)]: true,
-          [jsStyles.withLeftPadding(theme)]: _enableIconPadding,
+          [styles.root(theme)]: true,
+          [styles.withLeftPadding(theme)]: _enableIconPadding,
         })}
       >
         {children}

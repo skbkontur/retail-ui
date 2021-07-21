@@ -7,7 +7,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
 
 export interface ModalFooterProps extends CommonProps {
@@ -42,9 +42,9 @@ function ModalFooter(props: ModalFooterProps) {
   const renderContent = (fixed = false) => (
     <div
       className={cx({
-        [jsStyles.footer(theme)]: true,
-        [jsStyles.fixedFooter(theme)]: fixed,
-        [jsStyles.panel(theme)]: Boolean(panel),
+        [styles.footer(theme)]: true,
+        [styles.fixedFooter(theme)]: fixed,
+        [styles.panel(theme)]: Boolean(panel),
       })}
     >
       {children}
@@ -53,7 +53,7 @@ function ModalFooter(props: ModalFooterProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
+      <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
         {sticky ? (
           <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}

@@ -6,13 +6,13 @@ import { isEdge, isIE11 } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../components/Input';
-import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
+import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './InputLikeText.styles';
+import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
 
 export interface InputLikeTextProps extends CommonProps, InputProps {
@@ -148,7 +148,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const leftSide = this.renderLeftSide();
     const rightSide = this.renderRightSide();
 
-    const className = cx(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+    const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.focus(this.theme)]: focused,
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
@@ -161,7 +161,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     });
 
     const wrapperClass = cx(jsInputStyles.wrapper(), {
-      [jsStyles.userSelectContain()]: focused,
+      [styles.userSelectContain()]: focused,
     });
 
     return (
@@ -181,7 +181,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         <span className={wrapperClass}>
           <span
             data-tid="InputLikeText__input"
-            className={cx(jsStyles.input(), jsInputStyles.input(this.theme), {
+            className={cx(styles.input(), jsInputStyles.input(this.theme), {
               [jsInputStyles.inputFocus(this.theme)]: focused,
               [jsInputStyles.inputDisabled(this.theme)]: disabled,
             })}
@@ -356,7 +356,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private handleMouseDragStart: MouseDragEventHandler = (e) => {
     this.dragging = true;
-    document.documentElement.classList.add(jsStyles.userSelectNone());
+    document.documentElement.classList.add(styles.userSelectNone());
 
     if (this.props.onMouseDragStart) {
       this.props.onMouseDragStart(e);
@@ -373,7 +373,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       }
     }, 0);
 
-    document.documentElement.classList.remove(jsStyles.userSelectNone());
+    document.documentElement.classList.remove(styles.userSelectNone());
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {

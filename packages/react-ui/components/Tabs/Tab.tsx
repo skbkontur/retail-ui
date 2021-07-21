@@ -13,7 +13,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
-import { jsStyles, horizontalStyles, verticalStyles } from './Tab.styles';
+import { styles, horizontalStyles, verticalStyles } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -208,15 +208,15 @@ export class Tab extends React.Component<TabProps, TabState> {
       <CommonWrapper {...this.props}>
         <Component
           className={cx({
-            [jsStyles.root(this.theme)]: true,
-            [jsStyles.vertical(this.theme)]: !!isVertical,
+            [styles.root(this.theme)]: true,
+            [styles.vertical(this.theme)]: !!isVertical,
             [orientationStyles.primary(this.theme)]: !!primary,
             [orientationStyles.success(this.theme)]: !!success,
             [orientationStyles.warning(this.theme)]: !!warning,
             [orientationStyles.error(this.theme)]: !!error,
-            [jsStyles.active(this.theme)]: !!isActive,
+            [styles.active(this.theme)]: !!isActive,
             [orientationStyles.active(this.theme)]: !!isActive,
-            [jsStyles.disabled(this.theme)]: !!disabled,
+            [styles.disabled(this.theme)]: !!disabled,
             [orientationStyles.disabled(this.theme)]: !!disabled,
           })}
           onBlur={this.handleBlur}
@@ -229,7 +229,7 @@ export class Tab extends React.Component<TabProps, TabState> {
           href={href}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
-          {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} data-focus />}
+          {this.state.focusedByKeyboard && <div className={styles.focus(this.theme)} data-focus />}
         </Component>
       </CommonWrapper>
     );

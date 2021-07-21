@@ -8,7 +8,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Indicator.styles';
+import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
 
@@ -85,11 +85,11 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     return (
       <div
         className={cx(
-          jsStyles.root(this.theme),
-          indicators.primary && jsStyles.primary(this.theme),
-          indicators.success && jsStyles.success(this.theme),
-          indicators.warning && jsStyles.warning(this.theme),
-          indicators.error && jsStyles.error(this.theme),
+          styles.root(this.theme),
+          indicators.primary && styles.primary(this.theme),
+          indicators.success && styles.success(this.theme),
+          indicators.warning && styles.warning(this.theme),
+          indicators.error && styles.error(this.theme),
           this.props.className,
         )}
         style={this.state.styles}

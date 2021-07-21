@@ -8,7 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Toggle.styles';
+import { styles } from './Toggle.styles';
 
 let colorWarningShown = false;
 
@@ -108,19 +108,19 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
-    const containerClassNames = cx(jsStyles.container(this.theme), {
-      [jsStyles.containerDisabled(this.theme)]: !!disabled,
+    const containerClassNames = cx(styles.container(this.theme), {
+      [styles.containerDisabled(this.theme)]: !!disabled,
     });
 
-    const labelClassNames = cx(jsStyles.root(this.theme), {
-      [jsStyles.rootLeft()]: captionPosition === 'left',
-      [jsStyles.disabled(this.theme)]: !!disabled,
+    const labelClassNames = cx(styles.root(this.theme), {
+      [styles.rootLeft()]: captionPosition === 'left',
+      [styles.disabled(this.theme)]: !!disabled,
     });
 
     let caption = null;
     if (children) {
-      const captionClass = cx(jsStyles.caption(this.theme), {
-        [jsStyles.captionLeft(this.theme)]: captionPosition === 'left',
+      const captionClass = cx(styles.caption(this.theme), {
+        [styles.captionLeft(this.theme)]: captionPosition === 'left',
       });
       caption = <span className={captionClass}>{children}</span>;
     }
@@ -129,18 +129,18 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       <CommonWrapper {...this.props}>
         <label className={labelClassNames}>
           <div
-            className={cx(jsStyles.outline(this.theme), {
-              [jsStyles.isWarning(this.theme)]: !!warning,
-              [jsStyles.isError(this.theme)]: !!error,
-              [jsStyles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
+            className={cx(styles.outline(this.theme), {
+              [styles.isWarning(this.theme)]: !!warning,
+              [styles.isError(this.theme)]: !!error,
+              [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <span className={cx(jsStyles.wrapper(this.theme), { [jsStyles.wrapperDisabled()]: disabled })}>
+            <span className={cx(styles.wrapper(this.theme), { [styles.wrapperDisabled()]: disabled })}>
               <input
                 type="checkbox"
                 checked={checked}
                 onChange={this.handleChange}
-                className={jsStyles.input(this.theme)}
+                className={styles.input(this.theme)}
                 onFocus={this.handleFocus}
                 onBlur={this.handleBlur}
                 ref={this.inputRef}
@@ -160,15 +160,15 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 data-container-loading={!!loading}
               >
                 <div
-                  className={cx(jsStyles.activeBackground(), {
-                    [jsStyles.activeBackgroundLoading(this.theme)]: loading,
+                  className={cx(styles.activeBackground(), {
+                    [styles.activeBackgroundLoading(this.theme)]: loading,
                   })}
                   style={checked && color ? { backgroundColor: color } : undefined}
                   data-background
                 />
               </div>
               <div
-                className={cx(jsStyles.handle(this.theme), { [jsStyles.handleDisabled(this.theme)]: disabled })}
+                className={cx(styles.handle(this.theme), { [styles.handleDisabled(this.theme)]: disabled })}
                 data-handle
               />
             </span>

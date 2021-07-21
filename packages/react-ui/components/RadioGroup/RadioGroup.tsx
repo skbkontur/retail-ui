@@ -12,7 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './RadioGroup.styles';
+import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
@@ -196,7 +196,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     return (
       <CommonWrapper {...this.props}>
         <FocusTrap onBlur={onBlur}>
-          <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
+          <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
             {this.renderChildren()}
           </span>
         </FocusTrap>
@@ -250,9 +250,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
       className: cx({
-        [jsStyles.item(this.theme)]: true,
-        [jsStyles.itemFirst()]: index === 0,
-        [jsStyles.itemInline()]: !!this.props.inline,
+        [styles.item(this.theme)]: true,
+        [styles.itemFirst()]: index === 0,
+        [styles.itemInline()]: !!this.props.inline,
       }),
     };
 

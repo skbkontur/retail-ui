@@ -8,7 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { Indicator } from './Indicator';
-import { jsStyles } from './Tabs.styles';
+import { styles } from './Tabs.styles';
 import { TabsContext } from './TabsContext';
 import { Tab } from './Tab';
 
@@ -94,10 +94,7 @@ export class Tabs extends React.Component<TabsProps> {
           this.theme = theme;
           return (
             <CommonWrapper {...this.props}>
-              <div
-                className={cx(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))}
-                style={{ width }}
-              >
+              <div className={cx(styles.root(this.theme), vertical && styles.vertical(this.theme))} style={{ width }}>
                 <TabsContext.Provider
                   value={{
                     vertical,

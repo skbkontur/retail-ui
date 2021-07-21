@@ -12,7 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Input.styles';
+import { styles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -279,16 +279,16 @@ export class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cx(jsStyles.root(this.theme), this.getSizeClassName(), {
-        [jsStyles.focus(this.theme)]: focused,
-        [jsStyles.blink(this.theme)]: blinking,
-        [jsStyles.warning(this.theme)]: warning,
-        [jsStyles.error(this.theme)]: error,
-        [jsStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-        [jsStyles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
-        [jsStyles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
-        [jsStyles.borderless()]: borderless && !focused,
-        [jsStyles.disabled(this.theme)]: disabled,
+      className: cx(styles.root(this.theme), this.getSizeClassName(), {
+        [styles.focus(this.theme)]: focused,
+        [styles.blink(this.theme)]: blinking,
+        [styles.warning(this.theme)]: warning,
+        [styles.error(this.theme)]: error,
+        [styles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
+        [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
+        [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
+        [styles.borderless()]: borderless && !focused,
+        [styles.disabled(this.theme)]: disabled,
       }),
       style: { width },
       onMouseEnter,
@@ -298,9 +298,9 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: cx(jsStyles.input(this.theme), {
-        [jsStyles.inputFocus(this.theme)]: focused,
-        [jsStyles.inputDisabled(this.theme)]: disabled,
+      className: cx(styles.input(this.theme), {
+        [styles.inputFocus(this.theme)]: focused,
+        [styles.inputDisabled(this.theme)]: disabled,
       }),
       value,
       onChange: this.handleChange,
@@ -323,15 +323,15 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={jsStyles.sideContainer()}>
+        <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
-        <span className={jsStyles.wrapper()}>
+        <span className={styles.wrapper()}>
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cx(jsStyles.sideContainer(), jsStyles.rightContainer())}>
+        <span className={cx(styles.sideContainer(), styles.rightContainer())}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -362,12 +362,12 @@ export class Input extends React.Component<InputProps, InputState> {
   private getIconSizeClassname(right = false) {
     switch (this.props.size) {
       case 'large':
-        return right ? jsStyles.rightIconLarge(this.theme) : jsStyles.leftIconLarge(this.theme);
+        return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
       case 'medium':
-        return right ? jsStyles.rightIconMedium(this.theme) : jsStyles.leftIconMedium(this.theme);
+        return right ? styles.rightIconMedium(this.theme) : styles.leftIconMedium(this.theme);
       case 'small':
       default:
-        return right ? jsStyles.rightIconSmall(this.theme) : jsStyles.leftIconSmall(this.theme);
+        return right ? styles.rightIconSmall(this.theme) : styles.leftIconSmall(this.theme);
     }
   }
 
@@ -388,8 +388,8 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <span
-        className={cx(jsStyles.icon(), sizeClassName, jsStyles.useDefaultColor(this.theme), {
-          [jsStyles.iconDisabled()]: disabled,
+        className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
+          [styles.iconDisabled()]: disabled,
         })}
       >
         {iconNode}
@@ -405,9 +405,9 @@ export class Input extends React.Component<InputProps, InputState> {
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={cx(jsStyles.placeholder(this.theme), {
-            [jsStyles.placeholderDisabled(this.theme)]: disabled,
-            [jsStyles.placeholderFocus(this.theme)]: focused,
+          className={cx(styles.placeholder(this.theme), {
+            [styles.placeholderDisabled(this.theme)]: disabled,
+            [styles.placeholderFocus(this.theme)]: focused,
           })}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
@@ -423,19 +423,19 @@ export class Input extends React.Component<InputProps, InputState> {
     switch (this.props.size) {
       case 'large':
         return cx({
-          [jsStyles.sizeLarge(this.theme)]: true,
-          [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
+          [styles.sizeLarge(this.theme)]: true,
+          [styles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'medium':
         return cx({
-          [jsStyles.sizeMedium(this.theme)]: true,
-          [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
+          [styles.sizeMedium(this.theme)]: true,
+          [styles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
         });
       case 'small':
       default:
         return cx({
-          [jsStyles.sizeSmall(this.theme)]: true,
-          [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
+          [styles.sizeSmall(this.theme)]: true,
+          [styles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
         });
     }
   }
@@ -532,9 +532,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     return (
-      <span className={cx(jsStyles.prefix(this.theme), { [jsStyles.prefixDisabled(this.theme)]: disabled })}>
-        {prefix}
-      </span>
+      <span className={cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>{prefix}</span>
     );
   };
 
@@ -546,9 +544,7 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     return (
-      <span className={cx(jsStyles.suffix(this.theme), { [jsStyles.suffixDisabled(this.theme)]: disabled })}>
-        {suffix}
-      </span>
+      <span className={cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>{suffix}</span>
     );
   };
 }

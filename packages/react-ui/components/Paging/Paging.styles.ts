@@ -2,7 +2,7 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   paging(t: Theme) {
     return css`
       user-select: none;
@@ -128,6 +128,4 @@ const styles = {
       color: ${t.pagingPageLinkHintColor};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

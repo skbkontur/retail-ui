@@ -21,7 +21,7 @@ import { SidePageContainer } from './SidePageContainer';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
-import { jsStyles } from './SidePage.styles';
+import { styles } from './SidePage.styles';
 
 export interface SidePageProps extends CommonProps {
   /**
@@ -181,8 +181,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         priority={'Sidepage'}
         data-tid="SidePage__root"
         className={cx({
-          [jsStyles.root()]: true,
-          [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
+          [styles.root()]: true,
+          [styles.leftSide(this.theme)]: Boolean(fromLeft),
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext
@@ -191,14 +191,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
             data-tid="SidePage__container"
-            className={cx(jsStyles.wrapper(this.theme), {
-              [jsStyles.shadow(this.theme)]: this.state.hasShadow,
-              [jsStyles.wrapperLeft()]: fromLeft,
+            className={cx(styles.wrapper(this.theme), {
+              [styles.shadow(this.theme)]: this.state.hasShadow,
+              [styles.wrapperLeft()]: fromLeft,
             })}
             style={this.getSidebarStyle()}
           >
             <FocusLock disabled={disableFocusLock} autoFocus={false}>
-              <div ref={(_) => (this.layoutRef = _)} className={jsStyles.layout()}>
+              <div ref={(_) => (this.layoutRef = _)} className={styles.layout()}>
                 <SidePageContext.Provider value={this.getSidePageContextProps()}>
                   {this.props.children}
                 </SidePageContext.Provider>
@@ -234,13 +234,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderShadow(): JSX.Element {
     return (
-      <ZIndex priority={'Sidepage'} className={jsStyles.overlay()} onScroll={LayoutEvents.emit}>
+      <ZIndex priority={'Sidepage'} className={styles.overlay()} onScroll={LayoutEvents.emit}>
         <HideBodyVerticalScroll key="hbvs" />
         <div
           key="overlay"
           className={cx({
-            [jsStyles.background()]: true,
-            [jsStyles.backgroundGray(this.theme)]: this.state.hasBackground,
+            [styles.background()]: true,
+            [styles.backgroundGray(this.theme)]: this.state.hasBackground,
           })}
         />
       </ZIndex>
@@ -262,15 +262,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getTransitionNames(): Record<string, string> {
-    const transition = this.props.fromLeft ? jsStyles.transitionRight : jsStyles.transitionLeft;
+    const transition = this.props.fromLeft ? styles.transitionRight : styles.transitionLeft;
 
     return {
       enter: transition(),
-      enterActive: jsStyles.transitionActive(),
-      exit: jsStyles.transitionLeave(),
-      exitActive: jsStyles.transitionLeaveActive(),
+      enterActive: styles.transitionActive(),
+      exit: styles.transitionLeave(),
+      exitActive: styles.transitionLeaveActive(),
       appear: transition(),
-      appearActive: jsStyles.transitionActive(),
+      appearActive: styles.transitionActive(),
     };
   }
 

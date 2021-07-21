@@ -4,7 +4,7 @@ import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Center.styles';
+import { styles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -47,13 +47,13 @@ export class Center extends React.Component<CenterProps> {
       <div
         {...rest}
         className={cx({
-          [jsStyles.root()]: true,
-          [jsStyles.rootAlignLeft()]: align === 'left',
-          [jsStyles.rootAlignRight()]: align === 'right',
+          [styles.root()]: true,
+          [styles.rootAlignLeft()]: align === 'left',
+          [styles.rootAlignRight()]: align === 'right',
         })}
       >
-        <span className={jsStyles.spring()} />
-        <span className={jsStyles.container()}>{this.props.children}</span>
+        <span className={styles.spring()} />
+        <span className={styles.container()}>{this.props.children}</span>
       </div>
     );
   };

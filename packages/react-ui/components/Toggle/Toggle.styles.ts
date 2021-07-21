@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const handleWidthWithBorders = t.toggleHeight;
     const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
@@ -179,6 +179,4 @@ const styles = {
       padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

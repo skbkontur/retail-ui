@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   popup(t: Theme) {
     return css`
       position: absolute;
@@ -85,6 +85,4 @@ const styles = {
       transform: translate(0, 0);
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -35,6 +35,4 @@ const styles = {
       vertical-align: middle;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

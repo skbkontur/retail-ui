@@ -6,7 +6,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
 import { ModalContext } from './ModalContext';
 
@@ -34,10 +34,10 @@ function ModalHeader(props: ModalHeaderProps) {
     return (
       <div
         className={cx({
-          [jsStyles.header(theme)]: true,
-          [jsStyles.headerAddPadding()]: Boolean(modal.additionalPadding),
-          [jsStyles.fixedHeader(theme)]: fixed,
-          [jsStyles.headerWithClose(theme)]: Boolean(modal.close),
+          [styles.header(theme)]: true,
+          [styles.headerAddPadding()]: Boolean(modal.additionalPadding),
+          [styles.fixedHeader(theme)]: fixed,
+          [styles.headerWithClose(theme)]: Boolean(modal.close),
         })}
       >
         {modal.close && <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />}
@@ -48,7 +48,7 @@ function ModalHeader(props: ModalHeaderProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalHeader'} className={jsStyles.headerWrapper()}>
+      <ZIndex priority={'ModalHeader'} className={styles.headerWrapper()}>
         {sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}
       </ZIndex>
     </CommonWrapper>

@@ -5,7 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
 import * as CDS from './CalendarDateShape';
-import { jsStyles } from './DayCellView.styles';
+import { styles } from './DayCellView.styles';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -31,10 +31,10 @@ export function DayCellView(props: DayCellViewProps) {
       tabIndex={-1}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
       className={cx({
-        [jsStyles.cell(theme)]: true,
-        [jsStyles.today(theme)]: Boolean(today && CDS.isEqual(date, today)),
-        [jsStyles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
-        [jsStyles.weekend(theme)]: Boolean(isWeekend),
+        [styles.cell(theme)]: true,
+        [styles.today(theme)]: Boolean(today && CDS.isEqual(date, today)),
+        [styles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
+        [styles.weekend(theme)]: Boolean(isWeekend),
       })}
       onClick={handleClick}
     >

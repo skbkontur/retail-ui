@@ -8,7 +8,7 @@ import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Group.styles';
+import { styles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
   width?: React.CSSProperties['width'];
@@ -43,7 +43,7 @@ export class Group extends React.Component<GroupProps> {
 
     return (
       <CommonWrapper {...this.props}>
-        <span className={jsStyles.root()} style={style}>
+        <span className={styles.root()} style={style}>
           {React.Children.map(this.props.children, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;
@@ -51,8 +51,8 @@ export class Group extends React.Component<GroupProps> {
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
             const itemCss = cx({
-              [jsStyles.item()]: true,
-              [jsStyles.itemFirst()]: child === first,
+              [styles.item()]: true,
+              [styles.itemFirst()]: child === first,
             });
 
             let corners = 0;
@@ -70,9 +70,9 @@ export class Group extends React.Component<GroupProps> {
             return (
               <div
                 className={cx({
-                  [jsStyles.fixed()]: !isWidthInPercent,
-                  [jsStyles.stretch()]: isWidthInPercent,
-                  [jsStyles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
+                  [styles.fixed()]: !isWidthInPercent,
+                  [styles.stretch()]: isWidthInPercent,
+                  [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
                 })}
               >
                 <div className={itemCss}>{child}</div>

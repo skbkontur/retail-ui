@@ -13,7 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './DateSelect.styles';
+import { styles } from './DateSelect.styles';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -162,20 +162,20 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     const { width, disabled } = this.props;
     const rootProps = {
       className: cx({
-        [jsStyles.root(this.theme)]: true,
-        [jsStyles.disabled()]: Boolean(disabled),
+        [styles.root(this.theme)]: true,
+        [styles.disabled()]: Boolean(disabled),
       }),
       style: { width },
       ref: this.refRoot,
     };
     return (
       <span {...rootProps}>
-        <div data-tid="DateSelect__caption" className={jsStyles.caption()} onClick={this.open}>
+        <div data-tid="DateSelect__caption" className={styles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
             className={cx({
-              [jsStyles.arrow(this.theme)]: true,
-              [jsStyles.arrowDisabled()]: Boolean(disabled),
+              [styles.arrow(this.theme)]: true,
+              [styles.arrowDisabled()]: Boolean(disabled),
             })}
           >
             <ArrowTriangleUpDownIcon size={12} />
@@ -233,10 +233,10 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     for (let i = from; i < to; ++i) {
       const disableItems = this.disableItems(i) || false;
       const className = cx({
-        [jsStyles.menuItem(this.theme)]: true,
-        [jsStyles.menuItemSelected(this.theme)]: i === 0,
-        [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
-        [jsStyles.menuItemDisabled(this.theme)]: disableItems,
+        [styles.menuItem(this.theme)]: true,
+        [styles.menuItemSelected(this.theme)]: i === 0,
+        [styles.menuItemActive(this.theme)]: i === this.state.current,
+        [styles.menuItemDisabled(this.theme)]: disableItems,
       });
       const clickHandler = {
         onMouseDown: preventDefault,
@@ -273,9 +273,9 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     };
 
     const holderClass = cx({
-      [jsStyles.menuHolder(this.theme)]: true,
-      [jsStyles.isTopCapped()]: this.state.topCapped,
-      [jsStyles.isBotCapped()]: this.state.botCapped,
+      [styles.menuHolder(this.theme)]: true,
+      [styles.isTopCapped()]: this.state.topCapped,
+      [styles.isBotCapped()]: this.state.botCapped,
     });
 
     let dropdownOffset = -itemHeight;
@@ -291,7 +291,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
-                  className={cx(jsStyles.menu(this.theme), jsStyles.menuUp())}
+                  className={cx(styles.menu(this.theme), styles.menuUp())}
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
@@ -304,14 +304,14 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
                   </span>
                 </div>
               )}
-              <div className={jsStyles.itemsHolder()} style={{ height }}>
+              <div className={styles.itemsHolder()} style={{ height }}>
                 <div ref={this.refItemsContainer} style={shiftStyle}>
                   {items}
                 </div>
               </div>
               {!this.state.botCapped && (
                 <div
-                  className={cx(jsStyles.menu(this.theme), jsStyles.menuDown())}
+                  className={cx(styles.menu(this.theme), styles.menuDown())}
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}

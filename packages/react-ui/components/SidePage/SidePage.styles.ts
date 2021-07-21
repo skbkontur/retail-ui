@@ -2,7 +2,7 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -262,6 +262,4 @@ const styles = {
       transition: opacity 0.15s ease-out;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

@@ -7,7 +7,7 @@ import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 
 import { TextareaProps } from './Textarea';
-import { jsStyles } from './Textarea.styles';
+import { styles } from './Textarea.styles';
 
 export type TextareaCounterProps = {
   value: TextareaProps['value'];
@@ -49,14 +49,14 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   );
 
   return (
-    <div className={jsStyles.counterContainer(theme)} style={{ width, height }}>
+    <div className={styles.counterContainer(theme)} style={{ width, height }}>
       <span
-        className={cx(jsStyles.counter(theme), {
-          [jsStyles.counterError(theme)]: counterValue < 0,
+        className={cx(styles.counter(theme), {
+          [styles.counterError(theme)]: counterValue < 0,
         })}
       >
         {counterValue}
-        {help && <span className={jsStyles.counterHelp()}>{counterHelp}</span>}
+        {help && <span className={styles.counterHelp()}>{counterHelp}</span>}
       </span>
     </div>
   );

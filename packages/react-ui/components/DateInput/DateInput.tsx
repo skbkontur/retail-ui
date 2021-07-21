@@ -13,7 +13,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { DateFragmentsView } from './DateFragmentsView';
-import { jsStyles } from './DateInput.styles';
+import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
 
@@ -217,11 +217,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     if (withIcon) {
       const theme = this.theme;
       const iconStyles = cx({
-        [jsStyles.icon(theme)]: true,
-        [jsStyles.iconSmall(theme)]: size === 'small',
-        [jsStyles.iconMedium(theme)]: size === 'medium',
-        [jsStyles.iconLarge(theme)]: size === 'large',
-        [jsStyles.iconDisabled(theme)]: disabled,
+        [styles.icon(theme)]: true,
+        [styles.iconSmall(theme)]: size === 'small',
+        [styles.iconMedium(theme)]: size === 'medium',
+        [styles.iconLarge(theme)]: size === 'large',
+        [styles.iconDisabled(theme)]: disabled,
       });
       return (
         <span className={iconStyles}>

@@ -8,7 +8,7 @@ const getVerticalPaddingsWithCompensation = (theme: Theme) => {
   return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
 };
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
@@ -81,6 +81,4 @@ const styles = {
       }
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

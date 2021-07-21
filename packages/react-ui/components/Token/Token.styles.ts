@@ -2,7 +2,7 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-const styles = {
+export const styles = memoizeStyle({
   token(t: Theme) {
     return css`
       display: inline-flex;
@@ -57,7 +57,7 @@ const styles = {
       }
     `;
   },
-};
+});
 
 interface TokenColors {
   defaultIdle: (t: Theme, v: 'error' | 'warning' | null) => string;
@@ -79,9 +79,7 @@ interface TokenColors {
   black: (t: Theme, v: 'error' | 'warning' | null) => string;
 }
 
-export const jsStyles = memoizeStyle(styles);
-
-export const jsTokenColors = [
+export const colorStyles = [
   { name: 'defaultIdle', color: (t: Theme) => t.tokenDefaultIdle },
   { name: 'defaultActive', color: (t: Theme) => t.tokenDefaultActive },
   { name: 'grayIdle', color: (t: Theme) => t.tokenGrayIdle },

@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   searchBar() {
     return css`
       position: relative;
@@ -185,6 +185,4 @@ const styles = {
       color: #b77daa;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

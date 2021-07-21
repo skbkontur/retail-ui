@@ -6,7 +6,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './MaskedInput.styles';
+import { styles } from './MaskedInput.styles';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
@@ -90,7 +90,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     const leftHelper = style?.textAlign !== 'right' && (
       <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
     );
-    const leftClass = style?.textAlign !== 'right' && jsStyles.inputMaskLeft();
+    const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
 
     const rightHelper = emptyValue
       .slice(value.length)
@@ -98,7 +98,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
       .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
 
     return (
-      <span className={jsStyles.container()} x-ms-format-detection="none">
+      <span className={styles.container()} x-ms-format-detection="none">
         <ReactInputMask
           {...inputProps}
           maskChar={null}
@@ -113,7 +113,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
           style={{ ...style }}
         />
         {this.isMaskVisible() && (
-          <span className={cx(jsStyles.inputMask(this.theme), leftClass)}>
+          <span className={cx(styles.inputMask(this.theme), leftClass)}>
             {leftHelper}
             {rightHelper}
           </span>

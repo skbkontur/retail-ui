@@ -2,7 +2,7 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -245,6 +245,4 @@ const styles = {
       padding-bottom: ${t.modalPaddingBottom};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

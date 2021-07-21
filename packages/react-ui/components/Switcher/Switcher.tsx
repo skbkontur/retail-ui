@@ -10,7 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Switcher.styles';
+import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
@@ -83,7 +83,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   private renderMain() {
     const listClassName = cx({
-      [jsStyles.error(this.theme)]: !!this.props.error,
+      [styles.error(this.theme)]: !!this.props.error,
     });
 
     const inputProps = {
@@ -91,16 +91,16 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onKeyDown: this.handleKey,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      className: jsStyles.input(),
+      className: styles.input(),
     };
 
-    const lableClassName = cx(jsStyles.label(), this.getLabelSizeClassName());
+    const lableClassName = cx(styles.label(), this.getLabelSizeClassName());
 
     return (
       <CommonWrapper {...this.props}>
         <div>
           {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
-          <div className={jsStyles.wrap()}>
+          <div className={styles.wrap()}>
             <input {...inputProps} />
             <div className={listClassName}>
               <Group>{this._renderItems()}</Group>
@@ -210,12 +210,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
       case 'large':
-        return jsStyles.labelLarge(this.theme);
+        return styles.labelLarge(this.theme);
       case 'medium':
-        return jsStyles.labelMedium(this.theme);
+        return styles.labelMedium(this.theme);
       case 'small':
       default:
-        return jsStyles.labelSmall(this.theme);
+        return styles.labelSmall(this.theme);
     }
   };
 }

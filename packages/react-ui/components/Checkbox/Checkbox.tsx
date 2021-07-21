@@ -10,7 +10,7 @@ import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Checkbox.styles';
+import { styles } from './Checkbox.styles';
 
 export interface CheckboxProps
   extends CommonProps,
@@ -148,16 +148,16 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const isIndeterminate = this.state.indeterminate;
 
     const rootClass = cx({
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.rootFallback()]: isIE11 || isEdge,
-      [jsStyles.rootChecked(this.theme)]: props.checked || isIndeterminate,
-      [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
+      [styles.root(this.theme)]: true,
+      [styles.rootFallback()]: isIE11 || isEdge,
+      [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [styles.disabled(this.theme)]: Boolean(props.disabled),
     });
 
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: jsStyles.input(),
+      className: styles.input(),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -168,25 +168,25 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     let caption = null;
     if (this.props.children) {
       const captionClass = cx({
-        [jsStyles.caption(this.theme)]: true,
-        [jsStyles.captionIE11()]: isIE11 || isEdge,
+        [styles.caption(this.theme)]: true,
+        [styles.captionIE11()]: isIE11 || isEdge,
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
     const iconClass = cx({
-      [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
+      [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
+      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
       <span
-        className={cx(jsStyles.box(this.theme), {
-          [jsStyles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
-          [jsStyles.boxWarning(this.theme)]: Boolean(props.warning),
-          [jsStyles.boxError(this.theme)]: Boolean(props.error),
-          [jsStyles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [jsStyles.boxDisabled(this.theme)]: Boolean(props.disabled),
+        className={cx(styles.box(this.theme), {
+          [styles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
+          [styles.boxWarning(this.theme)]: Boolean(props.warning),
+          [styles.boxError(this.theme)]: Boolean(props.error),
+          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
+          [styles.boxDisabled(this.theme)]: Boolean(props.disabled),
         })}
         data-box
       >

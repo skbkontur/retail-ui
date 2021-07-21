@@ -5,7 +5,7 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { cx } from '../../lib/theming/Emotion';
 
 import { CloseProps } from './ModalContext';
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 
 export function ModalClose({ disableClose, requestClose }: CloseProps) {
   const theme = useContext(ThemeContext);
@@ -13,8 +13,8 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
   return (
     <button
       className={cx({
-        [jsStyles.close(theme)]: true,
-        [jsStyles.disabled(theme)]: disableClose,
+        [styles.close(theme)]: true,
+        [styles.disabled(theme)]: disableClose,
       })}
       onClick={requestClose}
       data-tid="modal-close"

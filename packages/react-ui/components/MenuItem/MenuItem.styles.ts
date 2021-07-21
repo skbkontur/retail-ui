@@ -2,7 +2,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const legacyPaddingX = parseFloat(t.menuItemLegacyPaddingX);
     const legacyPaddingY = parseFloat(t.menuItemLegacyPaddingY);
@@ -83,6 +83,4 @@ const styles = {
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

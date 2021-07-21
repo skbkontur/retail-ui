@@ -3,7 +3,7 @@ import { Theme } from '../../lib/theming/Theme';
 
 import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       ${linkMixin(t.linkHoverTextDecoration)};
@@ -92,6 +92,4 @@ const styles = {
       margin-right: ${t.linkIconMarginRight};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

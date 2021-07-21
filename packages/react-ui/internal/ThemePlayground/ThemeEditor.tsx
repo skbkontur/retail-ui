@@ -8,7 +8,7 @@ import { Loader } from '../../components/Loader';
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
 import { ThemeErrorsType } from './ThemeContextPlayground';
-import { jsStyles } from './Playground.styles';
+import { styles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
@@ -34,8 +34,8 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   public render() {
     return this.state.isLoading ? (
-      <div className={jsStyles.loaderWrapper()}>
-        <Loader type="big" active className={jsStyles.loader()} />
+      <div className={styles.loaderWrapper()}>
+        <Loader type="big" active className={styles.loader()} />
       </div>
     ) : (
       this.renderGroups()
@@ -101,7 +101,7 @@ const Group = (props: GroupProps) => {
 
   return variables.length > 0 ? (
     <React.Fragment>
-      <h2 className={jsStyles.editorGroupHeader(currentTheme)}>{title}</h2>
+      <h2 className={styles.editorGroupHeader(currentTheme)}>{title}</h2>
       {variables.map((variable) => {
         const value = editingTheme[variable] as string;
         const isError = currentErrors[variable];
