@@ -122,10 +122,10 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       <CSSTransition
         key={id}
         classNames={{
-          enter: jsStyles.enter(),
-          enterActive: jsStyles.enterActive(),
           exit: jsStyles.exit(),
+          enter: jsStyles.enter(),
           exitActive: jsStyles.exitActive(),
+          enterActive: jsStyles.enterActive(),
         }}
         timeout={{
           enter: 200,
@@ -146,7 +146,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     if (this._timeout) {
       clearTimeout(this._timeout);
       this._timeout = null;
-      this._clearProgressTimeout();
     }
   };
 
@@ -179,6 +178,9 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     const progress = (100 * (passTime + 1)) / timeOut;
 
     this.setState({ ...this.state, progress });
+
+    console.log('here');
+
     this._progressTimeout = window.setTimeout(() => this.fillProgressBar(), 1000);
   };
 }
