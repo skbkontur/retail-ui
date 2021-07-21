@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup } from '../../internal/Popup';
-import { DropdownContainer} from '../../internal/DropdownContainer';
+import { DropdownContainer } from '../../internal/DropdownContainer';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
@@ -49,9 +49,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
   private renderMain() {
     const { useTokenInputMenu } = this.props;
 
-    return (
-      useTokenInputMenu === 'PopupMenu' ? this.renderPopupMenu() : this.renderDropdownMenu()
-    );
+    return useTokenInputMenu === 'PopupMenu' ? this.renderPopupMenu() : this.renderDropdownMenu();
   }
 
   private renderPopupMenu() {
@@ -66,18 +64,15 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
       >
         {this.renderComboBoxMenu()}
       </Popup>
-    )
+    );
   }
 
   private renderDropdownMenu() {
     return (
-      <DropdownContainer
-        getParent={() => this.props.wrapper}
-        offsetY={1}
-      >
+      <DropdownContainer getParent={() => this.props.wrapper} offsetY={1}>
         {this.renderComboBoxMenu()}
       </DropdownContainer>
-    )
+    );
   }
   private renderComboBoxMenu() {
     const {
@@ -106,7 +101,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         totalCount={totalCount}
         renderAddButton={renderAddButton}
       />
-    )
+    );
   }
 
   private getPopupMargin = (): number => {

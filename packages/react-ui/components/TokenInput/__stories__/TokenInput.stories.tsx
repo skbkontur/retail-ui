@@ -185,16 +185,87 @@ Validations.storyName = 'validations';
 Validations.parameters = { creevey: { skip: [true] } };
 
 export const EmptyWithReference: Story = () => {
-export const DropdownMenu: CSFStory<JSX.Element> = () => {
-  return (
-    <Gapped vertical gap={10}>
-      <Wrapper useTokenInputMenu='DropdownMenu' getItems={getItems} />
-    </Gapped>
-  );
-};
-DropdownMenu.story = {
-  name: 'dropdown menu',
-  parameters: {
+  export const DropdownMenu: CSFStory<JSX.Element> = () => {
+    return (
+      <Gapped vertical gap={10}>
+        <Wrapper useTokenInputMenu="DropdownMenu" getItems={getItems} />
+      </Gapped>
+    );
+  };
+  DropdownMenu.story = {
+    name: 'dropdown menu',
+    parameters: {
+      creevey: {
+        tests: {
+          async selectFirst() {
+            await this.browser
+              .actions({
+                bridge: true,
+              })
+              .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+              .sendKeys('a')
+              .perform();
+            await this.expect(await this.takeScreenshot()).to.matchImage();
+          },
+        },
+      },
+    },
+  };
+
+  export const EmptyWithReference: CSFStory<JSX.Element> = () => {
+    return <Wrapper getItems={getItems} />;
+  };
+  EmptyWithReference.storyName = 'empty with reference';
+
+  EmptyWithReference.parameters = {
+    creevey: {
+      captureElement: '.tokens-test-container',
+      tests: {
+        async idle() {
+          await delay(100);
+          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+        },
+        async clicked() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+        },
+        async withMenu() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('a')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
+        },
+      },
+    },
+  };
+
+  export const ColoredEmptyWithReference = () => {
+    return <ColoredWrapper getItems={getItems} />;
+  };
+  ColoredEmptyWithReference.storyName = 'colored empty with reference';
+  ColoredEmptyWithReference.parameters = { creevey: { skip: [true] } };
+
+  export const EmptyWithoutReference = () => {
+    return <Wrapper type={TokenInputType.WithoutReference} />;
+  };
+  EmptyWithoutReference.storyName = 'empty without reference';
+  EmptyWithoutReference.parameters = { creevey: { skip: [true] } };
+
+  export const EmptyCombined: Story = () => {
+    return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
+  };
+  EmptyCombined.storyName = 'empty combined';
+
+  EmptyCombined.parameters = {
     creevey: {
       tests: {
         async selectFirst() {
@@ -209,496 +280,426 @@ DropdownMenu.story = {
         },
       },
     },
-  },
-};
+  };
 
-export const EmptyWithReference: CSFStory<JSX.Element> = () => {
-  return <Wrapper getItems={getItems} />;
-};
-EmptyWithReference.storyName = 'empty with reference';
+  export const WithReferenceFilled = () => {
+    return <FilledWrapper getItems={getItems} />;
+  };
+  WithReferenceFilled.storyName = '[with reference] filled';
+  WithReferenceFilled.parameters = { creevey: { skip: [true] } };
 
-EmptyWithReference.parameters = {
-  creevey: {
-    captureElement: '.tokens-test-container',
-    tests: {
-      async idle() {
-        await delay(100);
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async withMenu() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('a')
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('withMenu');
-      },
-    },
-  },
-};
+  export const WithoutReferenceFilled = () => {
+    return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
+  };
+  WithoutReferenceFilled.storyName = '[without reference] filled';
+  WithoutReferenceFilled.parameters = { creevey: { skip: [true] } };
 
-export const ColoredEmptyWithReference = () => {
-  return <ColoredWrapper getItems={getItems} />;
-};
-ColoredEmptyWithReference.storyName = 'colored empty with reference';
-ColoredEmptyWithReference.parameters = { creevey: { skip: [true] } };
+  export const CombinedFilled: Story = () => {
+    return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
+  };
+  CombinedFilled.storyName = '[combined] filled';
 
-export const EmptyWithoutReference = () => {
-  return <Wrapper type={TokenInputType.WithoutReference} />;
-};
-EmptyWithoutReference.storyName = 'empty without reference';
-EmptyWithoutReference.parameters = { creevey: { skip: [true] } };
+  CombinedFilled.parameters = {
+    creevey: {
+      tests: {
+        async selectAndType() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .perform();
+          const selected = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('a')
+            .perform();
+          const typed = await this.takeScreenshot();
 
-export const EmptyCombined: Story = () => {
-  return <Wrapper type={TokenInputType.Combined} getItems={getItems} />;
-};
-EmptyCombined.storyName = 'empty combined';
+          await this.expect({ selected, typed }).to.matchImages();
+        },
+        async editToken() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .perform();
+          const doubleClickOnToken = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
+            .perform();
+          const clickOnMenuItem = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          const enterOnActiveToken = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys('EDITED')
+            .perform();
+          const editToken = await this.takeScreenshot();
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .sendKeys(this.keys.ENTER)
+            .perform();
+          const enterAfterEdit = await this.takeScreenshot();
 
-EmptyCombined.parameters = {
-  creevey: {
-    tests: {
-      async selectFirst() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('a')
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
-
-export const WithReferenceFilled = () => {
-  return <FilledWrapper getItems={getItems} />;
-};
-WithReferenceFilled.storyName = '[with reference] filled';
-WithReferenceFilled.parameters = { creevey: { skip: [true] } };
-
-export const WithoutReferenceFilled = () => {
-  return <FilledWrapper type={TokenInputType.WithoutReference} getItems={getItems} />;
-};
-WithoutReferenceFilled.storyName = '[without reference] filled';
-WithoutReferenceFilled.parameters = { creevey: { skip: [true] } };
-
-export const CombinedFilled: Story = () => {
-  return <FilledWrapper type={TokenInputType.Combined} getItems={getItems} />;
-};
-CombinedFilled.storyName = '[combined] filled';
-
-CombinedFilled.parameters = {
-  creevey: {
-    tests: {
-      async selectAndType() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-          .perform();
-        const selected = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys('a')
-          .perform();
-        const typed = await this.takeScreenshot();
-
-        await this.expect({ selected, typed }).to.matchImages();
-      },
-      async editToken() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-          .perform();
-        const doubleClickOnToken = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
-          .perform();
-        const clickOnMenuItem = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        const enterOnActiveToken = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys('EDITED')
-          .perform();
-        const editToken = await this.takeScreenshot();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        const enterAfterEdit = await this.takeScreenshot();
-
-        await this.expect({
-          doubleClickOnToken,
-          clickOnMenuItem,
-          enterOnActiveToken,
-          editToken,
-          enterAfterEdit,
-        }).to.matchImages();
+          await this.expect({
+            doubleClickOnToken,
+            clickOnMenuItem,
+            enterOnActiveToken,
+            editToken,
+            enterAfterEdit,
+          }).to.matchImages();
+        },
       },
     },
-  },
-};
+  };
 
-export const WithLongItem1 = () => {
-  return (
-    <Wrapper
-      getItems={getItems}
-      selectedItems={['Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, obcaecati?']}
-    />
-  );
-};
-WithLongItem1.storyName = 'with long item 1';
-WithLongItem1.parameters = { creevey: { skip: [true] } };
+  export const WithLongItem1 = () => {
+    return (
+      <Wrapper
+        getItems={getItems}
+        selectedItems={['Lorem ipsum dolor sit amet, consectetur adipisicing elit. Beatae, obcaecati?']}
+      />
+    );
+  };
+  WithLongItem1.storyName = 'with long item 1';
+  WithLongItem1.parameters = { creevey: { skip: [true] } };
 
-export const WithLongItem2 = () => {
-  return (
-    <Wrapper getItems={getItems} selectedItems={['qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop']} />
-  );
-};
-WithLongItem2.storyName = 'with long item 2';
-WithLongItem2.parameters = { creevey: { skip: [true] } };
+  export const WithLongItem2 = () => {
+    return (
+      <Wrapper getItems={getItems} selectedItems={['qewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiopqewrtyuiop']} />
+    );
+  };
+  WithLongItem2.storyName = 'with long item 2';
+  WithLongItem2.parameters = { creevey: { skip: [true] } };
 
-export const MultipleTokens = () => {
-  return (
-    <Gapped vertical gap={10}>
-      <FilledWrapper getItems={getItems} />
-      <Wrapper getItems={getItems} type={TokenInputType.WithoutReference} />
+  export const MultipleTokens = () => {
+    return (
+      <Gapped vertical gap={10}>
+        <FilledWrapper getItems={getItems} />
+        <Wrapper getItems={getItems} type={TokenInputType.WithoutReference} />
+      </Gapped>
+    );
+  };
+  MultipleTokens.storyName = 'multiple tokens';
+  MultipleTokens.parameters = { creevey: { skip: [true] } };
+
+  export const CombinedGenericToken = () => {
+    return <WrapperCustomModel />;
+  };
+  CombinedGenericToken.storyName = 'combined generic token';
+  CombinedGenericToken.parameters = { creevey: { skip: [true] } };
+
+  export const WidthToken = () => {
+    return (
+      <Gapped vertical gap={10}>
+        <Wrapper getItems={getItems} width={'100%'} />
+        <Wrapper getItems={getItems} width={300} />
+        <Wrapper getItems={getItems} width={150} />
+      </Gapped>
+    );
+  };
+  WidthToken.storyName = 'width token';
+  WidthToken.parameters = { creevey: { skip: [true] } };
+
+  export const WithAutofocus = () => {
+    return (
+      <Gapped vertical gap={10}>
+        <Wrapper getItems={getItems} autoFocus={true} />
+      </Gapped>
+    );
+  };
+  WithAutofocus.storyName = 'with autofocus';
+  WithAutofocus.parameters = { creevey: { skip: [true] } };
+
+  export const UseRenderToken = () => (
+    <Gapped gap={10}>
+      <Wrapper
+        getItems={getItems}
+        renderToken={(item, tokenProps) => (
+          <Token key={item.toString()} {...tokenProps}>
+            {item}
+          </Token>
+        )}
+      />
     </Gapped>
   );
-};
-MultipleTokens.storyName = 'multiple tokens';
-MultipleTokens.parameters = { creevey: { skip: [true] } };
+  UseRenderToken.storyName = 'use renderToken';
+  UseRenderToken.parameters = { creevey: { skip: [true] } };
 
-export const CombinedGenericToken = () => {
-  return <WrapperCustomModel />;
-};
-CombinedGenericToken.storyName = 'combined generic token';
-CombinedGenericToken.parameters = { creevey: { skip: [true] } };
-
-export const WidthToken = () => {
-  return (
-    <Gapped vertical gap={10}>
+  export const IdenticalAlignmentWithOtherControls = () => (
+    <Gapped gap={10} vertical>
       <Wrapper getItems={getItems} width={'100%'} />
-      <Wrapper getItems={getItems} width={300} />
-      <Wrapper getItems={getItems} width={150} />
+      <Input value={'value'} width={'100%'} size={'medium'} />
     </Gapped>
   );
-};
-WidthToken.storyName = 'width token';
-WidthToken.parameters = { creevey: { skip: [true] } };
+  IdenticalAlignmentWithOtherControls.storyName = 'identical alignment with other controls';
+  IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: [true] } };
 
-export const WithAutofocus = () => {
-  return (
-    <Gapped vertical gap={10}>
-      <Wrapper getItems={getItems} autoFocus={true} />
-    </Gapped>
-  );
-};
-WithAutofocus.storyName = 'with autofocus';
-WithAutofocus.parameters = { creevey: { skip: [true] } };
-
-export const UseRenderToken = () => (
-  <Gapped gap={10}>
-    <Wrapper
-      getItems={getItems}
-      renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps}>
-          {item}
-        </Token>
-      )}
-    />
-  </Gapped>
-);
-UseRenderToken.storyName = 'use renderToken';
-UseRenderToken.parameters = { creevey: { skip: [true] } };
-
-export const IdenticalAlignmentWithOtherControls = () => (
-  <Gapped gap={10} vertical>
-    <Wrapper getItems={getItems} width={'100%'} />
-    <Input value={'value'} width={'100%'} size={'medium'} />
-  </Gapped>
-);
-IdenticalAlignmentWithOtherControls.storyName = 'identical alignment with other controls';
-IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: [true] } };
-
-export const Disabled = () => {
-  return (
-    <Gapped vertical gap={10}>
-      <FilledWrapper getItems={getItems} disabled={true} />
-      <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
-    </Gapped>
-  );
-};
-Disabled.storyName = 'disabled';
-
-export const CustomAddButton: Story = () => {
-  return (
-    <TokenInput
-      type={TokenInputType.Combined}
-      getItems={getItems}
-      renderAddButton={(value) => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
-    />
-  );
-};
-CustomAddButton.storyName = 'custom add button';
-
-CustomAddButton.parameters = {
-  creevey: {
-    tests: {
-      async addButton() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('zzz')
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
-
-export const OnUnexpectedInputValidation: Story = () => {
-  const [isValid, setIsValid] = useState(true);
-  const [selectedItems, setSelectedItems] = useState([] as string[]);
-  const [alertItemMessage, setAlertItemMessage] = useState('');
-
-  const resetValidation = () => {
-    setAlertItemMessage('');
-    setIsValid(true);
+  export const Disabled = () => {
+    return (
+      <Gapped vertical gap={10}>
+        <FilledWrapper getItems={getItems} disabled={true} />
+        <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
+      </Gapped>
+    );
   };
+  Disabled.storyName = 'disabled';
 
-  const handleUnexpectedInput = (value: string) => {
-    if (value !== '' && selectedItems.length === 0) {
-      setAlertItemMessage(`Выберите хотя бы один токен`);
-      setIsValid(false);
-      return undefined;
-    }
-    if (value === 'clear' || value === 'clearzzz') {
-      setAlertItemMessage('Значение "clear" возвращает null и инпут был очищен');
-      return null;
-    }
-    if (value !== '') {
-      setAlertItemMessage(`Значение '${value}' является невалидным`);
-      setIsValid(false);
-    }
-    return undefined;
-  };
-
-  return (
-    <>
+  export const CustomAddButton: Story = () => {
+    return (
       <TokenInput
         type={TokenInputType.Combined}
-        getItems={getExtendedItems}
-        onValueChange={(items) => {
-          setSelectedItems(items);
-        }}
-        onFocus={() => {
-          resetValidation();
-        }}
-        onInputValueChange={(value) => {
-          if (value === '') {
-            resetValidation();
-          }
-        }}
-        selectedItems={selectedItems}
-        onUnexpectedInput={handleUnexpectedInput}
-        error={!isValid}
+        getItems={getItems}
+        renderAddButton={(value) => <MenuItem key="addButton">Custom Add: {value}</MenuItem>}
       />
-      {alertItemMessage && <div>{alertItemMessage}</div>}
-    </>
-  );
-};
+    );
+  };
+  CustomAddButton.storyName = 'custom add button';
 
-OnUnexpectedInputValidation.storyName = 'validate with onUnexpectedInput';
-OnUnexpectedInputValidation.parameters = {
-  creevey: {
-    skip: [
-      {
-        in: ['firefox', 'firefoxFlat', 'firefox8px', 'firefoxFlat8px'],
-        tests: 'token select',
-        reason: 'flacky "clearedOnNullReturn"',
-      },
-    ],
-    tests: {
-      async ['token select']() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('aaa')
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withNotSelectedToken = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys('aaaccc')
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withAutoSelectedTokens = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .pause(1000)
-          .sendKeys('clear')
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        await delay(1000);
-
-        const clearedOnNullReturn = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .clear();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys('aaa')
-          .sendKeys(this.keys.ENTER)
-          .pause(1000)
-          .sendKeys('bbb')
-          .sendKeys(this.keys.ENTER)
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withSelectedTokens = await this.takeScreenshot();
-
-        await this.expect({
-          withNotSelectedToken,
-          withAutoSelectedTokens,
-          clearedOnNullReturn,
-          withSelectedTokens,
-        }).to.matchImages();
-      },
-      async ['token edit']() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('aaa')
-          .sendKeys(this.keys.ENTER)
-          .pause(1000)
-          .sendKeys('bbb')
-          .sendKeys(this.keys.ENTER)
-          .perform();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-          .sendKeys('aaa')
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withSameValue = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-          .sendKeys('zzz')
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withNotEditedToken = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys(this.keys.BACK_SPACE)
-          .sendKeys('clear')
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withRemovedToken = await this.takeScreenshot();
-
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
-          .sendKeys('EDITED')
-          .sendKeys(this.keys.ARROW_DOWN)
-          .sendKeys(this.keys.ENTER)
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-
-        const withEditedToken = await this.takeScreenshot();
-
-        await this.expect({ withSameValue, withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
+  CustomAddButton.parameters = {
+    creevey: {
+      tests: {
+        async addButton() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('zzz')
+            .perform();
+          await this.expect(await this.takeScreenshot()).to.matchImage();
+        },
       },
     },
-  },
+  };
+
+  export const OnUnexpectedInputValidation: Story = () => {
+    const [isValid, setIsValid] = useState(true);
+    const [selectedItems, setSelectedItems] = useState([] as string[]);
+    const [alertItemMessage, setAlertItemMessage] = useState('');
+
+    const resetValidation = () => {
+      setAlertItemMessage('');
+      setIsValid(true);
+    };
+
+    const handleUnexpectedInput = (value: string) => {
+      if (value !== '' && selectedItems.length === 0) {
+        setAlertItemMessage(`Выберите хотя бы один токен`);
+        setIsValid(false);
+        return undefined;
+      }
+      if (value === 'clear' || value === 'clearzzz') {
+        setAlertItemMessage('Значение "clear" возвращает null и инпут был очищен');
+        return null;
+      }
+      if (value !== '') {
+        setAlertItemMessage(`Значение '${value}' является невалидным`);
+        setIsValid(false);
+      }
+      return undefined;
+    };
+
+    return (
+      <>
+        <TokenInput
+          type={TokenInputType.Combined}
+          getItems={getExtendedItems}
+          onValueChange={(items) => {
+            setSelectedItems(items);
+          }}
+          onFocus={() => {
+            resetValidation();
+          }}
+          onInputValueChange={(value) => {
+            if (value === '') {
+              resetValidation();
+            }
+          }}
+          selectedItems={selectedItems}
+          onUnexpectedInput={handleUnexpectedInput}
+          error={!isValid}
+        />
+        {alertItemMessage && <div>{alertItemMessage}</div>}
+      </>
+    );
+  };
+
+  OnUnexpectedInputValidation.storyName = 'validate with onUnexpectedInput';
+  OnUnexpectedInputValidation.parameters = {
+    creevey: {
+      skip: [
+        {
+          in: ['firefox', 'firefoxFlat', 'firefox8px', 'firefoxFlat8px'],
+          tests: 'token select',
+          reason: 'flacky "clearedOnNullReturn"',
+        },
+      ],
+      tests: {
+        async ['token select']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('aaa')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withNotSelectedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('aaaccc')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withAutoSelectedTokens = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .pause(1000)
+            .sendKeys('clear')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          await delay(1000);
+
+          const clearedOnNullReturn = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .clear();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('aaa')
+            .sendKeys(this.keys.ENTER)
+            .pause(1000)
+            .sendKeys('bbb')
+            .sendKeys(this.keys.ENTER)
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withSelectedTokens = await this.takeScreenshot();
+
+          await this.expect({
+            withNotSelectedToken,
+            withAutoSelectedTokens,
+            clearedOnNullReturn,
+            withSelectedTokens,
+          }).to.matchImages();
+        },
+        async ['token edit']() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+            .sendKeys('aaa')
+            .sendKeys(this.keys.ENTER)
+            .pause(1000)
+            .sendKeys('bbb')
+            .sendKeys(this.keys.ENTER)
+            .perform();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys('aaa')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withSameValue = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys('zzz')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withNotEditedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys(this.keys.BACK_SPACE)
+            .sendKeys('clear')
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withRemovedToken = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+            .sendKeys('EDITED')
+            .sendKeys(this.keys.ARROW_DOWN)
+            .sendKeys(this.keys.ENTER)
+            .move({ x: 0, y: 0 })
+            .click()
+            .perform();
+
+          const withEditedToken = await this.takeScreenshot();
+
+          await this.expect({ withSameValue, withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
+        },
+      },
+    },
+  };
 };
