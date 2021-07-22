@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
@@ -53,10 +53,6 @@ const styles = {
       line-height: 0;
 
       &:hover {
-        opacity: 1;
-      }
-      ${cssName(jsTokenColors.defaultDisabled(t))} & {
-        fill: ${t.tokenTextColorDisabled};
         opacity: 1;
       }
     `;
@@ -119,7 +115,7 @@ export const jsTokenColors = [
 
         ${vStyle}
 
-        & ${cssName(jsStyles.removeIcon(t))}:hover {
+        [data-remove-icon]:hover {
           color: ${ColorFunctions.contrast(color(t))};
         }
       `;
@@ -129,7 +125,12 @@ export const jsTokenColors = [
     defaultDisabled(t: Theme) {
       return css`
         background-color: ${t.tokenDisabledBg};
-        box-shadow: ${t.tokenShadowDisabled}};
+        box-shadow: ${t.tokenShadowDisabled};
+
+        [data-remove-icon] {
+          fill: ${t.tokenTextColorDisabled};
+          opacity: 1;
+        }
       `;
     },
     defaultDisabledWarning(t: Theme) {

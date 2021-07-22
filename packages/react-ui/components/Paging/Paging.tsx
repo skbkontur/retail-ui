@@ -1,6 +1,5 @@
 import React from 'react';
 import { func, number } from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
@@ -12,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -180,7 +180,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = cn({
+    const classes = cx({
       [jsStyles.forwardLink(this.theme)]: true,
       [jsStyles.forwardLinkFocused()]: focused,
       [jsStyles.disabled(this.theme)]: disabled,
@@ -207,10 +207,10 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
-    const classes = cn({
+    const classes = cx({
       [jsStyles.pageLink(this.theme)]: true,
       [jsStyles.pageLinkFocused(this.theme)]: focused,
-      [jsStyles.active()]: active,
+      [jsStyles.active(this.theme)]: active,
     });
     const Component = this.props.component;
     const handleClick = () => this.goToPage(pageNumber);

@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -9,6 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Hint.styles';
 
@@ -153,7 +153,7 @@ export class Hint extends React.Component<HintProps, HintState> {
     }
 
     const { pos, maxWidth } = this.props;
-    const className = cn({
+    const className = cx({
       [jsStyles.content(this.theme)]: true,
       [jsStyles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
     });

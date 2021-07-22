@@ -1,11 +1,11 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { Indicator } from './Indicator';
 import { jsStyles } from './Tabs.styles';
@@ -95,7 +95,7 @@ export class Tabs extends React.Component<TabsProps> {
           return (
             <CommonWrapper {...this.props}>
               <div
-                className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))}
+                className={cx(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))}
                 style={{ width }}
               >
                 <TabsContext.Provider

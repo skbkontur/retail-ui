@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { isIE11 } from '../../lib/client';
 import {
@@ -11,6 +10,7 @@ import {
 } from '../../components/Spinner/SpinnerFallbackAnimation';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './SpinnerIcon.styles';
 
@@ -87,7 +87,7 @@ export const SpinnerIcon = ({ size, className, dimmed }: SpinnerIconProps) => {
     <span className={jsStyles.root()}>
       <svg
         viewBox={`0 0 ${currentSize.size} ${currentSize.size}`}
-        className={cn(jsStyles.icon(), className)}
+        className={cx(jsStyles.icon(), className)}
         width={currentSize.size}
         height={currentSize.size}
         fill="none"

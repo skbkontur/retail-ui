@@ -1,9 +1,9 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
@@ -37,7 +37,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
         {({ hasHeader, hasFooter, hasPanel }) => (
           <CommonWrapper {...this.props}>
             <div
-              className={cn({
+              className={cx({
                 [jsStyles.container(this.theme)]: true,
                 [jsStyles.containerWithoutHeader(this.theme)]: !hasHeader,
                 [jsStyles.containerWithoutFooter(this.theme)]: !hasFooter,

@@ -66,7 +66,7 @@ const styles = {
 
   close(t: Theme) {
     return css`
-      box-sizing: content-box !important;
+      box-sizing: content-box !important; // fix "reset.css" problem
       color: ${t.toastCloseColor};
       cursor: pointer;
       display: inline-block;

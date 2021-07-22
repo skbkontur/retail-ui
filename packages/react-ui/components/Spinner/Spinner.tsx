@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -100,6 +100,6 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
-    <span className={cn(jsStyles[type](this.theme), jsStyles.captionColor(this.theme))}>{caption}</span>
+    <span className={cx(jsStyles[type](this.theme), jsStyles.captionColor(this.theme))}>{caption}</span>
   );
 }

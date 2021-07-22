@@ -1,10 +1,10 @@
 import React from 'react';
-import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -87,9 +87,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
                 }}
               >
                 <div
-                  className={cn(jsStyles.footerContent(this.theme), {
-                    [jsStyles.panel(this.theme)]: !!this.props.panel,
+                  className={cx(jsStyles.footerContent(this.theme), {
                     [jsStyles.footerFixed(this.theme)]: this.state.fixed,
+                    [jsStyles.panel(this.theme)]: !!this.props.panel,
                   })}
                   ref={this.refContent}
                 >

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Nullable, Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
@@ -9,6 +8,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Checkbox.styles';
 
@@ -147,15 +147,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const rootClass = cn({
+    const rootClass = cx({
       [jsStyles.root(this.theme)]: true,
       [jsStyles.rootFallback()]: isIE11 || isEdge,
+      [jsStyles.rootChecked(this.theme)]: props.checked || isIndeterminate,
       [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
-      [jsStyles.checked(this.theme)]: Boolean(props.checked),
-      [jsStyles.indeterminate(this.theme)]: isIndeterminate,
-      [jsStyles.focus(this.theme)]: this.state.focusedByTab,
-      [jsStyles.warning(this.theme)]: Boolean(props.warning),
-      [jsStyles.error(this.theme)]: Boolean(props.error),
     });
 
     const inputProps = {
@@ -171,20 +167,29 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (this.props.children) {
-      const captionClass = cn({
+      const captionClass = cx({
         [jsStyles.caption(this.theme)]: true,
         [jsStyles.captionIE11()]: isIE11 || isEdge,
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
-    const iconClass = cn({
+    const iconClass = cx({
       [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
       [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
-      <span className={jsStyles.box(this.theme)}>
+      <span
+        className={cx(jsStyles.box(this.theme), {
+          [jsStyles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
+          [jsStyles.boxWarning(this.theme)]: Boolean(props.warning),
+          [jsStyles.boxError(this.theme)]: Boolean(props.error),
+          [jsStyles.boxFocus(this.theme)]: this.state.focusedByTab,
+          [jsStyles.boxDisabled(this.theme)]: Boolean(props.disabled),
+        })}
+        data-box
+      >
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
       </span>
     );

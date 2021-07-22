@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
-import cn from 'classnames';
 
 import {
   isKeyArrowHorizontal,
@@ -25,6 +24,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { jsStyles } from './TokenInput.styles';
@@ -272,13 +272,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cn(jsStyles.label(theme), {
+    const labelClassName = cx(jsStyles.label(theme), {
       [jsStyles.labelFocused(theme)]: !!inFocus,
       [jsStyles.error(theme)]: !!error,
       [jsStyles.warning(theme)]: !!warning,
       [jsStyles.labelDisabled(theme)]: !!disabled,
     });
-    const inputClassName = cn(jsStyles.input(theme), {
+    const inputClassName = cx(jsStyles.input(theme), {
       [jsStyles.inputDisabled(theme)]: !!disabled,
       [jsStyles.inputEditing(theme)]: this.isEditingMode,
     });
@@ -295,7 +295,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cn(jsStyles.helperText(theme), {
+              classHelp={cx(jsStyles.helperText(theme), {
                 [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
               })}
               text={inputValue}

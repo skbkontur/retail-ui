@@ -1,6 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
-import { Theme } from 'react-ui/lib/theming/Theme';
 
 import { DEFAULT_THEME_OLD as defaultVariables } from '../../lib/theming/themes/DefaultThemeOld';
 import { FLAT_THEME_OLD as flatVariables } from '../../lib/theming/themes/FlatThemeOld';
@@ -11,6 +9,8 @@ import { Sticky } from '../../components/Sticky';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../components/Tooltip';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
+import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
 import {
   ALL_USED_VARIABLES,
@@ -160,7 +160,7 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
         <Sticky side={'top'} offset={40}>
           {(isSticky) => (
             <h2
-              className={cn({
+              className={cx({
                 [jsStyles.heading()]: true,
                 [jsStyles.headingSticky()]: isSticky,
               })}
@@ -172,10 +172,18 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
         <table className={jsStyles.table()}>
           <thead>
             <tr>
-              <th style={{ width: 170 }}>ClassName</th>
-              <th style={{ width: 210 }}>Variable Name</th>
-              <th style={{ width: 250 }}>Default Value</th>
-              <th style={{ width: 250 }}>Flat Value</th>
+              <th className={jsStyles.headerCell()} style={{ width: 170 }}>
+                ClassName
+              </th>
+              <th className={jsStyles.headerCell()} style={{ width: 210 }}>
+                Variable Name
+              </th>
+              <th className={jsStyles.headerCell()} style={{ width: 250 }}>
+                Default Value
+              </th>
+              <th className={jsStyles.headerCell()} style={{ width: 250 }}>
+                Flat Value
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -210,7 +218,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
     return (
       <React.Fragment>
         <tr className={jsStyles.invisibleRow()}>
-          <td rowSpan={rowSpan}>
+          <td className={cx(jsStyles.cell(), jsStyles.majorCell())} rowSpan={rowSpan}>
             <span className={jsStyles.elementName()}>.{el}</span>
           </td>
           <td className={jsStyles.invisibleCell()} />
@@ -224,18 +232,18 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
-            <tr key={`${el}_${varName}`} className={cn({ [jsStyles.suspiciousRow()]: hasNoVariables })}>
-              <td>
+            <tr key={`${el}_${varName}`} className={cx(jsStyles.row(), { [jsStyles.suspiciousRow()]: hasNoVariables })}>
+              <td className={jsStyles.cell()}>
                 <VariableName
                   variableName={varName as string}
                   dependencies={dependencies}
                   onVariableSelect={this.props.onVariableSelect}
                 />
               </td>
-              <td>
+              <td className={jsStyles.cell()}>
                 <VariableValue value={variableDefault} />
               </td>
-              <td>
+              <td className={jsStyles.cell()}>
                 <VariableValue value={variableFlat} />
               </td>
             </tr>
@@ -341,7 +349,7 @@ const VariableValue = (props: { value: string }) => {
   }
 
   return (
-    <span className={cn({ [jsStyles.undefined()]: !value })}>
+    <span className={cx({ [jsStyles.undefined()]: !value })}>
       {hasExample && <span className={jsStyles.colorExample()} style={{ background: value, borderColor }} />}
       {value || 'undefined'}
     </span>

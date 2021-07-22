@@ -1,24 +1,21 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root(t: Theme) {
-    const disabled = cssName(styles.disabled(t));
     const handleWidthWithBorders = t.toggleHeight;
     const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       display: inline-flex;
       cursor: pointer;
 
-      &:hover:not(${disabled}) {
-        ${cssName(styles.handle(t))} {
-          background: ${t.toggleBgHover};
-        }
+      &:hover [data-handle] {
+        background: ${t.toggleBgHover};
       }
-      &:active:not(${disabled}) ${cssName(styles.handle(t))} {
+      &:active [data-handle] {
         width: ${handleActiveWidth};
       }
-      &:active:not(${disabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
+      &:active input:checked ~ [data-handle] {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
       }
@@ -41,6 +38,14 @@ const styles = {
     `;
   },
 
+  handleDisabled(t: Theme) {
+    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
+    return css`
+      background: ${t.toggleBg} !important; // override root hover/active styles
+      width: ${handleSize} !important; // override root active styles
+    `;
+  },
+
   input(t: Theme) {
     const handleWidthWithBorders = t.toggleHeight;
     return css`
@@ -50,16 +55,20 @@ const styles = {
       &:focus {
         outline: none;
       }
-      &:checked ~ ${cssName(styles.container(t))} {
+      &:checked ~ [data-container] {
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
-      &:checked ~ ${cssName(styles.container(t))} ${cssName(styles.activeBackground())} {
+      &:checked ~ [data-container-loading='true'] {
+        background: ${t.toggleBorderColor};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
+      }
+      &:checked ~ [data-container] [data-background] {
         width: 70%;
         background: ${t.toggleBgChecked};
       }
-      &:checked ~ ${cssName(styles.handle(t))} {
+      &:checked ~ [data-handle] {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
       }
     `;
@@ -78,9 +87,15 @@ const styles = {
     `;
   },
 
+  containerDisabled(t: Theme) {
+    return css`
+      background: ${t.toggleBgDisabled};
+    `;
+  },
+
   focused(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor} !important;
+      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
     `;
   },
 
@@ -96,15 +111,9 @@ const styles = {
     `;
   },
 
-  isLoading(t: Theme) {
+  activeBackgroundLoading(t: Theme) {
     return css`
-      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
-        background: ${t.toggleBorderColor};
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-      }
-      ${cssName(styles.activeBackground())} {
-        background: ${t.toggleBgActive};
-      }
+      background: ${t.toggleBgActive};
     `;
   },
 
@@ -141,17 +150,15 @@ const styles = {
     `;
   },
 
+  wrapperDisabled() {
+    return css`
+      opacity: 0.3;
+    `;
+  },
+
   disabled(t: Theme) {
     return css`
-      cursor: default !important;
-
-      ${cssName(styles.container(t))} {
-        background: ${t.toggleBgDisabled};
-      }
-
-      ${cssName(styles.wrapper(t))} {
-        opacity: 0.3;
-      }
+      cursor: default;
     `;
   },
 

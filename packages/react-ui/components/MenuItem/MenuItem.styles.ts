@@ -41,9 +41,9 @@ const styles = {
   },
   disabled(t: Theme) {
     return css`
-      background: transparent !important;
-      color: ${t.menuItemDisabledColor} !important;
-      cursor: default !important;
+      background: transparent;
+      color: ${t.menuItemDisabledColor};
+      cursor: default;
     `;
   },
   link(t: Theme) {
@@ -58,7 +58,7 @@ const styles = {
   },
   withIcon(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon} !important;
+      padding-left: ${t.menuItemPaddingForIcon};
     `;
   },
   comment(t: Theme) {

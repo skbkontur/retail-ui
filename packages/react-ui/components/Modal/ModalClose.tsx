@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
+import { cx } from '../../lib/theming/Emotion';
 
 import { CloseProps } from './ModalContext';
 import { jsStyles } from './Modal.styles';
@@ -12,7 +12,7 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
 
   return (
     <button
-      className={cn({
+      className={cx({
         [jsStyles.close(theme)]: true,
         [jsStyles.disabled(theme)]: disableClose,
       })}

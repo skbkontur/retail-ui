@@ -1,11 +1,11 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles, jsTokenColors } from './Token.styles';
 
@@ -66,7 +66,7 @@ export class Token extends React.Component<TokenProps> {
 
     const theme = this.theme;
     const validation = error ? 'error' : warning ? 'warning' : null;
-    const disableClassNames = cn(jsTokenColors.defaultDisabled(theme), {
+    const disableClassNames = cx(jsTokenColors.defaultDisabled(theme), {
       [jsTokenColors.defaultDisabledWarning(theme)]: warning,
       [jsTokenColors.defaultDisabledError(theme)]: error,
     });
@@ -81,7 +81,7 @@ export class Token extends React.Component<TokenProps> {
       activeTokenClassName = jsTokenColors[activeClassName](theme, validation);
     }
 
-    const tokenClassNames = cn(jsStyles.token(this.theme), tokenClassName, {
+    const tokenClassNames = cx(jsStyles.token(this.theme), tokenClassName, {
       [activeTokenClassName]: !!isActive,
       [jsStyles.disabled(theme)]: !!disabled,
     });
@@ -98,7 +98,7 @@ export class Token extends React.Component<TokenProps> {
           onBlur={onBlur}
         >
           <span className={jsStyles.text(this.theme)}>{children}</span>
-          <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick}>
+          <span className={jsStyles.removeIcon(this.theme)} onClick={this.onRemoveClick} data-remove-icon>
             <CrossIcon />
           </span>
         </div>

@@ -1,10 +1,10 @@
 import React from 'react';
-import cn from 'classnames';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './MaskedInput.styles';
 
@@ -113,7 +113,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
           style={{ ...style }}
         />
         {this.isMaskVisible() && (
-          <span className={cn(jsStyles.inputMask(this.theme), leftClass)}>
+          <span className={cx(jsStyles.inputMask(this.theme), leftClass)}>
             {leftHelper}
             {rightHelper}
           </span>

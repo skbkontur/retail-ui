@@ -27,12 +27,6 @@ const styles = {
     `;
   },
 
-  withoutLeftSide() {
-    return css`
-      padding-left: 10px;
-    `;
-  },
-
   rightSide() {
     return css`
       padding-left: 0;

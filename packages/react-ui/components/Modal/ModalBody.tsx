@@ -1,10 +1,10 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { ModalContext } from './ModalContext';
 import { jsStyles } from './Modal.styles';
@@ -47,7 +47,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
             <ZIndex
               priority={'ModalBody'}
               createStackingContext
-              className={cn({
+              className={cx({
                 [jsStyles.body(this.theme)]: true,
                 [jsStyles.bodyWithoutHeader(this.theme)]: !hasHeader,
                 [jsStyles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,

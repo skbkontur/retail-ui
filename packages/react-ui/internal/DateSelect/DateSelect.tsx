@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
@@ -12,6 +11,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './DateSelect.styles';
 
@@ -161,7 +161,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private renderMain() {
     const { width, disabled } = this.props;
     const rootProps = {
-      className: cn({
+      className: cx({
         [jsStyles.root(this.theme)]: true,
         [jsStyles.disabled()]: Boolean(disabled),
       }),
@@ -173,7 +173,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
         <div data-tid="DateSelect__caption" className={jsStyles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
-            className={cn({
+            className={cx({
               [jsStyles.arrow(this.theme)]: true,
               [jsStyles.arrowDisabled()]: Boolean(disabled),
             })}
@@ -232,7 +232,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
 
     for (let i = from; i < to; ++i) {
       const disableItems = this.disableItems(i) || false;
-      const className = cn({
+      const className = cx({
         [jsStyles.menuItem(this.theme)]: true,
         [jsStyles.menuItemSelected(this.theme)]: i === 0,
         [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
@@ -272,7 +272,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       top: -shift,
     };
 
-    const holderClass = cn({
+    const holderClass = cx({
       [jsStyles.menuHolder(this.theme)]: true,
       [jsStyles.isTopCapped()]: this.state.topCapped,
       [jsStyles.isBotCapped()]: this.state.botCapped,
@@ -291,7 +291,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
-                  className={jsStyles.menuUp(this.theme)}
+                  className={cx(jsStyles.menu(this.theme), jsStyles.menuUp())}
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
@@ -311,7 +311,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
               </div>
               {!this.state.botCapped && (
                 <div
-                  className={jsStyles.menuDown(this.theme)}
+                  className={cx(jsStyles.menu(this.theme), jsStyles.menuDown())}
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}

@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
@@ -13,9 +13,7 @@ const styles = {
 
   vertical(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        margin: 0;
-      }
+      margin: 0;
     `;
   },
 };

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { Group } from '../Group';
@@ -9,6 +8,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -82,7 +82,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain() {
-    const listClassName = cn({
+    const listClassName = cx({
       [jsStyles.error(this.theme)]: !!this.props.error,
     });
 
@@ -94,7 +94,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: jsStyles.input(),
     };
 
-    const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
+    const lableClassName = cx(jsStyles.label(), this.getLabelSizeClassName());
 
     return (
       <CommonWrapper {...this.props}>

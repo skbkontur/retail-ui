@@ -1,11 +1,11 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
-import cn from 'classnames';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -41,10 +41,10 @@ function ModalFooter(props: ModalFooterProps) {
 
   const renderContent = (fixed = false) => (
     <div
-      className={cn({
+      className={cx({
         [jsStyles.footer(theme)]: true,
-        [jsStyles.panel(theme)]: Boolean(panel),
         [jsStyles.fixedFooter(theme)]: fixed,
+        [jsStyles.panel(theme)]: Boolean(panel),
       })}
     >
       {children}

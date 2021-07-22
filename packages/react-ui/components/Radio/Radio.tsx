@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Radio.styles';
 
@@ -96,14 +96,17 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       ...rest
     } = props;
 
-    let radioClassNames = cn({
-      [jsStyles.radio(this.theme)]: true,
-      [jsStyles.checked(this.theme)]: this.props.checked,
-      [jsStyles.focus(this.theme)]: this.props.focused,
-      [jsStyles.error(this.theme)]: error,
-      [jsStyles.warning(this.theme)]: warning,
-      [jsStyles.disabled(this.theme)]: disabled,
-    });
+    const radioProps = {
+      className: cx({
+        [jsStyles.radio(this.theme)]: true,
+        [jsStyles.checked(this.theme)]: this.props.checked,
+        [jsStyles.focus(this.theme)]: this.props.focused,
+        [jsStyles.error(this.theme)]: error,
+        [jsStyles.warning(this.theme)]: warning,
+        [jsStyles.disabled(this.theme)]: disabled,
+        [jsStyles.checkedDisabled(this.theme)]: this.props.checked && disabled,
+      }),
+    };
 
     let value: string | number | undefined;
     if (typeof this.props.value === 'string' || typeof this.props.value === 'number') {
@@ -113,7 +116,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: jsStyles.input(),
+      className: jsStyles.input(this.theme),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
@@ -133,13 +136,16 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
-      radioClassNames = cn(radioClassNames, checked && jsStyles.checked(this.theme));
+      radioProps.className = cx(radioProps.className, {
+        [jsStyles.checked(this.theme)]: checked,
+        [jsStyles.checkedDisabled(this.theme)]: checked && disabled,
+      });
     }
 
     return (
       <label {...labelProps}>
         <input {...inputProps} />
-        <span className={radioClassNames}>
+        <span {...radioProps} data-radio>
           <span className={jsStyles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}
@@ -150,7 +156,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderLabel() {
-    const labelClassNames = cn({
+    const labelClassNames = cx({
       [jsStyles.label(this.theme)]: true,
       [jsStyles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
     });

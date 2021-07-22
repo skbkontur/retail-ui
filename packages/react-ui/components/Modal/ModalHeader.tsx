@@ -1,10 +1,10 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
-import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
@@ -33,10 +33,10 @@ function ModalHeader(props: ModalHeaderProps) {
   const renderContent = (fixed = false) => {
     return (
       <div
-        className={cn({
+        className={cx({
           [jsStyles.header(theme)]: true,
-          [jsStyles.fixedHeader(theme)]: fixed,
           [jsStyles.headerAddPadding()]: Boolean(modal.additionalPadding),
+          [jsStyles.fixedHeader(theme)]: fixed,
           [jsStyles.headerWithClose(theme)]: Boolean(modal.close),
         })}
       >

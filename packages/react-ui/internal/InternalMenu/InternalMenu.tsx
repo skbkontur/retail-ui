@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cn from 'classnames';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -10,6 +9,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -108,7 +108,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn({
+        className={cx({
           [jsStyles.root(this.theme)]: true,
           [jsStyles.shadow(this.theme)]: this.props.hasShadow,
         })}
@@ -183,7 +183,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         ref={(el) => (this.header = el)}
-        className={cn({
+        className={cx({
           [jsStyles.header()]: true,
           [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
         })}
@@ -197,7 +197,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         ref={(el) => (this.footer = el)}
-        className={cn({
+        className={cx({
           [jsStyles.footer()]: true,
           [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
         })}

@@ -1,8 +1,8 @@
 import React, { ReactNode, useContext } from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './MenuHeader.styles';
 
@@ -20,7 +20,7 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
   return (
     <CommonWrapper {...rest}>
       <div
-        className={cn({
+        className={cx({
           [jsStyles.root(theme)]: true,
           [jsStyles.withLeftPadding(theme)]: _enableIconPadding,
         })}

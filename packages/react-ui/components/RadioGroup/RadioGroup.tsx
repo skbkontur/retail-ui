@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
-import cn from 'classnames';
 
 import { getRandomID } from '../../lib/utils';
 import { Radio } from '../Radio';
@@ -11,6 +10,7 @@ import { FocusTrap } from '../../internal/FocusTrap';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -249,7 +249,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
-      className: cn({
+      className: cx({
         [jsStyles.item(this.theme)]: true,
         [jsStyles.itemFirst()]: index === 0,
         [jsStyles.itemInline()]: !!this.props.inline,

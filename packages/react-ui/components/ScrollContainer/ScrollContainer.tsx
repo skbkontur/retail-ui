@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './ScrollContainer.styles';
 
@@ -90,7 +90,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     let scroll = null;
 
     if (state.scrollActive) {
-      const scrollClass = cn({
+      const scrollClass = cx({
         [jsStyles.scroll()]: true,
         [jsStyles.scrollInvert()]: Boolean(props.invert),
         [jsStyles.scrollHover()]: state.hover || state.scrolling,

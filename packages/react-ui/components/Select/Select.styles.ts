@@ -38,7 +38,7 @@ const styles = {
 
   customUseArrow() {
     return css`
-      color: inherit !important;
+      color: inherit;
       opacity: 0.7;
     `;
   },

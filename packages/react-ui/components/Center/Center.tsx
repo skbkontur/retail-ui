@@ -1,8 +1,8 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Center.styles';
 
@@ -46,7 +46,7 @@ export class Center extends React.Component<CenterProps> {
     return (
       <div
         {...rest}
-        className={cn({
+        className={cx({
           [jsStyles.root()]: true,
           [jsStyles.rootAlignLeft()]: align === 'left',
           [jsStyles.rootAlignRight()]: align === 'right',

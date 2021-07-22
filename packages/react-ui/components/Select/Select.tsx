@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import cn from 'classnames';
 
 import {
   isKeyArrowDown,
@@ -29,6 +28,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
+import { cx } from '../../lib/theming/Emotion';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -335,11 +335,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const labelProps = {
-      className: cn({
+      className: cx({
         [jsStyles.label()]: this.props.use !== 'link',
         [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
-        [jsStyles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
         [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+        [jsStyles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
         paddingRight: this.getSelectIconGap(),
@@ -354,7 +354,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
-          <div className={cn(jsStyles.arrowWrap(this.theme), useIsCustom && jsStyles.customUseArrow())}>
+          <div className={cx(jsStyles.arrowWrap(this.theme), useIsCustom && jsStyles.customUseArrow())}>
             <ArrowChevronDownIcon />
           </div>
         </div>

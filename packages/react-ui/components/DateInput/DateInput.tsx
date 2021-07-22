@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -11,6 +10,7 @@ import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -216,7 +216,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
-      const iconStyles = cn({
+      const iconStyles = cx({
         [jsStyles.icon(theme)]: true,
         [jsStyles.iconSmall(theme)]: size === 'small',
         [jsStyles.iconMedium(theme)]: size === 'medium',

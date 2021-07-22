@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
-import cn from 'classnames';
 
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -18,6 +17,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -355,7 +355,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             <ZIndex
               ref={this.refPopupElement}
               priority={'Popup'}
-              className={cn({
+              className={cx({
                 [jsStyles.popup(this.theme)]: true,
                 [jsStyles.shadow(this.theme)]: hasShadow,
                 [jsStyles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -14,6 +13,7 @@ import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Kebab.styles';
 
@@ -152,7 +152,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cn({
+        className={cx({
           [jsStyles.kebab(this.theme)]: true,
           [jsStyles.opened(this.theme)]: captionProps.opened,
           [jsStyles.disabled(this.theme)]: disabled,
@@ -215,7 +215,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon() {
     return (
       <div
-        className={cn({
+        className={cx({
           [jsStyles.icon()]: true,
           [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
           [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',

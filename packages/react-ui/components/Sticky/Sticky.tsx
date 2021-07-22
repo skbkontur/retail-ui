@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
-import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Sticky.styles';
 
@@ -117,7 +117,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
-            className={cn(jsStyles.inner(), {
+            className={cx(jsStyles.inner(), {
               [jsStyles.fixed()]: fixed && !stopped,
               [jsStyles.stopped()]: stopped,
             })}

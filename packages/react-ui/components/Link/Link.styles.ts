@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import { linkMixin, linkDisabledMixin, linkUseColorsMixin } from './Link.mixins';
@@ -62,14 +62,15 @@ const styles = {
     `;
   },
 
+  useGrayedFocus(t: Theme) {
+    return css`
+      color: ${t.linkDisabledColor};
+    `;
+  },
+
   focus(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
-      ${cssName(styles.useGrayed(t))}& {
-        color: ${t.linkDisabledColor};
-      }
+      text-decoration: ${t.linkHoverTextDecoration};
     `;
   },
 
@@ -77,12 +78,10 @@ const styles = {
     return css`
       ${linkDisabledMixin()};
 
-      ${cssName(styles.root(t))}& {
-        color: ${t.linkDisabledColor};
+      color: ${t.linkDisabledColor};
 
-        &:hover {
-          color: ${t.linkDisabledColor};
-        }
+      &:hover {
+        color: ${t.linkDisabledColor};
       }
     `;
   },

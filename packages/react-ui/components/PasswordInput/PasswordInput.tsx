@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -11,6 +10,7 @@ import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './PasswordInput.styles';
 
@@ -157,10 +157,10 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
 
     return (
       <span className={jsStyles.iconWrapper()}>
-        {capsLockEnabled && <span className={jsStyles.capsLockDetector()} />}
+        {capsLockEnabled && <span className={jsStyles.capsLockDetector()} data-tid="PasswordInputCapsLockDetector" />}
         <span
           data-tid="PasswordInputEyeIcon"
-          className={cn(jsStyles.toggleVisibility(), this.getEyeWrapperClassname())}
+          className={cx(jsStyles.toggleVisibility(), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
           {this.state.visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />}

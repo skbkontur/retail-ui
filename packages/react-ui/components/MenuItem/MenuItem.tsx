@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './MenuItem.styles';
 
@@ -86,7 +86,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={jsStyles.icon(this.theme)}>{icon}</div>;
     }
 
-    const className = cn({
+    const className = cx({
       [jsStyles.root(this.theme)]: true,
       [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
@@ -119,7 +119,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {this.props.comment && (
           <div
             data-tid="MenuItem__comment"
-            className={cn({
+            className={cx({
               [jsStyles.comment(this.theme)]: true,
               [jsStyles.commentHover(this.theme)]: hover,
             })}

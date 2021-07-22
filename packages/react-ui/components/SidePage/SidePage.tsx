@@ -1,6 +1,5 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
-import cn from 'classnames';
 import FocusLock from 'react-focus-lock';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -15,6 +14,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isIE11 } from '../../lib/client';
+import { cx } from '../../lib/theming/Emotion';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -180,7 +180,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ZIndex
         priority={'Sidepage'}
         data-tid="SidePage__root"
-        className={cn({
+        className={cx({
           [jsStyles.root()]: true,
           [jsStyles.leftSide(this.theme)]: Boolean(fromLeft),
         })}
@@ -191,7 +191,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <RenderLayer onClickOutside={this.handleClickOutside} active>
           <div
             data-tid="SidePage__container"
-            className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
+            className={cx(jsStyles.wrapper(this.theme), {
+              [jsStyles.shadow(this.theme)]: this.state.hasShadow,
+              [jsStyles.wrapperLeft()]: fromLeft,
+            })}
             style={this.getSidebarStyle()}
           >
             <FocusLock disabled={disableFocusLock} autoFocus={false}>
@@ -235,7 +238,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <HideBodyVerticalScroll key="hbvs" />
         <div
           key="overlay"
-          className={cn({
+          className={cx({
             [jsStyles.background()]: true,
             [jsStyles.backgroundGray(this.theme)]: this.state.hasBackground,
           })}

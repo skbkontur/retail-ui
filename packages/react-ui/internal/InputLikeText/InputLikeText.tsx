@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
@@ -11,6 +10,7 @@ import { jsStyles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -148,20 +148,19 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const leftSide = this.renderLeftSide();
     const rightSide = this.renderRightSide();
 
-    const className = cn(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
-      [jsInputStyles.borderless()]: !!borderless,
-      [jsStyles.withoutLeftSide()]: !leftSide,
+    const className = cx(jsStyles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
       [jsInputStyles.focus(this.theme)]: focused,
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
       [jsInputStyles.error(this.theme)]: !!error,
-      [jsInputStyles.disabled(this.theme)]: !!disabled,
       [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
       [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
       [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
+      [jsInputStyles.disabled(this.theme)]: !!disabled,
+      [jsInputStyles.borderless()]: !!borderless,
     });
 
-    const wrapperClass = cn(jsInputStyles.wrapper(), {
+    const wrapperClass = cx(jsInputStyles.wrapper(), {
       [jsStyles.userSelectContain()]: focused,
     });
 
@@ -180,7 +179,13 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         <input type="hidden" value={value} />
         {leftSide}
         <span className={wrapperClass}>
-          <span data-tid="InputLikeText__input" className={cn(jsStyles.input(), jsInputStyles.input(this.theme))}>
+          <span
+            data-tid="InputLikeText__input"
+            className={cx(jsStyles.input(), jsInputStyles.input(this.theme), {
+              [jsInputStyles.inputFocus(this.theme)]: focused,
+              [jsInputStyles.inputDisabled(this.theme)]: disabled,
+            })}
+          >
             {this.props.children}
           </span>
           {this.renderPlaceholder()}
@@ -216,33 +221,46 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       return null;
     }
 
-    if (icon instanceof Function) {
-      return <span className={cn(jsInputStyles.icon(), className)}>{icon()}</span>;
-    }
+    const { disabled } = this.props;
+    const iconNode = icon instanceof Function ? icon() : icon;
 
     return (
-      <span className={cn(jsInputStyles.icon(), className, jsInputStyles.useDefaultColor(this.theme))}>{icon}</span>
+      <span
+        className={cx(jsInputStyles.icon(), className, jsInputStyles.useDefaultColor(this.theme), {
+          [jsInputStyles.iconDisabled()]: disabled,
+        })}
+      >
+        {iconNode}
+      </span>
     );
   };
 
   private renderPrefix = (): JSX.Element | null => {
-    const { prefix } = this.props;
+    const { prefix, disabled } = this.props;
 
     if (!prefix) {
       return null;
     }
 
-    return <span className={jsInputStyles.prefix(this.theme)}>{prefix}</span>;
+    return (
+      <span className={cx(jsInputStyles.prefix(this.theme), { [jsInputStyles.prefixDisabled(this.theme)]: disabled })}>
+        {prefix}
+      </span>
+    );
   };
 
   private renderSuffix = (): JSX.Element | null => {
-    const { suffix } = this.props;
+    const { suffix, disabled } = this.props;
 
     if (!suffix) {
       return null;
     }
 
-    return <span className={jsInputStyles.suffix(this.theme)}>{suffix}</span>;
+    return (
+      <span className={cx(jsInputStyles.suffix(this.theme), { [jsInputStyles.suffixDisabled(this.theme)]: disabled })}>
+        {suffix}
+      </span>
+    );
   };
 
   private renderLeftSide = (): JSX.Element | null => {
@@ -270,7 +288,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
 
     return (
-      <span className={cn(jsInputStyles.sideContainer(), jsInputStyles.rightContainer())}>
+      <span className={cx(jsInputStyles.sideContainer(), jsInputStyles.rightContainer())}>
         {rightIcon}
         {suffix}
       </span>
@@ -278,10 +296,20 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private renderPlaceholder = (): JSX.Element | null => {
-    const { children, placeholder } = this.props;
+    const { children, placeholder, disabled } = this.props;
+    const { focused } = this.state;
 
     if (!children && placeholder) {
-      return <span className={jsInputStyles.placeholder(this.theme)}>{placeholder}</span>;
+      return (
+        <span
+          className={cx(jsInputStyles.placeholder(this.theme), {
+            [jsInputStyles.placeholderDisabled(this.theme)]: disabled,
+            [jsInputStyles.placeholderFocus(this.theme)]: focused,
+          })}
+        >
+          {placeholder}
+        </span>
+      );
     }
     return null;
   };
@@ -412,21 +440,21 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private getSizeClassName = () => {
     switch (this.props.size) {
       case 'large':
-        return {
+        return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,
           [jsInputStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
-        };
+        });
       case 'medium':
-        return {
+        return cx({
           [jsInputStyles.sizeMedium(this.theme)]: true,
           [jsInputStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
-        };
+        });
       case 'small':
       default:
-        return {
+        return cx({
           [jsInputStyles.sizeSmall(this.theme)]: true,
           [jsInputStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
-        };
+        });
     }
   };
 }

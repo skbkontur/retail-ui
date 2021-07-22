@@ -1,7 +1,6 @@
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
-import cn from 'classnames';
 import raf from 'raf';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
@@ -15,6 +14,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isBrowser, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { cx } from '../../lib/theming/Emotion';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { jsStyles } from './Textarea.styles';
@@ -330,7 +330,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       },
     };
 
-    const textareaClassNames = cn({
+    const textareaClassNames = cx({
       [jsStyles.textarea(this.theme)]: true,
       [jsStyles.error(this.theme)]: !!error,
       [jsStyles.warning(this.theme)]: !!warning,
@@ -352,7 +352,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       const fakeProps = {
         value: this.props.value,
         defaultValue: this.props.defaultValue,
-        className: cn(textareaClassNames, jsStyles.fake()),
+        className: cx(textareaClassNames, jsStyles.fake()),
         readOnly: true,
       };
       fakeTextarea = <textarea {...fakeProps} ref={this.refFake} />;

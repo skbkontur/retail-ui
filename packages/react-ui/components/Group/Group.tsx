@@ -1,12 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Group.styles';
 
@@ -50,7 +50,7 @@ export class Group extends React.Component<GroupProps> {
             }
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
-            const itemCss = cn({
+            const itemCss = cx({
               [jsStyles.item()]: true,
               [jsStyles.itemFirst()]: child === first,
             });
@@ -69,7 +69,7 @@ export class Group extends React.Component<GroupProps> {
 
             return (
               <div
-                className={cn({
+                className={cx({
                   [jsStyles.fixed()]: !isWidthInPercent,
                   [jsStyles.stretch()]: isWidthInPercent,
                   [jsStyles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),

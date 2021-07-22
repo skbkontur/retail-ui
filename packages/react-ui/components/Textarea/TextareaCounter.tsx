@@ -1,10 +1,10 @@
 import React, { SyntheticEvent, useEffect, useContext, useCallback, useImperativeHandle, useState } from 'react';
-import cn from 'classnames';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
+import { cx } from '../../lib/theming/Emotion';
 
 import { TextareaProps } from './Textarea';
 import { jsStyles } from './Textarea.styles';
@@ -51,7 +51,7 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   return (
     <div className={jsStyles.counterContainer(theme)} style={{ width, height }}>
       <span
-        className={cn(jsStyles.counter(theme), {
+        className={cx(jsStyles.counter(theme), {
           [jsStyles.counterError(theme)]: counterValue < 0,
         })}
       >

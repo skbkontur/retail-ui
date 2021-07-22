@@ -1,7 +1,6 @@
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
-import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -11,6 +10,7 @@ import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Input.styles';
 
@@ -279,16 +279,16 @@ export class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
-        [jsStyles.borderless()]: !!borderless,
+      className: cx(jsStyles.root(this.theme), this.getSizeClassName(), {
         [jsStyles.focus(this.theme)]: focused,
-        [jsStyles.blink(this.theme)]: !!blinking,
-        [jsStyles.warning(this.theme)]: !!warning,
-        [jsStyles.error(this.theme)]: !!error,
-        [jsStyles.disabled(this.theme)]: !!disabled,
+        [jsStyles.blink(this.theme)]: blinking,
+        [jsStyles.warning(this.theme)]: warning,
+        [jsStyles.error(this.theme)]: error,
         [jsStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-        [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
-        [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
+        [jsStyles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
+        [jsStyles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
+        [jsStyles.borderless()]: borderless && !focused,
+        [jsStyles.disabled(this.theme)]: disabled,
       }),
       style: { width },
       onMouseEnter,
@@ -298,7 +298,10 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: jsStyles.input(this.theme),
+      className: cx(jsStyles.input(this.theme), {
+        [jsStyles.inputFocus(this.theme)]: focused,
+        [jsStyles.inputDisabled(this.theme)]: disabled,
+      }),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -328,7 +331,7 @@ export class Input extends React.Component<InputProps, InputState> {
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cn(jsStyles.sideContainer(), jsStyles.rightContainer())}>
+        <span className={cx(jsStyles.sideContainer(), jsStyles.rightContainer())}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -380,31 +383,32 @@ export class Input extends React.Component<InputProps, InputState> {
     if (!icon) {
       return null;
     }
-
-    if (icon instanceof Function) {
-      return <span className={cn(jsStyles.icon(), sizeClassName)}>{icon()}</span>;
-    }
+    const { disabled } = this.props;
+    const iconNode = icon instanceof Function ? icon() : icon;
 
     return (
       <span
-        className={cn(
-          cn(jsStyles.icon(), sizeClassName),
-          jsStyles.useDefaultColor(this.theme),
-          jsStyles.useDefaultColor(this.theme),
-        )}
+        className={cx(jsStyles.icon(), sizeClassName, jsStyles.useDefaultColor(this.theme), {
+          [jsStyles.iconDisabled()]: disabled,
+        })}
       >
-        {icon}
+        {iconNode}
       </span>
     );
   }
 
   private renderPlaceholder() {
+    const { disabled } = this.props;
+    const { focused } = this.state;
     let placeholder = null;
 
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={cn(jsStyles.placeholder(this.theme), jsStyles.placeholder(this.theme))}
+          className={cx(jsStyles.placeholder(this.theme), {
+            [jsStyles.placeholderDisabled(this.theme)]: disabled,
+            [jsStyles.placeholderFocus(this.theme)]: focused,
+          })}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
@@ -418,21 +422,21 @@ export class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return {
+        return cx({
           [jsStyles.sizeLarge(this.theme)]: true,
           [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
-        };
+        });
       case 'medium':
-        return {
+        return cx({
           [jsStyles.sizeMedium(this.theme)]: true,
           [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
-        };
+        });
       case 'small':
       default:
-        return {
+        return cx({
           [jsStyles.sizeSmall(this.theme)]: true,
           [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
-        };
+        });
     }
   }
 
@@ -521,22 +525,30 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private renderPrefix = () => {
-    const { prefix } = this.props;
+    const { prefix, disabled } = this.props;
 
     if (!prefix) {
       return null;
     }
 
-    return <span className={jsStyles.prefix(this.theme)}>{prefix}</span>;
+    return (
+      <span className={cx(jsStyles.prefix(this.theme), { [jsStyles.prefixDisabled(this.theme)]: disabled })}>
+        {prefix}
+      </span>
+    );
   };
 
   private renderSuffix = () => {
-    const { suffix } = this.props;
+    const { suffix, disabled } = this.props;
 
     if (!suffix) {
       return null;
     }
 
-    return <span className={jsStyles.suffix(this.theme)}>{suffix}</span>;
+    return (
+      <span className={cx(jsStyles.suffix(this.theme), { [jsStyles.suffixDisabled(this.theme)]: disabled })}>
+        {suffix}
+      </span>
+    );
   };
 }

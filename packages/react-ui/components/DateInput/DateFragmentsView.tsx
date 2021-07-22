@@ -1,11 +1,11 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './DateFragmentsView.styles';
 
@@ -55,7 +55,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
   }
 
   private renderSeparator(fragment: InternalDateFragment, index: number): JSX.Element {
-    const separatorClassName = cn({
+    const separatorClassName = cx({
       [jsStyles.mask(this.theme)]: true,
       [jsStyles.delimiterFilled()]: this.props.fragments[index + 1].value !== null,
     });

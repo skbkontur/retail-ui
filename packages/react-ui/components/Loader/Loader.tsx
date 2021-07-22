@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -10,6 +9,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Loader.styles';
 
@@ -139,7 +139,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             <ZIndex
               wrapperRef={this.wrapperRef}
               priority={'Loader'}
-              className={cn({
+              className={cx({
                 [jsStyles.active(this.theme)]: active,
               })}
             >
@@ -158,7 +158,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
+        className={cx(jsStyles.spinnerContainer(), { [jsStyles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
         <div

@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
@@ -72,9 +72,7 @@ const styles = {
 
   alignTop(t: Theme) {
     return css`
-      ${cssName(styles.centerContainer(t))}& {
-        vertical-align: top;
-      }
+      vertical-align: top;
     `;
   },
 
@@ -92,8 +90,8 @@ const styles = {
       color: ${t.modalCloseButtonColor};
       text-align: center;
       vertical-align: middle;
-      padding: ${t.modalCloseButtonClickArea} !important;
-      margin: -${t.modalCloseButtonClickArea} !important;
+      padding: ${t.modalCloseButtonClickArea};
+      margin: -${t.modalCloseButtonClickArea};
 
       &:focus,
       &:hover {
@@ -129,11 +127,9 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      ${cssName(styles.close(t))}& {
-        pointer-events: none;
-        cursor: default;
-        color: ${t.modalCloseButtonDisabledColor};
-      }
+      pointer-events: none;
+      cursor: default;
+      color: ${t.modalCloseButtonDisabledColor};
     `;
   },
 
@@ -182,11 +178,9 @@ const styles = {
 
   panel(t: Theme) {
     return css`
-      ${cssName(styles.footer(t))}& {
-        padding-top: ${t.modalFooterPanelPaddingTop} !important;
-        padding-bottom: ${t.modalFooterPanelPaddingBottom} !important;
-        background: ${t.modalFooterBg} !important;
-      }
+      padding-top: ${t.modalFooterPanelPaddingTop};
+      padding-bottom: ${t.modalFooterPanelPaddingBottom};
+      background: ${t.modalFooterBg};
     `;
   },
 
@@ -211,11 +205,9 @@ const styles = {
 
   fixedFooter(t: Theme) {
     return css`
-      ${cssName(styles.footer(t))}& {
-        padding-top: 20px;
-        margin-top: 10px;
-        background: ${t.modalFixedHeaderBg};
-      }
+      padding-top: 20px;
+      margin-top: 10px;
+      background: ${t.modalFixedHeaderBg};
 
       &:before {
         top: 11px;
@@ -238,13 +230,13 @@ const styles = {
 
   bodyWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${t.modalPaddingTop} !important;
+      padding-top: ${t.modalPaddingTop};
     `;
   },
 
   bodyWithoutPadding() {
     return css`
-      padding: 0 !important;
+      padding: 0;
     `;
   },
 

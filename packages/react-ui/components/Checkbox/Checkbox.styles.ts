@@ -1,4 +1,4 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
@@ -13,28 +13,38 @@ const styles = {
       font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
 
-      &:hover ${cssName(styles.box(t))} {
+      &:hover [data-box] {
         background: ${t.checkboxHoverBg};
         box-shadow: ${t.checkboxShadowHover};
       }
 
-      &:active ${cssName(styles.box(t))} {
+      &:active [data-box] {
         box-shadow: ${t.checkboxShadowActive};
         background: ${t.checkboxActiveBg};
       }
     `;
   },
 
+  rootChecked(t: Theme) {
+    return css`
+      &:hover [data-box] {
+        box-shadow: ${t.checkboxCheckedHoverShadow};
+        background: ${t.checkboxCheckedHoverBg};
+      }
+
+      &:active [data-box] {
+        background: ${t.checkboxCheckedActiveBg};
+        box-shadow: ${t.checkboxCheckedActiveShadow};
+      }
+    `;
+  },
+
   rootFallback() {
     return css`
-      display: inline-table !important;
+      display: inline-table;
 
       & > * {
-        /*
-          fix root's :active state in IE11
-          that gets blocked by nested elements
-        */
-
+        // fix root's :active state in IE11 that gets blocked by nested elements
         pointer-events: none;
       }
     `;
@@ -78,73 +88,40 @@ const styles = {
     `;
   },
 
-  warning(t: Theme) {
+  boxWarning(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorWarning} !important;
-      }
+      box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+        0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorWarning} !important; // override hover and active
     `;
   },
 
-  error(t: Theme) {
+  boxError(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorError} !important;
-      }
+      box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+        0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorError} !important; // override hover and active
     `;
   },
 
-  checked(t: Theme) {
+  boxChecked(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        & ${cssName(styles.box(t))} {
-          background: ${t.checkboxCheckedBg};
-          color: ${t.checkboxCheckedColor};
-          box-shadow: ${t.checkboxCheckedShadow};
-        }
-
-        &:hover ${cssName(styles.box(t))} {
-          box-shadow: ${t.checkboxCheckedHoverShadow};
-          background: ${t.checkboxCheckedHoverBg};
-        }
-
-        &:active ${cssName(styles.box(t))} {
-          background: ${t.checkboxCheckedActiveBg};
-          box-shadow: ${t.checkboxCheckedActiveShadow};
-        }
-      }
+      background: ${t.checkboxCheckedBg};
+      color: ${t.checkboxCheckedColor};
+      box-shadow: ${t.checkboxCheckedShadow};
     `;
   },
 
-  indeterminate(t: Theme) {
+  boxFocus(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        & ${cssName(styles.box(t))} {
-          background: ${t.checkboxBoxIndeterminateBg};
-          color: ${t.checkboxIndeterminateBg};
-          box-shadow: ${t.checkboxCheckedShadow};
-        }
-
-        &:hover ${cssName(styles.box(t))} {
-          box-shadow: ${t.checkboxCheckedHoverShadow};
-          background: ${t.checkboxCheckedHoverBg};
-        }
-        &:active ${cssName(styles.box(t))} {
-          background: ${t.checkboxCheckedActiveBg};
-          box-shadow: ${t.checkboxCheckedActiveShadow};
-        }
-      }
+      box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
+        0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus};
     `;
   },
 
-  focus(t: Theme) {
+  boxDisabled(t: Theme) {
     return css`
-      & ${cssName(styles.box(t))} {
-        box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-          0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus} !important;
-      }
+      box-shadow: ${t.checkboxShadowDisabled} !important; // override hover and active
+      background: ${t.checkboxBgDisabled} !important; // override hover and active
+      color: ${t.checkboxTextColorDisabled};
     `;
   },
 
@@ -152,12 +129,6 @@ const styles = {
     return css`
       color: ${t.checkboxTextColorDisabled};
       cursor: default;
-
-      & ${cssName(styles.box(t))} {
-        box-shadow: ${t.checkboxShadowDisabled} !important; //to override hover and active
-        background: ${t.checkboxBgDisabled} !important;
-        color: ${t.checkboxTextColorDisabled} !important;
-      }
     `;
   },
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
@@ -9,6 +8,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Link.styles';
 
@@ -101,17 +101,20 @@ export class Link extends React.Component<LinkProps, LinkState> {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
+    const focused = !disabled && this.state.focusedByTab;
+
     const linkProps = {
-      className: cn({
+      className: cx({
         [jsStyles.root(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
         [jsStyles.button(this.theme)]: !!_button,
         [jsStyles.buttonOpened()]: !!_buttonOpened,
-        [jsStyles.focus(this.theme)]: !disabled && this.state.focusedByTab,
         [jsStyles.useDefault(this.theme)]: use === 'default',
         [jsStyles.useSuccess(this.theme)]: use === 'success',
         [jsStyles.useDanger(this.theme)]: use === 'danger',
         [jsStyles.useGrayed(this.theme)]: use === 'grayed',
+        [jsStyles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
+        [jsStyles.focus(this.theme)]: focused,
+        [jsStyles.disabled(this.theme)]: !!disabled || !!loading,
       }),
       href,
       rel,

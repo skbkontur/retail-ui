@@ -1,6 +1,5 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
-import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -14,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -200,7 +200,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               data-tid="modal-container"
             >
               <div
-                className={cn({
+                className={cx({
                   [jsStyles.centerContainer(this.theme)]: true,
                   [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
                 })}

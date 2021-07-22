@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cn from 'classnames';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -8,6 +7,7 @@ import { isMenuHeader } from '../../components/MenuHeader';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -109,7 +109,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn({
+        className={cx({
           [jsStyles.root(this.theme)]: true,
           [jsStyles.shadow(this.theme)]: this.props.hasShadow,
         })}

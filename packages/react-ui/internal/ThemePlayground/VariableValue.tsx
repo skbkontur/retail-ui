@@ -2,7 +2,6 @@ import React from 'react';
 import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';
-import cn from 'classnames';
 
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
@@ -10,6 +9,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './Playground.styles';
 
@@ -48,7 +48,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     return (
       <div className={jsStyles.variable(theme)} ref={this.rootRef} tabIndex={0}>
         <div
-          className={cn(jsStyles.variableName(theme), { [jsStyles.deprecated()]: deprecated })}
+          className={cx(jsStyles.variableName(theme), { [jsStyles.deprecated()]: deprecated })}
           title={variable}
         >{`${variable}: `}</div>
         {baseVariables.length > 0 && !this.state.editing ? this.renderBaseVariableLink() : this.renderInputWrapper()}

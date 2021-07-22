@@ -30,7 +30,7 @@ const styles = {
 
   delimiterFilled() {
     return css`
-      color: inherit !important;
+      color: inherit;
     `;
   },
 };

@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
-import cn from 'classnames';
 
 import { DateSelect } from '../DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './MonthView.styles';
 import { themeConfig } from './config';
@@ -81,7 +81,7 @@ export function MonthView(props: MonthViewProps) {
     <div data-tid="MonthView__month" className={jsStyles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
         style={{ top: headerTop }}
-        className={cn({
+        className={cx({
           [jsStyles.header(theme)]: true,
           [jsStyles.headerSticky(theme)]: isHeaderSticky,
         })}
