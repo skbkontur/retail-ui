@@ -477,7 +477,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           <MobileMenuHeader
             caption={this.props.mobileMenuHeaderText}
             onClose={this.close}
-            getHeightOnMount={height => {
+            getHeightOnMount={(height) => {
               this.setState({ mobileMenuHeaderHeight: height });
             }}
             childComponent={search || undefined}

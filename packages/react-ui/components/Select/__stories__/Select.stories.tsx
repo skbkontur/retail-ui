@@ -178,7 +178,7 @@ export const MobileSimple = () => {
 
   return (
     <ThemeContext.Consumer>
-      {theme => {
+      {(theme) => {
         return (
           <ThemeContext.Provider
             value={ThemeFactory.create(

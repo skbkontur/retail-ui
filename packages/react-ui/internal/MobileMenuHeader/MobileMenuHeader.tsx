@@ -38,7 +38,7 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -55,7 +55,7 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
           [jsStyles.withoutBorderRadius()]: this.props.withoutBorderRadius,
           [jsStyles.withShadow(this.theme)]: withShadow,
         })}
-        ref={el => (this.rootDiv = el)}
+        ref={(el) => (this.rootDiv = el)}
       >
         <div className={jsStyles.container()}>
           <div className={jsStyles.closeWrapper()}>

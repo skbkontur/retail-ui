@@ -7,7 +7,7 @@ import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
   beforeAll(() => {
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: false,
         media: query,

@@ -48,7 +48,7 @@ jest.mock('invariant', () => (...args: any[]) => {
 });
 
 const createWrapper = <T extends React.Component>(compName: string, initProps: object = {}) => {
-  window.matchMedia = jest.fn().mockImplementation(query => {
+  window.matchMedia = jest.fn().mockImplementation((query) => {
     return {
       matches: false,
       media: query,
