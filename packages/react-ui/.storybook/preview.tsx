@@ -32,11 +32,11 @@ const customViewports = {
 };
 const themes = { DEFAULT_THEME, FLAT_THEME, DEFAULT_THEME_OLD, FLAT_THEME_OLD };
 
-setFilter(fiber => {
+setFilter((fiber) => {
   // Транслируем все пропы только для контролов
   const isControlComponent = !!findAmongParents(
     fiber,
-    fiberParent => fiberParent.type && typeof fiberParent.type.__KONTUR_REACT_UI__ === 'string',
+    (fiberParent) => fiberParent.type && typeof fiberParent.type.__KONTUR_REACT_UI__ === 'string',
   );
   if (isTestEnv && isControlComponent) {
     return null;
@@ -57,7 +57,7 @@ export const decorators: Meta['decorators'] = [
     }
     return <Story />;
   },
-  Story => (
+  (Story) => (
     <div id="test-element" style={{ display: 'inline-block', padding: 4 }}>
       <Story />
     </div>

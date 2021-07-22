@@ -92,7 +92,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     .add(Actions.MoveSelectionLast, () => this.selectDateComponent(this.iDateMediator.getRightmostType()))
     .add(Actions.Increment, () => this.shiftDateComponent(1))
     .add(Actions.Decrement, () => this.shiftDateComponent(-1))
-    .add(Actions.Digit, e => this.inputValue(e))
+    .add(Actions.Digit, (e) => this.inputValue(e))
     .add(Actions.ClearSelection, () => this.clearSelected())
     .add(Actions.ClearOneChar, () => this.clearOneChar())
     .add(Actions.FullSelection, () => this.fullSelection())
@@ -167,7 +167,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -233,7 +233,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       focused: true,
       selected: this.isMouseDown && !prevState.focused ? prevState.selected : this.iDateMediator.getLeftmostType(),
     }));

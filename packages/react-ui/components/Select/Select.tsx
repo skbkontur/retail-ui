@@ -241,7 +241,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>

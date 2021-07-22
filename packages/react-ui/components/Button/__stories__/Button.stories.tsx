@@ -70,25 +70,13 @@ const combinationTest: CreeveyTests = {
     const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
 
     const page1 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page2 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page3 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page4 = await element().takeScreenshot();
-    await this.browser
-      .actions({ bridge: true })
-      .click(nextPageButton())
-      .perform();
+    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
     const page5 = await element().takeScreenshot();
 
     await this.expect({
@@ -244,8 +232,8 @@ TextStylesReset.storyName = 'text styles reset';
 export const DifferentAligns = () => (
   <ComponentTable
     Component={Button}
-    rows={alignStates.map(x => ({ props: x }))}
-    cols={layoutStates.map(x => ({ props: x }))}
+    rows={alignStates.map((x) => ({ props: x }))}
+    cols={layoutStates.map((x) => ({ props: x }))}
     presetProps={{ width: 200, children: 'Button' }}
   />
 );
@@ -416,19 +404,17 @@ const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'succe
 
 const widthStates = getProps('width', [100, 'auto']);
 
-const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map(x => ({
+const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map((x) => ({
   props: x,
 }));
 
-const contentStates = [
-  { icon: <SearchIcon /> },
-  { children: 'long-long-long text' },
-  { children: <SearchIcon /> },
-].map(x => ({ props: x }));
+const contentStates = [{ icon: <SearchIcon /> }, { children: 'long-long-long text' }, { children: <SearchIcon /> }].map(
+  (x) => ({ props: x }),
+);
 
 function getProps<TKey extends keyof ButtonProps>(
   key: TKey,
   values: Array<ButtonProps[TKey]>,
 ): Array<{ props: Pick<ButtonProps, TKey> }> {
-  return values.map(x => ({ props: { [key]: x } as Pick<ButtonProps, TKey> }));
+  return values.map((x) => ({ props: { [key]: x } as Pick<ButtonProps, TKey> }));
 }
