@@ -3,6 +3,19 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 const scrollSize = 4;
 const hoverScrollSize = 10;
 
+const scrollbarWrapperStyle = css`
+  position: absolute;
+  z-index: 200;
+`;
+
+const scrollbarStyle = css`
+  content: '';
+  display: block;
+  background: #b7b7b7;
+  border-radius: 5px;
+  position: absolute;
+`;
+
 const styles = {
   root() {
     return css`
@@ -19,7 +32,6 @@ const styles = {
       max-height: 100%;
       max-width: 100%;
 
-      /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       margin-bottom: -1px;
       padding-bottom: 1px;
       margin-right: -1px;
@@ -48,20 +60,15 @@ const styles = {
 
   scrollY() {
     return css`
-      position: absolute;
+      ${scrollbarWrapperStyle}
       right: 2px;
       transition: width 0.2s;
       width: ${scrollSize}px;
-      z-index: 200;
 
       &::after {
-        background: #b7b7b7;
-        border-radius: 5px;
+        ${scrollbarStyle}
         bottom: 1px;
-        content: '';
-        display: block;
         left: 0;
-        position: absolute;
         right: 0;
         top: 1px;
       }
@@ -76,21 +83,16 @@ const styles = {
 
   scrollX() {
     return css`
-      position: absolute;
       bottom: 1px;
       transition: height 0.2s;
       height: ${scrollSize}px;
-      z-index: 200;
+      ${scrollbarWrapperStyle}
 
       &::after {
-        background: #b7b7b7;
-        border-radius: 5px;
+        ${scrollbarStyle}
         bottom: 0px;
-        content: '';
-        display: block;
         left: 1px;
         right: 1px;
-        position: absolute;
         top: 0;
       }
     `;

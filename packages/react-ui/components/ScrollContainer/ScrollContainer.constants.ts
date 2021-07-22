@@ -1,4 +1,4 @@
-import { ScrollState } from './ScrollContainer.types';
+import { ScrollState } from './ScrollContainer';
 
 export const MIN_SCROLL_SIZE = 20;
 
@@ -22,16 +22,3 @@ export const defaultScrollXState: ScrollState = {
   // True when scroll is following mouse (mouse down on scroll).
   scrolling: false,
 };
-
-export const scrollSizeParametersNames = {
-  x: {
-    offset: 'offsetWidth',
-    size: 'scrollWidth',
-    pos: 'scrollLeft',
-  },
-  y: {
-    offset: 'offsetHeight',
-    size: 'scrollHeight',
-    pos: 'scrollTop',
-  },
-} as const;

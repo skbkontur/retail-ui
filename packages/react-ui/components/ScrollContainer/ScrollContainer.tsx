@@ -3,20 +3,50 @@ import PropTypes from 'prop-types';
 import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 
-import {
-  ScrollContainerProps,
-  ScrollContainerState,
-  ScrollState,
-  ScrollContainerScrollState,
-} from './ScrollContainer.types';
 import { defaultScrollYState, defaultScrollXState } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
 
-export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
+
+export type ScrollBehaviour = 'auto' | 'smooth';
+
+export interface ScrollContainerProps extends CommonProps {
+  /**
+   * Инвертировать цвет скроллбара
+   * @default false
+   */
+  invert: boolean;
+  maxHeight?: React.CSSProperties['maxHeight'];
+  maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * @default false
+   */
+  preventWindowScroll: boolean;
+  /**
+   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+   * @default 'auto'
+   */
+  scrollBehaviour?: ScrollBehaviour;
+  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+}
+
+export interface ScrollState {
+  active: boolean;
+  hover: boolean;
+  scrolling: boolean;
+  size: number;
+  pos: number;
+  scrollState?: ScrollContainerScrollState;
+}
+
+export type ScrollType = 'x' | 'y';
+
+export class ScrollContainer extends React.Component<ScrollContainerProps, Record<ScrollType, ScrollState>> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public static propTypes = {
@@ -29,10 +59,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   public static defaultProps = {
+    invert: false,
     scrollBehaviour: 'auto',
+    preventWindowScroll: false,
   };
 
-  public state: ScrollContainerState = {
+  public state: Record<ScrollType, ScrollState> = {
     x: { ...defaultScrollXState },
     y: { ...defaultScrollYState },
   };
@@ -144,7 +176,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const styles = {
       className: cn({
         [jsStyles.scrollX()]: true,
-        [jsStyles.scrollInvert()]: Boolean(props.invert),
+        [jsStyles.scrollInvert()]: props.invert,
         [jsStyles.scrollXIndentRight()]: this.state.y.active,
         [jsStyles.scrollXHover()]: state.hover || state.scrolling,
       }),
@@ -168,7 +200,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const styles = {
       className: cn({
         [jsStyles.scrollY()]: true,
-        [jsStyles.scrollInvert()]: Boolean(props.invert),
+        [jsStyles.scrollInvert()]: props.invert,
         [jsStyles.scrollYHover()]: state.hover || state.scrolling,
       }),
       inline: {

@@ -1,7 +1,6 @@
 import React, { CSSProperties } from 'react';
 
-import { ScrollContainerScrollState } from '../ScrollContainer.types';
-import { ScrollContainer } from '../ScrollContainer';
+import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 
@@ -198,7 +197,7 @@ export const WithOnlyCustomHorizontalScroll = () => {
 
   return (
     <div style={wrapper}>
-      <ScrollContainer>
+      <ScrollContainer preventWindowScroll={false}>
         {getItems(5).map((i) => (
           <div style={{ width: 350 }} key={i}>
             {i}
