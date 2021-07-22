@@ -116,16 +116,16 @@ const styles = {
     `;
   },
 
-  bg(t: Theme) {
+  bg() {
     return css`
-      bottom: 0;
+      height: 100%;
       left: 0;
-      position: absolute;
-      right: 0;
+      position: fixed;
       top: 0;
+      width: 100%;
+      z-index: 9999;
       background: #333333;
       opacity: 50%;
-      z-index: 9999;
     `;
   },
 };

@@ -215,12 +215,22 @@ MobileSimple.decorators = [
       style={{
         width: 'calc(100vw - 16px)',
         height: 'calc(100vh - 16px)',
-        backgroundColor: 'lightBlue',
         margin: -8,
         padding: 8,
+        overflow: 'auto',
       }}
     >
-      <Story />
+      <div
+        style={{
+          width: 'calc(150vw - 16px)',
+          height: 'calc(125vh - 16px)',
+          backgroundColor: 'lightBlue',
+          margin: -8,
+          padding: 8,
+        }}
+      >
+        <Story />
+      </div>
     </div>
   ),
 ];

@@ -32,6 +32,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
+import { RenderContainer } from '../../internal/RenderContainer';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -308,16 +309,28 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <>
         <CommonWrapper {...this.props}>
-          <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+          <RenderLayer
+            onClickOutside={this.close}
+            onFocusOutside={this.close}
+            active={this.state.opened && !isMobileLayout}
+          >
             <span className={jsStyles.root(this.theme)} style={style}>
               {button}
-              {!this.props.disabled && this.state.opened && this.renderMenu()}
+              {!this.props.disabled && this.state.opened && this.getMenuWrapper()}
             </span>
           </RenderLayer>
         </CommonWrapper>
-        {isMobileLayout && this.state.opened && <div className={jsStyles.bg(this.theme)} />}
+        {isMobileLayout && this.state.opened && <div onClick={(e) => this.close()} className={jsStyles.bg()} />}
       </>
     );
+  }
+
+  private getMenuWrapper() {
+    if (this.state.isMobileLayout) {
+      return <RenderContainer>{this.renderMenu()}</RenderContainer>;
+    }
+
+    return this.renderMenu();
   }
 
   private renderLabel() {
