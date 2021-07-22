@@ -12,11 +12,28 @@ import {
   getImmediateScrollXState,
   getImmediateScrollYState,
   getScrollSizeParams,
-  getScrollOffset,
+  getScrollYOffset,
 } from './ScrollContainer.helpers';
+
+export interface ScrollState<T> {
+  active: boolean;
+  hover: boolean;
+  scrolling: boolean;
+  size: number;
+  pos: number;
+  scrollState: T;
+}
 
 export type ScrollContainerScrollXState = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
+
+export type ScrollYState = ScrollState<ScrollContainerScrollState>;
+export type ScrollXState = ScrollState<ScrollContainerScrollXState>;
+
+export type ScrollContainerState = {
+  y: ScrollState<ScrollContainerScrollState>;
+  x: ScrollState<ScrollContainerScrollXState>;
+};
 
 export type ScrollBehaviour = 'auto' | 'smooth';
 
@@ -40,23 +57,6 @@ export interface ScrollContainerProps extends CommonProps {
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState, scrollXState: ScrollContainerScrollXState) => void;
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
-
-export interface ScrollState<T> {
-  active: boolean;
-  hover: boolean;
-  scrolling: boolean;
-  size: number;
-  pos: number;
-  scrollState: T;
-}
-
-export type ScrollYState = ScrollState<ScrollContainerScrollState>;
-export type ScrollXState = ScrollState<ScrollContainerScrollXState>;
-
-export type ScrollContainerState = {
-  y: ScrollState<ScrollContainerScrollState>;
-  x: ScrollState<ScrollContainerScrollXState>;
-};
 
 export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -140,23 +140,13 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
    * @public
    * @param {HTMLElement} element
    */
-  public scrollTo(element: HTMLElement) {
+  public scrollTo(element: Nullable<HTMLElement>) {
     if (!element || !this.inner) {
       return;
     }
 
-    const { offsetTop, offsetLeft, scrollWidth, scrollHeight } = element;
-    const { scrollTop, scrollLeft, offsetHeight, offsetWidth } = this.inner;
-
-    this.inner.scrollTop = getScrollOffset(
-      { offset: offsetTop, scrollSize: scrollHeight },
-      { scrollPos: scrollTop, size: offsetHeight },
-    );
-
-    this.inner.scrollLeft = getScrollOffset(
-      { offset: offsetLeft, scrollSize: scrollWidth },
-      { scrollPos: scrollLeft, size: offsetWidth },
-    );
+    this.inner.scrollLeft = element.offsetLeft;
+    this.inner.scrollTop = getScrollYOffset(element, this.inner);
   }
 
   /**

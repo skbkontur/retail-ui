@@ -40,21 +40,19 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   };
 };
 
-export const getScrollOffset = (
-  element: { offset: number; scrollSize: number },
-  inner: { scrollPos: number; size: number },
-) => {
-  const maxScroll = element.offset;
-  if (inner.scrollPos > maxScroll) {
-    return maxScroll;
+export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) => {
+  const elementOffset = element.offsetTop;
+
+  if (container.scrollTop > elementOffset) {
+    return elementOffset;
   }
 
-  const minScroll = element.offset + element.scrollSize - inner.size;
-  if (inner.scrollPos < minScroll) {
-    return minScroll;
+  const offset = elementOffset + element.scrollHeight - container.offsetHeight;
+  if (container.scrollTop < offset) {
+    return offset;
   }
 
-  return inner.scrollPos;
+  return container.scrollTop;
 };
 
 export const getImmediateScrollYState = (inner: Nullable<HTMLElement>): ScrollContainerScrollState => {
