@@ -18,6 +18,42 @@ const wrapperStyle = {
   border: '1px solid #000',
 };
 
+const DynamicContent: React.FC<{
+  state: ScrollContainerScrollState;
+  scroll: (percentage: number) => void;
+  add: () => void;
+  remove: () => void;
+  onChangeState: (y: ScrollContainerScrollState, x: ScrollContainerScrollState) => void;
+}> = ({ children, state, scroll, add, remove, onChangeState }) => {
+  return (
+    <Gapped verticalAlign="top">
+      <div id="test-container" style={{ padding: 10 }}>
+        <Gapped vertical>
+          <div style={wrapperStyle}>
+            <ScrollContainer onScrollStateChange={onChangeState}>{children}</ScrollContainer>
+          </div>
+          <div>scroll state: {state}</div>
+        </Gapped>
+      </div>
+      <button id="add" onClick={add}>
+        Add
+      </button>
+      <button id="remove" onClick={remove}>
+        Remove
+      </button>
+      <button id="scroll0" onClick={() => scroll(0)}>
+        Scroll 0%
+      </button>
+      <button id="scroll50" onClick={() => scroll(50)}>
+        Scroll 50%
+      </button>
+      <button id="scroll100" onClick={() => scroll(100)}>
+        Scroll 100%
+      </button>
+    </Gapped>
+  );
+};
+
 export default { title: 'ScrollContainer' };
 
 export const WithLargeContentHeight = () => {
@@ -113,34 +149,13 @@ export const WithDynamicContent: Story = () => {
     }
   };
   return (
-    <Gapped verticalAlign="top">
-      <div id="test-container" style={{ padding: 10 }}>
-        <Gapped vertical>
-          <div style={wrapperStyle}>
-            <ScrollContainer onScrollStateChange={setState}>
-              {getItems(items).map((i) => (
-                <div key={i} style={{ padding: 12 }}>
-                  {i}
-                </div>
-              ))}
-            </ScrollContainer>
-          </div>
-          <div>scroll state: {state}</div>
-        </Gapped>
-      </div>
-      <button id="add" onClick={add}>
-        Add
-      </button>
-      <button id="remove" onClick={remove}>
-        Remove
-      </button>
-      <button id="scroll50" onClick={() => scroll(50)}>
-        Scroll 50%
-      </button>
-      <button id="scroll100" onClick={() => scroll(100)}>
-        Scroll 100%
-      </button>
-    </Gapped>
+    <DynamicContent state={state} scroll={scroll} add={add} remove={remove} onChangeState={setState}>
+      {getItems(items).map((i) => (
+        <div key={i} style={{ padding: 12 }}>
+          {i}
+        </div>
+      ))}
+    </DynamicContent>
   );
 };
 WithDynamicContent.parameters = {
@@ -189,25 +204,110 @@ WithDynamicContent.parameters = {
 };
 
 export const WithOnlyCustomHorizontalScroll = () => {
-  const wrapper = {
-    width: '200px',
-    height: '150px',
-    border: '1px solid #000',
+  const [state, setState] = React.useState<ScrollContainerScrollState>('left');
+  const [items, setItems] = React.useState(4);
+
+  const add = () => setItems(items + 1);
+  const remove = () => setItems(items > 0 ? items - 1 : 0);
+
+  const scroll = (percentage: number) => {
+    const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+    if (scrollContainer) {
+      scrollContainer.scrollLeft = (scrollContainer.scrollWidth - scrollContainer.clientWidth) * (percentage / 100);
+    }
   };
 
   return (
-    <div style={wrapper}>
-      <ScrollContainer preventWindowScroll={false}>
-        {getItems(5).map((i) => (
-          <div style={{ width: 350 }} key={i}>
-            {i}
-          </div>
-        ))}
-      </ScrollContainer>
-    </div>
+    <DynamicContent state={state} scroll={scroll} add={add} remove={remove} onChangeState={(y, x) => setState(x)}>
+      {getItems(items).map((i) => (
+        <div key={i} style={{ padding: 12, width: 350 }}>
+          {i}
+        </div>
+      ))}
+    </DynamicContent>
   );
 };
 
 WithOnlyCustomHorizontalScroll.story = {
   name: 'with only custom horizontal scroll',
+  parameters: {
+    creevey: {
+      captureElement: '#test-container',
+      tests: {
+        async moveScroll() {
+          const idle = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#scroll50' }))
+            .perform();
+          const scroll50 = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#scroll100' }))
+            .perform();
+          const scroll100 = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#scroll0' }))
+            .perform();
+          const scroll0 = await this.takeScreenshot();
+
+          await this.expect({ idle, scroll50, scroll100, scroll0 }).to.matchImages();
+        },
+
+        async changeContent() {
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#add' }))
+            .perform();
+          const addContent = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#scroll50' }))
+            .perform();
+          const scroll50 = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#scroll100' }))
+            .perform();
+          const scroll100 = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#scroll0' }))
+            .perform();
+          const scroll0 = await this.takeScreenshot();
+
+          await this.browser
+            .actions({
+              bridge: true,
+            })
+            .click(this.browser.findElement({ css: '#remove' }))
+            .perform();
+          const removeContent = await this.takeScreenshot();
+
+          await this.expect({ addContent, scroll50, scroll100, scroll0, removeContent }).to.matchImages();
+        },
+      },
+    },
+  },
 };
