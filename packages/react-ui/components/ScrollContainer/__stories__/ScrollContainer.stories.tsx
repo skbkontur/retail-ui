@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 
+// import { Nullable } from '../../../typings/utility-types';
 import { ScrollContainer, ScrollContainerScrollState, ScrollContainerScrollXState } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
@@ -25,22 +26,12 @@ const DynamicContent: React.FC<{
   remove: () => void;
   onChangeState: (y: ScrollContainerScrollState, x: ScrollContainerScrollXState) => void;
 }> = ({ children, state, scroll, add, remove, onChangeState }) => {
-  const t = React.useRef<ScrollContainer | null>(null);
-
-  console.log(t);
-
-  React.useEffect(() => {
-    t.current?.scrollToRight();
-  }, [t.current]);
-
   return (
     <Gapped verticalAlign="top">
       <div id="test-container" style={{ padding: 10 }}>
         <Gapped vertical>
           <div style={wrapperStyle}>
-            <ScrollContainer ref={t} onScrollStateChange={onChangeState}>
-              {children}
-            </ScrollContainer>
+            <ScrollContainer onScrollStateChange={onChangeState}>{children}</ScrollContainer>
           </div>
           <div>scroll state: {state}</div>
         </Gapped>
@@ -315,6 +306,115 @@ WithOnlyCustomHorizontalScroll.parameters = {
         const removeContent = await this.takeScreenshot();
 
         await this.expect({ addContent, scroll50, scroll100, scroll0, removeContent }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const WithScrollTo: Story = () => {
+  const refScrollContainer = React.useRef<ScrollContainer>(null);
+
+  const countItems = 8;
+
+  const scrollTo = () => refScrollContainer.current?.scrollTo(document.getElementById(`-${countItems - 1}`));
+  const scrollToTop = () => refScrollContainer.current?.scrollToTop();
+  const scrollToLeft = () => refScrollContainer.current?.scrollToLeft();
+  const scrollToRight = () => refScrollContainer.current?.scrollToRight();
+  const scrollToBottom = () => refScrollContainer.current?.scrollToBottom();
+
+  return (
+    <Gapped verticalAlign="top">
+      <div id="test-container" style={wrapperStyle}>
+        <ScrollContainer ref={refScrollContainer}>
+          {getItems(countItems).map((i) => (
+            <div key={i} style={{ display: 'flex', width: 300 }}>
+              <div id={`${i}`} style={{ padding: 12, flexBasis: 150 }}>
+                {-i}
+              </div>
+              <div id={`${-i}`} style={{ padding: 12, flexBasis: 150 }}>
+                {i}
+              </div>
+            </div>
+          ))}
+        </ScrollContainer>
+      </div>
+      <Gapped>
+        <button id="scrollTo" onClick={scrollTo}>
+          scroll to
+        </button>
+        <button id="scrollToTop" onClick={scrollToTop}>
+          scroll to top
+        </button>
+        <button id="scrollToBottom" onClick={scrollToBottom}>
+          scroll to bottom
+        </button>
+        <button id="scrollToLeft" onClick={scrollToLeft}>
+          scroll to left
+        </button>
+        <button id="scrollToRight" onClick={scrollToRight}>
+          scroll to right
+        </button>
+      </Gapped>
+    </Gapped>
+  );
+};
+
+WithScrollTo.parameters = {
+  name: 'with scroll to',
+  creevey: {
+    captureElement: '#test-container',
+    tests: {
+      async scrollTo() {
+        const idle = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scrollTo' }))
+          .perform();
+        const scrollTo = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scrollToTop' }))
+          .perform();
+        const scrollToTop = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scrollToLeft' }))
+          .perform();
+        const scrollToLeft = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scrollToBottom' }))
+          .perform();
+        const scrollToBottom = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scrollToRight' }))
+          .perform();
+        const scrollToRight = await this.takeScreenshot();
+
+        await this.expect({
+          idle,
+          scrollTo,
+          scrollToTop,
+          scrollToBottom,
+          scrollToLeft,
+          scrollToRight,
+        }).to.matchImages();
       },
     },
   },
