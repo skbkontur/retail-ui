@@ -21,4 +21,5 @@ export const defaultScrollXState: ScrollState = {
   hover: false,
   // True when scroll is following mouse (mouse down on scroll).
   scrolling: false,
+  scrollState: 'left',
 };

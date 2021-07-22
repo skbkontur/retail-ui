@@ -52,8 +52,8 @@ const styles = {
       &::after {
         content: '';
         width: 100%;
+        display: block;
         height: ${hoverScrollSize + 2}px;
-        position: absolute;
       }
     `;
   },

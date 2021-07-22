@@ -8,9 +8,9 @@ import { Nullable } from '../../typings/utility-types';
 
 import { defaultScrollYState, defaultScrollXState } from './ScrollContainer.constants';
 import { jsStyles } from './ScrollContainer.styles';
-import { getScrollSizeParams } from './ScrollContainer.helpers';
+import { getScrollSizeParams, getImmediateScrollXState, getImmediateScrollYState } from './ScrollContainer.helpers';
 
-export type ScrollContainerScrollState = 'top' | 'scroll' | 'bottom';
+export type ScrollContainerScrollState = 'left' | 'right' | 'top' | 'scroll' | 'bottom';
 
 export type ScrollBehaviour = 'auto' | 'smooth';
 
@@ -31,7 +31,7 @@ export interface ScrollContainerProps extends CommonProps {
    * @default 'auto'
    */
   scrollBehaviour?: ScrollBehaviour;
-  onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
+  onScrollStateChange?: (scrollYState: ScrollContainerScrollState, scrollXState: ScrollContainerScrollState) => void;
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
@@ -41,7 +41,7 @@ export interface ScrollState {
   scrolling: boolean;
   size: number;
   pos: number;
-  scrollState?: ScrollContainerScrollState;
+  scrollState: ScrollContainerScrollState;
 }
 
 export type ScrollType = 'x' | 'y';
@@ -286,10 +286,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Recor
     }
 
     if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
-      const scrollState = this.getImmediateScrollState();
+      const scrollState = this.getImmediateScrollState('y');
 
       if (scrollState !== state.scrollState) {
-        this.props.onScrollStateChange?.(scrollState);
+        this.props.onScrollStateChange?.(scrollState, this.state.x.scrollState);
       }
 
       this.setStateScrollY({
@@ -314,11 +314,17 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Recor
     }
 
     if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
+      const scrollState = this.getImmediateScrollState('x');
+
+      if (scrollState !== state.scrollState) {
+        this.props.onScrollStateChange?.(this.state.y.scrollState, scrollState);
+      }
+
       this.setStateScrollX({
         active: scrollActive,
         size: scrollSize,
         pos: scrollPos,
-        scrollState: 'scroll',
+        scrollState,
       });
     }
   };
@@ -469,15 +475,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Recor
     }
   }
 
-  private getImmediateScrollState(): ScrollContainerScrollState {
-    if (!this.inner || this.inner.scrollTop === 0) {
-      return 'top';
-    }
-
-    if (this.inner.scrollTop === this.inner.scrollHeight - this.inner.clientHeight) {
-      return 'bottom';
-    }
-
-    return 'scroll';
+  private getImmediateScrollState(axis: ScrollType): ScrollContainerScrollState {
+    return axis === 'y' ? getImmediateScrollYState(this.inner) : getImmediateScrollXState(this.inner);
   }
 }

@@ -1,5 +1,7 @@
+import { Nullable } from '../../typings/utility-types';
+
 import { MIN_SCROLL_SIZE } from './ScrollContainer.constants';
-import { ScrollType } from './ScrollContainer';
+import { ScrollType, ScrollContainerScrollState } from './ScrollContainer';
 
 const scrollSizeParametersNames = {
   x: {
@@ -36,4 +38,28 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: ScrollType) => {
     scrollSize,
     scrollPos,
   };
+};
+
+export const getImmediateScrollYState = (inner: Nullable<HTMLElement>): ScrollContainerScrollState => {
+  if (!inner || inner.scrollTop === 0) {
+    return 'top';
+  }
+
+  if (inner.scrollTop === inner.scrollHeight - inner.clientHeight) {
+    return 'bottom';
+  }
+
+  return 'scroll';
+};
+
+export const getImmediateScrollXState = (inner: Nullable<HTMLElement>): ScrollContainerScrollState => {
+  if (!inner || inner.scrollLeft === 0) {
+    return 'left';
+  }
+
+  if (inner.scrollLeft === inner.scrollWidth - inner.clientWidth) {
+    return 'right';
+  }
+
+  return 'scroll';
 };
