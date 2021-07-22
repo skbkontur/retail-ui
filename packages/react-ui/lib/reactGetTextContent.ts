@@ -7,7 +7,7 @@ export function reactGetTextContent(rootReactNode: React.ReactNode) {
     if (typeof reactNode === 'string' || typeof reactNode === 'number') {
       result += reactNode.toString();
     } else if (Array.isArray(reactNode)) {
-      reactNode.forEach(node => getText(node));
+      reactNode.forEach((node) => getText(node));
     } else if (React.isValidElement(reactNode) && reactNode.props) {
       // @ts-ignore
       const { children } = reactNode.props;

@@ -61,6 +61,7 @@ export class DefaultTheme {
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
   public static specificityLevel = '0';
+  private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
     return this.blueLight;
   }
@@ -311,7 +312,7 @@ export class DefaultTheme {
   public static btnDefaultHoverBg = 'none';
   public static btnDefaultHoverBgStart = '#f2f2f2';
   public static btnDefaultHoverBgEnd = '#dfdfdf';
-  public static btnDefaultActiveBg = '#e1e1e1';
+  public static btnDefaultActiveBg = '#e5e5e5';
   public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.2)';
   public static btnDefaultHoverBorderBottomColor = 'rgba(0, 0, 0, 0.35)';
   public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.2)';
@@ -580,9 +581,13 @@ export class DefaultTheme {
   public static modalCloseLegacyGap = '26px';
   public static modalCloseWrapperLegacyGap = '7px';
   public static modalFixedHeaderBg = '#fff';
-  public static modalFixedHeaderShadow = '0 1px 10px #000000';
-  public static modalFixedFooterShadow = '0 -1px 10px #000000';
-  public static modalFooterBg = '#e9e9e9';
+  public static get modalFixedHeaderShadow() {
+    return this.fixedPanelShadow;
+  }
+  public static get modalFixedFooterShadow() {
+    return this.fixedPanelShadow;
+  }
+  public static modalFooterBg = '#e5e5e5';
   public static modalAdaptiveThreshold = '425px';
   public static modalPaddingTop = '30px';
   public static modalPaddingLeft = '30px';
@@ -600,7 +605,7 @@ export class DefaultTheme {
   public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region SidePage
-  public static sidePageFooterPanelBg = '#e9e9e9';
+  public static sidePageFooterPanelBg = '#e5e5e5';
   public static sidePageBackingBg = '#333';
   public static sidePageBackingBgOpacity = '0.6';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
@@ -614,9 +619,6 @@ export class DefaultTheme {
   public static sidePageFooterPaddingBottom = '20px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
-  }
-  public static get sidePageBorderColor() {
-    return this.borderColorGrayLight;
   }
 
   public static sidePageHeaderFontSize = '22px';
@@ -633,6 +635,12 @@ export class DefaultTheme {
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
   public static sidePageCloseButtonClickAreaX = '10px';
+  public static get sidePageFixedHeaderShadow() {
+    return this.fixedPanelShadow;
+  }
+  public static get sidePageFixedFooterShadow() {
+    return this.fixedPanelShadow;
+  }
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
@@ -757,6 +765,7 @@ export class DefaultTheme {
   public static hintPaddingY = '6px';
   public static hintPaddingX = '8px';
   public static hintTextAlign = 'center';
+  public static hintBgColor = 'rgba(51, 51, 51, 0.8)';
   public static get hintBorder() {
     return this.popupBorder;
   }
@@ -786,8 +795,8 @@ export class DefaultTheme {
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
-  public static get dropdownMenuHoverBg() //deprecated
-  {
+  public static get dropdownMenuHoverBg() {
+    //deprecated
     return this.bgActive;
   }
   //#endregion
@@ -810,10 +819,12 @@ export class DefaultTheme {
   public static menuItemIconLegacyMargin = '7px';
   public static menuItemIconLegacyShift = '-1px';
   public static get menuItemPaddingForIcon() {
-    return `${parseInt(this.menuItemPaddingX) +
+    return `${
+      parseInt(this.menuItemPaddingX) +
       parseInt(this.menuItemIconWidth) +
       parseInt(this.menuItemIconGap) +
-      parseInt(this.menuItemIconLegacyMargin)}px`;
+      parseInt(this.menuItemIconLegacyMargin)
+    }px`;
   }
   public static menuItemLineHeight = '18px';
   public static get menuItemFontSize() {

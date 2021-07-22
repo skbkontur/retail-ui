@@ -23,4 +23,5 @@ const createKeyDescription = () =>
       };
 
 export const getKeyName = () => getKeyDescription().name;
-export const checkKeyPressed = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) => getKeyDescription().checkPressed(event);
+export const checkKeyPressed = (event: KeyboardEvent | React.KeyboardEvent<HTMLElement>) =>
+  getKeyDescription().checkPressed(event);

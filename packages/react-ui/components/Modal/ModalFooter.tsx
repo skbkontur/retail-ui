@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 import cn from 'classnames';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
@@ -27,11 +27,17 @@ export interface ModalFooterProps extends CommonProps {
 function ModalFooter(props: ModalFooterProps) {
   const { sticky = true, panel, children } = props;
   const theme = useContext(ThemeContext);
-  const [scrollbarWidth, setScrollBarWidth] = useState(0);
+  const modal = useContext(ModalContext);
 
   useEffect(() => {
-    setScrollBarWidth(getScrollWidth());
-  }, []);
+    modal.setHasFooter?.();
+    modal.setHasPanel?.(panel);
+
+    return () => {
+      modal.setHasFooter?.(false);
+      modal.setHasPanel?.(false);
+    };
+  }, [panel]);
 
   const renderContent = (fixed = false) => (
     <div
@@ -48,19 +54,13 @@ function ModalFooter(props: ModalFooterProps) {
   return (
     <CommonWrapper {...props}>
       <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
-        <ModalContext.Consumer>
-          {({ horizontalScroll }) => {
-            if (sticky) {
-              return (
-                <Sticky side="bottom" offset={horizontalScroll ? scrollbarWidth : 0}>
-                  {renderContent}
-                </Sticky>
-              );
-            }
-
-            return renderContent();
-          }}
-        </ModalContext.Consumer>
+        {sticky ? (
+          <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
+            {renderContent}
+          </Sticky>
+        ) : (
+          renderContent()
+        )}
       </ZIndex>
     </CommonWrapper>
   );

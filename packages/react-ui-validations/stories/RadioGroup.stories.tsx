@@ -40,8 +40,8 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
             <RadioGroup<RadioGroupStoryState['sex']>
               value={this.state.sex}
               items={['male', 'female'] as Sex[]}
-              renderItem={x => <span>{x}</span>}
-              onValueChange={value => this.setState({ sex: value })}
+              renderItem={(x) => <span>{x}</span>}
+              onValueChange={(value) => this.setState({ sex: value })}
             />
           </ValidationWrapper>
           <div style={{ padding: '100px 0' }}>
@@ -77,7 +77,7 @@ class RadioGroupChildrenStory extends React.Component<{}, RadioGroupStoryState> 
           <ValidationWrapper validationInfo={this.validateSex()}>
             <RadioGroup<RadioGroupStoryState['sex']>
               value={this.state.sex}
-              onValueChange={value => this.setState({ sex: value })}
+              onValueChange={(value) => this.setState({ sex: value })}
             >
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 <Radio value={'male'}>male</Radio>

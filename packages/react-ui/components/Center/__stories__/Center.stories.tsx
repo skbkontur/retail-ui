@@ -9,4 +9,4 @@ export const Simple = () => (
     <Center>Hola</Center>
   </div>
 );
-Simple.story = { name: 'simple' };
+Simple.storyName = 'simple';

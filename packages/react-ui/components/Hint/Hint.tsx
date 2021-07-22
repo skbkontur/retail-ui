@@ -12,7 +12,6 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './Hint.styles';
 
-const HINT_BACKGROUND_COLOR = 'rgba(51, 51, 51, 0.8)';
 const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps extends CommonProps {
@@ -105,7 +104,7 @@ export class Hint extends React.Component<HintProps, HintState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <ThemeContext.Provider
@@ -135,7 +134,7 @@ export class Hint extends React.Component<HintProps, HintState> {
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}
-          backgroundColor={HINT_BACKGROUND_COLOR}
+          backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
           disableAnimations={this.props.disableAnimations}
           onMouseEnter={this.handleMouseEnter}
@@ -166,7 +165,7 @@ export class Hint extends React.Component<HintProps, HintState> {
   }
 
   private getPositions = (): PopupPosition[] => {
-    return Positions.filter(x => x.startsWith(this.props.pos));
+    return Positions.filter((x) => x.startsWith(this.props.pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

@@ -15,58 +15,55 @@ export const ButtonAndText = () => (
     <Button>Ok</Button> Simple text
   </div>
 );
-ButtonAndText.story = { name: 'Button and text' };
+ButtonAndText.storyName = 'Button and text';
 
 export const MediumButtonAndText = () => (
   <div>
     <Button size="medium">yay</Button> Simple text
   </div>
 );
-MediumButtonAndText.story = { name: 'Medium Button and text' };
+MediumButtonAndText.storyName = 'Medium Button and text';
 
 export const LargeButtonAndText = () => (
   <div>
     <Button size="large">Yay</Button> Simple text
   </div>
 );
-LargeButtonAndText.story = { name: 'Large Button and text' };
+LargeButtonAndText.storyName = 'Large Button and text';
 
 export const ButtonAndLink = () => (
   <div>
     <Button>Ok</Button> <Link>Ok</Link>
   </div>
 );
-ButtonAndLink.story = { name: 'Button and link' };
+ButtonAndLink.storyName = 'Button and link';
 
 export const InputAndText = () => (
   <div>
     <Input /> Plain text
   </div>
 );
-InputAndText.story = { name: 'Input and text' };
+InputAndText.storyName = 'Input and text';
 
 export const ButtonWithoutContentInFlex = () => (
   <div style={{ display: 'flex', alignItems: 'baseline' }}>
     <Button /> Plain text
   </div>
 );
-ButtonWithoutContentInFlex.story = {
-  name: 'Button without content in flex-container',
-  parameters: { creevey: { skip: [true] } },
-};
+ButtonWithoutContentInFlex.storyName = 'Button without content in flex-container';
+ButtonWithoutContentInFlex.parameters = { creevey: { skip: [true] } };
 
 export const ButtonWithContentInFlex = () => (
   <div style={{ display: 'flex', alignItems: 'baseline' }}>
     <Button>Hello</Button> Plain text
   </div>
 );
-ButtonWithContentInFlex.story = {
-  name: 'Button with content in flex-container',
-  parameters: { creevey: { skip: [true] } },
-};
+ButtonWithContentInFlex.storyName = 'Button with content in flex-container';
+ButtonWithContentInFlex.parameters = { creevey: { skip: [true] } };
 
 export const InputWithButton = () => <SimpleForm />;
-InputWithButton.story = { name: 'Input with button', parameters: { creevey: { skip: [true] } } };
+InputWithButton.storyName = 'Input with button';
+InputWithButton.parameters = { creevey: { skip: [true] } };
 
 export const TextInputInputLikeText = () => (
   <div>
@@ -82,7 +79,7 @@ export const TextInputInputLikeText = () => (
     />
   </div>
 );
-TextInputInputLikeText.story = { name: 'Text, Input, InputLikeText' };
+TextInputInputLikeText.storyName = 'Text, Input, InputLikeText';
 
 export const TextLargeInput = () => (
   <div>
@@ -90,7 +87,7 @@ export const TextLargeInput = () => (
     <Input size="large" value="Large Input" width={120} />
   </div>
 );
-TextLargeInput.story = { name: 'Text, Large Input' };
+TextLargeInput.storyName = 'Text, Large Input';
 
 export const TextButtons = () => (
   <div>
@@ -99,7 +96,7 @@ export const TextButtons = () => (
     <Button size="medium">Medium</Button>
   </div>
 );
-TextButtons.story = { name: 'Text, Buttons' };
+TextButtons.storyName = 'Text, Buttons';
 
 export const TextLargeButton = () => (
   <div>
@@ -107,7 +104,7 @@ export const TextLargeButton = () => (
     <Button size="large">Large</Button>
   </div>
 );
-TextLargeButton.story = { name: 'Text, Large Button' };
+TextLargeButton.storyName = 'Text, Large Button';
 
 export const TextSpinner = () => (
   <div>
@@ -115,7 +112,7 @@ export const TextSpinner = () => (
     <Spinner type="mini" />
   </div>
 );
-TextSpinner.story = { name: 'Text, Spinner' };
+TextSpinner.storyName = 'Text, Spinner';
 
 export const IconSpinner = () => (
   <div>
@@ -123,7 +120,7 @@ export const IconSpinner = () => (
     <Spinner type="mini" />
   </div>
 );
-IconSpinner.story = { name: 'Icon, Spinner' };
+IconSpinner.storyName = 'Icon, Spinner';
 
 export const Checkboxes = () => (
   <div>
@@ -134,7 +131,7 @@ export const Checkboxes = () => (
     <Checkbox initialIndeterminate /> sit.
   </div>
 );
-Checkboxes.story = { name: 'Checkbox' };
+Checkboxes.storyName = 'Checkbox';
 
 class SimpleForm extends React.Component<any, any> {
   public state = {
@@ -146,12 +143,12 @@ class SimpleForm extends React.Component<any, any> {
     return (
       <div>
         <form
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             this.setState({ isFormSubmitted: true });
           }}
         >
-          <Input id="test-input" onValueChange={value => this.setState({ value })} />
+          <Input id="test-input" onValueChange={(value) => this.setState({ value })} />
           <Button type="submit">Click</Button>
         </form>
         {this.state.isFormSubmitted && <span id="test-input-value">{this.state.value}</span>}

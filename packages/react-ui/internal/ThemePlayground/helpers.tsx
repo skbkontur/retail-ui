@@ -8,9 +8,9 @@ export const getComponentsFromPropsList = <P extends {}>(component: React.ReactE
     // @ts-ignore
     const isCheckbox = component.type === Checkbox;
     if (isCheckbox) {
-      const checkboxProps = (props as unknown) as { ref: (el: Checkbox) => void; focused?: boolean };
+      const checkboxProps = props as unknown as { ref: (el: Checkbox) => void; focused?: boolean };
       if (checkboxProps.focused) {
-        checkboxProps.ref = el => {
+        checkboxProps.ref = (el) => {
           if (el) {
             el.setState({ focusedByTab: true });
           }

@@ -143,4 +143,4 @@ export default { title: 'HideBodyVerticalScroll', parameters: { creevey: { skip:
 
 export const Simple = () => <Example />;
 export const WithPageResize = () => <Example2 />;
-WithPageResize.story = { name: 'With page resize' };
+WithPageResize.storyName = 'With page resize';

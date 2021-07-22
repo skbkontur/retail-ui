@@ -33,15 +33,13 @@ describe('', () => {
     });
 
     describe('external hrefs', () => {
-      it.each([
-        ['https://example.com:8080/home'],
-        ['http://example.com'],
-        ['//example.com/'],
-        ['HTTP://EXAMPLE.COM']
-      ])('%s', href => {
-        const wrapper = mount(<Link href={href} />);
-        expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
-      });
+      it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
+        '%s',
+        (href) => {
+          const wrapper = mount(<Link href={href} />);
+          expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
+        },
+      );
     });
 
     describe('internal hrefs', () => {
@@ -54,7 +52,7 @@ describe('', () => {
         ['../home'],
         ['page.html'],
         ['#anchor'],
-      ])('%s', href => {
+      ])('%s', (href) => {
         const wrapper = mount(<Link href={href} />);
         expect(wrapper.find('a').prop('rel')).toBe('noopener');
       });

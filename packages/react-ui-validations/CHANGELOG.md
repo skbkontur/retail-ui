@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.1...react-ui-validations@1.5.2) (2021-07-14)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.5.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.0...react-ui-validations@1.5.1) (2021-06-29)
+
+
+### Bug Fixes
+
+* **react-ui:** add new env vars for animation disabling ([9840822](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/98408221c0d80ce24cf8da8a5cdbc96fee365519))
+
+
+
+
+
+# [1.5.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.3...react-ui-validations@1.5.0) (2021-06-22)
+
+
+### Features
+
+* **react-ui-validations:** support webpack 5 ([cac91e8](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/cac91e8b8b9accb72570d73712cb3e91cefca25a))
+
+
+
+
+
 ## [1.4.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.4.2...react-ui-validations@1.4.3) (2021-06-09)
 
 

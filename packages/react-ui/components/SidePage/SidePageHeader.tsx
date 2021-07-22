@@ -9,7 +9,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
-import { SidePageContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageHeaderProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -26,6 +26,9 @@ export interface SidePageHeaderState {
  */
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
+
+  public static contextType = SidePageContext;
+  public context: SidePageContextType = this.context;
 
   public state = {
     isReadyToFix: false,
@@ -53,10 +56,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   public componentDidMount = () => {
     window.addEventListener('scroll', this.update, true);
+    this.context.setHasHeader?.();
   };
 
   public componentWillUnmount = () => {
     window.removeEventListener('scroll', this.update, true);
+    this.context.setHasHeader?.(false);
   };
 
   public update = () => {
@@ -66,7 +71,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -132,7 +137,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     if (this.wrapper) {
       const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
       const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
-      this.setState(state => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
+      this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
     }
   };
 
