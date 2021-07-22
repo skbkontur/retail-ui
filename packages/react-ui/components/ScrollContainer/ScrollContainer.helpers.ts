@@ -3,7 +3,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MIN_SCROLL_SIZE } from './ScrollContainer.constants';
 import { ScrollContainerScrollState, ScrollContainerScrollXState } from './ScrollContainer';
 
-const scrollSizeParametersNames = {
+export const scrollSizeParametersNames = {
   x: {
     offset: 'offsetWidth',
     size: 'scrollWidth',

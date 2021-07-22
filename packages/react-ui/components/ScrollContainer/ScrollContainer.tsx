@@ -13,6 +13,7 @@ import {
   getImmediateScrollYState,
   getScrollSizeParams,
   getScrollYOffset,
+  scrollSizeParametersNames,
 } from './ScrollContainer.helpers';
 
 export interface ScrollState<T> {
@@ -83,6 +84,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
   private inner: Nullable<HTMLElement>;
   private scrollY: Nullable<HTMLElement>;
+  private scrollX: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.reflowY();
@@ -212,7 +214,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       },
     };
 
-    return <div style={styles.inline} className={styles.className} onMouseDown={this.handleScrollXMouseDown} />;
+    return (
+      <div
+        ref={this.refScrollX}
+        style={styles.inline}
+        className={styles.className}
+        onMouseDown={this.handleScrollXMouseDown}
+      />
+    );
   };
 
   private renderScrollY = () => {
@@ -279,13 +288,27 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private refScrollY = (element: HTMLElement | null) => {
+    const handleScrollWheel = (event: Event) => this.handleScrollWheel(event, 'y');
+
     if (!this.scrollY && element) {
-      element.addEventListener('wheel', this.handleScrollWheel, { passive: false });
+      element.addEventListener('wheel', handleScrollWheel, { passive: false });
     }
     if (this.scrollY && !element) {
-      this.scrollY.removeEventListener('wheel', this.handleScrollWheel);
+      this.scrollY.removeEventListener('wheel', handleScrollWheel);
     }
     this.scrollY = element;
+  };
+
+  private refScrollX = (element: HTMLElement | null) => {
+    const handleScrollWheel = (event: Event) => this.handleScrollWheel(event, 'x');
+
+    if (!this.scrollX && element) {
+      element.addEventListener('wheel', handleScrollWheel, { passive: false });
+    }
+    if (this.scrollX && !element) {
+      this.scrollX.removeEventListener('wheel', handleScrollWheel);
+    }
+    this.scrollX = element;
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
@@ -443,19 +466,30 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     event.preventDefault();
   };
 
-  private handleScrollWheel = (event: Event) => {
-    if (!this.inner || !(event instanceof WheelEvent)) {
+  private handleScrollWheel = (event: Event, axis: 'x' | 'y') => {
+    if (!this.inner || !(event instanceof WheelEvent) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 
-    if (event.deltaY > 0 && this.inner.scrollHeight <= this.inner.scrollTop + this.inner.offsetHeight) {
+    const { offset, size, pos } = scrollSizeParametersNames[axis];
+
+    const scrollSize = this.inner[size];
+    const scrollPos = this.inner[pos];
+    const offsetHeight = this.inner[offset];
+
+    if (event.deltaY > 0 && scrollSize <= scrollPos + offsetHeight) {
       return;
     }
-    if (event.deltaY < 0 && this.inner.scrollTop <= 0) {
+    if (event.deltaY < 0 && scrollPos <= 0) {
       return;
     }
 
-    this.inner.scrollTop += event.deltaY;
+    if (axis === 'x') {
+      this.inner.scrollLeft += event.deltaY;
+    } else {
+      this.inner.scrollTop += event.deltaY;
+    }
+
     event.preventDefault();
   };
 
