@@ -27,7 +27,7 @@ export class NativeDateInput extends React.Component<NativeDateInputProps> {
         max={this.props.maxDate ? getDateForNative(this.props.maxDate) : DEFAULT_MAX_DATE}
         min={this.props.minDate ? getDateForNative(this.props.minDate) : DEFAULT_MIN_DATE}
         value={getDateForNative(this.props.value)}
-        onChange={e => {
+        onChange={(e) => {
           if (this.props.onValueChange) {
             this.props.onValueChange(getDateForComponent(e.target.value));
           }

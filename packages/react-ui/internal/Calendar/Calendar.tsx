@@ -95,7 +95,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -111,7 +111,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.finish();
       // FIXME: Dirty hack to await batched updates
-      await new Promise(r => setTimeout(r));
+      await new Promise((r) => setTimeout(r));
     }
 
     const { minDate, maxDate } = this.props;
@@ -157,7 +157,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         MonthViewModel.create(month + index, year),
       );
       this.setState(
-        state => {
+        (state) => {
           const yearChanges = isYearChanges(state);
           if (yearChanges) {
             // Mutating here can lead to some unexpected bugs
@@ -188,7 +188,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         MonthViewModel.create(month + index - monthsToAppendCount + 2, year),
       );
       this.setState(
-        state => {
+        (state) => {
           if (isYearChanges(state)) {
             // Mutating here can lead to some unexpected bugs
             // but we couldn't find any yet
@@ -277,12 +277,16 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private executeAnimations = (pixelY: number) => {
     this.setState(({ months, scrollPosition }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
-        .scrollPosition;
+      const targetPosition = CalendarUtils.calculateScrollPosition(
+        months,
+        scrollPosition,
+        pixelY,
+        this.theme,
+      ).scrollPosition;
       return { scrollTarget: targetPosition };
     }, this.handleWheelEnd);
 
-    this.animation.animate(pixelY, deltaY =>
+    this.animation.animate(pixelY, (deltaY) =>
       // FIXME: Typescript not resolving setState cb type
       this.setState(CalendarUtils.applyDelta(deltaY, this.theme) as any),
     );
@@ -343,7 +347,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
       this.setState({ scrollTarget: targetPosition }, () => {
         const amount = scrollTarget - targetPosition;
-        this.animation.animate(amount, deltaY =>
+        this.animation.animate(amount, (deltaY) =>
           // FIXME: Typescript not resolving setState cb type
           this.setState(CalendarUtils.applyDelta(deltaY, this.theme) as any),
         );
@@ -359,7 +363,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private scrollAmount = (scrollAmmount: number, onEnd?: () => void) => {
     return this.animation.animate(
       scrollAmmount,
-      deltaY =>
+      (deltaY) =>
         this.setState(({ scrollPosition }) => ({
           scrollPosition: scrollPosition + deltaY,
         })),

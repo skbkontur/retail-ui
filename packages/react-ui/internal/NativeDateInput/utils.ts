@@ -25,7 +25,7 @@ export const getNativeDateFromShape = (componentDate: CalendarDateShape | undefi
   if (!componentDate) {
     return undefined;
   }
-  const [date, month, year] = [componentDate.date, componentDate.month, componentDate.year].map(x => x.toString());
+  const [date, month, year] = [componentDate.date, componentDate.month, componentDate.year].map((x) => x.toString());
 
   return `${year.padStart(4, '0')}-${month.padStart(2, '0')}-${date.padStart(2, '0')}`;
 };
@@ -43,7 +43,7 @@ export const getShapeFromNativeDate = (nativeDate: Nullable<string>): CalendarDa
     return undefined;
   }
 
-  const splittedDate = nativeDate.split('-').map(date => Number(date));
+  const splittedDate = nativeDate.split('-').map((date) => Number(date));
 
   return { year: splittedDate[0], month: splittedDate[1], date: splittedDate[2] };
 };

@@ -24,7 +24,7 @@ describe('NativeDatePikcer', () => {
 
     const dates: CalendarDateShape[] = [date, date2, date3, date4];
     const expectedDates = ['2020-02-01', '0900-02-01', '0050-02-01', '0005-02-01'];
-    const convertedDates = dates.map(date => getNativeDateFromShape(date));
+    const convertedDates = dates.map((date) => getNativeDateFromShape(date));
 
     convertedDates.forEach((date, index) => expect(date).toBe(expectedDates[index]));
   });
