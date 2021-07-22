@@ -218,6 +218,7 @@ export const darkTheme = ThemeFactory.create({
   menuBorder: 'rgba(0, 0, 0, 0)',
   menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
   toggleBgChecked: '#3072c4',
+  toggleBaseBg: 'rgba(255, 255, 255, 0.85)',
   toggleShadowColorWarning: '#f69c00',
   toggleShadowColorError: '#d70c17',
   toggleBgActive: '#e5e5e5',
