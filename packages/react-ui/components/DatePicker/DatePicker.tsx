@@ -52,6 +52,8 @@ export interface DatePickerProps<T> extends CommonProps {
   onMouseOver?: (e: React.MouseEvent<any>) => void;
   /**
    * Использовать на мобильных устройствах нативный календарь для выбора дат.
+   *
+   * При использовании не работает проп `autoFocus`
    */
   useMobileNativeDatePicker?: boolean;
 

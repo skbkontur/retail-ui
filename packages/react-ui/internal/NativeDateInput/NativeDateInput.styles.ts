@@ -11,6 +11,8 @@ const styles = {
       transform: scale(0);
       border: none;
       overflow: hidden;
+      opacity: 0;
+      visibility: hidden;
     `;
   },
 };

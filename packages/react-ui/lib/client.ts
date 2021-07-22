@@ -20,8 +20,4 @@ export const isMobile =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent) &&
   'ontouchstart' in window.document.documentElement;
 
-export const isIOS =
-  (['iPad Simulator', 'iPhone Simulator', 'iPod Simulator', 'iPad', 'iPhone', 'iPod'].includes(platform) ||
-    // iPad on iOS 13 detection
-    (userAgent.includes('Mac') && 'ontouchend' in document)) &&
-  'ontouchstart' in window.document.documentElement;
+export const isIOS = /(ip[ao]d|iphone)/gi.test(userAgent);
