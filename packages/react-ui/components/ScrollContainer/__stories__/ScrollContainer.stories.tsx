@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 
-import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
+import { ScrollContainer, ScrollContainerScrollState, ScrollContainerScrollXState } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 
@@ -19,18 +19,28 @@ const wrapperStyle = {
 };
 
 const DynamicContent: React.FC<{
-  state: ScrollContainerScrollState;
+  state: ScrollContainerScrollState | ScrollContainerScrollXState;
   scroll: (percentage: number) => void;
   add: () => void;
   remove: () => void;
-  onChangeState: (y: ScrollContainerScrollState, x: ScrollContainerScrollState) => void;
+  onChangeState: (y: ScrollContainerScrollState, x: ScrollContainerScrollXState) => void;
 }> = ({ children, state, scroll, add, remove, onChangeState }) => {
+  const t = React.useRef<ScrollContainer | null>(null);
+
+  console.log(t);
+
+  React.useEffect(() => {
+    t.current?.scrollToRight();
+  }, [t.current]);
+
   return (
     <Gapped verticalAlign="top">
       <div id="test-container" style={{ padding: 10 }}>
         <Gapped vertical>
           <div style={wrapperStyle}>
-            <ScrollContainer onScrollStateChange={onChangeState}>{children}</ScrollContainer>
+            <ScrollContainer ref={t} onScrollStateChange={onChangeState}>
+              {children}
+            </ScrollContainer>
           </div>
           <div>scroll state: {state}</div>
         </Gapped>
@@ -203,8 +213,8 @@ WithDynamicContent.parameters = {
   },
 };
 
-export const WithOnlyCustomHorizontalScroll = () => {
-  const [state, setState] = React.useState<ScrollContainerScrollState>('left');
+export const WithOnlyCustomHorizontalScroll: Story = () => {
+  const [state, setState] = React.useState<ScrollContainerScrollXState>('left');
   const [items, setItems] = React.useState(4);
 
   const add = () => setItems(items + 1);
@@ -228,85 +238,83 @@ export const WithOnlyCustomHorizontalScroll = () => {
   );
 };
 
-WithOnlyCustomHorizontalScroll.story = {
+WithOnlyCustomHorizontalScroll.parameters = {
   name: 'with only custom horizontal scroll',
-  parameters: {
-    creevey: {
-      captureElement: '#test-container',
-      tests: {
-        async moveScroll() {
-          const idle = await this.takeScreenshot();
+  creevey: {
+    captureElement: '#test-container',
+    tests: {
+      async moveScroll() {
+        const idle = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll50' }))
-            .perform();
-          const scroll50 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll50' }))
+          .perform();
+        const scroll50 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll100' }))
-            .perform();
-          const scroll100 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll100' }))
+          .perform();
+        const scroll100 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll0' }))
-            .perform();
-          const scroll0 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll0' }))
+          .perform();
+        const scroll0 = await this.takeScreenshot();
 
-          await this.expect({ idle, scroll50, scroll100, scroll0 }).to.matchImages();
-        },
+        await this.expect({ idle, scroll50, scroll100, scroll0 }).to.matchImages();
+      },
 
-        async changeContent() {
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#add' }))
-            .perform();
-          const addContent = await this.takeScreenshot();
+      async changeContent() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#add' }))
+          .perform();
+        const addContent = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll50' }))
-            .perform();
-          const scroll50 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll50' }))
+          .perform();
+        const scroll50 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll100' }))
-            .perform();
-          const scroll100 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll100' }))
+          .perform();
+        const scroll100 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll0' }))
-            .perform();
-          const scroll0 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll0' }))
+          .perform();
+        const scroll0 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#remove' }))
-            .perform();
-          const removeContent = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#remove' }))
+          .perform();
+        const removeContent = await this.takeScreenshot();
 
-          await this.expect({ addContent, scroll50, scroll100, scroll0, removeContent }).to.matchImages();
-        },
+        await this.expect({ addContent, scroll50, scroll100, scroll0, removeContent }).to.matchImages();
       },
     },
   },

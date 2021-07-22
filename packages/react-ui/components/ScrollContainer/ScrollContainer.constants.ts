@@ -1,8 +1,8 @@
-import { ScrollState } from './ScrollContainer';
+import { ScrollYState, ScrollXState } from './ScrollContainer';
 
 export const MIN_SCROLL_SIZE = 20;
 
-export const defaultScrollYState: ScrollState = {
+export const defaultScrollYState: ScrollYState = {
   active: false,
   size: 0,
   pos: 0,
@@ -13,7 +13,7 @@ export const defaultScrollYState: ScrollState = {
   scrollState: 'top',
 };
 
-export const defaultScrollXState: ScrollState = {
+export const defaultScrollXState: ScrollXState = {
   active: false,
   size: 0,
   pos: 0,
