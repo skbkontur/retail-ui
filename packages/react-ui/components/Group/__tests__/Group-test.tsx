@@ -40,20 +40,6 @@ describe('Group', () => {
     expect(wrappingElements.length).toBe(0);
   });
 
-  it('first item gets "itemFirst" class', () => {
-    const wrapper = render(
-      <Group>
-        <div id="test-div-1" />
-        <div id="test-div-2" />
-        <div id="test-div-3" />
-      </Group>,
-    );
-
-    expect(wrapper.find('#test-div-1').parent().prop('class')).toContain(jsStyles.itemFirst());
-    expect(wrapper.find('#test-div-2').parent().prop('class')).not.toContain(jsStyles.itemFirst());
-    expect(wrapper.find('#test-div-3').parent().prop('class')).not.toContain(jsStyles.itemFirst());
-  });
-
   it('width is applied to the root from props', () => {
     const wrapper = render(
       <Group width="100px">
