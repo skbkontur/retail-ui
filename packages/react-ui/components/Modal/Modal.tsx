@@ -1,6 +1,5 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
-import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -14,13 +13,14 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
@@ -188,30 +188,30 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
-          <ZIndex priority={'Modal'} className={jsStyles.root()}>
+          <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
-            {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
+            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
             <div
               ref={this.refContainer}
-              className={jsStyles.container()}
+              className={styles.container()}
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
               onClick={this.handleContainerClick}
               data-tid="modal-container"
             >
               <div
-                className={cn({
-                  [jsStyles.centerContainer(this.theme)]: true,
-                  [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
+                className={cx({
+                  [styles.centerContainer(this.theme)]: true,
+                  [styles.alignTop()]: Boolean(this.props.alignTop),
                 })}
                 style={containerStyle}
                 data-tid="modal-content"
               >
-                <div className={jsStyles.window(this.theme)} style={style}>
+                <div className={styles.window(this.theme)} style={style}>
                   <ResizeDetector onResize={this.handleResize}>
                     <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
                       {!hasHeader && !this.props.noClose ? (
-                        <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper(this.theme)}>
+                        <ZIndex priority={'ModalCross'} className={styles.closeWrapper(this.theme)}>
                           <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                         </ZIndex>
                       ) : null}

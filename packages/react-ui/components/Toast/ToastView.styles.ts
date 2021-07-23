@@ -8,7 +8,7 @@ const getVerticalPaddingsWithCompensation = (theme: Theme) => {
   return [`${paddingY - compensation}px`, `${paddingY + compensation}px`];
 };
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const [paddingTop, paddingBottom] = getVerticalPaddingsWithCompensation(t);
     return css`
@@ -66,7 +66,7 @@ const styles = {
 
   close(t: Theme) {
     return css`
-      box-sizing: content-box !important;
+      box-sizing: content-box !important; // fix "reset.css" problem
       color: ${t.toastCloseColor};
       cursor: pointer;
       display: inline-block;
@@ -81,6 +81,4 @@ const styles = {
       }
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

@@ -1,22 +1,16 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   active(t: Theme) {
     return css`
-      ${styles.fillContainerPosition()};
-
-      background: ${t.loaderBg};
-    `;
-  },
-
-  fillContainerPosition() {
-    return css`
+      position: absolute;
       bottom: 0;
       left: 0;
-      position: absolute;
       right: 0;
       top: 0;
+
+      background: ${t.loaderBg};
     `;
   },
 
@@ -35,37 +29,26 @@ const styles = {
       display: block;
       margin: auto;
       text-align: center;
+
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      top: 0;
+
+      &::before {
+        content: ' ';
+        display: inline-block;
+        height: 100%;
+        min-height: 100%;
+        vertical-align: middle;
+      }
     `;
   },
 
   spinnerContainerSticky() {
     return css`
-      ${styles.spinnerContainer()};
-
       position: fixed;
-
-      &::before {
-        content: ' ';
-        display: inline-block;
-        height: 100%;
-        min-height: 100%;
-        vertical-align: middle;
-      }
-    `;
-  },
-
-  spinnerContainerCenter() {
-    return css`
-      ${styles.spinnerContainer()};
-      ${styles.fillContainerPosition()};
-
-      &::before {
-        content: ' ';
-        display: inline-block;
-        height: 100%;
-        min-height: 100%;
-        vertical-align: middle;
-      }
     `;
   },
 
@@ -74,6 +57,4 @@ const styles = {
       display: inline-block;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

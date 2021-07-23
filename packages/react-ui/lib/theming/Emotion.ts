@@ -15,8 +15,6 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
   });
 
-export const cssName = (className: string): string => `.${className}`;
-
 function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
   return fn.length == 0;
 }

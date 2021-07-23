@@ -1,8 +1,8 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-const styles = {
+export const styles = memoizeStyle({
   token(t: Theme) {
     return css`
       display: inline-flex;
@@ -55,13 +55,9 @@ const styles = {
       &:hover {
         opacity: 1;
       }
-      ${cssName(jsTokenColors.defaultDisabled(t))} & {
-        fill: ${t.tokenTextColorDisabled};
-        opacity: 1;
-      }
     `;
   },
-};
+});
 
 interface TokenColors {
   defaultIdle: (t: Theme, v: 'error' | 'warning' | null) => string;
@@ -83,9 +79,7 @@ interface TokenColors {
   black: (t: Theme, v: 'error' | 'warning' | null) => string;
 }
 
-export const jsStyles = memoizeStyle(styles);
-
-export const jsTokenColors = [
+export const colorStyles = [
   { name: 'defaultIdle', color: (t: Theme) => t.tokenDefaultIdle },
   { name: 'defaultActive', color: (t: Theme) => t.tokenDefaultActive },
   { name: 'grayIdle', color: (t: Theme) => t.tokenGrayIdle },
@@ -119,7 +113,7 @@ export const jsTokenColors = [
 
         ${vStyle}
 
-        & ${cssName(jsStyles.removeIcon(t))}:hover {
+        [data-remove-icon]:hover {
           color: ${ColorFunctions.contrast(color(t))};
         }
       `;
@@ -129,7 +123,12 @@ export const jsTokenColors = [
     defaultDisabled(t: Theme) {
       return css`
         background-color: ${t.tokenDisabledBg};
-        box-shadow: ${t.tokenShadowDisabled}};
+        box-shadow: ${t.tokenShadowDisabled};
+
+        [data-remove-icon] {
+          fill: ${t.tokenTextColorDisabled};
+          opacity: 1;
+        }
       `;
     },
     defaultDisabledWarning(t: Theme) {

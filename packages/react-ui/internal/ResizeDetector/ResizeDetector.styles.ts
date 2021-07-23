@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       position: relative;
@@ -26,6 +26,4 @@ const styles = {
       position: relative;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

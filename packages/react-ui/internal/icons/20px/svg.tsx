@@ -1,15 +1,15 @@
 import React from 'react';
 
-import { jsStyles } from './icon.styles';
+import { styles } from './icon.styles';
 
 export interface SVGIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: React.CSSProperties['color'];
 }
 
 export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color = 'currentColor', ...rest }) => (
-  <span className={jsStyles.root()} {...rest}>
+  <span className={styles.root()} {...rest}>
     {React.cloneElement(children as JSX.Element, {
-      className: jsStyles.icon(),
+      className: styles.icon(),
       fill: color,
       focusable: 'false',
     })}

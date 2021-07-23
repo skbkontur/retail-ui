@@ -1,6 +1,6 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   searchBar() {
     return css`
       position: relative;
@@ -39,39 +39,45 @@ const styles = {
     return css`
       width: 880px;
       border-collapse: collapse;
+    `;
+  },
 
-      & tbody tr:hover {
+  headerCell() {
+    return css`
+      text-align: left;
+      padding-left: 5px;
+    `;
+  },
+
+  row() {
+    return css`
+      &:hover {
         background-color: #f8f8f8;
       }
+    `;
+  },
 
-      & th {
-        text-align: left;
-        padding-left: 5px;
-      }
-
-      & td {
-        border-top: 1px solid #e8e8e8;
-        border-bottom: 1px solid #e8e8e8;
-        vertical-align: top;
-        padding: 10px 5px;
-      }
+  cell() {
+    return css`
+      border-top: 0 none;
+      border-bottom: 1px solid #e8e8e8;
+      vertical-align: top;
+      padding: 10px 5px;
     `;
   },
 
   invisibleRow() {
     return css`
-      padding: 0 !important;
-      height: 0 !important;
+      padding: 0;
+      height: 0;
 
-      ${cssName(styles.table())} tbody tr:not(&) > td {
-        border-top: 0 none;
-      }
-
-      ${cssName(styles.table())} tbody tr&:hover ~ tr:not(&) {
+      &:hover,
+      &:hover ~ tr {
         background-color: #f8f8f8;
       }
 
-      ${cssName(styles.table())} tbody tr&:hover ~ & ~ tr {
+      &:hover ~ &,
+      &:hover ~ & ~ tr {
         background-color: transparent;
       }
     `;
@@ -84,14 +90,20 @@ const styles = {
   },
 
   //noinspection CssReplaceWithShorthandSafely
+  majorCell() {
+    return css`
+      border-top: 1px solid #e8e8e8;
+    `;
+  },
+
   invisibleCell() {
     return css`
-      padding: 0 !important;
-      height: 0 !important;
-      font-size: 0 !important;
-      line-height: 0 !important;
-      border: 0 none !important;
-      border-top: 1px solid #e8e8e8 !important;
+      padding: 0;
+      height: 0;
+      font-size: 0;
+      line-height: 0;
+      border: 0 none;
+      border-top: 1px solid #e8e8e8;
     `;
   },
 
@@ -173,6 +185,4 @@ const styles = {
       color: #b77daa;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

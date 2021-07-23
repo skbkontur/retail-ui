@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import cn from 'classnames';
 
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { cx } from '../../lib/theming/Emotion';
 
 import * as CDS from './CalendarDateShape';
-import { jsStyles } from './DayCellView.styles';
+import { styles } from './DayCellView.styles';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -30,11 +30,11 @@ export function DayCellView(props: DayCellViewProps) {
     <button
       tabIndex={-1}
       disabled={!CDS.isBetween(date, minDate, maxDate)}
-      className={cn({
-        [jsStyles.cell(theme)]: true,
-        [jsStyles.today(theme)]: Boolean(today && CDS.isEqual(date, today)),
-        [jsStyles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
-        [jsStyles.weekend(theme)]: Boolean(isWeekend),
+      className={cx({
+        [styles.cell(theme)]: true,
+        [styles.today(theme)]: Boolean(today && CDS.isEqual(date, today)),
+        [styles.selected(theme)]: Boolean(value && CDS.isEqual(date, value)),
+        [styles.weekend(theme)]: Boolean(isWeekend),
       })}
       onClick={handleClick}
     >

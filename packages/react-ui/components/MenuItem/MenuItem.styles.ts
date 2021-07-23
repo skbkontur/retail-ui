@@ -2,7 +2,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const legacyPaddingX = parseFloat(t.menuItemLegacyPaddingX);
     const legacyPaddingY = parseFloat(t.menuItemLegacyPaddingY);
@@ -41,9 +41,9 @@ const styles = {
   },
   disabled(t: Theme) {
     return css`
-      background: transparent !important;
-      color: ${t.menuItemDisabledColor} !important;
-      cursor: default !important;
+      background: transparent;
+      color: ${t.menuItemDisabledColor};
+      cursor: default;
     `;
   },
   link(t: Theme) {
@@ -58,7 +58,7 @@ const styles = {
   },
   withIcon(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon} !important;
+      padding-left: ${t.menuItemPaddingForIcon};
     `;
   },
   comment(t: Theme) {
@@ -83,6 +83,4 @@ const styles = {
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

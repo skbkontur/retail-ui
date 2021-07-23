@@ -2,7 +2,7 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   cell(t: Theme) {
     return css`
       ${resetButton()};
@@ -22,8 +22,8 @@ const styles = {
       border-radius: 50%;
 
       &:hover {
-        background-color: ${t.calendarCellHoverBgColor} !important;
-        color: ${t.calendarCellHoverColor} !important;
+        background-color: ${t.calendarCellHoverBgColor};
+        color: ${t.calendarCellHoverColor};
         cursor: pointer;
       }
       &:disabled {
@@ -38,22 +38,20 @@ const styles = {
 
   selected(t: Theme) {
     return css`
-      background-color: ${t.calendarCellSelectedBgColor} !important;
-      color: ${t.calendarCellSelectedFontColor} !important;
+      background-color: ${t.calendarCellSelectedBgColor};
+      color: ${t.calendarCellSelectedFontColor};
     `;
   },
 
   weekend(t: Theme) {
     return css`
-      color: ${t.calendarCellWeekendColor} !important;
+      color: ${t.calendarCellWeekendColor};
     `;
   },
 
   today(t: Theme) {
     return css`
-      border: ${t.calendarCellTodayBorder} !important;
+      border: ${t.calendarCellTodayBorder};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

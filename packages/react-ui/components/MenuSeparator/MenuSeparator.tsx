@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
-import { jsStyles } from './MenuSeparator.styles';
+import { styles } from './MenuSeparator.styles';
 
 export type MenuSeparatorProps = CommonProps;
 /**
@@ -14,7 +14,7 @@ function MenuSeparator(props: MenuSeparatorProps) {
 
   return (
     <CommonWrapper {...props}>
-      <div className={jsStyles.root(theme)} />
+      <div className={styles.root(theme)} />
     </CommonWrapper>
   );
 }

@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const legacyPaddingRight = parseFloat(t.menuHeaderLegacyPaddingRight);
     const paddingRight =
@@ -21,6 +21,4 @@ const styles = {
       padding-left: ${t.menuItemPaddingForIcon};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

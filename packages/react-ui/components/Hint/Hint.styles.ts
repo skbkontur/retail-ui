@@ -1,7 +1,7 @@
 import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   content(t: Theme) {
     return css`
       box-sizing: border-box;
@@ -21,6 +21,4 @@ const styles = {
       text-align: ${t.hintTextAlign};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

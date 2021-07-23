@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       font-size: 20px;
@@ -20,6 +20,4 @@ const styles = {
       margin-bottom: -0.2em;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

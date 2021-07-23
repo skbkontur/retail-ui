@@ -7,7 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
-import { jsStyles } from './ToastView.styles';
+import { styles } from './ToastView.styles';
 
 export interface ToastViewProps extends CommonProps {
   /**
@@ -59,22 +59,22 @@ export class ToastView extends React.Component<ToastViewProps> {
     const { action, onClose, ...rest } = props;
 
     const link = action ? (
-      <span data-tid="ToastView__action" className={jsStyles.link(this.theme)} onClick={action.handler}>
+      <span data-tid="ToastView__action" className={styles.link(this.theme)} onClick={action.handler}>
         {action.label}
       </span>
     ) : null;
 
     const close = action ? (
-      <span className={jsStyles.closeWrapper(this.theme)}>
-        <span data-tid="ToastView__close" className={jsStyles.close(this.theme)} onClick={onClose}>
+      <span className={styles.closeWrapper(this.theme)}>
+        <span data-tid="ToastView__close" className={styles.close(this.theme)} onClick={onClose}>
           <CrossIcon />
         </span>
       </span>
     ) : null;
 
     return (
-      <ZIndex priority="Toast" className={jsStyles.wrapper()}>
-        <div data-tid="ToastView__root" {...rest} className={jsStyles.root(this.theme)}>
+      <ZIndex priority="Toast" className={styles.wrapper()}>
+        <div data-tid="ToastView__root" {...rest} className={styles.root(this.theme)}>
           <span>{this.props.children}</span>
           {link}
           {close}

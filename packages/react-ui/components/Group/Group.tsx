@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { Corners } from '../Button/Corners';
 import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Group.styles';
+import { styles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
   width?: React.CSSProperties['width'];
@@ -43,16 +43,16 @@ export class Group extends React.Component<GroupProps> {
 
     return (
       <CommonWrapper {...this.props}>
-        <span className={jsStyles.root()} style={style}>
+        <span className={styles.root()} style={style}>
           {React.Children.map(this.props.children, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;
             }
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
-            const itemCss = cn({
-              [jsStyles.item()]: true,
-              [jsStyles.itemFirst()]: child === first,
+            const itemCss = cx({
+              [styles.item()]: true,
+              [styles.itemFirst()]: child === first,
             });
 
             let corners = 0;
@@ -69,10 +69,10 @@ export class Group extends React.Component<GroupProps> {
 
             return (
               <div
-                className={cn({
-                  [jsStyles.fixed()]: !isWidthInPercent,
-                  [jsStyles.stretch()]: isWidthInPercent,
-                  [jsStyles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
+                className={cx({
+                  [styles.fixed()]: !isWidthInPercent,
+                  [styles.stretch()]: isWidthInPercent,
+                  [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
                 })}
               >
                 <div className={itemCss}>{child}</div>

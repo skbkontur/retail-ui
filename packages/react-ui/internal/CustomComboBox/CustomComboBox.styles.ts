@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       display: inline-block;
@@ -21,6 +21,4 @@ const styles = {
       margin-right: -3px;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

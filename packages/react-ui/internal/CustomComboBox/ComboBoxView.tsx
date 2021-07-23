@@ -14,7 +14,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
-import { jsStyles } from './CustomComboBox.styles';
+import { styles } from './CustomComboBox.styles';
 
 interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -143,7 +143,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
             style={{ width }}
-            className={jsStyles.root()}
+            className={styles.root()}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
@@ -269,7 +269,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private renderSpinner = () => (
-    <span className={jsStyles.spinnerWrapper()}>
+    <span className={styles.spinnerWrapper()}>
       <Spinner type="mini" caption="" dimmed />
     </span>
   );
@@ -282,7 +282,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
 
     if (rightIcon || drawArrow) {
-      return <span className={jsStyles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
+      return <span className={styles.rightIconWrapper()}>{rightIcon ?? <ArrowChevronDownIcon />}</span>;
     }
 
     return null;

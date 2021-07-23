@@ -1,7 +1,7 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
 
 export interface CommonProps {
   className?: React.HTMLAttributes<HTMLElement>['className'];
@@ -24,7 +24,7 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
 
     return React.isValidElement<CommonProps>(child)
       ? React.cloneElement(child, {
-          className: cn(child.props.className, className),
+          className: cx(child.props.className, className),
           style: {
             ...child.props.style,
             ...style,

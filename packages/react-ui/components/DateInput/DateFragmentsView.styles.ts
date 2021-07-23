@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       cursor: text;
@@ -30,9 +30,7 @@ const styles = {
 
   delimiterFilled() {
     return css`
-      color: inherit !important;
+      color: inherit;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

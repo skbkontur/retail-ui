@@ -1,8 +1,8 @@
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -38,19 +38,19 @@ const styles = {
 
   containerWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0} !important;
+      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0};
     `;
   },
 
   containerWithoutFooter(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0} !important;
+      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
     `;
   },
 
   containerWithPanel(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0} !important;
+      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
     `;
   },
 
@@ -63,6 +63,12 @@ const styles = {
       overflow-y: auto;
       position: relative;
       white-space: normal;
+    `;
+  },
+
+  wrapperLeft() {
+    return css`
+      float: left;
     `;
   },
 
@@ -140,20 +146,14 @@ const styles = {
 
   shadow(t: Theme) {
     return css`
-      ${cssName(styles.wrapper(t))}& {
-        box-shadow: ${t.sidePageContainerShadow};
-      }
+      box-shadow: ${t.sidePageContainerShadow};
     `;
   },
 
-  leftSide(t: Theme) {
+  leftSide() {
     return css`
       left: 0;
       right: auto;
-
-      & ${cssName(styles.wrapper(t))} {
-        float: left;
-      }
     `;
   },
 
@@ -177,7 +177,7 @@ const styles = {
 
   panel(t: Theme) {
     return css`
-      background: ${t.sidePageFooterPanelBg} !important;
+      background: ${t.sidePageFooterPanelBg};
       padding: ${t.sidePageFooterPanelPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPanelPaddingBottom}
         ${t.sidePagePaddingLeft};
     `;
@@ -246,7 +246,7 @@ const styles = {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
-      transform: translate(0, 0) !important;
+      transform: translate(0, 0);
     `;
   },
 
@@ -262,6 +262,4 @@ const styles = {
       transition: opacity 0.15s ease-out;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
