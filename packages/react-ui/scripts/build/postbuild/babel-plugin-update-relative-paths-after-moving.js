@@ -1,7 +1,7 @@
 const path = require('upath');
 
-const isRelative = name => name.startsWith('.');
-const getUpdatedRelativePath = relativePath => path.normalize(path.join('../', relativePath));
+const isRelative = (name) => name.startsWith('.');
+const getUpdatedRelativePath = (relativePath) => path.normalize(path.join('../', relativePath));
 
 /**
  * Turns this:
@@ -17,7 +17,7 @@ const getUpdatedRelativePath = relativePath => path.normalize(path.join('../', r
  * and handles: import, import(), require(), export
  */
 
-module.exports = function(babel) {
+module.exports = function (babel) {
   const { types: t } = babel;
   return {
     visitor: {

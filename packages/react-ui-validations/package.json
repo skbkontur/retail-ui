@@ -21,10 +21,10 @@
     "lint": "npm-run-all --continue-on-error --parallel lint:*",
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
+    "lint:prettier": "prettier --check .",
     "fix:eslint": "yarn lint:eslint --fix",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prettier:check": "yarn prettier --check .",
     "prettier:fix": "yarn prettier --write ."
   },
   "main": "./index.js",

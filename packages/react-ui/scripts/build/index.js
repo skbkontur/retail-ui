@@ -19,7 +19,7 @@ build();
 
 function build() {
   handleFile(path.resolve(process.cwd(), 'index.ts'), 'index.ts');
-  FoldersToTransform.forEach(dirName => {
+  FoldersToTransform.forEach((dirName) => {
     const folderPath = path.resolve(process.cwd(), dirName);
     handle(folderPath, dirName);
   });
@@ -81,7 +81,7 @@ function logTransform(src, dest) {
 }
 
 function shouldIgnore(loc) {
-  return IgnoreTemplates.some(x => x.test(loc));
+  return IgnoreTemplates.some((x) => x.test(loc));
 }
 
 function canCompile(filename) {
@@ -111,7 +111,7 @@ function handle(filename, dirName) {
 
   if (stat.isDirectory()) {
     const dirname = path.join(filename);
-    readdir(filename).forEach(filename => {
+    readdir(filename).forEach((filename) => {
       const src = path.join(dirname, filename);
       handleFile(src, path.join(dirName, filename));
     });
@@ -122,9 +122,9 @@ function handle(filename, dirName) {
 
 function copyFilesForPublish() {
   const files = ['package.json', 'README.md', 'CHANGELOG.md', 'LICENSE'];
-  files.forEach(filename => {
+  files.forEach((filename) => {
     const src = path.join(process.cwd(), filename);
     const dest = path.join(OutDir, filename);
-    fs.copyFileSync(src, dest)
+    fs.copyFileSync(src, dest);
   });
 }
