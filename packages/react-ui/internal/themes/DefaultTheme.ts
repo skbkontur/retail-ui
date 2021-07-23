@@ -630,6 +630,8 @@ export class DefaultTheme {
   public static sidePageHeaderFixedPaddingY = '13px';
   public static sidePageHeaderStickyOffset = '11px';
   public static sidePageCloseButtonPadding = '36px';
+  public static sidePageCloseButtonFixedPadding = '10px';
+  public static sidePageCloseButtonReadyToFixPadding = '20px';
   public static sidePageCloseButtonLegacyPaddingLeft = '37px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
@@ -795,8 +797,8 @@ export class DefaultTheme {
   //#endregion
   //#region Dropdown
   public static dropdownMenuSelectedBg = '#f1f1f1'; //deprecated
-  public static get dropdownMenuHoverBg() {
-    //deprecated
+  public static get dropdownMenuHoverBg() //deprecated
+  {
     return this.bgActive;
   }
   //#endregion

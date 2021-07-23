@@ -1,6 +1,7 @@
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { resetButton } from '../../lib/styles/Mixins';
 
 const styles = {
   root() {
@@ -131,6 +132,20 @@ const styles = {
     `;
   },
 
+  buttonReadyToFix(t: Theme) {
+    return css`
+      position: absolute;
+      top: ${t.sidePageCloseButtonReadyToFixPadding} !important;
+    `;
+  },
+
+  buttonFixed(t: Theme) {
+    return css`
+      position: absolute;
+      top: ${t.sidePageCloseButtonFixedPadding} !important;
+    `;
+  },
+
   backgroundGray(t: Theme) {
     return css`
       background: ${t.sidePageBackingBg};
@@ -159,18 +174,32 @@ const styles = {
 
   close(t: Theme) {
     return css`
-      color: ${t.sidePageCloseButtonColor};
-      cursor: pointer;
+      ${resetButton()};
       position: absolute;
+      display: flex;
       right: ${t.sidePageCloseButtonPadding};
+      top: ${t.sidePageCloseButtonPadding};
+      background: none;
+      background: transparent;
+      cursor: pointer;
+      color: ${t.sidePageCloseButtonColor};
       text-align: center;
-      text-decoration: none;
-      width: ${t.sidePageCloseIconSize};
-      padding: 0 ${t.sidePageCloseButtonClickAreaX};
-      margin: 0 -${t.sidePageCloseButtonClickAreaX};
-
+      vertical-align: middle;
+      padding: ${t.sidePageCloseButtonClickAreaX} !important;
+      margin: -${t.sidePageCloseButtonClickAreaX} !important;
+      &:focus,
       &:hover {
         color: ${t.sidePageCloseButtonHoverColor};
+      }
+
+      &:focus {
+        outline: 2px solid ${t.borderColorFocus};
+      }
+
+      & > svg {
+        width: ${t.sidePageCloseIconSize};
+        height: ${t.sidePageCloseIconSize};
+        box-sizing: content-box;
       }
     `;
   },
@@ -180,15 +209,6 @@ const styles = {
       background: ${t.sidePageFooterPanelBg} !important;
       padding: ${t.sidePageFooterPanelPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPanelPaddingBottom}
         ${t.sidePagePaddingLeft};
-    `;
-  },
-
-  closeIcon(t: Theme) {
-    return css`
-      display: inline-block;
-      height: ${t.sidePageCloseIconSize};
-      width: ${t.sidePageCloseIconSize};
-      line-height: 0;
     `;
   },
 
