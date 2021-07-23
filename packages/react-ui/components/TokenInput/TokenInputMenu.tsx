@@ -11,8 +11,8 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
-  wrapper: HTMLLabelElement | null;
-  useTokenInputMenu?: 'DropdownMenu' | 'PopupMenu';
+  wrapper: HTMLElement;
+  useDropdownContainer: boolean;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -46,17 +46,14 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   public getMenuRef = (): any | null => this.menu;
 
-  private renderMain() {
-    const { useTokenInputMenu } = this.props;
+  private renderMain = () => (
+    this.props.useDropdownContainer ? this.renderDropdownContainer() : this.renderPopup()
+  );
 
-    return useTokenInputMenu === 'PopupMenu' ? this.renderPopupMenu() : this.renderDropdownMenu();
-  }
-
-  private renderPopupMenu() {
-    const { opened } = this.props;
+  private renderPopup() {
     return (
       <Popup
-        opened={opened!}
+        opened={this.props.opened!}
         positions={['bottom left']}
         anchorElement={this.props.anchorElement}
         popupOffset={5}
@@ -67,40 +64,17 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     );
   }
 
-  private renderDropdownMenu() {
-    return (
+  private renderDropdownContainer = () => (
       <DropdownContainer getParent={() => this.props.wrapper} offsetY={1}>
         {this.renderComboBoxMenu()}
       </DropdownContainer>
-    );
-  }
+  );
+
   private renderComboBoxMenu() {
-    const {
-      loading,
-      maxMenuHeight,
-      renderTotalCount,
-      totalCount,
-      opened,
-      items,
-      renderNotFound,
-      renderItem,
-      onValueChange,
-      renderAddButton,
-    } = this.props;
+    const { anchorElement, wrapper, useDropdownContainer, ...rest } = this.props;
+
     return (
-      <ComboBoxMenu
-        items={items}
-        loading={loading}
-        maxMenuHeight={maxMenuHeight}
-        onValueChange={onValueChange}
-        opened={opened}
-        refMenu={this.menuRef}
-        renderTotalCount={renderTotalCount}
-        renderItem={renderItem}
-        renderNotFound={renderNotFound}
-        totalCount={totalCount}
-        renderAddButton={renderAddButton}
-      />
+      <ComboBoxMenu refMenu={this.menuRef} {...rest} />
     );
   }
 

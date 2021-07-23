@@ -47,7 +47,7 @@ export interface TokenInputProps<T> extends CommonProps {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
-  useTokenInputMenu?: 'DropdownMenu' | 'PopupMenu';
+  menuWidthMode: 'stretch' | 'short';
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -169,7 +169,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onFocus: emptyHandler,
     onMouseEnter: emptyHandler,
     onMouseLeave: emptyHandler,
-    useTokenInputMenu: 'PopupMenu',
+    menuWidthMode: 'short',
   };
 
   public state: TokenInputState<T> = DefaultState;
@@ -241,7 +241,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onMouseEnter,
       onMouseLeave,
       inputMode,
-      useTokenInputMenu,
+      menuWidthMode
     } = this.props;
 
     const {
@@ -332,8 +332,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
-                wrapper={this.wrapper}
-                useTokenInputMenu={useTokenInputMenu}
+                wrapper={this.wrapper!}
+                useDropdownContainer={menuWidthMode === 'stretch'}
               />
             )}
             {this.renderTokensEnd()}
