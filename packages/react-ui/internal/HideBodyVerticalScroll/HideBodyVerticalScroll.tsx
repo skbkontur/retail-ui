@@ -1,14 +1,13 @@
 import React from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
+import { css } from '../../lib/theming/Emotion';
+
+let disposeDocumentStyle: (() => void) | null = null;
 
 export class HideBodyVerticalScroll extends React.Component {
   public static __KONTUR_REACT_UI__ = 'HideBodyVerticalScroll';
 
-  public static hash = Math.random()
-    .toString(16)
-    .slice(2, 6);
-  private disposeDocumentStyle: (() => void) | null = null;
   private initialScroll = 0;
   private master = false;
 
@@ -29,11 +28,9 @@ export class HideBodyVerticalScroll extends React.Component {
   }
 
   public componentWillUnmount() {
-    this.restoreStyles();
-
     const counter = VerticalScrollCounter.decrement();
     if (counter === 0) {
-      this.updateScrollVisibility();
+      this.restoreStyles();
       window.removeEventListener('resize', this.updateScrollVisibility);
     }
   }
@@ -44,52 +41,53 @@ export class HideBodyVerticalScroll extends React.Component {
 
   private updateScrollVisibility = () => {
     const { documentElement } = document;
-
-    this.restoreStyles();
-
     if (!documentElement) {
       return;
     }
 
     const { clientHeight, scrollHeight } = documentElement;
-    const shouldRestore = VerticalScrollCounter.get() === 0;
-    const shouldHide = !shouldRestore && clientHeight < scrollHeight;
+    const shouldHide = !disposeDocumentStyle && clientHeight < scrollHeight;
 
     if (shouldHide) {
-      this.makeSomeMagicWithScroll(documentElement);
-    }
-
-    if (shouldRestore) {
-      documentElement.scrollTop = this.initialScroll;
+      this.hideScroll(documentElement);
     }
   };
 
-  private makeSomeMagicWithScroll = (document: HTMLElement) => {
+  private hideScroll = (document: HTMLElement) => {
     const documentComputedStyle = getComputedStyle(document);
     const scrollWidth = getScrollWidth();
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
-    const documentStyle = generateDocumentStyle(documentMargin + scrollWidth);
+    const className = generateDocumentStyle(documentMargin + scrollWidth);
 
-    this.disposeDocumentStyle = this.attachStyle(document, documentStyle);
+    disposeDocumentStyle = this.attachStyle(document, className);
   };
 
-  private attachStyle = (element: HTMLElement, style: { css: string; className: string }) => {
-    element.classList.add(style.className);
-    const removeStyleNode = attachStylesheet(style.css);
+  private attachStyle = (element: HTMLElement, className: string) => {
+    element.classList.add(className);
     return () => {
-      removeStyleNode();
-      element.classList.remove(style.className);
+      element.classList.remove(className);
     };
   };
 
   private restoreStyles = () => {
-    if (this.disposeDocumentStyle) {
-      this.disposeDocumentStyle();
-      this.disposeDocumentStyle = null;
-    }
+    if (disposeDocumentStyle) {
+      disposeDocumentStyle();
+      disposeDocumentStyle = null;
 
-    // Forcing reflow for Firefix
-    attachStylesheet('html, body { height: auto; }')();
+      const { documentElement } = document;
+
+      // Forcing reflow for Firefix
+      this.attachStyle(
+        documentElement,
+        css`
+          height: auto;
+        `,
+      )();
+
+      if (documentElement) {
+        documentElement.scrollTop = this.initialScroll;
+      }
+    }
   };
 }
 
@@ -109,39 +107,10 @@ class VerticalScrollCounter {
   };
 }
 
-function generateClassName(className: string) {
-  const { name, hash } = HideBodyVerticalScroll;
-  return `${name}-${className}-${hash}`;
-}
-
 function generateDocumentStyle(documentMargin: number) {
-  const className = generateClassName('document');
-  const css = `\
-.${className} {
-  overflow: hidden !important;
-  margin-right: ${documentMargin}px !important;
-  height: 100%;
-}
-`;
-  return { className, css };
-}
-
-function attachStylesheet(sheet: string) {
-  const style = document.createElement('style');
-  style.setAttribute('type', 'text/css');
-  // @ts-ignore IE specific api
-  if (style.styleSheet) {
-    // @ts-ignore IE specific api
-    style.styleSheet.cssText = sheet;
-  } else {
-    const textnode = document.createTextNode(sheet);
-    style.appendChild(textnode);
-  }
-  const head = document.getElementsByTagName('head')[0];
-  head.appendChild(style);
-  return () => {
-    if (head.contains(style)) {
-      head.removeChild(style);
-    }
-  };
+  return css`
+    overflow: hidden !important;
+    margin-right: ${documentMargin}px !important;
+    height: 100%;
+  `;
 }
