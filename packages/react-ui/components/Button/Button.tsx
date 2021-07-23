@@ -114,9 +114,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
   public static defaultProps = {
-    use: 'default',
-    size: 'small',
-    type: 'button',
+    use: 'default' as ButtonUse,
+    size: 'small' as ButtonSize,
+    type: 'button' as ButtonType,
   };
 
   public state = {
@@ -173,7 +173,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       icon,
       _noPadding,
       _noRightPadding,
-      use,
+      use = Button.defaultProps.use,
       visuallyFocused,
       align,
       disableFocus,
@@ -196,8 +196,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: cx({
         [styles.root(this.theme)]: true,
-        [styles[use!](this.theme)]: true,
-        [activeStyles[use!](this.theme)]: active,
+        [styles[use](this.theme)]: true,
+        [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused && !checked,
         [styles.checked(this.theme)]: checked,
