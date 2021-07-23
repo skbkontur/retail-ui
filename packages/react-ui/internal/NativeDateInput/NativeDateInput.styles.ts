@@ -12,7 +12,6 @@ const styles = {
       border: none;
       overflow: hidden;
       opacity: 0;
-      visibility: hidden;
     `;
   },
 };
