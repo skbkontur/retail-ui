@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup } from '../../internal/Popup';
+import { DropdownContainer } from '../../internal/DropdownContainer';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
@@ -10,6 +11,8 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
+  wrapper: HTMLElement;
+  useDropdownContainer: boolean;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -43,42 +46,35 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   public getMenuRef = (): any | null => this.menu;
 
-  private renderMain() {
-    const {
-      loading,
-      maxMenuHeight,
-      renderTotalCount,
-      totalCount,
-      opened,
-      items,
-      renderNotFound,
-      renderItem,
-      onValueChange,
-      renderAddButton,
-    } = this.props;
+  private renderMain = () => (
+    this.props.useDropdownContainer ? this.renderDropdownContainer() : this.renderPopup()
+  );
 
+  private renderPopup() {
     return (
       <Popup
-        opened={opened!}
+        opened={this.props.opened!}
         positions={['bottom left']}
         anchorElement={this.props.anchorElement}
         popupOffset={5}
         hasShadow={is8pxTheme(this.theme)}
       >
-        <ComboBoxMenu
-          items={items}
-          loading={loading}
-          maxMenuHeight={maxMenuHeight}
-          onValueChange={onValueChange}
-          opened={opened}
-          refMenu={this.menuRef}
-          renderTotalCount={renderTotalCount}
-          renderItem={renderItem}
-          renderNotFound={renderNotFound}
-          totalCount={totalCount}
-          renderAddButton={renderAddButton}
-        />
+        {this.renderComboBoxMenu()}
       </Popup>
+    );
+  }
+
+  private renderDropdownContainer = () => (
+      <DropdownContainer getParent={() => this.props.wrapper} offsetY={1}>
+        {this.renderComboBoxMenu()}
+      </DropdownContainer>
+  );
+
+  private renderComboBoxMenu() {
+    const { anchorElement, wrapper, useDropdownContainer, ...rest } = this.props;
+
+    return (
+      <ComboBoxMenu refMenu={this.menuRef} {...rest} />
     );
   }
 
