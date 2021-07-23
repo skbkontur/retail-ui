@@ -16,7 +16,7 @@ interface Props {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   value: Nullable<CalendarDateShape>;
-  onPick: (date: CalendarDateShape) => void;
+  onPick: (date: CalendarDateShape | undefined) => void;
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
@@ -73,6 +73,7 @@ export class Picker extends React.Component<Props, State> {
 
   private renderMain() {
     const { date } = this.state;
+
     return (
       <div className={jsStyles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
         <Calendar
@@ -85,7 +86,7 @@ export class Picker extends React.Component<Props, State> {
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
         />
-        {this.props.enableTodayLink && this.renderTodayLink()}
+        {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
     );
   }

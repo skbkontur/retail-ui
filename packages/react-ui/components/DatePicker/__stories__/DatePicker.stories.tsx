@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -99,7 +99,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             type="text"
             value={this.state.min}
             placeholder="min"
-            onChange={(e) => this.setState({ min: e.target.value })}
+            onChange={e => this.setState({ min: e.target.value })}
           />
         </label>
         <label>
@@ -108,7 +108,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             type="text"
             value={this.state.max}
             placeholder="max"
-            onChange={(e) => this.setState({ max: e.target.value })}
+            onChange={e => this.setState({ max: e.target.value })}
           />
         </label>
         <LocaleContext.Provider
@@ -122,6 +122,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             minDate={this.state.min}
             maxDate={this.state.max}
             onValueChange={action('change')}
+            useMobileNativeDatePicker
           />
         </LocaleContext.Provider>
       </Gapped>
@@ -172,7 +173,8 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -191,7 +193,8 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -200,6 +203,30 @@ WithMouseeventHandlers.parameters = {
     },
   },
 };
+
+export const WithMobileNativeDatePicker = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <Gapped vertical>
+        <span>With mobile native datepicker</span>
+        <DatePicker
+          width={200}
+          value={date}
+          onMouseEnter={() => console.count('enter')}
+          onMouseLeave={() => console.count('leave')}
+          onValueChange={date => {
+            setDate(date);
+          }}
+          useMobileNativeDatePicker
+        />
+      </Gapped>
+    </div>
+  );
+};
+WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
+WithMobileNativeDatePicker.parameters = { creevey: { skip: [true] } };
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
@@ -246,7 +273,8 @@ DatePickerWithMinMaxDate.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -265,7 +293,8 @@ DatePickerWithMinMaxDate.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();

@@ -12,6 +12,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
+import { isMobile } from '../../lib/client';
 
 import { jsStyles } from './DateSelect.styles';
 
@@ -90,6 +91,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private longClickTimer = 0;
   private setPositionRepeatTimer = 0;
   private yearStep = 3;
+  private touchStartY: Nullable<number> = null;
 
   public UNSAFE_componentWillReceiveProps() {
     this.setNodeTop();
@@ -338,6 +340,20 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     if (this.itemsContainer && !element) {
       this.itemsContainer.removeEventListener('wheel', this.handleWheel);
     }
+
+    if (isMobile) {
+      if (!this.itemsContainer && element) {
+        element.addEventListener('touchstart', this.handleTouchStart);
+        element.addEventListener('touchend', this.handleTouchEnd);
+        element.addEventListener('touchmove', this.handleTouchMove);
+      }
+      if (this.itemsContainer && !element) {
+        this.itemsContainer.removeEventListener('touchstart', this.handleTouchStart);
+        this.itemsContainer.removeEventListener('touchend', this.handleTouchEnd);
+        this.itemsContainer.removeEventListener('touchmove', this.handleTouchMove);
+      }
+    }
+
     this.itemsContainer = element;
   };
 
@@ -377,6 +393,49 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     }
     const pos = this.state.pos + deltaY;
     this.setPosition(pos);
+  };
+
+  private handleTouchStart = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    event.preventDefault();
+
+    this.touchStartY = event.targetTouches[0].clientY;
+  };
+
+  private handleTouchMove = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    let deltaY = (this.touchStartY || 0) - event.targetTouches[0].clientY;
+
+    if (deltaY > 0) {
+      deltaY = 3;
+    } else {
+      deltaY = -3;
+    }
+
+    const pos = this.state.pos + deltaY;
+    this.setPosition(pos);
+  };
+
+  private handleTouchEnd = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    const clientY = event.changedTouches[0].clientY;
+    const deltaY = (this.touchStartY || 0) - clientY;
+
+    if (Math.abs(deltaY) < 10) {
+      const target = event.changedTouches[0].target;
+      if (target && target instanceof HTMLElement) {
+        target.click();
+      }
+    }
   };
 
   private handleItemClick = (shift: number) => {
