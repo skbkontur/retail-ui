@@ -2,6 +2,7 @@
   "singleQuote": true,
   "printWidth": 120,
   "trailingComma": "all",
+  "endOfLine": "auto",
   "overrides": [
     {
       "files": "*.demo.tsx",

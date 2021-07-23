@@ -1,1 +1,7 @@
 packages/react-ui-codemod/**/__testfixtures__
+
+react-ui-codemod
+react-ui-smoke-test
+react-ui-testing
+
+*.md
