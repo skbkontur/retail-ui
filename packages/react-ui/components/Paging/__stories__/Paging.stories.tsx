@@ -113,7 +113,7 @@ class PagingWithCustomComponent extends Component<any, any> {
 export default {
   title: 'Paging',
   decorators: [
-    Story => (
+    (Story) => (
       <div>
         <Story />
       </div>

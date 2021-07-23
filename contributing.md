@@ -75,8 +75,8 @@
   - `storybook` — Storybook
   - `storybook:test` — Storybook со стилями для тестов
   - `styleguide` — Styleguidist server
-  - `prettier:check` - проверка кода на соответствие правилам prettier
-  - `prettier:fix` - автоформатирование кода при несоответствии правилам prettier
+  - `prettier:check` — проверка кода на соответствие правилам prettier
+  - `prettier:fix` — форматирование кода по правилам prettier
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
   - `test` — интеграционные тесты с использованием `SeleniumTesting` (работает только во внутренней сети Контура)
@@ -85,6 +85,8 @@
   - `test` — unit-тесты
   - `lint` — линтеры
   - `storybook` — Storybook
+  - `prettier:check` — проверка кода на соответствие правилам prettier
+  - `prettier:fix` — форматирование кода по правилам prettier
 
 ## Issues
 

@@ -190,7 +190,7 @@ export class ValidationWrapperInternal extends React.Component<
       return Promise.resolve();
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       this.setState({ validation }, resolve);
       if (Boolean(current) !== Boolean(validation)) {
         this.context.validationContext.onValidationUpdated(this, !validation);
