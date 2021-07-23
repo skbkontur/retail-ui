@@ -68,6 +68,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private inner: Nullable<HTMLElement>;
   private scroll: Nullable<HTMLElement>;
 
+  public scrollPosition = 0;
+
   public componentDidMount() {
     this.reflow();
   }
@@ -247,6 +249,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         scrollPos,
         scrollState,
       });
+
+      this.scrollPosition = scrollPos;
     }
   };
 

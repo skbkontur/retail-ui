@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select } from '../Select';
+import { Gapped } from '../../Gapped';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -149,7 +153,90 @@ Simple.parameters = {
   },
 };
 
-export const Disabled: Story = () => (
+export const MobileSimple = () => {
+  const items = [
+    'one',
+    'two',
+    'three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '16',
+    'seventeen',
+    '18',
+    '19',
+    'откуда мы можем знать что это двадцать?',
+  ];
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider
+            value={ThemeFactory.create(
+              {
+                mobileMediaQuery: '(max-width: 576px)',
+              },
+              theme,
+            )}
+          >
+            <Gapped vertical>
+              <span>With small count of items</span>
+              <Select items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
+              <span>With big count of items</span>
+              <Select items={items} mobileMenuHeaderText={'This is header'} />
+              <span>With search</span>
+              <Select items={items} mobileMenuHeaderText={'This is header'} search />
+            </Gapped>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+MobileSimple.title = 'Mobile stories';
+MobileSimple.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: { skip: [true] },
+};
+MobileSimple.decorators = [
+  (Story: Story) => (
+    <div
+      style={{
+        width: 'calc(100vw - 16px)',
+        height: 'calc(100vh - 16px)',
+        margin: -8,
+        padding: 8,
+        overflow: 'auto',
+      }}
+    >
+      <div
+        style={{
+          width: 'calc(150vw - 16px)',
+          height: 'calc(125vh - 16px)',
+          backgroundColor: 'lightBlue',
+          margin: -8,
+          padding: 8,
+        }}
+      >
+        <Story />
+      </div>
+    </div>
+  ),
+];
+MobileSimple.creevey = { skip: [true] };
+
+export const Disabled: CSFStory<JSX.Element> = () => (
   <>
     <Select disabled items={['value']} value="value" />
     <Select disabled placeholder="placeholder" />

@@ -19,6 +19,7 @@ export interface MenuProps {
   onItemClick?: () => void;
   width?: number | string;
   preventWindowScroll?: boolean;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
 export interface MenuState {
@@ -43,6 +44,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
+
+  public isScrolled = false;
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -119,6 +122,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           ref={this.refScrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
+          onScroll={this.handleScrollMenu}
         >
           <div className={jsStyles.scrollContainer(this.theme)}>
             {React.Children.map(this.props.children, (child, index) => {
@@ -157,6 +161,15 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       </div>
     );
   }
+
+  private handleScrollMenu = (e: React.UIEvent<HTMLDivElement>) => {
+    if (this.scrollContainer) {
+      this.isScrolled = this.scrollContainer.scrollPosition > 0;
+    }
+    if (this.props.onScroll) {
+      this.props.onScroll(e);
+    }
+  };
 
   private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
     this.scrollContainer = scrollContainer;

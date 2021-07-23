@@ -6,6 +6,29 @@ const styles = {
     return css`
       display: inline-block;
       position: relative;
+
+      @media ${t.mobileMediaQuery}  {
+        width: ${t.mobileSelectWidth};
+      },
+    `;
+  },
+
+  rootMobile(t: Theme) {
+    return css`
+      left: 0;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      z-index: 100000;
+    `;
+  },
+
+  mobileWithSearch(t: Theme) {
+    return css`
+      top: 0;
+      right: 0;
+      max-height: 100vh;
+      background-color: ${t.bgDefault};
     `;
   },
 
@@ -90,6 +113,19 @@ const styles = {
       width: 100%;
       display: inline-flex;
       justify-content: space-between;
+    `;
+  },
+
+  bg() {
+    return css`
+      height: 100%;
+      left: 0;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 9999;
+      background: #333333;
+      opacity: 50%;
     `;
   },
 };
