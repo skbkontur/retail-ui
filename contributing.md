@@ -70,12 +70,11 @@
 - `yarn workspace @skbkontur/react-ui <command>` - контролы
   - `test` — unit-тесты `Jest` + `Enzyme`
   - `creevey:ui` — скриншотные тесты `Creevey`
-  - `lint` — `tsc --noEmit` + `eslint` + `stylelint`
+  - `lint` — `tsc --noEmit` + `eslint` + `stylelint` + `prettier`
   - `build` — сборка библиотеки
   - `storybook` — Storybook
   - `storybook:test` — Storybook со стилями для тестов
   - `styleguide` — Styleguidist server
-  - `prettier:check` — проверка кода на соответствие правилам prettier
   - `prettier:fix` — форматирование кода по правилам prettier
 - `yarn workspace react-ui-testing <command>` - интеграционные тесты
   - `start` — старт приложения для интеграционных тестов (используется собранная версия библиотеки)
@@ -83,9 +82,8 @@
 - `yarn workspace react-ui-validations <command>` - валидации
   - `start:docs` — документация
   - `test` — unit-тесты
-  - `lint` — линтеры
+  - `lint` — линтеры + `prettier`
   - `storybook` — Storybook
-  - `prettier:check` — проверка кода на соответствие правилам prettier
   - `prettier:fix` — форматирование кода по правилам prettier
 
 ## Issues
@@ -276,10 +274,10 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 
 ```javascript
 ButtonWithError.parameters = {
-    creevey: {
-      tests: {
-        async idle() {
-          await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
     },
   },
