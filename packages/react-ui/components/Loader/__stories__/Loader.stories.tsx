@@ -39,7 +39,7 @@ class NumberList extends React.Component<{
   public render() {
     return (
       <>
-        {this.getItems(this.props.itemsCount).map(i => (
+        {this.getItems(this.props.itemsCount).map((i) => (
           <div key={i}>{i}</div>
         ))}
       </>
@@ -191,10 +191,7 @@ ActiveLoader.parameters = {
         const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
-        await this.browser
-          .actions({ bridge: true })
-          .click(button)
-          .perform();
+        await this.browser.actions({ bridge: true }).click(button).perform();
 
         await this.expect(await element.takeScreenshot()).to.matchImage('cover children');
       },
@@ -212,10 +209,7 @@ InactiveLoader.parameters = {
         const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
-        await this.browser
-          .actions({ bridge: true })
-          .click(button)
-          .perform();
+        await this.browser.actions({ bridge: true }).click(button).perform();
 
         await this.expect(await element.takeScreenshot()).to.matchImage("doesn't cover children");
       },

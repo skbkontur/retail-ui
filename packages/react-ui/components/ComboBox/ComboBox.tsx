@@ -255,6 +255,6 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={element => (this.comboboxElement = element)} />;
+    return <CustomComboBox {...this.props} ref={(element) => (this.comboboxElement = element)} />;
   }
 }

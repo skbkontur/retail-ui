@@ -315,7 +315,7 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
   public render() {
     return (
       <div id="modal-inner" style={{ width: 300 }}>
-        <Toggle checked={this.state.bigHeight} onValueChange={bigHeight => this.setState({ bigHeight })} /> конкретно
+        <Toggle checked={this.state.bigHeight} onValueChange={(bigHeight) => this.setState({ bigHeight })} /> конкретно
         увеличить высоту
         <p
           style={{

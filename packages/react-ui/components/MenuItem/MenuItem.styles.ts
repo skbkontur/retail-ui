@@ -36,7 +36,7 @@ const styles = {
   },
   selected(t: Theme) {
     return css`
-      background: ${t.menuItemSelectedBg};
+      background: ${t.menuItemSelectedBg} !important;
     `;
   },
   disabled(t: Theme) {

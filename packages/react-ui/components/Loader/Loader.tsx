@@ -139,7 +139,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -190,7 +190,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       >
         <div
           className={jsStyles.spinnerComponentWrapper()}
-          ref={element => {
+          ref={(element) => {
             this.spinnerNode = element;
           }}
         >

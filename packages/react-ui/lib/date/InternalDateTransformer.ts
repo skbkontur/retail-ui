@@ -128,7 +128,7 @@ export class InternalDateTransformer {
     if (match) {
       const matchFinished = match
         .slice(1)
-        .map(item => (InternalDateValidator.testParseToNumber(item) ? Number(item) : null));
+        .map((item) => (InternalDateValidator.testParseToNumber(item) ? Number(item) : null));
       if (order === InternalDateOrder.YMD) {
         ({ 0: dateComponents.year, 1: dateComponents.month, 2: dateComponents.date } = matchFinished);
       } else if (order === InternalDateOrder.MDY) {

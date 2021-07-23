@@ -93,7 +93,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <ThemeContext.Provider

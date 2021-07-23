@@ -269,8 +269,11 @@ Simple.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async focus() {
-        this.browser.executeScript(function() {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('focus');
       },
@@ -298,8 +301,11 @@ Disabled.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async focus() {
-        this.browser.executeScript(function() {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('focus');
       },
@@ -317,8 +323,11 @@ WithWidth.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
       async focus() {
-        this.browser.executeScript(function() {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.expect(await this.takeScreenshot()).to.matchImage('focus');
       },
@@ -333,8 +342,11 @@ BlurAlwaysAfterChange.parameters = {
   creevey: {
     tests: {
       async ['value not changed']() {
-        await this.browser.executeScript(function() {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.browser
           .actions({
@@ -346,8 +358,11 @@ BlurAlwaysAfterChange.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
       },
       async ['value changed']() {
-        await this.browser.executeScript(function() {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.browser
           .actions({
@@ -360,17 +375,20 @@ BlurAlwaysAfterChange.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
       },
       async ['value restored']() {
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           // @ts-ignore
           window.OldDate = window.Date;
           // @ts-ignore
-          window.Date = function() {
+          window.Date = function () {
             // @ts-ignore
             return new window.OldDate(2000, 0, 1);
           };
         });
-        await this.browser.executeScript(function() {
-          (window.document.querySelector("[data-comp-name~='DateInput']") as HTMLElement).focus();
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
         });
         await this.browser
           .actions({
@@ -380,7 +398,7 @@ BlurAlwaysAfterChange.parameters = {
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
         // @ts-ignore
-        await this.browser.executeScript(function() {
+        await this.browser.executeScript(function () {
           // @ts-ignore
           if (window.OldDate) {
             // @ts-ignore

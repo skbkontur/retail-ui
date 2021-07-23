@@ -63,7 +63,7 @@ export class Picker extends React.Component<Props, State> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -74,9 +74,9 @@ export class Picker extends React.Component<Props, State> {
   private renderMain() {
     const { date } = this.state;
     return (
-      <div className={jsStyles.root(this.theme)} onMouseDown={e => e.preventDefault()}>
+      <div className={jsStyles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
         <Calendar
-          ref={c => (this.calendar = c)}
+          ref={(c) => (this.calendar = c)}
           value={this.props.value}
           initialMonth={date.month}
           initialYear={date.year}

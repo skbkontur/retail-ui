@@ -11,7 +11,7 @@ export default {
   title: 'Menu',
   parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
-    Story => (
+    (Story) => (
       <div id="menu-test-container" style={{ padding: 10 }}>
         <Story />
       </div>
