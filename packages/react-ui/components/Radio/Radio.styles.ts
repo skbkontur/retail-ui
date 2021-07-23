@@ -45,6 +45,9 @@ const styles = {
       vertical-align: ${t.radioVerticalAlign};
       margin: ${radioMarginY} ${radioMarginX};
 
+      &:not(${cssName(styles.checked(t))}) {
+        background: ${t.radioBgImage};
+      }
       ${cssName(styles.root(t))}:hover &:not(${cssName(styles.disabled(t))}) {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};

@@ -127,7 +127,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static selectFontSizeMedium = '16px';
   //#endregion
   //#region Checkbox
-  public static checkboxBg = 'none';
+  public static checkboxBg = '#fff';
   public static checkboxIndeterminateBg = '#fff';
   public static get checkboxShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
@@ -191,7 +191,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioSize = '18px';
   public static radioSizeAfter = '20px';
   public static radioVerticalAlign = 'top';
-  public static radioBgImage = 'none';
+  public static radioBgImage = '#fff';
   public static radioBoxShadow = 'none';
   public static get radioBorder() {
     return `${this.radioBorderWidth} solid rgba(0, 0, 0, 0.15)`;
