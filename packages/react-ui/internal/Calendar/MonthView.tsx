@@ -82,7 +82,7 @@ export function MonthView(props: MonthViewProps) {
       <div
         style={{ top: headerTop }}
         className={cx({
-          [styles.header(theme)]: true,
+          [styles.header()]: true,
           [styles.headerSticky(theme)]: isHeaderSticky,
         })}
       >

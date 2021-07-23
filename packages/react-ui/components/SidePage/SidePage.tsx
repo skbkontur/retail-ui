@@ -182,7 +182,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         data-tid="SidePage__root"
         className={cx({
           [styles.root()]: true,
-          [styles.leftSide(this.theme)]: Boolean(fromLeft),
+          [styles.leftSide()]: Boolean(fromLeft),
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext

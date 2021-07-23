@@ -281,7 +281,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-          <span className={styles.root(this.theme)} style={style}>
+          <span className={styles.root()} style={style}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
           </span>

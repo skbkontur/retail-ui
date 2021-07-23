@@ -155,7 +155,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         className={cx({
           [styles.kebab(this.theme)]: true,
           [styles.opened(this.theme)]: captionProps.opened,
-          [styles.disabled(this.theme)]: disabled,
+          [styles.disabled()]: disabled,
           [styles.focused(this.theme)]: this.state.focusedByTab,
         })}
       >
@@ -217,9 +217,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       <div
         className={cx({
           [styles.icon()]: true,
-          [styles.iconsmall(this.theme)]: this.props.size === 'small',
-          [styles.iconmedium(this.theme)]: this.props.size === 'medium',
-          [styles.iconlarge(this.theme)]: this.props.size === 'large',
+          [styles.iconsmall()]: this.props.size === 'small',
+          [styles.iconmedium()]: this.props.size === 'medium',
+          [styles.iconlarge()]: this.props.size === 'large',
         })}
       >
         {this.props.icon}

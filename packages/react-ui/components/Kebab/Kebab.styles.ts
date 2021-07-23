@@ -37,7 +37,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  disabled(t: Theme) {
+  disabled() {
     return css`
       cursor: default;
 
@@ -53,7 +53,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconsmall(t: Theme) {
+  iconsmall() {
     return css`
       margin-top: 1px;
       margin-left: 0.8124px;
@@ -61,7 +61,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconmedium(t: Theme) {
+  iconmedium() {
     return css`
       margin-top: -2px;
       margin-left: 0.5px;
@@ -69,7 +69,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconlarge(t: Theme) {
+  iconlarge() {
     return css`
       margin-top: -4px;
       margin-left: 0.5px;

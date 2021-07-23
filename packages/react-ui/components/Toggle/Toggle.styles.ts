@@ -156,7 +156,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  disabled(t: Theme) {
+  disabled() {
     return css`
       cursor: default;
     `;

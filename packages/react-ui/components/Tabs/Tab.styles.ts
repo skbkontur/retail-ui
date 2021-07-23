@@ -81,7 +81,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  active(t: Theme) {
+  active() {
     return css`
       cursor: default;
     `;
@@ -97,7 +97,7 @@ export const horizontalStyles = memoizeStyle({
     `;
   },
 
-  disabled(t: Theme) {
+  disabled() {
     return css`
       &:hover {
         border-bottom-color: transparent;
@@ -147,7 +147,7 @@ export const verticalStyles = memoizeStyle({
     `;
   },
 
-  disabled(t: Theme) {
+  disabled() {
     return css`
       &:hover {
         border-left-color: transparent;

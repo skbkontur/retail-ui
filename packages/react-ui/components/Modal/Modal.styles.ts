@@ -70,7 +70,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  alignTop(t: Theme) {
+  alignTop() {
     return css`
       vertical-align: top;
     `;

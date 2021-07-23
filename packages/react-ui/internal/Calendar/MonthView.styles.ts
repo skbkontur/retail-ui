@@ -28,7 +28,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  header(t: Theme) {
+  header() {
     return css`
       position: relative;
     `;

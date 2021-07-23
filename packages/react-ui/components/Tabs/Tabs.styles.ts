@@ -11,7 +11,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  vertical(t: Theme) {
+  vertical() {
     return css`
       margin: 0;
     `;

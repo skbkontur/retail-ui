@@ -214,10 +214,10 @@ export class Tab extends React.Component<TabProps, TabState> {
             [orientationStyles.success(this.theme)]: !!success,
             [orientationStyles.warning(this.theme)]: !!warning,
             [orientationStyles.error(this.theme)]: !!error,
-            [styles.active(this.theme)]: !!isActive,
+            [styles.active()]: !!isActive,
             [orientationStyles.active(this.theme)]: !!isActive,
             [styles.disabled(this.theme)]: !!disabled,
-            [orientationStyles.disabled(this.theme)]: !!disabled,
+            [orientationStyles.disabled()]: !!disabled,
           })}
           onBlur={this.handleBlur}
           onClick={this.switchTab}

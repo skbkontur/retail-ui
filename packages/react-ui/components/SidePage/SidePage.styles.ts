@@ -150,7 +150,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  leftSide(t: Theme) {
+  leftSide() {
     return css`
       left: 0;
       right: auto;

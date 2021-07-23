@@ -202,7 +202,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               <div
                 className={cx({
                   [styles.centerContainer(this.theme)]: true,
-                  [styles.alignTop(this.theme)]: Boolean(this.props.alignTop),
+                  [styles.alignTop()]: Boolean(this.props.alignTop),
                 })}
                 style={containerStyle}
                 data-tid="modal-content"

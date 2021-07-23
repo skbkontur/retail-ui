@@ -2,7 +2,7 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
-  root(t: Theme) {
+  root() {
     return css`
       display: inline-block;
       position: relative;
