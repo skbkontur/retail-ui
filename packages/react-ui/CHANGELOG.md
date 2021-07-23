@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.1...@skbkontur/react-ui@2.17.2) (2021-07-23)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** fix selection in IE11 ([d5533ff](https://github.com/skbkontur/retail-ui/commit/d5533ff033f67bcc9c5f206c7e17db6291ca9422)), closes [#2366](https://github.com/skbkontur/retail-ui/issues/2366)
+* **DatePicker,DateInput,InputLikeText:** fix opening in Popup for IE11 ([#2464](https://github.com/skbkontur/retail-ui/issues/2464)) ([062d35a](https://github.com/skbkontur/retail-ui/commit/062d35a8dc089535f9f1719719bc50b24c2ab815)), closes [#2458](https://github.com/skbkontur/retail-ui/issues/2458)
+* **Modal, SidePage, HBVS:** performance ([#2452](https://github.com/skbkontur/retail-ui/issues/2452)) ([6b11279](https://github.com/skbkontur/retail-ui/commit/6b112798c201360dd605752826f1dd2b6fb63008)), closes [#2450](https://github.com/skbkontur/retail-ui/issues/2450)
+
+
+
+
+
 ## [2.17.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.0...@skbkontur/react-ui@2.17.1) (2021-06-10)
 
 
