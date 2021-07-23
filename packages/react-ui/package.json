@@ -34,6 +34,7 @@
     "lint": "run-p -c lint:*",
     "lint:eslint": "cross-env TIMING=1 yarn eslint --ext .js,.jsx,.ts,.tsx ./",
     "lint:tsc": "tsc --noEmit --diagnostics",
+    "lint:prettier": "yarn run prettier:check",
     "fix:eslint": "yarn lint:eslint --fix",
     "test": "cross-env BABEL_ENV=cjs jest",
     "test:watch": "yarn test --watch",
