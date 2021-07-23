@@ -354,7 +354,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.handleBlur();
   };
 
-  private handleBlur = async () => {
+  private handleBlur = () => {
     if (!this.focused) {
       if (this.state.opened) {
         this.close();
@@ -363,6 +363,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     }
     this.focused = false;
     if (isFirefox) {
+      // workaround for the Firefox focusout bug
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
       setTimeout(()=>{
         this.dispatch({ type: 'Blur' });
         removeAllSelections();
