@@ -5,9 +5,10 @@ import { Input, InputIconType } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
-import { CancelationError, taskWithDelay } from '../../lib/utils';
+import { CancelationError, delay, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { isFirefox } from '../../lib/client';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -352,7 +353,10 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.handleBlur();
   };
 
-  private handleBlur = () => {
+  private handleBlur = async () => {
+    if (isFirefox) {
+      await (delay(0));
+    }
     if (!this.focused) {
       if (this.state.opened) {
         this.close();
