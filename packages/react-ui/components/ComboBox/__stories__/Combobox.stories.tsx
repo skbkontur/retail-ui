@@ -13,6 +13,7 @@ import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
+import { Tooltip } from '../../Tooltip';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
@@ -1089,3 +1090,47 @@ export const WithRightIcon = () => (
   </Gapped>
 );
 WithRightIcon.storyName = 'with right icon';
+
+
+export const WithTooltip: Story = () => {
+  return (
+    <div style={{marginTop: 20}}>
+      <Tooltip render={() => 'tooltip on focus'} trigger='focus' pos='right top'>
+        <SimpleCombobox />
+      </Tooltip>
+    </div>
+  );
+};
+
+WithTooltip.storyName = 'with tooltip';
+
+WithTooltip.parameters = {
+  creevey: {
+    tests: {
+      async ['show Tooltip']() {
+       const input = await this.browser.findElement({css: 'body'});
+
+       await this.browser
+         .actions({ bridge: true })
+         .click(this.browser.findElement({ css: '[data-tid="InputLikeText__input"]' }))
+         .pause(1000)
+         .perform();
+
+       await this.expect(await input.takeScreenshot()).to.matchImage('show tooltip');
+      },
+      async ['Hide Tooltip']() {
+        const body = await this.browser.findElement({css: 'body'});
+
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="InputLikeText__input"]' }))
+          .pause(1000)
+          .click(body)
+          .pause(1000)
+          .perform();
+
+        await this.expect(await body.takeScreenshot()).to.matchImage('hide tooltip');
+      }
+    }
+  }
+}
