@@ -26,7 +26,7 @@ class UncTabs extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs<string>
+      <Tabs
         value={this.state.active}
         onValueChange={(v) => this.setState({ active: v })}
         vertical={this.props.vertical}

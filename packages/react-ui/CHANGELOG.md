@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.3.0...@skbkontur/react-ui@3.3.1) (2021-07-23)
+
+
+### Bug Fixes
+
+* **Select:** fix highlighting of selected item ([#2483](https://github.com/skbkontur/retail-ui/issues/2483)) ([6b5412b](https://github.com/skbkontur/retail-ui/commit/6b5412bf74bd0d9651aa0ea064c9dea7389a2b21))
+
+
+
+
+
 # [3.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.2.1...@skbkontur/react-ui@3.3.0) (2021-07-14)
 
 
