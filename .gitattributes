@@ -1,2 +1,2 @@
+* text=auto eol=lf
 packages/react-ui/.creevey/images/**/*.png filter=lfs diff=lfs merge=lfs -text
-* text eol=lf

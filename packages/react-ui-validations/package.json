@@ -22,10 +22,11 @@
     "lint:tsc": "tsc --noEmit --diagnostics",
     "lint:eslint": "cross-env TIMING=1 eslint --ext .js,.jsx,.ts,.tsx ./",
     "lint:prettier": "prettier --check .",
+    "fix": "run-s -c fix:*",
     "fix:eslint": "yarn lint:eslint --fix",
+    "fix:prettier": "yarn prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "prettier:fix": "yarn prettier --write ."
+    "test:watch": "jest --watch"
   },
   "main": "./index.js",
   "types": "./index.d.ts",
