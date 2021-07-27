@@ -13,7 +13,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
-import { styles, horizontalStyles, verticalStyles, globalClassNames } from './Tab.styles';
+import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -229,7 +229,7 @@ export class Tab extends React.Component<TabProps, TabState> {
           href={href}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
-          {this.state.focusedByKeyboard && <div className={cx(styles.focus(this.theme), globalClassNames.focus)} />}
+          {this.state.focusedByKeyboard && <div className={cx(styles.focus(this.theme), globalClasses.focus)} />}
         </Component>
       </CommonWrapper>
     );

@@ -8,7 +8,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { styles, activeStyles, globalClassNames } from './Button.styles';
+import { styles, activeStyles, globalClasses } from './Button.styles';
 import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -282,8 +282,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             [styles.arrowLeft()]: arrow === 'left',
           })}
         >
-          <div className={cx(globalClassNames.arrowHelper, globalClassNames.arrowHelperTop)} />
-          <div className={cx(globalClassNames.arrowHelper, globalClassNames.arrowHelperBottom)} />
+          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperTop)} />
+          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
         </div>
       );
     }
@@ -313,7 +313,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             {loadingNode}
             {arrowNode}
             <div
-              className={cx(styles.caption(), globalClassNames.caption, {
+              className={cx(styles.caption(), globalClasses.caption, {
                 [styles.captionTranslated()]: active || checked,
                 [styles.captionLink()]: isLink,
                 [styles.captionDisabled()]: !checked && disabled,

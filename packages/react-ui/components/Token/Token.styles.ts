@@ -1,10 +1,10 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
-export const globalClassNames = {
-  removeIcon: 'react-ui-remove-icon',
-};
+export const globalClasses = prefix('token')({
+  removeIcon: 'remove-icon',
+});
 
 export const styles = memoizeStyle({
   token(t: Theme) {
@@ -117,7 +117,7 @@ export const colorStyles = [
 
         ${vStyle}
 
-        .${globalClassNames.removeIcon}:hover {
+        .${globalClasses.removeIcon}:hover {
           color: ${ColorFunctions.contrast(color(t))};
         }
       `;
@@ -129,7 +129,7 @@ export const colorStyles = [
         background-color: ${t.tokenDisabledBg};
         box-shadow: ${t.tokenShadowDisabled};
 
-        .${globalClassNames.removeIcon} {
+        .${globalClasses.removeIcon} {
           fill: ${t.tokenTextColorDisabled};
           opacity: 1;
         }

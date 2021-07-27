@@ -1,7 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
-import { globalClassNames } from './Button.styles';
+import { globalClasses } from './Button.styles';
 
 const getBtnPadding = (
   fontSize: string,
@@ -45,7 +45,7 @@ export const buttonUseMixin = (
     border-color: ${borderColor};
     border-bottom-color: ${borderBottomColor};
 
-    .${globalClassNames.arrowHelper} {
+    .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
   `;
@@ -67,7 +67,7 @@ export const buttonHoverMixin = (
       border-color: ${borderColor};
       border-bottom-color: ${borderBottomColor};
 
-      .${globalClassNames.arrowHelper} {
+      .${globalClasses.arrowHelper} {
         box-shadow: ${borderWidth} 0 0 ${borderColor};
       }
     }
@@ -89,10 +89,10 @@ export const buttonActiveMixin = (
     border-color: ${borderColor};
     border-top-color: ${borderTopColor};
 
-    .${globalClassNames.arrowHelper} {
+    .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 ${borderColor};
 
-      &.${globalClassNames.arrowHelperTop} {
+      &.${globalClasses.arrowHelperTop} {
         background-image: ${arrowBgImage};
       }
     }
@@ -135,12 +135,12 @@ export const arrowOutlineMixin = (
   insetColor: string,
 ) => {
   return css`
-    .${globalClassNames.arrowHelper} {
-      &.${globalClassNames.arrowHelperTop} {
+    .${globalClasses.arrowHelper} {
+      &.${globalClasses.arrowHelperTop} {
         box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
-      &.${globalClassNames.arrowHelperBottom} {
+      &.${globalClasses.arrowHelperBottom} {
         box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
@@ -151,7 +151,7 @@ export const arrowOutlineMixin = (
         right: ${insetWidth};
         left: ${insetWidth};
       }
-      &.${globalClassNames.arrowHelperBottom}:before {
+      &.${globalClasses.arrowHelperBottom}:before {
         bottom: ${insetWidth};
       }
     }

@@ -1,4 +1,4 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 import { isFirefox } from '../../lib/client';
@@ -12,12 +12,12 @@ import {
   buttonSizeMixinIE11,
 } from './Button.mixins';
 
-export const globalClassNames = {
-  arrowHelper: 'react-ui-arrow-helper',
-  arrowHelperTop: 'react-ui-arrow-helper-top',
-  arrowHelperBottom: 'react-ui-arrow-helper-bottom',
-  caption: 'react-ui-caption',
-};
+export const globalClasses = prefix('button')({
+  arrowHelper: 'arrow-helper',
+  arrowHelperTop: 'arrow-helper-top',
+  arrowHelperBottom: 'arrow-helper-bottom',
+  caption: 'caption',
+});
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -47,7 +47,7 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:active .${globalClassNames.caption} {
+      &:active .${globalClasses.caption} {
         transform: translateY(1px);
       }
     `;
@@ -241,7 +241,7 @@ export const styles = memoizeStyle({
       color: ${t.btnDisabledTextColor};
       box-shadow: none;
 
-      .${globalClassNames.arrowHelper} {
+      .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
       }
     `;
@@ -281,7 +281,7 @@ export const styles = memoizeStyle({
       left: 0;
       right: 0;
 
-      .${globalClassNames.arrowHelper} {
+      .${globalClasses.arrowHelper} {
         width: 100%;
         height: 50%;
         position: absolute;
@@ -306,7 +306,7 @@ export const styles = memoizeStyle({
         }
       }
 
-      .${globalClassNames.arrowHelperTop} {
+      .${globalClasses.arrowHelperTop} {
         top: 0;
         transform: skewX(30deg);
         transform-origin: top;
@@ -320,7 +320,7 @@ export const styles = memoizeStyle({
         }
       }
 
-      .${globalClassNames.arrowHelperBottom} {
+      .${globalClasses.arrowHelperBottom} {
         bottom: 0;
         transform: skewX(-30deg);
         transform-origin: bottom;
@@ -485,10 +485,10 @@ export const styles = memoizeStyle({
       color: ${t.btnCheckedTextColor};
       border-color: ${t.btnDefaultCheckedBorderColor};
 
-      .${globalClassNames.arrowHelper} {
+      .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
 
-        &.${globalClassNames.arrowHelperTop} {
+        &.${globalClasses.arrowHelperTop} {
           background-image: ${t.btnArrowBgImageChecked};
         }
       }
@@ -512,10 +512,10 @@ export const styles = memoizeStyle({
       color: ${t.btnCheckedDisabledColor};
       border-color: ${t.btnCheckedDisabledBorderColor};
 
-      .${globalClassNames.arrowHelper} {
+      .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnCheckedDisabledBorderColor};
 
-        &.${globalClassNames.arrowHelperTop} {
+        &.${globalClasses.arrowHelperTop} {
           background-image: none;
         }
       }

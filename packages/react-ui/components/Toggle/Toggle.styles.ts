@@ -1,12 +1,12 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const globalClassNames = {
-  handle: 'react-ui-handle',
-  container: 'react-ui-container',
-  containerLoading: 'react-ui-container-loading',
-  background: 'react-ui-background',
-};
+export const globalClasses = prefix('toggle')({
+  handle: 'handle',
+  container: 'container',
+  containerLoading: 'container-loading',
+  background: 'background',
+});
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -16,13 +16,13 @@ export const styles = memoizeStyle({
       display: inline-flex;
       cursor: pointer;
 
-      &:hover .${globalClassNames.handle} {
+      &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
       }
-      &:active .${globalClassNames.handle} {
+      &:active .${globalClasses.handle} {
         width: ${handleActiveWidth};
       }
-      &:active input:checked ~ .${globalClassNames.handle} {
+      &:active input:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
       }
@@ -62,20 +62,20 @@ export const styles = memoizeStyle({
       &:focus {
         outline: none;
       }
-      &:checked ~ .${globalClassNames.container} {
+      &:checked ~ .${globalClasses.container} {
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
-      &:checked ~ .${globalClassNames.containerLoading} {
+      &:checked ~ .${globalClasses.containerLoading} {
         background: ${t.toggleBorderColor};
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
       }
-      &:checked ~ .${globalClassNames.container} .${globalClassNames.background} {
+      &:checked ~ .${globalClasses.container} .${globalClasses.background} {
         width: 70%;
         background: ${t.toggleBgChecked};
       }
-      &:checked ~ .${globalClassNames.handle} {
+      &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
       }
     `;

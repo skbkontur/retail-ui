@@ -1,9 +1,9 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const globalClassNames = {
-  radio: 'react-ui-radio',
-};
+export const globalClasses = prefix('radio')({
+  radio: 'radio',
+});
 
 const mixins = {
   afterOutline(t: Theme) {
@@ -32,14 +32,14 @@ export const styles = memoizeStyle({
       padding-bottom: ${t.radioPaddingY};
       display: inline-block;
 
-      &:hover .${globalClassNames.radio} {
+      &:hover .${globalClasses.radio} {
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
       }
-      &:hover input:checked + .${globalClassNames.radio} {
+      &:hover input:checked + .${globalClasses.radio} {
         background: ${t.radioCheckedHoverBgColor};
       }
-      &:active .${globalClassNames.radio} {
+      &:active .${globalClasses.radio} {
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
       }
@@ -139,7 +139,7 @@ export const styles = memoizeStyle({
       width: 0;
       z-index: -1;
 
-      &:focus + .${globalClassNames.radio}::after {
+      &:focus + .${globalClasses.radio}::after {
         ${mixins.afterOutline(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorFocus};

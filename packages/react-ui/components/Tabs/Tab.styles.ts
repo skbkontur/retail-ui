@@ -1,12 +1,12 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
-export const globalClassNames = {
-  focus: 'react-ui-focus',
-};
+export const globalClasses = prefix('tab')({
+  focus: 'focus',
+});
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -54,7 +54,7 @@ export const styles = memoizeStyle({
         border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
       }
 
-      .${globalClassNames.focus} {
+      .${globalClasses.focus} {
         bottom: 0;
         left: -${t.tabBorderWidth};
         right: 0;

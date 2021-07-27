@@ -10,7 +10,7 @@ import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { styles, globalClassNames } from './Checkbox.styles';
+import { styles, globalClasses } from './Checkbox.styles';
 
 export interface CheckboxProps
   extends CommonProps,
@@ -181,7 +181,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     const box = (
       <span
-        className={cx(styles.box(this.theme), globalClassNames.box, {
+        className={cx(styles.box(this.theme), globalClasses.box, {
           [styles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
           [styles.boxWarning(this.theme)]: Boolean(props.warning),
           [styles.boxError(this.theme)]: Boolean(props.error),
