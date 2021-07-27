@@ -183,13 +183,10 @@ export const Validations = () => {
 };
 Validations.storyName = 'validations';
 Validations.parameters = { creevey: { skip: [true] } };
-export const DropdownMenu: Story = () => {
-  return (
-    <Gapped vertical gap={10}>
+
+export const DropdownMenu: Story = () => (
       <Wrapper menuWidthMode='stretch' getItems={getItems} />
-    </Gapped>
-  );
-};
+);
 DropdownMenu.storyName = 'dropdown menu';
 DropdownMenu.parameters = {
   creevey: {
