@@ -27,7 +27,7 @@ function handleESModules() {
   if (!fs.existsSync(buildDir)) {
     return;
   }
-  readdir(buildDir).forEach(filename => {
+  readdir(buildDir).forEach((filename) => {
     const src = path.join(buildDir, filename);
     if (shouldHandle(src)) {
       const esm = src;
@@ -39,7 +39,7 @@ function handleESModules() {
 
 function shouldHandle(file) {
   const filesToIgnore = [cjsDir, path.join(buildDir, 'index.js')];
-  return isJsFile(file) && !filesToIgnore.some(ignore => file.startsWith(ignore));
+  return isJsFile(file) && !filesToIgnore.some((ignore) => file.startsWith(ignore));
 }
 
 function isJsFile(file) {
@@ -78,7 +78,7 @@ function moveModule(filepath) {
   log(`Move`, resultpath, `gray`);
 
   fs.moveSync(filepath, resultpath);
-  extraFilesToMove.forEach(filename => {
+  extraFilesToMove.forEach((filename) => {
     const srcFile = path.join(srcDir, filename);
     const destFile = path.join(destDir, filename);
     if (fs.existsSync(srcFile)) {
