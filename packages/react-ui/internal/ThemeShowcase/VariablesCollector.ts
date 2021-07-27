@@ -46,6 +46,9 @@ if (IS_PROXY_SUPPORTED) {
 
       Object.keys(styles).forEach((elementName) => {
         const jsStyle = styles[elementName];
+        if (typeof jsStyle !== 'function') {
+          return;
+        }
         const variablesAccumulator = new Set<keyof Theme>();
         const dependencies: VariableDependencies = {};
         const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);

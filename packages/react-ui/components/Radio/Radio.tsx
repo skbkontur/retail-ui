@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './Radio.styles';
+import { styles, globalClassNames } from './Radio.styles';
 
 export interface RadioProps<T>
   extends CommonProps,
@@ -105,6 +105,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
         [styles.warning(this.theme)]: warning,
         [styles.disabled(this.theme)]: disabled,
         [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
+        [globalClassNames.radio]: true,
       }),
     };
 
@@ -145,7 +146,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     return (
       <label {...labelProps}>
         <input {...inputProps} />
-        <span {...radioProps} data-radio>
+        <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}

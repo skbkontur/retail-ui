@@ -12,6 +12,13 @@ import {
   buttonSizeMixinIE11,
 } from './Button.mixins';
 
+export const globalClassNames = {
+  arrowHelper: 'react-ui-arrow-helper',
+  arrowHelperTop: 'react-ui-arrow-helper-top',
+  arrowHelperBottom: 'react-ui-arrow-helper-bottom',
+  caption: 'react-ui-caption',
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
@@ -40,7 +47,7 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:active [data-caption] {
+      &:active .${globalClassNames.caption} {
         transform: translateY(1px);
       }
     `;
@@ -234,7 +241,7 @@ export const styles = memoizeStyle({
       color: ${t.btnDisabledTextColor};
       box-shadow: none;
 
-      [data-arrow-helper] {
+      .${globalClassNames.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
       }
     `;
@@ -274,7 +281,7 @@ export const styles = memoizeStyle({
       left: 0;
       right: 0;
 
-      [data-arrow-helper] {
+      .${globalClassNames.arrowHelper} {
         width: 100%;
         height: 50%;
         position: absolute;
@@ -299,7 +306,7 @@ export const styles = memoizeStyle({
         }
       }
 
-      [data-arrow-helper-top] {
+      .${globalClassNames.arrowHelperTop} {
         top: 0;
         transform: skewX(30deg);
         transform-origin: top;
@@ -313,7 +320,7 @@ export const styles = memoizeStyle({
         }
       }
 
-      [data-arrow-helper-bottom] {
+      .${globalClassNames.arrowHelperBottom} {
         bottom: 0;
         transform: skewX(-30deg);
         transform-origin: bottom;
@@ -478,10 +485,10 @@ export const styles = memoizeStyle({
       color: ${t.btnCheckedTextColor};
       border-color: ${t.btnDefaultCheckedBorderColor};
 
-      [data-arrow-helper] {
+      .${globalClassNames.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
 
-        &[data-arrow-helper-top] {
+        &.${globalClassNames.arrowHelperTop} {
           background-image: ${t.btnArrowBgImageChecked};
         }
       }
@@ -505,10 +512,10 @@ export const styles = memoizeStyle({
       color: ${t.btnCheckedDisabledColor};
       border-color: ${t.btnCheckedDisabledBorderColor};
 
-      [data-arrow-helper] {
+      .${globalClassNames.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnCheckedDisabledBorderColor};
 
-        &[data-arrow-helper-top] {
+        &.${globalClassNames.arrowHelperTop} {
           background-image: none;
         }
       }

@@ -8,7 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './Toggle.styles';
+import { styles, globalClassNames } from './Toggle.styles';
 
 let colorWarningShown = false;
 
@@ -110,6 +110,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     const containerClassNames = cx(styles.container(this.theme), {
       [styles.containerDisabled(this.theme)]: !!disabled,
+      [globalClassNames.container]: true,
+      [globalClassNames.containerLoading]: loading,
     });
 
     const labelClassNames = cx(styles.root(this.theme), {
@@ -156,20 +158,18 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                       }
                     : undefined
                 }
-                data-container
-                data-container-loading={!!loading}
               >
                 <div
-                  className={cx(styles.activeBackground(), {
+                  className={cx(styles.activeBackground(), globalClassNames.background, {
                     [styles.activeBackgroundLoading(this.theme)]: loading,
                   })}
                   style={checked && color ? { backgroundColor: color } : undefined}
-                  data-background
                 />
               </div>
               <div
-                className={cx(styles.handle(this.theme), { [styles.handleDisabled(this.theme)]: disabled })}
-                data-handle
+                className={cx(styles.handle(this.theme), globalClassNames.handle, {
+                  [styles.handleDisabled(this.theme)]: disabled,
+                })}
               />
             </span>
           </div>

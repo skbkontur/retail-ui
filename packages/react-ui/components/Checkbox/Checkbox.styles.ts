@@ -1,6 +1,10 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+export const globalClassNames = {
+  box: 'react-ui-box',
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
@@ -13,12 +17,12 @@ export const styles = memoizeStyle({
       font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
 
-      &:hover [data-box] {
+      &:hover .${globalClassNames.box} {
         background: ${t.checkboxHoverBg};
         box-shadow: ${t.checkboxShadowHover};
       }
 
-      &:active [data-box] {
+      &:active .${globalClassNames.box} {
         box-shadow: ${t.checkboxShadowActive};
         background: ${t.checkboxActiveBg};
       }
@@ -27,12 +31,12 @@ export const styles = memoizeStyle({
 
   rootChecked(t: Theme) {
     return css`
-      &:hover [data-box] {
+      &:hover .${globalClassNames.box} {
         box-shadow: ${t.checkboxCheckedHoverShadow};
         background: ${t.checkboxCheckedHoverBg};
       }
 
-      &:active [data-box] {
+      &:active .${globalClassNames.box} {
         background: ${t.checkboxCheckedActiveBg};
         box-shadow: ${t.checkboxCheckedActiveShadow};
       }

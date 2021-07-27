@@ -1,6 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
+import { globalClassNames } from './Button.styles';
+
 const getBtnPadding = (
   fontSize: string,
   paddingY: string,
@@ -43,7 +45,7 @@ export const buttonUseMixin = (
     border-color: ${borderColor};
     border-bottom-color: ${borderBottomColor};
 
-    [data-arrow-helper] {
+    .${globalClassNames.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
   `;
@@ -65,7 +67,7 @@ export const buttonHoverMixin = (
       border-color: ${borderColor};
       border-bottom-color: ${borderBottomColor};
 
-      [data-arrow-helper] {
+      .${globalClassNames.arrowHelper} {
         box-shadow: ${borderWidth} 0 0 ${borderColor};
       }
     }
@@ -87,10 +89,10 @@ export const buttonActiveMixin = (
     border-color: ${borderColor};
     border-top-color: ${borderTopColor};
 
-    [data-arrow-helper] {
+    .${globalClassNames.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 ${borderColor};
 
-      &[data-arrow-helper-top] {
+      &.${globalClassNames.arrowHelperTop} {
         background-image: ${arrowBgImage};
       }
     }
@@ -133,12 +135,12 @@ export const arrowOutlineMixin = (
   insetColor: string,
 ) => {
   return css`
-    [data-arrow-helper] {
-      &[data-arrow-helper-top] {
+    .${globalClassNames.arrowHelper} {
+      &.${globalClassNames.arrowHelperTop} {
         box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
-      &[data-arrow-helper-bottom] {
+      &.${globalClassNames.arrowHelperBottom} {
         box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
@@ -149,7 +151,7 @@ export const arrowOutlineMixin = (
         right: ${insetWidth};
         left: ${insetWidth};
       }
-      &[data-arrow-helper-bottom]:before {
+      &.${globalClassNames.arrowHelperBottom}:before {
         bottom: ${insetWidth};
       }
     }

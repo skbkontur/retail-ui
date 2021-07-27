@@ -4,6 +4,10 @@ import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
+export const globalClassNames = {
+  focus: 'react-ui-focus',
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     const paddingTop = is8pxTheme(t) ? t.tabPaddingY : shift(t.tabPaddingY, '-1px');
@@ -50,7 +54,7 @@ export const styles = memoizeStyle({
         border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
       }
 
-      [data-focus] {
+      .${globalClassNames.focus} {
         bottom: 0;
         left: -${t.tabBorderWidth};
         right: 0;

@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
-import { styles, colorStyles } from './Token.styles';
+import { styles, colorStyles, globalClassNames } from './Token.styles';
 
 export type TokenColorName = keyof typeof colorStyles;
 
@@ -98,7 +98,7 @@ export class Token extends React.Component<TokenProps> {
           onBlur={onBlur}
         >
           <span className={styles.text(this.theme)}>{children}</span>
-          <span className={styles.removeIcon(this.theme)} onClick={this.onRemoveClick} data-remove-icon>
+          <span className={cx(styles.removeIcon(this.theme), globalClassNames.removeIcon)} onClick={this.onRemoveClick}>
             <CrossIcon />
           </span>
         </div>

@@ -1,6 +1,13 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+export const globalClassNames = {
+  handle: 'react-ui-handle',
+  container: 'react-ui-container',
+  containerLoading: 'react-ui-container-loading',
+  background: 'react-ui-background',
+};
+
 export const styles = memoizeStyle({
   root(t: Theme) {
     const handleWidthWithBorders = t.toggleHeight;
@@ -9,13 +16,13 @@ export const styles = memoizeStyle({
       display: inline-flex;
       cursor: pointer;
 
-      &:hover [data-handle] {
+      &:hover .${globalClassNames.handle} {
         background: ${t.toggleBgHover};
       }
-      &:active [data-handle] {
+      &:active .${globalClassNames.handle} {
         width: ${handleActiveWidth};
       }
-      &:active input:checked ~ [data-handle] {
+      &:active input:checked ~ .${globalClassNames.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
       }
@@ -55,20 +62,20 @@ export const styles = memoizeStyle({
       &:focus {
         outline: none;
       }
-      &:checked ~ [data-container] {
+      &:checked ~ .${globalClassNames.container} {
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
-      &:checked ~ [data-container-loading='true'] {
+      &:checked ~ .${globalClassNames.containerLoading} {
         background: ${t.toggleBorderColor};
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
       }
-      &:checked ~ [data-container] [data-background] {
+      &:checked ~ .${globalClassNames.container} .${globalClassNames.background} {
         width: 70%;
         background: ${t.toggleBgChecked};
       }
-      &:checked ~ [data-handle] {
+      &:checked ~ .${globalClassNames.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
       }
     `;
