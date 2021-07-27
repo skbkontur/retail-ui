@@ -56,7 +56,6 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
   public static propTypes = {
     children: PropTypes.node,
     indicatorClassName: PropTypes.string,
-    value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
@@ -69,7 +68,7 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
   private theme!: Theme;
 
   private tabs: Array<{
-    getNode: () => Tab | null;
+    getNode: () => Tab<T> | null;
     id: T;
   }> = [];
 
@@ -148,7 +147,7 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
     }
   };
 
-  private getTab = (id: T): Tab | null => {
+  private getTab = (id: T): Tab<T> | null => {
     const { getNode = null } = this.tabs.find((x) => x.id === id) || {};
     return getNode && getNode();
   };

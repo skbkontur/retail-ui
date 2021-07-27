@@ -23,7 +23,7 @@ export interface TabIndicators {
   disabled: boolean;
 }
 
-export interface TabProps extends CommonProps {
+export interface TabProps<T> extends CommonProps {
   /**
    * Tab content
    */
@@ -42,7 +42,7 @@ export interface TabProps extends CommonProps {
   /**
    * Tab identifier
    */
-  id?: string;
+  id?: T;
 
   /**
    * Click event
@@ -104,7 +104,7 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
-export class Tab extends React.Component<TabProps, TabState> {
+export class Tab<T = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
   public static contextType = TabsContext;
@@ -115,7 +115,6 @@ export class Tab extends React.Component<TabProps, TabState> {
     component: PropTypes.any,
     disabled: PropTypes.bool,
     href: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
     onClick: PropTypes.func,
     onKeyDown: PropTypes.func,
   };
@@ -130,7 +129,7 @@ export class Tab extends React.Component<TabProps, TabState> {
   };
 
   private theme!: Theme;
-  private tabComponent: Nullable<React.ReactElement<Tab>> = null;
+  private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
   private isArrowKeyPressed = false;
 
   public UNSAFE_componentWillMount() {

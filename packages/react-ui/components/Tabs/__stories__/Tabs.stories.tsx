@@ -19,7 +19,11 @@ const Img: React.FC<{ size: string }> = ({ size }) => (
   />
 );
 
-type Mountain = "fuji" | "tahat" | "alps";
+enum Mountain {
+  fuji = 'Fuji',
+  tahat = 'Tahat',
+  alps = 'Alps'
+}
 
 interface UncTabsState {
   active: Mountain;
@@ -29,7 +33,7 @@ class UncTabs extends React.Component<any, UncTabsState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      active: 'fuji'
+      active: Mountain.fuji
     }
   }
 
@@ -40,9 +44,9 @@ class UncTabs extends React.Component<any, UncTabsState> {
         onValueChange={(v) => this.setState({ active: v })}
         vertical={this.props.vertical}
       >
-        <Tab id="fuji">Fuji</Tab>
-        <Tab id="tahat">Tahat</Tab>
-        <Tab id="alps">Alps</Tab>
+        <Tab id={Mountain.fuji}>{Mountain.fuji}</Tab>
+        <Tab id={Mountain.tahat}>{Mountain.tahat}</Tab>
+        <Tab id={Mountain.alps}>{Mountain.alps}</Tab>
       </Tabs>
     );
   }
@@ -80,24 +84,24 @@ class TabsWithMyLink extends React.Component<any, any> {
     return (
       <Tabs
         value={this.state.active}
-        onValueChange={(v) =>
+        onValueChange={(v: string) =>
           this.setState({
             active: v,
           })
         }
         vertical={this.props.vertical}
       >
-        <Tab id="fuji" component={(props) => <MyLink {...props} to="/1" />}>
+        <Tab id="fuji" component={(props: any) => <MyLink {...props} to="/1" />}>
           <span role="img" aria-label="fuji">
             🌋&nbsp;&nbsp;Fuji
           </span>
         </Tab>
-        <Tab id="tahat" component={(props) => <MyLink {...props} to="/2" />}>
+        <Tab id="tahat" component={(props: any) => <MyLink {...props} to="/2" />}>
           <span role="img" aria-label="tahat">
             ⛰&nbsp;&nbsp;Tahat
           </span>
         </Tab>
-        <Tab id="alps" component={(props) => <MyLink {...props} to="/3" />}>
+        <Tab id="alps" component={(props: any) => <MyLink {...props} to="/3" />}>
           <span role="img" aria-label="alps">
             🗻&nbsp;&nbsp;Alps
           </span>
@@ -130,7 +134,7 @@ class OhMyTabs extends React.Component<any, any> {
     return (
       <Tabs
         value={this.state.active}
-        onValueChange={(v) => this.setState({ active: v })}
+        onValueChange={(v: string) => this.setState({ active: v })}
         vertical={this.props.vertical}
       >
         <UnexpectedUpdatedTab id="fuji">
@@ -160,7 +164,7 @@ class DisabledTab extends React.Component<any, any> {
 
   public render() {
     return (
-      <Tabs value={this.state.active} onValueChange={(v) => this.setState({ active: v })}>
+      <Tabs value={this.state.active} onValueChange={(v: string) => this.setState({ active: v })}>
         <Tab id="first">First</Tab>
         <Tab id="second" disabled>
           Second (disabled)
@@ -203,7 +207,7 @@ class TabsInModal extends React.Component<any, any> {
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <div style={{ marginLeft: -30 }}>
-            <Tabs vertical value={this.state.active} onValueChange={(v) => this.setState({ active: v })}>
+            <Tabs vertical value={this.state.active} onValueChange={(v: string) => this.setState({ active: v })}>
               <Tab id="1">
                 <TabElement>Normal</TabElement>
               </Tab>
@@ -270,7 +274,7 @@ class TabsInModal extends React.Component<any, any> {
 }
 
 class TabsTable extends React.Component {
-  public static TestTab = class TestTab extends React.Component<TabProps & { vertical?: boolean }, any> {
+  public static TestTab = class TestTab extends React.Component<TabProps<string> & { vertical?: boolean }, any> {
     public render() {
       const { vertical, ...tabProps } = this.props;
       return (
@@ -511,7 +515,7 @@ export const TabsWithImage: Story = () => {
   const [activeTab, setActiveTab] = React.useState('search4');
 
   return (
-    <Tabs value={activeTab} vertical onValueChange={(tab) => setActiveTab(tab)}>
+    <Tabs value={activeTab} vertical onValueChange={(tab: string) => setActiveTab(tab)}>
       <Tabs.Tab id="search1">
         <Img size={'75px'} />
       </Tabs.Tab>
