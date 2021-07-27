@@ -19,14 +19,23 @@ const Img: React.FC<{ size: string }> = ({ size }) => (
   />
 );
 
-class UncTabs extends React.Component<any, any> {
-  public state = {
-    active: 'fuji',
-  };
+type Mountain = "fuji" | "tahat" | "alps";
+
+interface UncTabsState {
+  active: Mountain;
+}
+
+class UncTabs extends React.Component<any, UncTabsState> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      active: 'fuji'
+    }
+  }
 
   public render() {
     return (
-      <Tabs
+      <Tabs<Mountain>
         value={this.state.active}
         onValueChange={(v) => this.setState({ active: v })}
         vertical={this.props.vertical}
