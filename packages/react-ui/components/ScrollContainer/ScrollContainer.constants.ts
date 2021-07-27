@@ -1,8 +1,8 @@
-import { ScrollYState, ScrollXState } from './ScrollContainer';
+import { ScrollStateProps } from './ScrollBar';
 
 export const MIN_SCROLL_SIZE = 20;
 
-export const defaultScrollYState: ScrollYState = {
+export const defaultScrollbarState: ScrollStateProps = {
   active: false,
   size: 0,
   pos: 0,
@@ -10,16 +10,5 @@ export const defaultScrollYState: ScrollYState = {
   hover: false,
   // True when scroll is following mouse (mouse down on scroll).
   scrolling: false,
-  scrollState: 'top',
-};
-
-export const defaultScrollXState: ScrollXState = {
-  active: false,
-  size: 0,
-  pos: 0,
-  // Mouse is moving where big scrollbar can be located.
-  hover: false,
-  // True when scroll is following mouse (mouse down on scroll).
-  scrolling: false,
-  scrollState: 'left',
+  state: 'scroll',
 };

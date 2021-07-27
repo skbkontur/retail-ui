@@ -1,18 +1,24 @@
 import { Nullable } from '../../typings/utility-types';
 
-import { MIN_SCROLL_SIZE } from './ScrollContainer.constants';
-import { ScrollContainerScrollState, ScrollContainerScrollXState } from './ScrollContainer';
+import { defaultScrollbarState, MIN_SCROLL_SIZE } from './ScrollContainer.constants';
+import { ScrollContainerScrollYState, ScrollContainerScrollXState, ScrollAxis, ScrollStateProps } from './ScrollBar';
 
 export const scrollSizeParametersNames = {
   x: {
     offset: 'offsetWidth',
     size: 'scrollWidth',
     pos: 'scrollLeft',
+    coord: 'clientX',
+    customScrollPos: 'left',
+    customScrollSize: 'width',
   },
   y: {
     offset: 'offsetHeight',
     size: 'scrollHeight',
     pos: 'scrollTop',
+    coord: 'clientY',
+    customScrollPos: 'top',
+    customScrollSize: 'height',
   },
 } as const;
 
@@ -55,7 +61,14 @@ export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) =
   return container.scrollTop;
 };
 
-export const getImmediateScrollYState = (inner: Nullable<HTMLElement>): ScrollContainerScrollState => {
+export const getDefaultState = (axis: ScrollAxis): ScrollStateProps => {
+  return {
+    ...defaultScrollbarState,
+    state: axis === 'y' ? 'top' : 'left',
+  };
+};
+
+export const getImmediateScrollYState = (inner: Nullable<HTMLElement>): ScrollContainerScrollYState => {
   if (!inner || inner.scrollTop === 0) {
     return 'top';
   }

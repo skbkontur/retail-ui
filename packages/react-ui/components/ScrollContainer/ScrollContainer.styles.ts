@@ -3,19 +3,6 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 const scrollSize = 4;
 const hoverScrollSize = 10;
 
-const scrollbarWrapperStyle = css`
-  position: absolute;
-  z-index: 200;
-`;
-
-const scrollbarStyle = css`
-  content: '';
-  display: block;
-  background: #b7b7b7;
-  border-radius: 5px;
-  position: absolute;
-`;
-
 const styles = {
   root() {
     return css`
@@ -58,15 +45,20 @@ const styles = {
     `;
   },
 
-  scrollY() {
+  scrollBar() {
     return css`
-      ${scrollbarWrapperStyle}
+      position: absolute;
+      z-index: 200;
       right: 2px;
       transition: width 0.2s;
       width: ${scrollSize}px;
 
       &::after {
-        ${scrollbarStyle}
+        content: '';
+        display: block;
+        background: #b7b7b7;
+        border-radius: 5px;
+        position: absolute;
         bottom: 1px;
         left: 0;
         right: 0;
@@ -75,21 +67,43 @@ const styles = {
     `;
   },
 
-  scrollYHover() {
+  scrollBarInvert() {
+    return css`
+      &::after {
+        background: #ccc;
+        background: rgba(255, 255, 255, 0.5);
+      }
+    `;
+  },
+
+  scrollBarY() {
+    return css`
+      right: 2px;
+      transition: width 0.2s;
+      width: ${scrollSize}px;
+
+      &::after {
+        bottom: 1px;
+        left: 0;
+        right: 0;
+        top: 1px;
+      }
+    `;
+  },
+
+  scrollBarYHover() {
     return css`
       width: ${hoverScrollSize}px;
     `;
   },
 
-  scrollX() {
+  scrollBarX() {
     return css`
       bottom: 1px;
       transition: height 0.2s;
       height: ${scrollSize}px;
-      ${scrollbarWrapperStyle}
 
       &::after {
-        ${scrollbarStyle}
         bottom: 0px;
         left: 1px;
         right: 1px;
@@ -98,7 +112,7 @@ const styles = {
     `;
   },
 
-  scrollXIndentRight() {
+  scrollBarXIndentRight() {
     return css`
       &::after {
         right: ${hoverScrollSize + 4}px;
@@ -106,18 +120,9 @@ const styles = {
     `;
   },
 
-  scrollXHover() {
+  scrollBarXHover() {
     return css`
       height: ${hoverScrollSize}px;
-    `;
-  },
-
-  scrollInvert() {
-    return css`
-      &::after {
-        background: #ccc;
-        background: rgba(255, 255, 255, 0.5);
-      }
     `;
   },
 };
