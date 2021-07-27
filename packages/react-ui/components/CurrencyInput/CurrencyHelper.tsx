@@ -23,7 +23,7 @@ export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     hideTrailingZeros: false,
-    thousandsDelimiter: String.fromCharCode(0x2009),
+    thousandsDelimiter: String.fromCharCode(0x0020),
     minusSign: String.fromCharCode(0x2212),
   };
 
