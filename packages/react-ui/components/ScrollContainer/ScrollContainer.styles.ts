@@ -116,7 +116,7 @@ const styles = {
   scrollBarXIndentRight() {
     return css`
       &::after {
-        right: ${hoverScrollSize + 4}px;
+        right: ${hoverScrollSize + 4}px !important;
       }
     `;
   },

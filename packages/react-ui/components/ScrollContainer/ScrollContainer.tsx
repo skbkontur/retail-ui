@@ -116,8 +116,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
           {scrollbarX}
           <div
             data-tid="ScrollContainer__inner"
-            className={cn({
-              [jsStyles.inner()]: true,
+            className={cn(jsStyles.inner(), {
+              [jsStyles.innerBottomIndent()]: this.state.x.active && this.state.y.active,
             })}
             style={innerStyle}
             ref={this.refInner}
