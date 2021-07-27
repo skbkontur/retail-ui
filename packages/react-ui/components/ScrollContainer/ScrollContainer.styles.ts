@@ -19,6 +19,7 @@ const styles = {
       max-height: 100%;
       max-width: 100%;
 
+      /* IE sometimes enabled scroll */
       margin-bottom: -1px;
       padding-bottom: 1px;
       margin-right: -1px;

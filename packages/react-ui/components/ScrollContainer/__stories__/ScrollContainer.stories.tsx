@@ -1,6 +1,5 @@
 import React, { CSSProperties } from 'react';
 
-// import { Nullable } from '../../../typings/utility-types';
 import { ScrollContainer, ScrollContainerScrollState, ScrollContainerScrollXState } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
