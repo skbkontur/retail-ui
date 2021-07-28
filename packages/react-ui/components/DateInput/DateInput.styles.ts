@@ -1,7 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+export const styles = {
   icon(t: Theme) {
     return css`
       cursor: pointer;

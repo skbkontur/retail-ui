@@ -1,6 +1,8 @@
 import { css } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 
+import { globalClasses } from './Button.styles';
+
 const getBtnPadding = (
   fontSize: string,
   paddingY: string,
@@ -34,8 +36,6 @@ export const buttonUseMixin = (
   borderColor: string,
   borderBottomColor: string,
   borderWidth: string,
-  selectorChecked: string,
-  selectorArrow: string,
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
@@ -45,7 +45,7 @@ export const buttonUseMixin = (
     border-color: ${borderColor};
     border-bottom-color: ${borderBottomColor};
 
-    &:not(${selectorChecked}) ${selectorArrow} {
+    .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
     }
   `;
@@ -58,7 +58,6 @@ export const buttonHoverMixin = (
   borderColor: string,
   borderBottomColor: string,
   borderWidth: string,
-  selectorArrow: string,
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
@@ -68,7 +67,7 @@ export const buttonHoverMixin = (
       border-color: ${borderColor};
       border-bottom-color: ${borderBottomColor};
 
-      ${selectorArrow} {
+      .${globalClasses.arrowHelper} {
         box-shadow: ${borderWidth} 0 0 ${borderColor};
       }
     }
@@ -81,26 +80,20 @@ export const buttonActiveMixin = (
   borderColor: string,
   borderTopColor: string,
   borderWidth: string,
-  selectorActive: string,
-  selectorArrow: string,
-  selectorArrowTop: string,
   arrowBgImage: string,
 ) => {
   return css`
-    &:active,
-    &${selectorActive} {
-      background-image: none;
-      background-color: ${btnBackground};
-      box-shadow: ${btnShadow};
-      border-color: ${borderColor};
-      border-top-color: ${borderTopColor};
+    background-image: none;
+    background-color: ${btnBackground};
+    box-shadow: ${btnShadow};
+    border-color: ${borderColor};
+    border-top-color: ${borderTopColor};
 
-      ${selectorArrow} {
-        box-shadow: ${borderWidth} 0 0 ${borderColor};
+    .${globalClasses.arrowHelper} {
+      box-shadow: ${borderWidth} 0 0 ${borderColor};
 
-        &${selectorArrowTop} {
-          background-image: ${arrowBgImage} !important;
-        }
+      &.${globalClasses.arrowHelperTop} {
+        background-image: ${arrowBgImage};
       }
     }
   `;
@@ -113,22 +106,25 @@ export const buttonSizeMixin = (
   paddingX: string,
   paddingY: string,
   fontFamilyCompensation: string,
-  selectorLink: string,
-  selectorFallback: string,
 ) => {
   return css`
-    font-size: ${fontSize} !important;
+    font-size: ${fontSize};
+    box-sizing: border-box;
+    height: ${height};
+    padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
+    line-height: ${lineHeight};
+  `;
+};
 
-    &:not(${selectorLink}) {
-      box-sizing: border-box;
-      height: ${height};
-      padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
-      line-height: ${lineHeight};
-
-      &${selectorFallback} {
-        padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
-      }
-    }
+export const buttonSizeMixinIE11 = (
+  fontSize: string,
+  paddingX: string,
+  paddingY: string,
+  fontFamilyCompensation: string,
+) => {
+  return css`
+    padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation, 1)};
+    line-height: normal;
   `;
 };
 
@@ -137,18 +133,15 @@ export const arrowOutlineMixin = (
   outlineColor: string,
   outlineWidth: string,
   insetColor: string,
-  selectorArrow: string,
-  selectorArrowTop: string,
-  selectorArrowBottom: string,
 ) => {
   return css`
-    ${selectorArrow} {
-      &${selectorArrowTop} {
-        box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important;
+    .${globalClasses.arrowHelper} {
+      &.${globalClasses.arrowHelperTop} {
+        box-shadow: inset -${insetWidth} ${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
-      &${selectorArrowBottom} {
-        box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important;
+      &.${globalClasses.arrowHelperBottom} {
+        box-shadow: inset -${insetWidth} -${insetWidth} 0 0 ${insetColor}, ${outlineWidth} 0 0 0 ${outlineColor} !important; // override :active styles
       }
 
       // don't hide inner outline
@@ -158,7 +151,7 @@ export const arrowOutlineMixin = (
         right: ${insetWidth};
         left: ${insetWidth};
       }
-      &${selectorArrowBottom}:before {
+      &.${globalClasses.arrowHelperBottom}:before {
         bottom: ${insetWidth};
       }
     }

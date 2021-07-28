@@ -1,10 +1,14 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Theme } from '../../lib/theming/Theme';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
-const styles = {
+export const globalClasses = prefix('tab')({
+  focus: 'focus',
+});
+
+export const styles = memoizeStyle({
   root(t: Theme) {
     const paddingTop = is8pxTheme(t) ? t.tabPaddingY : shift(t.tabPaddingY, '-1px');
     const paddingBottom = is8pxTheme(t) ? `calc(${t.tabPaddingY} - ${t.tabBorderWidth})` : shift(t.tabPaddingY, '1px');
@@ -45,28 +49,15 @@ const styles = {
       padding-left: ${shift(t.tabPaddingX, `-${t.tabBorderWidth}`)};
       padding-right: ${t.tabPaddingX};
 
-      ${cssName(styles.root(t))}&:hover {
+      &:hover {
         border-bottom: none;
         border-left: ${t.tabBorderWidth} solid ${t.tabColorHover};
       }
 
-      ${cssName(styles.focus(t))} {
+      .${globalClasses.focus} {
         bottom: 0;
         left: -${t.tabBorderWidth};
         right: 0;
-      }
-    `;
-  },
-
-  active(t: Theme) {
-    return css`
-      &:hover {
-        cursor: default;
-        border-bottom: ${t.tabBorderWidth} solid transparent;
-      }
-
-      &${cssName(styles.vertical(t))}:hover {
-        border-left: ${t.tabBorderWidth} solid transparent;
       }
     `;
   },
@@ -91,13 +82,29 @@ const styles = {
         0.5
       );
       cursor: default;
+    `;
+  },
 
+  active() {
+    return css`
+      cursor: default;
+    `;
+  },
+});
+
+export const horizontalStyles = memoizeStyle({
+  active(t: Theme) {
+    return css`
       &:hover {
-        border-bottom-color: transparent !important;
+        border-bottom: ${t.tabBorderWidth} solid transparent;
       }
+    `;
+  },
 
-      &${cssName(styles.vertical(t))}:hover {
-        border-left-color: transparent !important;
+  disabled() {
+    return css`
+      &:hover {
+        border-bottom-color: transparent;
       }
     `;
   },
@@ -107,9 +114,6 @@ const styles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverPrimary};
       }
-      &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverPrimary};
-      }
     `;
   },
 
@@ -117,9 +121,6 @@ const styles = {
     return css`
       &:hover {
         border-bottom-color: ${t.tabColorHoverSuccess};
-      }
-      &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverSuccess};
       }
     `;
   },
@@ -129,9 +130,6 @@ const styles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverWarning};
       }
-      &${cssName(styles.vertical(t))}:hover {
-        border-left-color: ${t.tabColorHoverWarning};
-      }
     `;
   },
 
@@ -140,11 +138,56 @@ const styles = {
       &:hover {
         border-bottom-color: ${t.tabColorHoverError};
       }
-      &${cssName(styles.vertical(t))}:hover {
+    `;
+  },
+});
+
+export const verticalStyles = memoizeStyle({
+  active(t: Theme) {
+    return css`
+      &:hover {
+        border-left: ${t.tabBorderWidth} solid transparent;
+      }
+    `;
+  },
+
+  disabled() {
+    return css`
+      &:hover {
+        border-left-color: transparent;
+      }
+    `;
+  },
+
+  primary(t: Theme) {
+    return css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverPrimary};
+      }
+    `;
+  },
+
+  success(t: Theme) {
+    return css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverSuccess};
+      }
+    `;
+  },
+
+  warning(t: Theme) {
+    return css`
+      &:hover {
+        border-left-color: ${t.tabColorHoverWarning};
+      }
+    `;
+  },
+
+  error(t: Theme) {
+    return css`
+      &:hover {
         border-left-color: ${t.tabColorHoverError};
       }
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

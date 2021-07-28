@@ -1,7 +1,7 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   kebab(t: Theme) {
     return css`
       display: inline-block;
@@ -25,30 +25,24 @@ const styles = {
 
   focused(t: Theme) {
     return css`
-      ${cssName(styles.kebab(t))}& {
-        background: ${t.kebabBackgroundHover};
-        border-color: ${t.borderColorFocus};
-      }
+      background: ${t.kebabBackgroundHover};
+      border-color: ${t.borderColorFocus};
     `;
   },
 
   opened(t: Theme) {
     return css`
-      ${cssName(styles.kebab(t))}& {
-        background: ${t.kebabBackgroundHover};
-        cursor: default;
-      }
+      background: ${t.kebabBackgroundHover} !important; // override kebab:hover style
+      cursor: default;
     `;
   },
 
-  disabled(t: Theme) {
+  disabled() {
     return css`
-      ${cssName(styles.kebab(t))}& {
-        cursor: default;
+      cursor: default;
 
-        &:hover {
-          background: none;
-        }
+      &:hover {
+        background: none;
       }
     `;
   },
@@ -59,34 +53,29 @@ const styles = {
     `;
   },
 
-  iconsmall(t: Theme) {
+  iconsmall() {
     return css`
-      ${cssName(styles.kebab(t))} & {
-        margin-top: 1px;
-        margin-left: 0.8124px;
-        font-size: 14px;
-      }
+      margin-top: 1px;
+      margin-left: 0.8124px;
+      font-size: 14px;
     `;
   },
 
-  iconmedium(t: Theme) {
+  iconmedium() {
     return css`
-      ${cssName(styles.kebab(t))} & {
-        margin-top: -2px;
-        margin-left: 0.5px;
-        font-size: 18px;
-      }
+      margin-top: -2px;
+      margin-left: 0.5px;
+      font-size: 18px;
     `;
   },
 
-  iconlarge(t: Theme) {
+  iconlarge() {
     return css`
-      ${cssName(styles.kebab(t))} & {
-        margin-top: -4px;
-        margin-left: 0.5px;
-        font-size: 20px;
-        display: inline-block;
-        vertical-align: -2px;
+      margin-top: -4px;
+      margin-left: 0.5px;
+      font-size: 20px;
+      display: inline-block;
+      vertical-align: -2px;
     `;
   },
 
@@ -96,6 +85,4 @@ const styles = {
       border-radius: ${t.popupBorderRadius};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

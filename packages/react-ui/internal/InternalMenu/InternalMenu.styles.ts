@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       overflow: auto;
@@ -55,6 +55,4 @@ const styles = {
       box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

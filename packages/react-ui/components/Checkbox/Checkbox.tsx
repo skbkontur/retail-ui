@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Nullable, Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
@@ -9,8 +8,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Checkbox.styles';
+import { styles, globalClasses } from './Checkbox.styles';
 
 export interface CheckboxProps
   extends CommonProps,
@@ -147,21 +147,17 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const rootClass = cn({
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.rootFallback()]: isIE11 || isEdge,
-      [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
-      [jsStyles.checked(this.theme)]: Boolean(props.checked),
-      [jsStyles.indeterminate(this.theme)]: isIndeterminate,
-      [jsStyles.focus(this.theme)]: this.state.focusedByTab,
-      [jsStyles.warning(this.theme)]: Boolean(props.warning),
-      [jsStyles.error(this.theme)]: Boolean(props.error),
+    const rootClass = cx({
+      [styles.root(this.theme)]: true,
+      [styles.rootFallback()]: isIE11 || isEdge,
+      [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [styles.disabled(this.theme)]: Boolean(props.disabled),
     });
 
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: jsStyles.input(),
+      className: styles.input(),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -171,20 +167,28 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (this.props.children) {
-      const captionClass = cn({
-        [jsStyles.caption(this.theme)]: true,
-        [jsStyles.captionIE11()]: isIE11 || isEdge,
+      const captionClass = cx({
+        [styles.caption(this.theme)]: true,
+        [styles.captionIE11()]: isIE11 || isEdge,
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
-    const iconClass = cn({
-      [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
+    const iconClass = cx({
+      [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
+      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
-      <span className={jsStyles.box(this.theme)}>
+      <span
+        className={cx(styles.box(this.theme), globalClasses.box, {
+          [styles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
+          [styles.boxWarning(this.theme)]: Boolean(props.warning),
+          [styles.boxError(this.theme)]: Boolean(props.error),
+          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
+          [styles.boxDisabled(this.theme)]: Boolean(props.disabled),
+        })}
+      >
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
       </span>
     );

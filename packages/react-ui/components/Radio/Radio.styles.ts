@@ -1,19 +1,12 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
-  root(t: Theme) {
-    return css`
-      cursor: pointer;
-      position: relative;
-      white-space: nowrap;
-      padding-top: ${t.radioPaddingY};
-      padding-bottom: ${t.radioPaddingY};
-      display: inline-block;
-    `;
-  },
+export const globalClasses = prefix('radio')({
+  radio: 'radio',
+});
 
-  after(t: Theme) {
+const mixins = {
+  afterOutline(t: Theme) {
     return css`
       content: ' ';
       position: absolute;
@@ -25,6 +18,31 @@ const styles = {
       border-style: solid;
       border-radius: 50%;
       box-sizing: border-box;
+    `;
+  },
+};
+
+export const styles = memoizeStyle({
+  root(t: Theme) {
+    return css`
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      padding-top: ${t.radioPaddingY};
+      padding-bottom: ${t.radioPaddingY};
+      display: inline-block;
+
+      &:hover .${globalClasses.radio} {
+        background: ${t.radioHoverBg};
+        box-shadow: ${t.radioHoverShadow};
+      }
+      &:hover input:checked + .${globalClasses.radio} {
+        background: ${t.radioCheckedHoverBgColor};
+      }
+      &:active .${globalClasses.radio} {
+        background: ${t.radioActiveBg};
+        box-shadow: ${t.radioActiveShadow};
+      }
     `;
   },
 
@@ -45,22 +63,6 @@ const styles = {
       vertical-align: ${t.radioVerticalAlign};
       margin: ${radioMarginY} ${radioMarginX};
 
-      ${cssName(styles.root(t))}:hover &:not(${cssName(styles.disabled(t))}) {
-        background: ${t.radioHoverBg};
-        box-shadow: ${t.radioHoverShadow};
-      }
-      ${cssName(styles.root(t))}:hover &${cssName(styles.checked(t))}:not(${cssName(styles.disabled(t))}) {
-        background: ${t.radioCheckedHoverBgColor};
-      }
-      ${cssName(styles.root(t))}:active & {
-        background: ${t.radioActiveBg};
-        box-shadow: ${t.radioActiveShadow};
-      }
-      ${cssName(styles.input())}:focus + &::after {
-        ${styles.after(t)};
-        box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.radioBorderColorFocus};
-      }
       &::after {
         content: ' ';
         display: inline-block;
@@ -71,7 +73,7 @@ const styles = {
   focus(t: Theme) {
     return css`
       &::after {
-        ${styles.after(t)};
+        ${mixins.afterOutline(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorFocus};
       }
@@ -81,7 +83,7 @@ const styles = {
   warning(t: Theme) {
     return css`
       &::after {
-        ${styles.after(t)};
+        ${mixins.afterOutline(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorWarning};
       }
@@ -91,7 +93,7 @@ const styles = {
   error(t: Theme) {
     return css`
       &::after {
-        ${styles.after(t)};
+        ${mixins.afterOutline(t)};
         box-shadow: ${t.radioFocusShadow};
         border-color: ${t.radioBorderColorError};
       }
@@ -102,7 +104,7 @@ const styles = {
     return css`
       position: relative;
       background-color: ${t.radioCheckedBgColor};
-      border-color: ${t.radioCheckedBorderColor} !important;
+      border-color: ${t.radioCheckedBorderColor};
 
       &::before {
         content: ' ';
@@ -115,16 +117,20 @@ const styles = {
         height: ${t.radioBulletSize};
         width: ${t.radioBulletSize};
         border-radius: 50%;
-        background: ${t.radioCheckedBulletColor} !important;
-      }
-
-      ${cssName(styles.disabled(t))}&::before {
-        background: ${t.gray} !important;
+        background: ${t.radioCheckedBulletColor};
       }
     `;
   },
 
-  input() {
+  checkedDisabled(t: Theme) {
+    return css`
+      &::before {
+        background: ${t.gray};
+      }
+    `;
+  },
+
+  input(t: Theme) {
     return css`
       display: inline-block;
       height: 0;
@@ -132,14 +138,20 @@ const styles = {
       position: absolute;
       width: 0;
       z-index: -1;
+
+      &:focus + .${globalClasses.radio}::after {
+        ${mixins.afterOutline(t)};
+        box-shadow: ${t.radioFocusShadow};
+        border-color: ${t.radioBorderColorFocus};
+      }
     `;
   },
 
   disabled(t: Theme) {
     return css`
-      background: ${t.bgDisabled} !important;
-      border-color: transparent !important;
-      box-shadow: ${t.radioDisabledShadow} !important;
+      background: ${t.radioDisabledBg} !important; // override root hover/active styles
+      border-color: transparent !important; // override root hover/active styles
+      box-shadow: ${t.radioDisabledShadow} !important; // override root hover/active styles
     `;
   },
 
@@ -164,6 +176,4 @@ const styles = {
       display: inline-block;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
