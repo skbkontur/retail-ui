@@ -1,7 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
-
-const scrollSize = 4;
-const hoverScrollSize = 10;
+import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   root() {
@@ -35,53 +33,46 @@ const styles = {
     `;
   },
 
-  innerBottomIndent() {
+  innerBottomIndent(t: Theme) {
     return css`
       &::after {
         content: '';
         width: 100%;
         display: block;
-        height: ${hoverScrollSize + 2}px;
+        height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
       }
     `;
   },
 
-  scrollBar() {
+  scrollBar(t: Theme) {
     return css`
       position: absolute;
       z-index: 200;
-      right: 2px;
-      transition: width 0.2s;
-      width: ${scrollSize}px;
 
       &::after {
         content: '';
         display: block;
-        background: #b7b7b7;
         border-radius: 5px;
         position: absolute;
-        bottom: 1px;
-        left: 0;
-        right: 0;
-        top: 1px;
+        background: ${t.scrollContainerScrollBarColor};
       }
     `;
   },
 
-  scrollBarInvert() {
+  scrollBarInvert(t: Theme) {
     return css`
       &::after {
         background: #ccc;
-        background: rgba(255, 255, 255, 0.5);
+        background: ${t.scrollContainerScrollBarInvertColor};
       }
     `;
   },
 
-  scrollBarY() {
+  scrollBarY(t: Theme) {
     return css`
       right: 2px;
       transition: width 0.2s;
-      width: ${scrollSize}px;
+      width: ${t.scrollContainerScrollBarSize};
 
       &::after {
         bottom: 1px;
@@ -92,17 +83,17 @@ const styles = {
     `;
   },
 
-  scrollBarYHover() {
+  scrollBarYHover(t: Theme) {
     return css`
-      width: ${hoverScrollSize}px;
+      width: ${t.scrollContainerScrollBarHoverSize};
     `;
   },
 
-  scrollBarX() {
+  scrollBarX(t: Theme) {
     return css`
       bottom: 1px;
       transition: height 0.2s;
-      height: ${scrollSize}px;
+      height: ${t.scrollContainerScrollBarSize};
 
       &::after {
         bottom: 0px;
@@ -113,17 +104,17 @@ const styles = {
     `;
   },
 
-  scrollBarXIndentRight() {
+  scrollBarXIndentRight(t: Theme) {
     return css`
       &::after {
-        right: ${hoverScrollSize + 4}px !important;
+        right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
       }
     `;
   },
 
-  scrollBarXHover() {
+  scrollBarXHover(t: Theme) {
     return css`
-      height: ${hoverScrollSize}px;
+      height: ${t.scrollContainerScrollBarHoverSize};
     `;
   },
 };

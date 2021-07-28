@@ -1393,6 +1393,12 @@ export class DefaultTheme {
     return this.btnCheckedDisabledShadow;
   }
   //#endregion
+  //#region ScrollContainer
+  public static scrollContainerScrollBarSize = '4px';
+  public static scrollContainerScrollBarHoverSize = '10px';
+  public static scrollContainerScrollBarColor = '#b7b7b7';
+  public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(markAsFullTheme(DefaultTheme));
