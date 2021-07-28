@@ -133,7 +133,16 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             coverChildren={this.props.active}
             style={{ height: '100%' }}
           >
-            <div onFocusCapture={(event) => event.stopPropagation()}>
+            <div
+              style={{ height: '100%' }}
+              onFocusCapture={(event) => {
+                if (!active) {
+                  return;
+                }
+                event.target.blur();
+                event.stopPropagation();
+              }}
+            >
               {this.props.children}
             </div>
           </ZIndex>
