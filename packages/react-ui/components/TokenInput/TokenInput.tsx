@@ -244,7 +244,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onMouseLeave,
       inputMode,
       menuWidth,
-      menuAlign
+      menuAlign,
     } = this.props;
 
     const {

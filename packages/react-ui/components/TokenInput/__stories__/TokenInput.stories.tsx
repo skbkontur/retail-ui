@@ -676,9 +676,7 @@ OnUnexpectedInputValidation.parameters = {
 };
 
 export const FullWidthMenu: Story = () => {
-  return (
-    <Wrapper menuAlign={'left'} menuWidth={'100%'} getItems={getItems} />
-  );
+  return <Wrapper menuAlign={'left'} menuWidth={'100%'} getItems={getItems} />;
 };
 FullWidthMenu.storyName = 'full width menu';
 FullWidthMenu.parameters = {
