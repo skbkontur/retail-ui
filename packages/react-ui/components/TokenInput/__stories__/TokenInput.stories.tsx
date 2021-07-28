@@ -184,27 +184,6 @@ export const Validations = () => {
 Validations.storyName = 'validations';
 Validations.parameters = { creevey: { skip: [true] } };
 
-export const DropdownMenu: Story = () => (
-      <Wrapper menuWidthMode='stretch' getItems={getItems} />
-);
-DropdownMenu.storyName = 'dropdown menu';
-DropdownMenu.parameters = {
-  creevey: {
-    tests: {
-      async selectFirst() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
-          .sendKeys('a')
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
-
 export const EmptyWithReference: Story = () => {
   return <Wrapper getItems={getItems} />;
 };
@@ -691,6 +670,29 @@ OnUnexpectedInputValidation.parameters = {
         const withEditedToken = await this.takeScreenshot();
 
         await this.expect({ withSameValue, withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const FullWidthMenu: Story = () => {
+  return (
+    <Wrapper menuAlign={'left'} menuWidth={'100%'} getItems={getItems} />
+  );
+};
+FullWidthMenu.storyName = 'full width menu';
+FullWidthMenu.parameters = {
+  creevey: {
+    tests: {
+      async selectFirst() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('a')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage();
       },
     },
   },

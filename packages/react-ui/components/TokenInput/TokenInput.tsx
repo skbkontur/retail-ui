@@ -47,7 +47,8 @@ export interface TokenInputProps<T> extends CommonProps {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
-  menuWidthMode: 'stretch' | 'short';
+  menuWidth: '100%' | 'auto';
+  menuAlign: 'left' | 'cursor';
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -169,7 +170,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onFocus: emptyHandler,
     onMouseEnter: emptyHandler,
     onMouseLeave: emptyHandler,
-    menuWidthMode: 'short',
+    menuWidth: 'auto',
+    menuAlign: 'cursor',
   };
 
   public state: TokenInputState<T> = DefaultState;
@@ -241,7 +243,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onMouseEnter,
       onMouseLeave,
       inputMode,
-      menuWidthMode
+      menuWidth,
+      menuAlign
     } = this.props;
 
     const {
@@ -327,13 +330,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={this.input!}
+                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
-                wrapper={this.wrapper!}
-                useDropdownContainer={menuWidthMode === 'stretch'}
+                menuWidth={menuWidth === '100%' ? this.wrapper!.offsetWidth : 'auto'}
+                menuAlign={menuAlign}
               />
             )}
             {this.renderTokensEnd()}

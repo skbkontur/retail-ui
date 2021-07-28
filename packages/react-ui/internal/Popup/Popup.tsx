@@ -90,6 +90,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   positions: PopupPosition[];
   useWrapper: boolean;
   ignoreHover: boolean;
+  menuWidth: number | 'auto';
 }
 
 interface PopupLocation {
@@ -333,7 +334,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
+    const {
+      backgroundColor,
+      disableAnimations,
+      maxWidth,
+      hasShadow,
+      ignoreHover,
+      opened,
+      menuWidth,
+    } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -376,7 +385,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               <div className={jsStyles.content(this.theme)} data-tid={'PopupContent'}>
                 <div
                   className={jsStyles.contentInner(this.theme)}
-                  style={{ backgroundColor }}
+                  style={{ backgroundColor, width: menuWidth }}
                   data-tid={'PopupContentInner'}
                 >
                   {children}
