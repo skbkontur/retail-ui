@@ -1,4 +1,5 @@
 import { Nullable } from '../../typings/utility-types';
+import { isSafari } from '../../lib/client';
 
 import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
@@ -23,7 +24,7 @@ export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     hideTrailingZeros: false,
-    thousandsDelimiter: String.fromCharCode(0x0020),
+    thousandsDelimiter: String.fromCharCode(isSafari ? 0x0020 : 0x2009),
     minusSign: String.fromCharCode(0x2212),
   };
 

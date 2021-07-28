@@ -1,6 +1,8 @@
 import { CurrencyInputHelper } from '../CurrencyInputHelper';
+import { isSafari } from '../../../lib/client';
 
 describe('CurrencyInputHelper', () => {
+  const space = isSafari ? '\u0020' : '\u2009';
   describe('insert', () => {
     [
       {
@@ -93,63 +95,63 @@ describe('CurrencyInputHelper', () => {
         start: 3,
         end: 3,
         input: '1',
-        expected: { value: '8\u0020881\u0020888', position: 6 },
+        expected: { value: `8${space}881${space}888`, position: 6 },
       },
       {
         value: '888 888',
         start: 4,
         end: 4,
         input: '1',
-        expected: { value: '8\u0020881\u0020888', position: 6 },
+        expected: { value: `8${space}881${space}888`, position: 6 },
       },
       {
         value: '888 888',
         start: 3,
         end: 4,
         input: '1',
-        expected: { value: '8\u0020881\u0020888', position: 6 },
+        expected: { value: `8${space}881${space}888`, position: 6 },
       },
       {
         value: '888 888',
         start: 2,
         end: 5,
         input: '1',
-        expected: { value: '88\u0020188', position: 4 },
+        expected: { value: `88${space}188`, position: 4 },
       },
       {
         value: '888 888',
         start: 2,
         end: 5,
         input: '11',
-        expected: { value: '881\u0020188', position: 5 },
+        expected: { value: `881${space}188`, position: 5 },
       },
       {
         value: '888 888',
         start: 3,
         end: 4,
         input: '',
-        expected: { value: '888\u0020888', position: 4 },
+        expected: { value: `888${space}888`, position: 4 },
       },
       {
         value: '888 888',
         start: 2,
         end: 4,
         input: '',
-        expected: { value: '88\u0020888', position: 3 },
+        expected: { value: `88${space}888`, position: 3 },
       },
       {
         value: '888 888',
         start: 2,
         end: 3,
         input: '',
-        expected: { value: '88\u0020888', position: 3 },
+        expected: { value: `88${space}888`, position: 3 },
       },
       {
         value: '888 888',
         start: 4,
         end: 5,
         input: '',
-        expected: { value: '88\u0020888', position: 4 },
+        expected: { value: `88${space}888`, position: 4 },
       },
       {
         value: '8 888',
@@ -184,7 +186,7 @@ describe('CurrencyInputHelper', () => {
         fractionDigits: null,
         unsigned: false,
         integerDigits: null,
-        expected: { value: '123\u0020123\u0020123\u0020123\u0020123', position: 1 },
+        expected: { value: `123${space}123${space}123${space}123${space}123`, position: 1 },
       },
       {
         value: '123 123 123 123 123',
@@ -204,7 +206,7 @@ describe('CurrencyInputHelper', () => {
         fractionDigits: null,
         unsigned: false,
         integerDigits: null,
-        expected: { value: '123\u0020123\u0020123\u0020123,123', position: 1 },
+        expected: { value: `123${space}123${space}123${space}123,123`, position: 1 },
       },
       {
         value: '123 123 123 123,123',
