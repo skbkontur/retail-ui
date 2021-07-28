@@ -22,7 +22,7 @@ const Img: React.FC<{ size: string }> = ({ size }) => (
 enum Mountain {
   fuji = 'Fuji',
   tahat = 'Tahat',
-  alps = 'Alps'
+  alps = 'Alps',
 }
 
 interface UncTabsState {
@@ -33,8 +33,8 @@ class UncTabs extends React.Component<any, UncTabsState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      active: Mountain.fuji
-    }
+      active: Mountain.fuji,
+    };
   }
 
   public render() {
