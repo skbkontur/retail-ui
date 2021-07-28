@@ -7,16 +7,17 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 
 import { jsStyles } from './ScrollContainer.styles';
-import { getScrollYOffset, getDefaultState, scrollSizeParametersNames } from './ScrollContainer.helpers';
 import {
-  ScrollAxis,
-  ScrollBar,
-  ScrollContainerScrollXState,
-  ScrollContainerScrollYState,
-  ScrollStateProps,
-} from './ScrollBar';
+  getScrollYOffset,
+  scrollSizeParametersNames,
+  convertScrollbarXScrollState,
+  convertScrollbarYScrollState,
+} from './ScrollContainer.helpers';
+import { defaultScrollbarState } from './ScrollContainer.constants';
+import { ScrollAxis, ScrollBar, ScrollBarScrollState, ScrollStateProps } from './ScrollBar';
 
-export type { ScrollContainerScrollXState, ScrollContainerScrollYState };
+export type ScrollContainerScrollXState = 'left' | 'scroll' | 'right';
+export type ScrollContainerScrollYState = 'top' | 'scroll' | 'bottom';
 export type ScrollContainerScrollState = ScrollContainerScrollYState; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
@@ -65,8 +66,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   public state: ScrollContainerState = {
-    x: getDefaultState('x'),
-    y: getDefaultState('y'),
+    x: defaultScrollbarState,
+    y: defaultScrollbarState,
   };
 
   private refScrollX: React.RefObject<ScrollBar>;
@@ -184,19 +185,16 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     this.inner.scrollLeft = this.inner.scrollWidth - this.inner.offsetWidth;
   }
 
-  private handleScrollStateChange = (
-    scrollState: ScrollContainerScrollXState | ScrollContainerScrollYState,
-    axis: ScrollAxis,
-  ) => {
+  private handleScrollStateChange = (scrollState: ScrollBarScrollState, axis: ScrollAxis) => {
     if (axis === 'x') {
-      const scrollYState = this.state.y.state as ScrollContainerScrollYState;
-      const scrollXState = scrollState as ScrollContainerScrollXState;
+      const scrollYState = convertScrollbarYScrollState(this.state.y.state);
+      const scrollXState = convertScrollbarXScrollState(scrollState);
       this.props.onScrollStateChange?.(scrollYState, scrollXState);
       return;
     }
 
-    const scrollXState = this.state.x.state as ScrollContainerScrollXState;
-    const scrollYState = scrollState as ScrollContainerScrollYState;
+    const scrollXState = convertScrollbarXScrollState(this.state.x.state);
+    const scrollYState = convertScrollbarYScrollState(scrollState);
     this.props.onScrollStateChange?.(scrollYState, scrollXState);
   };
 

@@ -1,7 +1,6 @@
-import { Nullable } from '../../typings/utility-types';
-
-import { defaultScrollbarState, MIN_SCROLL_SIZE } from './ScrollContainer.constants';
-import { ScrollContainerScrollYState, ScrollContainerScrollXState, ScrollAxis, ScrollStateProps } from './ScrollBar';
+import { MIN_SCROLL_SIZE } from './ScrollContainer.constants';
+import { ScrollBarScrollState } from './ScrollBar';
+import { ScrollContainerScrollXState, ScrollContainerScrollYState } from './ScrollContainer';
 
 export const scrollSizeParametersNames = {
   x: {
@@ -9,6 +8,7 @@ export const scrollSizeParametersNames = {
     size: 'scrollWidth',
     pos: 'scrollLeft',
     coord: 'clientX',
+    clientSize: 'clientWidth',
     customScrollPos: 'left',
     customScrollSize: 'width',
   },
@@ -17,6 +17,7 @@ export const scrollSizeParametersNames = {
     size: 'scrollHeight',
     pos: 'scrollTop',
     coord: 'clientY',
+    clientSize: 'clientHeight',
     customScrollPos: 'top',
     customScrollSize: 'height',
   },
@@ -61,33 +62,22 @@ export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) =
   return container.scrollTop;
 };
 
-export const getDefaultState = (axis: ScrollAxis): ScrollStateProps => {
-  return {
-    ...defaultScrollbarState,
-    state: axis === 'y' ? 'top' : 'left',
+export const convertScrollbarXScrollState = (state: ScrollBarScrollState): ScrollContainerScrollXState => {
+  const scrollBarState: Record<ScrollBarScrollState, ScrollContainerScrollXState> = {
+    begin: 'left',
+    end: 'right',
+    middle: 'scroll',
   };
+
+  return scrollBarState[state];
 };
 
-export const getImmediateScrollYState = (inner: Nullable<HTMLElement>): ScrollContainerScrollYState => {
-  if (!inner || inner.scrollTop === 0) {
-    return 'top';
-  }
+export const convertScrollbarYScrollState = (state: ScrollBarScrollState): ScrollContainerScrollYState => {
+  const scrollBarState: Record<ScrollBarScrollState, ScrollContainerScrollYState> = {
+    begin: 'top',
+    end: 'bottom',
+    middle: 'scroll',
+  };
 
-  if (inner.scrollTop === inner.scrollHeight - inner.clientHeight) {
-    return 'bottom';
-  }
-
-  return 'scroll';
-};
-
-export const getImmediateScrollXState = (inner: Nullable<HTMLElement>): ScrollContainerScrollXState => {
-  if (!inner || inner.scrollLeft === 0) {
-    return 'left';
-  }
-
-  if (inner.scrollLeft === inner.scrollWidth - inner.clientWidth) {
-    return 'right';
-  }
-
-  return 'scroll';
+  return scrollBarState[state];
 };

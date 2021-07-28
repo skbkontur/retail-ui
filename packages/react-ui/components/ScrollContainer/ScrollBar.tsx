@@ -4,16 +4,10 @@ import cn from 'classnames';
 import { Nullable } from '../../typings/utility-types';
 
 import { jsStyles } from './ScrollContainer.styles';
-import {
-  getImmediateScrollXState,
-  getImmediateScrollYState,
-  getScrollSizeParams,
-  scrollSizeParametersNames,
-} from './ScrollContainer.helpers';
+import { getScrollSizeParams, scrollSizeParametersNames } from './ScrollContainer.helpers';
 
 export type ScrollAxis = 'x' | 'y';
-export type ScrollContainerScrollXState = 'left' | 'scroll' | 'right';
-export type ScrollContainerScrollYState = 'top' | 'scroll' | 'bottom';
+export type ScrollBarScrollState = 'begin' | 'middle' | 'end';
 
 export interface ScrollStateProps {
   active: boolean;
@@ -21,7 +15,7 @@ export interface ScrollStateProps {
   scrolling: boolean;
   size: number;
   pos: number;
-  state: ScrollContainerScrollXState | ScrollContainerScrollYState;
+  state: ScrollBarScrollState;
 }
 
 export interface ScrollBarProps extends ScrollStateProps {
@@ -29,7 +23,7 @@ export interface ScrollBarProps extends ScrollStateProps {
   axis: ScrollAxis;
   className?: string;
   onChangeState: (props: Partial<ScrollStateProps>, axis: ScrollAxis) => void;
-  onScrollStateChange?: (state: ScrollContainerScrollYState | ScrollContainerScrollXState, axis: ScrollAxis) => void;
+  onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
 }
 
 export class ScrollBar extends React.Component<ScrollBarProps> {
@@ -78,8 +72,7 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     }
 
     if (props.active !== scrollActive || props.size !== scrollSize || props.pos !== scrollPos) {
-      const scrollState =
-        props.axis === 'x' ? getImmediateScrollXState(this.inner) : getImmediateScrollYState(this.inner);
+      const scrollState = this.getImmediateScrollState();
 
       if (scrollState !== props.state) {
         this.props.onScrollStateChange?.(scrollState, props.axis);
@@ -197,5 +190,19 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     this.inner[pos] += event.deltaY;
 
     event.preventDefault();
+  };
+
+  private getImmediateScrollState = (): ScrollBarScrollState => {
+    const { pos, size, clientSize } = scrollSizeParametersNames[this.props.axis];
+
+    if (!this.inner || this.inner[pos] === 0) {
+      return 'begin';
+    }
+
+    if (this.inner[pos] === this.inner[size] - this.inner[clientSize]) {
+      return 'end';
+    }
+
+    return 'middle';
   };
 }
