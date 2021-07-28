@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
 
-import { jsStyles } from './TokenInput.styles';
+import { styles } from './TokenInput.styles';
 
 // a thin character to preserve some space
 // for the caret visibillity in the input
@@ -22,7 +22,7 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
 
   public render() {
     return (
-      <div className={jsStyles.helperContainer(this.props.theme)}>
+      <div className={styles.helperContainer(this.props.theme)}>
         <div className={this.props.classHelp} ref={this.elementRef}>
           {this.props.text || THIN_SPACE}
         </div>

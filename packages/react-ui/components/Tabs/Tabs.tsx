@@ -1,14 +1,14 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { Indicator } from './Indicator';
-import { jsStyles } from './Tabs.styles';
+import { styles } from './Tabs.styles';
 import { TabsContext } from './TabsContext';
 import { Tab } from './Tab';
 
@@ -92,10 +92,7 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
           this.theme = theme;
           return (
             <CommonWrapper {...this.props}>
-              <div
-                className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))}
-                style={{ width }}
-              >
+              <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
                 <TabsContext.Provider
                   value={{
                     vertical,

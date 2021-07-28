@@ -14,7 +14,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
-import { jsStyles } from './Tooltip.styles';
+import { styles } from './Tooltip.styles';
 
 const Positions: PopupPosition[] = [
   'right bottom',
@@ -247,7 +247,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div ref={this.refContent} className={jsStyles.tooltipContent(this.theme)}>
+      <div ref={this.refContent} className={styles.tooltipContent(this.theme)}>
         {content}
         {this.renderCloseButton()}
       </div>
@@ -265,7 +265,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div className={jsStyles.cross(this.theme)} onClick={this.handleCloseButtonClick}>
+      <div className={styles.cross(this.theme)} onClick={this.handleCloseButtonClick}>
         <CrossIcon />
       </div>
     );
