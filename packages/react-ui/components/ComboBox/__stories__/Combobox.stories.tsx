@@ -1107,8 +1107,8 @@ WithTooltip.storyName = 'with tooltip';
 WithTooltip.parameters = {
   creevey: {
     tests: {
-      async ['show Tooltip']() {
-       const input = await this.browser.findElement({css: 'body'});
+      async ['show and hide Tooltip']() {
+       const body = await this.browser.findElement({css: 'body'});
 
        await this.browser
          .actions({ bridge: true })
@@ -1116,21 +1116,18 @@ WithTooltip.parameters = {
          .pause(1000)
          .perform();
 
-       await this.expect(await input.takeScreenshot()).to.matchImage('show tooltip');
-      },
-      async ['Hide Tooltip']() {
-        const body = await this.browser.findElement({css: 'body'});
+        const showTooltip = await body.takeScreenshot();
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="InputLikeText__input"]' }))
-          .pause(1000)
           .click(body)
           .pause(1000)
           .perform();
 
-        await this.expect(await body.takeScreenshot()).to.matchImage('hide tooltip');
-      }
+        const hideTooltip = await body.takeScreenshot();
+
+        await this.expect({ showTooltip, hideTooltip }).to.matchImages();
+      },
     }
   }
 }
