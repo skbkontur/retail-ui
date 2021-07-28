@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -117,6 +117,4 @@ const styles = {
       height: ${t.scrollContainerScrollBarHoverSize};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

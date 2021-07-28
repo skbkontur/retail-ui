@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   container() {
     return css`
       display: inline-flex;
@@ -27,6 +27,4 @@ const styles = {
       right: 0;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
