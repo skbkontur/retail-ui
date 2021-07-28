@@ -1,11 +1,11 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './ScrollContainer.styles';
+import { styles } from './ScrollContainer.styles';
 import { getScrollSizeParams, scrollSizeParametersNames } from './ScrollContainer.helpers';
 
 export type ScrollAxis = 'x' | 'y';
@@ -61,16 +61,18 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
 
     const { customScrollPos, customScrollSize } = scrollSizeParametersNames[this.props.axis];
 
-    const classNames = cn(props.className, jsStyles.scrollBar(this.theme), this.scrollBarStyles, {
-      [jsStyles.scrollBarInvert(this.theme)]: props.invert,
+    const classNames = cx(props.className, styles.scrollBar(this.theme), this.scrollBarStyles, {
+      [styles.scrollBarInvert(this.theme)]: props.invert,
     });
 
-    const styles: React.CSSProperties = {
+    const inlineStyles: React.CSSProperties = {
       [customScrollPos]: props.pos,
       [customScrollSize]: props.size,
     };
 
-    return <div ref={this.refScroll} style={styles} className={classNames} onMouseDown={this.handleScrollMouseDown} />;
+    return (
+      <div ref={this.refScroll} style={inlineStyles} className={classNames} onMouseDown={this.handleScrollMouseDown} />
+    );
   };
 
   public reflow = (inner: Nullable<HTMLElement>) => {
@@ -113,13 +115,13 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     const props = this.props;
 
     if (this.props.axis === 'x') {
-      return cn(jsStyles.scrollBarX(this.theme), {
-        [jsStyles.scrollBarXHover(this.theme)]: props.hover || props.scrolling,
+      return cx(styles.scrollBarX(this.theme), {
+        [styles.scrollBarXHover(this.theme)]: props.hover || props.scrolling,
       });
     }
 
-    return cn(jsStyles.scrollBarY(this.theme), {
-      [jsStyles.scrollBarYHover(this.theme)]: props.hover || props.scrolling,
+    return cx(styles.scrollBarY(this.theme), {
+      [styles.scrollBarYHover(this.theme)]: props.hover || props.scrolling,
     });
   }
 
