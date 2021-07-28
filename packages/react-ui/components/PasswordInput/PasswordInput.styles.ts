@@ -1,7 +1,7 @@
 import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       position: relative;
@@ -69,6 +69,4 @@ const styles = {
       min-width: ${t.inputIconSizeLarge};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

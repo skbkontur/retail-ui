@@ -2,7 +2,7 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       background: ${t.menuBgDefault};
@@ -24,6 +24,4 @@ const styles = {
       box-shadow: ${t.menuShadow};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
