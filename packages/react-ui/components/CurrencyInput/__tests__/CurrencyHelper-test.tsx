@@ -28,13 +28,13 @@ describe('CurrencyHelper', () => {
       { value: 1, expected: '1' },
       { value: 12, expected: '12' },
       { value: 123, expected: '123' },
-      { value: 1234, expected: '1\u2009234' },
-      { value: 12345, expected: '12\u2009345' },
-      { value: 123456, expected: '123\u2009456' },
-      { value: 1234567, expected: '1\u2009234\u2009567' },
+      { value: 1234, expected: '1\u0020234' },
+      { value: 12345, expected: '12\u0020345' },
+      { value: 123456, expected: '123\u0020456' },
+      { value: 1234567, expected: '1\u0020234\u0020567' },
       { value: -0, expected: '0' },
       { value: -1, expected: '\u22121' },
-      { value: -1234567, expected: '\u22121\u2009234\u2009567' },
+      { value: -1234567, expected: '\u22121\u0020234\u0020567' },
     ].forEach((x) => {
       it(`format(${x.value}) === '${x.expected}'`, () => {
         const actual = CurrencyHelper.format(x.value);
@@ -93,13 +93,13 @@ describe('CurrencyHelper', () => {
       { value: '1', expected: '1' },
       { value: '12', expected: '12' },
       { value: '123', expected: '123' },
-      { value: '1234', expected: '1\u2009234' },
-      { value: '12345', expected: '12\u2009345' },
-      { value: '123456', expected: '123\u2009456' },
-      { value: '1234567', expected: '1\u2009234\u2009567' },
+      { value: '1234', expected: '1\u0020234' },
+      { value: '12345', expected: '12\u0020345' },
+      { value: '123456', expected: '123\u0020456' },
+      { value: '1234567', expected: '1\u0020234\u0020567' },
       { value: '-0', expected: '\u22120' },
       { value: '-1', expected: '\u22121' },
-      { value: '-1234567', expected: '\u22121\u2009234\u2009567' },
+      { value: '-1234567', expected: '\u22121\u0020234\u0020567' },
     ].forEach((x) => {
       it(`formatString('${x.value}') === '${x.expected}'`, () => {
         const actual = CurrencyHelper.formatString(x.value);
