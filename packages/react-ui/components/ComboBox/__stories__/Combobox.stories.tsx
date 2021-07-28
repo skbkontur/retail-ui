@@ -1091,11 +1091,10 @@ export const WithRightIcon = () => (
 );
 WithRightIcon.storyName = 'with right icon';
 
-
 export const WithTooltip: Story = () => {
   return (
-    <div style={{marginTop: 20}}>
-      <Tooltip render={() => 'tooltip on focus'} trigger='focus' pos='right top'>
+    <div style={{ marginTop: 20 }}>
+      <Tooltip render={() => 'tooltip on focus'} trigger="focus" pos="right top">
         <SimpleCombobox />
       </Tooltip>
     </div>
@@ -1108,26 +1107,22 @@ WithTooltip.parameters = {
   creevey: {
     tests: {
       async ['show and hide Tooltip']() {
-       const body = await this.browser.findElement({css: 'body'});
-
-       await this.browser
-         .actions({ bridge: true })
-         .click(this.browser.findElement({ css: '[data-tid="InputLikeText__input"]' }))
-         .pause(1000)
-         .perform();
-
-        const showTooltip = await body.takeScreenshot();
+        const body = await this.browser.findElement({ css: 'body' });
 
         await this.browser
           .actions({ bridge: true })
-          .click(body)
+          .click(this.browser.findElement({ css: '[data-tid="InputLikeText__input"]' }))
           .pause(1000)
           .perform();
+
+        const showTooltip = await body.takeScreenshot();
+
+        await this.browser.actions({ bridge: true }).click(body).pause(1000).perform();
 
         const hideTooltip = await body.takeScreenshot();
 
         await this.expect({ showTooltip, hideTooltip }).to.matchImages();
       },
-    }
-  }
-}
+    },
+  },
+};

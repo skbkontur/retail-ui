@@ -365,7 +365,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     if (isFirefox) {
       // workaround for the Firefox focusout bug
       // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-      setTimeout(()=>{
+      setTimeout(() => {
         this.dispatch({ type: 'Blur' });
         removeAllSelections();
       });
