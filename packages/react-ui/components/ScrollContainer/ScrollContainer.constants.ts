@@ -3,7 +3,6 @@ import { ScrollBarState } from './ScrollBar';
 export const MIN_SCROLL_SIZE = 20;
 
 export const defaultScrollbarState: ScrollBarState = {
-  active: false,
   size: 0,
   pos: 0,
   // Mouse is moving where big scrollbar can be located.

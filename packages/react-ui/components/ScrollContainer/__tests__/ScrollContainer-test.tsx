@@ -6,19 +6,19 @@ import { ScrollContainer } from '../ScrollContainer';
 import { convertScrollbarXScrollState, convertScrollbarYScrollState } from '../ScrollContainer.helpers';
 
 describe('ScrollContainer', () => {
-  test('rendering with correct vertical scroll state', () => {
+  test('rendering with vertical scroll active', () => {
     const wrapper = mount(
-      <ScrollContainer>
+      <ScrollContainer maxHeight={50}>
         {new Array(50).fill('').map((i, index) => (
           <MenuItem key={index}>{'test'}</MenuItem>
         ))}
       </ScrollContainer>,
     );
 
-    expect(wrapper.prop('refScrollY').state).toMatchObject({ scrollState: 'begin' });
+    expect(wrapper.state('activeScrollBarY')).toBe(true);
   });
 
-  test('rendering with correct horizontal scroll state', () => {
+  test('rendering with horizontal scroll active', () => {
     const wrapper = mount(
       <ScrollContainer maxWidth={200}>
         {new Array(50).fill('').map((i, index) => (
@@ -29,7 +29,7 @@ describe('ScrollContainer', () => {
       </ScrollContainer>,
     );
 
-    expect(wrapper.prop('refScrollX').state).toMatchObject({ scrollState: 'begin' });
+    expect(wrapper.state('activeScrollBarX')).toBe(true);
   });
 });
 

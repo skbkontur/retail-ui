@@ -13,7 +13,6 @@ export type ScrollAxis = 'x' | 'y';
 export type ScrollBarScrollState = 'begin' | 'middle' | 'end';
 
 export interface ScrollBarState {
-  active: boolean;
   hover: boolean;
   scrolling: boolean;
   size: number;
@@ -24,13 +23,19 @@ export interface ScrollBarState {
 export interface ScrollBarProps {
   invert: boolean;
   axis: ScrollAxis;
+  active?: boolean;
   className?: string;
+  onChangeActive: (active: boolean, axis: ScrollAxis) => void;
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
 }
 
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   private inner: Nullable<HTMLElement>;
   private theme!: Theme;
+
+  public static defaultProps = {
+    active: false,
+  };
 
   public node: Nullable<HTMLElement>;
   public state: ScrollBarState = {
@@ -60,7 +65,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const state = this.state;
     const props = this.props;
 
-    if (!state.active) {
+    if (!props.active) {
       return null;
     }
 
@@ -90,11 +95,11 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     const { scrollSize, scrollPos, scrollActive } = getScrollSizeParams(this.inner, props.axis);
 
-    if (!scrollActive && !state.active) {
+    if (!scrollActive && !props.active) {
       return;
     }
 
-    if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
+    if (props.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
       const scrollState = this.getImmediateScrollState();
 
       if (scrollState !== state.scrollState) {
@@ -103,11 +108,11 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
       this.setState({
         ...this.state,
-        active: scrollActive,
         size: scrollSize,
         pos: scrollPos,
         scrollState,
       });
+      props.onChangeActive(scrollActive, props.axis);
     }
   };
 
@@ -117,7 +122,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   };
 
   public setHover(hover: boolean) {
-    if (this.state.active && this.state.hover !== hover) {
+    if (this.props.active && this.state.hover !== hover) {
       this.setState({ ...this.state, hover });
     }
   }
