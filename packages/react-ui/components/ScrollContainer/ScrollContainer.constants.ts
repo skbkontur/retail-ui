@@ -1,8 +1,8 @@
-import { ScrollStateProps } from './ScrollBar';
+import { ScrollBarState } from './ScrollBar';
 
 export const MIN_SCROLL_SIZE = 20;
 
-export const defaultScrollbarState: ScrollStateProps = {
+export const defaultScrollbarState: ScrollBarState = {
   active: false,
   size: 0,
   pos: 0,
@@ -10,5 +10,5 @@ export const defaultScrollbarState: ScrollStateProps = {
   hover: false,
   // True when scroll is following mouse (mouse down on scroll).
   scrolling: false,
-  state: 'begin',
+  scrollState: 'begin',
 };

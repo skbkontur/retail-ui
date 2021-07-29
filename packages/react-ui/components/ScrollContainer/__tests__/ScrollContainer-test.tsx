@@ -15,7 +15,7 @@ describe('ScrollContainer', () => {
       </ScrollContainer>,
     );
 
-    expect(wrapper.state('y')).toMatchObject({ state: 'begin' });
+    expect(wrapper.prop('refScrollY').state).toMatchObject({ scrollState: 'begin' });
   });
 
   test('rendering with correct horizontal scroll state', () => {
@@ -29,7 +29,7 @@ describe('ScrollContainer', () => {
       </ScrollContainer>,
     );
 
-    expect(wrapper.state('x')).toMatchObject({ state: 'begin' });
+    expect(wrapper.prop('refScrollX').state).toMatchObject({ scrollState: 'begin' });
   });
 });
 

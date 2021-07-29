@@ -15,8 +15,7 @@ import {
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
 } from './ScrollContainer.helpers';
-import { defaultScrollbarState } from './ScrollContainer.constants';
-import { ScrollAxis, ScrollBar, ScrollBarScrollState, ScrollStateProps } from './ScrollBar';
+import { ScrollAxis, ScrollBar, ScrollBarScrollState } from './ScrollBar';
 
 export type ScrollContainerScrollXState = 'left' | 'scroll' | 'right';
 export type ScrollContainerScrollYState = 'top' | 'scroll' | 'bottom';
@@ -44,12 +43,7 @@ export interface ScrollContainerProps extends CommonProps {
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
-export interface ScrollContainerState {
-  x: ScrollStateProps;
-  y: ScrollStateProps;
-}
-
-export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public static propTypes = {
@@ -67,26 +61,15 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     preventWindowScroll: false,
   };
 
-  public state: ScrollContainerState = {
-    x: defaultScrollbarState,
-    y: defaultScrollbarState,
-  };
-
-  private refScrollX: React.RefObject<ScrollBar>;
-  private refScrollY: React.RefObject<ScrollBar>;
+  private refScrollX: Nullable<ScrollBar>;
+  private refScrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
   private theme!: Theme;
 
-  constructor(props: ScrollContainerProps) {
-    super(props);
-
-    this.refScrollX = React.createRef();
-    this.refScrollY = React.createRef();
-  }
-
   public componentDidMount() {
-    this.refScrollX.current?.setInnerElement(this.inner);
-    this.refScrollY.current?.setInnerElement(this.inner);
+    this.refScrollX?.setInnerElement(this.inner);
+    this.refScrollY?.setInnerElement(this.inner);
+    this.forceUpdate();
   }
 
   public componentDidUpdate(prevProps: ScrollContainerProps) {
@@ -98,6 +81,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
     }
+
+    this.refScrollY?.forceUpdate();
+    this.refScrollX?.forceUpdate();
   }
 
   public render() {
@@ -184,7 +170,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         <div
           data-tid="ScrollContainer__inner"
           className={cx(styles.inner(), {
-            [styles.innerBottomIndent(this.theme)]: this.state.x.active && this.state.y.active,
+            [styles.innerBottomIndent(this.theme)]: Boolean(this.refScrollX?.node),
           })}
           style={innerStyle}
           ref={this.refInner}
@@ -196,42 +182,43 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     );
   };
 
-  private handleScrollStateChange = (scrollState: ScrollBarScrollState, axis: ScrollAxis) => {
-    if (axis === 'x') {
-      const scrollYState = convertScrollbarYScrollState(this.state.y.state);
-      const scrollXState = convertScrollbarXScrollState(scrollState);
-      this.props.onScrollStateChange?.(scrollYState, scrollXState);
-      return;
-    }
-
-    const scrollXState = convertScrollbarXScrollState(this.state.x.state);
-    const scrollYState = convertScrollbarYScrollState(scrollState);
-    this.props.onScrollStateChange?.(scrollYState, scrollXState);
-  };
-
   private renderScrollbar = (axis: ScrollAxis) => {
-    const state = this.state[axis];
-    const ref = axis === 'x' ? this.refScrollX : this.refScrollY;
-    const className = cx({
-      [styles.scrollBarXIndentRight(this.theme)]: axis === 'x' && this.state.y.active,
-    });
-
     return (
       <ScrollBar
-        ref={ref}
         axis={axis}
-        className={className}
+        ref={this.refScrollBar}
         invert={this.props.invert}
-        onChangeState={this.setStateScrollBar}
         onScrollStateChange={this.handleScrollStateChange}
-        {...state}
       />
     );
   };
 
-  private setStateScrollBar = (newState: Partial<ScrollStateProps>, axis: ScrollAxis) => {
-    const state = this.state;
-    this.setState({ ...state, [axis]: { ...state[axis], ...newState } });
+  private handleScrollStateChange = (scrollState: ScrollBarScrollState, axis: ScrollAxis) => {
+    if (!this.refScrollY || !this.refScrollX) {
+      return;
+    }
+
+    if (axis === 'x') {
+      const scrollXState = convertScrollbarXScrollState(scrollState);
+      const scrollYState = convertScrollbarYScrollState(this.refScrollY?.scrollBarState);
+
+      this.props.onScrollStateChange?.(scrollYState, scrollXState);
+      return;
+    }
+
+    const scrollXState = convertScrollbarXScrollState(this.refScrollX?.scrollBarState);
+    const scrollYState = convertScrollbarYScrollState(scrollState);
+
+    this.props.onScrollStateChange?.(scrollYState, scrollXState);
+  };
+
+  private refScrollBar = (scrollbar: ScrollBar) => {
+    if (scrollbar.props.axis === 'x') {
+      this.refScrollX = scrollbar;
+      return;
+    }
+
+    this.refScrollY = scrollbar;
   };
 
   private refInner = (element: HTMLElement | null) => {
@@ -245,8 +232,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    this.refScrollX?.current?.reflow(this.inner);
-    this.refScrollY?.current?.reflow(this.inner);
+    this.refScrollX?.reflow();
+    this.refScrollY?.reflow();
 
     this.props.onScroll?.(event);
     if (this.props.preventWindowScroll) {
@@ -262,11 +249,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private handleInnerScrollAxisWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !(event instanceof WheelEvent)) {
+    if (!this.inner || !(event instanceof WheelEvent) || (axis === 'x' && !event.shiftKey)) {
       return;
     }
 
-    if (this.state.y.active || this.state.x.active) {
+    if (this.refScrollX?.node || this.refScrollY?.node) {
       const { pos, size, offset } = scrollSizeParametersNames[axis];
 
       if (event.deltaY > 0 && this.inner[size] <= this.inner[pos] + this.inner[offset]) {
@@ -284,18 +271,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const right = event.currentTarget.getBoundingClientRect().right - event.pageX;
     const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
 
-    this.setHoverScrollBar(right <= 12, 'y');
-    this.setHoverScrollBar(right >= 12 && bottom <= 12, 'x');
+    this.refScrollY?.setHover(right <= 12);
+    this.refScrollX?.setHover(right >= 12 && bottom <= 12);
   };
 
   private handleMouseLeave = () => {
-    this.setHoverScrollBar(false, 'y');
-    this.setHoverScrollBar(false, 'x');
+    this.refScrollY?.setHover(false);
+    this.refScrollX?.setHover(false);
   };
-
-  private setHoverScrollBar(hover: boolean, axis: ScrollAxis) {
-    if (this.state[axis].hover !== hover) {
-      this.setStateScrollBar({ hover }, axis);
-    }
-  }
 }

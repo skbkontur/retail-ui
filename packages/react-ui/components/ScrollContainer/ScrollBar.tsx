@@ -5,40 +5,44 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
+import { defaultScrollbarState } from './ScrollContainer.constants';
 import { styles } from './ScrollContainer.styles';
 import { getScrollSizeParams, scrollSizeParametersNames } from './ScrollContainer.helpers';
 
 export type ScrollAxis = 'x' | 'y';
 export type ScrollBarScrollState = 'begin' | 'middle' | 'end';
 
-export interface ScrollStateProps {
+export interface ScrollBarState {
   active: boolean;
   hover: boolean;
   scrolling: boolean;
   size: number;
   pos: number;
-  state: ScrollBarScrollState;
+  scrollState: ScrollBarScrollState;
 }
 
-export interface ScrollBarProps extends ScrollStateProps {
+export interface ScrollBarProps {
   invert: boolean;
   axis: ScrollAxis;
   className?: string;
-  onChangeState: (props: Partial<ScrollStateProps>, axis: ScrollAxis) => void;
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
 }
 
-export class ScrollBar extends React.Component<ScrollBarProps> {
+export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   private inner: Nullable<HTMLElement>;
-  private scroll: Nullable<HTMLElement>;
   private theme!: Theme;
 
+  public node: Nullable<HTMLElement>;
+  public state: ScrollBarState = {
+    ...defaultScrollbarState,
+  };
+
   public componentDidMount() {
-    this.reflow(this.inner);
+    this.reflow();
   }
 
   public componentDidUpdate() {
-    this.reflow(this.inner);
+    this.reflow();
   }
 
   public render() {
@@ -53,9 +57,10 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
   }
 
   private renderMain = () => {
+    const state = this.state;
     const props = this.props;
 
-    if (!props.active) {
+    if (!state.active) {
       return null;
     }
 
@@ -66,8 +71,8 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     });
 
     const inlineStyles: React.CSSProperties = {
-      [customScrollPos]: props.pos,
-      [customScrollSize]: props.size,
+      [customScrollPos]: state.pos,
+      [customScrollSize]: state.size,
     };
 
     return (
@@ -75,66 +80,79 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     );
   };
 
-  public reflow = (inner: Nullable<HTMLElement>) => {
-    if (!inner) {
+  public reflow = () => {
+    if (!this.inner) {
       return;
     }
 
     const props = this.props;
-    const { scrollSize, scrollPos, scrollActive } = getScrollSizeParams(inner, this.props.axis);
+    const state = this.state;
 
-    if (!scrollActive && !props.active) {
+    const { scrollSize, scrollPos, scrollActive } = getScrollSizeParams(this.inner, props.axis);
+
+    if (!scrollActive && !state.active) {
       return;
     }
 
-    if (props.active !== scrollActive || props.size !== scrollSize || props.pos !== scrollPos) {
+    if (state.active !== scrollActive || state.size !== scrollSize || state.pos !== scrollPos) {
       const scrollState = this.getImmediateScrollState();
 
-      if (scrollState !== props.state) {
+      if (scrollState !== state.scrollState) {
         this.props.onScrollStateChange?.(scrollState, props.axis);
       }
 
-      this.props.onChangeState(
-        {
-          active: scrollActive,
-          size: scrollSize,
-          pos: scrollPos,
-          state: scrollState,
-        },
-        props.axis,
-      );
+      this.setState({
+        ...this.state,
+        active: scrollActive,
+        size: scrollSize,
+        pos: scrollPos,
+        scrollState,
+      });
     }
   };
 
   public setInnerElement = (inner: Nullable<HTMLElement>) => {
     this.inner = inner;
-    this.reflow(this.inner);
+    this.reflow();
   };
 
+  public setHover(hover: boolean) {
+    if (this.state.active && this.state.hover !== hover) {
+      this.setState({ ...this.state, hover });
+    }
+  }
+
+  public get scrollBarState() {
+    return this.state.scrollState;
+  }
+
   private get scrollBarStyles() {
-    const props = this.props;
+    const state = this.state;
 
     if (this.props.axis === 'x') {
+      const isActiveScrollY = this.inner && this.inner.offsetHeight < this.inner.scrollHeight;
+
       return cx(styles.scrollBarX(this.theme), {
-        [styles.scrollBarXHover(this.theme)]: props.hover || props.scrolling,
+        [styles.scrollBarXIndentRight(this.theme)]: isActiveScrollY,
+        [styles.scrollBarXHover(this.theme)]: state.hover || state.scrolling,
       });
     }
 
     return cx(styles.scrollBarY(this.theme), {
-      [styles.scrollBarYHover(this.theme)]: props.hover || props.scrolling,
+      [styles.scrollBarYHover(this.theme)]: state.hover || state.scrolling,
     });
   }
 
   private refScroll = (element: HTMLElement | null) => {
     const handleScrollWheel = (event: Event) => this.handleScrollWheel(event, this.props.axis);
 
-    if (!this.scroll && element) {
+    if (!this.node && element) {
       element.addEventListener('wheel', handleScrollWheel, { passive: false });
     }
-    if (this.scroll && !element) {
-      this.scroll.removeEventListener('wheel', handleScrollWheel);
+    if (this.node && !element) {
+      this.node.removeEventListener('wheel', handleScrollWheel);
     }
-    this.scroll = element;
+    this.node = element;
   };
 
   private handleScrollMouseDown = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -147,14 +165,14 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     const initialCoord = event[coord];
     const target: Document = window.document;
     const initialScrollPos = this.inner[pos];
-    const props = this.props;
+    const state = this.state;
 
     const mouseMove = (mouseMoveEvent: MouseEvent) => {
       if (!this.inner) {
         return;
       }
 
-      const ratio = (this.inner[size] - this.inner[offset]) / (this.inner[offset] - props.size);
+      const ratio = (this.inner[size] - this.inner[offset]) / (this.inner[offset] - state.size);
       const delta = (mouseMoveEvent[coord] - initialCoord) * ratio;
 
       this.inner[pos] = initialScrollPos + delta;
@@ -175,12 +193,12 @@ export class ScrollBar extends React.Component<ScrollBarProps> {
     const mouseUp = () => {
       target.removeEventListener('mousemove', mouseMove);
       target.removeEventListener('mouseup', mouseUp);
-      props.onChangeState({ ...this.state, scrolling: false }, props.axis);
+      this.setState({ ...this.state, scrolling: false });
     };
 
     target.addEventListener('mousemove', mouseMove);
     target.addEventListener('mouseup', mouseUp);
-    props.onChangeState({ ...this.state, scrolling: false }, props.axis);
+    this.setState({ ...this.state, scrolling: false });
 
     event.preventDefault();
   };
