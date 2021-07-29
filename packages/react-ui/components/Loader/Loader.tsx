@@ -31,11 +31,9 @@ export interface LoaderProps extends CommonProps {
   type?: 'mini' | 'normal' | 'big';
 }
 
-type TabIndex = number;
-
 export interface LoaderState {
   isStickySpinner: boolean;
-  childrenDisabledFocusElements: [FocusableElement[], TabIndex[]];
+  childrenDisabledFocusElements: FocusableElement[];
   spinnerStyle?: object;
 }
 
@@ -93,7 +91,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.state = {
       isStickySpinner: false,
-      childrenDisabledFocusElements: [[], []],
+      childrenDisabledFocusElements: [],
     };
   }
 
@@ -271,19 +269,20 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private disableChildrenFocus() {
-    const tabIndexes: TabIndex[] = [];
     const focusableElements = getFocusableElements(document.getElementById('children-loader-wrapper'));
     focusableElements.forEach((el) => {
-      tabIndexes.push(el.tabIndex);
+      el.setAttribute('origin-tabindex', el.tabIndex + '');
       el.tabIndex = -1;
     });
-    this.setState({ childrenDisabledFocusElements: [focusableElements, tabIndexes] });
+    this.setState({ childrenDisabledFocusElements: focusableElements });
   }
 
   private enableChildrenFocus() {
-    this.state.childrenDisabledFocusElements[0].forEach(
-      (el, idx) => (el.tabIndex = this.state.childrenDisabledFocusElements[1][idx]),
-    );
-    this.setState({ childrenDisabledFocusElements: [[], []] });
+    this.state.childrenDisabledFocusElements.forEach((el) => {
+      const originalTabIndex = el.getAttribute('origin-tabindex');
+      el.tabIndex = originalTabIndex ? +originalTabIndex : 0;
+      el.removeAttribute('origin-tabindex');
+    });
+    this.setState({ childrenDisabledFocusElements: [] });
   }
 }
