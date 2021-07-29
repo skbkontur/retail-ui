@@ -10,14 +10,23 @@ export const styles = memoizeStyle({
     `;
   },
 
-  inner() {
+  inner(t: Theme) {
     return css`
       position: relative;
       overflow: scroll;
       max-height: 100%;
       max-width: 100%;
 
-      /* IE sometimes enabled scroll */
+      [data-tid~='ScrollContainer__ScrollBar-x'] ~ & {
+        &::after {
+          content: ' ';
+          width: 100%;
+          display: block;
+          height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
+        }
+      }
+
+      /*IEsometimesenabledscroll*/
       margin-bottom: -1px;
       padding-bottom: 1px;
       margin-right: -1px;
@@ -29,17 +38,6 @@ export const styles = memoizeStyle({
       &::-webkit-scrollbar {
         width: 0;
         height: 0;
-      }
-    `;
-  },
-
-  innerBottomIndent(t: Theme) {
-    return css`
-      &::after {
-        content: '';
-        width: 100%;
-        display: block;
-        height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
       }
     `;
   },
@@ -101,13 +99,11 @@ export const styles = memoizeStyle({
         right: 1px;
         top: 0;
       }
-    `;
-  },
 
-  scrollBarXIndentRight(t: Theme) {
-    return css`
-      &::after {
-        right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
+      [data-tid~='ScrollContainer__ScrollBar-y'] ~ & {
+        &::after {
+          right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
+        }
       }
     `;
   },

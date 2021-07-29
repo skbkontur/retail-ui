@@ -6,7 +6,6 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './ScrollContainer.styles';
 import {
@@ -43,11 +42,7 @@ export interface ScrollContainerProps extends CommonProps {
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
-type ScrollContainerStateKey = 'activeScrollBarX' | 'activeScrollBarY';
-
-type ScrollContainerState = Record<ScrollContainerStateKey, boolean>;
-
-export class ScrollContainer extends React.Component<ScrollContainerProps, ScrollContainerState> {
+export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public static propTypes = {
@@ -65,19 +60,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     preventWindowScroll: false,
   };
 
-  public state: ScrollContainerState = {
-    activeScrollBarX: false,
-    activeScrollBarY: false,
-  };
-
-  private refScrollX: Nullable<ScrollBar>;
-  private refScrollY: Nullable<ScrollBar>;
+  private scrollX: Nullable<ScrollBar>;
+  private scrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
   private theme!: Theme;
 
   public componentDidMount() {
-    this.refScrollX?.setInnerElement(this.inner);
-    this.refScrollY?.setInnerElement(this.inner);
+    this.scrollX?.setInnerElement(this.inner);
+    this.scrollY?.setInnerElement(this.inner);
   }
 
   public componentDidUpdate(prevProps: ScrollContainerProps) {
@@ -173,13 +163,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
         {scrollbarY}
         {scrollbarX}
         <div
-          data-tid="ScrollContainer__inner"
-          className={cx(styles.inner(), {
-            [styles.innerBottomIndent(this.theme)]: this.state.activeScrollBarX,
-          })}
           style={innerStyle}
           ref={this.refInner}
+          data-tid="ScrollContainer__inner"
           onScroll={this.handleNativeScroll}
+          className={styles.inner(this.theme)}
         >
           {props.children}
         </div>
@@ -187,52 +175,54 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     );
   };
 
+  private hasScrollBar(axis: ScrollAxis) {
+    if (!this.inner) {
+      return false;
+    }
+
+    return axis === 'x'
+      ? this.inner.offsetWidth < this.inner.scrollWidth
+      : this.inner.offsetHeight < this.inner.scrollHeight;
+  }
+
   private renderScrollbar = (axis: ScrollAxis) => {
-    const active = axis === 'x' ? this.state.activeScrollBarX : this.state.activeScrollBarY;
     const refSctollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
 
     return (
       <ScrollBar
         axis={axis}
-        active={active}
         ref={refSctollBar}
         invert={this.props.invert}
-        onChangeActive={this.handleActiveScrollBar}
         onScrollStateChange={this.handleScrollStateChange}
       />
     );
   };
 
-  private handleActiveScrollBar = (active: boolean, axis: ScrollAxis) => {
-    const prop: ScrollContainerStateKey = axis === 'x' ? 'activeScrollBarX' : 'activeScrollBarY';
-    this.setState({ ...this.state, [prop]: active });
-  };
-
   private handleScrollStateChange = (scrollState: ScrollBarScrollState, axis: ScrollAxis) => {
-    if (!this.refScrollY || !this.refScrollX) {
+    if (!this.scrollY || !this.scrollX) {
       return;
     }
 
     if (axis === 'x') {
       const scrollXState = convertScrollbarXScrollState(scrollState);
-      const scrollYState = convertScrollbarYScrollState(this.refScrollY?.scrollBarState);
+      const scrollYState = convertScrollbarYScrollState(this.scrollY?.scrollBarState);
 
       this.props.onScrollStateChange?.(scrollYState, scrollXState);
       return;
     }
 
-    const scrollXState = convertScrollbarXScrollState(this.refScrollX?.scrollBarState);
+    const scrollXState = convertScrollbarXScrollState(this.scrollX?.scrollBarState);
     const scrollYState = convertScrollbarYScrollState(scrollState);
 
     this.props.onScrollStateChange?.(scrollYState, scrollXState);
   };
 
   private refScrollBarY = (scrollbar: Nullable<ScrollBar>) => {
-    this.refScrollY = scrollbar;
+    this.scrollY = scrollbar;
   };
 
   private refScrollBarX = (scrollbar: Nullable<ScrollBar>) => {
-    this.refScrollX = scrollbar;
+    this.scrollX = scrollbar;
   };
 
   private refInner = (element: HTMLElement | null) => {
@@ -246,8 +236,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   };
 
   private handleNativeScroll = (event: React.UIEvent<HTMLDivElement>) => {
-    this.refScrollX?.reflow();
-    this.refScrollY?.reflow();
+    this.scrollX?.reflow();
+    this.scrollY?.reflow();
 
     this.props.onScroll?.(event);
     if (this.props.preventWindowScroll) {
@@ -267,9 +257,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       return;
     }
 
-    const { activeScrollBarX, activeScrollBarY } = this.state;
-
-    if (activeScrollBarX || activeScrollBarY) {
+    if (this.hasScrollBar(axis)) {
       const { pos, size, offset } = scrollSizeParametersNames[axis];
 
       if (event.deltaY > 0 && this.inner[size] <= this.inner[pos] + this.inner[offset]) {
@@ -287,12 +275,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const right = event.currentTarget.getBoundingClientRect().right - event.pageX;
     const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
 
-    this.refScrollY?.setHover(right <= 12);
-    this.refScrollX?.setHover(right >= 12 && bottom <= 12);
+    this.scrollY?.setHover(right <= 12);
+    this.scrollX?.setHover(right >= 12 && bottom <= 12);
   };
 
   private handleMouseLeave = () => {
-    this.refScrollY?.setHover(false);
-    this.refScrollX?.setHover(false);
+    this.scrollY?.setHover(false);
+    this.scrollX?.setHover(false);
   };
 }

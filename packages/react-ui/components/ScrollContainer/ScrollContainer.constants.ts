@@ -7,6 +7,7 @@ export const defaultScrollbarState: ScrollBarState = {
   pos: 0,
   // Mouse is moving where big scrollbar can be located.
   hover: false,
+  active: false,
   // True when scroll is following mouse (mouse down on scroll).
   scrolling: false,
   scrollState: 'begin',
