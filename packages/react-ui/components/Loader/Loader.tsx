@@ -111,7 +111,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       this.checkSpinnerPosition();
     }
 
-    if (prevProps.active !== active) {
+    if (
+      prevProps.active !== active ||
+      getFocusableElements(document.getElementById('children-loader-wrapper')).length !==
+        this.state.childrenDisabledFocusElements.length
+    ) {
       active ? this.disableChildrenFocus() : this.enableChildrenFocus();
     }
   }
