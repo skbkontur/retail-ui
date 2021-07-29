@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import debounce from 'lodash.debounce';
+import { FocusableElement } from 'tabbable';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -10,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { getFocusableElements } from '../../lib/dom/getFocusableElements';
 
 import { jsStyles } from './Loader.styles';
 
@@ -29,8 +31,11 @@ export interface LoaderProps extends CommonProps {
   type?: 'mini' | 'normal' | 'big';
 }
 
+type TabIndex = number;
+
 export interface LoaderState {
   isStickySpinner: boolean;
+  childrenDisabledFocusElements: [FocusableElement[], TabIndex[]];
   spinnerStyle?: object;
 }
 
@@ -88,12 +93,17 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.state = {
       isStickySpinner: false,
+      childrenDisabledFocusElements: [[], []],
     };
   }
 
   public componentDidMount() {
     this.checkSpinnerPosition();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
+
+    if (this.props.active) {
+      this.disableChildrenFocus();
+    }
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
@@ -101,6 +111,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
+    }
+
+    if (prevProps.active !== active) {
+      active ? this.disableChildrenFocus() : this.enableChildrenFocus();
     }
   }
 
@@ -133,16 +147,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             coverChildren={this.props.active}
             style={{ height: '100%' }}
           >
-            <div
-              style={{ height: '100%' }}
-              onFocusCapture={(event) => {
-                if (!active) {
-                  return;
-                }
-                event.target.blur();
-                event.stopPropagation();
-              }}
-            >
+            <div id="children-loader-wrapper" style={{ height: '100%' }}>
               {this.props.children}
             </div>
           </ZIndex>
@@ -264,4 +269,21 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       spinnerStyle,
     });
   };
+
+  private disableChildrenFocus() {
+    const tabIndexes: TabIndex[] = [];
+    const focusableElements = getFocusableElements(document.getElementById('children-loader-wrapper'));
+    focusableElements.forEach((el) => {
+      tabIndexes.push(el.tabIndex);
+      el.tabIndex = -1;
+    });
+    this.setState({ childrenDisabledFocusElements: [focusableElements, tabIndexes] });
+  }
+
+  private enableChildrenFocus() {
+    this.state.childrenDisabledFocusElements[0].forEach(
+      (el, idx) => (el.tabIndex = this.state.childrenDisabledFocusElements[1][idx]),
+    );
+    this.setState({ childrenDisabledFocusElements: [[], []] });
+  }
 }
