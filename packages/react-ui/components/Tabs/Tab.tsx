@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
-import cn from 'classnames';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
@@ -11,9 +10,10 @@ import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
-import { jsStyles } from './Tab.styles';
+import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
 
 export interface TabIndicators {
   error: boolean;
@@ -202,19 +202,22 @@ export class Tab extends React.Component<TabProps, TabState> {
       isActive = this.context.activeTab === this.getId();
       isVertical = this.context.vertical;
     }
+    const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
 
     return (
       <CommonWrapper {...this.props}>
         <Component
-          className={cn({
-            [jsStyles.root(this.theme)]: true,
-            [jsStyles.vertical(this.theme)]: !!isVertical,
-            [jsStyles.primary(this.theme)]: !!primary,
-            [jsStyles.success(this.theme)]: !!success,
-            [jsStyles.warning(this.theme)]: !!warning,
-            [jsStyles.error(this.theme)]: !!error,
-            [jsStyles.active(this.theme)]: !!isActive,
-            [jsStyles.disabled(this.theme)]: !!disabled,
+          className={cx({
+            [styles.root(this.theme)]: true,
+            [styles.vertical(this.theme)]: !!isVertical,
+            [orientationStyles.primary(this.theme)]: !!primary,
+            [orientationStyles.success(this.theme)]: !!success,
+            [orientationStyles.warning(this.theme)]: !!warning,
+            [orientationStyles.error(this.theme)]: !!error,
+            [styles.active()]: !!isActive,
+            [orientationStyles.active(this.theme)]: !!isActive,
+            [styles.disabled(this.theme)]: !!disabled,
+            [orientationStyles.disabled()]: !!disabled,
           })}
           onBlur={this.handleBlur}
           onClick={this.switchTab}
@@ -226,7 +229,7 @@ export class Tab extends React.Component<TabProps, TabState> {
           href={href}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
-          {this.state.focusedByKeyboard && <div className={jsStyles.focus(this.theme)} />}
+          {this.state.focusedByKeyboard && <div className={cx(styles.focus(this.theme), globalClasses.focus)} />}
         </Component>
       </CommonWrapper>
     );

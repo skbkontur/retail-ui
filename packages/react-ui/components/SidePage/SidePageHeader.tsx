@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -7,8 +6,9 @@ import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './SidePage.styles';
+import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageHeaderProps extends CommonProps {
@@ -92,9 +92,9 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderHeader = (fixed = false) => {
     return (
-      <div className={cn(jsStyles.header(this.theme), { [jsStyles.headerFixed(this.theme)]: fixed })}>
+      <div className={cx(styles.header(this.theme), { [styles.headerFixed(this.theme)]: fixed })}>
         {this.renderClose()}
-        <div className={cn(jsStyles.title(this.theme), { [jsStyles.titleFixed()]: fixed })}>
+        <div className={cx(styles.title(this.theme), { [styles.titleFixed()]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
@@ -105,15 +105,15 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     <SidePageContext.Consumer>
       {({ requestClose }) => (
         <a
-          className={cn(jsStyles.close(this.theme), {
-            [jsStyles.fixed(this.theme)]: fixed,
+          className={cx(styles.close(this.theme), {
+            [styles.fixed(this.theme)]: fixed,
           })}
           onClick={requestClose}
           data-tid="SidePage__close"
         >
           <span
-            className={cn(jsStyles.closeIcon(this.theme), {
-              [jsStyles.fixed(this.theme)]: fixed,
+            className={cx(styles.closeIcon(this.theme), {
+              [styles.fixed(this.theme)]: fixed,
             })}
           >
             <CrossIcon />

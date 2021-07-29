@@ -15,7 +15,7 @@ import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
 
 import { ThemeEditor } from './ThemeEditor';
-import { jsStyles } from './Playground.styles';
+import { styles } from './Playground.styles';
 import { Playground } from './Playground';
 import { darkTheme } from './darkTheme';
 import { ThemeType } from './constants';
@@ -105,7 +105,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
-          <div className={jsStyles.editorHeaderWrapper(currentTheme)}>
+          <div className={styles.editorHeaderWrapper(currentTheme)}>
             <Gapped wrap verticalAlign="middle">
               <span>Тема для редактирования:</span>
               <ComboBox
@@ -120,7 +120,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
           </div>
         </SidePage.Header>
         <SidePage.Body>
-          <div className={jsStyles.sidePageBody()}>
+          <div className={styles.sidePageBody()}>
             <ThemeEditor
               editingTheme={themes[editingThemeItem!.value]}
               currentTheme={currentTheme}

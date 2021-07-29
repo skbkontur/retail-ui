@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   wrapper() {
     return css`
       overflow: hidden;
@@ -8,6 +8,4 @@ const styles = {
       pointer-events: none;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
