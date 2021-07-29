@@ -8,7 +8,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { isFirefox } from '../../lib/client';
+import { isFirefox, isIE11 } from '../../lib/client';
 import { removeAllSelections } from '../../components/DateInput/helpers/SelectionHelpers';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -362,7 +362,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
     this.focused = false;
-    if (isFirefox) {
+    if (isFirefox || isIE11) {
       // workaround for the Firefox focusout bug
       // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
       setTimeout(() => {
