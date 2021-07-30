@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import debounce from 'lodash.debounce';
-import { FocusableElement } from 'tabbable';
+import { focusable, FocusableElement } from 'tabbable';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -11,7 +11,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { getFocusableElements } from '../../lib/dom/getFocusableElements';
 
 import { jsStyles } from './Loader.styles';
 
@@ -33,7 +32,8 @@ export interface LoaderProps extends CommonProps {
 
 export interface LoaderState {
   isStickySpinner: boolean;
-  childrenDisabledFocusElements: FocusableElement[];
+  childrenFocusableElements: FocusableElement[];
+  childrenObserver: MutationObserver | null;
   spinnerStyle?: object;
 }
 
@@ -91,13 +91,16 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     this.state = {
       isStickySpinner: false,
-      childrenDisabledFocusElements: [],
+      childrenObserver: null,
+      childrenFocusableElements: [],
     };
   }
 
   public componentDidMount() {
     this.checkSpinnerPosition();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
+
+    this.makeObservable();
 
     if (this.props.active) {
       this.disableChildrenFocus();
@@ -111,16 +114,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       this.checkSpinnerPosition();
     }
 
-    if (
-      prevProps.active !== active ||
-      getFocusableElements(document.getElementById('children-loader-wrapper')).length !==
-        this.state.childrenDisabledFocusElements.length
-    ) {
+    if (prevProps.active !== active) {
       active ? this.disableChildrenFocus() : this.enableChildrenFocus();
     }
   }
 
   public componentWillUnmount() {
+    this.state.childrenObserver?.disconnect();
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
@@ -273,20 +273,41 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private disableChildrenFocus() {
-    const focusableElements = getFocusableElements(document.getElementById('children-loader-wrapper'));
+    const element = document.getElementById('children-loader-wrapper');
+    if (!element) {
+      return;
+    }
+    const focusableElements = focusable(element);
     focusableElements.forEach((el) => {
-      el.setAttribute('origin-tabindex', el.tabIndex + '');
+      if (!el.hasAttribute('origin-tabindex')) {
+        el.setAttribute('origin-tabindex', el.tabIndex + '');
+      }
       el.tabIndex = -1;
     });
-    this.setState({ childrenDisabledFocusElements: focusableElements });
+    this.setState({ childrenFocusableElements: focusableElements });
   }
 
   private enableChildrenFocus() {
-    this.state.childrenDisabledFocusElements.forEach((el) => {
+    this.state.childrenFocusableElements.forEach((el) => {
       const originalTabIndex = el.getAttribute('origin-tabindex');
       el.tabIndex = originalTabIndex ? +originalTabIndex : 0;
       el.removeAttribute('origin-tabindex');
     });
-    this.setState({ childrenDisabledFocusElements: [] });
+  }
+
+  private makeObservable() {
+    const target = document.getElementById('children-loader-wrapper');
+    if (!target) {
+      return;
+    }
+    const config = {
+      childList: true,
+      subtree: true,
+    };
+    const observer = new MutationObserver(() =>
+      this.props.active ? this.disableChildrenFocus() : this.enableChildrenFocus(),
+    );
+    observer.observe(target, config);
+    this.setState({ childrenObserver: observer });
   }
 }
