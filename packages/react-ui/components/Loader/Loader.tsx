@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import debounce from 'lodash.debounce';
-import { focusable, FocusableElement } from 'tabbable';
+import { FocusableElement, tabbable } from 'tabbable';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -277,14 +277,16 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     if (!element) {
       return;
     }
-    const focusableElements = focusable(element);
-    focusableElements.forEach((el) => {
+    const tabbableElements = tabbable(element);
+    tabbableElements.forEach((el) => {
       if (!el.hasAttribute('origin-tabindex')) {
         el.setAttribute('origin-tabindex', el.tabIndex + '');
       }
       el.tabIndex = -1;
     });
-    this.setState({ childrenFocusableElements: focusableElements });
+    this.setState((prevState) => {
+      prevState.childrenFocusableElements.push(...tabbableElements);
+    });
   }
 
   private enableChildrenFocus() {
@@ -293,6 +295,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       el.tabIndex = originalTabIndex ? +originalTabIndex : 0;
       el.removeAttribute('origin-tabindex');
     });
+    this.setState({ childrenFocusableElements: [] });
   }
 
   private makeObservable() {
