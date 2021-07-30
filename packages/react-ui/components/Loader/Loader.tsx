@@ -284,9 +284,9 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       }
       el.tabIndex = -1;
     });
-    this.setState((prevState) => {
-      prevState.childrenFocusableElements.push(...tabbableElements);
-    });
+    this.setState((prevState) => ({
+      childrenFocusableElements: [...prevState.childrenFocusableElements, ...tabbableElements],
+    }));
   }
 
   private enableChildrenFocus() {
