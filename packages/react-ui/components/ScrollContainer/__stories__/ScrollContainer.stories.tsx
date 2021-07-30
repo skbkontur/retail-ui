@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 
-import { ScrollContainer, ScrollContainerScrollState, ScrollContainerScrollXState } from '../ScrollContainer';
+import { ScrollContainer, ScrollContainerScrollXState, ScrollContainerScrollYState } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 
@@ -19,18 +19,21 @@ const wrapperStyle = {
 };
 
 const DynamicContent: React.FC<{
-  state: ScrollContainerScrollState | ScrollContainerScrollXState;
+  state: ScrollContainerScrollYState | ScrollContainerScrollXState;
   scroll: (percentage: number) => void;
   add: () => void;
   remove: () => void;
-  onChangeState: (y: ScrollContainerScrollState, x: ScrollContainerScrollXState) => void;
-}> = ({ children, state, scroll, add, remove, onChangeState }) => {
+  onChangeScrollYState?: (x: ScrollContainerScrollYState) => void;
+  onChangeScrollXState?: (x: ScrollContainerScrollXState) => void;
+}> = ({ children, state, scroll, add, remove, onChangeScrollXState, onChangeScrollYState }) => {
   return (
     <Gapped verticalAlign="top">
       <div id="test-container" style={{ padding: 10 }}>
         <Gapped vertical>
           <div style={wrapperStyle}>
-            <ScrollContainer onScrollStateChange={onChangeState}>{children}</ScrollContainer>
+            <ScrollContainer onScrollXStateChange={onChangeScrollXState} onScrollYStateChange={onChangeScrollYState}>
+              {children}
+            </ScrollContainer>
           </div>
           <div>scroll state: {state}</div>
         </Gapped>
@@ -139,7 +142,7 @@ WithScrollState.storyName = 'with scroll state';
 
 export const WithDynamicContent: Story = () => {
   const [items, setItems] = React.useState(4);
-  const [state, setState] = React.useState<ScrollContainerScrollState>('top');
+  const [state, setState] = React.useState<ScrollContainerScrollYState>('top');
   const add = () => setItems(items + 1);
   const remove = () => setItems(items > 0 ? items - 1 : 0);
   const scroll = (percentage: number) => {
@@ -149,7 +152,7 @@ export const WithDynamicContent: Story = () => {
     }
   };
   return (
-    <DynamicContent state={state} scroll={scroll} add={add} remove={remove} onChangeState={setState}>
+    <DynamicContent state={state} scroll={scroll} add={add} remove={remove} onChangeScrollYState={setState}>
       {getItems(items).map((i) => (
         <div key={i} style={{ padding: 12 }}>
           {i}
@@ -218,7 +221,7 @@ export const WithOnlyCustomHorizontalScroll: Story = () => {
   };
 
   return (
-    <DynamicContent state={state} scroll={scroll} add={add} remove={remove} onChangeState={(y, x) => setState(x)}>
+    <DynamicContent state={state} scroll={scroll} add={add} remove={remove} onChangeScrollXState={setState}>
       {getItems(items).map((i) => (
         <div key={i} style={{ padding: 12, width: 350 }}>
           {i}
