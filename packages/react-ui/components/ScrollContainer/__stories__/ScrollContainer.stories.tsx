@@ -1,6 +1,11 @@
 import React, { CSSProperties } from 'react';
 
-import { ScrollContainer, ScrollContainerScrollXState, ScrollContainerScrollYState } from '../ScrollContainer';
+import {
+  ScrollContainer,
+  ScrollContainerScrollState,
+  ScrollContainerScrollXState,
+  ScrollContainerScrollYState,
+} from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 
