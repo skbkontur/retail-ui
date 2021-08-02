@@ -60,6 +60,8 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
+  public static mobileFontSize = '18px';
+  public static mobileLineHeight = '24px';
   public static specificityLevel = '0';
   private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
@@ -92,7 +94,8 @@ export class DefaultTheme {
     const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
     return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
   }
-
+  // public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
+  public static mobileMediaQuery = '(max-width: 576px)';
   //#endregion
   //#region Link
   public static linkColor = '#3072c4';
@@ -573,12 +576,16 @@ export class DefaultTheme {
   public static modalCloseButtonColor = '#808080';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
-  public static modalCloseButtonPadding = '35px';
+  public static modalCloseButtonPadding = '16px';
+  public static mobileModalCloseButtonRightPadding = '16px';
+  public static mobileModalCloseButtonTopPadding = '26px';
   public static modalCloseButtonLegacyShift = '15px';
   public static modalCloseButtonBottomPadding = '20px';
   public static modalCloseButtonClickArea = '10px';
   public static modalCloseIconSize = '14px';
+  public static mobileModalCloseIconSize = '12px';
   public static modalCloseLegacyGap = '26px';
+  public static mobileModalCloseLegacyGap = '0px';
   public static modalCloseWrapperLegacyGap = '7px';
   public static modalFixedHeaderBg = '#fff';
   public static get modalFixedHeaderShadow() {
@@ -594,15 +601,23 @@ export class DefaultTheme {
   public static modalPaddingRight = '35px';
   public static modalHeaderFontSize = '22px';
   public static modalHeaderLineHeight = '30px';
+  public static mobileModalHeaderFontSize = '24px';
+  public static mobileModalHeaderLineHeight = '32px';
   public static modalHeaderPaddingBottom = '11px';
   public static modalHeaderPaddingTop = '24px';
+  public static mobileModalHeaderPadding = '16px';
   public static modalFixedHeaderPaddingBottom = '11px';
   public static modalBodyPaddingBottom = '25px';
+  public static mobileModalBodyPadding = '16px';
+  public static mobileModalBodyFontSize = '16px';
   public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '30px';
   public static modalPaddingBottom = '30px';
+  public static mobileModalFooterPadding = '16px';
+  public static mobileModalPaddingBottom = '16px';
   public static modalFooterPanelPaddingTop = '20px';
   public static modalFooterPanelPaddingBottom = '20px';
+  public static mobileModalFooterPanelPadding = '16px';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e5e5e5';

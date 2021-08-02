@@ -1,6 +1,7 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
 import cn from 'classnames';
+import throttle from 'lodash.throttle';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -12,7 +13,7 @@ import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isIE11 } from '../../lib/client';
+import { canUseDOM, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
@@ -66,6 +67,7 @@ export interface ModalState {
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
+  isMobileLayout: boolean;
 }
 
 /**
@@ -101,6 +103,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     hasHeader: false,
     hasFooter: false,
     hasPanel: false,
+    isMobileLayout: false,
   };
 
   private theme!: Theme;
@@ -113,7 +116,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
 
     if (mountedModalsCount === 0) {
-      window.addEventListener('resize', this.checkHorizontalScrollAppearance);
+      window.addEventListener('resize', this.throttledCheckHorizontalScroll);
     }
 
     mountedModalsCount++;
@@ -123,11 +126,16 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     if (this.containerNode) {
       this.containerNode.addEventListener('scroll', LayoutEvents.emit);
     }
+
+    window.addEventListener('resize', this.checkForMobileLayout);
+
+    // for SSR, see https://reactjs.org/docs/react-dom.html#hydrate
+    this.checkForMobileLayout();
   }
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      window.removeEventListener('resize', this.checkHorizontalScrollAppearance);
+      window.removeEventListener('resize', this.checkForMobileLayout);
       LayoutEvents.emit();
     }
 
@@ -140,6 +148,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     if (this.containerNode) {
       this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
     }
+
+    window.removeEventListener('resize', this.checkForMobileLayout);
   }
 
   public render(): JSX.Element {
@@ -162,6 +172,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
+      isMobileLayout: this.state.isMobileLayout,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -181,9 +192,20 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     if (this.props.width) {
       style.width = this.props.width;
-    } else {
-      containerStyle.width = 'auto';
     }
+
+    const WithoutHeader = !hasHeader && !this.props.noClose;
+
+    const content = (
+      <>
+        {WithoutHeader && (
+          <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper(this.theme)}>
+            <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
+          </ZIndex>
+        )}
+        <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
+      </>
+    );
 
     return (
       <CommonWrapper {...this.props}>
@@ -208,14 +230,13 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 data-tid="modal-content"
               >
                 <div className={jsStyles.window(this.theme)} style={style}>
-                  <ResizeDetector onResize={this.handleResize}>
-                    <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
-                      {!hasHeader && !this.props.noClose ? (
-                        <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper(this.theme)}>
-                          <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
-                        </ZIndex>
-                      ) : null}
-                      <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
+                  <ResizeDetector onResize={this.handleResize} fullHeight={this.state.isMobileLayout}>
+                    <FocusLock
+                      disabled={this.props.disableFocusLock}
+                      autoFocus={false}
+                      className={cn({ [jsStyles.columnFlexContainer()]: this.state.isMobileLayout })}
+                    >
+                      {WithoutHeader && this.state.isMobileLayout ? <div>{content}</div> : content}
                     </FocusLock>
                   </ResizeDetector>
                 </div>
@@ -286,6 +307,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
+  private throttledCheckHorizontalScroll = throttle(this.checkHorizontalScrollAppearance, 100);
+
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
   };
@@ -300,5 +323,22 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
+  };
+
+  private isMatchMedia = () => {
+    return canUseDOM && this.theme && window.matchMedia(this.theme.mobileMediaQuery).matches;
+  };
+
+  private checkForMobileLayout = () => {
+    if (this.isMatchMedia() && !this.state.isMobileLayout) {
+      this.setState({
+        isMobileLayout: true,
+      });
+    }
+    if (!this.isMatchMedia() && this.state.isMobileLayout) {
+      this.setState({
+        isMobileLayout: false,
+      });
+    }
   };
 }

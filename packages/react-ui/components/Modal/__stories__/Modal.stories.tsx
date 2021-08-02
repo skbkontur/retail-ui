@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
@@ -7,6 +7,8 @@ import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -133,11 +135,12 @@ class ModalOverAnotherModal extends Component<{}, any> {
   public state = {
     firstModalOpened: false,
     secondModalOpened: false,
+    thirdModalOpened: false,
   };
 
   public renderModal(name: string, width: number) {
     return (
-      <Modal width={width} onClose={this.close.bind(this, name)}>
+      <Modal onClose={this.close.bind(this, name)}>
         <Modal.Header>Модалка #{name === 'firstModalOpened' ? '1' : '2'}</Modal.Header>
         <Modal.Body>
           {name === 'firstModalOpened' && (
@@ -149,12 +152,13 @@ class ModalOverAnotherModal extends Component<{}, any> {
   }
 
   public render() {
-    const { firstModalOpened, secondModalOpened } = this.state;
+    const { firstModalOpened, secondModalOpened, thirdModalOpened } = this.state;
 
     return (
       <div>
         {firstModalOpened && this.renderModal('firstModalOpened', 500)}
         {secondModalOpened && this.renderModal('secondModalOpened', 300)}
+        {thirdModalOpened && this.renderModal('thirdModalOpened', 300)}
         <Button onClick={() => this.setState({ firstModalOpened: true })}>Open first modal</Button>
       </div>
     );
@@ -774,3 +778,74 @@ export const ModalWithChildrenFromOtherComponent = () => (
 );
 
 ModalWithChildrenFromOtherComponent.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
+
+export const MobileModal = () => {
+  const [isOpen, setOpen] = useState(false);
+  const [showThirdButton, setShowThird] = useState(false);
+
+  const modal = (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider
+            value={ThemeFactory.create(
+              {
+                mobileMediaQuery: '(max-width: 576px)',
+              },
+              theme,
+            )}
+          >
+            <Modal onClose={() => setOpen(false)}>
+              <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
+              <Modal.Body>
+                <p style={{ margin: 0 }}>
+                  {new Array(80).fill(
+                    'Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. ',
+                    0,
+                    80,
+                  )}
+                </p>
+              </Modal.Body>
+              <Modal.Footer panel>
+                <Button
+                  use={'primary'}
+                  onClick={() => {
+                    setShowThird(true);
+                  }}
+                >
+                  Ок
+                </Button>
+                <Button
+                  use={'danger'}
+                  onClick={() => {
+                    setShowThird(false);
+                  }}
+                >
+                  Удалить
+                </Button>
+                {showThirdButton && (
+                  <Button style={{ marginLeft: '100px' }} use={'link'}>
+                    Изменить
+                  </Button>
+                )}
+              </Modal.Footer>
+            </Modal>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+  return (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      {isOpen && modal}
+    </div>
+  );
+};
+MobileModal.storyName = 'Mobile modal';
+MobileModal.parameters = {
+  viewport: {
+    defaultViewport: 'iphonePlus',
+  },
+  creevey: { skip: [true] },
+};

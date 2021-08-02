@@ -13,8 +13,9 @@ export interface ModalContextProps {
   setHasHeader?: (value?: boolean) => void;
   setHasFooter?: (value?: boolean) => void;
   setHasPanel?: (value?: boolean) => void;
+  isMobileLayout: boolean;
 }
 
-export const ModalContext = React.createContext<ModalContextProps>({});
+export const ModalContext = React.createContext<ModalContextProps>({ isMobileLayout: false });
 
 ModalContext.displayName = 'ModalContext';

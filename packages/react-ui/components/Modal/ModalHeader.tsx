@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
@@ -11,6 +11,9 @@ import { ModalClose } from './ModalClose';
 import { ModalContext } from './ModalContext';
 
 export interface ModalHeaderProps extends CommonProps {
+  /**
+   * @default true
+   */
   sticky?: boolean;
   children?: ReactNode;
 }
@@ -18,17 +21,27 @@ export interface ModalHeaderProps extends CommonProps {
  * Шапка модального окна
  *
  * @visibleName Modal.Header
+ *
  */
+
 function ModalHeader(props: ModalHeaderProps) {
   const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     modal.setHasHeader?.();
 
     return () => modal.setHasHeader?.(false);
   }, []);
+
+  useEffect(() => {
+    setShow(false);
+    setTimeout(() => {
+      setShow(true);
+    }, 50);
+  }, [modal.isMobileLayout]);
 
   const renderContent = (fixed = false) => {
     return (
@@ -45,6 +58,10 @@ function ModalHeader(props: ModalHeaderProps) {
       </div>
     );
   };
+
+  if (!show) {
+    return null;
+  }
 
   return (
     <CommonWrapper {...props}>

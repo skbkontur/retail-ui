@@ -50,6 +50,12 @@ const styles = {
       margin: auto;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
       background: ${t.bgDefault};
+
+      @media ${t.mobileMediaQuery} {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+      }
     `;
   },
 
@@ -60,12 +66,14 @@ const styles = {
       text-align: left;
       vertical-align: middle;
       box-sizing: border-box;
-      z-index: 10;
+      z-index: 100;
       margin: 40px 20px;
+      width: auto;
 
-      @media screen and (max-width: ${t.modalAdaptiveThreshold}) {
+      @media ${t.mobileMediaQuery} {
         margin: 0;
         width: 100%;
+        height: 100%;
       }
     `;
   },
@@ -95,6 +103,11 @@ const styles = {
       padding: ${t.modalCloseButtonClickArea} !important;
       margin: -${t.modalCloseButtonClickArea} !important;
 
+      @media ${t.mobileMediaQuery} {
+        right: ${t.mobileModalCloseButtonRightPadding};
+        top: ${t.mobileModalCloseButtonTopPadding};
+      }
+
       &:focus,
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
@@ -108,6 +121,11 @@ const styles = {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
         box-sizing: content-box;
+
+        @media ${t.mobileMediaQuery} {
+          width: ${t.mobileModalCloseIconSize};
+          height: ${t.mobileModalCloseIconSize};
+        }
       }
     `;
   },
@@ -124,6 +142,10 @@ const styles = {
       float: right;
       width: ${blockSizeX + legacyGap}px;
       height: ${blockSizeY}px;
+
+      @media ${t.mobileMediaQuery} {
+        width: ${parseInt(t.mobileModalCloseIconSize) + 2 * parseInt(t.mobileModalCloseButtonRightPadding)}px;
+      }
     `;
   },
 
@@ -150,27 +172,52 @@ const styles = {
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
+
+      @media ${t.mobileMediaQuery} {
+        font-size: ${t.mobileModalHeaderFontSize};
+        line-height: ${t.mobileModalHeaderLineHeight};
+
+        padding: ${t.mobileModalHeaderPadding};
+      }
     `;
   },
 
   body(t: Theme) {
     return css`
       padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
+
+      @media ${t.mobileMediaQuery} {
+        padding: ${t.mobileModalBodyPadding};
+        padding-top: 0px;
+        flex: 1;
+        font-size: ${t.mobileModalBodyFontSize};
+      }
     `;
   },
 
   headerWithClose(t: Theme) {
-    const rightPadding =
-      2 * parseInt(t.modalCloseButtonPadding) + parseInt(t.modalCloseIconSize) + parseInt(t.modalCloseLegacyGap);
+    const modalCloseButtonPadding = parseInt(t.modalCloseButtonPadding);
+    const modalCloseIconSize = parseInt(t.modalCloseIconSize);
+    const modalCloseLegacyGap = parseInt(t.modalCloseLegacyGap);
+
+    const rightPadding = 2 * modalCloseButtonPadding + modalCloseIconSize + modalCloseLegacyGap;
 
     return css`
       padding-right: ${rightPadding}px;
+
+      @media ${t.mobileMediaQuery} {
+        padding-right: ${2 * parseInt(t.mobileModalCloseButtonRightPadding) + parseInt(t.mobileModalCloseIconSize)}px;
+      }
     `;
   },
 
   footer(t: Theme) {
     return css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
+
+      @media ${t.mobileMediaQuery} {
+        padding: ${t.mobileModalFooterPadding};
+      }
     `;
   },
 
@@ -186,6 +233,10 @@ const styles = {
         padding-top: ${t.modalFooterPanelPaddingTop} !important;
         padding-bottom: ${t.modalFooterPanelPaddingBottom} !important;
         background: ${t.modalFooterBg} !important;
+
+        @media ${t.mobileMediaQuery} {
+          padding: ${t.mobileModalFooterPanelPadding} !important;
+        }
       }
     `;
   },
@@ -239,6 +290,10 @@ const styles = {
   bodyWithoutHeader(t: Theme) {
     return css`
       padding-top: ${t.modalPaddingTop} !important;
+
+      @media ${t.mobileMediaQuery} {
+        padding-top: ${t.mobileModalBodyPadding} !important;
+      }
     `;
   },
 
@@ -251,6 +306,18 @@ const styles = {
   bodyAddPaddingForPanel(t: Theme) {
     return css`
       padding-bottom: ${t.modalPaddingBottom};
+
+      @media ${t.mobileMediaQuery} {
+        padding-bottom: ${t.mobileModalBodyPadding};
+      }
+    `;
+  },
+
+  columnFlexContainer() {
+    return css`
+      height: 100%;
+      display: flex;
+      flex-flow: column;
     `;
   },
 };

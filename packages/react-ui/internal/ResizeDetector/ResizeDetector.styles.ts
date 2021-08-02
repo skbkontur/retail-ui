@@ -4,6 +4,8 @@ const styles = {
   root() {
     return css`
       position: relative;
+      height: 100%;
+      width: 100%;
     `;
   },
 
@@ -24,6 +26,12 @@ const styles = {
   content() {
     return css`
       position: relative;
+    `;
+  },
+
+  fullHeight() {
+    return css`
+      height: 100%;
     `;
   },
 };
