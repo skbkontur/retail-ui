@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -10,9 +9,10 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
-import { jsStyles } from './Loader.styles';
+import { styles } from './Loader.styles';
 import { TaskWithDelayAndMinimalDuration } from './utils';
 
 export interface LoaderProps extends CommonProps {
@@ -159,7 +159,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.loader()}>
+        <div className={styles.loader()}>
           <ZIndex
             priority={'Loader'}
             applyZIndex={isLoaderVisible}
@@ -172,8 +172,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             <ZIndex
               wrapperRef={this.wrapperRef}
               priority={'Loader'}
-              className={cn({
-                [jsStyles.active(this.theme)]: isLoaderVisible,
+              className={cx({
+                [styles.active(this.theme)]: isLoaderVisible,
               })}
             >
               {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
@@ -191,11 +191,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
+        className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
         <div
-          className={jsStyles.spinnerComponentWrapper()}
+          className={styles.spinnerComponentWrapper()}
           ref={(element) => {
             this.spinnerNode = element;
           }}

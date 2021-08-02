@@ -4,7 +4,6 @@ import { mount } from 'enzyme';
 import { PasswordInput, PasswordInputProps } from '../PasswordInput';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../../internal/icons/16px';
 import { Input } from '../../Input';
-import { jsStyles } from '../PasswordInput.styles';
 
 const setup = (props?: PasswordInputProps) => {
   return mount<PasswordInput>(<PasswordInput value="" {...props} />);
@@ -17,7 +16,7 @@ describe('PasswordInput', () => {
 
   it('should render 1 Icon', () => {
     const component = setup();
-    expect(component.find(`.${jsStyles.toggleVisibility()}`).children()).toHaveLength(1);
+    expect(component.find(`[data-tid~="PasswordInputEyeIcon"]`).children()).toHaveLength(1);
   });
 
   it('has Icon with 14px size', () => {
@@ -62,10 +61,10 @@ describe('PasswordInput', () => {
 
     component.find('input').simulate('keypress', { key: 'a', getModifierState: () => false });
     component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => true });
-    expect(component.find(`.${jsStyles.capsLockDetector()}`)).toHaveLength(1);
+    expect(component.find(`[data-tid~="PasswordInputCapsLockDetector"]`)).toHaveLength(1);
 
     component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => false });
 
-    expect(component.find(`.${jsStyles.capsLockDetector()}`)).toHaveLength(0);
+    expect(component.find(`[data-tid~="PasswordInputCapsLockDetector"]`)).toHaveLength(0);
   });
 });

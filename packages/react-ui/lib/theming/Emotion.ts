@@ -5,17 +5,15 @@ import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
 
-const PREFIX = 'react-ui';
+const REACT_UI_PREFIX = 'react-ui';
 
-const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
+const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
 export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
   createEmotion({
-    key: PREFIX,
+    key: REACT_UI_PREFIX,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
   });
-
-export const cssName = (className: string): string => `.${className}`;
 
 function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
   return fn.length == 0;
@@ -47,3 +45,10 @@ export const memoizeStyle = <S extends { [className: string]: (() => string) | (
   Object.keys(styles).forEach((className) => (styles[className as keyof S] = memoize(styles[className]) as S[keyof S]));
   return styles;
 };
+
+export const prefix =
+  (component: string, app = REACT_UI_PREFIX) =>
+  <T extends Record<string, string>>(classes: T): T =>
+    Object.keys(classes).reduce((acc, key) => {
+      return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
+    }, {} as T);
