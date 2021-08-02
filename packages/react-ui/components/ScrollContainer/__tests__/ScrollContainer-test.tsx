@@ -54,34 +54,20 @@ describe('ScrollContainer', () => {
   afterAll(() => {
     Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
       configurable: true,
-      value: 10,
+      value: 0,
     });
     Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
       configurable: true,
-      value: 20,
+      value: 0,
     });
     Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
       configurable: true,
-      value: 10,
+      value: 0,
     });
     Object.defineProperty(HTMLElement.prototype, 'scrollWidth', {
       configurable: true,
-      value: 20,
+      value: 0,
     });
-
-    // const offsetHeight = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetHeight') as PropertyDecorator &
-    //   ThisType<any>;
-    // const scrollHeight = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollHeight') as PropertyDecorator &
-    //   ThisType<any>;
-    // const offsetWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'offsetWidth') as PropertyDecorator &
-    //   ThisType<any>;
-    // const scrollWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, 'scrollWidth') as PropertyDecorator &
-    //   ThisType<any>;
-    // Object.defineProperty(HTMLElement.prototype, 'offsetHeight', offsetHeight);
-    // Object.defineProperty(HTMLElement.prototype, 'scrollHeight', scrollHeight);
-
-    // Object.defineProperty(HTMLElement.prototype, 'offsetWidth', offsetWidth);
-    // Object.defineProperty(HTMLElement.prototype, 'scrollWidth', scrollWidth);
   });
 });
 
