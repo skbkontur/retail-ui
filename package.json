@@ -12,7 +12,8 @@
     "cz-conventional-changelog": "^3.3.0",
     "env-cmd": "^10.1.0",
     "husky": "^6.0.0",
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "node-fetch": "^2.6.1"
   },
   "scripts": {
     "commit": "git-cz",

@@ -1,0 +1,97 @@
+{
+  "@skbkontur/react-ui": {
+    "total": 12,
+    "versions": {
+      "1.11.2": 1,
+      "2.2.0": 1,
+      "1.6.9": 2,
+      "2.4.1": 1,
+      "0.10.6": 1,
+      "1.11.1": 1,
+      "1.1.2": 1,
+      "1.11.3": 2,
+      "0.45.0": 1,
+      "1.3.0": 1
+    },
+    "matches": {
+      "GCloud/GCloud": {
+        "Client/package.json": "1.11.2"
+      },
+      "Heracles/web": {
+        "client/package.json": "2.2.0"
+      },
+      "billy/billy": {
+        "package.json": "1.6.9"
+      },
+      "coreui/coreui-doc": {
+        "package.json": "2.4.1"
+      },
+      "edu/voting-app": {
+        "Front/package.json": "0.10.6"
+      },
+      "ke/ft.front": {
+        "package.json": "1.11.1"
+      },
+      "ke/houston": {
+        "Kontur.Houston.Monitoring/ClientApp/package.json": "1.1.2"
+      },
+      "ofd/kontur.ofd": {
+        "src/Web/packages/Monitoring/package.json": "1.11.3"
+      },
+      "portal/authenticator": {
+        "auth.web/React/package.json": "1.11.3"
+      },
+      "portal/cabinet": {
+        "Cabinet/React/package.json": "1.6.9"
+      },
+      "recognition/claims": {
+        "package.json": "0.45.0"
+      },
+      "uit/oavp/KonturInfo": {
+        "UI/package.json": "1.3.0"
+      }
+    }
+  },
+  "@skbkontur/react-ui-addons": {
+    "total": 1,
+    "versions": {
+      "1.1.2": 1
+    },
+    "matches": {
+      "Heracles/web": {
+        "client/package.json": "1.1.2"
+      }
+    }
+  },
+  "@skbkontur/react-ui-validations": {
+    "total": 6,
+    "versions": {
+      "1.1.4": 1,
+      "1.0.7": 1,
+      "0.2.13": 1,
+      "1.1.5": 1,
+      "1.0.1": 1,
+      "0.8.1": 1
+    },
+    "matches": {
+      "GCloud/GCloud": {
+        "Client/package.json": "1.1.4"
+      },
+      "billy/billy": {
+        "package.json": "1.0.7"
+      },
+      "edu/voting-app": {
+        "Front/package.json": "0.2.13"
+      },
+      "ofd/kontur.ofd": {
+        "src/Web/packages/Monitoring/package.json": "1.1.5"
+      },
+      "portal/authenticator": {
+        "auth.web/React/package.json": "1.0.1"
+      },
+      "portal/cabinet": {
+        "Cabinet/React/package.json": "0.8.1"
+      }
+    }
+  }
+}
