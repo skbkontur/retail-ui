@@ -8,10 +8,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
+import { menuAlignType } from './TokenInput';
+
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
-  menuWidth: number | 'auto';
-  menuAlign: 'left' | 'cursor';
+  menuWidth: string | number;
+  menuAlign: menuAlignType;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
@@ -68,8 +70,9 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         positions={['bottom left']}
         anchorElement={anchorElement}
         popupOffset={menuAlign === 'left' ? 0 : 5}
+        margin={menuAlign === 'left' ? 1 : 0}
         hasShadow={is8pxTheme(this.theme)}
-        menuWidth={menuWidth}
+        menuWidth={menuAlign === 'cursor' ? 'auto' : menuWidth}
       >
         <ComboBoxMenu
           items={items}

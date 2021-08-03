@@ -38,6 +38,8 @@ export enum TokenInputType {
   Combined,
 }
 
+export type menuAlignType = 'left' | 'cursor';
+
 export interface TokenInputProps<T> extends CommonProps {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
@@ -47,8 +49,16 @@ export interface TokenInputProps<T> extends CommonProps {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
-  menuWidth: '100%' | 'auto';
-  menuAlign: 'left' | 'cursor';
+  /**
+   * Ширина выпадающего меню может быть указана как 'auto'
+   * а также в пикселях, процентах (от ширины инпута)
+   * или других конкретных единицах
+   *
+   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
+   * (по ширине текста)
+   */
+  menuWidth: string | number;
+  menuAlign: menuAlignType;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -335,7 +345,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
-                menuWidth={menuWidth === '100%' ? this.wrapper!.offsetWidth : 'auto'}
+                menuWidth={menuWidth}
                 menuAlign={menuAlign}
               />
             )}

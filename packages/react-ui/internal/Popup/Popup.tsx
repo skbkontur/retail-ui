@@ -90,7 +90,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   positions: PopupPosition[];
   useWrapper: boolean;
   ignoreHover: boolean;
-  menuWidth?: number | 'auto';
+  menuWidth: string | number;
 }
 
 interface PopupLocation {
@@ -334,6 +334,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
+  private calculateMenuWidth = (menuWidth: number | string): number | string => {
+    if (typeof menuWidth === 'string') {
+      if (menuWidth.includes('%')) {
+        return (this.anchorElement!.offsetWidth * parseInt(menuWidth.substring(0, menuWidth.length - 1))) / 100;
+      }
+      if (/[a-zA-Z]/g.test(menuWidth)) {
+        return menuWidth;
+      }
+      return `${menuWidth}px`;
+    }
+    return menuWidth;
+  };
+
   private renderContent(location: PopupLocation) {
     const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, menuWidth } = this.props;
     const children = this.renderChildren();
@@ -378,7 +391,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
                 <div
                   className={styles.contentInner(this.theme)}
-                  style={{ backgroundColor, width: menuWidth }}
+                  style={{ backgroundColor, width: this.calculateMenuWidth(menuWidth) }}
                   data-tid={'PopupContentInner'}
                 >
                   {children}
