@@ -138,6 +138,7 @@ export const styles = memoizeStyle({
 
   outline(t: Theme) {
     return css`
+      background: ${t.toggleBaseBg};
       border-radius: ${t.toggleBorderRadius};
     `;
   },
