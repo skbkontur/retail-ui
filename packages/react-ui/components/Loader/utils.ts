@@ -34,7 +34,6 @@ export class TaskWithDelayAndMinimalDuration {
 
   public update = (updateData: Partial<TaskWithDelayAndMinimalDurationProps>) => {
     this.taskParams = { ...this.taskParams, ...updateData };
-    // тут может прилететь undefined
     this.start();
   };
 

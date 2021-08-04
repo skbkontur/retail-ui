@@ -169,13 +169,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             {this.props.children}
           </ZIndex>
           {isLoaderVisible && (
-            <ZIndex
-              wrapperRef={this.wrapperRef}
-              priority={'Loader'}
-              className={cx({
-                [styles.active(this.theme)]: isLoaderVisible,
-              })}
-            >
+            <ZIndex wrapperRef={this.wrapperRef} priority={'Loader'} className={styles.active(this.theme)}>
               {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
             </ZIndex>
           )}
