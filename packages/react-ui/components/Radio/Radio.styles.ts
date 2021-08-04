@@ -62,6 +62,7 @@ export const styles = memoizeStyle({
       position: relative;
       vertical-align: ${t.radioVerticalAlign};
       margin: ${radioMarginY} ${radioMarginX};
+      background-color: ${t.radioBgColor};
 
       &::after {
         content: ' ';
