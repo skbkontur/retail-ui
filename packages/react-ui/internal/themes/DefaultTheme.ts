@@ -874,7 +874,7 @@ export class DefaultTheme {
   public static toggleWidth = '34px';
   public static toggleBorderRadius = '10px';
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
-  public static toggleBaseBg = '#fff'
+  public static toggleBaseBg = '#fff';
   public static toggleBgDisabled = 'none';
   public static get toggleBgHover() {
     return this.toggleBgFocus;

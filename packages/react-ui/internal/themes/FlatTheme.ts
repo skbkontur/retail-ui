@@ -188,7 +188,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioSizeAfter = '20px';
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
-  public static radioBgColor = "#fff";
+  public static radioBgColor = '#fff';
   public static radioBoxShadow = 'none';
   public static get radioBorder() {
     return `${this.radioBorderWidth} solid rgba(0, 0, 0, 0.15)`;
