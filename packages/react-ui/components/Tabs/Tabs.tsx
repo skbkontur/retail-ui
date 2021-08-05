@@ -9,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
-import { TabsContext } from './TabsContext';
+import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
 export interface TabsProps<T> extends CommonProps {
@@ -50,12 +50,13 @@ export interface TabsProps<T> extends CommonProps {
  *
  * contains static property `Tab`
  */
-export class Tabs<T = string> extends React.Component<TabsProps<T>> {
+export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
   public static propTypes = {
     children: PropTypes.node,
     indicatorClassName: PropTypes.string,
+    value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
@@ -116,7 +117,7 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
     );
   }
 
-  private shiftFocus = (fromTab: T, delta: number) => {
+  private shiftFocus: TabsContextType<T>['shiftFocus'] = (fromTab, delta) => {
     const { tabs } = this;
     const index = tabs.findIndex((x) => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
@@ -133,27 +134,27 @@ export class Tabs<T = string> extends React.Component<TabsProps<T>> {
     }
   };
 
-  private notifyUpdate = () => {
+  private notifyUpdate: TabsContextType<T>['notifyUpdate'] = () => {
     this.listeners.forEach((cb) => cb());
   };
 
-  private switchTab = (id: T) => {
+  private switchTab: TabsContextType<T>['switchTab'] = (id) => {
     const { onValueChange, value } = this.props;
     if (id !== value && onValueChange) {
       onValueChange(id);
     }
   };
 
-  private getTab = (id: T): Tab<T> | null => {
+  private getTab: TabsContextType<T>['getTab'] = (id) => {
     const { getNode = null } = this.tabs.find((x) => x.id === id) || {};
     return getNode && getNode();
   };
 
-  private addTab = (id: T, getNode: () => any) => {
+  private addTab: TabsContextType<T>['addTab'] = (id, getNode) => {
     this.tabs = this.tabs.concat({ id, getNode });
   };
 
-  private removeTab = (id: T) => {
+  private removeTab: TabsContextType<T>['removeTab'] = (id) => {
     this.tabs = this.tabs.filter((tab) => tab.id !== id);
   };
 }

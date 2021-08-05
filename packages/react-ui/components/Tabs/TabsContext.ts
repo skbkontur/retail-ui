@@ -4,7 +4,7 @@ import { emptyHandler } from '../../lib/utils';
 
 import { Tab } from './Tab';
 
-export interface TabsContextType<T = any> {
+export interface TabsContextType<T extends string = any> {
   vertical: boolean;
   activeTab: T;
   getTab: (id: T) => Tab<T> | null | void;

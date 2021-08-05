@@ -104,7 +104,7 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
-export class Tab<T = string> extends React.Component<TabProps<T>, TabState> {
+export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
   public static contextType = TabsContext;
@@ -112,7 +112,6 @@ export class Tab<T = string> extends React.Component<TabProps<T>, TabState> {
 
   public static propTypes = {
     children: PropTypes.node,
-    component: PropTypes.any,
     disabled: PropTypes.bool,
     href: PropTypes.string.isRequired,
     onClick: PropTypes.func,
