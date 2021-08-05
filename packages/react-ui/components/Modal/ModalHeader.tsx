@@ -40,7 +40,7 @@ function ModalHeader(props: ModalHeaderProps) {
     setShow(false);
     setTimeout(() => {
       setShow(true);
-    }, 50);
+    }, 5);
   }, [modal.isMobileLayout]);
 
   const renderContent = (fixed = false) => {

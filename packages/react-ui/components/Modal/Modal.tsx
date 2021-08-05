@@ -13,8 +13,9 @@ import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { canUseDOM, isIE11 } from '../../lib/client';
+import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { MobileLayout } from '../MobileLayout';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -126,16 +127,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     if (this.containerNode) {
       this.containerNode.addEventListener('scroll', LayoutEvents.emit);
     }
-
-    window.addEventListener('resize', this.checkForMobileLayout);
-
-    // for SSR, see https://reactjs.org/docs/react-dom.html#hydrate
-    this.checkForMobileLayout();
   }
 
   public componentWillUnmount() {
     if (--mountedModalsCount === 0) {
-      window.removeEventListener('resize', this.checkForMobileLayout);
       LayoutEvents.emit();
     }
 
@@ -148,8 +143,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     if (this.containerNode) {
       this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
     }
-
-    window.removeEventListener('resize', this.checkForMobileLayout);
   }
 
   public render(): JSX.Element {
@@ -243,6 +236,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               </div>
             </div>
           </ZIndex>
+          <MobileLayout onChange={this.setMobile} />
         </RenderContainer>
       </CommonWrapper>
     );
@@ -325,20 +319,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   };
 
-  private isMatchMedia = () => {
-    return canUseDOM && this.theme && window.matchMedia(this.theme.mobileMediaQuery).matches;
-  };
-
-  private checkForMobileLayout = () => {
-    if (this.isMatchMedia() && !this.state.isMobileLayout) {
-      this.setState({
-        isMobileLayout: true,
-      });
-    }
-    if (!this.isMatchMedia() && this.state.isMobileLayout) {
-      this.setState({
-        isMobileLayout: false,
-      });
-    }
+  private setMobile = (isMobile: boolean) => {
+    this.setState({
+      isMobileLayout: isMobile,
+    });
   };
 }

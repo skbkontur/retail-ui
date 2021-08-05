@@ -1,3 +1,5 @@
+import { canUseDOM } from '../client';
+
 import { Theme, ThemeIn } from './Theme';
 
 export const exposeGetters = <T extends object>(theme: T): T => {
@@ -65,3 +67,48 @@ export const markAsFlatTheme = <T extends object>(theme: T): T => {
     },
   });
 };
+
+export class MobileLayoutHelpers {
+  private mediaQueryList: MediaQueryList | null = null;
+  private callback: ((ev: MediaQueryListEvent) => void) | null = null;
+
+  constructor(theme: Theme) {
+    if (canUseDOM) {
+      this.mediaQueryList = window.matchMedia(theme.mobileMediaQuery);
+    }
+  }
+
+  public static isMobileLayout(theme: Theme) {
+    if (canUseDOM) {
+      return window.matchMedia(theme.mobileMediaQuery).matches;
+    }
+
+    return false;
+  }
+
+  public listenIsMobile(callback: (ev: MediaQueryListEvent) => void) {
+    this.callback = callback;
+
+    if (this.mediaQueryList) {
+      this.mediaQueryList.addEventListener('change', this.callback);
+    }
+  }
+
+  public unlistenIsMobile() {
+    if (this.callback && this.mediaQueryList) {
+      this.mediaQueryList.removeEventListener('change', this.callback);
+    }
+  }
+
+  public updateMediaQL(theme: Theme) {
+    this.unlistenIsMobile();
+
+    if (canUseDOM) {
+      this.mediaQueryList = window.matchMedia(theme.mobileMediaQuery);
+
+      if (this.callback) {
+        this.listenIsMobile(this.callback);
+      }
+    }
+  }
+}

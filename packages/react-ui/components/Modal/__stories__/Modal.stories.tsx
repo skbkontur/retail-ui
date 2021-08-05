@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
@@ -9,6 +9,7 @@ import { Toggle } from '../../Toggle';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { MobileLayout } from '../../MobileLayout';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -783,64 +784,67 @@ export const MobileModal = () => {
   const [isOpen, setOpen] = useState(false);
   const [showThirdButton, setShowThird] = useState(false);
 
+  const theme = useContext(ThemeContext);
+
+  const [isMobile, setIsMobile] = useState(false);
+
   const modal = (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        return (
-          <ThemeContext.Provider
-            value={ThemeFactory.create(
-              {
-                mobileMediaQuery: '(max-width: 576px)',
-              },
-              theme,
+    <ThemeContext.Provider
+      value={ThemeFactory.create(
+        {
+          mobileMediaQuery: '(max-width: 576px)',
+        },
+        theme,
+      )}
+    >
+      <Modal onClose={() => setOpen(false)}>
+        <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
+        <Modal.Body>
+          <p style={{ margin: 0 }}>
+            {new Array(80).fill(
+              'Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. ',
+              0,
+              80,
             )}
+          </p>
+        </Modal.Body>
+        <Modal.Footer panel>
+          <Button
+            use={'primary'}
+            onClick={() => {
+              setShowThird(true);
+            }}
+            style={{ paddingRight: !isMobile ? '25px' : '0px' }}
           >
-            <Modal onClose={() => setOpen(false)}>
-              <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
-              <Modal.Body>
-                <p style={{ margin: 0 }}>
-                  {new Array(80).fill(
-                    'Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. ',
-                    0,
-                    80,
-                  )}
-                </p>
-              </Modal.Body>
-              <Modal.Footer panel>
-                <Button
-                  use={'primary'}
-                  onClick={() => {
-                    setShowThird(true);
-                  }}
-                >
-                  Ок
-                </Button>
-                <Button
-                  use={'danger'}
-                  onClick={() => {
-                    setShowThird(false);
-                  }}
-                >
-                  Удалить
-                </Button>
-                {showThirdButton && (
-                  <Button style={{ marginLeft: '100px' }} use={'link'}>
-                    Изменить
-                  </Button>
-                )}
-              </Modal.Footer>
-            </Modal>
-          </ThemeContext.Provider>
-        );
-      }}
-    </ThemeContext.Consumer>
+            Ок
+          </Button>
+          <Button
+            use={'danger'}
+            onClick={() => {
+              setShowThird(false);
+            }}
+          >
+            Удалить
+          </Button>
+          {showThirdButton && (
+            <Button style={{ marginLeft: '100px' }} use={'link'}>
+              Изменить
+            </Button>
+          )}
+        </Modal.Footer>
+      </Modal>
+      <MobileLayout onChange={setIsMobile} />
+    </ThemeContext.Provider>
   );
-  return (
+
+  const render = (
     <div>
       <Button onClick={() => setOpen(true)}>Open modal</Button>
       {isOpen && modal}
     </div>
   );
+
+  return render;
 };
 MobileModal.storyName = 'Mobile modal';
 MobileModal.parameters = {

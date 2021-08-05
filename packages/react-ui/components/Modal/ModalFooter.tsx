@@ -51,7 +51,7 @@ function ModalFooter(props: ModalFooterProps) {
     setShow(false);
     setTimeout(() => {
       setShow(true);
-    }, 50);
+    }, 5);
   }, [modal.isMobileLayout]);
 
   let isManyChilds = false;
