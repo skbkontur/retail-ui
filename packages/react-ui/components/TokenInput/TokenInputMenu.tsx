@@ -8,12 +8,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
-import { menuAlignType } from './TokenInput';
+import { TokenInputMenuAlign } from './TokenInput';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
   menuWidth: string | number;
-  menuAlign: menuAlignType;
+  menuAlign: TokenInputMenuAlign;
 }
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {

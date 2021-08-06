@@ -38,7 +38,7 @@ export enum TokenInputType {
   Combined,
 }
 
-export type menuAlignType = 'left' | 'cursor';
+export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T> extends CommonProps {
   selectedItems: T[];
@@ -58,7 +58,7 @@ export interface TokenInputProps<T> extends CommonProps {
    * (по ширине текста)
    */
   menuWidth: string | number;
-  menuAlign: menuAlignType;
+  menuAlign: TokenInputMenuAlign;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.

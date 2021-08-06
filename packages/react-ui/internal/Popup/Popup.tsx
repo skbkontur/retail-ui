@@ -337,12 +337,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private calculateMenuWidth = (menuWidth: number | string): number | string => {
     if (typeof menuWidth === 'string') {
       if (menuWidth.includes('%')) {
-        return (this.anchorElement!.offsetWidth * parseInt(menuWidth.substring(0, menuWidth.length - 1))) / 100;
+        return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(menuWidth)) / 100 : 0;
       }
-      if (/[a-zA-Z]/g.test(menuWidth)) {
-        return menuWidth;
-      }
-      return `${menuWidth}px`;
+      return menuWidth;
     }
     return menuWidth;
   };
