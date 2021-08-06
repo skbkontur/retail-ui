@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import cn from 'classnames';
 import debounce from 'lodash.debounce';
-import { FocusableElement, tabbable } from 'tabbable';
+import { tabbable } from 'tabbable';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -32,8 +32,6 @@ export interface LoaderProps extends CommonProps {
 
 export interface LoaderState {
   isStickySpinner: boolean;
-  childrenFocusableElements: FocusableElement[];
-  childrenObserver: MutationObserver | null;
   spinnerStyle?: object;
 }
 
@@ -79,28 +77,28 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private theme!: Theme;
-  private containerNode: Nullable<HTMLDivElement>;
+  private spinnerContainerNode: Nullable<HTMLDivElement>;
+  private childrenContainerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
+  private childrenObserver: Nullable<MutationObserver>;
 
   constructor(props: LoaderProps) {
     super(props);
 
-    this.containerNode = null;
+    this.spinnerContainerNode = null;
+    this.childrenContainerNode = null;
+    this.childrenObserver = null;
     this.spinnerNode = null;
 
     this.state = {
       isStickySpinner: false,
-      childrenObserver: null,
-      childrenFocusableElements: [],
     };
   }
 
   public componentDidMount() {
     this.checkSpinnerPosition();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
-
-    this.makeObservable();
 
     if (this.props.active) {
       this.disableChildrenFocus();
@@ -115,12 +113,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     }
 
     if (prevProps.active !== active) {
-      active ? this.disableChildrenFocus() : this.enableChildrenFocus();
+      this.toggleChildrenFocus();
     }
   }
 
   public componentWillUnmount() {
-    this.state.childrenObserver?.disconnect();
+    this.makeUnobservable();
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
@@ -148,14 +146,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             applyZIndex={this.props.active}
             coverChildren={this.props.active}
             style={{ height: '100%' }}
+            wrapperRef={this.wrapperRef('children')}
           >
-            <div id="children-loader-wrapper" style={{ height: '100%' }}>
-              {this.props.children}
-            </div>
+            {this.props.children}
           </ZIndex>
           {active && (
             <ZIndex
-              wrapperRef={this.wrapperRef}
+              wrapperRef={this.wrapperRef('spinner')}
               priority={'Loader'}
               className={cn({
                 [jsStyles.active(this.theme)]: active,
@@ -169,8 +166,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     );
   }
 
-  private wrapperRef = (element: HTMLDivElement | null) => {
-    this.containerNode = element;
+  private wrapperRef = (contentType: 'children' | 'spinner') => {
+    return (element: HTMLDivElement | null) => {
+      contentType === 'children' ? (this.childrenContainerNode = element) : (this.spinnerContainerNode = element);
+    };
   };
 
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
@@ -192,7 +191,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private checkSpinnerPosition = () => {
-    if (!this.containerNode) {
+    if (!this.spinnerContainerNode) {
       return;
     }
 
@@ -203,7 +202,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       left: containerLeft,
       height: containerHeight,
       width: containerWidth,
-    } = this.containerNode.getBoundingClientRect();
+    } = this.spinnerContainerNode.getBoundingClientRect();
 
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
@@ -273,33 +272,31 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private disableChildrenFocus() {
-    const element = document.getElementById('children-loader-wrapper');
-    if (!element) {
+    if (!this.childrenObserver) {
+      this.makeObservable();
+    }
+    if (!this.childrenContainerNode) {
       return;
     }
-    const tabbableElements = tabbable(element);
+    const tabbableElements = tabbable(this.childrenContainerNode);
     tabbableElements.forEach((el) => {
       if (!el.hasAttribute('origin-tabindex')) {
         el.setAttribute('origin-tabindex', el.tabIndex + '');
       }
       el.tabIndex = -1;
     });
-    this.setState((prevState) => ({
-      childrenFocusableElements: [...prevState.childrenFocusableElements, ...tabbableElements],
-    }));
   }
 
   private enableChildrenFocus() {
-    this.state.childrenFocusableElements.forEach((el) => {
-      const originalTabIndex = el.getAttribute('origin-tabindex');
-      el.tabIndex = originalTabIndex ? +originalTabIndex : 0;
+    this.makeUnobservable();
+    document.querySelectorAll('[origin-tabindex]').forEach((el) => {
+      el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
-    this.setState({ childrenFocusableElements: [] });
   }
 
   private makeObservable() {
-    const target = document.getElementById('children-loader-wrapper');
+    const target = this.childrenContainerNode;
     if (!target) {
       return;
     }
@@ -307,10 +304,15 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       childList: true,
       subtree: true,
     };
-    const observer = new MutationObserver(() =>
-      this.props.active ? this.disableChildrenFocus() : this.enableChildrenFocus(),
-    );
+    const observer = new MutationObserver(() => this.toggleChildrenFocus());
     observer.observe(target, config);
-    this.setState({ childrenObserver: observer });
+    this.childrenObserver = observer;
   }
+
+  private makeUnobservable = () => {
+    this.childrenObserver?.disconnect();
+    this.childrenObserver = null;
+  };
+
+  private toggleChildrenFocus = () => (this.props.active ? this.disableChildrenFocus() : this.enableChildrenFocus());
 }
