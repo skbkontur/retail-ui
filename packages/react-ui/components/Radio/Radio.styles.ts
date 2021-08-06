@@ -36,12 +36,17 @@ export const styles = memoizeStyle({
         background: ${t.radioHoverBg};
         box-shadow: ${t.radioHoverShadow};
       }
-      &:hover input:checked + .${globalClasses.radio} {
-        background: ${t.radioCheckedHoverBgColor};
-      }
       &:active .${globalClasses.radio} {
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
+      }
+    `;
+  },
+
+  rootChecked(t: Theme) {
+    return css`
+      &:hover .${globalClasses.radio} {
+        background: ${t.radioCheckedHoverBgColor};
       }
     `;
   },
