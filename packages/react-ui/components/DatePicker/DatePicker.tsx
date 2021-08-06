@@ -13,6 +13,7 @@ import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
+import { NativeDateInput } from '../../internal/NativeDateInput';
 
 import { Picker } from './Picker';
 import { jsStyles } from './DatePicker.styles';
@@ -228,7 +229,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
-    if (this.state.opened && !this.state.canUseMobileNativeDatePicker) {
+    if (this.state.opened) {
       picker = (
         <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
           <Picker
@@ -265,6 +266,15 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
           onValueChange={this.props.onValueChange}
           useNativeDatePicker={this.props.useMobileNativeDatePicker}
         />
+        {this.state.canUseMobileNativeDatePicker && (
+          <NativeDateInput
+            onValueChange={this.props.onValueChange}
+            value={this.props.value || ''}
+            minDate={this.props.minDate}
+            maxDate={this.props.maxDate}
+            disabled={this.props.disabled}
+          />
+        )}
         {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );

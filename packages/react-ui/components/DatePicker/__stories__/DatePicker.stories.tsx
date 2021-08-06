@@ -99,7 +99,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             type="text"
             value={this.state.min}
             placeholder="min"
-            onChange={e => this.setState({ min: e.target.value })}
+            onChange={(e) => this.setState({ min: e.target.value })}
           />
         </label>
         <label>
@@ -108,7 +108,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             type="text"
             value={this.state.max}
             placeholder="max"
-            onChange={e => this.setState({ max: e.target.value })}
+            onChange={(e) => this.setState({ max: e.target.value })}
           />
         </label>
         <LocaleContext.Provider
@@ -216,7 +216,7 @@ export const WithMobileNativeDatePicker = () => {
           value={date}
           onMouseEnter={() => console.count('enter')}
           onMouseLeave={() => console.count('leave')}
-          onValueChange={date => {
+          onValueChange={(date) => {
             setDate(date);
           }}
           useMobileNativeDatePicker

@@ -344,12 +344,10 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     if (isMobile) {
       if (!this.itemsContainer && element) {
         element.addEventListener('touchstart', this.handleTouchStart);
-        element.addEventListener('touchend', this.handleTouchEnd);
         element.addEventListener('touchmove', this.handleTouchMove);
       }
       if (this.itemsContainer && !element) {
         this.itemsContainer.removeEventListener('touchstart', this.handleTouchStart);
-        this.itemsContainer.removeEventListener('touchend', this.handleTouchEnd);
         this.itemsContainer.removeEventListener('touchmove', this.handleTouchMove);
       }
     }
@@ -400,8 +398,6 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       return;
     }
 
-    event.preventDefault();
-
     this.touchStartY = event.targetTouches[0].clientY;
   };
 
@@ -410,32 +406,14 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       return;
     }
 
-    let deltaY = (this.touchStartY || 0) - event.targetTouches[0].clientY;
+    const { clientY } = event.changedTouches[0];
 
-    if (deltaY > 0) {
-      deltaY = 3;
-    } else {
-      deltaY = -3;
-    }
+    let deltaY = (this.touchStartY || 0) - clientY;
+    const pixelRatio = window.devicePixelRatio;
 
-    const pos = this.state.pos + deltaY;
+    deltaY = Math.round(deltaY / 3 / pixelRatio);
+    const pos = this.state.pos + deltaY + deltaY / itemHeight;
     this.setPosition(pos);
-  };
-
-  private handleTouchEnd = (event: Event) => {
-    if (!(event instanceof TouchEvent)) {
-      return;
-    }
-
-    const clientY = event.changedTouches[0].clientY;
-    const deltaY = (this.touchStartY || 0) - clientY;
-
-    if (Math.abs(deltaY) < 10) {
-      const target = event.changedTouches[0].target;
-      if (target && target instanceof HTMLElement) {
-        target.click();
-      }
-    }
   };
 
   private handleItemClick = (shift: number) => {

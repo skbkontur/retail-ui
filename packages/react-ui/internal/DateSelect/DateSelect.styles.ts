@@ -13,6 +13,7 @@ const styles = {
       padding-right: 2px;
       position: relative;
       text-align: left;
+      touch-action: none;
 
       &:hover {
         color: ${t.dateSelectLinkColor} !important;
@@ -95,6 +96,7 @@ const styles = {
       padding-left: 10px;
       user-select: none;
       white-space: nowrap;
+      touch-action: none;
     `;
   },
 

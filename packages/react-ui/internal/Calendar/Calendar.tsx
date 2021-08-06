@@ -277,12 +277,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private executeAnimations = (pixelY: number) => {
     this.setState(({ months, scrollPosition }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(
-        months,
-        scrollPosition,
-        pixelY,
-        this.theme,
-      ).scrollPosition;
+      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
+        .scrollPosition;
       return { scrollTarget: targetPosition };
     }, this.handleWheelEnd);
 
@@ -316,7 +312,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     this.executeAnimations(deltaY);
   };
 
-  private throttledHandleTouchMove = throttle(this.handleTouchMove, 40);
+  private throttledHandleTouchMove = throttle(this.handleTouchMove, 10);
 
   private handleWheel = (event: Event) => {
     if (!(event instanceof WheelEvent)) {

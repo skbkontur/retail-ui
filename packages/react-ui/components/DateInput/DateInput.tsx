@@ -11,8 +11,6 @@ import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { isMobile } from '../../lib/client';
-import { NativeDateInput } from '../../internal/NativeDateInput';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { jsStyles } from './DateInput.styles';
@@ -25,7 +23,6 @@ export interface DateInputState {
   inputMode: boolean;
   focused: boolean;
   dragged: boolean;
-  canUseMobileNativeDatePicker: boolean;
 }
 
 export interface DateInputProps extends CommonProps {
@@ -113,7 +110,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       inputMode: false,
       focused: false,
       dragged: false,
-      canUseMobileNativeDatePicker: false,
     };
   }
 
@@ -146,12 +142,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   };
 
   public componentDidMount(): void {
-    if (this.props.useNativeDatePicker && isMobile) {
-      this.setState({
-        canUseMobileNativeDatePicker: true,
-      });
-    }
-
     this.updateFromProps();
     if (this.props.autoFocus) {
       this.focus();
@@ -188,10 +178,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private getWrapper() {
-    if (this.state.canUseMobileNativeDatePicker) {
-      return <label>{this.renderMain()}</label>;
-    }
-
     return this.renderMain();
   }
 
@@ -227,15 +213,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
             selected={selected}
             inputMode={inputMode}
           />
-          {this.state.canUseMobileNativeDatePicker && (
-            <NativeDateInput
-              onValueChange={this.props.onValueChange}
-              value={this.iDateMediator.getInternalString()}
-              minDate={this.props.minDate}
-              maxDate={this.props.maxDate}
-              disabled={this.props.disabled}
-            />
-          )}
         </InputLikeText>
       </CommonWrapper>
     );
