@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   popup(t: Theme) {
     return css`
       position: absolute;
@@ -75,16 +75,14 @@ const styles = {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
-      transform: translate(0, 0) !important;
+      transform: translate(0, 0);
     `;
   },
   transitionExit() {
     return css`
       opacity: 0.01;
       transition: opacity 0.15s ease-out;
-      transform: translate(0, 0) !important;
+      transform: translate(0, 0);
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

@@ -3,7 +3,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 import { isIE11 } from '../../lib/client';
 
-const styles = {
+export const styles = memoizeStyle({
   circle(t: Theme) {
     return css`
       stroke: ${t.spinnerColor};
@@ -74,6 +74,4 @@ const styles = {
       display: inline-block;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

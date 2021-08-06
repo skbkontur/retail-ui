@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
-import { jsStyles } from './Toast.styles';
+import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
 
@@ -117,10 +117,10 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       <CSSTransition
         key={id}
         classNames={{
-          enter: jsStyles.enter(),
-          enterActive: jsStyles.enterActive(),
-          exit: jsStyles.exit(),
-          exitActive: jsStyles.exitActive(),
+          enter: styles.enter(),
+          enterActive: styles.enterActive(),
+          exit: styles.exit(),
+          exitActive: styles.exitActive(),
         }}
         timeout={{
           enter: 200,

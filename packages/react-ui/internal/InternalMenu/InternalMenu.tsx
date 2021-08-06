@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cn from 'classnames';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -10,8 +9,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './InternalMenu.styles';
+import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 
 interface MenuProps {
@@ -108,9 +108,9 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.shadow(this.theme)]: this.props.hasShadow,
+        className={cx({
+          [styles.root(this.theme)]: true,
+          [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
           width: this.props.width,
@@ -183,9 +183,9 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         ref={(el) => (this.header = el)}
-        className={cn({
-          [jsStyles.header()]: true,
-          [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
+        className={cx({
+          [styles.header()]: true,
+          [styles.fixedHeader()]: this.state.scrollState !== 'top',
         })}
       >
         {this.props.header}
@@ -197,9 +197,9 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     return (
       <div
         ref={(el) => (this.footer = el)}
-        className={cn({
-          [jsStyles.footer()]: true,
-          [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
+        className={cx({
+          [styles.footer()]: true,
+          [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
         })}
       >
         {this.props.footer}
