@@ -84,7 +84,7 @@ class TabsWithMyLink extends React.Component<any, any> {
     return (
       <Tabs
         value={this.state.active}
-        onValueChange={(v: string) =>
+        onValueChange={(v) =>
           this.setState({
             active: v,
           })
@@ -274,7 +274,7 @@ class TabsInModal extends React.Component<any, any> {
 }
 
 class TabsTable extends React.Component {
-  public static TestTab = class TestTab extends React.Component<TabProps<string> & { vertical?: boolean }, any> {
+  public static TestTab = class TestTab extends React.Component<TabProps & { vertical?: boolean }, any> {
     public render() {
       const { vertical, ...tabProps } = this.props;
       return (
@@ -515,7 +515,7 @@ export const TabsWithImage: Story = () => {
   const [activeTab, setActiveTab] = React.useState('search4');
 
   return (
-    <Tabs value={activeTab} vertical onValueChange={(tab: string) => setActiveTab(tab)}>
+    <Tabs value={activeTab} vertical onValueChange={(tab) => setActiveTab(tab)}>
       <Tabs.Tab id="search1">
         <Img size={'75px'} />
       </Tabs.Tab>

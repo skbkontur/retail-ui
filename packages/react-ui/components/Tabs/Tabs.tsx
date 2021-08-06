@@ -12,7 +12,7 @@ import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps<T> extends CommonProps {
+export interface TabsProps<T extends string = string> extends CommonProps {
   /**
    * Tab component should be child of Tabs component
    */

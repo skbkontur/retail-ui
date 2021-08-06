@@ -23,7 +23,7 @@ export interface TabIndicators {
   disabled: boolean;
 }
 
-export interface TabProps<T> extends CommonProps {
+export interface TabProps<T extends string = string> extends CommonProps {
   /**
    * Tab content
    */
