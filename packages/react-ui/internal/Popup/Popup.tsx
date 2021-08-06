@@ -90,7 +90,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   positions: PopupPosition[];
   useWrapper: boolean;
   ignoreHover: boolean;
-  menuWidth: string | number;
+  width: React.CSSProperties['width'];
 }
 
 interface PopupLocation {
@@ -177,7 +177,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
-    menuWidth: 'auto',
+    width: 'auto',
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
@@ -334,18 +334,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private calculateMenuWidth = (menuWidth: number | string): number | string => {
-    if (typeof menuWidth === 'string') {
-      if (menuWidth.includes('%')) {
-        return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(menuWidth)) / 100 : 0;
-      }
-      return menuWidth;
+  private calculateMenuWidth = (menuWidth: PopupProps['width']) => {
+    if (typeof menuWidth === 'string' && menuWidth.includes('%')) {
+      return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(menuWidth)) / 100 : 0;
     }
     return menuWidth;
   };
 
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, menuWidth } = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, width } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -388,7 +385,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
                 <div
                   className={styles.contentInner(this.theme)}
-                  style={{ backgroundColor, width: this.calculateMenuWidth(menuWidth) }}
+                  style={{ backgroundColor, width: this.calculateMenuWidth(width) }}
                   data-tid={'PopupContentInner'}
                 >
                   {children}

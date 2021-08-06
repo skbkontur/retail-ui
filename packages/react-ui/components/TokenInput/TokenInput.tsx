@@ -57,7 +57,7 @@ export interface TokenInputProps<T> extends CommonProps {
    * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
    * (по ширине текста)
    */
-  menuWidth: string | number;
+  menuWidth: React.CSSProperties['width'];
   menuAlign: TokenInputMenuAlign;
 
   /**
