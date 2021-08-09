@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import debounce from 'lodash.debounce';
 import { tabbable } from 'tabbable';
 
@@ -11,8 +10,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Loader.styles';
+import { styles } from './Loader.styles';
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
@@ -140,7 +140,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.loader()}>
+        <div className={styles.loader()}>
           <ZIndex
             priority={'Loader'}
             applyZIndex={this.props.active}
@@ -154,8 +154,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             <ZIndex
               wrapperRef={this.wrapperRef('spinner')}
               priority={'Loader'}
-              className={cn({
-                [jsStyles.active(this.theme)]: active,
+              className={cx({
+                [styles.active(this.theme)]: active,
               })}
             >
               {this.renderSpinner(type, caption, component)}
@@ -175,11 +175,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
+        className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
         <div
-          className={jsStyles.spinnerComponentWrapper()}
+          className={styles.spinnerComponentWrapper()}
           ref={(element) => {
             this.spinnerNode = element;
           }}

@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const width = parseInt(t.calendarCellSize) * 7;
     return css`
@@ -20,6 +20,4 @@ const styles = {
       position: relative;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

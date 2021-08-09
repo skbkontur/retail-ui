@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import cn from 'classnames';
 
 import { DateSelect } from '../DateSelect';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './MonthView.styles';
+import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
 
@@ -78,16 +78,16 @@ export function MonthView(props: MonthViewProps) {
   };
 
   return (
-    <div data-tid="MonthView__month" className={jsStyles.month(theme)} style={{ top }} key={month + '-' + year}>
+    <div data-tid="MonthView__month" className={styles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
         style={{ top: headerTop }}
-        className={cn({
-          [jsStyles.header(theme)]: true,
-          [jsStyles.headerSticky(theme)]: isHeaderSticky,
+        className={cx({
+          [styles.header()]: true,
+          [styles.headerSticky(theme)]: isHeaderSticky,
         })}
       >
-        <div style={{ borderBottomColor }} className={jsStyles.monthTitle(theme)}>
-          <div data-tid="MonthView__headerMonth" className={jsStyles.headerMonth(theme)}>
+        <div style={{ borderBottomColor }} className={styles.monthTitle(theme)}>
+          <div data-tid="MonthView__headerMonth" className={styles.headerMonth(theme)}>
             <DateSelect
               disabled={monthSelectDisabled}
               width={85}
@@ -100,7 +100,7 @@ export function MonthView(props: MonthViewProps) {
             />
           </div>
           {isYearVisible && (
-            <div data-tid="MonthView__headerYear" className={jsStyles.headerYear(theme)} style={{ top: yearTop }}>
+            <div data-tid="MonthView__headerYear" className={styles.headerYear(theme)} style={{ top: yearTop }}>
               <DateSelect
                 disabled={yearSelectDisabled}
                 width={50}

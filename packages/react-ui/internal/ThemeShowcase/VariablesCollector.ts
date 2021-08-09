@@ -41,57 +41,62 @@ if (IS_PROXY_SUPPORTED) {
     const fileNameStart = fileName.lastIndexOf('/') + 1;
     const componentName = fileName.substring(fileNameStart).replace('.styles.ts', '');
     const componentDescription: ComponentDescriptionType = {};
-    const jsStyles = componentsContext(fileName).jsStyles;
+    Object.keys(componentsContext(fileName)).forEach((exportName) => {
+      const styles = componentsContext(fileName)[exportName];
 
-    Object.keys(jsStyles).forEach((elementName) => {
-      const jsStyle = jsStyles[elementName];
-      const variablesAccumulator = new Set<keyof Theme>();
-      const dependencies: VariableDependencies = {};
-      const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
-      const themes = baseThemes.map((t) => new Proxy(t, elementProxyHandler));
-      themes.forEach((t) => jsStyle(t));
+      Object.keys(styles).forEach((elementName) => {
+        const jsStyle = styles[elementName];
+        if (typeof jsStyle !== 'function') {
+          return;
+        }
+        const variablesAccumulator = new Set<keyof Theme>();
+        const dependencies: VariableDependencies = {};
+        const elementProxyHandler = getProxyHandler(variablesAccumulator, dependencies);
+        const themes = baseThemes.map((t) => new Proxy(t, elementProxyHandler));
+        themes.forEach((t) => jsStyle(t));
 
-      const variables = Array.from(variablesAccumulator);
+        const variables = Array.from(variablesAccumulator);
 
-      if (variables.length > 0) {
-        componentDescription[elementName] = { variables, dependencies };
+        if (variables.length > 0) {
+          componentDescription[elementName] = { variables, dependencies };
 
-        variables.forEach((variableName) => {
-          if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
-            COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
-          }
+          variables.forEach((variableName) => {
+            if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName]) {
+              COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName] = {};
+            }
 
-          const variableNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName];
-          if (!variableNode[componentName]) {
-            variableNode[componentName] = {};
-          }
+            const variableNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName];
+            if (!variableNode[componentName]) {
+              variableNode[componentName] = {};
+            }
 
-          const componentNode = variableNode[componentName];
-          if (!componentNode[elementName]) {
-            componentNode[elementName] = {
-              dependencies,
-              variables: [variableName],
-            };
-          } else if (!componentNode[elementName].variables.includes(variableName)) {
-            componentNode[elementName].dependencies = dependencies;
-            componentNode[elementName].variables.push(variableName);
-          }
+            const componentNode = variableNode[componentName];
+            if (!componentNode[elementName]) {
+              componentNode[elementName] = {
+                dependencies,
+                variables: [variableName],
+              };
+            } else if (!componentNode[elementName].variables.includes(variableName)) {
+              componentNode[elementName].dependencies = dependencies;
+              componentNode[elementName].variables.push(variableName);
+            }
 
-          const dependenciesList = dependencies[variableName];
-          if (dependenciesList) {
-            dependenciesList.forEach((dependencyName) => {
-              if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
-                COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
-              }
+            const dependenciesList = dependencies[variableName];
+            if (dependenciesList) {
+              dependenciesList.forEach((dependencyName) => {
+                if (!COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName]) {
+                  COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName] = {};
+                }
 
-              const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
-              if (!dependencyNode[componentName]) {
-                dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
-              }
-            });
-          }
-        });
-      }
+                const dependencyNode = COMPONENT_DESCRIPTIONS_BY_VARIABLE[dependencyName];
+                if (!dependencyNode[componentName]) {
+                  dependencyNode[componentName] = COMPONENT_DESCRIPTIONS_BY_VARIABLE[variableName][componentName];
+                }
+              });
+            }
+          });
+        }
+      });
     });
 
     COMPONENT_DESCRIPTIONS[componentName] = componentDescription;

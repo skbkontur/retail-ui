@@ -1,7 +1,7 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       display: inline-block;
@@ -72,11 +72,10 @@ const styles = {
 
   error(t: Theme) {
     return css`
-      ${cssName(styles.textarea(t))}& {
-        border-color: ${t.textareaBorderColorError};
-        box-shadow: 0 0 0 ${t.textareaBorderWidth} ${t.textareaBorderColorError};
-      }
-      ${cssName(styles.textarea(t))}&:focus {
+      border-color: ${t.textareaBorderColorError};
+      box-shadow: 0 0 0 ${t.textareaBorderWidth} ${t.textareaBorderColorError};
+
+      &:focus {
         border-color: ${t.textareaBorderColorError};
         box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorError};
       }
@@ -85,11 +84,10 @@ const styles = {
 
   warning(t: Theme) {
     return css`
-      ${cssName(styles.textarea(t))}& {
-        border-color: ${t.textareaBorderColorWarning};
-        box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
-      }
-      ${cssName(styles.textarea(t))}&:focus {
+      border-color: ${t.textareaBorderColorWarning};
+      box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
+
+      &:focus {
         border-color: ${t.textareaBorderColorWarning};
         box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
       }
@@ -145,7 +143,7 @@ const styles = {
 
   counterError(t: Theme) {
     return css`
-      color: ${t.textareaCounterErrorColor} !important;
+      color: ${t.textareaCounterErrorColor};
     `;
   },
 
@@ -161,6 +159,4 @@ const styles = {
       transition: none;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
