@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
-import { tabbable } from 'tabbable';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
@@ -11,6 +10,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 
 import { styles } from './Loader.styles';
 
@@ -275,10 +275,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     if (!this.childrenObserver) {
       this.makeObservable();
     }
-    if (!this.childrenContainerNode) {
-      return;
-    }
-    const tabbableElements = tabbable(this.childrenContainerNode);
+    const tabbableElements = getTabbableElements(this.childrenContainerNode);
     tabbableElements.forEach((el) => {
       if (!el.hasAttribute('origin-tabindex')) {
         el.setAttribute('origin-tabindex', el.tabIndex + '');
@@ -304,7 +301,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       childList: true,
       subtree: true,
     };
-    const observer = new MutationObserver(() => this.toggleChildrenFocus());
+    const observer = new MutationObserver(() => this.disableChildrenFocus());
     observer.observe(target, config);
     this.childrenObserver = observer;
   }
