@@ -334,11 +334,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private calculateMenuWidth = (menuWidth: PopupProps['width']) => {
-    if (typeof menuWidth === 'string' && menuWidth.includes('%')) {
-      return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(menuWidth)) / 100 : 0;
+  private calculateWidth = (width: PopupProps['width']) => {
+    if (typeof width === 'string' && width.includes('%')) {
+      return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(width)) / 100 : 0;
     }
-    return menuWidth;
+    return width;
   };
 
   private renderContent(location: PopupLocation) {
@@ -385,7 +385,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
                 <div
                   className={styles.contentInner(this.theme)}
-                  style={{ backgroundColor, width: this.calculateMenuWidth(width) }}
+                  style={{ backgroundColor, width: this.calculateWidth(width) }}
                   data-tid={'PopupContentInner'}
                 >
                   {children}
