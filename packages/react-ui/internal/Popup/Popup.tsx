@@ -90,6 +90,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   positions: PopupPosition[];
   useWrapper: boolean;
   ignoreHover: boolean;
+  width: React.CSSProperties['width'];
 }
 
 interface PopupLocation {
@@ -176,6 +177,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
+    width: 'auto',
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
@@ -332,8 +334,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
+  private calculateWidth = (width: PopupProps['width']) => {
+    if (typeof width === 'string' && width.includes('%')) {
+      return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(width)) / 100 : 0;
+    }
+    return width;
+  };
+
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
+    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, width } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -376,7 +385,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
                 <div
                   className={styles.contentInner(this.theme)}
-                  style={{ backgroundColor }}
+                  style={{ backgroundColor, width: this.calculateWidth(width) }}
                   data-tid={'PopupContentInner'}
                 >
                   {children}
