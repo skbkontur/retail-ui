@@ -271,7 +271,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     });
   };
 
-  private disableChildrenFocus() {
+  private disableChildrenFocus = () => {
     if (!this.childrenObserver) {
       this.makeObservable();
     }
@@ -282,17 +282,17 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       }
       el.tabIndex = -1;
     });
-  }
+  };
 
-  private enableChildrenFocus() {
+  private enableChildrenFocus = () => {
     this.makeUnobservable();
     document.querySelectorAll('[origin-tabindex]').forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
-  }
+  };
 
-  private makeObservable() {
+  private makeObservable = () => {
     const target = this.childrenContainerNode;
     if (!target) {
       return;
@@ -301,10 +301,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       childList: true,
       subtree: true,
     };
-    const observer = new MutationObserver(() => this.disableChildrenFocus());
+    const observer = new MutationObserver(this.disableChildrenFocus);
     observer.observe(target, config);
     this.childrenObserver = observer;
-  }
+  };
 
   private makeUnobservable = () => {
     this.childrenObserver?.disconnect();
