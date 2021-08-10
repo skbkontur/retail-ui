@@ -13,10 +13,16 @@ const VeilSelector = `ZIndex.${styles.active(DEFAULT_THEME)}`;
 const SpinnerSelector = `.${styles.spinnerContainer()}`;
 
 const expectComponentLengthInWrapper = (
-  wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>,
   component: string,
+  wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>,
   length: number,
 ) => expect(wrapper.find(component)).toHaveLength(length);
+
+const expectComponentExistInWrapper = (component: string, wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>) =>
+  expectComponentLengthInWrapper(component, wrapper, 1);
+
+const expectComponentNotExistInWrapper = (component: string, wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>) =>
+  expectComponentLengthInWrapper(component, wrapper, 0);
 
 describe('Loader', () => {
   let loader: ReactWrapper<LoaderProps, LoaderState, Loader>;
@@ -34,25 +40,22 @@ describe('Loader', () => {
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-      expectComponentLengthInWrapper(loader, VeilSelector, 0);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+      expectComponentNotExistInWrapper(VeilSelector, loader);
+      expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
     it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + DIFFERENCE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-      expectComponentLengthInWrapper(loader, VeilSelector, 0);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+      expectComponentNotExistInWrapper(VeilSelector, loader);
+      expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
     it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-      expectComponentLengthInWrapper(loader, VeilSelector, 0);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+      expectComponentNotExistInWrapper(VeilSelector, loader);
+      expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
   });
 
@@ -71,9 +74,8 @@ describe('Loader', () => {
       loader.setProps({ active: true });
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-      expectComponentLengthInWrapper(loader, VeilSelector, 1);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+      expectComponentExistInWrapper(VeilSelector, loader);
+      expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
@@ -81,9 +83,8 @@ describe('Loader', () => {
       loader.setProps({ active: true });
       await delay(DELAY_BEFORE_SPINNER_SHOW);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: true });
-      expectComponentLengthInWrapper(loader, VeilSelector, 1);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 1);
+      expectComponentExistInWrapper(VeilSelector, loader);
+      expectComponentExistInWrapper(SpinnerSelector, loader);
     });
   });
 
@@ -101,25 +102,22 @@ describe('Loader', () => {
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-      expectComponentLengthInWrapper(loader, VeilSelector, 1);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+      expectComponentExistInWrapper(VeilSelector, loader);
+      expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + DIFFERENCE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: true });
-      expectComponentLengthInWrapper(loader, VeilSelector, 1);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 1);
+      expectComponentExistInWrapper(VeilSelector, loader);
+      expectComponentExistInWrapper(SpinnerSelector, loader);
     });
 
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE + DIFFERENCE);
       loader.update();
-      expect(loader.instance().state).toMatchObject({ isSpinnerVisible: true });
-      expectComponentLengthInWrapper(loader, VeilSelector, 1);
-      expectComponentLengthInWrapper(loader, SpinnerSelector, 1);
+      expectComponentExistInWrapper(VeilSelector, loader);
+      expectComponentExistInWrapper(SpinnerSelector, loader);
     });
   });
 
@@ -136,15 +134,14 @@ describe('Loader', () => {
       });
 
       it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
-        expectComponentLengthInWrapper(loader, VeilSelector, 1);
-        expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+        expectComponentExistInWrapper(VeilSelector, loader);
+        expectComponentNotExistInWrapper(SpinnerSelector, loader);
         await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
         loader.setProps({ active: false });
         await delay(DIFFERENCE);
         loader.update();
-        expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-        expectComponentLengthInWrapper(loader, VeilSelector, 0);
-        expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+        expectComponentNotExistInWrapper(VeilSelector, loader);
+        expectComponentNotExistInWrapper(SpinnerSelector, loader);
       });
     });
 
@@ -164,9 +161,8 @@ describe('Loader', () => {
         loader.setProps({ active: false });
         await delay(DIFFERENCE);
         loader.update();
-        expect(loader.instance().state).toMatchObject({ isSpinnerVisible: true });
-        expectComponentLengthInWrapper(loader, VeilSelector, 1);
-        expectComponentLengthInWrapper(loader, SpinnerSelector, 1);
+        expectComponentExistInWrapper(VeilSelector, loader);
+        expectComponentExistInWrapper(SpinnerSelector, loader);
       });
 
       it('should show spinner DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
@@ -174,9 +170,8 @@ describe('Loader', () => {
         loader.setProps({ active: false });
         await delay(MINIMAL_DELAY_BEFORE_SPINNER_HIDE - DIFFERENCE);
         loader.update();
-        expect(loader.instance().state).toMatchObject({ isSpinnerVisible: true });
-        expectComponentLengthInWrapper(loader, VeilSelector, 1);
-        expectComponentLengthInWrapper(loader, SpinnerSelector, 1);
+        expectComponentExistInWrapper(VeilSelector, loader);
+        expectComponentExistInWrapper(SpinnerSelector, loader);
       });
 
       it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
@@ -184,9 +179,8 @@ describe('Loader', () => {
         loader.setProps({ active: false });
         await delay(MINIMAL_DELAY_BEFORE_SPINNER_HIDE);
         loader.update();
-        expect(loader.instance().state).toMatchObject({ isSpinnerVisible: false });
-        expectComponentLengthInWrapper(loader, VeilSelector, 0);
-        expectComponentLengthInWrapper(loader, SpinnerSelector, 0);
+        expectComponentNotExistInWrapper(VeilSelector, loader);
+        expectComponentNotExistInWrapper(SpinnerSelector, loader);
       });
     });
   });
