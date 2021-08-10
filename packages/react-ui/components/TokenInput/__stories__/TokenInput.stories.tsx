@@ -674,3 +674,24 @@ OnUnexpectedInputValidation.parameters = {
     },
   },
 };
+
+export const FullWidthMenu: Story = () => {
+  return <Wrapper menuAlign={'left'} menuWidth={'100%'} getItems={getItems} />;
+};
+FullWidthMenu.storyName = 'full width menu';
+FullWidthMenu.parameters = {
+  creevey: {
+    tests: {
+      async selectFirst() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys('a')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
