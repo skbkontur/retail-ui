@@ -143,7 +143,11 @@ const selectTests: CreeveyTests = {
   },
 };
 
-export const Simple: Story = () => <Select items={['one', 'two', 'three']} />;
+export const Simple: Story = () => (
+  <div style={{ height: '1000px' }}>
+    <Select items={['one', 'two', 'three']} />
+  </div>
+);
 
 Simple.parameters = {
   creevey: {
@@ -222,7 +226,7 @@ MobileSimple.decorators = [
     >
       <div
         style={{
-          width: 'calc(150vw - 16px)',
+          width: 'calc(100vw - 16px)',
           height: 'calc(125vh - 16px)',
           backgroundColor: 'lightBlue',
           margin: -8,

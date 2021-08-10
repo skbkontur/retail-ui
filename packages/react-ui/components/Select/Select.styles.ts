@@ -20,6 +20,7 @@ const styles = {
       bottom: 0;
       width: 100%;
       z-index: 100000;
+      background-color: ${t.bgDefault};
     `;
   },
 

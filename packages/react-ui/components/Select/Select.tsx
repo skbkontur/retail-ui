@@ -33,6 +33,7 @@ import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
 import { RenderContainer } from '../../internal/RenderContainer';
+import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -245,7 +246,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         {(theme) => {
           this.theme = theme;
           return (
-            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
+            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>
+              {this.getRenderer()}
+            </ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
@@ -287,9 +290,58 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
   };
 
-  private renderMain() {
-    const { label, isPlaceholder } = this.renderLabel();
+  private getRenderer() {
     const { isMobileLayout } = this.state;
+
+    if (isMobileLayout) {
+      return this.renderMobileMain();
+    }
+
+    return this.renderMain();
+  }
+
+  private renderMain() {
+    const buttonParams = this.getDefaultButtonParams();
+    const button = this.getButton(buttonParams);
+
+    const style = {
+      width: this.props.width,
+      maxWidth: this.props.maxWidth || undefined,
+    };
+
+    return (
+      <CommonWrapper {...this.props}>
+        <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+          <span className={jsStyles.root(this.theme)} style={style}>
+            {button}
+            {!this.props.disabled && this.state.opened && this.renderMenu()}
+          </span>
+        </RenderLayer>
+      </CommonWrapper>
+    );
+  }
+
+  private renderMobileMain() {
+    const buttonParams = this.getDefaultButtonParams();
+    const button = this.getButton(buttonParams);
+
+    const style = {
+      width: this.props.width,
+      maxWidth: this.props.maxWidth || undefined,
+    };
+
+    return (
+      <CommonWrapper {...this.props}>
+        <span className={jsStyles.root(this.theme)} style={style}>
+          {button}
+          {!this.props.disabled && this.state.opened && this.renderMobileMenu()}
+        </span>
+      </CommonWrapper>
+    );
+  }
+
+  private getDefaultButtonParams = (): ButtonParams => {
+    const { label, isPlaceholder } = this.renderLabel();
 
     const buttonParams: ButtonParams = {
       opened: this.state.opened,
@@ -299,39 +351,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onKeyDown: this.handleKey,
     };
 
-    const style = {
-      width: this.props.width,
-      maxWidth: this.props.maxWidth || undefined,
-    };
-
-    const button = this.getButton(buttonParams);
-
-    return (
-      <>
-        <CommonWrapper {...this.props}>
-          <RenderLayer
-            onClickOutside={this.close}
-            onFocusOutside={this.close}
-            active={this.state.opened && !isMobileLayout}
-          >
-            <span className={jsStyles.root(this.theme)} style={style}>
-              {button}
-              {!this.props.disabled && this.state.opened && this.getMenuWrapper()}
-            </span>
-          </RenderLayer>
-        </CommonWrapper>
-        {isMobileLayout && this.state.opened && <div onClick={(e) => this.close()} className={jsStyles.bg()} />}
-      </>
-    );
-  }
-
-  private getMenuWrapper() {
-    if (this.state.isMobileLayout) {
-      return <RenderContainer>{this.renderMenu()}</RenderContainer>;
-    }
-
-    return this.renderMenu();
-  }
+    return buttonParams;
+  };
 
   private renderLabel() {
     const value = this.getValue();
@@ -423,64 +444,54 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private renderMenu(): React.ReactNode {
-    const { isMobileLayout } = this.state;
-    const search = this.props.search ? (
-      <div className={jsStyles.search()}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
-      </div>
-    ) : null;
+    const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
 
-    const menu = (
-      <Menu
-        ref={this.refMenu}
-        width={isMobileLayout ? '100%' : this.props.menuWidth}
-        onItemClick={this.close}
-        maxHeight={
-          this.props.maxMenuHeight ||
-          (isMobileLayout
-            ? `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${
-                search ? '0px' : this.theme.mobileSelectMenuTopPadding
-              })`
-            : undefined)
-        }
-        onScroll={this.handleScroll}
+    return (
+      <DropdownContainer
+        getParent={this.dropdownContainerGetParent}
+        offsetY={-1}
+        align={this.props.menuAlign}
+        disablePortal={this.props.disablePortal}
       >
-        {!isMobileLayout && search}
-        {this.mapItems(
-          (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
-            if (isFunction(item)) {
-              const element = item();
-
-              if (React.isValidElement(element)) {
-                return React.cloneElement(element, { key: i });
-              }
-
-              return null;
-            }
-
-            if (React.isValidElement(item)) {
-              return React.cloneElement(item, { key: i });
-            }
-
-            return (
-              <MenuItem
-                key={i}
-                state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
-                onClick={this.select.bind(this, iValue)}
-                comment={comment}
-              >
-                {this.getProps().renderItem(iValue, item)}
-              </MenuItem>
-            );
-          },
-        )}
-      </Menu>
+        <Menu
+          ref={this.refMenu}
+          width={this.props.menuWidth}
+          onItemClick={this.close}
+          maxHeight={this.props.maxMenuHeight}
+          onScroll={this.handleScroll}
+        >
+          {search}
+          {this.getMenuItems(value)}
+        </Menu>
+      </DropdownContainer>
     );
+  }
 
-    if (isMobileLayout) {
-      return (
+  private getMobileMenuHeight(withSearch: boolean) {
+    const maxHeight = `calc(100vh - ${this.state.mobileMenuHeaderHeight}px)`;
+
+    if (withSearch) {
+      return maxHeight;
+    }
+
+    if (this.props.maxMenuHeight && canUseDOM) {
+      return window.innerHeight > this.props.maxMenuHeight - this.state.mobileMenuHeaderHeight
+        ? this.props.maxMenuHeight
+        : maxHeight;
+    }
+
+    return `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${this.theme.mobileSelectMenuTopPadding})`;
+  }
+
+  private renderMobileMenu(): React.ReactNode {
+    const search = this.props.search ? this.getSearch() : null;
+
+    const value = this.getValue();
+
+    return (
+      <RenderContainer>
         <div
           className={cn({
             [jsStyles.rootMobile(this.theme)]: true,
@@ -497,22 +508,60 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             withoutBorderRadius={Boolean(search)}
             withShadow={this.state.isScrolled}
           />
-          {menu}
+          <Menu
+            ref={this.refMenu}
+            width={this.props.menuWidth || '100%'}
+            onItemClick={this.close}
+            maxHeight={this.getMobileMenuHeight(Boolean(search))}
+            onScroll={this.handleScroll}
+          >
+            {this.getMenuItems(value)}
+          </Menu>
         </div>
-      );
-    }
-
-    return (
-      <DropdownContainer
-        getParent={this.dropdownContainerGetParent}
-        offsetY={-1}
-        align={this.props.menuAlign}
-        disablePortal={this.props.disablePortal}
-      >
-        {menu}
-      </DropdownContainer>
+        <HideBodyVerticalScroll />
+        <div onClick={(e) => this.close()} className={jsStyles.bg()} />
+      </RenderContainer>
     );
   }
+
+  private getSearch = () => {
+    return (
+      <div className={jsStyles.search()}>
+        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+      </div>
+    );
+  };
+
+  private getMenuItems = (value: Nullable<TValue>) => {
+    return this.mapItems(
+      (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
+        if (isFunction(item)) {
+          const element = item();
+
+          if (React.isValidElement(element)) {
+            return React.cloneElement(element, { key: i });
+          }
+
+          return null;
+        }
+
+        if (React.isValidElement(item)) {
+          return React.cloneElement(item, { key: i });
+        }
+
+        return (
+          <MenuItem
+            key={i}
+            state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
+            onClick={this.select.bind(this, iValue)}
+            comment={comment}
+          >
+            {this.getProps().renderItem(iValue, item)}
+          </MenuItem>
+        );
+      },
+    );
+  };
 
   private handleScroll = () => {
     const { menu } = this;
