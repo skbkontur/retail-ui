@@ -407,12 +407,13 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     }
 
     const { clientY } = event.changedTouches[0];
-
-    let deltaY = (this.touchStartY || 0) - clientY;
     const pixelRatio = window.devicePixelRatio;
 
-    deltaY = Math.round(deltaY / 3 / pixelRatio);
+    const deltaY = ((this.touchStartY || 0) - clientY) / pixelRatio;
     const pos = this.state.pos + deltaY + deltaY / itemHeight;
+
+    this.touchStartY = clientY;
+
     this.setPosition(pos);
   };
 

@@ -54,7 +54,7 @@ export interface DatePickerProps<T> extends CommonProps {
   /**
    * Использовать на мобильных устройствах нативный календарь для выбора дат.
    *
-   * При использовании не работает проп `autoFocus`
+   * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
 
@@ -264,7 +264,6 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
-          useNativeDatePicker={this.props.useMobileNativeDatePicker}
         />
         {this.state.canUseMobileNativeDatePicker && (
           <NativeDateInput
@@ -322,17 +321,13 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     }
   };
 
-  private handlePick = (dateShape: CalendarDateShape | undefined) => {
+  private handlePick = (dateShape: CalendarDateShape) => {
     this.handleSelect(dateShape);
     this.blur();
   };
 
-  private handleSelect = (dateShape: CalendarDateShape | undefined) => {
-    let value = '';
-    if (dateShape) {
-      const { date, month, year } = dateShape;
-      value = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
-    }
+  private handleSelect = ({ date, month, year }: CalendarDateShape) => {
+    const value = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }

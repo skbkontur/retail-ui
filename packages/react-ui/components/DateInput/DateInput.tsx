@@ -62,7 +62,6 @@ export interface DateInputProps extends CommonProps {
    */
   onValueChange?: (value: string) => void;
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
-  useNativeDatePicker?: boolean;
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -171,14 +170,10 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return this.getWrapper();
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
-  }
-
-  private getWrapper() {
-    return this.renderMain();
   }
 
   private renderMain() {
