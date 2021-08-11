@@ -1,5 +1,10 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+
+export const globalClasses = prefix('button')({
+  scrollbarX: 'scrollbar-x',
+  scrollbarY: 'scrollbar-y',
+});
 
 export const styles = memoizeStyle({
   root() {
@@ -17,7 +22,7 @@ export const styles = memoizeStyle({
       max-height: 100%;
       max-width: 100%;
 
-      [data-tid~='ScrollContainer__ScrollBar-x'] ~ & {
+      .${globalClasses.scrollbarX} ~ & {
         &::after {
           content: ' ';
           width: 100%;
@@ -100,7 +105,7 @@ export const styles = memoizeStyle({
         top: 0;
       }
 
-      [data-tid~='ScrollContainer__ScrollBar-y'] ~ & {
+      .${globalClasses.scrollbarY} ~ & {
         &::after {
           right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
         }

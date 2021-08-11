@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
 import { defaultScrollbarState } from './ScrollContainer.constants';
-import { styles } from './ScrollContainer.styles';
+import { styles, globalClasses } from './ScrollContainer.styles';
 import { getScrollSizeParams, scrollSizeParametersNames } from './ScrollContainer.helpers';
 
 export type ScrollAxis = 'x' | 'y';
@@ -136,12 +136,12 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const state = this.state;
 
     if (this.props.axis === 'x') {
-      return cx(styles.scrollBarX(this.theme), {
+      return cx(styles.scrollBarX(this.theme), globalClasses.scrollbarX, {
         [styles.scrollBarXHover(this.theme)]: state.hover || state.scrolling,
       });
     }
 
-    return cx(styles.scrollBarY(this.theme), {
+    return cx(styles.scrollBarY(this.theme), globalClasses.scrollbarY, {
       [styles.scrollBarYHover(this.theme)]: state.hover || state.scrolling,
     });
   }
