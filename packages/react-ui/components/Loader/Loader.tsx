@@ -112,8 +112,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       this.checkSpinnerPosition();
     }
 
-    if (prevProps.active !== active) {
-      this.toggleChildrenFocus();
+    if (active) {
+      this.disableChildrenFocus();
+    } else {
+      this.enableChildrenFocus();
     }
   }
 
@@ -146,13 +148,13 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             applyZIndex={this.props.active}
             coverChildren={this.props.active}
             style={{ height: '100%' }}
-            wrapperRef={this.wrapperRef('children')}
+            wrapperRef={this.childrenRef}
           >
             {this.props.children}
           </ZIndex>
           {active && (
             <ZIndex
-              wrapperRef={this.wrapperRef('spinner')}
+              wrapperRef={this.spinnerRef}
               priority={'Loader'}
               className={cx({
                 [styles.active(this.theme)]: active,
@@ -166,10 +168,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     );
   }
 
-  private wrapperRef = (contentType: 'children' | 'spinner') => {
-    return (element: HTMLDivElement | null) => {
-      contentType === 'children' ? (this.childrenContainerNode = element) : (this.spinnerContainerNode = element);
-    };
+  private childrenRef = (element: HTMLDivElement | null) => {
+    this.childrenContainerNode = element;
+  };
+
+  private spinnerRef = (element: HTMLDivElement | null) => {
+    this.spinnerContainerNode = element;
   };
 
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
@@ -278,7 +282,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const tabbableElements = getTabbableElements(this.childrenContainerNode);
     tabbableElements.forEach((el) => {
       if (!el.hasAttribute('origin-tabindex')) {
-        el.setAttribute('origin-tabindex', el.tabIndex + '');
+        el.setAttribute('origin-tabindex', el.tabIndex.toString());
       }
       el.tabIndex = -1;
     });
@@ -310,6 +314,4 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.childrenObserver?.disconnect();
     this.childrenObserver = null;
   };
-
-  private toggleChildrenFocus = () => (this.props.active ? this.disableChildrenFocus() : this.enableChildrenFocus());
 }
