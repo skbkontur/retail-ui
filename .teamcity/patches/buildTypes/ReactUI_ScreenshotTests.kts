@@ -1,6 +1,7 @@
 package patches.buildTypes
 
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPublisher
 import jetbrains.buildServer.configs.kotlin.v2019_2.ui.*
 
 /*
@@ -13,4 +14,17 @@ changeBuildType(RelativeId("ReactUI_ScreenshotTests")) {
         "Unexpected option value: artifactRules = $artifactRules"
     }
     artifactRules = """packages\react-ui\.creevey\r.tgz"""
+
+    features {
+        add {
+            commitStatusPublisher {
+                publisher = github {
+                    githubUrl = "https://api.github.com"
+                    authType = personalToken {
+                        token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
+                    }
+                }
+            }
+        }
+    }
 }

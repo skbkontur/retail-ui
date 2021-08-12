@@ -18,6 +18,7 @@ export const styles = memoizeStyle({
       margin: 0;
       border: 0;
       background: transparent;
+      opacity: 0;
     `;
   },
 

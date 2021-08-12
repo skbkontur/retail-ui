@@ -38,6 +38,8 @@ export enum TokenInputType {
   Combined,
 }
 
+export type TokenInputMenuAlign = 'left' | 'cursor';
+
 export interface TokenInputProps<T> extends CommonProps {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
@@ -47,6 +49,16 @@ export interface TokenInputProps<T> extends CommonProps {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
+  /**
+   * Ширина выпадающего меню может быть указана как 'auto'
+   * а также в пикселях, процентах (от ширины инпута)
+   * или других конкретных единицах
+   *
+   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
+   * (по ширине текста)
+   */
+  menuWidth: React.CSSProperties['width'];
+  menuAlign: TokenInputMenuAlign;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -168,6 +180,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onFocus: emptyHandler,
     onMouseEnter: emptyHandler,
     onMouseLeave: emptyHandler,
+    menuWidth: 'auto',
+    menuAlign: 'cursor',
   };
 
   public state: TokenInputState<T> = DefaultState;
@@ -239,6 +253,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onMouseEnter,
       onMouseLeave,
       inputMode,
+      menuWidth,
+      menuAlign,
     } = this.props;
 
     const {
@@ -324,11 +340,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={this.input!}
+                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
+                menuWidth={menuWidth}
+                menuAlign={menuAlign}
               />
             )}
             {this.renderTokensEnd()}
