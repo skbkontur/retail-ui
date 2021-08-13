@@ -1,7 +1,7 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const globalClasses = prefix('button')({
+export const globalClasses = prefix('scroll-container')({
   scrollbarX: 'scrollbar-x',
   scrollbarY: 'scrollbar-y',
 });
