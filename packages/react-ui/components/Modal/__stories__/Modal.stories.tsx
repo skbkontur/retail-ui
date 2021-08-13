@@ -9,6 +9,7 @@ import { Toggle } from '../../Toggle';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { MobileLayoutContext, LayoutMode } from '../../MobileLayout/MobileLayoutContext';
 import { MobileLayout } from '../../MobileLayout';
 
 const basicFontStyle = {
@@ -786,8 +787,6 @@ export const MobileModal = () => {
 
   const theme = useContext(ThemeContext);
 
-  const [isMobile, setIsMobile] = useState(false);
-
   const modal = (
     <ThemeContext.Provider
       value={ThemeFactory.create(
@@ -797,43 +796,52 @@ export const MobileModal = () => {
         theme,
       )}
     >
-      <Modal onClose={() => setOpen(false)}>
-        <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
-        <Modal.Body>
-          <p style={{ margin: 0 }}>
-            {new Array(80).fill(
-              'Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. ',
-              0,
-              80,
-            )}
-          </p>
-        </Modal.Body>
-        <Modal.Footer panel>
-          <Button
-            use={'primary'}
-            onClick={() => {
-              setShowThird(true);
-            }}
-            style={{ paddingRight: !isMobile ? '25px' : '0px' }}
-          >
-            Ок
-          </Button>
-          <Button
-            use={'danger'}
-            onClick={() => {
-              setShowThird(false);
-            }}
-          >
-            Удалить
-          </Button>
-          {showThirdButton && (
-            <Button style={{ marginLeft: '100px' }} use={'link'}>
-              Изменить
-            </Button>
-          )}
-        </Modal.Footer>
-      </Modal>
-      <MobileLayout onChange={setIsMobile} />
+      <MobileLayout>
+        <MobileLayoutContext.Consumer>
+          {({ layout }) => {
+            const isMobile = layout === LayoutMode.Mobile;
+
+            return (
+              <Modal onClose={() => setOpen(false)}>
+                <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
+                <Modal.Body>
+                  <p style={{ margin: 0 }}>
+                    {new Array(80).fill(
+                      'Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. Какой-то текст, какой-то текст. ',
+                      0,
+                      80,
+                    )}
+                  </p>
+                </Modal.Body>
+                <Modal.Footer panel>
+                  <Button
+                    use={'primary'}
+                    onClick={() => {
+                      setShowThird(true);
+                    }}
+                    style={{ paddingRight: !isMobile ? '25px' : '0px' }}
+                  >
+                    Ок
+                  </Button>
+                  <Button
+                    use={'danger'}
+                    onClick={() => {
+                      setShowThird(false);
+                    }}
+                  >
+                    Удалить
+                  </Button>
+                  {showThirdButton && (
+                    <Button style={{ marginLeft: '100px' }} use={'link'}>
+                      Изменить
+                    </Button>
+                  )}
+                </Modal.Footer>
+              </Modal>
+            );
+          }}
+        </MobileLayoutContext.Consumer>
+      </MobileLayout>
     </ThemeContext.Provider>
   );
 

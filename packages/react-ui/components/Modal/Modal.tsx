@@ -16,6 +16,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { MobileLayout } from '../MobileLayout';
+import { MobileLayoutContext, LayoutMode } from '../MobileLayout/MobileLayoutContext';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -150,14 +151,25 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return this.renderMain();
+
+          return (
+            <MobileLayout>
+              <MobileLayoutContext.Consumer>
+                {({ layout }) => {
+                  return this.renderMain(layout);
+                }}
+              </MobileLayoutContext.Consumer>
+            </MobileLayout>
+          );
         }}
       </ThemeContext.Consumer>
     );
   }
 
-  private renderMain() {
+  private renderMain(layout: LayoutMode) {
     const { hasHeader, hasFooter, hasPanel } = this.state;
+
+    const isMobile = layout === LayoutMode.Mobile;
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
@@ -165,7 +177,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
-      isMobileLayout: this.state.isMobileLayout,
+      isMobileLayout: isMobile,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -223,20 +235,19 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                 data-tid="modal-content"
               >
                 <div className={jsStyles.window(this.theme)} style={style}>
-                  <ResizeDetector onResize={this.handleResize} fullHeight={this.state.isMobileLayout}>
+                  <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
                     <FocusLock
                       disabled={this.props.disableFocusLock}
                       autoFocus={false}
-                      className={cn({ [jsStyles.columnFlexContainer()]: this.state.isMobileLayout })}
+                      className={cn({ [jsStyles.columnFlexContainer()]: isMobile })}
                     >
-                      {WithoutHeader && this.state.isMobileLayout ? <div>{content}</div> : content}
+                      {WithoutHeader && isMobile ? <div>{content}</div> : content}
                     </FocusLock>
                   </ResizeDetector>
                 </div>
               </div>
             </div>
           </ZIndex>
-          <MobileLayout onChange={this.setMobile} />
         </RenderContainer>
       </CommonWrapper>
     );
@@ -317,11 +328,5 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
-  };
-
-  private setMobile = (isMobile: boolean) => {
-    this.setState({
-      isMobileLayout: isMobile,
-    });
   };
 }
