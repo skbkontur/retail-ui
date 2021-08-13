@@ -875,7 +875,7 @@ export class DefaultTheme {
   public static toggleBorderRadius = '10px';
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static toggleBaseBg = '#fff';
-  public static toggleBgDisabled = 'none';
+  public static toggleBgDisabled = '#E5E5E5';
   public static get toggleBgHover() {
     return this.toggleBgFocus;
   }
@@ -1209,7 +1209,6 @@ export class DefaultTheme {
   public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
-  public static radioBgColor = 'transparent';
   public static radioHoverBg = 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%)';
   public static radioActiveBg = 'linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%)';
   public static radioBorderWidth = '1px';
