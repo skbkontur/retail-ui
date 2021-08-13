@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const globalClasses = prefix('toggle')({
   handle: 'handle',
   container: 'container',
+  containerDisabled: 'containerDisabled',
   containerLoading: 'container-loading',
   background: 'background',
 });
@@ -67,6 +68,11 @@ export const styles = memoizeStyle({
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
+      &:checked ~ .${globalClasses.containerDisabled} {
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
+        background: ${t.toggleBgDisabled};
+        transition: background 0s 0.2s;
+      }
       &:checked ~ .${globalClasses.containerLoading} {
         background: ${t.toggleBorderColor};
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
@@ -74,6 +80,10 @@ export const styles = memoizeStyle({
       &:checked ~ .${globalClasses.container} .${globalClasses.background} {
         width: 70%;
         background: ${t.toggleBgChecked};
+      }
+      &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
+        width: 70%;
+        background: ${t.toggleBgDisabled};
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
@@ -154,12 +164,6 @@ export const styles = memoizeStyle({
         content: '';
         display: inline-block;
       }
-    `;
-  },
-
-  wrapperDisabled() {
-    return css`
-      opacity: 0.3;
     `;
   },
 
