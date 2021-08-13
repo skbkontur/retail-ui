@@ -57,19 +57,34 @@ export const darkTheme = ThemeFactory.create({
   controlHeightMedium: '40px',
   controlHeightLarge: '44px',
   checkboxCheckedColor: '#fff',
-  checkboxBg: '#333333',
+  get checkboxBg() {
+    return this.bgDefault;
+  },
   checkboxShadow: '0 0 0 1px rgba(255, 255, 255, 0.15)',
   checkboxHoverBg: 'none',
   checkboxBgDisabled: 'rgba(255, 255, 255, 0.05)',
   checkboxShadowDisabled: '0 0 0 1px #4D4D4D',
-  checkboxOutlineColorFocus: '#333333',
-  radioBgImage: '#333333',
+  get checkboxOutlineColorFocus() {
+    return this.bgDefault;
+  },
+  get checkboxActiveBg() {
+    return this.bgDefault;
+  },
+  get checkboxCheckedActiveBg() {
+    return this.bgDefault;
+  },
+  get radioBgImage() {
+    return `linear-gradient(${this.bgDefault},${this.bgDefault})`;
+  },
   radioBoxShadow: '0 0 0 1px rgba(255, 255, 255, 0.15)',
   radioCheckedBulletColor: '#fff',
   radioHoverBg: 'none',
   radioHoverShadow: '0 0 0 1px rgba(255, 255, 255, 0.15)',
   radioDisabledShadow: '0 0 0 1px #4D4D4D',
   radioDisabledBg: 'rgba(255, 255, 255, 0.05)',
+  get radioActiveBg() {
+    return this.bgDefault;
+  },
   textColorDefault: '#fff',
   textColorInvert: '#fff',
   textColorDisabled: '#a0a0a0',
@@ -223,7 +238,9 @@ export const darkTheme = ThemeFactory.create({
   menuItemPaddingForIcon: '36px',
   menuBorder: 'rgba(0, 0, 0, 0)',
   menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
-  toggleBaseBg: '#333333',
+  get toggleBaseBg() {
+    return this.bgDefault;
+  },
   toggleBgChecked: '#3072c4',
   toggleShadowColorWarning: '#f69c00',
   toggleShadowColorError: '#d70c17',
