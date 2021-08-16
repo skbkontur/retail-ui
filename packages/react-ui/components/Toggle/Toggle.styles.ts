@@ -49,7 +49,7 @@ export const styles = memoizeStyle({
   handleDisabled(t: Theme) {
     const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
-      background: ${t.toggleBg} !important; // override root hover/active styles
+      background: ${t.toggleDisabledHandleBg} !important; // override root hover/active styles
       width: ${handleSize} !important; // override root active styles
     `;
   },
@@ -84,6 +84,8 @@ export const styles = memoizeStyle({
       &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
         width: 70%;
         background: ${t.toggleBgDisabled};
+        border-radius: calc(${t.toggleHeight} * 0.5) 0 0 calc(${t.toggleHeight} * 0.5);
+        box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});

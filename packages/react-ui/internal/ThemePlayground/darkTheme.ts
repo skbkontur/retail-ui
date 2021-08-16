@@ -247,7 +247,10 @@ export const darkTheme = ThemeFactory.create({
   toggleBgActive: '#e5e5e5',
   toggleFocusShadowColor: '#5199db',
   toggleBorderColor: 'rgba(255, 255, 255, 0.15)',
-  toggleBgDisabled: 'rgba(255, 255, 255, 0.05)',
+  get toggleBgDisabled() {
+    return this.bgDefault;
+  },
+  toggleDisabledHandleBg: '#4D4D4D',
   btnMenuArrowColor: '#666',
   popupBorderRadius: '2px',
   popupBorder: '1px solid',
