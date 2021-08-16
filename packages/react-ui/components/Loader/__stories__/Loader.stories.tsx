@@ -19,7 +19,7 @@ const wrapperStyle = {
 
 class ContentComponent extends React.Component<{
   additionalStyle?: object;
-  loaderProps?: LoaderProps;
+  loaderProps?: Partial<LoaderProps>;
 }> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;

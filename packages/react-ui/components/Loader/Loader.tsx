@@ -11,9 +11,9 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 
 import { styles } from './Loader.styles';
-import { TaskWithDelayAndMinimalDuration } from './utils';
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
@@ -33,12 +33,12 @@ export interface LoaderProps extends CommonProps {
    * Время в миллисекундах для показа вуали без спиннера.
    * @default 300
    */
-  delayBeforeSpinnerShow?: number;
+  delayBeforeSpinnerShow: number;
   /**
    * Минимальное время в миллисекундах для показа спиннера
    * @default 1000
    */
-  minimalDelayBeforeSpinnerHide?: number;
+  minimalDelayBeforeSpinnerHide: number;
 }
 
 export interface LoaderState {
@@ -57,7 +57,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     type: Spinner.Types.normal,
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
-    minimalDelayBeforeSpinnerHide: 1000,
+    minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
   };
 
   public static propTypes = {
@@ -88,6 +88,16 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+    /**
+     * Время в миллисекундах для показа вуали без спиннера.
+     * @default 300
+     */
+    delayBeforeSpinnerShow: PropTypes.number,
+    /**
+     * Минимальное время в миллисекундах для показа спиннера
+     * @default 1000
+     */
+    minimalDelayBeforeSpinnerHide: PropTypes.number,
   };
 
   private theme!: Theme;
@@ -108,29 +118,38 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     };
 
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
-      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow!,
-      durationOfTask: this.props.minimalDelayBeforeSpinnerHide!,
-      isTaskActive: this.props.active,
+      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow,
+      durationOfTask: this.props.minimalDelayBeforeSpinnerHide,
       taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
-      taskFinishCallback: () => this.setState({ isSpinnerVisible: false }),
+      taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
     });
   }
 
   public componentDidMount() {
     this.checkSpinnerPosition();
-    this.spinnerTask.start();
+    this.props.active && this.spinnerTask.start();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
-    const { component, active } = this.props;
+    const { component, active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.props;
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
     }
 
+    if (
+      delayBeforeSpinnerShow !== prevProps.delayBeforeSpinnerShow ||
+      minimalDelayBeforeSpinnerHide !== prevProps.minimalDelayBeforeSpinnerHide
+    ) {
+      this.spinnerTask.update({
+        delayBeforeTaskStart: delayBeforeSpinnerShow,
+        durationOfTask: minimalDelayBeforeSpinnerHide,
+      });
+    }
+
     if (active !== prevProps.active) {
-      this.spinnerTask.update({ isTaskActive: this.props.active });
+      active ? this.spinnerTask.start() : this.spinnerTask.stop();
     }
   }
 
@@ -138,7 +157,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
-    this.spinnerTask.stop();
+    this.spinnerTask.clearTask();
   }
 
   public render() {
