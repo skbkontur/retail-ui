@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import cn from 'classnames';
-import throttle from 'lodash.throttle';
 
 import {
   isKeyArrowDown,
@@ -34,6 +33,8 @@ import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
+import { mobileLayout, MobileLayoutState, LayoutMode } from '../MobileLayout';
+// import { LayoutMode } from '../MobileLayout';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -144,12 +145,11 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   mobileMenuHeaderText?: string;
 }
 
-export interface SelectState<TValue> {
+export interface SelectState<TValue> extends MobileLayoutState {
   opened: boolean;
   searchPattern: string;
   value: Nullable<TValue>;
   mobileMenuHeaderHeight: number;
-  isMobileLayout: boolean;
   isScrolled: boolean;
 }
 
@@ -159,6 +159,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 
 export const MOBILE_MENU_TOP_PADDING = 40;
 
+@mobileLayout
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
@@ -210,8 +211,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     value: this.props.defaultValue,
     searchPattern: '',
     mobileMenuHeaderHeight: 0,
-    isMobileLayout: false,
     isScrolled: false,
+    layout: LayoutMode.Desktop,
   };
 
   private theme!: Theme;
@@ -220,13 +221,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
 
-  public componentDidMount() {
-    window.addEventListener('resize', this.throttledCheckForMobileLayout);
-
-    // for SSR, see https://reactjs.org/docs/react-dom.html#hydrate
-    this.checkForMobileLayout();
-  }
-
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
       window.addEventListener('popstate', this.close);
@@ -234,10 +228,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     if (prevState.opened && !this.state.opened) {
       window.removeEventListener('popstate', this.close);
     }
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener('resize', this.throttledCheckForMobileLayout);
   }
 
   public render() {
@@ -291,9 +281,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private getRenderer() {
-    const { isMobileLayout } = this.state;
-
-    if (isMobileLayout) {
+    if (this.isMobile()) {
       return this.renderMobileMain();
     }
 
@@ -312,7 +300,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-          <span className={jsStyles.root(this.theme)} style={style}>
+          <span className={jsStyles.root()} style={style}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
           </span>
@@ -332,7 +320,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <CommonWrapper {...this.props}>
-        <span className={jsStyles.root(this.theme)} style={style}>
+        <span className={jsStyles.rootMobile(this.theme)} style={style}>
           {button}
           {!this.props.disabled && this.state.opened && this.renderMobileMenu()}
         </span>
@@ -494,8 +482,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <RenderContainer>
         <div
           className={cn({
-            [jsStyles.rootMobile(this.theme)]: true,
-            [jsStyles.mobileWithSearch(this.theme)]: Boolean(search),
+            [jsStyles.mobileMenu(this.theme)]: true,
+            [jsStyles.mobileMenuWithSearch(this.theme)]: Boolean(search),
           })}
         >
           <MobileMenuHeader
@@ -566,9 +554,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private handleScroll = () => {
     const { menu } = this;
 
-    if (menu && menu.isScrolled !== this.state.isScrolled && this.state.isMobileLayout) {
+    if (menu && menu.isScrolled !== this.state.isScrolled && this.isMobile()) {
       this.setState({ isScrolled: menu.isScrolled });
     }
+  };
+
+  private isMobile = () => {
+    const { layout } = this.state;
+    return layout === LayoutMode.Mobile;
   };
 
   private dropdownContainerGetParent = () => {
@@ -706,20 +699,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         })
       : buttonElement;
   };
-
-  private isMatchMedia = () => {
-    return canUseDOM && this.theme && window.matchMedia(this.theme.mobileMediaQuery).matches;
-  };
-
-  private checkForMobileLayout = () => {
-    if (this.isMatchMedia()) {
-      this.setState({
-        isMobileLayout: true,
-      });
-    }
-  };
-
-  private throttledCheckForMobileLayout = throttle(this.checkForMobileLayout, 100);
 }
 
 function renderValue(value: any, item: any) {

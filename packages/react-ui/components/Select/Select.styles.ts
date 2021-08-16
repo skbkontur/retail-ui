@@ -2,18 +2,22 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
-  root(t: Theme) {
+  root() {
     return css`
       display: inline-block;
       position: relative;
-
-      @media ${t.mobileMediaQuery}  {
-        width: ${t.mobileSelectWidth};
-      },
     `;
   },
 
   rootMobile(t: Theme) {
+    return css`
+      display: inline-block;
+      position: relative;
+      width: ${t.mobileSelectWidth};
+    `;
+  },
+
+  mobileMenu(t: Theme) {
     return css`
       left: 0;
       position: fixed;
@@ -24,7 +28,7 @@ const styles = {
     `;
   },
 
-  mobileWithSearch(t: Theme) {
+  mobileMenuWithSearch(t: Theme) {
     return css`
       top: 0;
       right: 0;
