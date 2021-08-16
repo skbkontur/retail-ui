@@ -3,14 +3,12 @@ import { mount, ReactWrapper } from 'enzyme';
 
 import { Loader, LoaderProps, LoaderState } from '../Loader';
 import { delay } from '../../../lib/utils';
-import { styles } from '../Loader.styles';
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 const DELAY_BEFORE_SPINNER_SHOW = 1000;
 const MINIMAL_DELAY_BEFORE_SPINNER_HIDE = 1000;
 const DIFFERENCE = 100;
-const VeilSelector = `ZIndex.${styles.active(DEFAULT_THEME)}`;
-const SpinnerSelector = `.${styles.spinnerContainer()}`;
+const VeilSelector = `[data-tid='Loader__Veil']`;
+const SpinnerSelector = `[data-tid='Loader__Spinner']`;
 
 const expectComponentLengthInWrapper = (
   component: string,

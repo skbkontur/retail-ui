@@ -178,7 +178,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={styles.loader()}>
+        <div className={styles.loader()} data-tid={isLoaderVisible ? 'Loader__Veil' : ''}>
           <ZIndex
             priority={'Loader'}
             applyZIndex={isLoaderVisible}
@@ -204,6 +204,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
+        data-tid={'Loader__Spinner'}
         className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
