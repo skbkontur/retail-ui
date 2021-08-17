@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -122,6 +122,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             minDate={this.state.min}
             maxDate={this.state.max}
             onValueChange={action('change')}
+            useMobileNativeDatePicker
           />
         </LocaleContext.Provider>
       </Gapped>
@@ -200,6 +201,30 @@ WithMouseeventHandlers.parameters = {
     },
   },
 };
+
+export const WithMobileNativeDatePicker = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <Gapped vertical>
+        <span>With mobile native datepicker</span>
+        <DatePicker
+          width={200}
+          value={date}
+          onMouseEnter={() => console.count('enter')}
+          onMouseLeave={() => console.count('leave')}
+          onValueChange={(date) => {
+            setDate(date);
+          }}
+          useMobileNativeDatePicker
+        />
+      </Gapped>
+    </div>
+  );
+};
+WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
+WithMobileNativeDatePicker.parameters = { creevey: { skip: [true] } };
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
