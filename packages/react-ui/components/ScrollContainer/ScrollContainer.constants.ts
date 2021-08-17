@@ -12,3 +12,24 @@ export const defaultScrollbarState: ScrollBarState = {
   scrolling: false,
   scrollState: 'begin',
 };
+
+export const scrollSizeParametersNames = {
+  x: {
+    offset: 'offsetWidth',
+    size: 'scrollWidth',
+    pos: 'scrollLeft',
+    coord: 'clientX',
+    clientSize: 'clientWidth',
+    customScrollPos: 'left',
+    customScrollSize: 'width',
+  },
+  y: {
+    offset: 'offsetHeight',
+    size: 'scrollHeight',
+    pos: 'scrollTop',
+    coord: 'clientY',
+    clientSize: 'clientHeight',
+    customScrollPos: 'top',
+    customScrollSize: 'height',
+  },
+} as const;

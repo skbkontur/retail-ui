@@ -5,9 +5,9 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 
-import { defaultScrollbarState } from './ScrollContainer.constants';
+import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
-import { getScrollSizeParams, scrollSizeParametersNames } from './ScrollContainer.helpers';
+import { getScrollSizeParams } from './ScrollContainer.helpers';
 
 export type ScrollAxis = 'x' | 'y';
 export type ScrollBarScrollState = 'begin' | 'middle' | 'end';
