@@ -11,6 +11,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
+import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './DateSelect.styles';
@@ -90,6 +91,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private longClickTimer = 0;
   private setPositionRepeatTimer = 0;
   private yearStep = 3;
+  private touchStartY: Nullable<number> = null;
 
   public UNSAFE_componentWillReceiveProps() {
     this.setNodeTop();
@@ -338,6 +340,18 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     if (this.itemsContainer && !element) {
       this.itemsContainer.removeEventListener('wheel', this.handleWheel);
     }
+
+    if (isMobile) {
+      if (!this.itemsContainer && element) {
+        element.addEventListener('touchstart', this.handleTouchStart);
+        element.addEventListener('touchmove', this.handleTouchMove);
+      }
+      if (this.itemsContainer && !element) {
+        this.itemsContainer.removeEventListener('touchstart', this.handleTouchStart);
+        this.itemsContainer.removeEventListener('touchmove', this.handleTouchMove);
+      }
+    }
+
     this.itemsContainer = element;
   };
 
@@ -376,6 +390,30 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       deltaY *= itemHeight * 4;
     }
     const pos = this.state.pos + deltaY;
+    this.setPosition(pos);
+  };
+
+  private handleTouchStart = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    this.touchStartY = event.targetTouches[0].clientY;
+  };
+
+  private handleTouchMove = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    const { clientY } = event.changedTouches[0];
+    const pixelRatio = window.devicePixelRatio;
+
+    const deltaY = ((this.touchStartY || 0) - clientY) / pixelRatio;
+    const pos = this.state.pos + deltaY + deltaY / itemHeight;
+
+    this.touchStartY = clientY;
+
     this.setPosition(pos);
   };
 

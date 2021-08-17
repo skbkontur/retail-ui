@@ -73,6 +73,7 @@ export class Picker extends React.Component<Props, State> {
 
   private renderMain() {
     const { date } = this.state;
+
     return (
       <div className={styles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
         <Calendar
@@ -85,7 +86,7 @@ export class Picker extends React.Component<Props, State> {
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
         />
-        {this.props.enableTodayLink && this.renderTodayLink()}
+        {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
     );
   }
