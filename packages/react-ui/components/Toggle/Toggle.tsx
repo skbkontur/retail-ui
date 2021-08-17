@@ -152,7 +152,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               <div
                 className={containerClassNames}
                 style={
-                  checked && color
+                  checked && color && !disabled
                     ? {
                         backgroundColor: color,
                         boxShadow: `inset 0 0 0 1px ${color}`,
@@ -164,7 +164,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                   className={cx(styles.activeBackground(), globalClasses.background, {
                     [styles.activeBackgroundLoading(this.theme)]: loading,
                   })}
-                  style={checked && color ? { backgroundColor: color } : undefined}
+                  style={
+                    checked && color && !disabled
+                      ? {
+                          backgroundColor: color,
+                          boxShadow: `inset 0 0 0 1px ${color}`,
+                        }
+                      : undefined
+                  }
                 />
               </div>
               <div
