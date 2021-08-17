@@ -8,7 +8,7 @@ import { Loader } from '../../components/Loader';
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
 import { ThemeErrorsType } from './ThemeContextPlayground';
-import { jsStyles } from './Playground.styles';
+import { styles } from './Playground.styles';
 
 interface ThemeEditorProps {
   editingTheme: Theme;
@@ -34,8 +34,8 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   public render() {
     return this.state.isLoading ? (
-      <div className={jsStyles.loaderWrapper()}>
-        <Loader type="big" active className={jsStyles.loader()} />
+      <div className={styles.loaderWrapper()}>
+        <Loader type="big" active className={styles.loader()} />
       </div>
     ) : (
       this.renderGroups()
@@ -54,7 +54,7 @@ export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorSt
 
   private renderGroups = () => {
     const { editingTheme, currentTheme, currentErrors, onValueChange } = this.props;
-    const keys = ThemeFactory.getKeys(editingTheme).filter(key => !isDeprecatedVariable(key));
+    const keys = ThemeFactory.getKeys(editingTheme).filter((key) => !isDeprecatedVariable(key));
 
     return (
       <Gapped vertical>
@@ -101,8 +101,8 @@ const Group = (props: GroupProps) => {
 
   return variables.length > 0 ? (
     <React.Fragment>
-      <h2 className={jsStyles.editorGroupHeader(currentTheme)}>{title}</h2>
-      {variables.map(variable => {
+      <h2 className={styles.editorGroupHeader(currentTheme)}>{title}</h2>
+      {variables.map((variable) => {
         const value = editingTheme[variable] as string;
         const isError = currentErrors[variable];
         return (
@@ -156,7 +156,7 @@ const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Them
       if (descriptor && typeof descriptor.get !== 'undefined') {
         const getterBody = descriptor.get.toString();
         const variableNameMatchArray = getterBody.match(/this\.(\w+)\b/gm) || [];
-        return (variableNameMatchArray || []).map(v => v.replace(/this\./g, '')) as Array<keyof Theme>;
+        return (variableNameMatchArray || []).map((v) => v.replace(/this\./g, '')) as Array<keyof Theme>;
       }
       break;
     }

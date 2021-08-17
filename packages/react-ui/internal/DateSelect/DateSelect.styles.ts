@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       color: ${t.dateSelectTextColorDefault};
@@ -13,17 +13,18 @@ const styles = {
       padding-right: 2px;
       position: relative;
       text-align: left;
+      touch-action: none;
 
       &:hover {
-        color: ${t.dateSelectLinkColor} !important;
+        color: ${t.dateSelectLinkColor};
       }
     `;
   },
 
   disabled() {
     return css`
-      color: inherit !important;
-      cursor: default !important;
+      color: inherit !important; // override root:hover style
+      cursor: default;
     `;
   },
 
@@ -95,6 +96,7 @@ const styles = {
       padding-left: 10px;
       user-select: none;
       white-space: nowrap;
+      touch-action: none;
     `;
   },
 
@@ -107,15 +109,15 @@ const styles = {
 
   menuItemActive(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgActive} !important;
-      color: ${t.dateSelectMenuItemFontActive} !important;
+      background: ${t.dateSelectMenuItemBgActive};
+      color: ${t.dateSelectMenuItemFontActive};
     `;
   },
 
   menuItemDisabled(t: Theme) {
     return css`
-      background: ${t.dateSelectMenuItemBgDisabled} !important;
-      color: ${t.dateSelectTextColorDisabled} !important;
+      background: ${t.dateSelectMenuItemBgDisabled};
+      color: ${t.dateSelectTextColorDisabled};
       pointer-events: none;
     `;
   },
@@ -140,10 +142,8 @@ const styles = {
     `;
   },
 
-  menuUp(t: Theme) {
+  menuUp() {
     return css`
-      ${styles.menu(t)}
-
       span {
         position: relative;
         top: -0.5px;
@@ -151,16 +151,12 @@ const styles = {
     `;
   },
 
-  menuDown(t: Theme) {
+  menuDown() {
     return css`
-      ${styles.menu(t)}
-
       span {
         position: relative;
         top: -1px;
       }
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

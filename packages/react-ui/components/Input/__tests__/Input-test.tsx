@@ -2,9 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import MaskedInput from 'react-input-mask';
 
-import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 import { Input, InputProps } from '../Input';
-import { jsStyles } from '../Input.styles';
 
 const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
@@ -42,21 +40,6 @@ describe('<Input />', () => {
   it('passes password type to input', () => {
     const wrapper = render({ value: '', type: 'password' });
     expect(wrapper.find('input').prop('type')).toBe('password');
-  });
-
-  it('applies error styles on error prop', () => {
-    const wrapper = render({ value: '', error: true });
-    expect(wrapper.find(`.${jsStyles.error(DEFAULT_THEME as any)}`)).toHaveLength(1);
-  });
-
-  it('applies warning styles on warning prop', () => {
-    const wrapper = render({ value: '', warning: true });
-    expect(wrapper.find(`.${jsStyles.warning(DEFAULT_THEME as any)}`)).toHaveLength(1);
-  });
-
-  it('applies borderless styles on borderless prop', () => {
-    const wrapper = render({ value: '', borderless: true });
-    expect(wrapper.find(`.${jsStyles.borderless()}`)).toHaveLength(1);
   });
 
   it('passes props to input', () => {
@@ -105,9 +88,7 @@ describe('<Input />', () => {
   });
 
   it('applies align prop on input', () => {
-    const inputStyles = render({ align: 'center', value: 'hello' })
-      .find('input')
-      .prop('style');
+    const inputStyles = render({ align: 'center', value: 'hello' }).find('input').prop('style');
 
     expect(inputStyles && inputStyles.textAlign).toBe('center');
   });

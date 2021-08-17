@@ -10,6 +10,9 @@ export interface SidePageContextType {
   hasHeader?: boolean;
   hasFooter?: boolean;
   hasPanel?: boolean;
+  setHasHeader?: (value?: boolean) => void;
+  setHasFooter?: (value?: boolean) => void;
+  setHasPanel?: (value?: boolean) => void;
 }
 
 export const SidePageContext = React.createContext<SidePageContextType>({

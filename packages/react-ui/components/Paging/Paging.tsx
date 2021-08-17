@@ -1,6 +1,5 @@
 import React from 'react';
 import { func, number } from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
@@ -12,8 +11,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Paging.styles';
+import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
 import { getItems } from './PagingHelper';
 import { PagingLocale, PagingLocaleHelper } from './locale';
@@ -126,7 +126,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -140,7 +140,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         <span
           tabIndex={0}
           data-tid={this.props['data-tid']}
-          className={jsStyles.paging(this.theme)}
+          className={styles.paging(this.theme)}
           onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -173,17 +173,17 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
   private renderDots = (key: string) => {
     return (
-      <span data-tid="Paging__dots" key={key} className={jsStyles.dots(this.theme)}>
+      <span data-tid="Paging__dots" key={key} className={styles.dots(this.theme)}>
         {'...'}
       </span>
     );
   };
 
   private renderForwardLink = (disabled: boolean, focused: boolean): JSX.Element => {
-    const classes = cn({
-      [jsStyles.forwardLink(this.theme)]: true,
-      [jsStyles.forwardLinkFocused()]: focused,
-      [jsStyles.disabled(this.theme)]: disabled,
+    const classes = cx({
+      [styles.forwardLink(this.theme)]: true,
+      [styles.forwardLinkFocused()]: focused,
+      [styles.disabled(this.theme)]: disabled,
     });
     const { component: Component, caption } = this.props;
     const { forward } = this.locale;
@@ -199,7 +199,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
         pageNumber={'forward' as const}
       >
         {caption || forward}
-        <span className={jsStyles.forwardIcon(this.theme)}>
+        <span className={styles.forwardIcon(this.theme)}>
           <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
         </span>
       </Component>
@@ -207,10 +207,10 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   private renderPageLink = (pageNumber: number, active: boolean, focused: boolean): JSX.Element => {
-    const classes = cn({
-      [jsStyles.pageLink(this.theme)]: true,
-      [jsStyles.pageLinkFocused(this.theme)]: focused,
-      [jsStyles.active()]: active,
+    const classes = cx({
+      [styles.pageLink(this.theme)]: true,
+      [styles.pageLinkFocused(this.theme)]: focused,
+      [styles.active(this.theme)]: active,
     });
     const Component = this.props.component;
     const handleClick = () => this.goToPage(pageNumber);
@@ -219,7 +219,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
       <span
         data-tid="Paging__pageLinkWrapper"
         key={pageNumber}
-        className={jsStyles.pageLinkWrapper()}
+        className={styles.pageLinkWrapper()}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component
@@ -248,15 +248,15 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
     if (keyboardControl && (canGoBackward || canGoForward)) {
       return (
-        <span className={jsStyles.pageLinkHint(this.theme)}>
-          <span className={canGoBackward ? '' : jsStyles.transparent()}>{'←'}</span>
+        <span className={styles.pageLinkHint(this.theme)}>
+          <span className={canGoBackward ? '' : styles.transparent()}>{'←'}</span>
           <span>{NavigationHelper.getKeyName()}</span>
-          <span className={canGoForward ? '' : jsStyles.transparent()}>{'→'}</span>
+          <span className={canGoForward ? '' : styles.transparent()}>{'→'}</span>
         </span>
       );
     }
 
-    return <div className={jsStyles.pageLinkHintPlaceHolder(this.theme)} />;
+    return <div className={styles.pageLinkHintPlaceHolder(this.theme)} />;
   };
 
   private handleMouseDown = () => {
@@ -388,7 +388,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   private moveFocus = (step: number) => {
     const focusedItem = this.getFocusedItem();
     const items = this.getItems();
-    let index = items.findIndex(x => x === focusedItem);
+    let index = items.findIndex((x) => x === focusedItem);
     do {
       index = (index + step + items.length) % items.length;
     } while (!this.isItemFocusable(items[index]));

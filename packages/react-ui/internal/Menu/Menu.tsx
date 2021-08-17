@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cn from 'classnames';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -8,8 +7,9 @@ import { isMenuHeader } from '../../components/MenuHeader';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Menu.styles';
+import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
 export interface MenuProps {
@@ -51,7 +51,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -100,7 +100,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => React.isValidElement(x) && x.props.icon,
+      (x) => React.isValidElement(x) && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -109,9 +109,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.shadow(this.theme)]: this.props.hasShadow,
+        className={cx({
+          [styles.root(this.theme)]: true,
+          [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
       >
@@ -120,7 +120,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
         >
-          <div className={jsStyles.scrollContainer(this.theme)}>
+          <div className={styles.scrollContainer(this.theme)}>
             {React.Children.map(this.props.children, (child, index) => {
               if (!child) {
                 return child;
@@ -272,7 +272,7 @@ function isExist(value: any): value is any {
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   const ret: React.ReactNode[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
-  React.Children.forEach(children, child => {
+  React.Children.forEach(children, (child) => {
     ret.push(child);
   });
   return ret;

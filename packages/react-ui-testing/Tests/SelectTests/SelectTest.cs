@@ -1,7 +1,5 @@
 ﻿using NUnit.Framework;
-
-using OpenQA.Selenium.Remote;
-
+using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
@@ -55,7 +53,7 @@ namespace SKBKontur.SeleniumTesting.Tests.SelectTests
     [AutoFillControls]
     public class SelectTestPage : PageBase
     {
-        public SelectTestPage(RemoteWebDriver webDriver)
+        public SelectTestPage(IWebDriver webDriver)
             : base(webDriver)
         {
         }

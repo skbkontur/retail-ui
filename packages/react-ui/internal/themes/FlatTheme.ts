@@ -19,9 +19,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static btnArrowBgImageActive = 'none';
   public static btnArrowBgImageChecked = 'none';
-  public static get btnDisabledBorderColor() {
-    return this.bgDisabled;
-  }
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
   public static btnDefaultHoverBg = '#f2f2f2';
   public static btnDefaultHoverBorderColor = '#d9d9d9';
   public static get btnDefaultHoverBorderBottomColor() {
@@ -130,7 +128,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Checkbox
   public static checkboxBg = 'none';
-  public static checkboxIndeterminateBg = '#fff';
   public static get checkboxShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
   }
@@ -155,9 +152,6 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get checkboxCheckedBg() {
     return this.borderColorFocus;
-  }
-  public static get checkboxBoxIndeterminateBg() {
-    return this.checkboxCheckedBg;
   }
   public static get checkboxCheckedHoverBg() {
     return ColorFunctions.darken(this.checkboxCheckedBg, '5%');

@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   wrap() {
     return css`
       display: inline-block;
@@ -55,6 +55,4 @@ const styles = {
       box-shadow: 0 0 0 ${t.switcherOutlineWidth} ${t.borderColorError};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

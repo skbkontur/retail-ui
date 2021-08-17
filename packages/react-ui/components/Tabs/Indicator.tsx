@@ -1,14 +1,14 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import throttle from 'lodash.throttle';
-import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Indicator.styles';
+import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
 
@@ -64,7 +64,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -84,12 +84,12 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
-        className={cn(
-          jsStyles.root(this.theme),
-          indicators.primary && jsStyles.primary(this.theme),
-          indicators.success && jsStyles.success(this.theme),
-          indicators.warning && jsStyles.warning(this.theme),
-          indicators.error && jsStyles.error(this.theme),
+        className={cx(
+          styles.root(this.theme),
+          indicators.primary && styles.primary(this.theme),
+          indicators.success && styles.success(this.theme),
+          indicators.warning && styles.warning(this.theme),
+          indicators.error && styles.error(this.theme),
           this.props.className,
         )}
         style={this.state.styles}
@@ -102,7 +102,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     const node = getTab(activeTab);
     const nodeStyles = this.getStyles(node);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
-      prop => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
+      (prop) => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],
     );
     if (stylesUpdated) {
       this.setState({ styles: nodeStyles });

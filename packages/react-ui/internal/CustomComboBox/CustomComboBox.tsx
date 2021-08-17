@@ -8,6 +8,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { isFirefox, isIE11 } from '../../lib/client';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -143,7 +144,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const expectingId = (this.requestId += 1);
 
     if (!this.loaderShowDelay) {
-      this.loaderShowDelay = new Promise<void>(resolve => {
+      this.loaderShowDelay = new Promise<void>((resolve) => {
         const cancelLoader = taskWithDelay(() => {
           this.dispatch({ type: 'RequestItems' });
           setTimeout(resolve, LOADER_SHOW_TIME);
@@ -310,7 +311,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     let nextState: Pick<CustomComboBoxState<T>, never>;
 
     this.setState(
-      state => {
+      (state) => {
         const stateAndEffect = this.reducer(state, this.props, action);
 
         [nextState, effects] = stateAndEffect instanceof Array ? stateAndEffect : [stateAndEffect, []];
@@ -360,7 +361,15 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
     this.focused = false;
-    this.dispatch({ type: 'Blur' });
+    if (isFirefox || isIE11) {
+      // workaround for the Firefox focusout bug
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
+      setTimeout(() => {
+        this.dispatch({ type: 'Blur' });
+      });
+    } else {
+      this.dispatch({ type: 'Blur' });
+    }
   };
 
   private handleInputBlur = () => {

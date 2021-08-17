@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './ScrollContainer.styles';
+import { styles } from './ScrollContainer.styles';
 
 const HIDE_SCROLLBAR_OFFSET = 30;
 const MIN_SCROLL_SIZE = 20;
@@ -90,10 +90,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     let scroll = null;
 
     if (state.scrollActive) {
-      const scrollClass = cn({
-        [jsStyles.scroll()]: true,
-        [jsStyles.scrollInvert()]: Boolean(props.invert),
-        [jsStyles.scrollHover()]: state.hover || state.scrolling,
+      const scrollClass = cx({
+        [styles.scroll()]: true,
+        [styles.scrollInvert()]: Boolean(props.invert),
+        [styles.scrollHover()]: state.hover || state.scrolling,
       });
       const scrollStyle = {
         top: state.scrollPos,
@@ -120,11 +120,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+        <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
           {scroll}
           <div
             data-tid="ScrollContainer__inner"
-            className={jsStyles.inner()}
+            className={styles.inner()}
             style={innerStyle}
             ref={this.refInner}
             onScroll={this.handleNativeScroll}
@@ -275,9 +275,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
       }
 
       if (Object.prototype.hasOwnProperty.call(mouseMoveEvent, 'returnValue')) {
-        (mouseMoveEvent as MouseEvent & {
-          returnValue: boolean;
-        }).returnValue = false;
+        (
+          mouseMoveEvent as MouseEvent & {
+            returnValue: boolean;
+          }
+        ).returnValue = false;
       }
     };
 

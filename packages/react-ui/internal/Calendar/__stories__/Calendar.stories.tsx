@@ -12,17 +12,17 @@ export default { title: 'Calendar', parameters: { creevey: { skip: [true] } } };
 export const Simple = () => (
   <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
 );
-Simple.story = { name: 'simple' };
+Simple.storyName = 'simple';
 
 export const LocaleContextProvider = () => (
   <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
     <Calendar />
   </LocaleContext.Provider>
 );
-LocaleContextProvider.story = { name: 'LocaleContext.Provider' };
+LocaleContextProvider.storyName = 'LocaleContext.Provider';
 
 export const CalendarWithButtonsStory = () => <CalendarWithButtons />;
-CalendarWithButtonsStory.story = { name: 'CalendarWithButtons' };
+CalendarWithButtonsStory.storyName = 'CalendarWithButtons';
 
 export const CalendarWithHolidays = () => {
   const holidays: string[] = [];
@@ -39,13 +39,13 @@ export const CalendarWithHolidays = () => {
 
   return (
     <Calendar
-      isHoliday={date => {
+      isHoliday={(date) => {
         return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
       }}
     />
   );
 };
-CalendarWithHolidays.story = { name: 'Calendar with holidays' };
+CalendarWithHolidays.storyName = 'Calendar with holidays';
 
 const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [
@@ -64,9 +64,9 @@ class CalendarWithButtons extends React.Component {
   public render() {
     return (
       <Gapped vertical>
-        <Calendar ref={cal => (this.cal = cal)} value={initialDate} />
+        <Calendar ref={(cal) => (this.cal = cal)} value={initialDate} />
         <Gapped vertical>
-          {datesToScroll.map(x => (
+          {datesToScroll.map((x) => (
             <Button
               key={x.year + '-' + x.month + '-' + x.date}
               width={240}

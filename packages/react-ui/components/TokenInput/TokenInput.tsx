@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
-import cn from 'classnames';
 
 import {
   isKeyArrowHorizontal,
@@ -25,9 +24,10 @@ import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
-import { jsStyles } from './TokenInput.styles';
+import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
@@ -38,6 +38,8 @@ export enum TokenInputType {
   Combined,
 }
 
+export type TokenInputMenuAlign = 'left' | 'cursor';
+
 export interface TokenInputProps<T> extends CommonProps {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
@@ -47,6 +49,16 @@ export interface TokenInputProps<T> extends CommonProps {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
+  /**
+   * Ширина выпадающего меню может быть указана как 'auto'
+   * а также в пикселях, процентах (от ширины инпута)
+   * или других конкретных единицах
+   *
+   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
+   * (по ширине текста)
+   */
+  menuWidth: React.CSSProperties['width'];
+  menuAlign: TokenInputMenuAlign;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -168,6 +180,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onFocus: emptyHandler,
     onMouseEnter: emptyHandler,
     onMouseLeave: emptyHandler,
+    menuWidth: 'auto',
+    menuAlign: 'cursor',
   };
 
   public state: TokenInputState<T> = DefaultState;
@@ -212,7 +226,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -239,6 +253,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onMouseEnter,
       onMouseLeave,
       inputMode,
+      menuWidth,
+      menuAlign,
     } = this.props;
 
     const {
@@ -272,15 +288,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cn(jsStyles.label(theme), {
-      [jsStyles.labelFocused(theme)]: !!inFocus,
-      [jsStyles.error(theme)]: !!error,
-      [jsStyles.warning(theme)]: !!warning,
-      [jsStyles.labelDisabled(theme)]: !!disabled,
+    const labelClassName = cx(styles.label(theme), {
+      [styles.labelFocused(theme)]: !!inFocus,
+      [styles.error(theme)]: !!error,
+      [styles.warning(theme)]: !!warning,
+      [styles.labelDisabled(theme)]: !!disabled,
     });
-    const inputClassName = cn(jsStyles.input(theme), {
-      [jsStyles.inputDisabled(theme)]: !!disabled,
-      [jsStyles.inputEditing(theme)]: this.isEditingMode,
+    const inputClassName = cx(styles.input(theme), {
+      [styles.inputDisabled(theme)]: !!disabled,
+      [styles.inputEditing(theme)]: this.isEditingMode,
     });
 
     return (
@@ -295,8 +311,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cn(jsStyles.helperText(theme), {
-                [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
+              classHelp={cx(styles.helperText(theme), {
+                [styles.helperTextEditing(theme)]: this.isEditingMode,
               })}
               text={inputValue}
               theme={this.theme}
@@ -324,15 +340,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={this.input!}
+                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
+                menuWidth={menuWidth}
+                menuAlign={menuAlign}
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
           </label>
         </div>
       </CommonWrapper>
@@ -352,7 +370,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return items.includes(value);
     }
     // todo: как то не очень
-    return items.some(item => isEqual(item, value));
+    return items.some((item) => isEqual(item, value));
   };
 
   private get showAddItemHint() {
@@ -399,7 +417,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private wrapperRef = (node: HTMLLabelElement) => (this.wrapper = node);
 
   private dispatch = (action: TokenInputAction, cb?: () => void) => {
-    this.setState(prevState => tokenInputReducer(prevState, action), cb);
+    this.setState((prevState) => tokenInputReducer(prevState, action), cb);
   };
 
   private updateInputTextWidth() {
@@ -532,10 +550,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     // упорядочивание токенов по индексу
     const tokens = this.state.activeTokens
-      .map(token => this.props.selectedItems.indexOf(token))
+      .map((token) => this.props.selectedItems.indexOf(token))
       .sort()
-      .map(index => this.props.selectedItems[index])
-      .map(item => this.props.valueToString(item));
+      .map((index) => this.props.selectedItems[index])
+      .map((item) => this.props.valueToString(item));
     event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters[0]));
   };
 
@@ -545,7 +563,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     let paste = event.clipboardData.getData('text');
     const { delimiters } = this.props;
-    if (delimiters.some(delimiter => paste.includes(delimiter))) {
+    if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
       for (const delimiter of delimiters) {
@@ -553,8 +571,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
       const tokens = paste.split(delimiters[0]);
       const items = tokens
-        .map(token => this.props.valueToItem(token))
-        .filter(item => !this.hasValueInItems(this.props.selectedItems, item));
+        .map((token) => this.props.valueToItem(token))
+        .filter((item) => !this.hasValueInItems(this.props.selectedItems, item));
       const newItems = this.props.selectedItems.concat(items);
       this.props.onValueChange(newItems);
 
@@ -575,7 +593,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         return !!editingItem && isEqual(item, editingItem);
       };
 
-      const autocompleteItemsUnique = autocompleteItems.filter(item => !isSelectedItem(item) || isEditingItem(item));
+      const autocompleteItemsUnique = autocompleteItems.filter((item) => !isSelectedItem(item) || isEditingItem(item));
 
       if (this.isEditingMode) {
         const editingItem = this.props.selectedItems[this.state.editingTokenIndex];
@@ -594,7 +612,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         });
       }
       const selectItemIndex = autocompleteItemsUnique.findIndex(
-        item => this.props.valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
+        (item) => this.props.valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
       if (this.menuRef) {
         this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
@@ -681,7 +699,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       case isKeyDelete(e): {
         if (!this.isEditingMode) {
           const itemsNew = this.props.selectedItems.filter(
-            item => !this.hasValueInItems(this.state.activeTokens, item),
+            (item) => !this.hasValueInItems(this.state.activeTokens, item),
           );
           this.props.onValueChange(itemsNew);
           this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -741,7 +759,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperArrowsWithShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (!isLeftEdge && !isRightEdge) {
       const itemNew = this.props.selectedItems[newItemIndex];
-      const itemsNew = [itemNew, ...this.state.activeTokens.filter(item => !isEqual(item, itemNew))];
+      const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
     }
   };
@@ -772,8 +790,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleRemoveToken = (item: T) => {
-    this.props.onValueChange(this.props.selectedItems.filter(_ => !isEqual(_, item)));
-    const filteredActiveTokens = this.state.activeTokens.filter(_ => !isEqual(_, item));
+    this.props.onValueChange(this.props.selectedItems.filter((_) => !isEqual(_, item)));
+    const filteredActiveTokens = this.state.activeTokens.filter((_) => !isEqual(_, item));
 
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });
     if (filteredActiveTokens.length === 0) {
@@ -787,7 +805,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const items = this.state.activeTokens;
     if (event.ctrlKey) {
       const newItems = this.hasValueInItems(this.state.activeTokens, itemNew)
-        ? items.filter(item => !isEqual(item, itemNew))
+        ? items.filter((item) => !isEqual(item, itemNew))
         : [...items, itemNew];
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: newItems });
     } else {
@@ -797,7 +815,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleTokenEdit = (itemNew: T) => {
-    const editingTokenIndex = this.props.selectedItems.findIndex(item => item === itemNew);
+    const editingTokenIndex = this.props.selectedItems.findIndex((item) => item === itemNew);
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.state.inputValue !== '') {
@@ -911,7 +929,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const isActive = this.state.activeTokens.includes(item);
 
     // TODO useCallback
-    const handleIconClick: React.MouseEventHandler<HTMLElement> = event => {
+    const handleIconClick: React.MouseEventHandler<HTMLElement> = (event) => {
       event.stopPropagation();
       if (!this.isEditingMode) {
         this.handleRemoveToken(item);
@@ -919,14 +937,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     // TODO useCallback
-    const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = event => {
+    const handleTokenClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
       if (!this.isEditingMode) {
         this.handleTokenClick(event, item);
       }
     };
 
-    const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = event => {
+    const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
       if (!this.isEditingMode) {
         this.handleTokenEdit(item);

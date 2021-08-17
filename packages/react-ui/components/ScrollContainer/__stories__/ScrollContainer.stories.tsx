@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
-import { CSFStory } from 'creevey';
 
+import { Story } from '../../../typings/stories';
 import { ScrollContainer, ScrollContainerScrollState } from '../ScrollContainer';
 import { Gapped } from '../../Gapped';
 
@@ -24,20 +24,20 @@ export const WithLargeContentHeight = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {getItems(1000).map(i => (
+        {getItems(1000).map((i) => (
           <div key={i}>{i}</div>
         ))}
       </ScrollContainer>
     </div>
   );
 };
-WithLargeContentHeight.story = { name: 'with large content height' };
+WithLargeContentHeight.storyName = 'with large content height';
 
 export const WithHorizontalScroll = () => {
   return (
     <div style={wrapperStyle}>
       <ScrollContainer>
-        {getItems(100).map(i => (
+        {getItems(100).map((i) => (
           <div style={{ width: 200 }} key={i}>
             {i}
           </div>
@@ -82,7 +82,7 @@ export const WithScrollState = () => {
           <div style={headerStyles}>header</div>
           <div style={scrollContainerWrapperStyles}>
             <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
-              {getItems(20).map(i => (
+              {getItems(20).map((i) => (
                 <div key={i}>{i}</div>
               ))}
             </ScrollContainer>
@@ -99,9 +99,9 @@ export const WithScrollState = () => {
 
   return <Wrapper />;
 };
-WithScrollState.story = { name: 'with scroll state' };
+WithScrollState.storyName = 'with scroll state';
 
-export const WithDynamicContent: CSFStory<JSX.Element> = () => {
+export const WithDynamicContent: Story = () => {
   const [items, setItems] = React.useState(4);
   const [state, setState] = React.useState<ScrollContainerScrollState>('top');
   const add = () => setItems(items + 1);
@@ -118,7 +118,7 @@ export const WithDynamicContent: CSFStory<JSX.Element> = () => {
         <Gapped vertical>
           <div style={wrapperStyle}>
             <ScrollContainer onScrollStateChange={setState}>
-              {getItems(items).map(i => (
+              {getItems(items).map((i) => (
                 <div key={i} style={{ padding: 12 }}>
                   {i}
                 </div>
@@ -143,48 +143,46 @@ export const WithDynamicContent: CSFStory<JSX.Element> = () => {
     </Gapped>
   );
 };
-WithDynamicContent.story = {
-  parameters: {
-    creevey: {
-      captureElement: '#test-container',
-      tests: {
-        async changeContent() {
-          const idle = await this.takeScreenshot();
+WithDynamicContent.parameters = {
+  creevey: {
+    captureElement: '#test-container',
+    tests: {
+      async changeContent() {
+        const idle = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#add' }))
-            .perform();
-          const addContent = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#add' }))
+          .perform();
+        const addContent = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll50' }))
-            .perform();
-          const scroll50 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll50' }))
+          .perform();
+        const scroll50 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#scroll100' }))
-            .perform();
-          const scroll100 = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#scroll100' }))
+          .perform();
+        const scroll100 = await this.takeScreenshot();
 
-          await this.browser
-            .actions({
-              bridge: true,
-            })
-            .click(this.browser.findElement({ css: '#remove' }))
-            .perform();
-          const removeContent = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#remove' }))
+          .perform();
+        const removeContent = await this.takeScreenshot();
 
-          await this.expect({ idle, addContent, scroll50, scroll100, removeContent }).to.matchImages();
-        },
+        await this.expect({ idle, addContent, scroll50, scroll100, removeContent }).to.matchImages();
       },
     },
   },

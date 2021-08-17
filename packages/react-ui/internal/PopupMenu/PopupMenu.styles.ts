@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   caption() {
     return css`
       display: inline-block;
@@ -12,6 +12,4 @@ const styles = {
       display: inline-block;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

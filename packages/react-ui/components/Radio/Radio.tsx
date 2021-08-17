@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Radio.styles';
+import { styles, globalClasses } from './Radio.styles';
 
 export interface RadioProps<T>
   extends CommonProps,
@@ -58,7 +58,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
@@ -96,14 +96,18 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       ...rest
     } = props;
 
-    let radioClassNames = cn({
-      [jsStyles.radio(this.theme)]: true,
-      [jsStyles.checked(this.theme)]: this.props.checked,
-      [jsStyles.focus(this.theme)]: this.props.focused,
-      [jsStyles.error(this.theme)]: error,
-      [jsStyles.warning(this.theme)]: warning,
-      [jsStyles.disabled(this.theme)]: disabled,
-    });
+    const radioProps = {
+      className: cx({
+        [styles.radio(this.theme)]: true,
+        [styles.checked(this.theme)]: this.props.checked,
+        [styles.focus(this.theme)]: this.props.focused,
+        [styles.error(this.theme)]: error,
+        [styles.warning(this.theme)]: warning,
+        [styles.disabled(this.theme)]: disabled,
+        [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
+        [globalClasses.radio]: true,
+      }),
+    };
 
     let value: string | number | undefined;
     if (typeof this.props.value === 'string' || typeof this.props.value === 'number') {
@@ -113,7 +117,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: jsStyles.input(),
+      className: styles.input(this.theme),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
@@ -122,7 +126,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     };
 
     const labelProps = {
-      className: jsStyles.root(this.theme),
+      className: cx(styles.root(this.theme), this.props.checked && styles.rootChecked(this.theme)),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -133,14 +137,17 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
-      radioClassNames = cn(radioClassNames, checked && jsStyles.checked(this.theme));
+      radioProps.className = cx(radioProps.className, {
+        [styles.checked(this.theme)]: checked,
+        [styles.checkedDisabled(this.theme)]: checked && disabled,
+      });
     }
 
     return (
       <label {...labelProps}>
         <input {...inputProps} />
-        <span className={radioClassNames}>
-          <span className={jsStyles.placeholder()} />
+        <span {...radioProps}>
+          <span className={styles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}
       </label>
@@ -150,15 +157,15 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderLabel() {
-    const labelClassNames = cn({
-      [jsStyles.label(this.theme)]: true,
-      [jsStyles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
+    const labelClassNames = cx({
+      [styles.label(this.theme)]: true,
+      [styles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
   }
 
-  private handleChange: React.ChangeEventHandler<HTMLInputElement> = e => {
+  private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     this.props.onValueChange?.(this.props.value);
 
     if (this._isInRadioGroup()) {
@@ -168,15 +175,15 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     this.props.onChange?.(e);
   };
 
-  private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = e => {
+  private handleMouseOver: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseOver?.(e);
   };
 
-  private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = e => {
+  private handleMouseEnter: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseEnter?.(e);
   };
 
-  private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = e => {
+  private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseLeave?.(e);
   };
 }

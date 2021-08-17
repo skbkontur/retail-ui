@@ -37,7 +37,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
             <Input
               required
               value={data.name}
-              onValueChange={value => this.handleChange({ name: value })}
+              onValueChange={(value) => this.handleChange({ name: value })}
             />
           </Form.Line>
 
@@ -46,7 +46,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
               required
               email
               value={data.email}
-              onValueChange={value => this.handleChange({ email: value })}
+              onValueChange={(value) => this.handleChange({ email: value })}
             />
           </Form.Line>
 
@@ -55,7 +55,7 @@ export default class InlineValidationsDemo extends React.Component<{}, State> {
               required
               validations={[lessThanDate(new Date('2010-01-01'))]}
               value={data.born}
-              onValueChange={value => this.handleChange({ born: value })}
+              onValueChange={(value) => this.handleChange({ born: value })}
             />
           </Form.Line>
 

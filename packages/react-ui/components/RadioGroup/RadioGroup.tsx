@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
-import cn from 'classnames';
 
 import { getRandomID } from '../../lib/utils';
 import { Radio } from '../Radio';
@@ -11,8 +10,9 @@ import { FocusTrap } from '../../internal/FocusTrap';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './RadioGroup.styles';
+import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
@@ -174,7 +174,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -196,7 +196,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     return (
       <CommonWrapper {...this.props}>
         <FocusTrap onBlur={onBlur}>
-          <span ref={this.ref} style={style} className={jsStyles.root()} {...handlers}>
+          <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
             {this.renderChildren()}
           </span>
         </FocusTrap>
@@ -249,10 +249,10 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
       key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
-      className: cn({
-        [jsStyles.item(this.theme)]: true,
-        [jsStyles.itemFirst()]: index === 0,
-        [jsStyles.itemInline()]: !!this.props.inline,
+      className: cx({
+        [styles.item(this.theme)]: true,
+        [styles.itemFirst()]: index === 0,
+        [styles.itemInline()]: !!this.props.inline,
       }),
     };
 

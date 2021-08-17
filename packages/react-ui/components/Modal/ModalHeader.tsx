@@ -1,14 +1,14 @@
-import React, { ReactNode, useContext } from 'react';
-import cn from 'classnames';
+import React, { ReactNode, useContext, useEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
-import { CloseProps, ModalContext } from './ModalContext';
+import { ModalContext } from './ModalContext';
 
 export interface ModalHeaderProps extends CommonProps {
   sticky?: boolean;
@@ -22,18 +22,25 @@ export interface ModalHeaderProps extends CommonProps {
 function ModalHeader(props: ModalHeaderProps) {
   const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
+  const modal = useContext(ModalContext);
 
-  const renderContent = (close?: CloseProps, additionalPadding?: boolean) => (fixed = false) => {
+  useEffect(() => {
+    modal.setHasHeader?.();
+
+    return () => modal.setHasHeader?.(false);
+  }, []);
+
+  const renderContent = (fixed = false) => {
     return (
       <div
-        className={cn({
-          [jsStyles.header(theme)]: true,
-          [jsStyles.fixedHeader(theme)]: fixed,
-          [jsStyles.headerAddPadding()]: Boolean(additionalPadding),
-          [jsStyles.headerWithClose(theme)]: Boolean(close),
+        className={cx({
+          [styles.header(theme)]: true,
+          [styles.headerAddPadding()]: Boolean(modal.additionalPadding),
+          [styles.fixedHeader(theme)]: fixed,
+          [styles.headerWithClose(theme)]: Boolean(modal.close),
         })}
       >
-        {close && <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} />}
+        {modal.close && <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />}
         {children}
       </div>
     );
@@ -41,16 +48,8 @@ function ModalHeader(props: ModalHeaderProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalHeader'} className={jsStyles.headerWrapper()}>
-        <ModalContext.Consumer>
-          {({ close, additionalPadding }) => {
-            if (sticky) {
-              return <Sticky side="top">{renderContent(close, additionalPadding)}</Sticky>;
-            }
-
-            return renderContent(close, additionalPadding)();
-          }}
-        </ModalContext.Consumer>
+      <ZIndex priority={'ModalHeader'} className={styles.headerWrapper()}>
+        {sticky ? <Sticky side="top">{renderContent}</Sticky> : renderContent()}
       </ZIndex>
     </CommonWrapper>
   );

@@ -1,6 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
-import { Theme } from 'react-ui/lib/theming/Theme';
 
 import { DEFAULT_THEME_OLD as defaultVariables } from '../../lib/theming/themes/DefaultThemeOld';
 import { FLAT_THEME_OLD as flatVariables } from '../../lib/theming/themes/FlatThemeOld';
@@ -11,6 +9,8 @@ import { Sticky } from '../../components/Sticky';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Tooltip } from '../../components/Tooltip';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
+import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
 import {
   ALL_USED_VARIABLES,
@@ -21,7 +21,7 @@ import {
   ComponentRowDescriptionType,
   EXECUTION_TIME,
 } from './VariablesCollector';
-import { jsStyles } from './ThemeShowcase.styles';
+import { styles } from './ThemeShowcase.styles';
 
 const EMPTY_ARRAY: string[] = [];
 
@@ -42,7 +42,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
 
   public UNSAFE_componentWillMount(): void {
     if (this.props.isDebugMode) {
-      ALL_VARIABLES.forEach(variable => {
+      ALL_VARIABLES.forEach((variable) => {
         const found = ALL_USED_VARIABLES.includes(variable);
         if (!found) {
           this.variablesDiff.push(variable);
@@ -77,7 +77,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
       <Gapped wrap gap={30} verticalAlign={'top'}>
         <div>
           <Sticky side={'top'}>
-            <div className={jsStyles.searchBar()} data-perf-info={`${executionTime} ${callsCount}`}>
+            <div className={styles.searchBar()} data-perf-info={`${executionTime} ${callsCount}`}>
               <Gapped gap={15}>
                 <ComboBox
                   getItems={this.getItems}
@@ -92,7 +92,7 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
           </Sticky>
           {Object.keys(descriptionsToRender)
             .sort()
-            .map(componentName => (
+            .map((componentName) => (
               <ComponentShowcase
                 key={componentName}
                 name={componentName}
@@ -114,9 +114,9 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
     const lowerCaseQuery = query && query.toLowerCase().trim();
     let allItems = ALL_USED_VARIABLES;
     if (lowerCaseQuery) {
-      allItems = ALL_USED_VARIABLES.filter(usedVariable => usedVariable.toLowerCase().startsWith(lowerCaseQuery));
+      allItems = ALL_USED_VARIABLES.filter((usedVariable) => usedVariable.toLowerCase().startsWith(lowerCaseQuery));
     }
-    return allItems.map(usedVariableName => ({
+    return allItems.map((usedVariableName) => ({
       value: usedVariableName,
       label: usedVariableName,
     }));
@@ -158,28 +158,36 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
     return (
       <React.Fragment>
         <Sticky side={'top'} offset={40}>
-          {isSticky => (
+          {(isSticky) => (
             <h2
-              className={cn({
-                [jsStyles.heading()]: true,
-                [jsStyles.headingSticky()]: isSticky,
+              className={cx({
+                [styles.heading()]: true,
+                [styles.headingSticky()]: isSticky,
               })}
             >
               {this.props.name}
             </h2>
           )}
         </Sticky>
-        <table className={jsStyles.table()}>
+        <table className={styles.table()}>
           <thead>
             <tr>
-              <th style={{ width: 170 }}>ClassName</th>
-              <th style={{ width: 210 }}>Variable Name</th>
-              <th style={{ width: 250 }}>Default Value</th>
-              <th style={{ width: 250 }}>Flat Value</th>
+              <th className={styles.headerCell()} style={{ width: 170 }}>
+                ClassName
+              </th>
+              <th className={styles.headerCell()} style={{ width: 210 }}>
+                Variable Name
+              </th>
+              <th className={styles.headerCell()} style={{ width: 250 }}>
+                Default Value
+              </th>
+              <th className={styles.headerCell()} style={{ width: 250 }}>
+                Flat Value
+              </th>
             </tr>
           </thead>
           <tbody>
-            {elements.map(el => (
+            {elements.map((el) => (
               <ComponentShowcaseRow
                 key={`${name}_${el}`}
                 element={el}
@@ -209,33 +217,33 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 
     return (
       <React.Fragment>
-        <tr className={jsStyles.invisibleRow()}>
-          <td rowSpan={rowSpan}>
-            <span className={jsStyles.elementName()}>.{el}</span>
+        <tr className={styles.invisibleRow()}>
+          <td className={cx(styles.cell(), styles.majorCell())} rowSpan={rowSpan}>
+            <span className={styles.elementName()}>.{el}</span>
           </td>
-          <td className={jsStyles.invisibleCell()} />
-          <td className={jsStyles.invisibleCell()} />
-          <td className={jsStyles.invisibleCell()} />
+          <td className={styles.invisibleCell()} />
+          <td className={styles.invisibleCell()} />
+          <td className={styles.invisibleCell()} />
         </tr>
-        {row.variables.map(varName => {
+        {row.variables.map((varName) => {
           const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
           const variableDefault = defaultVariables[varName] as string;
           const variableFlat = flatVariables[varName] as string;
           const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
 
           return (
-            <tr key={`${el}_${varName}`} className={cn({ [jsStyles.suspiciousRow()]: hasNoVariables })}>
-              <td>
+            <tr key={`${el}_${varName}`} className={cx(styles.row(), { [styles.suspiciousRow()]: hasNoVariables })}>
+              <td className={styles.cell()}>
                 <VariableName
                   variableName={varName as string}
                   dependencies={dependencies}
                   onVariableSelect={this.props.onVariableSelect}
                 />
               </td>
-              <td>
+              <td className={styles.cell()}>
                 <VariableValue value={variableDefault} />
               </td>
-              <td>
+              <td className={styles.cell()}>
                 <VariableValue value={variableFlat} />
               </td>
             </tr>
@@ -256,7 +264,7 @@ class VariableName extends React.Component<VariableNameProps> {
   public render() {
     return (
       <span>
-        <span className={jsStyles.variableName()} onClick={this.handleVariableSelect}>
+        <span className={styles.variableName()} onClick={this.handleVariableSelect}>
           {this.props.variableName}
         </span>
         {this.props.dependencies.length > 0 && this.renderDependencies()}
@@ -271,7 +279,7 @@ class VariableName extends React.Component<VariableNameProps> {
         <br />
         <br />
         зависит от:
-        {dependencies.map(dependency => (
+        {dependencies.map((dependency) => (
           <DependencyName
             key={`dependency_${dependency}`}
             dependencyName={dependency}
@@ -301,7 +309,7 @@ class DependencyName extends React.Component<DependencyNameProps> {
         <br />
         &ndash;{' '}
         <Tooltip trigger={'hover'} render={this.getValues} pos={'right middle'}>
-          <span className={jsStyles.variableName()} onClick={this.handleDependencySelect}>
+          <span className={styles.variableName()} onClick={this.handleDependencySelect}>
             {this.props.dependencyName}
           </span>
         </Tooltip>
@@ -341,8 +349,8 @@ const VariableValue = (props: { value: string }) => {
   }
 
   return (
-    <span className={cn({ [jsStyles.undefined()]: !value })}>
-      {hasExample && <span className={jsStyles.colorExample()} style={{ background: value, borderColor }} />}
+    <span className={cx({ [styles.undefined()]: !value })}>
+      {hasExample && <span className={styles.colorExample()} style={{ background: value, borderColor }} />}
       {value || 'undefined'}
     </span>
   );
@@ -354,11 +362,11 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
   }
 
   return (
-    <div className={jsStyles.unusedVariablesWarning()}>
+    <div className={styles.unusedVariablesWarning()}>
       Неиспользованные переменные ({props.diff.length}
       ):
       <ul>
-        {props.diff.sort().map(v => (
+        {props.diff.sort().map((v) => (
           <li key={v}>{v}</li>
         ))}
       </ul>

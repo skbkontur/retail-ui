@@ -1,6 +1,5 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
-import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -14,14 +13,14 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
-import { isBody, isFooter, isHeader } from './helpers';
 import { ModalBody } from './ModalBody';
 import { ModalClose } from './ModalClose';
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
@@ -64,6 +63,9 @@ export interface ModalState {
   stackPosition: number;
   hasBackground: boolean;
   horizontalScroll: boolean;
+  hasHeader: boolean;
+  hasFooter: boolean;
+  hasPanel: boolean;
 }
 
 /**
@@ -87,18 +89,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static propTypes = {
-    children(props: ModalProps, propName: keyof ModalProps, componentName: string) {
-      if (
-        React.Children.toArray(props[propName]).some(child => !isHeader(child) && !isBody(child) && !isFooter(child))
-      ) {
-        return new Error(
-          `Only 'Header/Body/Footer' components are allowed for '${propName}' prop of '${componentName}' component`,
-        );
-      }
-    },
-  };
-
   public static defaultProps = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
@@ -108,6 +98,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     stackPosition: 0,
     hasBackground: true,
     horizontalScroll: false,
+    hasHeader: false,
+    hasFooter: false,
+    hasPanel: false,
   };
 
   private theme!: Theme;
@@ -152,7 +145,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -161,25 +154,14 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   private renderMain() {
-    let hasHeader = false;
-    let hasFooter = false;
-    let hasPanel = false;
-
-    React.Children.toArray(this.props.children).forEach(child => {
-      if (isHeader(child)) {
-        hasHeader = true;
-      }
-      if (isFooter(child)) {
-        hasFooter = true;
-        if (child.props.panel) {
-          hasPanel = true;
-        }
-      }
-    });
+    const { hasHeader, hasFooter, hasPanel } = this.state;
 
     const modalContextProps: ModalContextProps = {
       hasHeader,
       horizontalScroll: this.state.horizontalScroll,
+      setHasHeader: this.setHasHeader,
+      setHasFooter: this.setHasFooter,
+      setHasPanel: this.setHasPanel,
     };
     if (hasHeader && !this.props.noClose) {
       modalContextProps.close = {
@@ -206,30 +188,30 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
-          <ZIndex priority={'Modal'} className={jsStyles.root()}>
+          <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
-            {this.state.hasBackground && <div className={jsStyles.bg(this.theme)} />}
+            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
             <div
               ref={this.refContainer}
-              className={jsStyles.container()}
+              className={styles.container()}
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
               onClick={this.handleContainerClick}
               data-tid="modal-container"
             >
               <div
-                className={cn({
-                  [jsStyles.centerContainer(this.theme)]: true,
-                  [jsStyles.alignTop(this.theme)]: Boolean(this.props.alignTop),
+                className={cx({
+                  [styles.centerContainer(this.theme)]: true,
+                  [styles.alignTop()]: Boolean(this.props.alignTop),
                 })}
                 style={containerStyle}
                 data-tid="modal-content"
               >
-                <div className={jsStyles.window(this.theme)} style={style}>
+                <div className={styles.window(this.theme)} style={style}>
                   <ResizeDetector onResize={this.handleResize}>
                     <FocusLock disabled={this.props.disableFocusLock} autoFocus={false}>
                       {!hasHeader && !this.props.noClose ? (
-                        <ZIndex priority={'ModalCross'} className={jsStyles.closeWrapper(this.theme)}>
+                        <ZIndex priority={'ModalCross'} className={styles.closeWrapper(this.theme)}>
                           <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
                         </ZIndex>
                       ) : null}
@@ -306,5 +288,17 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private handleResize = (event: UIEvent) => {
     LayoutEvents.emit();
+  };
+
+  private setHasHeader = (hasHeader = true) => {
+    this.state.hasHeader !== hasHeader && this.setState({ hasHeader });
+  };
+
+  private setHasFooter = (hasFooter = true) => {
+    this.state.hasFooter !== hasFooter && this.setState({ hasFooter });
+  };
+
+  private setHasPanel = (hasPanel = false) => {
+    this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
   };
 }

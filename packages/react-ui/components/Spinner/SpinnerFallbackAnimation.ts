@@ -8,16 +8,16 @@ export class SpinnerFallbackAnimationRunner {
   }
 
   public start = () => {
-    this.animations.forEach(animation => animation.start());
+    this.animations.forEach((animation) => animation.start());
     this.interval = rafInterval(() => {
-      this.animations.forEach(animation => animation.step());
+      this.animations.forEach((animation) => animation.step());
     }, this.FPS);
   };
 
   public stop = () => {
     if (this.interval) {
       this.interval.clear();
-      this.animations.forEach(animation => animation.finish());
+      this.animations.forEach((animation) => animation.finish());
     }
   };
 }
@@ -96,11 +96,11 @@ export const createOffsetAnimation = (
 ) => {
   return new Animation(
     duration,
-    progress => {
+    (progress) => {
       const current = from + (to - from) * progress;
       setStyleProperty('stroke-dashoffset', `${current}${units}`);
     },
-    animation => {
+    (animation) => {
       animation.reset();
     },
   );
@@ -116,12 +116,12 @@ export const createLengthAnimation = (
   let reverse = false;
   return new Animation(
     duration,
-    progress => {
+    (progress) => {
       const p = reverse ? 1 - progress : progress;
       const current = [from[0] + (to[0] - from[0]) * p, from[1] + (to[1] - from[1]) * p];
       setStyleProperty('stroke-dasharray', `${current[0]}${units} ${current[1]}${units}`);
     },
-    animation => {
+    (animation) => {
       reverse = !reverse;
       animation.reset();
     },
@@ -133,13 +133,13 @@ export const createColorAnimation = (
   duration: number,
   setStyleProperty: CSSStyleDeclaration['setProperty'],
 ) => {
-  const rgbColors = colors.map(color => ColorFactory.create(color).rgb);
+  const rgbColors = colors.map((color) => ColorFactory.create(color).rgb);
   let currentIndex = 0;
   let nextIndex = 1;
 
   return new Animation(
     duration,
-    progress => {
+    (progress) => {
       const from = rgbColors[currentIndex];
       const to = rgbColors[nextIndex];
       if (from && to) {
@@ -151,7 +151,7 @@ export const createColorAnimation = (
         setStyleProperty('stroke', `rgb(${current})`);
       }
     },
-    animation => {
+    (animation) => {
       animation.reset();
       currentIndex = nextIndex;
       nextIndex = (nextIndex + 1) % colors.length;
@@ -168,11 +168,11 @@ export const createRotationAnimation = (
 ) => {
   return new Animation(
     duration,
-    progress => {
+    (progress) => {
       const current = Math.round(from + (to - from) * progress);
       setStyleProperty('transform', `rotate(${current}${units})`);
     },
-    animation => {
+    (animation) => {
       animation.reset();
     },
   );

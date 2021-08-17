@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
@@ -19,6 +18,7 @@ import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { cx } from '../../lib/theming/Emotion';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -34,7 +34,7 @@ import { RadioPlayground } from './RadioPlayground';
 import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
-import { jsStyles } from './Playground.styles';
+import { styles } from './Playground.styles';
 
 const useSticky = !isTestEnv;
 
@@ -51,7 +51,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -59,7 +59,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     );
   }
   private renderMain() {
-    const wrapperClassName = cn(jsStyles.playground(), jsStyles.playgroundWrapper(this.theme));
+    const wrapperClassName = cx(styles.playground(), styles.playgroundWrapper(this.theme));
     return (
       <div className={wrapperClassName}>
         <Gapped vertical gap={50}>
@@ -96,16 +96,16 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
   private renderTabs() {
     const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
-    const tabsOuterWrapperClass = cn({
-      [jsStyles.tabsWrapper(this.theme)]: true,
-      [jsStyles.stickyTabsWrapper(this.theme)]: useSticky,
+    const tabsOuterWrapperClass = cx({
+      [styles.tabsWrapper(this.theme)]: true,
+      [styles.stickyTabsWrapper(this.theme)]: useSticky,
     });
 
     return (
       <div style={tabsOuterWrapperStyle} className={tabsOuterWrapperClass}>
         <Gapped gap={40}>
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
-            <div className={jsStyles.tabsInnerWrapper(this.theme)}>
+            <div className={styles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
@@ -293,7 +293,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
 
   private renderTooltip = () => {
     const tooltipContent = () => (
-      <div className={jsStyles.tooltipContent()}>
+      <div className={styles.tooltipContent()}>
         {'Информация об ошибке. Короткий объясняющий текст и ссылка, если нужно'}
       </div>
     );

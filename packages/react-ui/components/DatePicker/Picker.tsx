@@ -9,7 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { jsStyles } from './Picker.styles';
+import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
 interface Props {
@@ -63,7 +63,7 @@ export class Picker extends React.Component<Props, State> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -73,10 +73,11 @@ export class Picker extends React.Component<Props, State> {
 
   private renderMain() {
     const { date } = this.state;
+
     return (
-      <div className={jsStyles.root(this.theme)} onMouseDown={e => e.preventDefault()}>
+      <div className={styles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
         <Calendar
-          ref={c => (this.calendar = c)}
+          ref={(c) => (this.calendar = c)}
           value={this.props.value}
           initialMonth={date.month}
           initialYear={date.year}
@@ -85,7 +86,7 @@ export class Picker extends React.Component<Props, State> {
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
         />
-        {this.props.enableTodayLink && this.renderTodayLink()}
+        {this.props.enableTodayLink && this.renderTodayLink()}{' '}
       </div>
     );
   }
@@ -102,7 +103,7 @@ export class Picker extends React.Component<Props, State> {
     return (
       <button
         data-tid="Picker__todayWrapper"
-        className={jsStyles.todayWrapper(this.theme)}
+        className={styles.todayWrapper(this.theme)}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}
       >

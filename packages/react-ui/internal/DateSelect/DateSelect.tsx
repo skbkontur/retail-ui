@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
@@ -12,8 +11,10 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
+import { isMobile } from '../../lib/client';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './DateSelect.styles';
+import { styles } from './DateSelect.styles';
 
 const itemHeight = 24;
 const visibleYearsCount = 11;
@@ -90,6 +91,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private longClickTimer = 0;
   private setPositionRepeatTimer = 0;
   private yearStep = 3;
+  private touchStartY: Nullable<number> = null;
 
   public UNSAFE_componentWillReceiveProps() {
     this.setNodeTop();
@@ -150,7 +152,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -161,21 +163,21 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private renderMain() {
     const { width, disabled } = this.props;
     const rootProps = {
-      className: cn({
-        [jsStyles.root(this.theme)]: true,
-        [jsStyles.disabled()]: Boolean(disabled),
+      className: cx({
+        [styles.root(this.theme)]: true,
+        [styles.disabled()]: Boolean(disabled),
       }),
       style: { width },
       ref: this.refRoot,
     };
     return (
       <span {...rootProps}>
-        <div data-tid="DateSelect__caption" className={jsStyles.caption()} onClick={this.open}>
+        <div data-tid="DateSelect__caption" className={styles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
-            className={cn({
-              [jsStyles.arrow(this.theme)]: true,
-              [jsStyles.arrowDisabled()]: Boolean(disabled),
+            className={cx({
+              [styles.arrow(this.theme)]: true,
+              [styles.arrowDisabled()]: Boolean(disabled),
             })}
           >
             <ArrowTriangleUpDownIcon size={12} />
@@ -232,11 +234,11 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
 
     for (let i = from; i < to; ++i) {
       const disableItems = this.disableItems(i) || false;
-      const className = cn({
-        [jsStyles.menuItem(this.theme)]: true,
-        [jsStyles.menuItemSelected(this.theme)]: i === 0,
-        [jsStyles.menuItemActive(this.theme)]: i === this.state.current,
-        [jsStyles.menuItemDisabled(this.theme)]: disableItems,
+      const className = cx({
+        [styles.menuItem(this.theme)]: true,
+        [styles.menuItemSelected(this.theme)]: i === 0,
+        [styles.menuItemActive(this.theme)]: i === this.state.current,
+        [styles.menuItemDisabled(this.theme)]: disableItems,
       });
       const clickHandler = {
         onMouseDown: preventDefault,
@@ -272,10 +274,10 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       top: -shift,
     };
 
-    const holderClass = cn({
-      [jsStyles.menuHolder(this.theme)]: true,
-      [jsStyles.isTopCapped()]: this.state.topCapped,
-      [jsStyles.isBotCapped()]: this.state.botCapped,
+    const holderClass = cx({
+      [styles.menuHolder(this.theme)]: true,
+      [styles.isTopCapped()]: this.state.topCapped,
+      [styles.isBotCapped()]: this.state.botCapped,
     });
 
     let dropdownOffset = -itemHeight;
@@ -291,7 +293,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
             <div className={holderClass} style={style}>
               {!this.state.topCapped && (
                 <div
-                  className={jsStyles.menuUp(this.theme)}
+                  className={cx(styles.menu(this.theme), styles.menuUp())}
                   onClick={this.handleUp}
                   onMouseDown={this.handleLongClickUp}
                   onMouseUp={this.handleLongClickStop}
@@ -304,14 +306,14 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
                   </span>
                 </div>
               )}
-              <div className={jsStyles.itemsHolder()} style={{ height }}>
+              <div className={styles.itemsHolder()} style={{ height }}>
                 <div ref={this.refItemsContainer} style={shiftStyle}>
                   {items}
                 </div>
               </div>
               {!this.state.botCapped && (
                 <div
-                  className={jsStyles.menuDown(this.theme)}
+                  className={cx(styles.menu(this.theme), styles.menuDown())}
                   onClick={this.handleDown}
                   onMouseDown={this.handleLongClickDown}
                   onMouseUp={this.handleLongClickStop}
@@ -338,6 +340,18 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     if (this.itemsContainer && !element) {
       this.itemsContainer.removeEventListener('wheel', this.handleWheel);
     }
+
+    if (isMobile) {
+      if (!this.itemsContainer && element) {
+        element.addEventListener('touchstart', this.handleTouchStart);
+        element.addEventListener('touchmove', this.handleTouchMove);
+      }
+      if (this.itemsContainer && !element) {
+        this.itemsContainer.removeEventListener('touchstart', this.handleTouchStart);
+        this.itemsContainer.removeEventListener('touchmove', this.handleTouchMove);
+      }
+    }
+
     this.itemsContainer = element;
   };
 
@@ -376,6 +390,30 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
       deltaY *= itemHeight * 4;
     }
     const pos = this.state.pos + deltaY;
+    this.setPosition(pos);
+  };
+
+  private handleTouchStart = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    this.touchStartY = event.targetTouches[0].clientY;
+  };
+
+  private handleTouchMove = (event: Event) => {
+    if (!(event instanceof TouchEvent)) {
+      return;
+    }
+
+    const { clientY } = event.changedTouches[0];
+    const pixelRatio = window.devicePixelRatio;
+
+    const deltaY = ((this.touchStartY || 0) - clientY) / pixelRatio;
+    const pos = this.state.pos + deltaY + deltaY / itemHeight;
+
+    this.touchStartY = clientY;
+
     this.setPosition(pos);
   };
 

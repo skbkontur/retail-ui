@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -9,8 +8,9 @@ import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Hint.styles';
+import { styles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
@@ -104,7 +104,7 @@ export class Hint extends React.Component<HintProps, HintState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return (
             <ThemeContext.Provider
@@ -153,9 +153,9 @@ export class Hint extends React.Component<HintProps, HintState> {
     }
 
     const { pos, maxWidth } = this.props;
-    const className = cn({
-      [jsStyles.content(this.theme)]: true,
-      [jsStyles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
+    const className = cx({
+      [styles.content(this.theme)]: true,
+      [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
     });
     return (
       <div className={className} style={{ maxWidth }}>
@@ -165,7 +165,7 @@ export class Hint extends React.Component<HintProps, HintState> {
   }
 
   private getPositions = (): PopupPosition[] => {
-    return Positions.filter(x => x.startsWith(this.props.pos));
+    return Positions.filter((x) => x.startsWith(this.props.pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

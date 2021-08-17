@@ -1,14 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Spinner.styles';
+import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
 
 const types: Record<SpinnerType, SpinnerType> = {
@@ -72,7 +72,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -85,8 +85,8 @@ export class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.spinner()}>
-          <span className={jsStyles.inner()}>{this.renderSpinner(type, dimmed)}</span>
+        <div className={styles.spinner()}>
+          <span className={styles.inner()}>{this.renderSpinner(type, dimmed)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>
       </CommonWrapper>
@@ -94,12 +94,12 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
-    const circleClassName = dimmed ? jsStyles.circleDimmed(this.theme) : jsStyles.circle(this.theme);
+    const circleClassName = dimmed ? styles.circleDimmed(this.theme) : styles.circle(this.theme);
 
     return <SpinnerIcon size={type} className={circleClassName} dimmed={dimmed} />;
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
-    <span className={cn(jsStyles[type](this.theme), jsStyles.captionColor(this.theme))}>{caption}</span>
+    <span className={cx(styles[type](this.theme), styles.captionColor(this.theme))}>{caption}</span>
   );
 }

@@ -3,13 +3,13 @@ import { Theme } from '../../lib/theming/Theme';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 import { isIE11 } from '../../lib/client';
 
-const styles = {
+export const styles = memoizeStyle({
   circle(t: Theme) {
     return css`
       stroke: ${t.spinnerColor};
 
       ${!isIE11 &&
-        `
+      `
           animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
             ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
             ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite,
@@ -22,7 +22,7 @@ const styles = {
       stroke: ${t.spinnerDimmedColor};
 
       ${!isIE11 &&
-        `
+      `
           animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
           ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
           ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite;
@@ -74,6 +74,4 @@ const styles = {
       display: inline-block;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

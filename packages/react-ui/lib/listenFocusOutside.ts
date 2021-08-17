@@ -38,7 +38,7 @@ function handleNativeFocus(event: UIEvent) {
   // FIXME: not safe casting
   const target: HTMLElement = (event.target || event.srcElement) as HTMLElement;
 
-  handlers.forEach(handler => {
+  handlers.forEach((handler) => {
     let elements = handler.elements;
     if (typeof elements === 'function') {
       elements = elements();
@@ -67,7 +67,7 @@ export function containsTargetOrRenderContainer(target: Element) {
 /**
  * Searches RenderContainer placed in "rootNode" for "node"
  */
-function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
+export function findRenderContainer(node: Element, rootNode: Element, container?: Element): Element | null {
   const currentNode = node.parentNode;
   if (
     !currentNode ||

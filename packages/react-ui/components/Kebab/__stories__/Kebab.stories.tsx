@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import { StoryFn } from '@storybook/addons';
 import { action } from '@storybook/addon-actions';
-import { CreeveyStoryParams, CSFStory } from 'creevey';
-import OkIcon from "@skbkontur/react-icons/Ok";
+import OkIcon from '@skbkontur/react-icons/Ok';
 
+import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
 
@@ -14,7 +13,7 @@ interface KebabItem {
   action: string;
 }
 
-const kebabTests: CreeveyStoryParams['tests'] = {
+const kebabTests: CreeveyTests = {
   async plain() {
     await this.expect(await this.takeScreenshot()).to.matchImage('plain');
   },
@@ -88,7 +87,7 @@ const kebabTests: CreeveyStoryParams['tests'] = {
 export default {
   title: 'Kebab',
   decorators: [
-    (story: StoryFn<JSX.Element>) => (
+    (Story) => (
       <div
         style={{
           padding: '120px 0',
@@ -96,57 +95,56 @@ export default {
           overflow: 'hidden',
         }}
       >
-        {story()}
+        <Story />
       </div>
     ),
   ],
+} as Meta;
+
+export const Small: Story = () => <SomethingWithKebab size="small" />;
+Small.storyName = '14px';
+
+Small.parameters = {
+  creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
 };
 
-export const Small: CSFStory<JSX.Element> = () => <SomethingWithKebab size="small" />;
-Small.story = {
-  name: '14px',
-  parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
-  },
+export const Medium: Story = () => <SomethingWithKebab size="medium" />;
+Medium.storyName = '18px';
+
+Medium.parameters = {
+  creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
 };
 
-export const Medium: CSFStory<JSX.Element> = () => <SomethingWithKebab size="medium" />;
-Medium.story = {
-  name: '18px',
-  parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
-  },
+export const Large: Story = () => <SomethingWithKebab size="large" />;
+Large.storyName = '20px';
+
+Large.parameters = {
+  creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
 };
 
-export const Large: CSFStory<JSX.Element> = () => <SomethingWithKebab size="large" />;
-Large.story = {
-  name: '20px',
-  parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
-  },
-};
-
-export const KebabWithCustomIcon: CSFStory<JSX.Element> = () => {
+export const KebabWithCustomIcon: Story = () => {
   return (
     <>
-      <SomethingWithKebab size="small" icon={<OkIcon color="#757575"/>}/>
-      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575"/>}/>
-      <SomethingWithKebab size="large" icon={<OkIcon color="#757575"/>}/>
+      <SomethingWithKebab size="small" icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size="medium" icon={<OkIcon color="#757575" />} />
+      <SomethingWithKebab size="large" icon={<OkIcon color="#757575" />} />
     </>
   );
-}
-KebabWithCustomIcon.story = {}
+};
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
-LargeDisabled.story = { name: '20px-disabled', parameters: { creevey: { skip: [true] } } };
+LargeDisabled.storyName = '20px-disabled';
+LargeDisabled.parameters = { creevey: { skip: [true] } };
 
 export const WithFixedMenuHeight = () => (
   <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
 );
-WithFixedMenuHeight.story = { name: 'With fixed menu height', parameters: { creevey: { skip: [true] } } };
+WithFixedMenuHeight.storyName = 'With fixed menu height';
+WithFixedMenuHeight.parameters = { creevey: { skip: [true] } };
 
 export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size="small" />;
-KebabWithoutAnimations.story = { name: 'Kebab without animations', parameters: { creevey: { skip: [true] } } };
+KebabWithoutAnimations.storyName = 'Kebab without animations';
+KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';

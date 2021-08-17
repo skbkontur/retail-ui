@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import cn from 'classnames';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -10,8 +9,9 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './InternalMenu.styles';
+import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 
 interface MenuProps {
@@ -89,7 +89,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   public render() {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -99,7 +99,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
-      x => React.isValidElement(x) && x.props.icon,
+      (x) => React.isValidElement(x) && x.props.icon,
     );
 
     if (this.isEmpty()) {
@@ -108,16 +108,16 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cn({
-          [jsStyles.root(this.theme)]: true,
-          [jsStyles.shadow(this.theme)]: this.props.hasShadow,
+        className={cx({
+          [styles.root(this.theme)]: true,
+          [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
           width: this.props.width,
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
-        ref={element => {
+        ref={(element) => {
           this.rootElement = element;
         }}
         tabIndex={0}
@@ -149,20 +149,20 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
               let ref = child.ref;
               const originalRef = ref;
               if (highlight) {
-                ref = menuItem => this.refHighlighted(originalRef, menuItem);
+                ref = (menuItem) => this.refHighlighted(originalRef, menuItem);
               }
 
               return React.cloneElement<MenuItemProps, MenuItem>(child, {
                 ref,
                 state: highlight ? 'hover' : child.props.state,
                 onClick: this.select.bind(this, index, false),
-                onMouseEnter: event => {
+                onMouseEnter: (event) => {
                   this.highlightItem(index);
                   if (isMenuItem(child) && child.props.onMouseEnter) {
                     child.props.onMouseEnter(event);
                   }
                 },
-                onMouseLeave: event => {
+                onMouseLeave: (event) => {
                   this.unhighlight();
                   if (isMenuItem(child) && child.props.onMouseLeave) {
                     child.props.onMouseLeave(event);
@@ -182,10 +182,10 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={el => (this.header = el)}
-        className={cn({
-          [jsStyles.header()]: true,
-          [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
+        ref={(el) => (this.header = el)}
+        className={cx({
+          [styles.header()]: true,
+          [styles.fixedHeader()]: this.state.scrollState !== 'top',
         })}
       >
         {this.props.header}
@@ -196,10 +196,10 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={el => (this.footer = el)}
-        className={cn({
-          [jsStyles.footer()]: true,
-          [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
+        ref={(el) => (this.footer = el)}
+        className={cx({
+          [styles.footer()]: true,
+          [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
         })}
       >
         {this.props.footer}
@@ -396,7 +396,7 @@ function isExist(value: any): value is any {
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   const ret: React.ReactNode[] = [];
   // Use forEach instead of map to avoid cloning for key unifying.
-  React.Children.forEach(children, child => {
+  React.Children.forEach(children, (child) => {
     ret.push(child);
   });
   return ret;
