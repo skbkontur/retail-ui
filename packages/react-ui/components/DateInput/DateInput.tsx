@@ -200,6 +200,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           onMouseDragStart={this.handleMouseDragStart}
           onMouseDragEnd={this.handleMouseDragEnd}
           value={this.iDateMediator.getInternalString()}
+          inputMode={'numeric'}
         >
           <DateFragmentsView
             ref={this.dateFragmentsViewRef}

@@ -134,17 +134,21 @@ export default {
   title: 'DatePicker',
 } as Meta;
 
-export const WithMouseeventHandlers: Story = () => (
-  <div style={{ padding: '200px 150px 350px 0px' }}>
-    <DatePicker
-      width={200}
-      value="02.07.2017"
-      onMouseEnter={() => console.count('enter')}
-      onMouseLeave={() => console.count('leave')}
-      onValueChange={action('change')}
-    />
-  </div>
-);
+export const WithMouseeventHandlers: Story = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <DatePicker
+        width={200}
+        value={date}
+        onMouseEnter={() => console.count('enter')}
+        onMouseLeave={() => console.count('leave')}
+        onValueChange={setDate}
+      />
+    </div>
+  );
+};
 WithMouseeventHandlers.storyName = 'with mouseevent handlers';
 
 WithMouseeventHandlers.parameters = {
