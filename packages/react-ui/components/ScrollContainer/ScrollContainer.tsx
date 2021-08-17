@@ -235,14 +235,11 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleInnerScrollWheel = (event: Event) => {
-    this.handleInnerScrollAxisWheel(event, 'y');
-    this.handleInnerScrollAxisWheel(event, 'x');
-  };
-
-  private handleInnerScrollAxisWheel = (event: Event, axis: ScrollAxis) => {
-    if (!this.inner || !(event instanceof WheelEvent) || (axis === 'x' && !event.shiftKey)) {
+    if (!this.inner || !(event instanceof WheelEvent)) {
       return;
     }
+
+    const axis: ScrollAxis = event.shiftKey ? 'x' : 'y';
 
     if (this.hasScrollBar(axis)) {
       const { pos, size, offset } = scrollSizeParametersNames[axis];

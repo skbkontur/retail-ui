@@ -367,7 +367,7 @@ export const WithScrollTo: Story = () => {
 };
 
 WithScrollTo.parameters = {
-  name: 'with scroll to',
+  name: 'With scroll to',
   creevey: {
     captureElement: '#test-container',
     tests: {
