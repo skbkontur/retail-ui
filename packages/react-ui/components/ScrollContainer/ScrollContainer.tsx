@@ -2,10 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './ScrollContainer.styles';
 import {
@@ -65,7 +63,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
-  private theme!: Theme;
 
   public componentDidMount() {
     this.scrollX?.setInnerElement(this.inner);
@@ -83,16 +80,34 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     }
   }
 
-  public render() {
+  public render = () => {
+    const props = this.props;
+
+    const innerStyle: React.CSSProperties = {
+      scrollBehavior: props.scrollBehaviour,
+      maxHeight: props.maxHeight,
+      maxWidth: props.maxWidth,
+    };
+
+    const scrollbarY = this.renderScrollbar('y');
+    const scrollbarX = this.renderScrollbar('x');
+
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
+      <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+        {scrollbarY}
+        {scrollbarX}
+        <div
+          style={innerStyle}
+          ref={this.refInner}
+          className={styles.inner()}
+          data-tid="ScrollContainer__inner"
+          onScroll={this.handleNativeScroll}
+        >
+          {props.children}
+        </div>
+      </div>
     );
-  }
+  };
 
   /**
    * @public
@@ -147,35 +162,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
     this.inner.scrollLeft = this.inner.scrollWidth - this.inner.offsetWidth;
   }
-
-  private renderMain = () => {
-    const props = this.props;
-
-    const innerStyle: React.CSSProperties = {
-      scrollBehavior: props.scrollBehaviour,
-      maxHeight: props.maxHeight,
-      maxWidth: props.maxWidth,
-    };
-
-    const scrollbarY = this.renderScrollbar('y');
-    const scrollbarX = this.renderScrollbar('x');
-
-    return (
-      <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
-        {scrollbarY}
-        {scrollbarX}
-        <div
-          style={innerStyle}
-          ref={this.refInner}
-          data-tid="ScrollContainer__inner"
-          onScroll={this.handleNativeScroll}
-          className={styles.inner(this.theme)}
-        >
-          {props.children}
-        </div>
-      </div>
-    );
-  };
 
   private hasScrollBar(axis: ScrollAxis) {
     if (!this.inner) {

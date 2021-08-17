@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const globalClasses = prefix('scroll-container')({
   scrollbarX: 'scrollbar-x',
   scrollbarY: 'scrollbar-y',
+  inner: 'inner',
 });
 
 export const styles = memoizeStyle({
@@ -15,21 +16,12 @@ export const styles = memoizeStyle({
     `;
   },
 
-  inner(t: Theme) {
+  inner() {
     return css`
       position: relative;
       overflow: scroll;
       max-height: 100%;
       max-width: 100%;
-
-      .${globalClasses.scrollbarX} ~ & {
-        &::after {
-          content: ' ';
-          width: 100%;
-          display: block;
-          height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
-        }
-      }
 
       /*IEsometimesenabledscroll*/
       margin-bottom: -1px;
@@ -58,6 +50,13 @@ export const styles = memoizeStyle({
         border-radius: 5px;
         position: absolute;
         background: ${t.scrollContainerScrollBarColor};
+      }
+
+      & ~ .${globalClasses.inner}::after {
+        content: ' ';
+        width: 100%;
+        display: block;
+        height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
       }
     `;
   },
