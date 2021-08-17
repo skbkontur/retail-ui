@@ -174,12 +174,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   private renderScrollbar = (axis: ScrollAxis) => {
-    const refSctollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
+    const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
 
     return (
       <ScrollBar
         axis={axis}
-        ref={refSctollBar}
+        ref={refScrollBar}
         invert={this.props.invert}
         onScrollStateChange={this.handleScrollStateChange}
       />
