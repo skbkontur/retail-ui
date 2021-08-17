@@ -6,9 +6,9 @@ import { CommonProps } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 
 import { styles } from './ScrollContainer.styles';
+import { scrollSizeParametersNames } from './ScrollContainer.constants';
 import {
   getScrollYOffset,
-  scrollSizeParametersNames,
   convertScrollbarXScrollState,
   convertScrollbarYScrollState,
 } from './ScrollContainer.helpers';
