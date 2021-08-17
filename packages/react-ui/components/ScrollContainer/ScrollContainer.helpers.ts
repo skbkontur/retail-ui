@@ -1,6 +1,6 @@
 import { MIN_SCROLL_SIZE } from './ScrollContainer.constants';
 import { ScrollBarScrollState } from './ScrollBar';
-import { ScrollContainerScrollXState, ScrollContainerScrollYState } from './ScrollContainer';
+import { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer';
 
 export const scrollSizeParametersNames = {
   x: {
@@ -62,8 +62,8 @@ export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) =
   return container.scrollTop;
 };
 
-export const convertScrollbarXScrollState = (state: ScrollBarScrollState): ScrollContainerScrollXState => {
-  const scrollBarState: Record<ScrollBarScrollState, ScrollContainerScrollXState> = {
+export const convertScrollbarXScrollState = (state: ScrollBarScrollState): ScrollContainerScrollStateX => {
+  const scrollBarState: Record<ScrollBarScrollState, ScrollContainerScrollStateX> = {
     begin: 'left',
     end: 'right',
     middle: 'scroll',
@@ -72,8 +72,8 @@ export const convertScrollbarXScrollState = (state: ScrollBarScrollState): Scrol
   return scrollBarState[state];
 };
 
-export const convertScrollbarYScrollState = (state: ScrollBarScrollState): ScrollContainerScrollYState => {
-  const scrollBarState: Record<ScrollBarScrollState, ScrollContainerScrollYState> = {
+export const convertScrollbarYScrollState = (state: ScrollBarScrollState): ScrollContainerScrollStateY => {
+  const scrollBarState: Record<ScrollBarScrollState, ScrollContainerScrollStateY> = {
     begin: 'top',
     end: 'bottom',
     middle: 'scroll',

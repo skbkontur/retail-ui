@@ -3,8 +3,8 @@ import React, { CSSProperties } from 'react';
 import {
   ScrollContainer,
   ScrollContainerScrollState,
-  ScrollContainerScrollXState,
-  ScrollContainerScrollYState,
+  ScrollContainerScrollStateX,
+  ScrollContainerScrollStateY,
 } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
@@ -24,19 +24,19 @@ const wrapperStyle = {
 };
 
 const DynamicContent: React.FC<{
-  state: ScrollContainerScrollYState | ScrollContainerScrollXState;
+  state: ScrollContainerScrollStateY | ScrollContainerScrollStateX;
   scroll: (percentage: number) => void;
   add: () => void;
   remove: () => void;
-  onChangeScrollYState?: (x: ScrollContainerScrollYState) => void;
-  onChangeScrollXState?: (x: ScrollContainerScrollXState) => void;
+  onChangeScrollYState?: (x: ScrollContainerScrollStateY) => void;
+  onChangeScrollXState?: (x: ScrollContainerScrollStateX) => void;
 }> = ({ children, state, scroll, add, remove, onChangeScrollXState, onChangeScrollYState }) => {
   return (
     <Gapped verticalAlign="top">
       <div id="test-container" style={{ padding: 10 }}>
         <Gapped vertical>
           <div style={wrapperStyle}>
-            <ScrollContainer onScrollXStateChange={onChangeScrollXState} onScrollYStateChange={onChangeScrollYState}>
+            <ScrollContainer onScrollStateChangeX={onChangeScrollXState} onScrollStateChangeY={onChangeScrollYState}>
               {children}
             </ScrollContainer>
           </div>
@@ -147,7 +147,7 @@ WithScrollState.storyName = 'with scroll state';
 
 export const WithDynamicContent: Story = () => {
   const [items, setItems] = React.useState(4);
-  const [state, setState] = React.useState<ScrollContainerScrollYState>('top');
+  const [state, setState] = React.useState<ScrollContainerScrollStateY>('top');
   const add = () => setItems(items + 1);
   const remove = () => setItems(items > 0 ? items - 1 : 0);
   const scroll = (percentage: number) => {
@@ -212,7 +212,7 @@ WithDynamicContent.parameters = {
 };
 
 export const WithOnlyCustomHorizontalScroll: Story = () => {
-  const [state, setState] = React.useState<ScrollContainerScrollXState>('left');
+  const [state, setState] = React.useState<ScrollContainerScrollStateX>('left');
   const [items, setItems] = React.useState(4);
 
   const add = () => setItems(items + 1);

@@ -16,9 +16,9 @@ import {
 } from './ScrollContainer.helpers';
 import { ScrollAxis, ScrollBar, ScrollBarScrollState } from './ScrollBar';
 
-export type ScrollContainerScrollXState = 'left' | 'scroll' | 'right';
-export type ScrollContainerScrollYState = 'top' | 'scroll' | 'bottom';
-export type ScrollContainerScrollState = ScrollContainerScrollYState; // deprecated
+export type ScrollContainerScrollStateX = 'left' | 'scroll' | 'right';
+export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
+export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
 export interface ScrollContainerProps extends CommonProps {
@@ -38,8 +38,8 @@ export interface ScrollContainerProps extends CommonProps {
    * @default 'auto'
    */
   scrollBehaviour?: ScrollBehaviour;
-  onScrollXStateChange?: (scrollState: ScrollContainerScrollXState) => void;
-  onScrollYStateChange?: (scrollState: ScrollContainerScrollYState) => void;
+  onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
+  onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
@@ -208,14 +208,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     if (axis === 'x') {
       const scrollXState = convertScrollbarXScrollState(scrollState);
 
-      this.props.onScrollXStateChange?.(scrollXState);
+      this.props.onScrollStateChangeX?.(scrollXState);
       return;
     }
 
     const scrollYState = convertScrollbarYScrollState(scrollState);
 
     this.props.onScrollStateChange?.(scrollYState);
-    this.props.onScrollYStateChange?.(scrollYState);
+    this.props.onScrollStateChangeY?.(scrollYState);
   };
 
   private refScrollBarY = (scrollbar: Nullable<ScrollBar>) => {
