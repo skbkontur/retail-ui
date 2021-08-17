@@ -201,7 +201,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
 
     target.addEventListener('mousemove', mouseMove);
     target.addEventListener('mouseup', mouseUp);
-    this.setState({ ...this.state, scrolling: false });
+    this.setState({ ...this.state, scrolling: true });
 
     event.preventDefault();
   };
