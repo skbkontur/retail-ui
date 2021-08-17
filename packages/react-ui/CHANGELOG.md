@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.4.0...@skbkontur/react-ui@3.5.0) (2021-08-17)
+
+
+### Bug Fixes
+
+* **DateInput:** open keyboard on mobile devices ([#2474](https://github.com/skbkontur/retail-ui/issues/2474)) ([0a68e1c](https://github.com/skbkontur/retail-ui/commit/0a68e1c5479c95df96ad17afc2617e9444e37bf2))
+* **Input:** fix disabled border on error ([#2510](https://github.com/skbkontur/retail-ui/issues/2510)) ([97619a1](https://github.com/skbkontur/retail-ui/commit/97619a18f08df130700439b503b0b29e1ec703b1))
+
+
+### Features
+
+* **DatePicker:** support mobile devices ([#2447](https://github.com/skbkontur/retail-ui/issues/2447)) ([2ed9868](https://github.com/skbkontur/retail-ui/commit/2ed98684c46ac243bc29ec4cadd2026bd14f8ce9)), closes [#1619](https://github.com/skbkontur/retail-ui/issues/1619)
+
+
+
+
+
 # [3.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.3.1...@skbkontur/react-ui@3.4.0) (2021-08-10)
 
 
