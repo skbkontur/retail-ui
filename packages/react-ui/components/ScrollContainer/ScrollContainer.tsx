@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 
 import { styles } from './ScrollContainer.styles';
@@ -93,19 +93,21 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     const scrollbarX = this.renderScrollbar('x');
 
     return (
-      <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
-        {scrollbarY}
-        {scrollbarX}
-        <div
-          style={innerStyle}
-          ref={this.refInner}
-          className={styles.inner()}
-          data-tid="ScrollContainer__inner"
-          onScroll={this.handleNativeScroll}
-        >
-          {props.children}
+      <CommonWrapper {...this.props}>
+        <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+          {scrollbarY}
+          {scrollbarX}
+          <div
+            style={innerStyle}
+            ref={this.refInner}
+            className={styles.inner()}
+            data-tid="ScrollContainer__inner"
+            onScroll={this.handleNativeScroll}
+          >
+            {props.children}
+          </div>
         </div>
-      </div>
+      </CommonWrapper>
     );
   };
 
