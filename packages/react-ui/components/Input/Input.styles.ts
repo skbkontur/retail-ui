@@ -397,4 +397,10 @@ export const styles = memoizeStyle({
       padding-left: ${t.inputIconGapLarge};
     `;
   },
+
+  hideBlinkingCursor() {
+    return css`
+      caret-color: transparent;
+    `;
+  },
 });
