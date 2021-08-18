@@ -13,6 +13,7 @@ export const styles = memoizeStyle({
       padding-right: 2px;
       position: relative;
       text-align: left;
+      touch-action: none;
 
       &:hover {
         color: ${t.dateSelectLinkColor};
@@ -95,6 +96,7 @@ export const styles = memoizeStyle({
       padding-left: 10px;
       user-select: none;
       white-space: nowrap;
+      touch-action: none;
     `;
   },
 
