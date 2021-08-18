@@ -876,7 +876,9 @@ export class DefaultTheme {
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
-  public static toggleBgDisabled = '#E5E5E5';
+  public static get toggleBgDisabled() {
+    return this.bgDisabled;
+  }
   public static get toggleBgHover() {
     return this.toggleBgFocus;
   }
