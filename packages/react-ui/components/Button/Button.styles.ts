@@ -86,6 +86,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  outlineLinkWarning(t: Theme) {
+    return css`
+      background-color: ${t.btnWarningSecondary};
+    `;
+  },
+
   outlineLinkError(t: Theme) {
     return css`
       background-color: ${t.btnErrorSecondary};
