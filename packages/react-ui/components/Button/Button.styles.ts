@@ -645,6 +645,12 @@ export const styles = memoizeStyle({
       &:hover,
       &:active {
         border-color: transparent;
+        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
+          box-shadow: none;
+        }
+      }
+      .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
+        box-shadow: none;
       }
     `;
   },
