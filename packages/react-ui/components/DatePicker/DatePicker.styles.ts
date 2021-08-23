@@ -5,6 +5,7 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       position: relative;
+      touch-action: none;
     `;
   },
 });

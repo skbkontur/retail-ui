@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.4.0...@skbkontur/react-ui@3.5.0) (2021-08-17)
+
+
+### Bug Fixes
+
+* **DateInput:** open keyboard on mobile devices ([#2474](https://github.com/skbkontur/retail-ui/issues/2474)) ([0a68e1c](https://github.com/skbkontur/retail-ui/commit/0a68e1c5479c95df96ad17afc2617e9444e37bf2))
+* **Input:** fix disabled border on error ([#2510](https://github.com/skbkontur/retail-ui/issues/2510)) ([97619a1](https://github.com/skbkontur/retail-ui/commit/97619a18f08df130700439b503b0b29e1ec703b1))
+
+
+### Features
+
+* **DatePicker:** support mobile devices ([#2447](https://github.com/skbkontur/retail-ui/issues/2447)) ([2ed9868](https://github.com/skbkontur/retail-ui/commit/2ed98684c46ac243bc29ec4cadd2026bd14f8ce9)), closes [#1619](https://github.com/skbkontur/retail-ui/issues/1619)
+
+
+
+
+
+# [3.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.3.1...@skbkontur/react-ui@3.4.0) (2021-08-10)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** fix delimiter for Safari ([#2495](https://github.com/skbkontur/retail-ui/issues/2495)) ([1b8789e](https://github.com/skbkontur/retail-ui/commit/1b8789ec9447fb775fb409d219105145280b05e7))
+* **Tab:** fix low height artefact ([20cdc0b](https://github.com/skbkontur/retail-ui/commit/20cdc0bbbd792b6be53bb123d1f8442d3840c2d6)), closes [#2500](https://github.com/skbkontur/retail-ui/issues/2500)
+* **Tooltip:** add closure workaround for Firefox and IE11 ([1236b0b](https://github.com/skbkontur/retail-ui/commit/1236b0ba35c6bff6a73b439e17db75ec91d5db6b))
+
+
+### Features
+
+* **react-ui:** fix unstable styles ([#2488](https://github.com/skbkontur/retail-ui/issues/2488)) ([b01898d](https://github.com/skbkontur/retail-ui/commit/b01898de589e6d146618867f476fb8803a78e91c))
+* **Tabs:** add generic for `value` prop ([#2471](https://github.com/skbkontur/retail-ui/issues/2471)) ([49ce216](https://github.com/skbkontur/retail-ui/commit/49ce2169174111e8021b989359f492de9b44e69d)), closes [#1953](https://github.com/skbkontur/retail-ui/issues/1953)
+* **TokenInput:** add `menuWidth` and `menuAlign` props ([#2479](https://github.com/skbkontur/retail-ui/issues/2479)) ([c3f6404](https://github.com/skbkontur/retail-ui/commit/c3f64045f0da12561840a1ac8134c03d4dc92623)), closes [#1834](https://github.com/skbkontur/retail-ui/issues/1834)
+
+
+
+
+
 ## [3.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.3.0...@skbkontur/react-ui@3.3.1) (2021-07-23)
 
 

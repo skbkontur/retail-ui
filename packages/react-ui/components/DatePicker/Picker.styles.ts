@@ -9,6 +9,7 @@ export const styles = memoizeStyle({
       display: inline-block;
       font-size: 0;
       z-index: 1000;
+      touch-action: none;
     `;
   },
 

@@ -11,6 +11,7 @@ export const styles = memoizeStyle({
       padding: 0 ${t.calendarPaddingX};
       width: ${width}px;
       overflow: hidden;
+      touch-action: none;
     `;
   },
 
