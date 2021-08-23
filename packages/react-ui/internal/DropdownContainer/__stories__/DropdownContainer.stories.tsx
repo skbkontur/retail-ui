@@ -292,6 +292,7 @@ class DropdownWithToggle extends React.Component<{
             align={dropdownProps.align}
             disablePortal={dropdownProps.disablePortal}
             getParent={() => this.DOMNode}
+            renderDefault
           >
             {this.props.children}
           </DropdownContainer>

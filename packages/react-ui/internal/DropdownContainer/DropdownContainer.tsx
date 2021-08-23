@@ -39,6 +39,10 @@ export interface DropdownContainerProps {
    * Хэндлер закрытия в мобильной версии
    */
   mobileCloseHandler?: () => void;
+  /**
+   * Не использовать мобильную версию
+   */
+  renderDefault?: boolean;
 }
 
 export interface DropdownContainerState extends MobileLayoutState {
@@ -117,6 +121,10 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   public getRenderer() {
+    if (this.props.renderDefault) {
+      return this.renderMain();
+    }
+
     if (this.state.layout === LayoutMode.Mobile) {
       return this.renderMobile();
     }
