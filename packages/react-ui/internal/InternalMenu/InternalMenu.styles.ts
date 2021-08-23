@@ -11,6 +11,18 @@ const styles = {
     `;
   },
 
+  disablePadding() {
+    return css`
+      padding: 0;
+    `;
+  },
+
+  backgroundTransparent() {
+    return css`
+      background: transparent;
+    `;
+  },
+
   shadow(t: Theme) {
     return css`
       border: ${t.menuBorder};
@@ -28,6 +40,12 @@ const styles = {
       line-height: 18px;
       box-sizing: border-box;
       padding: 6px 18px 7px 8px;
+    `;
+  },
+
+  disableTop() {
+    return css`
+      top: 0;
     `;
   },
 

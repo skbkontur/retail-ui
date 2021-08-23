@@ -17,13 +17,6 @@ const styles = {
       box-shadow: ${t.mobileMenuHeaderShadow};
     `;
   },
-
-  withoutBorderRadius() {
-    return css`
-      border-radius: 0px;
-    `;
-  },
-
   container() {
     return css`
       position: relative;
@@ -36,7 +29,7 @@ const styles = {
     return css`
       font-size: ${t.mobileMenuHeaderFontSize};
       line-height: ${t.mobileMenuHeaderLineHeight};
-      weight: ${t.mobileMenuHeaderFontWeight};
+      font-weight: ${t.mobileMenuHeaderFontWeight};
     `;
   },
 

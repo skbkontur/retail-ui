@@ -38,10 +38,18 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     componentDidMount() {
       this.checkLayoutsMediaQueries();
       this.listenResize();
+
+      if (super.componentDidMount) {
+        super.componentDidMount();
+      }
     }
 
     componentWillUnmount() {
       this.unlistenResize();
+
+      if (super.componentWillUnmount) {
+        super.componentWillUnmount();
+      }
     }
 
     public checkLayoutsMediaQueries = () => {

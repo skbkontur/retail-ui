@@ -11,15 +11,10 @@ import { jsStyles } from './MobileMenuHeader.styles';
 interface MobileMenuHeaderProps {
   caption?: string;
   onClose: () => void;
-  getHeightOnMount?: (height: number) => void;
   /**
    * Компонент, закрепленный ниже заголовка
    */
   childComponent?: React.ReactNode;
-  /**
-   * Убрать бордер-радиусы
-   */
-  withoutBorderRadius?: boolean;
   withShadow?: boolean;
 }
 
@@ -27,13 +22,6 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
 
   private theme!: Theme;
-  private rootDiv: HTMLDivElement | null = null;
-
-  componentDidMount() {
-    if (this.rootDiv && this.props.getHeightOnMount) {
-      this.props.getHeightOnMount(this.rootDiv.offsetHeight);
-    }
-  }
 
   public render() {
     return (
@@ -52,10 +40,8 @@ export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
       <div
         className={cn({
           [jsStyles.root(this.theme)]: true,
-          [jsStyles.withoutBorderRadius()]: this.props.withoutBorderRadius,
           [jsStyles.withShadow(this.theme)]: withShadow,
         })}
-        ref={(el) => (this.rootDiv = el)}
       >
         <div className={jsStyles.container()}>
           <div className={jsStyles.closeWrapper()}>

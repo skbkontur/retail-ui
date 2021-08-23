@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import cn from 'classnames';
+import throttle from 'lodash.throttle';
 
 import {
   isKeyArrowDown,
@@ -31,10 +32,8 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
-import { RenderContainer } from '../../internal/RenderContainer';
-import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import { mobileLayout, MobileLayoutState, LayoutMode } from '../MobileLayout';
-// import { LayoutMode } from '../MobileLayout';
+import { InternalMenu } from '../../internal/InternalMenu';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -151,6 +150,8 @@ export interface SelectState<TValue> extends MobileLayoutState {
   value: Nullable<TValue>;
   mobileMenuHeaderHeight: number;
   isScrolled: boolean;
+
+  windowHeight: number;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -213,6 +214,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     mobileMenuHeaderHeight: 0,
     isScrolled: false,
     layout: LayoutMode.Desktop,
+    windowHeight: canUseDOM ? window.innerHeight : 0,
   };
 
   private theme!: Theme;
@@ -220,6 +222,16 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
+
+  public componentDidMount() {
+    if (canUseDOM) {
+      window.addEventListener('resize', this.throttledUpdateWindowHeight);
+    }
+  }
+
+  public componentWillUnmount() {
+    window.removeEventListener('resize', this.throttledUpdateWindowHeight);
+  }
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -229,6 +241,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       window.removeEventListener('popstate', this.close);
     }
   }
+
+  private updateWindowHeight = () => {
+    this.setState({ windowHeight: window.innerHeight });
+  };
+
+  private throttledUpdateWindowHeight = throttle(this.updateWindowHeight, 100);
 
   public render() {
     return (
@@ -354,7 +372,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     return {
-      label: <span>{this.props.placeholder || this.locale.placeholder}</span>,
+      label: <span>{this.props.placeholder || this.locale?.placeholder}</span>,
       isPlaceholder: true,
     };
   }
@@ -448,7 +466,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
-          onScroll={this.handleScroll}
         >
           {search}
           {this.getMenuItems(value)}
@@ -457,58 +474,39 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   }
 
-  private getMobileMenuHeight(withSearch: boolean) {
-    const maxHeight = `calc(100vh - ${this.state.mobileMenuHeaderHeight}px)`;
-
-    if (withSearch) {
-      return maxHeight;
-    }
-
-    if (this.props.maxMenuHeight && canUseDOM) {
-      return window.innerHeight > this.props.maxMenuHeight - this.state.mobileMenuHeaderHeight
-        ? this.props.maxMenuHeight
-        : maxHeight;
-    }
-
-    return `calc(100vh - ${this.state.mobileMenuHeaderHeight}px - ${this.theme.mobileSelectMenuTopPadding})`;
-  }
-
   private renderMobileMenu(): React.ReactNode {
     const search = this.props.search ? this.getSearch() : null;
 
     const value = this.getValue();
 
     return (
-      <RenderContainer>
-        <div
-          className={cn({
-            [jsStyles.mobileMenu(this.theme)]: true,
-            [jsStyles.mobileMenuWithSearch(this.theme)]: Boolean(search),
-          })}
+      <DropdownContainer
+        getParent={this.dropdownContainerGetParent}
+        offsetY={-1}
+        align={this.props.menuAlign}
+        disablePortal={this.props.disablePortal}
+        mobileCloseHandler={this.close}
+        mobileFixedHeight={search ? this.state.windowHeight : undefined}
+      >
+        <InternalMenu
+          width={this.props.menuWidth}
+          onItemClick={this.close}
+          maxContainerHeight={search ? this.state.windowHeight : this.state.windowHeight - MOBILE_MENU_TOP_PADDING}
+          header={
+            <MobileMenuHeader
+              caption={this.props.mobileMenuHeaderText}
+              onClose={this.close}
+              childComponent={search || undefined}
+            />
+          }
+          hasShadow={false}
+          disableDefaultPaddings
+          backgroundTransparent
+          headerBoxShadow={this.theme.mobileMenuHeaderShadow}
         >
-          <MobileMenuHeader
-            caption={this.props.mobileMenuHeaderText}
-            onClose={this.close}
-            getHeightOnMount={(height) => {
-              this.setState({ mobileMenuHeaderHeight: height });
-            }}
-            childComponent={search || undefined}
-            withoutBorderRadius={Boolean(search)}
-            withShadow={this.state.isScrolled}
-          />
-          <Menu
-            ref={this.refMenu}
-            width={this.props.menuWidth || '100%'}
-            onItemClick={this.close}
-            maxHeight={this.getMobileMenuHeight(Boolean(search))}
-            onScroll={this.handleScroll}
-          >
-            {this.getMenuItems(value)}
-          </Menu>
-        </div>
-        <HideBodyVerticalScroll />
-        <div onClick={(e) => this.close()} className={jsStyles.bg()} />
-      </RenderContainer>
+          <div style={{ paddingBottom: 16 }}>{this.getMenuItems(value)}</div>
+        </InternalMenu>
+      </DropdownContainer>
     );
   }
 
@@ -537,6 +535,25 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           return React.cloneElement(item, { key: i });
         }
 
+        {
+          /* <Menu
+          ref={this.refMenu}
+          width={this.props.menuWidth}
+          onItemClick={this.close}
+          maxHeight={
+            this.props.maxMenuHeight
+              ? this.props.maxMenuHeight
+              : canUseDOM && Boolean(search)
+              ? window.innerHeight
+              : canUseDOM
+              ? window.innerHeight - MOBILE_MENU_TOP_PADDING
+              : undefined
+          }
+        >
+          {this.getMenuItems(value)}
+        </Menu> */
+        }
+
         return (
           <MenuItem
             key={i}
@@ -549,14 +566,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         );
       },
     );
-  };
-
-  private handleScroll = () => {
-    const { menu } = this;
-
-    if (menu && menu.isScrolled !== this.state.isScrolled && this.isMobile()) {
-      this.setState({ isScrolled: menu.isScrolled });
-    }
   };
 
   private isMobile = () => {

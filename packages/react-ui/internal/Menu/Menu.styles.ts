@@ -22,10 +22,6 @@ const styles = {
     return css`
       border: ${t.menuBorder};
       box-shadow: ${t.menuShadow};
-
-      @media ${t.mobileMediaQuery}  {
-        box-shadow: none;
-      },
     `;
   },
 };
