@@ -501,6 +501,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           disableDefaultPaddings
           backgroundTransparent
           headerBoxShadow={this.theme.mobileMenuHeaderShadow}
+          maxHeightFor={'all'}
         >
           <div style={{ paddingBottom: 16 }}>{this.getMenuItems(value)}</div>
         </InternalMenu>

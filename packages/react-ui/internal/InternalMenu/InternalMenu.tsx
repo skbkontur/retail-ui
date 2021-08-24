@@ -45,9 +45,17 @@ interface MenuProps {
   initialSelectedItemIndex?: number;
 
   /**
-   * Максимальная высота всего контейнера
+   * Максимальная высота
    */
   maxHeight?: number | string;
+
+  /**
+   * Максимальная высота применится для:
+   * - 'all' - для всего меню
+   * - 'items' - только для скролл-контейнера. Не учитываются высоты `header` и `footer`
+   * @default 'items'
+   */
+  maxHeightFor?: 'all' | 'items';
 }
 
 interface MenuState {
@@ -68,6 +76,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     preventWindowScroll: true,
     cyclicSelection: true,
     initialSelectedItemIndex: -1,
+    maxHeightFor: 'items',
   };
 
   public state: MenuState = {
@@ -88,12 +97,12 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   public componentDidMount() {
     this.setInitialSelection();
-    this.calculateScrollContainerMaxHeight();
+    this.calculateMaxHeight();
   }
 
   public componentDidUpdate(prevProps: MenuProps) {
-    if (this.shouldRecalculateScrollContainerMaxHeight(prevProps)) {
-      this.calculateScrollContainerMaxHeight();
+    if (this.shouldRecalculateMaxHeight(prevProps)) {
+      this.calculateMaxHeight();
     }
   }
 
@@ -139,7 +148,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
         })}
         style={{
           width: this.props.width,
-          maxHeight: this.props.maxHeight,
+          maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
         ref={(element) => {
@@ -246,7 +255,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     }
   };
 
-  private shouldRecalculateScrollContainerMaxHeight = (prevProps: MenuProps): boolean => {
+  private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
     const { maxHeight, header, footer, children } = this.props;
     const prevMaxHeight = prevProps.maxHeight;
     const prevHeader = prevProps.header;
@@ -261,7 +270,44 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     );
   };
 
-  private calculateScrollContainerMaxHeight = () => {
+  private calculateMaxHeight = () => {
+    const { maxHeightFor } = this.props;
+
+    if (maxHeightFor === 'items') {
+      this.calculateMaxHeightForItems();
+    }
+
+    if (maxHeightFor === 'all') {
+      this.calculateMaxHeightForAll();
+    }
+  };
+
+  private calculateMaxHeightForItems = () => {
+    const { maxHeight } = this.props;
+
+    let parsedMaxHeight = maxHeight;
+    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && this.rootElement) {
+      const rootElementMaxHeight = window.getComputedStyle(this.rootElement).maxHeight;
+
+      if (rootElementMaxHeight) {
+        parsedMaxHeight = parseFloat(rootElementMaxHeight);
+      }
+    }
+
+    const calculatedMaxHeight =
+      typeof parsedMaxHeight === 'number'
+        ? parsedMaxHeight +
+          ((this.header && this.header.getBoundingClientRect().height) || 0) +
+          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
+        : maxHeight;
+
+    this.setState({
+      maxHeight: calculatedMaxHeight || 'none',
+      scrollContainerMaxHeight: this.props.maxHeight || 'none',
+    });
+  };
+
+  private calculateMaxHeightForAll = () => {
     const { maxHeight } = this.props;
 
     let parsedMaxContainerHeight = maxHeight;
@@ -279,6 +325,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
         : undefined;
 
     this.setState({
+      maxHeight: this.props.maxHeight || 'none',
       scrollContainerMaxHeight: calculatedContainerMaxHeight || 'none',
     });
   };
