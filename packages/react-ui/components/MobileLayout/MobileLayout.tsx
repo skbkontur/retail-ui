@@ -14,6 +14,8 @@ export interface MobileLayoutState {
   layout: LayoutMode;
 }
 
+export const MOBILE_MENU_TOP_PADDING = 40;
+
 type LayoutData = {
   name: LayoutMode;
   mediaQuery: string;

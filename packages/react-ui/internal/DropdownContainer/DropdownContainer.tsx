@@ -6,7 +6,7 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { mobileLayout, MobileLayoutState, LayoutMode } from '../../components/MobileLayout';
+import { mobileLayout, MobileLayoutState, LayoutMode, MOBILE_MENU_TOP_PADDING } from '../../components/MobileLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -167,7 +167,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
             [jsStyles.mobileMenu(this.theme)]: true,
             [jsStyles.mobileMenuOpened()]: this.state.mobileOpened,
           })}
-          style={{ height: this.props.mobileFixedHeight }}
+          style={{ height: this.props.mobileFixedHeight, maxHeight: `calc(100vh - ${MOBILE_MENU_TOP_PADDING})` }}
         >
           {this.props.children}
         </div>

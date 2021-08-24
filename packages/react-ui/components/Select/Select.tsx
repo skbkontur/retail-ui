@@ -32,7 +32,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
-import { mobileLayout, MobileLayoutState, LayoutMode } from '../MobileLayout';
+import { mobileLayout, MobileLayoutState, LayoutMode, MOBILE_MENU_TOP_PADDING } from '../MobileLayout';
 import { InternalMenu } from '../../internal/InternalMenu';
 
 import { Item } from './Item';
@@ -157,8 +157,6 @@ export interface SelectState<TValue> extends MobileLayoutState {
 interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
-
-export const MOBILE_MENU_TOP_PADDING = 40;
 
 @mobileLayout
 @locale('Select', SelectLocaleHelper)
@@ -533,25 +531,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
         if (React.isValidElement(item)) {
           return React.cloneElement(item, { key: i });
-        }
-
-        {
-          /* <Menu
-          ref={this.refMenu}
-          width={this.props.menuWidth}
-          onItemClick={this.close}
-          maxHeight={
-            this.props.maxMenuHeight
-              ? this.props.maxMenuHeight
-              : canUseDOM && Boolean(search)
-              ? window.innerHeight
-              : canUseDOM
-              ? window.innerHeight - MOBILE_MENU_TOP_PADDING
-              : undefined
-          }
-        >
-          {this.getMenuItems(value)}
-        </Menu> */
         }
 
         return (
