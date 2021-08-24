@@ -489,7 +489,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         <InternalMenu
           width={this.props.menuWidth}
           onItemClick={this.close}
-          maxContainerHeight={search ? this.state.windowHeight : this.state.windowHeight - MOBILE_MENU_TOP_PADDING}
+          maxHeight={search ? this.state.windowHeight : this.state.windowHeight - MOBILE_MENU_TOP_PADDING}
           header={
             <MobileMenuHeader
               caption={this.props.mobileMenuHeaderText}
