@@ -1,17 +1,12 @@
-﻿using System.Linq;
-using JetBrains.Annotations;
-using Kontur.RetryableAssertions.Extensions;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Kontur.Selone.Properties;
-using OpenQA.Selenium;
-using SKBKontur.SeleniumTesting.Internals;
-using SKBKontur.SeleniumTesting.Internals.Selectors;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
-    public class Switcher : ControlList<Button>
+    public class Switcher : ControlBase
     {
-        public Switcher([NotNull] ISearchContainer container, [NotNull] ISelector selector)
-            : base(container, selector, new BySelector(By.CssSelector("[data-comp-name~='Button']")))
+        public Switcher(ISearchContainer container, ISelector selector) : base(container, selector)
         {
         }
 
@@ -19,9 +14,11 @@ namespace SKBKontur.SeleniumTesting.Controls
         public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
         public IProp<string> Value => ReactProperty<string>("value");
 
-        public void SelectItemByName(string name, Timings timings = null)
+        public IEnumerable<Button> Buttons => this.FindList().Of<Button>("Button").By("Group");
+
+        public void SelectItemByName(string name)
         {
-            this.AsEnumerable().Wait().Single(x => x.Text.AssertEqualTo(name), timings.GetConfiguration()).Click();
+            Buttons.Single(x => x.Text.Get() == name).Click();
         }
     }
 }
