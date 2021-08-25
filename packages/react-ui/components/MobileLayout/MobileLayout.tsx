@@ -26,6 +26,8 @@ const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
   [LayoutMode.Mobile]: 'mobileMediaQuery',
 };
 
+const DESKTOP_DEFAULT_MEDIA_QUERY = '(max-width: 0px)';
+
 export function mobileLayout<T extends new (...args: any[]) => React.Component<any, MobileLayoutState>>(
   WrappedComp: T,
 ) {
@@ -60,7 +62,7 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     public checkLayoutsMediaQueries = () => {
       const layouts: LayoutData[] = this.getCreatedLayouts(this.theme);
 
-      const matchedLayouts = layouts.filter((layoutData) => this.checkMQ(layoutData.mediaQuery));
+      const matchedLayouts = layouts.filter((layout) => this.checkMQ(layout.mediaQuery));
       const lastMatchedLayout = matchedLayouts[matchedLayouts.length - 1];
 
       if (lastMatchedLayout && this.state.layout !== lastMatchedLayout.name) {
@@ -97,8 +99,8 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
       try {
         Object.values(LayoutMode).forEach((layout) => {
           // @ts-ignore
-          const layoutThemeMediaQuery = theme[LayoutMQThemeKeys[layout]];
-          const layoutMediaQuery = layoutThemeMediaQuery ? layoutThemeMediaQuery : '';
+          const layoutThemeMediaQuery: string | undefined = theme[LayoutMQThemeKeys[layout]];
+          const layoutMediaQuery = layoutThemeMediaQuery ? layoutThemeMediaQuery : DESKTOP_DEFAULT_MEDIA_QUERY;
 
           layouts.push(this.createLayoutData(layout, layoutMediaQuery));
         });
