@@ -111,6 +111,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const containerClassNames = cx(styles.container(this.theme), {
       [styles.containerDisabled(this.theme)]: !!disabled,
       [globalClasses.container]: true,
+      [globalClasses.containerDisabled]: !!disabled,
       [globalClasses.containerLoading]: loading,
     });
 
@@ -137,7 +138,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <span className={cx(styles.wrapper(this.theme), { [styles.wrapperDisabled()]: disabled })}>
+            <span className={cx(styles.wrapper(this.theme))}>
               <input
                 type="checkbox"
                 checked={checked}
@@ -151,7 +152,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               <div
                 className={containerClassNames}
                 style={
-                  checked && color
+                  checked && color && !disabled
                     ? {
                         backgroundColor: color,
                         boxShadow: `inset 0 0 0 1px ${color}`,
@@ -163,7 +164,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                   className={cx(styles.activeBackground(), globalClasses.background, {
                     [styles.activeBackgroundLoading(this.theme)]: loading,
                   })}
-                  style={checked && color ? { backgroundColor: color } : undefined}
+                  style={
+                    checked && color && !disabled
+                      ? {
+                          backgroundColor: color,
+                          boxShadow: `inset 0 0 0 1px ${color}`,
+                        }
+                      : undefined
+                  }
                 />
               </div>
               <div
