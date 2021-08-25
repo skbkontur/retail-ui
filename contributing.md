@@ -316,7 +316,7 @@ components/
 
 По любым возникающим вопросам можно обращаться в канал поддержки [#infra_front](https://kontur.slack.com/archives/C013HTCE18Q) в Слаке, если вы из Контура. Если нет — в [telegram-чат](https://t.me/react_ui) или напрямую пользователям:
 
-- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайдлайны. Телеграм: [@dzekh](tg://resolve?domain=dzekh);
+- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайдлайны. Телеграм: [@dzekh](https://t.me/dzekh);
 - [Егор Погадаев](https://github.com/zhzz) — общие вопросы, права, ключи доступа;
 - [Максим Пахомов](https://github.com/lossir) — общие вопросы. 
 
