@@ -4,15 +4,15 @@ import { emptyHandler } from '../../lib/utils';
 
 import { Tab } from './Tab';
 
-export interface TabsContextType {
+export interface TabsContextType<T extends string = any> {
   vertical: boolean;
-  activeTab: string;
-  getTab: (id: string) => Tab | null | void;
-  addTab: (id: string, getNode: () => Tab) => void;
+  activeTab: T;
+  getTab: (id: T) => Tab<T> | null | void;
+  addTab: (id: T, getNode: () => Tab<T>) => void;
   notifyUpdate: () => void;
-  removeTab: (id: string) => void;
-  shiftFocus: (fromTab: string, delta: number) => void;
-  switchTab: (id: string) => void;
+  removeTab: (id: T) => void;
+  shiftFocus: (fromTab: T, delta: number) => void;
+  switchTab: (id: T) => void;
 }
 
 export const TabsContextDefaultValue: TabsContextType = {
