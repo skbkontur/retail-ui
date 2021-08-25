@@ -443,6 +443,9 @@ export class DefaultTheme {
   public static get btnErrorSecondary() {
     return this.errorSecondary;
   }
+  public static get btnWarningSecondary() {
+    return this.warningSecondary;
+  }
   public static get btnOutlineColorFocus() {
     return this.outlineColorFocus;
   }
