@@ -26,10 +26,13 @@ const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
   [LayoutMode.Mobile]: 'mobileMediaQuery',
 };
 
-export function mobileLayout<T extends new (...args: any[]) => React.Component<any, MobileLayoutState>>(Comp: T) {
-  return class extends Comp {
+export function mobileLayout<T extends new (...args: any[]) => React.Component<any, MobileLayoutState>>(
+  WrappedComp: T,
+) {
+  const ComponentWithLayout = class extends WrappedComp {
     public constructor(...args: any[]) {
       super(args[0]);
+
       this.state = { ...this.state, layout: LayoutMode.Desktop };
     }
 
@@ -124,4 +127,12 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
       );
     }
   };
+
+  const nameDescriptor = Object.getOwnPropertyDescriptor(ComponentWithLayout, 'name');
+
+  if (!nameDescriptor || nameDescriptor.configurable) {
+    Object.defineProperty(ComponentWithLayout, 'name', { value: WrappedComp.name });
+  }
+
+  return ComponentWithLayout;
 }
