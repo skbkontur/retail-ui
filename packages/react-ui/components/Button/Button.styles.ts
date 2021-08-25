@@ -649,9 +649,6 @@ export const styles = memoizeStyle({
           box-shadow: none;
         }
       }
-      .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-        box-shadow: none;
-      }
     `;
   },
 
