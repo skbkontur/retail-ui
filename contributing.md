@@ -314,9 +314,9 @@ components/
 
 # Помощь
 
-По любым возникающим вопросам можно обращаться в канал поддержки [#infra_front](https://kontur.slack.com/archives/C013HTCE18Q) в Слаке или напрямую пользователям:
+Если вы из Контура по любым возникающим вопросам можно обращаться в канал поддержки [#infra_front](https://kontur.slack.com/archives/C013HTCE18Q) в Слаке или напрямую пользователям:
 
-- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайдлайны;
+- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайдлайны. Телеграм: [@dzekh](tg://resolve?domain=dzekh);
 - [Егор Погадаев](https://github.com/zhzz) — общие вопросы, права, ключи доступа;
-- [Максим Пахомов](https://github.com/lossir) — общие вопросы;
+- [Максим Пахомов](https://github.com/lossir) — общие вопросы. 
 
