@@ -12,6 +12,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
+import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 
 import { styles } from './Loader.styles';
 
@@ -101,15 +102,19 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private theme!: Theme;
-  private containerNode: Nullable<HTMLDivElement>;
+  private spinnerContainerNode: Nullable<HTMLDivElement>;
+  private childrenContainerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
   private spinnerTask: TaskWithDelayAndMinimalDuration;
+  private childrenObserver: Nullable<MutationObserver>;
 
   constructor(props: LoaderProps) {
     super(props);
 
-    this.containerNode = null;
+    this.spinnerContainerNode = null;
+    this.childrenContainerNode = null;
+    this.childrenObserver = null;
     this.spinnerNode = null;
 
     this.state = {
@@ -129,6 +134,10 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.checkSpinnerPosition();
     this.props.active && this.spinnerTask.start();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
+
+    if (this.props.active) {
+      this.disableChildrenFocus();
+    }
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
@@ -136,6 +145,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
+    }
+
+    if (active) {
+      this.disableChildrenFocus();
+    } else {
+      this.enableChildrenFocus();
     }
 
     if (
@@ -154,6 +169,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public componentWillUnmount() {
+    this.makeUnobservable();
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
@@ -184,11 +200,18 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             applyZIndex={isLoaderVisible}
             coverChildren={isLoaderVisible}
             style={{ height: '100%' }}
+            wrapperRef={this.childrenRef}
           >
             {this.props.children}
           </ZIndex>
           {isLoaderVisible && (
-            <ZIndex wrapperRef={this.wrapperRef} priority={'Loader'} className={styles.active(this.theme)}>
+            <ZIndex
+              wrapperRef={this.spinnerRef}
+              priority={'Loader'}
+              className={cx({
+                [styles.active(this.theme)]: active,
+              })}
+            >
               {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
             </ZIndex>
           )}
@@ -197,8 +220,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     );
   }
 
-  private wrapperRef = (element: HTMLDivElement | null) => {
-    this.containerNode = element;
+  private childrenRef = (element: HTMLDivElement | null) => {
+    this.childrenContainerNode = element;
+  };
+
+  private spinnerRef = (element: HTMLDivElement | null) => {
+    this.spinnerContainerNode = element;
   };
 
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
@@ -221,7 +248,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private checkSpinnerPosition = () => {
-    if (!this.containerNode) {
+    if (!this.spinnerContainerNode) {
       return;
     }
 
@@ -232,7 +259,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       left: containerLeft,
       height: containerHeight,
       width: containerWidth,
-    } = this.containerNode.getBoundingClientRect();
+    } = this.spinnerContainerNode.getBoundingClientRect();
 
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
@@ -299,5 +326,45 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       isStickySpinner: true,
       spinnerStyle,
     });
+  };
+
+  private disableChildrenFocus = () => {
+    if (!this.childrenObserver) {
+      this.makeObservable();
+    }
+    const tabbableElements = getTabbableElements(this.childrenContainerNode);
+    tabbableElements.forEach((el) => {
+      if (!el.hasAttribute('origin-tabindex')) {
+        el.setAttribute('origin-tabindex', el.tabIndex.toString());
+      }
+      el.tabIndex = -1;
+    });
+  };
+
+  private enableChildrenFocus = () => {
+    this.makeUnobservable();
+    document.querySelectorAll('[origin-tabindex]').forEach((el) => {
+      el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
+      el.removeAttribute('origin-tabindex');
+    });
+  };
+
+  private makeObservable = () => {
+    const target = this.childrenContainerNode;
+    if (!target) {
+      return;
+    }
+    const config = {
+      childList: true,
+      subtree: true,
+    };
+    const observer = new MutationObserver(this.disableChildrenFocus);
+    observer.observe(target, config);
+    this.childrenObserver = observer;
+  };
+
+  private makeUnobservable = () => {
+    this.childrenObserver?.disconnect();
+    this.childrenObserver = null;
   };
 }

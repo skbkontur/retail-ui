@@ -86,6 +86,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  outlineLinkWarning(t: Theme) {
+    return css`
+      background-color: ${t.btnWarningSecondary};
+    `;
+  },
+
   outlineLinkError(t: Theme) {
     return css`
       background-color: ${t.btnErrorSecondary};
@@ -639,6 +645,9 @@ export const styles = memoizeStyle({
       &:hover,
       &:active {
         border-color: transparent;
+        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
+          box-shadow: none;
+        }
       }
     `;
   },
