@@ -210,6 +210,7 @@ export const styles = memoizeStyle({
       background: ${t.inputDisabledBg};
       border-color: ${t.inputDisabledBorderColor};
       box-shadow: none;
+      background-clip: padding-box;
     `;
   },
 
