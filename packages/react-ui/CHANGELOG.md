@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.5.0...@skbkontur/react-ui@3.6.0) (2021-08-26)
+
+
+### Bug Fixes
+
+* **FlatTheme:** set white bg for Radio, Checkbox and Toggle ([#2486](https://github.com/skbkontur/retail-ui/issues/2486)) ([07fac23](https://github.com/skbkontur/retail-ui/commit/07fac23f0089704db6a71e9561f0c5761df2d7dd))
+* **Loader:** disable focus children events while page is loading ([#2494](https://github.com/skbkontur/retail-ui/issues/2494)) ([1d46f96](https://github.com/skbkontur/retail-ui/commit/1d46f9667d5e1d3cfb55a131687210c4ca0948a8)), closes [#1732](https://github.com/skbkontur/retail-ui/issues/1732)
+
+
+### Features
+
+* **Button:** add `btnWarningSecondary` theme var and * ([#2512](https://github.com/skbkontur/retail-ui/issues/2512)) ([8a75266](https://github.com/skbkontur/retail-ui/commit/8a75266d65b73f159461313b7ec35f014ce02b37))
+* **Loader:** add props for show loader without spinner ([#2445](https://github.com/skbkontur/retail-ui/issues/2445)) ([2ffa70b](https://github.com/skbkontur/retail-ui/commit/2ffa70b165af3d31f2e6da06214d91b07c031563)), closes [#2266](https://github.com/skbkontur/retail-ui/issues/2266)
+
+
+
+
+
 # [3.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.4.0...@skbkontur/react-ui@3.5.0) (2021-08-17)
 
 
