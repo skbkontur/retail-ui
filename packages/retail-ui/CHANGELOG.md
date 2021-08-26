@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.12.0...retail-ui@1.12.1) (2021-08-26)
+
+
+### Bug Fixes
+
+* **Modal:** up in ZIndex, now upper than ModalHeader ([6c0c509](https://github.com/skbkontur/retail-ui/commit/6c0c509)), closes [#2034](https://github.com/skbkontur/retail-ui/issues/2034)
+
+
+
+
+
 # [1.12.0](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.11.8...retail-ui@1.12.0) (2021-06-09)
 
 
