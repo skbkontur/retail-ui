@@ -30,7 +30,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
-import { MobileLayoutState, LayoutMode, MOBILE_MENU_TOP_PADDING, mobileLayout } from '../MobileLayout';
+import { MobileLayoutState, LayoutMode, mobileLayout, MOBILE_MENU_TOP_PADDING } from '../MobileLayout';
 import { InternalMenu } from '../../internal/InternalMenu';
 
 import { Item } from './Item';
@@ -456,18 +456,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
 
     const menuMaxHeight = search ? this.state.windowHeight : this.state.windowHeight! - MOBILE_MENU_TOP_PADDING;
-
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
-        offsetY={-1}
-        align={this.props.menuAlign}
-        disablePortal={this.props.disablePortal}
         mobileCloseHandler={this.close}
         mobileUseFullHeight={Boolean(search)}
       >
         <InternalMenu
-          width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={menuMaxHeight}
           maxHeightFor={'all'}

@@ -82,7 +82,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   public state: MenuState = {
     highlightedIndex: -1,
-    maxHeight: InternalMenu.defaultProps.maxHeight,
+    maxHeight: this.props.maxHeight || 'none',
     scrollState: 'top',
 
     scrollContainerMaxHeight: this.props.maxHeight || 'none',
