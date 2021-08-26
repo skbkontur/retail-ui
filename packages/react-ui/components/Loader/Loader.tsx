@@ -209,7 +209,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
               wrapperRef={this.spinnerRef}
               priority={'Loader'}
               className={cx({
-                [styles.active(this.theme)]: active,
+                [styles.active(this.theme)]: isLoaderVisible,
               })}
             >
               {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
