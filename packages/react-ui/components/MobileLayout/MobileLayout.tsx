@@ -2,7 +2,6 @@ import React from 'react';
 import throttle from 'lodash.throttle';
 
 import { canUseDOM } from '../../lib/client';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 
 export enum LayoutMode {
@@ -11,7 +10,8 @@ export enum LayoutMode {
 }
 
 export interface MobileLayoutState {
-  layout: LayoutMode;
+  layout?: LayoutMode;
+  windowHeight?: number;
 }
 
 export const MOBILE_MENU_TOP_PADDING = 40;
@@ -28,6 +28,9 @@ const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
 
 const DESKTOP_DEFAULT_MEDIA_QUERY = '(max-width: 0px)';
 
+export const DEFAULT_LAYOUT = LayoutMode.Desktop;
+export const DEFAULT_WINDOW_HEIGHT = canUseDOM ? window.innerHeight : 0;
+
 export function mobileLayout<T extends new (...args: any[]) => React.Component<any, MobileLayoutState>>(
   WrappedComp: T,
 ) {
@@ -35,12 +38,10 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     public constructor(...args: any[]) {
       super(args[0]);
 
-      this.state = { ...this.state, layout: LayoutMode.Desktop };
+      this.state = { ...this.state, layout: DEFAULT_LAYOUT, windowHeight: DEFAULT_WINDOW_HEIGHT };
     }
 
     public theme!: Theme;
-
-    public defaultLayout: LayoutData = this.createLayoutData(LayoutMode.Desktop, '');
 
     componentDidMount() {
       this.checkLayoutsMediaQueries();
@@ -60,6 +61,10 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     }
 
     public checkLayoutsMediaQueries = () => {
+      if (!this.theme) {
+        return;
+      }
+
       const layouts: LayoutData[] = this.getCreatedLayouts(this.theme);
 
       const matchedLayouts = layouts.filter((layout) => this.checkMQ(layout.mediaQuery));
@@ -74,15 +79,25 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
 
     public throttledСheckLayoutsMediaQueries = throttle(this.checkLayoutsMediaQueries, 100);
 
+    public updateWindowHeight = () => {
+      if (canUseDOM) {
+        this.setState({ windowHeight: window.innerHeight });
+      }
+    };
+
+    public throttledUpdateWindowHeight = throttle(this.updateWindowHeight, 100);
+
     public listenResize() {
       if (canUseDOM) {
         window.addEventListener('resize', this.throttledСheckLayoutsMediaQueries);
+        window.addEventListener('resize', this.throttledUpdateWindowHeight);
       }
     }
 
     public unlistenResize() {
       if (canUseDOM) {
         window.removeEventListener('resize', this.throttledСheckLayoutsMediaQueries);
+        window.removeEventListener('resize', this.throttledUpdateWindowHeight);
       }
     }
 
@@ -118,15 +133,7 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     }
 
     public render(): JSX.Element {
-      return (
-        <ThemeContext.Consumer>
-          {(theme) => {
-            this.theme = theme;
-
-            return super.render();
-          }}
-        </ThemeContext.Consumer>
-      );
+      return <>{super.render()}</>;
     }
   };
 

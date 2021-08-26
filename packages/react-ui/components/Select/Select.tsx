@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 import cn from 'classnames';
-import throttle from 'lodash.throttle';
 
 import {
   isKeyArrowDown,
@@ -30,9 +29,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { canUseDOM } from '../../lib/client';
 import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
-import { mobileLayout, MobileLayoutState, LayoutMode, MOBILE_MENU_TOP_PADDING } from '../MobileLayout';
+import { MobileLayoutState, LayoutMode, MOBILE_MENU_TOP_PADDING, mobileLayout } from '../MobileLayout';
 import { InternalMenu } from '../../internal/InternalMenu';
 
 import { Item } from './Item';
@@ -150,8 +148,6 @@ export interface SelectState<TValue> extends MobileLayoutState {
   value: Nullable<TValue>;
   mobileMenuHeaderHeight: number;
   isScrolled: boolean;
-
-  windowHeight: number;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -211,8 +207,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     searchPattern: '',
     mobileMenuHeaderHeight: 0,
     isScrolled: false,
-    layout: LayoutMode.Desktop,
-    windowHeight: canUseDOM ? window.innerHeight : 0,
   };
 
   private theme!: Theme;
@@ -220,16 +214,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
-
-  public componentDidMount() {
-    if (canUseDOM) {
-      window.addEventListener('resize', this.throttledUpdateWindowHeight);
-    }
-  }
-
-  public componentWillUnmount() {
-    window.removeEventListener('resize', this.throttledUpdateWindowHeight);
-  }
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -239,12 +223,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       window.removeEventListener('popstate', this.close);
     }
   }
-
-  private updateWindowHeight = () => {
-    this.setState({ windowHeight: window.innerHeight });
-  };
-
-  private throttledUpdateWindowHeight = throttle(this.updateWindowHeight, 100);
 
   public render() {
     return (
@@ -477,6 +455,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const value = this.getValue();
 
+    const menuMaxHeight = search ? this.state.windowHeight : this.state.windowHeight! - MOBILE_MENU_TOP_PADDING;
+
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
@@ -484,12 +464,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         mobileCloseHandler={this.close}
-        mobileFixedHeight={search ? this.state.windowHeight : undefined}
+        mobileUseFullHeight={Boolean(search)}
       >
         <InternalMenu
           width={this.props.menuWidth}
           onItemClick={this.close}
-          maxHeight={search ? this.state.windowHeight : this.state.windowHeight - MOBILE_MENU_TOP_PADDING}
+          maxHeight={menuMaxHeight}
+          maxHeightFor={'all'}
           header={
             <MobileMenuHeader
               caption={this.props.mobileMenuHeaderText}
@@ -501,7 +482,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           disableDefaultPaddings
           backgroundTransparent
           headerBoxShadow={this.theme.mobileMenuHeaderShadow}
-          maxHeightFor={'all'}
         >
           <div style={{ paddingBottom: 16 }}>{this.getMenuItems(value)}</div>
         </InternalMenu>
@@ -518,6 +498,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private getMenuItems = (value: Nullable<TValue>) => {
+    const isMobile = this.isMobile();
+
     return this.mapItems(
       (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
         if (isFunction(item)) {
@@ -540,6 +522,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}
+            isMobile={isMobile}
           >
             {this.getProps().renderItem(iValue, item)}
           </MenuItem>

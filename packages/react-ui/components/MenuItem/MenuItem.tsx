@@ -6,6 +6,7 @@ import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './MenuItem.styles';
 
@@ -34,6 +35,8 @@ export interface MenuItemProps extends CommonProps {
   onMouseLeave?: React.MouseEventHandler;
 
   component?: React.ComponentType<any>;
+
+  isMobile?: boolean;
 }
 
 /**
@@ -76,8 +79,19 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const { link, comment, icon, loose, state, _enableIconPadding, component, onMouseEnter, onMouseLeave, ...rest } =
-      props;
+    const {
+      link,
+      comment,
+      icon,
+      loose,
+      state,
+      _enableIconPadding,
+      component,
+      onMouseEnter,
+      onMouseLeave,
+      isMobile,
+      ...rest
+    } = props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -86,8 +100,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={jsStyles.icon(this.theme)}>{icon}</div>;
     }
 
-    const className = cn({
+    const className = cx({
       [jsStyles.root(this.theme)]: true,
+      [jsStyles.rootMobile(this.theme)]: isMobile,
       [jsStyles.loose()]: !!loose,
       [jsStyles.hover(this.theme)]: hover,
       [jsStyles.selected(this.theme)]: state === 'selected',

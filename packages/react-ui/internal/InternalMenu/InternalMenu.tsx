@@ -46,6 +46,7 @@ interface MenuProps {
 
   /**
    * Максимальная высота
+   * @default 300
    */
   maxHeight?: number | string;
 
@@ -81,7 +82,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   public state: MenuState = {
     highlightedIndex: -1,
-    maxHeight: this.props.maxHeight || 'none',
+    maxHeight: InternalMenu.defaultProps.maxHeight,
     scrollState: 'top',
 
     scrollContainerMaxHeight: this.props.maxHeight || 'none',

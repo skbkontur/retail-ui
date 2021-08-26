@@ -24,12 +24,14 @@ const styles = {
       button& {
         min-width: 100%;
       }
+    `;
+  },
 
-      @media ${t.mobileMediaQuery}  {
-        font-size: ${t.mobileFontSize};
-        line-height: ${t.mobileLineHeight};
-        padding: ${t.mobileMenuItemPadding};
-      },
+  rootMobile(t: Theme) {
+    return css`
+      font-size: ${t.mobileFontSize};
+      line-height: ${t.mobileLineHeight};
+      padding: ${t.mobileMenuItemPadding};
     `;
   },
 

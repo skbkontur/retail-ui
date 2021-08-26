@@ -1,4 +1,4 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { findDOMNode } from 'react-dom';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -32,9 +32,9 @@ export interface DropdownContainerProps {
   offsetX?: number;
 
   /**
-   * Фиксированная высота мобильной версии
+   * Открыть на весь экран в мобильной версии
    */
-  mobileFixedHeight?: CSSProperties['height'];
+  mobileUseFullHeight?: boolean;
   /**
    * Хэндлер закрытия в мобильной версии
    */
@@ -69,7 +69,6 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     minWidth: 0,
     isDocumentElementRoot: true,
 
-    layout: LayoutMode.Desktop,
     mobileOpened: false,
   };
 
@@ -160,6 +159,10 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   public renderMobile() {
+    const height = this.props.mobileUseFullHeight ? '100vh' : undefined;
+
+    const maxHeight = this.props.mobileUseFullHeight ? '100vh' : `calc(100vh - ${MOBILE_MENU_TOP_PADDING}px)`;
+
     return (
       <RenderContainer>
         <div
@@ -167,7 +170,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
             [jsStyles.mobileMenu(this.theme)]: true,
             [jsStyles.mobileMenuOpened()]: this.state.mobileOpened,
           })}
-          style={{ height: this.props.mobileFixedHeight, maxHeight: `calc(100vh - ${MOBILE_MENU_TOP_PADDING})` }}
+          style={{ height, maxHeight }}
         >
           {this.props.children}
         </div>
