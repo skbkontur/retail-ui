@@ -129,7 +129,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Checkbox
   public static checkboxBg = '#fff';
   public static get checkboxShadowDisabled() {
-    return `0 0 0 ${this.checkboxBorderWidth} #f2f2f2`;
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(0,0,0,0.05)`;
   }
   public static get checkboxShadowActive() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
