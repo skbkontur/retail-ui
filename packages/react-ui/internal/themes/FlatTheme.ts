@@ -196,7 +196,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioHoverShadow = 'none';
   public static radioActiveShadow = 'none';
   public static radioCheckedBulletColor = '#fff';
-  public static radioDisabledShadow = 'none';
+  public static get radioDisabledShadow() {
+    return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.05)`;
+  }
   public static radioLabelDisplay = 'inline-block';
   public static get radioHoverBg() {
     return this.checkboxHoverBg;
