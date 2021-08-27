@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
 import { EyeOpenedIcon } from '../../../internal/icons/16px/index';
+import { Toggle } from '../../Toggle';
 
 import { LoaderAndButton } from './LoaderAndButton';
 
@@ -18,7 +19,7 @@ const wrapperStyle = {
 
 class ContentComponent extends React.Component<{
   additionalStyle?: object;
-  loaderProps?: LoaderProps;
+  loaderProps?: Partial<LoaderProps>;
 }> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;
@@ -56,7 +57,31 @@ class NumberList extends React.Component<{
 
 export default { title: 'Loader' };
 
-export const Simple = () => <Loader active />;
+export const Simple = () => {
+  const [toggleValue, setToggleValue] = useState(false);
+  return (
+    <>
+      <Toggle checked={toggleValue} onValueChange={(v) => setToggleValue(v)} />
+      <Loader active={toggleValue} delayBeforeSpinnerShow={2000} minimalDelayBeforeSpinnerHide={4000}>
+        <div style={{ padding: '16px' }}>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+          est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+          labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+          aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+          eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+          mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
+          incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+          laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit
+          esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+          officia deserunt mollit anim id est laborum.
+        </div>
+      </Loader>
+    </>
+  );
+};
 Simple.parameters = { creevey: { skip: [true] } };
 
 export const TypeBig = () => (
