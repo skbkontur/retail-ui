@@ -216,7 +216,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get radioCheckedHoverBgColor() {
     return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
-  public static switcherButtonDisabledBorderColor: 'rgba(0, 0, 0, 0.15)';
+  public static get switcherButtonDisabledBorderColor() {
+    return 'rgba(0, 0, 0, 0.05)';
+  }
 
   public static switcherButtonCheckedDisabledShadow: 'none';
   //#endregion
