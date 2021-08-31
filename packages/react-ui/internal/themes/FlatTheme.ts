@@ -223,7 +223,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static switcherButtonCheckedDisabledShadow: 'none';
   //#endregion
   //#region Token
-  public static tokenDisabledBg = '#f2f2f2';
+  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
   public static tokenShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.05)';
   //#endregion
 }

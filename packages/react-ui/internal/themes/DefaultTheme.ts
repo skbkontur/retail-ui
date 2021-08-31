@@ -115,7 +115,7 @@ export class DefaultTheme {
   public static linkButtonPaddingX = '10px';
   //#endregion
   //#region Token
-  public static tokenDisabledBg = '#e5e5e5';
+  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.10)';
   public static get tokenTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
@@ -193,7 +193,7 @@ export class DefaultTheme {
   public static tokenMarginYDisabled = '2px';
   public static tokenMarginXDisabled = '2px';
   public static get tokenShadowDisabled() {
-    return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
+    return `0 0 0 ${this.tokenBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
   //#endregion
   //#region TokenInput
