@@ -1,7 +1,6 @@
 import React, { ReactNode, useCallback, useContext, useRef } from 'react';
 import { jsStyles } from './FileAttacherBase.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
-import cn from 'classnames';
 import { IUploadFile, readFiles } from '../../lib/fileUtils';
 import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
@@ -9,13 +8,26 @@ import { Link } from '../../components/Link';
 import { UploadFilesContext } from './UploadFilesContext';
 import { useDrop } from './FileAttacherBaseHooks';
 import { Tooltip } from '../../components/Tooltip';
+import { cx } from '../../lib/theming/Emotion';
+
+// FIXME @mozalov: Что пофиксить:
+// 1. Аттачер
+//
+// 2. Аплоадер
+//
+// 3. Умный тост
+//
+//
+// 4. Общее
+// Красить валидации для single
 
 // FIXME @mozalov: написать комменты для каждого пропса
-// FIXME @mozalov: локализаци
+// FIXME @mozalov: локализация
 // FIXME @mozalov: тема
 // FIXME @mozalov: обработать клавиши
 // FIXME @mozalov: иконки
 // FIXME @mozalov: ховеры
+// FIXME @mozalov: а можно ли прикреплять один и тот же файл 2 раза7
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
@@ -94,7 +106,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     handleChange(event.target.files);
   }, [handleChange]);
 
-  const uploadButtonClassNames = cn(jsStyles.uploadButton(), {
+  const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable,
     [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
     [jsStyles.error()]: !!controlError,
