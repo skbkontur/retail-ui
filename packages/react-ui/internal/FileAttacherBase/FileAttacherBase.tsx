@@ -17,17 +17,17 @@ import { cx } from '../../lib/theming/Emotion';
 //
 // 3. Умный тост
 //
-//
 // 4. Общее
 // Красить валидации для single
 
-// FIXME @mozalov: написать комменты для каждого пропса
+// FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 // FIXME @mozalov: локализация
 // FIXME @mozalov: тема
 // FIXME @mozalov: обработать клавиши
 // FIXME @mozalov: иконки
 // FIXME @mozalov: ховеры
-// FIXME @mozalov: а можно ли прикреплять один и тот же файл 2 раза7
+
+// FIXME @mozalov: высоту fileItem сделать на все 100% родителя
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
@@ -150,6 +150,8 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
             name={name}
             disabled={disabled}
             multiple={multiple}
+            // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+            value={""}
             onChange={handleInputChange}
           />
         </div>
