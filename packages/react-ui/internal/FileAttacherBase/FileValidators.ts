@@ -1,6 +1,8 @@
 import { isAllowedFileType, IUploadFile } from '../../lib/fileUtils';
 import { ValidationResult } from './ValidationResult';
 
+// FIXME @mozalov: Возможно не в первой итерации стоит добавить набор валидаторов, которые юзеры могут пользовать
+
 export const fileTypeValidate = ({ type }: File, allowedFileTypes: string[]): boolean => {
   if (!allowedFileTypes.length) {
     return true;
