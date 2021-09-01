@@ -10,7 +10,7 @@ import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
 import { UploadFilesContext } from '../UploadFilesContext';
 import { Tooltip } from '../../../components/Tooltip';
-import cn from 'classnames';
+import { cx } from '../../../lib/theming/Emotion';
 
 interface ReadFileProps {
   file: IUploadFile;
@@ -98,9 +98,9 @@ export const UploadFile = (props: ReadFileProps) => {
     return isValid ? null : message;
   }, [isValid, message]);
 
-  const contentClassNames = useMemo(() => cn(jsStyles.content(), {
+  const contentClassNames = cx(jsStyles.content(), {
     [jsStyles.error()]: !isValid
-  }), [isValid]);
+  });
 
   const handleMouseEnter = useCallback(() => {
     setHovered(true);

@@ -54,7 +54,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
     });
   }, []);
 
-  const externalSetFiles = useCallback((files: IUploadFile[]) => {
+  const handleExternalSetFiles = useCallback((files: IUploadFile[]) => {
     setFiles(state => {
       const newFiles = [...state, ...files];
       onChange && onChange(newFiles);
@@ -79,7 +79,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
     <UploadFilesContext.Provider value={useContextValue({
       setFileStatus,
       files,
-      setFiles: externalSetFiles,
+      setFiles: handleExternalSetFiles,
       removeFile,
       setFileValidationResult
     })}>
