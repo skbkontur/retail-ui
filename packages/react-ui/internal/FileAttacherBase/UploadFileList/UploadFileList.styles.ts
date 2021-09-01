@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 
 const styles = {
-  root() {
+  fileWrapper() {
     return css`
       display: flex;
       align-items: center;

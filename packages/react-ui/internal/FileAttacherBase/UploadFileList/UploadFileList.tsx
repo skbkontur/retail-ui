@@ -1,18 +1,18 @@
 import React, { useContext } from 'react';
 import { UploadFile } from '../UploadFile/UploadFile';
-import { ReadFileItem } from '../ReadFileItem/ReadFileItem';
 import { UploadFilesContext } from '../UploadFilesContext';
+import { jsStyles } from './UploadFileList.styles';
 
 export const UploadFileList = () => {
-  // FIXME @mozalov: возможно избыточный компонент
-  // FIXME @mozalov: возможно стоит избавиться от ReadFileItem
   const {files} = useContext(UploadFilesContext);
 
   return (
     <div>
-      {files.map((file) => <ReadFileItem key={file.id}>
-        <UploadFile file={file} showSize />
-      </ReadFileItem>)}
+      {files.map((file) => (
+          <div key={file.id} className={jsStyles.fileWrapper()}>
+            <UploadFile file={file} showSize />
+          </div>
+      ))}
     </div>
   );
 };
