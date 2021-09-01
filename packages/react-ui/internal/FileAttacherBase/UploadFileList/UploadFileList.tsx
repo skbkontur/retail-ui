@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { UploadFile } from '../UploadFile/UploadFile';
 import { UploadFilesContext } from '../UploadFilesContext';
-import { jsStyles } from './UploadFileList.styles';
 
 export const UploadFileList = () => {
   const {files} = useContext(UploadFilesContext);
@@ -9,9 +8,7 @@ export const UploadFileList = () => {
   return (
     <div>
       {files.map((file) => (
-          <div key={file.id} className={jsStyles.fileWrapper()}>
-            <UploadFile file={file} showSize />
-          </div>
+          <UploadFile key={file.id} file={file} showSize />
       ))}
     </div>
   );

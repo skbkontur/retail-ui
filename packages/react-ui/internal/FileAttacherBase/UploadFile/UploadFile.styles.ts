@@ -3,7 +3,11 @@ import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 const styles = {
   root() {
     return css`
-      width: 100%;
+      display: flex;
+      align-items: center;
+      height: 32px;
+      width: 362px;
+      padding: 0 12px 0 7px;
     `;
   },
 

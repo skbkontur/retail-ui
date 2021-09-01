@@ -18,7 +18,6 @@ import { cx } from '../../lib/theming/Emotion';
 // 3. Умный тост
 //
 // 4. Общее
-// Красить валидации для single
 
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 // FIXME @mozalov: локализация
@@ -27,7 +26,7 @@ import { cx } from '../../lib/theming/Emotion';
 // FIXME @mozalov: иконки
 // FIXME @mozalov: ховеры
 
-// FIXME @mozalov: высоту fileItem сделать на все 100% родителя
+// FIXME @mozalov: Красить валидации для single
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
