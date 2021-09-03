@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -36,6 +36,7 @@ export interface RadioProps<T>
       }
     > {}
 
+@theme
 export class Radio<T> extends React.Component<RadioProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
@@ -52,18 +53,11 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     focused: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private inputEl = React.createRef<HTMLInputElement>();
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   /**

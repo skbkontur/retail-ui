@@ -7,7 +7,7 @@ import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { isMenuHeader } from '../../components/MenuHeader';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -37,6 +37,7 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
+@theme
 export class InternalMenu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
@@ -55,7 +56,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     scrollState: 'top',
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private rootElement: Nullable<HTMLDivElement>;
@@ -87,17 +88,6 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       (x) => React.isValidElement(x) && x.props.icon,
     );

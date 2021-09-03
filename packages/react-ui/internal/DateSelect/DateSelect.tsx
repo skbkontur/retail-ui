@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
+import { theme } from '../../lib/theming/decorators';
 import { RenderLayer } from '../RenderLayer';
 import { DropdownContainer } from '../DropdownContainer';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
@@ -45,6 +45,7 @@ export interface DateSelectState {
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
+@theme
 export class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
 
@@ -82,7 +83,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     nodeTop: Infinity,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private readonly locale!: DatePickerLocale;
   private root: HTMLElement | null = null;
   private itemsContainer: HTMLElement | null = null;
@@ -150,17 +151,6 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   };
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { width, disabled } = this.props;
     const rootProps = {
       className: cx({

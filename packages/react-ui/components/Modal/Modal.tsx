@@ -9,7 +9,7 @@ import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
@@ -82,6 +82,7 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
+@theme
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
@@ -103,7 +104,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     hasPanel: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
@@ -143,17 +144,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   }
 
   public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { hasHeader, hasFooter, hasPanel } = this.state;
 
     const modalContextProps: ModalContextProps = {

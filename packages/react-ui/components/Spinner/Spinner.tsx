@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { theme } from '../../lib/theming/decorators';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -34,6 +34,7 @@ export interface SpinnerProps extends CommonProps {
  */
 
 @locale('Spinner', SpinnerLocaleHelper)
+@theme
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
 
@@ -62,7 +63,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   public static Types: typeof types = types;
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private readonly locale!: SpinnerLocale;
 
   constructor(props: SpinnerProps) {
@@ -70,17 +71,6 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { type, caption = this.locale.loading, dimmed } = this.props;
 
     return (

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../DateSelect';
 import { Nullable } from '../../typings/utility-types';
+import { theme } from '../../lib/theming/decorators';
 
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
@@ -25,8 +25,9 @@ interface MonthProps {
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
+@theme
 export class Month extends React.Component<MonthProps> {
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
@@ -55,17 +56,6 @@ export class Month extends React.Component<MonthProps> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
     const { month, maxDate, minDate, top } = this.props;
     return (
       <MonthView
@@ -140,8 +130,9 @@ interface MonthDayGridProps {
   isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
+@theme
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   public static defaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
@@ -164,17 +155,6 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
     return (
       <div>
         <div

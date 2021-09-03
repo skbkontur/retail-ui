@@ -7,7 +7,7 @@ import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ResizeDetector } from '../../internal/ResizeDetector';
@@ -114,6 +114,7 @@ export interface TextareaState {
  *
  * ** `className` и `style`  игнорируются**
  */
+@theme
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
 
@@ -189,7 +190,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private selectAllId: number | null = null;
   private node: Nullable<HTMLTextAreaElement>;
   private fakeNode: Nullable<HTMLTextAreaElement>;
@@ -237,14 +238,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   /**

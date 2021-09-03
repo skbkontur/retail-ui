@@ -7,10 +7,10 @@ import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
 import { InputProps, InputIconType, InputState } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 
 import { styles } from './InputLikeText.styles';
@@ -27,6 +27,7 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
 
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 
+@theme
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
@@ -34,7 +35,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   public state = { blinking: false, focused: false };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private node: HTMLElement | null = null;
   private hiddenInput: HTMLInputElement | null = null;
   private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
@@ -115,14 +116,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   private renderMain = (props: CommonWrapperRestProps<InputLikeTextProps>) => {

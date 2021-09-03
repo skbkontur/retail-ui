@@ -11,6 +11,7 @@ import { MouseEventType } from '../../typings/event-types';
 import { containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { theme } from '../../lib/theming/decorators';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
@@ -158,6 +159,7 @@ export interface TooltipState {
   focused: boolean;
 }
 
+@theme
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
 
@@ -188,7 +190,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
 
   public state: TooltipState = { opened: false, focused: false };
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
@@ -214,29 +216,22 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.tooltipPinOffset,
-                  popupMargin: theme.tooltipMargin,
-                  popupBorder: theme.tooltipBorder,
-                  popupBorderRadius: theme.tooltipBorderRadius,
-                  popupPinSize: theme.tooltipPinSize,
-                  popupPinOffsetX: theme.tooltipPinOffsetX,
-                  popupPinOffsetY: theme.tooltipPinOffsetY,
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <ThemeContext.Provider
+        value={ThemeFactory.create(
+          {
+            popupPinOffset: this.theme.tooltipPinOffset,
+            popupMargin: this.theme.tooltipMargin,
+            popupBorder: this.theme.tooltipBorder,
+            popupBorderRadius: this.theme.tooltipBorderRadius,
+            popupPinSize: this.theme.tooltipPinSize,
+            popupPinOffsetX: this.theme.tooltipPinOffsetX,
+            popupPinOffsetY: this.theme.tooltipPinOffsetY,
+          },
+          this.theme,
+        )}
+      >
+        {this.renderMain()}
+      </ThemeContext.Provider>
     );
   }
 

@@ -7,10 +7,10 @@ import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
 import { styles } from './Input.styles';
 
@@ -106,6 +106,7 @@ export interface InputState {
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
+@theme
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
@@ -122,7 +123,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private selectAllId: number | null = null;
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
 
@@ -203,14 +204,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   /**

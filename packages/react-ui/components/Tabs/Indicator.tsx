@@ -4,12 +4,12 @@ import throttle from 'lodash.throttle';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
 import { styles } from './Indicator.styles';
-import { TabsContext, TabsContextType } from './TabsContext';
+import { TabsContext } from './TabsContext';
 import { TabIndicators } from './Tab';
 
 export interface IndicatorProps {
@@ -24,15 +24,16 @@ export interface IndicatorState {
   styles: React.CSSProperties;
 }
 
+@theme
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public static contextType = TabsContext;
-  public context: TabsContextType = this.context;
+  public context!: React.ContextType<typeof TabsContext>;
 
   public state: IndicatorState = {
     styles: {},
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private eventListener: Nullable<{
     remove: () => void;
@@ -62,19 +63,8 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { getTab, activeTab } = this.context;
-    const node = getTab(activeTab);
+    const node = getTab?.(activeTab);
     const indicators: TabIndicators = (node && node.getIndicators && node.getIndicators()) || {
       error: false,
       warning: false,
@@ -99,7 +89,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
 
   private reflow = throttle(() => {
     const { getTab, activeTab } = this.context;
-    const node = getTab(activeTab);
+    const node = getTab?.(activeTab);
     const nodeStyles = this.getStyles(node);
     const stylesUpdated = ['left', 'top', 'width', 'height'].some(
       (prop) => nodeStyles[prop as keyof React.CSSProperties] !== this.state.styles[prop as keyof React.CSSProperties],

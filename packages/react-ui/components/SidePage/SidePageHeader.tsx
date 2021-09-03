@@ -3,7 +3,7 @@ import React from 'react';
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { isFunction } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -24,6 +24,7 @@ export interface SidePageHeaderState {
  *
  * @visibleName SidePage.Header
  */
+@theme
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
 
@@ -34,7 +35,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     isReadyToFix: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private wrapper: HTMLElement | null = null;
   private lastRegularHeight = 0;
 
@@ -69,17 +70,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   };
 
   public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { isReadyToFix } = this.state;
     return (
       <CommonWrapper {...this.props}>

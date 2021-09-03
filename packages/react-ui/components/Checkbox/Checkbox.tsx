@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Nullable, Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -46,6 +46,7 @@ export interface CheckboxState {
 /**
  * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
  */
+@theme
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
@@ -66,7 +67,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     indeterminate: this.props.initialIndeterminate || false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private input: Nullable<HTMLInputElement>;
 
   public componentDidMount = () => {
@@ -82,14 +83,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   /**

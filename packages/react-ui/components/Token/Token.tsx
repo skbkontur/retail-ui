@@ -2,7 +2,7 @@ import React from 'react';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -32,23 +32,13 @@ export interface TokenProps extends CommonProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
+@theme
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const {
       children,
       isActive,

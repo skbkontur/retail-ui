@@ -104,7 +104,7 @@ export interface ButtonProps extends CommonProps {
 export interface ButtonState {
   focusedByTab: boolean;
 }
-
+// todo theme
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;

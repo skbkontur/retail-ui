@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { Popup, PopupPosition } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
@@ -62,6 +63,7 @@ const Positions: PopupPosition[] = [
   'right bottom',
 ];
 
+@theme
 export class Hint extends React.Component<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
@@ -79,7 +81,7 @@ export class Hint extends React.Component<HintProps, HintState> {
   };
 
   private timer: Nullable<number> = null;
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
@@ -103,47 +105,34 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.hintPinOffset,
-                  popupMargin: theme.hintMargin,
-                  popupBorder: theme.hintBorder,
-                  popupBorderRadius: theme.hintBorderRadius,
-                },
-                this.theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
-    return (
-      <CommonWrapper {...this.props}>
-        <Popup
-          hasPin
-          opened={this.state.opened}
-          anchorElement={this.props.children}
-          positions={this.getPositions()}
-          backgroundColor={this.theme.hintBgColor}
-          borderColor={HINT_BORDER_COLOR}
-          disableAnimations={this.props.disableAnimations}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          useWrapper={this.props.useWrapper}
-        >
-          {this.renderContent()}
-        </Popup>
-      </CommonWrapper>
+      <ThemeContext.Provider
+        value={ThemeFactory.create(
+          {
+            popupPinOffset: this.theme.hintPinOffset,
+            popupMargin: this.theme.hintMargin,
+            popupBorder: this.theme.hintBorder,
+            popupBorderRadius: this.theme.hintBorderRadius,
+          },
+          this.theme,
+        )}
+      >
+        <CommonWrapper {...this.props}>
+          <Popup
+            hasPin
+            opened={this.state.opened}
+            anchorElement={this.props.children}
+            positions={this.getPositions()}
+            backgroundColor={this.theme.hintBgColor}
+            borderColor={HINT_BORDER_COLOR}
+            disableAnimations={this.props.disableAnimations}
+            onMouseEnter={this.handleMouseEnter}
+            onMouseLeave={this.handleMouseLeave}
+            useWrapper={this.props.useWrapper}
+          >
+            {this.renderContent()}
+          </Popup>
+        </CommonWrapper>
+      </ThemeContext.Provider>
     );
   }
 

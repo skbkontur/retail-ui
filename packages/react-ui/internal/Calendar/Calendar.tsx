@@ -5,7 +5,7 @@ import throttle from 'lodash.throttle';
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '../../lib/date/constants';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 
@@ -45,6 +45,7 @@ const getTodayDate = () => {
   };
 };
 
+@theme
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
@@ -62,7 +63,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     },
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
   private animation = Animation();
@@ -90,17 +91,6 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     if (this.animation.inProgress()) {
       this.animation.cancel();
     }
-  }
-
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
   }
 
   /**
@@ -208,7 +198,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     }
   };
 
-  private renderMain = () => {
+  public render = () => {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (

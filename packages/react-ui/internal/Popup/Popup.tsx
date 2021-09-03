@@ -105,6 +105,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+// todo theme
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 

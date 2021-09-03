@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
@@ -72,6 +72,7 @@ export interface AutocompleteState {
  *
  * Все свойства передаются во внутренний *Input*.
  */
+@theme
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
@@ -114,7 +115,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     focused: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
@@ -147,14 +148,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
   public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
     const { focused } = this.state;

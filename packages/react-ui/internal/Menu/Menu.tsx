@@ -25,6 +25,7 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
+// todo theme
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 

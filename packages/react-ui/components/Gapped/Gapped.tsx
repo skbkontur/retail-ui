@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -33,6 +33,7 @@ export interface GappedProps extends CommonProps {
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
+@theme
 export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
 
@@ -53,7 +54,7 @@ export class Gapped extends React.Component<GappedProps> {
     verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   public static defaultProps = {
     wrap: false,
@@ -63,16 +64,9 @@ export class Gapped extends React.Component<GappedProps> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <CommonWrapper {...this.props}>
-              {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <CommonWrapper {...this.props}>
+        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+      </CommonWrapper>
     );
   }
 

@@ -7,7 +7,7 @@ import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -38,6 +38,7 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+@theme
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
@@ -146,7 +147,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static Prevent = Prevent;
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
@@ -172,17 +173,6 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
     const style = {
       width: width != null ? width : 'auto',

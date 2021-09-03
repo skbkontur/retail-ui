@@ -13,7 +13,7 @@ import { Gapped } from '../../components/Gapped';
 import { Link, LinkProps } from '../../components/Link';
 import { Input, InputProps } from '../../components/Input';
 import { Toggle } from '../../components/Toggle';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
@@ -44,21 +44,12 @@ export interface PlaygroundProps {
   onEditLinkClick: () => void;
 }
 
+@theme
 export class Playground extends React.Component<PlaygroundProps, {}> {
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private stopEl = React.createRef<HTMLDivElement>();
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-  private renderMain() {
     const wrapperClassName = cx(styles.playground(), styles.playgroundWrapper(this.theme));
     return (
       <div className={wrapperClassName}>

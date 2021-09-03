@@ -4,7 +4,7 @@ import { MaskCharLowLine } from '../../internal/MaskCharLowLine';
 import { InternalDateValidator } from '../../lib/date/InternalDateValidator';
 import { InternalDateComponentType, InternalDateFragment } from '../../lib/date/types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './DateFragmentsView.styles';
@@ -16,8 +16,9 @@ interface DateFragmentViewProps {
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
+@theme
 export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private rootNode: HTMLSpanElement | null = null;
 
   public isFragment = (el: HTMLElement | EventTarget): boolean => {
@@ -32,17 +33,6 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
   public getRootNode = () => this.rootNode;
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     return (
       <span ref={this.rootRef} className={styles.root(this.theme)}>
         {this.props.fragments.map((fragment, index) =>

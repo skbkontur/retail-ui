@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 
 import { tabListener } from '../../lib/events/tabListener';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -38,6 +38,7 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
+@theme
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
@@ -63,7 +64,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     captionPosition: 'right',
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private input: HTMLInputElement | null = null;
 
   constructor(props: ToggleProps) {
@@ -93,17 +94,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { children, captionPosition, warning, error, loading, color } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;

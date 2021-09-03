@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import { Override } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
 import { styles } from './Link.styles';
 
@@ -45,6 +45,7 @@ export interface LinkState {
  * Все свойства передаются в элемент `<a>`.
  * `className` и `style` не поддерживаются
  */
+@theme
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
@@ -67,16 +68,10 @@ export class Link extends React.Component<LinkProps, LinkState> {
     focusedByTab: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
+
   public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   private renderMain = (props: CommonWrapperRestProps<LinkProps>) => {

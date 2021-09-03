@@ -1,13 +1,13 @@
 import React from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
 import { styles } from './SidePage.styles';
-import { SidePageContext, SidePageContextType } from './SidePageContext';
+import { SidePageContext } from './SidePageContext';
 
 export interface SidePageFooterProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -22,24 +22,24 @@ export interface SidePageFooterProps extends CommonProps {
  *
  * @visibleName SidePage.Footer
  */
-
+@theme
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
   public static contextType = SidePageContext;
-  public context: SidePageContextType = this.context;
+  public context!: React.ContextType<typeof SidePageContext>;
 
   public state = {
     fixed: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private content: HTMLElement | null = null;
   private wrapper: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
 
   public componentDidMount() {
-    this.context.footerRef(this);
+    this.context.footerRef?.(this);
     this.update();
     this.layoutSub = LayoutEvents.addListener(this.update);
     this.context.setHasFooter?.();
@@ -51,7 +51,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   }
 
   public componentWillUnmount() {
-    this.context.footerRef(null);
+    this.context.footerRef?.(null);
     if (this.layoutSub) {
       this.layoutSub.remove();
     }
@@ -59,22 +59,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     this.context.setHasPanel?.(false);
   }
 
-  public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
   public update = () => {
     this.setProperStyles();
   };
 
-  private renderMain() {
+  public render() {
     return (
       <CommonWrapper {...this.props}>
         <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>

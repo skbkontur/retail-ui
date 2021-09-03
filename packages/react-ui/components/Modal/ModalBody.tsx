@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
@@ -21,24 +21,14 @@ export interface ModalBodyProps extends CommonProps {
  *
  * @visibleName Modal.Body
  */
+@theme
 export class ModalBody extends React.Component<ModalBodyProps> {
   public static __KONTUR_REACT_UI__ = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain(): JSX.Element {
     const { noPadding } = this.props;
     return (
       <ModalContext.Consumer>

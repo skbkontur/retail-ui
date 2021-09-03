@@ -7,6 +7,7 @@ import { tabListener } from '../../lib/events/tabListener';
 import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPosition } from '../../internal/Popup';
+import { theme } from '../../lib/theming/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
@@ -53,6 +54,7 @@ export interface KebabState {
   opened: boolean;
 }
 
+@theme
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
@@ -73,7 +75,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     anchor: null,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private listener: {
     remove: () => void;
@@ -91,43 +93,30 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.kebabPinOffset,
-                  popupMargin: theme.kebabMargin,
-                  popupPinSize: theme.kebabPinSize,
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { disabled, positions } = this.props;
     return (
-      <CommonWrapper {...this.props}>
-        <PopupMenu
-          popupHasPin
-          positions={positions}
-          onChangeMenuState={this.handleChangeMenuState}
-          caption={this.renderCaption}
-          disableAnimations={this.props.disableAnimations}
-        >
-          {!disabled && this.props.children}
-        </PopupMenu>
-      </CommonWrapper>
+      <ThemeContext.Provider
+        value={ThemeFactory.create(
+          {
+            popupPinOffset: this.theme.kebabPinOffset,
+            popupMargin: this.theme.kebabMargin,
+            popupPinSize: this.theme.kebabPinSize,
+          },
+          this.theme,
+        )}
+      >
+        <CommonWrapper {...this.props}>
+          <PopupMenu
+            popupHasPin
+            positions={positions}
+            onChangeMenuState={this.handleChangeMenuState}
+            caption={this.renderCaption}
+            disableAnimations={this.props.disableAnimations}
+          >
+            {!disabled && this.props.children}
+          </PopupMenu>
+        </CommonWrapper>
+      </ThemeContext.Provider>
     );
   }
 

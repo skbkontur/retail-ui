@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
@@ -25,6 +25,7 @@ interface MaskedInputState {
   focused: boolean;
 }
 
+@theme
 export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
@@ -33,7 +34,7 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
   };
 
   public input: HTMLInputElement | null = null;
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;
 
   public constructor(props: MaskedInputProps) {
@@ -62,17 +63,6 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const {
       maskChar,
       alwaysShowMask,

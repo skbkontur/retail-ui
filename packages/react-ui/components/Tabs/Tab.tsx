@@ -7,12 +7,12 @@ import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keybo
 import { tabListener } from '../../lib/events/tabListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
-import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
+import { TabsContext, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
 
 export interface TabIndicators {
@@ -104,11 +104,12 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
+@theme
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
   public static contextType = TabsContext;
-  public context: TabsContextType = this.context;
+  public context!: React.ContextType<typeof TabsContext>;
 
   public static propTypes = {
     children: PropTypes.node,
@@ -127,7 +128,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     focusedByKeyboard: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
   private isArrowKeyPressed = false;
 
@@ -157,17 +158,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     window.removeEventListener('keydown', this.handleKeyDownGlobal);
   }
 
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
   public getIndicators() {
     return {
       error: Boolean(this.props.error),
@@ -180,7 +170,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   public getUnderlyingNode = () => this.tabComponent;
 
-  private renderMain() {
+  public render() {
     const {
       children,
       disabled,

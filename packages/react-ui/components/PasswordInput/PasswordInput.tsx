@@ -9,7 +9,7 @@ import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './PasswordInput.styles';
@@ -26,6 +26,7 @@ export interface PasswordInputState {
 /**
  * Компонент для ввода пароля
  */
+@theme
 export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
@@ -45,7 +46,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     capsLockEnabled: false,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private input: Nullable<Input>;
 
@@ -63,14 +64,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   /**

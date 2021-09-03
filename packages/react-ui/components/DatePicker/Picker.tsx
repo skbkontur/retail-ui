@@ -5,9 +5,9 @@ import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
 import { Calendar, CalendarDateShape, isGreater, isLess } from '../../internal/Calendar';
 import { locale } from '../../lib/locale/decorators';
+import { theme } from '../../lib/theming/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
@@ -37,10 +37,11 @@ const getTodayCalendarDate = () => {
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
+@theme
 export class Picker extends React.Component<Props, State> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
@@ -61,17 +62,6 @@ export class Picker extends React.Component<Props, State> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { date } = this.state;
 
     return (

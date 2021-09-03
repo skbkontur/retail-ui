@@ -7,11 +7,11 @@ import { Nullable } from '../../typings/utility-types';
 import { tabListener } from '../../lib/events/tabListener';
 import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -64,6 +64,7 @@ export interface PagingState {
 export type ItemType = number | '.' | 'forward';
 
 @locale('Paging', PagingLocaleHelper)
+@theme
 export class Paging extends React.Component<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
@@ -89,7 +90,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     keyboardControl: this.props.useGlobalListener,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private readonly locale!: PagingLocale;
   private addedGlobalListener = false;
   private container: HTMLSpanElement | null = null;
@@ -124,17 +125,6 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     return (
       <CommonWrapper {...this.props}>
         <span

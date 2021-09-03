@@ -12,6 +12,7 @@ import {
   isKeySpace,
 } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
+import { theme } from '../../lib/theming/decorators';
 import { reactGetTextContent } from '../../lib/reactGetTextContent';
 import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../../internal/DropdownContainer';
@@ -146,6 +147,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 @locale('Select', SelectLocaleHelper)
+@theme
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
 
@@ -197,7 +199,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     searchPattern: '',
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
@@ -214,14 +216,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
     );
   }
 

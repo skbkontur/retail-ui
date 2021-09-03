@@ -3,11 +3,11 @@ import React from 'react';
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
 import { InternalDateComponentType } from '../../lib/date/types';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../DatePicker/locale';
 import { InputLikeText } from '../../internal/InputLikeText';
 import { locale } from '../../lib/locale/decorators';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -65,6 +65,7 @@ export interface DateInputProps extends CommonProps {
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
+@theme
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
 
@@ -84,7 +85,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private ignoringDelimiter = false;
   private locale!: DatePickerLocale;
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
     .add(Actions.MoveSelectionLeft, () => this.shiftSelection(-1))
     .add(Actions.MoveSelectionRight, () => this.shiftSelection(1))
@@ -166,17 +167,6 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
 

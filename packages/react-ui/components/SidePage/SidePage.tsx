@@ -10,7 +10,7 @@ import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { RenderContainer } from '../../internal/RenderContainer';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isIE11 } from '../../lib/client';
@@ -90,6 +90,7 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
+@theme
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
@@ -102,7 +103,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasFooter: false,
     hasPanel: false,
   };
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
@@ -136,17 +137,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain() {
     const { blockBackground, disableAnimations } = this.props;
 
     return (

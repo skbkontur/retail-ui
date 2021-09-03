@@ -16,6 +16,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   menuAlign: TokenInputMenuAlign;
 }
 
+// todo theme
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
 

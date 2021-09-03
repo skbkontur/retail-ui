@@ -2,10 +2,10 @@ import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { theme } from '../../lib/theming/decorators';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -50,6 +50,7 @@ export interface TabsProps<T extends string = string> extends CommonProps {
  *
  * contains static property `Tab`
  */
+@theme
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
@@ -66,7 +67,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public static Tab = Tab;
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private tabs: Array<{
     getNode: () => Tab<T> | null;
@@ -86,34 +87,26 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   public render(): JSX.Element {
     const { vertical, value, width, children, indicatorClassName } = this.props;
-
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <CommonWrapper {...this.props}>
-              <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
-                <TabsContext.Provider
-                  value={{
-                    vertical,
-                    activeTab: value,
-                    getTab: this.getTab,
-                    addTab: this.addTab,
-                    removeTab: this.removeTab,
-                    notifyUpdate: this.notifyUpdate,
-                    shiftFocus: this.shiftFocus,
-                    switchTab: this.switchTab,
-                  }}
-                >
-                  {children}
-                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
-                </TabsContext.Provider>
-              </div>
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <CommonWrapper {...this.props}>
+        <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
+          <TabsContext.Provider
+            value={{
+              vertical,
+              activeTab: value,
+              getTab: this.getTab,
+              addTab: this.addTab,
+              removeTab: this.removeTab,
+              notifyUpdate: this.notifyUpdate,
+              shiftFocus: this.shiftFocus,
+              switchTab: this.switchTab,
+            }}
+          >
+            {children}
+            <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+          </TabsContext.Provider>
+        </div>
+      </CommonWrapper>
     );
   }
 

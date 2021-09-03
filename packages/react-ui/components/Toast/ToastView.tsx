@@ -3,7 +3,7 @@ import { func, shape, string } from 'prop-types';
 
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
@@ -26,6 +26,7 @@ export interface ToastViewProps extends CommonProps {
   onMouseLeave?: () => void;
 }
 
+@theme
 export class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
@@ -42,17 +43,10 @@ export class ToastView extends React.Component<ToastViewProps> {
     onClose: func,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-        }}
-      </ThemeContext.Consumer>
-    );
+    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
   }
 
   private renderMain = (props: CommonWrapperRestProps<ToastViewProps>) => {
