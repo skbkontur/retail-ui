@@ -6,7 +6,7 @@ import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
 import { UploadFilesContext } from './UploadFilesContext';
-import { useDrop } from './FileAttacherBaseHooks';
+import { useControlLocale, useDrop } from './FileAttacherBaseHooks';
 import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -19,14 +19,12 @@ import { cx } from '../../lib/theming/Emotion';
 //
 // 4. Общее
 
-// FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 // FIXME @mozalov: локализация
 // FIXME @mozalov: тема
 // FIXME @mozalov: обработать клавиши
-// FIXME @mozalov: иконки
-// FIXME @mozalov: ховеры
+// FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 
-// FIXME @mozalov: Красить валидации для single
+// FIXME @mozalov: проверить переводы локализованных кусков
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
@@ -58,6 +56,8 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     onSelect,
     onReadError
   } = props;
+
+  const locale = useControlLocale();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const {files, setFiles} = useContext(UploadFilesContext);
@@ -131,13 +131,13 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
         >
           <div className={jsStyles.content()}>
             <Link disabled={disabled} tabIndex={-1}>
-              {hasOneFileForSingle ? "Выбран файл" : "Выберите файл"}
+              {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
             </Link>
             &nbsp;
             <div className={jsStyles.afterLinkText()}>
               {hasOneFileForSingle
                 ? <UploadFile file={files[0]} />
-                : <>или перетащите сюда <UploadIcon color="#808080"/></>}
+                : <>{locale.orDragHere}&nbsp;<UploadIcon color="#808080"/></>}
             </div>
           </div>
           <input

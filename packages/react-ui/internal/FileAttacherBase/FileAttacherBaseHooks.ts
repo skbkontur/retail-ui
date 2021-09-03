@@ -2,6 +2,8 @@ import { MutableRefObject, useCallback, useContext, useEffect, useRef, useState 
 import { FileError } from './FileAttacherBase';
 import { ValidationResult } from './ValidationResult';
 import { UploadFilesContext } from './UploadFilesContext';
+import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
+import { FileAttacherBaseLocaleHelper } from './locale';
 
 interface IUseDropProps {
   onDrop: (event: Event) => void;
@@ -78,3 +80,5 @@ export const useValidationSetter = (fileErrors: FileError[] = []) => {
     });
   }, [fileErrors]);
 };
+
+export const useControlLocale = () => useLocaleForControl('FileAttacherBase', FileAttacherBaseLocaleHelper);

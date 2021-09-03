@@ -84,7 +84,7 @@ export const UploadFile = (props: ReadFileProps) => {
       case UploadFileStatus.Loading:
         return <Spinner type="mini" dimmed caption="" />;
       case UploadFileStatus.Uploaded:
-        return <OkIcon />;
+        return <OkIcon color="#808080" />;
       default:
         if (!isValid) {
           return <ErrorIcon />;
