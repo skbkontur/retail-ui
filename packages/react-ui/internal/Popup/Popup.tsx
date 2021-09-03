@@ -12,7 +12,8 @@ import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+// import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -106,6 +107,7 @@ export interface PopupState {
 }
 
 // todo theme
+@theme
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
@@ -182,7 +184,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
@@ -229,18 +231,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
+  // public render() {
+  //   return (
+  //     <ThemeContext.Consumer>
+  //       {(theme) => {
+  //         this.theme = theme;
+  //         return this.renderMain();
+  //       }}
+  //     </ThemeContext.Consumer>
+  //   );
+  // }
 
-  private renderMain() {
+  public render() {
     const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
 

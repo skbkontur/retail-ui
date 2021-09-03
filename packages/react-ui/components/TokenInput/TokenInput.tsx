@@ -19,7 +19,8 @@ import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+// import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
@@ -163,6 +164,7 @@ const defaultRenderToken = <T extends {}>(
 );
 
 // todo theme
+@theme
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
@@ -188,7 +190,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   public state: TokenInputState<T> = DefaultState;
 
   private readonly locale!: TokenInputLocale;
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private input: HTMLTextAreaElement | null = null;
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
@@ -224,18 +226,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     document.removeEventListener('copy', this.handleCopy);
   }
 
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
+  // public render() {
+  //   return (
+  //     <ThemeContext.Consumer>
+  //       {(theme) => {
+  //         this.theme = theme;
+  //         return this.renderMain();
+  //       }}
+  //     </ThemeContext.Consumer>
+  //   );
+  // }
 
-  private renderMain() {
+  public render() {
     if (this.type !== TokenInputType.WithoutReference && !this.props.getItems) {
       throw Error('Missed getItems for type ' + this.type);
     }

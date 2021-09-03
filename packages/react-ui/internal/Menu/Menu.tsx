@@ -5,7 +5,8 @@ import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { isMenuHeader } from '../../components/MenuHeader';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+// import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -26,6 +27,7 @@ export interface MenuState {
 }
 
 // todo theme
+@theme
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
@@ -40,7 +42,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     highlightedIndex: -1,
   };
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
@@ -49,16 +51,16 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     this.unmounted = true;
   }
 
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return this.renderMain();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
+  // public render() {
+  //   return (
+  //     <ThemeContext.Consumer>
+  //       {(theme) => {
+  //         this.theme = theme;
+  //         return this.renderMain();
+  //       }}
+  //     </ThemeContext.Consumer>
+  //   );
+  // }
 
   /**
    * @public
@@ -99,7 +101,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     this.highlight(index);
   }
 
-  private renderMain() {
+  public render() {
     const enableIconPadding = React.Children.toArray(this.props.children).some(
       (x) => React.isValidElement(x) && x.props.icon,
     );

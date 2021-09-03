@@ -5,6 +5,7 @@ import { Popup } from '../../internal/Popup';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
+import { theme } from '../../lib/theming/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
@@ -17,32 +18,26 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 }
 
 // todo theme
+@theme
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
 
-  private theme!: Theme;
+  private readonly theme!: Theme;
 
   private menu: Menu | null = null;
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupMargin: this.getPopupMargin() + 'px',
-                },
-                theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <ThemeContext.Provider
+        value={ThemeFactory.create(
+          {
+            popupMargin: this.getPopupMargin() + 'px',
+          },
+          this.theme,
+        )}
+      >
+        {this.renderMain()}
+      </ThemeContext.Provider>
     );
   }
 
