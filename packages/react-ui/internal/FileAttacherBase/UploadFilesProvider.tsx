@@ -4,6 +4,7 @@ import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 import { UploadFilesContext } from './UploadFilesContext';
 import { FileAttacherBaseProps } from './FileAttacherBase';
 import { ValidationResult } from './ValidationResult';
+import { useControlLocale } from './FileAttacherBaseHooks';
 
 // TODO @mozalov: разобраться с пересечениями пропсов
 interface IUploadFilesProviderProps {
@@ -40,6 +41,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
 
   // в files попадат только те, что попали в onSelect
   const [files, setFiles] = useState<IUploadFile[]>([]);
+  const locale = useControlLocale();
 
   const setFileStatus = useCallback((fileId: string, status: UploadFileStatus) => {
     setFiles(files => {
@@ -47,12 +49,12 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
         return {
           status,
           validationResult: status === UploadFileStatus.Error
-            ? ValidationResult.error('Файл не удалось загрузить на сервер, повторите попытку позже')
+            ? ValidationResult.error(locale.requestErrorText)
             : file.validationResult
         };
       });
     });
-  }, []);
+  }, [locale]);
 
   const handleExternalSetFiles = useCallback((files: IUploadFile[]) => {
     setFiles(state => {

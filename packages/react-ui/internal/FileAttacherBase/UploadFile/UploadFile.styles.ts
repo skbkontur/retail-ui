@@ -44,6 +44,7 @@ const styles = {
       cursor: pointer;
       width: 16px;
       height: 16px;
+      text-align: right;
     `;
   },
 
