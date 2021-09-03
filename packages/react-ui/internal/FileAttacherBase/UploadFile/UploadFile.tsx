@@ -74,7 +74,7 @@ export const UploadFile = (props: ReadFileProps) => {
   const { isValid, message } = validationResult;
 
   const icon: ReactNode = useMemo(() => {
-    const deleteIcon = <DeleteIcon color="#808080" onClick={handleRemove} />;
+    const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon()} onClick={handleRemove} />;
 
     if (hovered) {
       return deleteIcon;

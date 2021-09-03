@@ -4,10 +4,9 @@ const styles = {
   root() {
     return css`
       display: flex;
-      align-items: center;
+      width: 100%;
       height: 32px;
-      width: 362px;
-      padding: 0 12px 0 7px;
+      align-items: center;
     `;
   },
 
@@ -43,6 +42,17 @@ const styles = {
       margin-left: 23px;
       flex: 1 0 auto;
       cursor: pointer;
+      width: 16px;
+      height: 16px;
+    `;
+  },
+
+  deleteIcon() {
+    return css`
+      color: #808080;
+      &:hover {
+        color: #333;
+      }
     `;
   }
 };
