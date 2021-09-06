@@ -3,14 +3,17 @@ import React from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { FileAttacher, FileAttacherProps } from '../../../components/FileAttacher/FileAttacher';
+import { FileAttacherProps } from '../../../components/FileAttacher/FileAttacher';
 import { FileAttacherBaseLocaleHelper } from '../locale';
 import { Link } from '../../../components/Link';
 import { FileAttacherBase } from '../FileAttacherBase';
+import { withUploadFilesProvider } from '../UploadFilesProvider';
+
+const WrappedFileAttacherBase = withUploadFilesProvider(FileAttacherBase);
 
 const render = (localeProviderValue = {}, props: FileAttacherProps = {}) => mount(
   <LocaleContext.Provider value={localeProviderValue}>
-    <FileAttacherBase {...props} />
+    <WrappedFileAttacherBase {...props} />
   </LocaleContext.Provider>
 );
 
@@ -21,7 +24,7 @@ const getBaseButtonText = (wrapper: ReactWrapper): string => {
 describe('FileAttacherBase', () => {
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<FileAttacher />);
+      const wrapper = mount(<WrappedFileAttacherBase />);
       const expectedText = FileAttacherBaseLocaleHelper.get(defaultLangCode).chooseFile;
 
       expect(getBaseButtonText(wrapper)).toBe(expectedText);
