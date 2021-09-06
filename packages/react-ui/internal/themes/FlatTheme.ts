@@ -163,8 +163,9 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Input
   public static inputShadow = 'none';
   public static inputBorderTopColor = 'rgba(0, 0, 0, 0.15)';
-  public static inputDisabledBg = '#f2f2f2';
-  public static inputDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
+  public static get inputDisabledBorderColor() {
+    return this.borderColorDisabled;
+  }
   //#endregion
   //#region Toggle
   public static toggleBg = '#fff';
