@@ -99,7 +99,7 @@ export class Token extends React.Component<TokenProps> {
         >
           <span className={styles.text(this.theme)}>{children}</span>
           <span className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)} onClick={this.onRemoveClick}>
-            {!disabled && <CrossIcon />}
+            <CrossIcon />
           </span>
         </div>
       </CommonWrapper>

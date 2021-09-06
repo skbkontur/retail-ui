@@ -136,7 +136,7 @@ export class DefaultTheme {
   public static tokenRemoveIconBoxSizing = 'border-box';
   public static tokenBorderRadius = '1px';
   public static tokenBorderWidth = '1px';
-  public static tokenBorderColorDisabled = '#dadada';
+  public static tokenBorderColorDisabled = 'rgba(0, 0, 0, 0.15)';
   public static get tokenDefaultIdle() {
     return this.grayXLight;
   }
@@ -194,7 +194,7 @@ export class DefaultTheme {
   public static tokenMarginYDisabled = '2px';
   public static tokenMarginXDisabled = '2px';
   public static get tokenShadowDisabled() {
-    return `0 0 0 ${this.tokenBorderWidth} rgba(0, 0, 0, 0.15)`;
+    return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
   }
   //#endregion
   //#region TokenInput
