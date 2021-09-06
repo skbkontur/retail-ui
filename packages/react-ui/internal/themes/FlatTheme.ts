@@ -129,7 +129,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Checkbox
   public static checkboxBg = '#fff';
   public static get checkboxShadowDisabled() {
-    return `0 0 0 ${this.checkboxBorderWidth} rgba(0,0,0,0.05)`;
+    return `0 0 0 ${this.checkboxBorderWidth} ${this.borderColorDisabled}`;
   }
   public static get checkboxShadowActive() {
     return `0 0 0 ${this.checkboxBorderWidth} #c3c3c3`;
@@ -197,7 +197,7 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static radioActiveShadow = 'none';
   public static radioCheckedBulletColor = '#fff';
   public static get radioDisabledShadow() {
-    return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.05)`;
+    return `0 0 0 ${this.radioBorderWidth} ${this.borderColorDisabled}`;
   }
   public static radioLabelDisplay = 'inline-block';
   public static get radioHoverBg() {
@@ -217,14 +217,16 @@ export class FlatTheme extends (class {} as typeof DefaultThemeInternal) {
     return ColorFunctions.darken(this.checkboxCheckedBg, '5%');
   }
   public static get switcherButtonDisabledBorderColor() {
-    return 'rgba(0, 0, 0, 0.05)';
+    return this.borderColorDisabled;
   }
 
   public static switcherButtonCheckedDisabledShadow: 'none';
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
-  public static tokenShadowDisabled = '0 0 0 1px rgba(0, 0, 0, 0.05)';
+  public static get tokenShadowDisabled() {
+    return `0 0 0 ${this.tokenBorderWidth} ${this.borderColorDisabled}`;
+  }
   //#endregion
 }
 
