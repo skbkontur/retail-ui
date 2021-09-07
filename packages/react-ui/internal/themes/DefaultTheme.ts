@@ -631,7 +631,7 @@ export class DefaultTheme {
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '24px';
   public static sidePageHeaderFixedPaddingY = '13px';
-  public static sidePageHeaderStickyOffset = '11px';
+  public static sidePageHeaderStickyOffset = '8px';
   public static sidePageCloseButtonPadding = '36px';
   public static sidePageCloseButtonLegacyPaddingLeft = '37px';
   public static sidePageFooterPanelPaddingTop = '20px';

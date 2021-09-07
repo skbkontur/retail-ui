@@ -93,7 +93,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private renderHeader = (fixed = false) => {
     return (
       <div className={cx(styles.header(this.theme), { [styles.headerFixed(this.theme)]: fixed })}>
-        {this.renderClose()}
+        {this.renderClose(fixed)}
         <div className={cx(styles.title(this.theme), { [styles.titleFixed()]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
@@ -101,35 +101,21 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     );
   };
 
-  private renderCloseContent = (fixed: boolean) => (
-    <SidePageContext.Consumer>
-      {({ requestClose }) => (
-        <a
-          className={cx(styles.close(this.theme), {
-            [styles.fixed(this.theme)]: fixed,
-          })}
-          onClick={requestClose}
-          data-tid="SidePage__close"
-        >
-          <span
-            className={cx(styles.closeIcon(this.theme), {
-              [styles.fixed(this.theme)]: fixed,
-            })}
-          >
-            <CrossIcon />
-          </span>
-        </a>
-      )}
-    </SidePageContext.Consumer>
-  );
-
-  private renderClose = () => {
+  private renderClose = (fixed: boolean) => {
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
 
     return (
-      <Sticky side="top" offset={stickyOffset}>
-        {this.renderCloseContent}
-      </Sticky>
+      <div className={cx(styles.wrapperClose(this.theme), fixed && styles.fixed(this.theme))}>
+        <Sticky side="top" offset={stickyOffset}>
+          <SidePageContext.Consumer>
+            {({ requestClose }) => (
+              <button className={styles.close(this.theme)} onClick={requestClose} data-tid="SidePage__close">
+                <CrossIcon />
+              </button>
+            )}
+          </SidePageContext.Consumer>
+        </Sticky>
+      </div>
     );
   };
 

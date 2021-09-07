@@ -13,7 +13,6 @@ import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { isIE11 } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 
 import { SidePageBody } from './SidePageBody';
@@ -63,8 +62,8 @@ export interface SidePageProps extends CommonProps {
   disableAnimations?: boolean;
 
   /**
-   * Не использовать фокус-лок внутри сайдпейджа.
-   * По умолчанию true для IE11.
+   *   фокус-лок работает только при заблокированном фоне
+   *   (blockBackground = true)
    */
   disableFocusLock: boolean;
 }
@@ -131,8 +130,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   public static defaultProps = {
-    // NOTE: в ie нормально не работает
-    disableFocusLock: isIE11,
+    disableFocusLock: true,
   };
 
   public render(): JSX.Element {
@@ -197,7 +195,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             })}
             style={this.getSidebarStyle()}
           >
-            <FocusLock disabled={disableFocusLock} autoFocus={false}>
+            <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false}>
               <div ref={(_) => (this.layoutRef = _)} className={styles.layout()}>
                 <SidePageContext.Provider value={this.getSidePageContextProps()}>
                   {this.props.children}
