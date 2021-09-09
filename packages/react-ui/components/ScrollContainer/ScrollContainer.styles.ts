@@ -51,13 +51,6 @@ export const styles = memoizeStyle({
         position: absolute;
         background: ${t.scrollContainerScrollBarColor};
       }
-
-      & ~ .${globalClasses.inner}::after {
-        content: ' ';
-        width: 100%;
-        display: block;
-        height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
-      }
     `;
   },
 
@@ -107,6 +100,15 @@ export const styles = memoizeStyle({
       .${globalClasses.scrollbarY} ~ & {
         &::after {
           right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
+        }
+      }
+
+      & ~ .${globalClasses.inner} {
+        &::after {
+          content: ' ';
+          width: 100%;
+          display: block;
+          height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
         }
       }
     `;

@@ -4,8 +4,9 @@ import PropTypes from 'prop-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
 
-import { styles } from './ScrollContainer.styles';
+import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
 import {
   getScrollYOffset,
@@ -100,7 +101,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
           <div
             style={innerStyle}
             ref={this.refInner}
-            className={styles.inner()}
+            className={cx(styles.inner(), globalClasses.inner)}
             data-tid="ScrollContainer__inner"
             onScroll={this.handleNativeScroll}
           >
