@@ -245,6 +245,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
             [styles.outlineLink()]: isLink,
+            [styles.outlineLinkWarning(this.theme)]: isLink && warning,
             [styles.outlineLinkError(this.theme)]: isLink && error,
           })}
         />
