@@ -23,7 +23,7 @@ export const styles = memoizeStyle({
       max-height: 100%;
       max-width: 100%;
 
-      /*IEsometimesenabledscroll*/
+      /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
       margin-bottom: -1px;
       padding-bottom: 1px;
       margin-right: -1px;
