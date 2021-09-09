@@ -41,6 +41,7 @@ export class DefaultTheme {
   public static borderColorFocusLight = '#bad7f1';
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.15)';
+  public static borderColorDisabled = 'rgba(0, 0, 0, 0.05)';
   public static placeholderColor = '#a0a0a0';
   public static outlineColorFocus = '#fff';
   public static placeholderColorLight = '#cdcdcd';
