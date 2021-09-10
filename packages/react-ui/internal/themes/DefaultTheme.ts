@@ -116,7 +116,7 @@ export class DefaultTheme {
   public static linkButtonPaddingX = '10px';
   //#endregion
   //#region Token
-  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
+  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.10)';
   public static get tokenTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
@@ -136,9 +136,7 @@ export class DefaultTheme {
   public static tokenRemoveIconBoxSizing = 'border-box';
   public static tokenBorderRadius = '1px';
   public static tokenBorderWidth = '1px';
-  public static get tokenBorderColorDisabled() {
-    return this.tokenDisabledBg;
-  }
+  public static tokenBorderColorDisabled = 'rgba(0, 0, 0, 0.15)';
   public static get tokenDefaultIdle() {
     return this.grayXLight;
   }
@@ -195,7 +193,9 @@ export class DefaultTheme {
   }
   public static tokenMarginYDisabled = '2px';
   public static tokenMarginXDisabled = '2px';
-  public static tokenShadowDisabled = 'none';
+  public static get tokenShadowDisabled() {
+    return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
+  }
   //#endregion
   //#region TokenInput
   public static get tokenInputBorderColor() {

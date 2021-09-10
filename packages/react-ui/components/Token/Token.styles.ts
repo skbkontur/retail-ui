@@ -33,6 +33,10 @@ export const styles = memoizeStyle({
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled};
+
+      .${globalClasses.removeIcon} {
+        visibility: hidden;
+      }
     `;
   },
 
@@ -128,11 +132,6 @@ export const colorStyles = [
       return css`
         background-color: ${t.tokenDisabledBg};
         box-shadow: ${t.tokenShadowDisabled};
-
-        .${globalClasses.removeIcon} {
-          fill: ${t.tokenTextColorDisabled};
-          opacity: 1;
-        }
       `;
     },
     defaultDisabledWarning(t: Theme) {
