@@ -4,7 +4,7 @@ import { func, number } from 'prop-types';
 import { isKeyArrowLeft, isKeyArrowRight, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { emptyHandler } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -323,7 +323,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
     // focus event fires before keyDown eventlistener
     // so we should check tabPressed in async way
     requestAnimationFrame(() => {
-      if (tabListener.isTabPressed) {
+      if (keyListener.isTabPressed) {
         this.setState({ focusedByTab: true });
       }
     });
