@@ -460,15 +460,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region SidePage
-  public static sidePageFooterPanelBg = '#e9e9e9';
   public static sidePagePaddingLeft = '32px';
   public static sidePagePaddingRight = '36px';
   public static sidePagePaddingTop = '24px';
   public static sidePagePaddingBottom = '40px';
-  public static get sidePageBgDefault() {
-    return this.bgDefault;
-  }
-
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
