@@ -9,6 +9,7 @@ import { isBrowser } from './utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
+import { ReactUiDetection } from './ReactUiDetection';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -106,44 +107,82 @@ export class ValidationWrapperInternal extends React.Component<
     const { children } = this.props;
     const { validation } = this.state;
 
-    const clonedChild: React.ReactElement<any> = children ? (
-      React.cloneElement(children, {
-        ref: (x: any) => {
-          const child = children as any; // todo type or maybe React.Children.only
-          if (child && child.ref) {
-            if (typeof child.ref === 'function') {
-              child.ref(x);
+    const clonedChild: React.ReactElement<any> =
+      children && !ReactUiDetection.isComboBox(children) ? (
+        React.cloneElement(children, {
+          ref: (x: any) => {
+            const child = children as any; // todo type or maybe React.Children.only
+            if (child && child.ref) {
+              if (typeof child.ref === 'function') {
+                child.ref(x);
+              }
+              if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+                child.ref.current = x;
+              }
             }
-            if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-              child.ref.current = x;
+            this.child = x;
+          },
+          error: !this.isChanging && getLevel(validation) === 'error',
+          warning: !this.isChanging && getLevel(validation) === 'warning',
+          onBlur: (...args: any[]) => {
+            this.handleBlur();
+            if (children.props && children.props.onBlur) {
+              children.props.onBlur(...args);
             }
-          }
-          this.child = x;
-        },
-        error: !this.isChanging && getLevel(validation) === 'error',
-        warning: !this.isChanging && getLevel(validation) === 'warning',
-        onBlur: (...args: any[]) => {
-          this.handleBlur();
-          if (children.props && children.props.onBlur) {
-            children.props.onBlur(...args);
-          }
-        },
-        onChange: (...args: any[]) => {
-          this.isChanging = true;
-          if (children.props && children.props.onChange) {
-            children.props.onChange(...args);
-          }
-        },
-        onValueChange: (...args: any[]) => {
-          this.isChanging = true;
-          if (children.props && children.props.onValueChange) {
-            children.props.onValueChange(...args);
-          }
-        },
-      })
-    ) : (
-      <span />
-    );
+          },
+          onChange: (...args: any[]) => {
+            this.isChanging = true;
+            if (children.props && children.props.onChange) {
+              children.props.onChange(...args);
+            }
+          },
+          onValueChange: (...args: any[]) => {
+            this.isChanging = true;
+            if (children.props && children.props.onValueChange) {
+              children.props.onValueChange(...args);
+            }
+          },
+          onInputValueChange: (...args: any[]) => {
+            this.isChanging = true;
+            this.forceUpdate();
+            if (children.props && children.props.onInputValueChange) {
+              children.props.onInputValueChange(...args);
+            }
+          },
+        })
+      ) : children && ReactUiDetection.isComboBox(children) ? (
+        React.cloneElement(children, {
+          ref: (x: any) => {
+            const child = children as any; // todo type or maybe React.Children.only
+            if (child && child.ref) {
+              if (typeof child.ref === 'function') {
+                child.ref(x);
+              }
+              if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+                child.ref.current = x;
+              }
+            }
+            this.child = x;
+          },
+          error: !this.isChanging && getLevel(validation) === 'error',
+          warning: !this.isChanging && getLevel(validation) === 'warning',
+          onBlur: (...args: any[]) => {
+            this.handleBlur();
+            if (children.props && children.props.onBlur) {
+              children.props.onBlur(...args);
+            }
+          },
+          onInputValueChange: (...args: any[]) => {
+            this.isChanging = true;
+            this.forceUpdate();
+            if (children.props && children.props.onInputValueChange) {
+              children.props.onInputValueChange(...args);
+            }
+          },
+        })
+      ) : (
+        <span />
+      );
     return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
   }
 
@@ -173,9 +212,11 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   private handleBlur() {
-    this.processBlur();
-    this.context.validationContext.instanceProcessBlur(this);
-    this.setState({});
+    setTimeout(() => {
+      this.processBlur();
+      this.context.validationContext.instanceProcessBlur(this);
+      this.setState({});
+    });
   }
 
   private applyValidation(actual: Nullable<Validation>) {
