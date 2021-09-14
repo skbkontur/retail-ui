@@ -10,12 +10,6 @@ export enum UploadFileStatus {
   Error = 'Error'
 }
 
-export enum UploadFileValidationError {
-  SizeError = 'SizeError',
-  FileTypeError = 'FileTypeError',
-  UnknownError = 'UnknownError'
-}
-
 export interface IUploadFile {
   id: string;
   originalFile: File;
@@ -36,6 +30,7 @@ export const readFile = (file: File): Promise<UploadFileInBase64> => (
 
 export const readFiles = (files: File[]): Promise<Array<IUploadFile>> => {
   const filesPromises = files.map(async file => {
+    // FIXME @mozalov: кажется тут нужно обработать ошибку в загрузке (валидация\прокинуть вверх тип ошибки)
     const fileInBase64 = await readFile(file).catch(console.error) || null;
     return getUploadFile(file, fileInBase64);
   });
