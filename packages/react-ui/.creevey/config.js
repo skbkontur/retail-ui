@@ -5,7 +5,7 @@ const path = require('path');
  * Connecting to Windows nodes via VNC: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
  */
 
-const debug = false;
+const debug = true;
 
 const capabilities = debug
   ? {
