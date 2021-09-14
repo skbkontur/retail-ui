@@ -45,7 +45,6 @@ const styles = {
 
   dragOver() {
     return css`
-      animation: none;
       border: 1px solid #2DA4F9;
       border-radius: 2px;
       box-shadow:

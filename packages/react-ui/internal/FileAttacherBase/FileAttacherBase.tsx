@@ -58,10 +58,6 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const {files, setFiles} = useContext(UploadFilesContext);
 
-  const handleClick = useCallback(() => {
-    !disabled && inputRef.current?.click();
-  }, [disabled]);
-
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
 
@@ -91,11 +87,9 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     }
   }, [handleChange, disabled]);
 
-  const {isDraggable, ref: droppableRef} = useDrop({onDrop: handleDrop});
-  const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop({onDrop: handleDrop});
+  const {isDraggable, ref: droppableRef} = useDrop<HTMLDivElement>({onDrop: handleDrop});
+  const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop<Document>({onDrop: handleDrop});
 
-  // FIXME @mozalov: why ignore?
-  // @ts-ignore
   windowRef.current = window.document;
 
   const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -109,18 +103,22 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     [jsStyles.disabled()]: disabled
   });
 
-  const hasOneFile = files.length === 1;
-  const hasOneFileForSingle = !multiple && hasOneFile;
-
   const renderTooltipContent = useCallback((): ReactNode => {
     return (!disabled && controlError) || null;
   }, [controlError, disabled]);
+
+  const handleClick = useCallback(() => {
+    !disabled && inputRef.current?.click();
+  }, [disabled]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => {
     if (isKeyEnter(e)) {
       handleClick();
     }
   }, [handleClick]);
+
+  const hasOneFile = files.length === 1;
+  const hasOneFileForSingle = !multiple && hasOneFile;
 
   return (
     <div>

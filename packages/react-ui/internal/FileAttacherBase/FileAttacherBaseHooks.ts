@@ -9,15 +9,17 @@ interface IUseDropProps {
   onDrop: (event: Event) => void;
 }
 
-interface IUseDropResult {
+interface IElementWithListener extends Pick<HTMLElement, "addEventListener" | "removeEventListener"> {}
+
+interface IUseDropResult<TElement extends IElementWithListener> {
   isDraggable: boolean;
-  ref: MutableRefObject<HTMLDivElement|null>;
+  ref: MutableRefObject<TElement | null>;
 }
 
-export const useDrop = (props: IUseDropProps): IUseDropResult => {
+export const useDrop = <TElement extends IElementWithListener>(props: IUseDropProps): IUseDropResult<TElement> => {
   const {onDrop} = props;
 
-  const droppableRef = useRef<HTMLDivElement>(null);
+  const droppableRef = useRef<TElement>(null);
   const overRef = useRef<boolean>(false);
   const timerId = useRef<NodeJS.Timeout>();
   const [isDraggable, setIsDraggable] = useState<boolean>(false);
