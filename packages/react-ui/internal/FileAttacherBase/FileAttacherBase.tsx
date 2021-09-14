@@ -11,17 +11,7 @@ import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 
-// FIXME @mozalov: Что пофиксить:
-// 1. Аттачер
-//
-// 2. Аплоадер
-//
-// 3. Умный тост
-//
-// 4. Общее
-
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
-
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
 export type FileError = {
