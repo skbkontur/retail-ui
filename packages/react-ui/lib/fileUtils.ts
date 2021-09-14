@@ -46,7 +46,7 @@ export const readFiles = (files: File[]): Promise<Array<IUploadFile>> => {
 export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUploadFile => {
   return {
     id: getGuid(),
-    originalFile: file,
+    originalFile: getFileWithEscapedName(file),
     status: UploadFileStatus.Attached,
     validationResult: ValidationResult.ok(),
     fileInBase64: fileInBase64
@@ -71,4 +71,11 @@ export const isAllowedFileType = (fileType: string, allowedFileTypes: string[]):
   }
 
   return false;
+};
+
+const escapeRegExpFileNameSpecChars = (s: string): string => s.replace(/[\\^$*+?()|[\]{}<>:\/]/g, '\\$&');
+
+const getFileWithEscapedName = (file: File): File => {
+  const {name} = file;
+  return { ...file, name: escapeRegExpFileNameSpecChars(name + "<\\>/:")};
 };

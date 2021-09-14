@@ -19,7 +19,7 @@ interface ReadFileProps {
 
 interface ReadFileState {
   fileNameWidth: number;
-  fileNameSpanWidth: number;
+  fileNameElementWidth: number;
 }
 
 export const UploadFile = (props: ReadFileProps) => {
@@ -29,42 +29,41 @@ export const UploadFile = (props: ReadFileProps) => {
 
   const [hovered, setHovered] = useState<boolean>(false);
   const textHelperRef = useRef<TextWidthHelper>(null);
-  const fileNameSpanRef = useRef<HTMLSpanElement>(null);
+  const fileNameElementRef = useRef<HTMLSpanElement>(null);
   const {removeFile} = useContext(UploadFilesContext);
 
   const [state, setState] = useState<ReadFileState>({
     fileNameWidth: 0,
-    fileNameSpanWidth: 0
+    fileNameElementWidth: 0
   });
 
-  const {fileNameWidth, fileNameSpanWidth} = state;
+  const {fileNameWidth, fileNameElementWidth} = state;
 
   const formattedSize = useMemo(() => formatBytes(size, 1), [size]);
 
   useEffect(() => {
-    if (fileNameSpanRef.current && textHelperRef.current) {
+    if (fileNameElementRef.current && textHelperRef.current) {
       setState({
         fileNameWidth: textHelperRef.current?.getTextWidth(),
-        fileNameSpanWidth: fileNameSpanRef.current?.getBoundingClientRect().width
+        fileNameElementWidth: fileNameElementRef.current?.getBoundingClientRect().width
       });
     }
-  }, [fileNameSpanRef.current, textHelperRef.current]);
+  }, [fileNameElementRef.current, textHelperRef.current]);
 
-  // FIXME @mozalov: почитать про XSS
   const truncatedFileName = useMemo(() => {
-    if (!fileNameWidth && !fileNameSpanWidth) {
+    if (!fileNameWidth && !fileNameElementWidth) {
       return null;
     }
 
-    if (fileNameWidth <= fileNameSpanWidth) {
+    if (fileNameWidth <= fileNameElementWidth) {
       return name;
     }
 
     const charWidth = Math.ceil(fileNameWidth / name.length);
-    const maxCharsCountInSpan = Math.ceil(fileNameSpanWidth / charWidth);
+    const maxCharsCountInSpan = Math.ceil(fileNameElementWidth / charWidth);
 
     return truncate(name, maxCharsCountInSpan);
-  }, [name, fileNameSpanWidth, fileNameWidth]);
+  }, [name, fileNameElementWidth, fileNameWidth]);
 
   const handleRemove = useCallback((event: React.MouseEvent<HTMLSpanElement>) => {
     event.stopPropagation();
@@ -115,7 +114,7 @@ export const UploadFile = (props: ReadFileProps) => {
       <Tooltip pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
             <TextWidthHelper ref={textHelperRef} text={name} />
-            <span ref={fileNameSpanRef} className={jsStyles.name()}>
+            <span ref={fileNameElementRef} className={jsStyles.name()}>
               {truncatedFileName}
             </span>
             {!!showSize && formattedSize && (
