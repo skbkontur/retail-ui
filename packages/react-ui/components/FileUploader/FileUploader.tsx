@@ -5,7 +5,6 @@ import { FileAttacherBase, FileAttacherBaseProps, FileError } from '../../intern
 import { UploadFilesContext } from '../../internal/FileAttacherBase/UploadFilesContext';
 import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';
 
-// FIXME @mozalov: подумать как делать abort запроса по крестику
 // FIXME @mozalov: добавить типы ошибок
 
 export type RequestFunction = (
