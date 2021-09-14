@@ -9,6 +9,7 @@ import { UploadFilesContext } from './UploadFilesContext';
 import { useControlLocale, useDrop } from './FileAttacherBaseHooks';
 import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
+import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 
 // FIXME @mozalov: Что пофиксить:
 // 1. Аттачер
@@ -19,12 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 //
 // 4. Общее
 
-// FIXME @mozalov: локализация
-// FIXME @mozalov: тема
-// FIXME @mozalov: обработать клавиши
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
-
-// FIXME @mozalov: проверить переводы локализованных кусков
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
@@ -98,6 +94,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
   const {isDraggable, ref: droppableRef} = useDrop({onDrop: handleDrop});
   const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop({onDrop: handleDrop});
 
+  // FIXME @mozalov: why ignore?
   // @ts-ignore
   windowRef.current = window.document;
 
@@ -119,6 +116,12 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     return (!disabled && controlError) || null;
   }, [controlError, disabled]);
 
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => {
+    if (isKeyEnter(e)) {
+      handleClick();
+    }
+  }, [handleClick]);
+
   return (
     <div>
       {multiple && !!files.length && <UploadFileList />}
@@ -128,6 +131,7 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
           tabIndex={0}
           ref={droppableRef}
           onClick={handleClick}
+          onKeyDown={handleKeyDown}
         >
           <div className={jsStyles.content()}>
             <Link disabled={disabled} tabIndex={-1}>
