@@ -8,44 +8,47 @@ import { FileAttacherBase, IFileAttacherBaseProps, FileError } from '../../inter
 import { UploadFilesContext } from '../../internal/FileAttacherBase/UploadFilesContext';
 import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';
 
-// FIXME @mozalov: добавить типы ошибок
-// FIXME @mozalov: а как обрабатываются сейчас асинхронные ошибки?
-
-export type RequestFunction = (
-  file: IUploadFile,
-  onSuccess: () => void,
-  onError: (error: object) => void,
-) => void;
-
 export interface IFileUploaderProps extends IFileAttacherBaseProps, IUploadFilesProviderProps {
-  request: RequestFunction;
-  // FIXME @mozalov: мб возвращать не строку, а объект валидации?
-  fileValidation?: (file: IUploadFile) => Promise<string>;
+  // Функция, через которую отправляем файлы.
+  // Нужна для отслеживания статуса загрузки файла.
+  request: (file: IUploadFile) => Promise<void>;
+  onRequestSuccess: (fileId: string) => void;
+  onRequestError: (fileId: string) => void;
+  // TODO @mozalov: возможно стоит возвращать не строку, а какой-то объект валидации
+  getFileValidationText?: (file: IUploadFile) => Promise<string>;
 }
 
 export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) => {
-  const {request, controlError, fileValidation, onSelect} = props;
+  const {request, controlError, getFileValidationText, onSelect, onRequestSuccess, onRequestError} = props;
   const {setFileStatus} = useContext(UploadFilesContext);
 
   const [fileErrors, setFileErrors] = useState<FileError[]>([]);
 
-  const handleStart = useCallback((fileId: string) => {
+  const switchToLoading = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Loading);
   }, [setFileStatus]);
 
-  const handleSuccess = useCallback((fileId: string) => {
+  const switchToSuccess = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Uploaded);
-  }, [setFileStatus]);
+    onRequestSuccess(fileId);
+  }, [setFileStatus, onRequestSuccess]);
 
-  const handleError = useCallback((fileId: string) => {
+  const switchToError = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Error);
-  }, [setFileStatus]);
+    onRequestError(fileId);
+  }, [setFileStatus, onRequestError]);
 
-  const upload = useCallback((file: IUploadFile) => {
+  const upload = useCallback(async (file: IUploadFile) => {
     const {id} = file;
-    handleStart(id);
-    request(file, () => handleSuccess(id), () => handleError(id));
-  }, [request, handleSuccess, handleError, handleStart])
+    switchToLoading(id);
+
+    try {
+      await request(file);
+      switchToSuccess(id);
+    } catch {
+      switchToError(id);
+    }
+  }, [request, switchToSuccess, switchToLoading])
 
   const handleSelect = useCallback((files: IUploadFile[]) => {
     onSelect && onSelect(files);
@@ -55,7 +58,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
     }
 
     files.forEach(async file => {
-      const validationMessage = fileValidation && await fileValidation(file);
+      const validationMessage = getFileValidationText && await getFileValidationText(file);
 
       if (!validationMessage) {
         upload(file);
@@ -63,7 +66,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
         setFileErrors(state => [...state, {fileId: file.id, message: validationMessage}]);
       }
     });
-  }, [upload, controlError, fileValidation, onSelect]);
+  }, [upload, controlError, getFileValidationText, onSelect]);
 
   useValidationSetter(fileErrors);
 

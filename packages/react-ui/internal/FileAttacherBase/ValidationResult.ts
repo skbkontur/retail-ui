@@ -1,4 +1,3 @@
-// FIXME @mozalov: заменить на объект из react-ui-validations
 export class ValidationResult {
   readonly isValid: boolean;
   readonly message?: string;
