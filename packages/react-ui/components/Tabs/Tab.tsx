@@ -4,7 +4,7 @@ import invariant from 'invariant';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Nullable } from '../../typings/utility-types';
 import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -129,7 +129,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
-  private isArrowKeyPressed = false;
 
   public UNSAFE_componentWillMount() {
     invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
@@ -140,7 +139,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     if (typeof id === 'string') {
       this.context.addTab(id, this.getTabInstance);
     }
-    window.addEventListener('keydown', this.handleKeyDownGlobal);
   }
 
   public componentDidUpdate() {
@@ -154,7 +152,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     if (typeof id === 'string') {
       this.context.removeTab(id);
     }
-    window.removeEventListener('keydown', this.handleKeyDownGlobal);
   }
 
   public render() {
@@ -219,7 +216,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           })}
           onBlur={this.handleBlur}
           onClick={this.switchTab}
-          onMouseDown={this.handleMouseDown}
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
           tabIndex={disabled ? -1 : 0}
@@ -237,10 +233,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private refTabComponent = (instance: React.ReactElement<any>) => {
     this.tabComponent = instance;
-  };
-
-  private handleKeyDownGlobal = (e: KeyboardEvent) => {
-    this.isArrowKeyPressed = isKeyArrow(e);
   };
 
   private getTabInstance = () => this;
@@ -265,8 +257,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       event.preventDefault();
     }
   };
-
-  private handleMouseDown = () => (this.isArrowKeyPressed = false);
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
     if (this.props.disabled) {
@@ -299,7 +289,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     // focus event fires before keyDown eventlistener
     // so we should check focusKeyPressed in async way
     requestAnimationFrame(() => {
-      if (tabListener.isTabPressed || this.isArrowKeyPressed) {
+      if (keyListener.isTabPressed || keyListener.isArrowPressed) {
         this.setState({ focusedByKeyboard: true });
       }
     });
