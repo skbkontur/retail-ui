@@ -11,7 +11,6 @@ import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 
-// FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
 export type FileError = {
@@ -19,14 +18,23 @@ export type FileError = {
   message: string;
 };
 
+// FIXME @mozalov: попробовать сделать так, чтобы компонент работал как нативный input file
+
+// FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 export interface IFileAttacherBaseProps {
+  // свойства эквивалентные нативным
   id?: string;
   name?: string;
   disabled?: boolean;
   multiple?: boolean;
+  accept?: string;
+
+  // свойство валидации контрола
   controlError?: ReactNode;
 
+  // хендлер, срабатывает после выбора файлов (при валидном считывании файла)
   onSelect?: (files: IUploadFile[]) => void;
+  // хендлер, срабатывает после выбора файлов (при невалидном считывании файла)
   onReadError?: (files: IUploadFile[]) => void;
 }
 
@@ -36,6 +44,7 @@ export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
     name,
     multiple = false,
     disabled,
+    accept,
     controlError,
     onSelect,
     onReadError
@@ -135,15 +144,16 @@ export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
           <input
             id={id}
             ref={inputRef}
-            onClick={stopPropagation}
-            className={jsStyles.fileInput()}
             type="file"
             name={name}
+            accept={accept}
             disabled={disabled}
             multiple={multiple}
+            className={jsStyles.fileInput()}
+            onClick={stopPropagation}
+            onChange={handleInputChange}
             // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
             value={""}
-            onChange={handleInputChange}
           />
         </div>
       </Tooltip>
