@@ -107,82 +107,55 @@ export class ValidationWrapperInternal extends React.Component<
     const { children } = this.props;
     const { validation } = this.state;
 
-    const clonedChild: React.ReactElement<any> =
-      children && !ReactUiDetection.isComboBox(children) ? (
-        React.cloneElement(children, {
-          ref: (x: any) => {
-            const child = children as any; // todo type or maybe React.Children.only
-            if (child && child.ref) {
-              if (typeof child.ref === 'function') {
-                child.ref(x);
-              }
-              if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-                child.ref.current = x;
-              }
+    let clonedChild: React.ReactElement<any> = children ? (
+      React.cloneElement(children, {
+        ref: (x: any) => {
+          const child = children as any; // todo type or maybe React.Children.only
+          if (child && child.ref) {
+            if (typeof child.ref === 'function') {
+              child.ref(x);
             }
-            this.child = x;
-          },
-          error: !this.isChanging && getLevel(validation) === 'error',
-          warning: !this.isChanging && getLevel(validation) === 'warning',
-          onBlur: (...args: any[]) => {
-            this.handleBlur();
-            if (children.props && children.props.onBlur) {
-              children.props.onBlur(...args);
+            if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+              child.ref.current = x;
             }
-          },
-          onChange: (...args: any[]) => {
-            this.isChanging = true;
-            if (children.props && children.props.onChange) {
-              children.props.onChange(...args);
-            }
-          },
-          onValueChange: (...args: any[]) => {
-            this.isChanging = true;
-            if (children.props && children.props.onValueChange) {
-              children.props.onValueChange(...args);
-            }
-          },
-          onInputValueChange: (...args: any[]) => {
-            this.isChanging = true;
-            this.forceUpdate();
-            if (children.props && children.props.onInputValueChange) {
-              children.props.onInputValueChange(...args);
-            }
-          },
-        })
-      ) : children && ReactUiDetection.isComboBox(children) ? (
-        React.cloneElement(children, {
-          ref: (x: any) => {
-            const child = children as any; // todo type or maybe React.Children.only
-            if (child && child.ref) {
-              if (typeof child.ref === 'function') {
-                child.ref(x);
-              }
-              if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-                child.ref.current = x;
-              }
-            }
-            this.child = x;
-          },
-          error: !this.isChanging && getLevel(validation) === 'error',
-          warning: !this.isChanging && getLevel(validation) === 'warning',
-          onBlur: (...args: any[]) => {
-            this.handleBlur();
-            if (children.props && children.props.onBlur) {
-              children.props.onBlur(...args);
-            }
-          },
-          onInputValueChange: (...args: any[]) => {
-            this.isChanging = true;
-            this.forceUpdate();
-            if (children.props && children.props.onInputValueChange) {
-              children.props.onInputValueChange(...args);
-            }
-          },
-        })
-      ) : (
-        <span />
-      );
+          }
+          this.child = x;
+        },
+        error: !this.isChanging && getLevel(validation) === 'error',
+        warning: !this.isChanging && getLevel(validation) === 'warning',
+        onBlur: (...args: any[]) => {
+          this.handleBlur();
+          if (children.props && children.props.onBlur) {
+            children.props.onBlur(...args);
+          }
+        },
+        onChange: (...args: any[]) => {
+          this.isChanging = true;
+          if (children.props && children.props.onChange) {
+            children.props.onChange(...args);
+          }
+        },
+        onValueChange: (...args: any[]) => {
+          this.isChanging = true;
+          if (children.props && children.props.onValueChange) {
+            children.props.onValueChange(...args);
+          }
+        },
+      })
+    ) : (
+      <span />
+    );
+    if (ReactUiDetection.isComboBox(clonedChild)) {
+      clonedChild = React.cloneElement(clonedChild, {
+        onInputValueChange: (...args: any[]) => {
+          this.isChanging = true;
+          this.forceUpdate();
+          if (children && children.props && children.props.onInputValueChange) {
+            children.props.onInputValueChange(...args);
+          }
+        },
+      });
+    }
     return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
   }
 
