@@ -45,6 +45,7 @@ export interface LoaderProps extends CommonProps {
 export interface LoaderState {
   isStickySpinner: boolean;
   isSpinnerVisible: boolean;
+  isLoaderActive: boolean;
   spinnerStyle?: object;
 }
 
@@ -120,6 +121,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.state = {
       isStickySpinner: false,
       isSpinnerVisible: false,
+      isLoaderActive: false,
     };
 
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
@@ -140,17 +142,12 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     }
   }
 
-  public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
+  public componentDidUpdate(prevProps: Readonly<LoaderProps>, prevState: Readonly<LoaderState>) {
     const { component, active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.props;
+    const { isLoaderActive } = this.state;
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
-    }
-
-    if (active) {
-      this.disableChildrenFocus();
-    } else {
-      this.enableChildrenFocus();
     }
 
     if (
@@ -166,6 +163,14 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     if (active !== prevProps.active) {
       active ? this.spinnerTask.start() : this.spinnerTask.stop();
     }
+
+    if (isLoaderActive !== prevState.isLoaderActive) {
+      if (isLoaderActive) {
+        this.disableChildrenFocus();
+      } else {
+        this.enableChildrenFocus();
+      }
+    }
   }
 
   public componentWillUnmount() {
@@ -174,6 +179,21 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       this.layoutEvents.remove();
     }
     this.spinnerTask.clearTask();
+  }
+
+  public static getDerivedStateFromProps(props: LoaderProps, state: LoaderState): Partial<LoaderState> {
+    if (props.active && !state.isLoaderActive) {
+      return {
+        isLoaderActive: true,
+      };
+    }
+    if (state.isLoaderActive && !(props.active || state.isSpinnerVisible)) {
+      return {
+        isLoaderActive: false,
+      };
+    }
+
+    return state;
   }
 
   public render() {
@@ -189,27 +209,26 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private renderMain() {
     const { type, caption, component } = this.props;
-
-    const isLoaderVisible = this.props.active || this.state.isSpinnerVisible;
+    const { isLoaderActive } = this.state;
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={styles.loader()} data-tid={isLoaderVisible ? 'Loader__Veil' : ''}>
+        <div className={styles.loader()} data-tid={isLoaderActive ? 'Loader__Veil' : ''}>
           <ZIndex
             priority={'Loader'}
-            applyZIndex={isLoaderVisible}
-            coverChildren={isLoaderVisible}
+            applyZIndex={isLoaderActive}
+            coverChildren={isLoaderActive}
             style={{ height: '100%' }}
             wrapperRef={this.childrenRef}
           >
             {this.props.children}
           </ZIndex>
-          {isLoaderVisible && (
+          {isLoaderActive && (
             <ZIndex
               wrapperRef={this.spinnerRef}
               priority={'Loader'}
               className={cx({
-                [styles.active(this.theme)]: isLoaderVisible,
+                [styles.active(this.theme)]: isLoaderActive,
               })}
             >
               {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}

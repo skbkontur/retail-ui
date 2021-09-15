@@ -114,6 +114,7 @@ Vertical.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
           .sendKeys(this.keys.TAB)
+          .pause(100)
           .sendKeys(this.keys.DOWN)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('arrow_down');
