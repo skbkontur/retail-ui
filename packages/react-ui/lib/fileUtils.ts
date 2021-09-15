@@ -1,5 +1,5 @@
 import { getGuid } from './guidUtils';
-import { UploadFileControlValidationResult } from '../internal/FileAttacherBase/UploadFileControlValidationResult';
+import { UploadFileControlValidationResult } from '../internal/UploadFileControl/UploadFileControlValidationResult';
 
 export type UploadFileInBase64 = string | ArrayBuffer | null;
 
