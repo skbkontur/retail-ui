@@ -8,21 +8,21 @@ import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
-import { UploadFilesContext } from '../UploadFilesContext';
+import { UploadFileControlContext } from '../UploadFileControlContext';
 import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
 
-interface ReadFileProps {
+interface IUploadFileProps {
   file: IUploadFile;
   showSize?: boolean;
 }
 
-interface ReadFileState {
+interface IUploadFileState {
   fileNameWidth: number;
   fileNameElementWidth: number;
 }
 
-export const UploadFile = (props: ReadFileProps) => {
+export const UploadFile = (props: IUploadFileProps) => {
   const {file, showSize} = props;
   const {id, originalFile, status, validationResult} = file;
   const {name, size} = originalFile;
@@ -30,9 +30,9 @@ export const UploadFile = (props: ReadFileProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
-  const {removeFile} = useContext(UploadFilesContext);
+  const {removeFile} = useContext(UploadFileControlContext);
 
-  const [state, setState] = useState<ReadFileState>({
+  const [state, setState] = useState<IUploadFileState>({
     fileNameWidth: 0,
     fileNameElementWidth: 0
   });

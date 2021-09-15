@@ -1,14 +1,14 @@
 import React from 'react';
-import { FileAttacherBase, IFileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
+import { UploadFileControl, IUploadFileControlProps, IUploadFileError } from '../../internal/FileAttacherBase';
 import {
   IUploadFilesProviderProps,
   withUploadFilesProvider,
-} from '../../internal/FileAttacherBase/UploadFilesProvider';
-import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';
+} from '../../internal/FileAttacherBase/UploadFileControlProvider';
+import { useValidationSetter } from '../../internal/FileAttacherBase/UploadFileControlHooks';
 
 
-export interface IFileAttacherProps extends IFileAttacherBaseProps, IUploadFilesProviderProps {
-  fileError?: FileError[];
+export interface IFileAttacherProps extends IUploadFileControlProps, IUploadFilesProviderProps {
+  fileError?: IUploadFileError[];
 }
 
 export const FileAttacher = withUploadFilesProvider((props: IFileAttacherProps) => {
@@ -17,6 +17,6 @@ export const FileAttacher = withUploadFilesProvider((props: IFileAttacherProps) 
   useValidationSetter(fileError);
 
   return (
-      <FileAttacherBase {...props} />
+      <UploadFileControl {...props} />
   );
 });

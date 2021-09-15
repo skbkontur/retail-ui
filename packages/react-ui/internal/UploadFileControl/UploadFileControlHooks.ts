@@ -1,9 +1,9 @@
 import { MutableRefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { FileError } from './FileAttacherBase';
-import { ValidationResult } from './ValidationResult';
-import { UploadFilesContext } from './UploadFilesContext';
+import { IUploadFileError } from './UploadFileControl';
+import { UploadFileControlValidationResult } from './UploadFileControlValidationResult';
+import { UploadFileControlContext } from './UploadFileControlContext';
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-import { FileAttacherBaseLocaleHelper } from './locale';
+import { UploadFileControlLocaleHelper } from './locale';
 
 interface IUseDropProps {
   onDrop: (event: Event) => void;
@@ -73,14 +73,14 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
   return {isDraggable, ref: droppableRef};
 };
 
-export const useValidationSetter = (fileErrors: FileError[] = []) => {
-  const {setFileValidationResult} = useContext(UploadFilesContext);
+export const useValidationSetter = (fileErrors: IUploadFileError[] = []) => {
+  const {setFileValidationResult} = useContext(UploadFileControlContext);
 
   useEffect(() => {
     fileErrors.forEach(({fileId, message}) => {
-      setFileValidationResult(fileId, ValidationResult.error(message));
+      setFileValidationResult(fileId, UploadFileControlValidationResult.error(message));
     });
   }, [fileErrors]);
 };
 
-export const useControlLocale = () => useLocaleForControl("FileAttacherBase", FileAttacherBaseLocaleHelper);
+export const useControlLocale = () => useLocaleForControl("UploadFileControl", UploadFileControlLocaleHelper);

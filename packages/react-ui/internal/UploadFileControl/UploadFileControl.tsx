@@ -1,28 +1,27 @@
 import React, { ReactNode, useCallback, useContext, useRef } from 'react';
-import { jsStyles } from './FileAttacherBase.styles';
+import { jsStyles } from './UploadFileControl.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 import { IUploadFile, readFiles } from '../../lib/fileUtils';
 import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
-import { UploadFilesContext } from './UploadFilesContext';
-import { useControlLocale, useDrop } from './FileAttacherBaseHooks';
+import { UploadFileControlContext } from './UploadFileControlContext';
+import { useControlLocale, useDrop } from './UploadFileControlHooks';
 import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 
 const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
 
-export type FileError = {
+export interface IUploadFileError {
   fileId: string;
   message: string;
-};
+}
 
-// FIXME @mozalov: подумать над названием общего компонента
 // FIXME @mozalov: попробовать сделать так, чтобы компонент работал как нативный input file
 
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
-export interface IFileAttacherBaseProps {
+export interface IUploadFileControlProps {
   // свойства эквивалентные нативным
   id?: string;
   name?: string;
@@ -39,7 +38,7 @@ export interface IFileAttacherBaseProps {
   onReadError?: (files: IUploadFile[]) => void;
 }
 
-export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
+export const UploadFileControl = (props: IUploadFileControlProps) => {
   const {
     id,
     name,
@@ -54,7 +53,7 @@ export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
   const locale = useControlLocale();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const {files, setFiles} = useContext(UploadFilesContext);
+  const {files, setFiles} = useContext(UploadFileControlContext);
 
   const handleChange = useCallback(async (files: FileList | null) => {
     if (!files) return;
@@ -159,4 +158,4 @@ export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
   );
 };
 
-FileAttacherBase.displayName = "FileAttacherBase";
+UploadFileControl.displayName = "UploadFileControl";
