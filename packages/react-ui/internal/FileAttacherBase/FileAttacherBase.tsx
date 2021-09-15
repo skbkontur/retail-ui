@@ -18,6 +18,7 @@ export type FileError = {
   message: string;
 };
 
+// FIXME @mozalov: подумать над названием общего компонента
 // FIXME @mozalov: попробовать сделать так, чтобы компонент работал как нативный input file
 
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
@@ -161,4 +162,4 @@ export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
   );
 };
 
-FileAttacherBase.displayName = 'FileAttacherBase';
+FileAttacherBase.displayName = "FileAttacherBase";

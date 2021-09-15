@@ -83,4 +83,4 @@ export const useValidationSetter = (fileErrors: FileError[] = []) => {
   }, [fileErrors]);
 };
 
-export const useControlLocale = () => useLocaleForControl('FileAttacherBase', FileAttacherBaseLocaleHelper);
+export const useControlLocale = () => useLocaleForControl("FileAttacherBase", FileAttacherBaseLocaleHelper);

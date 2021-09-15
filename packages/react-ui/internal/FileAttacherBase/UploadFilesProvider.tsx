@@ -89,7 +89,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
   );
 };
 
-UploadFilesProvider.displayName = 'UploadFilesProvider';
+UploadFilesProvider.displayName = "UploadFilesProvider";
 
 export const withUploadFilesProvider = <TProps extends IFileAttacherBaseProps>(WrappedComponent: ComponentType<TProps>) => (props: TProps) => (
   <UploadFilesProvider {...props}>
