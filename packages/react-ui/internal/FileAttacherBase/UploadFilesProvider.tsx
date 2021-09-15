@@ -32,9 +32,6 @@ const updateFile = (
   return newFiles;
 };
 
-// FIXME @mozalov: вынести валидацию вне файла или нет? (возможна нужна для того, чтобы вне контрола понимали состояние валидности)
-// FIXME @mozalov: подумать, возможно пригодится для умного тоста
-
 export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
   const {children, onChange, onRemove} = props;
 

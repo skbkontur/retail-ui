@@ -10,6 +10,7 @@ export enum UploadFileStatus {
   Error = 'Error'
 }
 
+// TODO @mozalov: возможно стоит попробовать отделить валидацию и статус
 export interface IUploadFile {
   id: string;
   originalFile: File;
@@ -45,26 +46,6 @@ export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUp
     validationResult: ValidationResult.ok(),
     fileInBase64: fileInBase64
   };
-};
-
-export const isAllowedFileType = (fileType: string, allowedFileTypes: string[]): boolean => {
-  for (let i = 0, l = allowedFileTypes.length; i < l; i++) {
-    const allowedType = allowedFileTypes[i];
-
-    if (allowedType === fileType) {
-      return true;
-    }
-
-    const [firstAllowedTypePart, secondAllowedTypePart] = allowedType.split('/');
-    if (secondAllowedTypePart === '*') {
-      const [firstTypePart] = allowedType.split('/');
-      if (firstTypePart === firstAllowedTypePart) {
-        return true;
-      }
-    }
-  }
-
-  return false;
 };
 
 const escapeRegExpFileNameSpecChars = (s: string): string => s.replace(/[\\^$*+?()|[\]{}<>:\/]/g, '\\$&');
