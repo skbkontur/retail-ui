@@ -278,8 +278,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tokenRemoveIconPaddingX = '4px';
   public static tokenRemoveIconGap = '4px';
   public static tokenRemoveIconBoxSizing = 'content-box';
-  public static tokenBorderColorDisabled = '#dadada';
-  public static tokenDisabledBg = '#e5e5e5';
   public static tokenLegacyTextShift = '0px';
   public static get tokenPaddingYDisabled() {
     return this.tokenPaddingY;
@@ -292,9 +290,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get tokenMarginXDisabled() {
     return this.tokenMarginX;
-  }
-  public static get tokenShadowDisabled() {
-    return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
   }
   //#endregion
   //#region TokenInput

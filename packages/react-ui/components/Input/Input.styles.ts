@@ -207,7 +207,7 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      background: ${t.inputDisabledBg};
+      background-color: ${t.inputDisabledBg};
       border-color: ${t.inputDisabledBorderColor};
       box-shadow: none;
     `;
