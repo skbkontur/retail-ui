@@ -2,13 +2,13 @@ import React, { useCallback, useContext, useState } from 'react';
 import {
   IUploadFilesProviderProps,
   withUploadFilesProvider,
-} from '../../internal/FileAttacherBase/UploadFilesProvider';
+} from '../../internal/FileAttacherBase/UploadFileControlProvider';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
-import { FileAttacherBase, IFileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
-import { UploadFilesContext } from '../../internal/FileAttacherBase/UploadFilesContext';
-import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';
+import { UploadFileControl, IUploadFileControlProps, IUploadFileError } from '../../internal/FileAttacherBase';
+import { UploadFileControlContext } from '../../internal/FileAttacherBase/UploadFileControlContext';
+import { useValidationSetter } from '../../internal/FileAttacherBase/UploadFileControlHooks';
 
-export interface IFileUploaderProps extends IFileAttacherBaseProps, IUploadFilesProviderProps {
+export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFilesProviderProps {
   // Функция, через которую отправляем файлы.
   // Нужна для отслеживания статуса загрузки файла.
   request: (file: IUploadFile) => Promise<void>;
@@ -20,9 +20,9 @@ export interface IFileUploaderProps extends IFileAttacherBaseProps, IUploadFiles
 
 export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) => {
   const {request, controlError, getFileValidationText, onSelect, onRequestSuccess, onRequestError} = props;
-  const {setFileStatus} = useContext(UploadFilesContext);
+  const {setFileStatus} = useContext(UploadFileControlContext);
 
-  const [fileErrors, setFileErrors] = useState<FileError[]>([]);
+  const [fileErrors, setFileErrors] = useState<IUploadFileError[]>([]);
 
   const switchToLoading = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Loading);
@@ -71,7 +71,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
   useValidationSetter(fileErrors);
 
   return (
-    <FileAttacherBase
+    <UploadFileControl
       {...props}
       onSelect={handleSelect}
     />

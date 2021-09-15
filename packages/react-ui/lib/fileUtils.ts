@@ -1,5 +1,5 @@
 import { getGuid } from './guidUtils';
-import { ValidationResult } from '../internal/FileAttacherBase/ValidationResult';
+import { UploadFileControlValidationResult } from '../internal/FileAttacherBase/UploadFileControlValidationResult';
 
 export type UploadFileInBase64 = string | ArrayBuffer | null;
 
@@ -15,7 +15,7 @@ export interface IUploadFile {
   id: string;
   originalFile: File;
   status: UploadFileStatus;
-  validationResult: ValidationResult;
+  validationResult: UploadFileControlValidationResult;
 
   fileInBase64: UploadFileInBase64;
 }
@@ -43,7 +43,7 @@ export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUp
     id: getGuid(),
     originalFile: getFileWithEscapedName(file),
     status: UploadFileStatus.Attached,
-    validationResult: ValidationResult.ok(),
+    validationResult: UploadFileControlValidationResult.ok(),
     fileInBase64: fileInBase64
   };
 };

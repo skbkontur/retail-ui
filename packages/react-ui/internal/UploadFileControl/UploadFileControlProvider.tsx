@@ -1,10 +1,10 @@
 import React, { ComponentType, PropsWithChildren, useCallback, useState } from 'react';
 import { useContextValue } from '../../hooks/useContextValue';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
-import { UploadFilesContext } from './UploadFilesContext';
-import { IFileAttacherBaseProps } from './FileAttacherBase';
-import { ValidationResult } from './ValidationResult';
-import { useControlLocale } from './FileAttacherBaseHooks';
+import { UploadFileControlContext } from './UploadFileControlContext';
+import { IUploadFileControlProps } from './UploadFileControl';
+import { UploadFileControlValidationResult } from './UploadFileControlValidationResult';
+import { useControlLocale } from './UploadFileControlHooks';
 
 export interface IUploadFilesProviderProps {
   onChange?: (files: IUploadFile[]) => void;
@@ -32,7 +32,7 @@ const updateFile = (
   return newFiles;
 };
 
-export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
+export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
   const {children, onChange, onRemove} = props;
 
   // в files попадат только те, что попали в onSelect
@@ -45,7 +45,7 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
         return {
           status,
           validationResult: status === UploadFileStatus.Error
-            ? ValidationResult.error(locale.requestErrorText)
+            ? UploadFileControlValidationResult.error(locale.requestErrorText)
             : file.validationResult
         };
       });
@@ -69,12 +69,12 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
     });
   }, [onChange, onRemove]);
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: ValidationResult) => {
+  const setFileValidationResult = useCallback((fileId: string, validationResult: UploadFileControlValidationResult) => {
     setFiles(files => updateFile(files, fileId, () => ({validationResult})));
   }, []);
 
   return (
-    <UploadFilesContext.Provider value={useContextValue({
+    <UploadFileControlContext.Provider value={useContextValue({
       setFileStatus,
       files,
       setFiles: handleExternalSetFiles,
@@ -82,14 +82,14 @@ export const UploadFilesProvider = (props: PropsWithChildren<IUploadFilesProvide
       setFileValidationResult
     })}>
       {children}
-    </UploadFilesContext.Provider>
+    </UploadFileControlContext.Provider>
   );
 };
 
-UploadFilesProvider.displayName = "UploadFilesProvider";
+UploadFileControlProvider.displayName = "UploadFileControlProvider";
 
-export const withUploadFilesProvider = <TProps extends IFileAttacherBaseProps>(WrappedComponent: ComponentType<TProps>) => (props: TProps) => (
-  <UploadFilesProvider {...props}>
+export const withUploadFilesProvider = <TProps extends IUploadFileControlProps>(WrappedComponent: ComponentType<TProps>) => (props: TProps) => (
+  <UploadFileControlProvider {...props}>
     <WrappedComponent {...props} />
-  </UploadFilesProvider>
+  </UploadFileControlProvider>
 );

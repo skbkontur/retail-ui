@@ -1,4 +1,4 @@
-export interface FileAttacherBaseLocale {
+export interface IUploadFileControlLocale {
   chooseFile: string;
   choosedFile: string;
   orDragHere: string;
