@@ -66,9 +66,6 @@ export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
 
     setFiles(selectedFiles);
 
-    // FIXME @mozalov: подумать над тем, чтобы onSelect делать в UploadFilesProvider,
-    //  для этого нужно разделить контекст на 2 - на файлохранилку и на валидатилку
-    //  думать об этом в самый последний момент
     onSelect && onSelect(selectedFiles);
     onReadError && onReadError(readErrorFiles);
   }, [onReadError, onSelect, setFiles]);
