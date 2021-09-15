@@ -3,7 +3,7 @@ import React from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { FileAttacherProps } from '../../../components/FileAttacher/FileAttacher';
+import { IFileAttacherProps } from '../../../components/FileAttacher/FileAttacher';
 import { FileAttacherBaseLocaleHelper } from '../locale';
 import { Link } from '../../../components/Link';
 import { FileAttacherBase } from '../FileAttacherBase';
@@ -11,7 +11,7 @@ import { withUploadFilesProvider } from '../UploadFilesProvider';
 
 const WrappedFileAttacherBase = withUploadFilesProvider(FileAttacherBase);
 
-const render = (localeProviderValue = {}, props: FileAttacherProps = {}) => mount(
+const render = (localeProviderValue = {}, props: IFileAttacherProps = {}) => mount(
   <LocaleContext.Provider value={localeProviderValue}>
     <WrappedFileAttacherBase {...props} />
   </LocaleContext.Provider>
