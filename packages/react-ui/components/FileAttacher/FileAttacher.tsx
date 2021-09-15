@@ -1,16 +1,17 @@
 import React from 'react';
-import { FileAttacherBase, FileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
+import { FileAttacherBase, IFileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
 import {
+  IUploadFilesProviderProps,
   withUploadFilesProvider,
 } from '../../internal/FileAttacherBase/UploadFilesProvider';
 import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';
 
 
-export interface FileAttacherProps extends FileAttacherBaseProps {
+export interface IFileAttacherProps extends IFileAttacherBaseProps, IUploadFilesProviderProps {
   fileError?: FileError[];
 }
 
-export const FileAttacher = withUploadFilesProvider((props: FileAttacherProps) => {
+export const FileAttacher = withUploadFilesProvider((props: IFileAttacherProps) => {
   const {fileError} = props;
 
   useValidationSetter(fileError);

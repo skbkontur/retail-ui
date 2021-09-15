@@ -1,11 +1,15 @@
 import React, { useCallback, useContext, useState } from 'react';
-import { withUploadFilesProvider } from '../../internal/FileAttacherBase/UploadFilesProvider';
+import {
+  IUploadFilesProviderProps,
+  withUploadFilesProvider,
+} from '../../internal/FileAttacherBase/UploadFilesProvider';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
-import { FileAttacherBase, FileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
+import { FileAttacherBase, IFileAttacherBaseProps, FileError } from '../../internal/FileAttacherBase';
 import { UploadFilesContext } from '../../internal/FileAttacherBase/UploadFilesContext';
 import { useValidationSetter } from '../../internal/FileAttacherBase/FileAttacherBaseHooks';
 
 // FIXME @mozalov: добавить типы ошибок
+// FIXME @mozalov: а как обрабатываются сейчас асинхронные ошибки?
 
 export type RequestFunction = (
   file: IUploadFile,
@@ -13,13 +17,14 @@ export type RequestFunction = (
   onError: (error: object) => void,
 ) => void;
 
-export interface FileUploaderProps extends Omit<FileAttacherBaseProps, 'fileError'> {
+export interface IFileUploaderProps extends IFileAttacherBaseProps, IUploadFilesProviderProps {
   request: RequestFunction;
+  // FIXME @mozalov: мб возвращать не строку, а объект валидации?
   fileValidation?: (file: IUploadFile) => Promise<string>;
 }
 
-export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) => {
-  const {request, controlError, fileValidation} = props;
+export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) => {
+  const {request, controlError, fileValidation, onSelect} = props;
   const {setFileStatus} = useContext(UploadFilesContext);
 
   const [fileErrors, setFileErrors] = useState<FileError[]>([]);
@@ -43,25 +48,24 @@ export const FileUploader = withUploadFilesProvider((props: FileUploaderProps) =
   }, [request, handleSuccess, handleError, handleStart])
 
   const handleSelect = useCallback((files: IUploadFile[]) => {
-    if (!controlError) {
-      files.forEach(async file => {
-        const validationMessage = fileValidation && await fileValidation(file);
+    onSelect && onSelect(files);
 
-        if (!validationMessage) {
-          upload(file);
-        } else {
-          setFileErrors(state => [...state, {fileId: file.id, message: validationMessage}]);
-        }
-      });
+    if (controlError) {
+      return;
     }
-  }, [upload, controlError, fileValidation]);
+
+    files.forEach(async file => {
+      const validationMessage = fileValidation && await fileValidation(file);
+
+      if (!validationMessage) {
+        upload(file);
+      } else {
+        setFileErrors(state => [...state, {fileId: file.id, message: validationMessage}]);
+      }
+    });
+  }, [upload, controlError, fileValidation, onSelect]);
 
   useValidationSetter(fileErrors);
-
-  // FIXME @mozalov: спросить у проектирования, как реагировать на то, что файлы не считались - есть 2 способа:
-  // 1. Валидировать на месте
-  // 2. Просто прокидывать через onReadError вверх, а юзер сам решит.
-  // Я думаю, что лучше 1
 
   return (
     <FileAttacherBase

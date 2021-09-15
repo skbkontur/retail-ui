@@ -19,20 +19,18 @@ export type FileError = {
   message: string;
 };
 
-export interface FileAttacherBaseProps {
+export interface IFileAttacherBaseProps {
   id?: string;
   name?: string;
   disabled?: boolean;
   multiple?: boolean;
   controlError?: ReactNode;
 
-  onChange?: (files: IUploadFile[]) => void;
   onSelect?: (files: IUploadFile[]) => void;
-  onRemove?: (fileId: string) => void;
   onReadError?: (files: IUploadFile[]) => void;
 }
 
-export const FileAttacherBase = (props: FileAttacherBaseProps) => {
+export const FileAttacherBase = (props: IFileAttacherBaseProps) => {
   const {
     id,
     name,
@@ -56,9 +54,11 @@ export const FileAttacherBase = (props: FileAttacherBaseProps) => {
     const selectedFiles = uploadFiles.filter(v => !!v.fileInBase64);
     const readErrorFiles = uploadFiles.filter(v => !v.fileInBase64);
 
-    // TODO @mozalov: подумать над тем, чтобы setFiles делать только в одном месте, в UploadFilesProvider
     setFiles(selectedFiles);
 
+    // FIXME @mozalov: подумать над тем, чтобы onSelect делать в UploadFilesProvider,
+    //  для этого нужно разделить контекст на 2 - на файлохранилку и на валидатилку
+    //  думать об этом в самый последний момент
     onSelect && onSelect(selectedFiles);
     onReadError && onReadError(readErrorFiles);
   }, [onReadError, onSelect, setFiles]);
