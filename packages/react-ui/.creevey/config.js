@@ -26,6 +26,7 @@ const config = {
     ...options,
     extends: path.join(__dirname, '../.babelrc.js'),
   }),
+  diffOptions: { threshold: 0.1 },
   browsers: {
     chrome: {
       browserName: 'chrome',
