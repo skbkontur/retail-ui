@@ -1,37 +1,36 @@
 import React from 'react';
-import { FileUploader, RequestFunction } from '../FileUploader';
-import { IUploadFile } from '../../../lib/fileUtils';
+import { FileUploader } from '../FileUploader';
 
 export default {
-  title: 'FileUploader',
+  title: "FileUploader",
   decorators: [
     (storyFn: () => JSX.Element) => (
-      <div style={{ padding: '10px' }}>{storyFn()}</div>
+      <div style={{ padding: "10px" }}>{storyFn()}</div>
     ),
   ],
 };
 
 
-const loadingRequest: RequestFunction = () => {};
+const loadingRequest = () => Promise.resolve();
 
-const successRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {
+const successRequest = () => new Promise<void>(resolve => {
   setTimeout(() => {
-    onSuccess();
-  }, 2000)
-};
+    resolve();
+  }, 2000);
+});
 
-const errorRequest: RequestFunction = (file: IUploadFile, onSuccess, onError) => {
+const errorRequest = () => new Promise<void>((resolve, reject) => {
   setTimeout(() => {
-    onError(new Error());
-  }, 2000)
-};
+    reject();
+  }, 2000);
+});
 
 export const SingleFileUploader = () => (
   <FileUploader request={successRequest} />
 );
 
 export const SingleFileUploaderWithFileError = () => (
-  <FileUploader request={successRequest} fileValidation={() => Promise.resolve("Формат файла неверный")} />
+  <FileUploader request={successRequest} getFileValidationText={() => Promise.resolve("Формат файла неверный")} />
 );
 
 export const MultipleFileUploader = () => (
@@ -51,7 +50,7 @@ export const MultipleFileUploaderWithControlError = () => (
 );
 
 export const MultipleFileUploaderWithFileError = () => (
-  <FileUploader multiple request={successRequest} fileValidation={() => Promise.resolve("Формат файла неверный")} />
+  <FileUploader multiple request={successRequest} getFileValidationText={() => Promise.resolve("Формат файла неверный")} />
 );
 
 export const FileUploaderDisabled = () => (

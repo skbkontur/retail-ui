@@ -1,19 +1,19 @@
 import React, { useCallback, useContext, useState } from 'react';
+import { IUploadFileControlProps, IUploadFileError, UploadFileControl } from '../../internal/UploadFileControl';
 import {
   IUploadFilesProviderProps,
   withUploadFilesProvider,
-} from '../../internal/FileAttacherBase/UploadFileControlProvider';
+} from '../../internal/UploadFileControl/UploadFileControlProvider';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
-import { UploadFileControl, IUploadFileControlProps, IUploadFileError } from '../../internal/FileAttacherBase';
-import { UploadFileControlContext } from '../../internal/FileAttacherBase/UploadFileControlContext';
-import { useValidationSetter } from '../../internal/FileAttacherBase/UploadFileControlHooks';
+import { UploadFileControlContext } from '../../internal/UploadFileControl/UploadFileControlContext';
+import { useValidationSetter } from '../../internal/UploadFileControl/UploadFileControlHooks';
 
 export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFilesProviderProps {
   // Функция, через которую отправляем файлы.
   // Нужна для отслеживания статуса загрузки файла.
   request: (file: IUploadFile) => Promise<void>;
-  onRequestSuccess: (fileId: string) => void;
-  onRequestError: (fileId: string) => void;
+  onRequestSuccess?: (fileId: string) => void;
+  onRequestError?: (fileId: string) => void;
   // TODO @mozalov: возможно стоит возвращать не строку, а какой-то объект валидации
   getFileValidationText?: (file: IUploadFile) => Promise<string>;
 }
@@ -30,12 +30,12 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
 
   const switchToSuccess = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Uploaded);
-    onRequestSuccess(fileId);
+    onRequestSuccess && onRequestSuccess(fileId);
   }, [setFileStatus, onRequestSuccess]);
 
   const switchToError = useCallback((fileId: string) => {
     setFileStatus(fileId, UploadFileStatus.Error);
-    onRequestError(fileId);
+    onRequestError && onRequestError(fileId);
   }, [setFileStatus, onRequestError]);
 
   const upload = useCallback(async (file: IUploadFile) => {
