@@ -18,8 +18,7 @@ export interface IUploadFileError {
   message: string;
 }
 
-// FIXME @mozalov: попробовать сделать так, чтобы компонент работал как нативный input file
-
+// FIXME @mozalov: написать тесты на компоненты после ревью
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 export interface IUploadFileControlProps {
   // свойства эквивалентные нативным

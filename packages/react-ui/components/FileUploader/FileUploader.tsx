@@ -14,6 +14,8 @@ export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFile
   request: (file: IUploadFile) => Promise<void>;
   onRequestSuccess?: (fileId: string) => void;
   onRequestError?: (fileId: string) => void;
+
+  // срабатывает после выбора файлов и перед попыткой отправить в request
   // TODO @mozalov: возможно стоит возвращать не строку, а какой-то объект валидации
   getFileValidationText?: (file: IUploadFile) => Promise<string>;
 }
