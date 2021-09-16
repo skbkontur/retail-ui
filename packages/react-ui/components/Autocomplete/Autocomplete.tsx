@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -118,7 +117,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
-  private rootSpan: Nullable<HTMLSpanElement>;
+  private rootSpan: Nullable<HTMLElement>;
 
   private requestId = 0;
 
@@ -210,7 +209,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <DropdownContainer
         offsetY={1}
-        getParent={this.getAnchor}
+        getParent={() => this.rootSpan}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
@@ -308,10 +307,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private handleMenuItemClick(i: number) {
     return (event: React.SyntheticEvent<HTMLElement>) => this.handleItemClick(event, i);
   }
-
-  private getAnchor = () => {
-    return findDOMNode(this);
-  };
 
   private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {
     if ((event as React.MouseEvent<HTMLElement>).button) {

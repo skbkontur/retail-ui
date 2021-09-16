@@ -18,7 +18,7 @@ export interface DropdownContainerPosition {
 
 export interface DropdownContainerProps {
   align?: 'left' | 'right';
-  getParent: () => DOMNode;
+  getParent: () => Nullable<HTMLElement>;
   children?: React.ReactNode;
   disablePortal?: boolean;
   offsetY?: number;
@@ -51,6 +51,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private dom: DOMNode = null;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
+  private anchorElement: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.position();
@@ -66,6 +67,12 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
 
     this.setState({ isDocumentElementRoot: hasLimitedHeightRoot || hasStaticRoot });
+  }
+
+  componentDidUpdate() {
+    if (this.anchorElement !== this.props.getParent()) {
+      this.position();
+    }
   }
 
   public componentWillUnmount() {
@@ -111,6 +118,9 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   private position = () => {
     const target = this.props.getParent();
     const dom = this.dom;
+
+    this.anchorElement = target;
+    if (!target) return;
 
     if (this.isElement(target) && dom) {
       const targetRect = target.getBoundingClientRect();
@@ -174,7 +184,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private getMinWidth = () => {
     const target = this.props.getParent();
-    if (!this.isElement(target)) {
+    if (!target || !this.isElement(target)) {
       return 0;
     }
     return target.getBoundingClientRect().width;
@@ -184,7 +194,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
-    if (this.isElement(target)) {
+    if (target && this.isElement(target)) {
       const targetHeight = target.getBoundingClientRect().height;
       return {
         top: top !== null ? targetHeight + offsetY : null,

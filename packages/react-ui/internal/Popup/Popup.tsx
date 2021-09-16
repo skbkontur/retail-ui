@@ -362,7 +362,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         {(state: string) => (
           <CommonWrapper {...this.props}>
             <ZIndex
-              ref={this.refPopupElement}
+              wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
                 [styles.popup(this.theme)]: true,
@@ -408,10 +408,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupElement = (zIndex: ZIndex | null) => {
-    if (zIndex) {
-      this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
-    }
+  private refPopupElement = (element: Nullable<HTMLElement>) => {
+    this.lastPopupElement = element;
   };
 
   private renderPin(positionName: string): React.ReactNode {

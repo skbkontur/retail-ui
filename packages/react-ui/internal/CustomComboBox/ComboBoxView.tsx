@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType } from '../../components/Input';
@@ -68,6 +67,8 @@ interface ComboBoxViewProps<T> extends CommonProps {
 
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
+
+  public state: { rootSpan: Nullable<HTMLElement> } = { rootSpan: null };
 
   public static defaultProps = {
     renderItem: (item: any) => item,
@@ -147,12 +148,13 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
+            ref={this.refRootSpan}
           >
             {input}
             {opened && (
               <DropdownContainer
                 align={menuAlign}
-                getParent={() => findDOMNode(this)}
+                getParent={() => this.state.rootSpan}
                 offsetY={1}
                 disablePortal={this.props.disablePortal}
               >
@@ -178,6 +180,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       </CommonWrapper>
     );
   }
+
+  private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
+    this.setState({ rootSpan });
+  };
 
   private renderAddButton = (): React.ReactNode => {
     return this.props.renderAddButton(this.props.textValue);

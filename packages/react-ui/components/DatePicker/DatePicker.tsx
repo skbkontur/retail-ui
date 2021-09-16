@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -168,6 +167,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
+  private rootLabel: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -231,7 +231,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={() => this.rootLabel} offsetY={2} align={this.props.menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
@@ -252,6 +252,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
+        ref={this.refRootLabel}
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
@@ -277,6 +278,10 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );
+  };
+
+  private refRootLabel = (rootLabel: Nullable<HTMLElement>) => {
+    this.rootLabel = rootLabel;
   };
 
   private getInputRef = (ref: DateInput | null) => {

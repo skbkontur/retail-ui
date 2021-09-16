@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
 import {
@@ -202,6 +201,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
+  private rootSpan: Nullable<HTMLElement>;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -281,7 +281,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     return (
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-          <span className={styles.root()} style={style}>
+          <span className={styles.root()} style={style} ref={this.refRootSpan}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
           </span>
@@ -289,6 +289,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       </CommonWrapper>
     );
   }
+
+  private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
+    this.rootSpan = rootSpan;
+  };
 
   private renderLabel() {
     const value = this.getValue();
@@ -390,7 +394,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <DropdownContainer
-        getParent={this.dropdownContainerGetParent}
+        getParent={() => this.rootSpan}
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
@@ -434,10 +438,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       </DropdownContainer>
     );
   }
-
-  private dropdownContainerGetParent = () => {
-    return ReactDOM.findDOMNode(this);
-  };
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal

@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { Story } from '../../../typings/stories';
 import { MenuItem } from '../../../components/MenuItem';
@@ -7,6 +6,7 @@ import { Toggle } from '../../../components/Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Menu } from '../../Menu';
 import { Button } from '../../../components/Button';
+import { Nullable } from '../../../typings/utility-types';
 
 export default { title: 'DropdownContainer' };
 
@@ -276,22 +276,18 @@ class DropdownWithToggle extends React.Component<{
     disablePortal: DropdownContainerProps['disablePortal'];
   };
 }> {
-  private DOMNode: Element | Text | null = null;
-
-  public componentDidMount(): void {
-    this.DOMNode = findDOMNode(this);
-  }
+  private rootSpan: Nullable<HTMLElement>;
 
   public render() {
     const { show, onToggle, dropdownProps } = this.props;
     return (
-      <span style={{ display: 'inline-block', position: 'relative' }}>
+      <span style={{ display: 'inline-block', position: 'relative' }} ref={this.refRootSpan}>
         <Toggle checked={show} onValueChange={onToggle} />
         {show && (
           <DropdownContainer
             align={dropdownProps.align}
             disablePortal={dropdownProps.disablePortal}
-            getParent={() => this.DOMNode}
+            getParent={() => this.rootSpan}
           >
             {this.props.children}
           </DropdownContainer>
@@ -299,4 +295,7 @@ class DropdownWithToggle extends React.Component<{
       </span>
     );
   }
+  private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
+    this.rootSpan = rootSpan;
+  };
 }
