@@ -6,11 +6,11 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { keyListener } from '../../lib/events/keyListener';
 import { Nullable } from '../../typings/utility-types';
-import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -129,6 +129,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public UNSAFE_componentWillMount() {
     invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
@@ -219,7 +220,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
           tabIndex={disabled ? -1 : 0}
-          ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
+          ref={this.refTabComponent}
           href={href}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
@@ -233,6 +234,11 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private refTabComponent = (instance: React.ReactElement<any>) => {
     this.tabComponent = instance;
+    this.rootDomNode = getRootDomNode(instance);
+  };
+
+  public getTabDomNode = () => {
+    return this.rootDomNode;
   };
 
   private getTabInstance = () => this;

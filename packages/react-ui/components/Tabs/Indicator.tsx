@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import throttle from 'lodash.throttle';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -10,7 +9,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { TabIndicators } from './Tab';
+import { Tab, TabIndicators } from './Tab';
 
 export interface IndicatorProps {
   className?: string;
@@ -110,25 +109,23 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }, 100);
 
   private getStyles(node: any): React.CSSProperties {
-    if (node instanceof React.Component) {
-      node = findDOMNode(node);
-    }
+    const htmlNode = (node as Tab)?.getTabDomNode?.();
 
-    if (node instanceof HTMLElement) {
-      const rect = node.getBoundingClientRect();
+    if (htmlNode && htmlNode instanceof HTMLElement) {
+      const rect = htmlNode.getBoundingClientRect();
       if (this.props.vertical) {
         return {
           width: this.theme.tabBorderWidth,
-          left: node.offsetLeft,
-          top: node.offsetTop,
+          left: htmlNode.offsetLeft,
+          top: htmlNode.offsetTop,
           height: rect.bottom - rect.top,
         };
       }
 
       const tabBorderWidth = parseInt(this.theme.tabBorderWidth, 10) || 0;
       return {
-        left: node.offsetLeft,
-        top: node.offsetHeight + node.offsetTop - tabBorderWidth,
+        left: htmlNode.offsetLeft,
+        top: htmlNode.offsetHeight + htmlNode.offsetTop - tabBorderWidth,
         width: rect.right - rect.left,
       };
     }

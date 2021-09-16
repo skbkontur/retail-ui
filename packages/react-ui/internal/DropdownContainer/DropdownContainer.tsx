@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
@@ -49,7 +48,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
-  private dom: DOMNode = null;
+  private dom: Nullable<HTMLElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private anchorElement: Nullable<HTMLElement>;
 
@@ -99,7 +98,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
 
     const content = (
-      <ZIndex priority={'DropdownContainer'} ref={this.ref} style={style}>
+      <ZIndex priority={'DropdownContainer'} wrapperRef={this.ref} style={style}>
         {this.props.children}
       </ZIndex>
     );
@@ -107,8 +106,8 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
-  private ref = (e: ZIndex | null) => {
-    this.dom = e && findDOMNode(e);
+  private ref = (dom: Nullable<HTMLElement>) => {
+    this.dom = dom;
   };
 
   private isElement = (node: DOMNode): node is Element => {
@@ -172,7 +171,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   };
 
   private getHeight = () => {
-    if (!this.isElement(this.dom)) {
+    if (!this.dom || !this.isElement(this.dom)) {
       return 0;
     }
     const child = this.dom.children.item(0);

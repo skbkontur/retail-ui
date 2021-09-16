@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -124,10 +123,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tab = tabs[newIndex];
 
     const tabNode = tab.getNode();
-    let htmlNode = null;
-    if (tabNode instanceof React.Component) {
-      htmlNode = findDOMNode(tabNode);
-    }
+    const htmlNode = tabNode?.getTabDomNode?.();
 
     if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
       htmlNode.focus();
