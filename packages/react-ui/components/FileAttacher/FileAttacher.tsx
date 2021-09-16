@@ -1,11 +1,10 @@
 import React from 'react';
-import { UploadFileControl, IUploadFileControlProps, IUploadFileError } from '../../internal/FileAttacherBase';
+import { IUploadFileControlProps, IUploadFileError, UploadFileControl } from '../../internal/UploadFileControl';
 import {
   IUploadFilesProviderProps,
   withUploadFilesProvider,
-} from '../../internal/FileAttacherBase/UploadFileControlProvider';
-import { useValidationSetter } from '../../internal/FileAttacherBase/UploadFileControlHooks';
-
+} from '../../internal/UploadFileControl/UploadFileControlProvider';
+import { useValidationSetter } from '../../internal/UploadFileControl/UploadFileControlHooks';
 
 export interface IFileAttacherProps extends IUploadFileControlProps, IUploadFilesProviderProps {
   fileError?: IUploadFileError[];
