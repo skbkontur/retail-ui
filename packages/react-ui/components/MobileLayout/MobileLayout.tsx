@@ -14,8 +14,6 @@ export interface MobileLayoutState {
   windowHeight?: number;
 }
 
-export const MOBILE_MENU_TOP_PADDING = 40;
-
 type LayoutData = {
   name: LayoutMode;
   mediaQuery: string;
@@ -26,7 +24,7 @@ const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
   [LayoutMode.Mobile]: 'mobileMediaQuery',
 };
 
-const DESKTOP_DEFAULT_MEDIA_QUERY = '(max-width: 0px)';
+const DESKTOP_DEFAULT_MEDIA_QUERY = '(min-width: 0px)';
 
 export const DEFAULT_LAYOUT = LayoutMode.Desktop;
 export const DEFAULT_WINDOW_HEIGHT = canUseDOM ? window.innerHeight : 0;
@@ -90,14 +88,12 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     public listenResize() {
       if (canUseDOM) {
         window.addEventListener('resize', this.throttledСheckLayoutsMediaQueries);
-        window.addEventListener('resize', this.throttledUpdateWindowHeight);
       }
     }
 
     public unlistenResize() {
       if (canUseDOM) {
         window.removeEventListener('resize', this.throttledСheckLayoutsMediaQueries);
-        window.removeEventListener('resize', this.throttledUpdateWindowHeight);
       }
     }
 

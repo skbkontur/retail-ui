@@ -13,7 +13,7 @@ const styles = {
     return css`
       display: inline-block;
       position: relative;
-      width: ${t.mobileSelectWidth};
+      width: 100%;
     `;
   },
 

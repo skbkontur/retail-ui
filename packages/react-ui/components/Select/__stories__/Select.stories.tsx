@@ -194,7 +194,10 @@ export const MobileSimple = () => {
           >
             <Gapped vertical>
               <span>With small count of items</span>
-              <Select items={items.slice(-5)} mobileMenuHeaderText={'This is header'} />
+              <Select
+                items={items.slice(-5)}
+                mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+              />
               <span>With big count of items</span>
               <Select items={items} mobileMenuHeaderText={'This is header'} />
               <span>With search</span>

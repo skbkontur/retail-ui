@@ -60,6 +60,7 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
+  public static mobileMenuTopPadding = '40px';
   public static mobileFontSize = '18px';
   public static mobileLineHeight = '24px';
   public static specificityLevel = '0';
@@ -528,9 +529,6 @@ export class DefaultTheme {
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
   }
-
-  public static mobileSelectMenuTopPadding = '40px';
-  public static mobileSelectWidth = '100%';
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '15px';

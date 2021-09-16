@@ -29,9 +29,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { MobileMenuHeader } from '../../internal/MobileMenuHeader';
-import { MobileLayoutState, LayoutMode, mobileLayout, MOBILE_MENU_TOP_PADDING } from '../MobileLayout';
-import { InternalMenu } from '../../internal/InternalMenu';
+import { MobileLayoutState, LayoutMode, mobileLayout } from '../MobileLayout';
+import { MobileMenu } from '../../internal/MobileMenu';
+import { cx } from '../../lib/theming/Emotion';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -101,6 +101,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    */
   items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
   maxMenuHeight?: number;
+  maxMobileMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
@@ -146,8 +147,6 @@ export interface SelectState<TValue> extends MobileLayoutState {
   opened: boolean;
   searchPattern: string;
   value: Nullable<TValue>;
-  mobileMenuHeaderHeight: number;
-  isScrolled: boolean;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -205,8 +204,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     opened: false,
     value: this.props.defaultValue,
     searchPattern: '',
-    mobileMenuHeaderHeight: 0,
-    isScrolled: false,
   };
 
   private theme!: Theme;
@@ -230,9 +227,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         {(theme) => {
           this.theme = theme;
           return (
-            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>
-              {this.getRenderer()}
-            </ThemeContext.Provider>
+            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
@@ -274,50 +269,41 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
   };
 
-  private getRenderer() {
+  private getMenuRenderer() {
     if (this.isMobile()) {
-      return this.renderMobileMain();
+      return this.renderMobileMenu();
     }
 
-    return this.renderMain();
+    return this.renderMenu();
   }
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
     const button = this.getButton(buttonParams);
 
+    const isMobile = this.isMobile();
+
     const style = {
       width: this.props.width,
       maxWidth: this.props.maxWidth || undefined,
     };
 
-    return (
-      <CommonWrapper {...this.props}>
-        <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-          <span className={jsStyles.root()} style={style}>
-            {button}
-            {!this.props.disabled && this.state.opened && this.renderMenu()}
-          </span>
-        </RenderLayer>
-      </CommonWrapper>
+    const openButton = (
+      <span className={cx({ [jsStyles.root()]: true, [jsStyles.rootMobile(this.theme)]: isMobile })} style={style}>
+        {button}
+        {!this.props.disabled && this.state.opened && this.getMenuRenderer()}
+      </span>
     );
-  }
-
-  private renderMobileMain() {
-    const buttonParams = this.getDefaultButtonParams();
-    const button = this.getButton(buttonParams);
-
-    const style = {
-      width: this.props.width,
-      maxWidth: this.props.maxWidth || undefined,
-    };
 
     return (
       <CommonWrapper {...this.props}>
-        <span className={jsStyles.rootMobile(this.theme)} style={style}>
-          {button}
-          {!this.props.disabled && this.state.opened && this.renderMobileMenu()}
-        </span>
+        {isMobile ? (
+          openButton
+        ) : (
+          <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+            {openButton}
+          </RenderLayer>
+        )}
       </CommonWrapper>
     );
   }
@@ -452,35 +438,21 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMobileMenu(): React.ReactNode {
     const search = this.props.search ? this.getSearch() : null;
-
     const value = this.getValue();
 
-    const menuMaxHeight = search ? this.state.windowHeight : this.state.windowHeight! - MOBILE_MENU_TOP_PADDING;
+    const isWithSearch = Boolean(search);
+
     return (
-      <DropdownContainer
-        getParent={this.dropdownContainerGetParent}
-        mobileCloseHandler={this.close}
-        mobileUseFullHeight={Boolean(search)}
+      <MobileMenu
+        onClose={this.close}
+        headerChildComponent={search}
+        caption={this.props.mobileMenuHeaderText}
+        withoutBorderRadius={isWithSearch}
+        useFullHeight={isWithSearch}
+        maxMenuHeight={this.props.maxMobileMenuHeight}
       >
-        <InternalMenu
-          onItemClick={this.close}
-          maxHeight={menuMaxHeight}
-          maxHeightFor={'all'}
-          header={
-            <MobileMenuHeader
-              caption={this.props.mobileMenuHeaderText}
-              onClose={this.close}
-              childComponent={search || undefined}
-            />
-          }
-          hasShadow={false}
-          disableDefaultPaddings
-          backgroundTransparent
-          headerBoxShadow={this.theme.mobileMenuHeaderShadow}
-        >
-          <div style={{ paddingBottom: 16 }}>{this.getMenuItems(value)}</div>
-        </InternalMenu>
-      </DropdownContainer>
+        {this.getMenuItems(value)}
+      </MobileMenu>
     );
   }
 

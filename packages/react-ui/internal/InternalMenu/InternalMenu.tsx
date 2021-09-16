@@ -22,22 +22,8 @@ interface MenuProps {
   width?: number | string;
   preventWindowScroll?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
-  /**
-   * Отключить дефолтные отступы контейнеров
-   */
-  disableDefaultPaddings?: boolean;
-  /**
-   * Показывать, даже если контейнер пустой
-   */
-  showEmpty?: boolean;
-  backgroundTransparent?: boolean;
 
   header?: React.ReactNode;
-  /**
-   * Тень для хедера. По умолчанию нижнее подчеркивание
-   */
-  headerBoxShadow?: React.CSSProperties['boxShadow'];
-
   footer?: React.ReactNode;
 
   // Циклический перебор айтемов меню (по-дефолтну включен)
@@ -135,7 +121,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       (x) => React.isValidElement(x) && x.props.icon,
     );
 
-    if (!this.props.showEmpty && this.isEmpty()) {
+    if (this.isEmpty()) {
       return null;
     }
 
@@ -143,8 +129,6 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       <div
         className={cn({
           [jsStyles.root(this.theme)]: true,
-          [jsStyles.disablePadding()]: this.props.disableDefaultPaddings,
-          [jsStyles.backgroundTransparent()]: this.props.backgroundTransparent,
           [jsStyles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
@@ -223,12 +207,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
         className={cx({
           [jsStyles.header()]: true,
           [jsStyles.fixedHeader()]: isScrolled,
-          [jsStyles.disablePadding()]: this.props.disableDefaultPaddings,
-          [jsStyles.disableTop()]: this.props.disableDefaultPaddings,
         })}
-        style={{
-          boxShadow: isScrolled ? this.props.headerBoxShadow : undefined,
-        }}
       >
         {this.props.header}
       </div>
@@ -242,7 +221,6 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
         className={cn({
           [jsStyles.footer()]: true,
           [jsStyles.fixedFooter()]: this.state.scrollState !== 'bottom',
-          [jsStyles.disablePadding()]: this.props.disableDefaultPaddings,
         })}
       >
         {this.props.footer}

@@ -17,6 +17,13 @@ const styles = {
       box-shadow: ${t.mobileMenuHeaderShadow};
     `;
   },
+
+  withoutBorderRadius() {
+    return css`
+      border-radius: 0px;
+    `;
+  },
+
   container() {
     return css`
       position: relative;

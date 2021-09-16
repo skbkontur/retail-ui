@@ -4,12 +4,13 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 const styles = {
   mobileMenu(t: Theme) {
     return css`
-      left: 0;
       position: fixed;
+      top: 0;
+      right: 0;
+      left: 0;
       bottom: 0;
       width: 100%;
       z-index: 100000;
-      background-color: #fff;
       border-radius: ${t.mobileMenuHeaderBorderRadius};
       transform: translateY(100%);
     `;
@@ -24,11 +25,11 @@ const styles = {
 
   bg() {
     return css`
-      height: 100%;
-      left: 0;
       position: fixed;
       top: 0;
-      width: 100%;
+      bottom: 0;
+      right: 0;
+      left: 0;
       z-index: 9999;
       background: #333333;
       opacity: 50%;

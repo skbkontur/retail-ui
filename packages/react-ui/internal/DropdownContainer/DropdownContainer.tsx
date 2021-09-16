@@ -6,7 +6,7 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { mobileLayout, MobileLayoutState, LayoutMode, MOBILE_MENU_TOP_PADDING } from '../../components/MobileLayout';
+import { mobileLayout, MobileLayoutState, LayoutMode } from '../../components/MobileLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -159,10 +159,6 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   public renderMobile() {
-    const height = this.props.mobileUseFullHeight ? '100vh' : undefined;
-
-    const maxHeight = this.props.mobileUseFullHeight ? '100vh' : `calc(100vh - ${MOBILE_MENU_TOP_PADDING}px)`;
-
     return (
       <RenderContainer>
         <div
@@ -170,7 +166,9 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
             [jsStyles.mobileMenu(this.theme)]: true,
             [jsStyles.mobileMenuOpened()]: this.state.mobileOpened,
           })}
-          style={{ height, maxHeight }}
+          style={{
+            top: this.props.mobileUseFullHeight ? 0 : parseFloat(this.theme.mobileMenuTopPadding),
+          }}
         >
           {this.props.children}
         </div>
