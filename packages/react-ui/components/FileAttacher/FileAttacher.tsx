@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { IUploadFileControlProps, IUploadFileError, UploadFileControl } from '../../internal/UploadFileControl';
 import {
   IUploadFilesProviderProps,
@@ -11,11 +12,9 @@ export interface IFileAttacherProps extends IUploadFileControlProps, IUploadFile
 }
 
 export const FileAttacher = withUploadFilesProvider((props: IFileAttacherProps) => {
-  const {fileError} = props;
+  const { fileError } = props;
 
   useValidationSetter(fileError);
 
-  return (
-      <UploadFileControl {...props} />
-  );
+  return <UploadFileControl {...props} />;
 });

@@ -4,4 +4,3 @@ export interface IUploadFileControlLocale {
   orDragHere: string;
   requestErrorText: string;
 }
-

@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useState } from 'react';
+
 import { IUploadFileControlProps, IUploadFileError, UploadFileControl } from '../../internal/UploadFileControl';
 import {
   IUploadFilesProviderProps,
@@ -21,61 +22,71 @@ export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFile
 }
 
 export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) => {
-  const {request, controlError, getFileValidationText, onSelect, onRequestSuccess, onRequestError} = props;
-  const {setFileStatus} = useContext(UploadFileControlContext);
+  const { request, controlError, getFileValidationText, onSelect, onRequestSuccess, onRequestError } = props;
+  const { setFileStatus } = useContext(UploadFileControlContext);
 
   const [fileErrors, setFileErrors] = useState<IUploadFileError[]>([]);
 
-  const switchToLoading = useCallback((fileId: string) => {
-    setFileStatus(fileId, UploadFileStatus.Loading);
-  }, [setFileStatus]);
+  const switchToLoading = useCallback(
+    (fileId: string) => {
+      setFileStatus(fileId, UploadFileStatus.Loading);
+    },
+    [setFileStatus],
+  );
 
-  const switchToSuccess = useCallback((fileId: string) => {
-    setFileStatus(fileId, UploadFileStatus.Uploaded);
-    onRequestSuccess && onRequestSuccess(fileId);
-  }, [setFileStatus, onRequestSuccess]);
+  const switchToSuccess = useCallback(
+    (fileId: string) => {
+      setFileStatus(fileId, UploadFileStatus.Uploaded);
+      onRequestSuccess && onRequestSuccess(fileId);
+    },
+    [setFileStatus, onRequestSuccess],
+  );
 
-  const switchToError = useCallback((fileId: string) => {
-    setFileStatus(fileId, UploadFileStatus.Error);
-    onRequestError && onRequestError(fileId);
-  }, [setFileStatus, onRequestError]);
+  const switchToError = useCallback(
+    (fileId: string) => {
+      setFileStatus(fileId, UploadFileStatus.Error);
+      onRequestError && onRequestError(fileId);
+    },
+    [setFileStatus, onRequestError],
+  );
 
-  const upload = useCallback(async (file: IUploadFile) => {
-    const {id} = file;
-    switchToLoading(id);
+  const upload = useCallback(
+    async (file: IUploadFile) => {
+      const { id } = file;
+      switchToLoading(id);
 
-    try {
-      await request(file);
-      switchToSuccess(id);
-    } catch {
-      switchToError(id);
-    }
-  }, [request, switchToSuccess, switchToLoading])
-
-  const handleSelect = useCallback((files: IUploadFile[]) => {
-    onSelect && onSelect(files);
-
-    if (controlError) {
-      return;
-    }
-
-    files.forEach(async file => {
-      const validationMessage = getFileValidationText && await getFileValidationText(file);
-
-      if (!validationMessage) {
-        upload(file);
-      } else {
-        setFileErrors(state => [...state, {fileId: file.id, message: validationMessage}]);
+      try {
+        await request(file);
+        switchToSuccess(id);
+      } catch {
+        switchToError(id);
       }
-    });
-  }, [upload, controlError, getFileValidationText, onSelect]);
+    },
+    [request, switchToSuccess, switchToLoading],
+  );
+
+  const handleSelect = useCallback(
+    (files: IUploadFile[]) => {
+      onSelect && onSelect(files);
+
+      if (controlError) {
+        return;
+      }
+
+      files.forEach(async (file) => {
+        const validationMessage = getFileValidationText && (await getFileValidationText(file));
+
+        if (!validationMessage) {
+          upload(file);
+        } else {
+          setFileErrors((state) => [...state, { fileId: file.id, message: validationMessage }]);
+        }
+      });
+    },
+    [upload, controlError, getFileValidationText, onSelect],
+  );
 
   useValidationSetter(fileErrors);
 
-  return (
-    <UploadFileControl
-      {...props}
-      onSelect={handleSelect}
-    />
-  );
+  return <UploadFileControl {...props} onSelect={handleSelect} />;
 });

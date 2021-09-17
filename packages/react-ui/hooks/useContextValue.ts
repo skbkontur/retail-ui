@@ -1,5 +1,5 @@
-import * as React from "react";
+import { useMemo } from 'react';
 
 export const useContextValue = <TContext extends object>(contextValue: TContext) => {
-  return React.useMemo<TContext>(() => contextValue, Object.values(contextValue));
+  return useMemo<TContext>(() => contextValue, Object.values(contextValue));
 };

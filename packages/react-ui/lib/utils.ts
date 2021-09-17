@@ -73,7 +73,7 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 const KB = 1024;
 const UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-export const formatBytes = (bytes: number, decimals: number = 2): string | null => {
+export const formatBytes = (bytes: number, decimals = 2): string | null => {
   if (bytes === 0) return '0 Bytes';
 
   if (!bytes) {

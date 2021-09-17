@@ -1,9 +1,9 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { IUploadFile, UploadFileStatus } from '../../../lib/fileUtils';
-import { jsStyles } from './UploadFile.styles';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import ErrorIcon from '@skbkontur/react-icons/Error';
 import OkIcon from '@skbkontur/react-icons/Ok';
+
+import { IUploadFile, UploadFileStatus } from '../../../lib/fileUtils';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
@@ -11,6 +11,8 @@ import { Spinner } from '../../../components/Spinner';
 import { UploadFileControlContext } from '../UploadFileControlContext';
 import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
+
+import { jsStyles } from './UploadFile.styles';
 
 interface IUploadFileProps {
   file: IUploadFile;
@@ -23,21 +25,21 @@ interface IUploadFileState {
 }
 
 export const UploadFile = (props: IUploadFileProps) => {
-  const {file, showSize} = props;
-  const {id, originalFile, status, validationResult} = file;
-  const {name, size} = originalFile;
+  const { file, showSize } = props;
+  const { id, originalFile, status, validationResult } = file;
+  const { name, size } = originalFile;
 
   const [hovered, setHovered] = useState<boolean>(false);
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
-  const {removeFile} = useContext(UploadFileControlContext);
+  const { removeFile } = useContext(UploadFileControlContext);
 
   const [state, setState] = useState<IUploadFileState>({
     fileNameWidth: 0,
-    fileNameElementWidth: 0
+    fileNameElementWidth: 0,
   });
 
-  const {fileNameWidth, fileNameElementWidth} = state;
+  const { fileNameWidth, fileNameElementWidth } = state;
 
   const formattedSize = useMemo(() => formatBytes(size, 1), [size]);
 
@@ -45,7 +47,7 @@ export const UploadFile = (props: IUploadFileProps) => {
     if (fileNameElementRef.current && textHelperRef.current) {
       setState({
         fileNameWidth: textHelperRef.current?.getTextWidth(),
-        fileNameElementWidth: fileNameElementRef.current?.getBoundingClientRect().width
+        fileNameElementWidth: fileNameElementRef.current?.getBoundingClientRect().width,
       });
     }
   }, [fileNameElementRef.current, textHelperRef.current]);
@@ -65,10 +67,13 @@ export const UploadFile = (props: IUploadFileProps) => {
     return truncate(name, maxCharsCountInSpan);
   }, [name, fileNameElementWidth, fileNameWidth]);
 
-  const handleRemove = useCallback((event: React.MouseEvent<HTMLSpanElement>) => {
-    event.stopPropagation();
-    removeFile(id);
-  }, [removeFile, id]);
+  const handleRemove = useCallback(
+    (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.stopPropagation();
+      removeFile(id);
+    },
+    [removeFile, id],
+  );
 
   const { isValid, message } = validationResult;
 
@@ -92,13 +97,12 @@ export const UploadFile = (props: IUploadFileProps) => {
     }
   }, [hovered, status, isValid, handleRemove]);
 
-
   const renderTooltipContent = useCallback((): ReactNode => {
     return isValid ? null : message;
   }, [isValid, message]);
 
   const contentClassNames = cx(jsStyles.content(), {
-    [jsStyles.error()]: !isValid
+    [jsStyles.error()]: !isValid,
   });
 
   const handleMouseEnter = useCallback(() => {
@@ -113,22 +117,16 @@ export const UploadFile = (props: IUploadFileProps) => {
     <div className={jsStyles.root()} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <Tooltip pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
-            <TextWidthHelper ref={textHelperRef} text={name} />
-            <span ref={fileNameElementRef} className={jsStyles.name()}>
-              {truncatedFileName}
-            </span>
-            {!!showSize && formattedSize && (
-              <span className={jsStyles.size()}>
-                {formattedSize}
-              </span>
-            )}
-            <div className={jsStyles.icon()}>
-              {icon}
-            </div>
-          </div>
+          <TextWidthHelper ref={textHelperRef} text={name} />
+          <span ref={fileNameElementRef} className={jsStyles.name()}>
+            {truncatedFileName}
+          </span>
+          {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
+          <div className={jsStyles.icon()}>{icon}</div>
+        </div>
       </Tooltip>
     </div>
   );
 };
 
-UploadFile.displayName = "UploadFile";
+UploadFile.displayName = 'UploadFile';

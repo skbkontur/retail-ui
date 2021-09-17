@@ -37,19 +37,17 @@ const styles = {
       transition: box-shadow 0.3s ease;
 
       &:focus {
-        border: 1px solid #1D85D0;
-        box-shadow: 0px 0px 0px 1px #1D85D0;
+        border: 1px solid #1d85d0;
+        box-shadow: 0px 0px 0px 1px #1d85d0;
       }
     `;
   },
 
   dragOver() {
     return css`
-      border: 1px solid #2DA4F9;
+      border: 1px solid #2da4f9;
       border-radius: 2px;
-      box-shadow:
-          0px 0px 0px 3px #2DA4F9,
-          0px 0px 0px 8px rgba(45,164,249,0.35);
+      box-shadow: 0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35);
     `;
   },
 
@@ -84,24 +82,24 @@ const styles = {
 
   error() {
     return css`
-      border: 1px solid #D70C17 !important;
-      box-shadow: 0px 0px 0px 1px #D70C17 !important;
+      border: 1px solid #d70c17 !important;
+      box-shadow: 0px 0px 0px 1px #d70c17 !important;
     `;
   },
 
   disabled() {
     return css`
       cursor: default;
-      background: #F2F2F2;
-      border: 1px solid #F2F2F2;
+      background: #f2f2f2;
+      border: 1px solid #f2f2f2;
       color: #808080;
 
       &:focus {
-        border: 1px solid #F2F2F2 !important;
+        border: 1px solid #f2f2f2 !important;
         box-shadow: none;
       }
     `;
-  }
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

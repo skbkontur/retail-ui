@@ -1,5 +1,7 @@
-import * as React from "react";
+import React from 'react';
+
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
+
 import { UploadFileControlValidationResult } from './UploadFileControlValidationResult';
 
 export interface UploadFilesContextProps {

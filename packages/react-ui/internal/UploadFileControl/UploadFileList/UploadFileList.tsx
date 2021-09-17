@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
+
 import { UploadFile } from '../UploadFile/UploadFile';
 import { UploadFileControlContext } from '../UploadFileControlContext';
+
 import { jsStyles } from './UploadFileList.styles';
 
 export const UploadFileList = () => {
-  const {files} = useContext(UploadFileControlContext);
+  const { files } = useContext(UploadFileControlContext);
 
   return (
     <div>
@@ -17,4 +19,4 @@ export const UploadFileList = () => {
   );
 };
 
-UploadFileList.displayName = "UploadFileList";
+UploadFileList.displayName = 'UploadFileList';
