@@ -42,7 +42,8 @@
     "test:watch": "yarn test --watch",
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
     "creevey:ui": "yarn creevey --ui",
-    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
+    "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html",
+    "ci": "start-server-and-test storybook http://localhost:6060 creevey"
   },
   "license": "MIT",
   "dependencies": {
@@ -122,6 +123,7 @@
     "rimraf": "^3.0.0",
     "semver": "^7.3.5",
     "serve": "^11.2.0",
+    "start-server-and-test": "^1.14.0",
     "style-loader": "^2.0.0",
     "stylelint": "^13.12.0",
     "stylelint-config-standard": "^21.0.0",
