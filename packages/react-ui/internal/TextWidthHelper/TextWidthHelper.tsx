@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { jsStyles } from './TextWidthHelper.styles';
 
 const THIN_SPACE = '\u2009';

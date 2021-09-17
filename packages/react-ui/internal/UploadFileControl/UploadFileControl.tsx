@@ -1,17 +1,19 @@
 import React, { ReactNode, useCallback, useContext, useRef } from 'react';
-import { jsStyles } from './UploadFileControl.styles';
 import UploadIcon from '@skbkontur/react-icons/Upload';
+
 import { IUploadFile, readFiles } from '../../lib/fileUtils';
-import { UploadFileList } from './UploadFileList/UploadFileList';
-import { UploadFile } from './UploadFile/UploadFile';
 import { Link } from '../../components/Link';
-import { UploadFileControlContext } from './UploadFileControlContext';
-import { useControlLocale, useDrop } from './UploadFileControlHooks';
 import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 
-const stopPropagation: React.ReactEventHandler = e => e.stopPropagation();
+import { UploadFileList } from './UploadFileList/UploadFileList';
+import { UploadFile } from './UploadFile/UploadFile';
+import { UploadFileControlContext } from './UploadFileControlContext';
+import { useControlLocale, useDrop } from './UploadFileControlHooks';
+import { jsStyles } from './UploadFileControl.styles';
+
+const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
 export interface IUploadFileError {
   fileId: string;
@@ -38,64 +40,64 @@ export interface IUploadFileControlProps {
 }
 
 export const UploadFileControl = (props: IUploadFileControlProps) => {
-  const {
-    id,
-    name,
-    multiple = false,
-    disabled,
-    accept,
-    controlError,
-    onSelect,
-    onReadError
-  } = props;
+  const { id, name, multiple = false, disabled, accept, controlError, onSelect, onReadError } = props;
 
   const locale = useControlLocale();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const {files, setFiles} = useContext(UploadFileControlContext);
+  const { files, setFiles } = useContext(UploadFileControlContext);
 
-  const handleChange = useCallback(async (files: FileList | null) => {
-    if (!files) return;
+  const handleChange = useCallback(
+    async (files: FileList | null) => {
+      if (!files) return;
 
-    const uploadFiles = await readFiles(Array.from(files));
+      const uploadFiles = await readFiles(Array.from(files));
 
-    const selectedFiles = uploadFiles.filter(v => !!v.fileInBase64);
-    const readErrorFiles = uploadFiles.filter(v => !v.fileInBase64);
+      const selectedFiles = uploadFiles.filter((v) => !!v.fileInBase64);
+      const readErrorFiles = uploadFiles.filter((v) => !v.fileInBase64);
 
-    setFiles(selectedFiles);
+      setFiles(selectedFiles);
 
-    onSelect && onSelect(selectedFiles);
-    onReadError && onReadError(readErrorFiles);
-  }, [onReadError, onSelect, setFiles]);
+      onSelect && onSelect(selectedFiles);
+      onReadError && onReadError(readErrorFiles);
+    },
+    [onReadError, onSelect, setFiles],
+  );
 
-  const handleDrop = useCallback(event => {
-    if (disabled) {
-      return;
-    }
+  const handleDrop = useCallback(
+    (event) => {
+      if (disabled) {
+        return;
+      }
 
-    const {dataTransfer} = event;
-    const {files} = dataTransfer;
+      const { dataTransfer } = event;
+      const { files } = dataTransfer;
 
-    if (files?.length > 0) {
-      handleChange(files);
-      dataTransfer.clearData();
-    }
-  }, [handleChange, disabled]);
+      if (files?.length > 0) {
+        handleChange(files);
+        dataTransfer.clearData();
+      }
+    },
+    [handleChange, disabled],
+  );
 
-  const {isDraggable, ref: droppableRef} = useDrop<HTMLDivElement>({onDrop: handleDrop});
-  const {isDraggable: isWindowDraggable, ref: windowRef} = useDrop<Document>({onDrop: handleDrop});
+  const { isDraggable, ref: droppableRef } = useDrop<HTMLDivElement>({ onDrop: handleDrop });
+  const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>({ onDrop: handleDrop });
 
   windowRef.current = window.document;
 
-  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    handleChange(event.target.files);
-  }, [handleChange]);
+  const handleInputChange = useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      handleChange(event.target.files);
+    },
+    [handleChange],
+  );
 
   const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable,
     [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
     [jsStyles.error()]: !!controlError,
-    [jsStyles.disabled()]: disabled
+    [jsStyles.disabled()]: disabled,
   });
 
   const renderTooltipContent = useCallback((): ReactNode => {
@@ -106,11 +108,14 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
     !disabled && inputRef.current?.click();
   }, [disabled]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLElement>) => {
-    if (isKeyEnter(e)) {
-      handleClick();
-    }
-  }, [handleClick]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLElement>) => {
+      if (isKeyEnter(e)) {
+        handleClick();
+      }
+    },
+    [handleClick],
+  );
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = !multiple && hasOneFile;
@@ -132,9 +137,14 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
             </Link>
             &nbsp;
             <div className={jsStyles.afterLinkText()}>
-              {hasOneFileForSingle
-                ? <UploadFile file={files[0]} />
-                : <>{locale.orDragHere}&nbsp;<UploadIcon color="#808080"/></>}
+              {hasOneFileForSingle ? (
+                <UploadFile file={files[0]} />
+              ) : (
+                <>
+                  {locale.orDragHere}&nbsp;
+                  <UploadIcon color="#808080" />
+                </>
+              )}
             </div>
           </div>
           <input
@@ -149,7 +159,7 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
             onClick={stopPropagation}
             onChange={handleInputChange}
             // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-            value={""}
+            value={''}
           />
         </div>
       </Tooltip>
@@ -157,4 +167,4 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
   );
 };
 
-UploadFileControl.displayName = "UploadFileControl";
+UploadFileControl.displayName = 'UploadFileControl';

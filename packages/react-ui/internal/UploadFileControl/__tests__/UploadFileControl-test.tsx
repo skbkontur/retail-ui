@@ -11,11 +11,12 @@ import { withUploadFilesProvider } from '../UploadFileControlProvider';
 
 const WrappedUploadFileControl = withUploadFilesProvider(UploadFileControl);
 
-const render = (localeProviderValue = {}, props: IFileAttacherProps = {}) => mount(
-  <LocaleContext.Provider value={localeProviderValue}>
-    <WrappedUploadFileControl {...props} />
-  </LocaleContext.Provider>
-);
+const render = (localeProviderValue = {}, props: IFileAttacherProps = {}) =>
+  mount(
+    <LocaleContext.Provider value={localeProviderValue}>
+      <WrappedUploadFileControl {...props} />
+    </LocaleContext.Provider>,
+  );
 
 const getBaseButtonText = (wrapper: ReactWrapper): string => {
   return wrapper.find(Link).text();

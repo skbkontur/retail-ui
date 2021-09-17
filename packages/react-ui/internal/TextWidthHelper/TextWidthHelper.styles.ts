@@ -20,7 +20,7 @@ const styles = {
       // so they get counted in width
       white-space: pre-wrap;
     `;
-  }
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

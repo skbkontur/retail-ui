@@ -19,7 +19,7 @@ const styles = {
 
   error() {
     return css`
-      color: #D70C17;
+      color: #d70c17;
     `;
   },
 
@@ -55,7 +55,7 @@ const styles = {
         color: #333;
       }
     `;
-  }
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);
