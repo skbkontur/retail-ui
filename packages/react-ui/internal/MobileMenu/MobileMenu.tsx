@@ -13,13 +13,9 @@ interface MobileMenuProps {
   caption?: string;
   onClose: () => void;
   /**
-   * Компонент, закрепленный ниже заголовка
+   * Компонент, закрепленный сверху заголовка
    */
   headerChildComponent?: React.ReactNode;
-  /**
-   * Убрать бордер-радиусы
-   */
-  withoutBorderRadius?: boolean;
   maxMenuHeight?: number;
   useFullHeight?: boolean;
 }
@@ -32,6 +28,8 @@ export class MobileMenu extends React.Component<MobileMenuProps, MobileMenuState
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
 
   private rootDiv: Nullable<HTMLDivElement>;
+  private dropdown: Nullable<DropdownContainer>;
+
   private theme!: Theme;
 
   public state: MobileMenuState = {
@@ -55,18 +53,18 @@ export class MobileMenu extends React.Component<MobileMenuProps, MobileMenuState
         getParent={() => null}
         mobileCloseHandler={this.props.onClose}
         mobileUseFullHeight={this.props.useFullHeight}
+        ref={this.refDropdown}
       >
         <div
           className={cx({
             [jsStyles.root(this.theme)]: true,
             [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
           })}
-          onClick={this.props.useFullHeight ? undefined : this.props.onClose}
+          onClick={this.props.useFullHeight ? undefined : this.closeDropdown}
         >
           <MobileMenuHeader
             caption={this.props.caption}
-            onClose={this.props.onClose}
-            withoutBorderRadius={this.props.withoutBorderRadius}
+            onClose={this.closeDropdown}
             withShadow={this.state.isScrolled}
           >
             {this.props.headerChildComponent}
@@ -84,8 +82,18 @@ export class MobileMenu extends React.Component<MobileMenuProps, MobileMenuState
     );
   }
 
+  private closeDropdown = () => {
+    if (this.dropdown) {
+      this.dropdown.closeMobile();
+    }
+  };
+
   private refRoot = (rootDiv: HTMLDivElement) => {
     this.rootDiv = rootDiv;
+  };
+
+  private refDropdown = (dropdown: DropdownContainer) => {
+    this.dropdown = dropdown;
   };
 
   private handleScrollMenu = (e: React.UIEvent<HTMLDivElement>) => {

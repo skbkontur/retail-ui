@@ -101,8 +101,8 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
   }
 
-  public componentDidUpdate() {
-    if (this.state.layout === LayoutMode.Mobile && !this.state.mobileOpened) {
+  public componentDidUpdate(prevProps: DropdownContainerProps, prevState: DropdownContainerState) {
+    if (this.state.layout === LayoutMode.Mobile && !prevState.mobileOpened) {
       this.setState({ mobileOpened: true });
     }
   }
@@ -166,17 +166,24 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
             [jsStyles.mobileMenu(this.theme)]: true,
             [jsStyles.mobileMenuOpened()]: this.state.mobileOpened,
           })}
-          style={{
-            top: this.props.mobileUseFullHeight ? 0 : parseFloat(this.theme.mobileMenuTopPadding),
-          }}
         >
           {this.props.children}
         </div>
         <HideBodyVerticalScroll />
-        <div onClick={this.props.mobileCloseHandler} className={jsStyles.bg()} />
+        <div onClick={this.closeMobile} className={jsStyles.bg()} />
       </RenderContainer>
     );
   }
+
+  public closeMobile = () => {
+    if (this.props.mobileCloseHandler) {
+      this.setState({
+        mobileOpened: false,
+      });
+
+      setTimeout(this.props.mobileCloseHandler, 250);
+    }
+  };
 
   private ref = (e: ZIndex | null) => {
     this.dom = e && findDOMNode(e);

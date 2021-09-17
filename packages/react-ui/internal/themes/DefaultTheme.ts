@@ -60,7 +60,7 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
-  public static mobileMenuTopPadding = '40px';
+  public static mobileMenuTopPadding = '20px';
   public static mobileFontSize = '18px';
   public static mobileLineHeight = '24px';
   public static specificityLevel = '0';
@@ -1399,7 +1399,7 @@ export class DefaultTheme {
   }
   //#endregion
   //#region MobileMenuHeader
-  public static mobileMenuHeaderPadding = '18px 16px';
+  public static mobileMenuHeaderPadding = '0 16px';
   public static mobileMenuHeaderBorderRadius = '8px 8px 0px 0px';
   public static mobileMenuHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
   public static get mobileMenuHeaderFontSize() {

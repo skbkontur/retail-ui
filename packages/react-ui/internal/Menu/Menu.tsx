@@ -19,6 +19,13 @@ export interface MenuProps {
   onItemClick?: () => void;
   width?: number | string;
   preventWindowScroll?: boolean;
+
+  /**
+   * Вернуть только список item-ов с навешанными обработчиками.
+   *
+   * Добавляет item-ам `onItemClick` и другие внутренние хэндлеры и возвращает их список.
+   */
+  renderOnlyItems?: boolean;
 }
 
 export interface MenuState {
@@ -101,12 +108,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private renderMain() {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
-
     if (this.isEmpty()) {
       return null;
+    }
+
+    const childList = this.getChildList();
+
+    if (this.props.renderOnlyItems) {
+      return childList;
     }
 
     return (
@@ -122,43 +131,49 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
         >
-          <div className={jsStyles.scrollContainer(this.theme)}>
-            {React.Children.map(this.props.children, (child, index) => {
-              if (!child) {
-                return child;
-              }
-              if (typeof child === 'string' || typeof child === 'number') {
-                return child;
-              }
-
-              if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-                child = React.cloneElement(child, {
-                  _enableIconPadding: true,
-                });
-              }
-              if (isActiveElement(child)) {
-                const highlight = this.state.highlightedIndex === index;
-
-                let ref = child.ref;
-                if (highlight && typeof child.ref !== 'string') {
-                  ref = this.refHighlighted.bind(this, child.ref);
-                }
-
-                return React.cloneElement<MenuItemProps, MenuItem>(child, {
-                  ref,
-                  state: highlight ? 'hover' : child.props.state,
-                  onClick: this.select.bind(this, index, false),
-                  onMouseEnter: this.highlight.bind(this, index),
-                  onMouseLeave: this.unhighlight,
-                });
-              }
-              return child;
-            })}
-          </div>
+          <div className={jsStyles.scrollContainer(this.theme)}>{childList}</div>
         </ScrollContainer>
       </div>
     );
   }
+
+  private getChildList = () => {
+    const enableIconPadding = React.Children.toArray(this.props.children).some(
+      (x) => React.isValidElement(x) && x.props.icon,
+    );
+
+    return React.Children.map(this.props.children, (child, index) => {
+      if (!child) {
+        return child;
+      }
+      if (typeof child === 'string' || typeof child === 'number') {
+        return child;
+      }
+
+      if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
+        child = React.cloneElement(child, {
+          _enableIconPadding: true,
+        });
+      }
+      if (isActiveElement(child)) {
+        const highlight = this.state.highlightedIndex === index;
+
+        let ref = child.ref;
+        if (highlight && typeof child.ref !== 'string') {
+          ref = this.refHighlighted.bind(this, child.ref);
+        }
+
+        return React.cloneElement<MenuItemProps, MenuItem>(child, {
+          ref,
+          state: highlight ? 'hover' : child.props.state,
+          onClick: this.select.bind(this, index, false),
+          onMouseEnter: this.highlight.bind(this, index),
+          onMouseLeave: this.unhighlight,
+        });
+      }
+      return child;
+    });
+  };
 
   private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
     this.scrollContainer = scrollContainer;

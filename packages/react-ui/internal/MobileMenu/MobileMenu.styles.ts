@@ -9,6 +9,7 @@ const styles = {
       flex-direction: column;
       display: flex;
       justify-content: flex-end;
+      border-radius: ${t.mobileMenuHeaderBorderRadius};
     `;
   },
 
@@ -24,11 +25,6 @@ const styles = {
 
   rootFullHeight(t: Theme) {
     return css`
-      position: fixed;
-      top: 0;
-      right: 0;
-      left: 0;
-      bottom: 0;
       background-color: ${t.bgDefault};
       justify-content: flex-start;
       flex-grow: 1;

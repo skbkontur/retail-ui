@@ -437,7 +437,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private renderMobileMenu(): React.ReactNode {
-    const search = this.props.search ? this.getSearch() : null;
+    const search = this.props.search ? this.getSearch(true) : null;
     const value = this.getValue();
 
     const isWithSearch = Boolean(search);
@@ -447,21 +447,24 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         onClose={this.close}
         headerChildComponent={search}
         caption={this.props.mobileMenuHeaderText}
-        withoutBorderRadius={isWithSearch}
         useFullHeight={isWithSearch}
         maxMenuHeight={this.props.maxMobileMenuHeight}
       >
-        {this.getMenuItems(value)}
+        <Menu onItemClick={this.close} renderOnlyItems>
+          {this.getMenuItems(value)}
+        </Menu>
       </MobileMenu>
     );
   }
 
-  private getSearch = () => {
-    return (
-      <div className={jsStyles.search()}>
-        <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
-      </div>
-    );
+  private getSearch = (withoutWrappper?: boolean) => {
+    const input = <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />;
+
+    if (withoutWrappper) {
+      return input;
+    }
+
+    return <div className={jsStyles.search()}>{input}</div>;
   };
 
   private getMenuItems = (value: Nullable<TValue>) => {

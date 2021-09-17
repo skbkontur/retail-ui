@@ -1,6 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { resetButton } from '../../lib/styles/Mixins';
 
 const styles = {
   root(t: Theme) {
@@ -18,63 +17,46 @@ const styles = {
     `;
   },
 
-  withoutBorderRadius() {
-    return css`
-      border-radius: 0px;
-    `;
-  },
-
   container() {
     return css`
-      position: relative;
-      overflow-wrap: break-word;
-      word-wrap: break-word;
+      display: flex;
+      flex-direction: column;
     `;
   },
 
   caption(t: Theme) {
     return css`
+      display: flex;
+      justify-content: center;
+      padding-top: 12px;
+      padding-bottom: 12px;
       font-size: ${t.mobileMenuHeaderFontSize};
       line-height: ${t.mobileMenuHeaderLineHeight};
       font-weight: ${t.mobileMenuHeaderFontWeight};
     `;
   },
 
-  withChild(t: Theme) {
+  childrenWithoutCaption() {
     return css`
-      padding-bottom: ${t.mobileMenuHeaderChildPadding};
+      padding-bottom: 8px;
     `;
   },
 
   closeWrapper() {
     return css`
-      position: relative;
-      float: right;
-      width: 12px;
-      height: 12px;
-      padding: 8px 0;
-      padding-left: 17px;
+      height: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     `;
   },
 
-  close(t: Theme) {
+  closeHolder() {
     return css`
-      ${resetButton()};
-      display: flex;
-      background: none;
-      background: transparent;
-      cursor: pointer;
-      color: ${t.modalCloseButtonColor};
-      text-align: center;
-      vertical-align: middle;
-      padding: 10px !important;
-      margin: -10px !important;
-
-      & > svg {
-        width: 12px;
-        height: 12px;
-        box-sizing: content-box;
-      }
+      background-color: rgba(0, 0, 0, 0.1);
+      height: 4px;
+      width: 10%;
+      border-radius: 4px;
     `;
   },
 };

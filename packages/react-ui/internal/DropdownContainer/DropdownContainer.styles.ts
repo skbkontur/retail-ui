@@ -5,7 +5,7 @@ const styles = {
   mobileMenu(t: Theme) {
     return css`
       position: fixed;
-      top: 0;
+      top: ${t.mobileMenuTopPadding};
       right: 0;
       left: 0;
       bottom: 0;
@@ -13,6 +13,7 @@ const styles = {
       z-index: 100000;
       border-radius: ${t.mobileMenuHeaderBorderRadius};
       transform: translateY(100%);
+      transition: transform 0.25s;
     `;
   },
 
