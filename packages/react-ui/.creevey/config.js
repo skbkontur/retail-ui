@@ -13,104 +13,70 @@ const config = {
     extends: path.join(__dirname, '../.babelrc.js'),
   }),
   browsers: {
-    // chrome: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME_OLD',
-    //   },
-    // },
-    // chrome8px: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME',
-    //   },
-    // },
-    // chromeFlat: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME_OLD',
-    //   },
-    // },
-    // chromeFlat8px: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME',
-    //   },
-    // },
-    // firefox: {
-    //   browserName: 'firefox',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME_OLD',
-    //   },
-    // },
-    // firefox8px: {
-    //   browserName: 'firefox',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME',
-    //   },
-    // },
-    // firefoxFlat: {
-    //   browserName: 'firefox',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME_OLD',
-    //   },
-    // },
-    // firefoxFlat8px: {
-    //   browserName: 'firefox',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME',
-    //   },
-    // },
     ie11: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
-      // _storybookGlobals: {
-      //   theme: 'DEFAULT_THEME_OLD',
-      // },
-
-      // NOTE Enable after switch new separate pool for IE to allow test hover
-      // 'se:ieOptions': {
-      //   enablePersistentHover: true,
-      //   nativeEvents: true,
-      //   requireWindowFocus: true,
-      //   'ie.usePerProcessProxy': true,
-      //   'ie.browserCommandLineSwitches': '-private',
-      //   'ie.ensureCleanSession': true,
-      // },
     },
-    // ie118px: {
-    //   browserName: 'internet explorer',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME',
-    //   },
-    // },
-    // ie11Flat: {
-    //   browserName: 'internet explorer',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME_OLD',
-    //   },
-    // },
-    // ie11Flat8px: {
-    //   browserName: 'internet explorer',
-    //   viewport: { width: 1024, height: 720 },
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME',
-    //   },
-    // },
+    ie11alpha: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11beta: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11gamma: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11delta: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11epsilon: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11zeta: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11iota: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11kappa: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11lambda: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11mu: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11xi: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11omikron: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11pi: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11sigma: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
+    ie11omega: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+    },
   },
 };
 
