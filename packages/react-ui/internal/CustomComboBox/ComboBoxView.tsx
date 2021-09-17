@@ -87,6 +87,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private input: Nullable<Input>;
+  private rootDomNode: Nullable<React.ReactNode>;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -182,7 +183,12 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   }
 
   private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootSpan;
     this.setState({ rootSpan });
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private renderAddButton = (): React.ReactNode => {

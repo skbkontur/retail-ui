@@ -125,6 +125,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
+  private rootDomNode: Nullable<React.ReactNode>;
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
@@ -322,7 +323,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
-      <label {...labelProps}>
+      <label {...labelProps} ref={this.refRootLabel}>
         <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
@@ -337,6 +338,14 @@ export class Input extends React.Component<InputProps, InputState> {
         </span>
       </label>
     );
+  };
+
+  private refRootLabel = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = e;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private renderMaskedInput(

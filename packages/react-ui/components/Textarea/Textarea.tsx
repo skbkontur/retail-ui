@@ -204,6 +204,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private isAnimationsDisabled({ disableAnimations, extraRow }: TextareaProps = this.props): boolean {
     return disableAnimations || !extraRow;
   }
+  private rootDomNode: Nullable<React.ReactNode>;
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -375,7 +376,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label {...rootProps} className={styles.root(this.theme)}>
+        <label {...rootProps} className={styles.root(this.theme)} ref={this.refRootDomNode}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea
@@ -398,6 +399,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         </label>
       </RenderLayer>
     );
+  };
+
+  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = e;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private handleCloseCounterHelp = () => this.setState({ isCounterVisible: false });

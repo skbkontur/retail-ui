@@ -1,9 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
-import warning from 'warning';
 
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -18,6 +16,7 @@ import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -252,11 +251,19 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       child = <span>{anchorElement}</span>;
     }
 
-    return (
-      <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-        {location && this.renderContent(location)}
-      </RenderContainer>
-    );
+    let clonedChildWithRef: Nullable<React.ReactNode> = null;
+    if (child) {
+      clonedChildWithRef = React.cloneElement(child as JSX.Element, {
+        ref: (element: any) => {
+          if (child && (child as any).ref && typeof (child as any).ref === 'function') {
+            (child as any).ref(element);
+          }
+          this.refAnchorElement(element);
+        },
+      });
+    }
+
+    return <RenderContainer anchor={clonedChildWithRef}>{location && this.renderContent(location)}</RenderContainer>;
   }
 
   private refAnchorElement = (instance: React.ReactInstance | null) => {
@@ -267,11 +274,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private extractElement(instance: React.ReactInstance | null) {
-    if (!instance) {
-      return null;
-    }
-    const element = findDOMNode(instance);
-    return isHTMLElement(element) ? element : null;
+    return getRootDomNode(instance);
   }
 
   private updateAnchorElement(element: HTMLElement | null) {
@@ -491,11 +494,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
     const positions = this.props.positions;
     const anchorElement = this.anchorElement;
-
-    warning(
-      anchorElement && isHTMLElement(anchorElement),
-      'Anchor element is not defined or not instance of HTMLElement',
-    );
 
     if (!(anchorElement && isHTMLElement(anchorElement))) {
       return location;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Override } from '../../typings/utility-types';
+import { Nullable, Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -68,6 +68,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
+  private rootDomNode: Nullable<React.ReactNode>;
+
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
@@ -128,12 +130,20 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <a {...rest} {...linkProps}>
+      <a {...rest} {...linkProps} ref={this.refRootDomNode}>
         {iconElement}
         {this.props.children}
         {arrow}
       </a>
     );
+  };
+
+  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = e;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {

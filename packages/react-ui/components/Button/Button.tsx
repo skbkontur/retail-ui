@@ -380,6 +380,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   private _ref = (node: HTMLButtonElement | null) => {
     this.node = node;
   };
+
+  public getRootDomNode = () => {
+    return this.node;
+  };
 }
 
 export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {

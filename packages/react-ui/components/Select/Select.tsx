@@ -294,6 +294,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.rootSpan = rootSpan;
   };
 
+  public getRootDomNode = () => {
+    return this.rootSpan;
+  };
+
   private renderLabel() {
     const value = this.getValue();
     const item = this.getItemByValue(value);

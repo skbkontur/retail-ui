@@ -9,6 +9,7 @@ import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isFirefox, isIE11 } from '../../lib/client';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -95,6 +96,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
+  private rootDomNode: Nullable<React.ReactNode>;
 
   /**
    * @public
@@ -280,10 +282,18 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
     return (
       <CommonWrapper {...this.props}>
-        <ComboBoxView {...viewProps} />
+        <ComboBoxView {...viewProps} ref={this.refComboBoxView} />
       </CommonWrapper>
     );
   }
+
+  private refComboBoxView = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = e;
+  };
+
+  public getRootDomNode = () => {
+    return getRootDomNode(this.rootDomNode);
+  };
 
   public componentDidMount() {
     this.dispatch({ type: 'Mount' });

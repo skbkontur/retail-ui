@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { Nullable } from '../../typings/utility-types';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -65,6 +66,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
+  private rootDomNode: Nullable<React.ReactNode>;
 
   constructor(props: ToggleProps) {
     super(props);
@@ -130,7 +132,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <label className={labelClassNames}>
+        <label className={labelClassNames} ref={this.refRootDomNode}>
           <div
             className={cx(styles.outline(this.theme), {
               [styles.isWarning(this.theme)]: !!warning,
@@ -186,6 +188,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       </CommonWrapper>
     );
   }
+
+  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = e;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
+  };
 
   private inputRef = (element: HTMLInputElement) => {
     this.input = element;

@@ -5,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -257,4 +258,8 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   public render() {
     return <CustomComboBox {...this.props} ref={(element) => (this.comboboxElement = element)} />;
   }
+
+  public getRootDomNode = () => {
+    return getRootDomNode(this.comboboxElement);
+  };
 }

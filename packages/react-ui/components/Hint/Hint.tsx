@@ -15,6 +15,7 @@ import { styles } from './Hint.styles';
 const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps extends CommonProps {
+  anchorElement?: Nullable<React.ReactNode>;
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
@@ -132,7 +133,7 @@ export class Hint extends React.Component<HintProps, HintState> {
         <Popup
           hasPin
           opened={this.state.opened}
-          anchorElement={this.props.children}
+          anchorElement={this.props.anchorElement || this.props.children}
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}

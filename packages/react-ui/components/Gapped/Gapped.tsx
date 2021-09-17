@@ -5,6 +5,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Nullable } from '../../typings/utility-types';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -54,6 +55,7 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   private theme!: Theme;
+  private rootDomNode: Nullable<React.ReactNode>;
 
   public static defaultProps = {
     wrap: false,
@@ -100,10 +102,14 @@ export class Gapped extends React.Component<GappedProps> {
 
       isFirst = false;
 
-      return <div style={style}>{child}</div>;
+      return (
+        <div style={style} ref={this.refRootDomNode}>
+          {child}
+        </div>
+      );
     });
 
-    return <div>{children}</div>;
+    return <div ref={this.refRootDomNode}>{children}</div>;
   }
 
   private renderHorizontal() {
@@ -118,7 +124,7 @@ export class Gapped extends React.Component<GappedProps> {
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div style={rootStyle}>
+      <div style={rootStyle} ref={this.refRootDomNode}>
         <div style={contStyle}>
           {React.Children.toArray(children).map((child, index) => {
             const marginLeft = index === 0 ? undefined : gap;
@@ -132,4 +138,12 @@ export class Gapped extends React.Component<GappedProps> {
       </div>
     );
   }
+
+  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = e;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
+  };
 }
