@@ -1007,6 +1007,7 @@ ToastOverEverything.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="static-toast"]' }))
           .pause(1000)
           .click(this.browser.findElement({ css: 'body' }))
+          .pause(1000)
           .perform();
 
         const shown = await this.browser.takeScreenshot();
@@ -1027,6 +1028,7 @@ ToastOverEverything.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="ref-toast"]' }))
           .pause(1000)
           .click(this.browser.findElement({ css: 'body' }))
+          .pause(1000)
           .perform();
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();

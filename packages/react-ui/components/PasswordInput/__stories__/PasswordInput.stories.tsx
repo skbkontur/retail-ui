@@ -71,6 +71,7 @@ Plain.parameters = {
           .click(this.browser.findElement({ css: '[type="password"]' }))
           .sendKeys('Test...')
           .click(this.browser.findElement({ css: '[data-tid="PasswordInputEyeIcon"]' }))
+          .pause(1000)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('With visible password');
       },

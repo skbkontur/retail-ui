@@ -307,6 +307,7 @@ CombinedFilled.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
           .perform();
         const clickOnMenuItem = await this.takeScreenshot();
+        await delay(1000);
         await this.browser
           .actions({
             bridge: true,

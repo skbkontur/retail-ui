@@ -192,6 +192,7 @@ WithDisabledMenuItem.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
+          .pause(1000)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('mouseenter');
       },
