@@ -5,7 +5,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
-import { Nullable } from '../../typings/utility-types';
 
 import { TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
@@ -23,8 +22,6 @@ export interface TextareaCounterRef {
 }
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
-let rootDomNode: Nullable<HTMLElement>;
-const refRootDomNode = (e: Nullable<HTMLElement>) => (rootDomNode = e);
 
 export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TextareaCounter(
   { length, value, help, onCloseHelp, textarea },
@@ -46,14 +43,8 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   const counterHelp = isFunction(help) ? (
     help()
   ) : (
-    <Tooltip
-      pos={'right bottom'}
-      trigger={'click'}
-      render={renderTooltipContent}
-      onCloseClick={onCloseHelp}
-      anchorElement={rootDomNode}
-    >
-      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} ref={refRootDomNode} />
+    <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
+      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
     </Tooltip>
   );
 

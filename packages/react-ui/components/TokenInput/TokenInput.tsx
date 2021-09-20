@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
+import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
 
 import {
@@ -24,7 +25,6 @@ import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -518,7 +518,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef) {
-      const menu = getRootDomNode(this.tokensInputMenu?.getMenuRef());
+      const menu = findDOMNode(this.menuRef) as HTMLElement | null;
       const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
 
       if (menu && menu.contains(relatedTarget)) {
