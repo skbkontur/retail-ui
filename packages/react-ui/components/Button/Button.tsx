@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isIE11, isEdge } from '../../lib/client';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
@@ -128,7 +128,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public componentDidMount() {
     if (this.props.autoFocus) {
-      tabListener.isTabPressed = true;
+      keyListener.isTabPressed = true;
       this.focus();
     }
   }
@@ -245,6 +245,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
             [styles.outlineLink()]: isLink,
+            [styles.outlineLinkWarning(this.theme)]: isLink && warning,
             [styles.outlineLinkError(this.theme)]: isLink && error,
           })}
         />
@@ -361,7 +362,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

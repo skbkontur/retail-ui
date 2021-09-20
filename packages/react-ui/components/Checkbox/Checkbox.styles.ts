@@ -117,7 +117,7 @@ export const styles = memoizeStyle({
   boxFocus(t: Theme) {
     return css`
       box-shadow: inset 0 0 0 1px ${t.checkboxOutlineColorFocus},
-        0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus};
+        0 0 0 ${t.checkboxOutlineWidth} ${t.checkboxBorderColorFocus} !important; // override hover and active
     `;
   },
 
