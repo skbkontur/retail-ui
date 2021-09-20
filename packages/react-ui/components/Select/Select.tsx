@@ -280,7 +280,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <CommonWrapper {...this.props}>
-        <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
+        <RenderLayer
+          onClickOutside={this.close}
+          onFocusOutside={this.close}
+          active={this.state.opened}
+          wrappedElement={this.rootSpan}
+        >
           <span className={styles.root()} style={style} ref={this.refRootSpan}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}

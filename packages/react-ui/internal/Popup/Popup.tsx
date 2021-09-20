@@ -90,6 +90,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   useWrapper: boolean;
   ignoreHover: boolean;
   width: React.CSSProperties['width'];
+  getWrappedElement?: (e: Nullable<HTMLElement>) => void;
 }
 
 interface PopupLocation {
@@ -274,7 +275,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private extractElement(instance: React.ReactInstance | null) {
-    return getRootDomNode(instance);
+    const domNode = getRootDomNode(instance);
+    this.props.getWrappedElement?.(domNode);
+    return domNode;
   }
 
   private updateAnchorElement(element: HTMLElement | null) {

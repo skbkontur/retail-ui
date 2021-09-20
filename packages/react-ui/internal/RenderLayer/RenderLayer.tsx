@@ -1,14 +1,15 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import { Nullable } from '../../typings/utility-types';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;
+  wrappedElement?: Nullable<HTMLElement>;
 }
 
 export class RenderLayer extends React.Component<RenderLayerProps> {
@@ -59,7 +60,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private attachListeners() {
-    this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
+    const node = this.props.wrappedElement;
+    if (!node) return;
+    this.focusOutsideListenerToken = listenFocusOutside(() => [node], this.handleFocusOutside);
     window.addEventListener('blur', this.handleFocusOutside);
     document.addEventListener(
       'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
@@ -81,7 +84,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private getDomNode() {
-    return findDOMNode(this) as HTMLElement;
+    return this.props.wrappedElement;
   }
 
   private handleFocusOutside = (event: Event) => {
@@ -94,7 +97,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = this.getDomNode();
 
-    if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+    if (node && target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
       return;
     }
 

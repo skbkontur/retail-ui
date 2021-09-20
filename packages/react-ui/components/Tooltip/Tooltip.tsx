@@ -193,6 +193,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
   private clickedOutside = true;
+  private wrappedElement: Nullable<HTMLElement>;
 
   public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
@@ -305,7 +306,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const anchorElement = props.anchorElement || props.children;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    return (
+      <RenderLayer wrappedElement={this.wrappedElement} {...layerProps}>
+        {popup}
+      </RenderLayer>
+    );
   }
 
   private renderPopup(
@@ -326,6 +331,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
+          getWrappedElement={this.getWrappedElement}
           {...popupProps}
         >
           {content}
@@ -333,6 +339,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       </CommonWrapper>
     );
   }
+
+  private getWrappedElement = (e: Nullable<HTMLElement>) => {
+    this.wrappedElement = e;
+  };
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;

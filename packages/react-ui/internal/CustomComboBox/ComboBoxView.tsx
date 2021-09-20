@@ -10,6 +10,7 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -142,7 +143,12 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
 
     return (
       <CommonWrapper {...this.props}>
-        <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
+        <RenderLayer
+          onClickOutside={onClickOutside}
+          onFocusOutside={onFocusOutside}
+          active={opened}
+          wrappedElement={getRootDomNode(this.rootDomNode)}
+        >
           <span
             style={{ width }}
             className={styles.root()}
