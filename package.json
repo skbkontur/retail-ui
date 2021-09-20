@@ -8,6 +8,7 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@skbkontur/eslint-config": "*",
+    "axios": "^0.21.4",
     "commitizen": "^4.2.3",
     "cz-conventional-changelog": "^3.3.0",
     "env-cmd": "^10.1.0",

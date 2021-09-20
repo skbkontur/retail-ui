@@ -25,7 +25,7 @@
     "postrelease": "yarn deploy",
     "predeploy": "rimraf .styleguide/deploy && yarn run styleguide:build",
     "deploy": "gh-pages -a -d .styleguide/deploy -r git@github.com:skbkontur/react-ui.git",
-    "storybook": "start-storybook -p 6060",
+    "storybook": "start-storybook -p 6060 --quiet",
     "storybook:build": "cross-env STORYBOOK_REACT_UI_TEST=true build-storybook -o .storybook/build --quiet",
     "storybook:test": "cross-env STORYBOOK_REACT_UI_TEST=true start-storybook --ci -p 6060",
     "storybook:serve": "serve -l 6060 .storybook/build",
