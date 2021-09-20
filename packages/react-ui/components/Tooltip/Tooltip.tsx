@@ -53,7 +53,7 @@ export interface TooltipProps extends CommonProps {
   /**
    * Относительно какого элемента позиционировать тултип
    */
-  anchorElement?: HTMLElement;
+  anchorElement?: Nullable<HTMLElement>;
 
   /**
    * Если не указан `anchorElement` то тултип будет позиционироваться
@@ -302,7 +302,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const props = this.props;
     const content = this.renderContent();
     const { popupProps, layerProps = { active: false } } = this.getProps();
-    const anchorElement = props.children || props.anchorElement;
+    const anchorElement = props.anchorElement || props.children;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
     return <RenderLayer {...layerProps}>{popup}</RenderLayer>;

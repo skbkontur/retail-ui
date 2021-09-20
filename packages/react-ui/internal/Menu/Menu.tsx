@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -8,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -43,6 +43,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -114,6 +115,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
+        ref={this.refRootDomNode}
       >
         <ScrollContainer
           ref={this.refScrollContainer}
@@ -158,6 +160,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     );
   }
 
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
+  };
+
   private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
     this.scrollContainer = scrollContainer;
   };
@@ -175,7 +185,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(ReactDOM.findDOMNode(this.highlighted) as HTMLElement);
+      this.scrollContainer.scrollTo(getRootDomNode(this.highlighted));
     }
   };
 

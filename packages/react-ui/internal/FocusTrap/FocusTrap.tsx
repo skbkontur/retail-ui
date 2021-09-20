@@ -1,8 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { Nullable } from '../../typings/utility-types';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
@@ -11,6 +11,7 @@ export interface FocusTrapProps extends CommonProps {
 
 export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
+  private rootDomNode: Nullable<HTMLElement>;
 
   private focusOutsideListenerToken: {
     remove: () => void;
@@ -27,6 +28,13 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     return (
       <CommonWrapper {...this.props}>
         {React.cloneElement(React.Children.only(children), {
+          ref: (refElement: Nullable<HTMLElement>) => {
+            const childrenAsAny = children as any;
+            if (childrenAsAny.ref && typeof childrenAsAny.ref === 'function') {
+              childrenAsAny.ref(refElement);
+            }
+            this.refRootDomNode(refElement);
+          },
           onFocus: (...args: any[]) => {
             if (onBlur) {
               this.attachListeners();
@@ -40,6 +48,10 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     );
   }
 
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
+  };
+
   private onClickOutside = (e: Event) => {
     if (this.props.onBlur) {
       this.props.onBlur(e as FocusEvent);
@@ -48,8 +60,8 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   };
 
   private attachListeners = () => {
-    if (!this.focusOutsideListenerToken) {
-      this.focusOutsideListenerToken = listenFocusOutside([findDOMNode(this) as HTMLElement], this.onClickOutside);
+    if (!this.focusOutsideListenerToken && this.rootDomNode) {
+      this.focusOutsideListenerToken = listenFocusOutside([this.rootDomNode], this.onClickOutside);
 
       document.addEventListener(
         'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
@@ -72,9 +84,9 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
 
   private handleNativeDocClick = (event: Event) => {
     const target = event.target || event.srcElement;
-    const node = findDOMNode(this) as HTMLElement;
+    const node = this.rootDomNode;
 
-    if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+    if (node && target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
       return;
     }
 
