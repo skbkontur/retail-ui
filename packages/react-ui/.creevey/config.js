@@ -8,6 +8,7 @@ const config = {
   storybookUrl: 'http://localhost:6060',
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
+  diffOptions: { includeAA: false },
   browsers: {
     chrome: {
       browserName: 'chrome',
