@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { Nullable } from '../../typings/utility-types';
 
 import { styles } from './MenuItem.styles';
 
@@ -63,6 +64,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private theme!: Theme;
   private mouseEntered = false;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public render() {
     return (
@@ -113,6 +115,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         onMouseLeave={this.handleMouseLeave}
         className={className}
         tabIndex={-1}
+        ref={this.refRootDomNode}
       >
         {iconElement}
         {content}
@@ -129,6 +132,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
         )}
       </Component>
     );
+  };
+
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   // https://github.com/facebook/react/issues/10109
