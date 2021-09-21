@@ -68,7 +68,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public render(): JSX.Element {
     return (
@@ -138,8 +138,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   };
 
-  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = e;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   public getRootDomNode = () => {

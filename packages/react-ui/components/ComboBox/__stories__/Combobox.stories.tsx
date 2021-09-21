@@ -806,7 +806,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public render() {
     return (

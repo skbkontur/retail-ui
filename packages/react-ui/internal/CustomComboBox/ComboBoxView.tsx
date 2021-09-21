@@ -69,7 +69,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
-  public state: { rootSpan: Nullable<HTMLElement> } = { rootSpan: null };
+  public state: { rootDomNode: Nullable<HTMLElement> } = { rootDomNode: null };
 
   public static defaultProps = {
     renderItem: (item: any) => item,
@@ -88,7 +88,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private input: Nullable<Input>;
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -155,13 +155,13 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
-            ref={this.refRootSpan}
+            ref={this.refRootDomNode}
           >
             {input}
             {opened && (
               <DropdownContainer
                 align={menuAlign}
-                getParent={() => this.state.rootSpan}
+                getParent={() => this.state.rootDomNode}
                 offsetY={1}
                 disablePortal={this.props.disablePortal}
               >
@@ -188,9 +188,9 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     );
   }
 
-  private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootSpan;
-    this.setState({ rootSpan });
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
+    this.setState({ rootDomNode });
   };
 
   public getRootDomNode = () => {

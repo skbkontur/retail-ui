@@ -167,7 +167,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
-  private rootLabel: Nullable<HTMLElement>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -231,7 +231,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={() => this.rootLabel} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={() => this.rootDomNode} offsetY={2} align={this.props.menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
@@ -252,7 +252,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
-        ref={this.refRootLabel}
+        ref={this.refRootDomNode}
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
@@ -280,8 +280,8 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     );
   };
 
-  private refRootLabel = (rootLabel: Nullable<HTMLElement>) => {
-    this.rootLabel = rootLabel;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   private getInputRef = (ref: DateInput | null) => {

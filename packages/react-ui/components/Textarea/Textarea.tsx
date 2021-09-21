@@ -204,7 +204,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private isAnimationsDisabled({ disableAnimations, extraRow }: TextareaProps = this.props): boolean {
     return disableAnimations || !extraRow;
   }
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -401,8 +401,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     );
   };
 
-  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = e;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   public getRootDomNode = () => {

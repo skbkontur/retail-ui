@@ -201,7 +201,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
-  private rootSpan: Nullable<HTMLElement>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -284,9 +284,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           onClickOutside={this.close}
           onFocusOutside={this.close}
           active={this.state.opened}
-          wrappedElement={this.rootSpan}
+          wrappedElement={this.rootDomNode}
         >
-          <span className={styles.root()} style={style} ref={this.refRootSpan}>
+          <span className={styles.root()} style={style} ref={this.refRootDomNode}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
           </span>
@@ -295,12 +295,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   }
 
-  private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
-    this.rootSpan = rootSpan;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   public getRootDomNode = () => {
-    return this.rootSpan;
+    return this.rootDomNode;
   };
 
   private renderLabel() {
@@ -403,7 +403,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <DropdownContainer
-        getParent={() => this.rootSpan}
+        getParent={() => this.rootDomNode}
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}

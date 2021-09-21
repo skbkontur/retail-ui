@@ -55,7 +55,7 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   private theme!: Theme;
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public static defaultProps = {
     wrap: false,
@@ -139,8 +139,8 @@ export class Gapped extends React.Component<GappedProps> {
     );
   }
 
-  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = e;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   public getRootDomNode = () => {

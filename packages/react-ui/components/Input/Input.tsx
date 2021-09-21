@@ -125,7 +125,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
@@ -340,8 +340,8 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   };
 
-  private refRootLabel = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = e;
+  private refRootLabel = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   public getRootDomNode = () => {

@@ -253,43 +253,6 @@ export const HoverOnChildOnly = () => (
 HoverOnChildOnly.storyName = 'hover on child only';
 HoverOnChildOnly.parameters = { creevey: { skip: [true] } };
 
-// export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
-//   <div style={{ padding: '150px', width: '500px' }}>
-//     {PopupPositions.reduce(
-//       (child, position) => (
-//         <Tooltip useWrapper={false} render={() => position} pos={position}>
-//           {child}
-//         </Tooltip>
-//       ),
-//       <Textarea rows={10} resize="none" width="50%">
-//         {"I'm inline-block with 50% width.\n\nHover me!"}
-//       </Textarea>,
-//     )}
-//   </div>
-// );
-// TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
-//   'Tooltips without wrapper around inline-block with 50% width';
-//
-// TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
-//   creevey: {
-//     skip: [{ in: ['ie11', 'ie118px'] }],
-//     tests: {
-//       async hover() {
-//         await this.browser
-//           .actions({
-//             bridge: true,
-//           })
-//           .move({
-//             origin: this.browser.findElement({ css: 'textarea' }),
-//           })
-//           .perform();
-//         await delay(1500);
-//         await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-//       },
-//     },
-//   },
-// };
-
 export const OpenedTooltipWithoutWrapper = () => (
   <TestTooltip useWrapper={false} trigger="opened" pos="left top">
     <span>Without wrapper</span>

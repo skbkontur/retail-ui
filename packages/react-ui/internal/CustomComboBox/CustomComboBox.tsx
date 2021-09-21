@@ -96,7 +96,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   /**
    * @public
@@ -287,12 +287,12 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     );
   }
 
-  private refComboBoxView = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = e;
+  private refComboBoxView = (instance: Nullable<React.ReactNode>) => {
+    this.rootDomNode = getRootDomNode(instance);
   };
 
   public getRootDomNode = () => {
-    return getRootDomNode(this.rootDomNode);
+    return this.rootDomNode;
   };
 
   public componentDidMount() {

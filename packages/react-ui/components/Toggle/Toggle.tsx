@@ -66,7 +66,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
-  private rootDomNode: Nullable<React.ReactNode>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   constructor(props: ToggleProps) {
     super(props);
@@ -189,8 +189,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     );
   }
 
-  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = e;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 
   public getRootDomNode = () => {

@@ -276,18 +276,18 @@ class DropdownWithToggle extends React.Component<{
     disablePortal: DropdownContainerProps['disablePortal'];
   };
 }> {
-  private rootSpan: Nullable<HTMLElement>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public render() {
     const { show, onToggle, dropdownProps } = this.props;
     return (
-      <span style={{ display: 'inline-block', position: 'relative' }} ref={this.refRootSpan}>
+      <span style={{ display: 'inline-block', position: 'relative' }} ref={this.refRootDomNode}>
         <Toggle checked={show} onValueChange={onToggle} />
         {show && (
           <DropdownContainer
             align={dropdownProps.align}
             disablePortal={dropdownProps.disablePortal}
-            getParent={() => this.rootSpan}
+            getParent={() => this.rootDomNode}
           >
             {this.props.children}
           </DropdownContainer>
@@ -295,7 +295,7 @@ class DropdownWithToggle extends React.Component<{
       </span>
     );
   }
-  private refRootSpan = (rootSpan: Nullable<HTMLElement>) => {
-    this.rootSpan = rootSpan;
+  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
+    this.rootDomNode = rootDomNode;
   };
 }

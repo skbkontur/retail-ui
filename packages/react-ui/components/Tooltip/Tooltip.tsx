@@ -340,8 +340,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     );
   }
 
-  private getWrappedElement = (e: Nullable<HTMLElement>) => {
-    this.wrappedElement = e;
+  private getWrappedElement = (wrappedElement: Nullable<HTMLElement>) => {
+    this.wrappedElement = wrappedElement;
   };
 
   private refContent = (node: HTMLElement | null) => {

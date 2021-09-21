@@ -117,7 +117,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
-  private rootSpan: Nullable<HTMLElement>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   private requestId = 0;
 
@@ -188,9 +188,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         onFocusOutside={this.handleBlur}
         onClickOutside={this.handleClickOutside}
         active={focused}
-        wrappedElement={this.rootSpan}
+        wrappedElement={this.rootDomNode}
       >
-        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <span style={{ display: 'inline-block', width }} ref={this.refRootDomNode}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
@@ -204,7 +204,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
+      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootDomNode)),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -214,7 +214,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <DropdownContainer
         offsetY={1}
-        getParent={() => this.rootSpan}
+        getParent={() => this.rootDomNode}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
@@ -380,7 +380,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     this.menu = menu;
   };
 
-  private refRootSpan = (span: HTMLSpanElement) => {
-    this.rootSpan = span;
+  private refRootDomNode = (span: Nullable<HTMLElement>) => {
+    this.rootDomNode = span;
   };
 }
