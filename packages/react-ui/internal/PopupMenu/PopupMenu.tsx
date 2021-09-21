@@ -68,6 +68,7 @@ export const PopupMenuType = {
 
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
+  private wrappedElementForRenderLayer: Nullable<HTMLElement>;
 
   public static defaultProps = {
     positions: PopupMenuPositions,
@@ -95,8 +96,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onClickOutside={this.hideMenuWithoutFocusing}
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
+          wrappedElement={this.wrappedElementForRenderLayer}
         >
-          <div className={styles.container()} style={{ width: this.props.width }}>
+          <div className={styles.container()} style={{ width: this.props.width }} ref={this.refWrappedElement}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -132,6 +134,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     );
   }
 
+  private refWrappedElement = (e: Nullable<HTMLElement>) => {
+    this.wrappedElementForRenderLayer = e;
+  };
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
