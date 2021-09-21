@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { theme } from '../../lib/theming/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -78,7 +78,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   public componentDidMount() {
     if (this.props.autoFocus) {
-      tabListener.isTabPressed = true;
+      keyListener.isTabPressed = true;
       this.focus();
     }
   }
@@ -88,7 +88,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
    */
   public focus = () => {
     if (this.input) {
-      tabListener.isTabPressed = true;
+      keyListener.isTabPressed = true;
       this.input.focus();
     }
   };
@@ -202,7 +202,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       this.props.onFocus(event);
     }
 
-    if (tabListener.isTabPressed) {
+    if (keyListener.isTabPressed) {
       this.setState({ focusByTab: true });
     }
   };

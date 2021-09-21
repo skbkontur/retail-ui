@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable, Override } from '../../typings/utility-types';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { theme } from '../../lib/theming/decorators';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
@@ -90,7 +90,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    * @public
    */
   public focus() {
-    tabListener.isTabPressed = true;
+    keyListener.isTabPressed = true;
     this.input?.focus();
   }
 
@@ -201,7 +201,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });
