@@ -458,7 +458,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getSearch = (withoutWrappper?: boolean) => {
-    const input = <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />;
+    const input = (
+      <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+    );
 
     if (withoutWrappper) {
       return input;

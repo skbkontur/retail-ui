@@ -54,6 +54,7 @@ export class MobileMenu extends React.Component<MobileMenuProps, MobileMenuState
         mobileCloseHandler={this.props.onClose}
         mobileUseFullHeight={this.props.useFullHeight}
         ref={this.refDropdown}
+        renderMobile
       >
         <div
           className={cx({

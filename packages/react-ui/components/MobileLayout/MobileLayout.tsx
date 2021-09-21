@@ -1,5 +1,4 @@
 import React from 'react';
-import throttle from 'lodash.throttle';
 
 import { canUseDOM } from '../../lib/client';
 import { Theme } from '../../lib/theming/Theme';
@@ -11,7 +10,6 @@ export enum LayoutMode {
 
 export interface MobileLayoutState {
   layout?: LayoutMode;
-  windowHeight?: number;
 }
 
 type LayoutData = {
@@ -24,11 +22,6 @@ const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
   [LayoutMode.Mobile]: 'mobileMediaQuery',
 };
 
-const DESKTOP_DEFAULT_MEDIA_QUERY = '(min-width: 0px)';
-
-export const DEFAULT_LAYOUT = LayoutMode.Desktop;
-export const DEFAULT_WINDOW_HEIGHT = canUseDOM ? window.innerHeight : 0;
-
 export function mobileLayout<T extends new (...args: any[]) => React.Component<any, MobileLayoutState>>(
   WrappedComp: T,
 ) {
@@ -36,14 +29,18 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     public constructor(...args: any[]) {
       super(args[0]);
 
-      this.state = { ...this.state, layout: DEFAULT_LAYOUT, windowHeight: DEFAULT_WINDOW_HEIGHT };
+      this.state = { ...this.state, layout: LayoutMode.Desktop };
     }
 
     public theme!: Theme;
 
+    public currentMediaQeries?: MediaQueryList[];
+    public layouts: LayoutData[] = [];
+
     componentDidMount() {
-      this.checkLayoutsMediaQueries();
-      this.listenResize();
+      if (!this.currentMediaQeries) {
+        this.prepareMediaQueries();
+      }
 
       if (super.componentDidMount) {
         super.componentDidMount();
@@ -51,51 +48,72 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
     }
 
     componentWillUnmount() {
-      this.unlistenResize();
+      this.unsubscribeMediaQueries();
 
       if (super.componentWillUnmount) {
         super.componentWillUnmount();
       }
     }
 
-    public checkLayoutsMediaQueries = () => {
+    public prepareMediaQueries = () => {
       if (!this.theme) {
         return;
       }
 
-      const layouts: LayoutData[] = this.getCreatedLayouts(this.theme);
+      this.layouts = this.getCreatedLayouts(this.theme);
 
-      const matchedLayouts = layouts.filter((layout) => this.checkMQ(layout.mediaQuery));
-      const lastMatchedLayout = matchedLayouts[matchedLayouts.length - 1];
+      this.currentMediaQeries = this.layouts.map((layout) => window.matchMedia(layout.mediaQuery));
+      this.currentMediaQeries.forEach((mql) => {
+        mql.addEventListener('change', this.checkLayoutsMediaQueries);
+      });
 
-      if (lastMatchedLayout && this.state.layout !== lastMatchedLayout.name) {
-        this.setState({
-          layout: lastMatchedLayout.name,
+      this.checkLayoutsMediaQueries();
+    };
+
+    public unsubscribeMediaQueries = () => {
+      if (!this.theme) {
+        return;
+      }
+
+      if (this.currentMediaQeries) {
+        this.currentMediaQeries.forEach((mql) => {
+          mql.removeEventListener('change', this.checkLayoutsMediaQueries);
         });
       }
     };
 
-    public throttledСheckLayoutsMediaQueries = throttle(this.checkLayoutsMediaQueries, 100);
+    public checkLayoutsMediaQueries = (e?: MediaQueryListEvent) => {
+      if (!this.theme) {
+        return;
+      }
 
-    public updateWindowHeight = () => {
-      if (canUseDOM) {
-        this.setState({ windowHeight: window.innerHeight });
+      const matchedLayouts = this.layouts.filter((layout) => this.checkMQ(layout.mediaQuery));
+      const firstMatchedLayout: LayoutData | undefined = matchedLayouts[0];
+
+      if (e && e.matches && firstMatchedLayout && firstMatchedLayout.mediaQuery === e.media) {
+        if (this.state.layout !== firstMatchedLayout.name) {
+          this.setState({
+            layout: firstMatchedLayout.name,
+          });
+        }
+
+        return;
+      }
+
+      if (firstMatchedLayout && this.state.layout !== firstMatchedLayout.name) {
+        this.setState({
+          layout: firstMatchedLayout.name,
+        });
+
+        return;
+      }
+
+      if (!firstMatchedLayout && this.state.layout !== LayoutMode.Desktop) {
+        this.setState({
+          layout: LayoutMode.Desktop,
+        });
       }
     };
-
-    public throttledUpdateWindowHeight = throttle(this.updateWindowHeight, 100);
-
-    public listenResize() {
-      if (canUseDOM) {
-        window.addEventListener('resize', this.throttledСheckLayoutsMediaQueries);
-      }
-    }
-
-    public unlistenResize() {
-      if (canUseDOM) {
-        window.removeEventListener('resize', this.throttledСheckLayoutsMediaQueries);
-      }
-    }
 
     public createLayoutData(name: LayoutMode, mediaQuery: string): LayoutData {
       return {
@@ -111,9 +129,9 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
         Object.values(LayoutMode).forEach((layout) => {
           // @ts-ignore
           const layoutThemeMediaQuery: string | undefined = theme[LayoutMQThemeKeys[layout]];
-          const layoutMediaQuery = layoutThemeMediaQuery ? layoutThemeMediaQuery : DESKTOP_DEFAULT_MEDIA_QUERY;
-
-          layouts.push(this.createLayoutData(layout, layoutMediaQuery));
+          if (layoutThemeMediaQuery) {
+            layouts.push(this.createLayoutData(layout, layoutThemeMediaQuery));
+          }
         });
       } catch (error) {
         return layouts;

@@ -6,7 +6,6 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { mobileLayout, MobileLayoutState, LayoutMode } from '../../components/MobileLayout';
 import { cx } from '../../lib/theming/Emotion';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -31,6 +30,7 @@ export interface DropdownContainerProps {
   offsetY?: number;
   offsetX?: number;
 
+  renderMobile?: boolean;
   /**
    * Открыть на весь экран в мобильной версии
    */
@@ -39,13 +39,9 @@ export interface DropdownContainerProps {
    * Хэндлер закрытия в мобильной версии
    */
   mobileCloseHandler?: () => void;
-  /**
-   * Не использовать мобильную версию
-   */
-  renderDefault?: boolean;
 }
 
-export interface DropdownContainerState extends MobileLayoutState {
+export interface DropdownContainerState {
   position: Nullable<DropdownContainerPosition>;
   minWidth: number;
   isDocumentElementRoot?: boolean;
@@ -53,7 +49,6 @@ export interface DropdownContainerState extends MobileLayoutState {
   mobileOpened: boolean;
 }
 
-@mobileLayout
 export class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
@@ -82,6 +77,10 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
+
+    if (this.props.renderMobile && !this.state.mobileOpened) {
+      this.setState({ mobileOpened: true });
+    }
   }
 
   public UNSAFE_componentWillMount() {
@@ -101,12 +100,6 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
   }
 
-  public componentDidUpdate(prevProps: DropdownContainerProps, prevState: DropdownContainerState) {
-    if (this.state.layout === LayoutMode.Mobile && !prevState.mobileOpened) {
-      this.setState({ mobileOpened: true });
-    }
-  }
-
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -120,11 +113,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   public getRenderer() {
-    if (this.props.renderDefault) {
-      return this.renderMain();
-    }
-
-    if (this.state.layout === LayoutMode.Mobile) {
+    if (this.props.renderMobile) {
       return this.renderMobile();
     }
 
