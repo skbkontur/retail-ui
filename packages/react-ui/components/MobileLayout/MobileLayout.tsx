@@ -64,7 +64,9 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
 
       this.currentMediaQeries = this.layouts.map((layout) => window.matchMedia(layout.mediaQuery));
       this.currentMediaQeries.forEach((mql) => {
-        mql.addEventListener('change', this.checkLayoutsMediaQueries);
+        if (mql && mql.addEventListener) {
+          mql.addEventListener('change', this.checkLayoutsMediaQueries);
+        }
       });
 
       this.checkLayoutsMediaQueries();
@@ -77,7 +79,9 @@ export function mobileLayout<T extends new (...args: any[]) => React.Component<a
 
       if (this.currentMediaQeries) {
         this.currentMediaQeries.forEach((mql) => {
-          mql.removeEventListener('change', this.checkLayoutsMediaQueries);
+          if (mql && mql.removeEventListener) {
+            mql.removeEventListener('change', this.checkLayoutsMediaQueries);
+          }
         });
       }
     };
