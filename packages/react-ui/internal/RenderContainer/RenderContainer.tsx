@@ -77,4 +77,8 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
       }
     }
   }
+
+  public getRootDomNode = () => {
+    return this.domContainer;
+  };
 }

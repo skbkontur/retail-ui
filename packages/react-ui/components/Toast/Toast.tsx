@@ -6,6 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
+import { getRootDomNode } from '../../lib/getRootDomNode';
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
@@ -48,6 +49,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public _toast: Nullable<ToastView>;
   private _timeout: Nullable<number> = null;
+  private rootDomNode: Nullable<HTMLElement>;
 
   constructor(props: ToastProps) {
     super(props);
@@ -64,11 +66,19 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public render() {
     return (
-      <RenderContainer>
+      <RenderContainer ref={this.refRootDomNode}>
         <TransitionGroup>{this._renderToast()}</TransitionGroup>
       </RenderContainer>
     );
   }
+
+  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
+    this.rootDomNode = getRootDomNode(e);
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
+  };
 
   /**
    * Показывает тост с `notification` в качестве сообщения.
