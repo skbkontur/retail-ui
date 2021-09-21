@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.6.0...@skbkontur/react-ui@3.7.0) (2021-09-16)
+
+
+### Bug Fixes
+
+* **checkbox:** add `!important` for focus styles ([#2528](https://github.com/skbkontur/retail-ui/issues/2528)) ([35c6a69](https://github.com/skbkontur/retail-ui/commit/35c6a6905a6722ca0b99cb86aadee4731effc0ff)), closes [#2517](https://github.com/skbkontur/retail-ui/issues/2517)
+* **Loader:** fix focus disabling ([fcc5e1e](https://github.com/skbkontur/retail-ui/commit/fcc5e1e42dcacffcb5d0abcb79998c3e0a107e2e))
+* **radio:** remove focus styles on mouse click ([876a1b8](https://github.com/skbkontur/retail-ui/commit/876a1b87ce5b0a16fe212b5a74680be7e20e1b3b))
+* **theme:** fix disabled style of 4 controls* ([#2524](https://github.com/skbkontur/retail-ui/issues/2524)) ([6783532](https://github.com/skbkontur/retail-ui/commit/6783532cedde0c09ff1bcaaddc712c41cf9dbc9e))
+* **theme:** remove color variables from 8px theme ([c86ed5d](https://github.com/skbkontur/retail-ui/commit/c86ed5dd754affd93e1727305eb1f34189a5d98d))
+* **theme:** to correct disabled style of Input ([#2521](https://github.com/skbkontur/retail-ui/issues/2521)) ([d91fedd](https://github.com/skbkontur/retail-ui/commit/d91feddf0fbccc9d0129552c465e7fc29f4dbdff))
+
+
+### Features
+
+* **ScrollContainer:** horizontal scroll ([#2473](https://github.com/skbkontur/retail-ui/issues/2473)) ([1df7613](https://github.com/skbkontur/retail-ui/commit/1df7613b9d16c490bb110c3f872ee03152f5f45b)), closes [#1931](https://github.com/skbkontur/retail-ui/issues/1931)
+
+
+
+
+
 # [3.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.5.0...@skbkontur/react-ui@3.6.0) (2021-08-26)
 
 
