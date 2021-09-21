@@ -3,8 +3,9 @@ import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 const styles = {
   fileWrapper() {
     return css`
-      width: 362px;
+      width: 100%;
       padding: 0 12px 0 7px;
+      box-sizing: border-box;
     `;
   },
 };

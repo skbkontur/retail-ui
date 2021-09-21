@@ -6,6 +6,7 @@ import { Link } from '../../components/Link';
 import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
+import { useMemoObject } from '../../hooks/useMemoObject';
 
 import { UploadFileList } from './UploadFileList/UploadFileList';
 import { UploadFile } from './UploadFile/UploadFile';
@@ -32,6 +33,7 @@ export interface IUploadFileControlProps {
 
   // свойство валидации контрола
   controlError?: ReactNode;
+  width?: React.CSSProperties['width'];
 
   // хендлер, срабатывает после выбора файлов (при валидном считывании файла)
   onSelect?: (files: IUploadFile[]) => void;
@@ -40,28 +42,39 @@ export interface IUploadFileControlProps {
 }
 
 export const UploadFileControl = (props: IUploadFileControlProps) => {
-  const { id, name, multiple = false, disabled, accept, controlError, onSelect, onReadError } = props;
+  const { id, name, multiple = false, disabled, accept, controlError, onSelect, onReadError, width = 362 } = props;
 
   const locale = useControlLocale();
 
   const inputRef = useRef<HTMLInputElement>(null);
-  const { files, setFiles } = useContext(UploadFileControlContext);
+  const { files, setFiles, removeFile } = useContext(UploadFileControlContext);
+
+  const isSingleMode = !multiple;
 
   const handleChange = useCallback(
-    async (files: FileList | null) => {
-      if (!files) return;
+    async (newFiles: FileList | null) => {
+      if (!newFiles) return;
 
-      const uploadFiles = await readFiles(Array.from(files));
+      let filesArray = Array.from(newFiles);
+
+      if (isSingleMode) {
+        filesArray = [filesArray[0]];
+      }
+
+      const uploadFiles = await readFiles(filesArray);
 
       const selectedFiles = uploadFiles.filter((v) => !!v.fileInBase64);
       const readErrorFiles = uploadFiles.filter((v) => !v.fileInBase64);
 
+      if (isSingleMode && selectedFiles.length && files.length) {
+        removeFile(files[0].id);
+      }
       setFiles(selectedFiles);
 
       onSelect && onSelect(selectedFiles);
       onReadError && onReadError(readErrorFiles);
     },
-    [onReadError, onSelect, setFiles],
+    [onReadError, onSelect, setFiles, isSingleMode, files, removeFile],
   );
 
   const handleDrop = useCallback(
@@ -82,7 +95,7 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
   );
 
   const { isDraggable, ref: droppableRef } = useDrop<HTMLDivElement>({ onDrop: handleDrop });
-  const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>({ onDrop: handleDrop });
+  const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
 
   windowRef.current = window.document;
 
@@ -118,11 +131,13 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
   );
 
   const hasOneFile = files.length === 1;
-  const hasOneFileForSingle = !multiple && hasOneFile;
+  const hasOneFileForSingle = isSingleMode && hasOneFile;
+
+  const style = useMemoObject({width});
 
   return (
     <div>
-      {multiple && !!files.length && <UploadFileList />}
+      {!isSingleMode && !!files.length && <UploadFileList />}
       <Tooltip pos="right middle" render={renderTooltipContent}>
         <div
           className={uploadButtonClassNames}
@@ -130,6 +145,7 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
           ref={droppableRef}
           onClick={handleClick}
           onKeyDown={handleKeyDown}
+          style={style}
         >
           <div className={jsStyles.content()}>
             <Link disabled={disabled} tabIndex={-1}>

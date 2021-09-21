@@ -8,7 +8,7 @@ import { UploadFileControlContext } from './UploadFileControlContext';
 import { UploadFileControlLocaleHelper } from './locale';
 
 interface IUseDropProps {
-  onDrop: (event: Event) => void;
+  onDrop?: (event: Event) => void;
 }
 
 type IElementWithListener = Pick<HTMLElement, 'addEventListener' | 'removeEventListener'>;
@@ -18,7 +18,7 @@ interface IUseDropResult<TElement extends IElementWithListener> {
   ref: MutableRefObject<TElement | null>;
 }
 
-export const useDrop = <TElement extends IElementWithListener>(props: IUseDropProps): IUseDropResult<TElement> => {
+export const useDrop = <TElement extends IElementWithListener>(props: IUseDropProps = {}): IUseDropResult<TElement> => {
   const { onDrop } = props;
 
   const droppableRef = useRef<TElement>(null);
@@ -55,7 +55,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
       setIsDraggable(false);
       overRef.current = false;
 
-      onDrop(event);
+      onDrop && onDrop(event);
     },
     [preventDefault, onDrop],
   );
@@ -76,7 +76,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
       ref.removeEventListener('dragover', handleDragOver);
       ref.removeEventListener('drop', handleDrop);
     };
-  }, []);
+  }, [handleDrop, handleDragOver, preventDefault]);
 
   return { isDraggable, ref: droppableRef };
 };

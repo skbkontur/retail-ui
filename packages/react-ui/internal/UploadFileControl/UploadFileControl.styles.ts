@@ -31,7 +31,6 @@ const styles = {
       border-radius: 1px;
       outline: none;
       height: 32px;
-      width: 362px;
       cursor: pointer;
       padding: 0 12px 0 7px;
       transition: box-shadow 0.3s ease;

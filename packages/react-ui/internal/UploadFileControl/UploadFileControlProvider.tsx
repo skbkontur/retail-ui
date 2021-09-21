@@ -1,6 +1,6 @@
 import React, { ComponentType, PropsWithChildren, useCallback, useState } from 'react';
 
-import { useContextValue } from '../../hooks/useContextValue';
+import { useMemoObject } from '../../hooks/useMemoObject';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
 import { UploadFileControlContext } from './UploadFileControlContext';
@@ -87,7 +87,7 @@ export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesP
 
   return (
     <UploadFileControlContext.Provider
-      value={useContextValue({
+      value={useMemoObject({
         setFileStatus,
         files,
         setFiles: handleExternalSetFiles,
