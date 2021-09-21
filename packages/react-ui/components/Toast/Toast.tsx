@@ -5,8 +5,8 @@ import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
-
 import { getRootDomNode } from '../../lib/getRootDomNode';
+
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
