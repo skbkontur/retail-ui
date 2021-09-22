@@ -296,13 +296,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <CommonWrapper {...this.props}>
-        {isMobile ? (
-          openButton
-        ) : (
-          <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
-            {openButton}
-          </RenderLayer>
-        )}
+        <RenderLayer
+          onClickOutside={this.close}
+          onFocusOutside={this.close}
+          active={isMobile ? false : this.state.opened}
+        >
+          {openButton}
+        </RenderLayer>
       </CommonWrapper>
     );
   }
@@ -455,16 +455,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   }
 
-  private getSearch = (withoutWrappper?: boolean) => {
-    const input = (
-      <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+  private getSearch = (noMargin?: boolean) => {
+    return (
+      <div className={cx({ [jsStyles.search()]: noMargin ? false : true })}>
+        <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+      </div>
     );
-
-    if (withoutWrappper) {
-      return input;
-    }
-
-    return <div className={jsStyles.search()}>{input}</div>;
   };
 
   private getMenuItems = (value: Nullable<TValue>) => {
