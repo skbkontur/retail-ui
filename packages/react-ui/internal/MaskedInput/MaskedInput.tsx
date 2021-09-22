@@ -53,10 +53,10 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: MaskedInputProps) {
-    if (this.props.value !== nextProps.value) {
+  public componentDidUpdate(prevProps: MaskedInputProps) {
+    if (this.props.value !== prevProps.value) {
       this.setState({
-        value: nextProps.value ? nextProps.value.toString() : '',
+        value: this.props.value ? this.props.value.toString() : '',
       });
     }
   }

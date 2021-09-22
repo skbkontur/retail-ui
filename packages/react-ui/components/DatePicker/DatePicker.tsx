@@ -180,15 +180,15 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: DatePickerProps<DatePickerValue>) {
-    const { disabled } = nextProps;
+  public componentDidUpdate() {
+    const { disabled, value, minDate, maxDate } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
     }
-    this.internalDate = this.parseValueToDate(nextProps.value);
-    this.minDate = this.parseValueToDate(nextProps.minDate);
-    this.maxDate = this.parseValueToDate(nextProps.maxDate);
+    this.internalDate = this.parseValueToDate(value);
+    this.minDate = this.parseValueToDate(minDate);
+    this.maxDate = this.parseValueToDate(maxDate);
   }
 
   /**

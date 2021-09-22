@@ -64,10 +64,6 @@ export class ValidationWrapperInternal extends React.Component<
   public isChanging = false;
   private child: any; // todo type
 
-  public UNSAFE_componentWillMount() {
-    this.applyValidation(this.props.validation);
-  }
-
   public componentDidMount() {
     warning(
       this.context.validationContext,
@@ -77,6 +73,7 @@ export class ValidationWrapperInternal extends React.Component<
     if (this.context.validationContext) {
       this.context.validationContext.register(this);
     }
+    this.applyValidation(this.props.validation);
   }
 
   public componentWillUnmount() {
@@ -85,8 +82,8 @@ export class ValidationWrapperInternal extends React.Component<
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
-    this.applyValidation(nextProps.validation);
+  public componentDidUpdate() {
+    this.applyValidation(this.props.validation);
   }
 
   public async focus(): Promise<void> {

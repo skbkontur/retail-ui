@@ -75,8 +75,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
   };
 
-  public UNSAFE_componentWillReceiveProps(nextProps: CheckboxProps) {
-    if (nextProps.checked !== this.props.checked) {
+  public componentDidUpdate(prevProps: CheckboxProps) {
+    if (prevProps.checked !== this.props.checked) {
       this.resetIndeterminate();
     }
   }

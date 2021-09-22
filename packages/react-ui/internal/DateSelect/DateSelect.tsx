@@ -93,7 +93,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
 
-  public UNSAFE_componentWillReceiveProps() {
+  public componentDidUpdate() {
     this.setNodeTop();
   }
 

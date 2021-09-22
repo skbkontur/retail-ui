@@ -81,16 +81,16 @@ export class Hint extends React.Component<HintProps, HintState> {
   private timer: Nullable<number> = null;
   private theme!: Theme;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
-    if (!nextProps.manual) {
+  public componentDidUpdate(prevProps: HintProps) {
+    if (!this.props.manual) {
       return;
     }
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    if (nextProps.opened !== this.props.opened) {
-      this.setState({ opened: !!nextProps.opened });
+    if (this.props.opened !== prevProps.opened) {
+      this.setState({ opened: !!this.props.opened });
     }
   }
 

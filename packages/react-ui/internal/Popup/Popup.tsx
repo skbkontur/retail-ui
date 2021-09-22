@@ -193,16 +193,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
+  static getDerivedStateFromProps(props: PopupProps, state: PopupState) {
     /**
      * Delaying updateLocation to ensure it happens after props update
      */
-    if (nextProps.opened) {
-      if (!this.state.location) {
-        this.setState({ location: DUMMY_LOCATION });
+    if (props.opened) {
+      if (!state.location) {
+        return { location: DUMMY_LOCATION };
       }
-      this.delayUpdateLocation();
     }
+    return state;
   }
 
   public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
@@ -213,6 +213,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
     if (!hadNoLocation && !this.state.location && this.props.onClose) {
       this.props.onClose();
+    }
+
+    if (this.props.opened) {
+      this.delayUpdateLocation();
     }
   }
 
