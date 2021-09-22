@@ -537,6 +537,9 @@ export class DefaultTheme {
   public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
+  public static get tooltipTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static get tooltipBorder() {
     return this.popupBorder;
   }
@@ -597,6 +600,9 @@ export class DefaultTheme {
   public static modalPaddingLeft = '30px';
   public static modalPaddingRight = '35px';
   public static modalHeaderFontSize = '22px';
+  public static get modalHeaderTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static modalHeaderLineHeight = '30px';
   public static modalHeaderPaddingBottom = '11px';
   public static modalHeaderPaddingTop = '24px';
@@ -624,7 +630,9 @@ export class DefaultTheme {
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }
-
+  public static get sidePageHeaderTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static sidePageHeaderFontSize = '22px';
   public static sidePageHeaderLineHeight = '30px';
   public static sidePageHeaderPaddingBottom = '25px';
@@ -741,7 +749,9 @@ export class DefaultTheme {
   public static pagingDotsColor = 'gray';
   public static pagingDotsPadding = '6px 10px 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
-  public static pagingPageLinkActiveColor = 'black';
+  public static get pagingPageLinkActiveColor() {
+    return this.textColorDefault;
+  }
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static pagingPageLinkHintColor = '#bbb';
   public static pagingPageLinkHintFontSize = '11px';
@@ -812,6 +822,9 @@ export class DefaultTheme {
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   public static menuPaddingY = '5px';
   // menuItem
+  public static get menuItemTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static get menuItemSelectedBg() {
     return this.dropdownMenuSelectedBg;
   }
@@ -852,7 +865,9 @@ export class DefaultTheme {
   public static menuItemCommentColor = '#a0a0a0';
   public static menuItemCommentColorHover = '#fff';
   //menuHeader
-  public static menuHeaderColor = '#a0a0a0';
+  public static get menuHeaderColor() {
+    return this.gray;
+  }
   public static menuHeaderLineHeight = 'inherit';
   public static menuHeaderFontSize = '12px';
   public static get menuHeaderPaddingX() {
@@ -867,6 +882,9 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
+  public static get toggleTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static toggleHandleActiveWidthIncrement = '4px';
   public static get toggleHandleBorderRadius() {
     const height = parseInt(this.toggleHeight, 10) || 0;
@@ -911,7 +929,9 @@ export class DefaultTheme {
   public static popupBorderColor = 'transparent';
   public static popupDropShadow = 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))';
   public static popupBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
-  public static popupTextColor = 'inherit';
+  public static get popupTextColor() {
+    return this.textColorDefault;
+  }
   public static get popupBackground() {
     return this.bgDefault;
   }
@@ -922,7 +942,9 @@ export class DefaultTheme {
   public static popupPinSize = '8px';
   //#endregion
   //#region Input
-  public static inputTextColor = 'none';
+  public static get inputTextColor() {
+    return this.textColorDefault;
+  }
   public static inputShadow = 'inset 0 1px 0 0 rgba(0, 0, 0, 0.05)';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
@@ -1113,7 +1135,7 @@ export class DefaultTheme {
     return this.bgDefault;
   }
   public static get textareaColor() {
-    return this.black;
+    return this.textColorDefault;
   }
   public static get textareaTextColorDisabled() {
     return this.textColorDisabledContrast;
@@ -1201,6 +1223,9 @@ export class DefaultTheme {
   public static radioBulletSize = '8px';
   public static get radioOutlineWidth() {
     return this.controlOutlineWidth;
+  }
+  public static get radioTextColorDefault() {
+    return this.textColorDefault;
   }
   public static radioSize = '16px';
   public static get radioSizeAfter() {
@@ -1334,6 +1359,9 @@ export class DefaultTheme {
   public static spinnerCaptionGapLarge = '-8px';
   //#endregion
   //#region Switcher
+  public static get switcherTextColorDefault() {
+    return this.textColorDefault;
+  }
   public static switcherOutlineWidth = '2px';
   public static switcherLabelFontSizeSmall = 'inherit';
   public static switcherLabelFontSizeMedium = 'inherit';

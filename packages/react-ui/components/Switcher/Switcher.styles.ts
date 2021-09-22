@@ -18,8 +18,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  label() {
+  label(t: Theme) {
     return css`
+      color: ${t.switcherTextColorDefault};
       vertical-align: middle;
       display: inline-block;
     `;

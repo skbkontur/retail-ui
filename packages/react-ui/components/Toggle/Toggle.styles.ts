@@ -184,12 +184,14 @@ export const styles = memoizeStyle({
 
   caption(t: Theme) {
     return css`
+      color: ${t.toggleTextColorDefault};
       padding: 0 0 0 ${t.toggleCaptionGap};
     `;
   },
 
   captionLeft(t: Theme) {
     return css`
+      color: ${t.toggleTextColorDefault};
       padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },

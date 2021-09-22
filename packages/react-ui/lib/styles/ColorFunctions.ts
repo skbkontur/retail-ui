@@ -5,7 +5,7 @@ import { ColorObject } from './ColorObject';
 type SignType = '+' | '-';
 type MethodType = 'absolute' | 'relative';
 
-const DEFAULT_DARK = ColorFactory.create('#000');
+const DEFAULT_DARK = ColorFactory.create('#333333');
 const DEFAULT_LIGHT = ColorFactory.create('#fff');
 const ColorFunctionsCache: { [key: string]: string } = Object.create(null);
 
