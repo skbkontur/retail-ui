@@ -27,6 +27,10 @@ export interface ScrollContainerProps extends CommonProps {
   scrollBehaviour?: ScrollBehaviour;
   onScrollStateChange?: (scrollState: ScrollContainerScrollState) => void;
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  /**
+   * Вернуть только children
+   */
+  disabled?: boolean;
 }
 
 export interface ScrollContainerState {
@@ -90,6 +94,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
     const state = this.state;
     const props = this.props;
     let scroll = null;
+
+    if (this.props.disabled) {
+      return this.props.children;
+    }
 
     if (state.scrollActive) {
       const scrollClass = cn({

@@ -448,7 +448,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         caption={this.props.mobileMenuHeaderText}
         useFullHeight={isWithSearch}
       >
-        <Menu onItemClick={this.close} renderOnlyItems>
+        <Menu onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
           {this.getMenuItems(value)}
         </Menu>
       </MobilePopup>

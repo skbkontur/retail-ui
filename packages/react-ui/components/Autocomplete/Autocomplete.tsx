@@ -213,7 +213,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         getParent={this.getAnchor}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
-        mobileCloseHandler={this.handleBlur}
       >
         <Menu {...menuProps}>
           {items.map((item, i) => {

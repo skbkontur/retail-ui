@@ -13,21 +13,18 @@ const styles = {
     `;
   },
 
-  content(t: Theme) {
-    return css`
-      display: flex;
-      flex-direction: column;
-      flex-shrink: 1;
-      overflow: auto;
-      background-color: ${t.bgDefault};
-    `;
-  },
-
   rootFullHeight(t: Theme) {
     return css`
       background-color: ${t.bgDefault};
       justify-content: flex-start;
       flex-grow: 1;
+    `;
+  },
+
+  content(t: Theme) {
+    return css`
+      overflow: auto;
+      background-color: ${t.bgDefault};
     `;
   },
 

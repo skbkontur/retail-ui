@@ -25,7 +25,7 @@ export interface MenuProps {
    *
    * Добавляет item-ам `onItemClick` и другие внутренние хэндлеры и возвращает их список.
    */
-  renderOnlyItems?: boolean;
+  disableScrollContainer?: boolean;
 }
 
 export interface MenuState {
@@ -114,10 +114,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     const childList = this.getChildList();
 
-    if (this.props.renderOnlyItems) {
-      return childList;
-    }
-
     return (
       <div
         className={cn({
@@ -130,6 +126,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           ref={this.refScrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
+          disabled={this.props.disableScrollContainer}
         >
           <div className={jsStyles.scrollContainer(this.theme)}>{childList}</div>
         </ScrollContainer>
