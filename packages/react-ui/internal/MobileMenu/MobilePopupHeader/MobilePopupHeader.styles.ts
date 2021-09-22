@@ -1,5 +1,5 @@
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
-import { Theme } from '../../lib/theming/Theme';
+import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import { Theme } from '../../../lib/theming/Theme';
 
 const styles = {
   root(t: Theme) {

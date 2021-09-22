@@ -1,19 +1,19 @@
 import React from 'react';
 
-import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../../lib/theming/Theme';
+import { cx } from '../../../lib/theming/Emotion';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
-import { jsStyles } from './MobileMenuHeader.styles';
+import { jsStyles } from './MobilePopupHeader.styles';
 
-interface MobileMenuHeaderProps {
+interface MobilePopupHeaderProps {
   caption?: string;
   onClose: () => void;
   getHeightOnMount?: (height: number) => void;
   withShadow?: boolean;
 }
 
-export class MobileMenuHeader extends React.Component<MobileMenuHeaderProps> {
+export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
 
   private theme!: Theme;

@@ -6,12 +6,6 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { cx } from '../../lib/theming/Emotion';
-import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-
-import { jsStyles } from './DropdownContainer.styles';
 
 type DOMNode = Element | Text | null;
 
@@ -29,24 +23,12 @@ export interface DropdownContainerProps {
   disablePortal?: boolean;
   offsetY?: number;
   offsetX?: number;
-
-  renderMobile?: boolean;
-  /**
-   * Открыть на весь экран в мобильной версии
-   */
-  mobileUseFullHeight?: boolean;
-  /**
-   * Хэндлер закрытия в мобильной версии
-   */
-  mobileCloseHandler?: () => void;
 }
 
 export interface DropdownContainerState {
   position: Nullable<DropdownContainerPosition>;
   minWidth: number;
   isDocumentElementRoot?: boolean;
-
-  mobileOpened: boolean;
 }
 
 export class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
@@ -63,11 +45,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     position: null,
     minWidth: 0,
     isDocumentElementRoot: true,
-
-    mobileOpened: false,
   };
-
-  private theme!: Theme;
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
@@ -77,10 +55,6 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
-
-    if (this.props.renderMobile && !this.state.mobileOpened) {
-      this.setState({ mobileOpened: true });
-    }
   }
 
   public UNSAFE_componentWillMount() {
@@ -101,31 +75,10 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-
-          return this.getRenderer();
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public getRenderer() {
-    if (this.props.renderMobile) {
-      return this.renderMobile();
-    }
-
-    return this.renderMain();
-  }
-
-  public renderMain() {
     let style: React.CSSProperties = {
       position: 'absolute',
       top: '0',
     };
-
     if (this.state.position) {
       const { top, bottom, left, right } = this.state.position;
       style = {
@@ -146,33 +99,6 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
     return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
-
-  public renderMobile() {
-    return (
-      <RenderContainer>
-        <div
-          className={cx({
-            [jsStyles.mobileMenu(this.theme)]: true,
-            [jsStyles.mobileMenuOpened()]: this.state.mobileOpened,
-          })}
-        >
-          {this.props.children}
-        </div>
-        <HideBodyVerticalScroll />
-        <div onClick={this.closeMobile} className={jsStyles.bg()} />
-      </RenderContainer>
-    );
-  }
-
-  public closeMobile = () => {
-    if (this.props.mobileCloseHandler) {
-      this.setState({
-        mobileOpened: false,
-      });
-
-      setTimeout(this.props.mobileCloseHandler, 250);
-    }
-  };
 
   private ref = (e: ZIndex | null) => {
     this.dom = e && findDOMNode(e);

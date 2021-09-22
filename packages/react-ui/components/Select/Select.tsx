@@ -30,7 +30,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobileLayoutState, LayoutMode, mobileLayout } from '../MobileLayout';
-import { MobileMenu } from '../../internal/MobileMenu';
+import { MobilePopup } from '../../internal/MobileMenu';
 import { cx } from '../../lib/theming/Emotion';
 
 import { Item } from './Item';
@@ -101,7 +101,6 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    */
   items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
   maxMenuHeight?: number;
-  maxMobileMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
   menuWidth?: React.CSSProperties['width'];
@@ -443,17 +442,16 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const isWithSearch = Boolean(search);
 
     return (
-      <MobileMenu
+      <MobilePopup
         onClose={this.close}
         headerChildComponent={search}
         caption={this.props.mobileMenuHeaderText}
         useFullHeight={isWithSearch}
-        maxMenuHeight={this.props.maxMobileMenuHeight}
       >
         <Menu onItemClick={this.close} renderOnlyItems>
           {this.getMenuItems(value)}
         </Menu>
-      </MobileMenu>
+      </MobilePopup>
     );
   }
 
