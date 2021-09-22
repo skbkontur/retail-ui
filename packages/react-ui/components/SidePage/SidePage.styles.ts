@@ -163,8 +163,8 @@ export const styles = memoizeStyle({
       ${resetButton()};
       cursor: pointer;
       color: ${t.sidePageCloseButtonColor};
-      padding: ${t.sidePageCloseButtonClickAreaX};
-      margin: -${t.sidePageCloseButtonClickAreaX};
+      padding: ${t.sidePageCloseButtonClickArea};
+      margin: -${t.sidePageCloseButtonClickArea};
       font-size: 0;
 
       &:focus,
