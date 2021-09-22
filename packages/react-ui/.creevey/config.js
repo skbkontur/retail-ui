@@ -5,7 +5,7 @@ const config = {
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: 'https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub',
+  gridUrl: 'https://frontinfradebug:frontinfradebug@grid.testkontur.ru/wd/hub',
   resolveStorybookUrl: () => axios('https://fake.testkontur.ru/ip').then((res) => 'http://' + res.data + ':6060'),
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
