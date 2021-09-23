@@ -139,8 +139,8 @@ export class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  public componentDidUpdate(prevProps: InputProps) {
-    if (polyfillPlaceholder && !prevProps.value) {
+  public componentDidUpdate() {
+    if (!this.state.polyfillPlaceholder && polyfillPlaceholder && !this.props.value) {
       this.setState({ polyfillPlaceholder: true });
     }
   }
