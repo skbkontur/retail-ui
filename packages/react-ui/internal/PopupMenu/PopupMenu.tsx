@@ -111,12 +111,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
+                width={this.props.menuWidth || 'auto'}
               >
                 <InternalMenu
                   hasShadow={false}
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
-                  width={this.props.menuWidth || 'auto'}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
