@@ -8,6 +8,10 @@ type IS = (e: E) => boolean;
 type ISMod = (is?: IS) => IS;
 type ISSome = (...is: IS[]) => IS;
 
+// IE 9+ supports char attribute
+// https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent
+const getChar = (e: E) => (e instanceof KeyboardEvent ? e.char : e.nativeEvent.char);
+
 export const isShortcutCopy: IS = (e) =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
   (!isMac && e.ctrlKey && isKeyInsert(e)) ||
@@ -22,14 +26,6 @@ export const isShortcutCut: IS = (e) =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyX) ||
   (!isMac && e.shiftKey && isKeyDelete(e)) ||
   e.key === 'Cut';
-
-// IE 9+ supports char attribute
-// https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent
-const getChar = (e: E) => {
-  if (e instanceof KeyboardEvent) {
-    return e.char;
-  } else return e.nativeEvent.char;
-};
 
 export const isShortcutSelectAll: IS = (e) => (isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyA;
 
