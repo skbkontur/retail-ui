@@ -1405,6 +1405,13 @@ export class DefaultTheme {
   public static scrollContainerScrollBarColor = '#b7b7b7';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
   //#endregion
+  //#region GlobalLoader
+  public static get globalLoaderBackgroundColor() {
+    return this.blueLight;
+  }
+  public static globalLoaderHeight = '10px';
+  public static globalLoaderWidth = '100%';
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(markAsFullTheme(DefaultTheme));

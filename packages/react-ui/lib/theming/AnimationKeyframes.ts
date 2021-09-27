@@ -42,4 +42,28 @@ export const AnimationKeyframes = {
         80%, 90% { stroke: ${t.brand}; }
       `;
   },
+  globalLoaderProgress() {
+    return keyframes`
+        0% { width: 0; }
+        10% { width: 10% }
+        20% { width: 19% }
+        30% { width: 28% }
+        40% { width: 37% }
+        50% { width: 46% }
+        60% { width: 55% }
+        70% { width: 64% }
+        80% { width: 73% }
+        90% { width: 82% }
+        100% { width: 90% }
+      `;
+  },
+  globalLoaderSlowProgress() {
+    return keyframes`
+        0% { width: 90% }
+        25% { width: 92% }
+        50% { width: 95% }
+        75% { width: 97% }
+        100% { width: 100% }
+      `;
+  },
 };
