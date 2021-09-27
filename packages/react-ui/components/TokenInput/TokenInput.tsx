@@ -9,6 +9,7 @@ import {
   isKeyArrowUp,
   isKeyArrowVertical,
   isKeyBackspace,
+  isKeyComma,
   isKeyDelete,
   isKeyEnter,
   isKeyEscape,
@@ -25,7 +26,6 @@ import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { isIE11 } from '../../lib/client';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -632,14 +632,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     e.stopPropagation();
 
-    const delimiters = [...this.props.delimiters];
-    if (isIE11 && e.locale === 'ru' && delimiters.includes(',')) {
-      //for IE keyCode for comma on numpad is 'Decimal'
-      //https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent/key/Key_Values#%D0%BA%D0%BB%D0%B0%D0%B2%D0%B8%D1%88%D0%B8_%D1%86%D0%B8%D1%84%D1%80%D0%BE%D0%B2%D0%BE%D0%B3%D0%BE_%D0%B1%D0%BB%D0%BE%D0%BA%D0%B0
-      delimiters.push('Decimal');
-    }
-
-    if (this.type !== TokenInputType.WithReference && delimiters.includes(e.key)) {
+    if (
+      this.type !== TokenInputType.WithReference &&
+      this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))
+    ) {
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
