@@ -9,6 +9,7 @@ import { isBrowser } from './utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
+import { ReactUiDetection } from './ReactUiDetection';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -106,7 +107,7 @@ export class ValidationWrapperInternal extends React.Component<
     const { children } = this.props;
     const { validation } = this.state;
 
-    const clonedChild: React.ReactElement<any> = children ? (
+    let clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
         ref: (x: any) => {
           const child = children as any; // todo type or maybe React.Children.only
@@ -144,6 +145,17 @@ export class ValidationWrapperInternal extends React.Component<
     ) : (
       <span />
     );
+    if (ReactUiDetection.isComboBox(clonedChild)) {
+      clonedChild = React.cloneElement(clonedChild, {
+        onInputValueChange: (...args: any[]) => {
+          this.isChanging = true;
+          this.forceUpdate();
+          if (children && children.props && children.props.onInputValueChange) {
+            children.props.onInputValueChange(...args);
+          }
+        },
+      });
+    }
     return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
   }
 
@@ -173,9 +185,11 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   private handleBlur() {
-    this.processBlur();
-    this.context.validationContext.instanceProcessBlur(this);
-    this.setState({});
+    setTimeout(() => {
+      this.processBlur();
+      this.context.validationContext.instanceProcessBlur(this);
+      this.setState({});
+    });
   }
 
   private applyValidation(actual: Nullable<Validation>) {
