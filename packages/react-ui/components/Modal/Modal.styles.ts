@@ -232,7 +232,7 @@ const styles = {
 
   headerAddPadding() {
     return css`
-      padding-bottom: 22px;
+      padding-bottom: 22px !important;
     `;
   },
 
