@@ -19,11 +19,8 @@ export interface MenuProps {
   onItemClick?: () => void;
   width?: number | string;
   preventWindowScroll?: boolean;
-
   /**
-   * Вернуть только список item-ов с навешанными обработчиками.
-   *
-   * Добавляет item-ам `onItemClick` и другие внутренние хэндлеры и возвращает их список.
+   * Отключение кастомного скролла контейнера
    */
   disableScrollContainer?: boolean;
 }
@@ -50,8 +47,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
-
-  public isScrolled = false;
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -112,8 +107,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       return null;
     }
 
-    const childList = this.getChildList();
-
     return (
       <div
         className={cn({
@@ -128,7 +121,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           preventWindowScroll={this.props.preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
-          <div className={jsStyles.scrollContainer(this.theme)}>{childList}</div>
+          <div className={jsStyles.scrollContainer(this.theme)}>{this.getChildList()}</div>
         </ScrollContainer>
       </div>
     );

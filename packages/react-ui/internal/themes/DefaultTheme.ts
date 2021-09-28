@@ -60,9 +60,8 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
-  public static mobileMenuTopPadding = '20px';
-  public static mobileFontSize = '18px';
-  public static mobileLineHeight = '24px';
+  public static fontSizeMobile = '18px';
+  public static lineHeightMobile = '24px';
   public static specificityLevel = '0';
   private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
@@ -529,6 +528,8 @@ export class DefaultTheme {
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
   }
+  public static selectRootWidthMobile = 'auto';
+
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '15px';
@@ -851,7 +852,7 @@ export class DefaultTheme {
   public static menuItemCommentColor = '#a0a0a0';
   public static menuItemCommentColorHover = '#fff';
 
-  public static mobileMenuItemPadding = '12px 16px';
+  public static menuItemPaddingMobile = '12px 16px';
   //menuHeader
   public static menuHeaderColor = '#a0a0a0';
   public static menuHeaderLineHeight = 'inherit';
@@ -1398,18 +1399,19 @@ export class DefaultTheme {
     return this.btnCheckedDisabledShadow;
   }
   //#endregion
-  //#region MobileMenuHeader
-  public static mobileMenuHeaderPadding = '0 16px';
-  public static mobileMenuHeaderBorderRadius = '8px 8px 0px 0px';
-  public static mobileMenuHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
-  public static get mobileMenuHeaderFontSize() {
-    return this.mobileFontSize;
+  //#region MobilePopup
+  public static mobilePopupTopPadding = '20px';
+  public static mobilePopupHeaderPadding = '0 16px';
+  public static mobilePopupHeaderBorderRadius = '8px 8px 0px 0px';
+  public static mobilePopupHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
+  public static get mobilePopupHeaderFontSize() {
+    return this.fontSizeMobile;
   }
-  public static get mobileMenuHeaderLineHeight() {
-    return this.mobileLineHeight;
+  public static get mobilePopupHeaderLineHeight() {
+    return this.lineHeightMobile;
   }
-  public static mobileMenuHeaderFontWeight = '500';
-  public static mobileMenuHeaderChildPadding = '12px';
+  public static mobilePopupHeaderFontWeight = '500';
+  public static mobilePopupHeaderChildPadding = '12px';
   //#endregion
 }
 

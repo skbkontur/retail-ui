@@ -30,7 +30,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobileLayoutState, LayoutMode, mobileLayout } from '../MobileLayout';
-import { MobilePopup } from '../../internal/MobileMenu';
+import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 
 import { Item } from './Item';
@@ -287,7 +287,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       maxWidth: this.props.maxWidth || undefined,
     };
 
-    const openButton = (
+    const root = (
       <span className={cx({ [jsStyles.root()]: true, [jsStyles.rootMobile(this.theme)]: isMobile })} style={style}>
         {button}
         {!this.props.disabled && this.state.opened && this.getMenuRenderer()}
@@ -301,7 +301,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           onFocusOutside={this.close}
           active={isMobile ? false : this.state.opened}
         >
-          {openButton}
+          {root}
         </RenderLayer>
       </CommonWrapper>
     );

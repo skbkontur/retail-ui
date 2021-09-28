@@ -9,7 +9,7 @@ const styles = {
       flex-direction: column;
       display: flex;
       justify-content: flex-end;
-      border-radius: ${t.mobileMenuHeaderBorderRadius};
+      border-radius: ${t.mobilePopupHeaderBorderRadius};
     `;
   },
 
@@ -31,13 +31,13 @@ const styles = {
   container(t: Theme) {
     return css`
       position: fixed;
-      top: ${t.mobileMenuTopPadding};
+      top: ${t.mobilePopupTopPadding};
       right: 0;
       left: 0;
       bottom: 0;
       width: 100%;
       z-index: 100000;
-      border-radius: ${t.mobileMenuHeaderBorderRadius};
+      border-radius: ${t.mobilePopupHeaderBorderRadius};
       transform: translateY(100%);
       transition: transform 0.25s;
     `;

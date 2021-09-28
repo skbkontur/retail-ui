@@ -6,14 +6,14 @@ const styles = {
     return css`
       position: relative;
       background: ${t.menuBgDefault};
-      padding: ${t.mobileMenuHeaderPadding};
-      border-radius: ${t.mobileMenuHeaderBorderRadius};
+      padding: ${t.mobilePopupHeaderPadding};
+      border-radius: ${t.mobilePopupHeaderBorderRadius};
     `;
   },
 
   withShadow(t: Theme) {
     return css`
-      box-shadow: ${t.mobileMenuHeaderShadow};
+      box-shadow: ${t.mobilePopupHeaderShadow};
     `;
   },
 
@@ -30,9 +30,10 @@ const styles = {
       justify-content: center;
       padding-top: 12px;
       padding-bottom: 12px;
-      font-size: ${t.mobileMenuHeaderFontSize};
-      line-height: ${t.mobileMenuHeaderLineHeight};
-      font-weight: ${t.mobileMenuHeaderFontWeight};
+      font-size: ${t.mobilePopupHeaderFontSize};
+      line-height: ${t.mobilePopupHeaderLineHeight};
+      font-weight: ${t.mobilePopupHeaderFontWeight};
+      color: ${t.textColorDefault};
     `;
   },
 

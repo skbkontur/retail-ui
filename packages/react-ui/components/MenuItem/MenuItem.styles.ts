@@ -29,9 +29,9 @@ const styles = {
 
   rootMobile(t: Theme) {
     return css`
-      font-size: ${t.mobileFontSize};
-      line-height: ${t.mobileLineHeight};
-      padding: ${t.mobileMenuItemPadding};
+      font-size: ${t.fontSizeMobile};
+      line-height: ${t.lineHeightMobile};
+      padding: ${t.menuItemPaddingMobile};
     `;
   },
 

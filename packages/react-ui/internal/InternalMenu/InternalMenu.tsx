@@ -10,7 +10,6 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -18,6 +17,12 @@ import { isActiveElement } from './isActiveElement';
 interface MenuProps {
   children?: React.ReactNode;
   hasShadow?: boolean;
+  /**
+   * Максимальная высота применяется только для скролл контейнера
+   *
+   * Высота `header` и `footer` в нее не включены
+   */
+  maxHeight?: number | string;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
   preventWindowScroll?: boolean;
@@ -29,28 +34,12 @@ interface MenuProps {
   // Циклический перебор айтемов меню (по-дефолтну включен)
   cyclicSelection?: boolean;
   initialSelectedItemIndex?: number;
-
-  /**
-   * Максимальная высота
-   * @default 300
-   */
-  maxHeight?: number | string;
-
-  /**
-   * Максимальная высота применится для:
-   * - 'all' - для всего меню
-   * - 'items' - только для скролл-контейнера. Не учитываются высоты `header` и `footer`
-   * @default 'items'
-   */
-  maxHeightFor?: 'all' | 'items';
 }
 
 interface MenuState {
   highlightedIndex: number;
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
-
-  scrollContainerMaxHeight: number | string;
 }
 
 export class InternalMenu extends React.Component<MenuProps, MenuState> {
@@ -63,15 +52,12 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     preventWindowScroll: true,
     cyclicSelection: true,
     initialSelectedItemIndex: -1,
-    maxHeightFor: 'items',
   };
 
   public state: MenuState = {
     highlightedIndex: -1,
     maxHeight: this.props.maxHeight || 'none',
     scrollState: 'top',
-
-    scrollContainerMaxHeight: this.props.maxHeight || 'none',
   };
 
   private theme!: Theme;
@@ -144,7 +130,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
         {this.props.header ? this.renderHeader() : null}
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.state.scrollContainerMaxHeight}
+          maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
         >
@@ -199,14 +185,12 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   }
 
   private renderHeader = () => {
-    const isScrolled = this.state.scrollState !== 'top';
-
     return (
       <div
         ref={(el) => (this.header = el)}
-        className={cx({
+        className={cn({
           [jsStyles.header()]: true,
-          [jsStyles.fixedHeader()]: isScrolled,
+          [jsStyles.fixedHeader()]: this.state.scrollState !== 'top',
         })}
       >
         {this.props.header}
@@ -250,21 +234,9 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   };
 
   private calculateMaxHeight = () => {
-    const { maxHeightFor } = this.props;
-
-    if (maxHeightFor === 'items') {
-      this.calculateMaxHeightForItems();
-    }
-
-    if (maxHeightFor === 'all') {
-      this.calculateMaxHeightForAll();
-    }
-  };
-
-  private calculateMaxHeightForItems = () => {
     const { maxHeight } = this.props;
-
     let parsedMaxHeight = maxHeight;
+
     if (typeof maxHeight === 'string' && typeof window !== 'undefined' && this.rootElement) {
       const rootElementMaxHeight = window.getComputedStyle(this.rootElement).maxHeight;
 
@@ -282,30 +254,6 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
     this.setState({
       maxHeight: calculatedMaxHeight || 'none',
-      scrollContainerMaxHeight: this.props.maxHeight || 'none',
-    });
-  };
-
-  private calculateMaxHeightForAll = () => {
-    const { maxHeight } = this.props;
-
-    let parsedMaxContainerHeight = maxHeight;
-    if (parsedMaxContainerHeight) {
-      if (typeof maxHeight === 'string') {
-        parsedMaxContainerHeight = parseFloat(maxHeight);
-      }
-    }
-
-    const calculatedContainerMaxHeight =
-      parsedMaxContainerHeight && typeof parsedMaxContainerHeight === 'number'
-        ? parsedMaxContainerHeight -
-          ((this.header && this.header.getBoundingClientRect().height) || 0) -
-          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
-        : undefined;
-
-    this.setState({
-      maxHeight: this.props.maxHeight || 'none',
-      scrollContainerMaxHeight: calculatedContainerMaxHeight || 'none',
     });
   };
 

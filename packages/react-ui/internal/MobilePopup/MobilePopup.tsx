@@ -14,7 +14,7 @@ interface MobilePopupProps {
   caption?: string;
   onClose: () => void;
   /**
-   * Компонент, закрепленный сверху заголовка
+   * Компонент, закрепленный сверху меню (под холдером)
    */
   headerChildComponent?: React.ReactNode;
   useFullHeight?: boolean;
