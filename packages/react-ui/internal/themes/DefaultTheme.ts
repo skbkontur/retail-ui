@@ -41,6 +41,7 @@ export class DefaultTheme {
   public static borderColorFocusLight = '#bad7f1';
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.15)';
+  public static borderColorDisabled = 'rgba(0, 0, 0, 0.05)';
   public static placeholderColor = '#a0a0a0';
   public static outlineColorFocus = '#fff';
   public static placeholderColorLight = '#cdcdcd';
@@ -117,7 +118,7 @@ export class DefaultTheme {
   public static linkButtonPaddingX = '10px';
   //#endregion
   //#region Token
-  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.15)';
+  public static tokenDisabledBg = 'rgba(0, 0, 0, 0.10)';
   public static get tokenTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
@@ -137,9 +138,7 @@ export class DefaultTheme {
   public static tokenRemoveIconBoxSizing = 'border-box';
   public static tokenBorderRadius = '1px';
   public static tokenBorderWidth = '1px';
-  public static get tokenBorderColorDisabled() {
-    return this.tokenDisabledBg;
-  }
+  public static tokenBorderColorDisabled = 'rgba(0, 0, 0, 0.15)';
   public static get tokenDefaultIdle() {
     return this.grayXLight;
   }
@@ -196,7 +195,9 @@ export class DefaultTheme {
   }
   public static tokenMarginYDisabled = '2px';
   public static tokenMarginXDisabled = '2px';
-  public static tokenShadowDisabled = 'none';
+  public static get tokenShadowDisabled() {
+    return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
+  }
   //#endregion
   //#region TokenInput
   public static get tokenInputBorderColor() {
@@ -444,6 +445,9 @@ export class DefaultTheme {
   }
   public static get btnErrorSecondary() {
     return this.errorSecondary;
+  }
+  public static get btnWarningSecondary() {
+    return this.warningSecondary;
   }
   public static get btnOutlineColorFocus() {
     return this.outlineColorFocus;
@@ -880,7 +884,11 @@ export class DefaultTheme {
   public static toggleWidth = '34px';
   public static toggleBorderRadius = '10px';
   public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
-  public static toggleBgDisabled = 'none';
+  public static toggleDisabledHandleBg = '#fff';
+  public static toggleBaseBg = '#fff';
+  public static get toggleBgDisabled() {
+    return this.bgDisabled;
+  }
   public static get toggleBgHover() {
     return this.toggleBgFocus;
   }
@@ -1044,9 +1052,6 @@ export class DefaultTheme {
   public static get checkboxTextColorDisabled() {
     return this.textColorDisabled;
   }
-  public static get checkboxIndeterminateBg() {
-    return this.textColorDefault;
-  }
   public static get checkboxShadowDisabled() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
@@ -1098,9 +1103,6 @@ export class DefaultTheme {
   }
   public static get checkboxBgDisabled() {
     return this.bgDisabled;
-  }
-  public static get checkboxBoxIndeterminateBg() {
-    return this.checkboxBg;
   }
   public static get checkboxCheckedHoverBg() {
     return this.checkboxHoverBg;
@@ -1220,6 +1222,7 @@ export class DefaultTheme {
   public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
+  public static radioBgColor = 'transparent';
   public static radioHoverBg = 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%)';
   public static radioActiveBg = 'linear-gradient(-180deg, #e1e1e1 0, #e1e1e1 100%)';
   public static radioBorderWidth = '1px';
@@ -1249,6 +1252,9 @@ export class DefaultTheme {
   public static radioCheckedBulletColor = '#404040';
   public static get radioCheckedHoverBgColor() {
     return this.radioHoverBg;
+  }
+  public static get radioDisabledBg() {
+    return this.bgDisabled;
   }
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.15)`;
@@ -1412,6 +1418,12 @@ export class DefaultTheme {
   }
   public static mobilePopupHeaderFontWeight = '500';
   public static mobilePopupHeaderChildPadding = '12px';
+  //#endregion
+  //#region ScrollContainer
+  public static scrollContainerScrollBarSize = '4px';
+  public static scrollContainerScrollBarHoverSize = '10px';
+  public static scrollContainerScrollBarColor = '#b7b7b7';
+  public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
   //#endregion
 }
 

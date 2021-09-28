@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
-import cn from 'classnames';
 
 import {
   isKeyArrowDown,
@@ -35,7 +34,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
-import { jsStyles } from './Select.styles';
+import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
 
 export interface ButtonParams {
@@ -288,7 +287,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const root = (
-      <span className={cx({ [jsStyles.root()]: true, [jsStyles.rootMobile(this.theme)]: isMobile })} style={style}>
+      <span className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })} style={style}>
         {button}
         {!this.props.disabled && this.state.opened && this.getMenuRenderer()}
       </span>
@@ -340,17 +339,17 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getLeftIconClass(size: ButtonSize | undefined) {
     if (this.props.use === 'link') {
-      return jsStyles.leftIconLink(this.theme);
+      return styles.leftIconLink(this.theme);
     }
 
     switch (size) {
       case 'large':
-        return jsStyles.leftIconLarge(this.theme);
+        return styles.leftIconLarge(this.theme);
       case 'medium':
-        return jsStyles.leftIconMedium(this.theme);
+        return styles.leftIconMedium(this.theme);
       case 'small':
       default:
-        return jsStyles.leftIconSmall(this.theme);
+        return styles.leftIconSmall(this.theme);
     }
   }
 
@@ -366,11 +365,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const labelProps = {
-      className: cn({
-        [jsStyles.label()]: this.props.use !== 'link',
-        [jsStyles.placeholder(this.theme)]: params.isPlaceholder,
-        [jsStyles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
-        [jsStyles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+      className: cx({
+        [styles.label()]: this.props.use !== 'link',
+        [styles.placeholder(this.theme)]: params.isPlaceholder,
+        [styles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+        [styles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
         paddingRight: this.getSelectIconGap(),
@@ -381,11 +380,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <Button {...buttonProps}>
-        <div className={jsStyles.selectButtonContainer()}>
+        <div className={styles.selectButtonContainer()}>
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
-          <div className={cn(jsStyles.arrowWrap(this.theme), useIsCustom && jsStyles.customUseArrow())}>
+          <div className={cx(styles.arrowWrap(this.theme), useIsCustom && styles.customUseArrow())}>
             <ArrowChevronDownIcon />
           </div>
         </div>
@@ -457,7 +456,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSearch = (noMargin?: boolean) => {
     return (
-      <div className={cx({ [jsStyles.search()]: noMargin ? false : true })}>
+      <div className={cx({ [styles.search()]: noMargin ? false : true })}>
         <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );

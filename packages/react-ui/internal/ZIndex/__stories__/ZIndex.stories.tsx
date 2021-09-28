@@ -871,6 +871,8 @@ LoaderAndSidePageStory.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
 
+        await delay(500);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
       },
     },

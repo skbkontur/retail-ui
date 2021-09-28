@@ -1,9 +1,9 @@
-import { css, cssName, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   wrapper() {
     return css`
       align-items: center;
@@ -50,8 +50,8 @@ const styles = {
 
   borderless() {
     return css`
-      box-shadow: none !important;
-      border-color: transparent !important;
+      box-shadow: none;
+      border-color: transparent;
     `;
   },
 
@@ -63,27 +63,17 @@ const styles = {
 
   focus(t: Theme) {
     return css`
-      border-color: ${t.inputBorderColorFocus} !important;
-      box-shadow: ${t.inputFocusShadow} !important;
+      border-color: ${t.inputBorderColorFocus};
+      box-shadow: ${t.inputFocusShadow};
       outline: none;
       z-index: 2;
-
-      ${cssName(styles.input(t))}:-moz-placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-      ${cssName(styles.input(t))}::-moz-placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
-      ${cssName(styles.input(t))}::placeholder {
-        color: ${t.inputPlaceholderColorLight};
-      }
     `;
   },
 
   focusFallback(t: Theme) {
     return css`
-      box-shadow: none !important;
-      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline} !important;
+      box-shadow: none;
+      outline: ${t.inputOutlineWidth} solid ${t.inputFocusOutline};
     `;
   },
 
@@ -102,13 +92,18 @@ const styles = {
       user-select: none;
       white-space: nowrap;
       width: 100%;
+    `;
+  },
 
-      ${cssName(styles.focus(t))} & {
-        color: ${t.inputPlaceholderColorLight};
-      }
-      ${cssName(styles.disabled(t))} & {
-        color: ${t.inputPlaceholderColorDisabled};
-      }
+  placeholderFocus(t: Theme) {
+    return css`
+      color: ${t.inputPlaceholderColorLight};
+    `;
+  },
+
+  placeholderDisabled(t: Theme) {
+    return css`
+      color: ${t.inputPlaceholderColorDisabled};
     `;
   },
 
@@ -148,67 +143,73 @@ const styles = {
     `;
   },
 
+  inputFocus(t: Theme) {
+    return css`
+      &:-moz-placeholder {
+        color: ${t.inputPlaceholderColorLight};
+      }
+      &::-moz-placeholder {
+        color: ${t.inputPlaceholderColorLight};
+      }
+      &::placeholder {
+        color: ${t.inputPlaceholderColorLight};
+      }
+    `;
+  },
+
+  inputDisabled(t: Theme) {
+    return css`
+      color: ${t.inputTextColorDisabled};
+      /* fix text color in safari https://bugs.webkit.org/show_bug.cgi?id=115510 */
+      -webkit-text-fill-color: ${t.inputTextColorDisabled};
+
+      &:-moz-placeholder {
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+      }
+      &::-moz-placeholder {
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+      }
+      &::placeholder {
+        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
+      }
+    `;
+  },
+
   warning(t: Theme) {
     return css`
-      & {
-        border-color: ${t.inputBorderColorWarning} !important;
-        box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning} !important;
-        z-index: 2;
-      }
+      border-color: ${t.inputBorderColorWarning};
+      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorWarning};
+      z-index: 2;
     `;
   },
 
   warningFallback(t: Theme) {
     return css`
-      box-shadow: none !important;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning} !important;
+      box-shadow: none;
+      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
-      border-color: ${t.inputBorderColorError} !important;
-      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError} !important;
+      border-color: ${t.inputBorderColorError};
+      box-shadow: 0 0 0 ${t.inputOutlineWidth} ${t.inputBorderColorError};
       z-index: 2;
     `;
   },
 
   errorFallback(t: Theme) {
     return css`
-      box-shadow: none !important;
-      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError} !important;
+      box-shadow: none;
+      outline: ${t.inputBorderWidth} solid ${t.inputBorderColorError};
     `;
   },
 
   disabled(t: Theme) {
     return css`
-      background: ${t.inputDisabledBg} !important;
-      border-color: ${t.inputDisabledBorderColor} !important;
-      box-shadow: none !important;
-
-      ${cssName(styles.icon())} {
-        cursor: default;
-      }
-      ${cssName(styles.input(t))} {
-        color: ${t.inputTextColorDisabled};
-        /* fix text color in safari https://bugs.webkit.org/show_bug.cgi?id=115510 */
-        -webkit-text-fill-color: ${t.inputTextColorDisabled};
-      }
-      ${cssName(styles.input(t))}:-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
-      }
-      ${cssName(styles.input(t))}::-moz-placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
-      }
-      ${cssName(styles.input(t))}::placeholder {
-        -webkit-text-fill-color: ${t.inputPlaceholderColorDisabled};
-      }
-      ${cssName(styles.suffix(t))} {
-        color: ${t.inputPlaceholderColorDisabled};
-      }
-      ${cssName(styles.prefix(t))} {
-        color: ${t.inputPlaceholderColorDisabled};
-      }
+      background-color: ${t.inputDisabledBg};
+      border-color: ${t.inputDisabledBorderColor};
+      box-shadow: none;
     `;
   },
 
@@ -225,82 +226,70 @@ const styles = {
 
   sizeSmall(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        font-size: ${t.inputFontSizeSmall};
-        line-height: ${t.inputLineHeightSmall} !important;
-        padding-top: ${t.inputPaddingYSmall};
-        padding-bottom: ${t.inputPaddingYSmall};
-        padding-left: ${t.inputPaddingXSmall};
-        padding-right: ${t.inputPaddingXSmall};
-        height: ${t.inputHeightSmall};
-        border-radius: ${t.inputBorderRadiusSmall};
-      }
+      font-size: ${t.inputFontSizeSmall};
+      line-height: ${t.inputLineHeightSmall};
+      padding-top: ${t.inputPaddingYSmall};
+      padding-bottom: ${t.inputPaddingYSmall};
+      padding-left: ${t.inputPaddingXSmall};
+      padding-right: ${t.inputPaddingXSmall};
+      height: ${t.inputHeightSmall};
+      border-radius: ${t.inputBorderRadiusSmall};
     `;
   },
 
   sizeSmallFallback(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        padding-top: ${shift(t.inputPaddingYSmall, '-1')};
-        padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
-        padding-left: ${t.inputPaddingXSmall};
-        padding-right: ${t.inputPaddingXSmall};
-        line-height: normal !important;
-      }
+      padding-top: ${shift(t.inputPaddingYSmall, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
+      padding-left: ${t.inputPaddingXSmall};
+      padding-right: ${t.inputPaddingXSmall};
+      line-height: normal;
     `;
   },
 
   sizeMedium(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        font-size: ${t.inputFontSizeMedium};
-        line-height: ${t.inputLineHeightMedium};
-        padding-top: ${t.inputPaddingYMedium};
-        padding-bottom: ${t.inputPaddingYMedium};
-        padding-left: ${t.inputPaddingXMedium};
-        padding-right: ${t.inputPaddingXMedium};
-        height: ${t.inputHeightMedium};
-        border-radius: ${t.inputBorderRadiusMedium};
-      }
+      font-size: ${t.inputFontSizeMedium};
+      line-height: ${t.inputLineHeightMedium};
+      padding-top: ${t.inputPaddingYMedium};
+      padding-bottom: ${t.inputPaddingYMedium};
+      padding-left: ${t.inputPaddingXMedium};
+      padding-right: ${t.inputPaddingXMedium};
+      height: ${t.inputHeightMedium};
+      border-radius: ${t.inputBorderRadiusMedium};
     `;
   },
 
   sizeMediumFallback(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        padding-top: ${shift(t.inputPaddingYMedium, '-1')};
-        padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
-        padding-left: ${t.inputPaddingXMedium};
-        padding-right: ${t.inputPaddingXMedium};
-        line-height: normal !important;
-      }
+      padding-top: ${shift(t.inputPaddingYMedium, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
+      padding-left: ${t.inputPaddingXMedium};
+      padding-right: ${t.inputPaddingXMedium};
+      line-height: normal;
     `;
   },
 
   sizeLarge(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        font-size: ${t.inputFontSizeLarge};
-        line-height: ${t.inputLineHeightLarge};
-        height: ${t.inputHeightLarge};
-        padding-top: ${shift(t.inputPaddingYLarge, '-1')};
-        padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
-        padding-left: ${t.inputPaddingXLarge};
-        padding-right: ${t.inputPaddingXLarge};
-        border-radius: ${t.inputBorderRadiusLarge};
-      }
+      font-size: ${t.inputFontSizeLarge};
+      line-height: ${t.inputLineHeightLarge};
+      height: ${t.inputHeightLarge};
+      padding-top: ${shift(t.inputPaddingYLarge, '-1')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
+      padding-left: ${t.inputPaddingXLarge};
+      padding-right: ${t.inputPaddingXLarge};
+      border-radius: ${t.inputBorderRadiusLarge};
     `;
   },
 
   sizeLargeFallback(t: Theme) {
     return css`
-      ${cssName(styles.root(t))}& {
-        padding-top: ${shift(t.inputPaddingYLarge, '-2')};
-        padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
-        padding-left: ${t.inputPaddingXLarge};
-        padding-right: ${t.inputPaddingXLarge};
-        line-height: normal !important;
-      }
+      padding-top: ${shift(t.inputPaddingYLarge, '-2')};
+      padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
+      padding-left: ${t.inputPaddingXLarge};
+      padding-right: ${t.inputPaddingXLarge};
+      line-height: normal;
     `;
   },
 
@@ -310,9 +299,21 @@ const styles = {
     `;
   },
 
+  prefixDisabled(t: Theme) {
+    return css`
+      color: ${t.inputPlaceholderColorDisabled};
+    `;
+  },
+
   suffix(t: Theme) {
     return css`
       color: ${t.inputPlaceholderColor};
+    `;
+  },
+
+  suffixDisabled(t: Theme) {
+    return css`
+      color: ${t.inputPlaceholderColorDisabled};
     `;
   },
 
@@ -345,7 +346,13 @@ const styles = {
       cursor: text;
       z-index: 2;
       text-align: center;
-      box-sizing: content-box !important;
+      box-sizing: content-box !important; // fix possible "reset.css" problem
+    `;
+  },
+
+  iconDisabled() {
+    return css`
+      cursor: default;
     `;
   },
 
@@ -390,6 +397,10 @@ const styles = {
       padding-left: ${t.inputIconGapLarge};
     `;
   },
-};
 
-export const jsStyles = memoizeStyle(styles);
+  hideBlinkingCursor() {
+    return css`
+      caret-color: transparent;
+    `;
+  },
+});

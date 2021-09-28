@@ -1,13 +1,13 @@
 import React, { ReactNode, useContext, useEffect } from 'react';
-import cn from 'classnames';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
 
 export interface ModalFooterProps extends CommonProps {
@@ -41,10 +41,10 @@ function ModalFooter(props: ModalFooterProps) {
 
   const renderContent = (fixed = false) => (
     <div
-      className={cn({
-        [jsStyles.footer(theme)]: true,
-        [jsStyles.panel(theme)]: Boolean(panel),
-        [jsStyles.fixedFooter(theme)]: fixed,
+      className={cx({
+        [styles.footer(theme)]: true,
+        [styles.fixedFooter(theme)]: fixed,
+        [styles.panel(theme)]: Boolean(panel),
       })}
     >
       {children}
@@ -53,7 +53,7 @@ function ModalFooter(props: ModalFooterProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
+      <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
         {sticky ? (
           <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}

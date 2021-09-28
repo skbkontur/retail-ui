@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
+import { keyListener } from '../../lib/events/keyListener';
 
-import { jsStyles } from './Radio.styles';
+import { styles, globalClasses } from './Radio.styles';
 
 export interface RadioProps<T>
   extends CommonProps,
@@ -36,8 +37,16 @@ export interface RadioProps<T>
       }
     > {}
 
-export class Radio<T> extends React.Component<RadioProps<T>> {
+export interface RadioState {
+  focusedByKeyboard: boolean;
+}
+
+export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
+
+  public state = {
+    focusedByKeyboard: false,
+  };
 
   public static contextTypes = {
     activeItem: PropTypes.any,
@@ -70,6 +79,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
    * @public
    */
   public focus() {
+    keyListener.isTabPressed = true;
     this.inputEl.current?.focus();
   }
 
@@ -96,14 +106,18 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       ...rest
     } = props;
 
-    let radioClassNames = cn({
-      [jsStyles.radio(this.theme)]: true,
-      [jsStyles.checked(this.theme)]: this.props.checked,
-      [jsStyles.focus(this.theme)]: this.props.focused,
-      [jsStyles.error(this.theme)]: error,
-      [jsStyles.warning(this.theme)]: warning,
-      [jsStyles.disabled(this.theme)]: disabled,
-    });
+    const radioProps = {
+      className: cx({
+        [styles.radio(this.theme)]: true,
+        [styles.checked(this.theme)]: this.props.checked,
+        [styles.focus(this.theme)]: this.props.focused || this.state.focusedByKeyboard,
+        [styles.error(this.theme)]: error,
+        [styles.warning(this.theme)]: warning,
+        [styles.disabled(this.theme)]: disabled,
+        [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
+        [globalClasses.radio]: true,
+      }),
+    };
 
     let value: string | number | undefined;
     if (typeof this.props.value === 'string' || typeof this.props.value === 'number') {
@@ -113,16 +127,18 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: jsStyles.input(),
+      className: styles.input(),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
       ref: this.inputEl,
       onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
     };
 
     const labelProps = {
-      className: jsStyles.root(this.theme),
+      className: cx(styles.root(this.theme), this.props.checked && styles.rootChecked(this.theme)),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -133,14 +149,17 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
-      radioClassNames = cn(radioClassNames, checked && jsStyles.checked(this.theme));
+      radioProps.className = cx(radioProps.className, {
+        [styles.checked(this.theme)]: checked,
+        [styles.checkedDisabled(this.theme)]: checked && disabled,
+      });
     }
 
     return (
       <label {...labelProps}>
         <input {...inputProps} />
-        <span className={radioClassNames}>
-          <span className={jsStyles.placeholder()} />
+        <span {...radioProps}>
+          <span className={styles.placeholder()} />
         </span>
         {this.props.children && this.renderLabel()}
       </label>
@@ -150,9 +169,9 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
   private _isInRadioGroup = () => Boolean(this.context.name);
 
   private renderLabel() {
-    const labelClassNames = cn({
-      [jsStyles.label(this.theme)]: true,
-      [jsStyles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
+    const labelClassNames = cx({
+      [styles.label(this.theme)]: true,
+      [styles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
@@ -178,5 +197,26 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
 
   private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseLeave?.(e);
+  };
+
+  private handleFocus = (e: React.FocusEvent<any>) => {
+    if (!this.context.disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      requestAnimationFrame(() => {
+        if (keyListener.isArrowPressed || keyListener.isTabPressed) {
+          this.setState({ focusedByKeyboard: true });
+        }
+      });
+
+      if (this.props.onFocus) {
+        this.props.onFocus(e);
+      }
+    }
+  };
+
+  private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.props.onBlur?.(e);
+    this.setState({ focusedByKeyboard: false });
   };
 }

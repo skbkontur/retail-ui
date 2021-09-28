@@ -1,18 +1,18 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { Indicator } from './Indicator';
-import { jsStyles } from './Tabs.styles';
-import { TabsContext } from './TabsContext';
+import { styles } from './Tabs.styles';
+import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps extends CommonProps {
+export interface TabsProps<T extends string = string> extends CommonProps {
   /**
    * Tab component should be child of Tabs component
    */
@@ -26,12 +26,12 @@ export interface TabsProps extends CommonProps {
   /**
    * Tabs change event
    */
-  onValueChange?: (value: string) => void;
+  onValueChange?: (value: T) => void;
 
   /**
    * Active tab identifier
    */
-  value: string;
+  value: T;
 
   /**
    * Vertical indicator
@@ -50,7 +50,7 @@ export interface TabsProps extends CommonProps {
  *
  * contains static property `Tab`
  */
-export class Tabs extends React.Component<TabsProps> {
+export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
   public static propTypes = {
@@ -59,7 +59,6 @@ export class Tabs extends React.Component<TabsProps> {
     value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    onValueChange: PropTypes.func,
   };
   public static defaultProps = {
     vertical: false,
@@ -70,8 +69,8 @@ export class Tabs extends React.Component<TabsProps> {
   private theme!: Theme;
 
   private tabs: Array<{
-    getNode: () => Tab | null;
-    id: string;
+    getNode: () => Tab<T> | null;
+    id: T;
   }> = [];
 
   private tabUpdates = {
@@ -94,10 +93,7 @@ export class Tabs extends React.Component<TabsProps> {
           this.theme = theme;
           return (
             <CommonWrapper {...this.props}>
-              <div
-                className={cn(jsStyles.root(this.theme), vertical && jsStyles.vertical(this.theme))}
-                style={{ width }}
-              >
+              <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
                 <TabsContext.Provider
                   value={{
                     vertical,
@@ -121,7 +117,7 @@ export class Tabs extends React.Component<TabsProps> {
     );
   }
 
-  private shiftFocus = (fromTab: string, delta: number) => {
+  private shiftFocus: TabsContextType<T>['shiftFocus'] = (fromTab, delta) => {
     const { tabs } = this;
     const index = tabs.findIndex((x) => x.id === fromTab);
     const newIndex = Math.max(0, Math.min(index + delta, tabs.length - 1));
@@ -138,27 +134,27 @@ export class Tabs extends React.Component<TabsProps> {
     }
   };
 
-  private notifyUpdate = () => {
+  private notifyUpdate: TabsContextType<T>['notifyUpdate'] = () => {
     this.listeners.forEach((cb) => cb());
   };
 
-  private switchTab = (id: string) => {
+  private switchTab: TabsContextType<T>['switchTab'] = (id) => {
     const { onValueChange, value } = this.props;
     if (id !== value && onValueChange) {
       onValueChange(id);
     }
   };
 
-  private getTab = (id: string): Tab | null => {
+  private getTab: TabsContextType<T>['getTab'] = (id) => {
     const { getNode = null } = this.tabs.find((x) => x.id === id) || {};
     return getNode && getNode();
   };
 
-  private addTab = (id: string, getNode: () => any) => {
+  private addTab: TabsContextType<T>['addTab'] = (id, getNode) => {
     this.tabs = this.tabs.concat({ id, getNode });
   };
 
-  private removeTab = (id: string) => {
+  private removeTab: TabsContextType<T>['removeTab'] = (id) => {
     this.tabs = this.tabs.filter((tab) => tab.id !== id);
   };
 }

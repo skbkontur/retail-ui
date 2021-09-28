@@ -1,24 +1,29 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const globalClasses = prefix('toggle')({
+  handle: 'handle',
+  container: 'container',
+  containerDisabled: 'container-disabled',
+  containerLoading: 'container-loading',
+  background: 'background',
+});
+
+export const styles = memoizeStyle({
   root(t: Theme) {
-    const disabled = cssName(styles.disabled(t));
     const handleWidthWithBorders = t.toggleHeight;
     const handleActiveWidth = `calc(${handleWidthWithBorders} - 2 * ${t.toggleBorderWidth} + ${t.toggleHandleActiveWidthIncrement})`;
     return css`
       display: inline-flex;
       cursor: pointer;
 
-      &:hover:not(${disabled}) {
-        ${cssName(styles.handle(t))} {
-          background: ${t.toggleBgHover};
-        }
+      &:hover .${globalClasses.handle} {
+        background: ${t.toggleBgHover};
       }
-      &:active:not(${disabled}) ${cssName(styles.handle(t))} {
+      &:active .${globalClasses.handle} {
         width: ${handleActiveWidth};
       }
-      &:active:not(${disabled}) ${cssName(styles.input(t))}:checked ~ ${cssName(styles.handle(t))} {
+      &:active input:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
       }
@@ -41,6 +46,14 @@ const styles = {
     `;
   },
 
+  handleDisabled(t: Theme) {
+    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
+    return css`
+      background: ${t.toggleDisabledHandleBg} !important; // override root hover/active styles
+      width: ${handleSize} !important; // override root active styles
+    `;
+  },
+
   input(t: Theme) {
     const handleWidthWithBorders = t.toggleHeight;
     return css`
@@ -50,16 +63,31 @@ const styles = {
       &:focus {
         outline: none;
       }
-      &:checked ~ ${cssName(styles.container(t))} {
+      &:checked ~ .${globalClasses.container} {
         box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBgChecked};
         background: ${t.toggleBgChecked};
         transition: background 0s 0.2s;
       }
-      &:checked ~ ${cssName(styles.container(t))} ${cssName(styles.activeBackground())} {
+      &:checked ~ .${globalClasses.containerDisabled} {
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
+        background: ${t.toggleBgDisabled};
+        transition: background 0s 0.2s;
+      }
+      &:checked ~ .${globalClasses.containerLoading} {
+        background: ${t.toggleBorderColor};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
+      }
+      &:checked ~ .${globalClasses.container} .${globalClasses.background} {
         width: 70%;
         background: ${t.toggleBgChecked};
       }
-      &:checked ~ ${cssName(styles.handle(t))} {
+      &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
+        width: 70%;
+        background: ${t.toggleBgDisabled};
+        border-radius: calc(${t.toggleHeight} * 0.5) 0 0 calc(${t.toggleHeight} * 0.5);
+        box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
+      }
+      &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
       }
     `;
@@ -78,9 +106,15 @@ const styles = {
     `;
   },
 
+  containerDisabled(t: Theme) {
+    return css`
+      background: ${t.toggleBgDisabled};
+    `;
+  },
+
   focused(t: Theme) {
     return css`
-      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor} !important;
+      box-shadow: 0 0 0 1px ${t.outlineColorFocus}, 0 0 0 ${t.toggleOutlineWidth} ${t.toggleFocusShadowColor};
     `;
   },
 
@@ -96,15 +130,9 @@ const styles = {
     `;
   },
 
-  isLoading(t: Theme) {
+  activeBackgroundLoading(t: Theme) {
     return css`
-      ${cssName(styles.input(t))}:checked ~ ${cssName(styles.container(t))}& {
-        background: ${t.toggleBorderColor};
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-      }
-      ${cssName(styles.activeBackground())} {
-        background: ${t.toggleBgActive};
-      }
+      background: ${t.toggleBgActive};
     `;
   },
 
@@ -122,6 +150,7 @@ const styles = {
 
   outline(t: Theme) {
     return css`
+      background: ${t.toggleBaseBg};
       border-radius: ${t.toggleBorderRadius};
     `;
   },
@@ -141,17 +170,9 @@ const styles = {
     `;
   },
 
-  disabled(t: Theme) {
+  disabled() {
     return css`
-      cursor: default !important;
-
-      ${cssName(styles.container(t))} {
-        background: ${t.toggleBgDisabled};
-      }
-
-      ${cssName(styles.wrapper(t))} {
-        opacity: 0.3;
-      }
+      cursor: default;
     `;
   },
 
@@ -172,6 +193,4 @@ const styles = {
       padding: 0 ${t.toggleCaptionGap} 0 0;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

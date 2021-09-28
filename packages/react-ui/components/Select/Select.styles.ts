@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       display: inline-block;
@@ -44,7 +44,7 @@ const styles = {
 
   customUseArrow() {
     return css`
-      color: inherit !important;
+      color: inherit;
       opacity: 0.7;
     `;
   },
@@ -98,6 +98,4 @@ const styles = {
       justify-content: space-between;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});
