@@ -12,7 +12,7 @@ import { MobilePopupHeader } from './MobilePopupHeader';
 
 interface MobilePopupProps {
   caption?: string;
-  onClose: () => void;
+  onClose?: () => void;
   /**
    * Компонент, закрепленный сверху меню (под холдером)
    */
@@ -65,13 +65,9 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
               [jsStyles.root(this.theme)]: true,
               [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
             })}
-            onClick={this.props.useFullHeight ? undefined : this.closeHandler}
+            onClick={this.props.useFullHeight ? undefined : this.close}
           >
-            <MobilePopupHeader
-              caption={this.props.caption}
-              onClose={this.closeHandler}
-              withShadow={this.state.isScrolled}
-            >
+            <MobilePopupHeader caption={this.props.caption} onClose={this.close} withShadow={this.state.isScrolled}>
               {this.props.headerChildComponent}
             </MobilePopupHeader>
             <div className={jsStyles.content(this.theme)} onScroll={this.handleScrollMenu} ref={this.refContent}>
@@ -80,17 +76,19 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           </div>
         </div>
         <HideBodyVerticalScroll />
-        <div onClick={this.closeHandler} className={jsStyles.bg()} />
+        <div onClick={this.close} className={jsStyles.bg()} />
       </RenderContainer>
     );
   }
 
-  private closeHandler = () => {
+  public close = () => {
     this.setState({
       isOpened: false,
     });
 
-    setTimeout(this.props.onClose, 250);
+    if (this.props.onClose) {
+      setTimeout(this.props.onClose, 250);
+    }
   };
 
   private refContent = (contentDiv: HTMLDivElement) => {
