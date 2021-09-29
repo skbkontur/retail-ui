@@ -7,6 +7,7 @@ export const styles = memoizeStyle({
       width: ${t.globalLoaderWidth};
       height: ${t.globalLoaderHeight};
       background-color: #666666;
+      position: relative;
     `;
   },
   inner(t: Theme) {
@@ -14,6 +15,18 @@ export const styles = memoizeStyle({
       background-color: ${t.globalLoaderBackgroundColor};
       width: 0;
       height: ${t.globalLoaderHeight};
+      position: absolute;
+      left: 0;
+      overflow: hidden;
+      -webkit-transition: all 1s ease-in-out;
+      -moz-transition: all 1s ease-in-out;
+      -o-transition: all 1s ease-in-out;
+      transition: all 1s ease-in-out;
+    `;
+  },
+  fullWidth() {
+    return css`
+      width: 100%;
     `;
   },
 });

@@ -66,4 +66,41 @@ export const AnimationKeyframes = {
         100% { width: 100% }
       `;
   },
+  globalLoaderSpinner() {
+    return keyframes`
+      0% {
+        left: 0;
+        width: 100%;
+        transform: translateX(49.8%) scaleX(0.005);
+        animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
+      }
+      50% {
+        left: 0;
+        width: 100%;
+        transform: translateX(0%) scaleX(0.35);
+        animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
+      }
+      100% {
+        left: 0;
+        width: 100%;
+        transform: translateX(-49.8%) scaleX(0.005);
+      }
+
+    `;
+  },
+  globalSpinnerMoveToRight() {
+    return keyframes`
+      0% {
+        left: 0;
+      }
+      50% {
+        width: 35%;
+        left: 50%;
+      }
+      100% {
+        left: 99%;
+        width: 1%
+      }
+    `;
+  },
 };

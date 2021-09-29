@@ -4,6 +4,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { Nullable } from '../../typings/utility-types';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
+import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './GlobalLoader.styles';
 
@@ -15,7 +16,6 @@ interface GlobalLoaderProps {
   delayBeforeGlobalLoaderShow: number;
   /**
    * Ожидаемое время загрузки данных с сервера
-   * @default 1000
    */
   expectedDownloadTime: number;
   success: boolean;
@@ -28,9 +28,7 @@ interface GlobalLoaderState {
 
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private globalLoaderVisibleTimeout: Nullable<NodeJS.Timeout>;
-  // private counterTimeout: Nullable<NodeJS.Timeout>;
-  // private counter: number;
-  // private readonly timeToWait: number;
+  private readonly globalLoaderRef: any;
 
   constructor(props: GlobalLoaderProps) {
     super(props);
@@ -39,32 +37,23 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       percents: 0,
     };
     this.globalLoaderVisibleTimeout = null;
-    // this.counterTimeout = null;
-    // this.counter = 0;
-    // this.timeToWait = this.props.expectedDownloadTime - Math.floor(this.props.expectedDownloadTime * 0.05);
+    this.globalLoaderRef = React.createRef();
   }
 
   componentDidMount() {
     this.globalLoaderVisibleTimeout = setTimeout(() => {
       this.setState({ isGlobalLoaderVisible: true });
-      // this.updateWidth();
     }, this.props.delayBeforeGlobalLoaderShow);
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
     if (this.props.success) {
       GlobalLoader.stopTimeout(this.globalLoaderVisibleTimeout);
-      // if (this.counterTimeout) {
-      //   clearInterval(this.counterTimeout);
-      // }
     }
   }
 
   componentWillUnmount() {
     GlobalLoader.stopTimeout(this.globalLoaderVisibleTimeout);
-    // if (this.counterTimeout) {
-    //   clearInterval(this.counterTimeout);
-    // }
   }
 
   public static defaultProps: Partial<GlobalLoaderProps> = {
@@ -85,22 +74,31 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   private renderMain() {
-    console.log(
-      `${AnimationKeyframes.globalLoaderProgress()} ${this.props.expectedDownloadTime}ms linear, ${
-        this.props.expectedDownloadTime
-      }ms ${AnimationKeyframes.globalLoaderSlowProgress()} 10s linear`,
-    );
+    let animation = '';
+
+    const standardAnimation = `${AnimationKeyframes.globalLoaderProgress()} ${
+      this.props.expectedDownloadTime
+    }ms linear, 10s ${AnimationKeyframes.globalLoaderSlowProgress()} ${this.props.expectedDownloadTime}ms linear`;
+
+    animation = standardAnimation;
+
+    if (this.props.success) animation = '0';
+    if (this.props.error)
+      animation = `${AnimationKeyframes.globalSpinnerMoveToRight()} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
+
     return (
       this.globalLoaderVisibleTimeout && (
-        <div className={styles.outer(this.theme)}>
+        <div
+          className={cx(styles.outer(this.theme), {
+            [styles.fullWidth()]: this.props.success,
+          })}
+        >
           <div
+            ref={this.globalLoaderRef}
             className={styles.inner(this.theme)}
             style={{
-              animation: `${AnimationKeyframes.globalLoaderProgress()} ${
-                this.props.expectedDownloadTime
-              }ms linear, 100s ${AnimationKeyframes.globalLoaderSlowProgress()} ${
-                this.props.expectedDownloadTime
-              }ms linear`,
+              animation: animation,
+              width: this.props.success ? '100%' : '0%',
             }}
           />
         </div>
