@@ -1409,7 +1409,7 @@ export class DefaultTheme {
   public static get globalLoaderBackgroundColor() {
     return this.blueLight;
   }
-  public static globalLoaderHeight = '10px';
+  public static globalLoaderHeight = '4px';
   public static globalLoaderWidth = '100%';
   //#endregion
 }

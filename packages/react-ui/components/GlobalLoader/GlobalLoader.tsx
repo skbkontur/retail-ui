@@ -84,7 +84,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
     if (this.props.success) animation = '0';
     if (this.props.error)
-      animation = `${AnimationKeyframes.globalSpinnerMoveToRight()} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
+      animation = `${AnimationKeyframes.globalSpinnerMoveToRight(
+        this.globalLoaderRef?.current?.getBoundingClientRect().width,
+      )} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
 
     return (
       this.globalLoaderVisibleTimeout && (

@@ -6,8 +6,12 @@ export const styles = memoizeStyle({
     return css`
       width: ${t.globalLoaderWidth};
       height: ${t.globalLoaderHeight};
-      background-color: #666666;
-      position: relative;
+      background-color: transparent;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 10000;
+      overflow: hidden;
     `;
   },
   inner(t: Theme) {

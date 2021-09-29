@@ -71,7 +71,7 @@ export const AnimationKeyframes = {
       0% {
         left: 0;
         width: 100%;
-        transform: translateX(49.8%) scaleX(0.005);
+        transform: translateX(50%) scaleX(0.005);
         animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
       }
       50% {
@@ -83,19 +83,20 @@ export const AnimationKeyframes = {
       100% {
         left: 0;
         width: 100%;
-        transform: translateX(-49.8%) scaleX(0.005);
+        transform: translateX(-50%) scaleX(0.005);
       }
 
     `;
   },
-  globalSpinnerMoveToRight() {
+  globalSpinnerMoveToRight(width: number) {
     return keyframes`
       0% {
         left: 0;
+        width: ${width}px;
       }
       50% {
-        width: 35%;
         left: 50%;
+        width: ${width}px;
       }
       100% {
         left: 99%;
