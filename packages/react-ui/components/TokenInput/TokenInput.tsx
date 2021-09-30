@@ -8,6 +8,7 @@ import {
   isKeyArrowUp,
   isKeyArrowVertical,
   isKeyBackspace,
+  isKeyComma,
   isKeyDelete,
   isKeyEnter,
   isKeyEscape,
@@ -631,7 +632,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && this.props.delimiters.includes(e.key)) {
+    if (
+      this.type !== TokenInputType.WithReference &&
+      this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))
+    ) {
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {
