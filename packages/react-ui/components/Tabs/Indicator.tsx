@@ -6,10 +6,11 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { Tab, TabIndicators } from './Tab';
+import { TabIndicators } from './Tab';
 
 export interface IndicatorProps {
   className?: string;
@@ -109,7 +110,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }, 100);
 
   private getStyles(node: any): React.CSSProperties {
-    const htmlNode = (node as Tab)?.getTabDomNode?.();
+    const htmlNode = getRootDomNode(node);
 
     if (htmlNode && htmlNode instanceof HTMLElement) {
       const rect = htmlNode.getBoundingClientRect();

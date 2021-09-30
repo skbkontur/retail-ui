@@ -237,7 +237,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     this.rootDomNode = getRootDomNode(instance);
   };
 
-  public getTabDomNode = () => {
+  public getRootDomNode = () => {
     return this.rootDomNode;
   };
 

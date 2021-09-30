@@ -7,7 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { Nullable } from '../../typings/utility-types';
+import { rootDomNode } from '../../lib/rootDomNodeDecorator';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -39,6 +39,7 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
+@rootDomNode
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
@@ -66,7 +67,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
-  private rootDomNode: Nullable<HTMLElement>;
 
   constructor(props: ToggleProps) {
     super(props);
@@ -132,7 +132,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <label className={labelClassNames} ref={this.refRootDomNode}>
+        <label className={labelClassNames}>
           <div
             className={cx(styles.outline(this.theme), {
               [styles.isWarning(this.theme)]: !!warning,
@@ -188,14 +188,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       </CommonWrapper>
     );
   }
-
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
-  };
 
   private inputRef = (element: HTMLInputElement) => {
     this.input = element;

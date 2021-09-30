@@ -287,7 +287,7 @@ class DropdownWithToggle extends React.Component<{
           <DropdownContainer
             align={dropdownProps.align}
             disablePortal={dropdownProps.disablePortal}
-            getParent={() => this.rootDomNode}
+            getParent={this.getRootDomNode}
           >
             {this.props.children}
           </DropdownContainer>
@@ -297,5 +297,8 @@ class DropdownWithToggle extends React.Component<{
   }
   private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
     this.rootDomNode = rootDomNode;
+  };
+  private getRootDomNode = () => {
+    return this.rootDomNode;
   };
 }

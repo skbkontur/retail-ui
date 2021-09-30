@@ -72,8 +72,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
-  private refRootDomNode = (e: Nullable<React.ReactNode>) => {
-    this.rootDomNode = getRootDomNode(e);
+  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
+    this.rootDomNode = getRootDomNode(instance);
   };
 
   public getRootDomNode = () => {

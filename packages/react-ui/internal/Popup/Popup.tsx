@@ -90,7 +90,6 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   useWrapper: boolean;
   ignoreHover: boolean;
   width: React.CSSProperties['width'];
-  getWrappedElement?: (e: Nullable<HTMLElement>) => void;
 }
 
 interface PopupLocation {
@@ -186,7 +185,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
-  private anchorInstance: Nullable<React.ReactInstance>;
 
   public componentDidMount() {
     this.updateLocation();
@@ -252,41 +250,37 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       child = <span>{anchorElement}</span>;
     }
 
-    let clonedChildWithRef: Nullable<React.ReactNode> = null;
-    if (child) {
-      clonedChildWithRef = React.cloneElement(child as JSX.Element, {
-        ref: (element: any) => {
-          if (child && (child as any).ref && typeof (child as any).ref === 'function') {
-            (child as any).ref(element);
-          }
-          this.refAnchorElement(element);
-        },
-      });
-    }
+    const childWithRef = child
+      ? React.cloneElement(child as JSX.Element, {
+          ref: (instance: Nullable<React.ReactNode>) => {
+            this.childRef(instance);
+            const childAsAny = child as any;
+            if (childAsAny && childAsAny.ref && typeof childAsAny.ref === 'function') {
+              childAsAny.ref(instance);
+            }
+          },
+        })
+      : null;
 
-    return <RenderContainer anchor={clonedChildWithRef}>{location && this.renderContent(location)}</RenderContainer>;
+    return <RenderContainer anchor={childWithRef}>{location && this.renderContent(location)}</RenderContainer>;
   }
 
-  private refAnchorElement = (instance: React.ReactInstance | null) => {
-    this.anchorInstance = instance;
-    const element = this.extractElement(instance);
-    this.updateAnchorElement(element);
-    this.anchorElement = element;
+  private childRef = (childInstance: Nullable<React.ReactNode>) => {
+    childInstance && this.updateAnchorElement(childInstance);
   };
 
-  private extractElement(instance: React.ReactInstance | null) {
-    const domNode = getRootDomNode(instance);
-    this.props.getWrappedElement?.(domNode);
-    return domNode;
-  }
+  public getRootDomNode = () => {
+    return this.anchorElement;
+  };
 
-  private updateAnchorElement(element: HTMLElement | null) {
+  private updateAnchorElement(childInstance: Nullable<React.ReactNode>) {
+    const childDomNode = getRootDomNode(childInstance);
     const anchorElement = this.anchorElement;
 
-    if (element !== anchorElement) {
+    if (childDomNode !== anchorElement) {
       this.removeEventListeners(anchorElement);
-      this.anchorElement = element;
-      this.addEventListeners(element);
+      this.anchorElement = childDomNode;
+      this.addEventListeners(childDomNode);
     }
   }
 
@@ -449,9 +443,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     if (!this.state.location) {
       return;
     }
-    if (this.anchorInstance) {
-      this.updateAnchorElement(this.extractElement(this.anchorInstance));
-    }
+    // if (this.anchorInstance) {
+    //   this.updateAnchorElement(this.extractElement(this.anchorInstance));
+    // }
     this.updateLocation();
   };
 

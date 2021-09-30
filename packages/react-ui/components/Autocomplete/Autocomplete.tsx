@@ -13,6 +13,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -188,14 +189,23 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         onFocusOutside={this.handleBlur}
         onClickOutside={this.handleClickOutside}
         active={focused}
-        wrappedElement={this.rootDomNode}
+        ref={this.renderLayerRef}
       >
-        <span style={{ display: 'inline-block', width }} ref={this.refRootDomNode}>
+        <span style={{ display: 'inline-block', width }}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
       </RenderLayer>
     );
+  };
+
+  private renderLayerRef = (instance: Nullable<React.ReactNode>) => {
+    if (instance === null) return;
+    this.rootDomNode = getRootDomNode(instance);
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private renderMenu(): React.ReactNode {
@@ -214,7 +224,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <DropdownContainer
         offsetY={1}
-        getParent={() => this.rootDomNode}
+        getParent={this.getRootDomNode}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
@@ -378,9 +388,5 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refMenu = (menu: Menu | null) => {
     this.menu = menu;
-  };
-
-  private refRootDomNode = (span: Nullable<HTMLElement>) => {
-    this.rootDomNode = span;
   };
 }

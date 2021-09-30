@@ -13,6 +13,7 @@ import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -231,7 +232,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={() => this.rootDomNode} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={this.getRootDomNode} offsetY={2} align={this.props.menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
@@ -280,8 +281,13 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     );
   };
 
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
+  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
+    if (instance === null) return;
+    this.rootDomNode = getRootDomNode(instance);
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private getInputRef = (ref: DateInput | null) => {

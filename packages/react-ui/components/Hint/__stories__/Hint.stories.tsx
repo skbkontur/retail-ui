@@ -4,6 +4,8 @@ import { Meta, Story } from '../../../typings/stories';
 import { Hint } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
+import { PopupPositions } from '../../../internal/Popup';
+import { Textarea } from '../../Textarea';
 import { delay } from '../../../lib/utils';
 
 export default {
@@ -114,6 +116,23 @@ export const HintWithoutAnimations = () => (
 );
 HintWithoutAnimations.storyName = 'hint without animations';
 HintWithoutAnimations.parameters = { creevey: { skip: [true] } };
+
+export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
+  <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
+    {PopupPositions.reduce(
+      (child, position) => (
+        <Hint useWrapper={false} text={position} pos={position} manual opened>
+          {child}
+        </Hint>
+      ),
+      <Textarea rows={10} resize="none" width="50%">
+        {"I'm inline-block with 50% width.\n\nHover me!"}
+      </Textarea>,
+    )}
+  </div>
+);
+HintsWithoutWrapperAroundInlineBlockWith50Width.storyName = 'Hints without wrapper around inline-block with 50% width';
+HintsWithoutWrapperAroundInlineBlockWith50Width.parameters = { creevey: { delay: 500 } };
 
 const HandleClickHint = () => {
   const [manual, setManual] = React.useState(false);

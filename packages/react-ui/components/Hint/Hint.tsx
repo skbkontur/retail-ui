@@ -9,13 +9,13 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { styles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps extends CommonProps {
-  anchorElement?: Nullable<React.ReactNode>;
   children?: React.ReactNode;
   manual?: boolean;
   maxWidth?: React.CSSProperties['maxWidth'];
@@ -81,6 +81,7 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   private timer: Nullable<number> = null;
   private theme!: Theme;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
     if (!nextProps.manual) {
@@ -133,7 +134,7 @@ export class Hint extends React.Component<HintProps, HintState> {
         <Popup
           hasPin
           opened={this.state.opened}
-          anchorElement={this.props.anchorElement || this.props.children}
+          anchorElement={this.props.children}
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
@@ -141,12 +142,21 @@ export class Hint extends React.Component<HintProps, HintState> {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           useWrapper={this.props.useWrapper}
+          ref={this.refRootDomNode}
         >
           {this.renderContent()}
         </Popup>
       </CommonWrapper>
     );
   }
+
+  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
+    this.rootDomNode = getRootDomNode(instance);
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
+  };
 
   private renderContent() {
     if (!this.props.text) {

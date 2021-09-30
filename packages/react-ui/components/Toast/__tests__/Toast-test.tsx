@@ -1,14 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import ReactDOM from 'react-dom';
 
 import { Toast, ToastProps, ToastState } from '../Toast';
-import { Nullable } from '../../../typings/utility-types';
-import { getRootDomNode } from '../../../lib/getRootDomNode';
 
 jest.useFakeTimers();
 
-let rootDomNode: Nullable<HTMLElement>;
-const refRootDomNode = (e: Nullable<React.ReactNode>) => (rootDomNode = getRootDomNode(e));
 describe('Toast', () => {
   it('renders', () => {
     mount<ToastProps>(<Toast />);
@@ -26,13 +23,14 @@ describe('Toast', () => {
   });
 
   it('shows right message', () => {
-    const wrapper = mount<ToastProps, ToastState>(<Toast ref={refRootDomNode} />);
+    const wrapper = mount<ToastProps, ToastState>(<Toast />);
     (wrapper.instance() as Toast).push('message');
 
     const toast = (wrapper.instance() as Toast)._toast;
     expect(toast).toBeTruthy();
-    expect(rootDomNode).toBeInstanceOf(HTMLElement);
-    expect(rootDomNode!.textContent).toEqual('message');
+    const domNode = ReactDOM.findDOMNode(toast);
+    expect(domNode).toBeInstanceOf(HTMLElement);
+    expect(domNode!.textContent).toEqual('message');
   });
 
   it('hides message after interval', () => {
@@ -64,13 +62,14 @@ describe('Toast', () => {
   });
 
   it('support actions in tosts', () => {
-    const wrapper = mount(<Toast ref={refRootDomNode} />);
+    const wrapper = mount(<Toast />);
     (wrapper.instance() as Toast).push('message', {
       label: 'action',
       handler: () => undefined,
     });
 
-    const textContent = rootDomNode?.textContent;
+    const toast = (wrapper.instance() as Toast)._toast;
+    const textContent = (ReactDOM.findDOMNode(toast) as Element).textContent;
     expect(textContent).toBe('messageaction');
   });
 

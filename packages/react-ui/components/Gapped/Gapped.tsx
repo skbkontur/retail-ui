@@ -5,7 +5,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Nullable } from '../../typings/utility-types';
+import { rootDomNode } from '../../lib/rootDomNodeDecorator';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -34,6 +34,7 @@ export interface GappedProps extends CommonProps {
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
+@rootDomNode
 export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
 
@@ -55,7 +56,6 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   private theme!: Theme;
-  private rootDomNode: Nullable<HTMLElement>;
 
   public static defaultProps = {
     wrap: false,
@@ -102,14 +102,10 @@ export class Gapped extends React.Component<GappedProps> {
 
       isFirst = false;
 
-      return (
-        <div style={style} ref={this.refRootDomNode}>
-          {child}
-        </div>
-      );
+      return <div style={style}>{child}</div>;
     });
 
-    return <div ref={this.refRootDomNode}>{children}</div>;
+    return <div>{children}</div>;
   }
 
   private renderHorizontal() {
@@ -124,7 +120,7 @@ export class Gapped extends React.Component<GappedProps> {
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div style={rootStyle} ref={this.refRootDomNode}>
+      <div style={rootStyle}>
         <div style={contStyle}>
           {React.Children.toArray(children).map((child, index) => {
             const marginLeft = index === 0 ? undefined : gap;
@@ -138,12 +134,4 @@ export class Gapped extends React.Component<GappedProps> {
       </div>
     );
   }
-
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
-  };
 }

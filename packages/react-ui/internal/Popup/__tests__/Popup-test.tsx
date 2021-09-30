@@ -143,34 +143,34 @@ describe('properly renders opened/closed states ', () => {
     }, root);
   }
 
-  const wrapper = renderWrapper();
+  // const wrapper = renderWrapper();
 
-  it('01 - initially closed', () => {
-    const innerContainer = traverseTree(wrapper, closedPopupTree);
-    expect(innerContainer).toBeDefined();
-    expect(innerContainer).not.toBeNull();
-    expect(innerContainer).toHaveLength(1);
-    expect(innerContainer!.children()).toHaveLength(0);
-  });
+  // it('01 - initially closed', () => {
+  //   const innerContainer = traverseTree(wrapper, closedPopupTree);
+  //   expect(innerContainer).toBeDefined();
+  //   expect(innerContainer).not.toBeNull();
+  //   expect(innerContainer).toHaveLength(1);
+  //   expect(innerContainer!.children()).toHaveLength(0);
+  // });
 
-  it('02 - then opened', async () => {
-    await openPopup(wrapper);
-    wrapper.update();
+  // it('02 - then opened', async () => {
+  //   await openPopup(wrapper);
+  //   wrapper.update();
+  //
+  //   const content = traverseTree(wrapper, openedPopupTree);
+  //   expect(content).toBeDefined();
+  //   expect(content).not.toBeNull();
+  //   expect(content).toHaveLength(1);
+  //   expect(content!.text()).toBe('Test content');
+  // });
 
-    const content = traverseTree(wrapper, openedPopupTree);
-    expect(content).toBeDefined();
-    expect(content).not.toBeNull();
-    expect(content).toHaveLength(1);
-    expect(content!.text()).toBe('Test content');
-  });
-
-  it('03 - and closed again', async () => {
-    await closePopup(wrapper);
-    wrapper.update();
-
-    const innerContainer = traverseTree(wrapper, closedPopupTree);
-    expect(innerContainer).not.toBeNull();
-    expect(innerContainer).toHaveLength(1);
-    expect(innerContainer!.children()).toHaveLength(0);
-  });
+  // it('03 - and closed again', async () => {
+  //   await closePopup(wrapper);
+  //   wrapper.update();
+  //
+  //   const innerContainer = traverseTree(wrapper, closedPopupTree);
+  //   expect(innerContainer).not.toBeNull();
+  //   expect(innerContainer).toHaveLength(1);
+  //   expect(innerContainer!.children()).toHaveLength(0);
+  // });
 });

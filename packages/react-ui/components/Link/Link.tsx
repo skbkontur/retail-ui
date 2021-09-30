@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Nullable, Override } from '../../typings/utility-types';
+import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -9,6 +9,7 @@ import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootDomNode } from '../../lib/rootDomNodeDecorator';
 
 import { styles } from './Link.styles';
 
@@ -45,6 +46,7 @@ export interface LinkState {
  * Все свойства передаются в элемент `<a>`.
  * `className` и `style` не поддерживаются
  */
+@rootDomNode
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
@@ -68,8 +70,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
-  private rootDomNode: Nullable<HTMLElement>;
-
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
@@ -130,20 +130,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     return (
-      <a {...rest} {...linkProps} ref={this.refRootDomNode}>
+      <a {...rest} {...linkProps}>
         {iconElement}
         {this.props.children}
         {arrow}
       </a>
     );
-  };
-
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
   };
 
   private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {

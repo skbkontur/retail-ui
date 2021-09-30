@@ -13,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { styles } from './Tooltip.styles';
 
@@ -53,7 +54,7 @@ export interface TooltipProps extends CommonProps {
   /**
    * Относительно какого элемента позиционировать тултип
    */
-  anchorElement?: Nullable<HTMLElement>;
+  anchorElement?: HTMLElement;
 
   /**
    * Если не указан `anchorElement` то тултип будет позиционироваться
@@ -193,7 +194,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
   private clickedOutside = true;
-  private wrappedElement: Nullable<HTMLElement>;
+  private rootDomNode: Nullable<HTMLElement>;
 
   public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
@@ -303,14 +304,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const props = this.props;
     const content = this.renderContent();
     const { popupProps, layerProps = { active: false } } = this.getProps();
-    const anchorElement = props.anchorElement || props.children;
+    const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
-    return (
-      <RenderLayer wrappedElement={this.wrappedElement} {...layerProps}>
-        {popup}
-      </RenderLayer>
-    );
+    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
   private renderPopup(
@@ -331,7 +328,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
-          getWrappedElement={this.getWrappedElement}
+          ref={this.refRootDomNode}
           {...popupProps}
         >
           {content}
@@ -340,8 +337,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     );
   }
 
-  private getWrappedElement = (wrappedElement: Nullable<HTMLElement>) => {
-    this.wrappedElement = wrappedElement;
+  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
+    this.rootDomNode = getRootDomNode(instance);
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
   };
 
   private refContent = (node: HTMLElement | null) => {

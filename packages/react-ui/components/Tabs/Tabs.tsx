@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -123,7 +124,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tab = tabs[newIndex];
 
     const tabNode = tab.getNode();
-    const htmlNode = tabNode?.getTabDomNode?.();
+    const htmlNode = getRootDomNode(tabNode);
 
     if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
       htmlNode.focus();

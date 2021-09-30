@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 import { CommonWrapper } from '../CommonWrapper';
+import { rootDomNode } from '../../lib/rootDomNodeDecorator';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
@@ -41,6 +42,7 @@ export const Portal: React.FunctionComponent<PortalProps> = ({ container, rt_roo
   );
 };
 
+@rootDomNode
 export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
 

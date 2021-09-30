@@ -28,6 +28,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -284,9 +285,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           onClickOutside={this.close}
           onFocusOutside={this.close}
           active={this.state.opened}
-          wrappedElement={this.rootDomNode}
+          ref={this.refRootDomNode}
         >
-          <span className={styles.root()} style={style} ref={this.refRootDomNode}>
+          <span className={styles.root()} style={style}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
           </span>
@@ -295,8 +296,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
   }
 
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
+  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
+    if (instance === null) return;
+    this.rootDomNode = getRootDomNode(instance);
   };
 
   public getRootDomNode = () => {
@@ -403,7 +405,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <DropdownContainer
-        getParent={() => this.rootDomNode}
+        getParent={this.dropdownContainerGetParent}
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
@@ -447,6 +449,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       </DropdownContainer>
     );
   }
+
+  private dropdownContainerGetParent = () => {
+    return this.rootDomNode;
+  };
 
   private focusInput = (input: Input) => {
     // fix cases when an Input is rendered in portal

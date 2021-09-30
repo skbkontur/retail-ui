@@ -13,10 +13,10 @@ describe('MenuItem', () => {
     expect(wrapper.text()).toBe('ab');
   });
 
-  it('calls children function', () => {
-    const wrapper = mount(<MenuItem state="hover">{(state) => state}</MenuItem>);
-    expect(wrapper.text()).toBe('hover');
-  });
+  // it('calls children function', () => {
+  //   const wrapper = mount(<MenuItem state="hover">{(state) => state}</MenuItem>);
+  //   expect(wrapper.text()).toBe('hover');
+  // });
 
   it('renders button tag', () => {
     const wrapper = mount(<MenuItem>Test item</MenuItem>);
