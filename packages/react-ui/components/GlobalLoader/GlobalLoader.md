@@ -4,7 +4,11 @@ const [error, setError] = React.useState(false);
 
 setTimeout(()=>{
   setError(true)
-}, 4000);
+}, 10000);
 
-<GlobalLoader expectedDownloadTime={8000} success={success} error={error}/>
+// setTimeout(()=>{
+//   setSuccess(true)
+// }, 4000);
+
+<GlobalLoader expectedDownloadTime={2000} downloadSuccess={success} downloadError={error}/>
 ```

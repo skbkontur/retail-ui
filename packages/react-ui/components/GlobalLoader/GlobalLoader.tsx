@@ -18,12 +18,11 @@ interface GlobalLoaderProps {
    * Ожидаемое время загрузки данных с сервера
    */
   expectedDownloadTime: number;
-  success: boolean;
-  error: boolean;
+  downloadSuccess: boolean;
+  downloadError: boolean;
 }
 interface GlobalLoaderState {
   isGlobalLoaderVisible: boolean;
-  percents: number;
 }
 
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
@@ -34,7 +33,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     super(props);
     this.state = {
       isGlobalLoaderVisible: false,
-      percents: 0,
     };
     this.globalLoaderVisibleTimeout = null;
     this.globalLoaderRef = React.createRef();
@@ -47,7 +45,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
-    if (this.props.success) {
+    if (this.props.downloadSuccess) {
       GlobalLoader.stopTimeout(this.globalLoaderVisibleTimeout);
     }
   }
@@ -75,55 +73,39 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   private renderMain() {
     let animation = '';
+    const color = this.theme.globalLoaderBackgroundColor;
 
-    const standardAnimation = `${AnimationKeyframes.globalLoaderProgress()} ${
+    animation = `${AnimationKeyframes.globalLoaderProgress()} ${this.props.expectedDownloadTime}ms linear, ${
+      this.props.expectedDownloadTime * 2
+    }ms ${AnimationKeyframes.globalLoaderSlowProgress()} ${
       this.props.expectedDownloadTime
-    }ms linear, 10s ${AnimationKeyframes.globalLoaderSlowProgress()} ${this.props.expectedDownloadTime}ms linear`;
+    }ms linear, 2s ${AnimationKeyframes.globalLoaderWaiting(color)} ${
+      this.props.expectedDownloadTime * 3
+    }ms linear infinite`;
 
-    animation = standardAnimation;
-
-    if (this.props.success) animation = '0';
-    if (this.props.error)
+    if (this.props.downloadError)
       animation = `${AnimationKeyframes.globalSpinnerMoveToRight(
         this.globalLoaderRef?.current?.getBoundingClientRect().width,
       )} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
 
+    if (this.props.downloadSuccess) animation = '';
+
     return (
       this.globalLoaderVisibleTimeout && (
-        <div
-          className={cx(styles.outer(this.theme), {
-            [styles.fullWidth()]: this.props.success,
-          })}
-        >
+        <div className={styles.outer(this.theme)}>
           <div
             ref={this.globalLoaderRef}
-            className={styles.inner(this.theme)}
+            className={cx(styles.inner(this.theme), {
+              [styles.fullWidth()]: this.props.downloadSuccess,
+            })}
             style={{
               animation: animation,
-              width: this.props.success ? '100%' : '0%',
             }}
           />
         </div>
       )
     );
   }
-
-  // private updateWidth() {
-  //   if (!this.props.success || !this.props.error) {
-  //     this.counterTimeout = setInterval(() => {
-  //       this.counter += 100;
-  //       const width = (this.counter * 100) / this.props.expectedDownloadTime;
-  //       console.log(this.counter);
-  //       if (width < 100) {
-  //         this.setState({ percents: width });
-  //       } else {
-  //         clearInterval(this.counterTimeout!);
-  //       }
-  //     }, 100);
-  //   } else if (this.counterTimeout) {
-  //     clearInterval(this.counterTimeout);
-  //   }
-  // }
   private static stopTimeout(timeoutId: Nullable<NodeJS.Timeout>) {
     if (timeoutId) {
       clearTimeout(timeoutId);

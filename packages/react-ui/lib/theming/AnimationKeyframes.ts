@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { keyframes } from './Emotion';
 import { Theme } from './Theme';
 
@@ -45,25 +47,42 @@ export const AnimationKeyframes = {
   globalLoaderProgress() {
     return keyframes`
         0% { width: 0; }
-        10% { width: 10% }
-        20% { width: 19% }
-        30% { width: 28% }
-        40% { width: 37% }
-        50% { width: 46% }
-        60% { width: 55% }
-        70% { width: 64% }
-        80% { width: 73% }
-        90% { width: 82% }
-        100% { width: 90% }
+        10% { width: 8% }
+        20% { width: 16% }
+        30% { width: 24% }
+        40% { width: 32% }
+        50% { width: 40% }
+        60% { width: 48% }
+        70% { width: 56% }
+        80% { width: 64% }
+        90% { width: 72% }
+        100% { width: 80% }
       `;
   },
   globalLoaderSlowProgress() {
     return keyframes`
-        0% { width: 90% }
-        25% { width: 92% }
-        50% { width: 95% }
-        75% { width: 97% }
-        100% { width: 100% }
+        0% { width: 80% }
+        25% { width: 84% }
+        50% { width: 88% }
+        75% { width: 92% }
+        100% { width: 95% }
+      `;
+  },
+  globalLoaderWaiting(color: React.CSSProperties['color']) {
+    return keyframes`
+
+      from  {
+        width: 95%;
+        background-image: linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+        background-position: 40px 0;
+        background-size: 40px 40px;
+      }
+      to    {
+        width: 95%;
+        background-image: linear-gradient(45deg, rgba(255,255,255,.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,.15) 50%, rgba(255,255,255,.15) 75%, transparent 75%, transparent);
+        background-position: 0 0;
+        background-size: 40px 40px;
+      }
       `;
   },
   globalLoaderSpinner() {
