@@ -5,6 +5,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { Nullable } from '../../typings/utility-types';
 import { AnimationKeyframes } from '../../lib/theming/AnimationKeyframes';
 import { cx } from '../../lib/theming/Emotion';
+import { ZIndex } from '../../internal/ZIndex';
 
 import { styles } from './GlobalLoader.styles';
 
@@ -27,6 +28,7 @@ interface GlobalLoaderState {
 
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private globalLoaderVisibleTimeout: Nullable<NodeJS.Timeout>;
+  private globalLoaderSuccessTimeout: Nullable<NodeJS.Timeout>;
   private readonly globalLoaderRef: any;
 
   constructor(props: GlobalLoaderProps) {
@@ -35,6 +37,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       isGlobalLoaderVisible: false,
     };
     this.globalLoaderVisibleTimeout = null;
+    this.globalLoaderSuccessTimeout = null;
     this.globalLoaderRef = React.createRef();
   }
 
@@ -44,18 +47,15 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }, this.props.delayBeforeGlobalLoaderShow);
   }
 
-  componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
-    if (this.props.downloadSuccess) {
-      GlobalLoader.stopTimeout(this.globalLoaderVisibleTimeout);
-    }
-  }
-
   componentWillUnmount() {
     GlobalLoader.stopTimeout(this.globalLoaderVisibleTimeout);
+    GlobalLoader.stopTimeout(this.globalLoaderSuccessTimeout);
   }
 
   public static defaultProps: Partial<GlobalLoaderProps> = {
     delayBeforeGlobalLoaderShow: 1000,
+    downloadError: false,
+    downloadSuccess: false,
   };
 
   private theme!: Theme;
@@ -83,16 +83,22 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.props.expectedDownloadTime * 3
     }ms linear infinite`;
 
-    if (this.props.downloadError)
+    if (this.props.downloadError) {
       animation = `${AnimationKeyframes.globalSpinnerMoveToRight(
         this.globalLoaderRef?.current?.getBoundingClientRect().width,
       )} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
+    }
 
-    if (this.props.downloadSuccess) animation = '';
+    if (this.props.downloadSuccess) {
+      animation = 'none';
+      this.globalLoaderSuccessTimeout = setTimeout(() => {
+        this.setState({ isGlobalLoaderVisible: false });
+      }, 1000);
+    }
 
     return (
-      this.globalLoaderVisibleTimeout && (
-        <div className={styles.outer(this.theme)}>
+      this.state.isGlobalLoaderVisible && (
+        <ZIndex priority="GlobalLoader" className={styles.outer(this.theme)}>
           <div
             ref={this.globalLoaderRef}
             className={cx(styles.inner(this.theme), {
@@ -102,7 +108,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
               animation: animation,
             }}
           />
-        </div>
+        </ZIndex>
       )
     );
   }
