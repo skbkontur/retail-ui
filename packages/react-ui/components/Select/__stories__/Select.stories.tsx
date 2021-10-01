@@ -257,7 +257,7 @@ export const UsingOnKeyDown: Story = () => {
           <br />
           <Button
             onFocus={this.onFocus}
-            ref={(el: Button | null) => {
+            ref={(el: any) => {
               this.button = el;
             }}
           >

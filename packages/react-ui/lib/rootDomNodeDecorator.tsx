@@ -28,6 +28,7 @@ export function rootDomNode<T extends new (...args: any[]) => React.Component>(C
   const nameDescriptor = Object.getOwnPropertyDescriptor(rootDomNode, 'name');
   if (!nameDescriptor || nameDescriptor.configurable) {
     Object.defineProperty(rootDomNode, 'name', { value: Component.name });
-    return rootDomNode;
   }
+
+  return rootDomNode;
 }
