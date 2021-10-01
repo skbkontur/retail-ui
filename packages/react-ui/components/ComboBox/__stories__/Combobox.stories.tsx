@@ -583,7 +583,7 @@ export const OpenCloseSearchMethods = () => {
   return (
     <div>
       <ComboBox
-        ref={(e) => (combobox = e)}
+        ref={(e: any) => (combobox = e)}
         value={items[0]}
         getItems={search}
         renderItem={(i) => i.name}
@@ -762,7 +762,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           onUnexpectedInput={this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.updateState) : undefined}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
-          ref={(el) => {
+          ref={(el: any) => {
             this.combobox = el;
           }}
         />{' '}
@@ -1022,7 +1022,7 @@ class ComboBoxWithExternalValue extends React.Component {
         onValueChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
-        ref={(element) => (this.combobox = element)}
+        ref={(element: any) => (this.combobox = element)}
       />
       <Button data-tid="setValueBtn" onClick={this.fill}>
         Set `First`

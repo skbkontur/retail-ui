@@ -257,7 +257,7 @@ export const UsingOnKeyDown: Story = () => {
           <br />
           <Button
             onFocus={this.onFocus}
-            ref={(el) => {
+            ref={(el: any) => {
               this.button = el;
             }}
           >
@@ -323,7 +323,7 @@ export const WithSearchAndVariousWidth: Story = () => {
         100%
       </Button>
       <br />
-      <Select ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select ref={(ref: any) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };

@@ -130,11 +130,11 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     const { total = 0, current = 0 } = this.props;
     return (
       <Gapped vertical>
-        <Toast ref={(e) => (this.notifier = e)} />
+        <Toast ref={(e: any) => (this.notifier = e)} />
         {controls}
         <Gapped>
           <ZLoader size={150} />
-          <div ref={(e) => (this.popupAnchor = e)}>
+          <div ref={(e: any) => (this.popupAnchor = e)}>
             <Toggle checked={this.state.popup} onValueChange={(v) => this.setState({ popup: v })} />
           </div>
           {this.popupAnchor && (
