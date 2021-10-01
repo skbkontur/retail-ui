@@ -14,6 +14,7 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
+import { getRootDomNode } from '../../../lib/getRootDomNode';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
@@ -583,7 +584,7 @@ export const OpenCloseSearchMethods = () => {
   return (
     <div>
       <ComboBox
-        ref={(e: any) => (combobox = e)}
+        ref={(e: Nullable<ComboBox<ValueType>>) => (combobox = e)}
         value={items[0]}
         getItems={search}
         renderItem={(i) => i.name}
@@ -762,7 +763,7 @@ class TestComboBox extends React.Component<TestComboboxProps<ValueType>, ComboBo
           onUnexpectedInput={this.props.onUnexpectedInput ? this.props.onUnexpectedInput(this.updateState) : undefined}
           totalCount={this.props.totalCount}
           renderTotalCount={(found, total) => `Найдено ${found} из ${total}`}
-          ref={(el: any) => {
+          ref={(el: Nullable<ComboBox<ValueType>>) => {
             this.combobox = el;
           }}
         />{' '}
@@ -805,17 +806,27 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
+  private rootDomNode: Nullable<HTMLElement>;
 
   public render() {
     return (
       <ComboBox
         {...this.props}
+        ref={this.refRootDomNode}
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
       />
     );
   }
+
+  private refRootDomNode = (instance: Nullable<ComboBox>) => {
+    this.rootDomNode = getRootDomNode(instance);
+  };
+
+  public getRootDomNode = () => {
+    return this.rootDomNode;
+  };
 
   private getItems = (query: string) =>
     Promise.resolve(
@@ -1022,7 +1033,7 @@ class ComboBoxWithExternalValue extends React.Component {
         onValueChange={this.onChange}
         onUnexpectedInput={this.onUnexpectedInput}
         warning={this.state.warning}
-        ref={(element: any) => (this.combobox = element)}
+        ref={(element: Nullable<ComboBox<any>>) => (this.combobox = element)}
       />
       <Button data-tid="setValueBtn" onClick={this.fill}>
         Set `First`

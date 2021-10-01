@@ -16,6 +16,10 @@ import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 
+interface ComboBoxViewState {
+  rootDomNode: Nullable<HTMLElement>;
+}
+
 interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
@@ -66,7 +70,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
-export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
+export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
   public static defaultProps = {
@@ -84,6 +88,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     size: 'small',
     width: 250,
   };
+
+  public state: ComboBoxViewState = { rootDomNode: null };
 
   private input: Nullable<Input>;
   private rootDomNode: Nullable<HTMLElement>;
@@ -186,7 +192,11 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   }
 
   private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
-    this.rootDomNode = getRootDomNode(instance);
+    const rootDomNode = getRootDomNode(instance);
+    if (rootDomNode && rootDomNode !== this.state.rootDomNode) {
+      this.rootDomNode = rootDomNode;
+      this.setState({ rootDomNode });
+    }
   };
 
   public getRootDomNode = () => {

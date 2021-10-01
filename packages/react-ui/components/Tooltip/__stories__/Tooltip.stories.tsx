@@ -1061,7 +1061,7 @@ class TestTooltipForManual extends React.Component {
           render={() => 'Opened by Show()'}
           trigger="manual"
           pos="bottom left"
-          ref={(element: any) => {
+          ref={(element: Tooltip | null) => {
             this.tooltip = element;
           }}
         >

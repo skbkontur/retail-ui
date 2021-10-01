@@ -117,7 +117,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
-        ref={(element: any) => {
+        ref={(element: Nullable<HTMLDivElement>) => {
           this.rootElement = element;
         }}
         tabIndex={0}
@@ -182,7 +182,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={(el: any) => (this.header = el)}
+        ref={(el: Nullable<HTMLDivElement>) => (this.header = el)}
         className={cx({
           [styles.header()]: true,
           [styles.fixedHeader()]: this.state.scrollState !== 'top',
@@ -196,7 +196,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={(el: any) => (this.footer = el)}
+        ref={(el: Nullable<HTMLDivElement>) => (this.footer = el)}
         className={cx({
           [styles.footer()]: true,
           [styles.fixedFooter()]: this.state.scrollState !== 'bottom',

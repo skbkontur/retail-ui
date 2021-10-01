@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import ReactDOM from 'react-dom';
 
 import { Toast, ToastProps, ToastState } from '../Toast';
 
@@ -28,7 +27,7 @@ describe('Toast', () => {
 
     const toast = (wrapper.instance() as Toast)._toast;
     expect(toast).toBeTruthy();
-    const domNode = ReactDOM.findDOMNode(toast);
+    const domNode = (wrapper.instance() as Toast).getRootDomNode();
     expect(domNode).toBeInstanceOf(HTMLElement);
     expect(domNode!.textContent).toEqual('message');
   });
@@ -68,8 +67,7 @@ describe('Toast', () => {
       handler: () => undefined,
     });
 
-    const toast = (wrapper.instance() as Toast)._toast;
-    const textContent = (ReactDOM.findDOMNode(toast) as Element).textContent;
+    const textContent = (wrapper.instance() as Toast).getRootDomNode()?.textContent;
     expect(textContent).toBe('messageaction');
   });
 

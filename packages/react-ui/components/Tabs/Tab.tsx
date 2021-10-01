@@ -220,7 +220,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
           tabIndex={disabled ? -1 : 0}
-          ref={this.refTabComponent}
+          ref={this.refRootDomNode}
           href={href}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
@@ -232,7 +232,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private getId = () => this.props.id || this.props.href;
 
-  private refTabComponent = (instance: React.ReactElement<any>) => {
+  private refRootDomNode = (instance: Nullable<React.ReactElement<Tab<T>>>) => {
     this.tabComponent = instance;
     this.rootDomNode = getRootDomNode(instance);
   };

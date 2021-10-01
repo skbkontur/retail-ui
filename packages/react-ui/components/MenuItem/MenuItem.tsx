@@ -40,7 +40,6 @@ export interface MenuItemProps extends CommonProps {
 /**
  * Элемент меню.
  */
-// todo Добавить @rootDomNode после решения проблемы с вложенностью
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
   public static __MENU_ITEM__ = true;

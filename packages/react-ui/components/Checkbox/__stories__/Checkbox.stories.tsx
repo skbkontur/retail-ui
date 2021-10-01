@@ -257,7 +257,7 @@ export const ProgrammaticFocus = () => {
 
   return (
     <div>
-      <Checkbox ref={(el: any) => (checkbox = el)}>Label</Checkbox>
+      <Checkbox ref={(el: Nullable<Checkbox>) => (checkbox = el)}>Label</Checkbox>
       <Gapped>
         <button onClick={focus}>Focus</button>
         <button onClick={blur}>Blur</button>

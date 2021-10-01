@@ -11,7 +11,7 @@ describe('Textarea', () => {
   });
 
   it('render without crash', () => {
-    const wrapper = mount(<Textarea />);
+    const wrapper = mount<Textarea>(<Textarea />);
 
     expect(wrapper).toHaveLength(1);
   });

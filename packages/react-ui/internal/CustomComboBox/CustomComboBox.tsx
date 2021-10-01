@@ -9,11 +9,11 @@ import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isFirefox, isIE11 } from '../../lib/client';
-import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
 import { ComboBoxView } from './ComboBoxView';
+import { getRootDomNode } from '../../lib/getRootDomNode';
 
 export interface CustomComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';

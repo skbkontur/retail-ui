@@ -176,6 +176,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   };
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
+  private rootDomNode: Nullable<HTMLElement>;
 
   /**
    * @public
@@ -261,9 +262,10 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
 
   private refCustomComboBox = (instance: Nullable<CustomComboBox<T>>) => {
     this.comboboxElement = instance;
+    this.rootDomNode = getRootDomNode(instance);
   };
 
   public getRootDomNode = () => {
-    return getRootDomNode(this.comboboxElement);
+    return this.rootDomNode;
   };
 }
