@@ -36,6 +36,7 @@ import './styles/typography.less';
 import AutocompleteTestPage from './components/TestPages/AutocompleteTestPage';
 import ToastTestPage from './components/TestPages/ToastTestPage';
 import ToggleTestPage from './components/TestPages/ToggleTestPage';
+import SwitcherTestPage from "./components/TestPages/SwitcherTestPage";
 
 const customHistory = createBrowserHistory();
 const basePath = process.env.baseUrl + '/';
@@ -70,6 +71,7 @@ export default function ReactTestApplication() {
               <Route path={`${url}/Autocomplete`} component={AutocompleteTestPage} />
               <Route path={`${url}/Toast`} component={ToastTestPage} />
               <Route path={`${url}/Toggle`} component={ToggleTestPage} />
+              <Route path={`${url}/Switcher`} component={SwitcherTestPage} />
             </Switch>
           </Layout>
         )}

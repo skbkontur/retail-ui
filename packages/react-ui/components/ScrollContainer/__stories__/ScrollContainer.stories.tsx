@@ -236,8 +236,8 @@ export const WithOnlyCustomHorizontalScroll: Story = () => {
   );
 };
 
+WithOnlyCustomHorizontalScroll.storyName = 'with only custom horizontal scroll';
 WithOnlyCustomHorizontalScroll.parameters = {
-  name: 'with only custom horizontal scroll',
   creevey: {
     captureElement: '#test-container',
     tests: {
@@ -367,7 +367,6 @@ export const WithScrollTo: Story = () => {
 };
 
 WithScrollTo.parameters = {
-  name: 'With scroll to',
   creevey: {
     captureElement: '#test-container',
     tests: {
