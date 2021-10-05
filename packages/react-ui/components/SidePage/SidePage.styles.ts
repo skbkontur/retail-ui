@@ -1,6 +1,7 @@
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { resetButton } from '../../lib/styles/Mixins';
 
 export const styles = memoizeStyle({
   root() {
@@ -159,19 +160,41 @@ export const styles = memoizeStyle({
 
   close(t: Theme) {
     return css`
-      color: ${t.sidePageCloseButtonColor};
+      ${resetButton()};
       cursor: pointer;
-      position: absolute;
-      right: ${t.sidePageCloseButtonPadding};
-      text-align: center;
-      text-decoration: none;
-      width: ${t.sidePageCloseIconSize};
-      padding: 0 ${t.sidePageCloseButtonClickAreaX};
-      margin: 0 -${t.sidePageCloseButtonClickAreaX};
+      color: ${t.sidePageCloseButtonColor};
+      padding: ${t.sidePageCloseButtonClickArea};
+      margin: -${t.sidePageCloseButtonClickArea};
+      font-size: 0;
 
+      &:focus,
       &:hover {
         color: ${t.sidePageCloseButtonHoverColor};
       }
+
+      & > svg {
+        width: ${t.sidePageCloseIconSize};
+        height: ${t.sidePageCloseIconSize};
+        box-sizing: content-box;
+      }
+    `;
+  },
+
+  closeFocus(t: Theme) {
+    return css`
+      outline: 2px solid ${t.borderColorFocus};
+    `;
+  },
+
+  wrapperClose(t: Theme) {
+    return css`
+      box-sizing: border-box;
+      height: 100%;
+      line-height: ${t.sidePageHeaderLineHeight};
+      padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
+      position: absolute;
+      right: ${t.sidePageCloseButtonPadding};
+      top: 0;
     `;
   },
 
@@ -183,18 +206,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  closeIcon(t: Theme) {
-    return css`
-      display: inline-block;
-      height: ${t.sidePageCloseIconSize};
-      width: ${t.sidePageCloseIconSize};
-      line-height: 0;
-    `;
-  },
-
   fixed(t: Theme) {
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
+      padding: ${t.sidePageHeaderFixedPaddingY} 0;
     `;
   },
 
