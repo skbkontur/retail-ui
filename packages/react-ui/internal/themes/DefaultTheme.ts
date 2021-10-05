@@ -640,13 +640,13 @@ export class DefaultTheme {
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '24px';
   public static sidePageHeaderFixedPaddingY = '13px';
-  public static sidePageHeaderStickyOffset = '11px';
+  public static sidePageHeaderStickyOffset = '8px';
   public static sidePageCloseButtonPadding = '36px';
   public static sidePageCloseButtonLegacyPaddingLeft = '37px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
-  public static sidePageCloseButtonClickAreaX = '10px';
+  public static sidePageCloseButtonClickArea = '10px';
   public static get sidePageFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }
