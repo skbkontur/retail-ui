@@ -14,6 +14,8 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
@@ -1125,4 +1127,44 @@ WithTooltip.parameters = {
       },
     },
   },
+};
+
+export const MobileSimple = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <SimpleCombobox />
+          <div style={{ height: 15 }} />
+          <ComplexCombobox />
+          <div style={{ height: 15 }} />
+          <TestComboBox
+            onSearch={search}
+            renderItem={renderValue}
+            renderAddButton={(query) =>
+              query && (
+                <MenuItem isMobile onClick={() => alert(query)}>
+                  Добавить {query}
+                </MenuItem>
+              )
+            }
+          />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileSimple.title = 'Mobile combobox stories';
+MobileSimple.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: { skip: [true] },
 };

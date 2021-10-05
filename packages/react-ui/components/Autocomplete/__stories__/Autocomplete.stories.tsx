@@ -234,8 +234,6 @@ export const MobileSimple = () => (
     }}
   </ThemeContext.Consumer>
 );
-WithZeroWidth.storyName = 'with zero width';
-
 MobileSimple.title = 'Mobile autocomplete stories';
 MobileSimple.parameters = {
   viewport: {

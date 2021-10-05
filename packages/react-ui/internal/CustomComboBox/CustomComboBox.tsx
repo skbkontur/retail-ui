@@ -360,6 +360,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       }
       return;
     }
+
     this.focused = false;
     if (isFirefox || isIE11) {
       // workaround for the Firefox focusout bug
@@ -376,6 +377,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
+
+    // TODO: add check for mobile layout, to call `handleBlur`
+
     if (this.state.opened) {
       return;
     }
