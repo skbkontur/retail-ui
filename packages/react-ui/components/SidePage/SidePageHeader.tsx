@@ -7,10 +7,10 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { keyListener } from '../../lib/events/keyListener';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
-import { keyListener } from '../../lib/events/keyListener';
 
 export interface SidePageHeaderProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
