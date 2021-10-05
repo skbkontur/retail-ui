@@ -28,9 +28,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
-import { MobileLayoutState, LayoutMode, mobileLayout } from '../MobileLayout';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
+import { responsiveLayout } from '../ResponsiveLayout';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -141,7 +141,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   mobileMenuHeaderText?: string;
 }
 
-export interface SelectState<TValue> extends MobileLayoutState {
+export interface SelectState<TValue> {
   opened: boolean;
   searchPattern: string;
   value: Nullable<TValue>;
@@ -151,7 +151,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
-@mobileLayout
+@responsiveLayout
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
@@ -205,6 +205,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private theme!: Theme;
+  private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
@@ -268,7 +269,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private getMenuRenderer() {
-    if (this.isMobile()) {
+    if (this.isMobileLayout) {
       return this.renderMobileMenu();
     }
 
@@ -279,7 +280,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const buttonParams = this.getDefaultButtonParams();
     const button = this.getButton(buttonParams);
 
-    const isMobile = this.isMobile();
+    const isMobile = this.isMobileLayout;
 
     const style = {
       width: this.props.width,
@@ -463,7 +464,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private getMenuItems = (value: Nullable<TValue>) => {
-    const isMobile = this.isMobile();
+    const isMobile = this.isMobileLayout;
 
     return this.mapItems(
       (iValue: TValue, item: TItem | (() => React.ReactNode), i: number, comment: Nullable<React.ReactNode>) => {
@@ -494,11 +495,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         );
       },
     );
-  };
-
-  private isMobile = () => {
-    const { layout } = this.state;
-    return layout === LayoutMode.Mobile;
   };
 
   private dropdownContainerGetParent = () => {
