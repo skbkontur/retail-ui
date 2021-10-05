@@ -20,7 +20,7 @@ export const styles = memoizeStyle({
 
   label(t: Theme) {
     return css`
-      color: ${t.switcherTextColorDefault};
+      color: ${t.switcherTextColor};
       vertical-align: middle;
       display: inline-block;
     `;

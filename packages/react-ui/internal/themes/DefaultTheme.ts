@@ -537,7 +537,7 @@ export class DefaultTheme {
   public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
-  public static get tooltipTextColorDefault() {
+  public static get tooltipTextColor() {
     return this.textColorDefault;
   }
   public static get tooltipBorder() {
@@ -600,7 +600,7 @@ export class DefaultTheme {
   public static modalPaddingLeft = '30px';
   public static modalPaddingRight = '35px';
   public static modalHeaderFontSize = '22px';
-  public static get modalHeaderTextColorDefault() {
+  public static get modalHeaderTextColor() {
     return this.textColorDefault;
   }
   public static modalHeaderLineHeight = '30px';
@@ -630,7 +630,7 @@ export class DefaultTheme {
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }
-  public static get sidePageHeaderTextColorDefault() {
+  public static get sidePageHeaderTextColor() {
     return this.textColorDefault;
   }
   public static sidePageHeaderFontSize = '22px';
@@ -822,7 +822,7 @@ export class DefaultTheme {
   public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
   public static menuPaddingY = '5px';
   // menuItem
-  public static get menuItemTextColorDefault() {
+  public static get menuItemTextColor() {
     return this.textColorDefault;
   }
   public static get menuItemSelectedBg() {
@@ -882,7 +882,7 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
-  public static get toggleTextColorDefault() {
+  public static get toggleTextColor() {
     return this.textColorDefault;
   }
   public static toggleHandleActiveWidthIncrement = '4px';
@@ -1224,7 +1224,7 @@ export class DefaultTheme {
   public static get radioOutlineWidth() {
     return this.controlOutlineWidth;
   }
-  public static get radioTextColorDefault() {
+  public static get radioTextColor() {
     return this.textColorDefault;
   }
   public static radioSize = '16px';
@@ -1359,7 +1359,7 @@ export class DefaultTheme {
   public static spinnerCaptionGapLarge = '-8px';
   //#endregion
   //#region Switcher
-  public static get switcherTextColorDefault() {
+  public static get switcherTextColor() {
     return this.textColorDefault;
   }
   public static switcherOutlineWidth = '2px';

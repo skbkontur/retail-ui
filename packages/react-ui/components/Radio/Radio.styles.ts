@@ -162,7 +162,7 @@ export const styles = memoizeStyle({
       margin-left: ${t.radioLabelGap};
       white-space: normal;
       font-size: ${t.radioFontSize};
-      color: ${t.radioTextColorDefault};
+      color: ${t.radioTextColor};
     `;
   },
 

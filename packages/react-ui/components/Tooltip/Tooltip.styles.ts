@@ -23,7 +23,7 @@ export const styles = memoizeStyle({
 
   tooltipContent(t: Theme) {
     return css`
-      color: ${t.tooltipTextColorDefault};
+      color: ${t.tooltipTextColor};
       padding: ${t.tooltipPaddingY} ${t.tooltipPaddingX};
       position: relative;
     `;

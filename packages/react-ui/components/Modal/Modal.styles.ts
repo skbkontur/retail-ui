@@ -146,7 +146,7 @@ export const styles = memoizeStyle({
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
-      color: ${t.modalHeaderTextColorDefault};
+      color: ${t.modalHeaderTextColor};
     `;
   },
 
