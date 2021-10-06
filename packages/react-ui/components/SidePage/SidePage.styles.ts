@@ -88,6 +88,7 @@ export const styles = memoizeStyle({
       padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       width: 100%;
       position: relative;
+      color: ${t.sidePageHeaderTextColor};
     `;
   },
 
