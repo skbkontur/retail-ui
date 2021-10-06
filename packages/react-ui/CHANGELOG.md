@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.7.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.0...@skbkontur/react-ui@3.7.1) (2021-10-06)
+
+
+### Bug Fixes
+
+* **Checkbox:** revert to old focus behavior ([d0f80f7](https://github.com/skbkontur/retail-ui/commit/d0f80f73f44114ae9ed217729d6864e2f3f63d21)), closes [#2550](https://github.com/skbkontur/retail-ui/issues/2550)
+* **FxInput:** remove refInput prop from spread ([c5f403d](https://github.com/skbkontur/retail-ui/commit/c5f403dec7342b8ce29bdb9571fba0569eefc6a6))
+* **HideBodyVerticalScroll:** now scrollbar hiding always ([#2540](https://github.com/skbkontur/retail-ui/issues/2540)) ([c93db68](https://github.com/skbkontur/retail-ui/commit/c93db684f2954b075794c2ac26db761b72953614))
+* **PopupMenu:** move width property from internalMenu to Popup ([20643a4](https://github.com/skbkontur/retail-ui/commit/20643a437cf302a3f017822c54320827f869932d))
+* **SidePage:** replace icon close tag from link to button ([4458332](https://github.com/skbkontur/retail-ui/commit/4458332a79a143295e42ec9388ea27d0b94a7b21))
+* **theme:** text color of components link to `textColorDefault` ([#2543](https://github.com/skbkontur/retail-ui/issues/2543)) ([b3a92c5](https://github.com/skbkontur/retail-ui/commit/b3a92c5e61eec509322194f419386839393da709))
+* **TokenInput:** add delimiter comma support for IE ([#2539](https://github.com/skbkontur/retail-ui/issues/2539)) ([2bbf54a](https://github.com/skbkontur/retail-ui/commit/2bbf54a830de8966a7b2594bb6ac6fc9e185422d))
+
+
+
+
+
 # [3.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.6.0...@skbkontur/react-ui@3.7.0) (2021-09-16)
 
 

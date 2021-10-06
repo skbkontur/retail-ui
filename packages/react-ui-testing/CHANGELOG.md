@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.4.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.3.0...react-ui-testing@3.4.0) (2021-10-06)
+
+
+### Features
+
+* **react-ui-testing:** add Switcher control and tests for it ([#2519](https://github.com/skbkontur/retail-ui/issues/2519)) ([c60a886](https://github.com/skbkontur/retail-ui/commit/c60a8861e359fa5e276d577e7338558660e2c37c))
+
+
+
+
+
 # [3.3.0](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.2.5...react-ui-testing@3.3.0) (2021-07-14)
 
 
