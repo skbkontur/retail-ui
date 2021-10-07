@@ -107,9 +107,9 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
   );
 
   const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
-    [jsStyles.dragOver()]: isDraggable,
-    [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable,
-    [jsStyles.error()]: !!controlError,
+    [jsStyles.dragOver()]: isDraggable && !disabled,
+    [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable && !disabled,
+    [jsStyles.error()]: !!controlError && !disabled,
     [jsStyles.disabled()]: disabled,
   });
 
