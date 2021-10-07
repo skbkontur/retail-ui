@@ -1,14 +1,22 @@
 ```jsx harmony
+import { GlobalLoader } from './GlobalLoader';
+
 const [success, setSuccess] = React.useState(false);
 const [error, setError] = React.useState(false);
 
-setTimeout(()=>{
-  setError(true)
-}, 20000);
+setTimeout(() => {
+  GlobalLoader.start()
+}, 5000);
 
-setTimeout(()=>{
-  setSuccess(true)
-}, 40000);
+setTimeout(() => {
+  GlobalLoader.done();
+}, 7000);
 
-<GlobalLoader expectedDownloadTime={2000} downloadSuccess={success} downloadError={error}/>
+
+<GlobalLoader expectedDownloadTime={2000} downloadSuccess={success} downloadError={error} />
 ```
+
+
+
+
+

@@ -7,7 +7,7 @@ export const styles = memoizeStyle({
       width: ${t.globalLoaderWidth};
       height: ${t.globalLoaderHeight};
       background-color: transparent;
-      position: fixed;
+      position: absolute;
       left: 0;
       top: 0;
       overflow: hidden;
