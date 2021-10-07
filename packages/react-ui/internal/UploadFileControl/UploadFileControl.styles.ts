@@ -52,6 +52,7 @@ const styles = {
 
   windowDragOver() {
     return css`
+      border-radius: 2px;
       animation: ${styles.pulse()} 1.5s infinite;
     `;
   },

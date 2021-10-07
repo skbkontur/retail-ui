@@ -108,9 +108,12 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
 
   const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable && !disabled,
-    [jsStyles.windowDragOver()]: isWindowDraggable && !isDraggable && !disabled,
     [jsStyles.error()]: !!controlError && !disabled,
     [jsStyles.disabled()]: disabled,
+  });
+
+  const uploadButtonWrapperClassNames = cx({
+    [jsStyles.windowDragOver()]: isWindowDraggable && !disabled,
   });
 
   const renderTooltipContent = useCallback((): ReactNode => {
@@ -139,44 +142,46 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
     <div>
       {!isSingleMode && !!files.length && <UploadFileList />}
       <Tooltip pos="right middle" render={renderTooltipContent}>
-        <div
-          className={uploadButtonClassNames}
-          tabIndex={0}
-          ref={droppableRef}
-          onClick={handleClick}
-          onKeyDown={handleKeyDown}
-          style={style}
-        >
-          <div className={jsStyles.content()}>
-            <Link disabled={disabled} tabIndex={-1}>
-              {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-            </Link>
-            &nbsp;
-            <div className={jsStyles.afterLinkText()}>
-              {hasOneFileForSingle ? (
-                <UploadFile file={files[0]} />
-              ) : (
-                <>
-                  {locale.orDragHere}&nbsp;
-                  <UploadIcon color="#808080" />
-                </>
-              )}
+        <div className={uploadButtonWrapperClassNames}>
+          <div
+            className={uploadButtonClassNames}
+            tabIndex={0}
+            ref={droppableRef}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            style={style}
+          >
+            <div className={jsStyles.content()}>
+              <Link disabled={disabled} tabIndex={-1}>
+                {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+              </Link>
+              &nbsp;
+              <div className={jsStyles.afterLinkText()}>
+                {hasOneFileForSingle ? (
+                  <UploadFile file={files[0]} />
+                ) : (
+                  <>
+                    {locale.orDragHere}&nbsp;
+                    <UploadIcon color="#808080" />
+                  </>
+                )}
+              </div>
             </div>
+            <input
+              id={id}
+              ref={inputRef}
+              type="file"
+              name={name}
+              accept={accept}
+              disabled={disabled}
+              multiple={multiple}
+              className={jsStyles.fileInput()}
+              onClick={stopPropagation}
+              onChange={handleInputChange}
+              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+              value={''}
+            />
           </div>
-          <input
-            id={id}
-            ref={inputRef}
-            type="file"
-            name={name}
-            accept={accept}
-            disabled={disabled}
-            multiple={multiple}
-            className={jsStyles.fileInput()}
-            onClick={stopPropagation}
-            onChange={handleInputChange}
-            // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-            value={''}
-          />
         </div>
       </Tooltip>
     </div>
