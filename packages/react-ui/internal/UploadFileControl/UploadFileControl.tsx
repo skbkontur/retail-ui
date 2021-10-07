@@ -31,6 +31,7 @@ export interface IUploadFileControlProps {
   multiple?: boolean;
   accept?: string;
 
+  // FIXME @mozalov: проблема в том, что сейчас контрол мы валидируем так, что в controlError передаем данные и сам компонент обрамляем в тултип внутри, через react-validation не выйдет,
   // свойство валидации контрола
   controlError?: ReactNode;
   width?: React.CSSProperties['width'];
