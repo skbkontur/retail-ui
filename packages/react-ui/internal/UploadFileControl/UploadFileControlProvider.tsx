@@ -9,7 +9,7 @@ import { UploadFileControlValidationResult } from './UploadFileControlValidation
 import { useControlLocale } from './UploadFileControlHooks';
 
 export interface IUploadFilesProviderProps {
-  onChange?: (files: IUploadFile[]) => void;
+  onValueChange?: (files: IUploadFile[]) => void;
   onRemove?: (fileId: string) => void;
 }
 
@@ -35,7 +35,7 @@ const updateFile = (
 };
 
 export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
-  const { children, onChange, onRemove } = props;
+  const { children, onValueChange, onRemove } = props;
 
   // в files попадат только те, что попали в onSelect
   const [files, setFiles] = useState<IUploadFile[]>([]);
@@ -62,11 +62,11 @@ export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesP
     (files: IUploadFile[]) => {
       setFiles((state) => {
         const newFiles = [...state, ...files];
-        onChange && onChange(newFiles);
+        onValueChange && onValueChange(newFiles);
         return newFiles;
       });
     },
-    [onChange],
+    [onValueChange],
   );
 
   const removeFile = useCallback(
@@ -74,11 +74,11 @@ export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesP
       onRemove && onRemove(fileId);
       setFiles((state) => {
         const newFiles = state.filter((file) => file.id !== fileId);
-        onChange && onChange(newFiles);
+        onValueChange && onValueChange(newFiles);
         return newFiles;
       });
     },
-    [onChange, onRemove],
+    [onValueChange, onRemove],
   );
 
   const setFileValidationResult = useCallback((fileId: string, validationResult: UploadFileControlValidationResult) => {

@@ -40,10 +40,38 @@ export interface IUploadFileControlProps {
   onSelect?: (files: IUploadFile[]) => void;
   // хендлер, срабатывает после выбора файлов (при невалидном считывании файла)
   onReadError?: (files: IUploadFile[]) => void;
+
+  // нужно поддержать для react-ui-validation
+  // error?: boolean;
+  // warning?: boolean;
+  // onBlur
+  // onFocus
+  // onChange
+  // вызывается при любом изменении files, уже есть в провайдере
+  // onValueChange
+
+  // FIXME @mozalov: onChange вроде как необязательный для валидаций, можно обойтись onValueChange
+  // вызывается при любом изменении контрольного onChange проблема с дропом,
+  // сейчас события для дропа не существует, мы его триггерим по диву, а не по инпуту
+  // onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: React.FocusEventHandler<HTMLDivElement>;
+  onFocus?: React.FocusEventHandler<HTMLDivElement>;
 }
 
 export const UploadFileControl = (props: IUploadFileControlProps) => {
-  const { id, name, multiple = false, disabled, accept, controlError, onSelect, onReadError, width = 362 } = props;
+  const {
+    id,
+    name,
+    disabled,
+    accept,
+    controlError,
+    onBlur,
+    onFocus,
+    onSelect,
+    onReadError,
+    multiple = false,
+    width = 362,
+  } = props;
 
   const locale = useControlLocale();
 
@@ -134,6 +162,15 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
     [handleClick],
   );
 
+  const handleFocus = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+    !disabled && onFocus?.(e);
+  }, [disabled, onFocus]);
+
+
+  const handleBlur = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+    !disabled && onBlur?.(e);
+  }, [disabled, onBlur]);
+
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile;
 
@@ -151,6 +188,8 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
             onClick={handleClick}
             onKeyDown={handleKeyDown}
             style={style}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           >
             <div className={jsStyles.content()}>
               <Link disabled={disabled} tabIndex={-1}>
