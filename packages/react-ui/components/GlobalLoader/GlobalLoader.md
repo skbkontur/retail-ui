@@ -1,3 +1,4 @@
+Глобальным лоадером можно управлять путем передачи необходимых переменных в качестве пропсов:
 ```jsx harmony
 import { GlobalLoader } from './GlobalLoader';
 
@@ -17,6 +18,7 @@ setTimeout(() => {
 <GlobalLoader expectedDownloadTime={2000} delayBeforeGlobalLoaderShow={0} isActive={active} downloadSuccess={success} downloadError={error} />
 ```
 
+А также Глобальным лоадером можно управлять с помощью статических методов
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 import { GlobalLoader } from './GlobalLoader';

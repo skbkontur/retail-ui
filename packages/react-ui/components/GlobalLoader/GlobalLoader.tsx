@@ -11,6 +11,11 @@ export interface GlobalLoaderProps {
    */
   delayBeforeGlobalLoaderShow?: number;
   /**
+   * Время в миллисекундах до исчезновения глобального лоадера после успешной загрузки данных.
+   * @default 1000
+   */
+  delayBeforeGlobalLoaderDisappear?: number;
+  /**
    * Ожидаемое время загрузки данных с сервера
    */
   expectedDownloadTime?: number;
@@ -27,6 +32,19 @@ export interface GlobalLoaderState {
 
 let currentGlobalLoader: GlobalLoader;
 
+/**
+ * Является индикатором загрузки данных с сервера.
+ *
+ * Доступны статические методы:
+ * `GlobalLoader.start(delayBeforeGlobalLoaderShow?)` - позволяет запустить Глобальный лоадер с необходимой задержкой.
+ * Равносильно установке пропа `isActive = true`
+ *
+ * `GlobalLoader.done()` - сигнализирует об окончании загрузки данных.
+ * Равносильно установке пропа `downloadSuccess = true`
+ *
+ * `GlobalLoader.reject()` - сигнализирует об ошибке с сервера, глобальный лоадер при этом переходит в состояние спиннера.
+ * Равносильно установке пропа `downloadError = true`
+ */
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private globalLoaderVisibleTimeout: Nullable<NodeJS.Timeout>;
   private globalLoaderSuccessTimeout: Nullable<NodeJS.Timeout>;
@@ -34,6 +52,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   public static defaultProps: Partial<GlobalLoaderProps> = {
     expectedDownloadTime: 1000,
     delayBeforeGlobalLoaderShow: 1000,
+    delayBeforeGlobalLoaderDisappear: 1000,
     downloadError: false,
     downloadSuccess: false,
     isActive: false,
@@ -112,7 +131,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.setState({ isDone: done });
     this.globalLoaderSuccessTimeout = setTimeout(() => {
       this.setState({ isVisible: false });
-    }, 1000);
+    }, this.props.delayBeforeGlobalLoaderDisappear);
   };
 
   public setReject = (reject: boolean) => {

@@ -7,7 +7,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { GlobalLoaderProps } from './GlobalLoader';
-import { styles } from './GlobalLoader.styles';
+import { styles } from './GlobalLoaderView.styles';
 
 interface GlobalLoaderViewProps extends GlobalLoaderProps {
   isGlobalLoaderVisible?: boolean;
@@ -44,17 +44,23 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     );
   }
   private getAnimation(): string {
+    const waitingFactor = 10;
+    const transitionDuration = 1000; // milliseconds
+    const spinnerAnimationDuration = 3000; //milliseconds
+
     const standardAnimation = `${AnimationKeyframes.globalLoaderProgress()} ${
       this.props.expectedDownloadTime
-    }ms linear, ${this.props.expectedDownloadTime! * 10}ms ${AnimationKeyframes.globalLoaderSlowProgress()} ${
+    }ms linear, ${
+      this.props.expectedDownloadTime! * waitingFactor
+    }ms ${AnimationKeyframes.globalLoaderSlowProgress()} ${
       this.props.expectedDownloadTime
-    }ms ease-out, 1s ${AnimationKeyframes.globalLoaderMoveToRight()} ${
-      this.props.expectedDownloadTime! * 11
+    }ms ease-out, ${transitionDuration}ms ${AnimationKeyframes.globalLoaderMoveToRight()} ${
+      this.props.expectedDownloadTime! * (waitingFactor + 1)
     }ms linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} ${
-      this.props.expectedDownloadTime! * 11 + 1000
+      this.props.expectedDownloadTime! * (waitingFactor + 1) + transitionDuration
     }ms infinite alternate`;
 
-    const errorAnimation = `${AnimationKeyframes.globalLoaderMoveToRight()} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
+    const errorAnimation = `${AnimationKeyframes.globalLoaderMoveToRight()} ${transitionDuration}ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${transitionDuration}ms infinite alternate`;
 
     const successAnimation = 'none';
 

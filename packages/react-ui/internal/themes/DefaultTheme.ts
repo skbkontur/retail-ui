@@ -1406,11 +1406,17 @@ export class DefaultTheme {
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
   //#endregion
   //#region GlobalLoader
-  public static get globalLoaderBackgroundColor() {
+  public static get globalLoaderColor() {
     return this.blueLight;
   }
   public static globalLoaderHeight = '4px';
   public static globalLoaderWidth = '100%';
+  public static globalLoaderPosition = 'absolute';
+  public static globalLoaderTop = 0;
+  public static globalLoaderLeft = 0;
+  public static globalLoaderBottom = 'auto';
+  public static globalLoaderRight = 'auto';
+  public static globalLoaderBackgroundColor = 'transparent';
   //#endregion
 }
 
