@@ -75,7 +75,7 @@ export const AnimationKeyframes = {
       }
     `;
   },
-  globalSpinnerMoveToRight() {
+  globalLoaderMoveToRight() {
     return keyframes`
       0% {
         left: 0;

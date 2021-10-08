@@ -11,7 +11,7 @@ setTimeout(() => {
 
 setTimeout(() => {
   setSuccess(true)
-}, 80000);
+}, 30000);
 
 
 <GlobalLoader expectedDownloadTime={2000} delayBeforeGlobalLoaderShow={0} isActive={active} downloadSuccess={success} downloadError={error} />
@@ -33,7 +33,7 @@ function sendError() {
 
 <div>
   <Button onClick={showGlobalLoader}>Start</Button>
-  <Button onClick={sendSuccess}>Done</Button>
+  <Button onClick={sendSuccess}>Success</Button>
   <Button onClick={sendError}>Error</Button>
   <GlobalLoader expectedDownloadTime={2000}/>
 </div>

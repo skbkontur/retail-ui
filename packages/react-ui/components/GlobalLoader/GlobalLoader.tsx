@@ -30,9 +30,7 @@ let currentGlobalLoader: GlobalLoader;
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private globalLoaderVisibleTimeout: Nullable<NodeJS.Timeout>;
   private globalLoaderSuccessTimeout: Nullable<NodeJS.Timeout>;
-  // private static {delayBeforeGlobalLoaderShow, expectedDownloadTime, downloadSuccess, downloadError }: boolean | undefined;
 
-  // private readonly globalLoaderRef: any;
   public static defaultProps: Partial<GlobalLoaderProps> = {
     expectedDownloadTime: 1000,
     delayBeforeGlobalLoaderShow: 1000,
@@ -74,12 +72,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   public render() {
     if (this.props.downloadSuccess) {
-      this.globalLoaderSuccessTimeout = setTimeout(() => {
-        this.setState({ isVisible: false });
-      }, 1000);
+      currentGlobalLoader.setDone(true);
     }
     if (this.props.downloadError) {
-      this.setState({ isRejected: true });
+      currentGlobalLoader.setReject(true);
     }
     return (
       !this.state.amIDead && (
@@ -92,30 +88,37 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       )
     );
   }
+
   public static start = (delayBeforeGlobalLoaderShow?: number) => {
     currentGlobalLoader.setActive(true, delayBeforeGlobalLoaderShow);
   };
+
   public static done = () => {
     currentGlobalLoader.setDone(true);
   };
+
   public static reject = () => {
     currentGlobalLoader.setReject(true);
   };
+
   public setActive = (active: boolean, delay?: number) => {
     this.setState({ isVisible: false, isDone: false, isRejected: false });
     this.globalLoaderVisibleTimeout = setTimeout(() => {
       this.setState({ isVisible: active });
     }, delay || this.props.delayBeforeGlobalLoaderShow);
   };
+
   public setDone = (done: boolean) => {
     this.setState({ isDone: done });
     this.globalLoaderSuccessTimeout = setTimeout(() => {
       this.setState({ isVisible: false });
     }, 1000);
   };
+
   public setReject = (reject: boolean) => {
     this.setState({ isRejected: reject });
   };
+
   public kill = () => {
     this.setState({
       amIDead: true,

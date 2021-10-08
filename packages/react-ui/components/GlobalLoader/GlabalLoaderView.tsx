@@ -48,13 +48,13 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
       this.props.expectedDownloadTime
     }ms linear, ${this.props.expectedDownloadTime! * 10}ms ${AnimationKeyframes.globalLoaderSlowProgress()} ${
       this.props.expectedDownloadTime
-    }ms ease-out, 1s ${AnimationKeyframes.globalSpinnerMoveToRight()} ${
+    }ms ease-out, 1s ${AnimationKeyframes.globalLoaderMoveToRight()} ${
       this.props.expectedDownloadTime! * 11
     }ms linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} ${
       this.props.expectedDownloadTime! * 11 + 1000
     }ms infinite alternate`;
 
-    const errorAnimation = `${AnimationKeyframes.globalSpinnerMoveToRight()} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
+    const errorAnimation = `${AnimationKeyframes.globalLoaderMoveToRight()} 1s linear, 3s ${AnimationKeyframes.globalLoaderSpinner()} 1s infinite alternate`;
 
     const successAnimation = 'none';
 
