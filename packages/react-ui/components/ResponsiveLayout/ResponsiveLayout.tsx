@@ -1,14 +1,23 @@
 import React from 'react';
+import { isEqual } from 'lodash';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
-import { canUseDOM } from '../../lib/client';
 import { Theme } from '../../lib/theming/Theme';
+
+import {
+  addResponsiveLayoutListener,
+  removeResponsiveLayoutListener,
+  eventListenersMap,
+  getMatches,
+} from './ResponsiveLayoutEvents';
 
 export enum LayoutMode {
   Desktop = 'DESKTOP',
   Mobile = 'MOBILE',
 }
+
+const DEFAULT_DESKTOP_MEDIA_QUERY = '(min-width: 1px)';
 
 const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
   [LayoutMode.Desktop]: '',
@@ -20,20 +29,22 @@ type LayoutData = {
   mediaQuery: string;
 };
 
-interface CurrentLayout {
-  layout: LayoutMode;
+interface ResponsiveLayoutProps {
+  onLayoutChange?: (layout: LayoutMode) => void;
+  children?: React.ReactNode | ((currentLayout: ResponsiveLayoutState) => React.ReactNode);
+}
+
+export interface CurrentLayout {
   isDesktop: boolean;
   isMobile: boolean;
 }
 
-export interface ResponsiveLayoutProps {
-  onLayoutChange?: (layout: LayoutMode) => void;
-  children?: React.ReactNode | ((currentLayout: CurrentLayout) => React.ReactNode);
-}
+type ResponsiveLayoutState = CurrentLayout;
 
-export interface ResponsiveLayoutState {
-  layout: LayoutMode;
-}
+const DEFAULT_RESPONSIVE_LAYOUT_STATE: ResponsiveLayoutState = {
+  isDesktop: true,
+  isMobile: false,
+};
 
 export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, ResponsiveLayoutState> {
   public static __KONTUR_REACT_UI__ = 'ResponsiveLayout';
@@ -41,18 +52,16 @@ export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, Res
   public constructor(props: ResponsiveLayoutProps) {
     super(props);
 
-    this.state = { layout: LayoutMode.Desktop };
+    this.state = DEFAULT_RESPONSIVE_LAYOUT_STATE;
   }
 
   public theme!: Theme;
 
-  public currentMediaQeries?: MediaQueryList[];
+  public layoutsMap: { [x: string]: LayoutMode } = {};
   public layouts: LayoutData[] = [];
 
   componentDidMount() {
-    if (!this.currentMediaQeries) {
-      this.prepareMediaQueries();
-    }
+    this.prepareMediaQueries();
   }
 
   componentWillUnmount() {
@@ -64,63 +73,66 @@ export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, Res
       return;
     }
 
-    this.layouts = this.getCreatedLayouts(this.theme);
+    this.layouts = this.getLayoutsFromTheme(this.theme);
 
-    this.currentMediaQeries = this.layouts.map((layout) => window.matchMedia(layout.mediaQuery));
-    this.currentMediaQeries.forEach((mql) => {
-      if (mql && mql.addEventListener) {
-        mql.addEventListener('change', this.checkLayoutsMediaQueries);
+    this.layouts.forEach((layout) => {
+      this.layoutsMap[layout.mediaQuery] = layout.name;
+      addResponsiveLayoutListener(layout.mediaQuery, this, this.checkLayoutsMediaQueries);
+    });
+
+    const globalLayout = this.getLayoutFromGlobalListener();
+
+    if (!isEqual(globalLayout, this.state)) {
+      this.setState(globalLayout);
+    }
+  };
+
+  public getLayoutFromGlobalListener = (): CurrentLayout => {
+    const currentLayout: CurrentLayout = { ...DEFAULT_RESPONSIVE_LAYOUT_STATE };
+
+    this.layouts.forEach((layout) => {
+      const layoutFlag = this.getLayoutFlag(layout.name);
+      const isMatch = getMatches(layout.mediaQuery);
+
+      if (typeof isMatch !== 'undefined') {
+        currentLayout[layoutFlag] = isMatch;
       }
     });
 
-    this.checkLayoutsMediaQueries();
+    return currentLayout;
   };
+
+  public getLayoutFlag(layout: LayoutMode): keyof CurrentLayout {
+    switch (layout) {
+      case LayoutMode.Mobile:
+        return 'isMobile';
+      default:
+        return 'isDesktop';
+    }
+  }
 
   public unsubscribeMediaQueries = () => {
     if (!this.theme) {
       return;
     }
 
-    if (this.currentMediaQeries) {
-      this.currentMediaQeries.forEach((mql) => {
-        if (mql && mql.removeEventListener) {
-          mql.removeEventListener('change', this.checkLayoutsMediaQueries);
-        }
-      });
-    }
+    this.layouts.forEach((layout) => {
+      removeResponsiveLayoutListener(layout.mediaQuery, this);
+    });
   };
 
-  public checkLayoutsMediaQueries = (e?: MediaQueryListEvent) => {
+  public checkLayoutsMediaQueries = (e: MediaQueryListEvent) => {
     if (!this.theme) {
       return;
     }
 
-    const matchedLayouts = this.layouts.filter((layout) => this.checkMQ(layout.mediaQuery));
-    const firstMatchedLayout: LayoutData | undefined = matchedLayouts[0];
+    const layout = this.layoutsMap[e.media] || LayoutMode.Desktop;
+    const layoutFlag: keyof ResponsiveLayoutState = this.getLayoutFlag(layout);
 
-    if (e && e.matches && firstMatchedLayout && firstMatchedLayout.mediaQuery === e.media) {
-      if (this.state.layout !== firstMatchedLayout.name) {
-        this.setState({
-          layout: firstMatchedLayout.name,
-        });
-      }
-
-      return;
-    }
-
-    if (firstMatchedLayout && this.state.layout !== firstMatchedLayout.name) {
-      this.setState({
-        layout: firstMatchedLayout.name,
-      });
-
-      return;
-    }
-
-    if (!firstMatchedLayout && this.state.layout !== LayoutMode.Desktop) {
-      this.setState({
-        layout: LayoutMode.Desktop,
-      });
-    }
+    this.setState((prevState: ResponsiveLayoutState) => ({
+      ...prevState,
+      [layoutFlag]: e.matches,
+    }));
   };
 
   public createLayoutData(name: LayoutMode, mediaQuery: string): LayoutData {
@@ -130,11 +142,15 @@ export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, Res
     };
   }
 
-  public getCreatedLayouts(theme: Theme) {
+  public getLayoutsFromTheme(theme: Theme) {
     const layouts: LayoutData[] = [];
 
     try {
       Object.values(LayoutMode).forEach((layoutKey) => {
+        if (layoutKey === LayoutMode.Desktop) {
+          layouts.push(this.createLayoutData(layoutKey, DEFAULT_DESKTOP_MEDIA_QUERY));
+        }
+
         if (LayoutMQThemeKeys) {
           //@ts-ignore
           const layoutThemeMediaQuery: string | undefined = theme[LayoutMQThemeKeys[layoutKey]];
@@ -151,25 +167,16 @@ export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, Res
     return layouts;
   }
 
-  public checkMQ(mediaQuery: string) {
-    if (canUseDOM) {
-      return window.matchMedia(mediaQuery).matches;
-    }
-  }
-
   public render(): JSX.Element {
-    const currentLayout = {
-      layout: this.state.layout,
-      isDesktop: this.state.layout === LayoutMode.Desktop,
-      isMobile: this.state.layout === LayoutMode.Mobile,
-    };
+    console.log(eventListenersMap);
+    console.log(this.state);
 
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
 
-          return isFunction(this.props.children) ? this.props.children(currentLayout) : this.props.children;
+          return isFunction(this.props.children) ? this.props.children(this.state) : this.props.children;
         }}
       </ThemeContext.Consumer>
     );
@@ -178,14 +185,18 @@ export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, Res
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
-    public layout: LayoutMode = LayoutMode.Desktop;
+    public layout: CurrentLayout = DEFAULT_RESPONSIVE_LAYOUT_STATE;
 
-    public get responsiveLayout(): LayoutMode {
+    public get currentLayout(): ResponsiveLayoutState {
       return this.layout;
     }
 
+    public set currentLayout(value: ResponsiveLayoutState) {
+      //
+    }
+
     public get isMobileLayout(): boolean {
-      return this.layout === LayoutMode.Mobile;
+      return this.layout.isMobile;
     }
 
     public set isMobileLayout(value: boolean) {
@@ -193,23 +204,21 @@ export function responsiveLayout<T extends new (...args: any[]) => React.Compone
     }
 
     public get isDesktopLayout(): boolean {
-      return this.layout === LayoutMode.Desktop;
+      return this.layout.isDesktop;
     }
 
     public set isDesktopLayout(value: boolean) {
       //
     }
 
-    public render(): JSX.Element {
-      return (
-        <ResponsiveLayout>
-          {({ layout }) => {
-            this.layout = layout;
+    public renderWithLayout = (currentLayout: CurrentLayout) => {
+      this.layout = currentLayout;
 
-            return super.render();
-          }}
-        </ResponsiveLayout>
-      );
+      return super.render();
+    };
+
+    public render(): JSX.Element {
+      return <ResponsiveLayout>{this.renderWithLayout}</ResponsiveLayout>;
     }
   };
 

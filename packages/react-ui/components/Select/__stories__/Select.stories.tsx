@@ -180,6 +180,12 @@ export const MobileSimple = () => {
     'откуда мы можем знать что это двадцать?',
   ];
 
+  const [show, setShow] = useState<{ showFirst: boolean; showSecond: boolean; showThird: boolean }>({
+    showFirst: true,
+    showSecond: true,
+    showThird: true,
+  });
+
   return (
     <ThemeContext.Consumer>
       {(theme) => {
@@ -193,15 +199,17 @@ export const MobileSimple = () => {
             )}
           >
             <Gapped vertical>
-              <span>With small count of items</span>
-              <Select
-                items={items.slice(-5)}
-                mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
-              />
-              <span>With big count of items</span>
-              <Select items={items} mobileMenuHeaderText={'This is header'} />
-              <span>With search</span>
-              <Select items={items} mobileMenuHeaderText={'This is header'} search />
+              <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
+              {show.showFirst && (
+                <Select
+                  items={items.slice(-5)}
+                  mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+                />
+              )}
+              <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
+              {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
+              <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
+              {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
             </Gapped>
           </ThemeContext.Provider>
         );
