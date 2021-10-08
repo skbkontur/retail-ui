@@ -3,18 +3,44 @@ import { GlobalLoader } from './GlobalLoader';
 
 const [success, setSuccess] = React.useState(false);
 const [error, setError] = React.useState(false);
+const [active, setActive] = React.useState(false);
 
 setTimeout(() => {
-  GlobalLoader.start()
+  setActive(true)
 }, 5000);
 
 setTimeout(() => {
-  GlobalLoader.done();
-}, 7000);
+  setSuccess(true)
+}, 80000);
 
 
-<GlobalLoader expectedDownloadTime={2000} downloadSuccess={success} downloadError={error} />
+<GlobalLoader expectedDownloadTime={2000} delayBeforeGlobalLoaderShow={0} isActive={active} downloadSuccess={success} downloadError={error} />
 ```
+
+```jsx harmony
+import { Button } from '@skbkontur/react-ui';
+import { GlobalLoader } from './GlobalLoader';
+
+function showGlobalLoader() {
+  GlobalLoader.start();
+}
+function sendSuccess() {
+  GlobalLoader.done();
+}
+function sendError() {
+  GlobalLoader.reject();
+}
+
+<div>
+  <Button onClick={showGlobalLoader}>Start</Button>
+  <Button onClick={sendSuccess}>Done</Button>
+  <Button onClick={sendError}>Error</Button>
+  <GlobalLoader expectedDownloadTime={2000}/>
+</div>
+
+```
+
+
 
 
 

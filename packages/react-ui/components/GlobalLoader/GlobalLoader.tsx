@@ -44,18 +44,26 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   constructor(props: GlobalLoaderProps) {
     super(props);
     this.state = {
-      isVisible: false,
+      isVisible: this.props.isActive || false,
       isDone: false,
       isRejected: false,
       amIDead: false,
     };
     this.globalLoaderVisibleTimeout = null;
     this.globalLoaderSuccessTimeout = null;
-    if (!currentGlobalLoader) {
-      currentGlobalLoader = this;
-    } else {
-      currentGlobalLoader.kill();
-      currentGlobalLoader = this;
+    currentGlobalLoader?.kill();
+    currentGlobalLoader = this;
+  }
+
+  componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
+    if (this.props.downloadSuccess && this.props.downloadSuccess !== prevProps.downloadSuccess) {
+      currentGlobalLoader.setDone(true);
+    }
+    if (this.props.downloadError && this.props.downloadError !== prevProps.downloadError) {
+      currentGlobalLoader.setReject(true);
+    }
+    if (this.props.isActive && this.props.isActive !== prevProps.isActive) {
+      currentGlobalLoader.setActive(true, this.props.delayBeforeGlobalLoaderShow);
     }
   }
 
@@ -74,15 +82,17 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.setState({ isRejected: true });
     }
     return (
-      <GlobalLoaderView
-        expectedDownloadTime={this.props.expectedDownloadTime}
-        isGlobalLoaderVisible={this.state.isVisible}
-        downloadSuccess={this.state.isDone}
-        downloadError={this.state.isRejected}
-      />
+      !this.state.amIDead && (
+        <GlobalLoaderView
+          expectedDownloadTime={this.props.expectedDownloadTime}
+          isGlobalLoaderVisible={this.state.isVisible}
+          downloadSuccess={this.state.isDone}
+          downloadError={this.state.isRejected}
+        />
+      )
     );
   }
-  public static start = (delayBeforeGlobalLoaderShow?: number, expectedDownloadTime?: number) => {
+  public static start = (delayBeforeGlobalLoaderShow?: number) => {
     currentGlobalLoader.setActive(true, delayBeforeGlobalLoaderShow);
   };
   public static done = () => {
@@ -92,6 +102,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader.setReject(true);
   };
   public setActive = (active: boolean, delay?: number) => {
+    this.setState({ isVisible: false, isDone: false, isRejected: false });
     this.globalLoaderVisibleTimeout = setTimeout(() => {
       this.setState({ isVisible: active });
     }, delay || this.props.delayBeforeGlobalLoaderShow);
@@ -106,7 +117,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.setState({ isRejected: reject });
   };
   public kill = () => {
-    this.setState({ amIDead: true });
+    this.setState({
+      amIDead: true,
+    });
   };
 
   private static stopTimeout(timeoutId: Nullable<NodeJS.Timeout>) {
