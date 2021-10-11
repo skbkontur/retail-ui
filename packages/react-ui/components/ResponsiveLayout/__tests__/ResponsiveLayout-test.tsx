@@ -6,14 +6,6 @@ import {
 
 describe('ResponsiveLayoutListeners', () => {
   it('test func', () => {
-    window.matchMedia = jest.fn().mockImplementation((query) => ({
-      matches: true,
-      media: query,
-      onchange: null,
-      addEventListener: jest.fn(),
-      removeEventListener: jest.fn(),
-    }));
-
     const firstMediaQuery = '(min-width: 1px)';
     const secondMediaQuery = '(min-width: 5px)';
     const thirdMediaQuery = '(min-width: 10px)';

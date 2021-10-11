@@ -5,12 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Theme } from '../../lib/theming/Theme';
 
-import {
-  addResponsiveLayoutListener,
-  removeResponsiveLayoutListener,
-  eventListenersMap,
-  getMatches,
-} from './ResponsiveLayoutEvents';
+import { addResponsiveLayoutListener, removeResponsiveLayoutListener, getMatches } from './ResponsiveLayoutEvents';
 
 export enum LayoutMode {
   Desktop = 'DESKTOP',
@@ -168,9 +163,6 @@ export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, Res
   }
 
   public render(): JSX.Element {
-    console.log(eventListenersMap);
-    console.log(this.state);
-
     return (
       <ThemeContext.Consumer>
         {(theme) => {
