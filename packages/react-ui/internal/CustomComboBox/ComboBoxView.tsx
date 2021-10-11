@@ -11,10 +11,10 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { mobileLayout, MobileLayoutState, LayoutMode } from '../../components/MobileLayout';
 import { MobilePopup } from '../MobilePopup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
+import { responsiveLayout } from '../../components/ResponsiveLayout';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -70,11 +70,11 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
-interface ComboBoxViewState extends MobileLayoutState {
+interface ComboBoxViewState {
   isMobileOpened: boolean;
 }
 
-@mobileLayout
+@responsiveLayout
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
@@ -98,6 +98,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private mobilePopup: Nullable<MobilePopup>;
   //@ts-ignore
   private theme!: Theme;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -120,7 +121,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   public render() {
     const { onClickOutside, onFocusOutside, onMouseEnter, onMouseLeave, onMouseOver, opened, size, width } = this.props;
 
-    const isMobile = this.isMobile();
+    const isMobile = this.isMobileLayout;
 
     const input = this.renderInput();
 
@@ -193,7 +194,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         repeatRequest={repeatRequest}
         requestStatus={requestStatus}
         totalCount={totalCount}
-        isMobile={this.isMobile()}
+        isMobile={this.isMobileLayout}
       />
     );
   };
@@ -249,11 +250,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     );
   };
 
-  private isMobile = () => {
-    const { layout } = this.state;
-    return layout === LayoutMode.Mobile;
-  };
-
   private handleCloseMobile = () => {
     this.setState({
       isMobileOpened: false,
@@ -269,7 +265,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderInput(): React.ReactNode {
-    const isMobile = this.isMobile();
+    const isMobile = this.isMobileLayout;
 
     const {
       align,
@@ -353,7 +349,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       this.props.onValueChange(item);
     }
 
-    if (this.isMobile()) {
+    if (this.isMobileLayout) {
       this.mobilePopup?.close();
     }
   };

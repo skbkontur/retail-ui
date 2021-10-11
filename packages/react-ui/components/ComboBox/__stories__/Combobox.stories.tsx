@@ -1150,7 +1150,7 @@ export const MobileSimple = () => (
             renderItem={renderValue}
             renderAddButton={(query) =>
               query && (
-                <MenuItem isMobile onClick={() => alert(query)}>
+                <MenuItem key={'mobileAddButton'} isMobile onClick={() => alert(query)}>
                   Добавить {query}
                 </MenuItem>
               )
