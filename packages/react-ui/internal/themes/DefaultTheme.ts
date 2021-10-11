@@ -1405,6 +1405,22 @@ export class DefaultTheme {
   public static scrollContainerScrollBarColor = '#b7b7b7';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
   //#endregion
+  //#region GlobalLoader
+  public static get globalLoaderColor() {
+    return this.blueLight;
+  }
+  public static globalLoaderHeight = '4px';
+  public static globalLoaderWidth = '100%';
+  public static globalLoaderPosition = 'absolute';
+  public static globalLoaderTop = 0;
+  public static globalLoaderLeft = 0;
+  public static globalLoaderBottom = 'auto';
+  public static globalLoaderRight = 'auto';
+  public static globalLoaderBackgroundColor = 'transparent';
+  public static globalLoaderWaitingFactor = 5;
+  public static globalLoaderTransitionDuration = 1000; //ms
+  public static globalLoaderSpinnerAnimationDuration = 3000; //ms
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(markAsFullTheme(DefaultTheme));
