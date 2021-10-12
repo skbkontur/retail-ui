@@ -23,10 +23,10 @@ export interface GlobalLoaderProps {
   active?: boolean;
 }
 export interface GlobalLoaderState {
-  isVisible: boolean;
-  isDone: boolean;
-  isRejected: boolean;
-  amIDead: boolean;
+  visible: boolean;
+  done: boolean;
+  rejected: boolean;
+  dead: boolean;
 }
 
 let currentGlobalLoader: GlobalLoader;
@@ -59,10 +59,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   constructor(props: GlobalLoaderProps) {
     super(props);
     this.state = {
-      isVisible: false,
-      isDone: false,
-      isRejected: false,
-      amIDead: false,
+      visible: false,
+      done: false,
+      rejected: false,
+      dead: false,
     };
     this.globalLoaderVisibleTimeout = null;
     this.globalLoaderSuccessTimeout = null;
@@ -70,9 +70,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader = this;
   }
   componentDidMount() {
-    if (!this.state.amIDead && this.props.active) {
+    if (!this.state.dead && this.props.active) {
       this.globalLoaderVisibleTimeout = setTimeout(() => {
-        this.setState({ isVisible: true });
+        this.setState({ visible: true });
       }, this.props.delayBeforeShow);
     }
     if (this.props.rejected) {
@@ -81,7 +81,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
-    if (!this.state.amIDead) {
+    if (!this.state.dead) {
       if (this.props.rejected && this.props.rejected !== prevProps.rejected) {
         currentGlobalLoader.setReject(true);
       }
@@ -102,12 +102,12 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   public render() {
     return (
-      !this.state.amIDead && (
+      !this.state.dead && (
         <GlobalLoaderView
           expectedResponseTime={this.props.expectedResponseTime}
-          isGlobalLoaderVisible={this.state.isVisible}
-          downloadSuccess={this.state.isDone}
-          rejected={this.state.isRejected}
+          isGlobalLoaderVisible={this.state.visible}
+          downloadSuccess={this.state.done}
+          rejected={this.state.rejected}
         />
       )
     );
@@ -126,32 +126,32 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setActive = (active: boolean, delay?: number) => {
-    if (!this.state.amIDead) {
-      this.setState({ isVisible: false, isDone: false, isRejected: false });
+    if (!this.state.dead) {
+      this.setState({ visible: false, done: false, rejected: false });
       this.globalLoaderVisibleTimeout = setTimeout(() => {
-        this.setState({ isVisible: active });
+        this.setState({ visible: active });
       }, delay || this.props.delayBeforeShow);
     }
   };
 
   public setDone = (done: boolean) => {
-    if (!this.state.amIDead) {
-      this.setState({ isDone: done });
+    if (!this.state.dead) {
+      this.setState({ done: done });
       this.globalLoaderSuccessTimeout = setTimeout(() => {
-        this.setState({ isVisible: false });
+        this.setState({ visible: false });
       }, this.props.delayBeforeHide);
     }
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.amIDead) {
-      this.setState({ isRejected: reject });
+    if (!this.state.dead) {
+      this.setState({ rejected: reject });
     }
   };
 
   public kill = () => {
     this.setState({
-      amIDead: true,
+      dead: true,
     });
   };
 
