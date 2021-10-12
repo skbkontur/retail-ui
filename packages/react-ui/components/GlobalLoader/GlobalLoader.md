@@ -6,19 +6,7 @@ import { GlobalLoader } from './GlobalLoader';
 
 const [success, setSuccess] = React.useState(false);
 const [error, setError] = React.useState(false);
-const [loading, setLoading] = React.useState(false);
-
-setTimeout(() => {
-  setLoading(true)
-}, 5000);
-
-setTimeout(() => {
-  setError(true)
-}, 10000);
-
-setTimeout(() => {
-  setSuccess(true)
-}, 30000);
+const [active, setActive] = React.useState(false);
 
 function showGlobalLoader() {
   GlobalLoader.start();
@@ -31,13 +19,28 @@ function sendSuccess() {
 function sendError() {
   GlobalLoader.reject();
 }
+function showGlobalLoaderWithProps() {
+  setTimeout(() => {
+    setActive(true)
+  }, 5000);
+
+  setTimeout(() => {
+    setError(true)
+  }, 10000);
+
+  setTimeout(() => {
+    setActive(false)
+  }, 30000);
+}
 
 <div>
+  <p>Управление с помощью пропсов:</p>
+  <Button onClick={showGlobalLoaderWithProps}>Show GlobalLoader with props</Button>
+  <p>Управление с помощью статических методов:</p>
   <Button onClick={showGlobalLoader}>Start</Button>
   <Button onClick={sendSuccess}>Success</Button>
   <Button onClick={sendError}>Error</Button>
-  <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={loading} downloadSuccess={success}
-                rejected={error} />
+  <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} rejected={error} />
 </div>
 ```
 
