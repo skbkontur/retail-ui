@@ -11,6 +11,7 @@ import { styles } from './GlobalLoaderView.styles';
 
 interface GlobalLoaderViewProps extends GlobalLoaderProps {
   isGlobalLoaderVisible?: boolean;
+  downloadSuccess: boolean;
 }
 
 export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
@@ -49,15 +50,15 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     const spinnerAnimationDuration = this.theme.globalLoaderSpinnerAnimationDuration; //ms
 
     const standardAnimation = `${AnimationKeyframes.globalLoaderProgress()} ${
-      this.props.expectedDownloadTime
+      this.props.expectedResponseTime
     }ms linear, ${
-      this.props.expectedDownloadTime! * waitingFactor
+      this.props.expectedResponseTime! * waitingFactor
     }ms ${AnimationKeyframes.globalLoaderSlowProgress()} ${
-      this.props.expectedDownloadTime
+      this.props.expectedResponseTime
     }ms ease-out, ${transitionDuration}ms ${AnimationKeyframes.globalLoaderMoveToRight()} ${
-      this.props.expectedDownloadTime! * (waitingFactor + 1)
+      this.props.expectedResponseTime! * (waitingFactor + 1)
     }ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${
-      this.props.expectedDownloadTime! * (waitingFactor + 1) + transitionDuration
+      this.props.expectedResponseTime! * (waitingFactor + 1) + transitionDuration
     }ms infinite alternate`;
 
     const errorAnimation = `${AnimationKeyframes.globalLoaderMoveToRight()} ${transitionDuration}ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${transitionDuration}ms infinite alternate`;
@@ -67,7 +68,7 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     if (this.props.downloadSuccess) {
       return successAnimation;
     }
-    if (this.props.downloadError) {
+    if (this.props.rejected) {
       return errorAnimation;
     }
     return standardAnimation;

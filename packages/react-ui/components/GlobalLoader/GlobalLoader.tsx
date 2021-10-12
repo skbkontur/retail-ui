@@ -9,19 +9,18 @@ export interface GlobalLoaderProps {
    * Время в миллисекундах до появления глобального лоадера после начала запроса на сервер.
    * @default 1000
    */
-  delayBeforeGlobalLoaderShow?: number;
+  delayBeforeShow?: number;
   /**
    * Время в миллисекундах до исчезновения глобального лоадера после успешной загрузки данных.
    * @default 1000
    */
-  delayBeforeGlobalLoaderDisappear?: number;
+  delayBeforeHide?: number;
   /**
    * Ожидаемое время загрузки данных с сервера
    */
-  expectedDownloadTime?: number;
-  downloadSuccess?: boolean;
-  downloadError?: boolean;
-  isLoading?: boolean;
+  expectedResponseTime?: number;
+  rejected?: boolean;
+  active?: boolean;
 }
 export interface GlobalLoaderState {
   isVisible: boolean;
@@ -50,12 +49,11 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   private globalLoaderSuccessTimeout: Nullable<NodeJS.Timeout>;
 
   public static defaultProps: Partial<GlobalLoaderProps> = {
-    expectedDownloadTime: 1000,
-    delayBeforeGlobalLoaderShow: 1000,
-    delayBeforeGlobalLoaderDisappear: 1000,
-    downloadError: false,
-    downloadSuccess: false,
-    isLoading: false,
+    expectedResponseTime: 1000,
+    delayBeforeShow: 1000,
+    delayBeforeHide: 1000,
+    rejected: false,
+    active: false,
   };
 
   constructor(props: GlobalLoaderProps) {
@@ -72,29 +70,27 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader = this;
   }
   componentDidMount() {
-    if (!this.state.amIDead && this.props.isLoading) {
+    if (!this.state.amIDead && this.props.active) {
       this.globalLoaderVisibleTimeout = setTimeout(() => {
         this.setState({ isVisible: true });
-      }, this.props.delayBeforeGlobalLoaderShow);
+      }, this.props.delayBeforeShow);
     }
-    if (this.props.downloadSuccess) {
-      currentGlobalLoader.setDone(true);
-    }
-    if (this.props.downloadError) {
+    if (this.props.rejected) {
       currentGlobalLoader.setReject(true);
     }
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
     if (!this.state.amIDead) {
-      if (this.props.downloadSuccess && this.props.downloadSuccess !== prevProps.downloadSuccess) {
-        currentGlobalLoader.setDone(true);
-      }
-      if (this.props.downloadError && this.props.downloadError !== prevProps.downloadError) {
+      if (this.props.rejected && this.props.rejected !== prevProps.rejected) {
         currentGlobalLoader.setReject(true);
       }
-      if (this.props.isLoading && this.props.isLoading !== prevProps.isLoading) {
-        currentGlobalLoader.setActive(true, this.props.delayBeforeGlobalLoaderShow);
+      if (this.props.active !== prevProps.active) {
+        if (this.props.active) {
+          currentGlobalLoader.setActive(true, this.props.delayBeforeShow);
+        } else {
+          currentGlobalLoader.setDone(true);
+        }
       }
     }
   }
@@ -108,10 +104,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     return (
       !this.state.amIDead && (
         <GlobalLoaderView
-          expectedDownloadTime={this.props.expectedDownloadTime}
+          expectedResponseTime={this.props.expectedResponseTime}
           isGlobalLoaderVisible={this.state.isVisible}
           downloadSuccess={this.state.isDone}
-          downloadError={this.state.isRejected}
+          rejected={this.state.isRejected}
         />
       )
     );
@@ -134,7 +130,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.setState({ isVisible: false, isDone: false, isRejected: false });
       this.globalLoaderVisibleTimeout = setTimeout(() => {
         this.setState({ isVisible: active });
-      }, delay || this.props.delayBeforeGlobalLoaderShow);
+      }, delay || this.props.delayBeforeShow);
     }
   };
 
@@ -143,7 +139,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.setState({ isDone: done });
       this.globalLoaderSuccessTimeout = setTimeout(() => {
         this.setState({ isVisible: false });
-      }, this.props.delayBeforeGlobalLoaderDisappear);
+      }, this.props.delayBeforeHide);
     }
   };
 

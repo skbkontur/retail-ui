@@ -1,4 +1,5 @@
 Глобальным лоадером можно управлять путем передачи необходимых переменных в качестве пропсов, а также с помощью статических методов:
+
 ```jsx harmony
 import { Button } from '@skbkontur/react-ui';
 import { GlobalLoader } from './GlobalLoader';
@@ -22,9 +23,11 @@ setTimeout(() => {
 function showGlobalLoader() {
   GlobalLoader.start();
 }
+
 function sendSuccess() {
   GlobalLoader.done();
 }
+
 function sendError() {
   GlobalLoader.reject();
 }
@@ -33,7 +36,8 @@ function sendError() {
   <Button onClick={showGlobalLoader}>Start</Button>
   <Button onClick={sendSuccess}>Success</Button>
   <Button onClick={sendError}>Error</Button>
-  <GlobalLoader expectedDownloadTime={2000} delayBeforeGlobalLoaderShow={0} isLoading={loading} downloadSuccess={success} downloadError={error} />
+  <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={loading} downloadSuccess={success}
+                rejected={error} />
 </div>
 ```
 
