@@ -10,6 +10,7 @@ import { Select } from '../Select';
 import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -210,6 +211,7 @@ export const MobileSimple = () => {
               {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
               <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
               {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
+              <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
             </Gapped>
           </ThemeContext.Provider>
         );

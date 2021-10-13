@@ -119,24 +119,11 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   public render() {
-    const { onClickOutside, onFocusOutside, onMouseEnter, onMouseLeave, onMouseOver, opened, size, width } = this.props;
+    const { onClickOutside, onFocusOutside, onMouseEnter, onMouseLeave, onMouseOver, opened, width } = this.props;
 
     const isMobile = this.isMobileLayout;
 
     const input = this.renderInput();
-
-    const topOffsets = {
-      spinner: 6,
-      arrow: 15,
-    };
-    if (size === 'medium') {
-      topOffsets.spinner += 4;
-      topOffsets.arrow += 4;
-    }
-    if (size === 'large') {
-      topOffsets.spinner += 6;
-      topOffsets.arrow += 6;
-    }
 
     return (
       <ThemeContext.Consumer>

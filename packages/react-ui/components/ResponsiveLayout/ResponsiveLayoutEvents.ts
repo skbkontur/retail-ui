@@ -1,39 +1,58 @@
+import { canUseDOM } from '../../lib/client';
+
 interface mediaQueryData {
   mql: MediaQueryList;
-  listeners: { id: object; callback: (e: MediaQueryListEvent) => void }[];
+  listeners: ((e: MediaQueryListEvent) => void)[];
+}
+
+export interface listenerToken {
+  remove: () => void;
 }
 
 export const eventListenersMap = new Map<string, mediaQueryData>();
 
 export function addResponsiveLayoutListener(
   mediaQuery: string,
-  classInstance: object,
   callback: (e: MediaQueryListEvent) => void,
-): void {
-  if (!eventListenersMap.has(mediaQuery)) {
-    const mql = window.matchMedia(mediaQuery);
-    const newMediaQueryInfo: mediaQueryData = { mql, listeners: [{ id: classInstance, callback }] };
-
-    eventListenersMap.set(mediaQuery, newMediaQueryInfo);
-    eventListenersMap.get(mediaQuery)?.mql.addEventListener('change', changeCallback);
+): listenerToken {
+  if (eventListenersMap.has(mediaQuery)) {
+    addCallbackToMQListener(mediaQuery, callback);
   } else {
-    const eventListener = eventListenersMap.get(mediaQuery);
+    createMQListener(mediaQuery, callback);
+  }
 
-    if (eventListener) {
-      eventListenersMap.set(mediaQuery, {
-        ...eventListener,
-        listeners: [...eventListener.listeners, { id: classInstance, callback }],
-      });
-    }
+  return {
+    remove() {
+      removeCallbackFromMQListener(mediaQuery, callback);
+    },
+  };
+}
+
+function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
+  const eventListener = eventListenersMap.get(mediaQuery);
+
+  if (eventListener) {
+    eventListenersMap.set(mediaQuery, {
+      ...eventListener,
+      listeners: [...eventListener.listeners, callback],
+    });
   }
 }
 
-export function removeResponsiveLayoutListener(mediaQuery: string, classInstance: object): void {
+function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
+  const mql = window.matchMedia(mediaQuery);
+  const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
+
+  eventListenersMap.set(mediaQuery, newMediaQueryInfo);
+  eventListenersMap.get(mediaQuery)?.mql.addEventListener('change', changeCallback);
+}
+
+function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
   if (eventListenersMap.has(mediaQuery)) {
     const eventListener = eventListenersMap.get(mediaQuery);
 
     if (eventListener) {
-      const newListeners = eventListener.listeners.filter((listener) => listener.id !== classInstance);
+      const newListeners = eventListener.listeners.filter((listener) => listener !== callback);
 
       if (newListeners.length === 0) {
         eventListener.mql.removeEventListener('change', changeCallback);
@@ -49,13 +68,17 @@ export function removeResponsiveLayoutListener(mediaQuery: string, classInstance
   }
 }
 
-export function getMatches(mediaQuery: string) {
+export function checkMatches(mediaQuery: string) {
+  if (!canUseDOM) {
+    return false;
+  }
+
   if (!eventListenersMap.has(mediaQuery)) {
-    return undefined;
+    return window.matchMedia(mediaQuery).matches;
   } else {
     const eventListener = eventListenersMap.get(mediaQuery);
 
-    return eventListener?.mql.matches;
+    return eventListener!.mql.matches;
   }
 }
 
@@ -64,7 +87,7 @@ function changeCallback(e: MediaQueryListEvent) {
 
   if (eventListener) {
     eventListener.listeners.forEach((listener) => {
-      listener.callback(e);
+      listener(e);
     });
   }
 }

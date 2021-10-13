@@ -1,183 +1,86 @@
-import React from 'react';
-import { isEqual } from 'lodash';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
-import { Theme } from '../../lib/theming/Theme';
 
-import { addResponsiveLayoutListener, removeResponsiveLayoutListener, getMatches } from './ResponsiveLayoutEvents';
-
-export enum LayoutMode {
-  Desktop = 'DESKTOP',
-  Mobile = 'MOBILE',
-}
-
-const DEFAULT_DESKTOP_MEDIA_QUERY = '(min-width: 1px)';
-
-const LayoutMQThemeKeys: { [key in LayoutMode]: string } = {
-  [LayoutMode.Desktop]: '',
-  [LayoutMode.Mobile]: 'mobileMediaQuery',
-};
-
-type LayoutData = {
-  name: LayoutMode;
-  mediaQuery: string;
-};
+import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
 interface ResponsiveLayoutProps {
-  onLayoutChange?: (layout: LayoutMode) => void;
+  onLayoutChange?: (layout: ResponsiveLayoutState) => void;
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutState) => React.ReactNode);
 }
 
-export interface CurrentLayout {
-  isDesktop: boolean;
+interface ResponsiveLayoutState {
   isMobile: boolean;
 }
 
-type ResponsiveLayoutState = CurrentLayout;
+export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
+  const theme = useContext(ThemeContext);
 
-const DEFAULT_RESPONSIVE_LAYOUT_STATE: ResponsiveLayoutState = {
-  isDesktop: true,
-  isMobile: false,
-};
+  const getLayoutFromGlobal = (): ResponsiveLayoutState => {
+    const isMobile = checkMatches(theme.mobileMediaQuery);
 
-export class ResponsiveLayout extends React.Component<ResponsiveLayoutProps, ResponsiveLayoutState> {
-  public static __KONTUR_REACT_UI__ = 'ResponsiveLayout';
+    return { isMobile: !!isMobile };
+  };
 
-  public constructor(props: ResponsiveLayoutProps) {
-    super(props);
+  const [state, setState] = useState(getLayoutFromGlobal());
 
-    this.state = DEFAULT_RESPONSIVE_LAYOUT_STATE;
-  }
+  let mobileListener: { remove: () => void } | null = null;
 
-  public theme!: Theme;
-
-  public layoutsMap: { [x: string]: LayoutMode } = {};
-  public layouts: LayoutData[] = [];
-
-  componentDidMount() {
-    this.prepareMediaQueries();
-  }
-
-  componentWillUnmount() {
-    this.unsubscribeMediaQueries();
-  }
-
-  public prepareMediaQueries = () => {
-    if (!this.theme) {
+  const prepareMediaQueries = useCallback(() => {
+    if (!theme) {
       return;
     }
 
-    this.layouts = this.getLayoutsFromTheme(this.theme);
+    mobileListener = addResponsiveLayoutListener(theme.mobileMediaQuery, checkLayoutsMediaQueries);
 
-    this.layouts.forEach((layout) => {
-      this.layoutsMap[layout.mediaQuery] = layout.name;
-      addResponsiveLayoutListener(layout.mediaQuery, this, this.checkLayoutsMediaQueries);
-    });
+    const globalLayout = getLayoutFromGlobal();
 
-    const globalLayout = this.getLayoutFromGlobalListener();
-
-    if (!isEqual(globalLayout, this.state)) {
-      this.setState(globalLayout);
+    if (globalLayout.isMobile !== state.isMobile) {
+      setState(globalLayout);
     }
-  };
+  }, [theme]);
 
-  public getLayoutFromGlobalListener = (): CurrentLayout => {
-    const currentLayout: CurrentLayout = { ...DEFAULT_RESPONSIVE_LAYOUT_STATE };
-
-    this.layouts.forEach((layout) => {
-      const layoutFlag = this.getLayoutFlag(layout.name);
-      const isMatch = getMatches(layout.mediaQuery);
-
-      if (typeof isMatch !== 'undefined') {
-        currentLayout[layoutFlag] = isMatch;
+  const checkLayoutsMediaQueries = useCallback(
+    (e: MediaQueryListEvent) => {
+      if (!theme) {
+        return;
       }
-    });
 
-    return currentLayout;
-  };
+      if (e.media === theme.mobileMediaQuery) {
+        setState((prevState: ResponsiveLayoutState) => ({
+          ...prevState,
+          isMobile: e.matches,
+        }));
+      }
+    },
+    [theme],
+  );
 
-  public getLayoutFlag(layout: LayoutMode): keyof CurrentLayout {
-    switch (layout) {
-      case LayoutMode.Mobile:
-        return 'isMobile';
-      default:
-        return 'isDesktop';
+  useEffect(() => {
+    if (props.onLayoutChange) {
+      props.onLayoutChange(state);
     }
-  }
+  }, [state]);
 
-  public unsubscribeMediaQueries = () => {
-    if (!this.theme) {
-      return;
-    }
+  useEffect(() => {
+    prepareMediaQueries();
 
-    this.layouts.forEach((layout) => {
-      removeResponsiveLayoutListener(layout.mediaQuery, this);
-    });
-  };
-
-  public checkLayoutsMediaQueries = (e: MediaQueryListEvent) => {
-    if (!this.theme) {
-      return;
-    }
-
-    const layout = this.layoutsMap[e.media] || LayoutMode.Desktop;
-    const layoutFlag: keyof ResponsiveLayoutState = this.getLayoutFlag(layout);
-
-    this.setState((prevState: ResponsiveLayoutState) => ({
-      ...prevState,
-      [layoutFlag]: e.matches,
-    }));
-  };
-
-  public createLayoutData(name: LayoutMode, mediaQuery: string): LayoutData {
-    return {
-      name,
-      mediaQuery,
+    return () => {
+      mobileListener?.remove();
     };
+  }, []);
+
+  if (isFunction(props.children)) {
+    return props.children(state) as React.ReactElement;
   }
 
-  public getLayoutsFromTheme(theme: Theme) {
-    const layouts: LayoutData[] = [];
-
-    try {
-      Object.values(LayoutMode).forEach((layoutKey) => {
-        if (layoutKey === LayoutMode.Desktop) {
-          layouts.push(this.createLayoutData(layoutKey, DEFAULT_DESKTOP_MEDIA_QUERY));
-        }
-
-        if (LayoutMQThemeKeys) {
-          //@ts-ignore
-          const layoutThemeMediaQuery: string | undefined = theme[LayoutMQThemeKeys[layoutKey]];
-
-          if (layoutThemeMediaQuery) {
-            layouts.push(this.createLayoutData(layoutKey, layoutThemeMediaQuery));
-          }
-        }
-      });
-    } catch (error) {
-      return layouts;
-    }
-
-    return layouts;
-  }
-
-  public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-
-          return isFunction(this.props.children) ? this.props.children(this.state) : this.props.children;
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-}
+  return (props.children ? props.children : null) as React.ReactElement;
+};
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
-    public layout: CurrentLayout = DEFAULT_RESPONSIVE_LAYOUT_STATE;
+    public layout!: ResponsiveLayoutState;
 
     public get currentLayout(): ResponsiveLayoutState {
       return this.layout;
@@ -195,21 +98,13 @@ export function responsiveLayout<T extends new (...args: any[]) => React.Compone
       //
     }
 
-    public get isDesktopLayout(): boolean {
-      return this.layout.isDesktop;
-    }
-
-    public set isDesktopLayout(value: boolean) {
-      //
-    }
-
-    public renderWithLayout = (currentLayout: CurrentLayout) => {
+    public renderWithLayout = (currentLayout: ResponsiveLayoutState) => {
       this.layout = currentLayout;
 
       return super.render();
     };
 
-    public render(): JSX.Element {
+    public render(): React.ReactNode {
       return <ResponsiveLayout>{this.renderWithLayout}</ResponsiveLayout>;
     }
   };
