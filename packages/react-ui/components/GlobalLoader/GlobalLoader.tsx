@@ -27,6 +27,7 @@ export interface GlobalLoaderState {
   done: boolean;
   rejected: boolean;
   dead: boolean;
+  successAnimationInProgress: boolean;
 }
 
 let currentGlobalLoader: GlobalLoader;
@@ -51,8 +52,9 @@ let currentGlobalLoader: GlobalLoader;
  *
  */
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
-  private globalLoaderVisibleTimeout: Nullable<NodeJS.Timeout>;
-  private globalLoaderSuccessTimeout: Nullable<NodeJS.Timeout>;
+  private visibleTimeout: Nullable<NodeJS.Timeout>;
+  private successTimeout: Nullable<NodeJS.Timeout>;
+  private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
 
   public static defaultProps: Partial<GlobalLoaderProps> = {
     expectedResponseTime: 1000,
@@ -69,15 +71,17 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       done: false,
       rejected: false,
       dead: false,
+      successAnimationInProgress: false,
     };
-    this.globalLoaderVisibleTimeout = null;
-    this.globalLoaderSuccessTimeout = null;
+    this.visibleTimeout = null;
+    this.successTimeout = null;
+    this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
     currentGlobalLoader = this;
   }
   componentDidMount() {
     if (!this.state.dead && this.props.active) {
-      this.globalLoaderVisibleTimeout = setTimeout(() => {
+      this.visibleTimeout = setTimeout(() => {
         this.setState({ visible: true });
       }, this.props.delayBeforeShow);
     }
@@ -102,8 +106,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentWillUnmount() {
-    GlobalLoader.stopTimeout(this.globalLoaderVisibleTimeout);
-    GlobalLoader.stopTimeout(this.globalLoaderSuccessTimeout);
+    GlobalLoader.stopTimeout(this.visibleTimeout);
+    GlobalLoader.stopTimeout(this.successTimeout);
+    GlobalLoader.stopTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
@@ -133,18 +138,24 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   public setActive = (active: boolean, delay?: number) => {
     if (!this.state.dead) {
-      this.setState({ visible: false, done: false, rejected: false });
-      this.globalLoaderVisibleTimeout = setTimeout(() => {
-        this.setState({ visible: active });
-      }, delay || this.props.delayBeforeShow);
+      if (this.state.successAnimationInProgress) {
+        this.successAnimationInProgressTimeout = setTimeout(() => {
+          this.setActive(true);
+        }, this.props.delayBeforeHide);
+      } else {
+        this.setState({ visible: false, done: false, rejected: false });
+        this.visibleTimeout = setTimeout(() => {
+          this.setState({ visible: active });
+        }, delay || this.props.delayBeforeShow);
+      }
     }
   };
 
   public setDone = (done: boolean) => {
     if (!this.state.dead) {
-      this.setState({ done: done });
-      this.globalLoaderSuccessTimeout = setTimeout(() => {
-        this.setState({ visible: false });
+      this.setState({ done: done, successAnimationInProgress: true });
+      this.successTimeout = setTimeout(() => {
+        this.setState({ visible: false, successAnimationInProgress: false });
       }, this.props.delayBeforeHide);
     }
   };
