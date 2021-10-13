@@ -1,5 +1,5 @@
 using NUnit.Framework;
-
+using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.RadioGroupTests
@@ -21,7 +21,7 @@ namespace SKBKontur.SeleniumTesting.Tests.RadioGroupTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleRadioGroup.ExpectTo().BePresent();
+            page.SimpleRadioGroup.IsPresent.Wait().True();
         }
 
         private RadioGroupTestPage page;
