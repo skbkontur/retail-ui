@@ -46,9 +46,9 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     );
   }
   private getAnimation(): string {
-    const waitingFactor = this.theme.globalLoaderWaitingFactor;
-    const transitionDuration = this.theme.globalLoaderTransitionDuration; // ms
-    const spinnerAnimationDuration = this.theme.globalLoaderSpinnerAnimationDuration; //ms
+    const waitingFactor = parseInt(this.theme.globalLoaderWaitingFactor);
+    const transitionDuration = parseInt(this.theme.globalLoaderTransitionDuration);
+    const spinnerAnimationDuration = parseInt(this.theme.globalLoaderSpinnerAnimationDuration);
 
     const standardAnimation = `${AnimationKeyframes.globalLoaderProgress()} ${
       this.props.expectedResponseTime

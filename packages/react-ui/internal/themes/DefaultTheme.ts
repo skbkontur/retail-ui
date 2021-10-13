@@ -1412,14 +1412,14 @@ export class DefaultTheme {
   public static globalLoaderHeight = '4px';
   public static globalLoaderWidth = '100%';
   public static globalLoaderPosition = 'absolute';
-  public static globalLoaderTop = 0;
-  public static globalLoaderLeft = 0;
+  public static globalLoaderTop = '0';
+  public static globalLoaderLeft = '0';
   public static globalLoaderBottom = 'auto';
   public static globalLoaderRight = 'auto';
   public static globalLoaderBackgroundColor = 'transparent';
-  public static globalLoaderWaitingFactor = 5;
-  public static globalLoaderTransitionDuration = 1000; //ms
-  public static globalLoaderSpinnerAnimationDuration = 3000; //ms
+  public static globalLoaderWaitingFactor = '5';
+  public static globalLoaderTransitionDuration = '1000'; //ms
+  public static globalLoaderSpinnerAnimationDuration = '3000'; //ms
   //#endregion
 }
 
