@@ -43,6 +43,12 @@ let currentGlobalLoader: GlobalLoader;
  *
  * `GlobalLoader.reject()` - сигнализирует об ошибке с сервера, глобальный лоадер при этом переходит в состояние спиннера.
  * Равносильно установке пропа `downloadError = true`
+ *
+ * Глобальный лоадер может быть только один в приложении. Если их несколько - работать будет последний.
+ *
+ * Родителю глобального лоадера нужно указать position: relative для того чтобы глобальный лоадер позиционировался относительно него.
+ * Также через переменную темы globalLoaderPosition = 'fixed' можно задать фиксированное положение для глобального лоадера.
+ *
  */
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private globalLoaderVisibleTimeout: Nullable<NodeJS.Timeout>;
