@@ -6,12 +6,13 @@ import { cx } from '../../lib/theming/Emotion';
 import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { GlobalLoaderProps } from './GlobalLoader';
 import { styles } from './GlobalLoaderView.styles';
 
-interface GlobalLoaderViewProps extends GlobalLoaderProps {
-  isGlobalLoaderVisible?: boolean;
+interface GlobalLoaderViewProps {
+  expectedResponseTime: number;
+  isGlobalLoaderVisible: boolean;
   downloadSuccess: boolean;
+  rejected: boolean;
 }
 
 export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {

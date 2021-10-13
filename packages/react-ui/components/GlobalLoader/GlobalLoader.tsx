@@ -18,7 +18,7 @@ export interface GlobalLoaderProps {
   /**
    * Ожидаемое время загрузки данных с сервера
    */
-  expectedResponseTime?: number;
+  expectedResponseTime: number;
   rejected?: boolean;
   active?: boolean;
 }
