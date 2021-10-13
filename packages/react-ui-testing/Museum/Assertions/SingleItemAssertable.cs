@@ -1,6 +1,5 @@
 ﻿using System;
 
-using SKBKontur.SeleniumTesting.Assertions.Context;
 using SKBKontur.SeleniumTesting.Assertions.ErrorMessages;
 
 namespace SKBKontur.SeleniumTesting.Assertions
