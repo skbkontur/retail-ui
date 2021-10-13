@@ -19,7 +19,7 @@ namespace SKBKontur.SeleniumTesting.Internals
             timeout = IncreaseFirstTimeoutIfNeedForTeamcity(GetActualTimeout(timeout));
             DoWait(tryFunc,
                    () => TestFrameworkProvider.Throw(
-                       $"Действие {actionDescription} не выполнилось за {GetActualTimeout(timeout)} мс. {actualText}"),
+                       $"Действие {actionDescription} не выполнилось за {timeout} мс. {actualText}"),
                    timeout);
         }
 
