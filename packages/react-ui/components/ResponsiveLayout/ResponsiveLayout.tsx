@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
@@ -25,15 +25,16 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
 
   const [state, setState] = useState(getLayoutFromGlobal());
 
-  let mobileListener: { remove: () => void } | null = null;
+  const mobileListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
 
   const prepareMediaQueries = useCallback(() => {
     if (!theme) {
       return;
     }
 
-    mobileListener = addResponsiveLayoutListener(theme.mobileMediaQuery, checkLayoutsMediaQueries);
+    mobileListener.current = addResponsiveLayoutListener(theme.mobileMediaQuery, checkLayoutsMediaQueries);
 
+    // Checking for SSR use case
     const globalLayout = getLayoutFromGlobal();
 
     if (globalLayout.isMobile !== state.isMobile) {
@@ -67,15 +68,15 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
     prepareMediaQueries();
 
     return () => {
-      mobileListener?.remove();
+      mobileListener.current?.remove;
     };
   }, []);
 
   if (isFunction(props.children)) {
-    return props.children(state) as React.ReactElement;
+    return (props.children(state) ?? null) as React.ReactElement;
   }
 
-  return (props.children ? props.children : null) as React.ReactElement;
+  return (props.children ?? null) as React.ReactElement;
 };
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
@@ -104,7 +105,7 @@ export function responsiveLayout<T extends new (...args: any[]) => React.Compone
       return super.render();
     };
 
-    public render(): React.ReactNode {
+    public render() {
       return <ResponsiveLayout>{this.renderWithLayout}</ResponsiveLayout>;
     }
   };
