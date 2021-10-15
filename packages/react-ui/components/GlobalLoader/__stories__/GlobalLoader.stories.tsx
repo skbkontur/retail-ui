@@ -107,9 +107,12 @@ export default { title: 'GlobalLoader' };
 
 export const GlobalLoaderWithPropsContent: Story = () => <GlobalLoaderWithProps />;
 GlobalLoaderWithPropsContent.storyName = 'with props';
+GlobalLoaderWithPropsContent.parameters = { creevey: { skip: true } };
 
 export const GlobalLoaderWithStaticMethodsContent: Story = () => <GlobalLoaderWithStaticMethods />;
 GlobalLoaderWithStaticMethodsContent.storyName = 'with static methods';
+GlobalLoaderWithStaticMethodsContent.parameters = { creevey: { skip: true } };
 
 export const GlobalLoaderInsideModalBodyContent: Story = () => <GlobalLoaderInsideModalBody />;
 GlobalLoaderInsideModalBodyContent.storyName = 'inside parent';
+GlobalLoaderInsideModalBodyContent.parameters = { creevey: { skip: true } };

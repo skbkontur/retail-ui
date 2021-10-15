@@ -25,7 +25,12 @@ describe('Global Loader', () => {
   describe('with props', () => {
     beforeEach(() => {
       globalLoader = mount<GlobalLoader>(
-        <GlobalLoader expectedResponseTime={2000} delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW} delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE} active={active}/>,
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+          active={active}
+        />,
       );
     });
 
@@ -78,7 +83,11 @@ describe('Global Loader', () => {
   describe('with static methods', () => {
     beforeEach(() => {
       globalLoader = mount<GlobalLoader>(
-        <GlobalLoader expectedResponseTime={2000} delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW} delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}/>,
+        <GlobalLoader
+          expectedResponseTime={2000}
+          delayBeforeShow={DELAY_BEFORE_GLOBAL_LOADER_SHOW}
+          delayBeforeHide={DELAY_BEFORE_GLOBAL_LOADER_HIDE}
+        />,
       );
     });
 
