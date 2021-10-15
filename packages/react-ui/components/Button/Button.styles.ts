@@ -641,7 +641,7 @@ export const styles = memoizeStyle({
 
   borderless() {
     return css`
-      background-clip: border-box;
+      background-clip: padding-box;
 
       &,
       &:hover,
