@@ -50,9 +50,13 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     const transitionDuration = parseInt(this.theme.globalLoaderTransitionDuration);
     const spinnerAnimationDuration = parseInt(this.theme.globalLoaderSpinnerAnimationDuration);
 
-    const standardAnimation = `${AnimationKeyframes.globalLoaderProgress()} ${
-      this.props.expectedResponseTime
-    }ms linear, ${
+    if (this.props.downloadSuccess) {
+      return 'none';
+    }
+    if (this.props.rejected) {
+      return `${AnimationKeyframes.globalLoaderMoveToRight()} ${transitionDuration}ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${transitionDuration}ms infinite alternate`;
+    }
+    return `${AnimationKeyframes.globalLoaderProgress()} ${this.props.expectedResponseTime}ms linear, ${
       this.props.expectedResponseTime! * waitingFactor
     }ms ${AnimationKeyframes.globalLoaderSlowProgress()} ${
       this.props.expectedResponseTime
@@ -61,17 +65,5 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     }ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${
       this.props.expectedResponseTime! * (waitingFactor + 1) + transitionDuration
     }ms infinite alternate`;
-
-    const errorAnimation = `${AnimationKeyframes.globalLoaderMoveToRight()} ${transitionDuration}ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${transitionDuration}ms infinite alternate`;
-
-    const successAnimation = 'none';
-
-    if (this.props.downloadSuccess) {
-      return successAnimation;
-    }
-    if (this.props.rejected) {
-      return errorAnimation;
-    }
-    return standardAnimation;
   }
 }
