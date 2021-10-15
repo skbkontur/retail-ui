@@ -119,6 +119,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
           isGlobalLoaderVisible={this.state.visible}
           downloadSuccess={this.state.done}
           rejected={this.state.rejected}
+          data-tid={this.state.visible ? 'GlobalLoader' : ''}
         />
       )
     );
