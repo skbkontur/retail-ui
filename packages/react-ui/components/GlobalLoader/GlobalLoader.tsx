@@ -80,10 +80,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader = this;
   }
   componentDidMount() {
-    if (!this.state.dead && this.props.active) {
-      this.visibleTimeout = setTimeout(() => {
-        this.setState({ visible: true });
-      }, this.props.delayBeforeShow);
+    if (this.props.active) {
+      this.setActive(true);
     }
     if (this.props.rejected) {
       currentGlobalLoader.setReject(true);
