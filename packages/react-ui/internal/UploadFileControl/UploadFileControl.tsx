@@ -100,8 +100,8 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
       }
       setFiles(selectedFiles);
 
-      onSelect && onSelect(selectedFiles);
-      onReadError && onReadError(readErrorFiles);
+      onSelect?.(selectedFiles);
+      onReadError?.(readErrorFiles);
     },
     [onReadError, onSelect, setFiles, isSingleMode, files, removeFile],
   );

@@ -10,14 +10,15 @@ import { UploadFileControlContext } from '../../internal/UploadFileControl/Uploa
 import { useValidationSetter } from '../../internal/UploadFileControl/UploadFileControlHooks';
 
 export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFilesProviderProps {
+  // FIXME @mozalov: возможно стоит вынести асинхронные пропсы в отдельный пропс
+
   // Функция, через которую отправляем файлы.
   // Нужна для отслеживания статуса загрузки файла.
-  request: (file: IUploadFile) => Promise<void>;
+  request?: (file: IUploadFile) => Promise<void>;
   onRequestSuccess?: (fileId: string) => void;
-  onRequestError?: (fileId: string) => void;
+  onRequestError?: (fileId: string) => void
 
   // срабатывает после выбора файлов и перед попыткой отправить в request
-  // TODO @mozalov: возможно стоит возвращать не строку, а какой-то объект валидации
   getFileValidationText?: (file: IUploadFile) => Promise<string>;
 }
 
@@ -37,7 +38,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
   const switchToSuccess = useCallback(
     (fileId: string) => {
       setFileStatus(fileId, UploadFileStatus.Uploaded);
-      onRequestSuccess && onRequestSuccess(fileId);
+      onRequestSuccess?.(fileId);
     },
     [setFileStatus, onRequestSuccess],
   );
@@ -45,7 +46,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
   const switchToError = useCallback(
     (fileId: string) => {
       setFileStatus(fileId, UploadFileStatus.Error);
-      onRequestError && onRequestError(fileId);
+      onRequestError?.(fileId);
     },
     [setFileStatus, onRequestError],
   );
@@ -56,7 +57,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
       switchToLoading(id);
 
       try {
-        await request(file);
+        await request?.(file);
         switchToSuccess(id);
       } catch {
         switchToError(id);
@@ -67,7 +68,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
 
   const handleSelect = useCallback(
     (files: IUploadFile[]) => {
-      onSelect && onSelect(files);
+      onSelect?.(files);
 
       if (controlError) {
         return;

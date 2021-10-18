@@ -62,7 +62,7 @@ export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesP
     (files: IUploadFile[]) => {
       setFiles((state) => {
         const newFiles = [...state, ...files];
-        onValueChange && onValueChange(newFiles);
+        onValueChange?.(newFiles);
         return newFiles;
       });
     },
@@ -71,10 +71,10 @@ export const UploadFileControlProvider = (props: PropsWithChildren<IUploadFilesP
 
   const removeFile = useCallback(
     (fileId: string) => {
-      onRemove && onRemove(fileId);
+      onRemove?.(fileId);
       setFiles((state) => {
         const newFiles = state.filter((file) => file.id !== fileId);
-        onValueChange && onValueChange(newFiles);
+        onValueChange?.(newFiles);
         return newFiles;
       });
     },

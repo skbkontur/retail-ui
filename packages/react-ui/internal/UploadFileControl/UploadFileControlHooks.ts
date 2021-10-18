@@ -55,7 +55,7 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
       setIsDraggable(false);
       overRef.current = false;
 
-      onDrop && onDrop(event);
+      onDrop?.(event);
     },
     [preventDefault, onDrop],
   );

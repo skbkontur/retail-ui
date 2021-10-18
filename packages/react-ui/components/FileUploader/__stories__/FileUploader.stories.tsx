@@ -23,23 +23,23 @@ const errorRequest = () =>
     }, 2000);
   });
 
-export const SingleFileUploader = () => <FileUploader request={successRequest} />;
+export const SingleAsyncFileUploader = () => <FileUploader request={successRequest} />;
 
-export const SingleFileUploaderWithFileError = () => (
+export const SingleAsyncFileUploaderWithFileError = () => (
   <FileUploader request={successRequest} getFileValidationText={() => Promise.resolve('Формат файла неверный')} />
 );
 
-export const MultipleFileUploader = () => <FileUploader multiple request={successRequest} />;
+export const MultipleAsyncFileUploader = () => <FileUploader multiple request={successRequest} />;
 
-export const MultipleFileUploaderWithLoading = () => <FileUploader multiple request={loadingRequest} />;
+export const MultipleAsyncFileUploaderWithLoading = () => <FileUploader multiple request={loadingRequest} />;
 
-export const MultipleFileUploaderWithErrorRequest = () => <FileUploader multiple request={errorRequest} />;
+export const MultipleAsyncFileUploaderWithErrorRequest = () => <FileUploader multiple request={errorRequest} />;
 
-export const MultipleFileUploaderWithControlError = () => (
+export const MultipleAsyncFileUploaderWithControlError = () => (
   <FileUploader multiple controlError={'Файлов должно быть меньше 2'} request={loadingRequest} />
 );
 
-export const MultipleFileUploaderWithFileError = () => (
+export const MultipleAsyncFileUploaderWithFileError = () => (
   <FileUploader
     multiple
     request={successRequest}
@@ -47,4 +47,15 @@ export const MultipleFileUploaderWithFileError = () => (
   />
 );
 
-export const FileUploaderDisabled = () => <FileUploader request={successRequest} disabled />;
+export const AsyncFileUploaderDisabled = () => <FileUploader request={successRequest} disabled />;
+
+// sync control stories
+export const SingleFileUploader = () => <FileUploader />;
+
+export const MultipleFileUploader = () => <FileUploader multiple />;
+
+export const FileUploaderWithErrorControl = () => <FileUploader controlError={'Выберите файл'} />;
+
+export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width={"100%"} />;
+
+export const MultipleFileUploaderWithCustomWidth = () => <FileUploader width={550} multiple />;
