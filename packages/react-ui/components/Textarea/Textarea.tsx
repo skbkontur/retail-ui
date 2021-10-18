@@ -234,6 +234,9 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
       this.autoResize();
     }
+    if (this.props.autoResize && (this.props.rows !== prevProps.rows || this.props.maxRows !== prevProps.maxRows)) {
+      this.autoResize();
+    }
   }
 
   public render() {
