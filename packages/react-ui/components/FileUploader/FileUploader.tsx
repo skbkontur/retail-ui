@@ -1,6 +1,11 @@
 import React, { useCallback, useContext, useState } from 'react';
 
-import { IUploadFileControlProps, IUploadFileError, UploadFileControl } from '../../internal/UploadFileControl';
+import {
+  IUploadFileControlProps,
+  IUploadFileError,
+  UploadFileControl,
+  FileUploaderControlRef,
+} from '../../internal/UploadFileControl';
 import {
   IUploadFilesProviderProps,
   withUploadFilesProvider,
@@ -22,7 +27,7 @@ export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFile
   getFileValidationText?: (file: IUploadFile) => Promise<string>;
 }
 
-export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) => {
+const _FileUploader = React.forwardRef<FileUploaderControlRef, IFileUploaderProps>((props: IFileUploaderProps, ref) => {
   const { request, error, getFileValidationText, onSelect, onRequestSuccess, onRequestError } = props;
   const { setFileStatus } = useContext(UploadFileControlContext);
 
@@ -78,6 +83,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
         const validationMessage = getFileValidationText && (await getFileValidationText(file));
 
         if (!validationMessage) {
+          // FIXME @mozalov: обработеть случай для отсутствия request (синхронный контрол)
           upload(file);
         } else {
           setFileErrors((state) => [...state, { fileId: file.id, message: validationMessage }]);
@@ -89,5 +95,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
 
   useValidationSetter(fileErrors);
 
-  return <UploadFileControl {...props} onSelect={handleSelect} />;
+  return <UploadFileControl ref={ref} {...props} onSelect={handleSelect} />;
 });
+
+export const FileUploader = withUploadFilesProvider(_FileUploader);
