@@ -80,6 +80,14 @@ const styles = {
     `;
   },
 
+  warning() {
+    // FIXME @mozalov: переписать через темы
+    return css`
+      border: 1px solid #f69c00 !important;
+      box-shadow: 0px 0px 0px 1px #f69c00 !important;
+    `;
+  },
+
   error() {
     return css`
       border: 1px solid #d70c17 !important;

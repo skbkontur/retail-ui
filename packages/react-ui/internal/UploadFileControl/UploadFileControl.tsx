@@ -1,9 +1,8 @@
-import React, { ReactNode, useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext, useRef } from 'react';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 
 import { IUploadFile, readFiles } from '../../lib/fileUtils';
 import { Link } from '../../components/Link';
-import { Tooltip } from '../../components/Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { useMemoObject } from '../../hooks/useMemoObject';
@@ -21,6 +20,8 @@ export interface IUploadFileError {
   message: string;
 }
 
+// FIXME @mozalov: протестировать поддержку react-ui-validations
+
 // FIXME @mozalov: написать тесты на компоненты после ревью
 // FIXME @mozalov: написать комменты для каждого пропса (спросить надо ли у Егора)
 export interface IUploadFileControlProps {
@@ -33,7 +34,8 @@ export interface IUploadFileControlProps {
 
   // FIXME @mozalov: проблема в том, что сейчас контрол мы валидируем так, что в controlError передаем данные и сам компонент обрамляем в тултип внутри, через react-validation не выйдет,
   // свойство валидации контрола
-  controlError?: ReactNode;
+  error?: boolean;
+  warning?: boolean;
   width?: React.CSSProperties['width'];
 
   // хендлер, срабатывает после выбора файлов (при валидном считывании файла)
@@ -41,19 +43,6 @@ export interface IUploadFileControlProps {
   // хендлер, срабатывает после выбора файлов (при невалидном считывании файла)
   onReadError?: (files: IUploadFile[]) => void;
 
-  // нужно поддержать для react-ui-validation
-  // error?: boolean;
-  // warning?: boolean;
-  // onBlur
-  // onFocus
-  // onChange
-  // вызывается при любом изменении files, уже есть в провайдере
-  // onValueChange
-
-  // FIXME @mozalov: onChange вроде как необязательный для валидаций, можно обойтись onValueChange
-  // вызывается при любом изменении контрольного onChange проблема с дропом,
-  // сейчас события для дропа не существует, мы его триггерим по диву, а не по инпуту
-  // onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
 }
@@ -64,7 +53,8 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
     name,
     disabled,
     accept,
-    controlError,
+    error,
+    warning,
     onBlur,
     onFocus,
     onSelect,
@@ -137,17 +127,14 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
 
   const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
     [jsStyles.dragOver()]: isDraggable && !disabled,
-    [jsStyles.error()]: !!controlError && !disabled,
+    [jsStyles.warning()]: !!warning && !disabled,
+    [jsStyles.error()]: !!error && !disabled,
     [jsStyles.disabled()]: disabled,
   });
 
   const uploadButtonWrapperClassNames = cx({
     [jsStyles.windowDragOver()]: isWindowDraggable && !disabled,
   });
-
-  const renderTooltipContent = useCallback((): ReactNode => {
-    return (!disabled && controlError) || null;
-  }, [controlError, disabled]);
 
   const handleClick = useCallback(() => {
     !disabled && inputRef.current?.click();
@@ -179,51 +166,49 @@ export const UploadFileControl = (props: IUploadFileControlProps) => {
   return (
     <div>
       {!isSingleMode && !!files.length && <UploadFileList />}
-      <Tooltip pos="right middle" render={renderTooltipContent}>
-        <div className={uploadButtonWrapperClassNames}>
-          <div
-            className={uploadButtonClassNames}
-            tabIndex={0}
-            ref={droppableRef}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            style={style}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          >
-            <div className={jsStyles.content()}>
-              <Link disabled={disabled} tabIndex={-1}>
-                {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-              </Link>
-              &nbsp;
-              <div className={jsStyles.afterLinkText()}>
-                {hasOneFileForSingle ? (
-                  <UploadFile file={files[0]} />
-                ) : (
-                  <>
-                    {locale.orDragHere}&nbsp;
-                    <UploadIcon color="#808080" />
-                  </>
-                )}
-              </div>
+      <div className={uploadButtonWrapperClassNames}>
+        <div
+          className={uploadButtonClassNames}
+          tabIndex={0}
+          ref={droppableRef}
+          onClick={handleClick}
+          onKeyDown={handleKeyDown}
+          style={style}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        >
+          <div className={jsStyles.content()}>
+            <Link disabled={disabled} tabIndex={-1}>
+              {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+            </Link>
+            &nbsp;
+            <div className={jsStyles.afterLinkText()}>
+              {hasOneFileForSingle ? (
+                <UploadFile file={files[0]} />
+              ) : (
+                <>
+                  {locale.orDragHere}&nbsp;
+                  <UploadIcon color="#808080" />
+                </>
+              )}
             </div>
-            <input
-              id={id}
-              ref={inputRef}
-              type="file"
-              name={name}
-              accept={accept}
-              disabled={disabled}
-              multiple={multiple}
-              className={jsStyles.fileInput()}
-              onClick={stopPropagation}
-              onChange={handleInputChange}
-              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-              value={''}
-            />
           </div>
+          <input
+            id={id}
+            ref={inputRef}
+            type="file"
+            name={name}
+            accept={accept}
+            disabled={disabled}
+            multiple={multiple}
+            className={jsStyles.fileInput()}
+            onClick={stopPropagation}
+            onChange={handleInputChange}
+            // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+            value={''}
+          />
         </div>
-      </Tooltip>
+      </div>
     </div>
   );
 };

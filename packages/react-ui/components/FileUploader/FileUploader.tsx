@@ -23,7 +23,7 @@ export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFile
 }
 
 export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) => {
-  const { request, controlError, getFileValidationText, onSelect, onRequestSuccess, onRequestError } = props;
+  const { request, error, getFileValidationText, onSelect, onRequestSuccess, onRequestError } = props;
   const { setFileStatus } = useContext(UploadFileControlContext);
 
   const [fileErrors, setFileErrors] = useState<IUploadFileError[]>([]);
@@ -70,7 +70,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
     (files: IUploadFile[]) => {
       onSelect?.(files);
 
-      if (controlError) {
+      if (error) {
         return;
       }
 
@@ -84,7 +84,7 @@ export const FileUploader = withUploadFilesProvider((props: IFileUploaderProps) 
         }
       });
     },
-    [upload, controlError, getFileValidationText, onSelect],
+    [upload, error, getFileValidationText, onSelect],
   );
 
   useValidationSetter(fileErrors);
