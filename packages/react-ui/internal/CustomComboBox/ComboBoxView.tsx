@@ -250,7 +250,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         width="100%"
         ref={refInputLikeText}
       >
-        {value ? renderValue!(value) : null}
+        {value && renderValue ? renderValue(value) : null}
       </InputLikeText>
     );
   }

@@ -166,9 +166,9 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
 
   public static defaultProps = {
     itemToValue: (item: ComboBoxItem) => item.value,
-    valueToString: (item: ComboBoxItem) => item.label,
-    renderValue: (item: ComboBoxItem) => item.label,
-    renderItem: (item: ComboBoxItem) => item.label,
+    valueToString: (item: ComboBoxItem) => item.label?.toString(),
+    renderValue: (item: ComboBoxItem) => item.label?.toString(),
+    renderItem: (item: ComboBoxItem) => item.label?.toString(),
     menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
