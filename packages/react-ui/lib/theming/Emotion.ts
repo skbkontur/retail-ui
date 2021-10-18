@@ -5,13 +5,11 @@ import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
 
-const REACT_UI_PREFIX = 'react-ui';
-
-const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
+const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${Upgrade.getUiPrefix()}`).join('');
 
 export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
   createEmotion({
-    key: REACT_UI_PREFIX,
+    key: Upgrade.getUiPrefix(),
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
   });
 
@@ -47,7 +45,7 @@ export const memoizeStyle = <S extends { [className: string]: (() => string) | (
 };
 
 export const prefix =
-  (component: string, app = REACT_UI_PREFIX) =>
+  (component: string, app = Upgrade.getUiPrefix()) =>
   <T extends Record<string, string>>(classes: T): T =>
     Object.keys(classes).reduce((acc, key) => {
       return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
