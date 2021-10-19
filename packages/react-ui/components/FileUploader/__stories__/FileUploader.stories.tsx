@@ -7,6 +7,9 @@ export default {
   decorators: [(storyFn: () => JSX.Element) => <div style={{ padding: '10px' }}>{storyFn()}</div>],
 };
 
+// FIXME @mozalov: написать скришотные тесты на разные вариации
+// FIXME @mozalov: почитать как можно протестить методы фокус и блюр
+
 const loadingRequest = () => Promise.resolve();
 
 const successRequest = () =>
@@ -35,10 +38,6 @@ export const MultipleAsyncFileUploaderWithLoading = () => <FileUploader multiple
 
 export const MultipleAsyncFileUploaderWithErrorRequest = () => <FileUploader multiple request={errorRequest} />;
 
-export const MultipleAsyncFileUploaderWithControlError = () => (
-  <FileUploader multiple controlError={'Файлов должно быть меньше 2'} request={loadingRequest} />
-);
-
 export const MultipleAsyncFileUploaderWithFileError = () => (
   <FileUploader
     multiple
@@ -54,7 +53,9 @@ export const SingleFileUploader = () => <FileUploader />;
 
 export const MultipleFileUploader = () => <FileUploader multiple />;
 
-export const FileUploaderWithErrorControl = () => <FileUploader controlError={'Выберите файл'} />;
+export const FileUploaderWithError = () => <FileUploader error />;
+
+export const FileUploaderWithWarning = () => <FileUploader warning />;
 
 export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width={"100%"} />;
 
