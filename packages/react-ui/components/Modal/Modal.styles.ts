@@ -98,10 +98,6 @@ export const styles = memoizeStyle({
         color: ${t.modalCloseButtonHoverColor};
       }
 
-      &:focus {
-        outline: 2px solid ${t.borderColorFocus};
-      }
-
       & > svg {
         width: ${t.modalCloseIconSize};
         height: ${t.modalCloseIconSize};
@@ -130,6 +126,12 @@ export const styles = memoizeStyle({
       pointer-events: none;
       cursor: default;
       color: ${t.modalCloseButtonDisabledColor};
+    `;
+  },
+
+  focus(t: Theme) {
+    return css`
+      outline: 2px solid ${t.borderColorFocus};
     `;
   },
 
