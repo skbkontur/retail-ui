@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
@@ -20,9 +21,26 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         [Test]
         public void Clear()
         {
-            page.FilledComboBox.ExpectTo().Text.EqualTo("Item 1");
+            page.FilledComboBox.Text.Wait().EqualTo("Item 1");
             page.FilledComboBox.Clear();
-            page.FilledComboBox.ExpectTo().Text.BeEmpty();
+            page.FilledComboBox.Text.Wait().EqualTo(string.Empty);
+        }
+
+        [Test]
+        public void InputText()
+        {
+            page.SimpleComboBox.InputText("123");
+            page.SimpleComboBox.Text.Wait().EqualTo("123");
+
+            page.SimpleComboBox.InputText("4" + Keys.Tab);
+            page.SimpleComboBox.Text.Wait().EqualTo("1234");
+
+            page.SimpleComboBox.Clear();
+            page.SimpleComboBox.InputTextAndSelectSingle("8");
+            page.SimpleComboBox.Text.Wait().EqualTo("Item 8");
+
+            page.DisabledComboBox.Click();
+            page.SimpleComboBox.Text.Wait().EqualTo("Item 8");
         }
 
         [Test]
@@ -50,6 +68,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
             page.ComboBoxNoPortal.Click();
             page.NoPortalComboBoxItems.Count.Wait().That(Is.EqualTo(17));
             page.ComboBoxNoPortal.InputTextAndSelectFirst("Item 1");
+            page.ComboBoxNoPortal.Text.Wait().EqualTo("Item 1");
         }
 
         [Test]

@@ -122,7 +122,7 @@ namespace SKBKontur.SeleniumTesting.Assertions.Bases
 
         public PropertyControlContext<TControl, bool> HasError()
         {
-            return HaveComplexProperty(x => x.HasError(), "error");
+            return HaveComplexProperty(x => x.HasError.Get(), "error");
         }
     }
 
