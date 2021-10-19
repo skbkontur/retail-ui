@@ -10,7 +10,6 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        public new IProp<bool> HasError => ReactProperty<bool>("error");
         public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
         public IProp<string> Value => ReactProperty<string>("value");
 

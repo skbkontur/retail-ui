@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
+using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.SelectTests
@@ -23,28 +24,28 @@ namespace SKBKontur.SeleniumTesting.Tests.SelectTests
         [Test]
         public void TestPresense()
         {
-            page.SimpleSelect.ExpectTo().BePresent();
+            page.SimpleSelect.IsPresent.Wait().True();
         }
 
         [Test]
         public void TestSelectValueText()
         {
             page.SimpleSelect.SelectValueByText("item 2");
-            page.SimpleSelect.ExpectTo().SelectedValueText.EqualTo("item 2");
+            page.SimpleSelect.SelectedValueText.Wait().EqualTo("item 2");
         }
 
         [Test]
         public void TestSelectValueByValue()
         {
             page.SelectWithIdInValues.SelectValueByValue("item 2");
-            page.SelectWithIdInValues.ExpectTo().SelectedValueText.EqualTo("item caption 2");
+            page.SelectWithIdInValues.SelectedValueText.Wait().EqualTo("item caption 2");
         }
 
         [Test]
         public void TestSelectValueByValueInSimpleSelect()
         {
             page.SimpleSelect.SelectValueByValue("item 2");
-            page.SimpleSelect.ExpectTo().SelectedValueText.EqualTo("item 2");
+            page.SimpleSelect.SelectedValueText.Wait().EqualTo("item 2");
         }
 
         private SelectTestPage page;

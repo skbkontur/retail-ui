@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using JetBrains.Annotations;
+
 using Kontur.Selone.Properties;
+
 using OpenQA.Selenium;
+
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
@@ -21,8 +25,34 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public Label NotFound => new Label(GetItemsContainer(), new UniversalSelector("##ComboBoxMenu__notFound"));
 
-        [Obsolete]
-        public string Text { get { return GetValueFromElement(x => x.Text); } }
+        public IProp<string> SelectedValue => this.Find<Label>().ByTid("InputLikeText__input").Text;
+
+        public IProp<string> InputValue => ValueFromElement(
+            x => ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
+
+        public IProp<string> Text => GetText();
+
+        private IProp<string> GetText()
+        {
+            try
+            {
+                Search(new BySelector(By.CssSelector("[data-comp-name~='InputLikeText']")));
+                return SelectedValue;
+            }
+            catch(NoSuchElementException)
+            {
+                try
+                {
+                    Search(new BySelector(By.CssSelector("[data-comp-name~='Input']")));
+                    return InputValue;
+                }
+                catch(NoSuchElementException)
+                {
+                    Search(new BySelector(By.CssSelector("label > span")));
+                    return InputValue;
+                }
+            }
+        }
 
         public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> itemCreator) where T : ControlBase
         {
@@ -115,9 +145,12 @@ namespace SKBKontur.SeleniumTesting.Controls
                 {
                     return Search(new BySelector(By.CssSelector("[data-comp-name~=\'DropdownContainer\']")));
                 }
+
                 var noScriptElement = GetValueFromElement(x => x.FindElement(By.CssSelector("noscript")));
                 var renderContainerId = noScriptElement.GetAttribute("data-render-container-id");
-                var renderContainer = container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
+                var renderContainer =
+                    container.SearchGlobal(
+                        new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                 return renderContainer;
             }
             catch
