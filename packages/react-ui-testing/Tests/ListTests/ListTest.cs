@@ -1,9 +1,5 @@
-﻿using System;
-
-using FluentAssertions;
-
+﻿using System.Linq;
 using NUnit.Framework;
-
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
@@ -52,7 +48,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         [Test]
         public void TestCheckCount()
         {
-            page.InputWithoutTidList.ExpectTo().HaveProperty(x => x.Count.Get(), "zzz").EqualTo(3);
+            page.InputWithoutTidList.Count.Wait().EqualTo(3);
         }
 
         [Test]
@@ -72,19 +68,42 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         public void Test1()
         {
             page.InputWithoutTidList[1].ClearAndInputText("value 1");
-            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().AllItems().ExpectTo().Satisfy(x => x.Value.Get() == "value", "ожадалось значение 'value'"); });
+            Following.CodeFails(() =>
+            {
+                page.InputWithoutTidList
+                    .Select(x => x.Value)
+                    .Wait()
+                    .That(Has.All.EqualTo("value"));
+            });
         }
 
         [Test]
         public void Test2()
         {
-            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().During(TimeSpan.FromSeconds(1)).AllItems().ExpectTo().Satisfy(x => { x.Value.Should().Be("value"); }, "ожадалось значение 'value'"); });
+            Following.CodeFails(() =>
+            {
+                page.InputWithoutTidList
+                    .Select(x => x.Value)
+                    .Wait()
+                    .That(Has.All.EqualTo("value"));
+            });
         }
 
         [Test]
         public void Test3()
         {
-            Following.CodeFails(() => { page.InputWithoutTidList.ExpectTo().ItemsAs(x => x.Value, x => x.Should().AllBeEquivalentTo(new[] {"", "value", "value 2"})); });
+            Following.CodeFails(() =>
+            {
+                page.InputWithoutTidList
+                    .Select(x => x.Value)
+                    .Wait()
+                    .That(Is.EquivalentTo(new[]
+                    {
+                        "",
+                        "value",
+                        "value 2"
+                    }));
+            });
         }
 
         [Test]

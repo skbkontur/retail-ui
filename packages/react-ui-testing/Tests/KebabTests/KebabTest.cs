@@ -37,10 +37,10 @@ namespace SKBKontur.SeleniumTesting.Tests.KebabTests
         [Test]
         public void TestMenuExpects()
         {
-            page.SimpleKebab.Menu.ExpectTo().BeAbsent();
+            page.SimpleKebab.Menu.IsPresent.Wait().False();
             page.SimpleKebab.Click();
-            page.SimpleKebab.Menu.ExpectTo().BePresent();
-            page.SimpleKebab.Menu.ExpectTo().Count.EqualTo(3);
+            page.SimpleKebab.Menu.IsPresent.Wait().True();
+            page.SimpleKebab.Menu.Count.Wait().EqualTo(3);
         }
 
         [Test]

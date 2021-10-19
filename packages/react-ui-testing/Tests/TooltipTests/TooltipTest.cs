@@ -1,5 +1,5 @@
 using NUnit.Framework;
-
+using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.TooltipTests
@@ -22,7 +22,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TooltipTests
         public void TestPresence()
         {
             page.OpenTooltip.Click();
-            page.SimpleTooltip.ExpectTo().BePresent();
+            page.SimpleTooltip.IsPresent.Wait().True();
         }
 
         private TooltipTestPage page;

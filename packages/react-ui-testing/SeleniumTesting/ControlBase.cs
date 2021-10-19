@@ -9,10 +9,9 @@ using Kontur.Selone.Properties;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
-using SKBKontur.SeleniumTesting.Assertions.Context;
 using SKBKontur.SeleniumTesting.Internals;
 
-using Waiter = SKBKontur.SeleniumTesting.Assertions.Waiter;
+using Waiter = SKBKontur.SeleniumTesting.Internals.Waiter;
 
 namespace SKBKontur.SeleniumTesting
 {
@@ -30,10 +29,7 @@ namespace SKBKontur.SeleniumTesting
             container.SearchGlobal(new UniversalSelector("body")).SendKeys(keys);
         }
 
-        public bool HasError()
-        {
-            return GetReactProp<bool>("error");
-        }
+        public IProp<bool> HasError => ReactProperty<bool>("error");
 
         public IProp<bool> HasWarning => Property(() => GetReactProp<bool>("warning"), "HasWarning");
 
@@ -105,10 +101,12 @@ namespace SKBKontur.SeleniumTesting
         public void ExecuteAction([NotNull] Action<IWebElement> action, [NotNull] string actionDescription)
         {
             if(string.IsNullOrEmpty(actionDescription))
-                throw new ArgumentException("Action description should not be null or empty", "actionDescription");
+                throw new ArgumentException("Action description should not be null or empty", nameof(actionDescription));
             try
             {
-                Waiter.Wait(() => GetNativeElement().Displayed, (timeout, exception) => GetZ(timeout, actionDescription, exception), AssertionsContext.GetDefaultWaitInterval());
+                Waiter.Wait(() => GetNativeElement().Displayed,
+                            (timeout, exception) => GetZ(timeout, actionDescription, exception),
+                            (int)AssertionsContext.GetDefaultWaitInterval().TotalMilliseconds);
                 action(GetNativeElement());
             }
             catch(StaleElementReferenceException)
@@ -131,21 +129,25 @@ namespace SKBKontur.SeleniumTesting
             }
         }
 
-        private string GetZ(TimeSpan timeout, string actionDescription, Exception exception)
+        private string GetZ(int timeout, string actionDescription, Exception exception)
         {
             var result = new StringBuilder();
-            result.AppendLine($"{GetControlTypeDesription()}({GetAbsolutePathBySelectors()}): требовалось действие {actionDescription}, но");
+            result.AppendLine(
+                $"{GetControlTypeDesription()}({GetAbsolutePathBySelectors()}): требовалось действие {actionDescription}, но");
             if(exception is ElementNotFoundException)
             {
-                var notFountException = exception as ElementNotFoundException;
-                result.AppendLine($"  не смогли долждаться присутсвия элемента: {notFountException.Control.GetControlTypeDesription()}({notFountException.Control.GetAbsolutePathBySelectors()})");
-                result.AppendLine($"Время ожидания: {(int)timeout.TotalMilliseconds}ms.");
+                var notFoundException = exception as ElementNotFoundException;
+                result.AppendLine(
+                    $"  не смогли долждаться присутствия элемента: {notFoundException.Control.GetControlTypeDesription()}({notFoundException.Control.GetAbsolutePathBySelectors()})");
+                result.AppendLine($"Время ожидания: {timeout} ms.");
             }
             else
             {
-                result.AppendLine($"  не смогли дождаться присутсвия элемента (время ожидания: {(int)timeout.TotalMilliseconds}ms), т.к. было получено исключение:");
+                result.AppendLine(
+                    $"  не смогли дождаться присутствия элемента (время ожидания: {timeout} ms), т.к. было получено исключение:");
                 result.AppendLine(exception?.ToString() ?? "exception is null");
             }
+
             return result.ToString();
         }
 
@@ -161,10 +163,12 @@ namespace SKBKontur.SeleniumTesting
             {
                 return (T)(object)propValue;
             }
+
             if(string.IsNullOrEmpty(propValue))
             {
                 return default(T);
             }
+
             return SimpleJson.SimpleJson.DeserializeObject<T>(propValue);
         }
 
@@ -181,6 +185,7 @@ namespace SKBKontur.SeleniumTesting
                         Console.WriteLine("Cached element cleared for {0}", selector);
                     }
                 }
+
                 return (cachedContext ?? (cachedContext = container.Search(selector)));
             }
             catch(NoSuchElementException ex)

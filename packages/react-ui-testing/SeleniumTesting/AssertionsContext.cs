@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SKBKontur.SeleniumTesting.Assertions.Context
+namespace SKBKontur.SeleniumTesting
 {
     public static class AssertionsContext
     {
