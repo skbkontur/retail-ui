@@ -1,4 +1,4 @@
-import { UploadFileControlValidationResult } from '../internal/UploadFileControl/UploadFileControlValidationResult';
+import { FileUploaderControlValidationResult } from '../internal/FileUploaderControl/FileUploaderControlValidationResult';
 
 import { getGuid } from './guidUtils';
 
@@ -11,12 +11,11 @@ export enum UploadFileStatus {
   Error = 'Error',
 }
 
-// TODO @mozalov: возможно стоит попробовать отделить валидацию и статус
 export interface IUploadFile {
   id: string;
   originalFile: File;
   status: UploadFileStatus;
-  validationResult: UploadFileControlValidationResult;
+  validationResult: FileUploaderControlValidationResult;
 
   fileInBase64: UploadFileInBase64;
 }
@@ -43,7 +42,7 @@ export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUp
     id: getGuid(),
     originalFile: getFileWithEscapedName(file),
     status: UploadFileStatus.Attached,
-    validationResult: UploadFileControlValidationResult.ok(),
+    validationResult: FileUploaderControlValidationResult.ok(),
     fileInBase64: fileInBase64,
   };
 };

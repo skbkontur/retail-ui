@@ -4,7 +4,7 @@ import { PagingLocale } from '../../components/Paging/locale';
 import { SelectLocale } from '../../components/Select/locale';
 import { SpinnerLocale } from '../../components/Spinner/locale';
 import { TokenInputLocale } from '../../components/TokenInput/locale';
-import { IUploadFileControlLocale } from '../../internal/UploadFileControl/locale';
+import { IFileUploaderControlLocale } from '../../internal/FileUploaderControl/locale';
 
 export interface LocaleControls {
   [key: string]: any;
@@ -14,7 +14,7 @@ export interface LocaleControls {
   Select?: Partial<SelectLocale>;
   Paging?: Partial<PagingLocale>;
   DatePicker?: Partial<DatePickerLocale>;
-  UploadFileControl?: Partial<IUploadFileControlLocale>;
+  FileUploaderControl?: Partial<IFileUploaderControlLocale>;
 }
 
 export enum LangCodes {

@@ -1,20 +1,20 @@
 import React, { useCallback, useContext, useState } from 'react';
 
 import {
-  IUploadFileControlProps,
-  IUploadFileError,
-  UploadFileControl,
+  IFileUploaderControlProps,
+  IFileUploaderFileError,
+  FileUploaderControl,
   FileUploaderControlRef,
-} from '../../internal/UploadFileControl';
+} from '../../internal/FileUploaderControl';
 import {
   IUploadFilesProviderProps,
-  withUploadFilesProvider,
-} from '../../internal/UploadFileControl/UploadFileControlProvider';
+  withFileUploaderControlProvider,
+} from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
-import { UploadFileControlContext } from '../../internal/UploadFileControl/UploadFileControlContext';
-import { useValidationSetter } from '../../internal/UploadFileControl/UploadFileControlHooks';
+import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
+import { useValidationSetter } from '../../internal/FileUploaderControl/FileUploaderControlHooks';
 
-export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFilesProviderProps {
+export interface IFileUploaderProps extends IFileUploaderControlProps, IUploadFilesProviderProps {
   // FIXME @mozalov: возможно стоит вынести асинхронные пропсы в отдельный пропс
 
   // Функция, через которую отправляем файлы.
@@ -29,9 +29,9 @@ export interface IFileUploaderProps extends IUploadFileControlProps, IUploadFile
 
 const _FileUploader = React.forwardRef<FileUploaderControlRef, IFileUploaderProps>((props: IFileUploaderProps, ref) => {
   const { request, error, getFileValidationText, onSelect, onRequestSuccess, onRequestError } = props;
-  const { setFileStatus } = useContext(UploadFileControlContext);
+  const { setFileStatus } = useContext(FileUploaderControlContext);
 
-  const [fileErrors, setFileErrors] = useState<IUploadFileError[]>([]);
+  const [fileErrors, setFileErrors] = useState<IFileUploaderFileError[]>([]);
 
   const switchToLoading = useCallback(
     (fileId: string) => {
@@ -95,7 +95,7 @@ const _FileUploader = React.forwardRef<FileUploaderControlRef, IFileUploaderProp
 
   useValidationSetter(fileErrors);
 
-  return <UploadFileControl ref={ref} {...props} onSelect={handleSelect} />;
+  return <FileUploaderControl ref={ref} {...props} onSelect={handleSelect} />;
 });
 
-export const FileUploader = withUploadFilesProvider(_FileUploader);
+export const FileUploader = withFileUploaderControlProvider(_FileUploader);

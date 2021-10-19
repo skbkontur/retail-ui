@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 
 import { UploadFile } from '../UploadFile/UploadFile';
-import { UploadFileControlContext } from '../UploadFileControlContext';
+import { FileUploaderControlContext } from '../FileUploaderControlContext';
 
 import { jsStyles } from './UploadFileList.styles';
 
 export const UploadFileList = () => {
-  const { files } = useContext(UploadFileControlContext);
+  const { files } = useContext(FileUploaderControlContext);
 
   return (
     <div>

@@ -7,15 +7,15 @@ import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { useMemoObject } from '../../hooks/useMemoObject';
 
-import { UploadFileList } from './UploadFileList/UploadFileList';
+import { FileUploaderControlContext } from './FileUploaderControlContext';
+import { useControlLocale, useDrop } from './FileUploaderControlHooks';
+import { jsStyles } from './FileUploaderControl.styles';
 import { UploadFile } from './UploadFile/UploadFile';
-import { UploadFileControlContext } from './UploadFileControlContext';
-import { useControlLocale, useDrop } from './UploadFileControlHooks';
-import { jsStyles } from './UploadFileControl.styles';
+import { UploadFileList } from './UploadFileList/UploadFileList';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-export interface IUploadFileError {
+export interface IFileUploaderFileError {
   fileId: string;
   message: string;
 }
@@ -32,7 +32,7 @@ export interface FileUploaderControlRef {
 // FIXME @mozalov: переименовать все в FileUploadItem, List, Provider и прочее
 
 // FIXME @mozalov: написать тесты на компоненты после ревью
-export interface IUploadFileControlProps {
+export interface IFileUploaderControlProps {
   // свойства эквивалентные нативным
   id?: string;
   name?: string;
@@ -55,8 +55,8 @@ export interface IUploadFileControlProps {
   onReadError?: (files: IUploadFile[]) => void;
 }
 
-export const UploadFileControl = React.forwardRef<FileUploaderControlRef, IUploadFileControlProps>(
-  (props: IUploadFileControlProps, ref) => {
+export const FileUploaderControl = React.forwardRef<FileUploaderControlRef, IFileUploaderControlProps>(
+  (props: IFileUploaderControlProps, ref) => {
     const {
       id,
       name,
@@ -75,7 +75,7 @@ export const UploadFileControl = React.forwardRef<FileUploaderControlRef, IUploa
     const locale = useControlLocale();
 
     const inputRef = useRef<HTMLInputElement>(null);
-    const { files, setFiles, removeFile } = useContext(UploadFileControlContext);
+    const { files, setFiles, removeFile } = useContext(FileUploaderControlContext);
 
     const isSingleMode = !multiple;
 
@@ -229,4 +229,4 @@ export const UploadFileControl = React.forwardRef<FileUploaderControlRef, IUploa
     );
   }
 );
-UploadFileControl.displayName = 'UploadFileControl';
+FileUploaderControl.displayName = 'FileUploaderControl';

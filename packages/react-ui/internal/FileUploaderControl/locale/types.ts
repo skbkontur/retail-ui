@@ -1,4 +1,4 @@
-export interface IUploadFileControlLocale {
+export interface IFileUploaderControlLocale {
   chooseFile: string;
   choosedFile: string;
   orDragHere: string;

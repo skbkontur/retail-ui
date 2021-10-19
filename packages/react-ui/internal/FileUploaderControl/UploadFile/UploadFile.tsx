@@ -8,7 +8,7 @@ import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
-import { UploadFileControlContext } from '../UploadFileControlContext';
+import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
 
@@ -32,7 +32,7 @@ export const UploadFile = (props: IUploadFileProps) => {
   const [hovered, setHovered] = useState<boolean>(false);
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
-  const { removeFile } = useContext(UploadFileControlContext);
+  const { removeFile } = useContext(FileUploaderControlContext);
 
   const [state, setState] = useState<IUploadFileState>({
     fileNameWidth: 0,
