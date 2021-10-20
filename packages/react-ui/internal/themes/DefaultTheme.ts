@@ -1433,6 +1433,15 @@ export class DefaultTheme {
   public static scrollContainerScrollBarColor = '#b7b7b7';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
   //#endregion
+
+  //#region FileUploader
+  public static get fileUploaderBorderColorError() {
+    return this.borderColorError;
+  }
+  public static get fileUploaderBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(markAsFullTheme(DefaultTheme));
