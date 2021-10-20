@@ -178,6 +178,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * Приводит строки, falsy значения и объекты к строке
    *
    * @private
+   * @static
    * @param {string} [label] Строка, объект или falsy значение которое нужно привести к строке
    * @returns {string} Строковый эквивалент аргумента переданного в функцию
    */
