@@ -4,9 +4,9 @@ import { useMemoObject } from '../../hooks/useMemoObject';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
 import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { IFileUploaderProps } from '../../components/FileUploader/FileUploader';
 import { UploadFileValidationResult } from './UploadFileValidationResult';
 import { useControlLocale } from './FileUploaderControlHooks';
+import { _IFileUploaderProps } from '../../components/FileUploader/_FileUploader';
 
 export interface IFileUploaderControlProviderProps {
   onValueChange?: (files: IUploadFile[]) => void;
@@ -103,7 +103,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUpload
 FileUploaderControlProvider.displayName = 'FileUploaderControlProvider';
 
 export const withFileUploaderControlProvider =
-  <TProps extends IFileUploaderProps, TRef extends object>(Component: ComponentType<TProps>) => React.forwardRef<TRef, TProps>(
+  <TProps extends _IFileUploaderProps, TRef extends object>(Component: ComponentType<TProps>) => React.forwardRef<TRef, TProps>(
     (props: TProps, ref) => (
       <FileUploaderControlProvider {...props}>
         <Component ref={ref} {...props} />

@@ -5,12 +5,12 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
 import { Link } from '../../../components/Link';
-import { FileUploader, IFileUploaderProps } from '../../../components/FileUploader/FileUploader';
+import { FileUploader, _IFileUploaderProps } from '../../../components/FileUploader/FileUploader';
 import { withFileUploaderControlProvider } from '../../../internal/FileUploaderControl/FileUploaderControlProvider';
 
 const WrappedFileUploader = withFileUploaderControlProvider(FileUploader);
 
-const render = (localeProviderValue = {}, props: IFileUploaderProps = {}) =>
+const render = (localeProviderValue = {}, props: _IFileUploaderProps = {}) =>
   mount(
     <LocaleContext.Provider value={localeProviderValue}>
       <WrappedFileUploader {...props} />
