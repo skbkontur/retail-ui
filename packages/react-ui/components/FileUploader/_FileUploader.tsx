@@ -51,7 +51,7 @@ export interface _IFileUploaderProps {
   /** Срабатывает при удачной попытке отправки через request */
   onRequestSuccess?: (fileId: string) => void;
   /** Срабатывает при неудачной попытке отправки через request */
-  onRequestError?: (fileId: string) => void
+  onRequestError?: (fileId: string) => void;
 
   /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
   getFileValidationText?: (file: IUploadFile) => Promise<string>;
@@ -80,7 +80,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
       request,
       getFileValidationText,
       onRequestSuccess,
-      onRequestError
+      onRequestError,
     } = props;
 
     const { files, setFiles, removeFile, setFileValidationResult } = useContext(FileUploaderControlContext);
@@ -202,13 +202,19 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
       [handleClick],
     );
 
-    const handleFocus = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
-      !disabled && onFocus?.(e);
-    }, [disabled, onFocus]);
+    const handleFocus = useCallback(
+      (e: React.FocusEvent<HTMLDivElement>) => {
+        !disabled && onFocus?.(e);
+      },
+      [disabled, onFocus],
+    );
 
-    const handleBlur = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
-      !disabled && onBlur?.(e);
-    }, [disabled, onBlur]);
+    const handleBlur = useCallback(
+      (e: React.FocusEvent<HTMLDivElement>) => {
+        !disabled && onBlur?.(e);
+      },
+      [disabled, onBlur],
+    );
 
     const hasOneFile = files.length === 1;
     const hasOneFileForSingle = isSingleMode && hasOneFile;
@@ -223,7 +229,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
             ref={rootRef}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            style={useMemoObject({width})}
+            style={useMemoObject({ width })}
             onFocus={handleFocus}
             onBlur={handleBlur}
           >
@@ -261,6 +267,5 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
         </div>
       </div>
     );
-  }
+  },
 );
-

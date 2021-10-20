@@ -53,5 +53,5 @@ export const MultipleFileUploaderWithFileError = () => (
 export const FileUploaderWithError = () => <FileUploader error />;
 export const FileUploaderWithWarning = () => <FileUploader warning />;
 
-export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width={"100%"} />;
+export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width={'100%'} />;
 export const MultipleFileUploaderWithCustomWidth = () => <FileUploader width={550} multiple />;

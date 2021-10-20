@@ -102,11 +102,11 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUpload
 
 FileUploaderControlProvider.displayName = 'FileUploaderControlProvider';
 
-export const withFileUploaderControlProvider =
-  <TProps extends _IFileUploaderProps, TRef extends object>(Component: ComponentType<TProps>) => React.forwardRef<TRef, TProps>(
-    (props: TProps, ref) => (
-      <FileUploaderControlProvider {...props}>
-        <Component ref={ref} {...props} />
-      </FileUploaderControlProvider>
-    )
-  );
+export const withFileUploaderControlProvider = <TProps extends _IFileUploaderProps, TRef extends object>(
+  Component: ComponentType<TProps>,
+) =>
+  React.forwardRef<TRef, TProps>((props: TProps, ref) => (
+    <FileUploaderControlProvider {...props}>
+      <Component ref={ref} {...props} />
+    </FileUploaderControlProvider>
+  ));

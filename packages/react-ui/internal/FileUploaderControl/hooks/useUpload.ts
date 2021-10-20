@@ -7,7 +7,7 @@ import { FileUploaderControlContext } from '../FileUploaderControlContext';
 export const useUpload = (
   request: Nullable<(file: IUploadFile) => Promise<void>>,
   onRequestSuccess?: Nullable<(fileId: string) => void>,
-  onRequestError?: Nullable<(fileId: string) => void>
+  onRequestError?: Nullable<(fileId: string) => void>,
 ) => {
   const { setFileStatus } = useContext(FileUploaderControlContext);
 
