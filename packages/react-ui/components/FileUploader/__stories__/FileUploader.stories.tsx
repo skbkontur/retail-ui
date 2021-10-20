@@ -10,7 +10,8 @@ export default {
 // FIXME @mozalov: написать скришотные тесты на разные вариации
 // FIXME @mozalov: почитать как можно протестить методы фокус и блюр
 
-const loadingRequest = () => Promise.resolve();
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+const loadingRequest = () => new Promise<void>(() => {});
 
 const successRequest = () =>
   new Promise<void>((resolve) => {
@@ -26,19 +27,23 @@ const errorRequest = () =>
     }, 2000);
   });
 
+/** async control stories **/
 export const SingleAsyncFileUploader = () => <FileUploader request={successRequest} />;
-
-export const SingleAsyncFileUploaderWithFileError = () => (
-  <FileUploader request={successRequest} getFileValidationText={() => Promise.resolve('Формат файла неверный')} />
-);
-
 export const MultipleAsyncFileUploader = () => <FileUploader multiple request={successRequest} />;
-
 export const MultipleAsyncFileUploaderWithLoading = () => <FileUploader multiple request={loadingRequest} />;
-
 export const MultipleAsyncFileUploaderWithErrorRequest = () => <FileUploader multiple request={errorRequest} />;
 
-export const MultipleAsyncFileUploaderWithFileError = () => (
+
+/** sync control stories **/
+export const SingleSyncFileUploader = () => <FileUploader />;
+export const MultipleSyncFileUploader = () => <FileUploader multiple />;
+
+/** common stories **/
+export const FileUploaderDisabled = () => <FileUploader request={successRequest} disabled />;
+export const SingleFileUploaderWithFileError = () => (
+  <FileUploader request={successRequest} getFileValidationText={() => Promise.resolve('Формат файла неверный')} />
+);
+export const MultipleFileUploaderWithFileError = () => (
   <FileUploader
     multiple
     request={successRequest}
@@ -46,17 +51,8 @@ export const MultipleAsyncFileUploaderWithFileError = () => (
   />
 );
 
-export const AsyncFileUploaderDisabled = () => <FileUploader request={successRequest} disabled />;
-
-// sync control stories
-export const SingleFileUploader = () => <FileUploader />;
-
-export const MultipleFileUploader = () => <FileUploader multiple />;
-
 export const FileUploaderWithError = () => <FileUploader error />;
-
 export const FileUploaderWithWarning = () => <FileUploader warning />;
 
 export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width={"100%"} />;
-
 export const MultipleFileUploaderWithCustomWidth = () => <FileUploader width={550} multiple />;

@@ -18,8 +18,7 @@ const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
 // FIXME @mozalov: протестировать поддержку react-ui-validations
 // FIXME @mozalov: протестировать передачу ref
-// FIXME @mozalov: написать комменты для каждого пропса (глянуть как в других местах)
-// FIXME @mozalov: а нужно ли дизейблить отдельные файлики при передаче disabled = true? - ДУМАЮ ДА, сделаю
+// FIXME @mozalov: а нужно ли дизейблить отдельные файлики при передаче disabled = true? - ДА, нужно убирать крестик и красить текст в серый
 
 // FIXME @mozalov: написать тесты на компонент после ревью
 export interface _IFileUploaderProps {
@@ -92,6 +91,8 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
 
     const isAsync = !!request;
     const isSingleMode = !multiple;
+
+    // FIXME @mozalov: подумать, а мб разбить компонент на хуки и логику подробить, чтобы компонент уменьшить
 
     /** methods for async control **/
     const switchToLoading = useCallback(
