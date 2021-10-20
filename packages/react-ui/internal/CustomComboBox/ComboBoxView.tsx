@@ -223,7 +223,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           onClick={onInputClick}
           leftIcon={leftIcon}
           rightIcon={rightIcon}
-          value={textValue || ''}
+          value={textValue ?? ''}
           onKeyDown={onInputKeyDown}
           placeholder={placeholder}
           width="100%"

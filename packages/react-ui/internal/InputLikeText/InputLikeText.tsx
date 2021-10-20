@@ -305,7 +305,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
 
-    if (!children && placeholder) {
+    if (children === null && children === undefined && placeholder) {
       return (
         <span
           className={cx(jsInputStyles.placeholder(this.theme), {
