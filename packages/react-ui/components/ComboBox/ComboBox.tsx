@@ -166,25 +166,13 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
 
   public static defaultProps = {
     itemToValue: (item: ComboBoxItem) => item.value,
-    valueToString: (item: ComboBoxItem) => ComboBox.convertLabelToString(item.label),
-    renderValue: (item: ComboBoxItem) => ComboBox.convertLabelToString(item.label),
-    renderItem: (item: ComboBoxItem) => ComboBox.convertLabelToString(item.label),
+    valueToString: (item: ComboBoxItem) => item.label,
+    renderValue: (item: ComboBoxItem) => item.label,
+    renderItem: (item: ComboBoxItem) => item.label,
     menuAlign: 'left',
     searchOnFocus: true,
     drawArrow: true,
   };
-
-  /**
-   * Приводит строки, falsy значения и объекты к строке
-   *
-   * @private
-   * @static
-   * @param {string} [label] Строка, объект или falsy значение которое нужно привести к строке
-   * @returns {string} Строковый эквивалент аргумента переданного в функцию
-   */
-  private static convertLabelToString(label: string): string {
-    return typeof label === 'object' ? JSON.stringify(label) : String(label);
-  }
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
 
