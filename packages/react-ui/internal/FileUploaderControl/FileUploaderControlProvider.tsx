@@ -4,11 +4,11 @@ import { useMemoObject } from '../../hooks/useMemoObject';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
 import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { IFileUploaderControlProps } from './FileUploaderControl';
-import { FileUploaderControlValidationResult } from './FileUploaderControlValidationResult';
+import { IFileUploaderProps } from '../../components/FileUploader/FileUploader';
+import { UploadFileValidationResult } from './UploadFileValidationResult';
 import { useControlLocale } from './FileUploaderControlHooks';
 
-export interface IUploadFilesProviderProps {
+export interface IFileUploaderControlProviderProps {
   onValueChange?: (files: IUploadFile[]) => void;
   onRemove?: (fileId: string) => void;
 }
@@ -34,7 +34,7 @@ const updateFile = (
   return newFiles;
 };
 
-export const FileUploaderControlProvider = (props: PropsWithChildren<IUploadFilesProviderProps>) => {
+export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUploaderControlProviderProps>) => {
   const { children, onValueChange, onRemove } = props;
 
   // в files попадат только те, что попали в onSelect
@@ -49,7 +49,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IUploadFile
             status,
             validationResult:
               status === UploadFileStatus.Error
-                ? FileUploaderControlValidationResult.error(locale.requestErrorText)
+                ? UploadFileValidationResult.error(locale.requestErrorText)
                 : file.validationResult,
           };
         });
@@ -81,7 +81,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IUploadFile
     [onValueChange, onRemove],
   );
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderControlValidationResult) => {
+  const setFileValidationResult = useCallback((fileId: string, validationResult: UploadFileValidationResult) => {
     setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
   }, []);
 
@@ -103,7 +103,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IUploadFile
 FileUploaderControlProvider.displayName = 'FileUploaderControlProvider';
 
 export const withFileUploaderControlProvider =
-  <TProps extends IFileUploaderControlProps, TRef extends object>(Component: ComponentType<TProps>) => React.forwardRef<TRef, TProps>(
+  <TProps extends IFileUploaderProps, TRef extends object>(Component: ComponentType<TProps>) => React.forwardRef<TRef, TProps>(
     (props: TProps, ref) => (
       <FileUploaderControlProvider {...props}>
         <Component ref={ref} {...props} />

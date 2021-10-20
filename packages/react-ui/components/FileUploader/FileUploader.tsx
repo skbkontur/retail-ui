@@ -1,112 +1,311 @@
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
+import UploadIcon from '@skbkontur/react-icons/Upload';
 
-import {
-  IFileUploaderControlProps,
-  IFileUploaderFileError,
-  FileUploaderControl,
-  FileUploaderControlRef,
-} from '../../internal/FileUploaderControl';
-import {
-  IUploadFilesProviderProps,
-  withFileUploaderControlProvider,
-} from '../../internal/FileUploaderControl/FileUploaderControlProvider';
-import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
+import { IUploadFile, readFiles, UploadFileStatus } from '../../lib/fileUtils';
+import { Link } from '../Link';
+import { cx } from '../../lib/theming/Emotion';
+import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
+import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
-import { useValidationSetter } from '../../internal/FileUploaderControl/FileUploaderControlHooks';
+import { useControlLocale, useDrop } from '../../internal/FileUploaderControl/FileUploaderControlHooks';
+import { UploadFile } from '../../internal/FileUploaderControl/UploadFile/UploadFile';
+import { UploadFileList } from '../../internal/FileUploaderControl/UploadFileList/UploadFileList';
+import { UploadFileValidationResult } from '../../internal/FileUploaderControl/UploadFileValidationResult';
+import { IFileUploaderControlProviderProps, withFileUploaderControlProvider } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 
-export interface IFileUploaderProps extends IFileUploaderControlProps, IUploadFilesProviderProps {
+import { jsStyles } from './FileUploader.styles';
+
+const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
+
+export interface IFileUploaderFileError {
+  fileId: string;
+  message: string;
+}
+
+export interface IFileUploaderRef {
+  focus: () => void;
+  blur: () => void;
+}
+
+// FIXME @mozalov: протестировать поддержку react-ui-validations
+// FIXME @mozalov: протестировать передачу ref
+// FIXME @mozalov: написать комменты для каждого пропса (глянуть как в других местах)
+// FIXME @mozalov: а нужно ли дизейблить отдельные файлики при передаче disabled = true? - ДУМАЮ ДА, сделаю
+
+// FIXME @mozalov: написать тесты на компонент после ревью
+export interface IFileUploaderProps extends IFileUploaderControlProviderProps {
+  // свойства эквивалентные нативным
+  id?: string;
+  name?: string;
+  disabled?: boolean;
+  multiple?: boolean;
+  accept?: string;
+
+  // свойство валидации контрола
+  error?: boolean;
+  warning?: boolean;
+
+  width?: React.CSSProperties['width'];
+
+  onBlur?: React.FocusEventHandler<HTMLDivElement>;
+  onFocus?: React.FocusEventHandler<HTMLDivElement>;
+
+  // хендлер, срабатывает после выбора файлов (при валидном считывании файла)
+  onSelect?: (files: IUploadFile[]) => void;
+  // хендлер, срабатывает после выбора файлов (при невалидном считывании файла)
+  onReadError?: (files: IUploadFile[]) => void;
+
   // FIXME @mozalov: возможно стоит вынести асинхронные пропсы в отдельный пропс
 
-  // Функция, через которую отправляем файлы.
-  // Нужна для отслеживания статуса загрузки файла.
+  /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
   request?: (file: IUploadFile) => Promise<void>;
+  /** Срабатывает при удачной попытке отправки через request */
   onRequestSuccess?: (fileId: string) => void;
+  /** Срабатывает при неудачной попытке отправки через request */
   onRequestError?: (fileId: string) => void
 
-  // срабатывает после выбора файлов и перед попыткой отправить в request
+  /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
   getFileValidationText?: (file: IUploadFile) => Promise<string>;
 }
 
-const _FileUploader = React.forwardRef<FileUploaderControlRef, IFileUploaderProps>((props: IFileUploaderProps, ref) => {
-  const { request, error, getFileValidationText, onSelect, onRequestSuccess, onRequestError } = props;
-  const { setFileStatus } = useContext(FileUploaderControlContext);
+const _FileUploader = React.forwardRef<IFileUploaderRef, IFileUploaderProps>(
+  (props: IFileUploaderProps, ref) => {
+    const {
+      id,
+      name,
+      disabled,
+      accept,
+      error,
+      warning,
+      onBlur,
+      onFocus,
+      onSelect,
+      onReadError,
+      multiple = false,
+      width = 362,
+      request,
+      getFileValidationText,
+      onRequestSuccess,
+      onRequestError
+    } = props;
 
-  const [fileErrors, setFileErrors] = useState<IFileUploaderFileError[]>([]);
+    const { files, setFiles, removeFile, setFileStatus, setFileValidationResult } = useContext(FileUploaderControlContext);
 
-  const isAsync = !!request;
+    const locale = useControlLocale();
 
-  const switchToLoading = useCallback(
-    (fileId: string) => {
-      setFileStatus(fileId, UploadFileStatus.Loading);
-    },
-    [setFileStatus],
-  );
+    const inputRef = useRef<HTMLInputElement>(null);
 
-  const switchToSuccess = useCallback(
-    (fileId: string) => {
-      setFileStatus(fileId, UploadFileStatus.Uploaded);
-      onRequestSuccess?.(fileId);
-    },
-    [setFileStatus, onRequestSuccess],
-  );
+    const isAsync = !!request;
+    const isSingleMode = !multiple;
 
-  const switchToError = useCallback(
-    (fileId: string) => {
-      setFileStatus(fileId, UploadFileStatus.Error);
-      onRequestError?.(fileId);
-    },
-    [setFileStatus, onRequestError],
-  );
+    /** methods for async control **/
+    const switchToLoading = useCallback(
+      (fileId: string) => {
+        setFileStatus(fileId, UploadFileStatus.Loading);
+      },
+      [setFileStatus],
+    );
 
-  const upload = useCallback(
-    async (file: IUploadFile) => {
-      const { id } = file;
-      switchToLoading(id);
+    const switchToSuccess = useCallback(
+      (fileId: string) => {
+        setFileStatus(fileId, UploadFileStatus.Uploaded);
+        onRequestSuccess?.(fileId);
+      },
+      [setFileStatus, onRequestSuccess],
+    );
 
-      try {
-        await request?.(file);
-        switchToSuccess(id);
-      } catch {
-        switchToError(id);
-      }
-    },
-    [request, switchToSuccess, switchToLoading, switchToError],
-  );
+    const switchToError = useCallback(
+      (fileId: string) => {
+        setFileStatus(fileId, UploadFileStatus.Error);
+        onRequestError?.(fileId);
+      },
+      [setFileStatus, onRequestError],
+    );
 
-  // FIXME @mozalov: подумать, мб стоит некоторый код перегруппировать
+    const upload = useCallback(
+      async (file: IUploadFile) => {
+        const { id } = file;
+        switchToLoading(id);
 
-  // FIXME @mozalov: кажется handleSelect все же handleSelect и верхние методы лучше оставить тут.
-  //  чтобы можно было валидировать дропзону по-другому
-
-  // FIXME @mozalov: подумать, а как валидировать дропзону и уже от этого отталкиваться в плане выноса общих механизмов валидации
-  // FIXME @mozalov: для дропзоны нуно поддержать getFileValidationText
-
-  const handleSelect = useCallback(
-    (files: IUploadFile[]) => {
-      onSelect?.(files);
-
-      // FIXME @mozalov: норм, что сейчас не валидируем файлы при error?
-
-      if (error) {
-        return;
-      }
-
-      files.forEach(async (file) => {
-        const validationMessage = getFileValidationText && (await getFileValidationText(file));
-
-        if (!validationMessage) {
-          isAsync && upload(file);
-        } else {
-          setFileErrors((state) => [...state, { fileId: file.id, message: validationMessage }]);
+        try {
+          await request?.(file);
+          switchToSuccess(id);
+        } catch {
+          switchToError(id);
         }
-      });
-    },
-    [upload, error, getFileValidationText, onSelect, isAsync],
-  );
+      },
+      [request, switchToSuccess, switchToLoading, switchToError],
+    );
 
-  useValidationSetter(fileErrors);
+    /** run upload and validation **/
+    const _onSelect = useCallback(
+      (files: IUploadFile[]) => {
+        onSelect?.(files);
 
-  return <FileUploaderControl ref={ref} {...props} onSelect={handleSelect} />;
-});
+        files.forEach(async (file) => {
+          const validationMessage = getFileValidationText && (await getFileValidationText(file));
+
+          if (!validationMessage) {
+            isAsync && upload(file);
+          } else {
+            setFileValidationResult(file.id, UploadFileValidationResult.error(validationMessage));
+          }
+        });
+      },
+      [upload, error, getFileValidationText, onSelect, isAsync],
+    );
+
+    /** common part **/
+    const handleChange = useCallback(
+      async (newFiles: FileList | null) => {
+        if (!newFiles) return;
+
+        let filesArray = Array.from(newFiles);
+
+        if (isSingleMode) {
+          filesArray = [filesArray[0]];
+        }
+
+        const uploadFiles = await readFiles(filesArray);
+
+        const selectedFiles = uploadFiles.filter((v) => !!v.fileInBase64);
+        const readErrorFiles = uploadFiles.filter((v) => !v.fileInBase64);
+
+        if (isSingleMode && selectedFiles.length && files.length) {
+          removeFile(files[0].id);
+        }
+        setFiles(selectedFiles);
+
+        _onSelect?.(selectedFiles);
+        onReadError?.(readErrorFiles);
+      },
+      [onReadError, _onSelect, setFiles, isSingleMode, files, removeFile],
+    );
+
+    const handleDrop = useCallback(
+      (event) => {
+        if (disabled) {
+          return;
+        }
+
+        const { dataTransfer } = event;
+        const { files } = dataTransfer;
+
+        if (files?.length > 0) {
+          handleChange(files);
+          dataTransfer.clearData();
+        }
+      },
+      [handleChange, disabled],
+    );
+
+    const { isDraggable, ref: rootRef } = useDrop<HTMLDivElement>({ onDrop: handleDrop });
+    const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
+
+    windowRef.current = window.document;
+
+    const focus = useCallback(() => {
+      rootRef.current?.focus();
+    }, []);
+
+    const blur = useCallback(() => {
+      rootRef.current?.blur();
+    }, []);
+
+    useImperativeHandle(ref, () => ({ focus, blur }), [ref]);
+
+    const handleInputChange = useCallback(
+      (event: React.ChangeEvent<HTMLInputElement>) => {
+        handleChange(event.target.files);
+      },
+      [handleChange],
+    );
+
+    const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
+      [jsStyles.dragOver()]: isDraggable && !disabled,
+      [jsStyles.warning()]: !!warning && !disabled,
+      [jsStyles.error()]: !!error && !disabled,
+      [jsStyles.disabled()]: disabled,
+    });
+
+    const uploadButtonWrapperClassNames = cx({
+      [jsStyles.windowDragOver()]: isWindowDraggable && !disabled,
+    });
+
+    const handleClick = useCallback(() => {
+      !disabled && inputRef.current?.click();
+    }, [disabled]);
+
+    const handleKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLElement>) => {
+        if (isKeyEnter(e)) {
+          handleClick();
+        }
+      },
+      [handleClick],
+    );
+
+    const handleFocus = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+      !disabled && onFocus?.(e);
+    }, [disabled, onFocus]);
+
+    const handleBlur = useCallback((e: React.FocusEvent<HTMLDivElement>) => {
+      !disabled && onBlur?.(e);
+    }, [disabled, onBlur]);
+
+    const hasOneFile = files.length === 1;
+    const hasOneFileForSingle = isSingleMode && hasOneFile;
+
+    return (
+      <div>
+        {!isSingleMode && !!files.length && <UploadFileList />}
+        <div className={uploadButtonWrapperClassNames}>
+          <div
+            className={uploadButtonClassNames}
+            tabIndex={0}
+            ref={rootRef}
+            onClick={handleClick}
+            onKeyDown={handleKeyDown}
+            style={useMemoObject({width})}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+          >
+            <div className={jsStyles.content()}>
+              <Link disabled={disabled} tabIndex={-1}>
+                {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+              </Link>
+              &nbsp;
+              <div className={jsStyles.afterLinkText()}>
+                {hasOneFileForSingle ? (
+                  <UploadFile file={files[0]} />
+                ) : (
+                  <>
+                    {locale.orDragHere}&nbsp;
+                    <UploadIcon color="#808080" />
+                  </>
+                )}
+              </div>
+            </div>
+            <input
+              id={id}
+              ref={inputRef}
+              type="file"
+              name={name}
+              accept={accept}
+              disabled={disabled}
+              multiple={multiple}
+              className={jsStyles.fileInput()}
+              onClick={stopPropagation}
+              onChange={handleInputChange}
+              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+              value={''}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+);
 
 export const FileUploader = withFileUploaderControlProvider(_FileUploader);
+FileUploader.displayName = 'FileUploader';

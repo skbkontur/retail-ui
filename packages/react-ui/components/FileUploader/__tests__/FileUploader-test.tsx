@@ -3,17 +3,17 @@ import React from 'react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
-import { FileUploaderControlLocaleHelper } from '../locale';
+import { FileUploaderLocaleHelper } from '../locale';
 import { Link } from '../../../components/Link';
-import { FileUploaderControl, IFileUploaderControlProps } from '../FileUploaderControl';
-import { withFileUploaderControlProvider } from '../FileUploaderControlProvider';
+import { FileUploader, IFileUploaderProps } from '../../../components/FileUploader/FileUploader';
+import { withFileUploaderControlProvider } from '../../../internal/FileUploaderControl/FileUploaderControlProvider';
 
-const WrappedFileUploaderControl = withFileUploaderControlProvider(FileUploaderControl);
+const WrappedFileUploader = withFileUploaderControlProvider(FileUploader);
 
-const render = (localeProviderValue = {}, props: IFileUploaderControlProps = {}) =>
+const render = (localeProviderValue = {}, props: IFileUploaderProps = {}) =>
   mount(
     <LocaleContext.Provider value={localeProviderValue}>
-      <WrappedFileUploaderControl {...props} />
+      <WrappedFileUploader {...props} />
     </LocaleContext.Provider>,
   );
 
@@ -21,25 +21,25 @@ const getBaseButtonText = (wrapper: ReactWrapper): string => {
   return wrapper.find(Link).text();
 };
 
-describe('FileUploaderControl', () => {
+describe('FileUploader', () => {
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
-      const wrapper = mount(<WrappedFileUploaderControl />);
-      const expectedText = FileUploaderControlLocaleHelper.get(defaultLangCode).chooseFile;
+      const wrapper = mount(<WrappedFileUploader />);
+      const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
 
       expect(getBaseButtonText(wrapper)).toBe(expectedText);
     });
 
     it('render default locale', () => {
       const wrapper = render();
-      const expectedText = FileUploaderControlLocaleHelper.get(defaultLangCode).chooseFile;
+      const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
 
       expect(getBaseButtonText(wrapper)).toBe(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
       const wrapper = render({ langCode: LangCodes.en_GB });
-      const expectedText = FileUploaderControlLocaleHelper.get(LangCodes.en_GB).chooseFile;
+      const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
 
       expect(getBaseButtonText(wrapper)).toBe(expectedText);
     });
@@ -62,7 +62,7 @@ describe('FileUploaderControl', () => {
 
     it('updates when langCode changes', () => {
       const wrapper = render();
-      const expectedText = FileUploaderControlLocaleHelper.get(LangCodes.en_GB).chooseFile;
+      const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
 
       wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
 

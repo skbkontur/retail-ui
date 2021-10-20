@@ -2,7 +2,7 @@ import React from 'react';
 
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
-import { FileUploaderControlValidationResult } from './FileUploaderControlValidationResult';
+import { UploadFileValidationResult } from './UploadFileValidationResult';
 
 export interface FileUploaderControlContextProps {
   setFileStatus: (fileId: string, status: UploadFileStatus) => void;
@@ -10,7 +10,7 @@ export interface FileUploaderControlContextProps {
   setFiles: (files: IUploadFile[]) => void;
   removeFile: (fileId: string) => void;
 
-  setFileValidationResult: (fileId: string, validationResult: FileUploaderControlValidationResult) => void;
+  setFileValidationResult: (fileId: string, validationResult: UploadFileValidationResult) => void;
 }
 
 export const FileUploaderControlContext = React.createContext({} as FileUploaderControlContextProps);

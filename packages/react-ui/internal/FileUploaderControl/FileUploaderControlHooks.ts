@@ -1,11 +1,8 @@
-import { MutableRefObject, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 
 import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
 
-import { IFileUploaderFileError } from './FileUploaderControl';
-import { FileUploaderControlValidationResult } from './FileUploaderControlValidationResult';
-import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { FileUploaderControlLocaleHelper } from './locale';
+import { FileUploaderLocaleHelper } from '../../components/FileUploader/locale';
 
 interface IUseDropProps {
   onDrop?: (event: Event) => void;
@@ -81,14 +78,4 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
   return { isDraggable, ref: droppableRef };
 };
 
-export const useValidationSetter = (fileErrors: IFileUploaderFileError[] = []) => {
-  const { setFileValidationResult } = useContext(FileUploaderControlContext);
-
-  useEffect(() => {
-    fileErrors.forEach(({ fileId, message }) => {
-      setFileValidationResult(fileId, FileUploaderControlValidationResult.error(message));
-    });
-  }, [fileErrors]);
-};
-
-export const useControlLocale = () => useLocaleForControl('FileUploaderControl', FileUploaderControlLocaleHelper);
+export const useControlLocale = () => useLocaleForControl('FileUploader', FileUploaderLocaleHelper);

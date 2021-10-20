@@ -1,6 +1,6 @@
-import { IFileUploaderControlLocale } from '../types';
+import { IFileUploaderLocale } from '../types';
 
-export const componentsLocales: IFileUploaderControlLocale = {
+export const componentsLocales: IFileUploaderLocale = {
   chooseFile: 'Select a file',
   choosedFile: 'File selected',
   orDragHere: 'or drag here',

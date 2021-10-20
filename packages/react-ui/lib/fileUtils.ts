@@ -1,4 +1,4 @@
-import { FileUploaderControlValidationResult } from '../internal/FileUploaderControl/FileUploaderControlValidationResult';
+import { UploadFileValidationResult } from '../internal/FileUploaderControl/UploadFileValidationResult';
 
 import { getGuid } from './guidUtils';
 
@@ -15,7 +15,7 @@ export interface IUploadFile {
   id: string;
   originalFile: File;
   status: UploadFileStatus;
-  validationResult: FileUploaderControlValidationResult;
+  validationResult: UploadFileValidationResult;
 
   fileInBase64: UploadFileInBase64;
 }
@@ -42,7 +42,7 @@ export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUp
     id: getGuid(),
     originalFile: getFileWithEscapedName(file),
     status: UploadFileStatus.Attached,
-    validationResult: FileUploaderControlValidationResult.ok(),
+    validationResult: UploadFileValidationResult.ok(),
     fileInBase64: fileInBase64,
   };
 };
