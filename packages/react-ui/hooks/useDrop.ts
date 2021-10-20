@@ -1,9 +1,5 @@
 import { MutableRefObject, useCallback, useEffect, useRef, useState } from 'react';
 
-import { useLocaleForControl } from '../../lib/locale/useLocaleForControl';
-
-import { FileUploaderLocaleHelper } from '../../components/FileUploader/locale';
-
 interface IUseDropProps {
   onDrop?: (event: Event) => void;
 }
@@ -77,5 +73,3 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
 
   return { isDraggable, ref: droppableRef };
 };
-
-export const useControlLocale = () => useLocaleForControl('FileUploader', FileUploaderLocaleHelper);

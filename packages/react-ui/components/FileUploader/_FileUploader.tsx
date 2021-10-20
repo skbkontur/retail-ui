@@ -1,23 +1,23 @@
 import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
 import UploadIcon from '@skbkontur/react-icons/Upload';
 
-import { IUploadFile, readFiles, UploadFileStatus } from '../../lib/fileUtils';
+import { IUploadFile, readFiles } from '../../lib/fileUtils';
 import { Link } from '../Link';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
-import { useControlLocale, useDrop } from '../../internal/FileUploaderControl/FileUploaderControlHooks';
 import { UploadFile } from '../../internal/FileUploaderControl/UploadFile/UploadFile';
 import { UploadFileList } from '../../internal/FileUploaderControl/UploadFileList/UploadFileList';
 import { UploadFileValidationResult } from '../../internal/FileUploaderControl/UploadFileValidationResult';
+import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
+import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
+import { useDrop } from '../../hooks/useDrop';
 
 import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-// FIXME @mozalov: протестировать поддержку react-ui-validations
-// FIXME @mozalov: протестировать передачу ref
 // FIXME @mozalov: а нужно ли дизейблить отдельные файлики при передаче disabled = true? - ДА, нужно убирать крестик и красить текст в серый
 
 // FIXME @mozalov: написать тесты на компонент после ревью
@@ -62,6 +62,9 @@ export interface IFileUploaderRef {
   blur: () => void;
 }
 
+// FIXME @mozalov: подумать, а мб вообще избавиться от провайдера, переписать эту логику на хук, который юзать внутри компонента
+// кажется мы реальноэто можем сделать, а в местах, где нужно заюзать подубную логику. просто заюзаем.
+// например, в дропзоне можно реиспользовать компонент _FileUploader
 export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderProps>(
   (props: _IFileUploaderProps, ref) => {
     const {
@@ -83,7 +86,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
       onRequestError
     } = props;
 
-    const { files, setFiles, removeFile, setFileStatus, setFileValidationResult } = useContext(FileUploaderControlContext);
+    const { files, setFiles, removeFile, setFileValidationResult } = useContext(FileUploaderControlContext);
 
     const locale = useControlLocale();
 
@@ -92,46 +95,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
     const isAsync = !!request;
     const isSingleMode = !multiple;
 
-    // FIXME @mozalov: подумать, а мб разбить компонент на хуки и логику подробить, чтобы компонент уменьшить
-
-    /** methods for async control **/
-    const switchToLoading = useCallback(
-      (fileId: string) => {
-        setFileStatus(fileId, UploadFileStatus.Loading);
-      },
-      [setFileStatus],
-    );
-
-    const switchToSuccess = useCallback(
-      (fileId: string) => {
-        setFileStatus(fileId, UploadFileStatus.Uploaded);
-        onRequestSuccess?.(fileId);
-      },
-      [setFileStatus, onRequestSuccess],
-    );
-
-    const switchToError = useCallback(
-      (fileId: string) => {
-        setFileStatus(fileId, UploadFileStatus.Error);
-        onRequestError?.(fileId);
-      },
-      [setFileStatus, onRequestError],
-    );
-
-    const upload = useCallback(
-      async (file: IUploadFile) => {
-        const { id } = file;
-        switchToLoading(id);
-
-        try {
-          await request?.(file);
-          switchToSuccess(id);
-        } catch {
-          switchToError(id);
-        }
-      },
-      [request, switchToSuccess, switchToLoading, switchToError],
-    );
+    const upload = useUpload(request, onRequestSuccess, onRequestError);
 
     /** run upload and validation **/
     const _onSelect = useCallback(

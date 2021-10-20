@@ -2,11 +2,11 @@ import React, { ComponentType, PropsWithChildren, useCallback, useState } from '
 
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
+import { _IFileUploaderProps } from '../../components/FileUploader/_FileUploader';
 
 import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { UploadFileValidationResult } from './UploadFileValidationResult';
-import { useControlLocale } from './FileUploaderControlHooks';
-import { _IFileUploaderProps } from '../../components/FileUploader/_FileUploader';
+import { useControlLocale } from './hooks/useControlLocale';
 
 export interface IFileUploaderControlProviderProps {
   onValueChange?: (files: IUploadFile[]) => void;
