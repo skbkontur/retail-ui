@@ -62,9 +62,6 @@ export interface IFileUploaderRef {
   blur: () => void;
 }
 
-// FIXME @mozalov: подумать, а мб вообще избавиться от провайдера, переписать эту логику на хук, который юзать внутри компонента
-// кажется мы реальноэто можем сделать, а в местах, где нужно заюзать подубную логику. просто заюзаем.
-// например, в дропзоне можно реиспользовать компонент _FileUploader
 export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderProps>(
   (props: _IFileUploaderProps, ref) => {
     const {

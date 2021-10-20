@@ -5,8 +5,9 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
 import { Link } from '../../../components/Link';
-import { FileUploader, _IFileUploaderProps } from '../../../components/FileUploader/FileUploader';
 import { withFileUploaderControlProvider } from '../../../internal/FileUploaderControl/FileUploaderControlProvider';
+import { FileUploader } from '../FileUploader';
+import { _IFileUploaderProps } from '../_FileUploader';
 
 const WrappedFileUploader = withFileUploaderControlProvider(FileUploader);
 
@@ -20,6 +21,8 @@ const render = (localeProviderValue = {}, props: _IFileUploaderProps = {}) =>
 const getBaseButtonText = (wrapper: ReactWrapper): string => {
   return wrapper.find(Link).text();
 };
+
+// FIXME @mozalov: тесты
 
 describe('FileUploader', () => {
   describe('Locale', () => {
@@ -48,7 +51,7 @@ describe('FileUploader', () => {
       const customText = 'custom text';
       const wrapper = render({
         locale: {
-          UploadFileControl: {
+          FileUploader: {
             chooseFile: customText,
             requestErrorText: customText,
             choosedFile: customText,

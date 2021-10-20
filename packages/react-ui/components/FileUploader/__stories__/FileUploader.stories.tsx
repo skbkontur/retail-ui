@@ -33,7 +33,6 @@ export const MultipleAsyncFileUploader = () => <FileUploader multiple request={s
 export const MultipleAsyncFileUploaderWithLoading = () => <FileUploader multiple request={loadingRequest} />;
 export const MultipleAsyncFileUploaderWithErrorRequest = () => <FileUploader multiple request={errorRequest} />;
 
-
 /** sync control stories **/
 export const SingleSyncFileUploader = () => <FileUploader />;
 export const MultipleSyncFileUploader = () => <FileUploader multiple />;
