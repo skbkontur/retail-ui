@@ -5,13 +5,16 @@ import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 
+const TEXT_SAMPLE =
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
+
 interface AutoresizableTextareaState {
   value: string | null;
 }
 
 class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
   public state = {
-    value: '',
+    value: TEXT_SAMPLE,
   };
 
   public render() {
@@ -28,6 +31,8 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
           value={this.state.value}
           width={250}
           onValueChange={this.handleChange}
+          rows={3}
+          maxRows={5}
         />
       </div>
     );
@@ -38,8 +43,34 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
   };
 }
 
-const TEXT_SAMPLE =
-  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
+const CollapsingAutoresizableTextarea = () => {
+  const [commentFocused, setCommentFocused] = React.useState(false);
+  const handleCommentFocus = React.useCallback(() => {
+    setCommentFocused(true);
+  }, [setCommentFocused]);
+  const textarea = React.useRef<Textarea>(null);
+
+  return (
+    <div>
+      <label htmlFor={'textarea'}>click me</label>
+      <Textarea
+        id={'textarea'}
+        ref={textarea}
+        rows={commentFocused ? 3 : 1}
+        onFocus={handleCommentFocus}
+        maxRows={commentFocused ? 30 : 1}
+        autoResize
+      />
+      <Button
+        onClick={() => {
+          setCommentFocused(false);
+        }}
+      >
+        collapse
+      </Button>
+    </div>
+  );
+};
 
 export default { title: 'Textarea' };
 
@@ -166,8 +197,38 @@ export const TextareaInInlineFlexAndText = () => (
 TextareaInInlineFlexAndText.storyName = 'Textarea in inline-flex and text';
 TextareaInInlineFlexAndText.parameters = { creevey: { skip: [true] } };
 
-export const AutoresizableTextareaStory = () => <AutoresizableTextarea />;
+export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
+
+export const CollapsingAutoresizableTextareaStory: Story = () => <CollapsingAutoresizableTextarea />;
+CollapsingAutoresizableTextareaStory.storyName = 'Collapsing Autoresizable textarea';
+CollapsingAutoresizableTextareaStory.parameters = {
+  creevey: {
+    tests: {
+      async ExpandedAndCollapsed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .pause(500)
+          .perform();
+        const expanded = await this.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .pause(500)
+          .perform();
+        const collapsed = await this.takeScreenshot();
+
+        await this.expect({ expanded, collapsed }).to.matchImages();
+      },
+    },
+  },
+};
 
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.storyName = 'Textarea with custom width';
