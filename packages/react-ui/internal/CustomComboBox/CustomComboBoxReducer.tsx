@@ -1,6 +1,7 @@
 import React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
+import isNil from 'lodash/isNil';
 
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -66,7 +67,7 @@ interface EffectFactory {
 const DEBOUNCE_DELAY = 300;
 
 const getValueString = (value: any, valueToString: CustomComboBoxProps<any>['valueToString']) => {
-  return value ? valueToString(value) : '';
+  return !isNil(value) ? valueToString(value) : '';
 };
 
 export const Effect: EffectFactory = {

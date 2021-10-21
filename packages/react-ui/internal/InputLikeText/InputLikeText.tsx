@@ -1,4 +1,5 @@
 import React from 'react';
+import isNil from 'lodash/isNil';
 
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
@@ -305,7 +306,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
 
-    if (children === null && children === undefined && placeholder) {
+    if (isNil(children) && placeholder) {
       return (
         <span
           className={cx(jsInputStyles.placeholder(this.theme), {
