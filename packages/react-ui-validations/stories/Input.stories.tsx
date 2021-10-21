@@ -3,10 +3,10 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import { Gapped } from '@skbkontur/react-ui/components/Gapped';
 
 import { createValidator, text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
-import { Gapped } from '@skbkontur/react-ui';
 
 interface Example1State {
   value: string;
