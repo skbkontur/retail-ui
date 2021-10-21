@@ -4,8 +4,9 @@ import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import { createValidator, text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
+import { Gapped } from '@skbkontur/react-ui';
 
 interface Example1State {
   value: string;
@@ -426,6 +427,101 @@ class Example9 extends React.Component<{}, Example9State> {
   }
 }
 
+interface State {
+  value1: string;
+  value2: string;
+  object: {
+    value3: string;
+    value4: string;
+  };
+  submit: string;
+  isValid: boolean | null;
+}
+
+class Example10 extends React.Component<{}, State> {
+  public state: State = {
+    value1: '',
+    value2: '',
+    object: {
+      value3: '',
+      value4: '',
+    },
+    submit: '',
+    isValid: null,
+  };
+
+  public render() {
+    const { value1, value2, object } = this.state;
+
+    const validation = this.validateObject(object);
+
+    return (
+      <ValidationContainer>
+        <Gapped vertical>
+          <ValidationWrapper validationInfo={this.validate(value1)}>
+            <Input
+              placeholder="Только цифры"
+              value={value1}
+              onValueChange={(value) => this.handleChange({ value1: value })}
+            />
+          </ValidationWrapper>
+          <ValidationWrapper validationInfo={this.validate(value2)}>
+            <Input
+              placeholder="Только цифры"
+              value={value2}
+              onValueChange={(value) => this.handleChange({ value2: value })}
+            />
+          </ValidationWrapper>
+          <ValidationWrapper validationInfo={validation.getNode((x) => x.value3).get()}>
+            <Input
+              placeholder="Только цифры"
+              value={object.value3}
+              onValueChange={(value) => this.handleChange2({ value3: value })}
+            />
+          </ValidationWrapper>
+          <ValidationWrapper validationInfo={validation.getNode((x) => x.value4).get()}>
+            <Input
+              placeholder="Только цифры"
+              value={object.value4}
+              onValueChange={(value) => this.handleChange2({ value4: value })}
+            />
+          </ValidationWrapper>
+        </Gapped>
+      </ValidationContainer>
+    );
+  }
+
+  private validate = (v: string): Nullable<ValidationInfo> => {
+    if (v === '') return { message: 'Не должно быть пустым', type: 'lostfocus' };
+    if (!/^\d*$/.test(v)) return { message: 'Только цифры', type: 'lostfocus' };
+    return null;
+  };
+
+  private validateObject = createValidator<State['object']>((b, v) => {
+    console.log('validateObject', b, v);
+    b.prop(
+      (x) => x.value3,
+      (b, s) => {
+        b.invalid((x) => !x, 'Не должно быть пустым', 'lostfocus');
+      },
+    );
+    b.prop(
+      (x) => x.value4,
+      (b) => {
+        b.invalid((x) => !x, 'Не должно быть пустым', 'lostfocus');
+      },
+    );
+  });
+
+  private handleChange = (value: Partial<State>) => {
+    this.setState({ ...value, isValid: null } as any);
+  };
+
+  private handleChange2 = (value: Partial<State['object']>): void => {
+    this.setState({ object: { ...this.state.object, ...value } });
+  };
+}
+
 storiesOf('Input', module)
   .add('#1', () => {
     return <Example1 />;
@@ -453,4 +549,7 @@ storiesOf('Input', module)
   })
   .add('#9 lostfocus не срабатывает после первого рендера', () => {
     return <Example9 />;
+  })
+  .add('#10 lostfocus срабатывает только на элементе, потерявшем фокус', () => {
+    return <Example10 />;
   });

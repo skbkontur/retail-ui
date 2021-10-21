@@ -187,7 +187,6 @@ export class ValidationWrapperInternal extends React.Component<
   private handleBlur() {
     setTimeout(() => {
       this.processBlur();
-      this.context.validationContext.instanceProcessBlur(this);
       this.setState({});
     });
   }
