@@ -69,3 +69,13 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 
   return false;
 };
+
+/**
+ * Проверяет, является ли переданное в функцию значение null или undefined
+ *
+ * @param value Значение, которое нужно проверить
+ * @returns Возвращает true, если переданное значение является nullish, иначе false
+ */
+export const isNuliish = (value: any): boolean => {
+  return value === null || value === undefined;
+};
