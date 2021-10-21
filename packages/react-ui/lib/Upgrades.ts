@@ -3,7 +3,8 @@ import warning from 'warning';
 let specificityLevel = 0;
 let canModifySpecificityLevel = true;
 
-let reactUiPrefix = 'react-ui';
+let specificityClassName = 'react-ui';
+let canModifySpecificityClassName = true;
 
 export const Upgrade = {
   getSpecificityLevel() {
@@ -17,10 +18,15 @@ export const Upgrade = {
       warning(false, `specificityLevel=${specificityLevel} уже использован`);
     }
   },
-  getUiPrefix() {
-    return reactUiPrefix;
+  getSpecificityClassName() {
+    canModifySpecificityClassName = false;
+    return specificityClassName;
   },
-  setUiPrefix(prefix: string) {
-    reactUiPrefix = prefix;
+  setSpecificityClassName(className: string) {
+    if (canModifySpecificityClassName) {
+      specificityClassName = className;
+    } else {
+      warning(false, `specificityClassName=${specificityClassName} уже использован`);
+    }
   },
 };

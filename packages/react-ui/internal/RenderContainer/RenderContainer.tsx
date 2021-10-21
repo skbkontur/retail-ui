@@ -44,7 +44,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   private createContainer() {
     if (canUseDOM) {
       const domContainer = document.createElement('div');
-      domContainer.setAttribute('class', Upgrade.getUiPrefix());
+      domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
       this.domContainer = domContainer;
     }
