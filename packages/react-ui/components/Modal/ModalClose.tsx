@@ -13,15 +13,13 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {
-    if (!disableClose) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
-        if (keyListener.isTabPressed) {
-          setFocusedByTab(true);
-        }
-      });
-    }
+    // focus event fires before keyDown eventlistener
+    // so we should check tabPressed in async way
+    requestAnimationFrame(() => {
+      if (keyListener.isTabPressed) {
+        setFocusedByTab(true);
+      }
+    });
   };
 
   const handleBlur = () => {
@@ -39,6 +37,7 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
       onFocus={handleFocus}
       onBlur={handleBlur}
       data-tid="modal-close"
+      tabIndex={disableClose ? -1 : 0}
     >
       <CrossIcon />
     </button>

@@ -93,7 +93,6 @@ export const styles = memoizeStyle({
       padding: ${t.modalCloseButtonClickArea};
       margin: -${t.modalCloseButtonClickArea};
 
-      &:focus,
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
       }
@@ -131,6 +130,7 @@ export const styles = memoizeStyle({
 
   focus(t: Theme) {
     return css`
+      color: ${t.modalCloseButtonHoverColor};
       outline: 2px solid ${t.borderColorFocus};
     `;
   },
