@@ -19,9 +19,8 @@ import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-// FIXME @mozalov: а нужно ли дизейблить отдельные файлики при передаче disabled = true? - ДА, нужно убирать крестик и красить текст в серый
-
 // FIXME @mozalov: написать тесты на компонент после ревью
+// FIXME @mozalov: расставь дататиды
 export interface _IFileUploaderProps {
   /** Нативные свойства */
   id?: string;
