@@ -51,5 +51,5 @@ const escapeRegExpFileNameSpecChars = (s: string): string => s.replace(/[\\^$*+?
 
 const getFileWithEscapedName = (file: File): File => {
   const { name } = file;
-  return { ...file, name: escapeRegExpFileNameSpecChars(name) };
+  return { ...file, name: escapeRegExpFileNameSpecChars(name || '') };
 };

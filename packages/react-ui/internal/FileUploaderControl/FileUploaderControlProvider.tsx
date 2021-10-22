@@ -9,8 +9,12 @@ import { UploadFileValidationResult } from './UploadFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
 
 export interface IFileUploaderControlProviderProps {
-  onValueChange?: (files: IUploadFile[]) => void;
+  /** Срабатывает при валидном чтении файла (превращение байтов в base64) */
+  onSelect?: (files: IUploadFile[]) => void;
+  /** Срабатывает при удалении файла из контрола */
   onRemove?: (fileId: string) => void;
+  /** Срабатывает при onSelect и onRemove*/
+  onValueChange?: (files: IUploadFile[]) => void;
 }
 
 const updateFile = (
@@ -35,7 +39,7 @@ const updateFile = (
 };
 
 export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUploaderControlProviderProps>) => {
-  const { children, onValueChange, onRemove } = props;
+  const { children, onValueChange, onRemove, onSelect } = props;
 
   // в files попадат только те, что попали в onSelect
   const [files, setFiles] = useState<IUploadFile[]>([]);
@@ -60,13 +64,14 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUpload
 
   const handleExternalSetFiles = useCallback(
     (files: IUploadFile[]) => {
+      onSelect?.(files);
       setFiles((state) => {
         const newFiles = [...state, ...files];
         onValueChange?.(newFiles);
         return newFiles;
       });
     },
-    [onValueChange],
+    [onValueChange, onSelect],
   );
 
   const removeFile = useCallback(

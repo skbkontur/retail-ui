@@ -13,6 +13,7 @@ import { UploadFileValidationResult } from '../../internal/FileUploaderControl/U
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
+import { Nullable } from '../../typings/utility-types';
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -39,8 +40,6 @@ export interface _IFileUploaderProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
 
-  /** Срабатывает при валидном чтении файла (превращение байтов в base64) */
-  onSelect?: (files: IUploadFile[]) => void;
   /** Срабатывает при невалидном чтении файла (превращение байтов в base64) */
   onReadError?: (files: IUploadFile[]) => void;
 
@@ -54,7 +53,7 @@ export interface _IFileUploaderProps {
   onRequestError?: (fileId: string) => void;
 
   /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
-  getFileValidationText?: (file: IUploadFile) => Promise<string>;
+  getFileValidationText?: (file: IUploadFile) => Promise<Nullable<string>>;
 }
 
 export interface IFileUploaderRef {
@@ -73,7 +72,6 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
       warning,
       onBlur,
       onFocus,
-      onSelect,
       onReadError,
       multiple = false,
       width = 362,
@@ -94,11 +92,8 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
 
     const upload = useUpload(request, onRequestSuccess, onRequestError);
 
-    /** run upload and validation **/
-    const _onSelect = useCallback(
+    const tryValidateAndUpload = useCallback(
       (files: IUploadFile[]) => {
-        onSelect?.(files);
-
         files.forEach(async (file) => {
           const validationMessage = getFileValidationText && (await getFileValidationText(file));
 
@@ -109,7 +104,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
           }
         });
       },
-      [upload, error, getFileValidationText, onSelect, isAsync],
+      [upload, error, getFileValidationText, isAsync],
     );
 
     /** common part **/
@@ -131,12 +126,15 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
         if (isSingleMode && selectedFiles.length && files.length) {
           removeFile(files[0].id);
         }
-        setFiles(selectedFiles);
 
-        _onSelect?.(selectedFiles);
-        onReadError?.(readErrorFiles);
+        if (selectedFiles.length) {
+          setFiles(selectedFiles);
+          tryValidateAndUpload(selectedFiles);
+        }
+
+        readErrorFiles.length && onReadError?.(readErrorFiles);
       },
-      [onReadError, _onSelect, setFiles, isSingleMode, files, removeFile],
+      [onReadError, tryValidateAndUpload, setFiles, isSingleMode, files, removeFile],
     );
 
     const handleDrop = useCallback(

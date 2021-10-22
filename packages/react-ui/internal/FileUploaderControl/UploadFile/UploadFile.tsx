@@ -78,7 +78,7 @@ export const UploadFile = (props: IUploadFileProps) => {
   const { isValid, message } = validationResult;
 
   const icon: ReactNode = useMemo(() => {
-    const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon()} onClick={handleRemove} />;
+    const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon()} />;
 
     if (hovered) {
       return deleteIcon;
@@ -95,7 +95,7 @@ export const UploadFile = (props: IUploadFileProps) => {
         }
         return deleteIcon;
     }
-  }, [hovered, status, isValid, handleRemove]);
+  }, [hovered, status, isValid]);
 
   const renderTooltipContent = useCallback((): ReactNode => {
     return isValid ? null : message;
@@ -122,7 +122,7 @@ export const UploadFile = (props: IUploadFileProps) => {
             {truncatedFileName}
           </span>
           {!!showSize && formattedSize && <span className={jsStyles.size()}>{formattedSize}</span>}
-          <div className={jsStyles.icon()}>{icon}</div>
+          <div data-tid="UploadFileIcon" onClick={handleRemove} className={jsStyles.icon()}>{icon}</div>
         </div>
       </Tooltip>
     </div>
