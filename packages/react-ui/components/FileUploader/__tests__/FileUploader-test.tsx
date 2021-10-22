@@ -24,7 +24,7 @@ const getBaseButtonText = (wrapper: ReactWrapper): string => {
 
 const addFiles = async (component: ReactWrapper, files: File[]) => {
   await act(async () => {
-    component.find('input').simulate('change', {target: {files}});
+    component.find('input').simulate('change', { target: { files } });
   });
   // ждем отрисовки файлов
   await delay(100);
@@ -39,7 +39,6 @@ const removeFile = async (component: ReactWrapper) => {
 
 describe('FileUploader', () => {
   describe('Locale', () => {
-
     it('render without LocaleProvider', () => {
       const wrapper = mount(<FileUploader />);
       const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
@@ -94,22 +93,22 @@ describe('FileUploader', () => {
     const readFile = {
       fileInBase64: expect.any(String),
       id: expect.any(String),
-      originalFile: {name: ""},
-      status: "Attached",
-      validationResult: {isValid: true, message: undefined}
+      originalFile: { name: '' },
+      status: 'Attached',
+      validationResult: { isValid: true, message: undefined },
     };
 
-    const errorReadFile = {...readFile, fileInBase64: null};
+    const errorReadFile = { ...readFile, fileInBase64: null };
 
     beforeEach(() => {
-      file = new Blob(['fileContents'], {type : 'text/plain'}) as File;
+      file = new Blob(['fileContents'], { type: 'text/plain' }) as File;
     });
     describe('onReadError', () => {
       it('should handle onReadError, when has error in file reading', async () => {
         FileReaderMock.errorMock();
 
         const onReadError = jest.fn();
-        const component = render({onReadError});
+        const component = render({ onReadError });
 
         await addFiles(component, [file]);
 
@@ -121,7 +120,7 @@ describe('FileUploader', () => {
 
       it('shouldn"t handle onReadError, when file"s reading is correct', async () => {
         const onReadError = jest.fn();
-        const component = render({onReadError});
+        const component = render({ onReadError });
 
         await addFiles(component, [file]);
 
@@ -132,7 +131,7 @@ describe('FileUploader', () => {
     describe('onSelect', () => {
       it('should handle onSelect, when select file', async () => {
         const onSelect = jest.fn();
-        const component = render({onSelect});
+        const component = render({ onSelect });
 
         await addFiles(component, [file]);
 
@@ -142,7 +141,11 @@ describe('FileUploader', () => {
 
       it('shouldn handle onSelect, when all files aren"t valid', async () => {
         const onSelect = jest.fn();
-        const component = render({onSelect, getFileValidationText: () => Promise.resolve('validation error'), multiple: true});
+        const component = render({
+          onSelect,
+          getFileValidationText: () => Promise.resolve('validation error'),
+          multiple: true,
+        });
 
         await addFiles(component, [file, file]);
 
@@ -154,7 +157,7 @@ describe('FileUploader', () => {
         FileReaderMock.errorMock();
 
         const onSelect = jest.fn();
-        const component = render({onSelect});
+        const component = render({ onSelect });
 
         await addFiles(component, [file]);
 
@@ -167,7 +170,7 @@ describe('FileUploader', () => {
     describe('onRemove', () => {
       it('should handle onRemove, when click delete button', async () => {
         const onRemove = jest.fn();
-        const component = render({onRemove, multiple: true});
+        const component = render({ onRemove, multiple: true });
 
         await addFiles(component, [file]);
         await removeFile(component);
@@ -177,7 +180,7 @@ describe('FileUploader', () => {
 
       it('should handle onRemove, when reselect file in single control', async () => {
         const onRemove = jest.fn();
-        const component = render({onRemove});
+        const component = render({ onRemove });
 
         await addFiles(component, [file]);
         await addFiles(component, [file]);
@@ -189,7 +192,7 @@ describe('FileUploader', () => {
     describe('onValueChange', () => {
       it('should handle onValueChange with current files when select files', async () => {
         const onValueChange = jest.fn();
-        const component = render({onValueChange});
+        const component = render({ onValueChange });
 
         await addFiles(component, [file]);
 
@@ -199,7 +202,7 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange with empty array when remove last file', async () => {
         const onValueChange = jest.fn();
-        const component = render({onValueChange});
+        const component = render({ onValueChange });
 
         await addFiles(component, [file]);
 
@@ -223,7 +226,7 @@ describe('FileUploader', () => {
         request = jest.fn(() => Promise.resolve());
         onRequestSuccess = jest.fn();
         onRequestError = jest.fn();
-        component = render({request, onRequestSuccess, onRequestError});
+        component = render({ request, onRequestSuccess, onRequestError });
       });
 
       it('should handle request and onRequestSuccess after selection of valid file', async () => {
@@ -240,10 +243,10 @@ describe('FileUploader', () => {
         let count = 0;
         const getFileValidationText = () => {
           count++;
-          const result = count % 2 === 0 ? null : "Ошибка";
+          const result = count % 2 === 0 ? null : 'Ошибка';
           return Promise.resolve(result);
         };
-        component = render({request, onRequestSuccess, onRequestError, getFileValidationText, multiple: true});
+        component = render({ request, onRequestSuccess, onRequestError, getFileValidationText, multiple: true });
 
         await addFiles(component, [file, file]);
 
@@ -255,7 +258,12 @@ describe('FileUploader', () => {
       });
 
       it('shouldn"t handle request after selection of invalid file', async () => {
-        component = render({request, onRequestSuccess, onRequestError, getFileValidationText: () => Promise.resolve("ERROR")});
+        component = render({
+          request,
+          onRequestSuccess,
+          onRequestError,
+          getFileValidationText: () => Promise.resolve('ERROR'),
+        });
 
         await addFiles(component, [file]);
 
@@ -266,7 +274,7 @@ describe('FileUploader', () => {
 
       it('should handle request and onRequestError after file selection and throw error on upload file', async () => {
         request = jest.fn(() => Promise.reject());
-        component = render({request, onRequestSuccess, onRequestError});
+        component = render({ request, onRequestSuccess, onRequestError });
 
         await addFiles(component, [file]);
 
@@ -281,7 +289,7 @@ describe('FileUploader', () => {
       it('should handle getFileValidationText for every files', async () => {
         const request = jest.fn(() => Promise.resolve());
         const getFileValidationText = jest.fn(() => Promise.resolve(null));
-        const component = render({request, getFileValidationText, multiple: true});
+        const component = render({ request, getFileValidationText, multiple: true });
 
         await addFiles(component, [file, file]);
 
@@ -303,7 +311,7 @@ describe('FileUploader', () => {
           validationOrder = increment();
           return Promise.resolve(null);
         });
-        const component = render({request, getFileValidationText});
+        const component = render({ request, getFileValidationText });
 
         await addFiles(component, [file]);
 
@@ -318,7 +326,7 @@ describe('FileUploader', () => {
       const getFileValidationText = jest.fn();
       const onSelect = jest.fn();
       const onValueChange = jest.fn();
-      const component = render({request, getFileValidationText, onSelect, onValueChange});
+      const component = render({ request, getFileValidationText, onSelect, onValueChange });
 
       await addFiles(component, [file, file, file]);
 
@@ -327,6 +335,5 @@ describe('FileUploader', () => {
       expect(onSelect).toHaveBeenCalledTimes(1);
       expect(onValueChange).toHaveBeenCalledTimes(1);
     });
-
   });
 });

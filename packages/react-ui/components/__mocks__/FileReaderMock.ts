@@ -5,8 +5,8 @@ export class FileReaderMock {
     const dummyFileReader = {
       readAsDataURL: () => {
         // @ts-ignore
-        dummyFileReader?.onerror()
-      }
+        dummyFileReader?.onerror();
+      },
     };
     // @ts-ignore
     window.FileReader = jest.fn(() => dummyFileReader);
