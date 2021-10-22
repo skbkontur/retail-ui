@@ -16,7 +16,7 @@ if (isBrowser && typeof HTMLElement === 'undefined') {
   w.HTMLElement = w.Element;
 }
 
-export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit';
+export type ValidationBehaviour = 'immediate' | 'lostfocus' | 'submit' | 'selflostfocus';
 
 export type ValidationLevel = 'error' | 'warning';
 
@@ -168,9 +168,19 @@ export class ValidationWrapperInternal extends React.Component<
     return null;
   }
 
-  public processBlur() {
+  public processBlur(internal: boolean) {
     const touched = this.isChanging;
     this.isChanging = false;
+    console.log(
+      'processBlur',
+      internal,
+      getType(this.props.validation),
+      this.props.children?.props?.['data-tid'],
+      !internal && getType(this.props.validation) === 'selflostfocus',
+    );
+    if (!internal && getType(this.props.validation) === 'selflostfocus') {
+      return false;
+    }
     const validation = this.getOnBlurValidation(touched);
     return this.setValidation(validation);
   }
@@ -186,7 +196,8 @@ export class ValidationWrapperInternal extends React.Component<
 
   private handleBlur() {
     setTimeout(() => {
-      this.processBlur();
+      this.processBlur(true);
+      this.context.validationContext.instanceProcessBlur(this);
       this.setState({});
     });
   }

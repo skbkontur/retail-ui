@@ -34,6 +34,25 @@
 
     !!DemoWithCode!!./LostfocusValidation
 
+
+### Валидации на других элементах тоже будут вызваны
+
+Подробнее - [зависимые валидации](#/dependent-validation)
+
+    !!DemoWithCode!!./LostfocusDependentValidation
+
+## По потере фокуса одного элемента
+
+Валидация отображается только для элемента, который потерял фокус.
+
+    <ValidationWrapper validationInfo={{type: "selflostfocus", message: "..."}}>
+      //...
+    </ValidationWrapper>
+
+### Пример
+
+    !!DemoWithCode!!./SelflostfocusValidation
+
 ## По отправке формы
 
 Валидация по отправке формы отображается при вызове метода `submit` на компоненте `ValidationContainer`.
