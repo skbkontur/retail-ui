@@ -19,8 +19,6 @@ import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-// FIXME @mozalov: написать тесты на компонент после ревью
-// FIXME @mozalov: расставь дататиды
 export interface _IFileUploaderProps {
   /** Нативные свойства */
   id?: string;

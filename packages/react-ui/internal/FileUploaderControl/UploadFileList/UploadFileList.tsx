@@ -9,7 +9,7 @@ export const UploadFileList = () => {
   const { files } = useContext(FileUploaderControlContext);
 
   return (
-    <div>
+    <div data-tid="UploadFileList">
       {files.map((file) => (
         <div key={file.id} className={jsStyles.fileWrapper()}>
           <UploadFile file={file} showSize />
