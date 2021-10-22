@@ -10,11 +10,13 @@ const TEXT_SAMPLE =
 
 interface AutoresizableTextareaState {
   value: string | null;
+  maxRows: number;
 }
 
 class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
   public state = {
-    value: TEXT_SAMPLE,
+    value: '',
+    maxRows: 5,
   };
 
   public render() {
@@ -31,46 +33,37 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
           value={this.state.value}
           width={250}
           onValueChange={this.handleChange}
-          rows={3}
-          maxRows={5}
+          rows={4}
+          onFocus={this.handleFocus}
+          maxRows={this.state.maxRows}
         />
+        <Button
+          data-tid={'AddButton'}
+          onClick={() => {
+            this.setState({ value: TEXT_SAMPLE });
+          }}
+        >
+          add text
+        </Button>
+        <Button
+          data-tid={'CollapseButton'}
+          onClick={() => {
+            this.setState({ maxRows: 3 });
+          }}
+        >
+          collapse
+        </Button>
       </div>
     );
   }
-
   private handleChange = (value: string | null) => {
     this.setState({ value });
   };
+
+  private handleFocus = () => {
+    this.setState({ maxRows: 5 });
+  };
 }
-
-const CollapsingAutoresizableTextarea = () => {
-  const [commentFocused, setCommentFocused] = React.useState(false);
-  const handleCommentFocus = React.useCallback(() => {
-    setCommentFocused(true);
-  }, [setCommentFocused]);
-  const textarea = React.useRef<Textarea>(null);
-
-  return (
-    <div>
-      <label htmlFor={'textarea'}>click me</label>
-      <Textarea
-        id={'textarea'}
-        ref={textarea}
-        rows={commentFocused ? 3 : 1}
-        onFocus={handleCommentFocus}
-        maxRows={commentFocused ? 30 : 1}
-        autoResize
-      />
-      <Button
-        onClick={() => {
-          setCommentFocused(false);
-        }}
-      >
-        collapse
-      </Button>
-    </div>
-  );
-};
 
 export default { title: 'Textarea' };
 
@@ -199,32 +192,33 @@ TextareaInInlineFlexAndText.parameters = { creevey: { skip: [true] } };
 
 export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
-
-export const CollapsingAutoresizableTextareaStory: Story = () => <CollapsingAutoresizableTextarea />;
-CollapsingAutoresizableTextareaStory.storyName = 'Collapsing Autoresizable textarea';
-CollapsingAutoresizableTextareaStory.parameters = {
+AutoresizableTextareaStory.parameters = {
   creevey: {
     tests: {
-      async ExpandedAndCollapsed() {
+      async Before() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('Before');
+      },
+      async AddText() {
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
           .pause(500)
           .perform();
-        const expanded = await this.takeScreenshot();
-
+        await this.expect(await this.takeScreenshot()).to.matchImage('addText');
+      },
+      async Collapsed() {
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
+          .pause(500)
+          .click(this.browser.findElement({ css: '[data-tid~="CollapseButton"]' }))
           .pause(500)
           .perform();
-        const collapsed = await this.takeScreenshot();
-
-        await this.expect({ expanded, collapsed }).to.matchImages();
+        await this.expect(await this.takeScreenshot()).to.matchImage('collapsed');
       },
     },
   },

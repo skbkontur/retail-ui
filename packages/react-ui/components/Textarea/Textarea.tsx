@@ -103,7 +103,6 @@ export interface TextareaProps
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
-  rows: number | string;
   isCounterVisible: boolean;
 }
 
@@ -180,7 +179,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public state = {
     polyfillPlaceholder,
-    rows: 1,
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -231,9 +229,12 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize.cancel();
       this.autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
     }
-    const rowsAdded = this.props.rows > this.state.rows;
-    const rowsUpdated = this.props.rows !== prevProps.rows || this.props.maxRows !== prevProps.maxRows;
-    if ((this.props.autoResize && (rowsAdded || rowsUpdated)) || this.props.value !== prevProps.value) {
+    if (
+      this.props.autoResize &&
+      (this.props.rows !== prevProps.rows ||
+        this.props.maxRows !== prevProps.maxRows ||
+        this.props.value !== prevProps.value)
+    ) {
       this.autoResize();
     }
   }
