@@ -69,3 +69,13 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 
   return false;
 };
+
+/**
+ * Исключает из типа переданного аргумента null и undefined и возвращает булевое значение
+ *
+ * @param value Значение которое нужно проверить и исключить из него типы
+ * @returns Возвращает true если переданный аргумент не является null или undefined, иначе false
+ */
+export const isSafeValue = <T>(value: T): value is NonNullable<typeof value> => {
+  return value !== null || value !== undefined;
+};
