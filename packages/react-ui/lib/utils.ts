@@ -1,5 +1,5 @@
-import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { ReactComponentLike } from 'prop-types';
 
 import { isBrowser } from './client';
 
@@ -74,7 +74,7 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
  * Проверяет, является ли переданное в функцию значение null или undefined
  *
  * @param value Значение, которое нужно проверить
- * @returns Возвращает true, если переданное значение является nullish, иначе false
+ * @returns Возвращает true, если переданное значение является null или undefined, иначе false
  */
 export const isNullish = (value: any): boolean => {
   return value === null || value === undefined;
