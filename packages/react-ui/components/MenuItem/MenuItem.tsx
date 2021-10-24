@@ -18,6 +18,10 @@ export interface MenuItemProps extends CommonProps {
   comment?: React.ReactNode;
   disabled?: boolean;
   icon?: React.ReactElement<any>;
+
+  /**
+   * Меняет цвет текста на синий
+   */
   link?: boolean;
 
   /** @ignore */
@@ -28,6 +32,9 @@ export interface MenuItemProps extends CommonProps {
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
+  /**
+   * HTML-атрибут title
+   */
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
   onMouseEnter?: React.MouseEventHandler;
@@ -37,7 +44,10 @@ export interface MenuItemProps extends CommonProps {
 }
 
 /**
- * Элемент меню.
+ *
+ * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
+ *
+ * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](https://tech.skbkontur.ru/react-ui/#/Components/DropdownMenu), [`Kebab`](https://tech.skbkontur.ru/react-ui/#/Components/Kebab) и [`TooltipMenu`](https://tech.skbkontur.ru/react-ui/#/Components/TooltipMenu).
  */
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
