@@ -124,6 +124,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     if (children) {
       const captionClass = cx(styles.caption(this.theme), {
         [styles.captionLeft(this.theme)]: captionPosition === 'left',
+        [styles.disabledCaption(this.theme)]: !!disabled,
       });
       caption = <span className={captionClass}>{children}</span>;
     }

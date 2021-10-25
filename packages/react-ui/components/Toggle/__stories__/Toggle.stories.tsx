@@ -246,6 +246,21 @@ Uncontrolled.parameters = { creevey: { skip: [true] } };
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'playground';
 
+export const DisabledWithCaption: Story = () => {
+  return <Toggle disabled>Disabled with caption</Toggle>;
+};
+DisabledWithCaption.storyName = 'disabled with caption';
+
+DisabledWithCaption.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+    },
+  },
+};
+
 export const DisabledWithTooltip: Story = () => (
   <div style={{ padding: '50px' }}>
     <Tooltip render={() => 'Hello'}>
