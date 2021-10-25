@@ -196,7 +196,7 @@ const NestedThemes = () => (
 
 ## Кастомизация @skbkontur/react-ui-addons
 
-Компоненты `@skbkontur/react-ui-addons` так же поддерживают кастомизацию через `ThemeContext` из `@skbkontur/react-ui`. Достаточно переопределить нужные переменные, которые перечислены на страницах компонентов в [докумендации аддонов](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
+Компоненты `@skbkontur/react-ui-addons` так же поддерживают кастомизацию через `ThemeContext` из `@skbkontur/react-ui`. Достаточно переопределить нужные переменные, которые перечислены на страницах компонентов в [докумендации аддонов](https://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
 
 ```tsx static
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';

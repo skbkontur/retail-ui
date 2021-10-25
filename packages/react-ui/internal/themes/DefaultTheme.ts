@@ -267,6 +267,7 @@ export class DefaultTheme {
   public static loaderOpacity = '0.8';
   //#endregion
   //#region Button
+  public static btnBackgroundClip = 'padding-box';
   public static btnArrowBgImageActive =
     'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
   public static btnArrowBgImageChecked =

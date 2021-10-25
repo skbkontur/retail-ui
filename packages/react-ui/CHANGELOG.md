@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.7.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.1...@skbkontur/react-ui@3.7.2) (2021-10-25)
+
+
+### Bug Fixes
+
+* **Button:** add btnBackgroundClip theme var ([72708f9](https://github.com/skbkontur/retail-ui/commit/72708f9c1f58f248bf53dd0f2e75088a100711d4))
+* **Button:** add title prop ([#2569](https://github.com/skbkontur/retail-ui/issues/2569)) ([5140e96](https://github.com/skbkontur/retail-ui/commit/5140e96fbd33c57aa15a720935f6904e02b1f315))
+* **Paging:** use default cursor style for disabled paging link ([788f70a](https://github.com/skbkontur/retail-ui/commit/788f70a3dd3385165f3ffa0de0eb02cca887e584))
+* **TokenInput:** add public focus/blur methods ([0137266](https://github.com/skbkontur/retail-ui/commit/0137266810f09f139974a3480650587bb4b69d15))
+
+
+
+
+
 ## [3.7.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.0...@skbkontur/react-ui@3.7.1) (2021-10-06)
 
 
