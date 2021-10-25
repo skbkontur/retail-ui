@@ -23,6 +23,7 @@ const styles = {
 
   root() {
     return css`
+      min-width: 285px;
       position: relative;
     `;
   },
