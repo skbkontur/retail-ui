@@ -1,6 +1,6 @@
 import React from 'react';
-import isNil from 'lodash/isNil';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
@@ -306,7 +306,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
 
-    if (isNil(children) && placeholder) {
+    if (!isNonNullable(children) && placeholder) {
       return (
         <span
           className={cx(jsInputStyles.placeholder(this.theme), {
