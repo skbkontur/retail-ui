@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { FileUploader } from '../FileUploader';
+import { IFileUploaderRef } from '../_FileUploader';
+import { Button } from '../../Button';
+import { Gapped } from '../../Gapped';
 
 export default {
   title: 'FileUploader',
   decorators: [(storyFn: () => JSX.Element) => <div style={{ padding: '10px' }}>{storyFn()}</div>],
 };
-
-// FIXME @mozalov: написать скришотные тесты на разные вариации
-// FIXME @mozalov: почитать как можно протестить методы фокус и блюр
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const loadingRequest = () => new Promise<void>(() => {});
@@ -55,3 +55,14 @@ export const FileUploaderWithWarning = () => <FileUploader warning />;
 
 export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width={'100%'} />;
 export const MultipleFileUploaderWithCustomWidth = () => <FileUploader width={550} multiple />;
+
+export const FileUploaderRefFocusAndBlur = () => {
+  const ref = useRef<IFileUploaderRef>(null);
+  return (
+    <Gapped>
+      <FileUploader multiple ref={ref}/>
+      <Button onClick={() => ref.current?.focus()}>Focus</Button>
+      <Button onClick={() => ref.current?.blur()}>Blur</Button>
+    </Gapped>
+  );
+};

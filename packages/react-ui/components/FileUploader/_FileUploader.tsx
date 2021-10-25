@@ -264,3 +264,5 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
     );
   },
 );
+
+_FileUploader.displayName = '_FileUploader';
