@@ -26,6 +26,14 @@ const [checked, setChecked] = React.useState(false);
 </Toggle>
 ```
 
+Тогл получающий фокус после загрузки страницы.
+
+```jsx harmony
+<Toggle autoFocus>
+  Сразу с фокусом
+</Toggle>
+```
+
 Тоглы в различных стилях.
 
 ```jsx harmony

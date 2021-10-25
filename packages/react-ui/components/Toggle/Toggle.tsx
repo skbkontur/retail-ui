@@ -54,6 +54,9 @@ export interface ToggleProps extends CommonProps {
    * Добавляет стили для состояния `loading` и отключает `тогл`.
    */
   loading?: boolean;
+  /**
+   * Если true, выставляет фокус на `тогле` после загрузки страницы.
+   */
   autoFocus?: boolean;
   /**
    * Событие вызывающееся, когда `тогл` получает фокус.
