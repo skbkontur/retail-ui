@@ -14,6 +14,7 @@ const styles = {
     return css`
       display: flex;
       width: 100%;
+      position: relative;
     `;
   },
 
