@@ -215,7 +215,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
     const hasOneFileForSingle = isSingleMode && hasOneFile;
 
     return (
-      <div>
+      <div className={jsStyles.root()} style={useMemoObject({ width })}>
         {!isSingleMode && !!files.length && <UploadFileList />}
         <div className={uploadButtonWrapperClassNames}>
           <div
@@ -224,7 +224,6 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
             ref={rootRef}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
-            style={useMemoObject({ width })}
             onFocus={handleFocus}
             onBlur={handleBlur}
           >

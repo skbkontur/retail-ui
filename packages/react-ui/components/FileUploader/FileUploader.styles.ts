@@ -21,13 +21,20 @@ const styles = {
       `;
   },
 
+  root() {
+    return css`
+      position: relative;
+    `;
+  },
+
   uploadButton() {
     return css`
+      width: 100%;
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
       border: 1px dashed rgba(0, 0, 0, 0.37);
-      box-sizing: padding-box;
+      box-sizing: border-box;
       border-radius: 1px;
       outline: none;
       height: 32px;
