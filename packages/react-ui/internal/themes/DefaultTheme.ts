@@ -1645,4 +1645,4 @@ export class DefaultTheme {
   //#endregion
 }
 
-export const DefaultThemeInternal = exposeGetters(markAsFullTheme(DefaultTheme));
+export const DefaultThemeInternal = markAsFullTheme(exposeGetters(DefaultTheme));
