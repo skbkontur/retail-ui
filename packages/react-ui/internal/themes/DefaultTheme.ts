@@ -902,6 +902,9 @@ export class DefaultTheme {
   public static get toggleBgDisabled() {
     return this.bgDisabled;
   }
+  public static get toggleDisabledCheckedBg() {
+    return this.bgDisabled;
+  }
   public static get toggleBgHover() {
     return this.toggleBgFocus;
   }
@@ -909,6 +912,7 @@ export class DefaultTheme {
   public static toggleBorderWidth = '1px';
   public static toggleOutlineWidth = '3px';
   public static toggleBorderColor = '#d0d0d0';
+  public static toggleDisabledCheckedBorderColor = '#d0d0d0';
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static get toggleBgActive() {
     return this.toggleBgChecked;
