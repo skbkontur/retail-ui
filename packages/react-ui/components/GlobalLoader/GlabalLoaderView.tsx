@@ -10,9 +10,7 @@ import { styles } from './GlobalLoaderView.styles';
 
 interface GlobalLoaderViewProps {
   expectedResponseTime: number;
-  isGlobalLoaderVisible: boolean;
-  downloadSuccess: boolean;
-  rejected: boolean;
+  status?: 'success' | 'error';
 }
 
 export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
@@ -31,18 +29,16 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
 
   private renderMain() {
     return (
-      this.props.isGlobalLoaderVisible && (
-        <ZIndex priority="GlobalLoader" className={styles.outer(this.theme)}>
-          <div
-            className={cx(styles.inner(this.theme), {
-              [styles.fullWidth()]: this.props.downloadSuccess,
-            })}
-            style={{
-              animation: this.getAnimation(),
-            }}
-          />
-        </ZIndex>
-      )
+      <ZIndex priority="GlobalLoader" className={styles.outer(this.theme)}>
+        <div
+          className={cx(styles.inner(this.theme), {
+            [styles.fullWidth()]: this.props.status === 'success',
+          })}
+          style={{
+            animation: this.getAnimation(),
+          }}
+        />
+      </ZIndex>
     );
   }
   private getAnimation(): string {
@@ -50,10 +46,10 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
     const transitionDuration = parseInt(this.theme.globalLoaderTransitionDuration);
     const spinnerAnimationDuration = parseInt(this.theme.globalLoaderSpinnerAnimationDuration);
 
-    if (this.props.downloadSuccess) {
+    if (this.props.status === 'success') {
       return 'none';
     }
-    if (this.props.rejected) {
+    if (this.props.status === 'error') {
       return `${AnimationKeyframes.globalLoaderMoveToRight()} ${transitionDuration}ms linear, ${spinnerAnimationDuration}ms ${AnimationKeyframes.globalLoaderSpinner()} ${transitionDuration}ms infinite alternate`;
     }
     return `${AnimationKeyframes.globalLoaderProgress()} ${this.props.expectedResponseTime}ms linear, ${

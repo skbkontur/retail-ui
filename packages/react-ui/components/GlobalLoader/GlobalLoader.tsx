@@ -29,6 +29,7 @@ export interface GlobalLoaderState {
   rejected: boolean;
   dead: boolean;
   successAnimationInProgress: boolean;
+  expectedResponseTime: number;
 }
 
 let currentGlobalLoader: GlobalLoader;
@@ -37,14 +38,21 @@ let currentGlobalLoader: GlobalLoader;
  * Является индикатором загрузки данных с сервера.
  *
  * Доступны статические методы:
- * `GlobalLoader.start(delayBeforeGlobalLoaderShow?)` - позволяет запустить Глобальный лоадер с необходимой задержкой.
- * Равносильно установке пропа `isActive = true`
+ * `GlobalLoader.start(args?: {
+ * delayBeforeShow?: number;
+ * delayBeforeHide?: number;
+ * expectedResponseTime?: number;
+ * })` - позволяет запустить Глобальный лоадер с необходимой задержкой.
+ * Равносильно установке пропа `active = true`
  *
  * `GlobalLoader.done()` - сигнализирует об окончании загрузки данных.
- * Равносильно установке пропа `downloadSuccess = true`
+ * Равносильно установке пропа `active = false`
  *
  * `GlobalLoader.reject()` - сигнализирует об ошибке с сервера, глобальный лоадер при этом переходит в состояние спиннера.
- * Равносильно установке пропа `downloadError = true`
+ * Равносильно установке пропа `rejected = true`
+ *
+ * `GlobalLoader.accept()` - сигнализирует об щотмене ошибки с сервера.
+ * Равносильно установке пропа `rejected = false`
  *
  * Глобальный лоадер может быть только один в приложении. Если их несколько - работать будет последний.
  *
@@ -54,8 +62,8 @@ let currentGlobalLoader: GlobalLoader;
  */
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
-  private globalLoaderStartTask: TaskWithDelayAndMinimalDuration;
-  private globalLoaderStopTask: TaskWithDelayAndMinimalDuration;
+  private startTask: TaskWithDelayAndMinimalDuration;
+  private stopTask: TaskWithDelayAndMinimalDuration;
 
   public static defaultProps: Partial<GlobalLoaderProps> = {
     expectedResponseTime: 1000,
@@ -73,17 +81,18 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       rejected: false,
       dead: false,
       successAnimationInProgress: false,
+      expectedResponseTime: this.props.expectedResponseTime,
     };
     this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
     currentGlobalLoader = this;
-    this.globalLoaderStartTask = new TaskWithDelayAndMinimalDuration({
+    this.startTask = new TaskWithDelayAndMinimalDuration({
       delayBeforeTaskStart: this.props.delayBeforeShow!,
       durationOfTask: 0,
       taskStartCallback: () => this.setState({ visible: true }),
       taskStopCallback: () => ({}),
     });
-    this.globalLoaderStopTask = new TaskWithDelayAndMinimalDuration({
+    this.stopTask = new TaskWithDelayAndMinimalDuration({
       delayBeforeTaskStart: this.props.delayBeforeHide!,
       durationOfTask: 0,
       taskStartCallback: () => this.setState({ visible: false, successAnimationInProgress: false }),
@@ -95,21 +104,19 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.setActive();
     }
     if (this.props.rejected) {
-      currentGlobalLoader.setReject(true);
+      this.setReject(true);
     }
   }
 
-  componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>, prevState: Readonly<GlobalLoaderState>, snapshot?: any) {
-    if (!this.state.dead) {
-      if (this.props.rejected && this.props.rejected !== prevProps.rejected) {
-        currentGlobalLoader.setReject(true);
-      }
-      if (this.props.active !== prevProps.active) {
-        if (this.props.active) {
-          currentGlobalLoader.setActive();
-        } else {
-          currentGlobalLoader.setDone(true);
-        }
+  componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
+    if (this.props.rejected !== prevProps.rejected) {
+      this.setReject(!!this.props.rejected);
+    }
+    if (this.props.active !== prevProps.active) {
+      if (this.props.active) {
+        this.setActive();
+      } else {
+        this.setDone();
       }
     }
   }
@@ -119,63 +126,80 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   public render() {
+    let status: 'success' | 'error' | undefined;
+    if (this.state.done) {
+      status = 'success';
+    } else if (this.state.rejected) {
+      status = 'error';
+    }
     return (
-      !this.state.dead && (
+      !this.state.dead &&
+      this.state.visible && (
         <GlobalLoaderView
-          expectedResponseTime={this.props.expectedResponseTime}
-          isGlobalLoaderVisible={this.state.visible}
-          downloadSuccess={this.state.done}
-          rejected={this.state.rejected}
+          expectedResponseTime={this.state.expectedResponseTime}
+          status={status}
           data-tid={this.state.visible ? 'GlobalLoader' : ''}
         />
       )
     );
   }
 
-  public static start = (delayBeforeGlobalLoaderShow?: number) => {
-    currentGlobalLoader.setActive(delayBeforeGlobalLoaderShow);
+  public static start = (args?: {
+    delayBeforeShow?: number;
+    delayBeforeHide?: number;
+    expectedResponseTime?: number;
+  }) => {
+    currentGlobalLoader.setActive(args?.delayBeforeShow);
+    if (args?.expectedResponseTime) {
+      currentGlobalLoader.updateExpectedResponseTime(args?.expectedResponseTime);
+    }
+    if (args?.delayBeforeHide) {
+      currentGlobalLoader.stopTask.update({ delayBeforeTaskStart: args.delayBeforeHide });
+    }
   };
 
   public static done = () => {
-    currentGlobalLoader.setDone(true);
+    currentGlobalLoader.setDone();
   };
 
   public static reject = () => {
     currentGlobalLoader.setReject(true);
   };
 
+  public static accept = () => {
+    currentGlobalLoader.setReject(false);
+  };
+
   public setActive = (delay?: number) => {
-    if (!this.state.dead) {
-      if (this.state.successAnimationInProgress) {
-        this.successAnimationInProgressTimeout = setTimeout(() => {
-          this.setActive();
-        }, this.props.delayBeforeHide);
-      } else {
-        this.setState({ visible: false, done: false, rejected: false });
-        if (delay) {
-          this.globalLoaderStartTask.update({ delayBeforeTaskStart: delay });
-        }
-        this.globalLoaderStopTask.stop();
-        this.globalLoaderStartTask.start();
+    if (this.state.successAnimationInProgress) {
+      this.successAnimationInProgressTimeout = setTimeout(() => {
+        this.setActive();
+      }, this.props.delayBeforeHide);
+    } else {
+      this.setState({ visible: false, done: false, rejected: false });
+      if (delay) {
+        this.startTask.update({ delayBeforeTaskStart: delay });
       }
+      this.stopTask.stop();
+      this.startTask.start();
     }
   };
 
-  public setDone = (done: boolean) => {
-    if (!this.state.dead) {
-      this.setState({ done: done, successAnimationInProgress: true });
-      this.globalLoaderStartTask.stop();
-      this.globalLoaderStopTask.start();
-    }
+  public setDone = () => {
+    this.setState({ done: true, successAnimationInProgress: true });
+    this.startTask.stop();
+    this.stopTask.start();
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.dead) {
-      this.globalLoaderStartTask.stop();
-      this.globalLoaderStopTask.stop();
-      this.setState({ rejected: reject });
-    }
+    this.startTask.stop();
+    this.stopTask.stop();
+    this.setState({ rejected: reject });
   };
+
+  public updateExpectedResponseTime(expectedResponseTime: number) {
+    this.setState({ expectedResponseTime });
+  }
 
   public kill = () => {
     this.setState({
