@@ -1,49 +1,109 @@
-Базовый пример элемента меню.
+Меню с базовыми элементами меню.
 
 ```jsx harmony
-  <MenuItem>
-    Basic
-  </MenuItem>
+import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
+
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню с базовыми элементами меню</Button>}
+  >
+  <MenuItem>Базовый элемент меню</MenuItem>
+  <MenuItem>Ещё один базовый элемент меню</MenuItem>
+  <MenuItem>И ещё один</MenuItem>
+</DropdownMenu>
 ```
 
-Отключённый элемент меню.
+Меню с отключёнными и базовыми элементами меню.
 <br/>
-К такому элементу не применяются стили при наведении и его нельзя затаргетить с клавиатуры.
+К отключённым элементам меню не применяются стили при наведении и их нельзя затаргетить с клавиатуры.
 
 ```jsx harmony
-  <MenuItem disabled>
-    Disabled
-  </MenuItem>
+import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
+
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню с базовыми и отключёнными элементами</Button>}
+  >
+  <MenuItem>Это базовый элемент меню</MenuItem>
+  <MenuItem disabled>А это отключённый</MenuItem>
+  <MenuItem>А это снова базовый</MenuItem>
+  <MenuItem disabled>И снова отключённый</MenuItem>
+  <MenuItem disabled>И вот ещё один отключённый</MenuItem>
+</DropdownMenu>
 ```
 
-Элемент меню с описанием.
+Меню с элементами меню содержащими описание.
 
 ```jsx harmony
-  <MenuItem comment="This is description text">
-    Menu item with description
-  </MenuItem>
+import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
+
+<DropdownMenu
+  caption={<Button use="primary">Список людей причастных к Pied Piper</Button>}
+  >
+  <MenuItem comment="Системный инженер">Bertram Gilfoyle</MenuItem>
+  <MenuItem comment="Hooli CEO">Gavin Belson</MenuItem>
+  <MenuItem comment="Java-разработчик">Dinesh Chugtai</MenuItem>
+  <MenuItem comment="Основатель Pied Piper">Richard Hendricks</MenuItem>
+  <MenuItem comment="Владелец инкубатора">Erlich Bachman</MenuItem>
+</DropdownMenu>
 ```
 
-Элемент меню с иконкой.
-```jsx harmony
-  import OkIcon from '@skbkontur/react-icons/Ok';
-
-  <MenuItem icon={<OkIcon />}>
-    Menu item with an icon
-  </MenuItem>
-```
-
-Элемент меню обёрнутый в компонент ссылки.
+Меню с элементами меню содержащими иконки.
 
 ```jsx harmony
-  import { Link } from '@skbkontur/react-ui';
+import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
+import DeviceSmartphoneIcon from '@skbkontur/react-icons/DeviceSmartphone';
+import OkIcon from '@skbkontur/react-icons/Ok';
+import ThumbDownIcon from '@skbkontur/react-icons/ThumbDown';
 
+
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню с иконками</Button>}
+  >
+  <MenuItem icon={<OkIcon />}>Базовый элемент меню c иконкой</MenuItem>
   <MenuItem
-    href="http://tech.skbkontur.ru/react-ui/"
+    disabled
+    icon={<ThumbDownIcon />}
+    >
+    Отключённый элемент меню с иконкой
+  </MenuItem>
+  <MenuItem
+    icon={<DeviceSmartphoneIcon />}
+    comment="А слева вы можете видеть икону 21-го века"
+    >
+     Элемент меню с описанием и иконкой
+  </MenuItem>
+</DropdownMenu>
+```
+
+Меню с элементами меню обёрнутыми в контрол ссылки.
+
+```jsx harmony
+import { Button, MenuItem, DropdownMenu, Link } from '@skbkontur/react-ui';
+
+const LinkMenuItem = ({link, title}) => {
+  return <MenuItem
+    href={link}
     component={({ href, ...rest }) => {
-      return <Link to={href} {...rest} />
+      return <Link target="_blank" rel="noopener noreferrer" href={href} {...rest} />
     }}
     >
-    Awesome link
-  </MenuItem>;
+    {title}
+  </MenuItem>
+}
+
+<DropdownMenu
+  caption={<Button use="primary">Открыть меню с ссылками</Button>}
+  >
+  <LinkMenuItem
+    link="http://tech.skbkontur.ru/react-ui/"
+    title="Начало документации"
+    />
+  <LinkMenuItem
+    link="https://guides.kontur.ru/"
+    title="Контур Гайды"
+    />
+  <LinkMenuItem
+    link="https://github.com/skbkontur/retail-ui/graphs/contributors"
+    title="Список прекрасных людей"
+    />
+</DropdownMenu>
 ```
