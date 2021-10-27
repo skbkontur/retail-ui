@@ -36,7 +36,7 @@ import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 import { Button, MenuItem, DropdownMenu } from '@skbkontur/react-ui';
 
 <DropdownMenu
-  caption={<Button use="primary">Список людей причастных к Pied Piper</Button>}
+  caption={<Button use="primary">Открыть меню с причастными к Pied Piper</Button>}
   >
   <MenuItem comment="Системный инженер">Bertram Gilfoyle</MenuItem>
   <MenuItem comment="Hooli CEO">Gavin Belson</MenuItem>

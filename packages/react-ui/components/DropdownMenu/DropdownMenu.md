@@ -86,7 +86,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </DropdownMenu>;
 ```
 
-Меню с отключенной анимацией
+Меню с отключенной анимацией.
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';

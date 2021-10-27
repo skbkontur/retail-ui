@@ -58,7 +58,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
-Тултип-меню с отключенной анимацией
+Тултип-меню с отключенной анимацией.
 
 ```jsx harmony
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
