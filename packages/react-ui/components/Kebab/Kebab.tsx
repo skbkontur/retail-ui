@@ -124,6 +124,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
           disableAnimations={this.props.disableAnimations}
+          menuMaxHeight={this.props.menuMaxHeight}
         >
           {!disabled && this.props.children}
         </PopupMenu>

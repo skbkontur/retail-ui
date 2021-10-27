@@ -205,6 +205,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 <div
                   className={cx(styles.activeBackground(), globalClasses.background, {
                     [styles.activeBackgroundLoading(this.theme)]: loading,
+                    [styles.disabledBackground(this.theme)]: disabled,
                   })}
                   style={
                     checked && color && !disabled
