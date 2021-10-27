@@ -266,12 +266,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **react-ui:** default theme has changed
 * Color of focus border and background of active menu items changed from `#5199db` to `#1D85D0`
 * **Tooltip,Hint:** It may affect position of Tooltips and Hints over your element due default wrapper removal. Also default offsets were changed.
-* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext
+* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See [ThemeContext](#/Customization/ThemeContext).
 * **ThemeConsumer:** component `ThemeConsumer` was deprecated and removed please use `ThemeContext` instead
 * **Select, Dropdown:** Prop `diadocLinkIcon` was deprecated use prop `_renderButton` instead
 * **MenuItem:** Prop `alkoLink` was deprecated please use `link` instead
 * **LocaleProvider:** Component `LocaleProvider` has been removed, please use `LocaleContext` instead
-* **Spinner, Loader:** Cloud prop in `Spinner` and `Loader` components has been removed, behavior moved to `@skbkontur/react-ui-addons` see [migration] (https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
+* **Spinner, Loader:** Cloud prop in `Spinner` and `Loader` components has been removed, behavior moved to `@skbkontur/react-ui-addons` see [migration](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md).
 * **SpinnerOld:** Component `SpinnerOld` has been removed, please use component from @skbkontur/react-ui-addons
 * **Logotype:** Component `Logotype` has been removed, please use component from @skbkontur/react-ui-addons
 * **Fias:** Component `Fias` has been removed, please use component from @skbkontur/react-ui-addons
