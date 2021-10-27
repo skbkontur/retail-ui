@@ -75,6 +75,7 @@ export interface SidePageState {
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
+  footerHeight: number;
 }
 
 const TRANSITION_TIMEOUT = 200;
@@ -99,6 +100,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasHeader: false,
     hasFooter: false,
     hasPanel: false,
+    footerHeight: 0,
   };
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
@@ -194,7 +196,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             })}
             style={this.getSidebarStyle()}
           >
-            <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false}>
+            <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
               <div ref={(_) => (this.layoutRef = _)} className={styles.layout()}>
                 <SidePageContext.Provider value={this.getSidePageContextProps()}>
                   {this.props.children}
@@ -212,6 +214,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       hasHeader: this.state.hasHeader,
       hasFooter: this.state.hasFooter,
       hasPanel: this.state.hasPanel,
+      footerHeight: this.state.footerHeight,
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
@@ -219,6 +222,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
+      setFooterHeight: this.setFooterHeight,
     };
   };
 
@@ -330,5 +334,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private setHasPanel = (hasPanel = false) => {
     this.state.hasPanel !== hasPanel && this.setState({ hasPanel });
+  };
+  private setFooterHeight = (footerHeight = 0) => {
+    this.state.footerHeight !== footerHeight && this.setState({ footerHeight });
   };
 }

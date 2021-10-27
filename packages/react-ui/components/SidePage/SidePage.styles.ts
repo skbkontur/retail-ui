@@ -25,8 +25,8 @@ export const styles = memoizeStyle({
 
   body() {
     return css`
-      height: 100%;
       z-index: 0;
+      flex-grow: 1;
     `;
   },
 
@@ -73,11 +73,18 @@ export const styles = memoizeStyle({
     `;
   },
 
+  focusLock() {
+    return css`
+      height: 100%;
+    `;
+  },
+
   layout() {
     return css`
       align-items: stretch;
       display: flex;
       flex-direction: column;
+      height: 100%;
     `;
   },
 
@@ -211,6 +218,12 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      height: 0;
     `;
   },
 
