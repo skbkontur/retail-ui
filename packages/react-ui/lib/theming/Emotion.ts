@@ -5,9 +5,9 @@ import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
 
-const PREFIX = 'react-ui';
+const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
-const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${PREFIX}`).join('');
+const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
 export const {
   flush,
@@ -21,7 +21,7 @@ export const {
   sheet,
   cache,
 } = createEmotion({
-  key: PREFIX,
+  key: REACT_UI_PREFIX,
   stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
 });
 
