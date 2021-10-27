@@ -76,8 +76,8 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
 
 <DropdownMenu
-  header={<MenuHeader>Это шапка</MenuHeader>}
-  footer={<MenuHeader>А это подвал</MenuHeader>}
+  header={<p>Это шапка в виде обычного текста</p>}
+  footer={<Button>А это подвал в виде кнопки</Button>}
   caption={<Button use="primary">Открыть меню</Button>}
   >
   <MenuItem>Раз</MenuItem>
