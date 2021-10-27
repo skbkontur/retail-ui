@@ -89,7 +89,6 @@ type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 /**
  * Выпадающее меню.
  *
- * @deprecated Используйте DropdownMenu, вместо этого компонента.
  */
 export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';
