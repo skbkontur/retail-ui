@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.2...@skbkontur/react-ui@3.8.0) (2021-10-27)
+
+
+### Bug Fixes
+
+* **ComboBox:** handle falsy values correctly ([#2563](https://github.com/skbkontur/retail-ui/issues/2563)) ([2df7e09](https://github.com/skbkontur/retail-ui/commit/2df7e09ec6fd8f4ab9e999654263acbe8d989803))
+* **ModalClose:** don't s show focus outline if it's not focus by Tab ([#2565](https://github.com/skbkontur/retail-ui/issues/2565)) ([b589014](https://github.com/skbkontur/retail-ui/commit/b58901428b7bfdf52727de1345e44d1d0cd35b8e))
+* **ThemePlayground:** computed vars are visible in the ThemeEditor ([62f191e](https://github.com/skbkontur/retail-ui/commit/62f191efa0234cc72175e05dcb543284fada7d7e))
+* **Toggle:** add toggleBgDisabledChecked, toggleBorderColorDisabled, toggleBorderColorDisabledChecked theme variables ([#2584](https://github.com/skbkontur/retail-ui/issues/2584)) ([b953719](https://github.com/skbkontur/retail-ui/commit/b953719e4cd5b0d89babe1b72f5ae497a9567889))
+
+
+### Features
+
+* **Upgrades:** abillity to customize classNames prefix ([#2561](https://github.com/skbkontur/retail-ui/issues/2561)) ([fbc9ced](https://github.com/skbkontur/retail-ui/commit/fbc9ceda8d9cb9c2be7d69a7fa199cf7c9745cee))
+
+
+
+
+
 ## [3.7.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.1...@skbkontur/react-ui@3.7.2) (2021-10-25)
 
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
+import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -250,7 +251,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         width="100%"
         ref={refInputLikeText}
       >
-        {value ? renderValue!(value) : null}
+        {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
     );
   }
