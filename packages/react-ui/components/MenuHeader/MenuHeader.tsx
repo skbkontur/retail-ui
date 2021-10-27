@@ -14,7 +14,7 @@ export interface MenuHeaderProps extends CommonProps {
 /**
  * Заголовок меню.
  *
- * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](https://tech.skbkontur.ru/react-ui/#/Components/DropdownMenu) и [`TooltipMenu`](https://tech.skbkontur.ru/react-ui/#/Components/TooltipMenu).
+ * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](#/Components/DropdownMenu) и [`TooltipMenu`](#/Components/TooltipMenu).
  */
 function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);

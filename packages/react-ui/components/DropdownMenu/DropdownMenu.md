@@ -124,7 +124,7 @@ import { MenuItem } from '@skbkontur/react-ui';
 ```
 
 
-Условный рендер элементов меню (с сохранением поведения [`MenuItem`](https://tech.skbkontur.ru/react-ui/#/Components/MenuItem)).
+Условный рендер элементов меню (с сохранением поведения [`MenuItem`](#/Components/MenuItem)).
 
 ```jsx harmony
 import {Button, MenuItem, Gapped, MenuSeparator} from '@skbkontur/react-ui';

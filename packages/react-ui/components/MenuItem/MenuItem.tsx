@@ -47,7 +47,7 @@ export interface MenuItemProps extends CommonProps {
  *
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
  *
- * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](https://tech.skbkontur.ru/react-ui/#/Components/DropdownMenu), [`Kebab`](https://tech.skbkontur.ru/react-ui/#/Components/Kebab) и [`TooltipMenu`](https://tech.skbkontur.ru/react-ui/#/Components/TooltipMenu).
+ * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab) и [`TooltipMenu`](#/Components/TooltipMenu).
  */
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';

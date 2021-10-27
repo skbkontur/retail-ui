@@ -153,7 +153,7 @@ import { Button, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui
 </TooltipMenu>;
 ```
 
-Условный рендер элементов тултип-меню (с сохранением поведения [`MenuItem`](https://tech.skbkontur.ru/react-ui/#/Components/MenuItem)).
+Условный рендер элементов тултип-меню (с сохранением поведения [`MenuItem`](#/Components/MenuItem)).
 
 ```jsx harmony
 import {Button, MenuItem, Gapped, MenuSeparator} from '@skbkontur/react-ui';

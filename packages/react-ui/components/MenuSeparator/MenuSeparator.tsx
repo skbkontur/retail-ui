@@ -9,7 +9,7 @@ export type MenuSeparatorProps = CommonProps;
 /**
  * Добавляет разделительную линию между элементами меню.
  *
- * Сущности в которых может быть использован `MenuSeparator`: [`DropdownMenu`](https://tech.skbkontur.ru/react-ui/#/Components/DropdownMenu), [`Kebab`](https://tech.skbkontur.ru/react-ui/#/Components/Kebab) и [`TooltipMenu`](https://tech.skbkontur.ru/react-ui/#/Components/TooltipMenu).
+ * Сущности в которых может быть использован `MenuSeparator`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab) и [`TooltipMenu`](#/Components/TooltipMenu).
  */
 function MenuSeparator(props: MenuSeparatorProps) {
   const theme = useContext(ThemeContext);
