@@ -154,7 +154,7 @@ export const Effect: EffectFactory = {
     }
 
     let index = -1;
-    if (items && items.length && valueString) {
+    if (items && items.length && isNonNullable(value)) {
       index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
     }
     menu.highlightItem(index);
