@@ -224,6 +224,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     document.removeEventListener('copy', this.handleCopy);
   }
 
+  /**
+   * @public
+   */
+  public focus() {
+    this.input?.focus();
+  }
+
+  /**
+   * @public
+   */
+  public blur() {
+    this.input?.blur();
+  }
+
   public render() {
     return (
       <ThemeContext.Consumer>
