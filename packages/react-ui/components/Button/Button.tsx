@@ -86,6 +86,8 @@ export interface ButtonProps extends CommonProps {
   /** `type ButtonType = "button" | "submit" | "reset"` */
   type?: ButtonType;
 
+  title?: string;
+
   /**
    * Вариант использования. Влияет на цвет кнопки.
    *
@@ -224,6 +226,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onMouseLeave: onMouseLeave,
       onMouseOver: onMouseOver,
       tabIndex: disableFocus ? -1 : 0,
+      title: this.props.title,
     };
 
     const wrapProps = {
