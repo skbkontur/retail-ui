@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
+import { Upgrade } from '../../lib/Upgrades';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
@@ -46,7 +47,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
     if (!this.domContainer) {
       const domContainer = document.createElement('div');
-      domContainer.setAttribute('class', 'react-ui');
+      domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
       this.domContainer = domContainer;
     }
