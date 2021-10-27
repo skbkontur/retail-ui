@@ -242,3 +242,50 @@ let Card = ({ title }) => (
 
 <Card title="Без анимации" />
 ```
+
+Кебаб-меню с заданной высотой.
+
+```jsx harmony
+import EditIcon from '@skbkontur/react-icons/Edit';
+import TrashIcon from '@skbkontur/react-icons/Trash';
+import { MenuItem, Toast } from '@skbkontur/react-ui';
+
+let style = {
+  alignItems: 'center',
+  background: 'white',
+  border: '1px solid #dfdede',
+  color: '#333',
+  display: 'flex',
+  justifyContent: 'space-between',
+  padding: '0 20px',
+  width: 250,
+};
+
+let Card = ({ title }) => (
+  <div style={style}>
+    <div>
+      <h3>{title}</h3>
+    </div>
+
+    <Kebab
+      menuMaxHeight="100px"
+      size="large"
+      >
+      <MenuItem>
+        Действие
+      </MenuItem>
+      <MenuItem>
+        И ещё одно
+      </MenuItem>
+      <MenuItem>
+        Ещё действие
+      </MenuItem>
+      <MenuItem>
+        И последнее действие
+      </MenuItem>
+    </Kebab>
+  </div>
+);
+
+<Card title="С заданной высотой" />
+```
