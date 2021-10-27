@@ -5,7 +5,7 @@ import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
 
-const REACT_UI_PREFIX = 'react-ui';
+const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
