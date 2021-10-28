@@ -12,7 +12,7 @@ export interface MenuHeaderProps extends CommonProps {
 }
 
 /**
- * Заголовок меню.
+ * Заголовок меню используется для того, чтобы разделить элементы на категории в рамках одного меню.
  *
  * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
