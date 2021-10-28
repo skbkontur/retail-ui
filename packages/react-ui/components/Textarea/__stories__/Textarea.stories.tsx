@@ -195,10 +195,9 @@ AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
 AutoresizableTextareaStory.parameters = {
   creevey: {
     tests: {
-      async Before() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Before');
-      },
-      async AddText() {
+      async autoresize() {
+        const before = await this.takeScreenshot();
+
         await this.browser
           .actions({
             bridge: true,
@@ -206,19 +205,20 @@ AutoresizableTextareaStory.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
           .pause(500)
           .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('addText');
-      },
-      async Collapsed() {
+
+        const addText = await this.takeScreenshot();
+
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
-          .pause(500)
           .click(this.browser.findElement({ css: '[data-tid~="CollapseButton"]' }))
           .pause(500)
           .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('collapsed');
+
+        const collapse = await this.takeScreenshot();
+
+        await this.expect({ before, addText, collapse }).to.matchImages();
       },
     },
   },
