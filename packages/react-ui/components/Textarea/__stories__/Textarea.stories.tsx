@@ -36,6 +36,7 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
           rows={4}
           onFocus={this.handleFocus}
           maxRows={this.state.maxRows}
+          data-tid={'TextArea'}
         />
         <Button
           data-tid={'AddButton'}
@@ -196,7 +197,9 @@ AutoresizableTextareaStory.parameters = {
   creevey: {
     tests: {
       async autoresize() {
-        const before = await this.takeScreenshot();
+        const textArea = () => this.browser.findElement({ css: '[data-tid~="TextArea"]' });
+
+        const before = await textArea().takeScreenshot();
 
         await this.browser
           .actions({
@@ -206,7 +209,7 @@ AutoresizableTextareaStory.parameters = {
           .pause(500)
           .perform();
 
-        const addText = await this.takeScreenshot();
+        const addText = await textArea().takeScreenshot();
 
         await this.browser
           .actions({
@@ -216,7 +219,7 @@ AutoresizableTextareaStory.parameters = {
           .pause(500)
           .perform();
 
-        const collapse = await this.takeScreenshot();
+        const collapse = await textArea().takeScreenshot();
 
         await this.expect({ before, addText, collapse }).to.matchImages();
       },
