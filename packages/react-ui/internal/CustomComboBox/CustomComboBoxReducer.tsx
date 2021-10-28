@@ -2,6 +2,7 @@ import React from 'react';
 import debounce from 'lodash.debounce';
 import isEqual from 'lodash.isequal';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
@@ -66,7 +67,7 @@ interface EffectFactory {
 const DEBOUNCE_DELAY = 300;
 
 const getValueString = (value: any, valueToString: CustomComboBoxProps<any>['valueToString']) => {
-  return value ? valueToString(value) : '';
+  return isNonNullable(value) ? valueToString(value) : '';
 };
 
 export const Effect: EffectFactory = {
@@ -153,7 +154,7 @@ export const Effect: EffectFactory = {
     }
 
     let index = -1;
-    if (items && items.length && value) {
+    if (items && items.length && isNonNullable(value)) {
       index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
     }
     menu.highlightItem(index);

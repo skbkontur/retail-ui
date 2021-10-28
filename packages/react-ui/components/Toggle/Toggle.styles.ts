@@ -69,8 +69,8 @@ export const styles = memoizeStyle({
         transition: background 0s 0.2s;
       }
       &:checked ~ .${globalClasses.containerDisabled} {
-        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColor};
-        background: ${t.toggleBgDisabled};
+        box-shadow: inset 0 0 0 ${t.toggleBorderWidth} ${t.toggleBorderColorDisabledChecked};
+        background: ${t.toggleBgDisabledChecked};
         transition: background 0s 0.2s;
       }
       &:checked ~ .${globalClasses.containerLoading} {
@@ -83,9 +83,9 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.containerDisabled} .${globalClasses.background} {
         width: 70%;
-        background: ${t.toggleBgDisabled};
+        background: ${t.toggleBgDisabledChecked};
         border-radius: calc(${t.toggleHeight} * 0.5) 0 0 calc(${t.toggleHeight} * 0.5);
-        box-shadow: inset 0 0 0 1px ${t.toggleBorderColor};
+        box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabledChecked};
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
@@ -109,6 +109,7 @@ export const styles = memoizeStyle({
   containerDisabled(t: Theme) {
     return css`
       background: ${t.toggleBgDisabled};
+      box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabled};
     `;
   },
 
@@ -127,6 +128,13 @@ export const styles = memoizeStyle({
       top: 0;
       transition: 0.2s ease-in;
       width: 10px;
+    `;
+  },
+
+  disabledBackground(t: Theme) {
+    return css`
+      box-shadow: inset 0 0 0 1px ${t.toggleBorderColorDisabled};
+      width: 0;
     `;
   },
 
@@ -186,6 +194,12 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.toggleTextColor};
       padding: 0 0 0 ${t.toggleCaptionGap};
+    `;
+  },
+
+  disabledCaption(t: Theme) {
+    return css`
+      color: ${t.textColorDisabled};
     `;
   },
 
