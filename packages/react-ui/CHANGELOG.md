@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.0...@skbkontur/react-ui@3.8.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* **Checkbox:** remove user-select:none ([#2586](https://github.com/skbkontur/retail-ui/issues/2586)) ([4da5f0c](https://github.com/skbkontur/retail-ui/commit/4da5f0cdc09d8e01f7d4ab7a7b01e58fdbad56b3))
+* **Kebab:** restore menuMaxHeight prop ([#2588](https://github.com/skbkontur/retail-ui/issues/2588)) ([20b82ce](https://github.com/skbkontur/retail-ui/commit/20b82ce8a4e7a411e42f6b2c848de1308617cbdb))
+* **Textarea:** fix autoResize on rows/maxRows change  ([#2562](https://github.com/skbkontur/retail-ui/issues/2562)) ([a0c06f8](https://github.com/skbkontur/retail-ui/commit/a0c06f839ebe8de9fcbddfe7e8cf0568d3921e72))
+* **Toggle:** recover disabled caption styles ([#2582](https://github.com/skbkontur/retail-ui/issues/2582)) ([ef9fe96](https://github.com/skbkontur/retail-ui/commit/ef9fe969e0b59afe5ebe5c22827aa5bcdbd653f1))
+
+
+
+
+
 # [3.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.2...@skbkontur/react-ui@3.8.0) (2021-10-27)
 
 

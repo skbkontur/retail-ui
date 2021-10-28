@@ -197,6 +197,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  disabledCaption(t: Theme) {
+    return css`
+      color: ${t.textColorDisabled};
+    `;
+  },
+
   captionLeft(t: Theme) {
     return css`
       color: ${t.toggleTextColor};
