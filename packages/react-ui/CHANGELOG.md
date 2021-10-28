@@ -266,7 +266,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **react-ui:** default theme has changed
 * Color of focus border and background of active menu items changed from `#5199db` to `#1D85D0`
 * **Tooltip,Hint:** It may affect position of Tooltips and Hints over your element due default wrapper removal. Also default offsets were changed.
-* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See [ThemeContext](#/Customization/ThemeContext).
+* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See [ThemeContext](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext).
 * **ThemeConsumer:** component `ThemeConsumer` was deprecated and removed please use `ThemeContext` instead
 * **Select, Dropdown:** Prop `diadocLinkIcon` was deprecated use prop `_renderButton` instead
 * **MenuItem:** Prop `alkoLink` was deprecated please use `link` instead
