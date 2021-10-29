@@ -4,6 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const globalClasses = prefix('toggle')({
   handle: 'handle',
   container: 'container',
+  disabled: 'disabled',
   containerDisabled: 'container-disabled',
   containerLoading: 'container-loading',
   background: 'background',
@@ -20,10 +21,10 @@ export const styles = memoizeStyle({
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
       }
-      &:active .${globalClasses.handle} {
+      &:active:not(.${globalClasses.disabled}) .${globalClasses.handle} {
         width: ${handleActiveWidth};
       }
-      &:active input:checked ~ .${globalClasses.handle} {
+      &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
       }
@@ -47,10 +48,8 @@ export const styles = memoizeStyle({
   },
 
   handleDisabled(t: Theme) {
-    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
       background: ${t.toggleDisabledHandleBg} !important; // override root hover/active styles
-      width: ${handleSize} !important; // override root active styles
     `;
   },
 

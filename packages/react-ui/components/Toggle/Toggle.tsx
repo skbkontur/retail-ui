@@ -160,6 +160,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const labelClassNames = cx(styles.root(this.theme), {
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: !!disabled,
+      [globalClasses.disabled]: !!disabled,
     });
 
     let caption = null;
