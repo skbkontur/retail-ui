@@ -49,18 +49,18 @@ export class NewDefaultTheme {
   public static controlBorderWidth = '1px';
   public static controlOutlineWidth = '2px';
   public static controlLineHeightSmall = '20px';
-  public static controlLineHeightMedium = '20px';
-  public static controlLineHeightLarge = '22px';
-  public static controlPaddingYSmall = '6px';
-  public static controlPaddingYMedium = '9px';
-  public static controlPaddingYLarge = '10px';
+  public static controlLineHeightMedium = '22px';
+  public static controlLineHeightLarge = '24px';
+  public static controlPaddingYSmall = '5px';
+  public static controlPaddingYMedium = '8px';
+  public static controlPaddingYLarge = '11px';
   public static textColorDefault = '#333333';
   public static textColorInvert = '#fff';
   public static textColorDisabled = '#a0a0a0';
   public static textColorDisabledContrast = '#808080';
   public static fontSizeSmall = '14px';
-  public static fontSizeMedium = '14px';
-  public static fontSizeLarge = '16px';
+  public static fontSizeMedium = '16px';
+  public static fontSizeLarge = '18px';
   public static fontSizeMobile = '18px';
   public static lineHeightMobile = '24px';
   public static specificityLevel = '0';
@@ -77,24 +77,9 @@ export class NewDefaultTheme {
   public static get borderColorWarning() {
     return this.warningMain;
   }
-  public static get controlHeightSmall() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYSmall = parseInt(this.controlPaddingYSmall, 10) || 0;
-    const lineHeightSmall = parseInt(this.controlLineHeightSmall, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYSmall + lineHeightSmall}px`;
-  }
-  public static get controlHeightMedium() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYMedium = parseInt(this.controlPaddingYMedium, 10) || 0;
-    const lineHeightMedium = parseInt(this.controlLineHeightMedium, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYMedium + lineHeightMedium}px`;
-  }
-  public static get controlHeightLarge() {
-    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
-    const paddingYLarge = parseInt(this.controlPaddingYLarge, 10) || 0;
-    const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
-    return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
-  }
+  public static controlHeightSmall = '32px';
+  public static controlHeightMedium = '40px';
+  public static controlHeightLarge = '48px';
   public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
 
   //#endregion
@@ -108,7 +93,7 @@ export class NewDefaultTheme {
   public static linkDangerColor = '#e3071c';
   public static linkDangerHoverColor = '#e3071c';
   public static linkDangerActiveColor = '#b00616';
-  public static linkIconMarginRight = '3px';
+  public static linkIconMarginRight = '4px';
   public static get linkHoverColor() {
     return this.linkColor;
   }
@@ -126,17 +111,19 @@ export class NewDefaultTheme {
   public static get tokenFontSize() {
     return this.fontSizeSmall;
   }
-  public static tokenMarginY = '3px';
-  public static tokenMarginX = '3px';
-  public static tokenLineHeight = '1.5';
-  public static tokenPaddingY = '0px';
-  public static tokenPaddingX = '4px';
+  public static tokenMarginY = '2px';
+  public static tokenMarginX = '4px';
+  public static get tokenLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static tokenPaddingY = '1px';
+  public static tokenPaddingX = '3px';
   public static tokenMarginBeforeIcon = '4px';
-  public static tokenRemoveIconSize = '1em';
-  public static tokenRemoveIconPaddingY = '2px';
-  public static tokenRemoveIconPaddingX = '2px';
+  public static tokenRemoveIconSize = '8px';
+  public static tokenRemoveIconPaddingY = '4px';
+  public static tokenRemoveIconPaddingX = '4px';
   public static tokenRemoveIconGap = '4px';
-  public static tokenRemoveIconBoxSizing = 'border-box';
+  public static tokenRemoveIconBoxSizing = 'content-box';
   public static tokenBorderRadius = '1px';
   public static tokenBorderWidth = '1px';
   public static tokenBorderColorDisabled = 'rgba(0, 0, 0, 0.15)';
@@ -189,13 +176,19 @@ export class NewDefaultTheme {
     return this.borderColorError;
   }
   public static tokenOutlineWidth = '2px';
-  public static tokenLegacyTextShift = '1px';
-  public static tokenPaddingYDisabled = '1px';
+  public static tokenLegacyTextShift = '0px';
+  public static get tokenPaddingYDisabled() {
+    return this.tokenPaddingY;
+  }
   public static get tokenPaddingXDisabled() {
     return this.tokenPaddingX;
   }
-  public static tokenMarginYDisabled = '2px';
-  public static tokenMarginXDisabled = '2px';
+  public static get tokenMarginYDisabled() {
+    return this.tokenMarginY;
+  }
+  public static get tokenMarginXDisabled() {
+    return this.tokenMarginX;
+  }
   public static get tokenShadowDisabled() {
     return `0 0 0 ${this.tokenBorderWidth} ${this.borderColorDisabled}`;
   }
@@ -292,21 +285,22 @@ export class NewDefaultTheme {
   public static btnBorderRadiusSmall = '2px';
   public static btnBorderRadiusMedium = '2px';
   public static btnBorderRadiusLarge = '2px';
-
-  public static btnBorderWidth = '1px';
+  public static get btnBorderWidth() {
+    return this.controlBorderWidth;
+  }
   public static btnInsetWidth = '1px';
   public static get btnOutlineWidth() {
-    return `${parseInt(this.btnBorderWidth, 10) + 1}px`;
+    return this.controlOutlineWidth;
   }
   public static btnPaddingXSmall = '15px';
   public static btnPaddingXMedium = '15px';
-  public static btnPaddingXLarge = '20px';
-  public static btnIconGapSmall = '7px';
-  public static btnIconGapMedium = '7px';
-  public static btnIconGapLarge = '7px';
-  public static btnIconSizeSmall = 'auto';
-  public static btnIconSizeMedium = 'auto';
-  public static btnIconSizeLarge = 'auto';
+  public static btnPaddingXLarge = '19px';
+  public static btnIconGapSmall = '4px';
+  public static btnIconGapMedium = '4px';
+  public static btnIconGapLarge = '4px';
+  public static btnIconSizeSmall = '16px';
+  public static btnIconSizeMedium = '18px';
+  public static btnIconSizeLarge = '20px';
   public static btnDefaultBg = '#fff';
   public static btnDefaultBgStart = 'none';
   public static btnDefaultBgEnd = 'none';
@@ -423,7 +417,9 @@ export class NewDefaultTheme {
   public static get btnFontSizeSmall() {
     return this.fontSizeSmall;
   }
-  public static btnFontSizeMedium = '16px';
+  public static get btnFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
   public static get btnFontSizeLarge() {
     return this.fontSizeLarge;
   }
@@ -455,13 +451,22 @@ export class NewDefaultTheme {
     return this.borderColorError;
   }
   public static get btnHeightSmall() {
-    return this.controlHeightSmall;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightMedium() {
-    return this.controlHeightMedium;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnHeightLarge() {
-    return this.controlHeightLarge;
+    const borderWidth = parseInt(this.btnBorderWidth, 10) || 0;
+    const padding = parseInt(this.btnPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.btnLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get btnLinkColor() {
     return this.linkColor;
@@ -497,7 +502,9 @@ export class NewDefaultTheme {
   //#endregion
   //#region Select
   public static selectPlaceholderColor = '#a0a0a0';
-  public static selectBorderWidth = '1px';
+  public static get selectBorderWidth() {
+    return this.controlBorderWidth;
+  }
   public static get selectPlaceholderColorDisabled() {
     return this.textColorDisabledContrast;
   }
@@ -510,46 +517,42 @@ export class NewDefaultTheme {
   public static get selectFontSizeSmall() {
     return this.fontSizeSmall;
   }
-  public static selectPaddingXSmall = '9px';
+  public static selectPaddingXSmall = '7px';
   public static get selectPaddingYSmall() {
     return this.controlPaddingYSmall;
   }
   public static get selectBorderRadiusSmall() {
     return this.btnBorderRadiusSmall;
   }
-  public static get selectIconGapSmall() {
-    return this.btnIconGapSmall;
-  }
+  public static selectIconGapSmall = '4px';
   public static get selectLineHeightMedium() {
     return this.controlLineHeightMedium;
   }
-  public static selectFontSizeMedium = '16px';
-  public static selectPaddingXMedium = '9px';
+  public static get selectFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static selectPaddingXMedium = '11px';
   public static get selectPaddingYMedium() {
     return this.controlPaddingYMedium;
   }
   public static get selectBorderRadiusMedium() {
     return this.btnBorderRadiusMedium;
   }
-  public static get selectIconGapMedium() {
-    return this.btnIconGapMedium;
-  }
+  public static selectIconGapMedium = '8px';
   public static get selectLineHeightLarge() {
     return this.controlLineHeightLarge;
   }
   public static get selectFontSizeLarge() {
     return this.fontSizeLarge;
   }
-  public static selectPaddingXLarge = '9px';
+  public static selectPaddingXLarge = '15px';
   public static get selectPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
   public static get selectBorderRadiusLarge() {
     return this.btnBorderRadiusLarge;
   }
-  public static get selectIconGapLarge() {
-    return this.btnIconGapLarge;
-  }
+  public static selectIconGapLarge = '12px';
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
@@ -577,8 +580,8 @@ export class NewDefaultTheme {
   }
   //#endregion
   //#region Tooltip
-  public static tooltipPaddingY = '15px';
-  public static tooltipPaddingX = '20px';
+  public static tooltipPaddingY = '16px';
+  public static tooltipPaddingX = '16px';
   public static tooltipCloseBtnPadding = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
@@ -592,15 +595,17 @@ export class NewDefaultTheme {
     return this.popupBorderRadius;
   }
   public static tooltipPinOffset = '0px'; // deprecated
-  public static tooltipPinOffsetX = '17px';
-  public static tooltipPinOffsetY = '17px';
-  public static tooltipMargin = '15px';
+  public static tooltipPinOffsetX = '16px';
+  public static tooltipPinOffsetY = '18px';
+  public static tooltipMargin = '10px';
   public static get tooltipPinSize() {
     return this.popupPinSize;
   }
   //#endregion
   //#region TooltipMenu
-  public static tooltipMenuPinOffset = '15px';
+  public static get tooltipMenuPinOffset() {
+    return this.popupPinOffset;
+  }
   public static get tooltipMenuMargin() {
     return this.popupMargin;
   }
@@ -609,11 +614,13 @@ export class NewDefaultTheme {
   }
   //#endregion
   //#region Kebab
-  public static kebabPinOffset = '15px';
+  public static get kebabPinOffset() {
+    return this.popupPinOffset;
+  }
   public static get kebabPinSize() {
     return this.popupPinSize;
   }
-  public static kebabMargin = '5px';
+  public static kebabMargin = '4px';
   public static kebabBackground = 'transparent';
   public static kebabBackgroundHover = 'rgba(0, 0, 0, 0.09)';
   public static kebabBorderRadius = '50%';
@@ -625,13 +632,13 @@ export class NewDefaultTheme {
   public static modalCloseButtonColor = '#808080';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
   public static modalCloseButtonHoverColor = '#333';
-  public static modalCloseButtonPadding = '35px';
-  public static modalCloseButtonLegacyShift = '15px';
+  public static modalCloseButtonPadding = '36px';
+  public static modalCloseButtonLegacyShift = '0px';
   public static modalCloseButtonBottomPadding = '20px';
   public static modalCloseButtonClickArea = '10px';
-  public static modalCloseIconSize = '14px';
-  public static modalCloseLegacyGap = '26px';
-  public static modalCloseWrapperLegacyGap = '7px';
+  public static modalCloseIconSize = '12px';
+  public static modalCloseLegacyGap = '0px';
+  public static modalCloseWrapperLegacyGap = '0px';
   public static modalFixedHeaderBg = '#fff';
   public static get modalFixedHeaderShadow() {
     return this.fixedPanelShadow;
@@ -641,21 +648,23 @@ export class NewDefaultTheme {
   }
   public static modalFooterBg = '#e5e5e5';
   public static modalAdaptiveThreshold = '425px';
-  public static modalPaddingTop = '30px';
-  public static modalPaddingLeft = '30px';
-  public static modalPaddingRight = '35px';
-  public static modalHeaderFontSize = '22px';
+  public static modalPaddingTop = '24px';
+  public static modalPaddingLeft = '32px';
+  public static modalPaddingRight = '36px';
+  public static modalHeaderFontSize = '24px';
   public static get modalHeaderTextColor() {
     return this.textColorDefault;
   }
-  public static modalHeaderLineHeight = '30px';
-  public static modalHeaderPaddingBottom = '11px';
+  public static modalHeaderLineHeight = '32px';
+  public static modalHeaderPaddingBottom = '16px';
   public static modalHeaderPaddingTop = '24px';
-  public static modalFixedHeaderPaddingBottom = '11px';
-  public static modalBodyPaddingBottom = '25px';
+  public static get modalFixedHeaderPaddingBottom() {
+    return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
+  }
+  public static modalBodyPaddingBottom = '24px';
   public static modalFooterPaddingTop = '0px';
-  public static modalFooterPaddingBottom = '30px';
-  public static modalPaddingBottom = '30px';
+  public static modalFooterPaddingBottom = '32px';
+  public static modalPaddingBottom = '40px';
   public static modalFooterPanelPaddingTop = '20px';
   public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
@@ -666,28 +675,28 @@ export class NewDefaultTheme {
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
-  public static sidePagePaddingLeft = '30px';
-  public static sidePagePaddingRight = '35px';
-  public static sidePagePaddingTop = '25px';
-  public static sidePagePaddingBottom = '20px';
-  public static sidePageFooterPaddingTop = '20px';
-  public static sidePageFooterPaddingBottom = '20px';
+  public static sidePagePaddingLeft = '32px';
+  public static sidePagePaddingRight = '36px';
+  public static sidePagePaddingTop = '24px';
+  public static sidePagePaddingBottom = '40px';
+  public static sidePageFooterPaddingTop = '24px';
+  public static sidePageFooterPaddingBottom = '32px';
   public static get sidePageBgDefault() {
     return this.bgDefault;
   }
   public static get sidePageHeaderTextColor() {
     return this.textColorDefault;
   }
-  public static sidePageHeaderFontSize = '22px';
-  public static sidePageHeaderLineHeight = '30px';
-  public static sidePageHeaderPaddingBottom = '25px';
-  public static sidePageHeaderPaddingTop = '25px';
+  public static sidePageHeaderFontSize = '24px';
+  public static sidePageHeaderLineHeight = '32px';
+  public static sidePageHeaderPaddingBottom = '16px';
+  public static sidePageHeaderPaddingTop = '24px';
   public static sidePageHeaderFixedFontSize = '18px';
-  public static sidePageHeaderFixedLineHeight = '24px';
-  public static sidePageHeaderFixedPaddingY = '13px';
-  public static sidePageHeaderStickyOffset = '8px';
+  public static sidePageHeaderFixedLineHeight = '28px';
+  public static sidePageHeaderFixedPaddingY = '10px';
+  public static sidePageHeaderStickyOffset = '5px';
   public static sidePageCloseButtonPadding = '36px';
-  public static sidePageCloseButtonLegacyPaddingLeft = '37px';
+  public static sidePageCloseButtonLegacyPaddingLeft = '36px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
@@ -712,24 +721,24 @@ export class NewDefaultTheme {
   public static calendarCellTodayBorder = '1px solid #8b8b8b';
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
-  public static calendarCellSize = '30px';
+  public static calendarCellSize = '32px';
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
   }
-  public static calendarPaddingX = '15px';
-  public static calendarMonthTitleLineHeight = '24px';
-  public static calendarMonthTitlePaddingTop = '8px';
+  public static calendarPaddingX = '18px';
+  public static calendarMonthTitleLineHeight = '20px';
+  public static calendarMonthTitlePaddingTop = '12px';
   public static calendarMonthTitlePaddingBottom = '8px';
-  public static calendarMonthTitleMarginX = '0';
-  public static calendarMonthTitleMarginBottom = '10px';
+  public static calendarMonthTitleMarginX = '6px';
+  public static calendarMonthTitleMarginBottom = '6px';
   public static calendarWrapperHeight = ' 330px';
-  public static calendarMonthMarginBottom = '10px';
+  public static calendarMonthMarginBottom = '6px';
   public static calendarMaxMonthsToAppendOnScroll = '5';
   //#endregion
   //#region DatePicker
-  public static dateSelectLineHeight = '24px';
+  public static dateSelectLineHeight = '20px';
   public static dateSelectFontSize = '14px';
   public static dateSelectFontWeight = 'bold';
   public static dateSelectMenuItemBgSelected = '#ececec';
@@ -750,14 +759,14 @@ export class NewDefaultTheme {
   }
   public static datePickerOpenBtnColor = '#333';
   public static pickerBg = '#fff';
-  public static pickerShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
+  public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
   public static pickerTodayWrapperBgColor = 'white';
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
   public static pickerTodayWrapperFontSize = '14px';
-  public static pickerTodayWrapperLineHeight = 'normal';
-  public static pickerTodayWrapperPaddingTop = '7px';
-  public static pickerTodayWrapperPaddingBottom = '8px';
+  public static pickerTodayWrapperLineHeight = '20px';
+  public static pickerTodayWrapperPaddingTop = '6px';
+  public static pickerTodayWrapperPaddingBottom = '6px';
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
@@ -780,29 +789,33 @@ export class NewDefaultTheme {
   }
   //#endregion
   //#region Paging
-  public static pagingFontSize = '16px';
-  public static pagingForwardIconSize = '18px';
-  public static pagingForwardIconMarginTop = '0px';
-  public static pagingPageLinkPaddingX = '10px';
-  public static pagingPageLinkPaddingY = '2px';
-  public static pagingPageLinkLegacyPaddingY = '5px';
-  public static pagingPageLinkMinWidth = 'initial';
-  public static pagingPageForwardLinkMarginTop = '4px';
+  public static get pagingFontSize() {
+    return this.fontSizeMedium;
+  }
+  public static get pagingForwardIconSize() {
+    return this.pagingFontSize;
+  }
+  public static pagingForwardIconMarginTop = '1px';
+  public static pagingPageLinkPaddingX = '0.625em';
+  public static pagingPageLinkPaddingY = '0.3125em';
+  public static pagingPageLinkLegacyPaddingY = '0';
+  public static pagingPageLinkMinWidth = '0.75em';
+  public static pagingPageForwardLinkMarginTop = '0.35em';
   public static pagingPageForwardLinkMarginLeft = '10px';
-  public static pagingPageForwardLinkPaddingRight = '22px';
-  public static pagingLineHeight = 'initial';
+  public static pagingPageForwardLinkPaddingRight = '1.375em';
+  public static pagingLineHeight = '1.375em';
   public static pagingDotsColor = 'gray';
-  public static pagingDotsPadding = '6px 10px 0';
+  public static pagingDotsPadding = '0.375em 0.625em 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
   public static get pagingPageLinkActiveColor() {
     return this.textColorDefault;
   }
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
   public static pagingPageLinkHintColor = '#bbb';
-  public static pagingPageLinkHintFontSize = '11px';
-  public static pagingPageLinkHintLineHeight = '15px';
-  public static pagingPageLinkBorderRadius = '16px';
-  public static pagingPageLinkMargin = '2px 1px';
+  public static pagingPageLinkHintFontSize = '12px';
+  public static pagingPageLinkHintLineHeight = '16px';
+  public static pagingPageLinkBorderRadius = '50%';
+  public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
   }
@@ -825,25 +838,23 @@ export class NewDefaultTheme {
   public static hintPaddingX = '8px';
   public static hintTextAlign = 'center';
   public static hintBgColor = 'rgba(51, 51, 51, 0.8)';
-  public static get hintBorder() {
-    return this.popupBorder;
-  }
-  public static get hintBorderRadius() {
-    return this.popupBorderRadius;
-  }
+  public static hintBorder = 'none';
+  public static hintBorderRadius = '2px';
   public static hintPinOffset = '8px';
-  public static hintMargin = '15px';
+  public static hintMargin = '8px';
   //#endregion
   //#region Toast
   public static get toastFontSize() {
     return this.fontSizeSmall;
   }
-  public static toastLineHeight = '20px';
+  public static get toastLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   public static toastPaddingY = '10px';
-  public static toastPaddingX = '20px';
+  public static toastPaddingX = '16px';
   public static toastBorderRadius = '2px';
   public static toastBorder = 'none';
-  public static toastTop = '20px';
+  public static toastTop = '24px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
   public static toastLinkColor = '#80caff';
@@ -863,9 +874,9 @@ export class NewDefaultTheme {
   public static get menuBgDefault() {
     return this.bgDefault;
   }
-  public static menuBorder = '1px solid #d5d5d5';
-  public static menuShadow = '0 2px 6px rgba(0, 0, 0, 0.2)';
-  public static menuPaddingY = '5px';
+  public static menuBorder = 'none';
+  public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
+  public static menuPaddingY = '4px';
   // menuItem
   public static get menuItemTextColor() {
     return this.textColorDefault;
@@ -877,9 +888,9 @@ export class NewDefaultTheme {
     return this.dropdownMenuHoverBg;
   }
   public static menuItemIconWidth = '16px';
-  public static menuItemIconGap = '5px';
-  public static menuItemIconLegacyMargin = '7px';
-  public static menuItemIconLegacyShift = '-1px';
+  public static menuItemIconGap = '4px';
+  public static menuItemIconLegacyMargin = '0px';
+  public static menuItemIconLegacyShift = '0px';
   public static get menuItemPaddingForIcon() {
     return `${
       parseInt(this.menuItemPaddingX) +
@@ -888,16 +899,16 @@ export class NewDefaultTheme {
       parseInt(this.menuItemIconLegacyMargin)
     }px`;
   }
-  public static menuItemLineHeight = '18px';
+  public static get menuItemLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   public static get menuItemFontSize() {
     return this.fontSizeSmall;
   }
   public static menuItemPaddingX = '8px';
-  public static get menuItemPaddingY() {
-    return this.controlPaddingYSmall;
-  }
-  public static menuItemLegacyPaddingX = '10px';
-  public static menuItemLegacyPaddingY = '1px';
+  public static menuItemPaddingY = '6px';
+  public static menuItemLegacyPaddingX = '0px';
+  public static menuItemLegacyPaddingY = '0px';
   public static get menuItemHoverColor() {
     return this.textColorInvert;
   }
@@ -914,17 +925,15 @@ export class NewDefaultTheme {
   public static get menuHeaderColor() {
     return this.gray;
   }
-  public static menuHeaderLineHeight = 'inherit';
+  public static menuHeaderLineHeight = '16px';
   public static menuHeaderFontSize = '12px';
-  public static get menuHeaderPaddingX() {
-    return this.menuItemPaddingX;
-  }
-  public static menuHeaderPaddingTop = '6px';
-  public static menuHeaderPaddingBottom = '7px';
-  public static menuHeaderLegacyPaddingRight = '10px';
+  public static menuHeaderPaddingX = '8px';
+  public static menuHeaderPaddingTop = '12px';
+  public static menuHeaderPaddingBottom = '4px';
+  public static menuHeaderLegacyPaddingRight = '0px';
   //menuSeparator
   public static menuSeparatorBorderColor = '#e6e6e6';
-  public static menuSeparatorMarginY = '5px';
+  public static menuSeparatorMarginY = '2px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
@@ -939,8 +948,10 @@ export class NewDefaultTheme {
     return `${handleSize / 2}px`;
   }
   public static toggleHeight = '20px';
-  public static toggleWidth = '34px';
-  public static toggleBorderRadius = '10px';
+  public static toggleWidth = '32px';
+  public static get toggleBorderRadius() {
+    return `calc(${this.toggleHeight} * 0.5)`;
+  }
   public static toggleBg = '#fff';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
@@ -952,8 +963,14 @@ export class NewDefaultTheme {
   }
   public static toggleBgHover = '#f3f3f2';
   public static toggleBgChecked = '#3072c4';
-  public static toggleBorderWidth = '1px';
-  public static toggleOutlineWidth = '3px';
+  public static get toggleBorderWidth() {
+    return this.controlBorderWidth;
+  }
+  public static get toggleOutlineWidth() {
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${outlineWidth + borderWidth}px`;
+  }
   public static toggleBorderColor = '#d0d0d0';
   public static get toggleBorderColorDisabled() {
     return this.toggleBorderColor;
@@ -978,8 +995,8 @@ export class NewDefaultTheme {
   public static popupBorder = 'none';
   public static popupBorderRadius = '2px';
   public static popupBorderColor = 'transparent';
-  public static popupDropShadow = 'drop-shadow(0 0 1px rgba(0, 0, 0, 0.1)) drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3))';
-  public static popupBoxShadow = '0 0 0 1px rgba(0, 0, 0, 0.1), 0 3px 10px 0 rgba(0, 0, 0, 0.2)';
+  public static popupDropShadow = 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.16))';
+  public static popupBoxShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
   public static get popupTextColor() {
     return this.textColorDefault;
   }
@@ -1000,7 +1017,7 @@ export class NewDefaultTheme {
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
   public static inputColor = 'inherit';
-  public static inputWidth = '250px';
+  public static inputWidth = '200px';
   public static get inputTextColorDisabled() {
     return this.textColorDisabledContrast;
   }
@@ -1023,13 +1040,22 @@ export class NewDefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get inputHeightSmall() {
-    return this.controlHeightSmall;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYSmall, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightSmall, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputHeightMedium() {
-    return this.controlHeightMedium;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYMedium, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightMedium, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputHeightLarge() {
-    return this.controlHeightLarge;
+    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
+    const padding = parseInt(this.inputPaddingYLarge, 10) || 0;
+    const lineHeigh = parseInt(this.inputLineHeightLarge, 10) || 0;
+    return `${2 * borderWidth + 2 * padding + lineHeigh}px`;
   }
   public static get inputPaddingYSmall() {
     return this.controlPaddingYSmall;
@@ -1040,15 +1066,15 @@ export class NewDefaultTheme {
   public static get inputPaddingYLarge() {
     return this.controlPaddingYLarge;
   }
-  public static inputPaddingXSmall = '10px';
-  public static inputPaddingXMedium = '10px';
-  public static inputPaddingXLarge = '10px';
-  public static inputIconGapSmall = '2px';
-  public static inputIconGapMedium = '2px';
-  public static inputIconGapLarge = '2px';
-  public static inputIconSizeSmall = 'auto';
-  public static inputIconSizeMedium = 'auto';
-  public static inputIconSizeLarge = 'auto';
+  public static inputPaddingXSmall = '7px';
+  public static inputPaddingXMedium = '11px';
+  public static inputPaddingXLarge = '15px';
+  public static inputIconGapSmall = '4px';
+  public static inputIconGapMedium = '8px';
+  public static inputIconGapLarge = '12px';
+  public static inputIconSizeSmall = '16px';
+  public static inputIconSizeMedium = '18px';
+  public static inputIconSizeLarge = '20px';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputOutlineWidth} ${this.borderColorFocus}`;
   }
@@ -1065,13 +1091,11 @@ export class NewDefaultTheme {
     return this.controlBorderWidth;
   }
   public static get inputOutlineWidth() {
-    const OutlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
-    const borderWidth = parseInt(this.inputBorderWidth, 10) || 0;
-    return `${OutlineWidth - borderWidth}px`;
+    return `calc(${this.controlOutlineWidth} - 1px)`;
   }
-  public static inputBorderRadiusSmall = '0';
-  public static inputBorderRadiusMedium = '0';
-  public static inputBorderRadiusLarge = '0';
+  public static inputBorderRadiusSmall = '0px';
+  public static inputBorderRadiusMedium = '0px';
+  public static inputBorderRadiusLarge = '0px';
   public static get inputBorderColor() {
     return this.borderColorGrayLight;
   }
@@ -1099,7 +1123,9 @@ export class NewDefaultTheme {
   }
   //#endregion
   //#region Checkbox
-  public static checkboxBorderWidthCompensation = '0px';
+  public static get checkboxBorderWidthCompensation() {
+    return this.checkboxBorderWidth;
+  }
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
@@ -1107,8 +1133,12 @@ export class NewDefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static checkboxBoxSize = '16px';
-  public static checkboxCaptionGap = '10px';
-  public static checkboxPaddingY = '0';
+  public static checkboxCaptionGap = '8px';
+  public static get checkboxPaddingY() {
+    const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
+    const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
@@ -1121,7 +1151,9 @@ export class NewDefaultTheme {
     return `0 0 0 ${this.checkboxBorderWidth} ${this.borderColorDisabled}`;
   }
   public static checkboxBorder = 'none';
-  public static checkboxBorderWidth = '1px';
+  public static get checkboxBorderWidth() {
+    return this.controlBorderWidth;
+  }
   public static get checkboxShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
@@ -1142,7 +1174,9 @@ export class NewDefaultTheme {
     return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedHoverBg}`;
   }
   public static checkboxBorderRadius = '1px';
-  public static checkboxOutlineWidth = '2px';
+  public static get checkboxOutlineWidth() {
+    return this.controlOutlineWidth;
+  }
   public static get checkboxCheckedShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedBg}`;
   }
@@ -1194,25 +1228,19 @@ export class NewDefaultTheme {
   }
   public static textareaShadow = 'none';
   public static get textareaFontSize() {
-    return this.fontSizeMedium;
+    return this.fontSizeSmall;
   }
   public static get textareaLineHeight() {
-    const fontSize = this.textareaFontSize;
-    switch (fontSize) {
-      case '14px':
-        return '20px';
-      case '16px':
-        return '25px';
-      default:
-        return `${parseInt(fontSize, 10) * 1.5}px`;
-    }
+    return this.controlLineHeightSmall;
   }
   public static textareaBorderRadius = '0px';
   public static get textareaBorderWidth() {
     return this.controlBorderWidth;
   }
   public static get textareaOutlineWidth() {
-    return this.controlBorderWidth;
+    const outlineWidth = parseInt(this.controlOutlineWidth, 10) || 0;
+    const borderWidth = parseInt(this.textareaBorderWidth, 10) || 0;
+    return `${outlineWidth - borderWidth}px`;
   }
   public static get textareaMinHeight() {
     const lineHeight = parseInt(this.textareaLineHeight, 10) || 0;
@@ -1222,9 +1250,7 @@ export class NewDefaultTheme {
     return `${lineHeight + paddingY * 2 + borderWidth * 2}px`;
   }
   public static textareaWidth = '250px';
-  public static get textareaPaddingX() {
-    return '10px';
-  }
+  public static textareaPaddingX = '7px';
   public static get textareaPaddingY() {
     return this.controlPaddingYSmall;
   }
@@ -1266,16 +1292,24 @@ export class NewDefaultTheme {
   public static get radioTextColor() {
     return this.textColorDefault;
   }
-  public static radioSize = '18px';
-  public static radioSizeAfter = '20px';
+  public static radioSize = '16px';
+  public static get radioSizeAfter() {
+    const borderCompensation =
+      this.radioBoxShadow === 'none' ? this.radioBorderWidth : this.radioBorderWidthCompensation;
+    return `calc(${this.radioSize} + 2 * ${this.radioOutlineWidth} - 2 * ${borderCompensation})`;
+  }
   public static get radioFontSize() {
     return this.fontSizeSmall;
   }
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static radioCaptionGap = '9px';
-  public static radioPaddingY = '0';
+  public static radioCaptionGap = '8px';
+  public static get radioPaddingY() {
+    const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
+    const lineHeight = parseInt(this.radioLineHeight, 10) || 0;
+    return `${(controlHeight - lineHeight) / 2}px`;
+  }
   public static radioVerticalAlign = 'top';
   public static radioBgImage = 'none';
   public static radioBgColor = '#fff';
@@ -1285,7 +1319,9 @@ export class NewDefaultTheme {
   public static get radioActiveBg() {
     return this.checkboxActiveBg;
   }
-  public static radioBorderWidth = '1px';
+  public static get radioBorderWidth() {
+    return this.controlBorderWidth;
+  }
   public static radioBorderColor = 'rgba(0, 0, 0, 0.15)';
   public static radioBoxShadow = 'none';
   public static get radioBorder() {
@@ -1320,28 +1356,34 @@ export class NewDefaultTheme {
     return `0 0 0 ${this.radioBorderWidth} ${this.borderColorDisabled}`;
   }
   public static radioCaptionDisplay = 'inline-block';
-  public static radioBorderWidthCompensation = '0px';
+  public static get radioBorderWidthCompensation() {
+    return this.radioBoxShadow !== 'none' ? this.radioBorderWidth : '0px';
+  }
   public static radioMarginY = '2px';
   //#endregion
   //#region RadioGroup
-  public static radioGroupLegacyItemGap = '10px';
+  public static radioGroupLegacyItemGap = '0px';
   //#endregion
   //#region Tabs
   public static get tabFontSize() {
-    return '18px';
+    return this.fontSizeLarge;
   }
-  public static get tabPaddingX() {
-    return '20px';
-  }
+  public static tabPaddingX = '12px';
   public static get tabsMarginX() {
     return this.tabPaddingX;
   }
-  public static tabPaddingY = '10px';
-  public static get tabLineHeight() {
-    return 'normal';
+  public static get tabPaddingY() {
+    const paddingY = parseInt(this.controlPaddingYLarge, 10) || 0;
+    const borderWidth = parseInt(this.controlBorderWidth, 10) || 0;
+    return `${paddingY + borderWidth}px`;
   }
-  public static tabBorderWidth = '3px';
-  public static tabOutlineWidth = '2px';
+  public static get tabLineHeight() {
+    return this.controlLineHeightLarge;
+  }
+  public static tabBorderWidth = '2px';
+  public static get tabOutlineWidth() {
+    return this.controlOutlineWidth;
+  }
   public static get tabTextColorDefault() {
     return this.textColorDefault;
   }
@@ -1389,39 +1431,65 @@ export class NewDefaultTheme {
   public static get spinnerCaptionColor() {
     return this.gray;
   }
-  public static spinnerFontSizeSmall = '14px';
-  public static spinnerFontSizeMedium = '16px';
-  public static spinnerFontSizeLarge = '18px';
-  public static spinnerLineHeightSmall = '1';
-  public static spinnerLineHeightMedium = '1.375';
-  public static spinnerLineHeightLarge = '1.33';
-  public static spinnerCaptionGapSmall = '8px';
-  public static spinnerCaptionGapMedium = '-6px';
-  public static spinnerCaptionGapLarge = '-8px';
+  public static get spinnerFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get spinnerFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get spinnerFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  public static get spinnerLineHeightSmall() {
+    return this.controlLineHeightSmall;
+  }
+  public static get spinnerLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get spinnerLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static spinnerCaptionGapSmall = '6px';
+  public static spinnerCaptionGapMedium = '-4px';
+  public static spinnerCaptionGapLarge = '-3px';
   //#endregion
   //#region Switcher
   public static get switcherTextColor() {
     return this.textColorDefault;
   }
-  public static switcherOutlineWidth = '2px';
-  public static switcherCaptionFontSizeSmall = 'inherit';
-  public static switcherCaptionFontSizeMedium = 'inherit';
-  public static switcherCaptionFontSizeLarge = 'inherit';
-  public static switcherCaptionLineHeightSmall = 'inherit';
-  public static switcherCaptionLineHeightMedium = 'inherit';
-  public static switcherCaptionLineHeightLarge = 'inherit';
-  public static switcherCaptionGapSmall = '15px';
-  public static switcherCaptionGapMedium = '15px';
-  public static switcherCaptionGapLarge = '15px';
-  public static get switcherButtonPaddingXSmall() {
+  public static get switcherOutlineWidth() {
+    return this.btnOutlineWidth;
+  }
+  public static get switcherCaptionFontSizeSmall() {
+    return this.btnFontSizeSmall;
+  }
+  public static get switcherCaptionFontSizeMedium() {
+    return this.btnFontSizeMedium;
+  }
+  public static get switcherCaptionFontSizeLarge() {
+    return this.btnFontSizeLarge;
+  }
+  public static get switcherCaptionLineHeightSmall() {
+    return this.btnLineHeightSmall;
+  }
+  public static get switcherCaptionLineHeightMedium() {
+    return this.btnLineHeightMedium;
+  }
+  public static get switcherCaptionLineHeightLarge() {
+    return this.btnLineHeightLarge;
+  }
+  public static get switcherCaptionGapSmall() {
     return this.btnPaddingXSmall;
   }
-  public static get switcherButtonPaddingXMedium() {
+  public static get switcherCaptionGapMedium() {
     return this.btnPaddingXMedium;
   }
-  public static get switcherButtonPaddingXLarge() {
+  public static get switcherCaptionGapLarge() {
     return this.btnPaddingXLarge;
   }
+  public static switcherButtonPaddingXSmall = '7px';
+  public static switcherButtonPaddingXMedium = '11px';
+  public static switcherButtonPaddingXLarge = '15px';
   public static get switcherButtonPaddingYSmall() {
     return this.btnPaddingYSmall;
   }
