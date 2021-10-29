@@ -3,6 +3,39 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.0...@skbkontur/react-ui@3.8.1) (2021-10-28)
+
+
+### Bug Fixes
+
+* **Checkbox:** remove user-select:none ([#2586](https://github.com/skbkontur/retail-ui/issues/2586)) ([4da5f0c](https://github.com/skbkontur/retail-ui/commit/4da5f0cdc09d8e01f7d4ab7a7b01e58fdbad56b3))
+* **Kebab:** restore menuMaxHeight prop ([#2588](https://github.com/skbkontur/retail-ui/issues/2588)) ([20b82ce](https://github.com/skbkontur/retail-ui/commit/20b82ce8a4e7a411e42f6b2c848de1308617cbdb))
+* **Textarea:** fix autoResize on rows/maxRows change  ([#2562](https://github.com/skbkontur/retail-ui/issues/2562)) ([a0c06f8](https://github.com/skbkontur/retail-ui/commit/a0c06f839ebe8de9fcbddfe7e8cf0568d3921e72))
+* **Toggle:** recover disabled caption styles ([#2582](https://github.com/skbkontur/retail-ui/issues/2582)) ([ef9fe96](https://github.com/skbkontur/retail-ui/commit/ef9fe969e0b59afe5ebe5c22827aa5bcdbd653f1))
+
+
+
+
+
+# [3.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.2...@skbkontur/react-ui@3.8.0) (2021-10-27)
+
+
+### Bug Fixes
+
+* **ComboBox:** handle falsy values correctly ([#2563](https://github.com/skbkontur/retail-ui/issues/2563)) ([2df7e09](https://github.com/skbkontur/retail-ui/commit/2df7e09ec6fd8f4ab9e999654263acbe8d989803))
+* **ModalClose:** don't s show focus outline if it's not focus by Tab ([#2565](https://github.com/skbkontur/retail-ui/issues/2565)) ([b589014](https://github.com/skbkontur/retail-ui/commit/b58901428b7bfdf52727de1345e44d1d0cd35b8e))
+* **ThemePlayground:** computed vars are visible in the ThemeEditor ([62f191e](https://github.com/skbkontur/retail-ui/commit/62f191efa0234cc72175e05dcb543284fada7d7e))
+* **Toggle:** add toggleBgDisabledChecked, toggleBorderColorDisabled, toggleBorderColorDisabledChecked theme variables ([#2584](https://github.com/skbkontur/retail-ui/issues/2584)) ([b953719](https://github.com/skbkontur/retail-ui/commit/b953719e4cd5b0d89babe1b72f5ae497a9567889))
+
+
+### Features
+
+* **Upgrades:** abillity to customize classNames prefix ([#2561](https://github.com/skbkontur/retail-ui/issues/2561)) ([fbc9ced](https://github.com/skbkontur/retail-ui/commit/fbc9ceda8d9cb9c2be7d69a7fa199cf7c9745cee))
+
+
+
+
+
 ## [3.7.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.7.1...@skbkontur/react-ui@3.7.2) (2021-10-25)
 
 
@@ -247,12 +280,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 * **react-ui:** default theme has changed
 * Color of focus border and background of active menu items changed from `#5199db` to `#1D85D0`
 * **Tooltip,Hint:** It may affect position of Tooltips and Hints over your element due default wrapper removal. Also default offsets were changed.
-* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext
+* **ThemeProvider:** component `ThemeProvider` was removed please use `ThemeContext` instead. See [ThemeContext](https://tech.skbkontur.ru/react-ui/#/Customization/ThemeContext).
 * **ThemeConsumer:** component `ThemeConsumer` was deprecated and removed please use `ThemeContext` instead
 * **Select, Dropdown:** Prop `diadocLinkIcon` was deprecated use prop `_renderButton` instead
 * **MenuItem:** Prop `alkoLink` was deprecated please use `link` instead
 * **LocaleProvider:** Component `LocaleProvider` has been removed, please use `LocaleContext` instead
-* **Spinner, Loader:** Cloud prop in `Spinner` and `Loader` components has been removed, behavior moved to `@skbkontur/react-ui-addons` see [migration] (https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
+* **Spinner, Loader:** Cloud prop in `Spinner` and `Loader` components has been removed, behavior moved to `@skbkontur/react-ui-addons` see [migration](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md).
 * **SpinnerOld:** Component `SpinnerOld` has been removed, please use component from @skbkontur/react-ui-addons
 * **Logotype:** Component `Logotype` has been removed, please use component from @skbkontur/react-ui-addons
 * **Fias:** Component `Fias` has been removed, please use component from @skbkontur/react-ui-addons
