@@ -31,8 +31,11 @@ export interface KebabProps extends CommonProps {
   onOpen: () => void;
   size: 'small' | 'medium' | 'large';
   /**
-   * Список позиций доступных для расположения выпадашки
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использоваться первая из этого списка
+   * Список позиций доступных для расположения выпадашки.
+   *
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
+   *
+   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions: PopupPosition[];
