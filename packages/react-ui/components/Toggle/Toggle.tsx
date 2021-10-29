@@ -70,6 +70,10 @@ export interface ToggleProps extends CommonProps {
    * @deprecated используйте переменную темы `toggleBgChecked` вместо этого пропа.
    */
   color?: React.CSSProperties['color'];
+  /**
+   * HTML-атрибут `id` для передачи во внутренний `<input />`.
+   */
+  id?: string;
 }
 
 export interface ToggleState {
@@ -146,7 +150,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, captionPosition, warning, error, loading, color } = this.props;
+    const { children, captionPosition, warning, error, loading, color, id } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
@@ -191,6 +195,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 onBlur={this.handleBlur}
                 ref={this.inputRef}
                 disabled={disabled}
+                id={id}
               />
               <div
                 className={containerClassNames}

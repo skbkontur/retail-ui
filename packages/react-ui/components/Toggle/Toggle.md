@@ -26,6 +26,19 @@ const [checked, setChecked] = React.useState(false);
 </Toggle>
 ```
 
+Тогл с внешним `<label/>`.
+
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
+const [checked, setChecked] = React.useState(false);
+
+<Gapped>
+  <Toggle id="toggle-1" checked={checked} onValueChange={setChecked}/>
+  <label htmlFor="toggle-1">Внешний label</label>
+</Gapped>
+```
+
 Тогл получающий фокус после загрузки страницы.
 
 ```jsx harmony
