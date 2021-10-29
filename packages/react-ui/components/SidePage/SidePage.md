@@ -2,6 +2,7 @@
 import { Button } from '@skbkontur/react-ui';
 
 const [opened, setOpened] = React.useState(false);
+const [height, setHeight] = React.useState('100%');
 
 function renderSidePage() {
   return (
@@ -17,12 +18,14 @@ function renderSidePage() {
                           #dfdede 20px,
                           #dfdede 40px
                         )`,
-            height: 600,
-            padding: '20px 0',
+            height: height,
+            boxSizing: 'border-box',
+            borderTop: '10px solid red',
+            borderBottom: '10px solid blue',
           }}
         >
           <SidePage.Container>
-            <p>Use rxjs operators with react hooks</p>
+            <Button onClick={() => setHeight(height === '100%' ? 1600 : '100%')}>height ({height})</Button>
           </SidePage.Container>
         </div>
       </SidePage.Body>

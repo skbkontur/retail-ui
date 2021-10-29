@@ -77,7 +77,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private renderMain() {
     return (
       <CommonWrapper {...this.props}>
-        <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
+        <div style={{ height: this.getContentHeight(), flex: '0 0 auto' }} ref={this.refWrapper}>
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div

@@ -13,7 +13,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
+import { css, cx } from '../../lib/theming/Emotion';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -186,20 +186,18 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         style={{ width: width || (blockBackground ? 800 : 500) }}
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
-          <div
-            data-tid="SidePage__container"
-            className={cx(styles.wrapper(this.theme), {
-              [styles.shadow(this.theme)]: this.state.hasShadow,
-              [styles.wrapperLeft()]: fromLeft,
-            })}
-            style={this.getSidebarStyle()}
-          >
-            <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false}>
-              <div ref={(_) => (this.layoutRef = _)} className={styles.layout()}>
-                <SidePageContext.Provider value={this.getSidePageContextProps()}>
-                  {this.props.children}
-                </SidePageContext.Provider>
-              </div>
+          <div data-tid="SidePage__container" style={this.getSidebarStyle()} ref={(_) => (this.layoutRef = _)}>
+            <FocusLock
+              disabled={disableFocusLock || !blockBackground}
+              autoFocus={false}
+              className={cx(styles.wrapper(this.theme), {
+                [styles.shadow(this.theme)]: this.state.hasShadow,
+                [styles.wrapperLeft()]: fromLeft,
+              })}
+            >
+              <SidePageContext.Provider value={this.getSidePageContextProps()}>
+                {this.props.children}
+              </SidePageContext.Provider>
             </FocusLock>
           </div>
         </RenderLayer>
@@ -245,7 +243,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getSidebarStyle(): React.CSSProperties {
-    const sidePageStyle: React.CSSProperties = {};
+    const sidePageStyle: React.CSSProperties = { height: '100%' };
 
     if (this.state.hasMargin) {
       if (this.props.fromLeft) {
