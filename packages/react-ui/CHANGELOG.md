@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.1...@skbkontur/react-ui@3.8.2) (2021-10-29)
+
+
+### Bug Fixes
+
+* **CurrencyLabel:** revert color, inherit it from page ([#2595](https://github.com/skbkontur/retail-ui/issues/2595)) ([bb7b20c](https://github.com/skbkontur/retail-ui/commit/bb7b20c610ab07a03938dfa7c17589878a088f99))
+* **Toggle:** add id prop ([#2597](https://github.com/skbkontur/retail-ui/issues/2597)) ([82846db](https://github.com/skbkontur/retail-ui/commit/82846dbacff71a844867b88f7acb1c33eaef8bb9))
+* **Toggle:** remove interaction in checked disabled mode ([#2596](https://github.com/skbkontur/retail-ui/issues/2596)) ([513240f](https://github.com/skbkontur/retail-ui/commit/513240fd43a03f4b8334dded086212199fc89a99))
+
+
+
+
+
 ## [3.8.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.0...@skbkontur/react-ui@3.8.1) (2021-10-28)
 
 
