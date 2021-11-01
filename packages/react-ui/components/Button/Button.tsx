@@ -53,8 +53,6 @@ export interface ButtonProps extends CommonProps {
   /** @ignore */
   disableFocus?: boolean;
 
-  error?: boolean;
-
   focused?: boolean;
 
   /**
@@ -97,8 +95,6 @@ export interface ButtonProps extends CommonProps {
 
   /** @ignore */
   visuallyFocused?: boolean;
-
-  warning?: boolean;
 
   width?: number | string;
 }
@@ -167,8 +163,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       disabled,
       borderless,
       checked,
-      error,
-      warning,
       loading,
       arrow,
       narrow,
@@ -245,11 +239,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       outlineNode = (
         <div
           className={cx(styles.outline(), {
-            [styles.outlineWarning(this.theme)]: warning,
-            [styles.outlineError(this.theme)]: error,
             [styles.outlineLink()]: isLink,
-            [styles.outlineLinkWarning(this.theme)]: isLink && warning,
-            [styles.outlineLinkError(this.theme)]: isLink && error,
           })}
         />
       );
@@ -280,8 +270,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <div
           className={cx({
             [styles.arrow()]: true,
-            [styles.arrowWarning(this.theme)]: !checked && warning,
-            [styles.arrowError(this.theme)]: !checked && error,
             [styles.arrowFocus(this.theme)]: !checked && isFocused,
             [styles.arrowLeft()]: arrow === 'left',
           })}

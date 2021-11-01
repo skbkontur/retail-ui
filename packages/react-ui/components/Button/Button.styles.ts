@@ -64,37 +64,12 @@ export const styles = memoizeStyle({
     `;
   },
 
-  outlineWarning(t: Theme) {
-    return css`
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorWarning},
-        inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-    `;
-  },
-
-  outlineError(t: Theme) {
-    return css`
-      box-shadow: 0 0 0 ${t.btnOutlineWidth} ${t.btnBorderColorError}, inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-    `;
-  },
-
   outlineLink() {
     return css`
       box-shadow: none;
       left: -2px;
       right: -2px;
       bottom: -2px;
-    `;
-  },
-
-  outlineLinkWarning(t: Theme) {
-    return css`
-      background-color: ${t.btnWarningSecondary};
-    `;
-  },
-
-  outlineLinkError(t: Theme) {
-    return css`
-      background-color: ${t.btnErrorSecondary};
     `;
   },
 
@@ -250,22 +225,6 @@ export const styles = memoizeStyle({
       .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
       }
-    `;
-  },
-
-  arrowWarning(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorWarning, t.btnOutlineWidth, t.btnInsetColor)}
-    `;
-  },
-
-  arrowError(t: Theme) {
-    return css`
-      box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnInsetColor};
-
-      ${arrowOutlineMixin(t.btnInsetWidth, t.btnBorderColorError, t.btnOutlineWidth, t.btnInsetColor)}
     `;
   },
 
