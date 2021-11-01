@@ -9,26 +9,28 @@ import { styles } from './Center.styles';
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
 export interface CenterProps
-  extends CommonProps,
+  extends Pick<CommonProps, 'data-tid'>,
     Override<
       React.HTMLAttributes<HTMLDivElement>,
       {
         /**
-         * Горизонтальное выравнивание контента.
+         * Определяет, как контент будет выровнен по горизонтали.
+         *
+         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
          */
         align?: HorizontalAlign;
 
         /**
-         * **Используй с осторожностью!**
-         * Дополнительные стили
+         * **Используйте с осторожностью!**
+         *
+         * HTML-атрибут `style`.
          */
         style?: React.CSSProperties;
       }
     > {}
 
 /**
- * Контейнер для вертикального центрирования. В компонент можно передавать
- * свойства как в любой *div* (кроме `className`)
+ * Контейнер, который центрирует элементы внутри себя.
  */
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
