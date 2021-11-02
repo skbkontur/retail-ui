@@ -308,8 +308,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private renderPlaceholder = (): JSX.Element | null => {
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
+    const hasValue = isNonNullable(children) && children !== '';
 
-    if (!isNonNullable(children) && placeholder) {
+    if (!hasValue && placeholder) {
       return (
         <span
           className={cx(jsInputStyles.placeholder(this.theme), {
