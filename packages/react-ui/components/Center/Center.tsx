@@ -11,7 +11,7 @@ export type HorizontalAlign = 'left' | 'center' | 'right';
 export interface CenterProps
   extends Pick<CommonProps, 'data-tid'>,
     Override<
-      React.HTMLAttributes<HTMLDivElement>,
+      Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>,
       {
         /**
          * Определяет, как контент будет выровнен по горизонтали.
