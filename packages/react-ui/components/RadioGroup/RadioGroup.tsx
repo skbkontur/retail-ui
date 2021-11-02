@@ -103,17 +103,12 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   public static propTypes = {
     children: PropTypes.node,
-    defaultValue: PropTypes.any,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     inline: PropTypes.bool,
-    items: PropTypes.any,
     name: PropTypes.string,
-    renderItem: PropTypes.func,
-    value: PropTypes.any,
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onValueChange: PropTypes.func,
     onBlur: PropTypes.func,
     onMouseEnter: PropTypes.func,
     onMouseLeave: PropTypes.func,
