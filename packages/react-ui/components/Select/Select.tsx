@@ -352,7 +352,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           <span className={jsStyles.labelText()}>{params.label}</span>
         </span>
         <div className={jsStyles.arrowWrap()} style={{ right: this.getLegacyArrowShift() }}>
-          <div className={cn(jsStyles.arrow(this.theme), useIsCustom && jsStyles.customUseArrow())} />
+          <div
+            className={cn(jsStyles.arrow(this.theme), {
+              [jsStyles.arrowDisabled(this.theme)]: this.props.disabled,
+              [jsStyles.customUseArrow()]: useIsCustom,
+            })}
+          />
         </div>
       </Button>
     );

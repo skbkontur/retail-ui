@@ -51,6 +51,12 @@ const styles = {
     `;
   },
 
+  arrowDisabled(t: Theme) {
+    return css`
+      border-top-color: ${t.selectMenuArrowColorDisabled};
+    `;
+  },
+
   customUseArrow() {
     return css`
       border-top-color: inherit;

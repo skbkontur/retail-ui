@@ -32,6 +32,11 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnIconGapLarge: theme.selectIconGapLarge,
       btnIconSizeLarge: theme.selectIconSizeLarge,
       btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
+
+      btnDisabledBg: theme.selectBgDisabled,
+      btnDisabledBorderColor: theme.selectBorderColorDisabled,
+      btnDisabledShadowColor: theme.selectBorderColorDisabled,
+      btnDisabledTextColor: theme.selectTextColorDisabled,
     },
     theme,
   );
