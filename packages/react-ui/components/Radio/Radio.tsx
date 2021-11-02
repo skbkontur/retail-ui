@@ -15,24 +15,49 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Состояние ошибки */
+        /**
+         *  Добавляет **красную** обводку.
+         */
         error?: boolean;
-        /** Состояние Предупреждения */
+        /**
+         * Добавляет **оранжевую** обводку.
+         */
         warning?: boolean;
-        /** Состояние фокуса */
+        /**
+         * Добавляет **синюю** обводку.
+         */
         focused?: boolean;
-        /** Состояние нажатия */
+        /**
+         * Состояние нажатия.
+         */
         pressed?: boolean;
-        /** Состояние hover */
+        /**
+         * Состояние hover.
+         */
         hovered?: boolean;
-        /** Состояние active */
+        /**
+         * Состояние active.
+         */
         active?: boolean;
-        /** Вызывается при изменении `value` */
+        /**
+         * Функция, вызываемая при изменении `value`.
+         */
         onValueChange?: (value: T) => void;
+        /**
+         * HTML-событие `onmouseenter`
+         */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * HTML-событие `mouseleave`
+         */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * HTML-событие `onmouseover`
+         */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Значение */
+        /**
+         * HTML-атрибут `value`.
+         */
         value: T;
       }
     > {}
@@ -41,6 +66,9 @@ export interface RadioState {
   focusedByKeyboard: boolean;
 }
 
+/**
+ * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
+ */
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
