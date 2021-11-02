@@ -9,9 +9,9 @@ import { styles } from './Center.styles';
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
 export interface CenterProps
-  extends Pick<CommonProps, 'data-tid'>,
+  extends CommonProps,
     Override<
-      Omit<React.HTMLAttributes<HTMLDivElement>, 'className'>,
+      React.HTMLAttributes<HTMLDivElement>,
       {
         /**
          * Определяет, как контент будет выровнен по горизонтали.
@@ -19,13 +19,6 @@ export interface CenterProps
          * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
          */
         align?: HorizontalAlign;
-
-        /**
-         * **Используйте с осторожностью!**
-         *
-         * HTML-атрибут `style`.
-         */
-        style?: React.CSSProperties;
       }
     > {}
 
