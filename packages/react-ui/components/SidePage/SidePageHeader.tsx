@@ -8,7 +8,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
-import { isIE11 } from '../../lib/client';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -40,7 +39,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private theme!: Theme;
   private wrapper: HTMLElement | null = null;
-  private content: HTMLElement | null = null;
   private lastRegularHeight = 0;
 
   public get regularHeight(): number {
@@ -88,10 +86,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const { isReadyToFix } = this.state;
     return (
       <CommonWrapper {...this.props}>
-        <div
-          ref={this.wrapperRef}
-          style={{ minHeight: isIE11 ? `${this.content?.getBoundingClientRect().height}px` : 'auto' }}
-        >
+        <div ref={this.wrapperRef}>
           {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
         </div>
       </CommonWrapper>
@@ -100,7 +95,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderHeader = (fixed = false) => {
     return (
-      <div className={cx(styles.header(this.theme), { [styles.headerFixed(this.theme)]: fixed })} ref={this.contentRef}>
+      <div className={cx(styles.header(this.theme), { [styles.headerFixed(this.theme)]: fixed })}>
         {this.renderClose(fixed)}
         <div className={cx(styles.title(this.theme), { [styles.titleFixed()]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
@@ -146,10 +141,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private wrapperRef = (el: HTMLElement | null) => {
     this.wrapper = el;
-  };
-
-  private contentRef = (el: HTMLElement | null) => {
-    this.content = el;
   };
 
   private handleFocus = () => {

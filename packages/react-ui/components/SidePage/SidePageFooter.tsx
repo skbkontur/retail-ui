@@ -75,10 +75,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   };
 
   private renderMain() {
-    this.context.setFooterHeight?.(this.content?.getBoundingClientRect().height);
     return (
       <CommonWrapper {...this.props}>
-        <div className={styles.footerWrapper()} ref={this.refWrapper}>
+        <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
@@ -120,4 +119,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
       this.setState({ fixed });
     }
   };
+
+  private getContentHeight() {
+    if (!this.content) {
+      return 'auto';
+    }
+    return this.content.getBoundingClientRect().height;
+  }
 }
