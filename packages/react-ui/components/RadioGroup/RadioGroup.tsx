@@ -16,15 +16,56 @@ import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
+  /**
+   * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
+   * или значений из параметра `items`
+   */
   defaultValue?: T;
+  /**
+   * Значение радиогруппы. Должно быть одним из значений радиокнопок.
+   * Если не указано, то компонент будет работать, как неконтроллируемый
+   */
   value?: T;
+  /**
+   * Может быть использовано, если не передан параметр `children`
+   *
+   * Массив параметров радиокнопок. Может быть типа `Array<Value>` или
+   * `Array<[Value, Data]>`, где тип `Value` — значение радиокнопки, а `Data`
+   * — значение которое будет использовано вторым параметром в `renderItem`.
+   * Если тип `items: Array<Value>`, то он будет приведен к типу
+   * `Array<[Value, Value]>`
+   */
   items?: T[] | [T, React.ReactNode][];
+  /**
+   * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
+   * случайное имя
+   */
   name?: string;
+  /**
+   * Дизейблит все радиокнопки
+   */
   disabled?: boolean;
+  /**
+   * Переводит все радиокнопки в состояние предупреждения
+   */
   warning?: boolean;
+  /**
+   * Переводит все радиокнопки в состояние ошибки
+   */
   error?: boolean;
+  /**
+   * Выравнивает элементы в строку. Не работает с `children`
+   */
   inline?: boolean;
+  /**
+   * Ширина радиогруппы. Не работает с `children`
+   */
   width?: React.CSSProperties['width'];
+  /**
+   * Метод отрисовки контента радиокнопки. Не работает с `children`.
+   *
+   * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
+   */
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
   /** Вызывается при изменении `value` */
   onValueChange?: (value: T) => void;
@@ -32,6 +73,16 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
+  /**
+   * Может быть использовано, если не передан параметр `items`
+   *
+   * `children` может содержать любую разметку с компонентами Radio.
+   * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
+   * как и параметр `value` самой радиогруппы.
+   *
+   * Значения активного элемента сравниваются по строгому равенству `===`
+   */
+  children?: React.ReactNode;
 }
 
 export interface RadioGroupState<T> {
@@ -51,92 +102,21 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   };
 
   public static propTypes = {
-    /**
-     * Может быть использовано, если не передан параметр `items`
-     *
-     * `children` может содержать любую разметку с компонентами Radio.
-     * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
-     * как и параметр `value` самой радиогруппы.
-     *
-     * Значения активного элемента сравниваются по строгому равенству `===`
-     */
     children: PropTypes.node,
-
-    /**
-     * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
-     * или значей из параметра `items`
-     */
     defaultValue: PropTypes.any,
-
-    /**
-     * Дизейблит все радиокнопки
-     */
     disabled: PropTypes.bool,
-
-    /**
-     * Переводит все радиокнопки в состоянии ошибки
-     */
     error: PropTypes.bool,
-
-    /**
-     * Выравнивает элементы в строку. Не работает с `children`
-     */
     inline: PropTypes.bool,
-
-    /**
-     * Может быть использовано, если не передан параметр `children`
-     *
-     * Массив параметров радиокнопок. Может быть типа `Array<Value>` или
-     * `Array<[Value, Data]>`, где тип `Value` — значение радиокнопки, а `Data`
-     * — значение которое будет использовано вторым параметром в `renderItem`.
-     * Если тип `items: Array<Value>`, то он будет приведен к типу
-     * `Array<[Value, Value]>`
-     */
     items: PropTypes.any,
-
-    /**
-     * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
-     * случайное имя по алгоритму
-     * [uuid v1](https://github.com/kelektiv/node-uuid#version-1)
-     */
     name: PropTypes.string,
-
-    /**
-     * Метод отрисовки контента радиокнопки. Не работает с `children`.
-     *
-     * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
-     */
     renderItem: PropTypes.func,
-
-    /**
-     * Значение радиогруппы. Должно быть одним из значений радиокнопок.
-     * Если не указано, то компонент будет работать, как неконтроллируемый
-     */
     value: PropTypes.any,
-
-    /**
-     * Переводит все радиокнопки в состоянии предупреждения
-     */
     warning: PropTypes.bool,
-
-    /**
-     * Ширина радиогруппы. Не работает с `children`
-     */
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Обработчик события при переключении радиокнопок.
-     * Имеет тип
-     * `(value: Value) => any`
-     */
     onValueChange: PropTypes.func,
-
     onBlur: PropTypes.func,
-
     onMouseEnter: PropTypes.func,
-
     onMouseLeave: PropTypes.func,
-
     onMouseOver: PropTypes.func,
   };
 
