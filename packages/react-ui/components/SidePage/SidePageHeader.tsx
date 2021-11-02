@@ -86,7 +86,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const { isReadyToFix } = this.state;
     return (
       <CommonWrapper {...this.props}>
-        <div ref={this.wrapperRef}>
+        <div ref={this.wrapperRef} className={styles.headerWrapper()}>
           {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
         </div>
       </CommonWrapper>

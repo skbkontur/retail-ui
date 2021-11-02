@@ -782,7 +782,7 @@ LoaderInSidePageBody.parameters = {
     tests: {
       async ['is covered by Header and Footer']() {
         await this.browser.executeScript(function () {
-          const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+          const sidePage = window.document.querySelector('.focus-lock') as HTMLElement;
 
           if (sidePage) {
             sidePage.scrollTop = sidePage.offsetHeight;

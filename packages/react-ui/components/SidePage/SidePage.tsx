@@ -186,20 +186,21 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         style={{ width: width || (blockBackground ? 800 : 500) }}
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
-          <div
-            data-tid="SidePage__container"
-            className={cx(styles.wrapper(this.theme), {
-              [styles.shadow(this.theme)]: this.state.hasShadow,
-              [styles.wrapperLeft()]: fromLeft,
-            })}
-            style={this.getSidebarStyle()}
-          >
-            <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false}>
-              <div ref={(_) => (this.layoutRef = _)} className={styles.layout()}>
-                <SidePageContext.Provider value={this.getSidePageContextProps()}>
-                  {this.props.children}
-                </SidePageContext.Provider>
-              </div>
+          <div data-tid="SidePage__container" style={this.getSidebarStyle()}>
+            <FocusLock
+              disabled={disableFocusLock || !blockBackground}
+              autoFocus={false}
+              className={
+                cx(styles.wrapper(this.theme), {
+                  [styles.shadow(this.theme)]: this.state.hasShadow,
+                  [styles.wrapperLeft()]: fromLeft,
+                }) + ' focus-lock'
+              }
+              ref={(_) => (this.layoutRef = _)}
+            >
+              <SidePageContext.Provider value={this.getSidePageContextProps()}>
+                {this.props.children}
+              </SidePageContext.Provider>
             </FocusLock>
           </div>
         </RenderLayer>
@@ -226,7 +227,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (!this.layoutRef) {
       return 'auto';
     }
-    return this.layoutRef.getBoundingClientRect().width;
+    return this.layoutRef.clientWidth;
   };
 
   private renderShadow(): JSX.Element {
@@ -245,7 +246,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private getSidebarStyle(): React.CSSProperties {
-    const sidePageStyle: React.CSSProperties = {};
+    const sidePageStyle: React.CSSProperties = {
+      height: '100%',
+      position: 'absolute',
+      right: 0,
+      width: this.props.width || (this.props.blockBackground ? 800 : 500),
+    };
 
     if (this.state.hasMargin) {
       if (this.props.fromLeft) {
