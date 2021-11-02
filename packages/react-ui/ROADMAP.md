@@ -1,7 +1,12 @@
 # 2021
 
-- <input type="checkbox" readonly/> Старт поддержки мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
+- <input type="checkbox" readonly/> Адаптивные версии компонентов использующих выпадающие меню — селекта, автокомплита, комбобокса для мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963)
 - <input type="checkbox" readonly/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18
+- <input type="checkbox" readonly/> Новые цвета контролов. Обновление в соответствии с новым дизайном и фирменным стилем.
+- <input type="checkbox" readonly/> Официальный старт поддержки темной темы.
+- <input type="checkbox" readonly/> Адаптация контролов для использования с шрифтом Lab Grotesque.
+- <input type="checkbox" readonly/> Добавление компонента FileUploader для загрузки файлов на сервер.
+- <input type="checkbox" readonly/> Добавление компонента [GlobalLoader](https://guides.kontur.ru/components/global-loader/).
 
 ### 3.0 Май 2021
 
