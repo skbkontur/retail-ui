@@ -244,13 +244,13 @@ export const DatePickerDisabled = () => <DatePickerWithError disabled />;
 DatePickerDisabled.storyName = 'DatePicker disabled';
 DatePickerDisabled.parameters = { creevey: { skip: [true] } };
 
-export const DatePickerMedium = () => <DatePickerWithError size="medium" />;
-DatePickerMedium.storyName = 'DatePicker medium';
-DatePickerMedium.parameters = { creevey: { skip: [true] } };
-
-export const DatePickerLarge = () => <DatePickerWithError size="large" />;
-DatePickerLarge.storyName = 'DatePicker large';
-DatePickerLarge.parameters = { creevey: { skip: [true] } };
+export const DifferentSizes = () => (
+  <Gapped>
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="medium" />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="large" />
+  </Gapped>
+);
 
 export const DatePickerWithMinMaxDate: Story = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>
