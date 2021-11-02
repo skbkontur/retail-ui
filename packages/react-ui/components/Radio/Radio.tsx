@@ -28,18 +28,6 @@ export interface RadioProps<T>
          */
         focused?: boolean;
         /**
-         * Состояние нажатия.
-         */
-        pressed?: boolean;
-        /**
-         * Состояние hover.
-         */
-        hovered?: boolean;
-        /**
-         * Состояние active.
-         */
-        active?: boolean;
-        /**
          * Функция, вызываемая при изменении `value`.
          */
         onValueChange?: (value: T) => void;
@@ -120,13 +108,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>) => {
     const {
-      active,
       disabled = this.context.disabled,
       warning = this.context.warning,
       error = this.context.error,
       focused,
-      pressed,
-      hovered,
       onMouseOver,
       onMouseEnter,
       onMouseLeave,
