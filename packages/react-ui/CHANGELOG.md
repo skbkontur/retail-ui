@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.3...@skbkontur/react-ui@3.8.4) (2021-11-03)
+
+
+### Bug Fixes
+
+* **DatePicker:** width for different sizes with empty value ([#2614](https://github.com/skbkontur/retail-ui/issues/2614)) ([cb5254f](https://github.com/skbkontur/retail-ui/commit/cb5254f10d92456018b1ead3790f8bbade0f34e0))
+* **RadioGroup:** problem with value type inference ([#2607](https://github.com/skbkontur/retail-ui/issues/2607)) ([d6136e4](https://github.com/skbkontur/retail-ui/commit/d6136e45a311b00f39bc5c741cef07aacf8d2f4f))
+* **Select:** add vars for disabled state ([#2610](https://github.com/skbkontur/retail-ui/issues/2610)) ([7300141](https://github.com/skbkontur/retail-ui/commit/73001417ba004754c8f52da377ceff1fff0b6027))
+
+
+
+
+
 ## [3.8.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.2...@skbkontur/react-ui@3.8.3) (2021-11-02)
 
 
