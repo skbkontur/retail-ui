@@ -185,8 +185,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         createStackingContext
         style={{ width: width || (blockBackground ? 800 : 500) }}
       >
-        <RenderLayer onClickOutside={this.handleClickOutside} active>
-          <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+          <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid="SidePage__container"
               className={cx(styles.wrapper(this.theme), {
@@ -201,8 +201,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 {this.props.children}
               </SidePageContext.Provider>
             </div>
-          </FocusLock>
-        </RenderLayer>
+          </RenderLayer>
+        </FocusLock>
       </ZIndex>
     );
   }
