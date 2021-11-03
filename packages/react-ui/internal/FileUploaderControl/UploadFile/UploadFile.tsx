@@ -11,6 +11,7 @@ import { Spinner } from '../../../components/Spinner';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
+import { ThemeContext } from '../../..';
 
 import { jsStyles } from './UploadFile.styles';
 
@@ -33,6 +34,7 @@ export const UploadFile = (props: IUploadFileProps) => {
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
   const { removeFile } = useContext(FileUploaderControlContext);
+  const theme = useContext(ThemeContext);
 
   const [state, setState] = useState<IUploadFileState>({
     fileNameWidth: 0,
@@ -78,7 +80,7 @@ export const UploadFile = (props: IUploadFileProps) => {
   const { isValid, message } = validationResult;
 
   const icon: ReactNode = useMemo(() => {
-    const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon()} />;
+    const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon(theme)} />;
 
     if (hovered) {
       return deleteIcon;
@@ -88,21 +90,21 @@ export const UploadFile = (props: IUploadFileProps) => {
       case UploadFileStatus.Loading:
         return <Spinner type="mini" dimmed caption="" />;
       case UploadFileStatus.Uploaded:
-        return <OkIcon color="#808080" />;
+        return <OkIcon color={theme.fileUploaderIconColor} />;
       default:
         if (!isValid) {
           return <ErrorIcon />;
         }
         return deleteIcon;
     }
-  }, [hovered, status, isValid]);
+  }, [hovered, status, isValid, theme]);
 
   const renderTooltipContent = useCallback((): ReactNode => {
     return isValid ? null : message;
   }, [isValid, message]);
 
   const contentClassNames = cx(jsStyles.content(), {
-    [jsStyles.error()]: !isValid,
+    [jsStyles.error(theme)]: !isValid,
   });
 
   const handleMouseEnter = useCallback(() => {
@@ -131,7 +133,7 @@ export const UploadFile = (props: IUploadFileProps) => {
               {formattedSize}
             </span>
           )}
-          <div data-tid="Icon" onClick={handleRemove} className={jsStyles.icon()}>
+          <div data-tid="Icon" onClick={handleRemove} className={jsStyles.icon(theme)}>
             {icon}
           </div>
         </div>

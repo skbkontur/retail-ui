@@ -1435,12 +1435,64 @@ export class DefaultTheme {
   //#endregion
 
   //#region FileUploader
+  // Background
+  public static fileUploaderBg = '#fff';
+
+  // Font
+  public static get fileUploaderFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get fileUploaderLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static get fileUploaderTextColorDefault() {
+    return this.textColorDefault;
+  }
+
+  // Padding
+  public static fileUploaderPaddingX = '7px';
+  public static get fileUploaderPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+
+  // Border
+  public static fileUploaderBorderRadius = '2px';
+  public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';
+  public static get fileUploaderBorderWidth() {
+    return this.controlBorderWidth;
+  }
+  public static fileUploaderBorderStyle = 'dashed';
+
+  // Border Focus
+  public static get fileUploaderBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+
+  // Link
+  public static get fileUploaderLinkColor() {
+    return this.linkColor;
+  }
+
+  // Icon
+  public static fileUploaderIconSize = '16px';
+  public static fileUploaderIconColor = '#808080';
+  public static fileUploaderIconHoverColor = '#333';
+
+  // Validation
   public static get fileUploaderBorderColorError() {
     return this.borderColorError;
   }
   public static get fileUploaderBorderColorWarning() {
     return this.borderColorWarning;
   }
+
+  // Disabled
+  public static fileUploaderDisabledBg = '#f2f2f2';
+  public static fileUploaderDisabledBorderColor = '#f2f2f2';
+  public static fileUploaderDisabledTextColor = '#808080';
+  public static fileUploaderDisabledLinkColor = '#808080';
+  public static fileUploaderDisabledIconColor = '#A0A0A0';
+
   //#endregion
 }
 

@@ -1,11 +1,15 @@
 import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import { Theme } from '../../../lib/theming/Theme';
 
 const styles = {
-  fileWrapper() {
+  fileWrapper(t: Theme) {
     return css`
       width: 100%;
-      padding: 0 12px 0 7px;
+      height: 32px;
+      display: flex;
+      align-items: center;
       box-sizing: border-box;
+      padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
     `;
   },
 };

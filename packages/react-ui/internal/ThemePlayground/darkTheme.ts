@@ -274,4 +274,28 @@ export const darkTheme = ThemeFactory.create({
   tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
   logoColor: 'white',
   logoHoverColor: '#000',
+
+  /** FileUploader start **/
+  // Background
+  fileUploaderBg: 'rgba(255, 255, 255, 0.04)',
+  // Font
+  fileUploaderTextColorDefault: '#fff',
+  // Border
+  fileUploaderBorderColor: 'rgba(255, 255, 255, 0.32)',
+  fileUploaderBorderColorFocus: '#1f87ef',
+  // Link
+  fileUploaderLinkColor: '#51adff',
+  // Icon
+  fileUploaderIconColor: 'rgba(255, 255, 255, 0.48)',
+  fileUploaderIconHoverColor: 'rgba(255, 255, 255, 0.80)',
+  // States
+  fileUploaderBorderColorError: '#ee5042',
+  fileUploaderBorderColorWarning: '#ffa236',
+  // Disabled
+  fileUploaderDisabledBg: 'rgba(255, 255, 255, 0.16)',
+  fileUploaderDisabledBorderColor: 'rgba(255, 255, 255, 0.32)',
+  fileUploaderDisabledTextColor: 'rgba(255, 255, 255, 0.32)',
+  fileUploaderDisabledLinkColor: 'rgba(255, 255, 255, 0.32)',
+  fileUploaderDisabledIconColor: 'rgba(255, 255, 255, 0.32)',
+  /** FileUploader end **/
 });

@@ -14,6 +14,7 @@ import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useCo
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
 import { Nullable } from '../../typings/utility-types';
+import { ThemeContext } from '../..';
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -79,6 +80,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
     } = props;
 
     const { files, setFiles, removeFile, setFileValidationResult } = useContext(FileUploaderControlContext);
+    const theme = useContext(ThemeContext);
 
     const locale = useControlLocale();
 
@@ -173,15 +175,19 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
       [handleChange],
     );
 
-    const uploadButtonClassNames = cx(jsStyles.uploadButton(), {
+    const uploadButtonClassNames = cx(jsStyles.uploadButton(theme), {
       [jsStyles.dragOver()]: isDraggable && !disabled,
-      [jsStyles.warning()]: !!warning && !disabled,
-      [jsStyles.error()]: !!error && !disabled,
-      [jsStyles.disabled()]: disabled,
+      [jsStyles.warning(theme)]: !!warning && !disabled,
+      [jsStyles.error(theme)]: !!error && !disabled,
+      [jsStyles.disabled(theme)]: disabled,
     });
 
     const uploadButtonWrapperClassNames = cx({
       [jsStyles.windowDragOver()]: isWindowDraggable && !disabled,
+    });
+
+    const uploadButtonIconClassNames = cx(jsStyles.icon(theme), {
+      [jsStyles.iconDisabled(theme)]: disabled,
     });
 
     const handleClick = useCallback(() => {
@@ -214,13 +220,17 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
     const hasOneFile = files.length === 1;
     const hasOneFileForSingle = isSingleMode && hasOneFile;
 
+    const linkClassNames = cx(jsStyles.link(theme), {
+      [jsStyles.linkDisabled(theme)]: disabled,
+    });
+
     return (
-      <div className={jsStyles.root()} style={useMemoObject({ width })}>
+      <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
         {!isSingleMode && !!files.length && <UploadFileList />}
         <div className={uploadButtonWrapperClassNames}>
           <div
             className={uploadButtonClassNames}
-            tabIndex={0}
+            tabIndex={disabled ? -1 : 0}
             ref={rootRef}
             onClick={handleClick}
             onKeyDown={handleKeyDown}
@@ -228,7 +238,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
             onBlur={handleBlur}
           >
             <div className={jsStyles.content()}>
-              <Link disabled={disabled} tabIndex={-1}>
+              <Link className={linkClassNames} disabled={disabled} tabIndex={-1}>
                 {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
               </Link>
               &nbsp;
@@ -238,7 +248,9 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
                 ) : (
                   <>
                     {locale.orDragHere}&nbsp;
-                    <UploadIcon color="#808080" />
+                    <div className={uploadButtonIconClassNames}>
+                      <UploadIcon />
+                    </div>
                   </>
                 )}
               </div>

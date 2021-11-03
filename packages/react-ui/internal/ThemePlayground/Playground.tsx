@@ -19,6 +19,7 @@ import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { FileUploader } from '../../components/FileUploader';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -78,6 +79,8 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           {this.renderHintsGroup()}
           {this.renderTooltip()}
           {this.renderPaging()}
+          {this.renderSingleSyncFileUploader()}
+          {this.renderMultipleAsyncFileUploader()}
         </Gapped>
       </div>
     );
@@ -310,6 +313,22 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     return (
       <ComponentsGroup title={'Пейджинг'} theme={this.theme}>
         <PagingPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderSingleSyncFileUploader = () => {
+    return (
+      <ComponentsGroup title={'Синхронный FileUploader без мультивыбора'} theme={this.theme}>
+        <FileUploader />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderMultipleAsyncFileUploader = () => {
+    return (
+      <ComponentsGroup title={'Асинхронный FileUploader с мультивыбором'} theme={this.theme}>
+        <FileUploader request={() => Promise.resolve()} multiple />
       </ComponentsGroup>
     );
   };

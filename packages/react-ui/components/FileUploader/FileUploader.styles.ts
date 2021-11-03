@@ -1,4 +1,5 @@
 import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
 
 const styles = {
   pulse() {
@@ -21,31 +22,34 @@ const styles = {
       `;
   },
 
-  root() {
+  root(t: Theme) {
     return css`
       min-width: 285px;
       position: relative;
+      background-color: ${t.fileUploaderBg};
+      line-height: ${t.fileUploaderLineHeight};
+      font-size: ${t.fileUploaderFontSize};
+      color: ${t.fileUploaderTextColorDefault}
     `;
   },
 
-  uploadButton() {
+  uploadButton(t: Theme) {
     return css`
       width: 100%;
       display: inline-flex;
       align-items: center;
       justify-content: space-between;
-      border: 1px dashed rgba(0, 0, 0, 0.37);
+      border: ${t.fileUploaderBorderWidth} ${t.fileUploaderBorderStyle} ${t.fileUploaderBorderColor};
       box-sizing: border-box;
-      border-radius: 1px;
+      border-radius: ${t.fileUploaderBorderRadius};
       outline: none;
-      height: 32px;
       cursor: pointer;
-      padding: 0 12px 0 7px;
+      padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
       transition: box-shadow 0.3s ease;
 
       &:focus {
-        border: 1px solid #1d85d0;
-        box-shadow: 0px 0px 0px 1px #1d85d0;
+        border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorFocus};
+        box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorFocus};
       }
     `;
   },
@@ -88,34 +92,59 @@ const styles = {
     `;
   },
 
-  warning() {
-    // FIXME @mozalov: переписать через темы
+  warning(t: Theme) {
     return css`
-      border: 1px solid #f69c00 !important;
-      box-shadow: 0px 0px 0px 1px #f69c00 !important;
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorWarning} !important;
+      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorWarning} !important;
     `;
   },
 
-  error() {
+  error(t: Theme) {
     return css`
-      border: 1px solid #d70c17 !important;
-      box-shadow: 0px 0px 0px 1px #d70c17 !important;
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorError} !important;
+      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorError} !important;
     `;
   },
 
-  disabled() {
+  disabled(t: Theme) {
     return css`
       cursor: default;
-      background: #f2f2f2;
-      border: 1px solid #f2f2f2;
-      color: #808080;
+      background: ${t.fileUploaderDisabledBg};
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
+      color: ${t.fileUploaderDisabledTextColor};
 
       &:focus {
-        border: 1px solid #f2f2f2 !important;
+        border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor} !important;
         box-shadow: none;
       }
     `;
   },
+
+  icon(t: Theme) {
+    return css`
+      display: inline-block;
+      font-size: ${t.fileUploaderIconSize};
+      color: ${t.fileUploaderIconColor}
+    `;
+  },
+
+  iconDisabled(t: Theme) {
+    return css`
+      color: ${t.fileUploaderDisabledIconColor}
+    `;
+  },
+
+  link(t: Theme) {
+    return css`
+      color: ${t.fileUploaderLinkColor};
+    `;
+  },
+
+  linkDisabled(t: Theme) {
+    return css`
+      color: ${t.fileUploaderDisabledLinkColor};
+    `;
+  }
 };
 
 export const jsStyles = memoizeStyle(styles);

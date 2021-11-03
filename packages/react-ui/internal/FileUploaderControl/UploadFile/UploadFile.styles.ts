@@ -1,12 +1,10 @@
 import { css, memoizeStyle } from '../../../lib/theming/Emotion';
+import { Theme } from '../../../lib/theming/Theme';
 
 const styles = {
   root() {
     return css`
-      display: flex;
       width: 100%;
-      height: 32px;
-      align-items: center;
     `;
   },
 
@@ -18,9 +16,9 @@ const styles = {
     `;
   },
 
-  error() {
+  error(t: Theme) {
     return css`
-      color: #d70c17;
+      color: ${t.fileUploaderBorderColorError};
     `;
   },
 
@@ -38,22 +36,21 @@ const styles = {
     `;
   },
 
-  icon() {
+  icon(t: Theme) {
     return css`
       margin-left: 23px;
       flex: 1 0 auto;
       cursor: pointer;
-      width: 16px;
-      height: 16px;
+      font-size: ${t.fileUploaderIconSize};
       text-align: right;
     `;
   },
 
-  deleteIcon() {
+  deleteIcon(t: Theme) {
     return css`
-      color: #808080;
+      color: ${t.fileUploaderIconColor};
       &:hover {
-        color: #333;
+        color: ${t.fileUploaderIconHoverColor};
       }
     `;
   },
