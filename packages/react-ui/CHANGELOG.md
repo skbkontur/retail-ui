@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.7.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.7.0...@skbkontur/react-ui@2.7.1) (2021-11-03)
+
+
+### Bug Fixes
+
+* **Upgrades:** abillity to customize classNames prefix ([bc0bff1](https://github.com/skbkontur/retail-ui/commit/bc0bff154848d4258df14b2c001a435dbe3108ae)), closes [#2561](https://github.com/skbkontur/retail-ui/issues/2561)
+
+
+
+
+
 # [2.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.6.0...@skbkontur/react-ui@2.7.0) (2020-10-29)
 
 
