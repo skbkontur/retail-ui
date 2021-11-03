@@ -178,7 +178,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
-    const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
+    const showValue = Boolean(focused || valueFormatted);
 
     return (
       <CommonWrapper {...this.props}>
@@ -203,13 +203,15 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           inputMode={'numeric'}
           takeContentWidth
         >
-          <DateFragmentsView
-            ref={this.dateFragmentsViewRef}
-            fragments={fragments}
-            onSelectDateComponent={this.handleSelectDateComponent}
-            selected={selected}
-            inputMode={inputMode}
-          />
+          <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+            <DateFragmentsView
+              ref={this.dateFragmentsViewRef}
+              fragments={this.iDateMediator.getFragments()}
+              onSelectDateComponent={this.handleSelectDateComponent}
+              selected={selected}
+              inputMode={inputMode}
+            />
+          </span>
         </InputLikeText>
       </CommonWrapper>
     );
