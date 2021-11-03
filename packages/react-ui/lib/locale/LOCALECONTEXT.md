@@ -218,4 +218,4 @@ class LocalizationControls extends React.Component {
 ### Локализация @skbkontur/react-ui-addons
 
 Компоненты `@skbkontur/react-ui-addons` так же поддерживают локализацию через `LocaleContext` из `@skbkontur/react-ui`.
-См. пример с кастомной локализацией. Дефолтные локали описаны для каждого компонента в [докумендации аддонов](http://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
+См. пример с кастомной локализацией. Дефолтные локали описаны для каждого компонента в [докумендации аддонов](https://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons).
