@@ -186,23 +186,22 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         style={{ width: width || (blockBackground ? 800 : 500) }}
       >
         <RenderLayer onClickOutside={this.handleClickOutside} active>
-          <div data-tid="SidePage__container" style={this.getSidebarStyle()}>
-            <FocusLock
-              disabled={disableFocusLock || !blockBackground}
-              autoFocus={false}
-              className={
-                cx(styles.wrapper(this.theme), {
-                  [styles.shadow(this.theme)]: this.state.hasShadow,
-                  [styles.wrapperLeft()]: fromLeft,
-                }) + ' focus-lock'
-              }
+          <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+            <div
+              data-tid="SidePage__container"
+              className={cx(styles.wrapper(this.theme), {
+                [styles.wrapperLeft()]: fromLeft,
+                [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,
+                [styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
+                [styles.shadow(this.theme)]: this.state.hasShadow,
+              })}
               ref={(_) => (this.layoutRef = _)}
             >
               <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
               </SidePageContext.Provider>
-            </FocusLock>
-          </div>
+            </div>
+          </FocusLock>
         </RenderLayer>
       </ZIndex>
     );
@@ -243,25 +242,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         />
       </ZIndex>
     );
-  }
-
-  private getSidebarStyle(): React.CSSProperties {
-    const sidePageStyle: React.CSSProperties = {
-      height: '100%',
-      position: 'absolute',
-      right: 0,
-      width: this.props.width || (this.props.blockBackground ? 800 : 500),
-    };
-
-    if (this.state.hasMargin) {
-      if (this.props.fromLeft) {
-        sidePageStyle.marginLeft = 20;
-      } else {
-        sidePageStyle.marginRight = 20;
-      }
-    }
-
-    return sidePageStyle;
   }
 
   private getTransitionNames(): Record<string, string> {

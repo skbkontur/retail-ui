@@ -55,6 +55,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  focusLock() {
+    return css`
+      height: 100%;
+    `;
+  },
+
   wrapper(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
@@ -73,6 +79,18 @@ export const styles = memoizeStyle({
   wrapperLeft() {
     return css`
       float: left;
+    `;
+  },
+
+  wrapperMarginLeft() {
+    return css`
+      margin-left: 20px;
+    `;
+  },
+
+  wrapperMarginRight() {
+    return css`
+      margin-right: 20px;
     `;
   },
 

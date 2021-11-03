@@ -691,7 +691,7 @@ BodyWithoutFooter.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('.focus-lock');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
@@ -799,7 +799,7 @@ WithLongTitleStory.parameters = {
       },
       async ['fixed close element']() {
         await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('.focus-lock');
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           const fixedHeaderHeight = 50;
 
@@ -811,7 +811,7 @@ WithLongTitleStory.parameters = {
       },
       async ['fixed header']() {
         await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('.focus-lock');
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           const fixedHeaderHeight = 50;
 
@@ -883,7 +883,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
       },
       async ['scroll to bottom without header, footer']() {
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('.focus-lock');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
@@ -914,7 +914,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('.focus-lock');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
@@ -942,7 +942,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('.focus-lock');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
