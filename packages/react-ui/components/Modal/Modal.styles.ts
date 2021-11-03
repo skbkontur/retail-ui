@@ -93,13 +93,8 @@ export const styles = memoizeStyle({
       padding: ${t.modalCloseButtonClickArea};
       margin: -${t.modalCloseButtonClickArea};
 
-      &:focus,
       &:hover {
         color: ${t.modalCloseButtonHoverColor};
-      }
-
-      &:focus {
-        outline: 2px solid ${t.borderColorFocus};
       }
 
       & > svg {
@@ -133,6 +128,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  focus(t: Theme) {
+    return css`
+      color: ${t.modalCloseButtonHoverColor};
+      outline: 2px solid ${t.borderColorFocus};
+    `;
+  },
+
   headerWrapper() {
     return css`
       position: relative;
@@ -146,6 +148,7 @@ export const styles = memoizeStyle({
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
+      color: ${t.modalHeaderTextColor};
     `;
   },
 

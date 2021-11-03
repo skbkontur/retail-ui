@@ -20,6 +20,7 @@ export const styles = memoizeStyle({
       padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
       position: relative;
       text-decoration: none;
+      color: ${t.menuItemTextColor};
 
       button& {
         min-width: 100%;

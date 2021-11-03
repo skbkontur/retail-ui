@@ -12,7 +12,6 @@ export const styles = memoizeStyle({
       align-items: baseline;
       cursor: pointer;
       position: relative;
-      user-select: none;
       line-height: ${t.checkboxLineHeight};
       font-size: ${t.checkboxFontSize};
       padding: ${t.checkboxPaddingY} 0;
@@ -150,6 +149,7 @@ export const styles = memoizeStyle({
 
   caption(t: Theme) {
     return css`
+      color: ${t.checkboxTextColorDefault};
       padding-left: ${t.checkboxLabelGap};
     `;
   },

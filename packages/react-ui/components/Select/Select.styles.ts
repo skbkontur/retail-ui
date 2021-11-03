@@ -42,6 +42,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  arrowDisabled(t: Theme) {
+    return css`
+      color: ${t.selectMenuArrowColorDisabled};
+    `;
+  },
+
   customUseArrow() {
     return css`
       color: inherit;

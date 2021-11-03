@@ -44,18 +44,16 @@ export class HideBodyVerticalScroll extends React.Component {
     if (!documentElement) {
       return;
     }
-
-    const { clientHeight, scrollHeight } = documentElement;
-    const shouldHide = !disposeDocumentStyle && clientHeight < scrollHeight;
-
+    const shouldHide = !disposeDocumentStyle;
     if (shouldHide) {
       this.hideScroll(documentElement);
     }
   };
 
   private hideScroll = (document: HTMLElement) => {
+    const { clientHeight, scrollHeight } = document;
     const documentComputedStyle = getComputedStyle(document);
-    const scrollWidth = getScrollWidth();
+    const scrollWidth = clientHeight < scrollHeight ? getScrollWidth() : 0;
     const documentMargin = parseFloat(documentComputedStyle.marginRight || '');
     const className = generateDocumentStyle(documentMargin + scrollWidth);
 

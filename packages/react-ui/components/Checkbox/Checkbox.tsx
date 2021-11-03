@@ -170,6 +170,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       const captionClass = cx({
         [styles.caption(this.theme)]: true,
         [styles.captionIE11()]: isIE11 || isEdge,
+        [styles.disabled(this.theme)]: Boolean(props.disabled),
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
@@ -182,11 +183,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const box = (
       <span
         className={cx(styles.box(this.theme), globalClasses.box, {
-          [styles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
-          [styles.boxWarning(this.theme)]: Boolean(props.warning),
-          [styles.boxError(this.theme)]: Boolean(props.error),
+          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
           [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [styles.boxDisabled(this.theme)]: Boolean(props.disabled),
+          [styles.boxError(this.theme)]: props.error,
+          [styles.boxWarning(this.theme)]: props.warning,
+          [styles.boxDisabled(this.theme)]: props.disabled,
         })}
       >
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}

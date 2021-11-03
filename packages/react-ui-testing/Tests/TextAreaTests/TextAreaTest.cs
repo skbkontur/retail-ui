@@ -1,5 +1,5 @@
 using NUnit.Framework;
-
+using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
@@ -21,16 +21,16 @@ namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleTextarea.ExpectTo().BePresent();
+            page.SimpleTextarea.IsPresent.Wait().True();
         }
 
         [Test]
         public void TestInputAndCheckText()
         {
             page.SimpleTextarea.ClearAndInputText("test");
-            page.SimpleTextarea.ExpectTo().Value.EqualTo("test");
+            page.SimpleTextarea.Value.Wait().EqualTo("test");
             page.SimpleTextarea.ClearAndInputText("another-test");
-            page.SimpleTextarea.ExpectTo().Value.EqualTo("another-test");
+            page.SimpleTextarea.Value.Wait().EqualTo("another-test");
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TextAreaTests
         {
             page.SimpleTextarea.ClearAndInputText("test");
             page.SimpleTextarea.Clear();
-            page.SimpleTextarea.ExpectTo().Value.EqualTo("");
+            page.SimpleTextarea.Value.Wait().EqualTo("");
         }
 
         private TextAreaTestPage page;
