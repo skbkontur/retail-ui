@@ -522,6 +522,9 @@ export class DefaultTheme {
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
+  public static get selectMenuArrowColorDisabled() {
+    return this.selectMenuArrowColor;
+  }
   public static get selectIconSizeSmall() {
     return this.btnIconSizeSmall;
   }
@@ -530,6 +533,15 @@ export class DefaultTheme {
   }
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
+  }
+  public static get selectTextColorDisabled() {
+    return this.btnDisabledTextColor;
+  }
+  public static get selectBgDisabled() {
+    return this.btnDisabledBg;
+  }
+  public static get selectBorderColorDisabled() {
+    return this.btnDisabledBorderColor;
   }
   //#endregion
   //#region Tooltip

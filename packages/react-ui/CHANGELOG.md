@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.2...@skbkontur/react-ui@3.8.3) (2021-11-02)
+
+
+### Bug Fixes
+
+* **ComboBox:** render placeholder instead of empty string values ([#2601](https://github.com/skbkontur/retail-ui/issues/2601)) ([3b4ed5a](https://github.com/skbkontur/retail-ui/commit/3b4ed5a419c794e5c9648a3b8ddc160065dbee1d))
+* **DatePicker:** adjust the width depending on the size  ([#2602](https://github.com/skbkontur/retail-ui/issues/2602)) ([14098c2](https://github.com/skbkontur/retail-ui/commit/14098c2badba30c430fb1ccef57771c6fc672f92)), closes [#2025](https://github.com/skbkontur/retail-ui/issues/2025)
+
+
+
+
+
 ## [3.8.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.1...@skbkontur/react-ui@3.8.2) (2021-10-29)
 
 

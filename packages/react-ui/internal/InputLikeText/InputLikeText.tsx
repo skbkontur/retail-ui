@@ -24,6 +24,7 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   onBlur?: React.FocusEventHandler<HTMLElement>;
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
+  takeContentWidth?: boolean;
 }
 
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
@@ -146,6 +147,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       value,
       onMouseDragStart,
       onMouseDragEnd,
+      takeContentWidth,
       ...rest
     } = props;
 
@@ -188,7 +190,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         <span className={wrapperClass}>
           <span
             data-tid="InputLikeText__input"
-            className={cx(styles.input(), jsInputStyles.input(this.theme), {
+            className={cx(jsInputStyles.input(this.theme), {
+              [styles.absolute()]: !takeContentWidth,
               [jsInputStyles.inputFocus(this.theme)]: focused,
               [jsInputStyles.inputDisabled(this.theme)]: disabled,
             })}
@@ -305,8 +308,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private renderPlaceholder = (): JSX.Element | null => {
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
+    const hasValue = isNonNullable(children) && children !== '';
 
-    if (!isNonNullable(children) && placeholder) {
+    if (!hasValue && placeholder) {
       return (
         <span
           className={cx(jsInputStyles.placeholder(this.theme), {
