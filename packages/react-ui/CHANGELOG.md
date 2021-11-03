@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.4...@skbkontur/react-ui@2.17.5) (2021-11-03)
+
+
+### Bug Fixes
+
+* **Select:** add vars for disabled state ([#2611](https://github.com/skbkontur/retail-ui/issues/2611)) ([76a30b7](https://github.com/skbkontur/retail-ui/commit/76a30b7ba3ec59e421b14685a6993c961a8f6175)), closes [#2610](https://github.com/skbkontur/retail-ui/issues/2610)
+* **ThemePlayground:** computed vars are visible in the ThemeEditor ([0068f1b](https://github.com/skbkontur/retail-ui/commit/0068f1bc3a6e7f4f6d08f766c308a948cd43deea))
+* **Upgrades:** abillity to customize classNames prefix ([#2608](https://github.com/skbkontur/retail-ui/issues/2608)) ([849c13e](https://github.com/skbkontur/retail-ui/commit/849c13ea284968425d91294e0b515a01d98d2acb)), closes [#2561](https://github.com/skbkontur/retail-ui/issues/2561)
+
+
+
+
+
 ## [2.17.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.3...@skbkontur/react-ui@2.17.4) (2021-09-29)
 
 
