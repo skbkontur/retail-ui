@@ -4,14 +4,6 @@
 <Link>Обычная ссылка</Link>
 ```
 
-Пример ссылки с иконкой.
-
-```jsx harmony
-import OkIcon from '@skbkontur/react-icons/Ok';
-
-<Link icon={<OkIcon />}>Ссылка с иконкой</Link>
-```
-
 Ссылка может иметь различные темы, а также быть отключенной.
 
 ```jsx harmony
@@ -26,13 +18,40 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
+Пример ссылки с иконкой.
+
+```jsx harmony
+import OkIcon from '@skbkontur/react-icons/Ok';
+
+<Link icon={<OkIcon />}>Ссылка с иконкой</Link>
+```
+
+Пример ссылок ведущих на внешние ресурсы.
+
+_Примечание_: для обоих ссылок будут добавлены необходимые атрибуты.
+
+Для ссылки, открывающейся **в той же** вкладке это произойдёт неявно, внутри контрола `Link`.
+
+Для ссылки, которая должна быть открыта **в новой** вкладке нужно использовать проп `external`.
+
+```jsx harmony
+import { Gapped } from '@skbkontur/react-ui';
+
+<Gapped>
+  <Link href="https://www.youtube.com/">
+    Откроется <span style={{ color: "#e3071c" }}>в этой</span> вкладке
+  </Link>
+  <Link external href="https://www.youtube.com/">
+    Откроется <span style={{ color: "#3f9726" }}>в новой</span> вкладке
+  </Link>
+</Gapped>
+```
+
 Ссылка в состоянии загрузки.
 
 **Поведение**:
 
-Пока ссылка находится в состоянии загрузки она отключается.
-
-Если у ссылки есть иконка она заменяется на спиннер.
+Если у ссылки есть иконка, она заменяется на спиннер.
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
