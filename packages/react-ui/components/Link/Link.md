@@ -28,11 +28,11 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 
 Пример ссылок ведущих на внешние ресурсы.
 
-_Примечание_: для обоих ссылок будут добавлены необходимые атрибуты.
+_Примечание_:
 
-Для ссылки, открывающейся **в той же** вкладке это произойдёт неявно, внутри контрола `Link`.
+Если в контрол `Link` передана ссылка, ведущая на внешний ресурс, контрол `Link` неявно добавит атрибут `rel` со значением необходимым для внешних сслыок, при этом не трогая атрибут `target`.
 
-Для ссылки, которая должна быть открыта **в новой** вкладке нужно использовать проп `external`.
+Открытие ссылки в новой вкладке остаётся на усмотрение разработчика.
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -41,7 +41,7 @@ import { Gapped } from '@skbkontur/react-ui';
   <Link href="https://www.youtube.com/">
     Откроется <span style={{ color: "#e3071c" }}>в этой</span> вкладке
   </Link>
-  <Link external href="https://www.youtube.com/">
+  <Link target="_blank" href="https://www.youtube.com/">
     Откроется <span style={{ color: "#3f9726" }}>в новой</span> вкладке
   </Link>
 </Gapped>
