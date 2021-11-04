@@ -33,7 +33,11 @@ export interface LinkProps
         /** onClick */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
         /**
-         * Позволяет создать ссылку ведущую на внешний ресурс.
+         * Открывает ссылку в новой вкладке.
+         *
+         * Используется для ссылок, ведущих на внешние ресурсы.
+         *
+         * _Примечание_: если ссылку на внешний ресурс не нужно открывать в новой вкладке, достаточно поместить её в атрибут `href`, контрол добавит необходимые атрибуты самостоятельно.
          */
         external?: boolean;
       }
@@ -140,7 +144,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onBlur: this._handleBlur,
       tabIndex: this.props.tabIndex,
     };
-    if (disabled) {
+    if (disabled || loading) {
       props.tabIndex = -1;
     }
 

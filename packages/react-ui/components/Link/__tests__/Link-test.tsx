@@ -1,43 +1,84 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
+import { LinkProps } from '..';
 import { Link } from '../Link';
-describe('', () => {
-  it('calls `onClick`', () => {
-    const onClick = jest.fn();
-    const wrapper = mount(<Link onClick={onClick} />);
 
-    wrapper.find('a').simulate('click');
+describe('Link', () => {
+  describe('event `onClick`', () => {
+    const setUp = (props?: LinkProps) => mount(<Link onClick={onClick} {...props} />);
 
-    expect(onClick.mock.calls.length).toBe(1);
+    let onClick: jest.Mock<any, any>;
+    beforeEach(() => {
+      onClick = jest.fn();
+    });
+
+    it('calls `onClick` when link clicked', () => {
+      const wrapper = setUp().find('a');
+      wrapper.simulate('click');
+
+      expect(onClick.mock.calls.length).toBe(1);
+    });
+
+    describe('prop `disabled`', () => {
+      it('does not call `onClick` when disabled', () => {
+        const wrapper = setUp({ disabled: true }).find('a');
+        wrapper.simulate('click');
+
+        expect(onClick.mock.calls.length).toBe(0);
+      });
+    });
   });
 
-  it('does not call `onClick` when disabled', () => {
-    const onClick = jest.fn();
-    const wrapper = mount(<Link disabled onClick={onClick} />);
+  describe('prop `external`', () => {
+    const setUp = (props?: LinkProps) => mount(<Link external {...props} />);
 
-    wrapper.find('a').simulate('click');
+    it('adds correct rel attribute', () => {
+      const wrapper = setUp().find('a');
 
-    expect(onClick.mock.calls.length).toBe(0);
+      expect(wrapper.prop('rel')).toBe('noopener noreferrer');
+    });
+
+    it('adds correct target attribute', () => {
+      const wrapper = setUp().find('a');
+
+      expect(wrapper.prop('target')).toBe('_blank');
+    });
+
+    describe("doesn't rewrite rel and target attributes defined by prop `external`", () => {
+      it("doesn't rewrite rel attribute", () => {
+        const wrapper = setUp({ target: '_self' }).find('a');
+
+        expect(wrapper.prop('target')).toBe('_blank');
+      });
+
+      it("doesn't rewrite target attribute", () => {
+        const wrapper = setUp({ rel: 'canonical' }).find('a');
+
+        expect(wrapper.prop('rel')).toBe('noopener noreferrer');
+      });
+    });
   });
 
   describe('"rel" attribute', () => {
+    const setUp = (props?: LinkProps) => mount(<Link {...props} />);
+
     it("doesn't change if defined in props", () => {
-      const wrapper = mount(<Link href="https://example.com" rel="nofollow" />);
-      expect(wrapper.find('a').prop('rel')).toBe('nofollow');
+      const wrapper = setUp({ href: 'https://example.com', rel: 'nofollow' }).find('a');
+      expect(wrapper.prop('rel')).toBe('nofollow');
     });
 
     it("doesn't get filled if there is no href", () => {
-      const wrapper = mount(<Link />);
-      expect(wrapper.find('a').prop('rel')).toBe(undefined);
+      const wrapper = setUp().find('a');
+      expect(wrapper.prop('rel')).toBe(undefined);
     });
 
     describe('external hrefs', () => {
       it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
         '%s',
         (href) => {
-          const wrapper = mount(<Link href={href} />);
-          expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
+          const wrapper = setUp({ href: href }).find('a');
+          expect(wrapper.prop('rel')).toBe('noopener noreferrer');
         },
       );
     });
@@ -53,8 +94,8 @@ describe('', () => {
         ['page.html'],
         ['#anchor'],
       ])('%s', (href) => {
-        const wrapper = mount(<Link href={href} />);
-        expect(wrapper.find('a').prop('rel')).toBe('noopener');
+        const wrapper = setUp({ href: href }).find('a');
+        expect(wrapper.prop('rel')).toBe('noopener');
       });
     });
   });
