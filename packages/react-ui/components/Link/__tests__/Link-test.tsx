@@ -30,36 +30,6 @@ describe('Link', () => {
     });
   });
 
-  describe('prop `external`', () => {
-    const setUp = (props?: LinkProps) => mount(<Link external {...props} />);
-
-    it('adds correct rel attribute', () => {
-      const wrapper = setUp().find('a');
-
-      expect(wrapper.prop('rel')).toBe('noopener noreferrer');
-    });
-
-    it('adds correct target attribute', () => {
-      const wrapper = setUp().find('a');
-
-      expect(wrapper.prop('target')).toBe('_blank');
-    });
-
-    describe("doesn't rewrite rel and target attributes defined by prop `external`", () => {
-      it("doesn't rewrite rel attribute", () => {
-        const wrapper = setUp({ target: '_self' }).find('a');
-
-        expect(wrapper.prop('target')).toBe('_blank');
-      });
-
-      it("doesn't rewrite target attribute", () => {
-        const wrapper = setUp({ rel: 'canonical' }).find('a');
-
-        expect(wrapper.prop('rel')).toBe('noopener noreferrer');
-      });
-    });
-  });
-
   describe('"rel" attribute', () => {
     const setUp = (props?: LinkProps) => mount(<Link {...props} />);
 
