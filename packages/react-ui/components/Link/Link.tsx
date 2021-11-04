@@ -32,6 +32,10 @@ export interface LinkProps
         loading?: boolean;
         /** onClick */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+        /**
+         * Позволяет создать ссылку ведущую на внешний ресурс.
+         */
+        external?: boolean;
       }
     > {}
 
@@ -80,7 +84,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<LinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
+    const {
+      disabled,
+      href,
+      icon,
+      use,
+      loading,
+      _button,
+      _buttonOpened,
+      rel: relOrigin,
+      target,
+      external,
+      ...rest
+    } = props;
 
     let iconElement = null;
     if (icon) {
@@ -116,8 +132,9 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [styles.focus(this.theme)]: focused,
         [styles.disabled(this.theme)]: !!disabled || !!loading,
       }),
+      target: external ? '_blank' : target,
+      rel: external ? 'noopener noreferrer' : rel,
       href,
-      rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
