@@ -121,11 +121,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      tabIndex: this.props.tabIndex,
+      tabIndex: disabled ? -1 : this.props.tabIndex,
     };
-    if (disabled) {
-      props.tabIndex = -1;
-    }
 
     return (
       <a {...rest} {...linkProps}>
