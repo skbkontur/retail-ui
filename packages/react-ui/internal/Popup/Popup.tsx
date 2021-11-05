@@ -23,6 +23,9 @@ import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
 import { styles } from './Popup.styles';
 
+const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
+const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
+
 export const PopupPositions = [
   'top left',
   'top center',
@@ -41,9 +44,6 @@ export const DefaultPosition = PopupPositions[0];
 
 export type PopupPosition = typeof PopupPositions[number];
 export type BasePosition = 'top' | 'left' | 'bottom' | 'right';
-
-const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
-const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
 const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
