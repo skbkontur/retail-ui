@@ -3,7 +3,7 @@ import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupPosition, PopupProps } from '../../internal/Popup';
+import { DefaultPosition, Popup, PopupPosition, PopupPositions, PopupProps } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
@@ -15,21 +15,6 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { styles } from './Tooltip.styles';
-
-const Positions: PopupPosition[] = [
-  'right bottom',
-  'right middle',
-  'right top',
-  'top right',
-  'top center',
-  'top left',
-  'left top',
-  'left middle',
-  'left bottom',
-  'bottom left',
-  'bottom center',
-  'bottom right',
-];
 
 export type TooltipTrigger =
   /** Наведение на children и на тултип */
@@ -176,9 +161,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   public static defaultProps = {
-    pos: 'top left',
+    pos: DefaultPosition,
     trigger: 'hover',
-    allowedPositions: Positions,
+    allowedPositions: PopupPositions,
     disableAnimations: isTestEnv,
     useWrapper: false,
     closeOnChildrenMouseLeave: false,

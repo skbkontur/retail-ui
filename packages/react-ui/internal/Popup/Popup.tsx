@@ -23,32 +23,7 @@ import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
 import { styles } from './Popup.styles';
 
-const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
-const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
-
-const DUMMY_LOCATION: PopupLocation = {
-  position: 'top left',
-  coordinates: {
-    top: -9999,
-    left: -9999,
-  },
-};
-
-export type PopupPosition =
-  | 'top left'
-  | 'top center'
-  | 'top right'
-  | 'right top'
-  | 'right middle'
-  | 'right bottom'
-  | 'bottom left'
-  | 'bottom center'
-  | 'bottom right'
-  | 'left top'
-  | 'left middle'
-  | 'left bottom';
-
-export const PopupPositions: PopupPosition[] = [
+export const PopupPositions = [
   'top left',
   'top center',
   'top right',
@@ -61,7 +36,22 @@ export const PopupPositions: PopupPosition[] = [
   'left bottom',
   'left middle',
   'left top',
-];
+] as const;
+export const DefaultPosition = PopupPositions[0];
+
+export type PopupPosition = typeof PopupPositions[number];
+export type BasePosition = 'top' | 'left' | 'bottom' | 'right';
+
+const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
+const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
+
+const DUMMY_LOCATION: PopupLocation = {
+  position: DefaultPosition,
+  coordinates: {
+    top: -9999,
+    left: -9999,
+  },
+};
 
 export interface PopupHandlerProps {
   onMouseEnter?: (event: MouseEventType) => void;
