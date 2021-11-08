@@ -1,9 +1,21 @@
+Простой пример.
+
 ```jsx harmony
 const [value, setValue] = React.useState();
 
 const items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), 'One', 'Two', 'Three', Select.SEP, 'Four'];
 
 <Select items={items} value={value} onValueChange={setValue} />;
+```
+
+Пример с полем поиска.
+
+```jsx harmony
+const [value, setValue] = React.useState();
+
+const items = ['One', 'Two', 'Three', Select.SEP, 'Four'];
+
+<Select items={items} value={value} onValueChange={setValue} search />;
 ```
 
 Пример использования пропа `_renderButton`:
