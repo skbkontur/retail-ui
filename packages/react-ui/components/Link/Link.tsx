@@ -121,7 +121,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      tabIndex: disabled ? -1 : this.props.tabIndex,
+      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
 
     return (
@@ -150,11 +150,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { href, onClick, disabled } = this.props;
+    const { href, onClick, disabled, loading } = this.props;
     if (!href) {
       event.preventDefault();
     }
-    if (onClick && !disabled) {
+    if (onClick && !disabled && !loading) {
       onClick(event);
     }
   };
