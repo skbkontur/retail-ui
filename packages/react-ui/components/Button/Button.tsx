@@ -48,7 +48,7 @@ export interface ButtonProps extends CommonProps {
   borderless?: boolean;
 
   /**
-   * Позволяет использовать кнопку как чекбокс.
+   * @ignore
    */
   checked?: boolean;
 

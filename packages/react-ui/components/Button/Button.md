@@ -30,24 +30,6 @@ import { Button } from '@skbkontur/react-ui';
 <Button icon={<PrintIcon />}>Напечатать</Button>;
 ```
 
-Пример кнопки-чекбокса.
-
-```jsx harmony
-import BookmarkIcon from '@skbkontur/react-icons/Bookmark';
-import BookmarkLiteIcon from '@skbkontur/react-icons/BookmarkLite';
-import { Button } from '@skbkontur/react-ui';
-
-const [isChecked, setIsChecked] = React.useState(false);
-
-<Button
-  checked={isChecked}
-  icon={isChecked ? <BookmarkLiteIcon /> : <BookmarkIcon />}
-  onClick={() => setIsChecked(!isChecked)}
-  >
-  {isChecked ? "Удалить из закладок" : "Сохранить в закладках"}
-</Button>;
-```
-
 Пример кнопки, которая получит фокус после загрузки страницы.
 
 ```jsx harmony
