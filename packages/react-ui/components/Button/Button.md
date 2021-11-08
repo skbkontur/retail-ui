@@ -30,14 +30,6 @@ import { Button } from '@skbkontur/react-ui';
 <Button icon={<PrintIcon />}>Напечатать</Button>;
 ```
 
-Пример кнопки, которая получит фокус после загрузки страницы.
-
-```jsx harmony
-import { Button } from '@skbkontur/react-ui';
-
-<Button autoFocus>Создать отчёт</Button>;
-```
-
 У кнопки есть 3 стандартных размера.
 
 ```jsx harmony
