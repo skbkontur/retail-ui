@@ -6,7 +6,7 @@ import { Button } from '@skbkontur/react-ui';
 <Button>Создать отчёт</Button>;
 ```
 
-У кнопки есть различные темы.
+У кнопки есть различные стили.
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
