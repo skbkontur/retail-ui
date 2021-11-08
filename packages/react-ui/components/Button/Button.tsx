@@ -70,8 +70,6 @@ export interface ButtonProps extends CommonProps {
    */
   error?: boolean;
 
-  focused?: boolean;
-
   /**
    * Иконка слева от текста кнопки.
    */
