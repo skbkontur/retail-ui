@@ -8,7 +8,7 @@ const [checked, setChecked] = React.useState(false);
 </Checkbox>;
 ```
 
-Чекбокс имеет несколько тем. <br/> _Примечание_: у состояний ошибки и предупреждения при фокусе цвет не меняется на синий.
+Чекбокс имеет несколько тем.
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
