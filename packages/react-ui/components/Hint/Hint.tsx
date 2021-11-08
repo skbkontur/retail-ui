@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { BasePosition, Popup, PopupPosition, PopupPositions } from '../../internal/Popup';
+import { Popup, PopupPosition, PopupPositions } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -21,7 +21,7 @@ export interface HintProps extends CommonProps {
   onMouseEnter?: (event: MouseEventType) => void;
   onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
-  pos: BasePosition | PopupPosition;
+  pos: 'top' | 'left' | 'bottom' | 'right' | PopupPosition;
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;

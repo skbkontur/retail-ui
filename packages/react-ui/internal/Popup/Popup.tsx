@@ -43,7 +43,6 @@ export const PopupPositions = [
 export const DefaultPosition = PopupPositions[0];
 
 export type PopupPosition = typeof PopupPositions[number];
-export type BasePosition = 'top' | 'left' | 'bottom' | 'right';
 
 const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
