@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using SKBKontur.SeleniumTesting.Controls;
+
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
@@ -41,14 +41,13 @@ namespace SKBKontur.SeleniumTesting.Tests.ToastTests
         [Test]
         public void TestWithStaticToast()
         {
-            var toast = Toast.Static(page);
-            toast.IsPresent.Wait().False();
+            page.StaticToast.IsPresent.Wait().False();
             page.StaticToastButton.Click();
-            toast.IsPresent.Wait().True();
-            toast.Text.Wait().EqualTo("Static");
-            toast.Action.Text.Wait().EqualTo("close");
-            toast.Action.Click();
-            toast.IsPresent.Wait().False();
+            page.StaticToast.IsPresent.Wait().True();
+            page.StaticToast.Text.Wait().EqualTo("Static");
+            page.StaticToast.Action.Text.Wait().EqualTo("close");
+            page.StaticToast.Action.Click();
+            page.StaticToast.IsPresent.Wait().False();
         }
 
         private ToastTestPage page;

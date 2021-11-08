@@ -1,4 +1,5 @@
 using OpenQA.Selenium;
+
 using SKBKontur.SeleniumTesting.Controls;
 using SKBKontur.SeleniumTesting.Tests.AutoFill;
 
@@ -21,5 +22,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ToastTests
         public Toast ToastWithAction { get; set; }
 
         public Button StaticToastButton { get; set; }
+
+        public Toast StaticToast { get; set; }
     }
 }

@@ -1,5 +1,7 @@
 using Kontur.Selone.Properties;
+
 using OpenQA.Selenium;
+
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
 namespace SKBKontur.SeleniumTesting.Controls
@@ -19,11 +21,6 @@ namespace SKBKontur.SeleniumTesting.Controls
         public new IProp<bool> IsPresent => toastView.IsPresent;
 
         public override IProp<string> Text => notification.Text;
-
-        public static Toast Static(ISearchContainer container)
-        {
-            return new Toast(container.GetRootContainer(), new UniversalSelector("##StaticToast"));
-        }
 
         private readonly Label toastView;
 
