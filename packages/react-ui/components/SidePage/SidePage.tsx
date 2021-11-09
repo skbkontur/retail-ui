@@ -65,6 +65,11 @@ export interface SidePageProps extends CommonProps {
    * Работает только при заблокированном фоне: `blockBackground = true`
    */
   disableFocusLock: boolean;
+
+  /**
+   * задает отступ от края экрана в пикселях
+   */
+  offset?: number;
 }
 
 export interface SidePageState {
@@ -130,6 +135,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public static defaultProps = {
     disableFocusLock: true,
+    offset: 0,
   };
 
   public render(): JSX.Element {
@@ -171,7 +177,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(): JSX.Element {
-    const { width, blockBackground, fromLeft, disableFocusLock } = this.props;
+    const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
 
     return (
       <ZIndex
@@ -179,11 +185,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         data-tid="SidePage__root"
         className={cx({
           [styles.root()]: true,
-          [styles.leftSide()]: Boolean(fromLeft),
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext
-        style={{ width: width || (blockBackground ? 800 : 500) }}
+        style={{
+          width: width || (blockBackground ? 800 : 500),
+          right: fromLeft ? 'auto' : `${offset}px`,
+          left: fromLeft ? `${offset}px` : 'auto',
+        }}
       >
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
