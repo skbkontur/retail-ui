@@ -8,7 +8,7 @@ const [checked, setChecked] = React.useState(false);
 </Checkbox>;
 ```
 
-Чекбокс имеет несколько тем.
+У чекбокса есть несколько состояний.
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
