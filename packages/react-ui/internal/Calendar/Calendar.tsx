@@ -207,7 +207,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
-      <div ref={this.refRoot} className={jsStyles.root(this.theme)}>
+      <div ref={this.refRoot} className={jsStyles.root(this.theme)} data-tid="Calendar">
         <div style={wrapperStyle} className={jsStyles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
