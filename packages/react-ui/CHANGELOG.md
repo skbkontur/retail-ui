@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.5...@skbkontur/react-ui@2.17.6) (2021-11-09)
+
+
+### Bug Fixes
+
+* **Calendar,ComboBox:** add some data-tids ([#2627](https://github.com/skbkontur/retail-ui/issues/2627)) ([8a50717](https://github.com/skbkontur/retail-ui/commit/8a5071797cac832c7584636c688e6b3c204a7b0b)), closes [#2620](https://github.com/skbkontur/retail-ui/issues/2620) [#2625](https://github.com/skbkontur/retail-ui/issues/2625)
+
+
+
+
+
 ## [2.17.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.4...@skbkontur/react-ui@2.17.5) (2021-11-03)
 
 
