@@ -12,34 +12,64 @@ import { styles } from './MenuItem.styles';
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps extends CommonProps {
-  /** @ignore */
-  _enableIconPadding?: boolean;
-
-  comment?: React.ReactNode;
-  disabled?: boolean;
-  icon?: React.ReactElement<any>;
-
   /**
-   * Меняет цвет текста на синий
+   * @ignore
+   */
+  _enableIconPadding?: boolean;
+  /**
+   * Добавляет описание для элемента меню.
+   */
+  comment?: React.ReactNode;
+  /**
+   * Отключенное состояние.
+   */
+  disabled?: boolean;
+  /**
+   * Добавляет элементу меню иконку.
+   */
+  icon?: React.ReactElement<any>;
+  /**
+   * Меняет цвет текста на синий.
    */
   link?: boolean;
-
-  /** @ignore */
+  /**
+   * @ignore
+   */
   loose?: boolean;
-
-  /** @ignore */
+  /**
+   * @ignore
+   */
   state?: MenuItemState;
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
+  /**
+   * HTML-событие `mouseenter`.
+   */
+  onMouseEnter?: React.MouseEventHandler;
+  /**
+   * HTML-событие `mouseleave`.
+   */
+  onMouseLeave?: React.MouseEventHandler;
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
+  /**
+   * HTML-атрибут `target`.
+   */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
   /**
-   * HTML-атрибут title
+   * HTML-атрибут `title`.
    */
   title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
+  /**
+   * HTML-атрибут `href`.
+   */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
-  onMouseEnter?: React.MouseEventHandler;
-  onMouseLeave?: React.MouseEventHandler;
-
+  /**
+   * Заменяет корневой элемент, на компонент переданный в проп.
+   *
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
+   */
   component?: React.ComponentType<any>;
 }
 
