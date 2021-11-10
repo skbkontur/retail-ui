@@ -34,6 +34,9 @@
 
     !!DemoWithCode!!./LostfocusValidation
 
+
+По умолчанию все валидации в `ValidationContainer` [зависимы](#/dependent-validation). Но их можно сделать [независимыми](#/independent-validation).
+
 ## По отправке формы
 
 Валидация по отправке формы отображается при вызове метода `submit` на компоненте `ValidationContainer`.

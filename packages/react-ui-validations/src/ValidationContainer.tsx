@@ -37,18 +37,18 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
 
   private childContext: ValidationContext | null = null;
 
-  public async submit(withoutFocus = false): Promise<void> {
+  public async submit(withoutFocus = false, withoutIndependent = false): Promise<void> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
-    await this.childContext.validate(withoutFocus);
+    await this.childContext.validate(withoutFocus, withoutIndependent);
   }
 
-  public validate(withoutFocus = false): Promise<boolean> {
+  public validate(withoutFocus = false, withoutIndependent = false): Promise<boolean> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
-    return this.childContext.validate(withoutFocus);
+    return this.childContext.validate(withoutFocus, withoutIndependent);
   }
 
   public render() {

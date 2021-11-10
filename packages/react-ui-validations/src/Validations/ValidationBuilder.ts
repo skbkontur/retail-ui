@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../../typings/Types';
 import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
+import { ValidationInfo } from '../ValidationWrapper';
 
 import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationWriter } from './ValidationWriter';
@@ -11,6 +12,8 @@ interface PathInfo<T> {
   data: T;
   path: string[];
 }
+
+type InvalidValidationInfo = Pick<ValidationInfo, 'type' | 'level' | 'independent'>;
 
 export class ValidationBuilder<TRoot, T> {
   constructor(
@@ -47,8 +50,9 @@ export class ValidationBuilder<TRoot, T> {
   public invalid(
     isInvalid: (value: T) => boolean,
     message: React.ReactNode,
-    type?: ValidationBehaviour,
+    typeOrValidationInfo?: ValidationBehaviour | InvalidValidationInfo,
     level?: ValidationLevel,
+    independent?: boolean,
   ): void {
     const validationWriter = this.writer.getNode<T>(this.path);
     if (validationWriter.isValidated()) {
@@ -60,7 +64,11 @@ export class ValidationBuilder<TRoot, T> {
       return;
     }
 
-    validationWriter.set({ message, type, level });
+    if (isValidationInfo(typeOrValidationInfo)) {
+      validationWriter.set({ message, ...typeOrValidationInfo });
+    } else {
+      validationWriter.set({ message, type: typeOrValidationInfo, level, independent });
+    }
   }
 
   private getPathInfo<TChild>(lambdaPath: LambdaPath<T, TChild>): Nullable<PathInfo<TChild>> {
@@ -77,3 +85,7 @@ export class ValidationBuilder<TRoot, T> {
     return { data, path: [...this.path, ...path] };
   }
 }
+
+const isValidationInfo = (
+  typeOrValidationInfo?: ValidationBehaviour | InvalidValidationInfo,
+): typeOrValidationInfo is InvalidValidationInfo => typeof typeOrValidationInfo === 'object';
