@@ -66,7 +66,9 @@ export interface MenuItemProps extends CommonProps {
    */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
   /**
-   * Компонент, в который будет отрендерен корневой элемент. <br /> По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то рендерится `a`.
+   * Заменяет корневой элемент, на компонент переданный в проп.
+   *
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
   component?: React.ComponentType<any>;
 }
