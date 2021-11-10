@@ -67,9 +67,9 @@ export interface SidePageProps extends CommonProps {
   disableFocusLock: boolean;
 
   /**
-   * задает отступ от края экрана в пикселях
+   * задает отступ от края экрана
    */
-  offset?: number;
+  offset?: number | string;
 }
 
 export interface SidePageState {
@@ -190,8 +190,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         createStackingContext
         style={{
           width: width || (blockBackground ? 800 : 500),
-          right: fromLeft ? 'auto' : `${offset}px`,
-          left: fromLeft ? `${offset}px` : 'auto',
+          right: fromLeft ? 'auto' : offset,
+          left: fromLeft ? offset : 'auto',
         }}
       >
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
