@@ -1,34 +1,51 @@
 import { mount } from 'enzyme';
 import React from 'react';
 
+import { LinkProps } from '..';
 import { Link } from '../Link';
-describe('', () => {
-  it('calls `onClick`', () => {
-    const onClick = jest.fn();
-    const wrapper = mount(<Link onClick={onClick} />);
 
+const render = (props?: LinkProps) => mount(<Link {...props} />);
+
+describe('Link', () => {
+  it('calls `onClick` when link clicked', () => {
+    const onClick = jest.fn();
+
+    const wrapper = render({ onClick });
     wrapper.find('a').simulate('click');
 
-    expect(onClick.mock.calls.length).toBe(1);
+    expect(onClick).toHaveBeenCalled();
   });
 
-  it('does not call `onClick` when disabled', () => {
-    const onClick = jest.fn();
-    const wrapper = mount(<Link disabled onClick={onClick} />);
+  describe('disabled link', () => {
+    it('does not call `onClick` when link clicked', () => {
+      const onClick = jest.fn();
 
-    wrapper.find('a').simulate('click');
+      const wrapper = render({ onClick, disabled: true });
+      wrapper.find('a').simulate('click');
 
-    expect(onClick.mock.calls.length).toBe(0);
+      expect(onClick).toHaveBeenCalledTimes(0);
+    });
+
+    it('does not call `onClick` when Enter pressed', () => {
+      const onClick = jest.fn();
+
+      const wrapper = render({ onClick, disabled: true });
+      wrapper.find('a').simulate('focus').simulate('keydown', { key: 'Enter' });
+
+      expect(onClick).toHaveBeenCalledTimes(0);
+    });
   });
 
   describe('"rel" attribute', () => {
     it("doesn't change if defined in props", () => {
-      const wrapper = mount(<Link href="https://example.com" rel="nofollow" />);
+      const wrapper = render({ href: 'https://example.com', rel: 'nofollow' });
+
       expect(wrapper.find('a').prop('rel')).toBe('nofollow');
     });
 
     it("doesn't get filled if there is no href", () => {
-      const wrapper = mount(<Link />);
+      const wrapper = render();
+
       expect(wrapper.find('a').prop('rel')).toBe(undefined);
     });
 
@@ -36,7 +53,8 @@ describe('', () => {
       it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
         '%s',
         (href) => {
-          const wrapper = mount(<Link href={href} />);
+          const wrapper = render({ href: href });
+
           expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
         },
       );
@@ -53,7 +71,8 @@ describe('', () => {
         ['page.html'],
         ['#anchor'],
       ])('%s', (href) => {
-        const wrapper = mount(<Link href={href} />);
+        const wrapper = render({ href: href });
+
         expect(wrapper.find('a').prop('rel')).toBe('noopener');
       });
     });
