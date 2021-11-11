@@ -99,10 +99,10 @@ function createConfig(publicPath, output) {
 if (isProd) {
   module.exports = [
     createConfig(
-      'http://tech.skbkontur.ru/react-ui-validations/' + libraryVersion + '/',
+      '//tech.skbkontur.ru/react-ui-validations/' + libraryVersion + '/',
       path.join(__dirname, 'dist/' + libraryVersion),
     ),
-    createConfig('http://tech.skbkontur.ru/react-ui-validations/', path.join(__dirname, 'dist')),
+    createConfig('//tech.skbkontur.ru/react-ui-validations/', path.join(__dirname, 'dist')),
   ];
 } else {
   module.exports = createConfig('/', path.join(__dirname, 'dist'));

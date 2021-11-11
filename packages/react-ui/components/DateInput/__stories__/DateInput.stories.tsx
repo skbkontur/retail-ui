@@ -410,3 +410,23 @@ BlurAlwaysAfterChange.parameters = {
     },
   },
 };
+
+export const WithNoValue: Story = () => <DateInput />;
+WithNoValue.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+      async focused() {
+        await this.browser.executeScript(function () {
+          const input = window.document.querySelector("[data-comp-name~='DateInput']");
+          if (input instanceof HTMLElement) {
+            input.focus();
+          }
+        });
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};

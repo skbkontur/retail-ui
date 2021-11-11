@@ -21,7 +21,6 @@ namespace SKBKontur.SeleniumTesting.Tests.LinkTests
         [Test]
         public void TestPresence()
         {
-            page.SimpleLink.ExpectTo().BePresent();
             page.SimpleLink.IsPresent.Wait().True();
         }
 

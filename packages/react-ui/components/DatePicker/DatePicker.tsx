@@ -14,6 +14,7 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootDomNode } from '../../lib/getRootDomNode';
+import { isNonNullable } from '../../lib/utils';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -27,6 +28,8 @@ const INPUT_PASS_PROPS = {
   onKeyDown: true,
 };
 
+export const MIN_WIDTH = 120;
+
 export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
@@ -38,7 +41,7 @@ export interface DatePickerProps<T> extends CommonProps {
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
   warning?: boolean;
-  width: number | string;
+  width?: number | string;
   onBlur?: () => void;
   /**
    * Вызывается при изменении `value`
@@ -130,7 +133,6 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   };
 
   public static defaultProps = {
-    width: 120,
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
@@ -249,7 +251,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     return (
       <label
         className={styles.root()}
-        style={{ width: this.props.width }}
+        style={this.getRootStyle()}
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
@@ -288,6 +290,11 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
 
   public getRootDomNode = () => {
     return this.rootDomNode;
+  };
+
+  private getRootStyle = () => {
+    const { width } = this.props;
+    return isNonNullable(width) ? { width } : { minWidth: MIN_WIDTH };
   };
 
   private getInputRef = (ref: DateInput | null) => {

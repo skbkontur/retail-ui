@@ -13,32 +13,72 @@ import { styles } from './MenuItem.styles';
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps extends CommonProps {
-  /** @ignore */
+  /**
+   * @ignore
+   */
   _enableIconPadding?: boolean;
-
+  /**
+   * Добавляет описание для элемента меню.
+   */
   comment?: React.ReactNode;
+  /**
+   * Отключенное состояние.
+   */
   disabled?: boolean;
+  /**
+   * Добавляет элементу меню иконку.
+   */
   icon?: React.ReactElement<any>;
+  /**
+   * Меняет цвет текста на синий.
+   */
   link?: boolean;
-
-  /** @ignore */
+  /**
+   * @ignore
+   */
   loose?: boolean;
-
-  /** @ignore */
+  /**
+   * @ignore
+   */
   state?: MenuItemState;
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
-  target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-  title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
-  href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+  /**
+   * HTML-событие `mouseenter`.
+   */
   onMouseEnter?: React.MouseEventHandler;
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: React.MouseEventHandler;
-
+  children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
+  /**
+   * HTML-атрибут `target`.
+   */
+  target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
+  /**
+   * HTML-атрибут `title`.
+   */
+  title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
+  /**
+   * HTML-атрибут `href`.
+   */
+  href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+  /**
+   * Заменяет корневой элемент, на компонент переданный в проп.
+   *
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
+   */
   component?: React.ComponentType<any>;
 }
 
 /**
- * Элемент меню.
+ *
+ * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
+ *
+ * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';

@@ -369,7 +369,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
-          <div className={cx(styles.arrowWrap(this.theme), useIsCustom && styles.customUseArrow())}>
+          <div
+            className={cx(styles.arrowWrap(this.theme), {
+              [styles.arrowDisabled(this.theme)]: this.props.disabled,
+              [styles.customUseArrow()]: useIsCustom,
+            })}
+          >
             <ArrowChevronDownIcon />
           </div>
         </div>
