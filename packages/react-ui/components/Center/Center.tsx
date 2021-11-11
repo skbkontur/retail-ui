@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Center.styles';
@@ -25,20 +25,9 @@ export interface CenterProps
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
-export class Center extends React.Component<CenterProps> {
-  public static __KONTUR_REACT_UI__ = 'Center';
-
-  public static defaultProps = {
-    align: 'center',
-  };
-
-  public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-  }
-  private renderMain = (props: CommonWrapperRestProps<CenterProps>) => {
-    const { align, ...rest } = props;
-
-    return (
+export function Center({ align, children, ...rest }: React.PropsWithChildren<CenterProps>) {
+  return (
+    <CommonWrapper {...rest}>
       <div
         {...rest}
         className={cx({
@@ -48,8 +37,10 @@ export class Center extends React.Component<CenterProps> {
         })}
       >
         <span className={styles.spring()} />
-        <span className={styles.container()}>{this.props.children}</span>
+        <span className={styles.container()}>{children}</span>
       </div>
-    );
-  };
+    </CommonWrapper>
+  );
 }
+
+Center.__KONTUR_REACT_UI__ = 'Center';
