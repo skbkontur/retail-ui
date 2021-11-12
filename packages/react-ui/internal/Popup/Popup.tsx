@@ -88,6 +88,11 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   pinSize?: number;
   popupOffset: number;
   positions: PopupPosition[];
+  /**
+   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
+   *
+   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
+   */
   useWrapper: boolean;
   ignoreHover: boolean;
   width: React.CSSProperties['width'];
