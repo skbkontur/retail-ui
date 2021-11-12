@@ -22,11 +22,11 @@ export interface CheckboxProps
          */
         children?: React.ReactNode;
         /**
-         * Цветовая схема ошибки.
+         * Cостояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Цветовая схема предупреждения.
+         * Cостояние валидации при предупреждении.
          */
         warning?: boolean;
         /**
