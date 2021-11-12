@@ -171,7 +171,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private renderLabel() {
     const labelClassNames = cx({
       [styles.label(this.theme)]: true,
-      [styles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
+      [styles.labelDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
