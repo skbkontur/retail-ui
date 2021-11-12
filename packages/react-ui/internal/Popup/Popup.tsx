@@ -11,7 +11,7 @@ import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
 import { isFunction } from '../../lib/utils';
-import { isIE11, isEdge } from '../../lib/client';
+import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
@@ -348,6 +348,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
+    const shouldFallbackShadow = isIE11 || isEdge || isSafari;
+
     return (
       <Transition
         timeout={TRANSITION_TIMEOUT}
@@ -366,8 +368,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               priority={'Popup'}
               className={cx({
                 [styles.popup(this.theme)]: true,
-                [styles.shadow(this.theme)]: hasShadow,
-                [styles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
+                [styles.shadow(this.theme)]: hasShadow && !shouldFallbackShadow,
+                [styles.shadowFallback(this.theme)]: hasShadow && shouldFallbackShadow,
                 [styles.popupIgnoreHover()]: ignoreHover,
                 ...(disableAnimations
                   ? {}
