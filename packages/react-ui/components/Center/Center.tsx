@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -25,10 +25,11 @@ export interface CenterProps
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
-export function Center({ align, children, ...rest }: React.PropsWithChildren<CenterProps>) {
+const Center = forwardRef<HTMLDivElement, React.PropsWithChildren<CenterProps>>(({ align, children, ...rest }, ref) => {
   return (
     <CommonWrapper {...rest}>
       <div
+        ref={ref}
         {...rest}
         className={cx({
           [styles.root()]: true,
@@ -41,6 +42,10 @@ export function Center({ align, children, ...rest }: React.PropsWithChildren<Cen
       </div>
     </CommonWrapper>
   );
-}
+});
 
-Center.__KONTUR_REACT_UI__ = 'Center';
+const componentName = 'Center';
+Center.displayName = componentName;
+
+const CenterWithName = Object.assign(Center, { __KONTUR_REACT_UI__: 'Center' });
+export { CenterWithName as Center };
