@@ -10,7 +10,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction } from '../../lib/utils';
+import { isFunction, isNonNullable } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -548,7 +548,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const margin = this.props.margin || parseInt(this.theme.popupMargin);
+    const { margin: marginFromProps } = this.props;
+    const margin =
+      isNonNullable(marginFromProps) && !isNaN(marginFromProps)
+        ? marginFromProps
+        : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
