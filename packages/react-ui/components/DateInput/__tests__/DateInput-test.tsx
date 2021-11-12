@@ -59,19 +59,6 @@ describe('DateInput as InputlikeText', () => {
       expect(getValue(getInput(root))).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
     });
 
-    it('does not show mask if value is empty', () => {
-      const root = render({ value: '' });
-      expect(getValue(getInput(root))).toBe('');
-    });
-
-    it('shows mask if value is empty on focus', () => {
-      const root = render({ value: '' });
-      getInput(root).simulate('focus');
-      expect(getValue(getInput(root))).toBe(
-        `${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(2)}.${MASK_CHAR_EXEMPLAR.repeat(4)}`,
-      );
-    });
-
     const KeyDownCases: Array<[string, string[], string]> = [
       // [initial date, [...keys], expected date]
 

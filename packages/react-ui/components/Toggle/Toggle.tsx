@@ -15,22 +15,65 @@ let colorWarningShown = false;
 export interface ToggleProps extends CommonProps {
   children?: React.ReactNode;
   /**
-   * Положение children справа или слева от переключателя
+   * Положение `children` относительно переключателя.
    * @default 'right'
    */
   captionPosition: 'left' | 'right';
+  /**
+   * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
+   * @default false
+   */
   checked?: boolean;
+  /**
+   * Делает `тогл` включенным по умолчанию.
+   */
   defaultChecked?: boolean;
+  /**
+   * Отключает `тогл`.
+   */
   disabled?: boolean;
+  /**
+   * Событие вызывающееся, когда значение `тогла` меняется, передаёт текущее значение тогла в переданную функцию.
+   */
   onValueChange?: (value: boolean) => void;
+  /**
+   * Событие вызывающееся при клике на `тогл`.
+   */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  /**
+   * Добавляет оранжевую обводку вокруг переключателя.
+   * @default false
+   */
   warning?: boolean;
+  /**
+   * Добавляет красную обводку вокруг переключателя.
+   * @default false
+   */
   error?: boolean;
+  /**
+   * Добавляет стили для состояния `loading` и отключает `тогл`.
+   */
   loading?: boolean;
+  /**
+   * Если true, выставляет фокус на `тогле` после загрузки страницы.
+   */
   autoFocus?: boolean;
+  /**
+   * Событие вызывающееся, когда `тогл` получает фокус.
+   */
   onFocus?: React.FocusEventHandler<HTMLInputElement>;
+  /**
+   * Событие вызывающееся, когда `тогл` теряет фокус.
+   */
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  /**
+   * @deprecated используйте переменную темы `toggleBgChecked` вместо этого пропа.
+   */
   color?: React.CSSProperties['color'];
+  /**
+   * HTML-атрибут `id` для передачи во внутренний `<input />`.
+   */
+  id?: string;
 }
 
 export interface ToggleState {
@@ -38,6 +81,9 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
+/**
+ * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
+ */
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
@@ -104,7 +150,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, captionPosition, warning, error, loading, color } = this.props;
+    const { children, captionPosition, warning, error, loading, color, id } = this.props;
     const disabled = this.props.disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
@@ -118,12 +164,14 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const labelClassNames = cx(styles.root(this.theme), {
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: !!disabled,
+      [globalClasses.disabled]: !!disabled,
     });
 
     let caption = null;
     if (children) {
       const captionClass = cx(styles.caption(this.theme), {
         [styles.captionLeft(this.theme)]: captionPosition === 'left',
+        [styles.disabledCaption(this.theme)]: !!disabled,
       });
       caption = <span className={captionClass}>{children}</span>;
     }
@@ -148,6 +196,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 onBlur={this.handleBlur}
                 ref={this.inputRef}
                 disabled={disabled}
+                id={id}
               />
               <div
                 className={containerClassNames}
@@ -163,6 +212,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                 <div
                   className={cx(styles.activeBackground(), globalClasses.background, {
                     [styles.activeBackgroundLoading(this.theme)]: loading,
+                    [styles.disabledBackground(this.theme)]: disabled,
                   })}
                   style={
                     checked && color && !disabled
