@@ -327,6 +327,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
+          tryPreserveFirstRenderedPosition
           {...popupProps}
         >
           {content}
