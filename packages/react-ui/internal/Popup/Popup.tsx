@@ -548,8 +548,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const { margin: marginFromProps } = this.props
-    const margin = isNonNullable(marginFromProps) && !isNaN(marginFromProps) ? marginFromProps : parseInt(this.theme.popupMargin) || 0;
+    const { margin: marginFromProps } = this.props;
+    const margin =
+      isNonNullable(marginFromProps) && !isNaN(marginFromProps)
+        ? marginFromProps
+        : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
