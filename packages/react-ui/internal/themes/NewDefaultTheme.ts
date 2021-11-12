@@ -553,6 +553,9 @@ export class NewDefaultTheme {
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
+  public static get selectMenuArrowColorDisabled() {
+    return this.selectMenuArrowColor;
+  }
   public static get selectIconSizeSmall() {
     return this.btnIconSizeSmall;
   }
@@ -561,6 +564,15 @@ export class NewDefaultTheme {
   }
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
+  }
+  public static get selectTextColorDisabled() {
+    return this.btnDisabledTextColor;
+  }
+  public static get selectBgDisabled() {
+    return this.btnDisabledBg;
+  }
+  public static get selectBorderColorDisabled() {
+    return this.btnDisabledBorderColor;
   }
   //#endregion
   //#region Tooltip
@@ -941,6 +953,9 @@ export class NewDefaultTheme {
   public static get toggleBgDisabled() {
     return this.bgDisabled;
   }
+  public static get toggleBgDisabledChecked() {
+    return this.bgDisabled;
+  }
   public static toggleBgHover = '#f3f3f2';
   public static toggleBgChecked = '#1874cf';
   public static get toggleBorderWidth() {
@@ -952,6 +967,12 @@ export class NewDefaultTheme {
     return `${outlineWidth + borderWidth}px`;
   }
   public static toggleBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static get toggleBorderColorDisabled() {
+    return this.toggleBorderColor;
+  }
+  public static get toggleBorderColorDisabledChecked() {
+    return this.toggleBorderColor;
+  }
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static toggleBgActive = '#e5e5e5';
   public static get toggleShadowColorError() {
