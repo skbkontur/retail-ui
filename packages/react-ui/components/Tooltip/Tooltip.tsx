@@ -148,8 +148,9 @@ export interface TooltipProps extends CommonProps {
   disableAnimations: boolean;
 
   /**
-   * Использовать обертку над children в виде <span />
-   * @default true
+   * Добавить обертку над children в виде \<span />.
+   * Требуется для корректного позиционирования в случае
+   * передачи в корень тултипа нескольких элементов вместо одного.
    */
   useWrapper: boolean;
 }

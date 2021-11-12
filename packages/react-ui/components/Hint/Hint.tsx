@@ -17,11 +17,35 @@ const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps extends CommonProps {
   children?: React.ReactNode;
+  /**
+   * Переводит отображение подсказки в _"ручной режим"_.
+   *
+   * В _"ручном режиме"_ подcказку можно активировать только задав значение пропу `opened`.
+   */
   manual?: boolean;
+  /**
+   * Задаёт максимальную ширину подсказки.
+   */
   maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * HTML-событие `mouseenter`.
+   */
   onMouseEnter?: (event: MouseEventType) => void;
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: (event: MouseEventType) => void;
+  /**
+   * Если `true` - подсказка будет открыта.
+   *
+   * _Примечание_: работает только при `manual=true`.
+   */
   opened?: boolean;
+  /**
+   * Расположение подсказки относительно текста.
+   *
+   * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
+   */
   pos:
     | 'top'
     | 'right'
@@ -39,7 +63,13 @@ export interface HintProps extends CommonProps {
     | 'right top'
     | 'right middle'
     | 'right bottom';
+  /**
+   * Текст подсказки.
+   */
   text: React.ReactNode;
+  /**
+   * Отключает анимацию.
+   */
   disableAnimations: boolean;
   useWrapper: boolean;
 }
@@ -63,6 +93,9 @@ const Positions: PopupPosition[] = [
   'right bottom',
 ];
 
+/**
+ * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
+ */
 export class Hint extends React.Component<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
