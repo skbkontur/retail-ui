@@ -16,15 +16,15 @@ export interface RadioProps<T>
       React.InputHTMLAttributes<HTMLInputElement>,
       {
         /**
-         *  Добавляет **красную** обводку.
+         *  Cостояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Добавляет **оранжевую** обводку.
+         * Cостояние валидации при предупреждении.
          */
         warning?: boolean;
         /**
-         * Добавляет **синюю** обводку.
+         * Состояние фокуса.
          */
         focused?: boolean;
         /**
