@@ -66,7 +66,7 @@ export interface ButtonProps extends CommonProps {
   disableFocus?: boolean;
 
   /**
-   * Цветовая схема обводки кнопки для ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -148,7 +148,7 @@ export interface ButtonProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /**
-   * Цветовая схема обводки кнопки для предупреждения.
+   * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
 
