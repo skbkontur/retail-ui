@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.8.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.4...@skbkontur/react-ui@3.8.5) (2021-11-15)
+
+
+### Bug Fixes
+
+* **popup:** respect zero values for margin prop ([#2615](https://github.com/skbkontur/retail-ui/issues/2615)) ([416cc68](https://github.com/skbkontur/retail-ui/commit/416cc68d3ecbb9fcea8b2943326baef7f6028580))
+* **Popup:** fix shadow in Safari ([#2636](https://github.com/skbkontur/retail-ui/issues/2636)) ([bddf178](https://github.com/skbkontur/retail-ui/commit/bddf1785eba5cb2a40875a568249f590a09a209b)), closes [#2459](https://github.com/skbkontur/retail-ui/issues/2459) [#1677](https://github.com/skbkontur/retail-ui/issues/1677) [#1495](https://github.com/skbkontur/retail-ui/issues/1495)
+* **SidePage:** body takes 100% of available height ([#2567](https://github.com/skbkontur/retail-ui/issues/2567)) ([4dc607a](https://github.com/skbkontur/retail-ui/commit/4dc607abf33aa953ab1602fe68df39373c8c6481))
+
+
+
+
+
 ## [3.8.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.3...@skbkontur/react-ui@3.8.4) (2021-11-03)
 
 

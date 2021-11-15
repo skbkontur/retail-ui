@@ -10,8 +10,8 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction } from '../../lib/utils';
-import { isIE11, isEdge } from '../../lib/client';
+import { isFunction, isNonNullable } from '../../lib/utils';
+import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
@@ -91,6 +91,14 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   useWrapper: boolean;
   ignoreHover: boolean;
   width: React.CSSProperties['width'];
+  /**
+   * При очередном рендере пытаться сохранить первоначальную позицию попапа
+   * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
+   *
+   * Нужен только для Tooltip. В остальных случаях позиция перестраивается автоматически.
+   * @see https://github.com/skbkontur/retail-ui/pull/1195
+   */
+  tryPreserveFirstRenderedPosition?: boolean;
 }
 
 interface PopupLocation {
@@ -348,6 +356,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { direction } = PopupHelper.getPositionObject(location.position);
     const rootStyle: React.CSSProperties = { ...location.coordinates, maxWidth };
 
+    const shouldFallbackShadow = isIE11 || isEdge || isSafari;
+
     return (
       <Transition
         timeout={TRANSITION_TIMEOUT}
@@ -366,8 +376,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               priority={'Popup'}
               className={cx({
                 [styles.popup(this.theme)]: true,
-                [styles.shadow(this.theme)]: hasShadow,
-                [styles.shadowFallback(this.theme)]: hasShadow && (isIE11 || isEdge),
+                [styles.shadow(this.theme)]: hasShadow && !shouldFallbackShadow,
+                [styles.shadowFallback(this.theme)]: hasShadow && shouldFallbackShadow,
                 [styles.popupIgnoreHover()]: ignoreHover,
                 ...(disableAnimations
                   ? {}
@@ -491,7 +501,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
-    const positions = this.props.positions;
+    const { positions, tryPreserveFirstRenderedPosition } = this.props;
     const anchorElement = this.anchorElement;
 
     warning(
@@ -515,7 +525,16 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
       const isFullyVisible = PopupHelper.isFullyVisible(coordinates, popupRect);
       const canBecomeVisible = !isFullyVisible && PopupHelper.canBecomeFullyVisible(position, coordinates);
-      if (isFullyVisible || canBecomeVisible) {
+
+      if (
+        // если нужно сохранить первоначальную позицию и Попап целиком
+        // находится в пределах вьюпорта (или может быть проскроллен в него)
+        (tryPreserveFirstRenderedPosition && (isFullyVisible || canBecomeVisible)) ||
+        // если Попап целиком во вьюпорте и в самой приоритетной позиции
+        // (иначе нужно попытаться позицию сменить)
+        (isFullyVisible && position === positions[0])
+      ) {
+        // сохраняем текущую позицию
         return { coordinates, position };
       }
     }
@@ -548,7 +567,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getCoordinates(anchorRect: Rect, popupRect: Rect, positionName: string) {
-    const margin = this.props.margin || parseInt(this.theme.popupMargin);
+    const { margin: marginFromProps } = this.props;
+    const margin =
+      isNonNullable(marginFromProps) && !isNaN(marginFromProps)
+        ? marginFromProps
+        : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
     const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 

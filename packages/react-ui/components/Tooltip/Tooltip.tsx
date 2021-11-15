@@ -147,8 +147,9 @@ export interface TooltipProps extends CommonProps {
   disableAnimations: boolean;
 
   /**
-   * Использовать обертку над children в виде <span />
-   * @default true
+   * Добавить обертку над children в виде \<span />.
+   * Требуется для корректного позиционирования в случае
+   * передачи в корень тултипа нескольких элементов вместо одного.
    */
   useWrapper: boolean;
 }
@@ -326,6 +327,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
+          tryPreserveFirstRenderedPosition
           {...popupProps}
         >
           {content}
