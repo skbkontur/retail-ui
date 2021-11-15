@@ -138,7 +138,7 @@ export interface ButtonProps extends CommonProps {
   title?: string;
 
   /**
-   * Тема кнопки.
+   * Стиль кнопки.
    *
    * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
    */
