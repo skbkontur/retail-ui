@@ -21,7 +21,7 @@
 
     !!DemoWithCode!!./LostfocusDependentErrorValidation
 
-Чтобы это исправить, надо явно указать незивисимость валидации свойством `independent` в объекте `validationInfo`:
+Чтобы это исправить укажите независимость валидации свойством `independent` в объекте `validationInfo`:
 
     private validate = (value: string): Nullable<ValidationInfo> => {
       if (!value)
@@ -33,18 +33,28 @@
 
     !!DemoWithCode!!./LostfocusDependentErrorFixedValidation
 
-Однако, по умолчанию, при вызове методов `validate()` или `submit()`, будут валидироваться все поле.
-Чтобы игнорировать независимые поля надо вторым аргументом `withoutIndependent` передать `true`.
+В одной форме могут быть и зависимые и независимые валидации:
+
+### Пример с `lostfocus`
+
+    !!DemoWithCode!!./IndependentCompare
+
+Методы `validate()` и `submit()` по-умолчанию валидируют все поля.
+Чтобы исключить независимые поля надо вторым аргументом `withoutIndependent` передать `true`.
 
 Первый аргумент `withoutFocus` по умолчанию `false`
 
+    // validate(withoutFocus = false, withoutIndependent = false)
     this.container.validate(false, true);
 
+    // submit(withoutFocus = false, withoutIndependent = false)
     await this.container.submit(false, true);
 
 Если у независимого поля уже отображается валидация, то оно будет учитываться в любом случае.
 Также, аргумент `withoutIndependent` будет игнорироваться для типа валидации `submit`.
 
-### Пример
 
-    !!DemoWithCode!!./Independent
+### Пример с `submit`
+
+    !!DemoWithCode!!./IndependentSubmit
+
