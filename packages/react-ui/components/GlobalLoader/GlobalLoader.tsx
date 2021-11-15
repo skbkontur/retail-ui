@@ -34,32 +34,6 @@ export interface GlobalLoaderState {
 
 let currentGlobalLoader: GlobalLoader;
 
-/**
- * Является индикатором загрузки данных с сервера.
- *
- * Доступны статические методы:
- * `GlobalLoader.start(args?: {
- * delayBeforeShow?: number;
- * delayBeforeHide?: number;
- * expectedResponseTime?: number;
- * })` - позволяет запустить Глобальный лоадер с необходимой задержкой.
- * Равносильно установке пропа `active = true`
- *
- * `GlobalLoader.done()` - сигнализирует об окончании загрузки данных.
- * Равносильно установке пропа `active = false`
- *
- * `GlobalLoader.reject()` - сигнализирует об ошибке с сервера, глобальный лоадер при этом переходит в состояние спиннера.
- * Равносильно установке пропа `rejected = true`
- *
- * `GlobalLoader.accept()` - сигнализирует об щотмене ошибки с сервера.
- * Равносильно установке пропа `rejected = false`
- *
- * Глобальный лоадер может быть только один в приложении. Если их несколько - работать будет последний.
- *
- * Родителю глобального лоадера нужно указать position: relative для того чтобы глобальный лоадер позиционировался относительно него.
- * Также через переменную темы globalLoaderPosition = 'fixed' можно задать фиксированное положение для глобального лоадера.
- *
- */
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
   private startTask: TaskWithDelayAndMinimalDuration;
@@ -144,6 +118,12 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     );
   }
 
+  /**
+   * Позволяет запустить Глобальный лоадер с необходимой задержкой.
+   * Равносильно установке пропа `active = true`
+   * @public
+   *
+   */
   public static start = (args?: {
     delayBeforeShow?: number;
     delayBeforeHide?: number;
@@ -158,14 +138,32 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     }
   };
 
+  /**
+   * Сигнализирует об окончании загрузки данных.
+   * Равносильно установке пропа `active = false`
+   * @public
+   *
+   */
   public static done = () => {
     currentGlobalLoader.setDone();
   };
 
+  /**
+   * Сигнализирует об ошибке с сервера, глобальный лоадер при этом переходит в состояние спиннера.
+   * Равносильно установке пропа `rejected = true`
+   * @public
+   *
+   */
   public static reject = () => {
     currentGlobalLoader.setReject(true);
   };
 
+  /**
+   * Сигнализирует об отмене ошибки с сервера.
+   * Равносильно установке пропа `rejected = false`
+   * @public
+   *
+   */
   public static accept = () => {
     currentGlobalLoader.setReject(false);
   };
