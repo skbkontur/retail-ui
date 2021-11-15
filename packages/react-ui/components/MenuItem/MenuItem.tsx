@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { Nullable } from '../../typings/utility-types';
+import { rootDomNode } from '../../lib/rootDomNodeDecorator';
 
 import { styles } from './MenuItem.styles';
 
@@ -80,6 +80,7 @@ export interface MenuItemProps extends CommonProps {
  *
  * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
+@rootDomNode
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
   public static __MENU_ITEM__ = true;
@@ -104,7 +105,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private theme!: Theme;
   private mouseEntered = false;
-  private rootDomNode: Nullable<HTMLElement>;
 
   public render() {
     return (
@@ -149,13 +149,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
+        data-tid="MenuItem"
         {...rest}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         className={className}
         tabIndex={-1}
-        ref={this.refRootDomNode}
       >
         {iconElement}
         {content}
@@ -172,14 +172,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
         )}
       </Component>
     );
-  };
-
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
   };
 
   // https://github.com/facebook/react/issues/10109
@@ -218,7 +210,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 }
 
 export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  return React.isValidElement<MenuItemProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__MENU_ITEM__')
-    : false;
+  // @ts-ignore
+  return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem';
 };

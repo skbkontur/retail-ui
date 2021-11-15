@@ -7,8 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { Nullable } from '../../typings/utility-types';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { rootDomNode } from '../../lib/rootDomNodeDecorator';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { Corners } from './Corners';
@@ -109,7 +108,7 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-// @rootDomNode
+@rootDomNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
@@ -130,7 +129,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private theme!: Theme;
   private node: HTMLButtonElement | null = null;
-  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (this.props.autoFocus) {
@@ -315,7 +313,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <span {...wrapProps} ref={this.refRootDomNode}>
+        <span {...wrapProps}>
           <button ref={this._ref} {...rootProps}>
             {outlineNode}
             {loadingNode}
@@ -335,14 +333,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       </CommonWrapper>
     );
   }
-
-  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
-    this.rootDomNode = getRootDomNode(instance);
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
-  };
 
   private getLoadingSpinner() {
     return <Spinner caption={null} dimmed type="mini" />;
@@ -398,7 +388,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 }
 
 export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  return React.isValidElement<ButtonProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__BUTTON__')
-    : false;
+  // @ts-ignore
+  return child?.type?.__KONTUR_REACT_UI__ === 'Button';
 };
