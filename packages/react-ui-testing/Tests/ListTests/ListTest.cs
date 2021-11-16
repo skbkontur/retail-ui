@@ -1,4 +1,7 @@
 ﻿using System.Linq;
+
+using FluentAssertions;
+
 using NUnit.Framework;
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
@@ -34,6 +37,25 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         }
 
         [Test]
+        public void Test_ControlsListWithRootTid()
+        {
+            page.CompositeReadonlyElementListCase.Count.Wait().That(Is.EqualTo(3));
+            page.CompositeReadonlyElementListCase[0].Value1.Text.Wait().That(Is.EqualTo("Value 11"));
+            page.CompositeReadonlyElementListCase[0].Value2.Text.Wait().That(Is.EqualTo("Value 12"));
+            page.CompositeReadonlyElementListCase[1].Value1.Text.Wait().That(Is.EqualTo("Value 21"));
+            page.CompositeReadonlyElementListCase[1].Value2.Text.Wait().That(Is.EqualTo("Value 22"));
+            page.CompositeReadonlyElementListCase[2].Value1.Text.Wait().That(Is.EqualTo("Value 31"));
+            page.CompositeReadonlyElementListCase[2].Value2.Text.Wait().That(Is.EqualTo("Value 32"));
+        }
+
+        [Test]
+        public void Test_ControlsListWithRootTid_Selector()
+        {
+            page.CompositeReadonlyElementListCase.GetAbsolutePathBySelectors().Should().Be("Case ##CompositeReadonlyElementList");
+            page.CompositeReadonlyElementListCase[1].Value1.GetAbsolutePathBySelectors().Should().Be("Case ##CompositeReadonlyElementList ##Item[1] ##Value1");
+        }
+
+        [Test]
         public void Test_ControlsListWithoutRootTid()
         {
             page.NoRootTidList.RootWithoutTid.Count.Wait().That(Is.EqualTo(3));
@@ -43,6 +65,14 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
             page.NoRootTidList.RootWithoutTid[1].Value2.Text.Wait().That(Is.EqualTo("NoRoot Value 22"));
             page.NoRootTidList.RootWithoutTid[2].Value1.Text.Wait().That(Is.EqualTo("NoRoot Value 31"));
             page.NoRootTidList.RootWithoutTid[2].Value2.Text.Wait().That(Is.EqualTo("NoRoot Value 32"));
+        }
+
+        [Test]
+        public void Test_ControlsListWithoutRootTid_Selector()
+        {
+            page.NoRootTidList.GetAbsolutePathBySelectors().Should().Be("##NoRootTidList");
+            page.NoRootTidList.RootWithoutTid.GetAbsolutePathBySelectors().Should().Be("##NoRootTidList ::local");
+            page.NoRootTidList.RootWithoutTid[0].Value1.GetAbsolutePathBySelectors().Should().Be("##NoRootTidList ::local ##Item[0] ##Value1");
         }
 
         [Test]
@@ -56,8 +86,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         {
             page.InputWithoutTidList[1].ClearAndInputText("value 1");
             // TODO
-            // page.InputWithoutTidList.Select(x => x.Value).Wait().Any(x => x.Should().Equals("value 1"));
-            // page.InputWithoutTidList.ExpectTo().AnyItem().ExpectTo().HaveProperty(x => x.Value, "Zz").EqualTo("value 1");
+            page.InputWithoutTidList.Select(x => x.Value).Wait().That(Has.Some.EqualTo("value 1"));
 
             // control.Items.Select(x => x.Text.Get()).Wait().That(Has.Member("expected"));
             // control.Items.Wait().Single(x => x.Text.That(Is.EqualTo("expected")));
