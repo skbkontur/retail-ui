@@ -28,9 +28,13 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /** Ошибка */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Предупреждение */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
