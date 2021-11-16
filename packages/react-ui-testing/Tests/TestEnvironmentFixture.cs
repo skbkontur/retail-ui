@@ -15,7 +15,7 @@ namespace SKBKontur.SeleniumTesting.Tests
         [OneTimeSetUp]
         public void SetUp()
         {
-            WaitResponse("http://localhost:8083/");
+            // WaitResponse("http://localhost:8083/");
 
             var tunnelIdentifier = $"{Environment.MachineName}-{Guid.NewGuid()}";
 

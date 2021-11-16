@@ -16,7 +16,7 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <TargetFrameworks>net45;netstandard2.0</TargetFrameworks>
+    <TargetFramework>net45</TargetFramework>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -26,10 +26,14 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.2-alpha" />
-    <PackageReference Include="Kontur.Selone" Version="0.0.6-alpha" />
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Microsoft.Win32.Registry" Version="4.7.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Kontur.Selone, Version=0.0.6.0, Culture=neutral, PublicKeyToken=null" Condition="'$(TargetFramework)' == 'net45'">
+      <HintPath>..\..\..\..\Selone\Build\Selone\net45\Kontur.Selone.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>

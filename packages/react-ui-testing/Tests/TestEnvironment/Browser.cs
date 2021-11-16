@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.IO;
 using Kontur.Selone.Extensions;
 using NUnit.Framework;
 using OpenQA.Selenium;
@@ -64,19 +65,22 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
         {
             get
             {
-                if (webDriver != null) return webDriver;
+                if(webDriver != null) return webDriver;
 
-                var wdHub = "https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub";
-                ChromeOptions options = new ChromeOptions();
-
-                options.AddAdditionalCapability(CapabilityType.Platform, "windows", true);
-                options.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name, true);
-                options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
+                // var wdHub = "https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub";
+                var chromeDriverDirectory = Path.Combine("C:\\alco", "alco.global-services", "chrome-driver-90");
+                var chromePath = Path.Combine(chromeDriverDirectory, "chrome.exe");
+                var options = new ChromeOptions {BinaryLocation = chromePath};
+                // options.AddAdditionalCapability(CapabilityType.Platform, "windows", true);
+                // options.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name, true);
+                // options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
                 options.AddAdditionalCapability("maxDuration", 10800, true);
 
-                webDriver = new RemoteWebDriver(new Uri(wdHub),
-                    options.ToCapabilities(),
-                    TimeSpan.FromMinutes(5));
+                var chromeDriverService = ChromeDriverService.CreateDefaultService(chromeDriverDirectory);
+                webDriver = new ChromeDriver(chromeDriverService, options);
+                // webDriver = new RemoteWebDriver(new Uri(wdHub),
+                //     options.ToCapabilities(),
+                //     TimeSpan.FromMinutes(5));
                 webDriver.Manage().Window.Size = new Size(1280, 1024);
                 return webDriver;
             }

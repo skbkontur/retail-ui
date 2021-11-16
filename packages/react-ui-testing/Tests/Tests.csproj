@@ -11,11 +11,11 @@
     <Platforms>AnyCPU</Platforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net45</TargetFramework>
     <OutputPath>bin\Debug\</OutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <TargetFrameworks>net45;netcoreapp3.1</TargetFrameworks>
+    <TargetFramework>net45</TargetFramework>
     <OutputPath>bin\Release\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
@@ -28,5 +28,10 @@
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Kontur.Selone, Version=0.0.6.0, Culture=neutral, PublicKeyToken=null" Condition="'$(TargetFramework)' == 'net45'">
+      <HintPath>..\..\..\..\Selone\Build\Selone\net45\Kontur.Selone.dll</HintPath>
+    </Reference>
   </ItemGroup>
 </Project>
