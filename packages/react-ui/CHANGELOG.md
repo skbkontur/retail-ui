@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.9.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.5...@skbkontur/react-ui@3.9.0) (2021-11-16)
+
+
+### Bug Fixes
+
+* **Link:** disable interactions on link with disabled and loading states ([#2621](https://github.com/skbkontur/retail-ui/issues/2621)) ([e78401e](https://github.com/skbkontur/retail-ui/commit/e78401e5c92e39e0d83f64664bdcd7e61fb9747c))
+
+
+### Features
+
+* **Popup/TokenInput/Kebab/DropdownMenu/TooltipMenu:** adjust position to fit viewport automatically ([#2638](https://github.com/skbkontur/retail-ui/issues/2638)) ([3f8d530](https://github.com/skbkontur/retail-ui/commit/3f8d530a06a22bc06c4294f4b509d4e9e6907a58))
+
+
+
+
+
 ## [3.8.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.4...@skbkontur/react-ui@3.8.5) (2021-11-15)
 
 
