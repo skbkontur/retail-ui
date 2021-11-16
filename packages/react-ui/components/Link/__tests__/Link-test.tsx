@@ -16,17 +16,6 @@ describe('Link', () => {
     expect(onClick).toHaveBeenCalled();
   });
 
-  describe('disabled link', () => {
-    it('does not call `onClick` when Enter pressed', () => {
-      const onClick = jest.fn();
-
-      const wrapper = render({ onClick, disabled: true });
-      wrapper.find('a').simulate('focus').simulate('keydown', { key: 'Enter' });
-
-      expect(onClick).toHaveBeenCalledTimes(0);
-    });
-  });
-
   describe('"rel" attribute', () => {
     it("doesn't change if defined in props", () => {
       const wrapper = render({ href: 'https://example.com', rel: 'nofollow' });
