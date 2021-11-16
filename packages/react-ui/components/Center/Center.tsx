@@ -23,7 +23,20 @@ export interface CenterProps
       }
     > {}
 
-const CenterFuture = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
+/**
+ * Контейнер, который центрирует элементы внутри себя.
+ */
+export class Center extends React.Component<React.PropsWithChildren<CenterProps>> {
+  constructor(props: React.PropsWithChildren<CenterProps>) {
+    super(props);
+  }
+
+  render() {
+    return <CenterFuture {...this.props} />;
+  }
+}
+
+export const CenterFuture = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
   'CenterFuture',
   (props, ref) => {
     return (
@@ -44,16 +57,3 @@ const CenterFuture = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<C
     );
   },
 );
-
-/**
- * Контейнер, который центрирует элементы внутри себя.
- */
-export class Center extends React.Component<React.PropsWithChildren<CenterProps>> {
-  constructor(props: React.PropsWithChildren<CenterProps>) {
-    super(props);
-  }
-
-  render() {
-    return <CenterFuture {...this.props} />;
-  }
-}
