@@ -76,7 +76,20 @@ const renderArrow = (condition: boolean): React.ReactNode => {
   return condition && <span className={styles.arrow()} />;
 };
 
-const LinkFuture = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>(
+/**
+ * Элемент ссылки из HTML.
+ */
+export class Link extends React.Component<LinkProps> {
+  constructor(props: LinkProps) {
+    super(props);
+  }
+
+  render() {
+    return <LinkFuture {...this.props} />;
+  }
+}
+
+export const LinkFuture = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>(
   'LinkFuture',
   (props, ref) => {
     const { disabled = false, href = '', use = 'default', ...rest } = props;
@@ -115,7 +128,7 @@ const LinkFuture = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<
           {...rest}
           ref={ref}
           href={href}
-          rel={generateRel(href, !!(typeof props.rel === 'undefined'))}
+          rel={props.rel ?? generateRel(href, !!(typeof props.rel === 'undefined'))}
           onClick={handleClick}
           onFocus={handleFocus}
           onBlur={handleBlur}
@@ -153,16 +166,3 @@ LinkFuture.propTypes = {
   loading: PropTypes.bool,
   onClick: PropTypes.func,
 };
-
-/**
- * Элемент ссылки из HTML.
- */
-export class Link extends React.Component<LinkProps> {
-  constructor(props: LinkProps) {
-    super(props);
-  }
-
-  render() {
-    return <LinkFuture {...this.props} />;
-  }
-}

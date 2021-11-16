@@ -17,7 +17,9 @@ const isExternalLink = (link: string): boolean => {
  * @param condition Any additional conditions
  * @returns String to be provided to 'rel' attribute
  */
-export const generateRel = (link: string, condition: boolean = true): string => {
+export const generateRel = (link: string, condition: boolean = true): string | undefined => {
+  if (!link) return undefined;
+
   const starter = 'noopener';
   if (condition && isExternalLink(link)) {
     return starter + ' noreferrer';

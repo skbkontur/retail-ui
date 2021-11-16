@@ -2,9 +2,9 @@ import { mount } from 'enzyme';
 import React from 'react';
 
 import { LinkProps } from '..';
-import { Link } from '../Link';
+import { LinkFuture } from '../Link';
 
-const render = (props?: LinkProps) => mount(<Link {...props} />);
+const render = (props?: LinkProps) => mount(<LinkFuture {...props} />);
 
 describe('Link', () => {
   it('calls `onClick` when link clicked', () => {
@@ -17,15 +17,6 @@ describe('Link', () => {
   });
 
   describe('disabled link', () => {
-    it('does not call `onClick` when link clicked', () => {
-      const onClick = jest.fn();
-
-      const wrapper = render({ onClick, disabled: true });
-      wrapper.find('a').simulate('click');
-
-      expect(onClick).toHaveBeenCalledTimes(0);
-    });
-
     it('does not call `onClick` when Enter pressed', () => {
       const onClick = jest.fn();
 
