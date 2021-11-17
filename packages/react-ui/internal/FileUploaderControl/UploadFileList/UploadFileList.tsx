@@ -11,7 +11,7 @@ export const UploadFileList = () => {
   const theme = useContext(ThemeContext);
 
   return (
-    <div data-tid="UploadFileList">
+    <div data-tid="FileUploader__uploadFileList">
       {files.map((file) => (
         <div key={file.id} className={jsStyles.fileWrapper(theme)}>
           <UploadFile file={file} showSize />

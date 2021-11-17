@@ -115,23 +115,23 @@ export const UploadFile = (props: IUploadFileProps) => {
 
   return (
     <div
-      data-tid="UploadFile"
+      data-tid="FileUploader__uploadFile"
       className={jsStyles.root()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Tooltip data-tid="Tooltip" pos="right middle" render={renderTooltipContent}>
+      <Tooltip data-tid="FileUploader__uploadFileTooltip" pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
-          <span data-tid="Name" ref={fileNameElementRef} className={jsStyles.name()}>
+          <span data-tid="FileUploader__uploadFileName" ref={fileNameElementRef} className={jsStyles.name()}>
             {truncatedFileName}
           </span>
           {!!showSize && formattedSize && (
-            <span data-tid="Size" className={jsStyles.size()}>
+            <span data-tid="FileUploader__uploadFileSize" className={jsStyles.size()}>
               {formattedSize}
             </span>
           )}
-          <div data-tid="Icon" onClick={handleRemove} className={jsStyles.icon(theme)}>
+          <div data-tid="FileUploader__uploadFileIcon" onClick={handleRemove} className={jsStyles.icon(theme)}>
             {icon}
           </div>
         </div>
