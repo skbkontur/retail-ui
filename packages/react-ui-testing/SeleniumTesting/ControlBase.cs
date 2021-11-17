@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 
 using JetBrains.Annotations;
 
+using Kontur.Selone.Extensions;
 using Kontur.Selone.Properties;
 
 using OpenQA.Selenium;
@@ -15,12 +17,19 @@ using Waiter = SKBKontur.SeleniumTesting.Internals.Waiter;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class ControlBase : ISearchContainer
+    public class ControlBase : Kontur.Selone.Controls.ControlBase, ISearchContainer
     {
-        protected ControlBase(ISearchContainer container, ISelector selector)
+        protected ControlBase(ISearchContainer container, ISelector selector) : base(container.GetSearchContext(), selector.SeleniumBy)
         {
+            Console.WriteLine(selector.SeleniumBy);
             this.container = container;
             this.selector = selector;
+            this.searchContext = container.GetSearchContext().SearchElement(selector.SeleniumBy);
+        }
+
+        protected ControlBase(ISearchContext context, By by) : base(context, by)
+        {
+            // todo
         }
 
         [Obsolete]
@@ -35,11 +44,12 @@ namespace SKBKontur.SeleniumTesting
 
         public void MouseOver()
         {
-            ExecuteAction(x =>
-                {
-                    var actions = container.CreateWebDriverActions();
-                    actions.MoveToElement(x).Perform();
-                }, "Mouseover()");
+            WrappedElement.Execute(element => element.Mouseover());
+            // ExecuteAction(x =>
+            //     {
+            //         var actions = container.CreateWebDriverActions();
+            //         actions.MoveToElement(x).Perform();
+            //     }, "Mouseover()");
         }
 
         public string GetAttributeValue(string attributeName)
@@ -196,6 +206,7 @@ namespace SKBKontur.SeleniumTesting
 
         public virtual IWebElement Search(ISelector selector)
         {
+            return WrappedElement.FindElement(selector.SeleniumBy);
             return GetValueFromElement(x => x.FindElement(selector.SeleniumBy));
         }
 
@@ -232,6 +243,11 @@ namespace SKBKontur.SeleniumTesting
         public Actions CreateWebDriverActions()
         {
             return container.CreateWebDriverActions();
+        }
+
+        public virtual ISearchContext GetSearchContext()
+        {
+            return searchContext;
         }
 
         public string GetControlTypeDesription()
@@ -282,6 +298,18 @@ namespace SKBKontur.SeleniumTesting
 
         private IWebElement cachedContext;
         private readonly ISelector selector;
+        private readonly ISearchContext searchContext;
         protected readonly ISearchContainer container;
+        public IWebElement FindElement(By @by)
+        {
+            return WrappedElement.SearchElement(by);
+            throw new NotImplementedException();
+        }
+
+        public ReadOnlyCollection<IWebElement> FindElements(By @by)
+        {
+            return WrappedElement.FindElements(by);
+            throw new NotImplementedException();
+        }
     }
 }
