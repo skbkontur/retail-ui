@@ -21,15 +21,16 @@ import { UploadIcon } from '../../internal/icons/16px';
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
 export interface _IFileUploaderProps {
-  /** Нативные свойства */
+  /* Нативные свойства */
   id?: string;
   name?: string;
   disabled?: boolean;
   multiple?: boolean;
   accept?: string;
 
-  /** Валидачия всего контрола */
+  /** Состояние ошибки всего контрола */
   error?: boolean;
+  /** Состояние предупреждения всего контрола */
   warning?: boolean;
 
   /** Свойство ширины. Дефолтное значение - 362 */
@@ -40,8 +41,6 @@ export interface _IFileUploaderProps {
 
   /** Срабатывает при невалидном чтении файла (превращение байтов в base64) */
   onReadError?: (files: IUploadFile[]) => void;
-
-  // FIXME @mozalov: возможно стоит вынести асинхронные пропсы в отдельный пропс
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
   request?: (file: IUploadFile) => Promise<void>;
