@@ -177,12 +177,13 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
-  private getPositions() {
+  private getPositions(): PopupPosition[] {
     if (this.props.positions && isValidPositions(this.props.positions)) {
       return this.props.positions;
     }
 
-    return PopupPositions;
+    // PopupPositions returns an array but TypeScript infers the wrong type
+    return [...PopupPositions];
   }
 
   private showMenu = (firstItemShouldBeSelected?: boolean): void => {
