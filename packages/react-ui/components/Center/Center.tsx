@@ -6,6 +6,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Center.styles';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { oneOf } from 'prop-types';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -57,3 +58,7 @@ export const CenterFuture = forwardRefAndName<HTMLDivElement, React.PropsWithChi
     );
   },
 );
+
+CenterFuture.propTypes = {
+  align: oneOf(['left', 'center', 'right']),
+};
