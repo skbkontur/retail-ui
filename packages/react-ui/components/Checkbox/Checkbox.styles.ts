@@ -151,7 +151,7 @@ export const styles = memoizeStyle({
   caption(t: Theme) {
     return css`
       color: ${t.checkboxTextColorDefault};
-      padding-left: ${t.checkboxLabelGap};
+      padding-left: ${t.checkboxCaptionGap};
     `;
   },
 

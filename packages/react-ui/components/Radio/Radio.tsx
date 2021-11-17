@@ -161,20 +161,20 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>
-        {this.props.children && this.renderLabel()}
+        {this.props.children && this.renderCaption()}
       </label>
     );
   };
 
   private _isInRadioGroup = () => Boolean(this.context.name);
 
-  private renderLabel() {
-    const labelClassNames = cx({
-      [styles.label(this.theme)]: true,
-      [styles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
+  private renderCaption() {
+    const captionClassNames = cx({
+      [styles.caption(this.theme)]: true,
+      [styles.captionDisabled()]: !!(this.props.disabled || this.context.disabled),
     });
 
-    return <div className={labelClassNames}>{this.props.children}</div>;
+    return <div className={captionClassNames}>{this.props.children}</div>;
   }
 
   private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
