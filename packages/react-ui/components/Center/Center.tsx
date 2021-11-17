@@ -1,12 +1,12 @@
 import React from 'react';
+import { oneOf } from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { styles } from './Center.styles';
-import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { oneOf } from 'prop-types';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -28,16 +28,12 @@ export interface CenterProps
  * Контейнер, который центрирует элементы внутри себя.
  */
 export class Center extends React.Component<React.PropsWithChildren<CenterProps>> {
-  constructor(props: React.PropsWithChildren<CenterProps>) {
-    super(props);
-  }
-
   render() {
-    return <CenterFuture {...this.props} />;
+    return <CenterFC {...this.props} />;
   }
 }
 
-export const CenterFuture = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
+export const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
   'CenterFuture',
   (props, ref) => {
     return (
@@ -59,6 +55,6 @@ export const CenterFuture = forwardRefAndName<HTMLDivElement, React.PropsWithChi
   },
 );
 
-CenterFuture.propTypes = {
+CenterFC.propTypes = {
   align: oneOf(['left', 'center', 'right']),
 };
