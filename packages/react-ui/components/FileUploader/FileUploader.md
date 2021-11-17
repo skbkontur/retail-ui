@@ -44,7 +44,7 @@ import { FileUploader } from '@skbkontur/react-ui';
 #### Локали по умолчанию
 
 ```typescript static
-interface IFileUploaderLocale {
+interface FileUploaderLocale {
   chooseFile: string;
   choosedFile: string;
   orDragHere: string;

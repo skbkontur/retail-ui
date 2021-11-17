@@ -17,12 +17,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { UploadIcon } from '../../internal/icons/16px';
 
 import { jsStyles } from './FileUploader.styles';
-import { IFileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
+import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-export interface _IFileUploaderProps {
+export interface _FileUploaderProps {
   /* Нативные свойства */
   id?: string;
   name?: string;
@@ -55,13 +55,13 @@ export interface _IFileUploaderProps {
   getFileValidationText?: (file: IUploadFile) => Promise<Nullable<string>>;
 }
 
-export interface IFileUploaderRef {
+export interface FileUploaderRef {
   focus: () => void;
   blur: () => void;
 }
 
-export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderProps>(
-  (props: _IFileUploaderProps, ref) => {
+export const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
+  (props: _FileUploaderProps, ref) => {
     const {
       id,
       name,
@@ -278,7 +278,7 @@ export const _FileUploader = React.forwardRef<IFileUploaderRef, _IFileUploaderPr
 );
 
 
-export interface IFileUploaderProps extends _IFileUploaderProps, IFileUploaderControlProviderProps {}
+export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
-export const FileUploader = withFileUploaderControlProvider<IFileUploaderProps, IFileUploaderRef>(_FileUploader);
+export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(_FileUploader);
 FileUploader.displayName = 'FileUploader';

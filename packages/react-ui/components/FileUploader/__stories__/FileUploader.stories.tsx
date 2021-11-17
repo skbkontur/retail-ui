@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { FileUploader, IFileUploaderRef } from '../FileUploader';
+import { FileUploader, FileUploaderRef } from '../FileUploader';
 
 export default {
   title: 'FileUploader',
@@ -56,7 +56,7 @@ export const SingleFileUploaderWith100PercentsWidth = () => <FileUploader width=
 export const MultipleFileUploaderWithCustomWidth = () => <FileUploader width={550} multiple />;
 
 export const FileUploaderRefFocusAndBlur = () => {
-  const ref = useRef<IFileUploaderRef>(null);
+  const ref = useRef<FileUploaderRef>(null);
   return (
     <Gapped>
       <FileUploader multiple ref={ref}/>

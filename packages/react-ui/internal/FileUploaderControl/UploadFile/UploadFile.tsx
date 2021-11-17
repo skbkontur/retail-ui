@@ -13,17 +13,17 @@ import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 
 import { jsStyles } from './UploadFile.styles';
 
-interface IUploadFileProps {
+interface UploadFileProps {
   file: IUploadFile;
   showSize?: boolean;
 }
 
-interface IUploadFileState {
+interface UploadFileState {
   fileNameWidth: number;
   fileNameElementWidth: number;
 }
 
-export const UploadFile = (props: IUploadFileProps) => {
+export const UploadFile = (props: UploadFileProps) => {
   const { file, showSize } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size } = originalFile;
@@ -34,7 +34,7 @@ export const UploadFile = (props: IUploadFileProps) => {
   const { removeFile } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
-  const [state, setState] = useState<IUploadFileState>({
+  const [state, setState] = useState<UploadFileState>({
     fileNameWidth: 0,
     fileNameElementWidth: 0,
   });

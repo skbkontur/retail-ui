@@ -6,12 +6,12 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
 import { Link } from '../../../components/Link';
-import { FileUploader, IFileUploaderProps } from '../FileUploader';
+import { FileUploader, FileUploaderProps } from '../FileUploader';
 import { FileReaderMock } from '../../__mocks__/FileReaderMock';
 import { delay } from '../../../lib/utils';
 import { IUploadFile } from '../../../lib/fileUtils';
 
-const renderComponent = (localeProviderValue = {}, props: IFileUploaderProps = {}) =>
+const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   mount(
     <LocaleContext.Provider value={localeProviderValue}>
       <FileUploader {...props} />
@@ -87,7 +87,7 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const render = (props: IFileUploaderProps = {}) => mount(<FileUploader {...props} />);
+    const render = (props: FileUploaderProps = {}) => mount(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {

@@ -11,7 +11,7 @@ import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { UploadFileValidationResult } from './UploadFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
 
-export interface IFileUploaderControlProviderProps {
+export interface FileUploaderControlProviderProps {
   /** Срабатывает при валидном чтении файла (превращение в base64) */
   onSelect?: (files: IUploadFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
@@ -41,7 +41,7 @@ const updateFile = (
   return newFiles;
 };
 
-export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUploaderControlProviderProps>) => {
+export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploaderControlProviderProps>) => {
   const { children, onValueChange, onRemove, onSelect } = props;
 
   // в files попадат только те, что попали в onSelect
