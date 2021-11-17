@@ -5,7 +5,7 @@ using OpenQA.Selenium.Interactions;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public interface ISearchContainer
+    public interface ISearchContainer : ISearchContext
     {
         [NotNull]
         IWebElement Search([NotNull] ISelector selector);
@@ -24,5 +24,8 @@ namespace SKBKontur.SeleniumTesting
 
         [NotNull]
         Actions CreateWebDriverActions();
+
+        [NotNull]
+        ISearchContext GetSearchContext();
     }
 }
