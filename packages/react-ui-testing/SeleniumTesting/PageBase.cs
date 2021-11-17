@@ -1,14 +1,17 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
+
+using Kontur.Selone.Pages;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
-using OpenQA.Selenium.Remote;
+
 using SKBKontur.SeleniumTesting.Internals;
 
 namespace SKBKontur.SeleniumTesting
 {
-    public class PageBase : ISearchContainer, IRetailUiVersionProvider
+    public class PageBase : ISearchContainer, IRetailUiVersionProvider, IPage
     {
         public PageBase(IWebDriver webDriver)
         {
@@ -79,6 +82,11 @@ namespace SKBKontur.SeleniumTesting
             return new Actions(webDriver);
         }
 
+        public ISearchContext GetSearchContext()
+        {
+            return WrappedDriver;
+        }
+
         public IWebDriver DangerousGetWebDriverInstance()
         {
             return webDriver;
@@ -101,6 +109,16 @@ namespace SKBKontur.SeleniumTesting
             return ExecuteScript("return window.__RETAIL_UI_VERSION__ || ''") as string;
         }
 
-        protected internal IWebDriver webDriver;
+        private readonly IWebDriver webDriver;
+        public IWebDriver WrappedDriver => webDriver;
+        public IWebElement FindElement(By @by)
+        {
+            return webDriver.FindElement(by);
+        }
+
+        public ReadOnlyCollection<IWebElement> FindElements(By @by)
+        {
+            return webDriver.FindElements(by);
+        }
     }
 }
