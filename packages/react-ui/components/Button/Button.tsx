@@ -272,7 +272,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: align,
       },
-      disabled: disabled || loading,
       onClick: onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
