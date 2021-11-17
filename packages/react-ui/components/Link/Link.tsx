@@ -160,6 +160,6 @@ export class Link extends React.Component<LinkProps> {
   public static FC = LinkFC;
 
   render() {
-    return <LinkFC {...this.props} />;
+    return <Link.FC {...this.props} />;
   }
 }
