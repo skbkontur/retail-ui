@@ -1,7 +1,4 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
-import ErrorIcon from '@skbkontur/react-icons/Error';
-import OkIcon from '@skbkontur/react-icons/Ok';
 
 import { IUploadFile, UploadFileStatus } from '../../../lib/fileUtils';
 import { formatBytes } from '../../../lib/utils';
@@ -12,6 +9,7 @@ import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../..';
+import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 
 import { jsStyles } from './UploadFile.styles';
 

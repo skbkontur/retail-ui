@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
-import UploadIcon from '@skbkontur/react-icons/Upload';
 
 import { IUploadFile, readFiles } from '../../lib/fileUtils';
 import { Link } from '../Link';
@@ -17,6 +16,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../..';
 
 import { jsStyles } from './FileUploader.styles';
+import { UploadIcon } from '../../internal/icons/16px';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
