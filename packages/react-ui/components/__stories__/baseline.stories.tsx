@@ -1,12 +1,17 @@
 import React from 'react';
 import SpinnerIcon from '@skbkontur/react-icons/Spinner';
-
+import CrownIcon from '@skbkontur/react-icons/Crown';
+import DocFolderIcon from '@skbkontur/react-icons/DocumentFolder';
 import { Button } from '../Button';
 import { Link } from '../Link';
 import { Input } from '../Input';
 import { ComboBox } from '../ComboBox';
 import { Spinner } from '../Spinner';
 import { Checkbox } from '../Checkbox';
+import { Radio } from '../Radio';
+import { MenuItem } from '../MenuItem';
+import { Gapped } from '../Gapped';
+import { Group } from '../Group';
 
 export default { title: 'Baseline' };
 
@@ -132,6 +137,266 @@ export const Checkboxes = () => (
   </div>
 );
 Checkboxes.storyName = 'Checkbox';
+
+export const DifferentFontsAndSizes = () => (
+  <div>
+    <Gapped vertical gap={4}>
+      <div
+        style={{
+          fontFamily: 'Arial',
+          height: '60px',
+          backgroundImage: `
+            linear-gradient(0deg, transparent 0, transparent 58px, #CCC 58px, #CCC 59px, transparent 59px),
+            linear-gradient(0deg, transparent 0, transparent 50px, #CCC 50px, #CCC 51px, transparent 51px),
+            linear-gradient(0deg, transparent 0, transparent 30px, #CCC 30px, #CCC 40px, transparent 40px),
+            linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 20px, transparent 20px),
+            linear-gradient(0deg, transparent 0, transparent 11px, #CCC 11px, #CCC 12px, transparent 12px)
+          `
+        }}
+      >
+        <Gapped>
+          <div style={{ width: '120px'}}>Arial </div>
+          <CrownIcon/>
+          <Link>Ok</Link>
+          <Checkbox initialIndeterminate>Ch</ Checkbox>
+          <Checkbox checked>Ch</Checkbox>
+          <Radio checked value="value">Rd</Radio>
+          <MenuItem state="hover">MenuItem</MenuItem>
+          <Input size="small" value="S" width={40} />
+          <ComboBox
+            placeholder="S"
+            width={40}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="small">S</Button>
+
+          <Input size="medium" value="M" width={44} />
+          <ComboBox
+            placeholder="M"
+            size="medium"
+            width={44}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="medium">M</Button>
+
+
+          <Input size="large" value="L" width={48} />
+          <ComboBox
+            placeholder="L"
+            size="large"
+            width={48}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="large">L</Button>
+
+          <Group width="70px" >
+            <Input placeholder="H" width="100%" size="large" />
+            <Button narrow size="large" >H</Button>
+          </Group>
+
+        </Gapped>
+      </div>
+
+      <div
+        style={{
+          fontFamily: 'Lab Grotesque',
+          height: '60px',
+          backgroundImage: `
+          linear-gradient(0deg, transparent 0, transparent 58px, #CCC 58px, #CCC 59px, transparent 59px),
+          linear-gradient(0deg, transparent 0, transparent 50px, #CCC 50px, #CCC 51px, transparent 51px),
+          linear-gradient(0deg, transparent 0, transparent 30px, #CCC 30px, #CCC 40px, transparent 40px),
+          linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 20px, transparent 20px),
+          linear-gradient(0deg, transparent 0, transparent 11px, #CCC 11px, #CCC 12px, transparent 12px)
+          `
+        }}
+      >
+        <Gapped>
+          <div style={{ width: '120px'}}>Lab Grotesque </div>
+          <CrownIcon/>
+          <Link>Ok</Link>
+          <Checkbox initialIndeterminate>Ch</ Checkbox>
+          <Checkbox checked>Ch</Checkbox>
+          <Radio checked value="value">Rd</Radio>
+          <MenuItem state="hover">MenuItem</MenuItem>
+          <Input size="small" value="S" width={40} />
+          <ComboBox
+            placeholder="S"
+            width={40}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="small">S</Button>
+
+          <Input size="medium" value="M" width={44} />
+          <ComboBox
+            placeholder="M"
+            size="medium"
+            width={44}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="medium">M</Button>
+
+
+          <Input size="large" value="L" width={48} />
+          <ComboBox
+            placeholder="L"
+            size="large"
+            width={48}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="large">L</Button>
+
+          <Group width="70px" >
+            <Input placeholder="H" width="100%" size="large" />
+            <Button narrow size="large" >H</Button>
+          </Group>
+
+        </Gapped>
+      </div>
+
+      <div
+        style={{
+          fontFamily: 'Segoe UI',
+          height: '60px',
+          backgroundImage: `
+            linear-gradient(0deg, transparent 0, transparent 57px, #CCC 57px, #CCC 58px, transparent 58px),
+            linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
+            linear-gradient(0deg, transparent 0, transparent 29px, #CCC 29px, #CCC 39px, transparent 39px),
+            linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px),
+            linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
+
+
+          `
+        }}
+      >
+        <Gapped>
+          <div style={{ width: '120px'}}>Segoe UI </div>
+          <CrownIcon/>
+          <Link>Ok</Link>
+          <Checkbox initialIndeterminate>Ch</ Checkbox>
+          <Checkbox checked>Ch</Checkbox>
+          <Radio checked value="value">Rd</Radio>
+          <MenuItem state="hover">MenuItem</MenuItem>
+          <Input size="small" value="S" width={40} />
+          <ComboBox
+            placeholder="S"
+            width={40}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="small">S</Button>
+
+          <Input size="medium" value="M" width={44} />
+          <ComboBox
+            placeholder="M"
+            size="medium"
+            width={44}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="medium">M</Button>
+
+
+          <Input size="large" value="L" width={48} />
+          <ComboBox
+            placeholder="L"
+            size="large"
+            width={48}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="large">L</Button>
+
+          <Group width="70px" >
+            <Input placeholder="H" width="100%" size="large" />
+            <Button narrow size="large" >H</Button>
+          </Group>
+        </Gapped>
+
+      </div>
+      <div
+        style={{
+          fontFamily: 'Times New Roman',
+          height: '60px',
+          backgroundImage: `
+          linear-gradient(0deg, transparent 0, transparent 58px, #CCC 58px, #CCC 59px, transparent 59px),
+          linear-gradient(0deg, transparent 0, transparent 50px, #CCC 50px, #CCC 51px, transparent 51px),
+          linear-gradient(0deg, transparent 0, transparent 30px, #CCC 30px, #CCC 40px, transparent 40px),
+          linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 20px, transparent 20px),
+          linear-gradient(0deg, transparent 0, transparent 11px, #CCC 11px, #CCC 12px, transparent 12px)
+          `
+        }}
+      >
+        <Gapped>
+          <div style={{ width: '120px'}}>Times New Roman </div>
+          <CrownIcon/>
+          <Link>Ok</Link>
+          <Checkbox initialIndeterminate>Ch</ Checkbox>
+          <Checkbox checked>Ch</Checkbox>
+          <Radio checked value="value">Rd</Radio>
+          <MenuItem state="hover">MenuItem</MenuItem>
+          <Input size="small" value="S" width={40} />
+          <ComboBox
+            placeholder="S"
+            width={40}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="small">S</Button>
+
+          <Input size="medium" value="M" width={44} />
+          <ComboBox
+            placeholder="M"
+            size="medium"
+            width={44}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="medium">M</Button>
+
+
+          <Input size="large" value="L" width={48} />
+          <ComboBox
+            placeholder="L"
+            size="large"
+            width={48}
+            drawArrow={false}
+            searchOnFocus={false}
+            getItems={() => Promise.resolve([])}
+          />
+          <Button size="large">L</Button>
+
+          <Group width="70px" >
+            <Input placeholder="H" width="100%" size="large" />
+            <Button narrow size="large" >H</Button>
+          </Group>
+
+        </Gapped>
+
+      </div>
+    </Gapped>
+  </div>
+);
+DifferentFontsAndSizes.storyName = 'Different fonts and sizes';
+
+
+
 
 class SimpleForm extends React.Component<any, any> {
   public state = {

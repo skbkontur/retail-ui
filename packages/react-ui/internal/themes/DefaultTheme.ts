@@ -3,7 +3,7 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
-  public static fontFamilyCompensationBaseline = '1';
+  public static fontFamilyCompensationBaseline = '0';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
