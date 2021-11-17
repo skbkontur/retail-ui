@@ -24,16 +24,7 @@ export interface CenterProps
       }
     > {}
 
-/**
- * Контейнер, который центрирует элементы внутри себя.
- */
-export class Center extends React.Component<React.PropsWithChildren<CenterProps>> {
-  render() {
-    return <CenterFC {...this.props} />;
-  }
-}
-
-export const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
+const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
   'CenterFuture',
   (props, ref) => {
     return (
@@ -58,3 +49,16 @@ export const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildre
 CenterFC.propTypes = {
   align: oneOf(['left', 'center', 'right']),
 };
+
+/**
+ * Контейнер, который центрирует элементы внутри себя.
+ */
+export class Center extends React.Component<React.PropsWithChildren<CenterProps>> {
+  public static __KONTUR_REACT_UI__ = 'Center';
+
+  public static FC = CenterFC;
+
+  render() {
+    return <Center.FC {...this.props} />;
+  }
+}
