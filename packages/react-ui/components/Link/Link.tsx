@@ -80,17 +80,15 @@ const renderArrow = (condition: boolean): React.ReactNode => {
  * Элемент ссылки из HTML.
  */
 export class Link extends React.Component<LinkProps> {
-  constructor(props: LinkProps) {
-    super(props);
-  }
+  public static __KONTUR_REACT_UI__ = 'Link';
 
   render() {
-    return <LinkFuture {...this.props} />;
+    return <LinkFC {...this.props} />;
   }
 }
 
-export const LinkFuture = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>(
-  'LinkFuture',
+export const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>(
+  'LinkFC',
   (props, ref) => {
     const { disabled = false, href = '', use = 'default', ...rest } = props;
 
@@ -155,7 +153,7 @@ export const LinkFuture = forwardRefAndName<HTMLAnchorElement, React.PropsWithCh
   },
 );
 
-LinkFuture.propTypes = {
+LinkFC.propTypes = {
   disabled: PropTypes.bool,
   href: PropTypes.string,
   icon: PropTypes.element,

@@ -1,10 +1,9 @@
-import { mount } from 'enzyme';
 import React from 'react';
+import { mount } from 'enzyme';
 
-import { LinkProps } from '..';
-import { LinkFuture } from '../Link';
+import { Link, LinkProps } from '../Link';
 
-const render = (props?: LinkProps) => mount(<LinkFuture {...props} />);
+const render = (props?: LinkProps) => mount(<Link {...props} />);
 
 describe('Link', () => {
   it('calls `onClick` when link clicked', () => {
