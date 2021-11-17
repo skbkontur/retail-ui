@@ -109,6 +109,18 @@ export const InputsWithDifferentStates: Story = () => (
         <Input size="large" rightIcon={<SearchIcon />} />
       </div>
     </div>
+
+    <div>
+      <div style={styles}>
+        Disabled <br /> and Error
+      </div>
+      <div id="error-disabled-small-input-wrapper" style={styles}>
+        <Input size="small" error disabled />
+      </div>
+      <div id="error-disabled-large-input-wrapper" style={styles}>
+        <Input size="large" error disabled />
+      </div>
+    </div>
   </div>
 );
 InputsWithDifferentStates.storyName = 'Inputs with different states';
