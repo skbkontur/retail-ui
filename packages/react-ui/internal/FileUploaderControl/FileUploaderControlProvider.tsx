@@ -1,5 +1,4 @@
 import React, {
-  ComponentType,
   PropsWithChildren,
   useCallback,
   useState,
@@ -7,14 +6,13 @@ import React, {
 
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
-import { _IFileUploaderProps } from '../../components/FileUploader/_FileUploader';
 
 import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { UploadFileValidationResult } from './UploadFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
 
 export interface IFileUploaderControlProviderProps {
-  /** Срабатывает при валидном чтении файла (превращение байтов в base64) */
+  /** Срабатывает при валидном чтении файла (превращение в base64) */
   onSelect?: (files: IUploadFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
   onRemove?: (fileId: string) => void;
@@ -111,12 +109,3 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<IFileUpload
 };
 
 FileUploaderControlProvider.displayName = 'FileUploaderControlProvider';
-
-export const withFileUploaderControlProvider = <TProps extends _IFileUploaderProps, TRef extends object>(
-  Component: ComponentType<TProps>,
-) =>
-  React.forwardRef<TRef, TProps>((props: TProps, ref) => (
-    <FileUploaderControlProvider {...props}>
-      <Component ref={ref} {...props} />
-    </FileUploaderControlProvider>
-  ));

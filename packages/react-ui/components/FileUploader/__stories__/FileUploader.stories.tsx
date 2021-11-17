@@ -1,9 +1,8 @@
 import React, { useRef } from 'react';
 
-import { FileUploader } from '../FileUploader';
-import { IFileUploaderRef } from '../_FileUploader';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
+import { FileUploader, IFileUploaderRef } from '../FileUploader';
 
 export default {
   title: 'FileUploader',
