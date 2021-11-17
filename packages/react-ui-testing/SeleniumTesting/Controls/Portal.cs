@@ -54,5 +54,11 @@ namespace SKBKontur.SeleniumTesting.Controls
                     return portal.FindElement(selector.SeleniumBy);
                 });
         }
+
+        public override ISearchContext GetSearchContext()
+        {
+            var renderContainerId = WrappedElement.GetAttribute("data-render-container-id");
+            return container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
+        }
     }
 }
