@@ -11,7 +11,7 @@ export enum UploadFileStatus {
   Error = 'Error',
 }
 
-export interface IUploadFile {
+export interface UploadFile {
   id: string;
   originalFile: File;
   status: UploadFileStatus;
@@ -28,7 +28,7 @@ export const readFile = (file: File): Promise<UploadFileInBase64> =>
     fileReader.readAsDataURL(file);
   });
 
-export const readFiles = (files: File[]): Promise<Array<IUploadFile>> => {
+export const readFiles = (files: File[]): Promise<Array<UploadFile>> => {
   const filesPromises = files.map(async (file) => {
     const fileInBase64 = (await readFile(file).catch(console.error)) || null;
     return getUploadFile(file, fileInBase64);
@@ -37,7 +37,7 @@ export const readFiles = (files: File[]): Promise<Array<IUploadFile>> => {
   return Promise.all(filesPromises);
 };
 
-export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): IUploadFile => {
+export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): UploadFile => {
   return {
     id: getGuid(),
     originalFile: getFileWithEscapedName(file),

@@ -1,6 +1,6 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { IUploadFile, UploadFileStatus } from '../../../lib/fileUtils';
+import { UploadFile, UploadFileStatus } from '../../../lib/fileUtils';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
@@ -11,10 +11,10 @@ import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../..';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 
-import { jsStyles } from './UploadFile.styles';
+import { jsStyles } from './UploadFileItem.styles';
 
-interface UploadFileProps {
-  file: IUploadFile;
+interface UploadFileItemProps {
+  file: UploadFile;
   showSize?: boolean;
 }
 
@@ -23,7 +23,7 @@ interface UploadFileState {
   fileNameElementWidth: number;
 }
 
-export const UploadFile = (props: UploadFileProps) => {
+export const UploadFileItem = (props: UploadFileItemProps) => {
   const { file, showSize } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size } = originalFile;
@@ -140,4 +140,4 @@ export const UploadFile = (props: UploadFileProps) => {
   );
 };
 
-UploadFile.displayName = 'UploadFile';
+UploadFileItem.displayName = 'UploadFileItem';

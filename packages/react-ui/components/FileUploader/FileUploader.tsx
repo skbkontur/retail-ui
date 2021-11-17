@@ -1,12 +1,12 @@
 import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
 
-import { IUploadFile, readFiles } from '../../lib/fileUtils';
+import { UploadFile, readFiles } from '../../lib/fileUtils';
 import { Link } from '../Link';
 import { cx } from '../../lib/theming/Emotion';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
-import { UploadFile } from '../../internal/FileUploaderControl/UploadFile/UploadFile';
+import { UploadFileItem } from '../../internal/FileUploaderControl/UploadFileItem/UploadFileItem';
 import { UploadFileList } from '../../internal/FileUploaderControl/UploadFileList/UploadFileList';
 import { UploadFileValidationResult } from '../../internal/FileUploaderControl/UploadFileValidationResult';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
@@ -22,7 +22,7 @@ import { withFileUploaderControlProvider } from '../../internal/FileUploaderCont
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-export interface _FileUploaderProps {
+interface _FileUploaderProps {
   /* Нативные свойства */
   id?: string;
   name?: string;
@@ -42,17 +42,17 @@ export interface _FileUploaderProps {
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
 
   /** Срабатывает при невалидном чтении файла (превращение в base64) */
-  onReadError?: (files: IUploadFile[]) => void;
+  onReadError?: (files: UploadFile[]) => void;
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
-  request?: (file: IUploadFile) => Promise<void>;
+  request?: (file: UploadFile) => Promise<void>;
   /** Срабатывает при удачной попытке отправки через request */
   onRequestSuccess?: (fileId: string) => void;
   /** Срабатывает при неудачной попытке отправки через request */
   onRequestError?: (fileId: string) => void;
 
   /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
-  getFileValidationText?: (file: IUploadFile) => Promise<Nullable<string>>;
+  getFileValidationText?: (file: UploadFile) => Promise<Nullable<string>>;
 }
 
 export interface FileUploaderRef {
@@ -60,7 +60,7 @@ export interface FileUploaderRef {
   blur: () => void;
 }
 
-export const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
+const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
   (props: _FileUploaderProps, ref) => {
     const {
       id,
@@ -93,7 +93,7 @@ export const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProp
     const upload = useUpload(request, onRequestSuccess, onRequestError);
 
     const tryValidateAndUpload = useCallback(
-      (files: IUploadFile[]) => {
+      (files: UploadFile[]) => {
         files.forEach(async (file) => {
           const validationMessage = getFileValidationText && (await getFileValidationText(file));
 
@@ -245,7 +245,7 @@ export const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProp
               &nbsp;
               <div className={jsStyles.afterLinkText()}>
                 {hasOneFileForSingle ? (
-                  <UploadFile file={files[0]} />
+                  <UploadFileItem file={files[0]} />
                 ) : (
                   <>
                     {locale.orDragHere}&nbsp;

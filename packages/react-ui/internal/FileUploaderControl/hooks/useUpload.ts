@@ -1,11 +1,11 @@
 import { useCallback, useContext } from 'react';
 
 import { Nullable } from '../../../typings/utility-types';
-import { IUploadFile, UploadFileStatus } from '../../../lib/fileUtils';
+import { UploadFile, UploadFileStatus } from '../../../lib/fileUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 
 export const useUpload = (
-  request: Nullable<(file: IUploadFile) => Promise<void>>,
+  request: Nullable<(file: UploadFile) => Promise<void>>,
   onRequestSuccess?: Nullable<(fileId: string) => void>,
   onRequestError?: Nullable<(fileId: string) => void>,
 ) => {
@@ -35,7 +35,7 @@ export const useUpload = (
   );
 
   return useCallback(
-    async (file: IUploadFile) => {
+    async (file: UploadFile) => {
       const { id } = file;
       switchToLoading(id);
 

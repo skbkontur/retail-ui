@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { UploadFile } from '../UploadFile/UploadFile';
+import { UploadFileItem } from '../UploadFileItem/UploadFileItem';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../..';
 
@@ -14,7 +14,7 @@ export const UploadFileList = () => {
     <div data-tid="FileUploader__uploadFileList">
       {files.map((file) => (
         <div key={file.id} className={jsStyles.fileWrapper(theme)}>
-          <UploadFile file={file} showSize />
+          <UploadFileItem file={file} showSize />
         </div>
       ))}
     </div>

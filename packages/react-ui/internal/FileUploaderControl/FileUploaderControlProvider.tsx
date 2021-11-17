@@ -5,7 +5,7 @@ import React, {
 } from 'react';
 
 import { useMemoObject } from '../../hooks/useMemoObject';
-import { IUploadFile, UploadFileStatus } from '../../lib/fileUtils';
+import { UploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
 import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { UploadFileValidationResult } from './UploadFileValidationResult';
@@ -13,18 +13,18 @@ import { useControlLocale } from './hooks/useControlLocale';
 
 export interface FileUploaderControlProviderProps {
   /** Срабатывает при валидном чтении файла (превращение в base64) */
-  onSelect?: (files: IUploadFile[]) => void;
+  onSelect?: (files: UploadFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
   onRemove?: (fileId: string) => void;
   /** Срабатывает при onSelect и onRemove*/
-  onValueChange?: (files: IUploadFile[]) => void;
+  onValueChange?: (files: UploadFile[]) => void;
 }
 
 const updateFile = (
-  files: IUploadFile[],
+  files: UploadFile[],
   fileId: string,
-  getFileUpdatedProps: (file: IUploadFile) => Partial<IUploadFile>,
-): IUploadFile[] => {
+  getFileUpdatedProps: (file: UploadFile) => Partial<UploadFile>,
+): UploadFile[] => {
   const fileIndex = files.findIndex((file) => file.id === fileId);
   if (fileIndex === -1) return files;
 
@@ -45,7 +45,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   const { children, onValueChange, onRemove, onSelect } = props;
 
   // в files попадат только те, что попали в onSelect
-  const [files, setFiles] = useState<IUploadFile[]>([]);
+  const [files, setFiles] = useState<UploadFile[]>([]);
   const locale = useControlLocale();
 
   const setFileStatus = useCallback(
@@ -66,7 +66,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   );
 
   const handleExternalSetFiles = useCallback(
-    (files: IUploadFile[]) => {
+    (files: UploadFile[]) => {
       onSelect?.(files);
       setFiles((state) => {
         const newFiles = [...state, ...files];

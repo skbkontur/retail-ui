@@ -9,7 +9,7 @@ import { Link } from '../../../components/Link';
 import { FileUploader, FileUploaderProps } from '../FileUploader';
 import { FileReaderMock } from '../../__mocks__/FileReaderMock';
 import { delay } from '../../../lib/utils';
-import { IUploadFile } from '../../../lib/fileUtils';
+import { UploadFile } from '../../../lib/fileUtils';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   mount(
@@ -217,7 +217,7 @@ describe('FileUploader', () => {
     });
 
     describe('request, onRequestSuccess, onRequestError', () => {
-      let request: (file: IUploadFile) => Promise<void>;
+      let request: (file: UploadFile) => Promise<void>;
       let onRequestSuccess: () => void;
       let onRequestError: () => void;
       let component: ReactWrapper;
