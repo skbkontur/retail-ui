@@ -13,10 +13,10 @@ import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useCo
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
 import { Nullable } from '../../typings/utility-types';
-import { ThemeContext } from '../..';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { UploadIcon } from '../../internal/icons/16px';
 
 import { jsStyles } from './FileUploader.styles';
-import { UploadIcon } from '../../internal/icons/16px';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
