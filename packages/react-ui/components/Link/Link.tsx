@@ -76,82 +76,68 @@ const renderArrow = (condition: boolean): React.ReactNode => {
   return condition && <span className={styles.arrow()} />;
 };
 
-/**
- * Элемент ссылки из HTML.
- */
-export class Link extends React.Component<LinkProps> {
-  public static __KONTUR_REACT_UI__ = 'Link';
+const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>('LinkFC', (props, ref) => {
+  const { disabled = false, href = '', use = 'default', ...rest } = props;
 
-  render() {
-    return <LinkFC {...this.props} />;
-  }
-}
+  const theme = useContext(ThemeContext);
 
-export const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>(
-  'LinkFC',
-  (props, ref) => {
-    const { disabled = false, href = '', use = 'default', ...rest } = props;
+  const [focusedByTab, setFocusedByTab] = useState(false);
+  const focused = !disabled && focusedByTab;
 
-    const theme = useContext(ThemeContext);
+  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!href) {
+      event.preventDefault();
+    }
+    props.onClick?.(event);
+  };
 
-    const [focusedByTab, setFocusedByTab] = useState(false);
-    const focused = !disabled && focusedByTab;
+  const handleFocus = () => {
+    if (!disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      requestAnimationFrame(() => {
+        if (keyListener.isTabPressed) {
+          setFocusedByTab(true);
+        }
+      });
+    }
+  };
 
-    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-      if (!href) {
-        event.preventDefault();
-      }
-      props.onClick?.(event);
-    };
+  const handleBlur = () => {
+    setFocusedByTab(false);
+  };
 
-    const handleFocus = () => {
-      if (!disabled) {
-        // focus event fires before keyDown eventlistener
-        // so we should check tabPressed in async way
-        requestAnimationFrame(() => {
-          if (keyListener.isTabPressed) {
-            setFocusedByTab(true);
-          }
-        });
-      }
-    };
-
-    const handleBlur = () => {
-      setFocusedByTab(false);
-    };
-
-    return (
-      <CommonWrapper {...props}>
-        <a
-          {...rest}
-          ref={ref}
-          href={href}
-          rel={props.rel ?? generateRel(href, !!(typeof props.rel === 'undefined'))}
-          onClick={handleClick}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          tabIndex={disabled || props.loading ? -1 : props.tabIndex}
-          className={cx({
-            [styles.root(theme)]: true,
-            [styles.button(theme)]: !!props._button,
-            [styles.buttonOpened()]: !!props._buttonOpened,
-            [styles.useDefault(theme)]: use === 'default',
-            [styles.useSuccess(theme)]: use === 'success',
-            [styles.useDanger(theme)]: use === 'danger',
-            [styles.useGrayed(theme)]: use === 'grayed',
-            [styles.useGrayedFocus(theme)]: use === 'grayed' && focused,
-            [styles.focus(theme)]: focused,
-            [styles.disabled(theme)]: !!disabled || !!props.loading,
-          })}
-        >
-          {renderIconElement(!!props.icon, props, theme)}
-          {props.children}
-          {renderArrow(!!props._button)}
-        </a>
-      </CommonWrapper>
-    );
-  },
-);
+  return (
+    <CommonWrapper {...props}>
+      <a
+        {...rest}
+        ref={ref}
+        href={href}
+        rel={props.rel ?? generateRel(href, !!(typeof props.rel === 'undefined'))}
+        onClick={handleClick}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        tabIndex={disabled || props.loading ? -1 : props.tabIndex}
+        className={cx({
+          [styles.root(theme)]: true,
+          [styles.button(theme)]: !!props._button,
+          [styles.buttonOpened()]: !!props._buttonOpened,
+          [styles.useDefault(theme)]: use === 'default',
+          [styles.useSuccess(theme)]: use === 'success',
+          [styles.useDanger(theme)]: use === 'danger',
+          [styles.useGrayed(theme)]: use === 'grayed',
+          [styles.useGrayedFocus(theme)]: use === 'grayed' && focused,
+          [styles.focus(theme)]: focused,
+          [styles.disabled(theme)]: !!disabled || !!props.loading,
+        })}
+      >
+        {renderIconElement(!!props.icon, props, theme)}
+        {props.children}
+        {renderArrow(!!props._button)}
+      </a>
+    </CommonWrapper>
+  );
+});
 
 LinkFC.propTypes = {
   disabled: PropTypes.bool,
@@ -164,3 +150,16 @@ LinkFC.propTypes = {
   loading: PropTypes.bool,
   onClick: PropTypes.func,
 };
+
+/**
+ * Элемент ссылки из HTML.
+ */
+export class Link extends React.Component<LinkProps> {
+  public static __KONTUR_REACT_UI__ = 'Link';
+
+  public static FC = LinkFC;
+
+  render() {
+    return <LinkFC {...this.props} />;
+  }
+}
