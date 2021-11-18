@@ -132,40 +132,40 @@ describe('FileUploader', () => {
       });
     });
 
-    describe('onSelect', () => {
-      it('should handle onSelect, when select file', async () => {
-        const onSelect = jest.fn();
-        const component = render({ onSelect });
+    describe('onReadSuccess', () => {
+      it('should handle onReadSuccess, when select file', async () => {
+        const onReadSuccess = jest.fn();
+        const component = render({ onReadSuccess });
 
         await addFiles(component, [file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenCalledWith([readFile]);
+        expect(onReadSuccess).toHaveBeenCalledTimes(1);
+        expect(onReadSuccess).toHaveBeenCalledWith([readFile]);
       });
 
-      it('shouldn handle onSelect, when all files aren"t valid', async () => {
-        const onSelect = jest.fn();
+      it('should handle onReadSuccess, when all files aren"t valid', async () => {
+        const onReadSuccess = jest.fn();
         const component = render({
-          onSelect,
+          onReadSuccess,
           getFileValidationText: () => Promise.resolve('validation error'),
           multiple: true,
         });
 
         await addFiles(component, [file, file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenCalledWith([readFile, readFile]);
+        expect(onReadSuccess).toHaveBeenCalledTimes(1);
+        expect(onReadSuccess).toHaveBeenCalledWith([readFile, readFile]);
       });
 
-      it('shouldn"t handle onSelect, when has problem with file reading', async () => {
+      it('shouldn"t handle onReadSuccess, when has problem with file reading', async () => {
         FileReaderMock.errorMock();
 
-        const onSelect = jest.fn();
-        const component = render({ onSelect });
+        const onReadSuccess = jest.fn();
+        const component = render({ onReadSuccess: onReadSuccess });
 
         await addFiles(component, [file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(0);
+        expect(onReadSuccess).toHaveBeenCalledTimes(0);
 
         FileReaderMock.resetMock();
       });
@@ -325,18 +325,18 @@ describe('FileUploader', () => {
       });
     });
 
-    it('should handle one request, getFileValidationText, onSelect, onValueChange for single control, if try add several files', async () => {
+    it('should handle one request, getFileValidationText, onReadSuccess, onValueChange for single control, if try add several files', async () => {
       const request = jest.fn();
       const getFileValidationText = jest.fn();
-      const onSelect = jest.fn();
+      const onReadSuccess = jest.fn();
       const onValueChange = jest.fn();
-      const component = render({ request, getFileValidationText, onSelect, onValueChange });
+      const component = render({ request, getFileValidationText, onReadSuccess, onValueChange });
 
       await addFiles(component, [file, file, file]);
 
       expect(request).toHaveBeenCalledTimes(1);
       expect(getFileValidationText).toHaveBeenCalledTimes(1);
-      expect(onSelect).toHaveBeenCalledTimes(1);
+      expect(onReadSuccess).toHaveBeenCalledTimes(1);
       expect(onValueChange).toHaveBeenCalledTimes(1);
     });
   });

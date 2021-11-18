@@ -13,10 +13,10 @@ import { useControlLocale } from './hooks/useControlLocale';
 
 export interface FileUploaderControlProviderProps {
   /** Срабатывает при валидном чтении файла (превращение в base64) */
-  onSelect?: (files: UploadFile[]) => void;
+  onReadSuccess?: (files: UploadFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
   onRemove?: (fileId: string) => void;
-  /** Срабатывает при onSelect и onRemove*/
+  /** Срабатывает при onReadSuccess и onRemove*/
   onValueChange?: (files: UploadFile[]) => void;
 }
 
@@ -42,9 +42,9 @@ const updateFile = (
 };
 
 export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploaderControlProviderProps>) => {
-  const { children, onValueChange, onRemove, onSelect } = props;
+  const { children, onValueChange, onRemove, onReadSuccess } = props;
 
-  // в files попадат только те, что попали в onSelect
+  // в files попадат только те, что попали в onReadSuccess
   const [files, setFiles] = useState<UploadFile[]>([]);
   const locale = useControlLocale();
 
@@ -67,14 +67,14 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
 
   const handleExternalSetFiles = useCallback(
     (files: UploadFile[]) => {
-      onSelect?.(files);
+      onReadSuccess?.(files);
       setFiles((state) => {
         const newFiles = [...state, ...files];
         onValueChange?.(newFiles);
         return newFiles;
       });
     },
-    [onValueChange, onSelect],
+    [onValueChange, onReadSuccess],
   );
 
   const removeFile = useCallback(
