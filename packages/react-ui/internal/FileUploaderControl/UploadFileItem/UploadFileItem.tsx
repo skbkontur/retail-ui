@@ -69,6 +69,7 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
 
   const handleRemove = useCallback(
     (event: React.MouseEvent<HTMLSpanElement>) => {
+      event.preventDefault();
       event.stopPropagation();
       removeFile(id);
     },
