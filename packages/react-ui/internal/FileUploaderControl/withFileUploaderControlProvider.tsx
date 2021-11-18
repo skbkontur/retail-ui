@@ -1,12 +1,15 @@
 import React, { ComponentType } from 'react';
 
-import { FileUploaderControlProvider } from './FileUploaderControlProvider';
+import { FileUploaderControlProvider, FileUploaderControlProviderProps } from './FileUploaderControlProvider';
 
 export const withFileUploaderControlProvider = <TProps extends object, TRef extends object>(
-  Component: ComponentType<TProps>,
+  Component: ComponentType<Pick<TProps & FileUploaderControlProviderProps, Exclude<keyof TProps, keyof FileUploaderControlProviderProps>>>,
 ) =>
-  React.forwardRef<TRef, TProps>((props: TProps, ref) => (
-    <FileUploaderControlProvider {...props}>
-      <Component ref={ref} {...props} />
-    </FileUploaderControlProvider>
-  ));
+  React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>((props: TProps & FileUploaderControlProviderProps, ref) => {
+    const {onRemove, onValueChange, onReadSuccess, ...rest} = props;
+    return (
+      <FileUploaderControlProvider {...props}>
+        <Component ref={ref} {...rest} />
+      </FileUploaderControlProvider>
+    );
+  });
