@@ -1,7 +1,6 @@
 import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
 
 import { UploadFile, readFiles } from '../../lib/fileUtils';
-import { Link } from '../Link';
 import { cx } from '../../lib/theming/Emotion';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
@@ -207,10 +206,6 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       [jsStyles.iconDisabled(theme)]: disabled,
     });
 
-    const handleClick = useCallback(() => {
-      !disabled && labelRef.current?.click();
-    }, [disabled]);
-
     const hasOneFile = files.length === 1;
     const hasOneFileForSingle = isSingleMode && hasOneFile;
 
@@ -225,14 +220,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
           <div className={uploadButtonWrapperClassNames}>
             <label ref={labelRef} className={uploadButtonClassNames}>
               <div className={jsStyles.content()}>
-                <Link
-                  className={linkClassNames}
-                  disabled={disabled}
-                  tabIndex={-1}
-                  onClick={handleClick}
-                >
+                <span className={linkClassNames}>
                   {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-                </Link>
+                </span>
                 &nbsp;
                 <div className={jsStyles.afterLinkText()}>
                   {hasOneFileForSingle ? (

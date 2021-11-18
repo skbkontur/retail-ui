@@ -142,7 +142,7 @@ const styles = {
 
   linkDisabled(t: Theme) {
     return css`
-      color: ${t.fileUploaderDisabledLinkColor} !important;
+      color: ${t.fileUploaderDisabledLinkColor};
     `;
   }
 };
