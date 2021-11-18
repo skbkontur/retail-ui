@@ -24,6 +24,7 @@ const styles = {
 
   root(t: Theme) {
     return css`
+      display: inline-block;
       min-width: 285px;
       position: relative;
       background-color: ${t.fileUploaderBg};

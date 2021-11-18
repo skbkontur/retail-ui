@@ -20,10 +20,11 @@ import { keyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import { isBrowser } from '../../lib/client';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-interface _FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
@@ -218,51 +219,53 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
     });
 
     return (
-      <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
-        {!isSingleMode && !!files.length && <FileUploaderFileList />}
-        <div className={uploadButtonWrapperClassNames}>
-          <label ref={labelRef} className={uploadButtonClassNames}>
-            <div className={jsStyles.content()}>
-              <Link
-                className={linkClassNames}
-                disabled={disabled}
-                tabIndex={-1}
-                onClick={handleClick}
-              >
-                {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-              </Link>
-              &nbsp;
-              <div className={jsStyles.afterLinkText()}>
-                {hasOneFileForSingle ? (
-                  <FileUploaderFile file={files[0]} />
-                ) : (
-                  <>
-                    {locale.orDragHere}&nbsp;
-                    <div className={uploadButtonIconClassNames}>
-                      <UploadIcon />
-                    </div>
-                  </>
-                )}
+      <CommonWrapper {...props}>
+        <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
+          {!isSingleMode && !!files.length && <FileUploaderFileList />}
+          <div className={uploadButtonWrapperClassNames}>
+            <label ref={labelRef} className={uploadButtonClassNames}>
+              <div className={jsStyles.content()}>
+                <Link
+                  className={linkClassNames}
+                  disabled={disabled}
+                  tabIndex={-1}
+                  onClick={handleClick}
+                >
+                  {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+                </Link>
+                &nbsp;
+                <div className={jsStyles.afterLinkText()}>
+                  {hasOneFileForSingle ? (
+                    <FileUploaderFile file={files[0]} />
+                  ) : (
+                    <>
+                      {locale.orDragHere}&nbsp;
+                      <div className={uploadButtonIconClassNames}>
+                        <UploadIcon />
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
-            </div>
-            <input
-              {...inputProps}
-              ref={inputRef}
-              tabIndex={disabled ? -1 : 0}
-              type="file"
-              disabled={disabled}
-              multiple={multiple}
-              className={jsStyles.fileInput()}
-              onClick={stopPropagation}
-              onChange={handleInputChange}
-              onFocus={handleFocus}
-              onBlur={handleBlur}
-              // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
-              value={''}
-            />
-          </label>
+              <input
+                {...inputProps}
+                ref={inputRef}
+                tabIndex={disabled ? -1 : 0}
+                type="file"
+                disabled={disabled}
+                multiple={multiple}
+                className={jsStyles.fileInput()}
+                onClick={stopPropagation}
+                onChange={handleInputChange}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
+                value={''}
+              />
+            </label>
+          </div>
         </div>
-      </div>
+      </CommonWrapper>
     );
   },
 );
