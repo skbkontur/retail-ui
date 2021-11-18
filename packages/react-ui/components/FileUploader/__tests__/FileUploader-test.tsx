@@ -29,10 +29,10 @@ const getBaseButtonText = (wrapper: ReactWrapper): string => {
 const addFiles = async (component: ReactWrapper, files: File[]) => {
   await act(async () => {
     component.find('input').simulate('change', { target: { files } });
+    // ждем отрисовки файлов
+    await delay(100);
+    component.update();
   });
-  // ждем отрисовки файлов
-  await delay(100);
-  component.update();
 };
 
 const removeFile = async (component: ReactWrapper) => {
