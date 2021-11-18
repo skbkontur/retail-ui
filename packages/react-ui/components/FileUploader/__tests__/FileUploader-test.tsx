@@ -10,12 +10,16 @@ import { FileUploader, FileUploaderProps } from '../FileUploader';
 import { FileReaderMock } from '../../__mocks__/FileReaderMock';
 import { delay } from '../../../lib/utils';
 import { UploadFile } from '../../../lib/fileUtils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
 const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}) =>
   mount(
     <LocaleContext.Provider value={localeProviderValue}>
-      <FileUploader {...props} />
-    </LocaleContext.Provider>,
+      <ThemeContext.Provider value={DEFAULT_THEME}>
+          <FileUploader {...props} />
+      </ThemeContext.Provider>,
+    </LocaleContext.Provider>
   );
 
 const getBaseButtonText = (wrapper: ReactWrapper): string => {

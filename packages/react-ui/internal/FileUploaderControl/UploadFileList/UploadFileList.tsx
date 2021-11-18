@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 
 import { UploadFileItem } from '../UploadFileItem/UploadFileItem';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { ThemeContext } from '../../..';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { jsStyles } from './UploadFileList.styles';
 

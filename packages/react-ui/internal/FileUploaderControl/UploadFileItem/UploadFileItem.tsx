@@ -8,7 +8,7 @@ import { Spinner } from '../../../components/Spinner';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
-import { ThemeContext } from '../../..';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 
 import { jsStyles } from './UploadFileItem.styles';
@@ -32,15 +32,16 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
 
   const [hovered, setHovered] = useState<boolean>(false);
   const [focusedByTab, setFocusedByTab] = useState(false);
-  const textHelperRef = useRef<TextWidthHelper>(null);
-  const fileNameElementRef = useRef<HTMLSpanElement>(null);
-  const { removeFile } = useContext(FileUploaderControlContext);
-  const theme = useContext(ThemeContext);
-
   const [state, setState] = useState<UploadFileState>({
     fileNameWidth: 0,
     fileNameElementWidth: 0,
   });
+
+  const textHelperRef = useRef<TextWidthHelper>(null);
+  const fileNameElementRef = useRef<HTMLSpanElement>(null);
+
+  const { removeFile } = useContext(FileUploaderControlContext);
+  const theme = useContext(ThemeContext);
 
   const { fileNameWidth, fileNameElementWidth } = state;
 
