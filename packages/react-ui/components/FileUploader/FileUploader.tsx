@@ -1,9 +1,8 @@
-import React, { useCallback, useContext, useImperativeHandle, useRef } from 'react';
+import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
 
 import { UploadFile, readFiles } from '../../lib/fileUtils';
 import { Link } from '../Link';
 import { cx } from '../../lib/theming/Emotion';
-import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
 import { UploadFileItem } from '../../internal/FileUploaderControl/UploadFileItem/UploadFileItem';
@@ -19,6 +18,7 @@ import { UploadIcon } from '../../internal/icons/16px';
 import { jsStyles } from './FileUploader.styles';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
+import { keyListener } from '../../lib/events/keyListener';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -154,21 +154,23 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       [handleChange, disabled],
     );
 
-    const { isDraggable, ref: rootRef } = useDrop<HTMLDivElement>({ onDrop: handleDrop });
+    const { isDraggable, ref: labelRef } = useDrop<HTMLLabelElement>({ onDrop: handleDrop });
     const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
 
     windowRef.current = window.document;
 
     const focus = useCallback(() => {
-      rootRef.current?.focus();
+      keyListener.isTabPressed = true;
+      inputRef.current?.focus();
     }, []);
 
     const blur = useCallback(() => {
-      rootRef.current?.blur();
+      inputRef.current?.blur();
     }, []);
 
     useImperativeHandle(ref, () => ({ focus, blur }), [ref]);
 
+    const [focusedByTab, setFocusedByTab] = useState(false);
     const handleInputChange = useCallback(
       (event: React.ChangeEvent<HTMLInputElement>) => {
         handleChange(event.target.files);
@@ -176,7 +178,28 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       [handleChange],
     );
 
+    const handleFocus = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+        if (!disabled) {
+          // focus event fires before keyDown eventlistener
+          // so we should check tabPressed in async way
+          requestAnimationFrame(() => {
+            if (keyListener.isTabPressed) {
+              setFocusedByTab(true);
+            }
+          });
+          onFocus?.(e);
+        }
+    }, [disabled, onFocus]);
+
+    const handleBlur = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+      setFocusedByTab(false);
+      if (!disabled) {
+        onBlur?.(e);
+      }
+    }, [disabled, onBlur]);
+
     const uploadButtonClassNames = cx(jsStyles.uploadButton(theme), {
+      [jsStyles.uploadButtonFocus(theme)]: focusedByTab,
       [jsStyles.dragOver()]: isDraggable && !disabled,
       [jsStyles.warning(theme)]: !!warning && !disabled,
       [jsStyles.error(theme)]: !!error && !disabled,
@@ -192,31 +215,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
     });
 
     const handleClick = useCallback(() => {
-      !disabled && inputRef.current?.click();
+      !disabled && labelRef.current?.click();
     }, [disabled]);
-
-    const handleKeyDown = useCallback(
-      (e: React.KeyboardEvent<HTMLElement>) => {
-        if (isKeyEnter(e)) {
-          handleClick();
-        }
-      },
-      [handleClick],
-    );
-
-    const handleFocus = useCallback(
-      (e: React.FocusEvent<HTMLDivElement>) => {
-        !disabled && onFocus?.(e);
-      },
-      [disabled, onFocus],
-    );
-
-    const handleBlur = useCallback(
-      (e: React.FocusEvent<HTMLDivElement>) => {
-        !disabled && onBlur?.(e);
-      },
-      [disabled, onBlur],
-    );
 
     const hasOneFile = files.length === 1;
     const hasOneFileForSingle = isSingleMode && hasOneFile;
@@ -229,17 +229,14 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
         {!isSingleMode && !!files.length && <UploadFileList />}
         <div className={uploadButtonWrapperClassNames}>
-          <div
-            className={uploadButtonClassNames}
-            tabIndex={disabled ? -1 : 0}
-            ref={rootRef}
-            onClick={handleClick}
-            onKeyDown={handleKeyDown}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-          >
+          <label ref={labelRef} className={uploadButtonClassNames}>
             <div className={jsStyles.content()}>
-              <Link className={linkClassNames} disabled={disabled} tabIndex={-1}>
+              <Link
+                className={linkClassNames}
+                disabled={disabled}
+                tabIndex={-1}
+                onClick={handleClick}
+              >
                 {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
               </Link>
               &nbsp;
@@ -259,6 +256,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
             <input
               id={id}
               ref={inputRef}
+              tabIndex={disabled ? -1 : 0}
               type="file"
               name={name}
               accept={accept}
@@ -267,10 +265,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
               className={jsStyles.fileInput()}
               onClick={stopPropagation}
               onChange={handleInputChange}
+              onFocus={handleFocus}
+              onBlur={handleBlur}
               // для того, чтобы срабатывало событие change при выборе одного и того же файла подряд
               value={''}
             />
-          </div>
+          </label>
         </div>
       </div>
     );

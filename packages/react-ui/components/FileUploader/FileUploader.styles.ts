@@ -46,11 +46,13 @@ const styles = {
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
       transition: box-shadow 0.3s ease;
+    `;
+  },
 
-      &:focus {
-        border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorFocus};
-        box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorFocus};
-      }
+  uploadButtonFocus(t: Theme) {
+    return css`
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorFocus};
+      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorFocus};
     `;
   },
 
@@ -80,7 +82,8 @@ const styles = {
 
   fileInput() {
     return css`
-      display: none;
+      width: 0;
+      height: 0;
     `;
   },
 
@@ -94,15 +97,15 @@ const styles = {
 
   warning(t: Theme) {
     return css`
-      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorWarning} !important;
-      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorWarning} !important;
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorWarning};
+      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
-      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorError} !important;
-      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorError} !important;
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorError};
+      box-shadow: 0px 0px 0px 1px ${t.fileUploaderBorderColorError};
     `;
   },
 
@@ -112,11 +115,7 @@ const styles = {
       background: ${t.fileUploaderDisabledBg};
       border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
       color: ${t.fileUploaderDisabledTextColor};
-
-      &:focus {
-        border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor} !important;
-        box-shadow: none;
-      }
+      box-shadow: none;
     `;
   },
 
@@ -142,7 +141,7 @@ const styles = {
 
   linkDisabled(t: Theme) {
     return css`
-      color: ${t.fileUploaderDisabledLinkColor};
+      color: ${t.fileUploaderDisabledLinkColor} !important;
     `;
   }
 };
