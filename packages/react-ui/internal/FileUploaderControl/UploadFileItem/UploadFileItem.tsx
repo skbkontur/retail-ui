@@ -12,6 +12,8 @@ import { ThemeContext } from '../../..';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 
 import { jsStyles } from './UploadFileItem.styles';
+import { keyListener } from '../../../lib/events/keyListener';
+import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 
 interface UploadFileItemProps {
   file: UploadFile;
@@ -29,6 +31,7 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
   const { name, size } = originalFile;
 
   const [hovered, setHovered] = useState<boolean>(false);
+  const [focusedByTab, setFocusedByTab] = useState(false);
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
   const { removeFile } = useContext(FileUploaderControlContext);
@@ -67,13 +70,20 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
     return truncate(name, maxCharsCountInSpan);
   }, [name, fileNameElementWidth, fileNameWidth]);
 
-  const handleRemove = useCallback(
-    (event: React.MouseEvent<HTMLSpanElement>) => {
-      event.preventDefault();
-      event.stopPropagation();
+  const removeUploadFile = useCallback(
+    () => {
       removeFile(id);
     },
     [removeFile, id],
+  );
+
+  const handleRemove = useCallback(
+    (event: React.MouseEvent<HTMLElement>) => {
+      event.preventDefault();
+      event.stopPropagation();
+      removeUploadFile();
+    },
+    [removeUploadFile],
   );
 
   const { isValid, message } = validationResult;
@@ -81,7 +91,7 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
   const icon: ReactNode = useMemo(() => {
     const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon(theme)} />;
 
-    if (hovered) {
+    if (hovered || focusedByTab) {
       return deleteIcon;
     }
 
@@ -96,7 +106,7 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
         }
         return deleteIcon;
     }
-  }, [hovered, status, isValid, theme]);
+  }, [hovered, status, isValid, theme, focusedByTab]);
 
   const renderTooltipContent = useCallback((): ReactNode => {
     return isValid ? null : message;
@@ -113,6 +123,33 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
   const handleMouseLeave = useCallback(() => {
     setHovered(false);
   }, []);
+
+  const handleFocus = useCallback(() => {
+    // focus event fires before keyDown eventlistener
+    // so we should check tabPressed in async way
+    requestAnimationFrame(() => {
+      if (keyListener.isTabPressed) {
+        setFocusedByTab(true);
+      }
+    });
+  }, []);
+
+  const handleBlur = useCallback(() => {
+    setFocusedByTab(false);
+  }, []);
+
+  const handleIconKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLElement>) => {
+      if (isKeyEnter(e)) {
+        removeUploadFile();
+      }
+    },
+    [removeUploadFile],
+  );
+
+  const iconClassNames = cx(jsStyles.icon(theme), {
+    [jsStyles.focusedIcon(theme)]: focusedByTab,
+  });
 
   return (
     <div
@@ -132,7 +169,15 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
               {formattedSize}
             </span>
           )}
-          <div data-tid="FileUploader__uploadFileIcon" onClick={handleRemove} className={jsStyles.icon(theme)}>
+          <div
+            className={iconClassNames}
+            data-tid="FileUploader__uploadFileIcon"
+            tabIndex={0}
+            onClick={handleRemove}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            onKeyDown={handleIconKeyDown}
+          >
             {icon}
           </div>
         </div>

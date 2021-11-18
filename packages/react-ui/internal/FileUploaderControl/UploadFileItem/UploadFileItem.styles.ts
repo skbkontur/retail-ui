@@ -43,6 +43,7 @@ const styles = {
       cursor: pointer;
       font-size: ${t.fileUploaderIconSize};
       text-align: right;
+      outline: none;
     `;
   },
 
@@ -52,6 +53,12 @@ const styles = {
       &:hover {
         color: ${t.fileUploaderIconHoverColor};
       }
+    `;
+  },
+
+  focusedIcon(t: Theme) {
+    return css`
+      outline: 1px solid ${t.borderColorFocus};
     `;
   },
 };
