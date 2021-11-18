@@ -178,7 +178,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       [handleChange],
     );
 
-    const handleFocus = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+    const handleFocus = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
         if (!disabled) {
           // focus event fires before keyDown eventlistener
           // so we should check tabPressed in async way
@@ -191,7 +191,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
         }
     }, [disabled, onFocus]);
 
-    const handleBlur = React.useCallback((e: React.FocusEvent<HTMLInputElement>) => {
+    const handleBlur = useCallback((e: React.FocusEvent<HTMLInputElement>) => {
       setFocusedByTab(false);
       if (!disabled) {
         onBlur?.(e);
