@@ -19,6 +19,7 @@ import { withFileUploaderControlProvider } from '../../internal/FileUploaderCont
 import { keyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
+import { isBrowser } from '../../lib/client';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -146,7 +147,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
     const { isDraggable, ref: labelRef } = useDrop<HTMLLabelElement>({ onDrop: handleDrop });
     const { isDraggable: isWindowDraggable, ref: windowRef } = useDrop<Document>();
 
-    windowRef.current = window.document;
+    if (isBrowser) {
+      windowRef.current = window.document;
+    }
 
     const focus = useCallback(() => {
       keyListener.isTabPressed = true;
