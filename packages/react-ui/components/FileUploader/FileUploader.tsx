@@ -22,14 +22,7 @@ import { keyListener } from '../../lib/events/keyListener';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-interface _FileUploaderProps {
-  /* Нативные свойства */
-  id?: string;
-  name?: string;
-  disabled?: boolean;
-  multiple?: boolean;
-  accept?: string;
-
+interface _FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
@@ -37,9 +30,6 @@ interface _FileUploaderProps {
 
   /** Свойство ширины. Дефолтное значение - 362 */
   width?: React.CSSProperties['width'];
-
-  onBlur?: React.FocusEventHandler<HTMLDivElement>;
-  onFocus?: React.FocusEventHandler<HTMLDivElement>;
 
   /** Срабатывает при невалидном чтении файла (превращение в base64) */
   onReadError?: (files: UploadFile[]) => void;
@@ -63,10 +53,7 @@ export interface FileUploaderRef {
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
   (props: _FileUploaderProps, ref) => {
     const {
-      id,
-      name,
       disabled,
-      accept,
       error,
       warning,
       onBlur,
@@ -78,6 +65,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       getFileValidationText,
       onRequestSuccess,
       onRequestError,
+      ...inputProps
     } = props;
 
     const { files, setFiles, removeFile, setFileValidationResult } = useContext(FileUploaderControlContext);
@@ -254,12 +242,10 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
               </div>
             </div>
             <input
-              id={id}
+              {...inputProps}
               ref={inputRef}
               tabIndex={disabled ? -1 : 0}
               type="file"
-              name={name}
-              accept={accept}
               disabled={disabled}
               multiple={multiple}
               className={jsStyles.fileInput()}
