@@ -220,7 +220,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
           <div className={uploadButtonWrapperClassNames}>
             <label ref={labelRef} className={uploadButtonClassNames}>
               <div className={jsStyles.content()}>
-                <span className={linkClassNames}>
+                <span data-tid={'FileUploader__link'} className={linkClassNames}>
                   {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
                 </span>
                 &nbsp;

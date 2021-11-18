@@ -5,7 +5,6 @@ import { act } from 'react-dom/test-utils';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
-import { Link } from '../../../components/Link';
 import { FileUploader, FileUploaderProps } from '../FileUploader';
 import { FileReaderMock } from '../../__mocks__/FileReaderMock';
 import { delay } from '../../../lib/utils';
@@ -23,7 +22,7 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
   );
 
 const getBaseButtonText = (wrapper: ReactWrapper): string => {
-  return wrapper.find(Link).text();
+  return wrapper.find(`[data-tid='FileUploader__link']`).text();
 };
 
 const addFiles = async (component: ReactWrapper, files: File[]) => {
