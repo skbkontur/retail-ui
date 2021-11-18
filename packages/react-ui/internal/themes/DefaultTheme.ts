@@ -1435,6 +1435,8 @@ export class DefaultTheme {
   //#endregion
 
   //#region FileUploader
+  // Width
+  public static fileUploaderWidth = 362;
   // Background
   public static fileUploaderBg = '#fff';
 

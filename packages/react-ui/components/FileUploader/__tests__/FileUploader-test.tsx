@@ -37,7 +37,7 @@ const addFiles = async (component: ReactWrapper, files: File[]) => {
 
 const removeFile = async (component: ReactWrapper) => {
   await act(async () => {
-    component.find(`[data-tid='FileUploader__uploadFileIcon']`).simulate('click');
+    component.find(`[data-tid='FileUploader__fileIcon']`).simulate('click');
   });
 };
 

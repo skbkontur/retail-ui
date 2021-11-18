@@ -5,9 +5,7 @@ import { Link } from '../Link';
 import { cx } from '../../lib/theming/Emotion';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
-import { UploadFileItem } from '../../internal/FileUploaderControl/UploadFileItem/UploadFileItem';
-import { UploadFileList } from '../../internal/FileUploaderControl/UploadFileList/UploadFileList';
-import { UploadFileValidationResult } from '../../internal/FileUploaderControl/UploadFileValidationResult';
+import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
@@ -19,6 +17,8 @@ import { jsStyles } from './FileUploader.styles';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 import { keyListener } from '../../lib/events/keyListener';
+import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
+import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -28,7 +28,7 @@ interface _FileUploaderProps extends Omit<React.InputHTMLAttributes<HTMLInputEle
   /** Состояние предупреждения всего контрола */
   warning?: boolean;
 
-  /** Свойство ширины. Дефолтное значение - 362 */
+  /** Свойство ширины. */
   width?: React.CSSProperties['width'];
 
   /** Срабатывает при невалидном чтении файла (превращение в base64) */
@@ -52,6 +52,8 @@ export interface FileUploaderRef {
 
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
   (props: _FileUploaderProps, ref) => {
+    const theme = useContext(ThemeContext);
+
     const {
       disabled,
       error,
@@ -60,7 +62,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
       onFocus,
       onReadError,
       multiple = false,
-      width = 362,
+      width = theme.fileUploaderWidth,
       request,
       getFileValidationText,
       onRequestSuccess,
@@ -69,7 +71,6 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
     } = props;
 
     const { files, setFiles, removeFile, setFileValidationResult } = useContext(FileUploaderControlContext);
-    const theme = useContext(ThemeContext);
 
     const locale = useControlLocale();
 
@@ -88,7 +89,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
           if (!validationMessage) {
             isAsync && upload(file);
           } else {
-            setFileValidationResult(file.id, UploadFileValidationResult.error(validationMessage));
+            setFileValidationResult(file.id, FileUploaderFileValidationResult.error(validationMessage));
           }
         });
       },
@@ -215,7 +216,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
 
     return (
       <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
-        {!isSingleMode && !!files.length && <UploadFileList />}
+        {!isSingleMode && !!files.length && <FileUploaderFileList />}
         <div className={uploadButtonWrapperClassNames}>
           <label ref={labelRef} className={uploadButtonClassNames}>
             <div className={jsStyles.content()}>
@@ -230,7 +231,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>(
               &nbsp;
               <div className={jsStyles.afterLinkText()}>
                 {hasOneFileForSingle ? (
-                  <UploadFileItem file={files[0]} />
+                  <FileUploaderFile file={files[0]} />
                 ) : (
                   <>
                     {locale.orDragHere}&nbsp;

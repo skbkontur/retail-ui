@@ -1,4 +1,4 @@
 export { UploadFileStatus } from '../../lib/fileUtils';
 export type { UploadFile, UploadFileInBase64 } from '../../lib/fileUtils';
-export { UploadFileValidationResult } from '../../internal/FileUploaderControl/UploadFileValidationResult';
+export { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 export * from './FileUploader';

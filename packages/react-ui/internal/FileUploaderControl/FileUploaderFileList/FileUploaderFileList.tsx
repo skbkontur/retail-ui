@@ -1,24 +1,24 @@
 import React, { useContext } from 'react';
 
-import { UploadFileItem } from '../UploadFileItem/UploadFileItem';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
-import { jsStyles } from './UploadFileList.styles';
+import { jsStyles } from './FileUploaderFileList.styles';
+import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 
-export const UploadFileList = () => {
+export const FileUploaderFileList = () => {
   const { files } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
   return (
-    <div data-tid="FileUploader__uploadFileList">
+    <div data-tid="FileUploader__fileList">
       {files.map((file) => (
         <div key={file.id} className={jsStyles.fileWrapper(theme)}>
-          <UploadFileItem file={file} showSize />
+          <FileUploaderFile file={file} showSize />
         </div>
       ))}
     </div>
   );
 };
 
-UploadFileList.displayName = 'UploadFileList';
+FileUploaderFileList.displayName = 'FileUploaderFileList';

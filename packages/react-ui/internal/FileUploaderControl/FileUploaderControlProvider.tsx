@@ -8,7 +8,7 @@ import { useMemoObject } from '../../hooks/useMemoObject';
 import { UploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
 import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { UploadFileValidationResult } from './UploadFileValidationResult';
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
 
 export interface FileUploaderControlProviderProps {
@@ -56,7 +56,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
             status,
             validationResult:
               status === UploadFileStatus.Error
-                ? UploadFileValidationResult.error(locale.requestErrorText)
+                ? FileUploaderFileValidationResult.error(locale.requestErrorText)
                 : file.validationResult,
           };
         });
@@ -89,7 +89,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
     [onValueChange, onRemove],
   );
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: UploadFileValidationResult) => {
+  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
     setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
   }, []);
 

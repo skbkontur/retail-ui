@@ -11,28 +11,28 @@ import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 
-import { jsStyles } from './UploadFileItem.styles';
+import { jsStyles } from './FileUploaderFile.styles';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 
-interface UploadFileItemProps {
+interface FileUploaderFileProps {
   file: UploadFile;
   showSize?: boolean;
 }
 
-interface UploadFileState {
+interface FileUploaderFileState {
   fileNameWidth: number;
   fileNameElementWidth: number;
 }
 
-export const UploadFileItem = (props: UploadFileItemProps) => {
+export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const { file, showSize } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size } = originalFile;
 
   const [hovered, setHovered] = useState<boolean>(false);
   const [focusedByTab, setFocusedByTab] = useState(false);
-  const [state, setState] = useState<UploadFileState>({
+  const [state, setState] = useState<FileUploaderFileState>({
     fileNameWidth: 0,
     fileNameElementWidth: 0,
   });
@@ -154,25 +154,25 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
 
   return (
     <div
-      data-tid="FileUploader__uploadFile"
+      data-tid="FileUploader__file"
       className={jsStyles.root()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Tooltip data-tid="FileUploader__uploadFileTooltip" pos="right middle" render={renderTooltipContent}>
+      <Tooltip data-tid="FileUploader__fileTooltip" pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
-          <span data-tid="FileUploader__uploadFileName" ref={fileNameElementRef} className={jsStyles.name()}>
+          <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
             {truncatedFileName}
           </span>
           {!!showSize && formattedSize && (
-            <span data-tid="FileUploader__uploadFileSize" className={jsStyles.size()}>
+            <span data-tid="FileUploader__fileSize" className={jsStyles.size()}>
               {formattedSize}
             </span>
           )}
           <div
             className={iconClassNames}
-            data-tid="FileUploader__uploadFileIcon"
+            data-tid="FileUploader__fileIcon"
             tabIndex={0}
             onClick={handleRemove}
             onFocus={handleFocus}
@@ -187,4 +187,4 @@ export const UploadFileItem = (props: UploadFileItemProps) => {
   );
 };
 
-UploadFileItem.displayName = 'UploadFileItem';
+FileUploaderFile.displayName = 'FileUploaderFile';
