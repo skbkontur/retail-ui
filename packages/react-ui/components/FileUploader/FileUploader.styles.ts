@@ -30,7 +30,7 @@ const styles = {
       background-color: ${t.fileUploaderBg};
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
-      color: ${t.fileUploaderTextColorDefault}
+      color: ${t.fileUploaderTextColorDefault};
     `;
   },
 
@@ -124,13 +124,13 @@ const styles = {
     return css`
       display: inline-block;
       font-size: ${t.fileUploaderIconSize};
-      color: ${t.fileUploaderIconColor}
+      color: ${t.fileUploaderIconColor};
     `;
   },
 
   iconDisabled(t: Theme) {
     return css`
-      color: ${t.fileUploaderDisabledIconColor}
+      color: ${t.fileUploaderDisabledIconColor};
     `;
   },
 
@@ -144,7 +144,7 @@ const styles = {
     return css`
       color: ${t.fileUploaderDisabledLinkColor};
     `;
-  }
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

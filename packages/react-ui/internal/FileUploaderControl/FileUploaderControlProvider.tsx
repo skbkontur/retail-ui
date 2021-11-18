@@ -1,8 +1,4 @@
-import React, {
-  PropsWithChildren,
-  useCallback,
-  useState,
-} from 'react';
+import React, { PropsWithChildren, useCallback, useState } from 'react';
 
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { UploadFile, UploadFileStatus } from '../../lib/fileUtils';

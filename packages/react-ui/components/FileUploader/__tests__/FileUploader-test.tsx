@@ -16,9 +16,10 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
   mount(
     <LocaleContext.Provider value={localeProviderValue}>
       <ThemeContext.Provider value={DEFAULT_THEME}>
-          <FileUploader {...props} />
-      </ThemeContext.Provider>,
-    </LocaleContext.Provider>
+        <FileUploader {...props} />
+      </ThemeContext.Provider>
+      ,
+    </LocaleContext.Provider>,
   );
 
 const getBaseButtonText = (wrapper: ReactWrapper): string => {

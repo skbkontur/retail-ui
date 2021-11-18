@@ -220,4 +220,3 @@ export const UploadIcon = (props: SvgIconProps) => (
     </svg>
   </SvgIcon>
 );
-
