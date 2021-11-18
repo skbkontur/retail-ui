@@ -68,7 +68,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   /**
-   * Визуально показать наличие ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
@@ -128,6 +128,9 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   search?: boolean;
   value?: TValue;
   width?: number | string;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   use?: ButtonUse;
   size?: ButtonSize;

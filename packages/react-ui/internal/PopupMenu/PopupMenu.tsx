@@ -72,7 +72,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     positions: PopupPositions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
-    popupMargin: 0,
     disableAnimations: false,
   };
 

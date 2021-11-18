@@ -22,11 +22,11 @@ export interface CheckboxProps
          */
         children?: React.ReactNode;
         /**
-         * Цветовая схема ошибки.
+         * Cостояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Цветовая схема предупреждения.
+         * Cостояние валидации при предупреждении.
          */
         warning?: boolean;
         /**
@@ -201,10 +201,10 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       <span
         className={cx(styles.box(this.theme), globalClasses.box, {
           [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+          [styles.boxDisabled(this.theme)]: props.disabled,
           [styles.boxFocus(this.theme)]: this.state.focusedByTab,
           [styles.boxError(this.theme)]: props.error,
           [styles.boxWarning(this.theme)]: props.warning,
-          [styles.boxDisabled(this.theme)]: props.disabled,
         })}
       >
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
