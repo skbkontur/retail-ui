@@ -21,6 +21,9 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   borderless?: boolean;
   disablePortal?: boolean;
   disabled?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
   maxLength?: number;
   menuAlign?: 'left' | 'right';
@@ -41,6 +44,9 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   size?: 'small' | 'medium' | 'large';
   totalCount?: number;
   value?: Nullable<T>;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;

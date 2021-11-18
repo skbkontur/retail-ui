@@ -14,6 +14,7 @@ export const linkDisabledMixin = () => {
   return `
     box-shadow: none;
     cursor: default;
+    pointer-events: none;
     text-decoration: none;
 
     &:hover {

@@ -60,12 +60,12 @@ export interface TabProps<T extends string = string> extends CommonProps {
   disabled?: boolean;
 
   /**
-   * Error indicator
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
 
   /**
-   * Warning indicator
+   * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
 

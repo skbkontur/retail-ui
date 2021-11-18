@@ -32,7 +32,9 @@ export interface ComboBoxProps<T> extends CommonProps {
   disablePortal?: boolean;
 
   disabled?: boolean;
-
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
 
   leftIcon?: InputIconType;
@@ -139,7 +141,9 @@ export interface ComboBoxProps<T> extends CommonProps {
   valueToString: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
-
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
 
   width?: string | number;
