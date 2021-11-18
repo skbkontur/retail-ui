@@ -172,6 +172,7 @@ describe('ComboBox', () => {
     await promise;
 
     clickOutside();
+    await delay(0);
 
     expect(onUnexpectedInput).toBeCalledWith('one');
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
@@ -194,6 +195,7 @@ describe('ComboBox', () => {
       await delay(0);
       wrapper.find('input').simulate('change', { target: { value: values.pop() } });
       clickOutside();
+      await delay(0);
     }
 
     expect(onValueChange).toHaveBeenCalledWith(null);
@@ -230,11 +232,12 @@ describe('ComboBox', () => {
         opened: true,
       });
       clickOutside();
+      await delay(0);
 
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
 
-    it('calls onBlur on input blur when menu is closed', () => {
+    it('calls onBlur on input blur when menu is closed', async () => {
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
 
@@ -242,6 +245,7 @@ describe('ComboBox', () => {
         opened: false,
       });
       wrapper.find('input').simulate('blur');
+      await delay(0);
 
       expect(onBlur).toHaveBeenCalledTimes(1);
     });
@@ -336,6 +340,7 @@ describe('ComboBox', () => {
     wrapper.find('input').simulate('change', { target: { value: 'foo' } });
 
     clickOutside();
+    await delay(0);
     wrapper.update();
 
     expect(wrapper.find('CustomComboBox').state('textValue')).toBe('');
@@ -353,9 +358,10 @@ describe('ComboBox', () => {
     expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(true);
 
     clickOutside();
+    await delay(0);
     wrapper.update();
 
-    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(true);
+    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(false);
     expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
 
     await delay(1000);
@@ -405,18 +411,20 @@ describe('ComboBox', () => {
       { value: 1, label: 'one' },
       { value: 2, label: 'two' },
     ];
-    const check = (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
+    const check = async (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
 
       wrapper.instance().blur();
+      await delay(0);
       wrapper.setProps({ value: VALUES[1] });
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[1].label);
 
       wrapper.instance().blur();
+      await delay(0);
       wrapper.setProps({ value: null });
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
@@ -531,6 +539,7 @@ describe('ComboBox', () => {
     await delay(300);
 
     clickOutside();
+    await delay(0);
     wrapper.update();
 
     expect(changeHandler).toHaveBeenCalledWith(EXPECTED_ITEM);
