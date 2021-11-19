@@ -202,6 +202,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const selection = this.getSelection(event.target);
+    const nativeInput = this.input?.getNode();
     this.tempSelectionForOnChange = selection;
 
     if (this.props.onKeyDown) {
@@ -238,19 +239,31 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       }
       case CURRENCY_INPUT_ACTIONS.MoveCursorLeft: {
         this.moveCursor(selection, -1);
+        if (nativeInput) {
+          this.scrollInput(nativeInput, selection.start, 'left');
+        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.MoveCursorRight: {
         this.moveCursor(selection, +1);
+        if (nativeInput) {
+          this.scrollInput(nativeInput, selection.start, 'right');
+        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.Home: {
         this.setState({ selection: SelectionHelper.fromPosition(0) });
+        if (nativeInput) {
+          nativeInput.scrollLeft -= 100000;
+        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.End: {
         const end = this.state.formatted.length;
         this.setState({ selection: SelectionHelper.fromPosition(end) });
+        if (nativeInput) {
+          nativeInput.scrollLeft += 100000;
+        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft: {
@@ -279,6 +292,20 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
           selection: SelectionHelper.forward(selection.start, inputEnd),
         });
         return;
+      }
+    }
+  };
+
+  private scrollInput = (node: HTMLInputElement, start: number, direction: 'left' | 'right') => {
+    const symbolWidth = Math.floor(node.scrollWidth / this.state.formatted.length);
+    const cursorApproachedRightBorder = (start + 1) * symbolWidth > node.clientWidth && direction === 'right';
+    const cursorApproachedLeftBorder =
+      start * symbolWidth + node.clientWidth < node.scrollWidth && direction === 'left';
+    if (cursorApproachedRightBorder || cursorApproachedLeftBorder) {
+      if (direction === 'right') {
+        node.scrollLeft += symbolWidth + 5; // дополнительно прокручиваем на 5 пикселей, чтобы курсор было видно
+      } else {
+        node.scrollLeft -= symbolWidth + 5; // дополнительно прокручиваем на 5 пикселей, чтобы курсор было видно
       }
     }
   };
