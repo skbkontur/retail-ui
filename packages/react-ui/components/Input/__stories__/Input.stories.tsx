@@ -109,6 +109,16 @@ export const InputsWithDifferentStates: Story = () => (
         <Input size="large" rightIcon={<SearchIcon />} />
       </div>
     </div>
+
+    <div>
+      <div style={styles}>Error and Disabled</div>
+      <div id="error-disabled-small-input-wrapper" style={styles}>
+        <Input size="small" error disabled value="Error and Disabled" />
+      </div>
+      <div id="error-disabled-large-input-wrapper" style={styles}>
+        <Input size="large" error disabled value="Error and Disabled" />
+      </div>
+    </div>
   </div>
 );
 InputsWithDifferentStates.storyName = 'Inputs with different states';
@@ -187,6 +197,14 @@ InputsWithDifferentStates.parameters = {
       async ['Right icon large']() {
         const element = await this.browser.findElement({ css: '#right-icon-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Right icon large');
+      },
+      async ['Error and Disabled large']() {
+        const element = await this.browser.findElement({ css: '#error-disabled-large-input-wrapper' });
+        await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
+      },
+      async ['Error and Disabled small']() {
+        const element = await this.browser.findElement({ css: '#error-disabled-small-input-wrapper' });
+        await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
       },
     },
   },

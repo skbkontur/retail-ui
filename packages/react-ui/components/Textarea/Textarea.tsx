@@ -327,6 +327,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       counterHelp,
       extraRow,
       disableAnimations,
+      disabled,
       ...textareaProps
     } = props;
 
@@ -340,6 +341,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaClassNames = cx({
       [styles.textarea(this.theme)]: true,
+      [styles.disabled(this.theme)]: disabled,
       [styles.error(this.theme)]: !!error,
       [styles.warning(this.theme)]: !!warning,
       [styles.disableAnimations()]: this.isAnimationsDisabled(),
@@ -397,6 +399,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               onPaste={this.handlePaste}
               onFocus={this.handleFocus}
               onKeyDown={this.handleKeyDown}
+              disabled={disabled}
             >
               {this.props.children}
             </textarea>

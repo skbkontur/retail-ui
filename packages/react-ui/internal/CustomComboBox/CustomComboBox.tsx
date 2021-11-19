@@ -8,7 +8,6 @@ import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { isFirefox, isIE11 } from '../../lib/client';
 import { getRootDomNode } from '../../lib/getRootDomNode';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -377,15 +376,12 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       return;
     }
     this.focused = false;
-    if (isFirefox || isIE11) {
-      // workaround for the Firefox focusout bug
-      // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
-      setTimeout(() => {
-        this.dispatch({ type: 'Blur' });
-      });
-    } else {
+    // workaround for the similar bug with focusout
+    // in Firefox, Chrome and IE
+    // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
+    setTimeout(() => {
       this.dispatch({ type: 'Blur' });
-    }
+    });
   };
 
   private handleInputBlur = () => {
