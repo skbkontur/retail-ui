@@ -204,7 +204,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
-  public static checkboxLabelGap = '8px';
+  public static checkboxCaptionGap = '8px';
   public static get checkboxPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
     const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
@@ -353,7 +353,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get radioFontSize() {
     return this.fontSizeSmall;
   }
-  public static radioLabelGap = '8px';
+  public static radioCaptionGap = '8px';
   public static get radioPaddingY() {
     const controlHeight = parseInt(this.controlHeightSmall, 10) || 0;
     const lineHeight = parseInt(this.radioLineHeight, 10) || 0;
@@ -405,31 +405,31 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static get switcherOutlineWidth() {
     return this.btnOutlineWidth;
   }
-  public static get switcherLabelFontSizeSmall() {
+  public static get switcherCaptionFontSizeSmall() {
     return this.btnFontSizeSmall;
   }
-  public static get switcherLabelFontSizeMedium() {
+  public static get switcherCaptionFontSizeMedium() {
     return this.btnFontSizeMedium;
   }
-  public static get switcherLabelFontSizeLarge() {
+  public static get switcherCaptionFontSizeLarge() {
     return this.btnFontSizeLarge;
   }
-  public static get switcherLabelLineHeightSmall() {
+  public static get switcherCaptionLineHeightSmall() {
     return this.btnLineHeightSmall;
   }
-  public static get switcherLabelLineHeightMedium() {
+  public static get switcherCaptionLineHeightMedium() {
     return this.btnLineHeightMedium;
   }
-  public static get switcherLabelLineHeightLarge() {
+  public static get switcherCaptionLineHeightLarge() {
     return this.btnLineHeightLarge;
   }
-  public static get switcherLabelGapSmall() {
+  public static get switcherCaptionGapSmall() {
     return this.btnPaddingXSmall;
   }
-  public static get switcherLabelGapMedium() {
+  public static get switcherCaptionGapMedium() {
     return this.btnPaddingXMedium;
   }
-  public static get switcherLabelGapLarge() {
+  public static get switcherCaptionGapLarge() {
     return this.btnPaddingXLarge;
   }
   public static switcherButtonPaddingXSmall = '7px';
