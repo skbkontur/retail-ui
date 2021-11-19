@@ -1,6 +1,7 @@
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import warning from 'warning';
+import { getRootNode, rootNode, TSetRootNode } from '@skbkontur/react-ui/lib/rootNode';
 
 import { Nullable } from '../typings/Types';
 
@@ -9,7 +10,6 @@ import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
-import { getRootNode, rootNode, TSetRootNode } from '@skbkontur/react-ui/lib/rootNode';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
