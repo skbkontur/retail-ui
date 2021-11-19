@@ -190,6 +190,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
+  public static getDerivedStateFromProps(props: ButtonProps) {
+    if (props.loading) {
+      return { focusedByTab: false };
+    }
+    return null;
+  }
+
   /**
    * @public
    */
@@ -272,6 +279,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: align,
       },
+      disabled: disabled || loading,
       onClick: onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
