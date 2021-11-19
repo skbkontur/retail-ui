@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.9.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.0...@skbkontur/react-ui@3.9.1) (2021-11-19)
+
+
+### Bug Fixes
+
+* **ComboBox:** fix blur in Chrome ([#2665](https://github.com/skbkontur/retail-ui/issues/2665)) ([dab2ef0](https://github.com/skbkontur/retail-ui/commit/dab2ef0a16f878e179dd1ae98cebc3d69a6b7987))
+* **react-ui:** fix disabled and error state ([#2663](https://github.com/skbkontur/retail-ui/issues/2663)) ([4c2d542](https://github.com/skbkontur/retail-ui/commit/4c2d5420797b26cdeabd892bc87473c446d59bef))
+* **SidePage:** add offset prop ([#2626](https://github.com/skbkontur/retail-ui/issues/2626)) ([59b0257](https://github.com/skbkontur/retail-ui/commit/59b0257634a82bde15bca415e4f803076c89cf7a))
+
+
+
+
+
 # [3.9.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.8.5...@skbkontur/react-ui@3.9.0) (2021-11-16)
 
 
