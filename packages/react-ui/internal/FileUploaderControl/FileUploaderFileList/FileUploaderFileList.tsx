@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 
 import { jsStyles } from './FileUploaderFileList.styles';
-import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 
 export const FileUploaderFileList = () => {
   const { files } = useContext(FileUploaderControlContext);

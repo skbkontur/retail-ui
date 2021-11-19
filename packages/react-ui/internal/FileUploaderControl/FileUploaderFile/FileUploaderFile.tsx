@@ -10,10 +10,10 @@ import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
-
-import { jsStyles } from './FileUploaderFile.styles';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
+
+import { jsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileProps {
   file: UploadFile;

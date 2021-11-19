@@ -11,8 +11,6 @@ import { useDrop } from '../../hooks/useDrop';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { UploadIcon } from '../../internal/icons/16px';
-
-import { jsStyles } from './FileUploader.styles';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 import { keyListener } from '../../lib/events/keyListener';
@@ -20,6 +18,8 @@ import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploade
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+
+import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
