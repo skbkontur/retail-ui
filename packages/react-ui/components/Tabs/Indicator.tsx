@@ -6,7 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
@@ -24,6 +24,7 @@ export interface IndicatorState {
   styles: React.CSSProperties;
 }
 
+@rootNode
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public static contextType = TabsContext;
   public context: TabsContextType = this.context;
@@ -39,6 +40,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }> = null;
 
   private removeTabUpdatesListener: Nullable<() => void> = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.eventListener = LayoutEvents.addListener(this.reflow);
@@ -93,6 +95,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
           this.props.className,
         )}
         style={this.state.styles}
+        ref={this.setRootNode}
       />
     );
   }
@@ -110,7 +113,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }, 100);
 
   private getStyles(node: any): React.CSSProperties {
-    const htmlNode = getRootDomNode(node);
+    const htmlNode = getRootNode(node);
 
     if (htmlNode && htmlNode instanceof HTMLElement) {
       const rect = htmlNode.getBoundingClientRect();

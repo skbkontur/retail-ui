@@ -16,7 +16,7 @@ import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -117,6 +117,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+@rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
@@ -198,6 +199,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.updateLocation();
@@ -267,6 +269,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       ? React.cloneElement(child as JSX.Element, {
           ref: (instance: Nullable<React.ReactNode>) => {
             this.childRef(instance);
+            this.setRootNode(instance);
             const childAsAny = child as any;
             if (childAsAny && childAsAny.ref && typeof childAsAny.ref === 'function') {
               childAsAny.ref(instance);
@@ -282,12 +285,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     childInstance && this.updateAnchorElement(childInstance);
   };
 
-  public getRootDomNode = () => {
-    return this.anchorElement;
-  };
-
   private updateAnchorElement(childInstance: Nullable<React.ReactNode>) {
-    const childDomNode = getRootDomNode(childInstance);
+    const childDomNode = getRootNode(childInstance);
     const anchorElement = this.anchorElement;
 
     if (childDomNode !== anchorElement) {

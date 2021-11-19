@@ -13,7 +13,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -72,6 +72,7 @@ export interface AutocompleteState {
  *
  * Все свойства передаются во внутренний *Input*.
  */
+@rootNode
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
@@ -118,11 +119,12 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
-  private rootDomNode: Nullable<HTMLElement>;
+  private rootSpan: Nullable<HTMLSpanElement>;
 
   private requestId = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -151,7 +153,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -185,27 +191,13 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     };
 
     return (
-      <RenderLayer
-        onFocusOutside={this.handleBlur}
-        onClickOutside={this.handleClickOutside}
-        active={focused}
-        ref={this.renderLayerRef}
-      >
-        <span style={{ display: 'inline-block', width }}>
+      <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
+        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
       </RenderLayer>
     );
-  };
-
-  private renderLayerRef = (instance: Nullable<React.ReactNode>) => {
-    if (instance === null) return;
-    this.rootDomNode = getRootDomNode(instance);
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
   };
 
   private renderMenu(): React.ReactNode {
@@ -214,7 +206,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootDomNode)),
+      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -224,7 +216,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <DropdownContainer
         offsetY={1}
-        getParent={this.getRootDomNode}
+        getParent={this.getAnchor}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
@@ -323,6 +315,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (event: React.SyntheticEvent<HTMLElement>) => this.handleItemClick(event, i);
   }
 
+  private getAnchor = () => {
+    return getRootNode(this);
+  };
+
   private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {
     if ((event as React.MouseEvent<HTMLElement>).button) {
       return;
@@ -388,5 +384,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refMenu = (menu: Menu | null) => {
     this.menu = menu;
+  };
+
+  private refRootSpan = (span: HTMLSpanElement) => {
+    this.rootSpan = span;
   };
 }

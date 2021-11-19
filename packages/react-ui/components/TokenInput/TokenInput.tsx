@@ -25,7 +25,8 @@ import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode } from '../../lib/rootNode/getRootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -169,6 +170,7 @@ const defaultRenderToken = <T extends {}>(
   </Token>
 );
 
+@rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
@@ -199,6 +201,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -321,7 +324,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     });
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
@@ -539,7 +542,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef) {
-      const menu = getRootDomNode(this.tokensInputMenu?.getMenuRef());
+      const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
       const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
 
       if (menu && menu.contains(relatedTarget)) {

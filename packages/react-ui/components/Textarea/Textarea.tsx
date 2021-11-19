@@ -15,6 +15,7 @@ import { isBrowser, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -117,6 +118,7 @@ export interface TextareaState {
  *
  * ** `className` и `style`  игнорируются**
  */
+@rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
 
@@ -198,6 +200,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
   private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
+  private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
     // Поэтому выставляем таймаут троттла в ноль. Подробности - https://github.com/skbkontur/retail-ui/issues/2120
@@ -206,7 +209,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private isAnimationsDisabled({ disableAnimations, extraRow }: TextareaProps = this.props): boolean {
     return disableAnimations || !extraRow;
   }
-  private rootDomNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     if (this.props.autoResize) {
@@ -249,7 +251,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -385,7 +391,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label {...rootProps} className={styles.root(this.theme)} ref={this.refRootDomNode}>
+        <label {...rootProps} className={styles.root(this.theme)}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea
@@ -409,14 +415,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         </label>
       </RenderLayer>
     );
-  };
-
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
   };
 
   private handleCloseCounterHelp = () => this.setState({ isCounterVisible: false });

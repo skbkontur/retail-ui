@@ -1,13 +1,10 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-
-type DOMNode = Element | Text | null;
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -49,9 +46,9 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
-  private dom: DOMNode = null;
+  private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private rootDomNode: Nullable<HTMLElement>;
+  private rootNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.position();
@@ -59,8 +56,8 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   public componentDidUpdate() {
-    if (this.rootDomNode !== this.props.getParent()) {
-      this.rootDomNode = this.props.getParent();
+    if (this.rootNode !== this.props.getParent()) {
+      this.rootNode = this.props.getParent();
       this.position();
     }
   }
@@ -100,7 +97,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
 
     const content = (
-      <ZIndex priority={'DropdownContainer'} ref={this.ref} style={style}>
+      <ZIndex priority={'DropdownContainer'} wrapperRef={this.ZIndexRef} style={style}>
         {this.props.children}
       </ZIndex>
     );
@@ -108,11 +105,11 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
-  private ref = (e: ZIndex | null) => {
-    this.dom = e && findDOMNode(e);
+  private ZIndexRef = (element: Nullable<HTMLDivElement>) => {
+    this.dom = element;
   };
 
-  private isElement = (node: DOMNode): node is Element => {
+  private isElement = (node: Nullable<Element>): node is Element => {
     return node instanceof Element;
   };
 

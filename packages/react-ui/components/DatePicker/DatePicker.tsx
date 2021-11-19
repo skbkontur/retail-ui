@@ -13,7 +13,7 @@ import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 
 import { Picker } from './Picker';
@@ -85,6 +85,7 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
+@rootNode
 export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
@@ -176,7 +177,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -232,7 +233,11 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
@@ -240,7 +245,7 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={this.getRootDomNode} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={this.getParent} offsetY={2} align={this.props.menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
@@ -261,7 +266,6 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
-        ref={this.refRootDomNode}
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
@@ -289,13 +293,8 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
     );
   };
 
-  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
-    if (instance === null) return;
-    this.rootDomNode = getRootDomNode(instance);
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
+  public getParent = () => {
+    return getRootNode(this);
   };
 
   private getRootStyle = () => {

@@ -7,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Group.styles';
 
@@ -19,8 +20,10 @@ interface GroupChildProps {
   corners?: number;
 }
 
+@rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
+  private setRootNode!: TSetRootNode;
 
   public static propTypes = {
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -42,7 +45,7 @@ export class Group extends React.Component<GroupProps> {
     });
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span className={styles.root()} style={style}>
           {React.Children.map(this.props.children, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {

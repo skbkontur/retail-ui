@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -166,6 +166,7 @@ export interface ComboBoxItem {
   label: string;
 }
 
+@rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
@@ -180,7 +181,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   };
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -261,15 +262,6 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={this.refCustomComboBox} />;
+    return <CustomComboBox {...this.props} ref={this.setRootNode} />;
   }
-
-  private refCustomComboBox = (instance: Nullable<CustomComboBox<T>>) => {
-    this.comboboxElement = instance;
-    this.rootDomNode = getRootDomNode(instance);
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
-  };
 }

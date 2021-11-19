@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { Toast, ToastProps, ToastState } from '../Toast';
+import { getRootNode } from '../../../lib/rootNode';
 
 jest.useFakeTimers();
 
@@ -27,7 +28,7 @@ describe('Toast', () => {
 
     const toast = (wrapper.instance() as Toast)._toast;
     expect(toast).toBeTruthy();
-    const domNode = (wrapper.instance() as Toast).getRootDomNode();
+    const domNode = getRootNode(wrapper.instance() as Toast);
     expect(domNode).toBeInstanceOf(HTMLElement);
     expect(domNode!.textContent).toEqual('message');
   });
@@ -67,7 +68,7 @@ describe('Toast', () => {
       handler: () => undefined,
     });
 
-    const textContent = (wrapper.instance() as Toast).getRootDomNode()?.textContent;
+    const textContent = getRootNode(wrapper.instance() as Toast)?.textContent;
     expect(textContent).toBe('messageaction');
   });
 

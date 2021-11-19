@@ -5,7 +5,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { rootDomNode } from '../../lib/rootDomNodeDecorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -34,7 +34,7 @@ export interface GappedProps extends CommonProps {
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-@rootDomNode
+@rootNode
 export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
 
@@ -56,6 +56,7 @@ export class Gapped extends React.Component<GappedProps> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public static defaultProps = {
     wrap: false,
@@ -69,7 +70,7 @@ export class Gapped extends React.Component<GappedProps> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
             </CommonWrapper>
           );

@@ -6,11 +6,12 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { keyListener } from '../../lib/events/keyListener';
 import { Nullable } from '../../typings/utility-types';
+import { isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -104,6 +105,7 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
+@rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
@@ -129,7 +131,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public UNSAFE_componentWillMount() {
     invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
@@ -201,7 +203,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Component
           className={cx({
             [styles.root(this.theme)]: true,
@@ -220,7 +222,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
           onFocus={this.handleFocus}
           onKeyDown={this.handleKeyDown}
           tabIndex={disabled ? -1 : 0}
-          ref={this.refRootDomNode}
+          ref={isFunctionalComponent(Component) ? null : this.refTabComponent}
           href={href}
         >
           <ResizeDetector onResize={this.context.notifyUpdate}>{children}</ResizeDetector>
@@ -232,13 +234,8 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private getId = () => this.props.id || this.props.href;
 
-  private refRootDomNode = (instance: Nullable<React.ReactElement<Tab<T>>>) => {
+  private refTabComponent = (instance: React.ReactElement<any>) => {
     this.tabComponent = instance;
-    this.rootDomNode = getRootDomNode(instance);
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
   };
 
   private getTabInstance = () => this;

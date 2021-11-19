@@ -5,7 +5,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode } from '../../lib/rootNode/getRootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -50,6 +51,7 @@ export interface TabsProps<T extends string = string> extends CommonProps {
  *
  * contains static property `Tab`
  */
+@rootNode
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
@@ -83,6 +85,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   };
 
   private listeners: Array<() => void> = [];
+  private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
     const { vertical, value, width, children, indicatorClassName } = this.props;
@@ -92,7 +95,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
                 <TabsContext.Provider
                   value={{
@@ -124,7 +127,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     const tab = tabs[newIndex];
 
     const tabNode = tab.getNode();
-    const htmlNode = getRootDomNode(tabNode);
+    const htmlNode = getRootNode(tabNode);
 
     if (htmlNode && htmlNode instanceof HTMLElement && typeof htmlNode.focus === 'function') {
       htmlNode.focus();

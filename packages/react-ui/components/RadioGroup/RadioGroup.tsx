@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -89,6 +90,7 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+@rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
@@ -126,6 +128,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   constructor(props: RadioGroupProps<T>) {
     super(props);
@@ -169,7 +172,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
           <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
             {this.renderChildren()}

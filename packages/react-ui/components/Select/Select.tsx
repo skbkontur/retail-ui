@@ -28,7 +28,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -148,6 +148,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+@rootNode
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
@@ -205,7 +206,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -283,13 +284,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const button = this.getButton(buttonParams);
 
     return (
-      <CommonWrapper {...this.props}>
-        <RenderLayer
-          onClickOutside={this.close}
-          onFocusOutside={this.close}
-          active={this.state.opened}
-          ref={this.refRootDomNode}
-        >
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
           <span className={styles.root()} style={style}>
             {button}
             {!this.props.disabled && this.state.opened && this.renderMenu()}
@@ -298,15 +294,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       </CommonWrapper>
     );
   }
-
-  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
-    if (instance === null) return;
-    this.rootDomNode = getRootDomNode(instance);
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
-  };
 
   private renderLabel() {
     const value = this.getValue();
@@ -459,7 +446,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private dropdownContainerGetParent = () => {
-    return this.rootDomNode;
+    return getRootNode(this);
   };
 
   private focusInput = (input: Input) => {

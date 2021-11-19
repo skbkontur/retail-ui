@@ -14,7 +14,7 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
-import { getRootDomNode } from '../../../lib/getRootDomNode';
+import { getRootNode } from '../../../lib/rootNode/getRootNode';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
@@ -806,7 +806,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
-  private rootDomNode: Nullable<HTMLElement>;
+  private rootNode: Nullable<HTMLElement>;
 
   public render() {
     return (
@@ -821,11 +821,11 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   }
 
   private refRootDomNode = (instance: Nullable<ComboBox>) => {
-    this.rootDomNode = getRootDomNode(instance);
+    this.rootNode = getRootNode(instance);
   };
 
-  public getRootDomNode = () => {
-    return this.rootDomNode;
+  public getRootNode = () => {
+    return this.rootNode;
   };
 
   private getItems = (query: string) =>

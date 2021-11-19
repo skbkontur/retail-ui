@@ -9,6 +9,7 @@ import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
 import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
+import { getRootNode, rootNode, TSetRootNode } from '@skbkontur/react-ui/lib/rootNode';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -46,6 +47,7 @@ interface Point {
   y: number;
 }
 
+@rootNode
 export class ValidationWrapperInternal extends React.Component<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
@@ -62,7 +64,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public isChanging = false;
   private child: any; // todo type
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public UNSAFE_componentWillMount() {
     this.applyValidation(this.props.validation);
@@ -90,7 +92,7 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   public async focus(): Promise<void> {
-    const htmlElement = this.rootDomNode;
+    const htmlElement = getRootNode(this);
     if (htmlElement instanceof HTMLElement) {
       const { disableSmoothScroll, scrollOffset } = this.context.validationContext.getSettings();
       if (!disableSmoothScroll) {
@@ -156,15 +158,11 @@ export class ValidationWrapperInternal extends React.Component<
         },
       });
     }
-    return this.props.errorMessage(<span ref={this.refRootDomNode}>{clonedChild}</span>, !!validation, validation);
+    return this.props.errorMessage(<span ref={this.setRootNode}>{clonedChild}</span>, !!validation, validation);
   }
 
-  private refRootDomNode = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
   public getControlPosition(): Nullable<Point> {
-    const htmlElement = this.rootDomNode;
+    const htmlElement = getRootNode(this);
     if (htmlElement instanceof HTMLElement) {
       const rect = htmlElement.getBoundingClientRect();
       return { x: rect.top, y: rect.left };

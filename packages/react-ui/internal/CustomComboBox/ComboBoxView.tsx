@@ -11,7 +11,7 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { getRootDomNode } from '../../lib/getRootDomNode';
+import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -77,6 +77,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
+@rootNode
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
@@ -99,7 +100,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   public state: ComboBoxViewState = { rootDomNode: null };
 
   private input: Nullable<Input>;
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -153,13 +154,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     }
 
     return (
-      <CommonWrapper {...this.props}>
-        <RenderLayer
-          onClickOutside={onClickOutside}
-          onFocusOutside={onFocusOutside}
-          active={opened}
-          ref={this.refRootDomNode}
-        >
+      <CommonWrapper rootNodeRef={this.commonWrapperRef} {...this.props}>
+        <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
             style={{ width }}
             className={styles.root()}
@@ -171,7 +167,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
             {opened && (
               <DropdownContainer
                 align={menuAlign}
-                getParent={this.getRootDomNode}
+                getParent={this.getParent}
                 offsetY={1}
                 disablePortal={this.props.disablePortal}
               >
@@ -198,16 +194,16 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     );
   }
 
-  private refRootDomNode = (instance: Nullable<React.ReactNode>) => {
-    const rootDomNode = getRootDomNode(instance);
+  private commonWrapperRef = (instance: Nullable<React.ReactNode>) => {
+    this.setRootNode(instance);
+    const rootDomNode = getRootNode(this);
     if (rootDomNode && rootDomNode !== this.state.rootDomNode) {
-      this.rootDomNode = rootDomNode;
       this.setState({ rootDomNode });
     }
   };
 
-  public getRootDomNode = () => {
-    return this.rootDomNode;
+  private getParent = () => {
+    return getRootNode(this);
   };
 
   private renderAddButton = (): React.ReactNode => {

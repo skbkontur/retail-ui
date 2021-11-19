@@ -13,6 +13,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Loader.styles';
 
@@ -52,6 +53,7 @@ export interface LoaderState {
 /**
  * DRAFT - лоадер-контейнер
  */
+@rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
@@ -103,6 +105,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
   private spinnerContainerNode: Nullable<HTMLDivElement>;
   private childrenContainerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
@@ -212,7 +215,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const { isLoaderActive } = this.state;
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.loader()} data-tid={isLoaderActive ? 'Loader__Veil' : ''}>
           <ZIndex
             priority={'Loader'}

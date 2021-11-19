@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -23,6 +24,7 @@ export interface SidePageFooterProps extends CommonProps {
  * @visibleName SidePage.Footer
  */
 
+@rootNode
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
@@ -37,6 +39,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private content: HTMLElement | null = null;
   private wrapper: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.context.footerRef(this);
@@ -76,7 +79,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   private renderMain() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div style={{ height: this.getContentHeight() }} className={styles.footerWrapper()} ref={this.refWrapper}>
           <SidePageContext.Consumer>
             {({ getWidth }) => (

@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Input.styles';
 
@@ -110,6 +111,7 @@ export interface InputState {
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
+@rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
@@ -129,7 +131,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
-  private rootDomNode: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
@@ -212,7 +214,11 @@ export class Input extends React.Component<InputProps, InputState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -327,7 +333,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
-      <label {...labelProps} ref={this.refRootLabel}>
+      <label {...labelProps}>
         <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
@@ -342,14 +348,6 @@ export class Input extends React.Component<InputProps, InputState> {
         </span>
       </label>
     );
-  };
-
-  private refRootLabel = (rootDomNode: Nullable<HTMLElement>) => {
-    this.rootDomNode = rootDomNode;
-  };
-
-  public getRootDomNode = () => {
-    return this.rootDomNode;
   };
 
   private renderMaskedInput(
