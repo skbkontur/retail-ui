@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ReactUIComponentWithRef } from './forwardRefAndName';
 import { getDisplayName } from './getDisplayName';
+import { isNonNullable } from './utils';
 
 const removePostfix = (word: string, postfixRegex: RegExp) => {
   const regexContent = postfixRegex.source.replace(/\$$/, '');
@@ -16,33 +17,48 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
   return word.replace(postfixRegex, '');
 };
 
-class ClassWrapper<P> extends React.Component<P> {
-  public static __KONTUR_REACT_UI__: string;
-  public static displayName: string;
-
-  public static FC: ReactUIComponentWithRef<any, any>;
-
-  render() {
-    return <ClassWrapper.FC {...this.props} />;
-  }
-}
-
 /**
  * HOC for moving from Class to Functional components.
  *
- * Should be used to remove distinctions between Class and Functional refs.
+ * Used to remove distinctions between Class and Functional refs.
  *
- * @param RFC Functional component wrapped in forwardRefAndName decorator.
+ * @param RFC Functional component wrapped in forwardRefAndName HOF.
+ * @param methodsNames Names of methods in functional component.
  * @returns Class component that wraps Functional component.
  */
-export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
+export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>, methodsNames?: Readonly<string[]>) {
   const fullName = getDisplayName(RFC);
   const nameWithoutPostfix = removePostfix(fullName, /FC$/);
 
-  ClassWrapper.displayName = nameWithoutPostfix;
-  ClassWrapper.__KONTUR_REACT_UI__ = nameWithoutPostfix;
+  return class ClassWrapper extends React.Component<P> {
+    // Ref type is defined as any
+    // as there are custom methods.
+    public wrapperRef = React.createRef<any>();
 
-  ClassWrapper.FC = RFC;
+    constructor(props: P) {
+      super(props);
 
-  return ClassWrapper;
+      // Creates an interface for calling static methods
+      // defined in functional component.
+      if (isNonNullable(methodsNames)) {
+        for (let methodName of methodsNames) {
+          Object.defineProperty(this, methodName, {
+            value: () => this.wrapperRef.current?.[methodName](),
+            enumerable: true,
+          });
+        }
+      }
+    }
+
+    public static __KONTUR_REACT_UI__ = nameWithoutPostfix;
+    public static displayName = nameWithoutPostfix;
+
+    public static FC = RFC;
+
+    render() {
+      // TypeScript erares the type of props.
+      // https://github.com/Microsoft/TypeScript/issues/28938#issuecomment-450636046
+      return <ClassWrapper.FC ref={this.wrapperRef} {...(this.props as P)} />;
+    }
+  };
 }
