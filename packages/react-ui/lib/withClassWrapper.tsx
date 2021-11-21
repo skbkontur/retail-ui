@@ -31,15 +31,16 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>, metho
   const nameWithoutPostfix = removePostfix(fullName, /FC$/);
 
   return class ClassWrapper extends React.Component<P> {
-    // Ref type is defined as any
-    // as there are custom methods.
+    // Ref is type of any as there are custom methods.
     public wrapperRef = React.createRef<any>();
 
     constructor(props: P) {
       super(props);
 
-      // Creates an interface for calling static methods
-      // defined in functional component.
+      /**
+       * Creates an interface for calling static methods
+       * defined in functional component.
+       */
       if (isNonNullable(methodsNames)) {
         for (let methodName of methodsNames) {
           Object.defineProperty(this, methodName, {
@@ -56,9 +57,7 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>, metho
     public static FC = RFC;
 
     render() {
-      // TypeScript erares the type of props.
-      // https://github.com/Microsoft/TypeScript/issues/28938#issuecomment-450636046
-      return <ClassWrapper.FC ref={this.wrapperRef} {...(this.props as P)} />;
+      return <ClassWrapper.FC ref={this.wrapperRef} {...this.props} />;
     }
   };
 }
