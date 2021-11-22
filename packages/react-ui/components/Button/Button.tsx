@@ -190,16 +190,11 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
-  componentDidUpdate(prevProps: Readonly<ButtonProps>, prevState: Readonly<ButtonState>) {
-    if (this.props.loading !== prevProps.loading && this.props.loading === true) {
-      if (this.node) {
-        this.node.onclick = null;
-        this.node.onkeydown = null;
-        this.node.onmouseenter = null;
-        this.node.onmouseleave = null;
-        this.node.onmouseover = null;
-      }
+  public static getDerivedStateFromProps(props: ButtonProps) {
+    if (props.loading) {
+      return { focusedByTab: false };
     }
+    return null;
   }
 
   /**
@@ -284,7 +279,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: align,
       },
-      disabled: disabled,
+      disabled: disabled || loading,
       onClick: onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
