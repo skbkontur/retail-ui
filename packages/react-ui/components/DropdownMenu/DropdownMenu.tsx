@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -9,21 +10,25 @@ import { PopupPosition } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface DropdownMenuProps extends CommonProps {
-  /** Максимальная высота меню */
+  /**
+   * Максимальная высота меню.
+   */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
-  /** Ширина меню */
+  /**
+   * Ширина меню.
+   */
   menuWidth?: React.CSSProperties['width'];
-  /** Ширина caption */
+  /**
+   * Ширина caption.
+   */
   width?: React.CSSProperties['width'];
-
   /**
    * Элемент или функция возвращающая элемент,
    * если передана, используется вместо `caption`,
    * в таком случае управлять открытием и закрытием меню
-   * придется в этой функции
+   * придется в этой функции.
    */
   caption: PopupMenuProps['caption'];
-
   /**
    * Произвольный элемент, который будет отрендерен в шапке меню.
    *
@@ -45,12 +50,16 @@ export interface DropdownMenuProps extends CommonProps {
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions?: PopupPosition[];
-
-  onOpen?: () => void;
-  onClose?: () => void;
-
   /**
-   * Не показывать анимацию
+   * Функция, вызывающаяся при открытии выпадашки.
+   */
+  onOpen?: () => void;
+  /**
+   * Функция, вызывающаяся при закрытии выпадашки.
+   */
+  onClose?: () => void;
+  /**
+   * Не показывать анимацию.
    */
   disableAnimations: boolean;
 }
@@ -64,6 +73,14 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static defaultProps = {
     disableAnimations: isTestEnv,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
+  };
+
+  // TODO: уточнить тип positions, когда #2623 будет смёржен.
+  public static propTypes = {
+    menuMaxHeight: pt.oneOf([pt.string, pt.number]),
+    menuWidth: pt.oneOf([pt.string, pt.number]),
+    width: pt.oneOf([pt.string, pt.number]),
+    caption: pt.oneOfType([pt.node, pt.func]).isRequired,
   };
 
   private popupMenu: Nullable<PopupMenu> = null;

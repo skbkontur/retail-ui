@@ -1,4 +1,5 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
+import pt from 'prop-types';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
 
@@ -189,6 +190,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onMouseLeave: emptyHandler,
     menuWidth: 'auto',
     menuAlign: 'cursor',
+  };
+
+  public static propTypes = {
+    menuWidth: pt.oneOf([pt.string, pt.number]),
   };
 
   public state: TokenInputState<T> = DefaultState;

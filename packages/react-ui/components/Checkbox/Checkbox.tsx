@@ -1,7 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -12,49 +11,49 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles, globalClasses } from './Checkbox.styles';
 
+interface CheckboxInterface {
+  /**
+   * Контент `label`
+   */
+  children?: React.ReactNode;
+  /**
+   * Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /**
+   * HTML-событие `mouseenter`.
+   */
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `mouseleave`.
+   */
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `mouseover`.
+   */
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * Функция, вызываемая при изменении `value`.
+   */
+  onValueChange?: (value: boolean) => void;
+  /**
+   * HTML-событие `onblur`.
+   */
+  onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
+  /**
+   * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+   */
+  initialIndeterminate?: boolean;
+}
+
 export interface CheckboxProps
   extends CommonProps,
-    Override<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      {
-        /**
-         * Контент `label`
-         */
-        children?: React.ReactNode;
-        /**
-         * Cостояние валидации при ошибке.
-         */
-        error?: boolean;
-        /**
-         * Cостояние валидации при предупреждении.
-         */
-        warning?: boolean;
-        /**
-         * HTML-событие `mouseenter`.
-         */
-        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`.
-         */
-        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseover`.
-         */
-        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
-        onValueChange?: (value: boolean) => void;
-        /**
-         * HTML-событие `onblur`.
-         */
-        onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
-         */
-        initialIndeterminate?: boolean;
-      }
-    > {}
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof CheckboxInterface>,
+    CheckboxInterface {}
 
 export interface CheckboxState {
   focusedByTab: boolean;
@@ -63,18 +62,6 @@ export interface CheckboxState {
 
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
-
-  public static propTypes = {
-    checked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-    onValueChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-  };
 
   public state = {
     focusedByTab: false,
@@ -108,7 +95,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
-   * Программная установка фокуса чекбоксу.
+   * Статический метод для вызова фокуса у чекбокса.
    * @public
    */
   public focus() {
@@ -117,7 +104,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
-   * Программное снятие фокуса с чекбокса.
+   * Статический метод для снятия фокуса с чекбокса
    * @public
    */
   public blur() {

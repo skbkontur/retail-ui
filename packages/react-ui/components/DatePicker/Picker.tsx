@@ -1,9 +1,10 @@
 import React from 'react';
 import shallowEqual from 'shallowequal';
+import pt from 'prop-types';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../lib/date/InternalDateGetter';
-import { Calendar, CalendarDateShape, isGreater, isLess } from '../../internal/Calendar';
+import { Calendar, CalendarDateShape, isGreater, isLess, ptDateShape } from '../../internal/Calendar';
 import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
@@ -12,7 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
 
-interface Props {
+interface PickerProps {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   value: Nullable<CalendarDateShape>;
@@ -37,14 +38,14 @@ const getTodayCalendarDate = () => {
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export class Picker extends React.Component<Props, State> {
+export class Picker extends React.Component<PickerProps, State> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
   private theme!: Theme;
   private calendar: Calendar | null = null;
   private readonly locale!: DatePickerLocale;
 
-  constructor(props: Props) {
+  constructor(props: PickerProps) {
     super(props);
     const today = getTodayCalendarDate();
     this.state = {
@@ -53,7 +54,13 @@ export class Picker extends React.Component<Props, State> {
     };
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public static propTypes = {
+    maxDate: pt.shape(ptDateShape),
+    minDate: pt.shape(ptDateShape),
+    value: pt.oneOf([pt.shape(ptDateShape), null, undefined]).isRequired,
+  };
+
+  public componentDidUpdate(prevProps: PickerProps) {
     const { value } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       this.scrollToMonth(value.month, value.year);

@@ -49,6 +49,7 @@ export type TooltipTrigger =
   /** Управление через публичные функции show и hide */
   | 'manual';
 
+// TODO: изменить типы pos и allowedPositions после мержа #2623.
 export interface TooltipProps extends CommonProps {
   /**
    * Относительно какого элемента позиционировать тултип

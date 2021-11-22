@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -10,45 +8,44 @@ import { keyListener } from '../../lib/events/keyListener';
 
 import { styles, globalClasses } from './Radio.styles';
 
-export interface RadioProps<T>
-  extends CommonProps,
-    Override<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      {
-        /**
-         *  Cостояние валидации при ошибке.
-         */
-        error?: boolean;
-        /**
-         * Cостояние валидации при предупреждении.
-         */
-        warning?: boolean;
-        /**
-         * Состояние фокуса.
-         */
-        focused?: boolean;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
-        onValueChange?: (value: T) => void;
-        /**
-         * HTML-событие `onmouseenter`
-         */
-        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`
-         */
-        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `onmouseover`
-         */
-        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-атрибут `value`.
-         */
-        value: T;
-      }
-    > {}
+interface RadioInterface<T> {
+  /**
+   *  Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /**
+   * Состояние фокуса.
+   */
+  focused?: boolean;
+  /**
+   * Функция, вызываемая при изменении `value`.
+   */
+  onValueChange?: (value: T) => void;
+  /**
+   * HTML-событие `onmouseenter`
+   */
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `mouseleave`
+   */
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `onmouseover`
+   */
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-атрибут `value`.
+   */
+  value: T;
+}
+
+export type RadioProps<T> = CommonProps &
+  Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof RadioInterface<T>> &
+  RadioInterface<T>;
 
 export interface RadioState {
   focusedByKeyboard: boolean;
@@ -62,15 +59,6 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   public state = {
     focusedByKeyboard: false,
-  };
-
-  public static contextTypes = {
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
-    name: PropTypes.string,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
   };
 
   public static defaultProps = {

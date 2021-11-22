@@ -1,11 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
+import pt from 'prop-types';
 
 import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { MAX_SAFE_DIGITS } from './constants';
@@ -14,30 +14,42 @@ import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 
+interface CurrencyInputInterface {
+  /**
+   * Значение в поле инпута.
+   */
+  value: Nullable<number>;
+  /**
+   * Убрать лишние нули после запятой.
+   */
+  hideTrailingZeros: boolean;
+  /**
+   * Кол-во цифр после зяпятой.
+   */
+  fractionDigits?: Nullable<number>;
+  /**
+   * Отрицательные значения.
+   */
+  signed?: boolean;
+  /**
+   * Допустимое кол-во цифр целой части.
+   * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
+   */
+  integerDigits?: Nullable<number>;
+  /**
+   * Функция вызываемая при изменении `value`.
+   */
+  onValueChange: (value: Nullable<number>) => void;
+  /**
+   * HTML-событие `onsubmit`.
+   */
+  onSubmit?: () => void;
+}
+
 export interface CurrencyInputProps
   extends CommonProps,
-    Override<
-      InputProps,
-      {
-        /** Значение */
-        value: Nullable<number>;
-        /** Убрать лишние нули после запятой */
-        hideTrailingZeros: boolean;
-        /** Кол-во цифр после зяпятой */
-        fractionDigits?: Nullable<number>;
-        /** Отрицательные значения */
-        signed?: boolean;
-        /**
-         * Допустимое кол-во цифр целой части.
-         * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
-         */
-        integerDigits?: Nullable<number>;
-        /** Вызывается при изменении `value` */
-        onValueChange: (value: Nullable<number>) => void;
-        /** onSubmit */
-        onSubmit?: () => void;
-      }
-    > {}
+    Omit<InputProps, keyof CurrencyInputInterface>,
+    CurrencyInputInterface {}
 
 export interface CurrencyInputState {
   formatted: string;
@@ -57,27 +69,9 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
 
   public static propTypes = {
-    align: PropTypes.oneOf(['left', 'center', 'right']),
-    autoFocus: PropTypes.bool,
-    borderless: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    fractionDigits: PropTypes.number,
-    hideTrailingZeros: PropTypes.bool,
-    leftIcon: PropTypes.element,
-    placeholder: PropTypes.string,
-    signed: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: PropTypes.number,
-    warning: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onBlur: PropTypes.func,
-    onValueChange: PropTypes.func.isRequired,
-    onFocus: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onSubmit: PropTypes.func,
+    value: pt.oneOf([pt.number, null, undefined]).isRequired,
+    fractionDigits: pt.oneOf([pt.number, null, undefined]),
+    integerDigits: pt.oneOf([pt.number, null, undefined]),
   };
 
   public static defaultProps = {

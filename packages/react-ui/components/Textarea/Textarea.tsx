@@ -1,12 +1,11 @@
 import React, { ReactNode } from 'react';
-import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import raf from 'raf';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -23,87 +22,86 @@ import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
 
-export interface TextareaProps
-  extends CommonProps,
-    Override<
-      React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-      {
-        /**
-         * Cостояние валидации при ошибке.
-         */
-        error?: boolean;
-        /**
-         * Cостояние валидации при предупреждении.
-         */
-        warning?: boolean;
-        /** Не активное состояние */
-        disabled?: boolean;
+interface TextareaInterface {
+  /**
+   * Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /** Не активное состояние */
+  disabled?: boolean;
 
-        /**
-         * Атоматический ресайз
-         * в зависимости от содержимого
-         */
-        autoResize?: boolean;
-        /**
-         * Число строк
-         */
-        rows: number;
-        /**
-         * Максимальное число строк при
-         * автоматическом ресайзе
-         */
-        maxRows: string | number;
+  /**
+   * Атоматический ресайз
+   * в зависимости от содержимого
+   */
+  autoResize?: boolean;
+  /**
+   * Число строк
+   */
+  rows: number;
+  /**
+   * Максимальное число строк при
+   * автоматическом ресайзе
+   */
+  maxRows: string | number;
 
-        /**
-         * Стандартный ресайз
-         * Попадает в `style`
-         */
-        resize?: React.CSSProperties['resize'];
+  /**
+   * Стандартный ресайз
+   * Попадает в `style`
+   */
+  resize?: React.CSSProperties['resize'];
 
-        /**
-         * Ширина
-         */
-        width?: React.CSSProperties['width'];
+  /**
+   * Ширина
+   */
+  width?: React.CSSProperties['width'];
 
-        /**
-         * Вызывается при изменении `value`
-         */
-        onValueChange?: (value: string) => void;
+  /**
+   * Вызывается при изменении `value`
+   */
+  onValueChange?: (value: string) => void;
 
-        /** Выделение значения при фокусе */
-        selectAllOnFocus?: boolean;
+  /** Выделение значения при фокусе */
+  selectAllOnFocus?: boolean;
 
-        /** Показывать счетчик символов */
-        showLengthCounter?: boolean;
+  /** Показывать счетчик символов */
+  showLengthCounter?: boolean;
 
-        /** Допустимое количество символов в поле. Отображается в счетчике.
-         * Если не указано, равно `maxLength`
-         */
-        lengthCounter?: number;
+  /** Допустимое количество символов в поле. Отображается в счетчике.
+   * Если не указано, равно `maxLength`
+   */
+  lengthCounter?: number;
 
-        /** Подсказка к счетчику символов.
-         *
-         * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
-         *
-         * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
-         *
-         * ```
-         * counterHelp={() => <Tooltip render={...}><HelpIcon /></Tooltip>}
-         * ```
-         * */
-        counterHelp?: ReactNode | (() => ReactNode);
+  /** Подсказка к счетчику символов.
+   *
+   * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
+   *
+   * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
+   *
+   * ```
+   * counterHelp={() => <Tooltip render={...}><HelpIcon /></Tooltip>}
+   * ```
+   * */
+  counterHelp?: ReactNode | (() => ReactNode);
 
-        /** Добавлять дополнительную свободную строку при авто-ресайзе.
-         * @see https://guides.kontur.ru/components/textarea/#04
-         * */
-        extraRow: boolean;
+  /** Добавлять дополнительную свободную строку при авто-ресайзе.
+   * @see https://guides.kontur.ru/components/textarea/#04
+   * */
+  extraRow: boolean;
 
-        /** Отключать анимацию при авто-ресайзе.
-         * Автоматически отключается когда в `extraRow` передан `false`.
-         */
-        disableAnimations: boolean;
-      }
-    > {}
+  /** Отключать анимацию при авто-ресайзе.
+   * Автоматически отключается когда в `extraRow` передан `false`.
+   */
+  disableAnimations: boolean;
+}
+
+export type TextareaProps = CommonProps &
+  Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, keyof TextareaInterface> &
+  TextareaInterface;
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
@@ -119,60 +117,6 @@ export interface TextareaState {
  */
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
-
-  public static propTypes = {
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-    disabled: PropTypes.bool,
-
-    autoResize: PropTypes.bool,
-    extraRow: PropTypes.bool,
-    disableAnimations: PropTypes.bool,
-    maxRows: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    resize: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-    id: PropTypes.string,
-    name: PropTypes.string,
-    title: PropTypes.string,
-    spellCheck: PropTypes.bool,
-    role: PropTypes.string,
-    maxLength: PropTypes.number,
-    tabIndex: PropTypes.number,
-    rows: PropTypes.number,
-    placeholder: PropTypes.string,
-
-    value: PropTypes.string,
-    defaultValue: PropTypes.string,
-    onValueChange: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onMouseMove: PropTypes.func,
-    onMouseOut: PropTypes.func,
-
-    onMouseUp: PropTypes.func,
-    onMouseDown: PropTypes.func,
-    onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-    onKeyPress: PropTypes.func,
-    onKeyUp: PropTypes.func,
-    onInput: PropTypes.func,
-
-    onFocus: PropTypes.func,
-    onBlur: PropTypes.func,
-
-    onScroll: PropTypes.func,
-    onWheel: PropTypes.func,
-
-    onCut: PropTypes.func,
-    onPaste: PropTypes.func,
-    onCopy: PropTypes.func,
-  };
 
   public static defaultProps = {
     rows: 3,

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -47,12 +47,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public static propTypes = {
-    invert: PropTypes.bool,
-    maxWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    maxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    scrollBehaviour: PropTypes.oneOf(['auto', 'smooth']),
-    preventWindowScroll: PropTypes.bool,
-    onScrollStateChange: PropTypes.func,
+    maxWidth: pt.oneOf([pt.string, pt.number]),
+    maxHeight: pt.oneOf([pt.string, pt.number]),
   };
 
   public static defaultProps = {

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { css } from '../../lib/theming/Emotion';
 
-interface Props extends React.HTMLAttributes<HTMLInputElement> {
+interface HiddenInputProps extends React.HTMLAttributes<HTMLInputElement> {
   nodeRef: (ref: HTMLInputElement | null) => void;
 }
 
@@ -25,7 +25,7 @@ const className = css`
  * Для решения этой проблемы, перед "вставкой" фокусируемся на инпуте
  * после этого `onPaste` вызывается у инпута и всплывает.
  */
-export class HiddenInput extends React.Component<Props> {
+export class HiddenInput extends React.Component<HiddenInputProps> {
   public render() {
     const { nodeRef, ...props } = this.props;
     return (

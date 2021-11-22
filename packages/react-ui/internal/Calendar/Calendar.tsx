@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 import normalizeWheel from 'normalize-wheel';
 import throttle from 'lodash.throttle';
 
@@ -15,7 +16,7 @@ import { MonthViewModel } from './MonthViewModel';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 import { Month } from './Month';
 import { styles } from './Calendar.styles';
-import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
+import { CalendarDateShape, create, isGreater, isLess, ptDateShape } from './CalendarDateShape';
 
 export interface CalendarProps {
   initialMonth?: number;
@@ -60,6 +61,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       month: MAX_MONTH,
       date: MAX_DATE,
     },
+  };
+
+  public static propTypes = {
+    value: pt.oneOf([ptDateShape, null, undefined]),
+    minDate: ptDateShape,
+    maxDate: ptDateShape,
   };
 
   private theme!: Theme;

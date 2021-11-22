@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -19,7 +18,7 @@ import { styles } from './Loader.styles';
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
   /**
-   * Флаг переключения состояния лоадера
+   * Флаг переключения состояния лоадера.
    * @default false
    */
   active: boolean;
@@ -36,7 +35,7 @@ export interface LoaderProps extends CommonProps {
    */
   delayBeforeSpinnerShow: number;
   /**
-   * Минимальное время в миллисекундах для показа спиннера
+   * Минимальное время в миллисекундах для показа спиннера.
    * @default 1000
    */
   minimalDelayBeforeSpinnerHide: number;
@@ -63,43 +62,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   public static propTypes = {
-    /**
-     * показываем лоадер или нет
-     */
-    active: PropTypes.bool,
-
-    /**
-     * Текст рядом с лоадером.
-     *
-     * @default  "Загрузка"
-     */
     caption: Spinner.propTypes.caption,
-
-    component: PropTypes.node,
-
-    /**
-     * Класс для обертки
-     */
-    className: PropTypes.string,
-
-    /**
-     * Тип спиннера: mini, normal, big
-     *
-     * @default  normal
-     *
-     * Spinner.types - все доступные типы
-     */
-    type: PropTypes.oneOf(Object.keys(Spinner.Types)),
-    /**
-     * Время в миллисекундах для показа вуали без спиннера.
-     * @default 300
-     */
-    delayBeforeSpinnerShow: PropTypes.number,
-    /**
-     * Минимальное время в миллисекундах для показа спиннера
-     * @default 1000
-     */
-    minimalDelayBeforeSpinnerHide: PropTypes.number,
   };
 
   private theme!: Theme;

@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
-import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -12,49 +10,48 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Link.styles';
 
-export interface LinkProps
-  extends CommonProps,
-    Override<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      {
-        /**
-         * Отключенное состояние.
-         */
-        disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
-        href?: string;
-        /**
-         * Добавляет ссылке иконку.
-         */
-        icon?: React.ReactElement<any>;
-        /**
-         * Тема ссылки.
-         */
-        use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
-        _button?: boolean;
-        /**
-         * @ignore
-         */
-        _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
-        tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
-        loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
-        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-      }
-    > {}
+interface LinkInterface {
+  /**
+   * Отключенное состояние.
+   */
+  disabled?: boolean;
+  /**
+   * HTML-атрибут `href`.
+   */
+  href?: string;
+  /**
+   * Добавляет ссылке иконку.
+   */
+  icon?: React.ReactElement<any>;
+  /**
+   * Тема ссылки.
+   */
+  use?: 'default' | 'success' | 'danger' | 'grayed';
+  /**
+   * @ignore
+   */
+  _button?: boolean;
+  /**
+   * @ignore
+   */
+  _buttonOpened?: boolean;
+  /**
+   * HTML-атрибут `tabindex`.
+   */
+  tabIndex?: number;
+  /**
+   * Переводит ссылку в состояние загрузки.
+   */
+  loading?: boolean;
+  /**
+   * HTML-событие `onclick`.
+   */
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+}
+
+export type LinkProps = CommonProps &
+  Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkInterface> &
+  LinkInterface;
 
 export interface LinkState {
   focusedByTab: boolean;
@@ -65,16 +62,6 @@ export interface LinkState {
  */
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
-
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
-  };
 
   public static defaultProps = {
     href: '',

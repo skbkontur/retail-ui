@@ -1,5 +1,5 @@
-import PropTypes from 'prop-types';
 import React from 'react';
+import pt from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
 import { InternalDate } from '../../lib/date/InternalDate';
@@ -33,32 +33,62 @@ export const MIN_WIDTH = 120;
 export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
+  /**
+   * Добавляет в календарь кнопку 'сегодня'.
+   */
   enableTodayLink?: boolean;
   /**
    * Cостояние валидации при ошибке.
    */
   error?: boolean;
+  /**
+   * Нижний порог даты.
+   */
   minDate: T;
+  /**
+   * Верхний порог даты.
+   */
   maxDate: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
+  /**
+   * Строка формата `dd.mm.yyyy`.
+   */
   value?: T | null;
   /**
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
   width?: number | string;
+  /**
+   * HTML-событие `onblur`.
+   */
   onBlur?: () => void;
   /**
-   * Вызывается при изменении `value`
+   * Функция, вызываемая при изменении `value`.
    *
    * @param value - строка в формате `dd.mm.yyyy`.
    */
   onValueChange: (value: T) => void;
+  /**
+   * HTML-событие `onfocus`.
+   */
   onFocus?: () => void;
+  /**
+   * HTML-событие `onkeydown`.
+   */
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
+  /**
+   * HTML-событие `onmouseenter`.
+   */
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
+  /**
+   * HTML-событие `onmouseleave`.
+   */
   onMouseLeave?: (e: React.MouseEvent<any>) => void;
+  /**
+   * HTML-событие `onmouseover`.
+   */
   onMouseOver?: (e: React.MouseEvent<any>) => void;
   /**
    * Использовать на мобильных устройствах нативный календарь для выбора дат.
@@ -89,53 +119,9 @@ export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
   public static propTypes = {
-    autoFocus: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Включает кнопку сегодня в календаре
-     */
-    enableTodayLink: PropTypes.bool,
-
-    error: PropTypes.bool,
-
-    /**
-     * Максимальная дата в календаре.
-     */
-    maxDate: PropTypes.string.isRequired,
-
-    menuAlign: PropTypes.oneOf(['left', 'right'] as Array<'left' | 'right'>),
-
-    /**
-     * Минимальная дата в календаре.
-     */
-    minDate: PropTypes.string.isRequired,
-
-    /**
-     * Строка формата `dd.mm.yyyy`
-     */
-    value: PropTypes.string,
-
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-
-    onBlur: PropTypes.func,
-
-    onValueChange: PropTypes.func.isRequired,
-
-    onFocus: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    isHoliday: PropTypes.func.isRequired,
+    minDate: pt.string.isRequired,
+    maxDate: pt.string.isRequired,
+    value: pt.string,
   };
 
   public static defaultProps = {

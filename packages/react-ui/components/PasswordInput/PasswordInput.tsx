@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -28,13 +27,6 @@ export interface PasswordInputState {
  */
 export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
-
-  public static propTypes = {
-    /**
-     * Включает CapsLock детектор
-     */
-    detectCapsLock: PropTypes.bool,
-  };
 
   public static defaultProps = {
     size: 'small',

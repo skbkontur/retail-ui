@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
@@ -8,22 +7,22 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 export interface GappedProps extends CommonProps {
   /**
-   * Расстояние между элементами в пикселях
+   * Расстояние между элементами в пикселях.
    * @default 8
    */
   gap?: number;
   /**
-   * Вертикальное выравнивание
+   * Вертикальное выравнивание.
    * @default "baseline"
    */
   verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
   /**
-   * Расположение элементов по вертикали
+   * Расположение элементов по вертикали.
    * @default false
    */
   vertical: boolean;
   /**
-   * Перенос элементов на новую строку при горизонтальном расположении
+   * Перенос элементов на новую строку при горизонтальном расположении.
    * @default false
    */
   wrap: boolean;
@@ -35,23 +34,6 @@ export interface GappedProps extends CommonProps {
  */
 export class Gapped extends React.Component<GappedProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
-
-  public static propTypes = {
-    /**
-     * Расстояние между элементами.
-     */
-    gap: PropTypes.number,
-
-    /**
-     * Располагать элементы вертикально.
-     */
-    vertical: PropTypes.bool,
-
-    /**
-     * Вертикальное выравнивание элементов.
-     */
-    verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
-  };
 
   private theme!: Theme;
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -12,6 +13,7 @@ import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
+import { ptDateShape } from './CalendarDateShape';
 
 interface MonthProps {
   top: number;
@@ -30,6 +32,13 @@ export class Month extends React.Component<MonthProps> {
 
   private monthSelect: DateSelect | null = null;
   private yearSelect: DateSelect | null = null;
+
+  public static propTypes = {
+    minDate: ptDateShape,
+    maxDate: ptDateShape,
+    today: ptDateShape,
+    value: pt.oneOf([ptDateShape, null, undefined]),
+  };
 
   public shouldComponentUpdate(nextProps: MonthProps) {
     if (this.props.top !== nextProps.top) {

@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import pt from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -6,6 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import * as CDS from './CalendarDateShape';
 import { styles } from './DayCellView.styles';
+import { ptDateShape } from '.';
 
 interface DayCellViewProps {
   date: CDS.CalendarDateShape;
@@ -42,3 +44,11 @@ export function DayCellView(props: DayCellViewProps) {
     </button>
   );
 }
+
+DayCellView.propTypes = {
+  date: ptDateShape,
+  today: ptDateShape,
+  value: pt.oneOf([ptDateShape, null, undefined]),
+  minDate: ptDateShape,
+  maxDate: ptDateShape,
+};

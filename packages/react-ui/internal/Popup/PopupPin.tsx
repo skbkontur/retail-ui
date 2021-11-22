@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
 
@@ -16,56 +15,40 @@ const borderStyles = {
 };
 
 interface Props {
+  /**
+   * Цвет фон пина.
+   */
   backgroundColor: string;
+  /**
+   * Цвет границы пина.
+   */
   borderColor: string;
+  /**
+   * Ширина границы пина.
+   */
   borderWidth: number;
+  /**
+   * Смещение пина от края попапа. Край задаётся в пропе position вторым словом.
+   */
   offset: number;
+  /**
+   * Ссылка на попап.
+   */
   popupElement: Nullable<HTMLElement>;
+  /**
+   * Позиция поапа, по которой будет вычеслено положение пина.
+   */
   popupPosition: string;
+  /**
+   * Сторона пина без учёта границы.
+   * Пин представляет собой равносторонний треугольник, высота от попапа
+   * до "носика" пина будет соответствовать формуле (size* √3)/2.
+   */
   size: number;
 }
 
 export class PopupPin extends React.Component<Props> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
-
-  public static propTypes = {
-    /**
-     * Цвет фон пина
-     */
-    backgroundColor: PropTypes.string,
-
-    /**
-     * Цвет границы пина
-     */
-    borderColor: PropTypes.string,
-
-    /**
-     * Ширина границы пина
-     */
-    borderWidth: PropTypes.number,
-
-    /**
-     * Смещение пина от края попапа. Край задаётся в пропе position вторым словом
-     */
-    offset: PropTypes.number,
-
-    /**
-     * Ссылка на попап
-     */
-    popupElement: PropTypes.any,
-
-    /**
-     * Позиция поапа, по которой будет вычеслено положение пина
-     */
-    popupPosition: PropTypes.string,
-
-    /**
-     * Сторона пина без учёта границы.
-     * Пин представляет собой равносторонний треугольник, высота от попапа
-     * до "носика" пина будет соответствовать формуле (size* √3)/2
-     */
-    size: PropTypes.number,
-  };
 
   public render() {
     if (!this.props.popupElement) {

@@ -1,6 +1,5 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
-import PropTypes from 'prop-types';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -53,13 +52,6 @@ export interface TabsProps<T extends string = string> extends CommonProps {
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
-  public static propTypes = {
-    children: PropTypes.node,
-    indicatorClassName: PropTypes.string,
-    value: PropTypes.string.isRequired,
-    vertical: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  };
   public static defaultProps = {
     vertical: false,
   };

@@ -1,26 +1,25 @@
 import React from 'react';
 
-import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
 import { styles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
+interface CenterInterface {
+  /**
+   * Определяет, как контент будет выровнен по горизонтали.
+   *
+   * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+   */
+  align?: HorizontalAlign;
+}
+
 export interface CenterProps
   extends CommonProps,
-    Override<
-      React.HTMLAttributes<HTMLDivElement>,
-      {
-        /**
-         * Определяет, как контент будет выровнен по горизонтали.
-         *
-         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
-         */
-        align?: HorizontalAlign;
-      }
-    > {}
+    Omit<React.HTMLAttributes<HTMLDivElement>, keyof CenterInterface>,
+    CenterInterface {}
 
 /**
  * Контейнер, который центрирует элементы внутри себя.

@@ -1,50 +1,60 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 
 import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps, InputType } from '../Input';
+import { Input, InputProps, inputType, InputType } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
-export interface FxInputProps
-  extends CommonProps,
-    Override<
-      CurrencyInputProps,
-      {
-        /** Авто-режим */
-        auto?: boolean;
-        /** Тип инпута */
-        type?: 'currency' | InputProps['type'];
-        /** onRestore */
-        onRestore?: () => void;
-        /** onValueChange */
-        onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
-        /** Значение */
-        value?: React.ReactText;
-        /** ref Input'а */
-        refInput?: (element: CurrencyInput | Input | null) => void;
-        /** Убрать лишние нули после запятой */
-        hideTrailingZeros?: boolean;
-      }
-    > {}
+interface FxInputInterface {
+  /**
+   * Авто-режим.
+   */
+  auto?: boolean;
+  /**
+   * Тип инпута.
+   */
+  type?: 'currency' | InputProps['type'];
+  /**
+   * onRestore.
+   */
+  onRestore?: () => void;
+  /**
+   * Функция вызываемая при изменении `value`.
+   */
+  onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
+  /**
+   * Значение в поле инпута.
+   */
+  value?: React.ReactText;
+  /**
+   * ref Input'а.
+   */
+  refInput?: (element: CurrencyInput | Input | null) => void;
+  /**
+   * Убрать лишние нули после запятой.
+   */
+  hideTrailingZeros?: boolean;
+}
+
+export interface FxInputProps extends CommonProps, Omit<CurrencyInputProps, keyof FxInputInterface>, FxInputInterface {}
 
 /** Принимает все свойства `Input`'a */
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
 
-  public static propTypes = {
-    auto: PropTypes.bool,
-    type: PropTypes.string,
-  };
-
   public static defaultProps = {
     width: 250,
     type: 'text',
     value: '',
+  };
+
+  public static propTypes = {
+    type: pt.oneOf(['currency', ...inputType]),
+    onValueChange: pt.func,
   };
 
   private input: Input | CurrencyInput | null = null;

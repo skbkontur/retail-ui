@@ -1,3 +1,5 @@
+import pt from 'prop-types';
+
 import { Nullable } from '../../typings/utility-types';
 
 export interface CalendarDateShape {
@@ -5,6 +7,12 @@ export interface CalendarDateShape {
   month: number;
   date: number;
 }
+
+export const ptDateShape = {
+  year: pt.number,
+  month: pt.number,
+  date: pt.number,
+};
 
 export const isEqual = (a: Nullable<CalendarDateShape>, b: Nullable<CalendarDateShape>) =>
   (!a && !b) || (a && b && a.year === b.year && a.month === b.month && a.date === b.date);

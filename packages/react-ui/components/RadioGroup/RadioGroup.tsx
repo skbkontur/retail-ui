@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 import invariant from 'invariant';
 
 import { getRandomID } from '../../lib/utils';
@@ -93,26 +93,16 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
   public static childContextTypes = {
-    error: PropTypes.bool,
-    name: PropTypes.string,
-    warning: PropTypes.bool,
-    disabled: PropTypes.bool,
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
+    error: pt.bool,
+    name: pt.string,
+    warning: pt.bool,
+    disabled: pt.bool,
+    activeItem: pt.any,
+    onSelect: pt.func,
   };
 
   public static propTypes = {
-    children: PropTypes.node,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    inline: PropTypes.bool,
-    name: PropTypes.string,
-    warning: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onBlur: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
+    width: pt.oneOfType([pt.number, pt.string]),
   };
 
   public static defaultProps = {
