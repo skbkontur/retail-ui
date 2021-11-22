@@ -154,7 +154,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     }
 
     return (
-      <CommonWrapper rootNodeRef={this.commonWrapperRef} {...this.props}>
+      <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
             style={{ width }}
@@ -162,6 +162,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
+            ref={this.commonWrapperRef}
           >
             {input}
             {opened && (
