@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { FileUploader } from '@skbkontur/react-ui/components/FileUploader';
+import { UploadFile } from '@skbkontur/react-ui/lib/fileUtils';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
-import { FileUploader } from '@skbkontur/react-ui/components/FileUploader';
-import { UploadFile } from '@skbkontur/react-ui/lib/fileUtils';
 
 storiesOf('FileUploader', module).add('required', () => <FileUploaderStory />);
 
