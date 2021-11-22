@@ -1,7 +1,15 @@
-import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { ReactComponentLike } from 'prop-types';
 
-import { isBrowser } from './client';
+/**
+ * Inverts the action of the given function.
+ *
+ * @param fn A function which action needs to be inverted.
+ * @returns Returns an inverted function.
+ */
+export function not<T>(fn: (...args: T[]) => any) {
+  return (...args: T[]) => !fn(...args);
+}
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -51,10 +59,6 @@ export function escapeRegExpSpecChars(s: string): string {
 
 export const getRandomID = (): string => Math.random().toString(16).slice(2);
 
-export const isExternalLink = (link: string): boolean => {
-  return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
-};
-
 /**
  * Check if the given ReactNode is an element of the specified ReactUI component
  */
@@ -71,11 +75,33 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 };
 
 /**
- * Проверяет, не является ли переданный аргумент null или undefined и исключает типы null и undefined из типа аргумента
+ * Checks if the given value is equal to null or undefined and excludes null and undefined from the type of value.
  *
- * @param value Значение, которое нужно проверить и исключить из него типы
- * @returns Возвращает true, если переданный аргумент не является null или undefined иначе false
+ * @param value A value that needs to be checked.
+ * @returns Returns true if the value is equal to null or undefined, else false.
  */
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
 };
+
+/**
+ * Inverted version of isNonNullable function.
+ *
+ * @returns Returns true for any value other than null or undefined.
+ */
+export const isNullable = not(isNonNullable);
+
+/**
+ * Extracts object's properties that meet the condition in the given predicate.
+ *
+ * @param object An object from which properties will be extracted.
+ * @param predicate A function for filtering object's properties.
+ * @returns Returns the properties of an object that meet the condition in the given predicate.
+ */
+export function extractFromObject<T>(
+  object: T,
+  predicate: (value: [string, any], index?: number, array?: T[]) => boolean,
+): Partial<T> {
+  //@ts-expect-error
+  return Object.fromEntries(Object.entries(object).filter(predicate));
+}
