@@ -194,6 +194,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (this.props.loading !== prevProps.loading && this.props.loading === true) {
       if (this.node) {
         this.node.onclick = null;
+        this.node.onfocus = null;
         this.node.onkeydown = null;
         this.node.onmouseenter = null;
         this.node.onmouseleave = null;
@@ -268,7 +269,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused && !checked,
+        [styles.focus(this.theme)]: isFocused && !checked && !loading,
         [styles.checked(this.theme)]: checked,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
