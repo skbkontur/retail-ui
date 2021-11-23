@@ -13,6 +13,8 @@ import { Toggle } from '../Toggle';
 import { MenuItem } from '../MenuItem';
 import { Gapped } from '../Gapped';
 import { Group } from '../Group';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 export default { title: 'Baseline' };
 
@@ -163,7 +165,7 @@ export const DifferentFontsAndSizes = () => (
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
-          <MenuItem state="hover">MenuItem</MenuItem>
+          <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox
             placeholder="S"
@@ -173,7 +175,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="small">S</Button>
-
           <Input size="medium" value="M" width={44} />
           <ComboBox
             placeholder="M"
@@ -184,8 +185,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="medium">M</Button>
-
-
           <Input size="large" value="L" width={48} />
           <ComboBox
             placeholder="L"
@@ -196,7 +195,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="large">L</Button>
-
           <Group width="70px" >
             <Input placeholder="H" width="100%" size="large" />
             <Button narrow size="large" >H</Button>
@@ -204,7 +202,6 @@ export const DifferentFontsAndSizes = () => (
 
         </Gapped>
       </div>
-
       <div
         style={{
           fontFamily: 'Lab Grotesque',
@@ -226,7 +223,7 @@ export const DifferentFontsAndSizes = () => (
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
-          <MenuItem state="hover">MenuItem</MenuItem>
+          <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox
             placeholder="S"
@@ -236,7 +233,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="small">S</Button>
-
           <Input size="medium" value="M" width={44} />
           <ComboBox
             placeholder="M"
@@ -247,8 +243,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="medium">M</Button>
-
-
           <Input size="large" value="L" width={48} />
           <ComboBox
             placeholder="L"
@@ -259,15 +253,12 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="large">L</Button>
-
           <Group width="70px" >
             <Input placeholder="H" width="100%" size="large" />
             <Button narrow size="large" >H</Button>
           </Group>
-
         </Gapped>
       </div>
-
       <div
         style={{
           fontFamily: 'Segoe UI',
@@ -278,8 +269,6 @@ export const DifferentFontsAndSizes = () => (
             linear-gradient(0deg, transparent 0, transparent 29px, #CCC 29px, #CCC 39px, transparent 39px),
             linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px),
             linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
-
-
           `
         }}
       >
@@ -291,7 +280,7 @@ export const DifferentFontsAndSizes = () => (
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
-          <MenuItem state="hover">MenuItem</MenuItem>
+          <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox
             placeholder="S"
@@ -301,7 +290,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="small">S</Button>
-
           <Input size="medium" value="M" width={44} />
           <ComboBox
             placeholder="M"
@@ -312,8 +300,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="medium">M</Button>
-
-
           <Input size="large" value="L" width={48} />
           <ComboBox
             placeholder="L"
@@ -324,13 +310,11 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="large">L</Button>
-
           <Group width="70px" >
             <Input placeholder="H" width="100%" size="large" />
             <Button narrow size="large" >H</Button>
           </Group>
         </Gapped>
-
       </div>
       <div
         style={{
@@ -346,14 +330,14 @@ export const DifferentFontsAndSizes = () => (
         }}
       >
         <Gapped>
-          <div style={{ width: '120px'}}>Times New Roman </div>
+          <div style={{ width: '120px'}}>Segoe UI </div>
           <CrownIcon/>
           <Link>Ok</Link>
           <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
-          <MenuItem state="hover">MenuItem</MenuItem>
+          <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox
             placeholder="S"
@@ -363,7 +347,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="small">S</Button>
-
           <Input size="medium" value="M" width={44} />
           <ComboBox
             placeholder="M"
@@ -374,8 +357,6 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="medium">M</Button>
-
-
           <Input size="large" value="L" width={48} />
           <ComboBox
             placeholder="L"
@@ -386,20 +367,101 @@ export const DifferentFontsAndSizes = () => (
             getItems={() => Promise.resolve([])}
           />
           <Button size="large">L</Button>
-
           <Group width="70px" >
             <Input placeholder="H" width="100%" size="large" />
             <Button narrow size="large" >H</Button>
           </Group>
-
         </Gapped>
-
       </div>
     </Gapped>
   </div>
 );
 DifferentFontsAndSizes.storyName = 'Different fonts and sizes';
 
+
+export const NewStoryDifferentFontsAndSizesTheme = () => <DifferentFontsAndSizesTheme />;
+NewStoryDifferentFontsAndSizesTheme.storyName = 'Different fonts and sizes + Theme';
+
+
+class DifferentFontsAndSizesTheme extends React.Component<any, any> {
+  public state = {
+    thisState: false,
+    thisItems: ['Default', 'Disabled', 'Error', 'Warning'],
+  };
+
+  public render() {
+    return (
+      <div
+      style={{
+        fontFamily: 'Lab Grotesque',
+        fontSize: '16px',
+        lineHeight: '22px',
+        height: '60px',
+        backgroundImage: `
+        linear-gradient(0deg, transparent 0, transparent 59px, #CCC 59px, #cCC 60px, transparent 60px),
+        linear-gradient(0deg, transparent 0, transparent 35px, #CCC 35px, #CCC 46px, transparent 46px),
+        linear-gradient(0deg, transparent 0, transparent 20px, #CCC 20px, #CCC 21px, transparent 21px)
+        `
+      }}
+      >
+        <ThemeContext.Provider value={ThemeFactory.create({
+            checkboxBoxSize: '20px',
+            checkboxLabelGap: '10px',
+            checkboxPaddingY: '9px',
+            checkboxFontSize: '16px',
+            checkboxLineHeight: '22px',
+
+            radioSize: '20px',
+            radioBulletSize: '10px',
+            radioLabelGap: '10px',
+            radioPaddingY: '9px',
+            radioFontSize: '16px',
+            radioLineHeight: '22px',
+
+            menuItemFontSize: '16px',
+            menuItemLineHeight: '22px',
+            menuItemPaddingY: '9px',
+            menuItemPaddingX: '12px',
+
+            inputFontSizeSmall: '16px',
+            inputLineHeightSmall: '22px',
+            inputPaddingYSmall: '8px',
+            inputPaddingXSmall: '12px',
+
+            btnFontSizeSmall: '16px',
+            btnLineHeightSmall: '22px',
+            btnPaddingYSmall: '8px',
+            btnPaddingXSmall: '16px',
+
+            toggleHeight: '22px',
+            toggleCaptionGap: '10px',
+            toggleWidth: '34px',
+
+          })}>
+          <Gapped>
+            <div style={{ width: '120px'}}>Lab Grotesque </div>
+            <CrownIcon/>
+            <Link>Ok</Link>
+            <Toggle>Tg</Toggle>
+            <Checkbox initialIndeterminate>Ch</ Checkbox>
+            <Checkbox checked>Ch</Checkbox>
+            <Radio checked value="value">Rd</Radio>
+            <MenuItem state="hover">Menu</MenuItem>
+            <Input size="small" value="M" width={44} />
+            <ComboBox
+              placeholder="M"
+              width={44}
+              drawArrow={false}
+              searchOnFocus={false}
+              getItems={() => Promise.resolve([])}
+            />
+            <Button size="small">M</Button>
+          </Gapped>
+        </ThemeContext.Provider>
+      </div>
+    );
+  }
+}
 
 
 
