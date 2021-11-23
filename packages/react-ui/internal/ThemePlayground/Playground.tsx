@@ -79,8 +79,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           {this.renderHintsGroup()}
           {this.renderTooltip()}
           {this.renderPaging()}
-          {this.renderSingleSyncFileUploader()}
-          {this.renderMultipleAsyncFileUploader()}
+          {this.renderFileUploader()}
         </Gapped>
       </div>
     );
@@ -317,18 +316,10 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     );
   };
 
-  private renderSingleSyncFileUploader = () => {
+  private renderFileUploader = () => {
     return (
-      <ComponentsGroup title={'Синхронный FileUploader без мультивыбора'} theme={this.theme}>
-        <FileUploader />
-      </ComponentsGroup>
-    );
-  };
-
-  private renderMultipleAsyncFileUploader = () => {
-    return (
-      <ComponentsGroup title={'Асинхронный FileUploader с мультивыбором'} theme={this.theme}>
-        <FileUploader request={() => Promise.resolve()} multiple />
+      <ComponentsGroup title={'FileUploader'} theme={this.theme}>
+        <FileUploader multiple />
       </ComponentsGroup>
     );
   };
