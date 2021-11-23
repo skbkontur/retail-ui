@@ -49,12 +49,12 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
 
   return class ClassWrapper extends React.Component<P> {
     public wrapperRef = React.createRef<T>();
-    public imperativeMethodsRef = React.createRef<T>();
+    public instancePropertiesRef = React.createRef<T>();
 
     componentDidMount() {
       // A workaround for having two refs at the same time
       const refMethods = objectToArray<Record<string, any>>(this.wrapperRef.current);
-      const actionsRefMethods = objectToArray<Record<string, any>>(this.imperativeMethodsRef.current);
+      const actionsRefMethods = objectToArray<Record<string, any>>(this.instancePropertiesRef.current);
 
       definePublicMethods<ClassWrapper>(this, refMethods);
       definePublicMethods<ClassWrapper>(this, actionsRefMethods);
@@ -71,7 +71,7 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
           // When accesed from outside returns a class instance.
           ref={this.wrapperRef}
           // When accesed from outside returns methods defined in useImperativeHandle.
-          actionsRef={this.imperativeMethodsRef}
+          instanceRef={this.instancePropertiesRef}
           {...this.props}
         />
       );
