@@ -54,11 +54,11 @@ export interface DropdownProps extends CommonProps {
   disabled?: boolean;
 
   /**
-   * Визуально показать наличие ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Визуально показать наличие предупреждения.
+   * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
   maxMenuHeight?: number;
@@ -88,6 +88,7 @@ type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 
 /**
  * Выпадающее меню.
+ *
  */
 export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';

@@ -82,7 +82,13 @@ export interface TokenInputProps<T> extends CommonProps {
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
   delimiters: string[];
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   disabled?: boolean;
   width?: string | number;
@@ -224,6 +230,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     document.removeEventListener('copy', this.handleCopy);
   }
 
+  /**
+   * @public
+   */
+  public focus() {
+    this.input?.focus();
+  }
+
+  /**
+   * @public
+   */
+  public blur() {
+    this.input?.blur();
+  }
+
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -290,10 +310,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     };
 
     const labelClassName = cx(styles.label(theme), {
+      [styles.labelDisabled(theme)]: !!disabled,
       [styles.labelFocused(theme)]: !!inFocus,
       [styles.error(theme)]: !!error,
       [styles.warning(theme)]: !!warning,
-      [styles.labelDisabled(theme)]: !!disabled,
     });
     const inputClassName = cx(styles.input(theme), {
       [styles.inputDisabled(theme)]: !!disabled,

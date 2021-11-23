@@ -54,6 +54,7 @@ export const styles = memoizeStyle({
   disabled(t: Theme) {
     return css`
       color: ${t.pagingForwardLinkDisabledColor};
+      cursor: default;
     `;
   },
 

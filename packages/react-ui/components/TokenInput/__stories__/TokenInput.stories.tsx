@@ -178,6 +178,7 @@ export const Validations = () => {
       <Wrapper getItems={getItems} placeholder="warning" warning />
       <Wrapper getItems={getItems} placeholder="error" error />
       <Wrapper getItems={getItems} placeholder="warning and error" warning error />
+      <Wrapper getItems={getItems} placeholder="error and disabled" disabled error />
     </Gapped>
   );
 };

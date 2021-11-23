@@ -3,9 +3,6 @@ import React from 'react';
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-
-import { styles } from './CurrencyLabel.styles';
 
 export interface CurrencyLabelProps extends CommonProps {
   /**
@@ -24,19 +21,13 @@ export const defaultProps = {
 export const CurrencyLabel = (props: CurrencyLabelProps): JSX.Element => {
   const { value, fractionDigits, currencySymbol } = props;
   return (
-    <ThemeContext.Consumer>
-      {(theme) => {
-        return (
-          <CommonWrapper {...props}>
-            <span className={styles.root(theme)}>
-              {CurrencyHelper.format(value, { fractionDigits })}
-              {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
-              {currencySymbol}
-            </span>
-          </CommonWrapper>
-        );
-      }}
-    </ThemeContext.Consumer>
+    <CommonWrapper {...props}>
+      <span>
+        {CurrencyHelper.format(value, { fractionDigits })}
+        {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
+        {currencySymbol}
+      </span>
+    </CommonWrapper>
   );
 };
 
