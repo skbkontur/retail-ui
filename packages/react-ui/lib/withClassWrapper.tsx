@@ -2,7 +2,7 @@ import React from 'react';
 
 import { ReactUIComponentWithRef } from './forwardRefAndName';
 import { getDisplayName } from './getDisplayName';
-import { isNonNullable } from './utils';
+import { objectToArray } from './utils';
 
 const removePostfix = (word: string, postfixRegex: RegExp) => {
   const regexContent = postfixRegex.source.replace(/\$$/, '');
@@ -18,6 +18,24 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
 };
 
 /**
+ * Defines methods from passed in 2D tuple.
+ *
+ * @param context Context of the class to which methods will be assigned.
+ * @param methods A 2D tuple: the first value is name of the method and the second is action of the method.
+ */
+function definePublicMethods<T>(context: ThisType<T>, methods: [string, () => any][] | null): void {
+  if (!!methods) {
+    for (let method of methods) {
+      const [name, action] = method;
+      Object.defineProperty(context, name, {
+        value: action,
+        enumerable: true,
+      });
+    }
+  }
+}
+
+/**
  * HOC for moving from Class to Functional components.
  *
  * Used to remove distinctions between Class and Functional refs.
@@ -31,23 +49,15 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
 
   return class ClassWrapper extends React.Component<P> {
     public wrapperRef = React.createRef<T>();
+    public imperativeMethodsRef = React.createRef<T>();
 
     componentDidMount() {
-      const imperativeMethods = !!this.wrapperRef?.current ? Object.entries(this.wrapperRef.current) : null;
+      // A workaround for having two refs at the same time
+      const refMethods = objectToArray<Record<string, any>>(this.wrapperRef.current);
+      const actionsRefMethods = objectToArray<Record<string, any>>(this.imperativeMethodsRef.current);
 
-      /**
-       * Creates an interface for calling methods
-       * defined in the functional component.
-       */
-      if (isNonNullable(imperativeMethods)) {
-        for (let method of imperativeMethods) {
-          const [name, action] = method;
-          Object.defineProperty(this, name, {
-            value: action,
-            enumerable: true,
-          });
-        }
-      }
+      definePublicMethods<ClassWrapper>(this, refMethods);
+      definePublicMethods<ClassWrapper>(this, actionsRefMethods);
     }
 
     public static __KONTUR_REACT_UI__ = nameWithoutPostfix;
@@ -56,7 +66,15 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
     public static FC = RFC;
 
     render() {
-      return <ClassWrapper.FC ref={this.wrapperRef} {...this.props} />;
+      return (
+        <ClassWrapper.FC
+          // When accesed from outside returns a class instance.
+          ref={this.wrapperRef}
+          // When accesed from outside returns methods defined in useImperativeHandle.
+          actionsRef={this.imperativeMethodsRef}
+          {...this.props}
+        />
+      );
     }
   };
 }
