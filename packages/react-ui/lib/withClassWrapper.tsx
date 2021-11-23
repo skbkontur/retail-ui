@@ -18,14 +18,14 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
 };
 
 /**
- * Defines methods from passed in 2D tuple.
+ * Defines properties from passed in 2D tuple.
  *
  * @param context Context of the class to which methods will be assigned.
- * @param methods A 2D tuple: the first value is name of the method and the second is action of the method.
+ * @param properties A 2D tuple: the first value is name of the property and the second is value.
  */
-function definePublicMethods<T>(context: ThisType<T>, methods: [string, () => any][] | null): void {
-  if (!!methods) {
-    for (let method of methods) {
+function definePublicProperties<T>(context: ThisType<T>, properties: [string, any][] | null): void {
+  if (!!properties) {
+    for (let method of properties) {
       const [name, action] = method;
       Object.defineProperty(context, name, {
         value: action,
@@ -48,16 +48,12 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
   const nameWithoutPostfix = removePostfix(fullName, /FC$/);
 
   return class ClassWrapper extends React.Component<P> {
-    public wrapperRef = React.createRef<T>();
     public instancePropertiesRef = React.createRef<T>();
 
     componentDidMount() {
-      // A workaround for having two refs at the same time
-      const refMethods = objectToArray<Record<string, any>>(this.wrapperRef.current);
-      const actionsRefMethods = objectToArray<Record<string, any>>(this.instancePropertiesRef.current);
+      const instanceProperties = objectToArray<Record<string, any>>(this.instancePropertiesRef.current);
 
-      definePublicMethods<ClassWrapper>(this, refMethods);
-      definePublicMethods<ClassWrapper>(this, actionsRefMethods);
+      definePublicProperties<ClassWrapper>(this, instanceProperties);
     }
 
     public static __KONTUR_REACT_UI__ = nameWithoutPostfix;
@@ -68,9 +64,7 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
     render() {
       return (
         <ClassWrapper.FC
-          // When accesed from outside returns a class instance.
-          ref={this.wrapperRef}
-          // When accesed from outside returns methods defined in useImperativeHandle.
+          // Returns methods defined in useImperativeHandle.
           instanceRef={this.instancePropertiesRef}
           {...this.props}
         />
