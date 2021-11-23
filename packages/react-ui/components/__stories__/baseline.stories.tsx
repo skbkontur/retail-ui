@@ -9,6 +9,7 @@ import { ComboBox } from '../ComboBox';
 import { Spinner } from '../Spinner';
 import { Checkbox } from '../Checkbox';
 import { Radio } from '../Radio';
+import { Toggle } from '../Toggle';
 import { MenuItem } from '../MenuItem';
 import { Gapped } from '../Gapped';
 import { Group } from '../Group';
@@ -158,6 +159,7 @@ export const DifferentFontsAndSizes = () => (
           <div style={{ width: '120px'}}>Arial </div>
           <CrownIcon/>
           <Link>Ok</Link>
+          <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
@@ -220,6 +222,7 @@ export const DifferentFontsAndSizes = () => (
           <div style={{ width: '120px'}}>Lab Grotesque </div>
           <CrownIcon/>
           <Link>Ok</Link>
+          <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
@@ -284,6 +287,7 @@ export const DifferentFontsAndSizes = () => (
           <div style={{ width: '120px'}}>Segoe UI </div>
           <CrownIcon/>
           <Link>Ok</Link>
+          <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
@@ -345,6 +349,7 @@ export const DifferentFontsAndSizes = () => (
           <div style={{ width: '120px'}}>Times New Roman </div>
           <CrownIcon/>
           <Link>Ok</Link>
+          <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</ Checkbox>
           <Checkbox checked>Ch</Checkbox>
           <Radio checked value="value">Rd</Radio>
