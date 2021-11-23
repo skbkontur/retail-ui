@@ -198,9 +198,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const uploadButtonClassNames = cx(jsStyles.uploadButton(theme), {
     [jsStyles.uploadButtonFocus(theme)]: focusedByTab,
     [jsStyles.dragOver()]: isDraggable && !disabled,
-    [jsStyles.warning(theme)]: !!warning && !disabled,
-    [jsStyles.error(theme)]: !!error && !disabled,
     [jsStyles.disabled(theme)]: disabled,
+    [jsStyles.warning(theme)]: !!warning,
+    [jsStyles.error(theme)]: !!error,
   });
 
   const uploadButtonWrapperClassNames = cx({
