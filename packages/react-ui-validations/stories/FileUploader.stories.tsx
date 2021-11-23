@@ -30,10 +30,7 @@ class FileUploaderStory extends React.Component<{}, FileUploaderStoryState> {
       <div style={{ padding: '20px 20px' }}>
         <ValidationContainer>
           <ValidationWrapper validationInfo={this.validateValue()}>
-            <FileUploader
-              multiple
-              onValueChange={(files) => this.setState({ value: files })}
-            />
+            <FileUploader multiple onValueChange={(files) => this.setState({ value: files })} />
           </ValidationWrapper>
         </ValidationContainer>
       </div>
