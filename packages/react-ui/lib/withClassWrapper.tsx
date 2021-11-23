@@ -22,29 +22,28 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
  *
  * Used to remove distinctions between Class and Functional refs.
  *
- * @param RFC Functional component wrapped in forwardRefAndName HOF.
- * @param methodsNames Names of methods in functional component.
+ * @param RFC Functional component wrapped in forwardRefAndName.
  * @returns Class component that wraps Functional component.
  */
-export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>, methodsNames?: Readonly<string[]>) {
+export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
   const fullName = getDisplayName(RFC);
   const nameWithoutPostfix = removePostfix(fullName, /FC$/);
 
   return class ClassWrapper extends React.Component<P> {
-    // Ref is type of any as there are custom methods.
-    public wrapperRef = React.createRef<any>();
+    public wrapperRef = React.createRef<T>();
 
-    constructor(props: P) {
-      super(props);
+    componentDidMount() {
+      const imperativeMethods = !!this.wrapperRef?.current ? Object.entries(this.wrapperRef.current) : null;
 
       /**
-       * Creates an interface for calling static methods
-       * defined in functional component.
+       * Creates an interface for calling methods
+       * defined in the functional component.
        */
-      if (isNonNullable(methodsNames)) {
-        for (let methodName of methodsNames) {
-          Object.defineProperty(this, methodName, {
-            value: () => this.wrapperRef.current?.[methodName](),
+      if (isNonNullable(imperativeMethods)) {
+        for (let method of imperativeMethods) {
+          const [name, action] = method;
+          Object.defineProperty(this, name, {
+            value: action,
             enumerable: true,
           });
         }
