@@ -191,7 +191,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   public static getDerivedStateFromProps(props: ButtonProps) {
-    if (props.loading) {
+    if (props.loading || props.disabled) {
       return { focusedByTab: false };
     }
     return null;
