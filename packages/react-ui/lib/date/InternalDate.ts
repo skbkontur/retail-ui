@@ -297,14 +297,8 @@ export class InternalDate {
       return this;
     }
 
-    const restoreYear =
-      prev.year !== null && InternalDateValidator.testParseToNumber(prev.year)
-        ? prev.year > 50 && prev.year < 100
-          ? Number(prev.year) + 1900
-          : prev.year > 0 && prev.year < 51
-          ? Number(prev.year) + 2000
-          : prev.year
-        : today.year;
+    const restoreYear = this.calculateRestoreYear(prev.year, today.year);
+
     if (
       (type === null && restoreYear !== prev.year) ||
       type === InternalDateComponentType.Year ||
@@ -376,6 +370,22 @@ export class InternalDate {
       );
     }
     return InternalDateGetter.getDefaultMin(type);
+  }
+
+  private calculateRestoreYear(prevYear: string | number | null, todayYear: number) {
+    if (InternalDateValidator.testParseToNumber(prevYear)) {
+      if (prevYear > 50 && prevYear < 100) {
+        return Number(prevYear) + 1900;
+      } else {
+        if (prevYear > 0 && prevYear < 51) {
+          return Number(prevYear) + 2000;
+        } else {
+          return prevYear;
+        }
+      }
+    }
+
+    return todayYear;
   }
 
   private getMaxValue(
