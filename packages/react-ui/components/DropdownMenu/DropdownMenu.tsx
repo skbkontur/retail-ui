@@ -5,7 +5,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Nullable } from '../../typings/utility-types';
 import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
-import { PopupPosition } from '../../internal/Popup';
+import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 export interface DropdownMenuProps extends CommonProps {
@@ -44,7 +44,7 @@ export interface DropdownMenuProps extends CommonProps {
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
-  positions?: PopupPosition[];
+  positions?: PopupPositionsType[];
 
   onOpen?: () => void;
   onClose?: () => void;

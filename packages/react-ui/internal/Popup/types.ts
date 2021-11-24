@@ -1,2 +1,2 @@
-// Публичные типы
-export type { PopupPosition } from './Popup';
+// Public types to be used by the users
+export type { PopupPositionsType } from './Popup';

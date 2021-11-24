@@ -6,7 +6,7 @@ import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { MenuItemProps } from '../MenuItem';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
-import { PopupPosition } from '../../internal/Popup';
+import { PopupPositionsType } from '../../internal/Popup';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
@@ -42,7 +42,7 @@ export interface TooltipMenuProps extends CommonProps {
    *
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    */
-  positions?: PopupPosition[];
+  positions?: PopupPositionsType[];
   /**
    * Не показывать анимацию
    */

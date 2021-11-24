@@ -8,7 +8,7 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { InternalMenu } from '../InternalMenu';
-import { Popup, PopupPosition, PopupPositions } from '../Popup';
+import { Popup, PopupPositionsType, PopupPositions } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -44,7 +44,7 @@ export interface PopupMenuProps extends CommonProps {
   footer?: React.ReactNode;
 
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: PopupPosition[];
+  positions?: PopupPositionsType[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
   /** Пропсы, передающиеся в Popup */
@@ -177,13 +177,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
-  private getPositions(): PopupPosition[] {
+  private getPositions(): Readonly<PopupPositionsType[]> {
     if (this.props.positions && isValidPositions(this.props.positions)) {
       return this.props.positions;
     }
 
-    // PopupPositions returns an array but TypeScript infers the wrong type
-    return [...PopupPositions];
+    return PopupPositions;
   }
 
   private showMenu = (firstItemShouldBeSelected?: boolean): void => {

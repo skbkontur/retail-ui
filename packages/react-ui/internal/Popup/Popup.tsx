@@ -26,23 +26,25 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const PopupPositions = [
-  'top left',
-  'top center',
-  'top right',
-  'right top',
-  'right middle',
-  'right bottom',
-  'bottom right',
-  'bottom center',
-  'bottom left',
-  'left bottom',
-  'left middle',
-  'left top',
-] as const;
-export const DefaultPosition = PopupPositions[0];
+export const PopupPositionsTop = ['top left', 'top center', 'top right'] as const;
+export const PopupPositionsRight = ['right top', 'right middle', 'right bottom'] as const;
+export const PopupPositionsBottom = ['bottom right', 'bottom center', 'bottom left'] as const;
+export const PopupPositionsLeft = ['left bottom', 'left middle', 'left top'] as const;
 
-export type PopupPosition = typeof PopupPositions[number];
+// Use this variable instead of composing directions
+// if you either need to:
+// 1. Get all positions in clockwise order.
+// 2. Get all positions in no matter of order.
+export const PopupPositions = [
+  ...PopupPositionsTop,
+  ...PopupPositionsRight,
+  ...PopupPositionsBottom,
+  ...PopupPositionsLeft,
+] as const;
+
+export const DefaultPosition = PopupPositionsTop[0];
+
+export type PopupPositionsType = typeof PopupPositions[number];
 
 const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
@@ -76,7 +78,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   pinOffset?: number;
   pinSize?: number;
   popupOffset: number;
-  positions: PopupPosition[];
+  positions: Readonly<PopupPositionsType[]>;
   useWrapper: boolean;
   ignoreHover: boolean;
   width: React.CSSProperties['width'];
@@ -87,7 +89,7 @@ interface PopupLocation {
     left: number;
     top: number;
   };
-  position: PopupPosition;
+  position: PopupPositionsType;
 }
 
 export interface PopupState {
@@ -495,7 +497,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    let position: PopupPosition;
+    let position: PopupPositionsType;
     let coordinates: Offset;
 
     if (location && location !== DUMMY_LOCATION && location.position) {

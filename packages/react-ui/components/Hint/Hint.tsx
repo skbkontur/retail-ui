@@ -3,7 +3,14 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { Popup, PopupPosition, PopupPositions } from '../../internal/Popup';
+import {
+  Popup,
+  PopupPositionsType,
+  PopupPositionsBottom,
+  PopupPositionsLeft,
+  PopupPositionsRight,
+  PopupPositionsTop,
+} from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -21,7 +28,7 @@ export interface HintProps extends CommonProps {
   onMouseEnter?: (event: MouseEventType) => void;
   onMouseLeave?: (event: MouseEventType) => void;
   opened?: boolean;
-  pos: 'top' | 'left' | 'bottom' | 'right' | PopupPosition;
+  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   text: React.ReactNode;
   disableAnimations: boolean;
   useWrapper: boolean;
@@ -30,6 +37,8 @@ export interface HintProps extends CommonProps {
 export interface HintState {
   opened: boolean;
 }
+
+const Positions = [...PopupPositionsTop, ...PopupPositionsBottom, ...PopupPositionsLeft, ...PopupPositionsRight];
 
 export class Hint extends React.Component<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
@@ -133,8 +142,8 @@ export class Hint extends React.Component<HintProps, HintState> {
     );
   }
 
-  private getPositions = (): PopupPosition[] => {
-    return PopupPositions.filter((x) => x.startsWith(this.props.pos));
+  private getPositions = (): PopupPositionsType[] => {
+    return Positions.filter((x) => x.startsWith(this.props.pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

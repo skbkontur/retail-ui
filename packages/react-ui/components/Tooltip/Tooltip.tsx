@@ -3,7 +3,16 @@ import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { DefaultPosition, Popup, PopupPosition, PopupPositions, PopupProps } from '../../internal/Popup';
+import {
+  DefaultPosition,
+  Popup,
+  PopupProps,
+  PopupPositionsType,
+  PopupPositionsRight,
+  PopupPositionsTop,
+  PopupPositionsLeft,
+  PopupPositionsBottom,
+} from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
@@ -61,7 +70,7 @@ export interface TooltipProps extends CommonProps {
    */
   render?: Nullable<() => React.ReactNode>;
 
-  pos: PopupPosition;
+  pos: PopupPositionsType;
 
   /**
    * Триггер открытия тултипа
@@ -108,7 +117,7 @@ export interface TooltipProps extends CommonProps {
    * позицию указанную в `pos`
    *
    * ```ts
-   * type PopupPosition =
+   * type PopupPositionsType =
    *   'right bottom',
    * | 'right middle',
    * | 'right top',
@@ -123,7 +132,7 @@ export interface TooltipProps extends CommonProps {
    * | 'bottom right'
    * ```
    */
-  allowedPositions: PopupPosition[];
+  allowedPositions: PopupPositionsType[];
 
   /**
    * Флаг отключения анимации.
@@ -142,6 +151,8 @@ export interface TooltipState {
   opened: boolean;
   focused: boolean;
 }
+
+const Positions = [...PopupPositionsRight, ...PopupPositionsTop, ...PopupPositionsLeft, ...PopupPositionsBottom];
 
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
@@ -163,7 +174,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static defaultProps = {
     pos: DefaultPosition,
     trigger: 'hover',
-    allowedPositions: PopupPositions,
+    allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
     closeOnChildrenMouseLeave: false,
@@ -176,7 +187,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private theme!: Theme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
-  private positions: Nullable<PopupPosition[]> = null;
+  private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
 
   public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
