@@ -117,11 +117,14 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: Readonly<CurrencyInputProps>, prevState: Readonly<CurrencyInputState>) {
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
 
       this.input.setSelectionRange(start, end);
+    }
+    if (prevState.selection !== this.state.selection) {
+      this.scrollInput();
     }
   }
 
@@ -202,7 +205,6 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
 
   private handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const selection = this.getSelection(event.target);
-    const nativeInput = this.input?.getNode();
     this.tempSelectionForOnChange = selection;
 
     if (this.props.onKeyDown) {
@@ -239,31 +241,19 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
       }
       case CURRENCY_INPUT_ACTIONS.MoveCursorLeft: {
         this.moveCursor(selection, -1);
-        if (nativeInput) {
-          this.scrollInput(nativeInput, selection.start, 'left');
-        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.MoveCursorRight: {
         this.moveCursor(selection, +1);
-        if (nativeInput) {
-          this.scrollInput(nativeInput, selection.start, 'right');
-        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.Home: {
         this.setState({ selection: SelectionHelper.fromPosition(0) });
-        if (nativeInput) {
-          nativeInput.scrollLeft -= 100000;
-        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.End: {
         const end = this.state.formatted.length;
         this.setState({ selection: SelectionHelper.fromPosition(end) });
-        if (nativeInput) {
-          nativeInput.scrollLeft += 100000;
-        }
         return;
       }
       case CURRENCY_INPUT_ACTIONS.ExtendSelectionLeft: {
@@ -296,17 +286,28 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     }
   };
 
-  private scrollInput = (node: HTMLInputElement, start: number, direction: 'left' | 'right') => {
-    const symbolWidth = Math.floor(node.scrollWidth / this.state.formatted.length);
-    const cursorApproachedRightBorder = (start + 1) * symbolWidth > node.clientWidth && direction === 'right';
-    const cursorApproachedLeftBorder =
-      start * symbolWidth + node.clientWidth < node.scrollWidth && direction === 'left';
-    if (cursorApproachedRightBorder || cursorApproachedLeftBorder) {
-      if (direction === 'right') {
-        node.scrollLeft += symbolWidth + 5; // дополнительно прокручиваем на 5 пикселей, чтобы курсор было видно
-      } else {
-        node.scrollLeft -= symbolWidth + 5; // дополнительно прокручиваем на 5 пикселей, чтобы курсор было видно
-      }
+  private scrollInput = () => {
+    const node = this.input?.getNode();
+    if (!node || node.scrollWidth === node.clientWidth) {
+      return;
+    }
+    const PAD = 1;
+    const SHIFT = 3;
+
+    const selection = this.state.selection;
+    const selected = selection.start !== selection.end;
+    const position = selected && selection.direction === 'forward' ? selection.end : selection.start;
+    const charsCount = this.state.formatted.length;
+    const charsWidth = node.scrollWidth / charsCount;
+    const frame = Math.ceil(node.clientWidth / (node.scrollWidth / charsCount));
+    const frameStart = Math.ceil(node.scrollLeft / charsWidth);
+    const frameEnd = frameStart + frame;
+
+    if (position < frameStart + PAD) {
+      node.scrollLeft = (position - SHIFT) * charsWidth;
+    }
+    if (position > frameEnd - PAD) {
+      node.scrollLeft = (position - frame + SHIFT) * charsWidth;
     }
   };
 
