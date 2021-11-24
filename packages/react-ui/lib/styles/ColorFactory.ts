@@ -81,7 +81,7 @@ export class ColorFactory {
     const colorCode = hexString.substring(1);
     const rgb: RGBTuple = [0, 0, 0];
     if (colorCode.length === 6) {
-      colorCode.match(/.{2}/g)!.forEach((c, i) => {
+      colorCode.match(/.{2}/g)?.forEach((c, i) => {
         rgb[i] = parseInt(c, 16);
       });
     } else if (colorCode.length === 3) {

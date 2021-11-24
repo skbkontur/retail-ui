@@ -87,7 +87,7 @@ export class InternalDateValidator {
     return true;
   }
 
-  public static testParseToNumber(value: InternalDateComponentRaw): boolean {
+  public static testParseToNumber(value: InternalDateComponentRaw): value is NonNullable<typeof value> {
     return value !== null && (typeof value === 'number' || !Number.isNaN(parseInt(value, 10)));
   }
 
