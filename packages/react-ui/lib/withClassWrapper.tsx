@@ -23,7 +23,10 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
  * @param context Context of the class to which methods will be assigned.
  * @param properties A 2D tuple: the first value is name of the property and the second is value.
  */
-function definePublicProperties<T>(context: ThisType<T>, properties: [string, any][] | null): void {
+export function definePublicProperties<T>(
+  context: ThisType<T>,
+  properties: (string | any)[] | [string, any][] | null,
+): void {
   if (!!properties) {
     for (let method of properties) {
       const [name, action] = method;
