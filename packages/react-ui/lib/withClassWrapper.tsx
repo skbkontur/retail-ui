@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ReactUIComponentWithRef } from './forwardRefAndName';
 import { getDisplayName } from './getDisplayName';
-import { objectToArray } from './utils';
 
 const removePostfix = (word: string, postfixRegex: RegExp) => {
   const regexContent = postfixRegex.source.replace(/\$$/, '');
@@ -16,27 +15,6 @@ const removePostfix = (word: string, postfixRegex: RegExp) => {
 
   return word.replace(postfixRegex, '');
 };
-
-/**
- * Defines properties from passed in 2D tuple.
- *
- * @param context Context of the class to which methods will be assigned.
- * @param properties A 2D tuple: the first value is name of the property and the second is value.
- */
-export function definePublicProperties<T>(
-  context: ThisType<T>,
-  properties: (string | any)[] | [string, any][] | null,
-): void {
-  if (!!properties) {
-    for (let method of properties) {
-      const [name, action] = method;
-      Object.defineProperty(context, name, {
-        value: action,
-        enumerable: true,
-      });
-    }
-  }
-}
 
 /**
  * HOC for moving from Class to Functional components.
@@ -54,9 +32,9 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
     public instancePropertiesRef = React.createRef<T>();
 
     componentDidMount() {
-      const instanceProperties = objectToArray<Record<string, any>>(this.instancePropertiesRef.current);
-
-      definePublicProperties<ClassWrapper>(this, instanceProperties);
+      if (!!this.instancePropertiesRef.current) {
+        Object.defineProperties(this, Object.getOwnPropertyDescriptors(this.instancePropertiesRef.current));
+      }
     }
 
     public static __KONTUR_REACT_UI__ = nameWithoutPostfix;
