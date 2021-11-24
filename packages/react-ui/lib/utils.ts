@@ -84,7 +84,7 @@ type ObjectType<T> = Record<string, any> | ArrayLike<T> | null;
 type OTAReturnType<T extends ObjectType<T>> = T extends ObjectType<T> ? [string, any][] : null;
 
 /**
- * Converts an object to a 2D array.
+ * Converts an object into a 2D array.
  * Internally uses Object.entries and performs an additonal check for falsy values.
  *
  * @param object An object to be converted to an array.
