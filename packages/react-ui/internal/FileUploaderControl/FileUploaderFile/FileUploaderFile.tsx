@@ -1,6 +1,6 @@
 import React, { ReactNode, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 
-import { UploadFile, UploadFileStatus } from '../../../lib/fileUtils';
+import { FileUploaderAttachedFile, FileUploaderFileStatus } from '../fileUtils';
 import { formatBytes } from '../../../lib/utils';
 import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelper';
 import { truncate } from '../../../lib/stringUtils';
@@ -16,7 +16,7 @@ import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { jsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileProps {
-  file: UploadFile;
+  file: FileUploaderAttachedFile;
   showSize?: boolean;
 }
 
@@ -94,9 +94,9 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     }
 
     switch (status) {
-      case UploadFileStatus.Loading:
+      case FileUploaderFileStatus.Loading:
         return <Spinner type="mini" dimmed caption="" />;
-      case UploadFileStatus.Uploaded:
+      case FileUploaderFileStatus.Uploaded:
         return <OkIcon color={theme.fileUploaderIconColor} />;
       default:
         if (!isValid) {

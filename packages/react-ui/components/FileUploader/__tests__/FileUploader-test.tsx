@@ -8,7 +8,7 @@ import { FileUploaderLocaleHelper } from '../locale';
 import { FileUploader, FileUploaderProps } from '../FileUploader';
 import { FileReaderMock } from '../../__mocks__/FileReaderMock';
 import { delay } from '../../../lib/utils';
-import { UploadFile } from '../../../lib/fileUtils';
+import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
@@ -221,7 +221,7 @@ describe('FileUploader', () => {
     });
 
     describe('request, onRequestSuccess, onRequestError', () => {
-      let request: (file: UploadFile) => Promise<void>;
+      let request: (file: FileUploaderAttachedFile) => Promise<void>;
       let onRequestSuccess: () => void;
       let onRequestError: () => void;
       let component: ReactWrapper;

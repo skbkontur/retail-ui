@@ -1,26 +1,26 @@
 import React, { PropsWithChildren, useCallback, useState } from 'react';
 
 import { useMemoObject } from '../../hooks/useMemoObject';
-import { UploadFile, UploadFileStatus } from '../../lib/fileUtils';
 
+import { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils';
 import { FileUploaderControlContext } from './FileUploaderControlContext';
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
 
 export interface FileUploaderControlProviderProps {
   /** Срабатывает при валидном чтении файла (превращение в base64) */
-  onReadSuccess?: (files: UploadFile[]) => void;
+  onReadSuccess?: (files: FileUploaderAttachedFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
   onRemove?: (fileId: string) => void;
   /** Срабатывает при onReadSuccess и onRemove*/
-  onValueChange?: (files: UploadFile[]) => void;
+  onValueChange?: (files: FileUploaderAttachedFile[]) => void;
 }
 
 const updateFile = (
-  files: UploadFile[],
+  files: FileUploaderAttachedFile[],
   fileId: string,
-  getFileUpdatedProps: (file: UploadFile) => Partial<UploadFile>,
-): UploadFile[] => {
+  getFileUpdatedProps: (file: FileUploaderAttachedFile) => Partial<FileUploaderAttachedFile>,
+): FileUploaderAttachedFile[] => {
   const fileIndex = files.findIndex((file) => file.id === fileId);
   if (fileIndex === -1) return files;
 
@@ -41,17 +41,17 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   const { children, onValueChange, onRemove, onReadSuccess } = props;
 
   // в files попадат только те, что попали в onReadSuccess
-  const [files, setFiles] = useState<UploadFile[]>([]);
+  const [files, setFiles] = useState<FileUploaderAttachedFile[]>([]);
   const locale = useControlLocale();
 
   const setFileStatus = useCallback(
-    (fileId: string, status: UploadFileStatus) => {
+    (fileId: string, status: FileUploaderFileStatus) => {
       setFiles((files) => {
         return updateFile(files, fileId, (file) => {
           return {
             status,
             validationResult:
-              status === UploadFileStatus.Error
+              status === FileUploaderFileStatus.Error
                 ? FileUploaderFileValidationResult.error(locale.requestErrorText)
                 : file.validationResult,
           };
@@ -62,7 +62,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   );
 
   const handleExternalSetFiles = useCallback(
-    (files: UploadFile[]) => {
+    (files: FileUploaderAttachedFile[]) => {
       onReadSuccess?.(files);
       setFiles((state) => {
         const newFiles = [...state, ...files];

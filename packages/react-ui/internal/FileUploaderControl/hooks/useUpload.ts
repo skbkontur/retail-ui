@@ -1,11 +1,11 @@
 import { useCallback, useContext } from 'react';
 
 import { Nullable } from '../../../typings/utility-types';
-import { UploadFile, UploadFileStatus } from '../../../lib/fileUtils';
+import { FileUploaderAttachedFile, FileUploaderFileStatus } from '../fileUtils';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 
 export const useUpload = (
-  request: Nullable<(file: UploadFile) => Promise<void>>,
+  request: Nullable<(file: FileUploaderAttachedFile) => Promise<void>>,
   onRequestSuccess?: Nullable<(fileId: string) => void>,
   onRequestError?: Nullable<(fileId: string) => void>,
 ) => {
@@ -13,14 +13,14 @@ export const useUpload = (
 
   const switchToLoading = useCallback(
     (fileId: string) => {
-      setFileStatus(fileId, UploadFileStatus.Loading);
+      setFileStatus(fileId, FileUploaderFileStatus.Loading);
     },
     [setFileStatus],
   );
 
   const switchToSuccess = useCallback(
     (fileId: string) => {
-      setFileStatus(fileId, UploadFileStatus.Uploaded);
+      setFileStatus(fileId, FileUploaderFileStatus.Uploaded);
       onRequestSuccess?.(fileId);
     },
     [setFileStatus, onRequestSuccess],
@@ -28,14 +28,14 @@ export const useUpload = (
 
   const switchToError = useCallback(
     (fileId: string) => {
-      setFileStatus(fileId, UploadFileStatus.Error);
+      setFileStatus(fileId, FileUploaderFileStatus.Error);
       onRequestError?.(fileId);
     },
     [setFileStatus, onRequestError],
   );
 
   return useCallback(
-    async (file: UploadFile) => {
+    async (file: FileUploaderAttachedFile) => {
       const { id } = file;
       switchToLoading(id);
 

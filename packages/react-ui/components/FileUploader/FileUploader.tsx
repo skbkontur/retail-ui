@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
 
-import { UploadFile, readFiles } from '../../lib/fileUtils';
+import { FileUploaderAttachedFile, readFiles } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
@@ -33,17 +33,17 @@ interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes
   width?: React.CSSProperties['width'];
 
   /** Срабатывает при невалидном чтении файла (превращение в base64) */
-  onReadError?: (files: UploadFile[]) => void;
+  onReadError?: (files: FileUploaderAttachedFile[]) => void;
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
-  request?: (file: UploadFile) => Promise<void>;
+  request?: (file: FileUploaderAttachedFile) => Promise<void>;
   /** Срабатывает при удачной попытке отправки через request */
   onRequestSuccess?: (fileId: string) => void;
   /** Срабатывает при неудачной попытке отправки через request */
   onRequestError?: (fileId: string) => void;
 
   /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
-  getFileValidationText?: (file: UploadFile) => Promise<Nullable<string>>;
+  getFileValidationText?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
 }
 
 export interface FileUploaderRef {
@@ -82,7 +82,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const upload = useUpload(request, onRequestSuccess, onRequestError);
 
   const tryValidateAndUpload = useCallback(
-    (files: UploadFile[]) => {
+    (files: FileUploaderAttachedFile[]) => {
       files.forEach(async (file) => {
         const validationMessage = getFileValidationText && (await getFileValidationText(file));
 

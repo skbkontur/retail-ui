@@ -1,26 +1,26 @@
-import { FileUploaderFileValidationResult } from '../internal/FileUploaderControl/FileUploaderFileValidationResult';
+import { getGuid } from '../../lib/guidUtils';
 
-import { getGuid } from './guidUtils';
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 
-export type UploadFileInBase64 = string | ArrayBuffer | null;
+export type FileUploaderFileInBase64 = string | ArrayBuffer | null;
 
-export enum UploadFileStatus {
+export enum FileUploaderFileStatus {
   Attached = 'Attached',
   Loading = 'Loading',
   Uploaded = 'Uploaded',
   Error = 'Error',
 }
 
-export interface UploadFile {
+export interface FileUploaderAttachedFile {
   id: string;
   originalFile: File;
-  status: UploadFileStatus;
+  status: FileUploaderFileStatus;
   validationResult: FileUploaderFileValidationResult;
 
-  fileInBase64: UploadFileInBase64;
+  fileInBase64: FileUploaderFileInBase64;
 }
 
-export const readFile = (file: File): Promise<UploadFileInBase64> =>
+export const readFile = (file: File): Promise<FileUploaderFileInBase64> =>
   new Promise((resolve, reject): void => {
     const fileReader = new FileReader();
     fileReader.onload = () => resolve(fileReader.result);
@@ -28,7 +28,7 @@ export const readFile = (file: File): Promise<UploadFileInBase64> =>
     fileReader.readAsDataURL(file);
   });
 
-export const readFiles = (files: File[]): Promise<Array<UploadFile>> => {
+export const readFiles = (files: File[]): Promise<Array<FileUploaderAttachedFile>> => {
   const filesPromises = files.map(async (file) => {
     const fileInBase64 = (await readFile(file).catch(console.error)) || null;
     return getUploadFile(file, fileInBase64);
@@ -37,11 +37,11 @@ export const readFiles = (files: File[]): Promise<Array<UploadFile>> => {
   return Promise.all(filesPromises);
 };
 
-export const getUploadFile = (file: File, fileInBase64: UploadFileInBase64): UploadFile => {
+export const getUploadFile = (file: File, fileInBase64: FileUploaderFileInBase64): FileUploaderAttachedFile => {
   return {
     id: getGuid(),
     originalFile: getFileWithEscapedName(file),
-    status: UploadFileStatus.Attached,
+    status: FileUploaderFileStatus.Attached,
     validationResult: FileUploaderFileValidationResult.ok(),
     fileInBase64: fileInBase64,
   };

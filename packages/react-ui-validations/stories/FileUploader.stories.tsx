@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { FileUploader } from '@skbkontur/react-ui/components/FileUploader';
-import { UploadFile } from '@skbkontur/react-ui/lib/fileUtils';
+import { FileUploaderAttachedFile } from '@skbkontur/react-ui/internal/FileUploaderControl/fileUtils';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
@@ -9,7 +9,7 @@ import { Nullable } from '../typings/Types';
 storiesOf('FileUploader', module).add('required', () => <FileUploaderStory />);
 
 interface FileUploaderStoryState {
-  value: UploadFile[];
+  value: FileUploaderAttachedFile[];
 }
 
 class FileUploaderStory extends React.Component<{}, FileUploaderStoryState> {
