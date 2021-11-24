@@ -473,9 +473,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (isBlurToMenu || this.state.preventBlur) {
       event.preventDefault();
       // первый focus нужен для предотвращения/уменьшения моргания в других браузерах
-      this.input!.focus();
+      this.input?.focus();
       // в firefox не работает без второго focus
-      requestAnimationFrame(() => this.input!.focus());
+      requestAnimationFrame(() => this.input?.focus());
       this.dispatch({ type: 'SET_PREVENT_BLUR', payload: false });
     } else {
       this.dispatch({ type: 'BLUR' });
@@ -556,7 +556,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'SET_PREVENT_BLUR', payload: true });
     const target = event.target as HTMLElement;
     const isClickOnToken =
-      target && this.wrapper!.contains(target) && target !== this.wrapper! && target !== this.input!;
+      target && this.wrapper?.contains(target) && target !== this.wrapper! && target !== this.input!;
     if (!isClickOnToken) {
       this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     }
@@ -690,13 +690,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         }
         break;
       case isKeyEscape(e):
-        this.input!.blur();
+        this.input?.blur();
         break;
       case isKeyBackspace(e):
         if (!this.isEditingMode) this.moveFocusToLastToken();
         break;
       case isKeyArrowLeft(e):
-        if (this.input!.selectionStart === 0) {
+        if (this.input?.selectionStart === 0) {
           this.moveFocusToLastToken();
         }
         break;
@@ -711,7 +711,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   }
 
   private focusInput = () => {
-    requestAnimationFrame(() => this.input!.focus());
+    requestAnimationFrame(() => this.input?.focus());
   };
 
   private selectInputText = () => {
@@ -731,7 +731,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           this.props.onValueChange(itemsNew);
           this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
             LayoutEvents.emit();
-            this.input!.focus();
+            this.input?.focus();
           });
         }
         break;
@@ -740,7 +740,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.handleWrapperArrows(e);
         break;
       case isKeyEscape(e):
-        this.wrapper!.blur();
+        this.wrapper?.blur();
         break;
       case isKeyEnter(e):
         e.preventDefault();
@@ -774,7 +774,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleWrapperArrowsWithoutShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (isRightEdge) {
-      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => this.input!.focus());
+      this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => this.input?.focus());
     } else if (!isLeftEdge) {
       this.dispatch({
         type: 'SET_ACTIVE_TOKENS',
