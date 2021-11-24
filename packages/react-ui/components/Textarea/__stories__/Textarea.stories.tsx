@@ -122,6 +122,15 @@ export const DifferentStates: Story = () => {
           <Textarea spellCheck={false} disabled defaultValue={TEXT_SAMPLE} />
         </div>
       </div>
+      <div style={rowStyles}>
+        <div style={headingStyles}>Disabled with Error</div>
+        <div id="TextareaDisabledError" style={cellStyles}>
+          <Textarea disabled error />
+        </div>
+        <div id="TextareaDisabledErrorFilled" style={cellStyles}>
+          <Textarea spellCheck={false} disabled error defaultValue={TEXT_SAMPLE} />
+        </div>
+      </div>
     </div>
   );
 };

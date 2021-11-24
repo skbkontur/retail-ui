@@ -24,6 +24,9 @@ interface ComboBoxViewProps<T> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   editing?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
@@ -35,6 +38,9 @@ interface ComboBoxViewProps<T> extends CommonProps {
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   width?: string | number;
   maxLength?: number;

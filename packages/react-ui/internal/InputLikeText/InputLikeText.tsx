@@ -157,6 +157,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const rightSide = this.renderRightSide();
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+      [jsInputStyles.disabled(this.theme)]: !!disabled,
+      [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
@@ -164,8 +166,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
       [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
       [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
-      [jsInputStyles.disabled(this.theme)]: !!disabled,
-      [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.hideBlinkingCursor()]: isMobile,
     });
 

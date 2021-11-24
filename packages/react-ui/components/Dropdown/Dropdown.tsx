@@ -54,11 +54,11 @@ export interface DropdownProps extends CommonProps {
   disabled?: boolean;
 
   /**
-   * Визуально показать наличие ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Визуально показать наличие предупреждения.
+   * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
   maxMenuHeight?: number;
