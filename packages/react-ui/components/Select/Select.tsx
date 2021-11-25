@@ -503,6 +503,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private handleSearch = (value: string) => {
     this.setState({ searchPattern: value });
+    this.menu?.highlightItem(1);
   };
 
   private select(value: TValue) {
