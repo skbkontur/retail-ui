@@ -34,17 +34,8 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(child)
       ? React.cloneElement(child, {
           ref: (instance: any) => {
+            (child as any).ref?.(instance);
             this.props.rootNodeRef?.(instance);
-
-            const child = children as any;
-            if (child?.ref) {
-              if (typeof child.ref === 'function') {
-                child.ref(instance);
-              }
-              if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-                child.ref.current = instance;
-              }
-            }
           },
           className: cx(child.props.className, className),
           style: {
