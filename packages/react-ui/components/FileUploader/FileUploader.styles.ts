@@ -136,6 +136,12 @@ const styles = {
 
   link(t: Theme) {
     return css`
+      outline: none;
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: ${t.linkHoverTextDecoration};
+      }
       color: ${t.fileUploaderLinkColor};
     `;
   },
@@ -143,6 +149,9 @@ const styles = {
   linkDisabled(t: Theme) {
     return css`
       color: ${t.fileUploaderDisabledLinkColor};
+      &:hover {
+        text-decoration: none;
+      }
     `;
   },
 };
