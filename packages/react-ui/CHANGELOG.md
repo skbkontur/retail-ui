@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.6...@skbkontur/react-ui@2.17.7) (2021-11-26)
+
+
+### Bug Fixes
+
+* **TokenInput:** non-null assertion operator replaced with optional chaining ([#2671](https://github.com/skbkontur/retail-ui/issues/2671)) ([96f554d](https://github.com/skbkontur/retail-ui/commit/96f554d0310672b6747ae75dcdfb66c19e23ddd2))
+
+
+
+
+
 ## [2.17.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.5...@skbkontur/react-ui@2.17.6) (2021-11-09)
 
 
