@@ -259,7 +259,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       >
         <div
           className={styles.spinnerComponentWrapper()}
-          ref={(element: Nullable<HTMLDivElement>) => {
+          ref={(element) => {
             this.spinnerNode = element;
           }}
         >

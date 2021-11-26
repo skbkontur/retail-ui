@@ -457,9 +457,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     if (!this.state.location) {
       return;
     }
-    // if (this.anchorInstance) {
-    //   this.updateAnchorElement(this.extractElement(this.anchorInstance));
-    // }
     this.updateLocation();
   };
 

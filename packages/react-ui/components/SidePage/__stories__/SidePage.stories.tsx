@@ -504,17 +504,12 @@ class TestUpdateLayoutMethod extends React.Component {
 
   public render() {
     return (
-      <SidePage blockBackground ref={(ref: SidePage | null) => (this.sidePage = ref)}>
+      <SidePage blockBackground ref={(ref) => (this.sidePage = ref)}>
         <SidePage.Header>Title</SidePage.Header>
         <SidePage.Body>
           <SidePage.Container>
             {this.state.content && <TestUpdateLayoutMethod.Content />}
-            <TestUpdateLayoutMethod.ChildComp
-              ref={
-                // @ts-ignore: only refers to a type, but is being used as a namespace here
-                (ref: TestUpdateLayoutMethod.ChildComp | null) => (this.childComp = ref)
-              }
-            />
+            <TestUpdateLayoutMethod.ChildComp ref={(ref) => (this.childComp = ref)} />
           </SidePage.Container>
         </SidePage.Body>
         <SidePage.Footer>

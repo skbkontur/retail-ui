@@ -29,7 +29,7 @@ class Component extends React.Component<ComponentProps> {
       <div>
         <PasswordInput
           detectCapsLock
-          ref={(ref: Nullable<PasswordInput>) => {
+          ref={(ref) => {
             this._passwordInput = ref;
           }}
           value={this.state.value}

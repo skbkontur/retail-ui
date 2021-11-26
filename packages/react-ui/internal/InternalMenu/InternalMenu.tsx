@@ -181,7 +181,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={(el: Nullable<HTMLDivElement>) => (this.header = el)}
+        ref={(el) => (this.header = el)}
         className={cx({
           [styles.header()]: true,
           [styles.fixedHeader()]: this.state.scrollState !== 'top',
@@ -195,7 +195,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={(el: Nullable<HTMLDivElement>) => (this.footer = el)}
+        ref={(el) => (this.footer = el)}
         className={cx({
           [styles.footer()]: true,
           [styles.fixedFooter()]: this.state.scrollState !== 'bottom',

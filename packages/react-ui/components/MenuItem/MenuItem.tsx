@@ -154,7 +154,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
-        data-tid="MenuItem"
         {...rest}
         state={state}
         onMouseOver={this.handleMouseEnterFix}

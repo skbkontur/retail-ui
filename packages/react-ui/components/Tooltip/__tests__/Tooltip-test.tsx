@@ -234,36 +234,39 @@ describe('Tooltip', () => {
   });
 
   describe('calls onCloseRequest on clickOutside when tooltip is opened', () => {
-    // const Content = () => <div />;
-    // const onCloseRequest = jest.fn();
-    // let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
-    // beforeEach(() => {
-    //   onCloseRequest.mockClear();
-    //   wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-    //     <Tooltip disableAnimations={true} render={() => <Content />} onCloseRequest={onCloseRequest}>
-    //       <Button>Anchor</Button>
-    //     </Tooltip>,
-    //   );
-    // });
-    // it('with "click" trigger', () => {
-    //   wrapper.setProps({ trigger: 'click' });
-    //   wrapper.setState({ opened: true });
-    //   wrapper.update();
-    //   expect(wrapper.find(Content).length).toBe(1);
-    //
-    //   clickOutside();
-    //
-    //   expect(onCloseRequest).toHaveBeenCalledTimes(1);
-    // });
-    // it('with "opened" trigger', () => {
-    //   wrapper.setProps({ trigger: 'opened' });
-    //   wrapper.update();
-    //   expect(wrapper.find(Content).length).toBe(1);
-    //
-    //   clickOutside();
-    //
-    //   expect(onCloseRequest).toHaveBeenCalledTimes(1);
-    // });
+    const Content = () => <div />;
+    const onCloseRequest = jest.fn();
+    let wrapper: ReactWrapper<TooltipProps, TooltipState, Tooltip>;
+
+    beforeEach(() => {
+      onCloseRequest.mockClear();
+      wrapper = mount<Tooltip, TooltipProps, TooltipState>(
+        <Tooltip disableAnimations={true} render={() => <Content />} onCloseRequest={onCloseRequest}>
+          <Button>Anchor</Button>
+        </Tooltip>,
+      );
+    });
+
+    it('with "click" trigger', () => {
+      wrapper.setProps({ trigger: 'click' });
+      wrapper.setState({ opened: true });
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+
+      clickOutside();
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+    });
+
+    it('with "opened" trigger', () => {
+      wrapper.setProps({ trigger: 'opened' });
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+
+      clickOutside();
+
+      expect(onCloseRequest).toHaveBeenCalledTimes(1);
+    });
   });
 
   it('clears hoverTimeout timer after unmount', () => {

@@ -18,7 +18,6 @@ export const defaultProps = {
   fractionDigits: 2,
 };
 
-// fix me
 export const CurrencyLabel = (props: CurrencyLabelProps): JSX.Element => {
   const { value, fractionDigits, currencySymbol } = props;
   return (

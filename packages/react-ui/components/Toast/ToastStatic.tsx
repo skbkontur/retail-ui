@@ -16,7 +16,7 @@ export class ToastStatic {
       body.appendChild(ToastStatic.node);
 
       ReactDOM.render(
-        <Toast data-tid="StaticToast" ref={(el: Nullable<Toast>) => (ToastStatic.instance = el)} />,
+        <Toast data-tid="StaticToast" ref={(el) => (ToastStatic.instance = el)} />,
         ToastStatic.node,
         () => ToastStatic._push(notification, action),
       );

@@ -25,8 +25,7 @@ import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getRootNode } from '../../lib/rootNode/getRootNode';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
