@@ -16,8 +16,7 @@ export interface CommonProps {
    * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
    */
   'data-tid'?: string;
-  rootNodeRef?: any;
-  ref?: any;
+  rootNodeRef?: (instance: any) => void;
 }
 
 export type NotCommonProps<P> = Omit<P, keyof CommonProps>;
@@ -32,11 +31,20 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     const child = isFunction(children) ? children(rest) : children;
 
-    return React.isValidElement<CommonProps>(child)
+    return React.isValidElement<CommonProps & React.RefAttributes<any>>(child)
       ? React.cloneElement(child, {
           ref: (instance: any) => {
             this.props.rootNodeRef?.(instance);
-            (child as any).ref?.(instance);
+
+            const child = children as any;
+            if (child?.ref) {
+              if (typeof child.ref === 'function') {
+                child.ref(instance);
+              }
+              if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+                child.ref.current = instance;
+              }
+            }
           },
           className: cx(child.props.className, className),
           style: {
