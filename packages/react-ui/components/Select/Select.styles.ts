@@ -9,6 +9,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  rootMobile(t: Theme) {
+    return css`
+      width: ${t.selectRootWidthMobile};
+    `;
+  },
+
   placeholder(t: Theme) {
     return css`
       color: ${t.selectPlaceholderColor};

@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 
 import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
-import { Input, InputIconType } from '../../components/Input';
+import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -12,6 +12,10 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { MobilePopup } from '../MobilePopup';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
+import { responsiveLayout } from '../../components/ResponsiveLayout';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -73,7 +77,12 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
-export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
+interface ComboBoxViewState {
+  isMobileOpened: boolean;
+}
+
+@responsiveLayout
+export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
   public static defaultProps = {
@@ -93,6 +102,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private input: Nullable<Input>;
+  private mobilePopup: Nullable<MobilePopup>;
+  //@ts-ignore
+  private theme!: Theme;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
@@ -100,23 +113,55 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     }
   }
 
+  public state: ComboBoxViewState = {
+    isMobileOpened: false,
+  };
+
   public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
     const { input, props } = this;
+
     if (props.editing && !prevProps.editing && input) {
       input.focus();
     }
   }
 
   public render() {
+    const { onClickOutside, onFocusOutside, onMouseEnter, onMouseLeave, onMouseOver, opened, width } = this.props;
+
+    const isMobile = this.isMobileLayout;
+
+    const input = this.renderInput();
+
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+
+          return (
+            <CommonWrapper {...this.props}>
+              <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
+                <span
+                  style={{ width }}
+                  className={styles.root()}
+                  onMouseEnter={onMouseEnter}
+                  onMouseLeave={onMouseLeave}
+                  onMouseOver={onMouseOver}
+                >
+                  {input}
+                  {isMobile ? this.renderMobileMenu() : this.renderMenu()}
+                </span>
+              </RenderLayer>
+            </CommonWrapper>
+          );
+        }}
+      </ThemeContext.Consumer>
+    );
+  }
+
+  private getComboBoxMenu = () => {
     const {
       items,
       loading,
-      menuAlign,
-      onClickOutside,
-      onFocusOutside,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
       opened,
       refMenu,
       maxMenuHeight,
@@ -126,71 +171,96 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       repeatRequest,
       requestStatus,
       totalCount,
-      size,
-      width,
     } = this.props;
 
-    const input = this.renderInput();
+    return (
+      <ComboBoxMenu
+        items={items}
+        loading={loading}
+        maxMenuHeight={maxMenuHeight}
+        onValueChange={this.handleItemSelect}
+        opened={opened}
+        refMenu={refMenu}
+        renderTotalCount={renderTotalCount}
+        renderItem={renderItem!}
+        renderNotFound={renderNotFound}
+        renderAddButton={this.renderAddButton}
+        repeatRequest={repeatRequest}
+        requestStatus={requestStatus}
+        totalCount={totalCount}
+        isMobile={this.isMobileLayout}
+      />
+    );
+  };
 
-    const topOffsets = {
-      spinner: 6,
-      arrow: 15,
-    };
-    if (size === 'medium') {
-      topOffsets.spinner += 4;
-      topOffsets.arrow += 4;
-    }
-    if (size === 'large') {
-      topOffsets.spinner += 6;
-      topOffsets.arrow += 6;
-    }
+  private renderMenu = () => {
+    const { menuAlign, opened } = this.props;
 
     return (
-      <CommonWrapper {...this.props}>
-        <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-          <span
-            style={{ width }}
-            className={styles.root()}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onMouseOver={onMouseOver}
-          >
-            {input}
-            {opened && (
-              <DropdownContainer
-                align={menuAlign}
-                getParent={() => findDOMNode(this)}
-                offsetY={1}
-                disablePortal={this.props.disablePortal}
-              >
-                <ComboBoxMenu
-                  items={items}
-                  loading={loading}
-                  maxMenuHeight={maxMenuHeight}
-                  onValueChange={this.handleItemSelect}
-                  opened={opened}
-                  refMenu={refMenu}
-                  renderTotalCount={renderTotalCount}
-                  renderItem={renderItem!}
-                  renderNotFound={renderNotFound}
-                  renderAddButton={this.renderAddButton}
-                  repeatRequest={repeatRequest}
-                  requestStatus={requestStatus}
-                  totalCount={totalCount}
-                />
-              </DropdownContainer>
-            )}
-          </span>
-        </RenderLayer>
-      </CommonWrapper>
+      opened && (
+        <DropdownContainer
+          align={menuAlign}
+          getParent={() => findDOMNode(this)}
+          offsetY={1}
+          disablePortal={this.props.disablePortal}
+        >
+          {this.getComboBoxMenu()}
+        </DropdownContainer>
+      )
     );
-  }
+  };
+
+  private renderMobileMenu = () => {
+    if (!this.state.isMobileOpened) {
+      return null;
+    }
+
+    let rightIcon = null;
+
+    const { loading, items } = this.props;
+    if (loading && items && !!items.length) {
+      rightIcon = this.renderSpinner();
+    }
+
+    const inputProps: InputProps = {
+      autoFocus: true,
+      width: '100%',
+      onFocus: this.props.onFocus,
+      onValueChange: this.props.onInputValueChange,
+      value: this.props.textValue,
+      placeholder: this.props.placeholder,
+      rightIcon,
+    };
+
+    return (
+      <MobilePopup
+        headerChildComponent={<Input {...inputProps} />}
+        useFullHeight
+        onClose={this.handleCloseMobile}
+        ref={this.refMobilePopup}
+      >
+        {this.getComboBoxMenu()}
+      </MobilePopup>
+    );
+  };
+
+  private handleCloseMobile = () => {
+    this.setState({
+      isMobileOpened: false,
+    });
+
+    if (this.props.onInputBlur) {
+      this.props.onInputBlur();
+    }
+  };
 
   private renderAddButton = (): React.ReactNode => {
     return this.props.renderAddButton(this.props.textValue);
   };
 
   private renderInput(): React.ReactNode {
+    const isMobile = this.isMobileLayout;
+
     const {
       align,
       borderless,
@@ -224,10 +294,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
           disabled={disabled}
           error={error}
           maxLength={this.props.maxLength}
-          onBlur={onInputBlur}
+          onBlur={isMobile ? undefined : onInputBlur}
           onValueChange={onInputValueChange}
-          onFocus={onInputFocus}
-          onClick={onInputClick}
+          onFocus={isMobile ? this.handleFocusMobile : onInputFocus}
+          onClick={isMobile ? this.handleFocusMobile : onInputClick}
           leftIcon={leftIcon}
           rightIcon={rightIcon}
           value={textValue || ''}
@@ -262,9 +332,19 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
     );
   }
 
+  private handleFocusMobile = () => {
+    this.setState({
+      isMobileOpened: true,
+    });
+  };
+
   private handleItemSelect = (item: T) => {
     if (this.props.onValueChange) {
       this.props.onValueChange(item);
+    }
+
+    if (this.isMobileLayout) {
+      this.mobilePopup?.close();
     }
   };
 
@@ -273,6 +353,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       this.props.refInput(input);
     }
     this.input = input;
+  };
+
+  private refMobilePopup = (mobilePopup: MobilePopup | null) => {
+    this.mobilePopup = mobilePopup;
   };
 
   private renderSpinner = () => (

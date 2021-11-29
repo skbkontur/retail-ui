@@ -61,6 +61,8 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
+  public static fontSizeMobile = '18px';
+  public static lineHeightMobile = '24px';
   public static specificityLevel = '0';
   private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
@@ -93,6 +95,7 @@ export class DefaultTheme {
     const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
     return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
   }
+  public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
 
   //#endregion
   //#region Link
@@ -534,6 +537,8 @@ export class DefaultTheme {
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
   }
+  public static selectRootWidthMobile = 'auto';
+
   public static get selectTextColorDisabled() {
     return this.btnDisabledTextColor;
   }
@@ -877,6 +882,8 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#a0a0a0';
   public static menuItemCommentColorHover = '#fff';
+
+  public static menuItemPaddingMobile = '12px 16px';
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;
@@ -1448,6 +1455,20 @@ export class DefaultTheme {
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;
   }
+  //#endregion
+  //#region MobilePopup
+  public static mobilePopupTopPadding = '20px';
+  public static mobilePopupHeaderPadding = '0 16px';
+  public static mobilePopupHeaderBorderRadius = '8px 8px 0px 0px';
+  public static mobilePopupHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
+  public static get mobilePopupHeaderFontSize() {
+    return this.fontSizeMobile;
+  }
+  public static get mobilePopupHeaderLineHeight() {
+    return this.lineHeightMobile;
+  }
+  public static mobilePopupHeaderFontWeight = '500';
+  public static mobilePopupHeaderChildPadding = '12px';
   //#endregion
   //#region ScrollContainer
   public static scrollContainerScrollBarSize = '4px';
