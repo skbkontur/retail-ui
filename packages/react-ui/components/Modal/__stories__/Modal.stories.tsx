@@ -832,9 +832,7 @@ export const MobileModal = () => {
                     Удалить
                   </Button>
                   {showThirdButton && (
-                    <Button style={{ marginLeft: '100px' }} use={'link'}>
-                      Изменить
-                    </Button>
+                    <Button style={isMobile ? { marginTop: '8px' } : { marginLeft: '100px' }}>Изменить</Button>
                   )}
                 </Modal.Footer>
               </Modal>

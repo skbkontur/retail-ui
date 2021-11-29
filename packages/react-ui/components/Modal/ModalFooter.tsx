@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { Gapped } from '../Gapped';
+import { isReactUINode } from '../../lib/utils';
 
 import { jsStyles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -80,10 +81,12 @@ function ModalFooter(props: ModalFooterProps) {
             {children &&
               React.Children.map(children, (child) => {
                 if (isValidElement(child)) {
-                  return cloneElement(child, { width: '100%' });
-                }
+                  if (isReactUINode('Button', child)) {
+                    return cloneElement(child, { width: '100%', size: 'large' });
+                  }
 
-                return <div style={{ width: '100%' }}>{child}</div>;
+                  return <div style={{ width: '100%', height: '48px' }}>{child}</div>;
+                }
               })}
           </Gapped>
         )}
