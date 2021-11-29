@@ -31,6 +31,10 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnPaddingYLarge: theme.selectPaddingYLarge,
       btnIconSizeLarge: theme.selectIconSizeLarge,
       btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
+
+      btnDisabledBg: theme.selectBgDisabled,
+      btnDisabledBorderColor: theme.selectBorderColorDisabled,
+      btnDisabledTextColor: theme.selectTextColorDisabled,
     },
     theme,
   );

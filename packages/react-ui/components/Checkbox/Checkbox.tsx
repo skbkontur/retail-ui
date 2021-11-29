@@ -17,23 +17,41 @@ export interface CheckboxProps
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Контент `label` */
+        /**
+         * Контент `label`
+         */
         children?: React.ReactNode;
-        /** Состояние ошибки */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Состояние Предупреждения */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
-        /** Вызывается на label */
+        /**
+         * HTML-событие `mouseenter`.
+         */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+        /**
+         * HTML-событие `mouseleave`.
+         */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+        /**
+         * HTML-событие `mouseover`.
+         */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается при изменении `value` */
+        /**
+         * Функция, вызываемая при изменении `value`.
+         */
         onValueChange?: (value: boolean) => void;
-        /** onBlur */
+        /**
+         * HTML-событие `onblur`.
+         */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /** Состояние частичного выделения */
+        /**
+         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+         */
         initialIndeterminate?: boolean;
       }
     > {}
@@ -43,9 +61,6 @@ export interface CheckboxState {
   indeterminate: boolean;
 }
 
-/**
- * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
- */
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
@@ -93,6 +108,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
+   * Программная установка фокуса чекбоксу.
    * @public
    */
   public focus() {
@@ -101,6 +117,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
+   * Программное снятие фокуса с чекбокса.
    * @public
    */
   public blur() {
@@ -108,7 +125,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
-   * Установить промежуточное значение
+   * Устанавливает чекбокс в HTML-состояние `indeterminate`.
    * @public
    */
   public setIndeterminate = () => {
@@ -121,7 +138,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   };
 
   /**
-   * Сбросить промежуточное значение
+   * Снимает с чекбокса HTML-состояние `indeterminate`.
    * @public
    */
   public resetIndeterminate = () => {
@@ -170,6 +187,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       const captionClass = cx({
         [styles.caption(this.theme)]: true,
         [styles.captionIE11()]: isIE11 || isEdge,
+        [styles.disabled(this.theme)]: Boolean(props.disabled),
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
@@ -182,11 +200,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const box = (
       <span
         className={cx(styles.box(this.theme), globalClasses.box, {
-          [styles.boxChecked(this.theme)]: Boolean(props.checked) || isIndeterminate,
-          [styles.boxWarning(this.theme)]: Boolean(props.warning),
-          [styles.boxError(this.theme)]: Boolean(props.error),
+          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+          [styles.boxDisabled(this.theme)]: props.disabled,
           [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [styles.boxDisabled(this.theme)]: Boolean(props.disabled),
+          [styles.boxError(this.theme)]: props.error,
+          [styles.boxWarning(this.theme)]: props.warning,
         })}
       >
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}

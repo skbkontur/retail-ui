@@ -56,7 +56,7 @@ export class FxInput extends React.Component<FxInputProps> {
   }
 
   public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
-    const { type, onRestore, auto, ...rest } = props;
+    const { type, onRestore, auto, refInput, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };

@@ -7,7 +7,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  input() {
+  absolute() {
     return css`
       position: absolute;
       top: 0;

@@ -15,7 +15,7 @@ export const styles = memoizeStyle({
     return css`
       border-bottom: ${t.tabBorderWidth} solid transparent;
       box-sizing: border-box;
-      color: inherit;
+      color: ${t.tabTextColorDefault};
       cursor: pointer;
       display: inline-block;
       font-size: ${t.tabFontSize};

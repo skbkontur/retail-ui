@@ -33,4 +33,16 @@ export const styles = {
       color: ${t.textColorDisabled};
     `;
   },
+
+  value() {
+    return css`
+      opacity: 0;
+    `;
+  },
+
+  valueVisible() {
+    return css`
+      opacity: 1;
+    `;
+  },
 };

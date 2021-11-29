@@ -94,7 +94,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: styles.input(),
     };
 
-    const lableClassName = cx(styles.label(), this.getLabelSizeClassName());
+    const lableClassName = cx(styles.label(this.theme), this.getLabelSizeClassName());
 
     return (
       <CommonWrapper {...this.props}>

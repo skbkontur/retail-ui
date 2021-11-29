@@ -28,9 +28,13 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /** Ошибка */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Предупреждение */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
@@ -103,7 +107,6 @@ export interface TextareaProps
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
-  rows: number | string;
   isCounterVisible: boolean;
 }
 
@@ -180,7 +183,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public state = {
     polyfillPlaceholder,
-    rows: 1,
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -231,7 +233,12 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize.cancel();
       this.autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
     }
-    if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
+    if (
+      this.props.autoResize &&
+      (this.props.rows !== prevProps.rows ||
+        this.props.maxRows !== prevProps.maxRows ||
+        this.props.value !== prevProps.value)
+    ) {
       this.autoResize();
     }
   }
@@ -319,6 +326,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       counterHelp,
       extraRow,
       disableAnimations,
+      disabled,
       ...textareaProps
     } = props;
 
@@ -332,6 +340,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaClassNames = cx({
       [styles.textarea(this.theme)]: true,
+      [styles.disabled(this.theme)]: disabled,
       [styles.error(this.theme)]: !!error,
       [styles.warning(this.theme)]: !!warning,
       [styles.disableAnimations()]: this.isAnimationsDisabled(),
@@ -389,6 +398,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               onPaste={this.handlePaste}
               onFocus={this.handleFocus}
               onKeyDown={this.handleKeyDown}
+              disabled={disabled}
             >
               {this.props.children}
             </textarea>

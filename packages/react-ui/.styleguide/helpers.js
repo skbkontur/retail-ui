@@ -111,7 +111,7 @@ const getVersionsSection = () => {
     sections.push({
       name: 'lts',
       content: path.join(__dirname, '../README.md'),
-      href: 'http://tech.skbkontur.ru/react-ui/lts',
+      href: '//tech.skbkontur.ru/react-ui/lts',
     });
   }
 
@@ -120,7 +120,7 @@ const getVersionsSection = () => {
       return {
         name: version,
         content: path.join(__dirname, '../README.md'),
-        href: `http://tech.skbkontur.ru/react-ui/${version}`,
+        href: `//tech.skbkontur.ru/react-ui/${version}`,
       };
     }),
   );

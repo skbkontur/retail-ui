@@ -46,6 +46,7 @@ export const InputLikeText: Story = () => (
       <ComboBoxView loading rightIcon={OkIcon} items={new Array(2)} value="Hello" /> ComboBoxView с правой иконкой в
       состоянии загрузки
     </div>
+    <ComboBoxView error disabled placeholder="Error and Disabled" />
   </Gapped>
 );
 InputLikeText.storyName = 'input like text';
