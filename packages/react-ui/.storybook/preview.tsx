@@ -10,26 +10,6 @@ import { FLAT_THEME_OLD } from '../lib/theming/themes/FlatThemeOld';
 import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
 import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
-import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
-
-const customViewports = {
-  iphone: {
-    name: 'Iphone',
-    styles: {
-      width: '375px',
-      height: '667px',
-    },
-    type: 'mobile',
-  },
-  iphonePlus: {
-    name: 'Iphone Plus',
-    styles: {
-      width: '414px',
-      height: '736px',
-    },
-    type: 'mobile',
-  },
-};
 
 const customViewports = {
   iphone: {
