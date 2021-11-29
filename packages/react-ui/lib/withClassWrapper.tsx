@@ -32,7 +32,7 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
     public instancePropertiesRef = React.createRef<T>();
 
     componentDidMount() {
-      if (!!this.instancePropertiesRef.current) {
+      if (this.instancePropertiesRef.current) {
         Object.defineProperties(this, Object.getOwnPropertyDescriptors(this.instancePropertiesRef.current));
       }
     }
@@ -44,6 +44,10 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
 
     render() {
       return (
+        // TypeScript is not able to understand
+        // that both types (class one and functional one)
+        // have ref at the build stage.
+        // @ts-ignore
         <ClassWrapper.FC
           // Returns methods defined in useImperativeHandle.
           instanceRef={this.instancePropertiesRef}
