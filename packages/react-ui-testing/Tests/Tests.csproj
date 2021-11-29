@@ -27,6 +27,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="NUnit" Version="3.12.0" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.13.1" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.0.1" />
   </ItemGroup>
 </Project>
