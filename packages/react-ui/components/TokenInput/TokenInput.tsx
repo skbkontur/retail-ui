@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
 import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
-import cn from 'classnames';
 
 import {
   isKeyArrowHorizontal,
@@ -10,6 +9,7 @@ import {
   isKeyArrowUp,
   isKeyArrowVertical,
   isKeyBackspace,
+  isKeyComma,
   isKeyDelete,
   isKeyEnter,
   isKeyEscape,
@@ -25,9 +25,10 @@ import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
-import { jsStyles } from './TokenInput.styles';
+import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
 import { TokenInputMenu } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
@@ -38,6 +39,8 @@ export enum TokenInputType {
   Combined,
 }
 
+export type TokenInputMenuAlign = 'left' | 'cursor';
+
 export interface TokenInputProps<T> extends CommonProps {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
@@ -47,6 +50,16 @@ export interface TokenInputProps<T> extends CommonProps {
   onBlur: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
+  /**
+   * Ширина выпадающего меню может быть указана как 'auto'
+   * а также в пикселях, процентах (от ширины инпута)
+   * или других конкретных единицах
+   *
+   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
+   * (по ширине текста)
+   */
+  menuWidth: React.CSSProperties['width'];
+  menuAlign: TokenInputMenuAlign;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -69,7 +82,13 @@ export interface TokenInputProps<T> extends CommonProps {
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
   delimiters: string[];
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   disabled?: boolean;
   width?: string | number;
@@ -168,6 +187,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onFocus: emptyHandler,
     onMouseEnter: emptyHandler,
     onMouseLeave: emptyHandler,
+    menuWidth: 'auto',
+    menuAlign: 'cursor',
   };
 
   public state: TokenInputState<T> = DefaultState;
@@ -209,6 +230,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     document.removeEventListener('copy', this.handleCopy);
   }
 
+  /**
+   * @public
+   */
+  public focus() {
+    this.input?.focus();
+  }
+
+  /**
+   * @public
+   */
+  public blur() {
+    this.input?.blur();
+  }
+
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -239,6 +274,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       onMouseEnter,
       onMouseLeave,
       inputMode,
+      menuWidth,
+      menuAlign,
     } = this.props;
 
     const {
@@ -272,15 +309,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       caretColor: this.isCursorVisible ? undefined : 'transparent',
     };
 
-    const labelClassName = cn(jsStyles.label(theme), {
-      [jsStyles.labelFocused(theme)]: !!inFocus,
-      [jsStyles.error(theme)]: !!error,
-      [jsStyles.warning(theme)]: !!warning,
-      [jsStyles.labelDisabled(theme)]: !!disabled,
+    const labelClassName = cx(styles.label(theme), {
+      [styles.labelFocused(theme)]: !!inFocus,
+      [styles.error(theme)]: !!error,
+      [styles.warning(theme)]: !!warning,
+      [styles.labelDisabled(theme)]: !!disabled,
     });
-    const inputClassName = cn(jsStyles.input(theme), {
-      [jsStyles.inputDisabled(theme)]: !!disabled,
-      [jsStyles.inputEditing(theme)]: this.isEditingMode,
+    const inputClassName = cx(styles.input(theme), {
+      [styles.inputDisabled(theme)]: !!disabled,
+      [styles.inputEditing(theme)]: this.isEditingMode,
     });
 
     return (
@@ -295,8 +332,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
           >
             <TextWidthHelper
               ref={this.textHelperRef}
-              classHelp={cn(jsStyles.helperText(theme), {
-                [jsStyles.helperTextEditing(theme)]: this.isEditingMode,
+              classHelp={cx(styles.helperText(theme), {
+                [styles.helperTextEditing(theme)]: this.isEditingMode,
               })}
               text={inputValue}
               theme={this.theme}
@@ -324,15 +361,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={this.input!}
+                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
+                menuWidth={menuWidth}
+                menuAlign={menuAlign}
               />
             )}
             {this.renderTokensEnd()}
-            {this.isEditingMode ? <span className={jsStyles.reservedInput(theme)}>{reservedInputValue}</span> : null}
+            {this.isEditingMode ? <span className={styles.reservedInput(theme)}>{reservedInputValue}</span> : null}
           </label>
         </div>
       </CommonWrapper>
@@ -613,7 +652,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleInputKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     e.stopPropagation();
 
-    if (this.type !== TokenInputType.WithReference && this.props.delimiters.includes(e.key)) {
+    if (
+      this.type !== TokenInputType.WithReference &&
+      this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))
+    ) {
       e.preventDefault();
       const newValue = this.state.inputValue;
       if (newValue !== '') {

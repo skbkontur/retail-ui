@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 import debounce from 'lodash.debounce';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -10,8 +9,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
+import { isTestEnv } from '../../lib/currentEnvironment';
+import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
+import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 
-import { jsStyles } from './Loader.styles';
+import { styles } from './Loader.styles';
 
 export interface LoaderProps extends CommonProps {
   children?: React.ReactNode;
@@ -27,10 +30,22 @@ export interface LoaderProps extends CommonProps {
   component?: React.ReactNode;
   className?: string;
   type?: 'mini' | 'normal' | 'big';
+  /**
+   * Время в миллисекундах для показа вуали без спиннера.
+   * @default 300
+   */
+  delayBeforeSpinnerShow: number;
+  /**
+   * Минимальное время в миллисекундах для показа спиннера
+   * @default 1000
+   */
+  minimalDelayBeforeSpinnerHide: number;
 }
 
 export interface LoaderState {
   isStickySpinner: boolean;
+  isSpinnerVisible: boolean;
+  isLoaderActive: boolean;
   spinnerStyle?: object;
 }
 
@@ -43,6 +58,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static defaultProps: Partial<LoaderProps> = {
     type: Spinner.Types.normal,
     active: false,
+    delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
+    minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
   };
 
   public static propTypes = {
@@ -73,41 +90,110 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      * Spinner.types - все доступные типы
      */
     type: PropTypes.oneOf(Object.keys(Spinner.Types)),
+    /**
+     * Время в миллисекундах для показа вуали без спиннера.
+     * @default 300
+     */
+    delayBeforeSpinnerShow: PropTypes.number,
+    /**
+     * Минимальное время в миллисекундах для показа спиннера
+     * @default 1000
+     */
+    minimalDelayBeforeSpinnerHide: PropTypes.number,
   };
 
   private theme!: Theme;
-  private containerNode: Nullable<HTMLDivElement>;
+  private spinnerContainerNode: Nullable<HTMLDivElement>;
+  private childrenContainerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
   private layoutEvents: Nullable<{ remove: () => void }>;
+  private spinnerTask: TaskWithDelayAndMinimalDuration;
+  private childrenObserver: Nullable<MutationObserver>;
 
   constructor(props: LoaderProps) {
     super(props);
 
-    this.containerNode = null;
+    this.spinnerContainerNode = null;
+    this.childrenContainerNode = null;
+    this.childrenObserver = null;
     this.spinnerNode = null;
 
     this.state = {
       isStickySpinner: false,
+      isSpinnerVisible: false,
+      isLoaderActive: false,
     };
+
+    this.spinnerTask = new TaskWithDelayAndMinimalDuration({
+      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow,
+      durationOfTask: this.props.minimalDelayBeforeSpinnerHide,
+      taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
+      taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
+    });
   }
 
   public componentDidMount() {
     this.checkSpinnerPosition();
+    this.props.active && this.spinnerTask.start();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
+
+    if (this.props.active) {
+      this.disableChildrenFocus();
+    }
   }
 
-  public componentDidUpdate(prevProps: Readonly<LoaderProps>) {
-    const { component, active } = this.props;
+  public componentDidUpdate(prevProps: Readonly<LoaderProps>, prevState: Readonly<LoaderState>) {
+    const { component, active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.props;
+    const { isLoaderActive } = this.state;
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
       this.checkSpinnerPosition();
     }
+
+    if (
+      delayBeforeSpinnerShow !== prevProps.delayBeforeSpinnerShow ||
+      minimalDelayBeforeSpinnerHide !== prevProps.minimalDelayBeforeSpinnerHide
+    ) {
+      this.spinnerTask.update({
+        delayBeforeTaskStart: delayBeforeSpinnerShow,
+        durationOfTask: minimalDelayBeforeSpinnerHide,
+      });
+    }
+
+    if (active !== prevProps.active) {
+      active ? this.spinnerTask.start() : this.spinnerTask.stop();
+    }
+
+    if (isLoaderActive !== prevState.isLoaderActive) {
+      if (isLoaderActive) {
+        this.disableChildrenFocus();
+      } else {
+        this.enableChildrenFocus();
+      }
+    }
   }
 
   public componentWillUnmount() {
+    this.makeUnobservable();
     if (this.layoutEvents) {
       this.layoutEvents.remove();
     }
+    this.spinnerTask.clearTask();
+  }
+
+  public static getDerivedStateFromProps(props: LoaderProps, state: LoaderState): Partial<LoaderState> {
+    if (props.active && !state.isLoaderActive) {
+      return {
+        isLoaderActive: true,
+      };
+    }
+    if (state.isLoaderActive && !(props.active || state.isSpinnerVisible)) {
+      return {
+        isLoaderActive: false,
+      };
+    }
+
+    return state;
   }
 
   public render() {
@@ -122,28 +208,30 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { active, type, caption, component } = this.props;
+    const { type, caption, component } = this.props;
+    const { isLoaderActive } = this.state;
 
     return (
       <CommonWrapper {...this.props}>
-        <div className={jsStyles.loader()}>
+        <div className={styles.loader()} data-tid={isLoaderActive ? 'Loader__Veil' : ''}>
           <ZIndex
             priority={'Loader'}
-            applyZIndex={this.props.active}
-            coverChildren={this.props.active}
+            applyZIndex={isLoaderActive}
+            coverChildren={isLoaderActive}
             style={{ height: '100%' }}
+            wrapperRef={this.childrenRef}
           >
             {this.props.children}
           </ZIndex>
-          {active && (
+          {isLoaderActive && (
             <ZIndex
-              wrapperRef={this.wrapperRef}
+              wrapperRef={this.spinnerRef}
               priority={'Loader'}
-              className={cn({
-                [jsStyles.active(this.theme)]: active,
+              className={cx({
+                [styles.active(this.theme)]: isLoaderActive,
               })}
             >
-              {this.renderSpinner(type, caption, component)}
+              {this.state.isSpinnerVisible && this.renderSpinner(type, caption, component)}
             </ZIndex>
           )}
         </div>
@@ -151,18 +239,23 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     );
   }
 
-  private wrapperRef = (element: HTMLDivElement | null) => {
-    this.containerNode = element;
+  private childrenRef = (element: HTMLDivElement | null) => {
+    this.childrenContainerNode = element;
+  };
+
+  private spinnerRef = (element: HTMLDivElement | null) => {
+    this.spinnerContainerNode = element;
   };
 
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        className={this.state.isStickySpinner ? jsStyles.spinnerContainerSticky() : jsStyles.spinnerContainerCenter()}
+        data-tid={'Loader__Spinner'}
+        className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
         <div
-          className={jsStyles.spinnerComponentWrapper()}
+          className={styles.spinnerComponentWrapper()}
           ref={(element) => {
             this.spinnerNode = element;
           }}
@@ -174,7 +267,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private checkSpinnerPosition = () => {
-    if (!this.containerNode) {
+    if (!this.spinnerContainerNode) {
       return;
     }
 
@@ -185,7 +278,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       left: containerLeft,
       height: containerHeight,
       width: containerWidth,
-    } = this.containerNode.getBoundingClientRect();
+    } = this.spinnerContainerNode.getBoundingClientRect();
 
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
@@ -252,5 +345,45 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       isStickySpinner: true,
       spinnerStyle,
     });
+  };
+
+  private disableChildrenFocus = () => {
+    if (!this.childrenObserver) {
+      this.makeObservable();
+    }
+    const tabbableElements = getTabbableElements(this.childrenContainerNode);
+    tabbableElements.forEach((el) => {
+      if (!el.hasAttribute('origin-tabindex')) {
+        el.setAttribute('origin-tabindex', el.tabIndex.toString());
+      }
+      el.tabIndex = -1;
+    });
+  };
+
+  private enableChildrenFocus = () => {
+    this.makeUnobservable();
+    document.querySelectorAll('[origin-tabindex]').forEach((el) => {
+      el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
+      el.removeAttribute('origin-tabindex');
+    });
+  };
+
+  private makeObservable = () => {
+    const target = this.childrenContainerNode;
+    if (!target) {
+      return;
+    }
+    const config = {
+      childList: true,
+      subtree: true,
+    };
+    const observer = new MutationObserver(this.disableChildrenFocus);
+    observer.observe(target, config);
+    this.childrenObserver = observer;
+  };
+
+  private makeUnobservable = () => {
+    this.childrenObserver?.disconnect();
+    this.childrenObserver = null;
   };
 }

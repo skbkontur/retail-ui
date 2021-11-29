@@ -1,6 +1,8 @@
 import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
+import { addParameters } from '@storybook/react';
+import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Meta } from '@storybook/react';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
@@ -29,6 +31,24 @@ const customViewports = {
   },
 };
 
+const customViewports = {
+  iphone: {
+    name: 'Iphone',
+    styles: {
+      width: '375px',
+      height: '667px',
+    },
+    type: 'mobile',
+  },
+  iphonePlus: {
+    name: 'Iphone Plus',
+    styles: {
+      width: '414px',
+      height: '736px',
+    },
+    type: 'mobile',
+  },
+};
 const themes = { DEFAULT_THEME, FLAT_THEME, DEFAULT_THEME_OLD, FLAT_THEME_OLD };
 
 setFilter((fiber) => {

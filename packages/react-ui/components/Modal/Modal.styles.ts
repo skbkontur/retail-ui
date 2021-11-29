@@ -1,8 +1,8 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -78,11 +78,9 @@ const styles = {
     `;
   },
 
-  alignTop(t: Theme) {
+  alignTop() {
     return css`
-      ${cssName(styles.centerContainer(t))}& {
-        vertical-align: top;
-      }
+      vertical-align: top;
     `;
   },
 
@@ -100,21 +98,17 @@ const styles = {
       color: ${t.modalCloseButtonColor};
       text-align: center;
       vertical-align: middle;
-      padding: ${t.modalCloseButtonClickArea} !important;
-      margin: -${t.modalCloseButtonClickArea} !important;
+      padding: ${t.modalCloseButtonClickArea};
+      margin: -${t.modalCloseButtonClickArea};
 
-      @media ${t.mobileMediaQuery} {
+      <<<<<<< HEAD @media ${t.mobileMediaQuery} {
         right: ${t.mobileModalCloseButtonRightPadding};
         top: ${t.mobileModalCloseButtonTopPadding};
       }
 
       &:focus,
-      &:hover {
+      =======>>>>>>>next &:hover {
         color: ${t.modalCloseButtonHoverColor};
-      }
-
-      &:focus {
-        outline: 2px solid ${t.borderColorFocus};
       }
 
       & > svg {
@@ -151,11 +145,16 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      ${cssName(styles.close(t))}& {
-        pointer-events: none;
-        cursor: default;
-        color: ${t.modalCloseButtonDisabledColor};
-      }
+      pointer-events: none;
+      cursor: default;
+      color: ${t.modalCloseButtonDisabledColor};
+    `;
+  },
+
+  focus(t: Theme) {
+    return css`
+      color: ${t.modalCloseButtonHoverColor};
+      outline: 2px solid ${t.borderColorFocus};
     `;
   },
 
@@ -172,13 +171,16 @@ const styles = {
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
+      color: ${t.modalHeaderTextColor};
+    `;
+  },
 
-      @media ${t.mobileMediaQuery} {
-        font-size: ${t.mobileModalHeaderFontSize};
-        line-height: ${t.mobileModalHeaderLineHeight};
+  mobileHeader(t: Theme) {
+    return css`
+      font-size: ${t.mobileModalHeaderFontSize};
+      line-height: ${t.mobileModalHeaderLineHeight};
 
-        padding: ${t.mobileModalHeaderPadding};
-      }
+      padding: ${t.mobileModalHeaderPadding};
     `;
   },
 
@@ -229,15 +231,15 @@ const styles = {
 
   panel(t: Theme) {
     return css`
-      ${cssName(styles.footer(t))}& {
-        padding-top: ${t.modalFooterPanelPaddingTop} !important;
-        padding-bottom: ${t.modalFooterPanelPaddingBottom} !important;
-        background: ${t.modalFooterBg} !important;
+      padding-top: ${t.modalFooterPanelPaddingTop};
+      padding-bottom: ${t.modalFooterPanelPaddingBottom};
+      background: ${t.modalFooterBg};
+    `;
+  },
 
-        @media ${t.mobileMediaQuery} {
-          padding: ${t.mobileModalFooterPanelPadding} !important;
-        }
-      }
+  mobilePanel(t: Theme) {
+    return css`
+      padding: ${t.mobileModalFooterPanelPadding};
     `;
   },
 
@@ -262,11 +264,9 @@ const styles = {
 
   fixedFooter(t: Theme) {
     return css`
-      ${cssName(styles.footer(t))}& {
-        padding-top: 20px;
-        margin-top: 10px;
-        background: ${t.modalFixedHeaderBg};
-      }
+      padding-top: 20px;
+      margin-top: 10px;
+      background: ${t.modalFixedHeaderBg};
 
       &:before {
         top: 11px;
@@ -289,17 +289,19 @@ const styles = {
 
   bodyWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${t.modalPaddingTop} !important;
+      padding-top: ${t.modalPaddingTop};
+    `;
+  },
 
-      @media ${t.mobileMediaQuery} {
-        padding-top: ${t.mobileModalBodyPadding} !important;
-      }
+  mobileBodyWithoutHeader(t: Theme) {
+    return css`
+      padding-top: ${t.mobileModalBodyPadding};
     `;
   },
 
   bodyWithoutPadding() {
     return css`
-      padding: 0 !important;
+      padding: 0;
     `;
   },
 
@@ -320,6 +322,4 @@ const styles = {
       flex-flow: column;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

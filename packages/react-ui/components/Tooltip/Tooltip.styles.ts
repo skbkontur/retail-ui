@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   cross(t: Theme) {
     return css`
       color: ${t.tooltipCloseBtnColor};
@@ -23,10 +23,9 @@ const styles = {
 
   tooltipContent(t: Theme) {
     return css`
+      color: ${t.tooltipTextColor};
       padding: ${t.tooltipPaddingY} ${t.tooltipPaddingX};
       position: relative;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

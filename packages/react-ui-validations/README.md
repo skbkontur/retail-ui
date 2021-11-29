@@ -1,4 +1,4 @@
-# react-ui-validations
+# React UI validations
 
 [![npm](https://img.shields.io/npm/v/react-ui-validations.svg?maxAge=300&style=flat-square)](https://www.npmjs.com/package/react-ui-validations)
 
@@ -6,13 +6,13 @@
 
 ## Документация
 
-- [Docs & Demos](http://tech.skbkontur.ru/react-ui-validations/)
+- [Docs & Demos](https://tech.skbkontur.ru/react-ui-validations/)
 - [Validation guides](https://guides.kontur.ru/principles/validation/)
 
 ## Использование
 
 ```shell
-npm install --save react-ui-validations
+npm install --save @skbkontur/react-ui-validations
 ```
 
 ```jsx

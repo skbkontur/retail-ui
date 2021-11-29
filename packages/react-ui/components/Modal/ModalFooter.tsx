@@ -9,7 +9,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { Gapped } from '../Gapped';
 import { isReactUINode } from '../../lib/utils';
 
-import { jsStyles } from './Modal.styles';
+import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
 
 const ALLOWED_MOBILE_FOOTER_BUTTTONS = 2;
@@ -71,9 +71,9 @@ function ModalFooter(props: ModalFooterProps) {
     return (
       <div
         className={cn({
-          [jsStyles.footer(theme)]: true,
-          [jsStyles.panel(theme)]: Boolean(panel),
-          [jsStyles.fixedFooter(theme)]: fixed,
+          [styles.footer(theme)]: true,
+          [styles.panel(theme)]: Boolean(panel),
+          [styles.fixedFooter(theme)]: fixed,
         })}
       >
         {modal.isMobileLayout && (
@@ -101,7 +101,7 @@ function ModalFooter(props: ModalFooterProps) {
 
   return (
     <CommonWrapper {...props}>
-      <ZIndex priority={'ModalFooter'} className={jsStyles.footerWrapper()}>
+      <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
         {sticky && !isManyChilds ? (
           <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}

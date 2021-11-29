@@ -1,10 +1,10 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Center.styles';
+import { styles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
@@ -14,21 +14,16 @@ export interface CenterProps
       React.HTMLAttributes<HTMLDivElement>,
       {
         /**
-         * Горизонтальное выравнивание контента.
+         * Определяет, как контент будет выровнен по горизонтали.
+         *
+         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
          */
         align?: HorizontalAlign;
-
-        /**
-         * **Используй с осторожностью!**
-         * Дополнительные стили
-         */
-        style?: React.CSSProperties;
       }
     > {}
 
 /**
- * Контейнер для вертикального центрирования. В компонент можно передавать
- * свойства как в любой *div* (кроме `className`)
+ * Контейнер, который центрирует элементы внутри себя.
  */
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
@@ -46,14 +41,14 @@ export class Center extends React.Component<CenterProps> {
     return (
       <div
         {...rest}
-        className={cn({
-          [jsStyles.root()]: true,
-          [jsStyles.rootAlignLeft()]: align === 'left',
-          [jsStyles.rootAlignRight()]: align === 'right',
+        className={cx({
+          [styles.root()]: true,
+          [styles.rootAlignLeft()]: align === 'left',
+          [styles.rootAlignRight()]: align === 'right',
         })}
       >
-        <span className={jsStyles.spring()} />
-        <span className={jsStyles.container()}>{this.props.children}</span>
+        <span className={styles.spring()} />
+        <span className={styles.container()}>{this.props.children}</span>
       </div>
     );
   };

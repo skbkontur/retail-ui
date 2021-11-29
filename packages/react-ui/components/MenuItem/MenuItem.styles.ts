@@ -2,7 +2,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     const legacyPaddingX = parseFloat(t.menuItemLegacyPaddingX);
     const legacyPaddingY = parseFloat(t.menuItemLegacyPaddingY);
@@ -20,10 +20,19 @@ const styles = {
       padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
       position: relative;
       text-decoration: none;
+      color: ${t.menuItemTextColor};
 
       button& {
         min-width: 100%;
       }
+    `;
+  },
+
+  rootMobile(t: Theme) {
+    return css`
+      font-size: ${t.fontSizeMobile};
+      line-height: ${t.lineHeightMobile};
+      padding: ${t.menuItemPaddingMobile};
     `;
   },
 
@@ -41,9 +50,9 @@ const styles = {
   },
   disabled(t: Theme) {
     return css`
-      background: transparent !important;
-      color: ${t.menuItemDisabledColor} !important;
-      cursor: default !important;
+      background: transparent;
+      color: ${t.menuItemDisabledColor};
+      cursor: default;
     `;
   },
   link(t: Theme) {
@@ -58,7 +67,7 @@ const styles = {
   },
   withIcon(t: Theme) {
     return css`
-      padding-left: ${t.menuItemPaddingForIcon} !important;
+      padding-left: ${t.menuItemPaddingForIcon};
     `;
   },
   comment(t: Theme) {
@@ -83,6 +92,4 @@ const styles = {
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

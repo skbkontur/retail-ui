@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.7](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.6...react-ui-validations@1.5.7) (2021-10-25)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.5.6](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.5...react-ui-validations@1.5.6) (2021-10-06)
+
+
+### Bug Fixes
+
+* **validations:** update package name ([b5e4741](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/b5e4741b157c2ab6f37188b356376f0fddf1e7cf))
+
+
+
+
+
+## [1.5.5](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.4...react-ui-validations@1.5.5) (2021-09-16)
+
+
+### Bug Fixes
+
+* **validation:** hide error on editing combobox ([66c747d](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/66c747d97766459fc7fb1fb322cad72636a55e56))
+
+
+
+
+
+## [1.5.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.3...react-ui-validations@1.5.4) (2021-08-10)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
 ## [1.5.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.2...react-ui-validations@1.5.3) (2021-07-23)
 
 **Note:** Version bump only for package react-ui-validations

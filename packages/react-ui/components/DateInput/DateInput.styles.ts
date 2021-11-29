@@ -1,7 +1,7 @@
 import { css } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-export const jsStyles = {
+export const styles = {
   icon(t: Theme) {
     return css`
       cursor: pointer;
@@ -31,6 +31,18 @@ export const jsStyles = {
     return css`
       cursor: default;
       color: ${t.textColorDisabled};
+    `;
+  },
+
+  value() {
+    return css`
+      opacity: 0;
+    `;
+  },
+
+  valueVisible() {
+    return css`
+      opacity: 1;
     `;
   },
 };

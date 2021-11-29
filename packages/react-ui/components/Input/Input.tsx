@@ -1,7 +1,6 @@
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
-import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
@@ -11,8 +10,9 @@ import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Input.styles';
+import { styles } from './Input.styles';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -36,9 +36,13 @@ export interface InputProps
          * Если `() => ReactNode` применяются только стили для позиционирование
          */
         rightIcon?: InputIconType;
-        /** Состояние ошибки */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Состояние предупреждения */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Режим прозрачной рамки */
         borderless?: boolean;
@@ -279,16 +283,16 @@ export class Input extends React.Component<InputProps, InputState> {
     const { blinking, focused } = this.state;
 
     const labelProps = {
-      className: cn(jsStyles.root(this.theme), this.getSizeClassName(), {
-        [jsStyles.borderless()]: !!borderless,
-        [jsStyles.focus(this.theme)]: focused,
-        [jsStyles.blink(this.theme)]: !!blinking,
-        [jsStyles.warning(this.theme)]: !!warning,
-        [jsStyles.error(this.theme)]: !!error,
-        [jsStyles.disabled(this.theme)]: !!disabled,
-        [jsStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
-        [jsStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
-        [jsStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
+      className: cx(styles.root(this.theme), this.getSizeClassName(), {
+        [styles.focus(this.theme)]: focused,
+        [styles.blink(this.theme)]: blinking,
+        [styles.borderless()]: borderless && !focused,
+        [styles.disabled(this.theme)]: disabled,
+        [styles.warning(this.theme)]: warning,
+        [styles.error(this.theme)]: error,
+        [styles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
+        [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
+        [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
       }),
       style: { width },
       onMouseEnter,
@@ -298,7 +302,10 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const inputProps = {
       ...rest,
-      className: jsStyles.input(this.theme),
+      className: cx(styles.input(this.theme), {
+        [styles.inputFocus(this.theme)]: focused,
+        [styles.inputDisabled(this.theme)]: disabled,
+      }),
       value,
       onChange: this.handleChange,
       onFocus: this.handleFocus,
@@ -320,15 +327,15 @@ export class Input extends React.Component<InputProps, InputState> {
 
     return (
       <label {...labelProps}>
-        <span className={jsStyles.sideContainer()}>
+        <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
         </span>
-        <span className={jsStyles.wrapper()}>
+        <span className={styles.wrapper()}>
           {input}
           {this.renderPlaceholder()}
         </span>
-        <span className={cn(jsStyles.sideContainer(), jsStyles.rightContainer())}>
+        <span className={cx(styles.sideContainer(), styles.rightContainer())}>
           {this.renderSuffix()}
           {this.renderRightIcon()}
         </span>
@@ -359,12 +366,12 @@ export class Input extends React.Component<InputProps, InputState> {
   private getIconSizeClassname(right = false) {
     switch (this.props.size) {
       case 'large':
-        return right ? jsStyles.rightIconLarge(this.theme) : jsStyles.leftIconLarge(this.theme);
+        return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
       case 'medium':
-        return right ? jsStyles.rightIconMedium(this.theme) : jsStyles.leftIconMedium(this.theme);
+        return right ? styles.rightIconMedium(this.theme) : styles.leftIconMedium(this.theme);
       case 'small':
       default:
-        return right ? jsStyles.rightIconSmall(this.theme) : jsStyles.leftIconSmall(this.theme);
+        return right ? styles.rightIconSmall(this.theme) : styles.leftIconSmall(this.theme);
     }
   }
 
@@ -380,31 +387,32 @@ export class Input extends React.Component<InputProps, InputState> {
     if (!icon) {
       return null;
     }
-
-    if (icon instanceof Function) {
-      return <span className={cn(jsStyles.icon(), sizeClassName)}>{icon()}</span>;
-    }
+    const { disabled } = this.props;
+    const iconNode = icon instanceof Function ? icon() : icon;
 
     return (
       <span
-        className={cn(
-          cn(jsStyles.icon(), sizeClassName),
-          jsStyles.useDefaultColor(this.theme),
-          jsStyles.useDefaultColor(this.theme),
-        )}
+        className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
+          [styles.iconDisabled()]: disabled,
+        })}
       >
-        {icon}
+        {iconNode}
       </span>
     );
   }
 
   private renderPlaceholder() {
+    const { disabled } = this.props;
+    const { focused } = this.state;
     let placeholder = null;
 
     if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
       placeholder = (
         <div
-          className={cn(jsStyles.placeholder(this.theme), jsStyles.placeholder(this.theme))}
+          className={cx(styles.placeholder(this.theme), {
+            [styles.placeholderDisabled(this.theme)]: disabled,
+            [styles.placeholderFocus(this.theme)]: focused,
+          })}
           style={{ textAlign: this.props.align || 'inherit' }}
         >
           {this.props.placeholder}
@@ -418,21 +426,21 @@ export class Input extends React.Component<InputProps, InputState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return {
-          [jsStyles.sizeLarge(this.theme)]: true,
-          [jsStyles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
-        };
+        return cx({
+          [styles.sizeLarge(this.theme)]: true,
+          [styles.sizeLargeFallback(this.theme)]: isIE11 || isEdge,
+        });
       case 'medium':
-        return {
-          [jsStyles.sizeMedium(this.theme)]: true,
-          [jsStyles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
-        };
+        return cx({
+          [styles.sizeMedium(this.theme)]: true,
+          [styles.sizeMediumFallback(this.theme)]: isIE11 || isEdge,
+        });
       case 'small':
       default:
-        return {
-          [jsStyles.sizeSmall(this.theme)]: true,
-          [jsStyles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
-        };
+        return cx({
+          [styles.sizeSmall(this.theme)]: true,
+          [styles.sizeSmallFallback(this.theme)]: isIE11 || isEdge,
+        });
     }
   }
 
@@ -521,22 +529,26 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private renderPrefix = () => {
-    const { prefix } = this.props;
+    const { prefix, disabled } = this.props;
 
     if (!prefix) {
       return null;
     }
 
-    return <span className={jsStyles.prefix(this.theme)}>{prefix}</span>;
+    return (
+      <span className={cx(styles.prefix(this.theme), { [styles.prefixDisabled(this.theme)]: disabled })}>{prefix}</span>
+    );
   };
 
   private renderSuffix = () => {
-    const { suffix } = this.props;
+    const { suffix, disabled } = this.props;
 
     if (!suffix) {
       return null;
     }
 
-    return <span className={jsStyles.suffix(this.theme)}>{suffix}</span>;
+    return (
+      <span className={cx(styles.suffix(this.theme), { [styles.suffixDisabled(this.theme)]: disabled })}>{suffix}</span>
+    );
   };
 }

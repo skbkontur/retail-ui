@@ -1,39 +1,57 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { Nullable, Override } from '../../typings/utility-types';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Checkbox.styles';
+import { styles, globalClasses } from './Checkbox.styles';
 
 export interface CheckboxProps
   extends CommonProps,
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Контент `label` */
+        /**
+         * Контент `label`
+         */
         children?: React.ReactNode;
-        /** Состояние ошибки */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Состояние Предупреждения */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
-        /** Вызывается на label */
+        /**
+         * HTML-событие `mouseenter`.
+         */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+        /**
+         * HTML-событие `mouseleave`.
+         */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
+        /**
+         * HTML-событие `mouseover`.
+         */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается при изменении `value` */
+        /**
+         * Функция, вызываемая при изменении `value`.
+         */
         onValueChange?: (value: boolean) => void;
-        /** onBlur */
+        /**
+         * HTML-событие `onblur`.
+         */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /** Состояние частичного выделения */
+        /**
+         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+         */
         initialIndeterminate?: boolean;
       }
     > {}
@@ -43,9 +61,6 @@ export interface CheckboxState {
   indeterminate: boolean;
 }
 
-/**
- * Все свойства, кроме перечисленных, `className` и `style` передаются в `input`.
- */
 export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
@@ -93,14 +108,16 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
+   * Программная установка фокуса чекбоксу.
    * @public
    */
   public focus() {
-    tabListener.isTabPressed = true;
+    keyListener.isTabPressed = true;
     this.input?.focus();
   }
 
   /**
+   * Программное снятие фокуса с чекбокса.
    * @public
    */
   public blur() {
@@ -108,7 +125,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   }
 
   /**
-   * Установить промежуточное значение
+   * Устанавливает чекбокс в HTML-состояние `indeterminate`.
    * @public
    */
   public setIndeterminate = () => {
@@ -121,7 +138,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   };
 
   /**
-   * Сбросить промежуточное значение
+   * Снимает с чекбокса HTML-состояние `indeterminate`.
    * @public
    */
   public resetIndeterminate = () => {
@@ -147,21 +164,17 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
-    const rootClass = cn({
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.rootFallback()]: isIE11 || isEdge,
-      [jsStyles.disabled(this.theme)]: Boolean(props.disabled),
-      [jsStyles.checked(this.theme)]: Boolean(props.checked),
-      [jsStyles.indeterminate(this.theme)]: isIndeterminate,
-      [jsStyles.focus(this.theme)]: this.state.focusedByTab,
-      [jsStyles.warning(this.theme)]: Boolean(props.warning),
-      [jsStyles.error(this.theme)]: Boolean(props.error),
+    const rootClass = cx({
+      [styles.root(this.theme)]: true,
+      [styles.rootFallback()]: isIE11 || isEdge,
+      [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [styles.disabled(this.theme)]: Boolean(props.disabled),
     });
 
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: jsStyles.input(),
+      className: styles.input(),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -171,20 +184,29 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
 
     let caption = null;
     if (this.props.children) {
-      const captionClass = cn({
-        [jsStyles.caption(this.theme)]: true,
-        [jsStyles.captionIE11()]: isIE11 || isEdge,
+      const captionClass = cx({
+        [styles.caption(this.theme)]: true,
+        [styles.captionIE11()]: isIE11 || isEdge,
+        [styles.disabled(this.theme)]: Boolean(props.disabled),
       });
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
-    const iconClass = cn({
-      [jsStyles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [jsStyles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
+    const iconClass = cx({
+      [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
+      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
-      <span className={jsStyles.box(this.theme)}>
+      <span
+        className={cx(styles.box(this.theme), globalClasses.box, {
+          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
+          [styles.boxError(this.theme)]: props.error,
+          [styles.boxWarning(this.theme)]: props.warning,
+          [styles.boxDisabled(this.theme)]: props.disabled,
+        })}
+      >
         {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
       </span>
     );
@@ -203,7 +225,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

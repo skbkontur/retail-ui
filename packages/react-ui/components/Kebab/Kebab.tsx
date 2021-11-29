@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPosition } from '../../internal/Popup';
@@ -14,8 +13,9 @@ import { MenuKebabIcon } from '../../internal/icons/16px';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Kebab.styles';
+import { styles } from './Kebab.styles';
 
 export interface KebabProps extends CommonProps {
   disabled?: boolean;
@@ -31,8 +31,11 @@ export interface KebabProps extends CommonProps {
   onOpen: () => void;
   size: 'small' | 'medium' | 'large';
   /**
-   * Список позиций доступных для расположения выпадашки
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использоваться первая из этого списка
+   * Список позиций доступных для расположения выпадашки.
+   *
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
+   *
+   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions: PopupPosition[];
@@ -124,6 +127,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
           disableAnimations={this.props.disableAnimations}
+          menuMaxHeight={this.props.menuMaxHeight}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -152,11 +156,11 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         onKeyDown={handleCaptionKeyDown}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        className={cn({
-          [jsStyles.kebab(this.theme)]: true,
-          [jsStyles.opened(this.theme)]: captionProps.opened,
-          [jsStyles.disabled(this.theme)]: disabled,
-          [jsStyles.focused(this.theme)]: this.state.focusedByTab,
+        className={cx({
+          [styles.kebab(this.theme)]: true,
+          [styles.opened(this.theme)]: captionProps.opened,
+          [styles.disabled()]: disabled,
+          [styles.focused(this.theme)]: this.state.focusedByTab,
         })}
       >
         {this.renderIcon()}
@@ -199,7 +203,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });
@@ -215,11 +219,11 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderIcon() {
     return (
       <div
-        className={cn({
-          [jsStyles.icon()]: true,
-          [jsStyles.iconsmall(this.theme)]: this.props.size === 'small',
-          [jsStyles.iconmedium(this.theme)]: this.props.size === 'medium',
-          [jsStyles.iconlarge(this.theme)]: this.props.size === 'large',
+        className={cx({
+          [styles.icon()]: true,
+          [styles.iconsmall()]: this.props.size === 'small',
+          [styles.iconmedium()]: this.props.size === 'medium',
+          [styles.iconlarge()]: this.props.size === 'large',
         })}
       >
         {this.props.icon}

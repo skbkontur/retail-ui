@@ -1,11 +1,17 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
-  root(t: Theme) {
+export const styles = memoizeStyle({
+  root() {
     return css`
       display: inline-block;
       position: relative;
+    `;
+  },
+
+  rootMobile(t: Theme) {
+    return css`
+      width: ${t.selectRootWidthMobile};
     `;
   },
 
@@ -36,9 +42,15 @@ const styles = {
     `;
   },
 
+  arrowDisabled(t: Theme) {
+    return css`
+      color: ${t.selectMenuArrowColorDisabled};
+    `;
+  },
+
   customUseArrow() {
     return css`
-      color: inherit !important;
+      color: inherit;
       opacity: 0.7;
     `;
   },
@@ -92,6 +104,4 @@ const styles = {
       justify-content: space-between;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

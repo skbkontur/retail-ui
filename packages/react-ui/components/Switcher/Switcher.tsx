@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { Group } from '../Group';
@@ -9,8 +8,9 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Switcher.styles';
+import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
@@ -25,7 +25,7 @@ export interface SwitcherProps extends CommonProps {
 
   onValueChange?: (value: string) => void;
 
-  label?: string;
+  caption?: string;
 
   error?: boolean;
 
@@ -59,7 +59,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         }),
       ),
     ]).isRequired,
-    label: PropTypes.string,
+    caption: PropTypes.string,
     value: PropTypes.string,
     onValueChange: PropTypes.func,
   };
@@ -82,8 +82,8 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   }
 
   private renderMain() {
-    const listClassName = cn({
-      [jsStyles.error(this.theme)]: !!this.props.error,
+    const listClassName = cx({
+      [styles.error(this.theme)]: !!this.props.error,
     });
 
     const inputProps = {
@@ -91,16 +91,16 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       onKeyDown: this.handleKey,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      className: jsStyles.input(),
+      className: styles.input(),
     };
 
-    const lableClassName = cn(jsStyles.label(), this.getLabelSizeClassName());
+    const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
 
     return (
       <CommonWrapper {...this.props}>
         <div>
-          {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
-          <div className={jsStyles.wrap()}>
+          {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
+          <div className={styles.wrap()}>
             <input {...inputProps} />
             <div className={listClassName}>
               <Group>{this._renderItems()}</Group>
@@ -210,12 +210,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
       case 'large':
-        return jsStyles.labelLarge(this.theme);
+        return styles.captionLarge(this.theme);
       case 'medium':
-        return jsStyles.labelMedium(this.theme);
+        return styles.captionMedium(this.theme);
       case 'small':
       default:
-        return jsStyles.labelSmall(this.theme);
+        return styles.captionSmall(this.theme);
     }
   };
 }

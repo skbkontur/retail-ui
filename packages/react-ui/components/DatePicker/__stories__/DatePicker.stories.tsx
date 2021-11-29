@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -122,6 +122,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
             minDate={this.state.min}
             maxDate={this.state.max}
             onValueChange={action('change')}
+            useMobileNativeDatePicker
           />
         </LocaleContext.Provider>
       </Gapped>
@@ -133,17 +134,21 @@ export default {
   title: 'DatePicker',
 } as Meta;
 
-export const WithMouseeventHandlers: Story = () => (
-  <div style={{ padding: '200px 150px 350px 0px' }}>
-    <DatePicker
-      width={200}
-      value="02.07.2017"
-      onMouseEnter={() => console.count('enter')}
-      onMouseLeave={() => console.count('leave')}
-      onValueChange={action('change')}
-    />
-  </div>
-);
+export const WithMouseeventHandlers: Story = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <DatePicker
+        width={200}
+        value={date}
+        onMouseEnter={() => console.count('enter')}
+        onMouseLeave={() => console.count('leave')}
+        onValueChange={setDate}
+      />
+    </div>
+  );
+};
 WithMouseeventHandlers.storyName = 'with mouseevent handlers';
 
 WithMouseeventHandlers.parameters = {
@@ -201,6 +206,30 @@ WithMouseeventHandlers.parameters = {
   },
 };
 
+export const WithMobileNativeDatePicker = () => {
+  const [date, setDate] = useState('02.07.2017');
+
+  return (
+    <div style={{ padding: '200px 150px 350px 0px' }}>
+      <Gapped vertical>
+        <span>With mobile native datepicker</span>
+        <DatePicker
+          width={200}
+          value={date}
+          onMouseEnter={() => console.count('enter')}
+          onMouseLeave={() => console.count('leave')}
+          onValueChange={(date) => {
+            setDate(date);
+          }}
+          useMobileNativeDatePicker
+        />
+      </Gapped>
+    </div>
+  );
+};
+WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
+WithMobileNativeDatePicker.parameters = { creevey: { skip: [true] } };
+
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
 );
@@ -215,13 +244,13 @@ export const DatePickerDisabled = () => <DatePickerWithError disabled />;
 DatePickerDisabled.storyName = 'DatePicker disabled';
 DatePickerDisabled.parameters = { creevey: { skip: [true] } };
 
-export const DatePickerMedium = () => <DatePickerWithError size="medium" />;
-DatePickerMedium.storyName = 'DatePicker medium';
-DatePickerMedium.parameters = { creevey: { skip: [true] } };
-
-export const DatePickerLarge = () => <DatePickerWithError size="large" />;
-DatePickerLarge.storyName = 'DatePicker large';
-DatePickerLarge.parameters = { creevey: { skip: [true] } };
+export const DifferentSizes = () => (
+  <Gapped>
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="medium" />
+    <DatePicker value="20.20.2020" onValueChange={() => void 0} size="large" />
+  </Gapped>
+);
 
 export const DatePickerWithMinMaxDate: Story = () => (
   <div style={{ padding: '200px 150px 350px 0px' }}>

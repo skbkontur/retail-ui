@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { Sticky } from '../Sticky';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
@@ -7,8 +6,10 @@ import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
+import { keyListener } from '../../lib/events/keyListener';
 
-import { jsStyles } from './SidePage.styles';
+import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageHeaderProps extends CommonProps {
@@ -17,6 +18,7 @@ export interface SidePageHeaderProps extends CommonProps {
 
 export interface SidePageHeaderState {
   isReadyToFix: boolean;
+  focusedByTab: boolean;
 }
 
 /**
@@ -32,6 +34,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   public state = {
     isReadyToFix: false,
+    focusedByTab: false,
   };
 
   private theme!: Theme;
@@ -83,7 +86,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const { isReadyToFix } = this.state;
     return (
       <CommonWrapper {...this.props}>
-        <div ref={this.wrapperRef}>
+        <div ref={this.wrapperRef} className={styles.headerWrapper()}>
           {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
         </div>
       </CommonWrapper>
@@ -92,44 +95,39 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderHeader = (fixed = false) => {
     return (
-      <div className={cn(jsStyles.header(this.theme), { [jsStyles.headerFixed(this.theme)]: fixed })}>
-        {this.renderClose()}
-        <div className={cn(jsStyles.title(this.theme), { [jsStyles.titleFixed()]: fixed })}>
+      <div className={cx(styles.header(this.theme), { [styles.headerFixed(this.theme)]: fixed })}>
+        {this.renderClose(fixed)}
+        <div className={cx(styles.title(this.theme), { [styles.titleFixed()]: fixed })}>
           {isFunction(this.props.children) ? this.props.children(fixed) : this.props.children}
         </div>
       </div>
     );
   };
 
-  private renderCloseContent = (fixed: boolean) => (
-    <SidePageContext.Consumer>
-      {({ requestClose }) => (
-        <a
-          className={cn(jsStyles.close(this.theme), {
-            [jsStyles.fixed(this.theme)]: fixed,
-          })}
-          onClick={requestClose}
-          data-tid="SidePage__close"
-        >
-          <span
-            className={cn(jsStyles.closeIcon(this.theme), {
-              [jsStyles.fixed(this.theme)]: fixed,
-            })}
-          >
-            <CrossIcon />
-          </span>
-        </a>
-      )}
-    </SidePageContext.Consumer>
-  );
-
-  private renderClose = () => {
+  private renderClose = (fixed: boolean) => {
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
 
     return (
-      <Sticky side="top" offset={stickyOffset}>
-        {this.renderCloseContent}
-      </Sticky>
+      <div className={cx(styles.wrapperClose(this.theme), fixed && styles.fixed(this.theme))}>
+        <Sticky side="top" offset={stickyOffset}>
+          <SidePageContext.Consumer>
+            {({ requestClose }) => (
+              <button
+                className={cx(styles.close(this.theme), {
+                  [styles.closeFocus(this.theme)]: this.state.focusedByTab,
+                })}
+                onFocus={this.handleFocus}
+                onBlur={this.handleBlur}
+                onClick={requestClose}
+                data-tid="SidePage__close"
+                tabIndex={0}
+              >
+                <CrossIcon />
+              </button>
+            )}
+          </SidePageContext.Consumer>
+        </Sticky>
+      </div>
     );
   };
 
@@ -137,11 +135,23 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     if (this.wrapper) {
       const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
       const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
-      this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
+      this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { ...state, isReadyToFix } : state));
     }
   };
 
   private wrapperRef = (el: HTMLElement | null) => {
     this.wrapper = el;
+  };
+
+  private handleFocus = () => {
+    requestAnimationFrame(() => {
+      if (keyListener.isTabPressed) {
+        this.setState({ focusedByTab: true });
+      }
+    });
+  };
+
+  private handleBlur = () => {
+    this.setState({ focusedByTab: false });
   };
 }

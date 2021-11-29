@@ -10,7 +10,7 @@
 
 ## Установка
 
-    npm install --save react-ui-validations
+    npm install --save @skbkontur/react-ui-validations
 
 ## Использование
 

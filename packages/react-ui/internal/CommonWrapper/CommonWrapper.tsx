@@ -1,12 +1,20 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
+import { cx } from '../../lib/theming/Emotion';
 
 export interface CommonProps {
+  /**
+   * HTML-атрибут `class`.
+   */
   className?: React.HTMLAttributes<HTMLElement>['className'];
+  /**
+   * HTML-атрибут `style`.
+   */
   style?: React.HTMLAttributes<HTMLElement>['style'];
-  /** На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент. */
+  /**
+   * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
+   */
   'data-tid'?: string;
 }
 
@@ -24,7 +32,7 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
 
     return React.isValidElement<CommonProps>(child)
       ? React.cloneElement(child, {
-          className: cn(child.props.className, className),
+          className: cx(child.props.className, className),
           style: {
             ...child.props.style,
             ...style,

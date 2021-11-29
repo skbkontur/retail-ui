@@ -15,7 +15,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
-import { jsStyles } from './PopupMenu.styles';
+import { styles } from './PopupMenu.styles';
 
 export interface PopupMenuCaptionProps {
   opened: boolean;
@@ -73,7 +73,6 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     positions: PopupMenuPositions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
-    popupMargin: 0,
     disableAnimations: false,
   };
 
@@ -96,7 +95,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div className={jsStyles.container()} style={{ width: this.props.width }}>
+          <div className={styles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -109,12 +108,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
+                width={this.props.menuWidth || 'auto'}
               >
                 <InternalMenu
                   hasShadow={false}
                   maxHeight={this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
-                  width={this.props.menuWidth || 'auto'}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
                   ref={this.refInternalMenu}
@@ -155,7 +154,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       return (
         <span
           data-tid="PopupMenu__caption"
-          className={jsStyles.caption()}
+          className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
           {caption}
@@ -169,7 +168,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
         ref={(element) => (this.captionWrapper = element)}
-        className={jsStyles.caption()}
+        className={styles.caption()}
       >
         {this.props.caption}
       </span>

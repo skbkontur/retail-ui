@@ -1,13 +1,13 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       padding-right: 10px;
     `;
   },
 
-  input() {
+  absolute() {
     return css`
       position: absolute;
       top: 0;
@@ -27,18 +27,10 @@ const styles = {
     `;
   },
 
-  withoutLeftSide() {
-    return css`
-      padding-left: 10px;
-    `;
-  },
-
   rightSide() {
     return css`
       padding-left: 0;
       visibility: visible;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

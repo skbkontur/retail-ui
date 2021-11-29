@@ -1,8 +1,9 @@
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { resetButton } from '../../lib/styles/Mixins';
 
-const styles = {
+export const styles = memoizeStyle({
   root() {
     return css`
       height: 100%;
@@ -24,7 +25,7 @@ const styles = {
 
   body() {
     return css`
-      height: 100%;
+      flex: 1 0 auto;
       z-index: 0;
     `;
   },
@@ -38,19 +39,25 @@ const styles = {
 
   containerWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0} !important;
+      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0};
     `;
   },
 
   containerWithoutFooter(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0} !important;
+      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
     `;
   },
 
   containerWithPanel(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0} !important;
+      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
+    `;
+  },
+
+  focusLock() {
+    return css`
+      height: 100%;
     `;
   },
 
@@ -63,14 +70,33 @@ const styles = {
       overflow-y: auto;
       position: relative;
       white-space: normal;
-    `;
-  },
-
-  layout() {
-    return css`
       align-items: stretch;
       display: flex;
       flex-direction: column;
+    `;
+  },
+
+  wrapperLeft() {
+    return css`
+      float: left;
+    `;
+  },
+
+  wrapperMarginLeft() {
+    return css`
+      margin-left: 20px;
+    `;
+  },
+
+  wrapperMarginRight() {
+    return css`
+      margin-right: 20px;
+    `;
+  },
+
+  headerWrapper() {
+    return css`
+      flex: 0 0 auto;
     `;
   },
 
@@ -81,6 +107,7 @@ const styles = {
       padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
       width: 100%;
       position: relative;
+      color: ${t.sidePageHeaderTextColor};
     `;
   },
 
@@ -140,61 +167,75 @@ const styles = {
 
   shadow(t: Theme) {
     return css`
-      ${cssName(styles.wrapper(t))}& {
-        box-shadow: ${t.sidePageContainerShadow};
-      }
+      box-shadow: ${t.sidePageContainerShadow};
     `;
   },
 
-  leftSide(t: Theme) {
+  leftSide() {
     return css`
       left: 0;
       right: auto;
-
-      & ${cssName(styles.wrapper(t))} {
-        float: left;
-      }
     `;
   },
 
   close(t: Theme) {
     return css`
-      color: ${t.sidePageCloseButtonColor};
+      ${resetButton()};
       cursor: pointer;
-      position: absolute;
-      right: ${t.sidePageCloseButtonPadding};
-      text-align: center;
-      text-decoration: none;
-      width: ${t.sidePageCloseIconSize};
-      padding: 0 ${t.sidePageCloseButtonClickAreaX};
-      margin: 0 -${t.sidePageCloseButtonClickAreaX};
+      color: ${t.sidePageCloseButtonColor};
+      padding: ${t.sidePageCloseButtonClickArea};
+      margin: -${t.sidePageCloseButtonClickArea};
+      font-size: 0;
 
+      &:focus,
       &:hover {
         color: ${t.sidePageCloseButtonHoverColor};
       }
+
+      & > svg {
+        width: ${t.sidePageCloseIconSize};
+        height: ${t.sidePageCloseIconSize};
+        box-sizing: content-box;
+      }
+    `;
+  },
+
+  closeFocus(t: Theme) {
+    return css`
+      outline: 2px solid ${t.borderColorFocus};
+    `;
+  },
+
+  wrapperClose(t: Theme) {
+    return css`
+      box-sizing: border-box;
+      height: 100%;
+      line-height: ${t.sidePageHeaderLineHeight};
+      padding: ${t.sidePageHeaderPaddingTop} 0 ${t.sidePageHeaderPaddingBottom};
+      position: absolute;
+      right: ${t.sidePageCloseButtonPadding};
+      top: 0;
     `;
   },
 
   panel(t: Theme) {
     return css`
-      background: ${t.sidePageFooterPanelBg} !important;
+      background: ${t.sidePageFooterPanelBg};
       padding: ${t.sidePageFooterPanelPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPanelPaddingBottom}
         ${t.sidePagePaddingLeft};
-    `;
-  },
-
-  closeIcon(t: Theme) {
-    return css`
-      display: inline-block;
-      height: ${t.sidePageCloseIconSize};
-      width: ${t.sidePageCloseIconSize};
-      line-height: 0;
     `;
   },
 
   fixed(t: Theme) {
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
+      padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      flex: 0 0 auto;
     `;
   },
 
@@ -246,7 +287,7 @@ const styles = {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
       opacity: 1;
-      transform: translate(0, 0) !important;
+      transform: translate(0, 0);
     `;
   },
 
@@ -262,6 +303,4 @@ const styles = {
       transition: opacity 0.15s ease-out;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

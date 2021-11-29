@@ -8,6 +8,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { isFirefox, isIE11 } from '../../lib/client';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -19,6 +20,9 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   borderless?: boolean;
   disablePortal?: boolean;
   disabled?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
   maxLength?: number;
   menuAlign?: 'left' | 'right';
@@ -39,6 +43,9 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   size?: 'small' | 'medium' | 'large';
   totalCount?: number;
   value?: Nullable<T>;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   width?: string | number;
   maxMenuHeight?: number | string;
@@ -359,14 +366,26 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       }
       return;
     }
+
     this.focused = false;
-    this.dispatch({ type: 'Blur' });
+    if (isFirefox || isIE11) {
+      // workaround for the Firefox focusout bug
+      // https://bugzilla.mozilla.org/show_bug.cgi?id=1363964
+      setTimeout(() => {
+        this.dispatch({ type: 'Blur' });
+      });
+    } else {
+      this.dispatch({ type: 'Blur' });
+    }
   };
 
   private handleInputBlur = () => {
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
+
+    // TODO: add check for mobile layout, to call `handleBlur`
+
     if (this.state.opened) {
       return;
     }

@@ -29,8 +29,8 @@
 ### Полезные ссылки:
 
 - Документация:
-  - [Контролы](http://tech.skbkontur.ru/react-ui/)
-  - [Валидации](http://tech.skbkontur.ru/react-ui-validations/)
+  - [Контролы](https://tech.skbkontur.ru/react-ui/)
+  - [Валидации](https://tech.skbkontur.ru/react-ui-validations/)
 - NPM-пакеты:
   - [retail-ui](https://npmjs.com/package/retail-ui) (больше не поддерживается, используйте `@skbkontur/react-ui`)
   - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)
@@ -293,7 +293,7 @@ ButtonWithError.parameters = {
 
 Для документирования компонентов используется [React Styleguidist](https://github.com/styleguidist/react-styleguidist). Он позволяет документировать пропы и методы, а также демонстрировать примеры использования. Более подробную информацию можно найти в [официальной документации](https://react-styleguidist.js.org/docs/documenting.html).
 
-Собранная документация всегда доступна на [витрине](http://tech.skbkontur.ru/react-ui/). А локально она запускается так:
+Собранная документация всегда доступна на [витрине](https://tech.skbkontur.ru/react-ui/). А локально она запускается так:
 
 ```
 yarn workspace @skbkontur/react-ui styleguide
@@ -314,9 +314,8 @@ components/
 
 # Помощь
 
-По любым возникающим вопросам можно обращаться в [telegram-чат](https://t.me/react_ui) поддержки или напрямую пользователям:
+По любым возникающим вопросам можно обращаться в канал поддержки [#infra_front](https://kontur.slack.com/archives/C013HTCE18Q) в Слаке, если вы из Контура. Если нет — в [telegram-чат](https://t.me/react_ui) или напрямую пользователям:
 
-- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайды;
+- [Владимир Дзех](https://github.com/dzekh) — дизайн, гайдлайны. Телеграм: [@dzekh](https://t.me/dzekh);
 - [Егор Погадаев](https://github.com/zhzz) — общие вопросы, права, ключи доступа;
-- [Максим Пахомов](https://github.com/lossir) — общие вопросы;
-- [Михаил Кесельман](https://github.com/rustho) — общие вопросы;
+- [Максим Пахомов](https://github.com/lossir) — общие вопросы.

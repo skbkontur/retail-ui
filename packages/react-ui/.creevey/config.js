@@ -1,5 +1,19 @@
 const path = require('path');
 
+/**
+ * Debuggin instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157
+ * Instructions for Windows nodes: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
+ */
+
+const debug = process.env.DEBUG_SCREENSHOTS;
+
+const capabilities = debug
+  ? {
+      enableVNC: true,
+      enableVideo: true,
+    }
+  : {};
+
 const config = {
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
@@ -12,6 +26,7 @@ const config = {
     ...options,
     extends: path.join(__dirname, '../.babelrc.js'),
   }),
+  diffOptions: { threshold: 0, includeAA: false },
   browsers: {
     chrome: {
       browserName: 'chrome',
@@ -20,6 +35,8 @@ const config = {
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
+      name: 'infrafront/chrome',
+      ...capabilities,
     },
     chrome8px: {
       browserName: 'chrome',
@@ -28,6 +45,8 @@ const config = {
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
+      name: 'infrafront/chrome8px',
+      ...capabilities,
     },
     chromeFlat: {
       browserName: 'chrome',
@@ -36,6 +55,8 @@ const config = {
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
+      name: 'infrafront/chromeFlat',
+      ...capabilities,
     },
     chromeFlat8px: {
       browserName: 'chrome',
@@ -44,6 +65,8 @@ const config = {
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },
+      name: 'infrafront/chromeFlat8px',
+      ...capabilities,
     },
     firefox: {
       browserName: 'firefox',
@@ -51,6 +74,8 @@ const config = {
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
+      name: 'infrafront/firefox',
+      ...capabilities,
     },
     firefox8px: {
       browserName: 'firefox',
@@ -58,6 +83,8 @@ const config = {
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
+      name: 'infrafront/firefox8px',
+      ...capabilities,
     },
     firefoxFlat: {
       browserName: 'firefox',
@@ -65,6 +92,8 @@ const config = {
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
+      name: 'infrafront/firefoxFlat',
+      ...capabilities,
     },
     firefoxFlat8px: {
       browserName: 'firefox',
@@ -72,6 +101,8 @@ const config = {
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },
+      name: 'infrafront/firefoxFlat8px',
+      ...capabilities,
     },
     ie11: {
       browserName: 'internet explorer',
@@ -79,6 +110,8 @@ const config = {
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
+      name: 'infrafront/ie11',
+      ...capabilities,
 
       // NOTE Enable after switch new separate pool for IE to allow test hover
       // 'se:ieOptions': {
@@ -96,6 +129,8 @@ const config = {
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
+      name: 'infrafront/ie118px',
+      ...capabilities,
     },
     ie11Flat: {
       browserName: 'internet explorer',
@@ -103,6 +138,8 @@ const config = {
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
+      name: 'infrafront/ie11Flat',
+      ...capabilities,
     },
     ie11Flat8px: {
       browserName: 'internet explorer',
@@ -110,6 +147,8 @@ const config = {
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },
+      name: 'infrafront/ie11Flat8px',
+      ...capabilities,
     },
   },
 };

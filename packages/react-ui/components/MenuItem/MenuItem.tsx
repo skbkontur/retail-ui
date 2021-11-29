@@ -1,43 +1,85 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import cn from 'classnames';
 
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './MenuItem.styles';
+import { styles } from './MenuItem.styles';
 
 export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps extends CommonProps {
-  /** @ignore */
+  /**
+   * @ignore
+   */
   _enableIconPadding?: boolean;
-
+  /**
+   * Добавляет описание для элемента меню.
+   */
   comment?: React.ReactNode;
+  /**
+   * Отключенное состояние.
+   */
   disabled?: boolean;
+  /**
+   * Добавляет элементу меню иконку.
+   */
   icon?: React.ReactElement<any>;
+  /**
+   * Меняет цвет текста на синий.
+   */
   link?: boolean;
-
-  /** @ignore */
+  /**
+   * @ignore
+   */
   loose?: boolean;
-
-  /** @ignore */
+  /**
+   * @ignore
+   */
   state?: MenuItemState;
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
-  target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
-  title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
-  href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+  /**
+   * HTML-событие `mouseenter`.
+   */
   onMouseEnter?: React.MouseEventHandler;
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: React.MouseEventHandler;
-
+  children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
+  /**
+   * HTML-атрибут `target`.
+   */
+  target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
+  /**
+   * HTML-атрибут `title`.
+   */
+  title?: React.AnchorHTMLAttributes<HTMLAnchorElement>['title'];
+  /**
+   * HTML-атрибут `href`.
+   */
+  href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+  /**
+   * Заменяет корневой элемент, на компонент переданный в проп.
+   *
+   * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
+   */
   component?: React.ComponentType<any>;
+
+  isMobile?: boolean;
 }
 
 /**
- * Элемент меню.
+ *
+ * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
+ *
+ * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
@@ -76,24 +118,36 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const { link, comment, icon, loose, state, _enableIconPadding, component, onMouseEnter, onMouseLeave, ...rest } =
-      props;
+    const {
+      link,
+      comment,
+      icon,
+      loose,
+      state,
+      _enableIconPadding,
+      component,
+      onMouseEnter,
+      onMouseLeave,
+      isMobile,
+      ...rest
+    } = props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={jsStyles.icon(this.theme)}>{icon}</div>;
+      iconElement = <div className={styles.icon(this.theme)}>{icon}</div>;
     }
 
-    const className = cn({
-      [jsStyles.root(this.theme)]: true,
-      [jsStyles.loose()]: !!loose,
-      [jsStyles.hover(this.theme)]: hover,
-      [jsStyles.selected(this.theme)]: state === 'selected',
-      [jsStyles.link(this.theme)]: !!link,
-      [jsStyles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
-      [jsStyles.disabled(this.theme)]: !!this.props.disabled,
+    const className = cx({
+      [styles.root(this.theme)]: true,
+      [styles.rootMobile(this.theme)]: isMobile,
+      [styles.loose()]: !!loose,
+      [styles.hover(this.theme)]: hover,
+      [styles.selected(this.theme)]: state === 'selected',
+      [styles.link(this.theme)]: !!link,
+      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 
     const { children } = this.props;
@@ -119,9 +173,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {this.props.comment && (
           <div
             data-tid="MenuItem__comment"
-            className={cn({
-              [jsStyles.comment(this.theme)]: true,
-              [jsStyles.commentHover(this.theme)]: hover,
+            className={cx({
+              [styles.comment(this.theme)]: true,
+              [styles.commentHover(this.theme)]: hover,
             })}
           >
             {comment}

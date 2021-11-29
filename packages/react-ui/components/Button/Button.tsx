@@ -1,14 +1,14 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { isIE11, isEdge } from '../../lib/client';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
-import { jsStyles } from './Button.styles';
+import { styles, activeStyles, globalClasses } from './Button.styles';
 import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
@@ -23,24 +23,33 @@ export interface ButtonProps extends CommonProps {
   _noRightPadding?: boolean;
 
   /**
-   * Визуально нажатое состояние.
+   * Применяет к кнопке стили псевдокласса `:active`.
    */
   active?: boolean;
 
-  /** `type TextAlignProperty = "inherit" | "initial" | "unset" | "center" | "end" | "justify" | "left" | "match-parent" | "right" | "start"` */
+  /**
+   * CSS-свойство `text-align`.
+   */
   align?: React.CSSProperties['textAlign'];
 
   /**
-   * Кнопка со стрелкой.
-   *
-   * `type ButtonArrow = boolean | "left"`
+   * Превращает обычную кнопку в кнопку со стрелкой.
    */
   arrow?: boolean | 'left';
 
+  /**
+   * Даёт кнопке фокус после окончания загрузки страницы.
+   */
   autoFocus?: boolean;
 
+  /**
+   * Убирает обводку у кнопки.
+   */
   borderless?: boolean;
 
+  /**
+   * @ignore
+   */
   checked?: boolean;
 
   children?: React.ReactNode;
@@ -48,56 +57,104 @@ export interface ButtonProps extends CommonProps {
   /** @ignore */
   corners?: number;
 
+  /**
+   * Отключенное состояние кнопки.
+   */
   disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
 
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
-
-  focused?: boolean;
 
   /**
    * Иконка слева от текста кнопки.
    */
   icon?: React.ReactElement<any>;
 
+  /**
+   * Переводит кнопку в состояние загрузки.
+   */
   loading?: boolean;
 
+  /**
+   * Сужает кнопку.
+   */
   narrow?: boolean;
 
+  /**
+   * HTML-событие `onblur`.
+   */
   onBlur?: React.FocusEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onfocus`.
+   */
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `keydown`.
+   */
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onmouseenter`.
+   */
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onmouseover`.
+   */
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
-  /** `type ButtonSize = "small" | "medium" | "large"` */
+  /**
+   * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
   size?: ButtonSize;
 
-  /** `type ButtonType = "button" | "submit" | "reset"` */
+  /**
+   * HTML-атрибут `type`.
+   */
   type?: ButtonType;
 
   /**
-   * Вариант использования. Влияет на цвет кнопки.
+   * HTML-атрибут `title`.
+   */
+  title?: string;
+
+  /**
+   * Стиль кнопки.
    *
-   * `type ButtonUse = "default" | "primary" | "success" | "danger" | "pay" | "link"`
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
    */
   use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
 
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
 
+  /**
+   * CSS-свойство `width`.
+   */
   width?: number | string;
 }
 
@@ -114,9 +171,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
   public static defaultProps = {
-    use: 'default',
-    size: 'small',
-    type: 'button',
+    use: 'default' as ButtonUse,
+    size: 'small' as ButtonSize,
+    type: 'button' as ButtonType,
   };
 
   public state = {
@@ -128,7 +185,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public componentDidMount() {
     if (this.props.autoFocus) {
-      tabListener.isTabPressed = true;
+      keyListener.isTabPressed = true;
       this.focus();
     }
   }
@@ -159,134 +216,170 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private renderMain() {
-    const { corners = 0 } = this.props;
+    const {
+      corners = 0,
+      active,
+      disabled,
+      borderless,
+      checked,
+      error,
+      warning,
+      loading,
+      arrow,
+      narrow,
+      icon,
+      _noPadding,
+      _noRightPadding,
+      use = Button.defaultProps.use,
+      visuallyFocused,
+      align,
+      disableFocus,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      onKeyDown,
+      onClick,
+      width,
+      children,
+    } = this.props;
     const sizeClass = this.getSizeClassName();
 
-    const isError = !!this.props.error;
-    const isWarning = !!this.props.warning;
-    const isFocused = this.state.focusedByTab || !!this.props.visuallyFocused;
-    const isLink = this.props.use === 'link';
+    const isFocused = this.state.focusedByTab || visuallyFocused;
+    const isLink = use === 'link';
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
       type: this.props.type,
-      className: cn({
-        [jsStyles.root(this.theme)]: true,
-        [(jsStyles[this.props.use!] && jsStyles[this.props.use!](this.theme)) || jsStyles.default(this.theme)]: true,
-        [jsStyles.active(this.theme)]: !!this.props.active,
-        [jsStyles.narrow()]: !!this.props.narrow,
-        [jsStyles.noPadding()]: !!this.props._noPadding,
-        [jsStyles.noRightPadding()]: !!this.props._noRightPadding,
+      className: cx({
+        [styles.root(this.theme)]: true,
+        [styles[use](this.theme)]: true,
+        [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [jsStyles.borderless(this.theme)]: !!this.props.borderless,
-        [jsStyles.focus(this.theme)]: isFocused,
-        [jsStyles.checked(this.theme)]: !!this.props.checked,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
-        [jsStyles.fallback(this.theme)]: isIE11 || isEdge,
+        [styles.focus(this.theme)]: isFocused && !checked,
+        [styles.checked(this.theme)]: checked,
+        [styles.disabled(this.theme)]: disabled || loading,
+        [styles.checkedDisabled(this.theme)]: checked && disabled,
+        [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
+        [styles.narrow()]: narrow,
+        [styles.noPadding()]: _noPadding,
+        [styles.noRightPadding()]: _noRightPadding,
       }),
       style: {
         borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
         borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
         borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
         borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
-        textAlign: this.props.align,
+        textAlign: align,
       },
-      disabled: this.props.disabled || this.props.loading,
-      onClick: this.props.onClick,
+      disabled: disabled || loading,
+      onClick: onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: this.props.onKeyDown,
-      onMouseEnter: this.props.onMouseEnter,
-      onMouseLeave: this.props.onMouseLeave,
-      onMouseOver: this.props.onMouseOver,
-      tabIndex: this.props.disableFocus ? -1 : 0,
+      onKeyDown: onKeyDown,
+      onMouseEnter: onMouseEnter,
+      onMouseLeave: onMouseLeave,
+      onMouseOver: onMouseOver,
+      tabIndex: disableFocus ? -1 : 0,
+      title: this.props.title,
     };
 
     const wrapProps = {
-      className: cn({
-        [jsStyles.wrap(this.theme)]: true,
-        [jsStyles.wrapArrow()]: this.props.arrow === true,
-        [jsStyles.wrapArrowLeft()]: this.props.arrow === 'left',
+      className: cx({
+        [styles.wrap()]: true,
+        [styles.wrapArrow()]: arrow === true,
+        [styles.wrapArrowLeft()]: arrow === 'left',
       }),
       style: {
-        width: this.props.width,
+        width: width,
       },
     };
 
-    let error = null;
+    let outlineNode = null;
     if (!isFocused || isLink) {
-      if (isError) {
-        error = <div className={jsStyles.error(this.theme)} />;
-      } else if (isWarning) {
-        error = <div className={jsStyles.warning(this.theme)} />;
-      }
+      outlineNode = (
+        <div
+          className={cx(styles.outline(), {
+            [styles.outlineWarning(this.theme)]: warning,
+            [styles.outlineError(this.theme)]: error,
+            [styles.outlineLink()]: isLink,
+            [styles.outlineLinkWarning(this.theme)]: isLink && warning,
+            [styles.outlineLinkError(this.theme)]: isLink && error,
+          })}
+        />
+      );
     }
 
-    let loading = null;
-    if (this.props.loading && !this.props.icon) {
-      loading = <div className={jsStyles.loading()}>{this.getLoadingSpinner()}</div>;
+    let loadingNode = null;
+    if (loading && !icon) {
+      loadingNode = <div className={styles.loading()}>{this.getLoadingSpinner()}</div>;
     }
 
-    let icon = this.props.icon;
-    if (this.props.icon) {
-      icon = (
+    let iconNode = null;
+    if (icon) {
+      iconNode = (
         <span
-          className={cn(jsStyles.icon(), this.getSizeIconClassName(), {
-            [jsStyles.iconNoRightPadding()]: !this.props.children,
-            [jsStyles.iconLink(this.theme)]: isLink,
+          className={cx(styles.icon(), this.getSizeIconClassName(), {
+            [styles.iconNoRightPadding()]: !children,
+            [styles.iconLink(this.theme)]: isLink,
           })}
         >
-          {this.props.loading ? this.getLoadingSpinner() : this.props.icon}
+          {loading ? this.getLoadingSpinner() : icon}
         </span>
       );
     }
 
-    let arrow = null;
-    if (this.props.arrow) {
-      arrow = (
+    let arrowNode = null;
+    if (arrow) {
+      arrowNode = (
         <div
-          className={cn({
-            [jsStyles.arrow()]: true,
-            [jsStyles.arrowWarning(this.theme)]: isWarning && !isFocused,
-            [jsStyles.arrowError(this.theme)]: isError && !isFocused,
-            [jsStyles.arrowFocus(this.theme)]: isFocused,
-            [jsStyles.arrowLeft()]: this.props.arrow === 'left',
+          className={cx({
+            [styles.arrow()]: true,
+            [styles.arrowWarning(this.theme)]: !checked && warning,
+            [styles.arrowError(this.theme)]: !checked && error,
+            [styles.arrowFocus(this.theme)]: !checked && isFocused,
+            [styles.arrowLeft()]: arrow === 'left',
           })}
         >
-          <div className={cn(jsStyles.arrowHelper(), jsStyles.arrowHelperTop())} />
-          <div className={cn(jsStyles.arrowHelper(), jsStyles.arrowHelperBottom())} />
+          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperTop)} />
+          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
         </div>
       );
     }
 
     // Force disable all props and features, that cannot be use with Link
     if (isLink) {
-      rootProps.className = cn({
-        [jsStyles.root(this.theme)]: true,
+      rootProps.className = cx({
+        [styles.root(this.theme)]: true,
         [sizeClass]: true,
-        [jsStyles.focus(this.theme)]: this.state.focusedByTab || !!this.props.visuallyFocused,
-        [jsStyles.link(this.theme)]: true,
-        [jsStyles.disabled(this.theme)]: !!this.props.disabled || !!this.props.loading,
+        [styles.link(this.theme)]: true,
+        [styles.linkFocus(this.theme)]: isFocused,
+        [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cn(jsStyles.wrap(this.theme), jsStyles.wrapLink(this.theme)),
+        className: cx(styles.wrap(), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      arrow = null;
+      arrowNode = null;
     }
 
     return (
       <CommonWrapper {...this.props}>
         <span {...wrapProps}>
           <button ref={this._ref} {...rootProps}>
-            {error}
-            {loading}
-            {arrow}
-            <div className={jsStyles.caption()}>
-              {icon}
-              <span className={cn({ [jsStyles.visibilityHidden()]: loading })}>{this.props.children}</span>
+            {outlineNode}
+            {loadingNode}
+            {arrowNode}
+            <div
+              className={cx(styles.caption(), globalClasses.caption, {
+                [styles.captionTranslated()]: active || checked,
+                [styles.captionLink()]: isLink,
+                [styles.captionDisabled()]: !checked && disabled,
+              })}
+            >
+              {iconNode}
+              <span className={cx({ [styles.visibilityHidden()]: !!loadingNode })}>{children}</span>
             </div>
           </button>
         </span>
@@ -301,24 +394,24 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cn(jsStyles.sizeLarge(this.theme));
+        return cx(styles.sizeLarge(this.theme), { [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
       case 'medium':
-        return cn(jsStyles.sizeMedium(this.theme));
+        return cx(styles.sizeMedium(this.theme), { [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge });
       case 'small':
       default:
-        return cn(jsStyles.sizeSmall(this.theme));
+        return cx(styles.sizeSmall(this.theme), { [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge });
     }
   }
 
   private getSizeIconClassName() {
     switch (this.props.size) {
       case 'large':
-        return jsStyles.iconLarge(this.theme);
+        return styles.iconLarge(this.theme);
       case 'medium':
-        return jsStyles.iconMedium(this.theme);
+        return styles.iconMedium(this.theme);
       case 'small':
       default:
-        return jsStyles.iconSmall(this.theme);
+        return styles.iconSmall(this.theme);
     }
   }
 
@@ -327,7 +420,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

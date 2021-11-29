@@ -1,8 +1,8 @@
 import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   paging(t: Theme) {
     return css`
       user-select: none;
@@ -53,9 +53,8 @@ const styles = {
 
   disabled(t: Theme) {
     return css`
-      ${cssName(styles.forwardLink(t))}& {
-        color: ${t.pagingForwardLinkDisabledColor};
-      }
+      color: ${t.pagingForwardLinkDisabledColor};
+      cursor: default;
     `;
   },
 
@@ -82,20 +81,17 @@ const styles = {
         ${is8pxTheme(t) ? t.pagingPageLinkPaddingY : t.pagingPageLinkLegacyPaddingY};
       text-decoration: none;
 
-      &:not(${cssName(styles.active())}):hover {
+      &:hover {
         background: ${t.pagingPageLinkHoverBg};
-      }
-
-      ${cssName(styles.active())}& {
-        background: ${t.pagingPageLinkActiveBg};
-        color: ${t.pagingPageLinkActiveColor};
       }
     `;
   },
 
-  active() {
+  active(t: Theme) {
     return css`
       cursor: default;
+      background: ${t.pagingPageLinkActiveBg} !important; // override hover styles
+      color: ${t.pagingPageLinkActiveColor};
     `;
   },
 
@@ -106,7 +102,7 @@ const styles = {
           box-shadow: 0 0 0 2px ${t.borderColorFocus};
         `
         : `
-          margin: 0 -1px !important;
+          margin: 0 -1px;
           border: solid 2px ${t.borderColorFocus};`}
     `;
   },
@@ -130,12 +126,7 @@ const styles = {
       margin: 0 -20px;
       font-size: ${t.pagingPageLinkHintFontSize};
       line-height: ${t.pagingPageLinkHintLineHeight};
-
-      ${cssName(styles.pageLinkWrapper())} & {
-        color: ${t.pagingPageLinkHintColor};
-      }
+      color: ${t.pagingPageLinkHintColor};
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

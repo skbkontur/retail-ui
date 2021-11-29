@@ -1,7 +1,24 @@
-import { css, cssName, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+const mixins = {
+  inputAndHelperCommonStyles(t: Theme) {
+    return css`
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
+      line-height: ${t.tokenInputLineHeight};
+      font-size: ${t.tokenInputFontSize};
+    `;
+  },
+  inputAndHelperCommonEditingStyles(t: Theme) {
+    return css`
+      margin: ${t.tokenMarginY} ${t.tokenMarginX};
+      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenPaddingX};
+      line-height: ${t.tokenLineHeight};
+    `;
+  },
+};
+
+export const styles = memoizeStyle({
   label(t: Theme) {
     return css`
       background-color: ${t.tokenInputBg};
@@ -21,30 +38,30 @@ const styles = {
 
   warning(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning} !important;
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning} !important;
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorWarning};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorWarning};
     `;
   },
 
   error(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError} !important;
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError} !important;
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorError};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorError};
     `;
   },
 
   labelFocused(t: Theme) {
     return css`
-      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus} !important;
-      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus} !important;
+      border: ${t.tokenInputBorderWidth} solid ${t.tokenInputBorderColorFocus};
+      box-shadow: 0 0 0 ${t.tokenInputOutlineWidth} ${t.tokenInputBorderColorFocus};
     `;
   },
 
   labelDisabled(t: Theme) {
     return css`
-      background: ${t.tokenInputDisabledBg} !important;
-      border-color: ${t.tokenInputDisabledBorderColor} !important;
-      box-shadow: none !important;
+      background: ${t.tokenInputDisabledBg};
+      border-color: ${t.tokenInputDisabledBorderColor};
+      box-shadow: none;
     `;
   },
 
@@ -70,7 +87,7 @@ const styles = {
       box-sizing: border-box;
       word-break: break-all;
 
-      ${styles.inputAndHelperCommonStyles(t)};
+      ${mixins.inputAndHelperCommonStyles(t)};
 
       &::-ms-clear {
         display: none;
@@ -118,13 +135,13 @@ const styles = {
       // so they get counted in width
       white-space: pre-wrap;
 
-      ${styles.inputAndHelperCommonStyles(t)}
+      ${mixins.inputAndHelperCommonStyles(t)}
     `;
   },
 
   helperTextEditing(t: Theme) {
     return css`
-      ${styles.inputAndHelperCommonEditingStyles(t)};
+      ${mixins.inputAndHelperCommonEditingStyles(t)};
 
       font-size: ${t.tokenFontSize};
       padding-bottom: ${t.tokenLegacyTextShift};
@@ -140,27 +157,9 @@ const styles = {
     `;
   },
 
-  inputAndHelperCommonStyles(t: Theme) {
-    return css`
-      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenInputInputPaddingLeft};
-      line-height: ${t.tokenInputLineHeight};
-      font-size: ${t.tokenInputFontSize};
-    `;
-  },
-
-  inputAndHelperCommonEditingStyles(t: Theme) {
-    return css`
-      margin: ${t.tokenMarginY} ${t.tokenMarginX};
-      padding: 0 ${t.tokenInputInputPaddingRight} 0 ${t.tokenPaddingX};
-      line-height: ${t.tokenLineHeight};
-    `;
-  },
-
   inputEditing(t: Theme) {
     return css`
-      ${cssName(styles.input(t))}& {
-        ${styles.inputAndHelperCommonEditingStyles(t)};
-      }
+      ${mixins.inputAndHelperCommonEditingStyles(t)};
     `;
   },
 
@@ -176,6 +175,4 @@ const styles = {
       word-break: break-all;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

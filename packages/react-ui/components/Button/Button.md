@@ -1,13 +1,12 @@
-Button example
+Базовый пример кнопки.
 
 ```jsx harmony
-import OkIcon from '@skbkontur/react-icons/Ok';
 import { Button } from '@skbkontur/react-ui';
 
-<Button icon={<OkIcon />}>Ok</Button>;
+<Button>Создать отчёт</Button>;
 ```
 
-Button has different use styles
+У кнопки есть различные стили.
 
 ```jsx harmony
 import { Gapped } from '@skbkontur/react-ui';
@@ -22,19 +21,32 @@ import { Gapped } from '@skbkontur/react-ui';
 </Gapped>;
 ```
 
-Button can have different sizes
+Пример кнопки с иконкой.
 
 ```jsx harmony
-import { Gapped } from '@skbkontur/react-ui';
+import PrintIcon from '@skbkontur/react-icons/Print';
+import { Button } from '@skbkontur/react-ui';
 
-<Gapped>
-  <Button size="small">Small</Button>
-  <Button size="medium">Medium</Button>
-  <Button size="large">Large</Button>
-</Gapped>;
+<Button icon={<PrintIcon />}>Напечатать</Button>;
 ```
 
-Кнопки-стрелки
+У кнопки есть 3 стандартных размера.
+
+```jsx harmony
+<div
+  style={{
+    display: "flex",
+    alignItems: "end",
+    justifyContent: "space-between",
+    width: "330px"
+  }}>
+  <Button size="small">Маленькая</Button>
+  <Button size="medium">Средняя</Button>
+  <Button size="large">Большая</Button>
+</div>
+```
+
+Кнопки в виде стрелок.
 
 ```jsx harmony
 import { Gapped, Button } from '@skbkontur/react-ui';
@@ -48,25 +60,23 @@ import { Gapped, Button } from '@skbkontur/react-ui';
       Далее
     </Button>
   </Gapped>
-  <Gapped gap={5}>
-    <Button arrow="left" size="large">
-      Назад
-    </Button>
-    <Button arrow size="large">
-      Далее
-    </Button>
-  </Gapped>
 </Gapped>;
 ```
 
-Кнопка в состоянии загрузки
+Кнопка в состоянии загрузки.
+
+**Поведение:**
+
+Кнопка на время нахождения в состоянии загрузки отключается.
+
+Если в кнопке есть иконка, на время загрузки иконка заменяется на спиннер, если иконки нет - весь контент кнопки заменяется на спиннер.
 
 ```jsx harmony
+import { Button, Gapped } from '@skbkontur/react-ui';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import { Button } from '@skbkontur/react-ui';
+import BookmarkIcon from '@skbkontur/react-icons/Bookmark';
 
 const [loading, setLoading] = React.useState(false);
-const [success, setSuccess] = React.useState(false);
 
 const delay = time => args => new Promise(resolve => setTimeout(resolve, time, args));
 
@@ -74,19 +84,21 @@ const handleLoadingStart = () => {
   delay(2000)()
     .then(() => {
       setLoading(false);
-      setSuccess(true);
     })
-    .then(delay(1000))
-    .then(() => setSuccess(false));
 };
 
 const handleClick = () => {
   setLoading(true);
-  setSuccess(false);
   handleLoadingStart();
 };
 
-<Button width={150} onClick={handleClick} loading={loading}>
-  {success ? <OkIcon /> : 'Сохранить'}
-</Button>;
+<Gapped>
+  <Button width={150} onClick={handleClick} loading={loading}>
+    Сохранить
+  </Button>
+  <Button icon={<BookmarkIcon />} width={150} onClick={handleClick} loading={loading}>
+    Сохранить
+  </Button>
+</Gapped>
+
 ```

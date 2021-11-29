@@ -1,7 +1,7 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-const styles = {
+export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       background: ${t.pickerBg};
@@ -9,6 +9,7 @@ const styles = {
       display: inline-block;
       font-size: 0;
       z-index: 1000;
+      touch-action: none;
     `;
   },
 
@@ -35,6 +36,4 @@ const styles = {
       }
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

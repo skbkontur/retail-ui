@@ -56,14 +56,35 @@ export const darkTheme = ThemeFactory.create({
   controlHeightSmall: '34px',
   controlHeightMedium: '40px',
   controlHeightLarge: '44px',
-  checkboxCheckedColor: '#000',
-  checkboxBg: 'linear-gradient(#fdfdfd, #ededed) !important',
-  checkboxHoverBg: 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%) !important',
-  radioBgImage: 'linear-gradient(#fdfdfd, #ededed) !important',
-  radioHoverBg: 'linear-gradient(-180deg, #f2f2f2 0, #dfdfdf 100%) !important',
-  radioDisabledShadow: '0 0 0 1px rgba(0, 0, 0, 0.15) !important',
-  checkboxIndeterminateBg: '#000',
-  checkboxShadowDisabled: 'rgba(255, 255, 255, .5)',
+  checkboxCheckedColor: '#fff',
+  get checkboxBg() {
+    return this.bgDefault;
+  },
+  checkboxShadow: '0 0 0 1px rgba(255, 255, 255, 0.15)',
+  checkboxHoverBg: 'none',
+  checkboxBgDisabled: 'rgba(255, 255, 255, 0.05)',
+  checkboxShadowDisabled: '0 0 0 1px #4D4D4D',
+  get checkboxOutlineColorFocus() {
+    return this.bgDefault;
+  },
+  get checkboxActiveBg() {
+    return this.bgDefault;
+  },
+  get checkboxCheckedActiveBg() {
+    return this.bgDefault;
+  },
+  get radioBgImage() {
+    return `linear-gradient(${this.bgDefault},${this.bgDefault})`;
+  },
+  radioBoxShadow: '0 0 0 1px rgba(255, 255, 255, 0.15)',
+  radioCheckedBulletColor: '#fff',
+  radioHoverBg: 'none',
+  radioHoverShadow: '0 0 0 1px rgba(255, 255, 255, 0.15)',
+  radioDisabledShadow: '0 0 0 1px #4D4D4D',
+  radioDisabledBg: 'rgba(255, 255, 255, 0.05)',
+  get radioActiveBg() {
+    return this.bgDefault;
+  },
   textColorDefault: '#fff',
   textColorInvert: '#fff',
   textColorDisabled: '#a0a0a0',
@@ -80,15 +101,15 @@ export const darkTheme = ThemeFactory.create({
   btnCheckedBg: '#737373',
   btnCheckedTextColor: '#fff',
   btnDefaultBg: '#333333',
-  btnDefaultHoverBg: '#333333',
+  btnDefaultHoverBg: '#444444',
   btnDefaultBgStart: 'none',
   btnDefaultBgEnd: 'none',
   btnDefaultBorderColor: 'rgba(255,255,255, 1)',
   btnDefaultBorderBottomColor: 'rgba(255,255,255, 1)',
   btnDefaultHoverBgStart: '#333',
   btnDefaultHoverBgEnd: '#333',
-  btnDefaultHoverBorderColor: 'rgba(0, 0, 0, 0.2)',
-  btnDefaultHoverBorderBottomColor: 'rgba(0,0,0,0.32)',
+  btnDefaultHoverBorderColor: 'rgba(255,255,255,0.9)',
+  btnDefaultHoverBorderBottomColor: 'rgba(255,255,255,0.7)',
   btnDefaultActiveBg: '#e1e1e1',
   btnDefaultActiveShadow: 'inset 0 1px 2px 0 rgba(0, 0, 0, 0.1)',
   btnDefaultActiveBorderColor: 'rgba(0, 0, 0, 0.2)',
@@ -217,12 +238,19 @@ export const darkTheme = ThemeFactory.create({
   menuItemPaddingForIcon: '36px',
   menuBorder: 'rgba(0, 0, 0, 0)',
   menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
+  get toggleBaseBg() {
+    return this.bgDefault;
+  },
   toggleBgChecked: '#3072c4',
   toggleShadowColorWarning: '#f69c00',
   toggleShadowColorError: '#d70c17',
   toggleBgActive: '#e5e5e5',
   toggleFocusShadowColor: '#5199db',
-  toggleBorderColor: '#d0d0d0',
+  toggleBorderColor: 'rgba(255, 255, 255, 0.15)',
+  get toggleBgDisabled() {
+    return this.bgDefault;
+  },
+  toggleDisabledHandleBg: '#4D4D4D',
   btnMenuArrowColor: '#666',
   popupBorderRadius: '2px',
   popupBorder: '1px solid',

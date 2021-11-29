@@ -1,6 +1,6 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
-const styles = {
+export const styles = memoizeStyle({
   enter() {
     return css`
       transform: translateY(-40px);
@@ -24,6 +24,4 @@ const styles = {
       transition: opacity 0.15s ease-out;
     `;
   },
-};
-
-export const jsStyles = memoizeStyle(styles);
+});

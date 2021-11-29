@@ -1,5 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
 
 import { ConditionalHandler } from '../../lib/ConditionalHandler';
 import { LENGTH_FULLDATE, MAX_FULLDATE, MIN_FULLDATE } from '../../lib/date/constants';
@@ -11,9 +10,10 @@ import { locale } from '../../lib/locale/decorators';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { cx } from '../../lib/theming/Emotion';
 
 import { DateFragmentsView } from './DateFragmentsView';
-import { jsStyles } from './DateInput.styles';
+import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
 
@@ -28,7 +28,13 @@ export interface DateInputState {
 export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
   value: string;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   disabled?: boolean;
   /**
@@ -53,6 +59,7 @@ export interface DateInputProps extends CommonProps {
    */
   size: 'small' | 'large' | 'medium';
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+  onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
    * Вызывается при изменении `value`
@@ -177,7 +184,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
-    const fragments = focused || valueFormatted !== '' ? this.iDateMediator.getFragments() : [];
+    const showValue = Boolean(focused || valueFormatted);
 
     return (
       <CommonWrapper {...this.props}>
@@ -190,6 +197,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           warning={this.props.warning}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
+          onClick={this.props.onClick}
           onKeyDown={this.handleKeyDown}
           onMouseDownCapture={this.handleMouseDownCapture}
           onPaste={this.handlePaste}
@@ -198,14 +206,18 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
           onMouseDragStart={this.handleMouseDragStart}
           onMouseDragEnd={this.handleMouseDragEnd}
           value={this.iDateMediator.getInternalString()}
+          inputMode={'numeric'}
+          takeContentWidth
         >
-          <DateFragmentsView
-            ref={this.dateFragmentsViewRef}
-            fragments={fragments}
-            onSelectDateComponent={this.handleSelectDateComponent}
-            selected={selected}
-            inputMode={inputMode}
-          />
+          <span className={cx(styles.value(), { [styles.valueVisible()]: showValue })}>
+            <DateFragmentsView
+              ref={this.dateFragmentsViewRef}
+              fragments={this.iDateMediator.getFragments()}
+              onSelectDateComponent={this.handleSelectDateComponent}
+              selected={selected}
+              inputMode={inputMode}
+            />
+          </span>
         </InputLikeText>
       </CommonWrapper>
     );
@@ -216,12 +228,12 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
     if (withIcon) {
       const theme = this.theme;
-      const iconStyles = cn({
-        [jsStyles.icon(theme)]: true,
-        [jsStyles.iconSmall(theme)]: size === 'small',
-        [jsStyles.iconMedium(theme)]: size === 'medium',
-        [jsStyles.iconLarge(theme)]: size === 'large',
-        [jsStyles.iconDisabled(theme)]: disabled,
+      const iconStyles = cx({
+        [styles.icon(theme)]: true,
+        [styles.iconSmall(theme)]: size === 'small',
+        [styles.iconMedium(theme)]: size === 'medium',
+        [styles.iconLarge(theme)]: size === 'large',
+        [styles.iconDisabled(theme)]: disabled,
       });
       return (
         <span className={iconStyles}>
