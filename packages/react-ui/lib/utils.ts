@@ -3,16 +3,6 @@ import { ReactComponentLike } from 'prop-types';
 
 import { isBrowser } from './client';
 
-/**
- * Inverts the action of the given function.
- *
- * @param fn A function which action needs to be inverted.
- * @returns Returns an inverted function.
- */
-export function not<T>(fn: (...args: T[]) => any) {
-  return (...args: T[]) => !fn(...args);
-}
-
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
   ? string extends keyof P
@@ -89,13 +79,6 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
 };
-
-/**
- * Inverted version of isNonNullable function.
- *
- * @returns Returns true for any value other than null or undefined.
- */
-export const isNullable = not(isNonNullable);
 
 /**
  * Extracts object's properties that meet the condition in the given predicate.
