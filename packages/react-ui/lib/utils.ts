@@ -79,20 +79,3 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
 };
-
-type ObjectType<T> = Record<string, any> | ArrayLike<T> | null;
-type OTAReturnType<T extends ObjectType<T>> = T extends ObjectType<T> ? [string, any][] : null;
-
-/**
- * Converts an object into a 2D array.
- * Internally uses Object.entries and performs an additonal check for falsy values.
- *
- * @param object An object to be converted to an array.
- * @returns If object is not a falsy value returns a 2D array, else null.
- */
-export function objectToArray<T extends ObjectType<T>>(object: T | null | undefined | ArrayLike<T>): OTAReturnType<T> {
-  if (!!object) {
-    return Object.entries(object) as OTAReturnType<T>;
-  }
-  return null as OTAReturnType<T>;
-}
