@@ -34,12 +34,18 @@ export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
   minDate: T;
   maxDate: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   width?: number | string;
   onBlur?: () => void;

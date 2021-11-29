@@ -1087,7 +1087,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static checkboxBoxSize = '16px';
-  public static checkboxLabelGap = '10px';
+  public static checkboxCaptionGap = '10px';
   public static checkboxPaddingY = '0';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
@@ -1266,7 +1266,7 @@ export class DefaultTheme {
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static radioLabelGap = '9px';
+  public static radioCaptionGap = '9px';
   public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
@@ -1307,7 +1307,7 @@ export class DefaultTheme {
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
-  public static radioLabelDisplay = 'inline-table';
+  public static radioCaptionDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
   public static radioMarginY = '2px';
   //#endregion
@@ -1392,15 +1392,15 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static switcherOutlineWidth = '2px';
-  public static switcherLabelFontSizeSmall = 'inherit';
-  public static switcherLabelFontSizeMedium = 'inherit';
-  public static switcherLabelFontSizeLarge = 'inherit';
-  public static switcherLabelLineHeightSmall = 'inherit';
-  public static switcherLabelLineHeightMedium = 'inherit';
-  public static switcherLabelLineHeightLarge = 'inherit';
-  public static switcherLabelGapSmall = '15px';
-  public static switcherLabelGapMedium = '15px';
-  public static switcherLabelGapLarge = '15px';
+  public static switcherCaptionFontSizeSmall = 'inherit';
+  public static switcherCaptionFontSizeMedium = 'inherit';
+  public static switcherCaptionFontSizeLarge = 'inherit';
+  public static switcherCaptionLineHeightSmall = 'inherit';
+  public static switcherCaptionLineHeightMedium = 'inherit';
+  public static switcherCaptionLineHeightLarge = 'inherit';
+  public static switcherCaptionGapSmall = '15px';
+  public static switcherCaptionGapMedium = '15px';
+  public static switcherCaptionGapLarge = '15px';
   public static get switcherButtonPaddingXSmall() {
     return this.btnPaddingXSmall;
   }

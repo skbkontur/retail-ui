@@ -185,24 +185,24 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         createStackingContext
         style={{ width: width || (blockBackground ? 800 : 500) }}
       >
-        <RenderLayer onClickOutside={this.handleClickOutside} active>
-          <div
-            data-tid="SidePage__container"
-            className={cx(styles.wrapper(this.theme), {
-              [styles.shadow(this.theme)]: this.state.hasShadow,
-              [styles.wrapperLeft()]: fromLeft,
-            })}
-            style={this.getSidebarStyle()}
-          >
-            <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false}>
-              <div ref={(_) => (this.layoutRef = _)} className={styles.layout()}>
-                <SidePageContext.Provider value={this.getSidePageContextProps()}>
-                  {this.props.children}
-                </SidePageContext.Provider>
-              </div>
-            </FocusLock>
-          </div>
-        </RenderLayer>
+        <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+          <RenderLayer onClickOutside={this.handleClickOutside} active>
+            <div
+              data-tid="SidePage__container"
+              className={cx(styles.wrapper(this.theme), {
+                [styles.wrapperLeft()]: fromLeft,
+                [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,
+                [styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
+                [styles.shadow(this.theme)]: this.state.hasShadow,
+              })}
+              ref={(_) => (this.layoutRef = _)}
+            >
+              <SidePageContext.Provider value={this.getSidePageContextProps()}>
+                {this.props.children}
+              </SidePageContext.Provider>
+            </div>
+          </RenderLayer>
+        </FocusLock>
       </ZIndex>
     );
   }
@@ -226,7 +226,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (!this.layoutRef) {
       return 'auto';
     }
-    return this.layoutRef.getBoundingClientRect().width;
+    return this.layoutRef.clientWidth;
   };
 
   private renderShadow(): JSX.Element {
@@ -242,20 +242,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         />
       </ZIndex>
     );
-  }
-
-  private getSidebarStyle(): React.CSSProperties {
-    const sidePageStyle: React.CSSProperties = {};
-
-    if (this.state.hasMargin) {
-      if (this.props.fromLeft) {
-        sidePageStyle.marginLeft = 20;
-      } else {
-        sidePageStyle.marginRight = 20;
-      }
-    }
-
-    return sidePageStyle;
   }
 
   private getTransitionNames(): Record<string, string> {

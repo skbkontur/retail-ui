@@ -19,7 +19,13 @@ export interface TokenColors {
 export interface TokenProps extends CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   disabled?: boolean;
 

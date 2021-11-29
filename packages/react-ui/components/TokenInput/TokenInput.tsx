@@ -82,7 +82,13 @@ export interface TokenInputProps<T> extends CommonProps {
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
   delimiters: string[];
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   disabled?: boolean;
   width?: string | number;

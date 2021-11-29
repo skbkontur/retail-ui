@@ -25,7 +25,7 @@ export const styles = memoizeStyle({
 
   body() {
     return css`
-      height: 100%;
+      flex: 1 0 auto;
       z-index: 0;
     `;
   },
@@ -55,6 +55,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  focusLock() {
+    return css`
+      height: 100%;
+    `;
+  },
+
   wrapper(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
@@ -64,6 +70,9 @@ export const styles = memoizeStyle({
       overflow-y: auto;
       position: relative;
       white-space: normal;
+      align-items: stretch;
+      display: flex;
+      flex-direction: column;
     `;
   },
 
@@ -73,11 +82,21 @@ export const styles = memoizeStyle({
     `;
   },
 
-  layout() {
+  wrapperMarginLeft() {
     return css`
-      align-items: stretch;
-      display: flex;
-      flex-direction: column;
+      margin-left: 20px;
+    `;
+  },
+
+  wrapperMarginRight() {
+    return css`
+      margin-right: 20px;
+    `;
+  },
+
+  headerWrapper() {
+    return css`
+      flex: 0 0 auto;
     `;
   },
 
@@ -211,6 +230,12 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      flex: 0 0 auto;
     `;
   },
 

@@ -69,7 +69,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if (loading && (!items || !items.length)) {
       return (
-        <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
+        <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile} data-tid="ComboBoxMenu__loading">
           <MenuItem disabled isMobile={isMobile}>
             <Spinner type="mini" dimmed />
           </MenuItem>
@@ -79,7 +79,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if (items === null && requestStatus === ComboBoxRequestStatus.Failed) {
       return (
-        <Menu ref={refMenu} maxHeight={maxHeight} disableScrollContainer={isMobile}>
+        <Menu ref={refMenu} maxHeight={maxHeight} disableScrollContainer={isMobile} data-tid="ComboBoxMenu__failed">
           <MenuItem disabled key="message" isMobile={isMobile}>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>

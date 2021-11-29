@@ -692,7 +692,6 @@ BodyWithoutFooter.parameters = {
           .perform();
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });

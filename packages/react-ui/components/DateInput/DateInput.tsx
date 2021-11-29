@@ -28,7 +28,13 @@ export interface DateInputState {
 export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
   value: string;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   disabled?: boolean;
   /**
