@@ -1,6 +1,8 @@
 import React from 'react';
 import { ReactComponentLike } from 'prop-types';
 
+import { isBrowser } from './client';
+
 /**
  * Inverts the action of the given function.
  *
@@ -58,6 +60,10 @@ export function escapeRegExpSpecChars(s: string): string {
 }
 
 export const getRandomID = (): string => Math.random().toString(16).slice(2);
+
+export const isExternalLink = (link: string): boolean => {
+  return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
+};
 
 /**
  * Check if the given ReactNode is an element of the specified ReactUI component
