@@ -95,13 +95,24 @@ export const isNullable = not(isNonNullable);
  * Extracts object's properties that meet the condition in the given predicate.
  *
  * @param object An object from which properties will be extracted.
- * @param predicate A function for filtering object's properties.
+ * @param filterFunc A function for filtering object's properties.
  * @returns Returns the properties of an object that meet the condition in the given predicate.
  */
 export function extractFromObject<T>(
   object: T,
-  predicate: (value: [string, any], index?: number, array?: T[]) => boolean,
+  filterFunc: (value: [string, any], index?: number, array?: T[]) => boolean,
 ): Partial<T> {
   //@ts-expect-error
-  return Object.fromEntries(Object.entries(object).filter(predicate));
+  return Object.fromEntries(Object.entries(object).filter(filterFunc));
+}
+
+/**
+ * Shortcut for Object.prototype.hasOwnProperty.call(obj, prop)
+ *
+ * @param obj An object which possibly contains the property.
+ * @param prop A property name.
+ * @returns Returns true if property is in the object, else false.
+ */
+export function hasProp<T extends {}>(obj: T, prop: PropertyKey) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
 }
