@@ -25,15 +25,19 @@ export interface InputProps
       React.InputHTMLAttributes<HTMLInputElement>,
       {
         /**
-         * Иконка слева
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
+         * Иконка слева.
+         *
+         * _Примечания:_<br/>
+         * 1. Если передан компонент, к нему будут применены стили по умолчанию для иконки.<br/>
+         * 2. Если передан колбэк, возвращающий компонент (`() => ReactNode`), к компоненту будут применены только стили для позиционирования.
          */
         leftIcon?: InputIconType;
         /**
-         * Иконка справа
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
+         * Иконка справа.
+         *
+         * _Примечания:_<br/>
+         * 1. Если передан компонент, к нему будут применены стили по умолчанию для иконки.<br/>
+         * 2. Если передан колбэк, возвращающий компонент (`() => ReactNode`), к компоненту будут применены только стили для позиционирования.
          */
         rightIcon?: InputIconType;
         /**
@@ -44,57 +48,101 @@ export interface InputProps
          * Cостояние валидации при предупреждении.
          */
         warning?: boolean;
-        /** Режим прозрачной рамки */
+        /**
+         * Убирает рамку с поля ввода.
+         */
         borderless?: boolean;
-        /** Выравнивание текста */
+        /**
+         * Задаёт выравнивание текста.
+         *
+         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+         */
         align?: InputAlign;
-        /** Паттерн маски */
+        /**
+         * Задаёт паттерн маски поля ввода.
+         */
         mask?: Nullable<string>;
-        /** Символ маски */
+        /**
+         * Символ маски.
+         */
         maskChar?: Nullable<string>;
         /**
-         * Словарь символов-регулярок для задания маски
+         * Задаёт словарь символов-регулярок для задания маски.
+         *
          * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
          */
         formatChars?: Record<string, string>;
-        /** Показывать символы маски */
-        alwaysShowMask?: boolean;
-        /** Размер */
-        size?: InputSize;
-        /** onValueChange */
-        onValueChange?: (value: string) => void;
-        /** Вызывается на label */
-        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
-        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
-        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Тип */
-        type?: InputType;
-        /** Значение */
-        value?: string;
-        capture?: boolean;
-
         /**
-         * Префикс
-         * `ReactNode` перед значением, но после иконки
+         * Заменяет плейсхолдер на паттерн маски.
+         */
+        alwaysShowMask?: boolean;
+        /**
+         * Размер поля ввода.
+         *
+         * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+         */
+        size?: InputSize;
+        /**
+         * Событие, вызываемое при изменении значения поля ввода.
+         *
+         * Внутри функции доступно текущее значение поля ввода.
+         *
+         * @param value Значение поля ввода.
+         */
+        onValueChange?: (value: string) => void;
+        /**
+         * HTML-событие `onmouseenter`.
+         */
+        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * HTML-событие `onmouseleave`.
+         */
+        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * HTML-событие `onmouseover`.
+         */
+        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * Тип поля ввода.
+         *
+         * **Допустимые значения**: `"password"`, `"text"`.
+         */
+        type?: InputType;
+        /**
+         * Значение поля ввода.
+         */
+        value?: string;
+        /**
+         * Задаёт префикс поля ввода.
+         *
+         * Будет выводится до значения поля ввода,
+         * но после иконки расположенной слева.
          */
         prefix?: React.ReactNode;
         /**
-         * Суффикс
-         * `ReactNode` после значения, но перед правой иконкой
+         * Задаёт суффикс поля ввода.
+         *
+         * Будет выводится после значения поля ввода,
+         * но перед иконкой расположенной справа.
          */
         suffix?: React.ReactNode;
-        /** Выделять введенное значение при фокусе */
+        /**
+         * Если `true`, все символы внутри поля ввода
+         * будут выделены когда поле ввода получит фокус.
+         */
         selectAllOnFocus?: boolean;
         /**
          * Обработчик неправильного ввода.
-         * По-умолчанию, инпут вспыхивает синим.
-         * Если передан - вызывается переданный обработчик,
-         * в таком случае вспыхивание можно вызвать
-         * публичным методом инстанса `blink()`.
          *
-         * @param value значение инпута.
+         * _Поведение по умолчанию_: поле ввода мерцает синим цветом.
+         *
+         * Если в проп передана функция - будет вызвана эта функция,
+         * поведение по умолчанию будет затёрто.<br/>
+         * Восстановить поведение по умолчанию можно
+         * с помощью публичного метода `blink()`, вызвав его внутри функции.
+         *
+         * <br/>
+         * @param value Значение поля ввода.
          */
         onUnexpectedInput?: (value: string) => void;
       }
@@ -107,8 +155,7 @@ export interface InputState {
 }
 
 /**
- * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
- *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
+ * Поле ввода.
  */
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
@@ -150,6 +197,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Публичный метод для вызова фокуса на поле ввода.
    * @public
    */
   public focus() {
@@ -158,6 +206,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Публичный метод для снятия фокуса с поля ввода.
    * @public
    */
   public blur() {
@@ -166,6 +215,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Публичный метод, вызывающий "мерцание" у поля ввода.
    * @public
    */
   public blink() {
@@ -184,9 +234,13 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * HTML-метод `setSelectionRange()` устанавливает начальное и конечное положение выделения текста в поле инпута.
    * @public
-   * @param {number} start
-   * @param {number} end
+   *
+   * @param {number} start Индекс первого выделенного символа.
+   * <br/>
+   * <br/>
+   * @param {number} end Индекс последнего выделенного символа.
    */
   public setSelectionRange(start: number, end: number) {
     if (!this.input) {
@@ -218,6 +272,9 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
+   * Публичный метод, выделяющий все символы в поле инпута.
+   *
+   * Под капотом использует `setSelectionRange()`.
    * @public
    */
   public selectAll = (): void => {
@@ -343,12 +400,7 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   };
 
-  private renderMaskedInput(
-    inputProps: React.InputHTMLAttributes<HTMLInputElement> & {
-      capture?: boolean;
-    },
-    mask: string,
-  ) {
+  private renderMaskedInput(inputProps: React.InputHTMLAttributes<HTMLInputElement>, mask: string) {
     return (
       <MaskedInput
         {...inputProps}
