@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -357,7 +358,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -387,10 +388,6 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
       this.setState({ scrollState });
     }
   };
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {
