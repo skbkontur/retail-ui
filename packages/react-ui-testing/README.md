@@ -9,12 +9,12 @@
 
 Библиотека состоит из двух частей:
 
--   [Скрипт](https://tech.skbkontur.ru/react-ui-testing/#/expose-tids-to-dom), поключаемый на страницу, который транслирует props и другую полезную информацию о React-компонентах в DOM.
--   [Набор PageObject'ов](https://tech.skbkontur.ru/react-ui-testing/#/page-objects-dot-net) для доступа к [компонентам react-ui](https://github.com/skbkontur/retail-ui) через [Selenium для .NET](http://www.seleniumhq.org/docs/03_webdriver.jsp#c).
+-   [Скрипт](http://tech.skbkontur.ru/react-ui-testing/#/expose-tids-to-dom), поключаемый на страницу, который транслирует props и другую полезную информацию о React-компонентах в DOM.
+-   [Набор PageObject'ов](http://tech.skbkontur.ru/react-ui-testing/#/page-objects-dot-net) для доступа к [компонентам react-ui](https://github.com/skbkontur/retail-ui) через [Selenium для .NET](https://www.seleniumhq.org/docs/03_webdriver.jsp#c).
 
 ## А что дальше?
 
--   Прочитайте [инструкцию по быстрому старту](https://tech.skbkontur.ru/react-ui-testing/#/quick-start), чтобы проверить что всё работает
--   Узнайте как [подключить скрипт](https://tech.skbkontur.ru/react-ui-testing/#/expose-tids-to-dom) к своему приложению
--   Используйте [API reference по PageObject'ам для .NET](https://tech.skbkontur.ru/react-ui-testing/#/page-objects-dot-net)
--   Используйте [Bookmarket](https://tech.skbkontur.ru/react-ui-testing/#/bookmarklet) для просмотра tid-атрибутов страницы.
+-   Прочитайте [инструкцию по быстрому старту](http://tech.skbkontur.ru/react-ui-testing/#/quick-start), чтобы проверить что всё работает
+-   Узнайте как [подключить скрипт](http://tech.skbkontur.ru/react-ui-testing/#/expose-tids-to-dom) к своему приложению
+-   Используйте [API reference по PageObject'ам для .NET](http://tech.skbkontur.ru/react-ui-testing/#/page-objects-dot-net)
+-   Используйте [Bookmarket](http://tech.skbkontur.ru/react-ui-testing/#/bookmarklet) для просмотра tid-атрибутов страницы.
