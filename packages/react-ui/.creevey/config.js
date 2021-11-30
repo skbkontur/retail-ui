@@ -1,4 +1,6 @@
 const path = require('path');
+const axios = require('axios');
+require('dotenv').config({ path: '../../.env' });
 
 /**
  * Debuggin instructions: https://wiki.skbkontur.ru/pages/viewpage.action?pageId=418699157
@@ -14,12 +16,18 @@ const capabilities = debug
     }
   : {};
 
+const resolverStorybookUrl = (port) => ({
+  storybookUrl: `http://localhost:${port}`,
+  resolveStorybookUrl:
+    !process.env.TEAMCITY_VERSION && (() => axios(process.env.GET_IP_URL).then((res) => `http://${res.data}:${port}`)),
+});
+
 const config = {
+  ...resolverStorybookUrl(6060),
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
-  gridUrl: 'https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub',
-  storybookUrl: 'http://localhost:6060',
+  gridUrl: process.env.GRID_URL,
   // NOTE Should refactor Button styles without 1px-border
   maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
   babelOptions: (options) => ({
