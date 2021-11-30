@@ -37,13 +37,13 @@ export class InternalDateGetter {
 
   public static getMaxDaysInMonth(month: number, year?: number): number {
     if (month === 2) {
-      const leapYear = isLeapYear(year);
-
-      return leapYear ? 29 : 28;
+      return isLeapYear(year) ? 29 : 28;
     }
+
     if (month <= 7) {
       month++;
     }
+
     return month % 2 === 0 ? 31 : 30;
   }
 
