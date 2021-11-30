@@ -197,10 +197,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   private commonWrapperRef = (instance: Nullable<React.ReactNode>) => {
     this.setRootNode(instance);
-    const rootDomNode = getRootNode(this);
-    if (rootDomNode && rootDomNode !== this.state.rootDomNode) {
-      this.setState({ rootDomNode });
-    }
+    // const rootDomNode = getRootNode(this);
+    // if (rootDomNode && rootDomNode !== this.state.rootDomNode) {
+    //   this.setState({ rootDomNode });
+    // }
   };
 
   private getParent = () => {

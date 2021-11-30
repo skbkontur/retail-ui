@@ -48,19 +48,19 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private rootNode: Nullable<HTMLElement>;
+  // private rootNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
   }
 
-  public componentDidUpdate() {
-    if (this.rootNode !== this.props.getParent()) {
-      this.rootNode = this.props.getParent();
-      this.position();
-    }
-  }
+  // public componentDidUpdate() {
+  //   if (this.rootNode !== this.props.getParent()) {
+  //     this.rootNode = this.props.getParent();
+  //     this.position();
+  //   }
+  // }
 
   public UNSAFE_componentWillMount() {
     const { body, documentElement: docEl } = document;
