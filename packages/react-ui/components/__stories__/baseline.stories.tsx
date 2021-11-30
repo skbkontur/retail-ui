@@ -151,7 +151,8 @@ export const DifferentFontsAndSizes = () => (
           margin: '20px',
           backgroundImage: `
           linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 29px, #CCC 29px, #CCC 39px, transparent 39px),
+          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
+          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
           linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
           `
         }}
@@ -185,7 +186,8 @@ export const DifferentFontsAndSizes = () => (
           margin: '20px',
           backgroundImage: `
           linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 29px, #CCC 29px, #CCC 39px, transparent 39px),
+          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
+          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
           linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
           `
         }}
@@ -220,7 +222,8 @@ export const DifferentFontsAndSizes = () => (
           margin: '20px',
           backgroundImage: `
           linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 29px, #CCC 29px, #CCC 39px, transparent 39px),
+          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
+          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
           linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
           `
         }}
@@ -254,7 +257,8 @@ export const DifferentFontsAndSizes = () => (
           margin: '20px',
           backgroundImage: `
           linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 29px, #CCC 29px, #CCC 39px, transparent 39px),
+          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
+          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
           linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
           `
         }}
@@ -292,14 +296,11 @@ NewStoryDifferentFontsAndSizesThemeM.storyName = 'Different fonts in medium';
 
 
 class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
-  public state = {
-    thisState: false,
-    thisItems: ['Default', 'Disabled', 'Error', 'Warning'],
-  };
-
   public render() {
     return (
       <div style={{ fontSize: '16px', lineHeight: '22px' }}>
+      <ThemeContext.Consumer>
+        {theme =>
         <ThemeContext.Provider value={ThemeFactory.create({
             checkboxBoxSize: '20px',
             checkboxLabelGap: '10px',
@@ -323,7 +324,7 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
             toggleCaptionGap: '10px',
             toggleWidth: '34px',
 
-          })}>
+          }, theme)}>
             <Gapped vertical gap={4}>
               <div
                 style={{
@@ -332,7 +333,8 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   margin: '20px',
                   backgroundImage: `
                   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 24px, #CCC 24px, #CCC 36px, transparent 36px),
+                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
+                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
                   linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
                   `
                 }}
@@ -369,7 +371,8 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   margin: '20px',
                   backgroundImage: `
                   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 24px, #CCC 24px, #CCC 36px, transparent 36px),
+                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
+                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
                   linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
                   `
                 }}
@@ -405,7 +408,8 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   margin: '20px',
                   backgroundImage: `
                   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 24px, #CCC 24px, #CCC 36px, transparent 36px),
+                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
+                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
                   linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
                   `
                 }}
@@ -441,7 +445,8 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   margin: '20px',
                   backgroundImage: `
                   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 24px, #CCC 24px, #CCC 36px, transparent 36px),
+                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
+                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
                   linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
                   `
                 }}
@@ -470,7 +475,8 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
               </Gapped>
               </div>
             </Gapped>
-        </ThemeContext.Provider>
+        </ThemeContext.Provider>}
+      </ThemeContext.Consumer>
       </div>
     );
   }
@@ -481,16 +487,13 @@ NewStoryDifferentFontsAndSizesThemeL.storyName = 'Different fonts in large';
 
 
 class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
-  public state = {
-    thisState: false,
-    thisItems: ['Default', 'Disabled', 'Error', 'Warning'],
-  };
-
   public render() {
     return (
       <div
       style={{ fontSize: '18px', lineHeight: '24px' }}
       >
+      <ThemeContext.Consumer>
+        {theme =>
         <ThemeContext.Provider value={ThemeFactory.create({
             checkboxBoxSize: '22px',
             checkboxLabelGap: '12px',
@@ -513,8 +516,7 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
             toggleHeight: '24px',
             toggleCaptionGap: '12px',
             toggleWidth: '36px',
-
-          })}>
+          }, theme)}>
           <Gapped vertical gap={4}>
             <div
               style={{
@@ -522,9 +524,10 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                 height: '50px',
                 margin: '20px',
                 backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 33px, transparent 33px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #CCC 2px, #CCC 3px, transparent 3px)
+                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
+                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
+                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
+                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
                 `
               }}
             >
@@ -559,9 +562,10 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                 height: '50px',
                 margin: '20px',
                 backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 33px, transparent 33px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #CCC 2px, #CCC 3px, transparent 3px)
+                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
+                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
+                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
+                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
                 `
               }}
             >
@@ -595,9 +599,10 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                 height: '50px',
                 margin: '20px',
                 backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 33px, transparent 33px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #CCC 2px, #CCC 3px, transparent 3px)
+                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
+                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
+                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
+                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
                 `
               }}
             >
@@ -631,9 +636,10 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                 height: '50px',
                 margin: '20px',
                 backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 19px, #CCC 19px, #CCC 33px, transparent 33px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #CCC 2px, #CCC 3px, transparent 3px)
+                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
+                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
+                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
+                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
                 `
               }}
             >
@@ -661,7 +667,8 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
             </Gapped>
             </div>
           </Gapped>
-        </ThemeContext.Provider>
+          </ThemeContext.Provider>}
+        </ThemeContext.Consumer>
       </div>
     );
   }
