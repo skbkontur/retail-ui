@@ -150,7 +150,6 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * Публичный метод для вызова фокуса на поле инпута.
    * @public
    */
   public focus() {
@@ -159,7 +158,6 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * Публичный метод для снятия фокуса с поля инпута.
    * @public
    */
   public blur() {
@@ -168,7 +166,6 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * Публичный метод, вызывающий "мерцание".
    * @public
    */
   public blink() {
@@ -187,10 +184,9 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * HTML-метод `setSelectionRange()` устанавливает начальное и конечное положение выделения текста в поле инпута.
    * @public
-   * @param {number} start Индекс первого выделенного символа.
-   * @param {number} end Индекс последнего выделенного символа.
+   * @param {number} start
+   * @param {number} end
    */
   public setSelectionRange(start: number, end: number) {
     if (!this.input) {
@@ -222,9 +218,6 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   /**
-   * Публичный метод, выделяющий все символы в поле инпута.
-   *
-   * Под капотом использует `setSelectionRange()`.
    * @public
    */
   public selectAll = (): void => {
