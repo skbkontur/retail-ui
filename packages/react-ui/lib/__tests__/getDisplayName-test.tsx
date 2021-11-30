@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+
 import { getDisplayName } from '../getDisplayName';
 
 const renderFC = () => mount(<div />) as any;
