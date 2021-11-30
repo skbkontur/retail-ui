@@ -2,6 +2,8 @@ import React from 'react';
 
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+import { Nullable } from '../../typings/utility-types';
+import { getRootNode } from '../../lib/rootNode';
 
 export interface CommonProps {
   /**
@@ -16,7 +18,7 @@ export interface CommonProps {
    * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
    */
   'data-tid'?: string;
-  rootNodeRef?: (instance: any) => void;
+  rootNodeRef?: (instance: Nullable<HTMLElement>) => void;
 }
 
 export type NotCommonProps<P> = Omit<P, keyof CommonProps>;
@@ -34,8 +36,16 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(child)
       ? React.cloneElement(child, {
           ref: (instance: any) => {
-            (child as any).ref?.(instance);
-            this.props.rootNodeRef?.(instance);
+            const childAsAny = child as any;
+            if (childAsAny && childAsAny.ref) {
+              if (typeof childAsAny.ref === 'function') {
+                childAsAny.ref(instance);
+              }
+              if (Object.prototype.hasOwnProperty.call(childAsAny.ref, 'current')) {
+                childAsAny.ref.current = instance;
+              }
+            }
+            this.props.rootNodeRef?.(getRootNode(instance));
           },
           className: cx(child.props.className, className),
           style: {

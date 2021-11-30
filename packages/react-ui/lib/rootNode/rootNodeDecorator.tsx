@@ -13,10 +13,10 @@ export function rootNode<T extends new (...args: any[]) => React.Component>(Comp
       super(args[0]);
     }
 
-    public setRootNode = (e: Nullable<React.ReactNode>) => {
-      const newValue = getRootNode(e);
-      if (newValue === null) return;
-      this.rootNode = getRootNode(e);
+    public setRootNode = (instance: Nullable<React.ReactInstance>) => {
+      const rootNode = getRootNode(instance);
+      if (rootNode === null) return;
+      this.rootNode = rootNode;
     };
 
     public getRootNode = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Nullable } from '../../typings/utility-types';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { CommonWrapper } from '../CommonWrapper';
 
 export interface IgnoreLayerClickProps {
   children: React.ReactNode;
@@ -43,16 +43,11 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   }
 
   public render() {
-    const childWithRef = React.cloneElement(this.props.children as JSX.Element, {
-      ref: (instance: Nullable<React.ReactNode>) => {
-        this.setRootNode(instance);
-        const childAsAny = this.props.children as any;
-        if (childAsAny && childAsAny.ref && typeof childAsAny.ref === 'function') {
-          childAsAny.ref(instance);
-        }
-      },
-    });
-    return React.Children.only(childWithRef);
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {React.Children.only(this.props.children)}
+      </CommonWrapper>
+    );
   }
 
   private handleMouseDown = (event: Event) => {

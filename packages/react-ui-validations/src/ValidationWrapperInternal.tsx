@@ -1,7 +1,6 @@
 import * as PropTypes from 'prop-types';
 import React from 'react';
 import warning from 'warning';
-import { getRootNode, rootNode, TSetRootNode } from '@skbkontur/react-ui/lib/rootNode';
 
 import { Nullable } from '../typings/Types';
 
@@ -47,7 +46,6 @@ interface Point {
   y: number;
 }
 
-@rootNode
 export class ValidationWrapperInternal extends React.Component<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
@@ -64,7 +62,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public isChanging = false;
   private child: any; // todo type
-  private setRootNode!: TSetRootNode;
+  private rootNode: Nullable<HTMLElement>;
 
   public UNSAFE_componentWillMount() {
     this.applyValidation(this.props.validation);
@@ -92,7 +90,7 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   public async focus(): Promise<void> {
-    const htmlElement = getRootNode(this);
+    const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
       const { disableSmoothScroll, scrollOffset } = this.context.validationContext.getSettings();
       if (!disableSmoothScroll) {
@@ -161,8 +159,16 @@ export class ValidationWrapperInternal extends React.Component<
     return this.props.errorMessage(<span ref={this.setRootNode}>{clonedChild}</span>, !!validation, validation);
   }
 
+  private setRootNode = (element: Nullable<HTMLElement>) => {
+    this.rootNode = element;
+  };
+
+  public getRootNode = () => {
+    return this.rootNode;
+  };
+
   public getControlPosition(): Nullable<Point> {
-    const htmlElement = getRootNode(this);
+    const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
       const rect = htmlElement.getBoundingClientRect();
       return { x: rect.top, y: rect.left };
