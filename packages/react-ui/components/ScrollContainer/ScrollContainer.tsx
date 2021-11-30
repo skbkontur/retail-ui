@@ -22,27 +22,55 @@ export type ScrollBehaviour = 'auto' | 'smooth';
 
 export interface ScrollContainerProps extends CommonProps {
   /**
-   * Инвертировать цвет скроллбара
+   * Инвертирует цвет скроллбара.
    * @default false
    */
   invert: boolean;
+  /**
+   * CSS-свойство `max-height`.
+   */
   maxHeight?: React.CSSProperties['maxHeight'];
+  /**
+   * CSS-свойство `max-width`.
+   */
   maxWidth?: React.CSSProperties['maxWidth'];
   /**
+   * Отключает прокрутку, когда
    * @default false
    */
   preventWindowScroll: boolean;
   /**
-   * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
+   * CSS-свойство `scroll-behavior`.
    * @default 'auto'
    */
   scrollBehaviour?: ScrollBehaviour;
+  /**
+   * Следит за текущим положением горизонтальной прокрутки.
+   *
+   * `scrollState` внутри функции может находиться в трёх состояниях: `"left"`, `"scroll"` и `"right"`.
+   */
   onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
+  /**
+   * Следит за текущим положением вертикальной прокрутки.
+   *
+   * `scrollState` внутри функции может находиться в трёх состояниях: `"top"`, `"scroll"` и `"bottom"`.
+   */
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
-  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
+  /**
+   * Алиас для `onScrollStateChangeY`.
+   */
+  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void;
+  /**
+   * @deprecated
+   * Используйте `onScrollStateChange` или `onScrollStateChangeY` вместо этого пропа.
+   */
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
+/**
+ * Контейнер, автоматически добавляющий прокрутку, если ширина/высота контента
+ * превышают заданную ширину/высоту контейнера.
+ */
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
@@ -113,8 +141,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   /**
+   * Публичный метод, позволяющий совершить прокрутку `ScrollContainer`
+   * **до HTML-элемента** переданного в качестве аргумента.
    * @public
-   * @param {HTMLElement} element
+   * @param {HTMLElement} element HTML-элемент.
    */
   public scrollTo(element: Nullable<HTMLElement>) {
     if (!element || !this.inner) {
@@ -126,6 +156,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   /**
+   * Публичный метод, позволяющий совершить прокрутку **до верха** `ScrollContainer`.
    * @public
    */
   public scrollToTop() {
@@ -136,6 +167,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   /**
+   * Публичный метод, позволяющий совершить прокрутку **до низа** `ScrollContainer`.
    * @public
    */
   public scrollToBottom() {
@@ -146,6 +178,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   /**
+   * Публичный метод, позволяющий совершить прокрутку до **левого края** `ScrollContainer`.
    * @public
    */
   public scrollToLeft() {
@@ -156,6 +189,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   /**
+   * Публичный метод, позволяющий совершить прокрутку до **правого края** `ScrollContainer`.
    * @public
    */
   public scrollToRight() {
