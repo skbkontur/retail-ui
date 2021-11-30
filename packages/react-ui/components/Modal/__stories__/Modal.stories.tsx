@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
@@ -7,6 +7,9 @@ import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ResponsiveLayout } from '../../ResponsiveLayout';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -774,3 +777,78 @@ export const ModalWithChildrenFromOtherComponent = () => (
 );
 
 ModalWithChildrenFromOtherComponent.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
+
+export const MobileModal = () => {
+  const [isOpen, setOpen] = useState(false);
+  const [showThirdButton, setShowThird] = useState(false);
+
+  const theme = useContext(ThemeContext);
+
+  const modal = (
+    <ThemeContext.Provider
+      value={ThemeFactory.create(
+        {
+          mobileMediaQuery: '(max-width: 576px)',
+        },
+        theme,
+      )}
+    >
+      <ResponsiveLayout>
+        {({ isMobile }) => {
+          return (
+            <Modal onClose={() => setOpen(false)}>
+              <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
+              <Modal.Body>
+                <p style={{ margin: 0 }}>
+                  {new Array(80).fill(
+                    'ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст',
+                    0,
+                    80,
+                  )}
+                </p>
+              </Modal.Body>
+              <Modal.Footer panel>
+                <Button
+                  use={'primary'}
+                  onClick={() => {
+                    setShowThird(true);
+                  }}
+                  style={{ paddingRight: !isMobile ? '25px' : '0px' }}
+                >
+                  Ок
+                </Button>
+                <Button
+                  use={'danger'}
+                  onClick={() => {
+                    setShowThird(false);
+                  }}
+                >
+                  Удалить
+                </Button>
+                {showThirdButton && (
+                  <Button style={isMobile ? { marginTop: '8px' } : { marginLeft: '100px' }}>Изменить</Button>
+                )}
+              </Modal.Footer>
+            </Modal>
+          );
+        }}
+      </ResponsiveLayout>
+    </ThemeContext.Provider>
+  );
+
+  const render = (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      {isOpen && modal}
+    </div>
+  );
+
+  return render;
+};
+MobileModal.storyName = 'Mobile modal';
+MobileModal.parameters = {
+  viewport: {
+    defaultViewport: 'iphonePlus',
+  },
+  creevey: { skip: [true] },
+};

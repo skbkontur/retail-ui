@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -23,6 +23,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
+  const [show, setShow] = useState(true);
 
   useEffect(() => {
     modal.setHasHeader?.();
@@ -30,14 +31,24 @@ function ModalHeader(props: ModalHeaderProps) {
     return () => modal.setHasHeader?.(false);
   }, []);
 
+  // при вкл/выкл мобильной верстки необходимо перерендерить sticky для сохранения правильной ширины
+  useEffect(() => {
+    setShow(false);
+    setTimeout(() => {
+      setShow(true);
+    }, 10);
+  }, [modal.isMobile]);
+
   const renderContent = (fixed = false) => {
     return (
       <div
         className={cx({
           [styles.header(theme)]: true,
+          [styles.mobileHeader(theme)]: modal.isMobile,
           [styles.headerAddPadding()]: Boolean(modal.additionalPadding),
           [styles.fixedHeader(theme)]: fixed,
           [styles.headerWithClose(theme)]: Boolean(modal.close),
+          [styles.mobileHeaderWithClose(theme)]: modal.isMobile,
         })}
       >
         {modal.close && <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />}
@@ -45,6 +56,10 @@ function ModalHeader(props: ModalHeaderProps) {
       </div>
     );
   };
+
+  if (!show) {
+    return null;
+  }
 
   return (
     <CommonWrapper {...props}>
