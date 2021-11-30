@@ -1,3 +1,5 @@
+import { isNonNullable } from '../utils';
+
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from './constants';
 import { InternalDate } from './InternalDate';
 import {
@@ -6,6 +8,25 @@ import {
   InternalDateComponentRaw,
   InternalDateComponents,
 } from './types';
+
+function isLeapYear(year: number | undefined) {
+  if (isNonNullable(year)) {
+    /**
+     * Leap years occur mostly every 4 years,
+     * but every 100 years we skip a leap year
+     * unless the year is divisible by 400.
+     */
+    const isLeapYear = year % 4 === 0;
+    const isNot100ishYear = year % 100 !== 0;
+    const is400ishYear = year % 400 === 0;
+
+    if ((isLeapYear && isNot100ishYear) || is400ishYear) {
+      return true;
+    }
+  }
+
+  return false;
+}
 
 export class InternalDateGetter {
   public static max = (datesCustom: InternalDate[]): InternalDate =>
@@ -16,8 +37,9 @@ export class InternalDateGetter {
 
   public static getMaxDaysInMonth(month: number, year?: number): number {
     if (month === 2) {
-      const isLeapYear = (year !== undefined && ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)) || false;
-      return isLeapYear ? 29 : 28;
+      const leapYear = isLeapYear(year);
+
+      return leapYear ? 29 : 28;
     }
     if (month <= 7) {
       month++;

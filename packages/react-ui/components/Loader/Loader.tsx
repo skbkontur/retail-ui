@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 
+import { isNonNullable } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
@@ -260,7 +261,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
             this.spinnerNode = element;
           }}
         >
-          {component !== undefined ? component : <Spinner type={type} caption={caption} />}
+          {isNonNullable(component) ? component : <Spinner type={type} caption={caption} />}
         </div>
       </span>
     );

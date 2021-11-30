@@ -1,3 +1,5 @@
+import { isNonNullable } from '../../../lib/utils';
+
 export const selectNodeContents = (node: HTMLElement | null, start?: number, end?: number) => {
   if (!node) {
     return;
@@ -6,7 +8,7 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
     try {
       const selection = window.getSelection();
       const range = window.document.createRange();
-      if (start !== undefined && end !== undefined) {
+      if (isNonNullable(start) && isNonNullable(end)) {
         range.setStart(node, start);
         range.setEnd(node, end);
       } else {

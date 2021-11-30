@@ -8,7 +8,7 @@ import { Gapped } from '../../components/Gapped';
 import { Theme } from '../../lib/theming/Theme';
 import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
-import { isFunction } from '../../lib/utils';
+import { isFunction, isNonNullable } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Playground.styles';
@@ -77,7 +77,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     if (this.subscription) {
       this.subscription.remove();
     }
-    if (this.debounceInterval !== undefined) {
+    if (isNonNullable(this.debounceInterval)) {
       clearInterval(this.debounceInterval);
     }
   }
