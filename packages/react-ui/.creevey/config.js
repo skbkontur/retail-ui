@@ -19,7 +19,7 @@ const capabilities = debug
 const resolverStorybookUrl = (port) => ({
   storybookUrl: `http://localhost:${port}`,
   resolveStorybookUrl:
-    !process.env.TEAMCITY_VERSION && (() => axios(process.env.GET_IP_URL).then((res) => `http://${res.data}:${port}`)),
+    process.env.GET_IP_URL && (() => axios(process.env.GET_IP_URL).then((res) => `http://${res.data}:${port}`)),
 });
 
 const config = {
