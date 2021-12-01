@@ -14,12 +14,10 @@ export function rootNode<T extends new (...args: any[]) => React.Component>(Comp
     }
 
     public setRootNode = (instance: Nullable<React.ReactInstance>) => {
-      const rootNode = getRootNode(instance);
-      if (rootNode === null) return;
-      this.rootNode = rootNode;
+      this.rootNode = getRootNode(instance);
     };
 
-    public getRootNode = () => {
+    public getRootNode = (): Nullable<HTMLElement> => {
       return this.rootNode;
     };
   };
