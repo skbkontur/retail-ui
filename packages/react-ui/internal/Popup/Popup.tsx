@@ -26,23 +26,21 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-export const PopupPositionsTop = ['top left', 'top center', 'top right'] as const;
-export const PopupPositionsRight = ['right top', 'right middle', 'right bottom'] as const;
-export const PopupPositionsBottom = ['bottom right', 'bottom center', 'bottom left'] as const;
-export const PopupPositionsLeft = ['left bottom', 'left middle', 'left top'] as const;
-
-// Use this variable instead of composing directions
-// if you either need to:
-// 1. Get all positions in clockwise order.
-// 2. Get all positions in no matter of order.
 export const PopupPositions = [
-  ...PopupPositionsTop,
-  ...PopupPositionsRight,
-  ...PopupPositionsBottom,
-  ...PopupPositionsLeft,
+  'top left',
+  'top center',
+  'top right',
+  'right top',
+  'right middle',
+  'right bottom',
+  'bottom right',
+  'bottom center',
+  'bottom left',
+  'left bottom',
+  'left middle',
+  'left top',
 ] as const;
-
-export const DefaultPosition = PopupPositionsTop[0];
+export const DefaultPosition = PopupPositions[0];
 
 export type PopupPositionsType = typeof PopupPositions[number];
 

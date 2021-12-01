@@ -8,7 +8,7 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { InternalMenu } from '../InternalMenu';
-import { Popup, PopupPositionsType, PopupPositions } from '../Popup';
+import { Popup, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -65,11 +65,26 @@ export const PopupMenuType = {
   Tooltip: 'tooltip',
 };
 
+const Positions: PopupPositionsType[] = [
+  'top left',
+  'top center',
+  'top right',
+  'right top',
+  'right middle',
+  'right bottom',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'left top',
+  'left middle',
+  'left bottom',
+];
+
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
   public static defaultProps = {
-    positions: PopupPositions,
+    positions: Positions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
     disableAnimations: false,
@@ -181,7 +196,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
       return this.props.positions;
     }
 
-    return PopupPositions;
+    return Positions;
   }
 
   private showMenu = (firstItemShouldBeSelected?: boolean): void => {

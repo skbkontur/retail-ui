@@ -3,14 +3,7 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import {
-  Popup,
-  PopupPositionsType,
-  PopupPositionsBottom,
-  PopupPositionsLeft,
-  PopupPositionsRight,
-  PopupPositionsTop,
-} from '../../internal/Popup';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -73,7 +66,20 @@ export interface HintState {
   opened: boolean;
 }
 
-const Positions = [...PopupPositionsTop, ...PopupPositionsBottom, ...PopupPositionsLeft, ...PopupPositionsRight];
+const Positions: PopupPositionsType[] = [
+  'top center',
+  'top left',
+  'top right',
+  'bottom center',
+  'bottom left',
+  'bottom right',
+  'left middle',
+  'left top',
+  'left bottom',
+  'right middle',
+  'right top',
+  'right bottom',
+];
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.

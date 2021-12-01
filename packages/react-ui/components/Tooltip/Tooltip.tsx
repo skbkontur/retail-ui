@@ -3,16 +3,7 @@ import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import {
-  DefaultPosition,
-  Popup,
-  PopupProps,
-  PopupPositionsType,
-  PopupPositionsRight,
-  PopupPositionsTop,
-  PopupPositionsLeft,
-  PopupPositionsBottom,
-} from '../../internal/Popup';
+import { DefaultPosition, Popup, PopupProps, PopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
@@ -153,7 +144,20 @@ export interface TooltipState {
   focused: boolean;
 }
 
-const Positions = [...PopupPositionsRight, ...PopupPositionsTop, ...PopupPositionsLeft, ...PopupPositionsBottom];
+const Positions: PopupPositionsType[] = [
+  'right bottom',
+  'right middle',
+  'right top',
+  'top right',
+  'top center',
+  'top left',
+  'left top',
+  'left middle',
+  'left bottom',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+];
 
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';

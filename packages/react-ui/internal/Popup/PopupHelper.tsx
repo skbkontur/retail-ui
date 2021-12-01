@@ -44,6 +44,7 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boole
   return _rectContainsRect(windowAbsoluteRect, absoluteRect);
 }
 
+// Can become fully visible by scrolling into viewport
 function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset) {
   const position = getPositionObject(positionName);
 
