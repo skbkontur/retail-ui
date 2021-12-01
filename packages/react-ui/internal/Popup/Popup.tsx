@@ -267,7 +267,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const childWithRef = child
       ? React.cloneElement(child as JSX.Element, {
-          ref: (instance: Nullable<React.ReactNode>) => {
+          ref: (instance: Nullable<React.ReactInstance>) => {
             this.childRef(instance);
             this.setRootNode(instance);
             const childAsAny = child as any;
@@ -281,11 +281,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return <RenderContainer anchor={childWithRef}>{location && this.renderContent(location)}</RenderContainer>;
   }
 
-  private childRef = (childInstance: Nullable<React.ReactNode>) => {
+  private childRef = (childInstance: Nullable<React.ReactInstance>) => {
     childInstance && this.updateAnchorElement(childInstance);
   };
 
-  private updateAnchorElement(childInstance: Nullable<React.ReactNode>) {
+  private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
     const childDomNode = getRootNode(childInstance);
     const anchorElement = this.anchorElement;
 
