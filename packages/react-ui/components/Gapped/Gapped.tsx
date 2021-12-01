@@ -1,10 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
+import { withClassWrapper } from '../../lib/withClassWrapper';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+
+import { VerticalGapped } from './VerticalGapped';
+import { HorizontalGapped } from './HorizontalGapped';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -27,109 +28,36 @@ export interface GappedProps extends CommonProps {
    * @default false
    */
   wrap: boolean;
+  /**
+   * @ignore
+   */
   children: React.ReactNode;
 }
+
+const GappedFC = forwardRefAndName<HTMLDivElement, GappedProps>('GappedFC', (props, ref) => {
+  const { instanceRef, verticalAlign = 'baseline', ...rest } = props;
+
+  const content = () => {
+    if (props.vertical) {
+      return (
+        <VerticalGapped ref={ref} gap={rest.gap}>
+          {rest.children}
+        </VerticalGapped>
+      );
+    }
+
+    return (
+      <HorizontalGapped ref={ref} verticalAlign={verticalAlign} wrap={rest.wrap} gap={rest.gap}>
+        {rest.children}
+      </HorizontalGapped>
+    );
+  };
+
+  return <CommonWrapper {...rest}>{content()}</CommonWrapper>;
+});
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
-export class Gapped extends React.Component<GappedProps> {
-  public static __KONTUR_REACT_UI__ = 'Gapped';
-
-  public static propTypes = {
-    /**
-     * Расстояние между элементами.
-     */
-    gap: PropTypes.number,
-
-    /**
-     * Располагать элементы вертикально.
-     */
-    vertical: PropTypes.bool,
-
-    /**
-     * Вертикальное выравнивание элементов.
-     */
-    verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
-  };
-
-  private theme!: Theme;
-
-  public static defaultProps = {
-    wrap: false,
-    vertical: false,
-    verticalAlign: 'baseline',
-  };
-
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <CommonWrapper {...this.props}>
-              {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private getGapValue() {
-    // DEPRECATED remove in 4.0
-    const { gap: propsGap } = this.props;
-    if (propsGap !== undefined && propsGap !== null) {
-      return propsGap;
-    } else {
-      const gap = is8pxTheme(this.theme) ? 8 : 10;
-      return gap;
-    }
-  }
-
-  private renderVertical() {
-    const subsequentItemStyle: React.CSSProperties = {
-      paddingTop: this.getGapValue(),
-    };
-    let isFirst = true;
-    const children = React.Children.map(this.props.children, (child) => {
-      if (!child) {
-        return child;
-      }
-      const style = isFirst ? undefined : subsequentItemStyle;
-
-      isFirst = false;
-
-      return <div style={style}>{child}</div>;
-    });
-
-    return <div>{children}</div>;
-  }
-
-  private renderHorizontal() {
-    const { children, verticalAlign, wrap } = this.props;
-    const gap = this.getGapValue();
-    const itemStyle: React.CSSProperties = {
-      display: 'inline-block',
-      verticalAlign,
-      ...(wrap ? { marginLeft: gap, marginTop: gap } : {}),
-    };
-    const rootStyle: React.CSSProperties = wrap ? { paddingTop: 1 } : {};
-    const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
-
-    return (
-      <div style={rootStyle}>
-        <div style={contStyle}>
-          {React.Children.toArray(children).map((child, index) => {
-            const marginLeft = index === 0 ? undefined : gap;
-            return (
-              <span key={index} style={{ marginLeft, ...itemStyle }}>
-                {child}
-              </span>
-            );
-          })}
-        </div>
-      </div>
-    );
-  }
-}
+export const Gapped = withClassWrapper(GappedFC);
+export type Gapped = InstanceType<typeof Gapped>;
