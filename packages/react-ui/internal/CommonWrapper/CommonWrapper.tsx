@@ -18,6 +18,9 @@ export interface CommonProps {
    * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
    */
   'data-tid'?: string;
+}
+
+interface CommonPropsRootNodeRef {
   rootNodeRef?: (instance: Nullable<HTMLElement>) => void;
 }
 
@@ -28,11 +31,12 @@ export type CommonWrapperProps<P> = P & {
 };
 export type CommonWrapperRestProps<P> = Omit<NotCommonProps<P>, 'children'>;
 
-export class CommonWrapper<P extends CommonProps> extends React.Component<CommonWrapperProps<P>> {
+export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> extends React.Component<
+  CommonWrapperProps<P> & CommonPropsRootNodeRef
+> {
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     const child = isFunction(children) ? children(rest) : children;
-
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(child)
       ? React.cloneElement(child, {
           ref: (instance: any) => {
@@ -58,8 +62,10 @@ export class CommonWrapper<P extends CommonProps> extends React.Component<Common
   }
 }
 
-const extractCommonProps = <P extends CommonProps>(props: P): [CommonProps, NotCommonProps<P>] => {
-  const common = {} as CommonProps;
+const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
+  props: P,
+): [CommonProps & CommonPropsRootNodeRef, NotCommonProps<P>] => {
+  const common = {} as CommonProps & CommonPropsRootNodeRef;
   const rest = {} as NotCommonProps<P>;
 
   for (const key in props) {

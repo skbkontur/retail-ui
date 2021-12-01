@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
+import warning from 'warning';
 
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -502,6 +503,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
     const { positions, tryPreserveFirstRenderedPosition } = this.props;
     const anchorElement = this.anchorElement;
+
+    warning(
+      anchorElement && isHTMLElement(anchorElement),
+      'Anchor element is not defined or not instance of HTMLElement',
+    );
 
     if (!(anchorElement && isHTMLElement(anchorElement))) {
       return location;

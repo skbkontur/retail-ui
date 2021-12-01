@@ -4,7 +4,7 @@ import React from 'react';
 import { Nullable } from '../../typings/utility-types';
 import { isHTMLElement } from '../SSRSafe';
 
-export const getRootNode = (instance: Nullable<React.ReactInstance>) => {
+export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
   if (isHTMLElement(instance)) {
     return instance;
   }
