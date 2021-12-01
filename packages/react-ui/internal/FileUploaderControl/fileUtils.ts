@@ -40,16 +40,10 @@ export const readFiles = (files: File[]): Promise<Array<FileUploaderAttachedFile
 export const getUploadFile = (file: File, fileInBase64: FileUploaderFileInBase64): FileUploaderAttachedFile => {
   return {
     id: getGuid(),
-    originalFile: getFileWithEscapedName(file),
+    originalFile: file,
     status: FileUploaderFileStatus.Attached,
     validationResult: FileUploaderFileValidationResult.ok(),
     fileInBase64: fileInBase64,
   };
 };
 
-const escapeRegExpFileNameSpecChars = (s: string): string => s.replace(/[\\^$*+?()|[\]{}<>:]/g, '\\$&');
-
-const getFileWithEscapedName = (file: File): File => {
-  const { name } = file;
-  return { ...file, name: escapeRegExpFileNameSpecChars(name || '') };
-};
