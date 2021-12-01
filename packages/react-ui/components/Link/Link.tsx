@@ -9,6 +9,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { DefaultTheme } from '../../internal/themes/DefaultTheme';
 import { Spinner } from '../Spinner';
+import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Link.styles';
 import { generateRel } from './utils';
@@ -69,20 +70,26 @@ const renderIconElement = (
   props: LinkProps,
   theme: Readonly<typeof DefaultTheme>,
 ): React.ReactNode => {
-  return condition && <span className={styles.icon(theme)}>{renderSpinner(!!props.loading, props.icon)}</span>;
+  if (condition) {
+    return <span className={styles.icon(theme)}>{renderSpinner(!!props.loading, props.icon)}</span>;
+  }
+  return null;
 };
 
 const renderArrow = (condition: boolean): React.ReactNode => {
-  return condition && <span className={styles.arrow()} />;
+  if (condition) {
+    return <span className={styles.arrow()} />;
+  }
+  return null;
 };
 
 const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>('LinkFC', (props, ref) => {
-  const { disabled = false, href = '', use = 'default', ...rest } = props;
+  const { disabled = false, href = '', use = 'default', instanceRef, ...rest } = props;
 
   const theme = useContext(ThemeContext);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
-  const focused = !disabled && focusedByTab;
+  const isFocused = !disabled && focusedByTab;
 
   const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     if (!href) {
@@ -126,8 +133,8 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<Link
           [styles.useSuccess(theme)]: use === 'success',
           [styles.useDanger(theme)]: use === 'danger',
           [styles.useGrayed(theme)]: use === 'grayed',
-          [styles.useGrayedFocus(theme)]: use === 'grayed' && focused,
-          [styles.focus(theme)]: focused,
+          [styles.useGrayedFocus(theme)]: use === 'grayed' && isFocused,
+          [styles.focus(theme)]: isFocused,
           [styles.disabled(theme)]: !!disabled || !!props.loading,
         })}
       >
@@ -154,12 +161,5 @@ LinkFC.propTypes = {
 /**
  * Элемент ссылки из HTML.
  */
-export class Link extends React.Component<LinkProps> {
-  public static __KONTUR_REACT_UI__ = 'Link';
-
-  public static FC = LinkFC;
-
-  render() {
-    return <Link.FC {...this.props} />;
-  }
-}
+export const Link = withClassWrapper(LinkFC);
+export type Link = InstanceType<typeof Link>;
