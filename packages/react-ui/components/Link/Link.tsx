@@ -115,7 +115,7 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<Link
   };
 
   return (
-    <CommonWrapper {...props}>
+    <CommonWrapper {...rest}>
       <a
         {...rest}
         ref={ref}
