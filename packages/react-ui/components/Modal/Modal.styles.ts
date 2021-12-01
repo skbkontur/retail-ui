@@ -292,6 +292,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileFixedHeader(t: Theme) {
+    return css`
+      padding-bottom: ${t.mobileModalHeaderPadding};
+    `;
+  },
+
   fixedFooter(t: Theme) {
     return css`
       padding-top: 20px;

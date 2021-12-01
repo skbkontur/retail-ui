@@ -147,7 +147,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     if (!this.wrapper || !this.inner) {
       return;
     }
-    const { top, bottom, left } = this.wrapper.getBoundingClientRect();
+    const { top, bottom, left, width: wrapperWidth, height: wrapperHeight } = this.wrapper.getBoundingClientRect();
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
@@ -157,6 +157,10 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     if (fixed && !prevFixed) {
       this.setState({ width, height });
+    }
+
+    if (wrapperWidth !== width || height !== wrapperHeight) {
+      this.setState({ width: wrapperWidth, height: wrapperHeight });
     }
 
     if (fixed) {

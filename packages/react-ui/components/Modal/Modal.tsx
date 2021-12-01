@@ -209,23 +209,25 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <ResponsiveLayout>
-          {({ isMobile }) => {
-            modalContextProps.isMobile = isMobile;
+        <RenderContainer>
+          <ZIndex priority={'Modal'} className={styles.root()}>
+            <HideBodyVerticalScroll />
+            {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
+            <div
+              ref={this.refContainer}
+              className={styles.container()}
+              onMouseDown={this.handleContainerMouseDown}
+              onMouseUp={this.handleContainerMouseUp}
+              onClick={this.handleContainerClick}
+              data-tid="modal-container"
+            >
+              <ResponsiveLayout>
+                {({ isMobile }) => {
+                  if (isMobile !== modalContextProps.isMobile) {
+                    modalContextProps.isMobile = isMobile;
+                  }
 
-            return (
-              <RenderContainer>
-                <ZIndex priority={'Modal'} className={styles.root()}>
-                  <HideBodyVerticalScroll />
-                  {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
-                  <div
-                    ref={this.refContainer}
-                    className={styles.container()}
-                    onMouseDown={this.handleContainerMouseDown}
-                    onMouseUp={this.handleContainerMouseUp}
-                    onClick={this.handleContainerClick}
-                    data-tid="modal-container"
-                  >
+                  return (
                     <div
                       className={cx({
                         [styles.centerContainer(this.theme)]: true,
@@ -250,12 +252,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         </ResizeDetector>
                       </div>
                     </div>
-                  </div>
-                </ZIndex>
-              </RenderContainer>
-            );
-          }}
-        </ResponsiveLayout>
+                  );
+                }}
+              </ResponsiveLayout>
+            </div>
+          </ZIndex>
+        </RenderContainer>
       </CommonWrapper>
     );
   }

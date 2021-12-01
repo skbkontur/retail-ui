@@ -32,8 +32,7 @@ function ModalFooter(props: ModalFooterProps) {
   const { sticky = true, panel, children } = props;
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
-  const [isManyButtonsInChild, setIsManyButtonsInChild] = useState(false);
-  const [show, setShow] = useState(true);
+  const [isManyElementsInChild, setIsManyElementsInChild] = useState(false);
 
   useEffect(() => {
     modal.setHasFooter?.();
@@ -49,14 +48,6 @@ function ModalFooter(props: ModalFooterProps) {
     checkManyElements();
   }, [children]);
 
-  // при вкл/выкл мобильной верстки необходимо перерендерить sticky для сохранения правильной ширины
-  useEffect(() => {
-    setShow(false);
-    setTimeout(() => {
-      setShow(true);
-    }, 10);
-  }, [modal.isMobile]);
-
   const checkManyElements = () => {
     if (modal.isMobile && React.Children.count(children) > ALLOWED_MOBILE_FOOTER_BUTTTONS) {
       let elements = 0;
@@ -65,7 +56,7 @@ function ModalFooter(props: ModalFooterProps) {
           elements++;
         }
       });
-      setIsManyButtonsInChild(elements > ALLOWED_MOBILE_FOOTER_BUTTTONS);
+      setIsManyElementsInChild(elements > ALLOWED_MOBILE_FOOTER_BUTTTONS);
     }
   };
 
@@ -87,7 +78,7 @@ function ModalFooter(props: ModalFooterProps) {
                     return cloneElement(child, { width: '100%', size: 'large' });
                   }
 
-                  return <div style={{ width: '100%', height: '48px' }}>{child}</div>;
+                  return <div style={{ width: '100%' }}>{child}</div>;
                 }
               })}
           </Gapped>
@@ -97,14 +88,10 @@ function ModalFooter(props: ModalFooterProps) {
     );
   };
 
-  if (!show) {
-    return null;
-  }
-
   return (
     <CommonWrapper {...props}>
       <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
-        {(sticky && !modal.isMobile) || !isManyButtonsInChild ? (
+        {(sticky && !modal.isMobile) || (sticky && modal.isMobile && !isManyElementsInChild) ? (
           <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}
           </Sticky>
