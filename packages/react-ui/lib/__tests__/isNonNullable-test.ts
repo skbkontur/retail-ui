@@ -28,7 +28,7 @@ describe('isNonNullable', () => {
       expect(isNonNullable('')).toBe(true);
     });
 
-    it('NaN string returns true', () => {
+    it('NaN returns true', () => {
       expect(isNonNullable(NaN)).toBe(true);
     });
   });
