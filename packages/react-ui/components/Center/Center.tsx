@@ -5,6 +5,7 @@ import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Center.styles';
 
@@ -24,27 +25,26 @@ export interface CenterProps
       }
     > {}
 
-const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
-  'CenterFuture',
-  (props, ref) => {
-    return (
-      <CommonWrapper {...props}>
-        <div
-          {...props}
-          ref={ref}
-          className={cx({
-            [styles.root()]: true,
-            [styles.rootAlignLeft()]: props.align === 'left',
-            [styles.rootAlignRight()]: props.align === 'right',
-          })}
-        >
-          <span className={styles.spring()} />
-          <span className={styles.container()}>{props.children}</span>
-        </div>
-      </CommonWrapper>
-    );
-  },
-);
+const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>('CenterFC', (props, ref) => {
+  const { instanceRef, ...rest } = props;
+
+  return (
+    <CommonWrapper {...props}>
+      <div
+        ref={ref}
+        className={cx({
+          [styles.root()]: true,
+          [styles.rootAlignLeft()]: props.align === 'left',
+          [styles.rootAlignRight()]: props.align === 'right',
+        })}
+        {...rest}
+      >
+        <span className={styles.spring()} />
+        <span className={styles.container()}>{props.children}</span>
+      </div>
+    </CommonWrapper>
+  );
+});
 
 CenterFC.propTypes = {
   align: oneOf(['left', 'center', 'right']),
@@ -53,12 +53,5 @@ CenterFC.propTypes = {
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
-export class Center extends React.Component<React.PropsWithChildren<CenterProps>> {
-  public static __KONTUR_REACT_UI__ = 'Center';
-
-  public static FC = CenterFC;
-
-  render() {
-    return <Center.FC {...this.props} />;
-  }
-}
+export const Center = withClassWrapper(CenterFC);
+export type Center = InstanceType<typeof Center>;
