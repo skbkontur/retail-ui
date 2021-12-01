@@ -65,7 +65,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private attachListeners() {
-    this.focusOutsideListenerToken = listenFocusOutside(() => [getRootNode(this)], this.handleFocusOutside);
+    const rootNode = getRootNode(this);
+    if (!rootNode) return;
+    this.focusOutsideListenerToken = listenFocusOutside(() => [rootNode], this.handleFocusOutside);
     window.addEventListener('blur', this.handleFocusOutside);
     document.addEventListener(
       'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
@@ -96,7 +98,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     const target = event.target || event.srcElement;
     const node = getRootNode(this);
 
-    if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+    if (!node || (target instanceof Element && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 
