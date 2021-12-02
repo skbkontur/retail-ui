@@ -162,6 +162,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
+      labelProps.className = cx(styles.root(this.theme), checked && styles.rootChecked(this.theme));
       radioProps.className = cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
