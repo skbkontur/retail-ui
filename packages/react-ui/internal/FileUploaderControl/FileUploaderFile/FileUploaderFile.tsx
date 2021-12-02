@@ -14,16 +14,27 @@ import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 
 import { jsStyles } from './FileUploaderFile.styles';
+import { Nullable } from '../../../typings/utility-types';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
 }
 
-interface FileUploaderFileState {
-  fileNameWidth: number;
-  fileNameElementWidth: number;
-}
+const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
+  if (!fileNameWidth && !fileNameElementWidth) {
+    return null;
+  }
+
+  if (fileNameWidth <= fileNameElementWidth) {
+    return name;
+  }
+
+  const charWidth = Math.ceil(fileNameWidth / name.length);
+  const maxCharsCountInSpan = Math.ceil(fileNameElementWidth / charWidth);
+
+  return truncate(name, maxCharsCountInSpan);
+};
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const { file, showSize } = props;
@@ -32,10 +43,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   const [hovered, setHovered] = useState<boolean>(false);
   const [focusedByTab, setFocusedByTab] = useState(false);
-  const [state, setState] = useState<FileUploaderFileState>({
-    fileNameWidth: 0,
-    fileNameElementWidth: 0,
-  });
+  const [truncatedFileName, setTruncatedFileName] = useState<Nullable<string>>(null);
 
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
@@ -43,33 +51,16 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const { removeFile } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
-  const { fileNameWidth, fileNameElementWidth } = state;
-
   const formattedSize = useMemo(() => formatBytes(size, 1), [size]);
 
+  // важно запустить после рендера, чтобы успели проставиться рефы
   useEffect(() => {
-    if (fileNameElementRef.current && textHelperRef.current) {
-      setState({
-        fileNameWidth: textHelperRef.current?.getTextWidth(),
-        fileNameElementWidth: fileNameElementRef.current?.getBoundingClientRect().width,
-      });
-    }
-  }, [fileNameElementRef.current, textHelperRef.current]);
+    const fileNameWidth = textHelperRef.current?.getTextWidth() || 0;
+    const fileNameElementWidth = fileNameElementRef.current?.getBoundingClientRect().width || 0;
+    const truncatedName = getTruncatedName(fileNameWidth, fileNameElementWidth, name);
 
-  const truncatedFileName = useMemo(() => {
-    if (!fileNameWidth && !fileNameElementWidth) {
-      return null;
-    }
-
-    if (fileNameWidth <= fileNameElementWidth) {
-      return name;
-    }
-
-    const charWidth = Math.ceil(fileNameWidth / name.length);
-    const maxCharsCountInSpan = Math.ceil(fileNameElementWidth / charWidth);
-
-    return truncate(name, maxCharsCountInSpan);
-  }, [name, fileNameElementWidth, fileNameWidth]);
+    setTruncatedFileName(truncatedName);
+  }, [name]);
 
   const removeUploadFile = useCallback(() => {
     removeFile(id);
