@@ -19,6 +19,26 @@ function intersection<Object1 extends ObjectProperty, Object2 extends ObjectProp
 }
 
 /**
+ * Merges props using spread operator or function if one is provided.
+ *
+ * @param mergeFunc A function for merging props. If provided replaces merging using spread operator.
+ */
+const mergeWith = (
+  accumulator: ObjectProperty,
+  incoming: ObjectProperty,
+  existing: ObjectProperty,
+  key: string,
+  mergeFunc?: (incoming: ObjectProperty, existing: ObjectProperty) => any,
+) => {
+  const mergeResult = mergeFunc ? mergeFunc(incoming[key], existing[key]) : { ...incoming[key], ...existing[key] };
+
+  return {
+    ...accumulator,
+    [key]: mergeResult,
+  };
+};
+
+/**
  * Recursively merges props from two separate objects into a single object.
  *
  * @param incoming An object containing props that will be merged into the object.
@@ -32,19 +52,10 @@ export function mergeProps<TIncoming extends ObjectProperty, TExisting extends O
   const intersectingKeys = intersection(incoming, existing);
   const mergedProps = intersectingKeys.reduce<ObjectProperty>((accumulator, key) => {
     if (key === 'className') {
-      return {
-        ...accumulator,
-        [key]: cx(incoming[key], existing[key]),
-      };
+      return mergeWith(accumulator, incoming, existing, key, cx);
     }
 
-    return {
-      ...accumulator,
-      [key]: {
-        ...incoming[key],
-        ...existing[key],
-      },
-    };
+    return mergeWith(accumulator, incoming, existing, key);
   }, {});
 
   const otherProps = extractFromObject({ ...incoming, ...existing }, ([key]) => {
