@@ -307,6 +307,7 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
             checkboxPaddingY: '9px',
             checkboxFontSize: '16px',
             checkboxLineHeight: '22px',
+            checkboxMarginY: '1px',
 
             radioSize: '20px',
             radioBulletSize: '10px',
@@ -314,6 +315,7 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
             radioPaddingY: '9px',
             radioFontSize: '16px',
             radioLineHeight: '22px',
+            radioMarginY: '1px',
 
             menuItemFontSize: '16px',
             menuItemLineHeight: '22px',
@@ -500,6 +502,7 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
             checkboxPaddingY: '11px',
             checkboxFontSize: '18px',
             checkboxLineHeight: '24px',
+            checkboxMarginY: '1px',
 
             radioSize: '22px',
             radioBulletSize: '12px',
@@ -507,6 +510,7 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
             radioPaddingY: '11px',
             radioFontSize: '18px',
             radioLineHeight: '24px',
+            radioMarginY: '1px',
 
             menuItemFontSize: '18px',
             menuItemLineHeight: '24px',

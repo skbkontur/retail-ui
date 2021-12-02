@@ -211,7 +211,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
     return `${(controlHeight - lineHeight) / 2}px`;
   }
-  public static checkboxBorderRadius = '1px';
+  public static checkboxBorderRadius = '2px';
   public static get checkboxBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -219,10 +219,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
     return this.controlOutlineWidth;
   }
   public static checkboxBorder = 'none';
-  public static get checkboxBorderWidthCompensation() {
-    return this.checkboxBorderWidth;
-  }
-
   //#endregion
   //#region Tab
   public static tabPaddingX = '12px';

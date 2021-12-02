@@ -1072,7 +1072,6 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Checkbox
-  public static checkboxBorderWidthCompensation = '0px';
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
@@ -1082,6 +1081,7 @@ export class DefaultTheme {
   public static checkboxBoxSize = '16px';
   public static checkboxLabelGap = '10px';
   public static checkboxPaddingY = '0';
+  public static checkboxMarginY = '2px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
@@ -1116,7 +1116,7 @@ export class DefaultTheme {
   public static get checkboxCheckedHoverShadow() {
     return this.checkboxShadow;
   }
-  public static checkboxBorderRadius = '1px';
+  public static checkboxBorderRadius = '2px';
   public static checkboxOutlineWidth = '2px';
   public static get checkboxCheckedShadow() {
     return this.checkboxShadow;

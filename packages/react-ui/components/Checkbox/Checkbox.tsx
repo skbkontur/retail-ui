@@ -193,8 +193,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     const iconClass = cx({
+      [styles.icon()]: true,
       [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (

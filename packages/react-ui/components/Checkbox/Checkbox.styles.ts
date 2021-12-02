@@ -8,8 +8,7 @@ export const globalClasses = prefix('checkbox')({
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      display: inline-flex;
-      align-items: baseline;
+      display: inline-block;
       cursor: pointer;
       position: relative;
       line-height: ${t.checkboxLineHeight};
@@ -18,11 +17,11 @@ export const styles = memoizeStyle({
 
       &:hover .${globalClasses.box} {
         background: ${t.checkboxHoverBg};
-        box-shadow: ${t.checkboxShadowHover};
+        box-shadow: inset ${t.checkboxShadowHover};
       }
 
       &:active .${globalClasses.box} {
-        box-shadow: ${t.checkboxShadowActive};
+        box-shadow: inset ${t.checkboxShadowActive};
         background: ${t.checkboxActiveBg};
       }
     `;
@@ -31,13 +30,13 @@ export const styles = memoizeStyle({
   rootChecked(t: Theme) {
     return css`
       &:hover .${globalClasses.box} {
-        box-shadow: ${t.checkboxCheckedHoverShadow};
+        box-shadow: inset ${t.checkboxCheckedHoverShadow};
         background: ${t.checkboxCheckedHoverBg};
       }
 
       &:active .${globalClasses.box} {
         background: ${t.checkboxCheckedActiveBg};
-        box-shadow: ${t.checkboxCheckedActiveShadow};
+        box-shadow: inset ${t.checkboxCheckedActiveShadow};
       }
     `;
   },
@@ -60,23 +59,22 @@ export const styles = memoizeStyle({
   },
 
   box(t: Theme) {
-    const boxSize = `calc(${t.checkboxBoxSize} - 2 * ${t.checkboxBorderWidthCompensation})`;
     return css`
-      display: inline-flex;
-      align-items: center;
+      display: inline-block;
+      vertical-align: top;
+      position: relative;
       justify-content: center;
       box-sizing: border-box;
-      width: ${boxSize};
-      height: ${boxSize};
+      width: ${t.checkboxBoxSize};
+      height: ${t.checkboxBoxSize};
       flex: none;
       font-size: ${t.checkboxFontSize};
       color: ${t.checkboxTextColorDefault};
       border: ${t.checkboxBorder};
       border-radius: ${t.checkboxBorderRadius};
-      box-shadow: ${t.checkboxShadow};
+      box-shadow: inset ${t.checkboxShadow};
       background: ${t.checkboxBg};
-      align-self: baseline;
-      margin: ${t.checkboxBorderWidthCompensation};
+      margin: ${t.checkboxMarginY} 0;
     `;
   },
 
@@ -109,7 +107,7 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.checkboxCheckedBg};
       color: ${t.checkboxCheckedColor};
-      box-shadow: ${t.checkboxCheckedShadow};
+      box-shadow: inset ${t.checkboxCheckedShadow};
     `;
   },
 
@@ -122,7 +120,7 @@ export const styles = memoizeStyle({
 
   boxDisabled(t: Theme) {
     return css`
-      box-shadow: ${t.checkboxShadowDisabled} !important; // override hover and active
+      box-shadow: inset ${t.checkboxShadowDisabled} !important; // override hover and active
       background: ${t.checkboxBgDisabled} !important; // override hover and active
       color: ${t.checkboxTextColorDisabled};
     `;
@@ -135,9 +133,20 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconFixBaseline() {
+  icon() {
     return css`
-      margin-top: -2px;
+      position: absolute;
+      top: 0px;
+      bottom: 0px;
+      right: 0px;
+      left: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      svg {
+        margin: -12.5% 0 0 0;
+      }
     `;
   },
 
