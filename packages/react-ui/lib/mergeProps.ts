@@ -51,10 +51,13 @@ export function mergeProps<TIncoming extends ObjectProperty, TExisting extends O
 ): TIncoming & TExisting {
   const intersectingKeys = intersection(incoming, existing);
 
+  // If there's no intersecting keys
+  // we simply merge incoming and existing props.
   if (intersectingKeys.length === 0) {
     return { ...incoming, ...existing };
   }
 
+  // Else we recursively merge props with intersecting keys together.
   const mergedProps = intersectingKeys.reduce<ObjectProperty>((accumulator, key) => {
     if (key === 'className') {
       return mergeWith(accumulator, incoming, existing, key, cx);
