@@ -1,6 +1,5 @@
+import { DefaultThemeInternal } from '../../../internal/themes/DefaultTheme';
 import { ThemeFactory } from '../ThemeFactory';
-import { NotFlatThemeInternal } from '../../../internal/themes/NotFlat';
-import { OldColorsThemeInternal } from '../../../internal/themes/OldColors';
-import { markAs8pxTheme } from '../ThemeHelpers';
+import { markAs8pxTheme, markAsFlatTheme } from '../ThemeHelpers';
 
-export const DEFAULT_THEME = ThemeFactory.create(NotFlatThemeInternal, markAs8pxTheme(OldColorsThemeInternal));
+export const DEFAULT_THEME = ThemeFactory.create({}, markAs8pxTheme(markAsFlatTheme(DefaultThemeInternal)));

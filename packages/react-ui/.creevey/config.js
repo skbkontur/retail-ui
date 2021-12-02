@@ -41,7 +41,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
+        theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/chrome8px',
       ...capabilities,
@@ -51,7 +51,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'FLAT_THEME',
+        theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/chromeFlat8px',
       ...capabilities,
@@ -61,7 +61,7 @@ const config = {
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'NEW_THEME',
+        theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/chrome',
       ...capabilities,
@@ -70,7 +70,7 @@ const config = {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
+        theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefox8px',
       ...capabilities,
@@ -79,7 +79,7 @@ const config = {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME',
+        theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefoxFlat8px',
       ...capabilities,
@@ -88,7 +88,7 @@ const config = {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'NEW_THEME',
+        theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/firefox',
       ...capabilities,
@@ -106,7 +106,7 @@ const config = {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
+        theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/ie118px',
       ...capabilities,
@@ -115,7 +115,7 @@ const config = {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME',
+        theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/ie11Flat8px',
       ...capabilities,
@@ -124,7 +124,7 @@ const config = {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'NEW_THEME',
+        theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/ie11',
       ...capabilities,

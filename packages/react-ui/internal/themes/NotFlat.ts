@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { NewDefaultThemeInternal } from './NewDefaultTheme';
+import { DefaultThemeInternal } from './DefaultTheme';
 
-export class NotFlatTheme extends (class {} as typeof NewDefaultThemeInternal) {
+export class NotFlatTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Button
   public static btnArrowBgImageActive =
     'linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, transparent 15%), linear-gradient(-95deg, rgba(0,0,0,0.1) 0%, transparent 4%)';
