@@ -8,7 +8,6 @@ export const styles = memoizeStyle({
     return css`
       height: 100%;
       position: fixed;
-      right: 0;
       top: 0;
     `;
   },
@@ -168,13 +167,6 @@ export const styles = memoizeStyle({
   shadow(t: Theme) {
     return css`
       box-shadow: ${t.sidePageContainerShadow};
-    `;
-  },
-
-  leftSide() {
-    return css`
-      left: 0;
-      right: auto;
     `;
   },
 
