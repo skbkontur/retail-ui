@@ -90,6 +90,7 @@ export const FileUploaderRefFocusAndBlur = () => {
       <FileUploader multiple ref={ref} />
       <Button onClick={() => ref.current?.focus()}>Focus</Button>
       <Button onClick={() => ref.current?.blur()}>Blur</Button>
+      <Button onClick={() => ref.current?.reset()}>Reset</Button>
     </Gapped>
   );
 };

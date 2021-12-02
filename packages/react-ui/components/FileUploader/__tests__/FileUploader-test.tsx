@@ -1,11 +1,11 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
+import React, { RefAttributes } from 'react';
 import { act } from 'react-dom/test-utils';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
-import { FileUploader, FileUploaderProps } from '../FileUploader';
+import { FileUploader, FileUploaderProps, FileUploaderRef } from '../FileUploader';
 import { delay } from '../../../lib/utils';
 import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
@@ -25,7 +25,7 @@ const getBaseButtonText = (wrapper: ReactWrapper): string => {
   return wrapper.find(`[data-tid='FileUploader__link']`).text();
 };
 
-const addFiles = async (component: ReactWrapper, files: File[]) => {
+const addFiles = async (component: ReactWrapper<typeof FileUploader>, files: File[]) => {
   await act(async () => {
     component.find('input').simulate('change', { target: { files } });
     // ждем отрисовки файлов
@@ -34,7 +34,7 @@ const addFiles = async (component: ReactWrapper, files: File[]) => {
   });
 };
 
-const removeFile = async (component: ReactWrapper) => {
+const removeFile = async (component: ReactWrapper<typeof FileUploader>) => {
   await act(async () => {
     component.find(`[data-tid='FileUploader__fileIcon']`).simulate('click');
   });
@@ -90,7 +90,7 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const render = (props: FileUploaderProps = {}) => mount(<FileUploader {...props} />);
+    const render = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) => mount<typeof FileUploader>(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {
@@ -245,13 +245,30 @@ describe('FileUploader', () => {
 
         expect(onValueChange).toHaveBeenCalledTimes(2);
       });
+
+      it('should handle onValueChange after reset', async () => {
+        const onValueChange = jest.fn();
+        const ref = React.createRef<FileUploaderRef>()
+        const component = render({ onValueChange, ref });
+
+        await addFiles(component, [file]);
+
+        expect(onValueChange).toHaveBeenCalledTimes(1);
+        expect(onValueChange).toHaveBeenCalledWith([readFile]);
+
+
+        ref.current?.reset();
+
+        expect(onValueChange).toHaveBeenCalledTimes(2);
+        expect(onValueChange).toHaveBeenCalledWith([]);
+      });
     });
 
     describe('request, onRequestSuccess, onRequestError', () => {
       let request: (file: FileUploaderAttachedFile) => Promise<void>;
       let onRequestSuccess: () => void;
       let onRequestError: () => void;
-      let component: ReactWrapper;
+      let component: ReactWrapper<typeof FileUploader>;
 
       beforeEach(() => {
         request = jest.fn(() => Promise.resolve());

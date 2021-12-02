@@ -8,6 +8,7 @@ export interface FileUploaderControlContextProps {
   files: FileUploaderAttachedFile[];
   setFiles: (files: FileUploaderAttachedFile[]) => void;
   removeFile: (fileId: string) => void;
+  reset: () => void;
 
   setFileValidationResult: (fileId: string, validationResult: FileUploaderFileValidationResult) => void;
 }

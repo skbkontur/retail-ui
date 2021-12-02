@@ -94,6 +94,14 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
     });
   }, [onValueChange]);
 
+  const reset = React.useCallback(() => {
+    setFiles(() => {
+      const newFiles = [] as FileUploaderAttachedFile[];
+      onValueChange?.(newFiles);
+      return newFiles;
+    });
+  }, [onValueChange]);
+
   return (
     <FileUploaderControlContext.Provider
       value={useMemoObject({
@@ -102,6 +110,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
         setFiles: handleExternalSetFiles,
         removeFile,
         setFileValidationResult,
+        reset
       })}
     >
       {children}

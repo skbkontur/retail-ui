@@ -46,6 +46,8 @@ interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes
 export interface FileUploaderRef {
   focus: () => void;
   blur: () => void;
+  /** Сбрасывает выбранные файлы */
+  reset: () => void;
 }
 
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
@@ -66,7 +68,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, setFileValidationResult } = useContext(FileUploaderControlContext);
+  const { files, setFiles, removeFile, setFileValidationResult, reset } = useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
 
@@ -150,7 +152,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur }), [ref]);
+  useImperativeHandle(ref, () => ({ focus, blur, reset }), [ref]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = useCallback(
