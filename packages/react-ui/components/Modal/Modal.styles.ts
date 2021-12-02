@@ -249,7 +249,7 @@ export const styles = memoizeStyle({
 
   mobileFooter(t: Theme) {
     return css`
-      padding: ${t.mobileModalFooterPadding};
+      padding: ${t.mobileModalFooterPadding} !important;
     `;
   },
 
