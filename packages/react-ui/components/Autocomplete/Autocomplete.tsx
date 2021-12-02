@@ -1,17 +1,17 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 import { findDOMNode } from 'react-dom';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, inputSize } from '../Input';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 
@@ -29,37 +29,68 @@ function renderItem(item: any) {
   return item;
 }
 
+interface AutocompleteInterface {
+  /**
+   * Функция для отрисовки элемента в выпадающем списке.
+   */
+  renderItem: (item: string) => React.ReactNode;
+  /**
+   * Промис, резолвящий элементы меню.
+   *
+   * Если передан массив, то совпадения ищутся по этому массиву.
+   *
+   * Если передается функция, то она должна возвращать thenable, который
+   * резолвится уже отфильтрованным массивом. Возвращенный thenable может
+   * иметь метод cancel, который будет вызван при отмене поиска (пользователь
+   * изменил строку поиска, автокомплит потерял фокус).
+   */
+  source?: string[] | ((patter: string) => Promise<string[]>);
+  /**
+   * Отключает использование портала.
+   */
+  disablePortal: boolean;
+  /**
+   * Отрисовка тени у выпадающего меню.
+   */
+  hasShadow: boolean;
+  /**
+   * Выравнивание выпадающего меню.
+   */
+  menuAlign: 'left' | 'right';
+  /**
+   * Максимальная высота меню.
+   */
+  menuMaxHeight: number | string;
+  /**
+   * Ширина меню.
+   */
+  menuWidth?: number | string;
+  /**
+   * Отключить скролл окна, когда меню открыто.
+   */
+  preventWindowScroll: boolean;
+  /**
+   * Вызывается при изменении `value`.
+   */
+  onValueChange: (value: string) => void;
+  /**
+   * HTML-событие `onblur`.
+   */
+  onBlur?: () => void;
+  /**
+   * Размер инпута.
+   */
+  size: InputProps['size'];
+  /**
+   * Значение в поле инпута.
+   */
+  value: string;
+}
+
 export interface AutocompleteProps
   extends CommonProps,
-    Override<
-      InputProps,
-      {
-        /** Функция отрисовки элемента меню */
-        renderItem: (item: string) => React.ReactNode;
-        /** Промис, резолвящий элементы меню */
-        source?: string[] | ((patter: string) => Promise<string[]>);
-        /** Отключает использование портала */
-        disablePortal: boolean;
-        /** Отрисовка тени у выпадающего меню */
-        hasShadow: boolean;
-        /** Выравнивание выпадающего меню */
-        menuAlign: 'left' | 'right';
-        /** Максимальная высота меню */
-        menuMaxHeight: number | string;
-        /** Ширина меню */
-        menuWidth?: number | string;
-        /** Отключить скролл окна, когда меню открыто */
-        preventWindowScroll: boolean;
-        /** Вызывается при изменении `value` */
-        onValueChange: (value: string) => void;
-        /** onBlur */
-        onBlur?: () => void;
-        /** Размер инпута */
-        size: InputProps['size'];
-        /** value */
-        value: string;
-      }
-    > {}
+    Omit<InputProps, keyof AutocompleteInterface>,
+    AutocompleteInterface {}
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -75,29 +106,6 @@ export interface AutocompleteState {
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
-  public static propTypes = {
-    /**
-     * Функция для отрисовки элемента в выпадающем списке. Единственный аргумент
-     * — *item*.
-     */
-    renderItem: PropTypes.func,
-
-    /**
-     * Если передан массив, то совпадения ищутся по этому массиву.
-     *
-     * Если передается функция, то она должна возвращать thenable, который
-     * резолвится уже отфильтрованным массивом. Возвращенный thenable может
-     * иметь метод cancel, который будет вызван при отмене поиска (пользователь
-     * изменил строку поиска, автокомплит потерял фокус).
-     * ```
-     * function(pattern) {
-     *   return service.findAll(pattern);
-     * }
-     * ```
-     */
-    source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
-  };
-
   public static defaultProps = {
     renderItem,
     size: 'small',
@@ -106,6 +114,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     menuMaxHeight: 300,
     menuAlign: 'left',
     preventWindowScroll: true,
+  };
+
+  public static propTypes = {
+    size: pt.oneOf(inputSize),
   };
 
   public state: AutocompleteState = {
@@ -125,6 +137,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private getProps = createPropsGetter(Autocomplete.defaultProps);
 
   /**
+   * Статический метод для вызова фокуса на поле инпута.
    * @public
    */
   public focus() {
@@ -134,6 +147,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   /**
+   * Статический метод для снятия фокуса с поля инпута.
    * @public
    */
   public blur() {

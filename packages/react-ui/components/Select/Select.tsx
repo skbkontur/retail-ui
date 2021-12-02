@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
@@ -153,26 +153,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   public static __KONTUR_REACT_UI__ = 'Select';
 
   public static propTypes = {
-    areValuesEqual: PropTypes.func,
-    defaultValue: PropTypes.any,
-    disablePortal: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    filterItem: PropTypes.func,
-    items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
-    maxMenuHeight: PropTypes.number,
-    maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    placeholder: PropTypes.node,
-    renderItem: PropTypes.func,
-    renderValue: PropTypes.func,
-    search: PropTypes.bool,
-    value: PropTypes.any,
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    onValueChange: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-    onKeyDown: PropTypes.func,
+    items: pt.oneOfType([pt.array, pt.object]),
+    maxWidth: pt.oneOfType([pt.number, pt.string]),
   };
 
   public static defaultProps = {

@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { Corners } from '../Button/Corners';
@@ -23,7 +23,7 @@ export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
 
   public static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    width: pt.oneOfType([pt.number, pt.string]),
   };
 
   public render() {

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { Group } from '../Group';
@@ -46,23 +45,6 @@ interface SwitcherItem {
 
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';
-
-  public static propTypes = {
-    error: PropTypes.bool,
-    disabled: PropTypes.bool,
-    items: PropTypes.oneOfType([
-      PropTypes.arrayOf(PropTypes.string),
-      PropTypes.arrayOf(
-        PropTypes.shape({
-          label: PropTypes.string,
-          value: PropTypes.string,
-        }),
-      ),
-    ]).isRequired,
-    label: PropTypes.string,
-    value: PropTypes.string,
-    onValueChange: PropTypes.func,
-  };
 
   public state: SwitcherState = {
     focusedIndex: null,

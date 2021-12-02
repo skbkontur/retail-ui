@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 
 import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
@@ -38,21 +38,20 @@ export interface DropdownProps extends CommonProps {
    * Иконка слева от текста кнопки
    */
   icon?: React.ReactElement<any>;
+  /**
+   * Ширина элемента.
+   */
   width?: React.CSSProperties['width'];
-
   /** @ignore */
   _renderButton?: (params: any) => JSX.Element;
-
   /**
    * Отключает использование портала
    */
   disablePortal?: boolean;
-
   /**
    * Визуально отключает Dropdown
    */
   disabled?: boolean;
-
   /**
    * Cостояние валидации при ошибке.
    */
@@ -65,12 +64,10 @@ export interface DropdownProps extends CommonProps {
   menuAlign?: 'left' | 'right';
   menuWidth?: number | string;
   size?: ButtonSize;
-
   /**
    * Смотри Button.
    */
   use?: ButtonUse;
-
   /**
    * Вызывается при закрытии меню.
    */
@@ -79,8 +76,17 @@ export interface DropdownProps extends CommonProps {
    * Вызывается при открытии меню.
    */
   onOpen?: () => void;
+  /**
+   * HTML-событие `onmouseenter`.
+   */
   onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
+  /**
+   * HTML-событие `onmouseleave`.
+   */
   onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
+  /**
+   * HTML-событие `onmouseover`.
+   */
   onMouseOver?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
@@ -98,66 +104,8 @@ export class Dropdown extends React.Component<DropdownProps> {
   public static Separator = MenuSeparator;
 
   public static propTypes = {
-    /**
-     * Подпись на кнопке.
-     */
-    caption: PropTypes.node.isRequired,
-
-    /**
-     * Отключает использование портала
-     */
-    disablePortal: PropTypes.bool,
-
-    /**
-     * Визуально отключает Dropdown
-     */
-    disabled: PropTypes.bool,
-
-    /**
-     * Визуально показать наличие ошибки.
-     */
-    error: PropTypes.bool,
-
-    /**
-     * Иконка слева от текста кнопки
-     */
-    icon: PropTypes.node,
-
-    maxMenuHeight: PropTypes.number,
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
-
-    menuWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
-
-    /**
-     * Смотри Button.
-     */
-    use: PropTypes.any,
-
-    /**
-     * Визуально показать наличие предупреждения.
-     */
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Вызывается при закрытии меню.
-     */
-    onClose: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    /**
-     * Вызывается при открытии меню.
-     */
-    onOpen: PropTypes.func,
+    size: pt.oneOf(['small', 'medium', 'large']),
+    width: pt.oneOfType([pt.number, pt.string]),
   };
 
   private _select: Nullable<DropdownSelectType>;

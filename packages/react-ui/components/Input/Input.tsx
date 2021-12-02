@@ -1,11 +1,12 @@
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
+import pt from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
-import { Nullable, Override } from '../../typings/utility-types';
+import { Nullable } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -14,91 +15,118 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Input.styles';
 
-export type InputSize = 'small' | 'medium' | 'large';
+export const inputSize = ['small', 'medium', 'large'] as const;
+export type InputSize = typeof inputSize[number];
 export type InputAlign = 'left' | 'center' | 'right';
-export type InputType = 'password' | 'text';
+export const inputType = ['password', 'text'] as const;
+export type InputType = typeof inputType[number];
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
+
+interface InputInterface {
+  /**
+   * Иконка слева
+   * Если `ReactNode` применяются дефолтные стили для иконки
+   * Если `() => ReactNode` применяются только стили для позиционирование
+   */
+  leftIcon?: InputIconType;
+  /**
+   * Иконка справа
+   * Если `ReactNode` применяются дефолтные стили для иконки
+   * Если `() => ReactNode` применяются только стили для позиционирование
+   */
+  rightIcon?: InputIconType;
+  /**
+   * Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /**
+   * Режим прозрачной рамки.
+   */
+  borderless?: boolean;
+  /**
+   * Выравнивание текста.
+   */
+  align?: InputAlign;
+  /**
+   * Паттерн маски.
+   */
+  mask?: Nullable<string>;
+  /**
+   * Символ маски.
+   */
+  maskChar?: Nullable<string>;
+  /**
+   * Словарь символов-регулярок для задания маски
+   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
+   */
+  formatChars?: Record<string, string>;
+  /**
+   * Показывать символы маски.
+   */
+  alwaysShowMask?: boolean;
+  /**
+   * Размер инпута.
+   */
+  size?: InputSize;
+  /**
+   * Функция вызываемая при изменении значения.
+   */
+  onValueChange?: (value: string) => void;
+  /**
+   * HTML-событие `onmouseenter`.
+   */
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `onmouseleave`.
+   */
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `onmouseover`.
+   */
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * Меняет тип инпута.
+   */
+  type?: InputType;
+  /**
+   * Значение в поле инпута.
+   */
+  value?: string;
+  capture?: boolean;
+  /**
+   * Префикс
+   * `ReactNode` перед значением, но после иконки.
+   */
+  prefix?: React.ReactNode;
+  /**
+   * Суффикс
+   * `ReactNode` после значения, но перед правой иконкой.
+   */
+  suffix?: React.ReactNode;
+  /**
+   * Выделять введенное значение при фокусе.
+   */
+  selectAllOnFocus?: boolean;
+  /**
+   * Обработчик неправильного ввода.
+   * По-умолчанию, инпут вспыхивает синим.
+   * Если передан - вызывается переданный обработчик,
+   * в таком случае вспыхивание можно вызвать
+   * публичным методом инстанса `blink()`.
+   *
+   * @param value значение инпута.
+   */
+  onUnexpectedInput?: (value: string) => void;
+}
 
 export interface InputProps
   extends CommonProps,
-    Override<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      {
-        /**
-         * Иконка слева
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
-        leftIcon?: InputIconType;
-        /**
-         * Иконка справа
-         * Если `ReactNode` применяются дефолтные стили для иконки
-         * Если `() => ReactNode` применяются только стили для позиционирование
-         */
-        rightIcon?: InputIconType;
-        /**
-         * Cостояние валидации при ошибке.
-         */
-        error?: boolean;
-        /**
-         * Cостояние валидации при предупреждении.
-         */
-        warning?: boolean;
-        /** Режим прозрачной рамки */
-        borderless?: boolean;
-        /** Выравнивание текста */
-        align?: InputAlign;
-        /** Паттерн маски */
-        mask?: Nullable<string>;
-        /** Символ маски */
-        maskChar?: Nullable<string>;
-        /**
-         * Словарь символов-регулярок для задания маски
-         * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-         */
-        formatChars?: Record<string, string>;
-        /** Показывать символы маски */
-        alwaysShowMask?: boolean;
-        /** Размер */
-        size?: InputSize;
-        /** onValueChange */
-        onValueChange?: (value: string) => void;
-        /** Вызывается на label */
-        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
-        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Вызывается на label */
-        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Тип */
-        type?: InputType;
-        /** Значение */
-        value?: string;
-        capture?: boolean;
-
-        /**
-         * Префикс
-         * `ReactNode` перед значением, но после иконки
-         */
-        prefix?: React.ReactNode;
-        /**
-         * Суффикс
-         * `ReactNode` после значения, но перед правой иконкой
-         */
-        suffix?: React.ReactNode;
-        /** Выделять введенное значение при фокусе */
-        selectAllOnFocus?: boolean;
-        /**
-         * Обработчик неправильного ввода.
-         * По-умолчанию, инпут вспыхивает синим.
-         * Если передан - вызывается переданный обработчик,
-         * в таком случае вспыхивание можно вызвать
-         * публичным методом инстанса `blink()`.
-         *
-         * @param value значение инпута.
-         */
-        onUnexpectedInput?: (value: string) => void;
-      }
-    > {}
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, keyof InputInterface>,
+    InputInterface {}
 
 export interface InputState {
   blinking: boolean;
@@ -117,6 +145,12 @@ export class Input extends React.Component<InputProps, InputState> {
     size: InputSize;
   } = {
     size: 'small',
+  };
+
+  public static propTypes = {
+    mask: pt.oneOf([pt.string, null, undefined]),
+    maskChar: pt.oneOf([pt.string, null, undefined]),
+    type: pt.oneOf(inputType),
   };
 
   public state: InputState = {

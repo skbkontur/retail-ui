@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
@@ -37,28 +37,12 @@ export interface SpinnerProps extends CommonProps {
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
 
-  public static propTypes = {
-    /**
-     * Текст рядом с мини-лоадером.
-     *
-     * 'Загрузка' - значение по-умолчанию
-     */
-    caption: PropTypes.node,
-
-    dimmed: PropTypes.bool,
-
-    /**
-     * Тип спиннера: mini, normal, big
-     *
-     * Значение по-умолчанию - normal
-     *
-     * Spinner.types - все доступные типы
-     */
-    type: PropTypes.oneOf(Object.keys(types)),
-  };
-
   public static defaultProps: SpinnerProps = {
     type: 'normal',
+  };
+
+  public static propTypes = {
+    caption: pt.node,
   };
 
   public static Types: typeof types = types;

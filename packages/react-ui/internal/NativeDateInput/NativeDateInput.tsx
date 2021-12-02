@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
 
@@ -19,6 +20,12 @@ const DEFAULT_MAX_DATE = '2099-12-31';
 export class NativeDateInput extends React.Component<NativeDateInputProps> {
   public static __KONTUR_REACT_UI__ = 'NativeDatePicker';
   private input: Nullable<HTMLInputElement>;
+
+  public static propTypes = {
+    value: pt.oneOf([pt.string, null, undefined]).isRequired,
+    minDate: pt.oneOf([pt.string, null, undefined]),
+    maxDate: pt.oneOf([pt.string, null, undefined]),
+  };
 
   public render() {
     return (

@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
+import { ptDateShape } from './CalendarDateShape';
 
 interface MonthViewProps {
   children: React.ReactNode;
@@ -119,3 +120,8 @@ export function MonthView(props: MonthViewProps) {
     </div>
   );
 }
+
+MonthView.propTypes = {
+  minDate: ptDateShape,
+  maxDate: ptDateShape,
+};

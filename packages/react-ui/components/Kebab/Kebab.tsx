@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -17,6 +16,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Kebab.styles';
 
+// TODO: поправить тип positions после мержа #2623.
 export interface KebabProps extends CommonProps {
   disabled?: boolean;
   /**
@@ -29,6 +29,9 @@ export interface KebabProps extends CommonProps {
    * @default () => undefined
    */
   onOpen: () => void;
+  /**
+   * Размер кебаба.
+   */
   size: 'small' | 'medium' | 'large';
   /**
    * Список позиций доступных для расположения выпадашки.
@@ -58,8 +61,6 @@ export interface KebabState {
 
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
-
-  public static propTypes = {};
 
   public static defaultProps = {
     onOpen: () => undefined,
@@ -231,24 +232,3 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     );
   }
 }
-
-Kebab.propTypes = {
-  children: PropTypes.node,
-  disabled: PropTypes.bool,
-  menuMaxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-
-  /**
-   * Размер кебаба small 14px | large 20px
-   */
-  size: PropTypes.string,
-
-  /**
-   * Коллбек, вызывающийся перед закрытием кебаба
-   */
-  onClose: PropTypes.func,
-
-  /**
-   * Коллбек, вызывающийся перед открытием кебаба
-   */
-  onOpen: PropTypes.func,
-};

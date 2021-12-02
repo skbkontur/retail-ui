@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
@@ -110,6 +111,11 @@ export class Hint extends React.Component<HintProps, HintState> {
     maxWidth: 200,
     disableAnimations: isTestEnv,
     useWrapper: false,
+  };
+
+  // TODO: поменять тип pos, когда #2623 будет смёржен.
+  public static propTypes = {
+    maxWidth: pt.oneOf([pt.string, pt.number]),
   };
 
   public state: HintState = {

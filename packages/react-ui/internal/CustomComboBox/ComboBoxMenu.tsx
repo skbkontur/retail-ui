@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import pt from 'prop-types';
 
 import { locale } from '../../lib/locale/decorators';
 import { isReactUINode } from '../../lib/utils';
@@ -35,6 +36,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static defaultProps = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
+  };
+
+  public static propTypes = {
+    items: pt.arrayOf(pt.any),
   };
 
   private readonly locale!: ComboBoxLocale;

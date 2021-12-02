@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
 import { ResizeDetector } from '../../internal/ResizeDetector';
@@ -78,11 +77,6 @@ export interface TabProps<T extends string = string> extends CommonProps {
    * Primary indicator
    */
   primary?: boolean;
-
-  /**
-   * Style property
-   */
-  style?: React.CSSProperties;
 }
 
 export interface TabState {
@@ -109,14 +103,6 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   public static contextType = TabsContext;
   public context: TabsContextType = this.context;
-
-  public static propTypes = {
-    children: PropTypes.node,
-    disabled: PropTypes.bool,
-    href: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
-    onKeyDown: PropTypes.func,
-  };
 
   public static defaultProps = {
     component: 'a',

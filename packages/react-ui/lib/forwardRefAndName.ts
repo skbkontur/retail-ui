@@ -1,9 +1,9 @@
 import { forwardRef } from 'react';
 
 export interface ReactUIComponentWithRef<T, P>
-  extends React.NamedExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>>,
-    Pick<React.ForwardRefExoticComponent<P>, 'propTypes'> {
+  extends React.NamedExoticComponent<React.PropsWithoutRef<P> & React.RefAttributes<T>> {
   __KONTUR_REACT_UI__: string;
+  propTypes?: React.WeakValidationMap<P>;
 }
 
 function forwardName<ElementType, Props>(

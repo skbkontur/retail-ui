@@ -10,7 +10,13 @@ export interface CurrencyLabelProps extends CommonProps {
    * @default 2
    */
   fractionDigits: number;
+  /**
+   * Текст ярлыка.
+   */
   value: number;
+  /**
+   * Знак валюты.
+   */
   currencySymbol?: React.ReactNode;
 }
 

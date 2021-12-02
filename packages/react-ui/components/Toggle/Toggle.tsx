@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import pt from 'prop-types';
 import warning from 'warning';
 
 import { keyListener } from '../../lib/events/keyListener';
@@ -88,13 +88,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
   public static propTypes = {
-    checked: PropTypes.bool,
-    defaultChecked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    loading: PropTypes.bool,
-    warning: PropTypes.bool,
-    onValueChange: PropTypes.func,
     color(props: ToggleProps) {
       if (props.color && !colorWarningShown) {
         warning(false, `[Toggle]: prop 'color' is deprecated. Please, use theme variable 'toggleBgChecked' instead. `);

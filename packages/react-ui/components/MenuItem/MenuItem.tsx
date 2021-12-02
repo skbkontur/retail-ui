@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import pt from 'prop-types';
 
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -84,21 +84,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {
-    comment: PropTypes.node,
-
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-
-    loose: PropTypes.bool,
-
-    state: PropTypes.string,
-
-    target: PropTypes.string,
-
-    onClick: PropTypes.func,
+    target: pt.string,
+    title: pt.string,
+    href: pt.string,
+    state: pt.oneOf([null, 'hover', 'selected']),
   };
 
   private theme!: Theme;

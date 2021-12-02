@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { isBrowser } from '../../lib/client';
 
@@ -43,6 +44,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
         return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
       }
     },
+    priority: pt.oneOfType([pt.number, pt.string]),
   };
 
   private zIndex = 0;

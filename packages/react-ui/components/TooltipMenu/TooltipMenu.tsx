@@ -1,4 +1,5 @@
 import React from 'react';
+import pt from 'prop-types';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -66,6 +67,11 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static defaultProps = {
     disableAnimations: isTestEnv,
   };
+
+  public static propTypes = {
+    caption: pt.oneOfType([pt.node, pt.func]).isRequired,
+  };
+
   constructor(props: TooltipMenuProps) {
     super(props);
 

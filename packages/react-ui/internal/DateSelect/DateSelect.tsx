@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
@@ -47,22 +46,6 @@ export interface DateSelectState {
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
-
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    type: PropTypes.string,
-
-    value: PropTypes.number.isRequired,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    onValueChange: PropTypes.func,
-
-    minValue: PropTypes.number,
-
-    maxValue: PropTypes.number,
-  };
 
   public static defaultProps = {
     type: 'year',
