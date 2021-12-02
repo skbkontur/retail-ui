@@ -31,7 +31,7 @@ export function mergeProps<TIncoming extends ObjectProperty, TExisting extends O
 ): TIncoming & TExisting {
   const intersectingKeys = intersection(incoming, existing);
   const mergedProps = intersectingKeys.reduce<ObjectProperty>((accumulator, key) => {
-    if (typeof incoming[key] === 'string') {
+    if (key === 'className') {
       return {
         ...accumulator,
         [key]: cx(incoming[key], existing[key]),

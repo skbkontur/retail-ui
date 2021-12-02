@@ -96,7 +96,7 @@ export function extractFromObject<T>(
 }
 
 /**
- * Shortcut for Object.prototype.hasOwnProperty.call(obj, prop)
+ * Shortcut for Object.prototype.hasOwnProperty.call(obj, prop).
  *
  * @param obj An object which possibly contains the property.
  * @param prop A property name.
