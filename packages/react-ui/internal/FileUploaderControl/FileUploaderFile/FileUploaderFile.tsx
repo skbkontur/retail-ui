@@ -12,9 +12,9 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
+import { Nullable } from '../../../typings/utility-types';
 
 import { jsStyles } from './FileUploaderFile.styles';
-import { Nullable } from '../../../typings/utility-types';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;

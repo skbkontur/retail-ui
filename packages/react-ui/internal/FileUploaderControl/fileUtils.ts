@@ -21,7 +21,6 @@ export const getAttachedFile = (file: File): FileUploaderAttachedFile => {
     id: getGuid(),
     originalFile: file,
     status: FileUploaderFileStatus.Attached,
-    validationResult: FileUploaderFileValidationResult.ok()
+    validationResult: FileUploaderFileValidationResult.ok(),
   };
 };
-

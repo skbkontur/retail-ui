@@ -86,13 +86,16 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
     [onValueChange, onRemove],
   );
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
-    setFiles((files) => {
-      const newFiles = updateFile(files, fileId, () => ({ validationResult }));
-      onValueChange?.(newFiles);
-      return newFiles;
-    });
-  }, [onValueChange]);
+  const setFileValidationResult = useCallback(
+    (fileId: string, validationResult: FileUploaderFileValidationResult) => {
+      setFiles((files) => {
+        const newFiles = updateFile(files, fileId, () => ({ validationResult }));
+        onValueChange?.(newFiles);
+        return newFiles;
+      });
+    },
+    [onValueChange],
+  );
 
   const reset = React.useCallback(() => {
     setFiles(() => {
@@ -110,7 +113,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
         setFiles: handleExternalSetFiles,
         removeFile,
         setFileValidationResult,
-        reset
+        reset,
       })}
     >
       {children}

@@ -23,7 +23,9 @@ import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSelect'> {
+interface _FileUploaderProps
+  extends CommonProps,
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSelect'> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */

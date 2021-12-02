@@ -90,7 +90,8 @@ describe('FileUploader', () => {
   });
 
   describe('Handlers', () => {
-    const render = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) => mount<typeof FileUploader>(<FileUploader {...props} />);
+    const render = (props: FileUploaderProps & RefAttributes<FileUploaderRef> = {}) =>
+      mount<typeof FileUploader>(<FileUploader {...props} />);
     let file: File;
 
     const readFile = {
@@ -248,14 +249,13 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange after reset', async () => {
         const onValueChange = jest.fn();
-        const ref = React.createRef<FileUploaderRef>()
+        const ref = React.createRef<FileUploaderRef>();
         const component = render({ onValueChange, ref });
 
         await addFiles(component, [file]);
 
         expect(onValueChange).toHaveBeenCalledTimes(1);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
-
 
         ref.current?.reset();
 
