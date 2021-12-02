@@ -16,10 +16,6 @@ export interface CommonProps {
    * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
    */
   'data-tid'?: string;
-  /**
-   * @ignore
-   */
-  instanceRef: React.MutableRefObject<any>;
 }
 
 export type NotCommonProps<P> = Omit<P, keyof CommonProps>;
