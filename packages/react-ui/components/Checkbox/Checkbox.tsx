@@ -9,6 +9,7 @@ import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 import { styles, globalClasses } from './Checkbox.styles';
 
@@ -212,7 +213,13 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
 
     return (
-      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
+      <label
+        className={rootClass}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseOver={onMouseOver}
+        onClick={fixFirefoxModifiedClickOnLabel(this.input)}
+      >
         <input {...inputProps} />
         {box}
         {caption}
