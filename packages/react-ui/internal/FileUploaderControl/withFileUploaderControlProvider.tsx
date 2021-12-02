@@ -9,7 +9,7 @@ export const withFileUploaderControlProvider = <TProps extends object, TRef exte
 ) =>
   React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>(
     (props: TProps & FileUploaderControlProviderProps, ref) => {
-      const { onRemove, onValueChange, onReadSuccess, ...rest } = props;
+      const { onRemove, onValueChange, onSelect, ...rest } = props;
       return (
         <FileUploaderControlProvider {...props}>
           <Component ref={ref} {...rest} />

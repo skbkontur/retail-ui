@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
 
-import { FileUploaderAttachedFile, readFiles } from '../../internal/FileUploaderControl/fileUtils';
+import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
@@ -23,7 +23,7 @@ import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSelect'> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
@@ -31,9 +31,6 @@ interface _FileUploaderProps extends CommonProps, Omit<React.InputHTMLAttributes
 
   /** Свойство ширины. */
   width?: React.CSSProperties['width'];
-
-  /** Срабатывает при невалидном чтении файла (превращение в base64) */
-  onReadError?: (files: FileUploaderAttachedFile[]) => void;
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
   request?: (file: FileUploaderAttachedFile) => Promise<void>;
@@ -60,7 +57,6 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     warning,
     onBlur,
     onFocus,
-    onReadError,
     multiple = false,
     width = theme.fileUploaderWidth,
     request,
@@ -98,7 +94,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   /** common part **/
   const handleChange = useCallback(
-    async (newFiles: FileList | null) => {
+    (newFiles: FileList | null) => {
       if (!newFiles) return;
 
       let filesArray = Array.from(newFiles);
@@ -107,23 +103,18 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
         filesArray = [filesArray[0]];
       }
 
-      const uploadFiles = await readFiles(filesArray);
+      const attachedFiles = filesArray.map(getAttachedFile);
 
-      const selectedFiles = uploadFiles.filter((v) => !!v.fileInBase64);
-      const readErrorFiles = uploadFiles.filter((v) => !v.fileInBase64);
-
-      if (isSingleMode && selectedFiles.length && files.length) {
+      if (isSingleMode && attachedFiles.length && files.length) {
         removeFile(files[0].id);
       }
 
-      if (selectedFiles.length) {
-        setFiles(selectedFiles);
-        tryValidateAndUpload(selectedFiles);
+      if (attachedFiles.length) {
+        setFiles(attachedFiles);
+        tryValidateAndUpload(attachedFiles);
       }
-
-      readErrorFiles.length && onReadError?.(readErrorFiles);
     },
-    [onReadError, tryValidateAndUpload, setFiles, isSingleMode, files, removeFile],
+    [tryValidateAndUpload, setFiles, isSingleMode, files, removeFile],
   );
 
   const handleDrop = useCallback(

@@ -8,11 +8,11 @@ import { FileUploaderFileValidationResult } from './FileUploaderFileValidationRe
 import { useControlLocale } from './hooks/useControlLocale';
 
 export interface FileUploaderControlProviderProps {
-  /** Срабатывает при валидном чтении файла (превращение в base64) */
-  onReadSuccess?: (files: FileUploaderAttachedFile[]) => void;
+  /** Срабатывает при выборе файлов */
+  onSelect?: (files: FileUploaderAttachedFile[]) => void;
   /** Срабатывает при удалении файла из контрола */
   onRemove?: (fileId: string) => void;
-  /** Срабатывает при onReadSuccess и onRemove*/
+  /** Срабатывает при onSelect, onRemove и других изменениях файлов. В files передает текущее состояние всего списка файлов */
   onValueChange?: (files: FileUploaderAttachedFile[]) => void;
 }
 
@@ -38,16 +38,15 @@ const updateFile = (
 };
 
 export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploaderControlProviderProps>) => {
-  const { children, onValueChange, onRemove, onReadSuccess } = props;
+  const { children, onValueChange, onRemove, onSelect } = props;
 
-  // в files попадат только те, что попали в onReadSuccess
   const [files, setFiles] = useState<FileUploaderAttachedFile[]>([]);
   const locale = useControlLocale();
 
   const setFileStatus = useCallback(
     (fileId: string, status: FileUploaderFileStatus) => {
       setFiles((files) => {
-        return updateFile(files, fileId, (file) => {
+        const newFiles = updateFile(files, fileId, (file) => {
           return {
             status,
             validationResult:
@@ -56,21 +55,23 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
                 : file.validationResult,
           };
         });
+        onValueChange?.(newFiles);
+        return newFiles;
       });
     },
-    [locale],
+    [locale, onValueChange],
   );
 
   const handleExternalSetFiles = useCallback(
     (files: FileUploaderAttachedFile[]) => {
-      onReadSuccess?.(files);
+      onSelect?.(files);
       setFiles((state) => {
         const newFiles = [...state, ...files];
         onValueChange?.(newFiles);
         return newFiles;
       });
     },
-    [onValueChange, onReadSuccess],
+    [onValueChange, onSelect],
   );
 
   const removeFile = useCallback(
@@ -86,8 +87,12 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   );
 
   const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
-    setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
-  }, []);
+    setFiles((files) => {
+      const newFiles = updateFile(files, fileId, () => ({ validationResult }));
+      onValueChange?.(newFiles);
+      return newFiles;
+    });
+  }, [onValueChange]);
 
   return (
     <FileUploaderControlContext.Provider
