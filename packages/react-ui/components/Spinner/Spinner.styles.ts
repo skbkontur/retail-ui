@@ -36,6 +36,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  inline() {
+    return css`
+      font-size: inherit;
+      line-height: inherit;
+    `;
+  },
+
   mini(t: Theme) {
     return css`
       margin-left: ${t.spinnerCaptionGapSmall};
