@@ -168,6 +168,13 @@ export class Input extends React.Component<InputProps, InputState> {
   /**
    * @public
    */
+  public getNode() {
+    return this.input;
+  }
+
+  /**
+   * @public
+   */
   public blink() {
     if (this.blinkTimeout) {
       this.cancelBlink(() => {
