@@ -298,16 +298,16 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     const selected = selection.start !== selection.end;
     const position = selected && selection.direction === 'forward' ? selection.end : selection.start;
     const charsCount = this.state.formatted.length;
-    const charsWidth = node.scrollWidth / charsCount;
-    const frame = Math.ceil(node.clientWidth / (node.scrollWidth / charsCount));
-    const frameStart = Math.ceil(node.scrollLeft / charsWidth);
+    const charWidth = node.scrollWidth / charsCount;
+    const frame = Math.ceil(node.clientWidth / charWidth);
+    const frameStart = Math.ceil(node.scrollLeft / charWidth);
     const frameEnd = frameStart + frame;
 
     if (position < frameStart + PAD) {
-      node.scrollLeft = (position - SHIFT) * charsWidth;
+      node.scrollLeft = (position - SHIFT) * charWidth;
     }
     if (position > frameEnd - PAD) {
-      node.scrollLeft = (position - frame + SHIFT) * charsWidth;
+      node.scrollLeft = (position - frame + SHIFT) * charWidth;
     }
   };
 
