@@ -33,7 +33,7 @@ changeBuildType(RelativeId("ReactUI_Publish")) {
         }
     }
     steps {
-        insert(4) {
+        insert(2) {
             step {
                 name = "Set registry (need update NPM - https only)"
                 type = "jonnyzzz.npm"
