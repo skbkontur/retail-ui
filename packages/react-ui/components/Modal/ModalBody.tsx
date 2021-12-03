@@ -6,8 +6,10 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout';
+import * as LayoutEvents from '../../lib/LayoutEvents';
+import { ResizeDetector } from '../../internal/ResizeDetector';
 
-import { ModalContext } from './ModalContext';
+import { CloseProps, ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
 
@@ -42,6 +44,27 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     );
   }
 
+  private handleResize = (event: UIEvent) => {
+    LayoutEvents.emit();
+  };
+
+  private content(hasHeader: boolean | undefined, close: CloseProps | undefined) {
+    return (
+      <>
+        {!hasHeader && this.isMobileLayout && close ? (
+          <div style={{ height: '100%', width: '100%' }}>
+            <div className={styles.mobileCloseWithoutHeaderWrapper(this.theme)}>
+              <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} withoutAbsolute />
+            </div>
+            {this.props.children}
+          </div>
+        ) : (
+          this.props.children
+        )}
+      </>
+    );
+  }
+
   public renderMain(): JSX.Element {
     const { noPadding } = this.props;
     return (
@@ -61,15 +84,10 @@ export class ModalBody extends React.Component<ModalBodyProps> {
                 [styles.bodyWithoutPadding()]: noPadding,
               })}
             >
-              {!hasHeader && this.isMobileLayout && close ? (
-                <div style={{ height: '100%', width: '100%' }}>
-                  <div className={styles.mobileCloseWithoutHeaderWrapper(this.theme)}>
-                    <ModalClose requestClose={close.requestClose} disableClose={close.disableClose} withoutAbsolute />
-                  </div>
-                  {this.props.children}
-                </div>
+              {this.isMobileLayout ? (
+                <ResizeDetector onResize={this.handleResize}>{this.content(hasHeader, close)}</ResizeDetector>
               ) : (
-                this.props.children
+                this.content(hasHeader, close)
               )}
             </ZIndex>
           </CommonWrapper>
