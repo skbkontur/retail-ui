@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.12.2](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.12.1...retail-ui@1.12.2) (2021-12-03)
+
+
+### Bug Fixes
+
+* **Checkbox,Radio:** firing events onChange manually for Firefox ([0bf4152](https://github.com/skbkontur/retail-ui/commit/0bf4152))
+
+
+
+
+
 ## [1.12.1](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.12.0...retail-ui@1.12.1) (2021-08-26)
 
 
