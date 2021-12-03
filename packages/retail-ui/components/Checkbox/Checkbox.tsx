@@ -9,6 +9,7 @@ import jsStyles, { classes } from './Checkbox.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
 import { isEdge, isFirefox, isIE11 } from '../../lib/utils';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 export type CheckboxProps = Override<
   React.InputHTMLAttributes<HTMLInputElement>,
@@ -196,7 +197,13 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
 
     return (
-      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
+      <label
+        className={rootClass}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseOver={onMouseOver}
+        onClick={this.handleLabelClick}
+      >
         <input {...inputProps} />
         {box}
         {caption}
@@ -262,6 +269,9 @@ class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       this.props.onClick(e);
     }
   };
+
+  private handleLabelClick: React.MouseEventHandler<HTMLLabelElement> = e =>
+    fixFirefoxModifiedClickOnLabel(this.input, e);
 }
 
 export default Checkbox;
