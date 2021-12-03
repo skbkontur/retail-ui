@@ -681,6 +681,9 @@ export class DefaultTheme {
   public static calendarCellSelectedBgColor = '#e9e9e9';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '30px';
+  public static get calendarCellLineHeight() {
+    return `calc(${this.calendarCellSize} - 2px)`;
+  }
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
