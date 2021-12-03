@@ -931,7 +931,13 @@ export class NewDefaultTheme {
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
-  //#region Toggle
+  //#region
+  public static get toggleFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toggleLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   public static get toggleTextColor() {
     return this.textColorDefault;
   }

@@ -17,6 +17,8 @@ export const styles = memoizeStyle({
     return css`
       display: inline-flex;
       cursor: pointer;
+      line-height: ${t.toggleLineHeight};
+      font-size: ${t.toggleFontSize};
 
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
