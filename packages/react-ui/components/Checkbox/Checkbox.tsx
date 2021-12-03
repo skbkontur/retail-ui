@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Nullable, Override } from '../../typings/utility-types';
+import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -9,6 +9,7 @@ import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 import { styles, globalClasses } from './Checkbox.styles';
 
@@ -82,11 +83,11 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   };
 
   private theme!: Theme;
-  private input: Nullable<HTMLInputElement>;
+  private input = React.createRef<HTMLInputElement>();
 
   public componentDidMount = () => {
-    if (this.state.indeterminate && this.input) {
-      this.input.indeterminate = true;
+    if (this.state.indeterminate && this.input.current) {
+      this.input.current.indeterminate = true;
     }
   };
 
@@ -113,7 +114,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    */
   public focus() {
     keyListener.isTabPressed = true;
-    this.input?.focus();
+    this.input.current?.focus();
   }
 
   /**
@@ -121,7 +122,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
    * @public
    */
   public blur() {
-    this.input?.blur();
+    this.input.current?.blur();
   }
 
   /**
@@ -132,8 +133,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.setState({
       indeterminate: true,
     });
-    if (this.input) {
-      this.input.indeterminate = true;
+    if (this.input.current) {
+      this.input.current.indeterminate = true;
     }
   };
 
@@ -145,8 +146,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.setState({
       indeterminate: false,
     });
-    if (this.input) {
-      this.input.indeterminate = false;
+    if (this.input.current) {
+      this.input.current.indeterminate = false;
     }
   };
 
@@ -179,7 +180,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
       onClick: this.handleClick,
-      ref: this.inputRef,
+      ref: this.input,
     };
 
     let caption = null;
@@ -212,7 +213,13 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     );
 
     return (
-      <label className={rootClass} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onMouseOver={onMouseOver}>
+      <label
+        className={rootClass}
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+        onMouseOver={onMouseOver}
+        onClick={fixFirefoxModifiedClickOnLabel(this.input)}
+      >
         <input {...inputProps} />
         {box}
         {caption}
@@ -241,10 +248,6 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     this.setState({ focusedByTab: false });
   };
 
-  private inputRef = (ref: HTMLInputElement | null) => {
-    this.input = ref;
-  };
-
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.currentTarget.checked;
     this.props.onValueChange?.(checked);
@@ -262,12 +265,12 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
       this.resetIndeterminate();
       // simulate correct behavior only if onValueChange is used
       // because we cant simulate real native onChange event
-      if (this.props.onValueChange && this.input) {
-        const checked = !this.input.checked;
+      if (this.props.onValueChange && this.input.current) {
+        const checked = !this.input.current.checked;
 
         if (this.props.checked === undefined) {
           // in case of uncontrolled mode
-          this.input.checked = checked;
+          this.input.current.checked = checked;
         }
 
         this.props.onValueChange(checked);

@@ -7,6 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -155,6 +156,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
+      onClick: fixFirefoxModifiedClickOnLabel(this.inputEl),
     };
 
     if (this._isInRadioGroup()) {
@@ -162,6 +164,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
+      labelProps.className = cx(styles.root(this.theme), checked && styles.rootChecked(this.theme));
       radioProps.className = cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
