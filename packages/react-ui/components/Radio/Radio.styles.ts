@@ -31,6 +31,8 @@ export const styles = memoizeStyle({
       padding-top: ${t.radioPaddingY};
       padding-bottom: ${t.radioPaddingY};
       display: inline-block;
+      line-height: ${t.radioLineHeight};
+      font-size: ${t.radioFontSize};
 
       &:hover .${globalClasses.radio} {
         background: ${t.radioHoverBg};
@@ -158,10 +160,8 @@ export const styles = memoizeStyle({
   label(t: Theme) {
     return css`
       display: ${t.radioLabelDisplay};
-      line-height: ${t.radioLineHeight};
       margin-left: ${t.radioLabelGap};
       white-space: normal;
-      font-size: ${t.radioFontSize};
       color: ${t.radioTextColor};
     `;
   },
