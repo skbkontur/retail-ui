@@ -177,6 +177,7 @@ object ReactUI_GitHubFeatures : Template({
                 authType = token {
                     token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
                 }
+                filterSourceBranch = ""
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
@@ -185,7 +186,7 @@ object ReactUI_GitHubFeatures : Template({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:753f3391-1e06-4223-8a34-70a7c9adb2af"
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
                 }
             }
         }
@@ -197,6 +198,7 @@ object ReactUiTestingTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-testing@*"
     useTagsAsBranches = true
+    checkoutPolicy = USE_MIRRORS
 })
 
 object ReactUiValidationsTags : GitVcsRoot({
@@ -204,6 +206,7 @@ object ReactUiValidationsTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-validations@*"
     useTagsAsBranches = true
+    checkoutPolicy = USE_MIRRORS
 })
 
 object RetailUiTags : GitVcsRoot({
@@ -306,6 +309,10 @@ object ReactUI_LintTest : BuildType({
                 artifactRules = "skbkontur-react-ui-*.tgz"
             }
         }
+    }
+
+    failureConditions {
+        executionTimeoutMin = 10
     }
 })
 
@@ -451,7 +458,7 @@ object SeleniumTesting_Publish : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
             serverUrl = "https://api.nuget.org/v3/index.json"
-            apiKey = "credentialsJSON:bd776d48-3dea-45bb-95d2-f28cdfb5e1aa"
+            apiKey = "credentialsJSON:025012f8-2dc9-43bf-9e45-d5dabbcf7258"
         }
     }
 
@@ -689,4 +696,14 @@ object Validations_Publish : BuildType({
     }
 
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
+})
+
+object Validations_ScreenshotTests : BuildType({
+    name = "Screenshot tests"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    disableSettings("VCS_TRIGGER")
 })
