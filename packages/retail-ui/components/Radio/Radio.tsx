@@ -7,6 +7,7 @@ import { cx } from '../../lib/theming/Emotion';
 import jsStyles from './Radio.styles';
 import { ThemeConsumer } from '../ThemeConsumer';
 import { ITheme } from '../../lib/theming/Theme';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 export interface SyntheticRadioEvent<T> {
   target: {
@@ -185,6 +186,7 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       onMouseOver: this._handleMouseOver,
       onMouseEnter: this._handleMouseEnter,
       onMouseLeave: this._handleMouseLeave,
+      onClick: this.handleLabelClick,
     };
 
     if (this._isInRadioGroup()) {
@@ -251,6 +253,9 @@ class Radio<T> extends React.Component<RadioProps<T>> {
       this.props.onMouseLeave(event);
     }
   };
+
+  private handleLabelClick: React.MouseEventHandler<HTMLLabelElement> = e =>
+    fixFirefoxModifiedClickOnLabel(this.node, e);
 }
 
 function createSyntheticEvent<T>({ value, id, name, checked, disabled }: RadioProps<T>): SyntheticRadioEvent<T> {
