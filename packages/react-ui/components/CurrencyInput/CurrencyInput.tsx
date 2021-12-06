@@ -120,11 +120,14 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     }
   }
 
-  public componentDidUpdate() {
+  public componentDidUpdate(prevProps: Readonly<CurrencyInputProps>, prevState: Readonly<CurrencyInputState>) {
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
 
       this.input.setSelectionRange(start, end);
+    }
+    if (prevState.selection !== this.state.selection) {
+      this.scrollInput();
     }
   }
 
@@ -287,6 +290,31 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         });
         return;
       }
+    }
+  };
+
+  private scrollInput = () => {
+    const node = this.input?.getNode();
+    if (!node || node.scrollWidth === node.clientWidth) {
+      return;
+    }
+    const PAD = 1;
+    const SHIFT = 3;
+
+    const selection = this.state.selection;
+    const selected = selection.start !== selection.end;
+    const position = selected && selection.direction === 'forward' ? selection.end : selection.start;
+    const charsCount = this.state.formatted.length;
+    const charWidth = node.scrollWidth / charsCount;
+    const frame = Math.ceil(node.clientWidth / charWidth);
+    const frameStart = Math.ceil(node.scrollLeft / charWidth);
+    const frameEnd = frameStart + frame;
+
+    if (position < frameStart + PAD) {
+      node.scrollLeft = (position - SHIFT) * charWidth;
+    }
+    if (position > frameEnd - PAD) {
+      node.scrollLeft = (position - frame + SHIFT) * charWidth;
     }
   };
 
