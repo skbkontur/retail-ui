@@ -18,12 +18,15 @@ interface MobilePopupProps {
    */
   headerChildComponent?: React.ReactNode;
   useFullHeight?: boolean;
+  withoutRenderContainer?: boolean;
 }
 
 interface MobilePopupState {
   isScrolled: boolean;
   isOpened: boolean;
 }
+
+export const MOBILE_POPUP_ELEMENT_ID = 'MobilePopup';
 
 export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupState> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
@@ -51,14 +54,32 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
     );
   }
 
+  private getPopupNodeZIndex = () => {
+    const mobilePopupNodes = document.querySelectorAll(`[element-id='${MOBILE_POPUP_ELEMENT_ID}']`);
+    let mobilePopupIndex = 0;
+
+    if (this.contentDiv && mobilePopupNodes.length > 1) {
+      mobilePopupNodes.forEach((item, index) => {
+        if (item.contains(this.contentDiv!)) {
+          mobilePopupIndex = index;
+        }
+      });
+    }
+
+    return mobilePopupIndex;
+  };
+
   public renderMain() {
-    return (
-      <RenderContainer>
+    const mobilePopupZIndex = this.getPopupNodeZIndex();
+
+    const content = (
+      <>
         <div
           className={cx({
             [jsStyles.container(this.theme)]: true,
             [jsStyles.containerOpened()]: this.state.isOpened,
           })}
+          style={{ zIndex: 100000 + mobilePopupZIndex }}
         >
           <div
             className={cx({
@@ -70,23 +91,34 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
             <MobilePopupHeader caption={this.props.caption} onClose={this.close} withShadow={this.state.isScrolled}>
               {this.props.headerChildComponent}
             </MobilePopupHeader>
-            <div className={jsStyles.content(this.theme)} onScroll={this.handleScrollMenu} ref={this.refContent}>
+            <div
+              onClick={(e) => e.stopPropagation()}
+              className={jsStyles.content(this.theme)}
+              onScroll={this.handleScrollMenu}
+              ref={this.refContent}
+            >
               {this.props.children}
             </div>
           </div>
         </div>
         <HideBodyVerticalScroll />
-        <div onClick={this.close} className={jsStyles.bg()} />
-      </RenderContainer>
+        <div onClick={this.close} className={jsStyles.bg()} style={{ zIndex: 99999 + mobilePopupZIndex }} />
+      </>
     );
+
+    if (this.props.withoutRenderContainer) {
+      return content;
+    }
+
+    return <RenderContainer elementId={'MobilePopup'}>{content}</RenderContainer>;
   }
 
   public close = () => {
-    this.setState({
-      isOpened: false,
-    });
-
     if (this.props.onClose) {
+      this.setState({
+        isOpened: false,
+      });
+
       setTimeout(this.props.onClose, 250);
     }
   };

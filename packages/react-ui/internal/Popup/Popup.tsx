@@ -18,6 +18,8 @@ import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { responsiveLayout } from '../../components/ResponsiveLayout';
+import { MobilePopup, MOBILE_POPUP_ELEMENT_ID } from '../MobilePopup';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -118,6 +120,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+@responsiveLayout
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
@@ -200,6 +203,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     this.updateLocation();
@@ -252,6 +256,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
+  private renderMobile() {
+    const { opened } = this.props;
+
+    return (
+      opened && (
+        <MobilePopup withoutRenderContainer onClose={this.props.onClose ? this.props.onClose : undefined}>
+          {this.content(this.renderChildren())}
+        </MobilePopup>
+      )
+    );
+  }
+
   private renderMain() {
     const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
@@ -266,8 +282,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     return (
-      <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-        {location && this.renderContent(location)}
+      <RenderContainer
+        elementId={this.isMobileLayout ? MOBILE_POPUP_ELEMENT_ID : undefined}
+        anchor={child}
+        ref={child ? this.refAnchorElement : undefined}
+      >
+        {this.isMobileLayout && this.renderMobile()}
+        {!this.isMobileLayout && location && this.renderContent(location)}
       </RenderContainer>
     );
   }
@@ -354,8 +375,24 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return width;
   };
 
+  private content = (children: React.ReactNode) => {
+    const { backgroundColor, width } = this.props;
+
+    return (
+      <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
+        <div
+          className={styles.contentInner(this.theme)}
+          style={{ backgroundColor, width: this.calculateWidth(width) }}
+          data-tid={'PopupContentInner'}
+        >
+          {children}
+        </div>
+      </div>
+    );
+  };
+
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, width } = this.props;
+    const { disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -397,15 +434,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
-                <div
-                  className={styles.contentInner(this.theme)}
-                  style={{ backgroundColor, width: this.calculateWidth(width) }}
-                  data-tid={'PopupContentInner'}
-                >
-                  {children}
-                </div>
-              </div>
+              {this.content(children)}
               {this.renderPin(location.position)}
             </ZIndex>
           </CommonWrapper>

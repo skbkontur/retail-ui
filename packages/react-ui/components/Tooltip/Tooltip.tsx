@@ -13,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './Tooltip.styles';
 
@@ -159,8 +160,11 @@ export interface TooltipState {
   focused: boolean;
 }
 
+@responsiveLayout
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
+
+  private isMobileLayout!: boolean;
 
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
@@ -261,7 +265,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger)
         : this.props.closeButton;
 
-    if (!hasCross) {
+    if (!hasCross || this.isMobileLayout) {
       return null;
     }
 
@@ -306,8 +310,25 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
+    if (this.isMobileLayout) {
+      return popup;
+    }
+
     return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
+
+  private getMobileOnClose = () => {
+    switch (this.props.trigger) {
+      case 'opened':
+      case 'closed':
+      case 'manual': {
+        return undefined;
+      }
+      default: {
+        return this.close;
+      }
+    }
+  };
 
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
@@ -326,7 +347,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           positions={this.getPositions()}
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
-          onClose={this.props.onClose}
+          onClose={this.isMobileLayout ? this.getMobileOnClose() : this.props.onClose}
           tryPreserveFirstRenderedPosition
           {...popupProps}
         >
@@ -360,7 +381,16 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   } {
     const props = this.props;
     const useWrapper = !!props.children && props.useWrapper;
-    switch (props.trigger) {
+
+    let trigger: TooltipTrigger = this.props.trigger;
+
+    if (this.isMobileLayout) {
+      if (trigger !== 'closed' && trigger !== 'opened' && trigger !== 'manual') {
+        trigger = 'click';
+      }
+    }
+
+    switch (trigger) {
       case 'opened':
         return {
           layerProps: {
