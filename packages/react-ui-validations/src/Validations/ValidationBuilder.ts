@@ -13,8 +13,6 @@ interface PathInfo<T> {
   path: string[];
 }
 
-type InvalidValidationInfo = Pick<ValidationInfo, 'type' | 'level' | 'independent'>;
-
 export class ValidationBuilder<TRoot, T> {
   constructor(
     private readonly writer: ValidationWriter<TRoot>,
@@ -47,13 +45,22 @@ export class ValidationBuilder<TRoot, T> {
     }
   }
 
+  public invalid(isInvalid: (value: T) => boolean, validationInfo: ValidationInfo): void;
   public invalid(
     isInvalid: (value: T) => boolean,
     message: React.ReactNode,
-    typeOrValidationInfo?: ValidationBehaviour | InvalidValidationInfo,
+    type?: ValidationBehaviour,
     level?: ValidationLevel,
     independent?: boolean,
-  ): void {
+  ): void;
+
+  public invalid(
+    isInvalid: (value: T) => boolean,
+    messageOrValidationInfo: React.ReactNode | ValidationInfo,
+    type?: ValidationBehaviour,
+    level?: ValidationLevel,
+    independent?: boolean,
+  ): unknown {
     const validationWriter = this.writer.getNode<T>(this.path);
     if (validationWriter.isValidated()) {
       return;
@@ -64,10 +71,10 @@ export class ValidationBuilder<TRoot, T> {
       return;
     }
 
-    if (isValidationInfo(typeOrValidationInfo)) {
-      validationWriter.set({ message, ...typeOrValidationInfo });
+    if (isValidationInfo(messageOrValidationInfo)) {
+      validationWriter.set(messageOrValidationInfo);
     } else {
-      validationWriter.set({ message, type: typeOrValidationInfo, level, independent });
+      validationWriter.set({ message: messageOrValidationInfo, type, level, independent });
     }
   }
 
@@ -86,6 +93,5 @@ export class ValidationBuilder<TRoot, T> {
   }
 }
 
-const isValidationInfo = (
-  typeOrValidationInfo?: ValidationBehaviour | InvalidValidationInfo,
-): typeOrValidationInfo is InvalidValidationInfo => typeof typeOrValidationInfo === 'object';
+const isValidationInfo = (argument: unknown): argument is ValidationInfo =>
+  typeof argument === 'object' && Object.prototype.hasOwnProperty.call(argument, 'message');

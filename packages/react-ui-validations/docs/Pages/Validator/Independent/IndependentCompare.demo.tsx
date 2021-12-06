@@ -107,7 +107,8 @@ export default class IndependentCompare extends React.Component<{}, State> {
     b.prop(
       (x) => x.value3,
       (b, s) => {
-        b.invalid((x) => !x, 'Не должно быть пустым', {
+        b.invalid((x) => !x, {
+          message: 'Не должно быть пустым',
           type: 'lostfocus',
           independent: true,
         });
@@ -116,7 +117,8 @@ export default class IndependentCompare extends React.Component<{}, State> {
     b.prop(
       (x) => x.value4,
       (b) => {
-        b.invalid((x) => !x, 'Не должно быть пустым', {
+        b.invalid((x) => !x, {
+          message: 'Не должно быть пустым',
           type: 'lostfocus',
           independent: true,
         });

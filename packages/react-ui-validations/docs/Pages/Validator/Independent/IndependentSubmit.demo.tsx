@@ -114,7 +114,8 @@ export default class IndependentSubmit extends React.Component<{}, State> {
     b.prop(
       (x) => x.value1,
       (b, s) => {
-        b.invalid((x) => !x, null, {
+        b.invalid((x) => !x, {
+          message: null,
           type: 'submit',
           independent: true,
         });
@@ -123,7 +124,8 @@ export default class IndependentSubmit extends React.Component<{}, State> {
     b.prop(
       (x) => x.value2,
       (b, s) => {
-        b.invalid((x) => !x, null, {
+        b.invalid((x) => !x, {
+          message: null,
           type: 'lostfocus',
           independent: true,
         });
@@ -132,7 +134,8 @@ export default class IndependentSubmit extends React.Component<{}, State> {
     b.prop(
       (x) => x.value3,
       (b) => {
-        b.invalid((x) => !x, null, {
+        b.invalid((x) => !x, {
+          message: null,
           type: 'lostfocus',
           independent: false,
         });
