@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.9.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.2...@skbkontur/react-ui@3.9.3) (2021-12-03)
+
+
+### Bug Fixes
+
+* **Button:** disable focus in loading state ([#2661](https://github.com/skbkontur/retail-ui/issues/2661)) ([1c910c1](https://github.com/skbkontur/retail-ui/commit/1c910c16a11ba81b6799d74106c74bc2afc1fd57))
+* **Checkbox,Radio:** firing events onChange manually for Firefox ([6c19412](https://github.com/skbkontur/retail-ui/commit/6c19412b1c348666c802191ca851e4670df8edcc))
+* **CurrencyInput:** refactor Input scroll on cursor is moving ([4e2e8d1](https://github.com/skbkontur/retail-ui/commit/4e2e8d135a05025454a213b77697b419bf7e1aca))
+* **select:** add handleKey to search div ([#2660](https://github.com/skbkontur/retail-ui/issues/2660)) ([310b963](https://github.com/skbkontur/retail-ui/commit/310b963a510b134b391f6cae773a7b4940986623))
+* **SidePage:** use `isTestEnv` by default for `disableAnimations` ([b4035e8](https://github.com/skbkontur/retail-ui/commit/b4035e8d2beb0a1886ba0b6590838ac363c79210))
+
+
+
+
+
 ## [3.9.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.1...@skbkontur/react-ui@3.9.2) (2021-11-26)
 
 

@@ -57,3 +57,7 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
     }
   };
 }
+
+export interface InstanceRefType<T> {
+  instanceRef: React.MutableRefObject<T>;
+}
