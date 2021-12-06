@@ -9,6 +9,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return instance;
   }
 
+  // eslint-disable-next-line react/no-find-dom-node
   const domNode = (instance as any)?.getRootNode?.() || findDOMNode(instance);
   if (domNode) {
     return domNode;
