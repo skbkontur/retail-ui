@@ -430,3 +430,14 @@ WithNoValue.parameters = {
     },
   },
 };
+
+export const WithError = () => (
+  <Gapped vertical>
+    <Gapped>
+      <DateInput value="01.01.2020" error /> Error
+    </Gapped>
+    <Gapped>
+      <DateInput value="01.01.2020" error disabled /> Error and Disabled
+    </Gapped>
+  </Gapped>
+);

@@ -68,7 +68,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   /**
-   * Визуально показать наличие ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
@@ -128,6 +128,9 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   search?: boolean;
   value?: TValue;
   width?: number | string;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   use?: ButtonUse;
   size?: ButtonSize;
@@ -386,7 +389,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
-      <div className={styles.search()}>
+      <div className={styles.search()} onKeyDown={this.handleKey}>
         <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     ) : null;
@@ -500,6 +503,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private handleSearch = (value: string) => {
     this.setState({ searchPattern: value });
+    this.menu?.highlightItem(1);
   };
 
   private select(value: TValue) {

@@ -41,12 +41,12 @@ export interface ToggleProps extends CommonProps {
    */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   /**
-   * Добавляет оранжевую обводку вокруг переключателя.
+   * Cостояние валидации при предупреждении.
    * @default false
    */
   warning?: boolean;
   /**
-   * Добавляет красную обводку вокруг переключателя.
+   * Cостояние валидации при ошибке.
    * @default false
    */
   error?: boolean;
