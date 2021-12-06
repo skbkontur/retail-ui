@@ -13,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Tooltip.styles';
 
@@ -159,6 +160,7 @@ export interface TooltipState {
   focused: boolean;
 }
 
+@rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
 
@@ -194,6 +196,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
   private clickedOutside = true;
+  private setRootNode!: TSetRootNode;
 
   public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
     if (nextProps.trigger === 'closed') {
@@ -315,7 +318,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     content: JSX.Element | null,
   ) {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           anchorElement={anchorElement}
           hasPin

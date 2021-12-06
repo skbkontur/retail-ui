@@ -12,6 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -63,6 +64,7 @@ export interface PagingState {
 
 export type ItemType = number | '.' | 'forward';
 
+@rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.Component<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
@@ -78,6 +80,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
   };
 
   public static propTypes = {};
+  private setRootNode!: TSetRootNode;
 
   public static isForward(pageNumber: number | 'forward'): boolean /* %checks */ {
     return pageNumber === 'forward';
@@ -136,7 +139,7 @@ export class Paging extends React.Component<PagingProps, PagingState> {
 
   private renderMain() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span
           tabIndex={0}
           data-tid={this.props['data-tid']}

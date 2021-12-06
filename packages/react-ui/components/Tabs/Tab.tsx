@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -104,6 +105,7 @@ export interface TabState {
  *
  * Works only inside Tabs component, otherwise throws
  */
+@rootNode
 export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
@@ -129,6 +131,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private theme!: Theme;
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
+  private setRootNode!: TSetRootNode;
 
   public UNSAFE_componentWillMount() {
     invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
@@ -200,7 +203,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     const orientationStyles = isVertical ? verticalStyles : horizontalStyles;
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Component
           className={cx({
             [styles.root(this.theme)]: true,

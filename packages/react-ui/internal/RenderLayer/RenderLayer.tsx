@@ -1,8 +1,8 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -11,6 +11,7 @@ export interface RenderLayerProps extends CommonProps {
   active?: boolean;
 }
 
+@rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
 
@@ -32,6 +33,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   private focusOutsideListenerToken: {
     remove: () => void;
   } | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.active) {
@@ -55,11 +57,17 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{React.Children.only(this.props.children)}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {React.Children.only(this.props.children)}
+      </CommonWrapper>
+    );
   }
 
   private attachListeners() {
-    this.focusOutsideListenerToken = listenFocusOutside(() => [this.getDomNode()], this.handleFocusOutside);
+    const rootNode = getRootNode(this);
+    if (!rootNode) return;
+    this.focusOutsideListenerToken = listenFocusOutside(() => [rootNode], this.handleFocusOutside);
     window.addEventListener('blur', this.handleFocusOutside);
     document.addEventListener(
       'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
@@ -80,10 +88,6 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     );
   }
 
-  private getDomNode() {
-    return findDOMNode(this) as HTMLElement;
-  }
-
   private handleFocusOutside = (event: Event) => {
     if (this.props.onFocusOutside) {
       this.props.onFocusOutside(event);
@@ -92,9 +96,9 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
 
   private handleNativeDocClick = (event: Event) => {
     const target = event.target || event.srcElement;
-    const node = this.getDomNode();
+    const node = getRootNode(this);
 
-    if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+    if (!node || (target instanceof Element && containsTargetOrRenderContainer(target)(node))) {
       return;
     }
 
