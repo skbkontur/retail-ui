@@ -100,7 +100,7 @@ const Positions: PopupPosition[] = [
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
-export class Hint extends React.Component<HintProps, HintState> {
+export class Hint extends React.PureComponent<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
   public static defaultProps = {

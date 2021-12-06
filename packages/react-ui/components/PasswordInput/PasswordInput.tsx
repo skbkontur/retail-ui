@@ -26,7 +26,7 @@ export interface PasswordInputState {
 /**
  * Компонент для ввода пароля
  */
-export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
   public static propTypes = {

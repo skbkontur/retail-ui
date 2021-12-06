@@ -64,7 +64,7 @@ export interface PagingState {
 export type ItemType = number | '.' | 'forward';
 
 @locale('Paging', PagingLocaleHelper)
-export class Paging extends React.Component<PagingProps, PagingState> {
+export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
   public static defaultProps = {

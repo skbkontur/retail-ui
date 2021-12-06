@@ -85,7 +85,7 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
-export class DatePicker extends React.Component<DatePickerProps<DatePickerValue>, DatePickerState> {
+export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
   public static propTypes = {

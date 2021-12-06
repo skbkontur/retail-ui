@@ -62,7 +62,7 @@ export interface CheckboxState {
   indeterminate: boolean;
 }
 
-export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
   public static propTypes = {

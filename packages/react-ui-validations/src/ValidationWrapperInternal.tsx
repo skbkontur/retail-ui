@@ -47,7 +47,7 @@ interface Point {
   y: number;
 }
 
-export class ValidationWrapperInternal extends React.Component<
+export class ValidationWrapperInternal extends React.PureComponent<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
 > {

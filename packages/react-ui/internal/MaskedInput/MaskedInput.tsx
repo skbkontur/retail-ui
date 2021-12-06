@@ -25,7 +25,7 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
+export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
   public static defaultProps: Partial<MaskedInputProps> = {

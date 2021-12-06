@@ -118,7 +118,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
-export class Popup extends React.Component<PopupProps, PopupState> {
+export class Popup extends React.PureComponent<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
   public static propTypes = {

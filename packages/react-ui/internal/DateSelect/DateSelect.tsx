@@ -45,7 +45,7 @@ export interface DateSelectState {
 }
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
+export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
 
   public static propTypes = {
