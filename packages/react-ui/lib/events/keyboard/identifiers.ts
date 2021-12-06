@@ -8,6 +8,10 @@ type IS = (e: E) => boolean;
 type ISMod = (is?: IS) => IS;
 type ISSome = (...is: IS[]) => IS;
 
+// IE 9+ supports char attribute
+// https://developer.mozilla.org/ru/docs/Web/API/KeyboardEvent
+const getChar = (e: E) => (e instanceof KeyboardEvent ? e.char : e.nativeEvent.char);
+
 export const isShortcutCopy: IS = (e) =>
   ((isMac ? e.metaKey : e.ctrlKey) && extractCode(e) === Codes.KeyC) ||
   (!isMac && e.ctrlKey && isKeyInsert(e)) ||
@@ -43,6 +47,7 @@ export const isKeyArrowRight: IS = (e) => e.key === 'ArrowRight' || e.key === 'R
 export const isKeyArrowDown: IS = (e) => e.key === 'ArrowDown' || e.key === 'Down';
 export const isKeyArrowLeft: IS = (e) => e.key === 'ArrowLeft' || e.key === 'Left';
 export const isKeySpace: IS = (e) => e.key === ' ' || e.key === 'Spacebar';
+export const isKeyComma: IS = (e) => e.key === ',' || getChar(e) === ',';
 
 export const isCodeMinus: IS = (e) => extractCode(e) === Codes.Minus;
 export const isCodeNumpadDecimal: IS = (e) => extractCode(e) === Codes.NumpadDecimal;

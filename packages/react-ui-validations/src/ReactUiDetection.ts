@@ -23,4 +23,7 @@ export class ReactUiDetection {
   public static isSwitcher(childrenArray: any): boolean {
     return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'Switcher';
   }
+  public static isComboBox(childrenArray: any): boolean {
+    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'ComboBox';
+  }
 }

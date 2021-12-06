@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPosition } from '../../internal/Popup';
@@ -31,8 +31,11 @@ export interface KebabProps extends CommonProps {
   onOpen: () => void;
   size: 'small' | 'medium' | 'large';
   /**
-   * Список позиций доступных для расположения выпадашки
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использоваться первая из этого списка
+   * Список позиций доступных для расположения выпадашки.
+   *
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
+   *
+   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions: PopupPosition[];
@@ -124,6 +127,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
           disableAnimations={this.props.disableAnimations}
+          menuMaxHeight={this.props.menuMaxHeight}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -199,7 +203,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

@@ -136,7 +136,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  input(t: Theme) {
+  input() {
     return css`
       display: inline-block;
       height: 0;
@@ -144,12 +144,6 @@ export const styles = memoizeStyle({
       position: absolute;
       width: 0;
       z-index: -1;
-
-      &:focus + .${globalClasses.radio}::after {
-        ${mixins.afterOutline(t)};
-        box-shadow: ${t.radioFocusShadow};
-        border-color: ${t.radioBorderColorFocus};
-      }
     `;
   },
 
@@ -168,6 +162,7 @@ export const styles = memoizeStyle({
       margin-left: ${t.radioLabelGap};
       white-space: normal;
       font-size: ${t.radioFontSize};
+      color: ${t.radioTextColor};
     `;
   },
 

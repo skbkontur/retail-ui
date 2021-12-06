@@ -6,6 +6,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { keyListener } from '../../lib/events/keyListener';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -14,30 +16,54 @@ export interface RadioProps<T>
     Override<
       React.InputHTMLAttributes<HTMLInputElement>,
       {
-        /** Состояние ошибки */
+        /**
+         *  Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Состояние Предупреждения */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
-        /** Состояние фокуса */
+        /**
+         * Состояние фокуса.
+         */
         focused?: boolean;
-        /** Состояние нажатия */
-        pressed?: boolean;
-        /** Состояние hover */
-        hovered?: boolean;
-        /** Состояние active */
-        active?: boolean;
-        /** Вызывается при изменении `value` */
+        /**
+         * Функция, вызываемая при изменении `value`.
+         */
         onValueChange?: (value: T) => void;
+        /**
+         * HTML-событие `onmouseenter`
+         */
         onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * HTML-событие `mouseleave`
+         */
         onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+        /**
+         * HTML-событие `onmouseover`
+         */
         onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /** Значение */
+        /**
+         * HTML-атрибут `value`.
+         */
         value: T;
       }
     > {}
 
-export class Radio<T> extends React.Component<RadioProps<T>> {
+export interface RadioState {
+  focusedByKeyboard: boolean;
+}
+
+/**
+ * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
+ */
+export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
+
+  public state = {
+    focusedByKeyboard: false,
+  };
 
   public static contextTypes = {
     activeItem: PropTypes.any,
@@ -70,6 +96,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
    * @public
    */
   public focus() {
+    keyListener.isTabPressed = true;
     this.inputEl.current?.focus();
   }
 
@@ -82,13 +109,10 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
 
   public renderMain = (props: CommonWrapperRestProps<RadioProps<T>>) => {
     const {
-      active,
       disabled = this.context.disabled,
       warning = this.context.warning,
       error = this.context.error,
       focused,
-      pressed,
-      hovered,
       onMouseOver,
       onMouseEnter,
       onMouseLeave,
@@ -100,7 +124,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       className: cx({
         [styles.radio(this.theme)]: true,
         [styles.checked(this.theme)]: this.props.checked,
-        [styles.focus(this.theme)]: this.props.focused,
+        [styles.focus(this.theme)]: this.props.focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
         [styles.disabled(this.theme)]: disabled,
@@ -117,12 +141,14 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: styles.input(this.theme),
+      className: styles.input(),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
       ref: this.inputEl,
       onChange: this.handleChange,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
     };
 
     const labelProps = {
@@ -130,6 +156,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
+      onClick: fixFirefoxModifiedClickOnLabel(this.inputEl),
     };
 
     if (this._isInRadioGroup()) {
@@ -137,6 +164,7 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
+      labelProps.className = cx(styles.root(this.theme), checked && styles.rootChecked(this.theme));
       radioProps.className = cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
@@ -185,5 +213,26 @@ export class Radio<T> extends React.Component<RadioProps<T>> {
 
   private handleMouseLeave: React.MouseEventHandler<HTMLLabelElement> = (e) => {
     this.props.onMouseLeave?.(e);
+  };
+
+  private handleFocus = (e: React.FocusEvent<any>) => {
+    if (!this.context.disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      requestAnimationFrame(() => {
+        if (keyListener.isArrowPressed || keyListener.isTabPressed) {
+          this.setState({ focusedByKeyboard: true });
+        }
+      });
+
+      if (this.props.onFocus) {
+        this.props.onFocus(e);
+      }
+    }
+  };
+
+  private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    this.props.onBlur?.(e);
+    this.setState({ focusedByKeyboard: false });
   };
 }

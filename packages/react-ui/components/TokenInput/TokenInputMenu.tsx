@@ -67,10 +67,10 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
     return (
       <Popup
         opened={opened!}
-        positions={['bottom left']}
+        positions={['bottom left', 'top left']}
         anchorElement={anchorElement}
         popupOffset={menuAlign === 'left' ? 0 : 5}
-        margin={menuAlign === 'left' ? 1 : 0}
+        margin={menuAlign === 'left' ? 1 : undefined}
         hasShadow={is8pxTheme(this.theme)}
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
       >

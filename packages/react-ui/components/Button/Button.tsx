@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { isIE11, isEdge } from '../../lib/client';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
@@ -23,24 +23,33 @@ export interface ButtonProps extends CommonProps {
   _noRightPadding?: boolean;
 
   /**
-   * Визуально нажатое состояние.
+   * Применяет к кнопке стили псевдокласса `:active`.
    */
   active?: boolean;
 
-  /** `type TextAlignProperty = "inherit" | "initial" | "unset" | "center" | "end" | "justify" | "left" | "match-parent" | "right" | "start"` */
+  /**
+   * CSS-свойство `text-align`.
+   */
   align?: React.CSSProperties['textAlign'];
 
   /**
-   * Кнопка со стрелкой.
-   *
-   * `type ButtonArrow = boolean | "left"`
+   * Превращает обычную кнопку в кнопку со стрелкой.
    */
   arrow?: boolean | 'left';
 
+  /**
+   * Даёт кнопке фокус после окончания загрузки страницы.
+   */
   autoFocus?: boolean;
 
+  /**
+   * Убирает обводку у кнопки.
+   */
   borderless?: boolean;
 
+  /**
+   * @ignore
+   */
   checked?: boolean;
 
   children?: React.ReactNode;
@@ -48,56 +57,104 @@ export interface ButtonProps extends CommonProps {
   /** @ignore */
   corners?: number;
 
+  /**
+   * Отключенное состояние кнопки.
+   */
   disabled?: boolean;
 
   /** @ignore */
   disableFocus?: boolean;
 
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
-
-  focused?: boolean;
 
   /**
    * Иконка слева от текста кнопки.
    */
   icon?: React.ReactElement<any>;
 
+  /**
+   * Переводит кнопку в состояние загрузки.
+   */
   loading?: boolean;
 
+  /**
+   * Сужает кнопку.
+   */
   narrow?: boolean;
 
+  /**
+   * HTML-событие `onblur`.
+   */
   onBlur?: React.FocusEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onclick`.
+   */
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onfocus`.
+   */
   onFocus?: React.FocusEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `keydown`.
+   */
   onKeyDown?: React.KeyboardEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onmouseenter`.
+   */
   onMouseEnter?: React.MouseEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: React.MouseEventHandler<HTMLButtonElement>;
 
+  /**
+   * HTML-событие `onmouseover`.
+   */
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
-  /** `type ButtonSize = "small" | "medium" | "large"` */
+  /**
+   * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
   size?: ButtonSize;
 
-  /** `type ButtonType = "button" | "submit" | "reset"` */
+  /**
+   * HTML-атрибут `type`.
+   */
   type?: ButtonType;
 
   /**
-   * Вариант использования. Влияет на цвет кнопки.
+   * HTML-атрибут `title`.
+   */
+  title?: string;
+
+  /**
+   * Стиль кнопки.
    *
-   * `type ButtonUse = "default" | "primary" | "success" | "danger" | "pay" | "link"`
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
    */
   use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
 
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
 
+  /**
+   * CSS-свойство `width`.
+   */
   width?: number | string;
 }
 
@@ -128,9 +185,16 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   public componentDidMount() {
     if (this.props.autoFocus) {
-      tabListener.isTabPressed = true;
+      keyListener.isTabPressed = true;
       this.focus();
     }
+  }
+
+  public static getDerivedStateFromProps(props: ButtonProps) {
+    if (props.loading || props.disabled) {
+      return { focusedByTab: false };
+    }
+    return null;
   }
 
   /**
@@ -224,6 +288,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onMouseLeave: onMouseLeave,
       onMouseOver: onMouseOver,
       tabIndex: disableFocus ? -1 : 0,
+      title: this.props.title,
     };
 
     const wrapProps = {
@@ -362,7 +427,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });

@@ -100,10 +100,10 @@ export const App = () => {
         </MenuItem>
       </Kebab>
       <Link>Enabled</Link>
-      <Link href="http://tech.skbkontur.ru/react-ui/">with href</Link>
+      <Link href="https://tech.skbkontur.ru/react-ui/">with href</Link>
       <Loader />
       <MenuItem
-        href="http://tech.skbkontur.ru/react-ui/"
+        href="https://tech.skbkontur.ru/react-ui/"
         component={({ href, ...rest }) => <Link to={href} {...rest} />}
       >
         Awesome link

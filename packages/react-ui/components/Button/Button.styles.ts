@@ -25,7 +25,7 @@ export const styles = memoizeStyle({
       ${resetButton()};
       ${resetText()};
 
-      background-clip: padding-box;
+      background-clip: ${t.btnBackgroundClip};
       background-position: center;
       background-repeat: no-repeat;
       background-size: contain;

@@ -1,9 +1,6 @@
 ﻿using System;
-
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-
-using SKBKontur.SeleniumTesting.Internals.Commons;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
 
 namespace SKBKontur.SeleniumTesting.Tests.Helpers
@@ -19,10 +16,14 @@ namespace SKBKontur.SeleniumTesting.Tests.Helpers
             if(TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
             {
                 var now = DateTime.Now;
-                ScreenshotSaver.Save(BrowserSetUp.browser.GetScreenshot().AsByteArray, TestContext.CurrentContext.Test.FullName, now);
+                var context = TestContext.CurrentContext;
+                ScreenshotSaver.Save(
+                    BrowserSetUp.browser.GetScreenshot().AsByteArray,
+                    string.Join(".", context.Test.ClassName, context.Test.Name),
+                    now);
             }
         }
 
-        public ActionTargets Targets { get { return ActionTargets.Test; } }
+        public ActionTargets Targets => ActionTargets.Test;
     }
 }

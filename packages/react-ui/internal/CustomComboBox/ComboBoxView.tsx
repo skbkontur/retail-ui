@@ -1,6 +1,7 @@
 import React from 'react';
 import { findDOMNode } from 'react-dom';
 
+import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -23,6 +24,9 @@ interface ComboBoxViewProps<T> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   editing?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
@@ -34,6 +38,9 @@ interface ComboBoxViewProps<T> extends CommonProps {
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   width?: string | number;
   maxLength?: number;
@@ -250,7 +257,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         width="100%"
         ref={refInputLikeText}
       >
-        {value ? renderValue!(value) : null}
+        {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
     );
   }

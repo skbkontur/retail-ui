@@ -203,7 +203,14 @@ export const DisabledChecked = () => (
 );
 DisabledChecked.storyName = 'disabled checked';
 
-export const Error = () => <Checkbox error>Error</Checkbox>;
+export const Error = () => (
+  <Gapped vertical>
+    <Checkbox error>Error</Checkbox>
+    <Checkbox error disabled>
+      Error and Disabled
+    </Checkbox>
+  </Gapped>
+);
 Error.storyName = 'error';
 
 export const WithMouseEnterLeaveHandlers = () => (

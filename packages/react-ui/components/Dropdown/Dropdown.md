@@ -1,6 +1,5 @@
 ```jsx harmony
 import { Dropdown, MenuHeader, MenuItem, MenuSeparator } from '@skbkontur/react-ui';
-
 <Dropdown caption="Click">
   <MenuItem onClick={() => alert('Clack')}>Clack</MenuItem>
   <MenuSeparator />

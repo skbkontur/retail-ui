@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
-import { tabListener } from '../../lib/events/tabListener';
+import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
@@ -17,20 +17,41 @@ export interface LinkProps
     Override<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
       {
-        /** Неактивное состояние */
+        /**
+         * Отключенное состояние.
+         */
         disabled?: boolean;
-        /** href */
+        /**
+         * HTML-атрибут `href`.
+         */
         href?: string;
-        /** Иконка */
+        /**
+         * Добавляет ссылке иконку.
+         */
         icon?: React.ReactElement<any>;
-        /** Тип */
+        /**
+         * Тема ссылки.
+         */
         use?: 'default' | 'success' | 'danger' | 'grayed';
+        /**
+         * @ignore
+         */
         _button?: boolean;
+        /**
+         * @ignore
+         */
         _buttonOpened?: boolean;
+        /**
+         * HTML-атрибут `tabindex`.
+         */
         tabIndex?: number;
-        /** Состояние загрузки */
+        /**
+         * Переводит ссылку в состояние загрузки.
+         */
         loading?: boolean;
-        /** onClick */
+        /**
+         * HTML-событие `onclick`.
+         */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
       }
     > {}
@@ -40,10 +61,7 @@ export interface LinkState {
 }
 
 /**
- * Стандартная ссылка.
- * Интерфес пропсов наследуется от `React.AnchorHTMLAttributes<HTMLAnchorElement>`.
- * Все свойства передаются в элемент `<a>`.
- * `className` и `style` не поддерживаются
+ * Элемент ссылки из HTML.
  */
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
@@ -121,11 +139,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      tabIndex: this.props.tabIndex,
+      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
-    if (disabled) {
-      props.tabIndex = -1;
-    }
 
     return (
       <a {...rest} {...linkProps}>
@@ -141,7 +156,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
       requestAnimationFrame(() => {
-        if (tabListener.isTabPressed) {
+        if (keyListener.isTabPressed) {
           this.setState({ focusedByTab: true });
         }
       });
@@ -153,11 +168,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { href, onClick, disabled } = this.props;
+    const { href, onClick, disabled, loading } = this.props;
     if (!href) {
       event.preventDefault();
     }
-    if (onClick && !disabled) {
+    if (onClick && !disabled && !loading) {
       onClick(event);
     }
   };

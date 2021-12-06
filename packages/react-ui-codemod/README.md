@@ -27,6 +27,13 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Список кодмодов
 
+### addons-3/renameThemeVars
+
+Переименовывает переменные темы в соответствии с изменениями в [!122](https://git.skbkontur.ru/ui/ui-parking/-/merge_requests/122).
+
+```
+npx react-ui-codemod addons-3/renameThemeVars.ts FILES_PATH
+```
 ### react-ui-2.0/transformImportsAndExports.ts
 
 Правит импорты и реэкспорты из библиотеки в соответствии с изменениями #1828 #1932.

@@ -278,8 +278,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static tokenRemoveIconPaddingX = '4px';
   public static tokenRemoveIconGap = '4px';
   public static tokenRemoveIconBoxSizing = 'content-box';
-  public static tokenBorderColorDisabled = '#dadada';
-  public static tokenDisabledBg = '#e5e5e5';
   public static tokenLegacyTextShift = '0px';
   public static get tokenPaddingYDisabled() {
     return this.tokenPaddingY;
@@ -292,9 +290,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get tokenMarginXDisabled() {
     return this.tokenMarginX;
-  }
-  public static get tokenShadowDisabled() {
-    return `0 0 0 ${this.tokenBorderWidth} ${this.tokenBorderColorDisabled}`;
   }
   //#endregion
   //#region TokenInput
@@ -460,15 +455,10 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
   //#region SidePage
-  public static sidePageFooterPanelBg = '#e9e9e9';
   public static sidePagePaddingLeft = '32px';
   public static sidePagePaddingRight = '36px';
   public static sidePagePaddingTop = '24px';
   public static sidePagePaddingBottom = '40px';
-  public static get sidePageBgDefault() {
-    return this.bgDefault;
-  }
-
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
@@ -476,7 +466,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '28px';
   public static sidePageHeaderFixedPaddingY = '10px';
-  public static sidePageHeaderStickyOffset = '7px';
+  public static sidePageHeaderStickyOffset = '5px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageFooterPaddingTop = '24px';
   public static sidePageFooterPaddingBottom = '32px';

@@ -1,19 +1,29 @@
-import { mount } from 'enzyme';
-import React from 'react';
+import { convertScrollbarXScrollState, convertScrollbarYScrollState } from '../ScrollContainer.helpers';
 
-import { MenuItem } from '../../MenuItem';
-import { ScrollContainer } from '../ScrollContainer';
+describe('convertScrollbarXScrollState', () => {
+  test('begin position left', () => {
+    expect(convertScrollbarXScrollState('begin')).toBe('left');
+  });
 
-describe('ScrollContainer', () => {
-  test('renders with proper scroll state', () => {
-    const wrapper = mount(
-      <ScrollContainer>
-        {new Array(50).fill('').map((i, index) => (
-          <MenuItem key={index}>{'test'}</MenuItem>
-        ))}
-      </ScrollContainer>,
-    );
+  test('middle position scroll', () => {
+    expect(convertScrollbarXScrollState('middle')).toBe('scroll');
+  });
 
-    expect(wrapper.state('scrollState')).toEqual('top');
+  test('end position right', () => {
+    expect(convertScrollbarXScrollState('end')).toBe('right');
+  });
+});
+
+describe('convertScrollbarYScrollState', () => {
+  test('begin position top', () => {
+    expect(convertScrollbarYScrollState('begin')).toBe('top');
+  });
+
+  test('middle position scroll', () => {
+    expect(convertScrollbarYScrollState('middle')).toBe('scroll');
+  });
+
+  test('end position bottom', () => {
+    expect(convertScrollbarYScrollState('end')).toBe('bottom');
   });
 });
