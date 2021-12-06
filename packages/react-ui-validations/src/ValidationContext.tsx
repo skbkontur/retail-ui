@@ -3,7 +3,6 @@ import React from 'react';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
-import { getType } from './ValidationHelper';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -122,11 +121,8 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
     return wrappersWithPosition.map((x) => x.target);
   }
 
-  public async validate(withoutFocus: boolean, withoutIndependent: boolean): Promise<boolean> {
-    const filtered = this.childWrappers.filter(
-      (x) => !withoutIndependent || !x.isIndependent() || getType(x.props.validation) === 'submit',
-    );
-    await Promise.all(filtered.map((x) => x.processSubmit()));
+  public async validate(withoutFocus: boolean): Promise<boolean> {
+    await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
     const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => x.hasError());
     if (firstInvalid) {
       if (!withoutFocus) {

@@ -38,23 +38,3 @@
 ### Пример с `lostfocus`
 
     !!DemoWithCode!!./IndependentCompare
-
-Методы `validate()` и `submit()` по-умолчанию валидируют все поля.
-Чтобы исключить независимые поля надо вторым аргументом `withoutIndependent` передать `true`.
-
-Первый аргумент `withoutFocus` по умолчанию `false`
-
-    // validate(withoutFocus = false, withoutIndependent = false)
-    this.container.validate(false, true);
-
-    // submit(withoutFocus = false, withoutIndependent = false)
-    await this.container.submit(false, true);
-
-Если у независимого поля уже отображается валидация, то оно будет учитываться в любом случае.
-Также, аргумент `withoutIndependent` будет игнорироваться для типа валидации `submit`.
-
-
-### Пример с `submit`
-
-    !!DemoWithCode!!./IndependentSubmit
-
