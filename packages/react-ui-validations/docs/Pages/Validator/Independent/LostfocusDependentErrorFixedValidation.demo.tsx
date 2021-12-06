@@ -10,56 +10,46 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
-  name: string;
-  lastname: string;
-}
+const validate = (value: string): Nullable<ValidationInfo> => {
+  if (!/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value))
+    return { message: 'Неправильный номер', type: 'lostfocus', independent: true };
+  return null;
+};
 
-export default class LostfocusDependentErrorFixedValidationDemo extends React.Component<
-  {},
-  State
-> {
-  public state: State = {
-    name: '',
-    lastname: '',
-  };
+export default () => {
+  const [tel1, setTel1] = React.useState('+7(');
+  const [tel2, setTel2] = React.useState('+7(123)');
 
-  private validate = (value: string): Nullable<ValidationInfo> => {
-    if (!value)
-      return { message: 'Не должно быть пустым', type: 'lostfocus', independent: true };
-    return null;
-  };
-
-  public render() {
-    return (
-      <ValidationContainer>
-        <Form>
-          <Form.Line title="Имя">
-            <ValidationWrapper
-              validationInfo={this.validate(this.state.name)}
-              renderMessage={text('right')}
-            >
-              <Input
-                placeholder={'Иван'}
-                value={this.state.name}
-                onValueChange={(name) => this.setState({ name })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-          <Form.Line title="Фамилия">
-            <ValidationWrapper
-              validationInfo={this.validate(this.state.lastname)}
-              renderMessage={text('right')}
-            >
-              <Input
-                placeholder={'Иванов'}
-                value={this.state.lastname}
-                onValueChange={(lastname) => this.setState({ lastname })}
-              />
-            </ValidationWrapper>
-          </Form.Line>
-        </Form>
-      </ValidationContainer>
-    );
-  }
-}
+  return (
+    <ValidationContainer>
+      <Form>
+        <Form.Line title="1-й номер телефона">
+          <ValidationWrapper
+            validationInfo={validate(tel1)}
+            renderMessage={text('right')}
+          >
+            <Input
+              mask={'+7(999)-999-99-99'}
+              alwaysShowMask
+              value={tel1}
+              onValueChange={setTel1}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+        <Form.Line title="2-й номер телефона">
+          <ValidationWrapper
+            validationInfo={validate(tel2)}
+            renderMessage={text('right')}
+          >
+            <Input
+              mask={'+7(999)-999-99-99'}
+              alwaysShowMask
+              value={tel2}
+              onValueChange={setTel2}
+            />
+          </ValidationWrapper>
+        </Form.Line>
+      </Form>
+    </ValidationContainer>
+  );
+};

@@ -1,21 +1,19 @@
 # Независимые валидации
 
-По умолчанию все [валидации зависимы](#/dependent-validation). Но бывают случаи, когда такое поведение мешает.
+Зависимость валидаций может мешать, когда несколько полей имеют одинаковый шаблон проверки.
+Например, поля проверяются на пустое значение (Гайдами такое поведение [не рекомендуется](https://guides.kontur.
+ru/principles/validation/#09)).
 
-Например, несколько полей проверяются на пустое значение, и тип валидации - `lostfocus`:
+Или, у полей одинаковый паттерн валидации, и это черновик. Т.е. пользователь уже вводил в этой форме данные, но не 
+закончил. И вы не хотите сразу валидировать все поля:
 
-    interface Data {
-      name: string;
-      lastname: string;
-    }
-
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      if (!value)
-        return { message: 'Не должно быть пустым', type: 'lostfocus' };
+    const validate = (value: string): Nullable<ValidationInfo> => {
+      if (!/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value))
+        return { message: 'Неправильный номер', type: 'lostfocus' };
       return null;
     };
 
-В таком случае, потеря фокуса на одном поле вызывает валидацию и на другом.
+По умолчанию, потеря фокуса на одном поле вызовет валидацию и на другом.
 
 ### Пример
 
@@ -23,9 +21,9 @@
 
 Чтобы это исправить укажите независимость валидации свойством `independent` в объекте `validationInfo`:
 
-    private validate = (value: string): Nullable<ValidationInfo> => {
-      if (!value)
-        return { message: 'Не должно быть пустым', type: 'lostfocus', independent: true };
+    const validate = (value: string): Nullable<ValidationInfo> => {
+      if (!/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value))
+        return { message: 'Неправильный номер', type: 'lostfocus', independent: true };
       return null;
     };
 
@@ -35,6 +33,6 @@
 
 В одной форме могут быть и зависимые и независимые валидации:
 
-### Пример с `lostfocus`
+### Пример с пустыми значениями
 
     !!DemoWithCode!!./IndependentCompare

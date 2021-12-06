@@ -1,6 +1,9 @@
 # Виды валидаций
 
-[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
+[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii).
+
+По умолчанию все валидации [зависимы](#/dependent-validation). Но их можно сделать [независимыми]
+(#/independent-validation) свойством `independent`.
 
 Вид валидации задается с помощью свойства `type` в объекте `validationInfo`.
 
@@ -33,9 +36,6 @@
 ### Пример
 
     !!DemoWithCode!!./LostfocusValidation
-
-
-По умолчанию все валидации в `ValidationContainer` [зависимы](#/dependent-validation). Но их можно сделать [независимыми](#/independent-validation).
 
 ## По отправке формы
 
