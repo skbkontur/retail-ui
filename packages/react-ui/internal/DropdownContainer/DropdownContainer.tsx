@@ -28,7 +28,7 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
-export class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
+export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
   public static defaultProps = {
@@ -52,9 +52,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
-  }
 
-  public UNSAFE_componentWillMount() {
     const { body, documentElement: docEl } = document;
     const htmlPosition = getComputedStyle(docEl).position;
     const bodyPosition = getComputedStyle(body).position;

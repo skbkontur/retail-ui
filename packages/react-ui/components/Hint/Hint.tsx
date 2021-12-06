@@ -102,7 +102,7 @@ const Positions: PopupPosition[] = [
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
 @rootNode
-export class Hint extends React.Component<HintProps, HintState> {
+export class Hint extends React.PureComponent<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
   public static defaultProps = {
@@ -122,16 +122,16 @@ export class Hint extends React.Component<HintProps, HintState> {
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
-    if (!nextProps.manual) {
+  public componentDidUpdate(prevProps: HintProps) {
+    if (!this.props.manual) {
       return;
     }
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    if (nextProps.opened !== this.props.opened) {
-      this.setState({ opened: !!nextProps.opened });
+    if (this.props.opened !== prevProps.opened) {
+      this.setState({ opened: !!this.props.opened });
     }
   }
 

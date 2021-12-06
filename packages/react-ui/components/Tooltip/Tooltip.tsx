@@ -198,14 +198,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private clickedOutside = true;
   private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
-    if (nextProps.trigger === 'closed') {
+  public componentDidUpdate(prevProps: TooltipProps) {
+    if (this.props.trigger === 'closed') {
       this.close();
     }
 
     const { allowedPositions, pos } = this.props;
-    const posChanged = nextProps.pos !== pos;
-    const allowedChanged = !isEqual(nextProps.allowedPositions, allowedPositions);
+    const posChanged = prevProps.pos !== pos;
+    const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
     if (posChanged || allowedChanged) {
       this.positions = null;

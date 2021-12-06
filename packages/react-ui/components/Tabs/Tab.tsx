@@ -133,7 +133,8 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
   private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillMount() {
+  constructor(props: TabProps<T>) {
+    super(props);
     invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
   }
 
