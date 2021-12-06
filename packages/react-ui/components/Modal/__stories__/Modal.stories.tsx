@@ -6,6 +6,7 @@ import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
+import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -808,26 +809,32 @@ export const MobileModal = () => {
                 </p>
               </Modal.Body>
               <Modal.Footer panel>
-                <Button
-                  use={'primary'}
-                  onClick={() => {
-                    setShowThird(true);
-                  }}
-                  style={{ paddingRight: !isMobile ? '25px' : '0px' }}
-                >
-                  Ок
-                </Button>
-                <Button
-                  use={'danger'}
-                  onClick={() => {
-                    setShowThird(false);
-                  }}
-                >
-                  Удалить
-                </Button>
-                {showThirdButton && (
-                  <Button style={isMobile ? { marginTop: '8px' } : { marginLeft: '100px' }}>Изменить</Button>
-                )}
+                {/* {isMobile ? <Gapped vertical>{buttons(isMobile)}</Gapped> : buttons(isMobile)} */}
+                <Gapped vertical={isMobile} gap={isMobile ? 8 : 25}>
+                  <Button
+                    use={'primary'}
+                    onClick={() => {
+                      setShowThird(true);
+                    }}
+                    style={isMobile ? { width: '100%' } : undefined}
+                  >
+                    Ок
+                  </Button>
+                  <Button
+                    use={'danger'}
+                    onClick={() => {
+                      setShowThird(false);
+                    }}
+                    style={isMobile ? { width: '100%' } : undefined}
+                  >
+                    Удалить
+                  </Button>
+                  {showThirdButton && (
+                    <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
+                      Изменить
+                    </Button>
+                  )}
+                </Gapped>
               </Modal.Footer>
             </Modal>
           );

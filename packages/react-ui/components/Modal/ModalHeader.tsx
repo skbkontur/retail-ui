@@ -20,9 +20,9 @@ export interface ModalHeaderProps extends CommonProps {
  * @visibleName Modal.Header
  */
 function ModalHeader(props: ModalHeaderProps) {
-  const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
+  const { sticky = modal.isMobile ? false : true, children } = props;
 
   useEffect(() => {
     modal.setHasHeader?.();
