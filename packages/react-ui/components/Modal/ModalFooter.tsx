@@ -1,4 +1,4 @@
-import React, { isValidElement, ReactNode, useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect } from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
@@ -9,8 +9,6 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
-
-const ALLOWED_MOBILE_FOOTER_BUTTTONS = 2;
 
 export interface ModalFooterProps extends CommonProps {
   /**
@@ -30,7 +28,6 @@ function ModalFooter(props: ModalFooterProps) {
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
   const { sticky = modal.isMobile ? false : true, panel, children } = props;
-  const [isManyElementsInChild, setIsManyElementsInChild] = useState(false);
 
   useEffect(() => {
     modal.setHasFooter?.();
@@ -41,22 +38,6 @@ function ModalFooter(props: ModalFooterProps) {
       modal.setHasPanel?.(false);
     };
   }, [panel]);
-
-  useEffect(() => {
-    checkManyElements();
-  }, [children]);
-
-  const checkManyElements = () => {
-    if (modal.isMobile && React.Children.count(children) > ALLOWED_MOBILE_FOOTER_BUTTTONS) {
-      let elements = 0;
-      React.Children.map(children, (child) => {
-        if (isValidElement(child)) {
-          elements++;
-        }
-      });
-      setIsManyElementsInChild(elements > ALLOWED_MOBILE_FOOTER_BUTTTONS);
-    }
-  };
 
   const renderContent = (fixed = false) => {
     return (
@@ -77,7 +58,7 @@ function ModalFooter(props: ModalFooterProps) {
   return (
     <CommonWrapper {...props}>
       <ZIndex priority={'ModalFooter'} className={styles.footerWrapper()}>
-        {(sticky && !modal.isMobile) || (sticky && modal.isMobile && !isManyElementsInChild) ? (
+        {sticky ? (
           <Sticky side="bottom" offset={modal.horizontalScroll ? getScrollWidth() : 0}>
             {renderContent}
           </Sticky>

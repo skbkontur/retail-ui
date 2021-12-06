@@ -188,25 +188,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       containerStyle.width = 'auto';
     }
 
-    const content = (isMobile: boolean) => {
-      return (
-        <>
-          {!hasHeader && !this.props.noClose && !isMobile && (
-            <ZIndex
-              priority={'ModalCross'}
-              className={cx({
-                [styles.closeWrapper(this.theme)]: true,
-                [styles.mobileCloseWrapper(this.theme)]: isMobile,
-              })}
-            >
-              <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
-            </ZIndex>
-          )}
-          <ModalContext.Provider value={modalContextProps}>{this.props.children}</ModalContext.Provider>
-        </>
-      );
-    };
-
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
@@ -247,7 +228,20 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                             autoFocus={false}
                             className={cx({ [styles.columnFlexContainer()]: isMobile })}
                           >
-                            {content(isMobile)}
+                            {!hasHeader && !this.props.noClose && !isMobile && (
+                              <ZIndex
+                                priority={'ModalCross'}
+                                className={cx({
+                                  [styles.closeWrapper(this.theme)]: true,
+                                  [styles.mobileCloseWrapper(this.theme)]: isMobile,
+                                })}
+                              >
+                                <ModalClose requestClose={this.requestClose} disableClose={this.props.disableClose} />
+                              </ZIndex>
+                            )}
+                            <ModalContext.Provider value={modalContextProps}>
+                              {this.props.children}
+                            </ModalContext.Provider>
                           </FocusLock>
                         </ResizeDetector>
                       </div>

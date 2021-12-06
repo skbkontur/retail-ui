@@ -809,7 +809,6 @@ export const MobileModal = () => {
                 </p>
               </Modal.Body>
               <Modal.Footer panel>
-                {/* {isMobile ? <Gapped vertical>{buttons(isMobile)}</Gapped> : buttons(isMobile)} */}
                 <Gapped vertical={isMobile} gap={isMobile ? 8 : 25}>
                   <Button
                     use={'primary'}
