@@ -23,7 +23,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction } from '../../lib/utils';
+import { isFunction, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -480,13 +480,17 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           const element = item();
 
           if (React.isValidElement(element)) {
-            return React.cloneElement(element, { key: i });
+            return React.cloneElement(element, { key: i, isMobile });
           }
 
           return null;
         }
 
         if (React.isValidElement(item)) {
+          if (isReactUINode('MenuItem', item)) {
+            //@ts-ignore
+            return React.cloneElement(item, { key: i, isMobile });
+          }
           return React.cloneElement(item, { key: i });
         }
 
