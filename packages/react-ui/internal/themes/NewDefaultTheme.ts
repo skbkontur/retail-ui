@@ -1140,7 +1140,7 @@ export class NewDefaultTheme {
     const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
-  public static checkboxMarginY = '2px';
+  public static checkboxBoxOffsetY = '2px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {

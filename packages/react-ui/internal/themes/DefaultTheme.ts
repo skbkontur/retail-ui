@@ -1090,7 +1090,7 @@ export class DefaultTheme {
   public static checkboxBoxSize = '16px';
   public static checkboxLabelGap = '10px';
   public static checkboxPaddingY = '0';
-  public static checkboxMarginY = '2px';
+  public static checkboxBoxOffsetY = '2px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {

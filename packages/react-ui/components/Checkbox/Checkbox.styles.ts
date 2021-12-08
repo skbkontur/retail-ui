@@ -8,7 +8,8 @@ export const globalClasses = prefix('checkbox')({
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      display: inline-block;
+      display: inline-flex;
+      align-items: baseline;
       cursor: pointer;
       position: relative;
       line-height: ${t.checkboxLineHeight};
@@ -60,9 +61,8 @@ export const styles = memoizeStyle({
 
   box(t: Theme) {
     return css`
-      display: inline-block;
-      vertical-align: top;
-      position: relative;
+      position: absolute;
+      left: 0;
       justify-content: center;
       box-sizing: border-box;
       width: ${t.checkboxBoxSize};
@@ -74,7 +74,7 @@ export const styles = memoizeStyle({
       border-radius: ${t.checkboxBorderRadius};
       box-shadow: inset ${t.checkboxShadow};
       background: ${t.checkboxBg};
-      margin: ${t.checkboxMarginY} 0;
+      margin-top: ${t.checkboxBoxOffsetY};
     `;
   },
 
@@ -82,10 +82,11 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       opacity: 0;
-      width: 0;
+      width: 16px;
       height: 0;
-      position: absolute;
+      margin: 0;
       z-index: -1;
+      flex: 0 0 auto;
     `;
   },
 
