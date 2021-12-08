@@ -66,3 +66,35 @@ process.env.STORYBOOK_REACT_UI_TEST
 
 Мы рады любой сторонней помощи. Не стесняйтесь писать в [issues](https://github.com/skbkontur/retail-ui/issues)
 баги и идеи для развития библиотеки.<br />
+
+## StrictMode
+
+### Суть проблемы
+Для поддержки библиотекой `StrictMode` нужно было
+избавиться от использования `ReactDOM.findDOMNode` для получения DOM-ноды компонентов.
+
+
+Статьи про [findDOMNode](https://ru.reactjs.org/docs/react-dom.html#finddomnode) и
+[проблемы](https://ru.reactjs.org/docs/strict-mode.html#warning-about-deprecated-finddomnode-usage),
+связанные с ним.
+
+### Ограничения
+
+- ForwardRef: для корректной работы библиотеки в StrictMode, функциональные компоненты должны перенаправлять реф
+  через [ForwardRef](https://ru.reactjs.org/docs/forwarding-refs.html)
+- Fallback на ReactDOM.findDOMNode: если ваш классовый компонент не предоставит публичный метод getRootNode
+или функциональный не перенаправит реф, сработает `ReactDOM.findDOMNode`, что сделает невозможным работу
+в StrictMode.
+
+### Детали реализации в библиотеке
+
+- Для каждого компонента библиотеки отпределены дополнительные публичные методы:
+  - `setRootNode = (instance: Nullable<React.ReactInstance>) => void` - метод для установки
+  DOM-ноды компонента;
+  - `getRootNode = () => Nullable<HTMLElement>` - метод для получения DOM-ноды компонента;
+- Добавлен классовый декоратор
+[@rootNode](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui/lib/rootNode/rootNodeDecorator.tsx),
+который определяет методы `setRootNode` и `getRootNode`;
+- Определена функция
+[getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement>](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui/lib/rootNode/getRootNode.ts),
+заменяющая по сути `ReactDOM.findDOMNode`.
