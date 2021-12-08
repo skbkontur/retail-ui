@@ -17,8 +17,7 @@ export const styles = memoizeStyle({
     return css`
       display: inline-flex;
       cursor: pointer;
-      line-height: ${t.toggleLineHeight};
-      font-size: ${t.toggleFontSize};
+      align-items: baseline;
 
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
@@ -161,6 +160,7 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.toggleBaseBg};
       border-radius: ${t.toggleBorderRadius};
+      line-height: ${t.toggleHeight};
     `;
   },
 
@@ -195,6 +195,8 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.toggleTextColor};
       padding: 0 0 0 ${t.toggleCaptionGap};
+      line-height: ${t.toggleLineHeight};
+      font-size: ${t.toggleFontSize};
     `;
   },
 
