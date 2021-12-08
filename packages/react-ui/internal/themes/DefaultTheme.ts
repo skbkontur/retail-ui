@@ -1311,7 +1311,7 @@ export class DefaultTheme {
   }
   public static radioLabelDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
-  public static radioMarginY = '2px';
+  public static radioCircleOffsetY = '2px';
   //#endregion
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '10px';

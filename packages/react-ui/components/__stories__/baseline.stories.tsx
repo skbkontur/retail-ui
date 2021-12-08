@@ -316,7 +316,7 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   radioPaddingY: '9px',
                   radioFontSize: '16px',
                   radioLineHeight: '22px',
-                  radioMarginY: '1px',
+                  radioCircleOffsetY: '1px',
 
                   menuItemFontSize: '16px',
                   menuItemLineHeight: '22px',
@@ -510,7 +510,7 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                   radioPaddingY: '11px',
                   radioFontSize: '18px',
                   radioLineHeight: '24px',
-                  radioMarginY: '1px',
+                  radioCircleOffsetY: '1px',
 
                   menuItemFontSize: '18px',
                   menuItemLineHeight: '24px',

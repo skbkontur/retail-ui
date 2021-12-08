@@ -55,7 +55,7 @@ export const styles = memoizeStyle({
 
   radio(t: Theme) {
     const radioSize = `calc(${t.radioSize} - 2 * ${t.radioBorderWidthCompensation})`;
-    const radioMarginY = `calc(${t.radioMarginY} + ${t.radioBorderWidthCompensation})`;
+    const radioCircleOffsetY = `calc(${t.radioCircleOffsetY} + ${t.radioBorderWidthCompensation})`;
     const radioMarginX = t.radioBorderWidthCompensation;
     return css`
       background-image: ${t.radioBgImage};
@@ -68,7 +68,7 @@ export const styles = memoizeStyle({
       width: ${radioSize};
       position: relative;
       vertical-align: ${t.radioVerticalAlign};
-      margin: ${radioMarginY} ${radioMarginX};
+      margin: ${radioCircleOffsetY} ${radioMarginX};
       background-color: ${t.radioBgColor};
 
       &::after {

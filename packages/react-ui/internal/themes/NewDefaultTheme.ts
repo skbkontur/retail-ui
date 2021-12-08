@@ -1361,7 +1361,7 @@ export class NewDefaultTheme {
   public static get radioBorderWidthCompensation() {
     return this.radioBoxShadow !== 'none' ? this.radioBorderWidth : '0px';
   }
-  public static radioMarginY = '2px';
+  public static radioCircleOffsetY = '2px';
   //#endregion
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';
