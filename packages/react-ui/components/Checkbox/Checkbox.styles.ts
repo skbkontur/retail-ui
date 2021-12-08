@@ -78,11 +78,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  input() {
+  input(t: Theme) {
     return css`
       display: inline-block;
       opacity: 0;
-      width: 16px;
+      width: ${t.checkboxBoxSize};
       height: 0;
       margin: 0;
       z-index: -1;

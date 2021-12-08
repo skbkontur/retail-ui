@@ -174,7 +174,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: styles.input(),
+      className: styles.input(this.theme),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
