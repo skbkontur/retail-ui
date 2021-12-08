@@ -2,6 +2,12 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
+  root() {
+    return css`
+      line-height: normal;
+    `;
+  },
+
   wrap() {
     return css`
       display: inline-block;
