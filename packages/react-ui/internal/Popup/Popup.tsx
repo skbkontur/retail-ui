@@ -226,10 +226,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const hadNoLocation = prevState.location === DUMMY_LOCATION;
     const hasLocation = this.state.location !== DUMMY_LOCATION;
 
+    if (prevState.location === null && this.state.location === null) {
+      return;
+    }
+
     if (hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
     }
-    if (!hadNoLocation && !this.state.location && this.props.opened && this.props.onClose) {
+    if (!hadNoLocation && !this.state.location && this.props.onClose) {
       this.props.onClose();
     }
   }
@@ -288,8 +292,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         anchor={child}
         ref={child ? this.refAnchorElement : undefined}
       >
-        {this.isMobileLayout && this.renderMobile()}
-        {!this.isMobileLayout && location && this.renderContent(location)}
+        {this.isMobileLayout ? this.renderMobile() : location && this.renderContent(location)}
       </RenderContainer>
     );
   }
