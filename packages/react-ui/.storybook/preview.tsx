@@ -8,6 +8,7 @@ import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
+import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
 import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 
@@ -29,7 +30,7 @@ const customViewports = {
     type: 'mobile',
   },
 };
-const themes = { DEFAULT_THEME, DEFAULT_THEME_8PX_OLD, FLAT_THEME_8PX_OLD };
+const themes = { DEFAULT_THEME, DARK_THEME, DEFAULT_THEME_8PX_OLD, FLAT_THEME_8PX_OLD };
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
