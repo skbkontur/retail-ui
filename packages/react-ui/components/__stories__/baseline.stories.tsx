@@ -9,6 +9,7 @@ import { Input } from '../Input';
 import { ComboBox } from '../ComboBox';
 import { Spinner } from '../Spinner';
 import { Checkbox } from '../Checkbox';
+import { Kebab } from '../Kebab';
 import { Radio } from '../Radio';
 import { Toggle } from '../Toggle';
 import { MenuItem } from '../MenuItem';
@@ -161,13 +162,21 @@ export const DifferentFontsAndSizes = () => (
         <Gapped>
           <div style={{ width: '120px' }}>Arial </div>
           <CrownIcon />
-          <Link>Ok</Link>
+          <Link icon={<CrownIcon/>}>Ok</Link>
+          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
           <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</Checkbox>
           <Checkbox checked>Ch</Checkbox>
+          <Checkbox />
           <Radio checked value="value">
             Rd
           </Radio>
+          <Radio />
+          <Kebab>
+            <MenuItem icon={<CrownIcon />}>
+              Menu
+            </MenuItem>
+          </Kebab>
           <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox placeholder="S" width={60} searchOnFocus={false} />
@@ -196,13 +205,21 @@ export const DifferentFontsAndSizes = () => (
         <Gapped>
           <div style={{ width: '120px' }}>Lab Grotesque </div>
           <CrownIcon />
-          <Link>Ok</Link>
+          <Link icon={<CrownIcon/>}>Ok</Link>
+          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
           <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</Checkbox>
           <Checkbox checked>Ch</Checkbox>
+          <Checkbox />
           <Radio checked value="value">
             Rd
           </Radio>
+          <Radio />
+          <Kebab>
+            <MenuItem icon={<CrownIcon />}>
+              Menu
+            </MenuItem>
+          </Kebab>
           <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox placeholder="S" width={60} searchOnFocus={false} />
@@ -232,13 +249,21 @@ export const DifferentFontsAndSizes = () => (
         <Gapped>
           <div style={{ width: '120px' }}>Segoe UI </div>
           <CrownIcon />
-          <Link>Ok</Link>
+          <Link icon={<CrownIcon/>}>Ok</Link>
+          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
           <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</Checkbox>
           <Checkbox checked>Ch</Checkbox>
+          <Checkbox />
           <Radio checked value="value">
             Rd
           </Radio>
+          <Radio />
+          <Kebab>
+            <MenuItem icon={<CrownIcon />}>
+              Menu
+            </MenuItem>
+          </Kebab>
           <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox placeholder="S" width={60} searchOnFocus={false} />
@@ -267,13 +292,21 @@ export const DifferentFontsAndSizes = () => (
         <Gapped>
           <div style={{ width: '120px' }}>Times New Roman </div>
           <CrownIcon />
-          <Link>Ok</Link>
+          <Link icon={<CrownIcon/>}>Ok</Link>
+          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
           <Toggle>Tg</Toggle>
           <Checkbox initialIndeterminate>Ch</Checkbox>
           <Checkbox checked>Ch</Checkbox>
+          <Checkbox />
           <Radio checked value="value">
             Rd
           </Radio>
+          <Radio />
+          <Kebab>
+            <MenuItem icon={<CrownIcon />}>
+              Menu
+            </MenuItem>
+          </Kebab>
           <MenuItem state="hover">Menu</MenuItem>
           <Input size="small" value="S" width={40} />
           <ComboBox placeholder="S" width={60} searchOnFocus={false} />
