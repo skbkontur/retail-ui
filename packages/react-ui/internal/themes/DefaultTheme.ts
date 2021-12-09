@@ -1411,7 +1411,7 @@ export class DefaultTheme {
   }
   public static globalLoaderHeight = '4px';
   public static globalLoaderWidth = '100%';
-  public static globalLoaderPosition = 'absolute';
+  public static globalLoaderPosition = 'fixed';
   public static globalLoaderTop = '0';
   public static globalLoaderLeft = '0';
   public static globalLoaderBottom = 'auto';

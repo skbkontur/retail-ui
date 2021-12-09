@@ -11,11 +11,7 @@
 import { Button, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import { GlobalLoader } from './GlobalLoader';
 
-const myTheme = ThemeFactory.create({ globalLoaderPosition: 'fixed' });
-
-const [success, setSuccess] = React.useState(false);
-const [error, setError] = React.useState(false);
-const [active, setActive] = React.useState(false);
+const myTheme = ThemeFactory.create({ globalLoaderColor: 'green' });
 
 function showGlobalLoader() {
   GlobalLoader.start();
@@ -32,14 +28,37 @@ function sendError() {
 function cancelError() {
   GlobalLoader.accept();
 }
+<ThemeContext.Provider value={myTheme}>
+  <div>
+    <p>Управление с помощью статических методов:</p>
+    <Button onClick={showGlobalLoader}>Start</Button>
+    <Button onClick={sendSuccess}>Success</Button>
+    <Button onClick={sendError}>Error</Button>
+    <Button onClick={cancelError}>Cancel Error</Button>
+
+    <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} />
+  </div>
+</ThemeContext.Provider>
+```
+
+```jsx harmony
+import {Button, ThemeContext, ThemeFactory} from '@skbkontur/react-ui';
+import {GlobalLoader} from './GlobalLoader';
+
+const myTheme = ThemeFactory.create({ globalLoaderColor: '#1F87EF' });
+
+
+const [success, setSuccess] = React.useState(false);
+const [error, setError] = React.useState(false);
+const [active, setActive] = React.useState(false);
 
 function showGlobalLoaderWithProps() {
-    setActive(true);
-    setError(false);
+  setActive(true);
+  setError(false);
 }
 
 function setErrorProp() {
-    setError(true);
+  setError(true);
 }
 
 function cancelErrorProp() {
@@ -47,24 +66,19 @@ function cancelErrorProp() {
 }
 
 function setSuccessProp() {
-    setActive(false);
+  setActive(false);
 }
 
-<div>
-  <ThemeContext.Provider value={myTheme}>
+<ThemeContext.Provider value={myTheme}>
+  <div>
     <p>Управление с помощью пропсов:</p>
     <Button onClick={showGlobalLoaderWithProps}>Show GlobalLoader with props</Button>
     <Button onClick={setSuccessProp}>Success</Button>
     <Button onClick={setErrorProp}>Error</Button>
     <Button onClick={cancelErrorProp}>Cancel Error</Button>
-    <p>Управление с помощью статических методов:</p>
-    <Button onClick={showGlobalLoader}>Start</Button>
-    <Button onClick={sendSuccess}>Success</Button>
-    <Button onClick={sendError}>Error</Button>
-    <Button onClick={cancelError}>Cancel Error</Button>
-      <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} rejected={error} />
-  </ThemeContext.Provider>
-</div>
+    <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} rejected={error}/>
+  </div>
+</ThemeContext.Provider>
 ```
 
 

@@ -9,7 +9,8 @@ import { animations, styles } from './GlobalLoaderView.styles';
 
 interface GlobalLoaderViewProps {
   expectedResponseTime: number;
-  status?: 'success' | 'error';
+  status?: 'success' | 'error' | 'standard';
+  disableAnimations: boolean;
 }
 
 export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
@@ -31,9 +32,10 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
       <ZIndex priority="GlobalLoader" className={styles.outer(this.theme)}>
         <div
           className={cx(styles.inner(this.theme), {
-            [animations.successAnimation()]: this.props.status === 'success',
-            [animations.errorAnimation(this.theme)]: this.props.status === 'error',
-            [animations.standardAnimation(this.theme, this.props.expectedResponseTime)]: !this.props.status,
+            [animations.successAnimation()]: !this.props.disableAnimations && this.props.status === 'success',
+            [animations.errorAnimation(this.theme)]: !this.props.disableAnimations && this.props.status === 'error',
+            [animations.standardAnimation(this.theme, this.props.expectedResponseTime)]:
+              !this.props.disableAnimations && this.props.status === 'standard',
           })}
         />
       </ZIndex>

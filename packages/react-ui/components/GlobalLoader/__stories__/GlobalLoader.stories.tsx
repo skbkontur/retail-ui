@@ -1,9 +1,12 @@
 import React from 'react';
+import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 import { Story } from '../../../typings/stories';
 import { GlobalLoader } from '../GlobalLoader';
 import { Button } from '../../Button';
 import { Modal } from '../../Modal';
+
+const myThemeWithAbsolutePositionedGL = ThemeFactory.create({ globalLoaderPosition: 'absolute' });
 
 function GlobalLoaderWithProps() {
   const [error, setError] = React.useState(false);
@@ -12,7 +15,13 @@ function GlobalLoaderWithProps() {
   return (
     <div>
       <Button onClick={showGlobalLoaderWithProps}>Show Global Loader</Button>
-      <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} rejected={error} />
+      <GlobalLoader
+        expectedResponseTime={2000}
+        delayBeforeShow={0}
+        active={active}
+        rejected={error}
+        disableAnimations={false}
+      />
     </div>
   );
 
@@ -37,7 +46,7 @@ function GlobalLoaderWithStaticMethods() {
       <Button onClick={showGlobalLoader}>Start</Button>
       <Button onClick={sendSuccess}>Success</Button>
       <Button onClick={sendError}>Error</Button>
-      <GlobalLoader expectedResponseTime={2000} />
+      <GlobalLoader expectedResponseTime={2000} disableAnimations={false} />
     </div>
   );
 
@@ -78,19 +87,21 @@ function GlobalLoaderInsideModalBody() {
 
   function renderModal() {
     return (
-      <Modal onClose={close}>
-        <Modal.Header>Title</Modal.Header>
-        <Modal.Body style={{ position: 'relative' }}>
-          <GlobalLoader expectedResponseTime={2000} />
-          <p>Use rxjs operators with react hooks</p>
-          <Button onClick={showGlobalLoader}>Start</Button>
-          <Button onClick={sendSuccess}>Success</Button>
-          <Button onClick={sendError}>Error</Button>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={close}>Close</Button>
-        </Modal.Footer>
-      </Modal>
+      <ThemeContext.Provider value={myThemeWithAbsolutePositionedGL}>
+        <Modal onClose={close}>
+          <Modal.Header>Title</Modal.Header>
+          <Modal.Body style={{ position: 'relative' }}>
+            <GlobalLoader expectedResponseTime={2000} disableAnimations={false} />
+            <p>Use rxjs operators with react hooks</p>
+            <Button onClick={showGlobalLoader}>Start</Button>
+            <Button onClick={sendSuccess}>Success</Button>
+            <Button onClick={sendError}>Error</Button>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={close}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+      </ThemeContext.Provider>
     );
   }
 

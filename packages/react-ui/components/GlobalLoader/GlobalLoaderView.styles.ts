@@ -86,16 +86,11 @@ export const animations = {
     `;
   },
   standardAnimation(t: Theme, expectedTime: number) {
-    const transitionDuration = parseInt(t.globalLoaderTransitionDuration);
-    const spinnerAnimationDuration = parseInt(t.globalLoaderSpinnerAnimationDuration);
     const waitingFactor = parseInt(t.globalLoaderWaitingFactor);
 
     return css`
       animation: ${linearProgressAnimation} ${expectedTime}ms linear,
-        ${expectedTime! * waitingFactor}ms ${slowProgressAnimation} ${expectedTime}ms ease-out,
-        ${transitionDuration}ms ${moveToRightAnimation} ${expectedTime * (waitingFactor + 1)}ms linear,
-        ${spinnerAnimationDuration}ms ${spinnerAnimation} ${expectedTime * (waitingFactor + 1) + transitionDuration}ms
-          infinite alternate;
+        ${expectedTime! * waitingFactor}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
     `;
   },
 };

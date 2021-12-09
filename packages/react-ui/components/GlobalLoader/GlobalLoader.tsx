@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { GlobalLoaderView } from './GlabalLoaderView';
 
@@ -22,6 +24,11 @@ export interface GlobalLoaderProps {
   expectedResponseTime: number;
   rejected?: boolean;
   active?: boolean;
+  disableAnimations: boolean;
+  onStart?(): void;
+  onDone?(): void;
+  onReject?(): void;
+  onAccept?(): void;
 }
 export interface GlobalLoaderState {
   visible: boolean;
@@ -37,6 +44,7 @@ let currentGlobalLoader: GlobalLoader;
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
   private startTask: TaskWithDelayAndMinimalDuration;
+  private errorTask: TaskWithDelayAndMinimalDuration;
   private stopTask: TaskWithDelayAndMinimalDuration;
 
   public static defaultProps: Partial<GlobalLoaderProps> = {
@@ -45,6 +53,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     delayBeforeHide: 1000,
     rejected: false,
     active: false,
+    disableAnimations: isTestEnv,
   };
 
   constructor(props: GlobalLoaderProps) {
@@ -63,13 +72,28 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.startTask = new TaskWithDelayAndMinimalDuration({
       delayBeforeTaskStart: this.props.delayBeforeShow!,
       durationOfTask: 0,
-      taskStartCallback: () => this.setState({ visible: true }),
+      taskStartCallback: () => {
+        this.setState({ visible: true });
+        this.props.onStart?.();
+        this.errorTask.start();
+      },
+      taskStopCallback: () => ({}),
+    });
+    this.errorTask = new TaskWithDelayAndMinimalDuration({
+      delayBeforeTaskStart: 0,
+      durationOfTask: 0,
+      taskStartCallback: () => {
+        this.setState({ rejected: true });
+      },
       taskStopCallback: () => ({}),
     });
     this.stopTask = new TaskWithDelayAndMinimalDuration({
       delayBeforeTaskStart: this.props.delayBeforeHide!,
       durationOfTask: 0,
-      taskStartCallback: () => this.setState({ visible: false, successAnimationInProgress: false }),
+      taskStartCallback: () => {
+        this.setState({ visible: false, successAnimationInProgress: false });
+        this.props.onDone?.();
+      },
       taskStopCallback: () => ({}),
     });
   }
@@ -100,21 +124,33 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   public render() {
-    let status: 'success' | 'error' | undefined;
+    let status: 'success' | 'error' | 'standard';
     if (this.state.done) {
       status = 'success';
     } else if (this.state.rejected) {
       status = 'error';
+    } else {
+      status = 'standard';
     }
     return (
-      !this.state.dead &&
-      this.state.visible && (
-        <GlobalLoaderView
-          expectedResponseTime={this.state.expectedResponseTime}
-          status={status}
-          data-tid={this.state.visible ? 'GlobalLoader' : ''}
-        />
-      )
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.errorTask.update({
+            delayBeforeTaskStart: this.props.expectedResponseTime * (1 + parseInt(theme.globalLoaderWaitingFactor)),
+          });
+          return (
+            !this.state.dead &&
+            this.state.visible && (
+              <GlobalLoaderView
+                expectedResponseTime={this.state.expectedResponseTime}
+                status={status}
+                data-tid="GlobalLoader"
+                disableAnimations={this.props.disableAnimations}
+              />
+            )
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 
@@ -169,6 +205,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setActive = (delay?: number) => {
+    this.startTask.stop();
     if (this.state.successAnimationInProgress) {
       this.successAnimationInProgressTimeout = setTimeout(() => {
         this.setActive();
@@ -185,13 +222,23 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   public setDone = () => {
     this.setState({ done: true, successAnimationInProgress: true });
+    this.errorTask.stop();
     this.startTask.stop();
     this.stopTask.start();
   };
 
   public setReject = (reject: boolean) => {
+    if (!this.state.visible) {
+      this.setState({ visible: true });
+    }
+    this.errorTask.stop();
     this.startTask.stop();
     this.stopTask.stop();
+    if (reject) {
+      this.props.onReject?.();
+    } else {
+      this.props.onAccept?.();
+    }
     this.setState({ rejected: reject });
   };
 
