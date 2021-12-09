@@ -7,6 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { isEdge, isIE11 } from '../../lib/client';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -121,14 +122,14 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     const radioProps = {
       className: cx({
-        [styles.radio(this.theme)]: true,
+        [styles.circle(this.theme)]: true,
         [styles.checked(this.theme)]: this.props.checked,
         [styles.focus(this.theme)]: this.props.focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
         [styles.disabled(this.theme)]: disabled,
         [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
-        [globalClasses.radio]: true,
+        [globalClasses.circle]: true,
       }),
     };
 
@@ -140,7 +141,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: styles.input(),
+      className: styles.input(this.theme),
       disabled,
       tabIndex: this.props.tabIndex,
       value,
@@ -151,7 +152,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     };
 
     const labelProps = {
-      className: cx(styles.root(this.theme), this.props.checked && styles.rootChecked(this.theme)),
+      className: cx(styles.root(this.theme), {
+        [styles.rootChecked(this.theme)]: this.props.checked,
+        [styles.rootIE11()]: isIE11 || isEdge,
+      }),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
@@ -185,6 +189,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     const labelClassNames = cx({
       [styles.label(this.theme)]: true,
       [styles.labelDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
+      [styles.labelIE11()]: isIE11 || isEdge,
     });
 
     return <div className={labelClassNames}>{this.props.children}</div>;
