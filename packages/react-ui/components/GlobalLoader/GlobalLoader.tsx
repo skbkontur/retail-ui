@@ -228,7 +228,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.visible) {
+    if (!this.state.visible && this.props.active) {
       this.setState({ visible: true });
     }
     this.errorTask.stop();

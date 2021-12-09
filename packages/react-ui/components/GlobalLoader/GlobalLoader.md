@@ -42,40 +42,23 @@ function cancelError() {
 ```
 
 ```jsx harmony
-import {Button, ThemeContext, ThemeFactory} from '@skbkontur/react-ui';
+import {Button, Toggle, ThemeContext, ThemeFactory} from '@skbkontur/react-ui';
 import {GlobalLoader} from './GlobalLoader';
 
 const myTheme = ThemeFactory.create({ globalLoaderColor: '#1F87EF' });
 
-
-const [success, setSuccess] = React.useState(false);
 const [error, setError] = React.useState(false);
 const [active, setActive] = React.useState(false);
-
-function showGlobalLoaderWithProps() {
-  setActive(true);
-  setError(false);
-}
-
-function setErrorProp() {
-  setError(true);
-}
-
-function cancelErrorProp() {
-  setError(false);
-}
-
-function setSuccessProp() {
-  setActive(false);
-}
 
 <ThemeContext.Provider value={myTheme}>
   <div>
     <p>Управление с помощью пропсов:</p>
-    <Button onClick={showGlobalLoaderWithProps}>Show GlobalLoader with props</Button>
-    <Button onClick={setSuccessProp}>Success</Button>
-    <Button onClick={setErrorProp}>Error</Button>
-    <Button onClick={cancelErrorProp}>Cancel Error</Button>
+    <Toggle checked={active} onValueChange={setActive}>
+      Active
+    </Toggle>
+    <Toggle checked={error} onValueChange={setError}>
+      rejected
+    </Toggle>
     <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} rejected={error}/>
   </div>
 </ThemeContext.Provider>
