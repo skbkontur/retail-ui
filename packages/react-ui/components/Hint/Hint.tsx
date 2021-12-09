@@ -160,11 +160,27 @@ export class Hint extends React.Component<HintProps, HintState> {
                 this.theme,
               )}
             >
-              {this.renderMain()}
+              {this.isMobileLayout ? this.renderMobile() : this.renderMain()}
             </ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMobile() {
+    return (
+      <CommonWrapper {...this.props}>
+        <Popup
+          opened={this.state.opened}
+          anchorElement={this.props.children}
+          positions={[]}
+          onClick={this.getMobileClickHandler()}
+          onClose={this.getMobileCloseHandler()}
+        >
+          {this.renderContent()}
+        </Popup>
+      </CommonWrapper>
     );
   }
 
@@ -176,14 +192,12 @@ export class Hint extends React.Component<HintProps, HintState> {
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={this.getPositions()}
-          backgroundColor={this.isMobileLayout ? undefined : this.theme.hintBgColor}
+          backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
           disableAnimations={this.props.disableAnimations}
-          onMouseEnter={this.isMobileLayout ? undefined : this.handleMouseEnter}
-          onMouseLeave={this.isMobileLayout ? undefined : this.handleMouseLeave}
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
           useWrapper={this.props.useWrapper}
-          onClick={this.getMobileClickHandler()}
-          onClose={this.getMobileCloseHandler()}
         >
           {this.renderContent()}
         </Popup>

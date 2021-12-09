@@ -226,8 +226,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const hadNoLocation = prevState.location === DUMMY_LOCATION;
     const hasLocation = this.state.location !== DUMMY_LOCATION;
 
-    if (prevState.location === null && this.state.location === null) {
-      return;
+    if (this.isMobileLayout && prevState.location === null && this.state.location === null) {
+      this.setState({ location: DUMMY_LOCATION });
     }
 
     if (hadNoLocation && hasLocation && this.props.onOpen) {
@@ -439,7 +439,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseLeave={this.handleMouseLeave}
             >
               {this.content(children)}
-              {this.renderPin(location.position)}
+              {!this.isMobileLayout && this.renderPin(location.position)}
             </ZIndex>
           </CommonWrapper>
         )}
