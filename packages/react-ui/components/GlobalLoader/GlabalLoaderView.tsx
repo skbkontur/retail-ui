@@ -33,7 +33,9 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
         <div
           className={cx(styles.inner(this.theme), {
             [animations.successAnimation()]: !this.props.disableAnimations && this.props.status === 'success',
+            [styles.successWithoutAnimation()]: this.props.disableAnimations && this.props.status === 'success',
             [animations.errorAnimation(this.theme)]: !this.props.disableAnimations && this.props.status === 'error',
+            [styles.errorWithoutAnimation()]: this.props.disableAnimations && this.props.status === 'error',
             [animations.standardAnimation(this.theme, this.props.expectedResponseTime)]:
               !this.props.disableAnimations && this.props.status === 'standard',
           })}

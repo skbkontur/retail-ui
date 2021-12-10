@@ -27,6 +27,18 @@ export const styles = memoizeStyle({
       overflow: hidden;
     `;
   },
+  successWithoutAnimation() {
+    return css`
+      left: 0;
+      width: 80%;
+    `;
+  },
+  errorWithoutAnimation() {
+    return css`
+      left: 40%;
+      width: 20%;
+    `;
+  },
 });
 
 const moveToRightAnimation = keyframes`
