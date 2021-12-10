@@ -113,7 +113,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
-        style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
+        style={{ maxWidth: this.props.width, maxHeight: this.props.maxHeight }}
       >
         <ScrollContainer
           ref={this.refScrollContainer}

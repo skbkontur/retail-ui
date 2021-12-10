@@ -6,6 +6,9 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+
+import { styles } from './DropdownContainer.styles';
 
 type DOMNode = Element | Text | null;
 
@@ -92,7 +95,12 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
 
     const content = (
-      <ZIndex priority={'DropdownContainer'} ref={this.ref} style={style}>
+      <ZIndex
+        priority={'DropdownContainer'}
+        ref={this.ref}
+        style={style}
+        className={cx(styles.root(), { [styles.alignRight()]: this.props.align === 'right' })}
+      >
         {this.props.children}
       </ZIndex>
     );

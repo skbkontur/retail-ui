@@ -407,3 +407,18 @@ WithSearchAndVariousWidth.parameters = {
     },
   },
 };
+
+export const WithAlignRight: Story = () => <Select menuWidth="50%" menuAlign="right" items={['one', 'two', 'three']} />;
+WithAlignRight.parameters = {
+  creevey: {
+    tests: {
+      async ['open']() {
+        await this.browser
+          .actions()
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
