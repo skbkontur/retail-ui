@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { GlobalLoaderView } from './GlabalLoaderView';
@@ -22,6 +21,10 @@ export interface GlobalLoaderProps {
    * Ожидаемое время загрузки данных с сервера
    */
   expectedResponseTime: number;
+  /**
+   * Время медленной анимации
+   */
+  overtime?: number;
   rejected?: boolean;
   active?: boolean;
   disableAnimations: boolean;
@@ -54,6 +57,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     rejected: false,
     active: false,
     disableAnimations: isTestEnv,
+    overtime: 5000,
   };
 
   constructor(props: GlobalLoaderProps) {
@@ -80,7 +84,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       taskStopCallback: () => ({}),
     });
     this.errorTask = new TaskWithDelayAndMinimalDuration({
-      delayBeforeTaskStart: 0,
+      delayBeforeTaskStart: this.props.expectedResponseTime + this.props.overtime!,
       durationOfTask: 0,
       taskStartCallback: () => {
         this.setState({ rejected: true });
@@ -133,24 +137,16 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       status = 'standard';
     }
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.errorTask.update({
-            delayBeforeTaskStart: this.props.expectedResponseTime * (1 + parseInt(theme.globalLoaderWaitingFactor)),
-          });
-          return (
-            !this.state.dead &&
-            this.state.visible && (
-              <GlobalLoaderView
-                expectedResponseTime={this.state.expectedResponseTime}
-                status={status}
-                data-tid="GlobalLoader"
-                disableAnimations={this.props.disableAnimations}
-              />
-            )
-          );
-        }}
-      </ThemeContext.Consumer>
+      !this.state.dead &&
+      this.state.visible && (
+        <GlobalLoaderView
+          expectedResponseTime={this.state.expectedResponseTime}
+          status={status}
+          data-tid="GlobalLoader"
+          disableAnimations={this.props.disableAnimations}
+          overtime={this.props.overtime!}
+        />
+      )
     );
   }
 

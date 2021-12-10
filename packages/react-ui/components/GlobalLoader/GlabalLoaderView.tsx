@@ -11,6 +11,7 @@ interface GlobalLoaderViewProps {
   expectedResponseTime: number;
   status?: 'success' | 'error' | 'standard';
   disableAnimations: boolean;
+  overtime: number;
 }
 
 export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
@@ -36,7 +37,7 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
             [styles.successWithoutAnimation()]: this.props.disableAnimations && this.props.status === 'success',
             [animations.errorAnimation(this.theme)]: !this.props.disableAnimations && this.props.status === 'error',
             [styles.errorWithoutAnimation()]: this.props.disableAnimations && this.props.status === 'error',
-            [animations.standardAnimation(this.theme, this.props.expectedResponseTime)]:
+            [animations.standardAnimation(this.theme, this.props.expectedResponseTime, this.props.overtime)]:
               !this.props.disableAnimations && this.props.status === 'standard',
           })}
         />

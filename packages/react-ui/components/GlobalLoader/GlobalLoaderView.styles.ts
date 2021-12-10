@@ -97,12 +97,10 @@ export const animations = {
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
-  standardAnimation(t: Theme, expectedTime: number) {
-    const waitingFactor = parseInt(t.globalLoaderWaitingFactor);
-
+  standardAnimation(t: Theme, expectedTime: number, overtime: number) {
     return css`
       animation: ${linearProgressAnimation} ${expectedTime}ms linear,
-        ${expectedTime! * waitingFactor}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
+        ${overtime}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
     `;
   },
 };
