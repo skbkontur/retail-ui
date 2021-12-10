@@ -261,6 +261,10 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 
 Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Creevey](https://github.com/wKich/creevey) и [Storybook](https://storybook.js.org/).
 
+Конфиг для Creevey ожидает переменные окружения `GRID_URL` и `GET_IP_URL`. Поэтому, для локального запуска добавьте 
+их в файл `.env` в корне репозитория.
+Ребята из Контура могут использовать значения для переменных [отсюда](https://wiki.skbkontur.ru/display/guides/.env). 
+
 #### Запуск
 
 `yarn workspace @skbkontur/react-ui storybook:test` - запуск storybook со стилями для тестов

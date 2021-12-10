@@ -454,6 +454,15 @@ WithSearchAndVariousWidth.parameters = {
           .actions({
             bridge: true,
           })
+          .sendKeys(this.keys.ARROW_DOWN)
+          .perform();
+
+        const pressKeyDown = await root.takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
           .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('test')
           .perform();
@@ -470,7 +479,7 @@ WithSearchAndVariousWidth.parameters = {
 
         const emptySearch = await root.takeScreenshot();
 
-        await this.expect({ plainSearch, fullFieldSearch, emptySearch }).to.matchImages();
+        await this.expect({ plainSearch, pressKeyDown, fullFieldSearch, emptySearch }).to.matchImages();
       },
 
       async ['and various width']() {
