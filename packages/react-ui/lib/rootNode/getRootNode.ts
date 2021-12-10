@@ -5,7 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isHTMLElement } from '../SSRSafe';
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
-  if (isHTMLElement(instance)) {
+  if (isHTMLElement(instance) || instance === null) {
     return instance;
   }
 
