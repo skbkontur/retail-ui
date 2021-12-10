@@ -92,15 +92,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   };
 
   public componentDidUpdate(prevProps: CheckboxProps) {
-    if (prevProps.checked !== this.props.checked && this.input.current) {
-      this.input.current.indeterminate = false;
+    if (prevProps.checked !== this.props.checked) {
+      this.resetIndeterminate();
     }
-  }
-
-  public static getDerivedStateFromProps() {
-    return {
-      indeterminate: false,
-    };
   }
 
   public render() {
