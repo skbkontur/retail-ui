@@ -72,12 +72,10 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }
+  }
 
-    if (prevProps.maxHeight !== this.props.maxHeight) {
-      this.setState({
-        maxHeight: this.props.maxHeight || 'none',
-      });
-    }
+  public static getDerivedStateFromProps(props: MenuProps) {
+    return { maxHeight: props.maxHeight || 'none' };
   }
 
   public focus() {

@@ -109,11 +109,15 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     );
   }
 
-  public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
-    const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
-      this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
-    }
+  public static getDerivedStateFromProps(props: CurrencyInputProps) {
+    const { value, fractionDigits, hideTrailingZeros } = props;
+    return {
+      formatted: CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros }),
+      selection: SelectionHelper.fromPosition(0),
+    };
+  }
+
+  public componentDidUpdate(prevProps: Readonly<CurrencyInputProps>, prevState: Readonly<CurrencyInputState>) {
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
 
