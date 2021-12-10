@@ -218,6 +218,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         if (delay) {
           this.startTask.update({ delayBeforeTaskStart: delay });
         }
+        this.errorTask.stop();
         this.stopTask.stop();
         this.startTask.start();
       }
@@ -251,6 +252,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   public kill = () => {
+    this.errorTask.stop();
+    this.stopTask.stop();
+    this.startTask.stop();
     this.setState({
       dead: true,
     });
