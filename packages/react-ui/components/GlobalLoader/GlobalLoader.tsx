@@ -212,11 +212,15 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       }, this.props.delayBeforeHide);
     } else {
       this.setState({ visible: false, done: false, rejected: false });
-      if (delay) {
-        this.startTask.update({ delayBeforeTaskStart: delay });
+      if (this.props.rejected) {
+        this.setReject(true);
+      } else {
+        if (delay) {
+          this.startTask.update({ delayBeforeTaskStart: delay });
+        }
+        this.stopTask.stop();
+        this.startTask.start();
       }
-      this.stopTask.stop();
-      this.startTask.start();
     }
   };
 
