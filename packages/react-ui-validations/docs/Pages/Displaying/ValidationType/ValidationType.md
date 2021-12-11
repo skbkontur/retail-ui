@@ -1,9 +1,6 @@
 # Виды валидаций
 
-[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii).
-
-По умолчанию все валидации [зависимы](#/dependent-validation). Но их можно сделать [независимыми]
-(#/independent-validation) свойством `independent`.
+[Описание видов валидаций в Контур.Гайдах](https://guides.kontur.ru/principles/validation/#Vidi_validatsii)
 
 Вид валидации задается с помощью свойства `type` в объекте `validationInfo`.
 
@@ -28,6 +25,8 @@
 ## По потере фокуса
 
 Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
+
+Такую валидацию можно сделать [независимой](#/independent-validation).
 
     <ValidationWrapper validationInfo={{type: "lostfocus", message: "..."}}>
       //...

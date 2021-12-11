@@ -1,38 +1,51 @@
 # Независимые валидации
 
-Зависимость валидаций может мешать, когда несколько полей имеют одинаковый шаблон проверки.
-Например, поля проверяются на пустое значение (Гайдами такое поведение [не рекомендуется](https://guides.kontur.
-ru/principles/validation/#09)).
+По-умолчанию все валидации [зависимые](#/dependent-validation). Потеря фокуса у поля с любым типом валидации вызывает валидации у всех полей с типом `lostfocus` внутри `ValidationContainer`.
 
-Или, у полей одинаковый паттерн валидации, и это черновик. Т.е. пользователь уже вводил в этой форме данные, но не 
-закончил. И вы не хотите сразу валидировать все поля:
+Но, если проверять поля на пустое значение, то при потере фокуса на одном поле - подсветятся все.
 
     const validate = (value: string): Nullable<ValidationInfo> => {
-      if (!/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value))
-        return { message: 'Неправильный номер', type: 'lostfocus' };
+      if (!value)
+        return { message: 'Не должно быть пустым', type: 'lostfocus' };
       return null;
     };
 
-По умолчанию, потеря фокуса на одном поле вызовет валидацию и на другом.
-
 ### Пример
 
-    !!DemoWithCode!!./LostfocusDependentErrorValidation
+    !!DemoWithCode!!./LostfocusDependent
 
-Чтобы это исправить укажите независимость валидации свойством `independent` в объекте `validationInfo`:
+Гайдами проверка на пустое значение по `lostfocus` [**не рекомендуется**⛔](https://guides.kontur.ru/principles/validation/#09).
+
+Тем не менее, валидации типа `lostfocus` можно сделать независимыми.
+Такие поля будут валидироваться только при потере собственного фокуса. И не будут вызывать валидации у других полей с типом `lostfocus`.
+
+Для этого укажите независимость валидации свойством `independent` в объекте `validationInfo`:
 
     const validate = (value: string): Nullable<ValidationInfo> => {
-      if (!/^\+7\(\d{3}\)-\d{3}-\d{2}-\d{2}$/.test(value))
+      if (!value)
         return { message: 'Неправильный номер', type: 'lostfocus', independent: true };
       return null;
     };
 
+    // Валидация объекта
+    const validateObject = createValidator((b) => {
+      b.prop(
+        (x) => x.value,
+        (b) => {
+          b.invalid((x) => !x, {
+            message: 'Не должно быть пустым',
+            type: 'lostfocus',
+            independent: true,
+          });
+        },
+      );
+    });
+
+
 ### Пример
 
-    !!DemoWithCode!!./LostfocusDependentErrorFixedValidation
+    !!DemoWithCode!!./LostfocusIndependent
 
-В одной форме могут быть и зависимые и независимые валидации:
+### Зависимые и независимые валидации в одной форме
 
-### Пример с пустыми значениями
-
-    !!DemoWithCode!!./IndependentCompare
+    !!DemoWithCode!!./Mixture
