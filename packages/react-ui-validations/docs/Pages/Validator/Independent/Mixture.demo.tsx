@@ -170,7 +170,7 @@ export default class IndependentCompare extends React.Component<{}, State> {
   private validate = (
     v: string,
     type: ValidationBehaviour,
-    independent: boolean = false,
+    independent = false,
   ): Nullable<ValidationInfo> => {
     if (v === '') return { message: 'Не должно быть пустым', type, independent };
     return null;
