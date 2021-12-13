@@ -72,27 +72,15 @@ export const WithFalsyChilds = () => {
         </thead>
         <tbody>
           <tr>
-            <td>no wrap</td>
+            <td>horizontal</td>
             <td>
               <GappedWithFalsyChilds falsyChild={value} />
             </td>
           </tr>
           <tr>
-            <td>wrap</td>
-            <td>
-              <GappedWithFalsyChilds falsyChild={value} wrap />
-            </td>
-          </tr>
-          <tr>
-            <td>vert / no wrap</td>
+            <td>vertical</td>
             <td>
               <GappedWithFalsyChilds falsyChild={value} vertical />
-            </td>
-          </tr>
-          <tr>
-            <td>vert / wrap</td>
-            <td>
-              <GappedWithFalsyChilds falsyChild={value} wrap vertical />
             </td>
           </tr>
         </tbody>
