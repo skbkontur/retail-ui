@@ -1,6 +1,7 @@
 import Objects from './Objects/Objects.md';
 import Arrays from './Arrays/Arrays.md';
 import Dependent from './Dependent/Dependent.md';
+import Independent from './Independent/Independent.md';
 import Reusable from './Reusable/Reusable.md';
 import MissingNodes from './MissingNodes/MissingNodes.md';
 
@@ -21,6 +22,11 @@ export const Validator = {
       component: Dependent,
       url: 'dependent-validation',
       caption: 'Зависимые валидации',
+    },
+    {
+      component: Independent,
+      url: 'independent-validation',
+      caption: 'Независимые валидации',
     },
     {
       component: Reusable,
