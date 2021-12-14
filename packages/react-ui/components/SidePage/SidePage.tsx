@@ -15,7 +15,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { ResponsiveLayout } from '../ResponsiveLayout';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -95,7 +95,6 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-@responsiveLayout
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
@@ -112,8 +111,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
-
-  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -150,11 +147,17 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         {(theme) => {
           this.theme = theme;
 
-          if (this.isMobileLayout) {
-            return this.renderMobile();
-          }
+          return (
+            <ResponsiveLayout>
+              {({ isMobile }) => {
+                if (isMobile) {
+                  return this.renderMobile();
+                }
 
-          return this.renderMain();
+                return this.renderMain();
+              }}
+            </ResponsiveLayout>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -195,7 +198,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           data-tid="SidePage__root"
           className={cx({
             [styles.root()]: true,
-            [styles.mobileRoot()]: this.isMobileLayout,
+            [styles.mobileRoot()]: true,
           })}
           onScroll={LayoutEvents.emit}
         >
