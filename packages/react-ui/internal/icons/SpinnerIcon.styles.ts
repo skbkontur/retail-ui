@@ -6,8 +6,6 @@ export const styles = memoizeStyle({
       display: inline-block;
       margin-left: -1px;
       margin-right: -1px;
-      margin-left: -0.0714285714285714em;
-      margin-right: -0.0714285714285714em;
     `;
   },
   rootInline() {
@@ -20,6 +18,7 @@ export const styles = memoizeStyle({
   icon() {
     return css`
       margin-bottom: -3px;
+      border-radius: 50%;
     `;
   },
 
@@ -27,8 +26,8 @@ export const styles = memoizeStyle({
     return css`
       height: 1.1428571428571428em;
       width: 1.1428571428571428em;
-      margin-bottom: -0.1428571428571428em;
-      stroke-width: 0.1428571428571428em;
+      margin-bottom: -0.2428571428571428em;
+      stroke-width: 0.10714285714285714em;
     `;
   },
 });

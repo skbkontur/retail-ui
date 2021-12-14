@@ -40,7 +40,7 @@ export const sizes = {
 };
 
 export const SpinnerIcon = ({ size, className, dimmed, inline }: SpinnerIconProps) => {
-  const currentSize = sizes[size];
+  const currentSize = inline ? sizes.mini : sizes[size];
   const svgRef = React.useRef<SVGSVGElement>(null);
 
   if (isIE11 && !isTestEnv) {
