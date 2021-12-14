@@ -566,6 +566,12 @@ export class DefaultTheme {
   public static get tooltipPinSize() {
     return this.popupPinSize;
   }
+  public static get tooltipFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get tooltipLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   //#endregion
   //#region TooltipMenu
   public static tooltipMenuPinOffset = '15px';
