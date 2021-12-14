@@ -46,7 +46,7 @@ export const styles = memoizeStyle({
 
       &::after {
         // non-breaking space to make a correct
-        // baseline without caption
+        // height and baseline without caption
         content: '\\00A0';
         width: 0;
       }

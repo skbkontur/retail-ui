@@ -18,6 +18,9 @@ export const styles = memoizeStyle({
       display: inline-flex;
       cursor: pointer;
       align-items: baseline;
+      position: relative;
+      line-height: ${t.toggleLineHeight};
+      font-size: ${t.toggleFontSize};
 
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
@@ -28,6 +31,20 @@ export const styles = memoizeStyle({
       &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
+      }
+
+      &::before {
+        content: '';
+        display: block;
+        width: ${t.toggleWidth};
+        height: 0;
+      }
+
+      &::after {
+        // non-breaking space to make a correct
+        // height and baseline without caption
+        content: '\\00A0';
+        width: 0;
       }
     `;
   },
@@ -156,26 +173,18 @@ export const styles = memoizeStyle({
     `;
   },
 
-  outline(t: Theme) {
+  button(t: Theme) {
     return css`
-      background: ${t.toggleBaseBg};
-      border-radius: ${t.toggleBorderRadius};
-      line-height: ${t.toggleHeight};
-    `;
-  },
-
-  wrapper(t: Theme) {
-    return css`
-      display: inline-block;
+      position: absolute;
       height: ${t.toggleHeight};
-      position: relative;
       width: ${t.toggleWidth};
       flex: 1 0 ${t.toggleWidth};
 
-      &::after {
-        content: '';
-        display: inline-block;
-      }
+      background: ${t.toggleBaseBg};
+      border-radius: ${t.toggleBorderRadius};
+      line-height: ${t.toggleHeight};
+
+      margin-top: ${t.toggleButtonOffsetY};
     `;
   },
 

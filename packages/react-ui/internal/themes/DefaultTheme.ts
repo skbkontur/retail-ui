@@ -953,6 +953,7 @@ export class DefaultTheme {
     return this.borderColorFocus;
   }
   public static toggleCaptionGap = '10px';
+  public static toggleButtonOffsetY = '0px';
   //#endregion
   //#region Popup
   public static popupBorder = 'none';

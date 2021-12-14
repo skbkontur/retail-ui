@@ -994,6 +994,7 @@ export class NewDefaultTheme {
     return this.borderColorFocus;
   }
   public static toggleCaptionGap = '10px';
+  public static toggleButtonOffsetY = '0px';
   //#endregion
   //#region Popup
   public static popupBorder = 'none';
