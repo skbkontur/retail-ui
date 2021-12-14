@@ -640,9 +640,14 @@ export class DefaultTheme {
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
   public static sidePagePaddingLeft = '30px';
+  public static mobileSidePagePaddingLeft = '16px';
   public static sidePagePaddingRight = '35px';
+  public static mobileSidePagePaddingRight = '16px';
   public static sidePagePaddingTop = '25px';
+  public static mobileSidePagePaddingTop = '16px';
   public static sidePagePaddingBottom = '20px';
+  public static mobileSidePagePaddingBottom = '16px';
+  public static mobileSidePageFooterPadding = '16px';
   public static sidePageFooterPaddingTop = '20px';
   public static sidePageFooterPaddingBottom = '20px';
   public static get sidePageBgDefault() {
@@ -652,19 +657,25 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static sidePageHeaderFontSize = '22px';
+  public static mobileSidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '30px';
+  public static mobileSidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '25px';
+  public static mobileSidePageHeaderPaddingBottom = '16px';
   public static sidePageHeaderPaddingTop = '25px';
+  public static mobileSidePageHeaderPaddingTop = '16px';
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '24px';
   public static sidePageHeaderFixedPaddingY = '13px';
   public static sidePageHeaderStickyOffset = '8px';
   public static sidePageCloseButtonPadding = '36px';
+  public static mobileSidePageCloseButtonPadding = '16px';
   public static sidePageCloseButtonLegacyPaddingLeft = '37px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
   public static sidePageCloseButtonClickArea = '10px';
+  public static mobileSidePageCloseButtonClickArea = '16px';
   public static get sidePageFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }

@@ -15,6 +15,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { responsiveLayout } from '../ResponsiveLayout';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -94,6 +95,7 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
+@responsiveLayout
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
@@ -110,6 +112,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
+
+  private isMobileLayout!: boolean;
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -145,6 +149,11 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
+
+          if (this.isMobileLayout) {
+            return this.renderMobile();
+          }
+
           return this.renderMain();
         }}
       </ThemeContext.Consumer>
@@ -175,6 +184,33 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           </div>
         </RenderContainer>
       </CommonWrapper>
+    );
+  }
+
+  private renderMobile() {
+    return (
+      <RenderContainer>
+        <ZIndex
+          priority={'Sidepage'}
+          data-tid="SidePage__root"
+          className={cx({
+            [styles.root()]: true,
+            [styles.mobileRoot()]: this.isMobileLayout,
+          })}
+          onScroll={LayoutEvents.emit}
+        >
+          <div
+            data-tid="SidePage__container"
+            className={cx(styles.wrapper(this.theme))}
+            ref={(_) => (this.layoutRef = _)}
+          >
+            <SidePageContext.Provider value={this.getSidePageContextProps()}>
+              {this.props.children}
+            </SidePageContext.Provider>
+          </div>
+        </ZIndex>
+        <HideBodyVerticalScroll />
+      </RenderContainer>
     );
   }
 

@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { responsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -15,6 +16,7 @@ export interface SidePageFooterProps extends CommonProps {
    * Включает серый цвет в футере
    */
   panel?: boolean;
+  sticky?: boolean;
 }
 
 /**
@@ -22,16 +24,19 @@ export interface SidePageFooterProps extends CommonProps {
  *
  * @visibleName SidePage.Footer
  */
-
+@responsiveLayout
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
+  private isMobileLayout!: boolean;
 
   public state = {
     fixed: false,
   };
+
+  private isSticky = true;
 
   private theme!: Theme;
   private content: HTMLElement | null = null;
@@ -39,6 +44,14 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
 
   public componentDidMount() {
+    if (this.isMobileLayout) {
+      this.isSticky = false;
+    }
+
+    if (typeof this.props.sticky !== 'undefined') {
+      this.isSticky = this.props.sticky;
+    }
+
     this.context.footerRef(this);
     this.update();
     this.layoutSub = LayoutEvents.addListener(this.update);
@@ -81,7 +94,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
-                className={styles.footer()}
+                className={cx(styles.footer(), { [styles.positionStatic()]: !this.isSticky })}
                 style={{
                   width: getWidth(),
                 }}
@@ -90,6 +103,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
                   className={cx(styles.footerContent(this.theme), {
                     [styles.footerFixed(this.theme)]: this.state.fixed,
                     [styles.panel(this.theme)]: !!this.props.panel,
+                    [styles.mobileFooterContent(this.theme)]: this.isMobileLayout,
                   })}
                   ref={this.refContent}
                 >
