@@ -43,6 +43,13 @@ export const styles = memoizeStyle({
         background: ${t.radioActiveBg};
         box-shadow: ${t.radioActiveShadow};
       }
+
+      &::after {
+        // non-breaking space to make a correct
+        // baseline without caption
+        content: '\\00A0';
+        width: 0;
+      }
     `;
   },
 

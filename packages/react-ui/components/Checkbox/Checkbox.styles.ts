@@ -25,6 +25,13 @@ export const styles = memoizeStyle({
         box-shadow: inset ${t.checkboxShadowActive};
         background: ${t.checkboxActiveBg};
       }
+
+      &::after {
+        // non-breaking space to make a correct
+        // baseline without caption
+        content: '\\00A0';
+        width: 0;
+      }
     `;
   },
 
