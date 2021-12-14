@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -9,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
+import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -67,21 +67,15 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focusedByKeyboard: false,
   };
 
-  public static contextTypes = {
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
-    name: PropTypes.string,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-  };
-
   public static defaultProps = {
     focused: false,
   };
 
-  private theme!: Theme;
+  public static contextType = RadioGroupContext;
+  public context: RadioGroupContextType<T> = this.context;
+
   private inputEl = React.createRef<HTMLInputElement>();
+  private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
   public render() {
@@ -90,9 +84,11 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
+            <RadioGroupContext.Consumer>
+              {(radioGroupContextValue) => {
+                return <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>;
+              }}
+            </RadioGroupContext.Consumer>
           );
         }}
       </ThemeContext.Consumer>

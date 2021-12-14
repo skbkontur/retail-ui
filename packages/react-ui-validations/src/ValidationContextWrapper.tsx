@@ -1,4 +1,3 @@
-import * as PropTypes from 'prop-types';
 import React from 'react';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
@@ -9,33 +8,38 @@ export interface ValidationContextSettings {
   disableSmoothScroll: boolean;
 }
 
-export interface IValidationContext {
-  register(wrapper: ValidationWrapperInternal): void;
-  unregister(wrapper: ValidationWrapperInternal): void;
-  instanceProcessBlur(wrapper: ValidationWrapperInternal): void;
-  onValidationUpdated(wrapper: ValidationWrapperInternal, isValid: boolean): void;
-  getSettings(): ValidationContextSettings;
-  isAnyWrapperInChangingMode(): boolean;
-}
-
-export interface ValidationContextProps {
+export interface ValidationContextWrapperProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: boolean) => void;
   scrollOffset?: number | ScrollOffset;
   disableSmoothScroll: boolean;
 }
 
-export class ValidationContext extends React.Component<ValidationContextProps> implements IValidationContext {
-  public static childContextTypes = {
-    validationContext: PropTypes.any,
-  };
-  public childWrappers: ValidationWrapperInternal[] = [];
+export interface ValidationContextType {
+  register: (wrapper: ValidationWrapperInternal) => void;
+  unregister: (wrapper: ValidationWrapperInternal) => void;
+  instanceProcessBlur: (wrapper: ValidationWrapperInternal) => void;
+  onValidationUpdated: (wrapper: ValidationWrapperInternal, isValid: boolean) => void;
+  getSettings: () => ValidationContextSettings;
+  isAnyWrapperInChangingMode: () => boolean;
+}
 
-  public getChildContext(): { validationContext: IValidationContext } {
-    return {
-      validationContext: this,
-    };
-  }
+export const ValidationContext = React.createContext<ValidationContextType>({
+  register: () => undefined,
+  unregister: () => undefined,
+  instanceProcessBlur: () => undefined,
+  onValidationUpdated: () => undefined,
+  getSettings: () => ({
+    scrollOffset: {},
+    disableSmoothScroll: false,
+  }),
+  isAnyWrapperInChangingMode: () => false,
+});
+
+ValidationContext.displayName = 'ValidationContext';
+
+export class ValidationContextWrapper extends React.Component<ValidationContextWrapperProps> {
+  public childWrappers: ValidationWrapperInternal[] = [];
 
   public getSettings(): ValidationContextSettings {
     let scrollOffset: ScrollOffset = {};
@@ -138,6 +142,6 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
   }
 
   public render() {
-    return <span>{this.props.children}</span>;
+    return <ValidationContext.Provider value={this}>{this.props.children}</ValidationContext.Provider>;
   }
 }
