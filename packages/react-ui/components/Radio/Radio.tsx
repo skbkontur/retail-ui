@@ -86,7 +86,11 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
           return (
             <RadioGroupContext.Consumer>
               {(radioGroupContextValue) => {
-                return <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>;
+                return (
+                  <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+                    {this.renderMain}
+                  </CommonWrapper>
+                );
               }}
             </RadioGroupContext.Consumer>
           );
