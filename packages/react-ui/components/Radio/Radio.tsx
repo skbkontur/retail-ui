@@ -141,7 +141,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     const inputProps = {
       ...rest,
       type: 'radio',
-      className: styles.input(this.theme),
+      className: styles.input(),
       disabled,
       tabIndex: this.props.tabIndex,
       value,

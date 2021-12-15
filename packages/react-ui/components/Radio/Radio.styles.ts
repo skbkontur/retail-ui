@@ -44,11 +44,14 @@ export const styles = memoizeStyle({
         box-shadow: ${t.radioActiveShadow};
       }
 
-      &::after {
-        // non-breaking space to make a correct
-        // height and baseline without caption
+      &::before {
+        // non-breaking space.
+        // makes a correct space for absolutely positioned circle,
+        // and also height and baseline for radio without caption.
         content: '\\00A0';
-        width: 0;
+        display: inline-block;
+        width: ${t.radioSize};
+        flex: 0 0 auto;
       }
     `;
   },
@@ -146,14 +149,13 @@ export const styles = memoizeStyle({
     `;
   },
 
-  input(t: Theme) {
+  input() {
     return css`
       display: inline-block;
       height: 0;
       opacity: 0;
-      width: ${t.radioSize};
-      flex: 0 0 auto;
-      margin: 0;
+      position: absolute;
+      width: 0;
       z-index: -1;
     `;
   },

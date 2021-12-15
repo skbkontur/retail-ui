@@ -174,7 +174,7 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     const inputProps = {
       ...rest,
       type: 'checkbox',
-      className: styles.input(this.theme),
+      className: styles.input(),
       onChange: this.handleChange,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
@@ -193,22 +193,24 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
     }
 
     const iconClass = cx({
-      [styles.icon()]: true,
+      [styles.icon(this.theme)]: true,
       [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
     });
 
     const box = (
-      <span
-        className={cx(styles.box(this.theme), globalClasses.box, {
-          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
-          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [styles.boxError(this.theme)]: props.error,
-          [styles.boxWarning(this.theme)]: props.warning,
-          [styles.boxDisabled(this.theme)]: props.disabled,
-        })}
-      >
-        {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
-      </span>
+      <div className={cx(styles.boxWrapper(this.theme))}>
+        <div
+          className={cx(styles.box(this.theme), globalClasses.box, {
+            [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+            [styles.boxFocus(this.theme)]: this.state.focusedByTab,
+            [styles.boxError(this.theme)]: props.error,
+            [styles.boxWarning(this.theme)]: props.warning,
+            [styles.boxDisabled(this.theme)]: props.disabled,
+          })}
+        >
+          {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
+        </div>
+      </div>
     );
 
     return (

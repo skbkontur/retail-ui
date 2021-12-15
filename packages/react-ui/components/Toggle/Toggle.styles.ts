@@ -34,17 +34,13 @@ export const styles = memoizeStyle({
       }
 
       &::before {
-        content: '';
-        display: block;
-        width: ${t.toggleWidth};
-        height: 0;
-      }
-
-      &::after {
-        // non-breaking space to make a correct
-        // height and baseline without caption
+        // non-breaking space.
+        // makes a correct space for absolutely positioned button,
+        // and also height and baseline for toggle without caption.
         content: '\\00A0';
-        width: 0;
+        display: inline-block;
+        width: ${t.toggleWidth};
+        flex: 0 0 auto;
       }
     `;
   },
@@ -176,6 +172,8 @@ export const styles = memoizeStyle({
   button(t: Theme) {
     return css`
       position: absolute;
+      left: 0;
+      top: 0;
       height: ${t.toggleHeight};
       width: ${t.toggleWidth};
       flex: 1 0 ${t.toggleWidth};

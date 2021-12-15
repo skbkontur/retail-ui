@@ -211,7 +211,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
 
     return `${(controlHeight - lineHeight) / 2}px`;
   }
-  public static checkboxBorderRadius = '2px';
+  public static checkboxBorderRadius = '1px';
   public static get checkboxBorderWidth() {
     return this.controlBorderWidth;
   }

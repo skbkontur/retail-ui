@@ -1182,7 +1182,7 @@ export class NewDefaultTheme {
   public static get checkboxCheckedHoverShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} ${this.checkboxCheckedHoverBg}`;
   }
-  public static checkboxBorderRadius = '2px';
+  public static checkboxBorderRadius = '1px';
   public static get checkboxOutlineWidth() {
     return this.controlOutlineWidth;
   }
