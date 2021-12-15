@@ -1,6 +1,7 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/Mixins';
 import { Theme } from '../../lib/theming/Theme';
+import { isChrome } from '../../lib/client';
 
 export const globalClasses = prefix('toggle')({
   handle: 'handle',
@@ -171,6 +172,9 @@ export const styles = memoizeStyle({
   },
 
   button(t: Theme) {
+    const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
+    const fontSize = parseInt(t.checkboxFontSize);
+    const baselineCompensation = fontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
     return css`
       position: absolute;
       left: 0;
@@ -183,10 +187,7 @@ export const styles = memoizeStyle({
       border-radius: ${t.toggleBorderRadius};
       line-height: ${t.toggleHeight};
 
-      margin-top: calc(
-        ${t.toggleButtonOffsetY} -
-          ${getLabGrotesqueBaselineCompensation(t.toggleFontSize, t.labGrotesqueBaselineCompensation)}
-      );
+      margin-top: calc(${t.toggleButtonOffsetY} + ${baselineCompensation}px);
     `;
   },
 

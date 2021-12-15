@@ -1,4 +1,3 @@
-import { isChrome } from '../client';
 import { css } from '../theming/Emotion';
 
 export const resetButton = () => {
@@ -49,10 +48,4 @@ export const resetText = () => {
     text-transform: none;
     text-shadow: none;
   `;
-};
-
-export const getLabGrotesqueBaselineCompensation = (fontSize: string, compensation: string) => {
-  const fontSizeInt = parseInt(fontSize);
-  const compensationInt = parseInt(compensation);
-  return !isChrome && compensationInt && fontSizeInt <= 16 ? `${compensationInt}px` : `0px`;
 };
