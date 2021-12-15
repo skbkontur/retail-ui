@@ -1,7 +1,6 @@
 import React from 'react';
 import SpinnerIcon from '@skbkontur/react-icons/Spinner';
 import CrownIcon from '@skbkontur/react-icons/Crown';
-import DocFolderIcon from '@skbkontur/react-icons/DocumentFolder';
 
 import { Button } from '../Button';
 import { Link } from '../Link';
@@ -143,184 +142,87 @@ export const Checkboxes = () => (
 );
 Checkboxes.storyName = 'Checkbox';
 
-export const DifferentFontsAndSizes = () => (
+const BaselineFont: React.FC<{
+  fontFamily: string;
+  size: 'small' | 'medium' | 'large';
+  bg: string;
+  width?: string;
+}> = ({ fontFamily, size, width = '120px', bg }) => {
+  const content = size.charAt(0).toUpperCase();
+  return (
+    <div
+      style={{
+        fontFamily,
+        height: '50px',
+        margin: '20px',
+        backgroundImage: bg,
+      }}
+    >
+      <Gapped>
+        <div style={{ width }}>{fontFamily}</div>
+        <CrownIcon />
+        <Link>Ok</Link>
+        {/* <Link icon={<CrownIcon />}>Ok</Link> */}
+        {/* <Link loading={true} icon={<CrownIcon />}>
+          Ok
+        </Link> */}
+        <Toggle>Tg</Toggle>
+        {/* <Toggle /> */}
+        <Checkbox initialIndeterminate>Ch</Checkbox>
+        <Checkbox checked>Ch</Checkbox>
+        {/* <Checkbox /> */}
+        <Radio checked value="value">
+          Rd
+        </Radio>
+        {/* <Radio value="" /> */}
+        {/* <Kebab size={size}>
+          <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
+        </Kebab> */}
+        <MenuItem state="hover">Menu</MenuItem>
+        <Input size={size} value={content} width={40} />
+        <ComboBox
+          placeholder={content}
+          width={60}
+          searchOnFocus={false}
+          getItems={() => Promise.resolve([])}
+          size={size}
+        />
+        <Button size={size}>{content}</Button>
+        <Group width="70px">
+          <Input placeholder={content} width="100%" size={size} />
+          <Button narrow size={size}>
+            {content}
+          </Button>
+        </Group>
+      </Gapped>
+    </div>
+  );
+};
+
+const BaselineSize: React.FC<{ size: 'small' | 'medium' | 'large'; bg: string; width?: string }> = ({
+  size,
+  bg,
+  width,
+}) => (
   <div>
     <Gapped vertical gap={4}>
-      <div
-        style={{
-          fontFamily: 'Arial',
-          height: '50px',
-          margin: '20px',
-          backgroundImage: `
-          linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
-          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
-          linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
-          `,
-        }}
-      >
-        <Gapped>
-          <div style={{ width: '120px' }}>Arial </div>
-          <CrownIcon />
-          <Link icon={<CrownIcon/>}>Ok</Link>
-          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
-          <Toggle>Tg</Toggle>
-          <Checkbox initialIndeterminate>Ch</Checkbox>
-          <Checkbox checked>Ch</Checkbox>
-          <Checkbox />
-          <Radio checked value="value">
-            Rd
-          </Radio>
-          <Radio />
-          <Kebab>
-            <MenuItem icon={<CrownIcon />}>
-              Menu
-            </MenuItem>
-          </Kebab>
-          <MenuItem state="hover">Menu</MenuItem>
-          <Input size="small" value="S" width={40} />
-          <ComboBox placeholder="S" width={60} searchOnFocus={false} />
-          <Button size="small">S</Button>
-          <Group width="70px">
-            <Input placeholder="S" width="100%" size="small" />
-            <Button narrow size="small">
-              S
-            </Button>
-          </Group>
-        </Gapped>
-      </div>
-      <div
-        style={{
-          fontFamily: 'Lab Grotesque',
-          height: '50px',
-          margin: '20px',
-          backgroundImage: `
-          linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
-          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
-          linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
-          `,
-        }}
-      >
-        <Gapped>
-          <div style={{ width: '120px' }}>Lab Grotesque </div>
-          <CrownIcon />
-          <Link icon={<CrownIcon/>}>Ok</Link>
-          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
-          <Toggle>Tg</Toggle>
-          <Checkbox initialIndeterminate>Ch</Checkbox>
-          <Checkbox checked>Ch</Checkbox>
-          <Checkbox />
-          <Radio checked value="value">
-            Rd
-          </Radio>
-          <Radio />
-          <Kebab>
-            <MenuItem icon={<CrownIcon />}>
-              Menu
-            </MenuItem>
-          </Kebab>
-          <MenuItem state="hover">Menu</MenuItem>
-          <Input size="small" value="S" width={40} />
-          <ComboBox placeholder="S" width={60} searchOnFocus={false} />
-          <Button size="small">S</Button>
-          <Group width="70px">
-            <Input placeholder="S" width="100%" size="small" />
-            <Button narrow size="small">
-              S
-            </Button>
-          </Group>
-        </Gapped>
-      </div>
-
-      <div
-        style={{
-          fontFamily: 'Segoe UI',
-          height: '50px',
-          margin: '20px',
-          backgroundImage: `
-          linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
-          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
-          linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
-          `,
-        }}
-      >
-        <Gapped>
-          <div style={{ width: '120px' }}>Segoe UI </div>
-          <CrownIcon />
-          <Link icon={<CrownIcon/>}>Ok</Link>
-          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
-          <Toggle>Tg</Toggle>
-          <Checkbox initialIndeterminate>Ch</Checkbox>
-          <Checkbox checked>Ch</Checkbox>
-          <Checkbox />
-          <Radio checked value="value">
-            Rd
-          </Radio>
-          <Radio />
-          <Kebab>
-            <MenuItem icon={<CrownIcon />}>
-              Menu
-            </MenuItem>
-          </Kebab>
-          <MenuItem state="hover">Menu</MenuItem>
-          <Input size="small" value="S" width={40} />
-          <ComboBox placeholder="S" width={60} searchOnFocus={false} />
-          <Button size="small">S</Button>
-          <Group width="70px">
-            <Input placeholder="S" width="100%" size="small" />
-            <Button narrow size="small">
-              S
-            </Button>
-          </Group>
-        </Gapped>
-      </div>
-      <div
-        style={{
-          fontFamily: 'Times New Roman',
-          height: '50px',
-          margin: '20px',
-          backgroundImage: `
-          linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-          linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
-          linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
-          linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
-          `,
-        }}
-      >
-        <Gapped>
-          <div style={{ width: '120px' }}>Times New Roman </div>
-          <CrownIcon />
-          <Link icon={<CrownIcon/>}>Ok</Link>
-          <Link loading={true} icon={<CrownIcon/>}>Ok</Link>
-          <Toggle>Tg</Toggle>
-          <Checkbox initialIndeterminate>Ch</Checkbox>
-          <Checkbox checked>Ch</Checkbox>
-          <Checkbox />
-          <Radio checked value="value">
-            Rd
-          </Radio>
-          <Radio />
-          <Kebab>
-            <MenuItem icon={<CrownIcon />}>
-              Menu
-            </MenuItem>
-          </Kebab>
-          <MenuItem state="hover">Menu</MenuItem>
-          <Input size="small" value="S" width={40} />
-          <ComboBox placeholder="S" width={60} searchOnFocus={false} />
-          <Button size="small">S</Button>
-          <Group width="70px">
-            <Input placeholder="S" width="100%" size="small" />
-            <Button narrow size="small">
-              S
-            </Button>
-          </Group>
-        </Gapped>
-      </div>
+      {['Arial', 'Lab Grotesque', 'Segoe UI', 'Times New Roman'].map((fontFamily, i) => (
+        <BaselineFont fontFamily={fontFamily} size={size} bg={bg} width={width} key={i} />
+      ))}
     </Gapped>
   </div>
+);
+
+export const DifferentFontsAndSizes = () => (
+  <BaselineSize
+    size="small"
+    bg={`
+  linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
+  linear-gradient(0deg, transparent 0, transparent 39px, #666 39px, #666 42px, transparent 42px),
+  linear-gradient(0deg, transparent 0, transparent 26px, #666 26px, #666 29px, transparent 29px),
+  linear-gradient(0deg, transparent 0, transparent 18px, #CCC 18px, #CCC 19px, transparent 19px)
+  `}
+  />
 );
 DifferentFontsAndSizes.storyName = 'Different fonts in small';
 
@@ -341,7 +243,6 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   checkboxPaddingY: '9px',
                   checkboxFontSize: '16px',
                   checkboxLineHeight: '22px',
-                  checkboxBoxOffsetY: '1px',
 
                   radioSize: '20px',
                   radioBulletSize: '10px',
@@ -349,7 +250,6 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                   radioPaddingY: '9px',
                   radioFontSize: '16px',
                   radioLineHeight: '22px',
-                  radioCircleOffsetY: '1px',
 
                   menuItemFontSize: '16px',
                   menuItemLineHeight: '22px',
@@ -365,151 +265,16 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
                 theme,
               )}
             >
-              <Gapped vertical gap={4}>
-                <div
-                  style={{
-                    fontFamily: 'Arial',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
+              <BaselineSize
+                width="140px"
+                size="medium"
+                bg={`
                   linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
                   linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
                   linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
                   linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
-                  `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '140px' }}>Arial </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="medium" value="M" width={40} />
-                    <ComboBox placeholder="M" width={80} size="medium" searchOnFocus={false} />
-                    <Button size="medium">M</Button>
-                    <Group width="70px">
-                      <Input placeholder="M" width="100%" size="medium" />
-                      <Button narrow size="medium">
-                        M
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: 'Lab Grotesque',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
-                  linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
-                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
-                  linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
-                  `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '140px' }}>Lab Grotesque </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="medium" value="M" width={40} />
-                    <ComboBox placeholder="M" width={80} size="medium" searchOnFocus={false} />
-                    <Button size="medium">M</Button>
-                    <Group width="70px">
-                      <Input placeholder="M" width="100%" size="medium" />
-                      <Button narrow size="medium">
-                        M
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: 'Segoe UI',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
-                  linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
-                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
-                  linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
-                  `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '140px' }}>Segoe UI </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="medium" value="M" width={40} />
-                    <ComboBox placeholder="M" width={80} size="medium" searchOnFocus={false} />
-                    <Button size="medium">M</Button>
-                    <Group width="70px">
-                      <Input placeholder="M" width="100%" size="medium" />
-                      <Button narrow size="medium">
-                        M
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: 'Times New Roman',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
-                  linear-gradient(0deg, transparent 0, transparent 49px, #CCC 49px, #CCC 50px, transparent 50px),
-                  linear-gradient(0deg, transparent 0, transparent 36px, #666 36px, #666 40px, transparent 40px),
-                  linear-gradient(0deg, transparent 0, transparent 20px, #666 20px, #666 24px, transparent 24px),
-                  linear-gradient(0deg, transparent 0, transparent 10px, #CCC 10px, #CCC 11px, transparent 11px)
-                  `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '140px' }}>Times New Roman </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="medium" value="M" width={40} />
-                    <ComboBox placeholder="M" width={80} size="medium" searchOnFocus={false} />
-                    <Button size="medium">M</Button>
-                    <Group width="70px">
-                      <Input placeholder="M" width="100%" size="medium" />
-                      <Button narrow size="medium">
-                        M
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-              </Gapped>
+                  `}
+              />
             </ThemeContext.Provider>
           )}
         </ThemeContext.Consumer>
@@ -535,7 +300,6 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                   checkboxPaddingY: '11px',
                   checkboxFontSize: '18px',
                   checkboxLineHeight: '24px',
-                  checkboxBoxOffsetY: '1px',
 
                   radioSize: '22px',
                   radioBulletSize: '12px',
@@ -543,7 +307,6 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                   radioPaddingY: '11px',
                   radioFontSize: '18px',
                   radioLineHeight: '24px',
-                  radioCircleOffsetY: '1px',
 
                   menuItemFontSize: '18px',
                   menuItemLineHeight: '24px',
@@ -559,151 +322,16 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
                 theme,
               )}
             >
-              <Gapped vertical gap={4}>
-                <div
-                  style={{
-                    fontFamily: 'Arial',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
+              <BaselineSize
+                width="160px"
+                size="large"
+                bg={`
                 linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
                 linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
                 linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
                 linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
-                `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '160px' }}>Arial </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="large" value="L" width={40} />
-                    <ComboBox placeholder="L" width={80} size="large" searchOnFocus={false} />
-                    <Button size="large">L</Button>
-                    <Group width="70px">
-                      <Input placeholder="L" width="100%" size="large" />
-                      <Button narrow size="large">
-                        L
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: 'Lab Grotesque',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
-                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
-                `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '160px' }}>Lab Grotesque </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="large" value="L" width={40} />
-                    <ComboBox placeholder="L" width={80} size="large" searchOnFocus={false} />
-                    <Button size="large">L</Button>
-                    <Group width="70px">
-                      <Input placeholder="L" width="100%" size="large" />
-                      <Button narrow size="large">
-                        L
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: 'Segoe UI',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
-                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
-                `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '160px' }}>Segoe UI </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="large" value="L" width={40} />
-                    <ComboBox placeholder="L" width={80} size="large" searchOnFocus={false} />
-                    <Button size="large">L</Button>
-                    <Group width="70px">
-                      <Input placeholder="L" width="100%" size="large" />
-                      <Button narrow size="large">
-                        L
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-
-                <div
-                  style={{
-                    fontFamily: 'Times New Roman',
-                    height: '50px',
-                    margin: '20px',
-                    backgroundImage: `
-                linear-gradient(0deg, transparent 0, transparent 49px, #ccc 49px, #ccc 50px, transparent 50px),
-                linear-gradient(0deg, transparent 0, transparent 33px, #666 33px, #666 37px, transparent 37px),
-                linear-gradient(0deg, transparent 0, transparent 15px, #666 15px, #666 19px, transparent 19px),
-                linear-gradient(0deg, transparent 0, transparent 2px, #ccc 2px, #ccc 3px, transparent 3px)
-                `,
-                  }}
-                >
-                  <Gapped>
-                    <div style={{ width: '160px' }}>Times New Roman </div>
-                    <CrownIcon />
-                    <Link>Ok</Link>
-                    <Toggle>Tg</Toggle>
-                    <Checkbox initialIndeterminate>Ch</Checkbox>
-                    <Checkbox checked>Ch</Checkbox>
-                    <Radio checked value="value">
-                      Rd
-                    </Radio>
-                    <MenuItem state="hover">Menu</MenuItem>
-                    <Input size="large" value="L" width={40} />
-                    <ComboBox placeholder="L" width={80} size="large" searchOnFocus={false} />
-                    <Button size="large">L</Button>
-                    <Group width="70px">
-                      <Input placeholder="L" width="100%" size="large" />
-                      <Button narrow size="large">
-                        L
-                      </Button>
-                    </Group>
-                  </Gapped>
-                </div>
-              </Gapped>
+                `}
+              />
             </ThemeContext.Provider>
           )}
         </ThemeContext.Consumer>
