@@ -1,23 +1,15 @@
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
-import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
+import { CurrentLayoutFlags } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
-interface ResponsiveLayoutProps {
-  onLayoutChange?: (layout: ResponsiveLayoutState) => void;
-  children?: React.ReactNode | ((currentLayout: ResponsiveLayoutState) => React.ReactNode);
-}
-
-interface ResponsiveLayoutState {
-  isMobile: boolean;
-}
-
-export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
+export function useResponsiveLayout() {
   const theme = useContext(ThemeContext);
 
-  const getLayoutFromGlobal = (): ResponsiveLayoutState => {
+  const getLayoutFromGlobal = (): CurrentLayoutFlags => {
     const isMobile = checkMatches(theme.mobileMediaQuery);
 
     return { isMobile: !!isMobile };
@@ -49,7 +41,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
       }
 
       if (e.media === theme.mobileMediaQuery) {
-        setState((prevState: ResponsiveLayoutState) => ({
+        setState((prevState: CurrentLayoutFlags) => ({
           ...prevState,
           isMobile: e.matches,
         }));
@@ -59,12 +51,6 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
   );
 
   useEffect(() => {
-    if (props.onLayoutChange) {
-      props.onLayoutChange(state);
-    }
-  }, [state]);
-
-  useEffect(() => {
     prepareMediaQueries();
 
     return () => {
@@ -72,8 +58,25 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
     };
   }, []);
 
+  return state;
+}
+
+interface ResponsiveLayoutProps {
+  onLayoutChange?: (layout: CurrentLayoutFlags) => void;
+  children?: React.ReactNode | ((currentLayout: CurrentLayoutFlags) => React.ReactNode);
+}
+
+export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
+  const layoutFlags = useResponsiveLayout();
+
+  useEffect(() => {
+    if (props.onLayoutChange) {
+      props.onLayoutChange(layoutFlags);
+    }
+  }, [layoutFlags]);
+
   if (isFunction(props.children)) {
-    return (props.children(state) ?? null) as React.ReactElement;
+    return (props.children(layoutFlags) ?? null) as React.ReactElement;
   }
 
   return (props.children ?? null) as React.ReactElement;
@@ -81,13 +84,13 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
-    public layout!: ResponsiveLayoutState;
+    public layout!: CurrentLayoutFlags;
 
-    public get currentLayout(): ResponsiveLayoutState {
+    public get currentLayout(): CurrentLayoutFlags {
       return this.layout;
     }
 
-    public set currentLayout(value: ResponsiveLayoutState) {
+    public set currentLayout(value: CurrentLayoutFlags) {
       //
     }
 
@@ -99,7 +102,7 @@ export function responsiveLayout<T extends new (...args: any[]) => React.Compone
       //
     }
 
-    public renderWithLayout = (currentLayout: ResponsiveLayoutState) => {
+    public renderWithLayout = (currentLayout: CurrentLayoutFlags) => {
       this.layout = currentLayout;
 
       return super.render();
