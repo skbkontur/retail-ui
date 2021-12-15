@@ -15,6 +15,7 @@ export interface ValidationInfo {
   type?: Nullable<ValidationBehaviour>;
   level?: Nullable<ValidationLevel>;
   message: React.ReactNode;
+  independent?: boolean;
 }
 
 export interface ValidationWrapperProps {
@@ -33,6 +34,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
           level: validationInfo.level || 'error',
           behaviour: validationInfo.type || 'lostfocus',
           message: validationInfo.message,
+          independent: validationInfo.independent || false,
         }
       : null;
     return (
