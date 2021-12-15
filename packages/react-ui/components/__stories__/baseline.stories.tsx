@@ -162,22 +162,22 @@ const BaselineFont: React.FC<{
         <div style={{ width }}>{fontFamily}</div>
         <CrownIcon />
         <Link>Ok</Link>
-        {/* <Link icon={<CrownIcon />}>Ok</Link> */}
-        {/* <Link loading={true} icon={<CrownIcon />}>
+        <Link icon={<CrownIcon />}>Ok</Link>
+        <Link loading={true} icon={<CrownIcon />}>
           Ok
-        </Link> */}
+        </Link>
         <Toggle>Tg</Toggle>
-        {/* <Toggle /> */}
+        <Toggle />
         <Checkbox initialIndeterminate>Ch</Checkbox>
         <Checkbox checked>Ch</Checkbox>
-        {/* <Checkbox /> */}
+        <Checkbox />
         <Radio checked value="value">
           Rd
         </Radio>
-        {/* <Radio value="" /> */}
-        {/* <Kebab size={size}>
+        <Radio value="" />
+        <Kebab size={size}>
           <MenuItem icon={<CrownIcon />}>Menu</MenuItem>
-        </Kebab> */}
+        </Kebab>
         <MenuItem state="hover">Menu</MenuItem>
         <Input size={size} value={content} width={40} />
         <ComboBox
@@ -188,7 +188,7 @@ const BaselineFont: React.FC<{
           size={size}
         />
         <Button size={size}>{content}</Button>
-        <Group width="70px">
+        <Group width="75px">
           <Input placeholder={content} width="100%" size={size} />
           <Button narrow size={size}>
             {content}
