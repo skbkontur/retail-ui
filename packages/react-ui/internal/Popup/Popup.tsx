@@ -201,6 +201,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private setRootNode!: TSetRootNode;
+  private refForTransition = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     this.updateLocation();
@@ -373,6 +374,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         enter={!disableAnimations}
         exit={!disableAnimations}
         onExited={this.resetLocation}
+        nodeRef={this.refForTransition}
       >
         {(state: string) => (
           <CommonWrapper {...this.props}>
@@ -397,7 +399,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
+              <div className={styles.content(this.theme)} data-tid={'PopupContent'} ref={this.refForTransition}>
                 <div
                   className={styles.contentInner(this.theme)}
                   style={{ backgroundColor, width: this.calculateWidth(width) }}
