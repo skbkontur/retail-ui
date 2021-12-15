@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { canUseDOM, isBrowser } from '../../lib/client';
+import { canUseDOM } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
@@ -16,29 +16,18 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
 
   private readonly rootId: string = RenderContainer.getRootId();
 
-  constructor(props: RenderContainerProps) {
-    super(props);
-
-    if (isBrowser && props.children) {
-      this.mountContainer();
-    }
-  }
-
-  public shouldComponentUpdate(nextProps: RenderContainerProps) {
-    if (!this.props.children && nextProps.children) {
-      this.mountContainer();
-    }
-    if (this.props.children && !nextProps.children) {
-      this.unmountContainer();
-    }
-    return true;
-  }
-
   public componentWillUnmount() {
     this.destroyContainer();
   }
 
   public render() {
+    if (this.props.children && !this.domContainer) {
+      this.mountContainer();
+    }
+    if (!this.props.children && this.domContainer) {
+      this.unmountContainer();
+    }
+
     return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
   }
 
