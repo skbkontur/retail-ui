@@ -3,7 +3,8 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class NewDefaultTheme {
   //#region Common variables
-  public static fontFamilyCompensationBaseline = '0';
+  public static fontFamilyCompensationBaseline = '0'; // deprecated
+  public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#2291ff';
@@ -1147,7 +1148,7 @@ export class NewDefaultTheme {
     const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
-  public static checkboxBoxOffsetY = '2px';
+  public static checkboxBoxOffsetY = '1px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
@@ -1368,7 +1369,7 @@ export class NewDefaultTheme {
   public static get radioBorderWidthCompensation() {
     return this.radioBoxShadow !== 'none' ? this.radioBorderWidth : '0px';
   }
-  public static radioCircleOffsetY = '2px';
+  public static radioCircleOffsetY = '1px';
   //#endregion
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';

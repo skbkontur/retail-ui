@@ -1,4 +1,5 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/Mixins';
 import { Theme } from '../../lib/theming/Theme';
 
 export const globalClasses = prefix('toggle')({
@@ -182,7 +183,10 @@ export const styles = memoizeStyle({
       border-radius: ${t.toggleBorderRadius};
       line-height: ${t.toggleHeight};
 
-      margin-top: ${t.toggleButtonOffsetY};
+      margin-top: calc(
+        ${t.toggleButtonOffsetY} -
+          ${getLabGrotesqueBaselineCompensation(t.toggleFontSize, t.labGrotesqueBaselineCompensation)}
+      );
     `;
   },
 

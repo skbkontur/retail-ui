@@ -3,7 +3,8 @@ import { exposeGetters, markAsFullTheme } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
-  public static fontFamilyCompensationBaseline = '0';
+  public static fontFamilyCompensationBaseline = '0'; // deprecated
+  public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#1e79be';
@@ -1097,7 +1098,7 @@ export class DefaultTheme {
   public static checkboxBoxSize = '16px';
   public static checkboxLabelGap = '10px';
   public static checkboxPaddingY = '0';
-  public static checkboxBoxOffsetY = '2px';
+  public static checkboxBoxOffsetY = '1px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
@@ -1318,7 +1319,7 @@ export class DefaultTheme {
   }
   public static radioLabelDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
-  public static radioCircleOffsetY = '2px';
+  public static radioCircleOffsetY = '1px';
   //#endregion
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '10px';

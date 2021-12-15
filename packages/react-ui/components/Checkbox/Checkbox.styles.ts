@@ -1,5 +1,6 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/Mixins';
 
 export const globalClasses = prefix('checkbox')({
   box: 'box',
@@ -76,7 +77,10 @@ export const styles = memoizeStyle({
       height: ${t.checkboxBoxSize};
       box-sizing: border-box;
       padding: ${t.checkboxBorderWidth};
-      margin-top: ${t.checkboxBoxOffsetY};
+      margin-top: calc(
+        ${t.checkboxBoxOffsetY} +
+          ${getLabGrotesqueBaselineCompensation(t.checkboxFontSize, t.labGrotesqueBaselineCompensation)}
+      );
 
       // fix position in ie11
       display: inline-block;

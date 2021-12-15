@@ -1,4 +1,5 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/Mixins';
 import { Theme } from '../../lib/theming/Theme';
 
 export const globalClasses = prefix('radio')({
@@ -72,7 +73,9 @@ export const styles = memoizeStyle({
 
   circle(t: Theme) {
     const circleSize = `calc(${t.radioSize} - 2 * ${t.radioBorderWidthCompensation})`;
-    const circleOffsetY = `calc(${t.radioCircleOffsetY} + ${t.radioBorderWidthCompensation})`;
+    const circleOffsetY = `calc(${t.radioCircleOffsetY} + ${
+      t.radioBorderWidthCompensation
+    } + ${getLabGrotesqueBaselineCompensation(t.radioFontSize, t.labGrotesqueBaselineCompensation)})`;
     const circleMarginX = t.radioBorderWidthCompensation;
     return css`
       background-image: ${t.radioBgImage};
