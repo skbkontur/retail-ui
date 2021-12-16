@@ -10,7 +10,12 @@ describe('Validator', () => {
     const reader = validate('bad');
     const validationInfo = reader.get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error', type: undefined, level: undefined });
+    expect(validationInfo).toStrictEqual({
+      message: 'error',
+      type: undefined,
+      level: undefined,
+      independent: undefined,
+    });
   });
 
   it('root valid', () => {
@@ -41,7 +46,12 @@ describe('Validator', () => {
     const reader = validate({ value: 'bad' });
     const validationInfo = reader.getNode((x) => x.value).get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error', type: undefined, level: undefined });
+    expect(validationInfo).toStrictEqual({
+      message: 'error',
+      type: undefined,
+      level: undefined,
+      independent: undefined,
+    });
   });
 
   it('prop getNodeByKey', () => {
@@ -61,7 +71,12 @@ describe('Validator', () => {
     const reader = validate({ value: 'bad' });
     const validationInfo = reader.getNodeByKey('value').get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error', type: undefined, level: undefined });
+    expect(validationInfo).toStrictEqual({
+      message: 'error',
+      type: undefined,
+      level: undefined,
+      independent: undefined,
+    });
   });
 
   it('rule does not apply for missing nodes', () => {
@@ -140,7 +155,12 @@ describe('Validator', () => {
     const reader = validate('bad');
     const validationInfo = reader.get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error2', type: undefined, level: undefined });
+    expect(validationInfo).toStrictEqual({
+      message: 'error2',
+      type: undefined,
+      level: undefined,
+      independent: undefined,
+    });
     expect(check1).toHaveBeenCalledTimes(1);
     expect(check2).toHaveBeenCalledTimes(1);
     expect(check3).toHaveBeenCalledTimes(0);
@@ -154,7 +174,12 @@ describe('Validator', () => {
     const reader = validate('bad');
     const validationInfo = reader.get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error', type: 'submit', level: 'warning' });
+    expect(validationInfo).toStrictEqual({
+      message: 'error',
+      type: 'submit',
+      level: 'warning',
+      independent: undefined,
+    });
   });
 
   it('prop empty path', () => {
@@ -170,7 +195,12 @@ describe('Validator', () => {
     const reader = validate('bad');
     const validationInfo = reader.get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error', type: undefined, level: undefined });
+    expect(validationInfo).toStrictEqual({
+      message: 'error',
+      type: undefined,
+      level: undefined,
+      independent: undefined,
+    });
   });
 
   it('array item invalid', () => {
@@ -186,7 +216,12 @@ describe('Validator', () => {
     const reader = validate(['bad']);
     const validationInfo = reader.getNodeByIndex(0).get();
 
-    expect(validationInfo).toStrictEqual({ message: 'error', type: undefined, level: undefined });
+    expect(validationInfo).toStrictEqual({
+      message: 'error',
+      type: undefined,
+      level: undefined,
+      independent: undefined,
+    });
   });
 
   it('prop value argument', () => {
