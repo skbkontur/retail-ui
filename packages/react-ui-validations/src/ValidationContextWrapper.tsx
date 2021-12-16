@@ -142,6 +142,10 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   }
 
   public render() {
-    return <ValidationContext.Provider value={this}>{this.props.children}</ValidationContext.Provider>;
+    return (
+      <ValidationContext.Provider value={this}>
+        <span>{this.props.children}</span>
+      </ValidationContext.Provider>
+    );
   }
 }

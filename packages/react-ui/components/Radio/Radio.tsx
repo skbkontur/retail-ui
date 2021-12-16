@@ -80,13 +80,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <RadioGroupContext.Consumer>
-              {(radioGroupContextValue) => {
-                return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
-              }}
-            </RadioGroupContext.Consumer>
-          );
+          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
         }}
       </ThemeContext.Consumer>
     );
