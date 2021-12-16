@@ -13,7 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Tooltip.styles';
 
@@ -309,7 +309,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    return (
+      <RenderLayer {...layerProps} anchorElement={getRootNode(this)}>
+        {popup}
+      </RenderLayer>
+    );
   }
 
   private renderPopup(
