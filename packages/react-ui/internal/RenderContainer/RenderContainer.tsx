@@ -21,10 +21,10 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
-    if (this.props.children && !this.domContainer) {
+    if (this.props.children && !this.isContainerMouned) {
       this.mountContainer();
     }
-    if (!this.props.children && this.domContainer) {
+    if (!this.props.children && this.isContainerMouned) {
       this.unmountContainer();
     }
 
@@ -67,5 +67,9 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
         window.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
+  }
+
+  private get isContainerMouned(): boolean {
+    return Boolean(this.domContainer && this.domContainer.parentNode);
   }
 }
