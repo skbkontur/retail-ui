@@ -7,7 +7,6 @@ import { Input } from '../../Input';
 import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
 import { delay } from '../../../lib/utils';
-
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 export default {
