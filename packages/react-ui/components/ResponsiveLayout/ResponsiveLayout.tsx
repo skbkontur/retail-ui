@@ -3,13 +3,16 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { CurrentLayoutFlags } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
+
+export interface ResponsiveLayoutFlags {
+  isMobile: boolean;
+}
 
 export function useResponsiveLayout() {
   const theme = useContext(ThemeContext);
 
-  const getLayoutFromGlobal = (): CurrentLayoutFlags => {
+  const getLayoutFromGlobal = (): ResponsiveLayoutFlags => {
     const isMobile = checkMatches(theme.mobileMediaQuery);
 
     return { isMobile: !!isMobile };
@@ -41,7 +44,7 @@ export function useResponsiveLayout() {
       }
 
       if (e.media === theme.mobileMediaQuery) {
-        setState((prevState: CurrentLayoutFlags) => ({
+        setState((prevState: ResponsiveLayoutFlags) => ({
           ...prevState,
           isMobile: e.matches,
         }));
@@ -62,8 +65,8 @@ export function useResponsiveLayout() {
 }
 
 interface ResponsiveLayoutProps {
-  onLayoutChange?: (layout: CurrentLayoutFlags) => void;
-  children?: React.ReactNode | ((currentLayout: CurrentLayoutFlags) => React.ReactNode);
+  onLayoutChange?: (layout: ResponsiveLayoutFlags) => void;
+  children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags) => React.ReactNode);
 }
 
 export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
@@ -84,13 +87,13 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
-    public layout!: CurrentLayoutFlags;
+    public layout!: ResponsiveLayoutFlags;
 
-    public get currentLayout(): CurrentLayoutFlags {
+    public get currentLayout(): ResponsiveLayoutFlags {
       return this.layout;
     }
 
-    public set currentLayout(value: CurrentLayoutFlags) {
+    public set currentLayout(value: ResponsiveLayoutFlags) {
       //
     }
 
@@ -102,7 +105,7 @@ export function responsiveLayout<T extends new (...args: any[]) => React.Compone
       //
     }
 
-    public renderWithLayout = (currentLayout: CurrentLayoutFlags) => {
+    public renderWithLayout = (currentLayout: ResponsiveLayoutFlags) => {
       this.layout = currentLayout;
 
       return super.render();
