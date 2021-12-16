@@ -47,67 +47,45 @@ Upgrade.setSpecificityLevel(1);
 
 ### StrictMode
 
-Начиная с версии 3.10.0 (?) библиотека совместима со StrictMode. Для корректной работы ожидается:
+Начиная с версии 3.10.0 (?) библиотека поддерживает работу в StrictMode.
 
-- При использовании Hint, Tooltip, Popup или Tab для функциональных компонентов, ваши компоненты
-должны использовать React.ForwardRef;
+Некоторым компонентам библиотеки необходимо иметь доступ до корневой DOM-ноды своих
+children. Ранее для этого использовался метод findDomNode, который в StrictMode запрещён.
+Теперь получение DOM-ноды реализовано в библиотеке через ref, из-за чего появились некоторые
+требования к компонентам, передаваемым в Hint, Tooltip, Popup или Tab:
+
+- при передаче функциональных компонентов, они должны использовать `React.ForwardRef`;
 
 ```js static
-import { Tabs, Tab } from '@skbkontur/react-ui';
+import { Hint } from '@skbkontur/react-ui';
 
-const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
-  return <a ref={ref} {...props}>{props.children}</a>;
-});
+const CustomFunctionComponent = React.forwardRef(
+  (props, ref) => <div ref={ref}>children text</div>
+);
 
-class TabsWithMyLink extends React.Component<any, any> {
-  public state = { active: 'fuji' };
-
-  public render() {
-    return (
-      <Tabs
-        value={this.state.active}
-        onValueChange={(v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
-        <Tab
-          id="fuji"
-          component={
-            React.forwardRef<any, any>(function Component(props: any, ref) {
-              return <MyLink ref={ref} {...props} to="/1" />;
-            })
-          }
-        >
-          <span role="img" aria-label="fuji">🌋&nbsp;&nbsp;Fuji</span>
-        </Tab>
-        <Tab
-          id="tahat"
-          component={
-            React.forwardRef<any, any>(function Component(props: any, ref) {
-              return <MyLink ref={ref} {...props} to="/2" />;
-            })
-          }
-        >
-          <span role="img" aria-label="tahat">⛰&nbsp;&nbsp;Tahat</span>
-        </Tab>
-      </Tabs>
-    );
-  }
-}
+export const withFunctionChildren = () => (
+  <React.StrictMode>
+    <Hint pos="top" text="Something will never be changed" manual opened>
+      <CustomFunctionComponent />
+    </Hint>
+  </React.StrictMode>
+);
 ```
 
-- При использовании Hint, Tooltip, Popup или Tab для классовых компонентов, ваши компоненты должны
-иметь публичный метод `getRootNode = () => Nullable<HTMLElement>`, возвращающий DOM-ноду
-компонента. Для определения метода можно использоватьь декоратор `@rootNode`;
+- при передаче классовых компонентов, их инстанс должен реализовывать метод `getRootNode`, возвращающий DOM-ноду.
 
 ```js static
-import { Hint, rootNode, TSetRootNode } from '@skbkontur/react-ui';
+import { Hint } from '@skbkontur/react-ui';
 
-@rootNode
-class CustomClassComponent extends React.Component<{}, {}> {
-  private setRootNode!: TSetRootNode;
+class CustomClassComponent extends React.Component {
+  rootNode = React.createRef();
 
   render() {
-    return <div ref={this.setRootNode}>children text</div>;
+    return <div ref={this.rootNode}>children text</div>;
+  }
+
+  getRootNode() {
+    return this.rootNode.current;
   }
 }
 
@@ -119,6 +97,8 @@ export const withClassChildren = () => (
   </React.StrictMode>
 );
 ```
+
+В случае несоблюдения требования, будет использоваться старый метод findDomNode, который не совместим с StrictMode.
 
 Подробнее в [пулл-реквесте](https://github.com/skbkontur/retail-ui/pull/2518)
 
