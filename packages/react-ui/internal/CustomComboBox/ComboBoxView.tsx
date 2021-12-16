@@ -162,7 +162,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
-            ref={this.setRootNode}
+            ref={this.commonWrapperRef}
           >
             {input}
             {opened && (
@@ -194,6 +194,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       </CommonWrapper>
     );
   }
+
+  private commonWrapperRef = (instance: Nullable<React.ReactNode>) => {
+    this.setRootNode(instance);
+    const rootDomNode = getRootNode(this);
+    if (rootDomNode && rootDomNode !== this.state.rootDomNode) {
+      this.setState({ rootDomNode });
+    }
+  };
 
   private getParent = () => {
     return getRootNode(this);
