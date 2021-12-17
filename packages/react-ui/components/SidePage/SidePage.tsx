@@ -14,6 +14,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { isTestEnv } from '../../lib/currentEnvironment';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -65,6 +66,11 @@ export interface SidePageProps extends CommonProps {
    * Работает только при заблокированном фоне: `blockBackground = true`
    */
   disableFocusLock: boolean;
+
+  /**
+   * задает отступ от края экрана
+   */
+  offset?: number | string;
 }
 
 export interface SidePageState {
@@ -129,7 +135,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   public static defaultProps = {
+    disableAnimations: isTestEnv,
     disableFocusLock: true,
+    offset: 0,
   };
 
   public render(): JSX.Element {
@@ -171,7 +179,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(): JSX.Element {
-    const { width, blockBackground, fromLeft, disableFocusLock } = this.props;
+    const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
 
     return (
       <ZIndex
@@ -179,11 +187,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         data-tid="SidePage__root"
         className={cx({
           [styles.root()]: true,
-          [styles.leftSide()]: Boolean(fromLeft),
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext
-        style={{ width: width || (blockBackground ? 800 : 500) }}
+        style={{
+          width: width || (blockBackground ? 800 : 500),
+          right: fromLeft ? 'auto' : offset,
+          left: fromLeft ? offset : 'auto',
+        }}
       >
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
