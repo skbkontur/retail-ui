@@ -8,7 +8,7 @@ import { Nullable } from '../typings/Types';
 import { isBrowser } from './utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { IValidationContext } from './ValidationContext';
-import { getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
+import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
@@ -24,6 +24,7 @@ export interface Validation {
   level: ValidationLevel;
   behaviour: ValidationBehaviour;
   message: React.ReactNode;
+  independent: boolean;
 }
 
 export type RenderErrorMessage = (
@@ -181,10 +182,16 @@ export class ValidationWrapperInternal extends React.Component<
     return getLevel(this.state.validation) === 'error';
   }
 
+  public isIndependent(): boolean {
+    return getIndependent(this.state.validation || this.props.validation) === true;
+  }
+
   private handleBlur() {
     setTimeout(() => {
       this.processBlur();
-      this.context.validationContext.instanceProcessBlur(this);
+      if (!this.isIndependent()) {
+        this.context.validationContext.instanceProcessBlur(this);
+      }
       this.setState({});
     });
   }
