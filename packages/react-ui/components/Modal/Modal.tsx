@@ -164,7 +164,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
       setHasPanel: this.setHasPanel,
-      isMobile: false,
     };
     if (!this.props.noClose) {
       modalContextProps.close = {
@@ -204,10 +203,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             >
               <ResponsiveLayout>
                 {({ isMobile }) => {
-                  if (isMobile !== modalContextProps.isMobile) {
-                    modalContextProps.isMobile = isMobile;
-                  }
-
                   return (
                     <div
                       className={cx({
