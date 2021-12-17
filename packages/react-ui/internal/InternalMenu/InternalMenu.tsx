@@ -38,7 +38,7 @@ interface MenuState {
 }
 
 @rootNode
-export class InternalMenu extends React.Component<MenuProps, MenuState> {
+export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
   public static defaultProps = {
@@ -73,12 +73,10 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }
-  }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: MenuProps) {
-    if (nextProps.maxHeight !== this.props.maxHeight) {
+    if (prevProps.maxHeight !== this.props.maxHeight) {
       this.setState({
-        maxHeight: nextProps.maxHeight || 'none',
+        maxHeight: this.props.maxHeight || 'none',
       });
     }
   }

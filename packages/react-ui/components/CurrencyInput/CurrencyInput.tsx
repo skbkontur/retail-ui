@@ -55,7 +55,7 @@ export interface CurrencyInputState {
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 @rootNode
-export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
 
   public static propTypes = {
@@ -112,15 +112,11 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     );
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: CurrencyInputProps) {
-    const { value, fractionDigits, hideTrailingZeros } = nextProps;
-    if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
-      const state = this.getState(value, fractionDigits, hideTrailingZeros);
-      this.setState(state);
+  public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
+    const { value, fractionDigits, hideTrailingZeros } = this.props;
+    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+      this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
-  }
-
-  public componentDidUpdate(prevProps: Readonly<CurrencyInputProps>, prevState: Readonly<CurrencyInputState>) {
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
 

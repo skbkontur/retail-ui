@@ -64,7 +64,7 @@ export interface CheckboxState {
 }
 
 @rootNode
-export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
+export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
   public static propTypes = {
@@ -94,8 +94,8 @@ export class Checkbox extends React.Component<CheckboxProps, CheckboxState> {
   };
   private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: CheckboxProps) {
-    if (nextProps.checked !== this.props.checked) {
+  public componentDidUpdate(prevProps: CheckboxProps) {
+    if (prevProps.checked !== this.props.checked) {
       this.resetIndeterminate();
     }
   }

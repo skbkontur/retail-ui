@@ -40,8 +40,9 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
   private isUnmounting = false;
   private variablesDiff: string[] = [];
 
-  public UNSAFE_componentWillMount(): void {
-    if (this.props.isDebugMode) {
+  constructor(props: ShowcaseProps) {
+    super(props);
+    if (props.isDebugMode) {
       ALL_VARIABLES.forEach((variable) => {
         const found = ALL_USED_VARIABLES.includes(variable);
         if (!found) {
