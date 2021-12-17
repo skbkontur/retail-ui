@@ -105,44 +105,44 @@ describe('FileUploader', () => {
       file = new Blob(['fileContents'], { type: 'text/plain' }) as File;
     });
 
-    describe('onSelect', () => {
-      it('should handle onSelect, when select file', async () => {
-        const onSelect = jest.fn();
-        const component = render({ onSelect });
+    describe('onAttach', () => {
+      it('should handle onAttach, when select file', async () => {
+        const onAttach = jest.fn();
+        const component = render({ onAttach });
 
         await addFiles(component, [file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenCalledWith([readFile]);
+        expect(onAttach).toHaveBeenCalledTimes(1);
+        expect(onAttach).toHaveBeenCalledWith([readFile]);
       });
 
-      it('should handle onSelect, when all files aren"t valid', async () => {
-        const onSelect = jest.fn();
+      it('should handle onAttach, when all files aren"t valid', async () => {
+        const onAttach = jest.fn();
         const component = render({
-          onSelect,
+          onAttach,
           getFileValidationText: () => Promise.resolve('validation error'),
           multiple: true,
         });
 
         await addFiles(component, [file, file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenCalledWith([readFile, readFile]);
+        expect(onAttach).toHaveBeenCalledTimes(1);
+        expect(onAttach).toHaveBeenCalledWith([readFile, readFile]);
       });
 
-      it('should handle onSelect by one, when add files by one', async () => {
-        const onSelect = jest.fn();
-        const component = render({ onSelect });
+      it('should handle onAttach by one, when add files by one', async () => {
+        const onAttach = jest.fn();
+        const component = render({ onAttach });
 
         await addFiles(component, [file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(1);
-        expect(onSelect).toHaveBeenCalledWith([readFile]);
+        expect(onAttach).toHaveBeenCalledTimes(1);
+        expect(onAttach).toHaveBeenCalledWith([readFile]);
 
         await addFiles(component, [file]);
 
-        expect(onSelect).toHaveBeenCalledTimes(2);
-        expect(onSelect).toHaveBeenCalledWith([readFile]);
+        expect(onAttach).toHaveBeenCalledTimes(2);
+        expect(onAttach).toHaveBeenCalledWith([readFile]);
       });
     });
 
@@ -369,20 +369,20 @@ describe('FileUploader', () => {
       });
     });
 
-    it('should handle one request, getFileValidationText, onSelect, onValueChange for single control, if try add several files', async () => {
+    it('should handle one request, getFileValidationText, onAttach, onValueChange for single control, if try add several files', async () => {
       const request = jest.fn();
       const getFileValidationText = jest.fn();
-      const onSelect = jest.fn();
+      const onAttach = jest.fn();
       const onValueChange = jest.fn();
-      const component = render({ request, getFileValidationText, onSelect, onValueChange });
+      const component = render({ request, getFileValidationText, onAttach, onValueChange });
 
       await addFiles(component, [file, file, file]);
 
       expect(request).toHaveBeenCalledTimes(1);
       expect(getFileValidationText).toHaveBeenCalledTimes(1);
 
-      expect(onSelect).toHaveBeenCalledTimes(1);
-      expect(onSelect).toHaveBeenCalledWith([readFile]);
+      expect(onAttach).toHaveBeenCalledTimes(1);
+      expect(onAttach).toHaveBeenCalledWith([readFile]);
 
       expect(onValueChange).toHaveBeenCalledTimes(3);
       expect(onValueChange).toHaveBeenCalledWith([readFile]);

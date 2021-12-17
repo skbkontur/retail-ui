@@ -25,7 +25,7 @@ const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
 interface _FileUploaderProps
   extends CommonProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange' | 'onSelect'> {
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
