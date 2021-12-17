@@ -15,6 +15,7 @@ import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
 
 import { jsStyles } from './FileUploaderFile.styles';
+import {Hint} from "../../../components/Hint";
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
@@ -140,6 +141,8 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     [jsStyles.focusedIcon(theme)]: focusedByTab,
   });
 
+  const isTruncated = truncatedFileName !== name;
+
   return (
     <div
       data-tid="FileUploader__file"
@@ -150,9 +153,11 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       <Tooltip data-tid="FileUploader__fileTooltip" pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
-          <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
-            {truncatedFileName}
-          </span>
+          <Hint maxWidth={"100%"} text={isTruncated ? name : null}>
+            <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
+              {truncatedFileName}
+            </span>
+          </Hint>
           {!!showSize && formattedSize && (
             <span data-tid="FileUploader__fileSize" className={jsStyles.size()}>
               {formattedSize}
