@@ -14,6 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
+import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
   /**
@@ -91,15 +92,6 @@ export interface RadioGroupState<T> {
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
-  public static childContextTypes = {
-    error: PropTypes.bool,
-    name: PropTypes.string,
-    warning: PropTypes.bool,
-    disabled: PropTypes.bool,
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
-  };
-
   public static propTypes = {
     children: PropTypes.node,
     disabled: PropTypes.bool,
@@ -134,7 +126,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
   }
 
-  public getChildContext() {
+  private getRadioGroupContextValue = (): RadioGroupContextType<T> => {
     return {
       activeItem: this.getValue(),
       onSelect: this.handleSelect,
@@ -143,7 +135,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
       error: this.props.error,
       warning: this.props.warning,
     };
-  }
+  };
 
   public render() {
     return (
@@ -171,7 +163,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
       <CommonWrapper {...this.props}>
         <FocusTrap onBlur={onBlur}>
           <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
-            {this.renderChildren()}
+            <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
+              {this.renderChildren()}
+            </RadioGroupContext.Provider>
           </span>
         </FocusTrap>
       </CommonWrapper>
