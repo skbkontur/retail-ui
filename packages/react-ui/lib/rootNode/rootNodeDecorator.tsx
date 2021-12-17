@@ -14,7 +14,6 @@ export function rootNode<T extends new (...args: any[]) => React.Component>(Comp
     }
 
     public setRootNode = (instance: Nullable<React.ReactInstance>) => {
-      if (instance === null) return;
       this.rootNode = getRootNode(instance);
     };
 

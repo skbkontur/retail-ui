@@ -48,6 +48,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private static dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
+  private rootNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.position();
@@ -71,58 +72,11 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
   }
 
-  public static getDerivedStateFromProps(props: DropdownContainerProps, state: DropdownContainerState) {
-    if (state.position !== null) return state;
-    const target = props.getParent();
-
-    if (target) {
-      const targetRect = target.getBoundingClientRect();
-      const { body, documentElement: docEl } = document;
-
-      if (!docEl) {
-        throw Error('There is no "documentElement" in "document"');
-      }
-
-      const scrollX = window.pageXOffset || docEl.scrollLeft || 0;
-      const scrollY = window.pageYOffset || docEl.scrollTop || 0;
-
-      let left = null;
-      let right = null;
-
-      if (props.align === 'right') {
-        const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + DropdownContainer.defaultProps.offsetX;
-      } else {
-        left = targetRect.left + scrollX + DropdownContainer.defaultProps.offsetX;
-      }
-
-      const { offsetY = 0 } = props;
-      let bottom = null;
-      let top: number | null = targetRect.bottom + scrollY + offsetY;
-
-      const distanceToBottom = docEl.clientHeight - targetRect.bottom;
-      const child = DropdownContainer.dom?.children.item(0);
-      const dropdownHeight = !child ? 0 : child.getBoundingClientRect().height;
-
-      if (distanceToBottom < dropdownHeight && targetRect.top > dropdownHeight) {
-        const clientHeight = state.isDocumentElementRoot ? docEl.clientHeight : body.scrollHeight;
-
-        top = null;
-        bottom = clientHeight + offsetY - scrollY - targetRect.top;
-      }
-
-      const minWidth = !target || !(target instanceof Element) ? 0 : target.getBoundingClientRect().width;
-      return {
-        minWidth,
-        position: {
-          top,
-          left,
-          right,
-          bottom,
-        },
-      };
+  public componentDidUpdate() {
+    if (this.rootNode !== this.props.getParent()) {
+      this.rootNode = this.props.getParent();
+      this.position();
     }
-    return state;
   }
 
   public render() {

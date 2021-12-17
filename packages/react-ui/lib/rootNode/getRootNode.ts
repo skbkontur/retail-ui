@@ -10,9 +10,8 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   }
 
   const domNode = (instance as any)?.getRootNode?.();
-  // || findDOMNode(instance);
-  if (domNode) {
+  if (domNode || domNode === null) {
     return domNode;
   }
-  return null;
+  // return findDOMNode(instance);
 };

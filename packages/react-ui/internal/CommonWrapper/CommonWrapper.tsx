@@ -39,18 +39,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     const child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(child)
       ? React.cloneElement(child, {
-          ref: (instance: any) => {
-            const childAsAny = child as any;
-            if (childAsAny && childAsAny.ref) {
-              if (typeof childAsAny.ref === 'function') {
-                childAsAny.ref(instance);
-              }
-              if (Object.prototype.hasOwnProperty.call(childAsAny.ref, 'current')) {
-                childAsAny.ref.current = instance;
-              }
-            }
-            this.props.rootNodeRef?.(getRootNode(instance));
-          },
+          ref: this.ref,
           className: cx(child.props.className, className),
           style: {
             ...child.props.style,
@@ -60,6 +49,24 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
         })
       : child;
   }
+
+  private ref = (instance: any) => {
+    // @ts-ignore
+    const [_, { children, ...rest }] = extractCommonProps(this.props);
+
+    const child = isFunction(children) ? children(rest) : children;
+
+    const childAsAny = child as any;
+    if (childAsAny && childAsAny.ref) {
+      if (typeof childAsAny.ref === 'function') {
+        childAsAny.ref(instance);
+      }
+      if (Object.prototype.hasOwnProperty.call(childAsAny.ref, 'current')) {
+        childAsAny.ref.current = instance;
+      }
+    }
+    this.props.rootNodeRef?.(getRootNode(instance));
+  };
 }
 
 const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
