@@ -34,29 +34,25 @@ export type CommonWrapperRestProps<P> = Omit<NotCommonProps<P>, 'children'>;
 export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> extends React.Component<
   CommonWrapperProps<P> & CommonPropsRootNodeRef
 > {
+  private child: React.ReactNode;
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
-    const child = isFunction(children) ? children(rest) : children;
-    return React.isValidElement<CommonProps & React.RefAttributes<any>>(child)
-      ? React.cloneElement(child, {
+    this.child = isFunction(children) ? children(rest) : children;
+    return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
+      ? React.cloneElement(this.child, {
           ref: this.ref,
-          className: cx(child.props.className, className),
+          className: cx(this.child.props.className, className),
           style: {
-            ...child.props.style,
+            ...this.child.props.style,
             ...style,
           },
           ...dataProps,
         })
-      : child;
+      : this.child;
   }
 
   private ref = (instance: any) => {
-    // @ts-ignore
-    const [_, { children, ...rest }] = extractCommonProps(this.props);
-
-    const child = isFunction(children) ? children(rest) : children;
-
-    const childAsAny = child as any;
+    const childAsAny = this.child as any;
     if (childAsAny && childAsAny.ref) {
       if (typeof childAsAny.ref === 'function') {
         childAsAny.ref(instance);
