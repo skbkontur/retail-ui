@@ -10,9 +10,9 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return instance;
   }
 
-  const domNode = (instance as any)?.getRootNode?.();
-  if (domNode !== undefined) {
-    return domNode;
+  const instanceAsAny = instance as any;
+  if (instanceAsAny && instanceAsAny.getRootNode && typeof instanceAsAny.getRootNode === 'function') {
+    return instanceAsAny.getRootNode();
   }
   const node = canUseDOM && findDOMNode(instance);
   return node instanceof HTMLElement ? node : null;

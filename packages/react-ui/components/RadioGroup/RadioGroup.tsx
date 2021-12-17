@@ -74,22 +74,21 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
-  /**
-   * Может быть использовано, если не передан параметр `items`
-   *
-   * `children` может содержать любую разметку с компонентами Radio.
-   * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
-   * как и параметр `value` самой радиогруппы.
-   *
-   * Значения активного элемента сравниваются по строгому равенству `===`
-   */
-  children?: React.ReactNode;
 }
 
 export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+/**
+ *
+ * `children` может содержать любую разметку с компонентами Radio,
+ * если не передан параметр `items`.
+ * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
+ * как и параметр `value` самой радиогруппы.
+ *
+ * Значения активного элемента сравниваются по строгому равенству `===`
+ */
 @rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';

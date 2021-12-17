@@ -10,7 +10,7 @@ export interface RenderLayerProps extends CommonProps {
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;
-  anchorElement?: Nullable<React.ReactInstance>;
+  getAnchorElement?: () => Nullable<HTMLElement>;
 }
 
 @rootNode
@@ -67,7 +67,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   }
 
   private attachListeners() {
-    const rootNode = getRootNode(this) || getRootNode(this.props.anchorElement);
+    const rootNode = getRootNode(this) || this.props.getAnchorElement?.();
     if (!rootNode) return;
     this.focusOutsideListenerToken = listenFocusOutside(() => [rootNode], this.handleFocusOutside);
     window.addEventListener('blur', this.handleFocusOutside);
@@ -98,7 +98,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
 
   private handleNativeDocClick = (event: Event) => {
     const target = event.target || event.srcElement;
-    const node = getRootNode(this) || getRootNode(this.props.anchorElement);
+    const node = getRootNode(this) || getRootNode(this.props.getAnchorElement?.());
 
     if (!node || (target instanceof Element && containsTargetOrRenderContainer(target)(node))) {
       return;
