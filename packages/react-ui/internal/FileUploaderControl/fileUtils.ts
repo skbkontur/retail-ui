@@ -1,4 +1,4 @@
-import { getGuid } from '../../lib/guidUtils';
+import { getUid } from '../../lib/uidUtils';
 
 import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 
@@ -18,7 +18,7 @@ export interface FileUploaderAttachedFile {
 
 export const getAttachedFile = (file: File): FileUploaderAttachedFile => {
   return {
-    id: getGuid(),
+    id: getUid(),
     originalFile: file,
     status: FileUploaderFileStatus.Attached,
     validationResult: FileUploaderFileValidationResult.ok(),
