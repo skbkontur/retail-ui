@@ -17,10 +17,6 @@ import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 
-interface ComboBoxViewState {
-  rootDomNode: Nullable<HTMLElement>;
-}
-
 interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
@@ -78,7 +74,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
 }
 
 @rootNode
-export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
+export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, {}> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
   public static defaultProps = {
@@ -97,15 +93,15 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     width: 250,
   };
 
-  public state: ComboBoxViewState = { rootDomNode: null };
-
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
+  private dropdownContainerRef = React.createRef<DropdownContainer>();
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
       this.props.onFocus();
     }
+    this.props.opened && this.dropdownContainerRef.current?.position();
   }
 
   public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
@@ -171,6 +167,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
                 getParent={this.getParent}
                 offsetY={1}
                 disablePortal={this.props.disablePortal}
+                ref={this.dropdownContainerRef}
               >
                 <ComboBoxMenu
                   items={items}
@@ -197,10 +194,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   private commonWrapperRef = (instance: Nullable<React.ReactNode>) => {
     this.setRootNode(instance);
-    const rootDomNode = getRootNode(this);
-    if (rootDomNode && rootDomNode !== this.state.rootDomNode) {
-      this.setState({ rootDomNode });
-    }
   };
 
   private getParent = () => {

@@ -46,9 +46,8 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
-  private static dom: Nullable<HTMLDivElement>;
+  private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
-  private rootNode: Nullable<HTMLElement>;
 
   public componentDidMount() {
     this.position();
@@ -69,13 +68,6 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   public componentWillUnmount() {
     if (this.layoutSub) {
       this.layoutSub.remove();
-    }
-  }
-
-  public componentDidUpdate() {
-    if (this.rootNode !== this.props.getParent()) {
-      this.rootNode = this.props.getParent();
-      this.position();
     }
   }
 
@@ -106,16 +98,16 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   }
 
   private ZIndexRef = (element: Nullable<HTMLDivElement>) => {
-    DropdownContainer.dom = element;
+    this.dom = element;
   };
 
   private isElement = (node: Nullable<Element>): node is Element => {
     return node instanceof Element;
   };
 
-  private position = () => {
+  public position = () => {
     const target = this.props.getParent();
-    const dom = DropdownContainer.dom;
+    const dom = this.dom;
 
     if (target && this.isElement(target) && dom) {
       const targetRect = target.getBoundingClientRect();
@@ -167,10 +159,10 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
   };
 
   private getHeight = () => {
-    if (!this.isElement(DropdownContainer.dom)) {
+    if (!this.isElement(this.dom)) {
       return 0;
     }
-    const child = DropdownContainer.dom.children.item(0);
+    const child = this.dom.children.item(0);
     if (!child) {
       return 0;
     }

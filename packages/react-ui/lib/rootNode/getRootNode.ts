@@ -1,4 +1,4 @@
-// import { findDOMNode } from 'react-dom';
+import { findDOMNode } from 'react-dom';
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
@@ -10,8 +10,9 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   }
 
   const domNode = (instance as any)?.getRootNode?.();
-  if (domNode || domNode === null) {
+  if (domNode !== undefined) {
     return domNode;
   }
-  // return findDOMNode(instance);
+  const node = findDOMNode(instance);
+  return node instanceof HTMLElement ? node : null;
 };
