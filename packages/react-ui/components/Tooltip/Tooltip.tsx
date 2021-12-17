@@ -196,7 +196,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private clickedOutside = true;
 
   public componentDidUpdate(prevProps: TooltipProps) {
-    if (this.props.trigger === 'closed') {
+    if (this.props.trigger === 'closed' && this.state.opened) {
       this.close();
     }
 
