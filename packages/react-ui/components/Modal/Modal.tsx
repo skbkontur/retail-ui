@@ -210,12 +210,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         [styles.mobileCenterContainer()]: isMobile,
                         [styles.alignTop()]: Boolean(this.props.alignTop),
                       })}
-                      style={containerStyle}
+                      style={isMobile ? undefined : containerStyle}
                       data-tid="modal-content"
                     >
                       <div
                         className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}
-                        style={style}
+                        style={isMobile ? undefined : style}
                       >
                         <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
                           <FocusLock

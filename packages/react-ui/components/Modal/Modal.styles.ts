@@ -55,7 +55,7 @@ export const styles = memoizeStyle({
 
   mobileWindow() {
     return css`
-      width: 100% !important;
+      width: 100%;
       height: 100%;
       overflow: auto;
     `;
@@ -76,7 +76,7 @@ export const styles = memoizeStyle({
   mobileCenterContainer() {
     return css`
       margin: 0;
-      width: 100% !important;
+      width: 100%;
       height: 100%;
     `;
   },
@@ -249,7 +249,7 @@ export const styles = memoizeStyle({
 
   mobileFooter(t: Theme) {
     return css`
-      padding: ${t.mobileModalFooterPadding} !important;
+      padding: ${t.mobileModalFooterPadding};
     `;
   },
 

@@ -47,9 +47,9 @@ function ModalFooter(props: ModalFooterProps) {
       <div
         className={cx({
           [styles.footer(theme)]: true,
-          [styles.mobileFooter(theme)]: layout.isMobile,
           [styles.fixedFooter(theme)]: fixed,
           [styles.panel(theme)]: Boolean(panel),
+          [styles.mobileFooter(theme)]: layout.isMobile,
           [styles.mobilePanel(theme)]: Boolean(panel) && layout.isMobile,
         })}
       >
