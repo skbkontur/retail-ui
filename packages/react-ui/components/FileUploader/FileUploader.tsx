@@ -24,8 +24,7 @@ import { jsStyles } from './FileUploader.styles';
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
 interface _FileUploaderProps
-  extends CommonProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+  extends CommonProps, React.InputHTMLAttributes<HTMLInputElement> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
@@ -59,10 +58,11 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     disabled,
     error,
     warning,
-    onBlur,
-    onFocus,
     multiple = false,
     width = theme.fileUploaderWidth,
+    onBlur,
+    onFocus,
+    onChange,
     request,
     getFileValidationText,
     onRequestSuccess,
@@ -159,9 +159,10 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event);
       handleChange(event.target.files);
     },
-    [handleChange],
+    [handleChange, onChange],
   );
 
   const handleFocus = useCallback(
