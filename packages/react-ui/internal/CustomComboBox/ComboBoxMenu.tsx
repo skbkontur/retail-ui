@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { locale } from '../../lib/locale/decorators';
-import { isReactUINode } from '../../lib/utils';
 import { Menu } from '../Menu';
 import { MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
@@ -102,7 +101,8 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     let total = null;
     const renderedItems = items && items.map(this.renderItem);
-    const countItems = renderedItems?.filter((item) => isReactUINode('MenuItem', item)).length;
+    // @ts-ignore // todo fix checking
+    const countItems = renderedItems?.filter((item) => item?.type?.__KONTUR_REACT_UI__ === 'MenuItem').length;
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (

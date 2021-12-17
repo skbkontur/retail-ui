@@ -6,6 +6,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 
@@ -58,6 +59,7 @@ export interface RadioState {
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
+@rootNode
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
@@ -74,13 +76,18 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
   private inputEl = React.createRef<HTMLInputElement>();
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
