@@ -365,7 +365,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private enableChildrenFocus = () => {
     this.makeUnobservable();
-    document.querySelectorAll('[origin-tabindex]').forEach((el) => {
+    // NOTE: NodeList doesn't support 'forEach' method in IE11 and other older browsers
+    Array.from(document.querySelectorAll('[origin-tabindex]')).forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });
