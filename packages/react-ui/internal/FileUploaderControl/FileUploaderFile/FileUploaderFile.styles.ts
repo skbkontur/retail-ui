@@ -38,6 +38,7 @@ const styles = {
 
   icon(t: Theme) {
     return css`
+      width: 16px;
       margin-left: 23px;
       flex: 1 0 auto;
       cursor: pointer;

@@ -1475,9 +1475,7 @@ export class DefaultTheme {
 
   // Padding
   public static fileUploaderPaddingX = '7px';
-  public static get fileUploaderPaddingY() {
-    return this.controlPaddingYSmall;
-  }
+  public static fileUploaderPaddingY = '5px';
 
   // Border
   public static fileUploaderBorderRadius = '2px';
@@ -1498,7 +1496,7 @@ export class DefaultTheme {
   }
 
   // Icon
-  public static fileUploaderIconSize = '16px';
+  public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#808080';
   public static fileUploaderIconHoverColor = '#333';
 
