@@ -14,7 +14,7 @@ class Component extends React.Component<{ items: string[]; error?: boolean }, { 
       <Switcher
         value={this.state.value}
         onValueChange={this.handleChange}
-        label={'Label for Switcher'}
+        caption={'Label for Switcher'}
         {...this.props}
       />
     );
@@ -61,9 +61,9 @@ Errored.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }
 export const Disabled = () => {
   return (
     <Gapped vertical>
-      <Switcher disabled value={'One'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />
-      <Switcher disabled value={'Two'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />
-      <Switcher disabled value={'Three'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'One'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'Two'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'Three'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
     </Gapped>
   );
 };

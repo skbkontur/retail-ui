@@ -61,6 +61,8 @@ export class DefaultTheme {
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '14px';
   public static fontSizeLarge = '16px';
+  public static fontSizeMobile = '18px';
+  public static lineHeightMobile = '24px';
   public static specificityLevel = '0';
   private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
@@ -93,6 +95,7 @@ export class DefaultTheme {
     const lineHeightLarge = parseInt(this.controlLineHeightLarge, 10) || 0;
     return `${2 * borderWidth + 2 * paddingYLarge + lineHeightLarge}px`;
   }
+  public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
 
   //#endregion
   //#region Link
@@ -522,6 +525,9 @@ export class DefaultTheme {
   public static get selectMenuArrowColor() {
     return this.btnMenuArrowColor;
   }
+  public static get selectMenuArrowColorDisabled() {
+    return this.selectMenuArrowColor;
+  }
   public static get selectIconSizeSmall() {
     return this.btnIconSizeSmall;
   }
@@ -530,6 +536,17 @@ export class DefaultTheme {
   }
   public static get selectIconSizeLarge() {
     return this.btnIconSizeLarge;
+  }
+  public static selectRootWidthMobile = 'auto';
+
+  public static get selectTextColorDisabled() {
+    return this.btnDisabledTextColor;
+  }
+  public static get selectBgDisabled() {
+    return this.btnDisabledBg;
+  }
+  public static get selectBorderColorDisabled() {
+    return this.btnDisabledBorderColor;
   }
   //#endregion
   //#region Tooltip
@@ -865,6 +882,8 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#a0a0a0';
   public static menuItemCommentColorHover = '#fff';
+
+  public static menuItemPaddingMobile = '12px 16px';
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;
@@ -1068,7 +1087,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static checkboxBoxSize = '16px';
-  public static checkboxLabelGap = '10px';
+  public static checkboxCaptionGap = '10px';
   public static checkboxPaddingY = '0';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
@@ -1247,7 +1266,7 @@ export class DefaultTheme {
   public static get radioLineHeight() {
     return this.controlLineHeightSmall;
   }
-  public static radioLabelGap = '9px';
+  public static radioCaptionGap = '9px';
   public static radioPaddingY = '0';
   public static radioVerticalAlign = '-2px';
   public static radioBgImage = 'linear-gradient(-180deg, #fff 0, #ebebeb 100%)';
@@ -1288,7 +1307,7 @@ export class DefaultTheme {
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
-  public static radioLabelDisplay = 'inline-table';
+  public static radioCaptionDisplay = 'inline-table';
   public static radioBorderWidthCompensation = '0px';
   public static radioMarginY = '2px';
   //#endregion
@@ -1373,15 +1392,15 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static switcherOutlineWidth = '2px';
-  public static switcherLabelFontSizeSmall = 'inherit';
-  public static switcherLabelFontSizeMedium = 'inherit';
-  public static switcherLabelFontSizeLarge = 'inherit';
-  public static switcherLabelLineHeightSmall = 'inherit';
-  public static switcherLabelLineHeightMedium = 'inherit';
-  public static switcherLabelLineHeightLarge = 'inherit';
-  public static switcherLabelGapSmall = '15px';
-  public static switcherLabelGapMedium = '15px';
-  public static switcherLabelGapLarge = '15px';
+  public static switcherCaptionFontSizeSmall = 'inherit';
+  public static switcherCaptionFontSizeMedium = 'inherit';
+  public static switcherCaptionFontSizeLarge = 'inherit';
+  public static switcherCaptionLineHeightSmall = 'inherit';
+  public static switcherCaptionLineHeightMedium = 'inherit';
+  public static switcherCaptionLineHeightLarge = 'inherit';
+  public static switcherCaptionGapSmall = '15px';
+  public static switcherCaptionGapMedium = '15px';
+  public static switcherCaptionGapLarge = '15px';
   public static get switcherButtonPaddingXSmall() {
     return this.btnPaddingXSmall;
   }
@@ -1436,6 +1455,20 @@ export class DefaultTheme {
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;
   }
+  //#endregion
+  //#region MobilePopup
+  public static mobilePopupTopPadding = '20px';
+  public static mobilePopupHeaderPadding = '0 16px';
+  public static mobilePopupHeaderBorderRadius = '8px 8px 0px 0px';
+  public static mobilePopupHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
+  public static get mobilePopupHeaderFontSize() {
+    return this.fontSizeMobile;
+  }
+  public static get mobilePopupHeaderLineHeight() {
+    return this.lineHeightMobile;
+  }
+  public static mobilePopupHeaderFontWeight = '500';
+  public static mobilePopupHeaderChildPadding = '12px';
   //#endregion
   //#region ScrollContainer
   public static scrollContainerScrollBarSize = '4px';

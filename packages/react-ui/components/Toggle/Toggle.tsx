@@ -41,12 +41,12 @@ export interface ToggleProps extends CommonProps {
    */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   /**
-   * Добавляет оранжевую обводку вокруг переключателя.
+   * Cостояние валидации при предупреждении.
    * @default false
    */
   warning?: boolean;
   /**
-   * Добавляет красную обводку вокруг переключателя.
+   * Cостояние валидации при ошибке.
    * @default false
    */
   error?: boolean;
@@ -164,6 +164,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     const labelClassNames = cx(styles.root(this.theme), {
       [styles.rootLeft()]: captionPosition === 'left',
       [styles.disabled()]: !!disabled,
+      [globalClasses.disabled]: !!disabled,
     });
 
     let caption = null;
