@@ -217,6 +217,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       if (!state.location) {
         return { location: DUMMY_LOCATION };
       }
+    }else if (state.location) {
+      return { location: DUMMY_LOCATION };
     }
     return state;
   }
@@ -226,10 +228,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       if (this.reflowCounter < MAX_REFLOW_RETRIES) {
         const hadNoLocation = prevState.location === DUMMY_LOCATION;
         const hasLocation = this.state.location !== DUMMY_LOCATION;
+        const wasClosed = prevProps.opened && !this.props.opened;
+
         if (hadNoLocation && hasLocation && this.props.onOpen) {
           this.props.onOpen();
         }
-        if (!hadNoLocation && !this.state.location && this.props.onClose) {
+        if (wasClosed && !hasLocation && this.props.onClose) {
           this.props.onClose();
         }
         if (this.props.opened) {
