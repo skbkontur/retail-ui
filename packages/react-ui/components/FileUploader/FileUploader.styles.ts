@@ -154,6 +154,12 @@ const styles = {
       }
     `;
   },
+
+  singleFile() {
+    return css`
+      width: 100%;
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

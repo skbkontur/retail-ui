@@ -3,12 +3,12 @@ import React, {useContext} from 'react';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
-
-import { jsStyles } from './FileUploaderFileList.styles';
 import {FileUploaderAttachedFile} from "../fileUtils";
 
+import { jsStyles } from './FileUploaderFileList.styles';
+
 interface FileUploaderFileListProps {
-  renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactNode) => React.ReactNode;
+  renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
@@ -21,7 +21,9 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
     <div data-tid="FileUploader__fileList">
       {files.map((file) => (
         <div key={file.id} className={jsStyles.fileWrapper(theme)}>
-          {renderFile(file, <FileUploaderFile file={file} showSize />)}
+          <div className={jsStyles.file()}>
+            {renderFile(file, <FileUploaderFile file={file} showSize />)}
+          </div>
         </div>
       ))}
     </div>

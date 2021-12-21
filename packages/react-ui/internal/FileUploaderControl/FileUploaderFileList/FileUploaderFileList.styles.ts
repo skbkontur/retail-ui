@@ -2,6 +2,11 @@ import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
 
 const styles = {
+  file() {
+    return css`
+      width: 100%;
+    `;
+  },
   fileWrapper(t: Theme) {
     return css`
       width: 100%;

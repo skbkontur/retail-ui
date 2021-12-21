@@ -44,7 +44,7 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
 
   // Переименовать getFileValidationText в canUploadFile, и чисто проверять, можно ли отправлять или нет
   // (саму валидацию вешать через renderFile)
-  renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactNode) => React.ReactNode;
+  renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
 export interface FileUploaderRef {
@@ -54,7 +54,7 @@ export interface FileUploaderRef {
   reset: () => void;
 }
 
-const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactNode) => fileNode;
+const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
   const theme = useContext(ThemeContext);
@@ -230,7 +230,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
               &nbsp;
               <div className={jsStyles.afterLinkText()}>
                 {hasOneFileForSingle ? (
-                  renderFile(files[0], <FileUploaderFile file={files[0]} />)
+                    <div className={jsStyles.singleFile()}>
+                      {renderFile(files[0], <FileUploaderFile file={files[0]} />)}
+                    </div>
                 ) : (
                   <>
                     {locale.orDragHere}&nbsp;
