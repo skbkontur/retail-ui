@@ -5,7 +5,6 @@ import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 
 import { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils';
 import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
 
 export interface FileUploaderControlProviderProps {
@@ -48,16 +47,16 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
     onValueChange?.(files);
   }, [files]);
 
+  // validationResult:
+  // status === FileUploaderFileStatus.Error
+  // FIXME @mozalov выпилисть перевод или обработать эту валидацию
+  // ? FileUploaderFileValidationResult.error(locale.requestErrorText)
+  // : file.validationResult,
+
   const setFileStatus = useCallback(
     (fileId: string, status: FileUploaderFileStatus) => {
       setFiles((files) =>
-        updateFile(files, fileId, (file) => ({
-          status,
-          validationResult:
-            status === FileUploaderFileStatus.Error
-              ? FileUploaderFileValidationResult.error(locale.requestErrorText)
-              : file.validationResult,
-        })),
+        updateFile(files, fileId, (file) => ({status})),
       );
     },
     [locale],
@@ -79,10 +78,6 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
     [onRemove],
   );
 
-  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
-    setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
-  }, []);
-
   const reset = React.useCallback(() => {
     setFiles(() => [] as FileUploaderAttachedFile[]);
   }, []);
@@ -94,7 +89,6 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
         files,
         setFiles: handleExternalSetFiles,
         removeFile,
-        setFileValidationResult,
         reset,
       })}
     >

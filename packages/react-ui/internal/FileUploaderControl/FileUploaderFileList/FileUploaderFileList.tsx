@@ -1,12 +1,19 @@
-import React, { useContext } from 'react';
+import React, {useContext} from 'react';
 
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 
 import { jsStyles } from './FileUploaderFileList.styles';
+import {FileUploaderAttachedFile} from "../fileUtils";
 
-export const FileUploaderFileList = () => {
+interface FileUploaderFileListProps {
+  renderFile: (file: FileUploaderAttachedFile, fileNode: React.ReactNode) => React.ReactNode;
+}
+
+export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
+  // FIXME @mozalov мб перенести в контекст
+  const {renderFile} = props;
   const { files } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
@@ -14,7 +21,7 @@ export const FileUploaderFileList = () => {
     <div data-tid="FileUploader__fileList">
       {files.map((file) => (
         <div key={file.id} className={jsStyles.fileWrapper(theme)}>
-          <FileUploaderFile file={file} showSize />
+          {renderFile(file, <FileUploaderFile file={file} showSize />)}
         </div>
       ))}
     </div>

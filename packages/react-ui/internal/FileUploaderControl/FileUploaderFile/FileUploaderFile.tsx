@@ -6,7 +6,6 @@ import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelp
 import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
@@ -20,6 +19,10 @@ import { jsStyles } from './FileUploaderFile.styles';
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
+  /** Состояние ошибки онтрола файла */
+  error?: boolean;
+  /** Состояние предупреждения контрола файла */
+  warning?: boolean;
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
@@ -38,8 +41,8 @@ const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, n
 };
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
-  const { file, showSize } = props;
-  const { id, originalFile, status, validationResult } = file;
+  const { file, showSize, error } = props;
+  const { id, originalFile, status } = file;
   const { name, size } = originalFile;
 
   const [hovered, setHovered] = useState<boolean>(false);
@@ -76,13 +79,15 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     [removeUploadFile],
   );
 
-  const { isValid, message } = validationResult;
-
   const icon: ReactNode = useMemo(() => {
     const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon(theme)} />;
 
     if (hovered || focusedByTab) {
       return deleteIcon;
+    }
+
+    if (error) {
+      return <ErrorIcon />;
     }
 
     switch (status) {
@@ -91,19 +96,12 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       case FileUploaderFileStatus.Uploaded:
         return <OkIcon color={theme.fileUploaderIconColor} />;
       default:
-        if (!isValid) {
-          return <ErrorIcon />;
-        }
         return deleteIcon;
     }
-  }, [hovered, status, isValid, theme, focusedByTab]);
-
-  const renderTooltipContent = useCallback((): ReactNode => {
-    return isValid ? null : message;
-  }, [isValid, message]);
+  }, [hovered, status, error, theme, focusedByTab]);
 
   const contentClassNames = cx(jsStyles.content(), {
-    [jsStyles.error(theme)]: !isValid,
+    [jsStyles.error(theme)]: error,
   });
 
   const handleMouseEnter = useCallback(() => {
@@ -150,32 +148,30 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Tooltip data-tid="FileUploader__fileTooltip" pos="right middle" render={renderTooltipContent}>
-        <div className={contentClassNames}>
-          <TextWidthHelper ref={textHelperRef} text={name} />
-          <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
-            <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
-              {truncatedFileName}
-            </span>
-          </Hint>
-          {!!showSize && formattedSize && (
-            <span data-tid="FileUploader__fileSize" className={jsStyles.size()}>
-              {formattedSize}
-            </span>
-          )}
-          <div
-            className={iconClassNames}
-            data-tid="FileUploader__fileIcon"
-            tabIndex={0}
-            onClick={handleRemove}
-            onFocus={handleFocus}
-            onBlur={handleBlur}
-            onKeyDown={handleIconKeyDown}
-          >
-            {icon}
-          </div>
+      <div className={contentClassNames}>
+        <TextWidthHelper ref={textHelperRef} text={name} />
+        <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
+          <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
+            {truncatedFileName}
+          </span>
+        </Hint>
+        {!!showSize && formattedSize && (
+          <span data-tid="FileUploader__fileSize" className={jsStyles.size()}>
+            {formattedSize}
+          </span>
+        )}
+        <div
+          className={iconClassNames}
+          data-tid="FileUploader__fileIcon"
+          tabIndex={0}
+          onClick={handleRemove}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+          onKeyDown={handleIconKeyDown}
+        >
+          {icon}
         </div>
-      </Tooltip>
+      </div>
     </div>
   );
 };
