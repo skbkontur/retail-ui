@@ -6,43 +6,43 @@ export class NewDefaultTheme {
   public static fontFamilyCompensationBaseline = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
-  public static brand = '#1e79be';
+  public static brand = '#2291ff';
   public static brandDark = '#1363a0';
   public static brandXDark = '#084f85';
   public static white = '#fff';
   public static grayXxLight = '#f2f2f2';
-  public static grayXLight = '#e5e5e5';
+  public static grayXLight = '#ebebeb';
   public static grayLight = '#a0a0a0';
-  public static gray = '#808080';
+  public static gray = '#858585';
   public static grayDark = '#333';
   public static black = '#000';
-  public static blueXxLight = '#e4f3ff';
-  public static blueLight = '#1d85d0';
-  public static blue = '#3072c4';
-  public static blueDark = '#1e5aa4';
+  public static blueXxLight = '#cdedff';
+  public static blueLight = '#1f87ef';
+  public static blue = '#1874cf';
+  public static blueDark = '#1874cf';
   public static blueXDark = '#044785';
-  public static greenXxLight = '#e2f7dc';
-  public static green = '#3f9726';
-  public static greenDark = '#228007';
-  public static redXxLight = '#ffd6d6';
-  public static red = '#d70c17';
-  public static redDark = '#ce0014';
-  public static yellowXxLight = '#fff0bc';
-  public static yellow = '#f69c00';
-  public static yellowDark = '#d97e00';
+  public static greenXxLight = '#d7f8ae';
+  public static green = '#538a1b';
+  public static greenDark = '#477916';
+  public static redXxLight = '#ffddd6';
+  public static red = '#dd473b';
+  public static redDark = '#cb3d35';
+  public static yellowXxLight = '#ffe0c3';
+  public static yellow = '#ffa236';
+  public static yellowDark = '#ea7324';
   public static bgDefault = '#fff';
-  public static bgDisabled = '#f2f2f2';
-  public static errorMain = '#d70c17';
+  public static bgDisabled = '#f6f6f6';
+  public static errorMain = '#dd473b';
   public static errorSecondary = '#ffd6d6';
-  public static errorText = '#ce0014';
-  public static warningMain = '#f69c00';
+  public static errorText = '#cb3d35';
+  public static warningMain = '#ffa236';
   public static warningSecondary = '#fff0bc';
   public static warningText = '#d97e00';
-  public static borderColorFocusLight = '#bad7f1';
+  public static borderColorFocusLight = '#cdedff';
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
-  public static borderColorGrayLight = 'rgba(0, 0, 0, 0.15)';
-  public static borderColorDisabled = 'rgba(0, 0, 0, 0.05)';
-  public static placeholderColor = '#a0a0a0';
+  public static borderColorGrayLight = 'rgba(0, 0, 0, 0.16)';
+  public static borderColorDisabled = 'rgba(0, 0, 0, 0.16)';
+  public static placeholderColor = '#adadad';
   public static outlineColorFocus = '#fff';
   public static placeholderColorLight = '#cdcdcd';
   public static blinkColor = 'rgba(0, 136, 255, 0.2)';
@@ -54,10 +54,10 @@ export class NewDefaultTheme {
   public static controlPaddingYSmall = '5px';
   public static controlPaddingYMedium = '8px';
   public static controlPaddingYLarge = '11px';
-  public static textColorDefault = '#333333';
+  public static textColorDefault = '#222222';
   public static textColorInvert = '#fff';
-  public static textColorDisabled = '#a0a0a0';
-  public static textColorDisabledContrast = '#808080';
+  public static textColorDisabled = '#adadad';
+  public static textColorDisabledContrast = '#858585';
   public static fontSizeSmall = '14px';
   public static fontSizeMedium = '16px';
   public static fontSizeLarge = '18px';
@@ -84,15 +84,15 @@ export class NewDefaultTheme {
 
   //#endregion
   //#region Link
-  public static linkColor = '#3072c4';
-  public static linkActiveColor = '#044785';
+  public static linkColor = '#1874cf';
+  public static linkActiveColor = '#1260ae';
   public static linkHoverTextDecoration = 'underline';
-  public static linkSuccessColor = '#3f9726';
-  public static linkSuccessHoverColor = '#3f9726';
-  public static linkSuccessActiveColor = '#3f9726';
-  public static linkDangerColor = '#e3071c';
-  public static linkDangerHoverColor = '#e3071c';
-  public static linkDangerActiveColor = '#b00616';
+  public static linkSuccessColor = '#477916';
+  public static linkSuccessHoverColor = '#477916';
+  public static linkSuccessActiveColor = '#325a0c';
+  public static linkDangerColor = '#cb3d35';
+  public static linkDangerHoverColor = '#cb3d35';
+  public static linkDangerActiveColor = '#a92a27';
   public static linkIconMarginRight = '4px';
   public static get linkHoverColor() {
     return this.linkColor;
@@ -311,104 +311,104 @@ export class NewDefaultTheme {
     return this.textColorDefault;
   }
   public static btnDefaultHoverBg = '#f2f2f2';
-  public static btnDefaultHoverBgStart = '#f2f2f2';
-  public static btnDefaultHoverBgEnd = '#f2f2f2';
-  public static btnDefaultActiveBg = '#e5e5e5';
-  public static btnDefaultHoverBorderColor = '#d9d9d9';
+  public static btnDefaultHoverBgStart = 'none';
+  public static btnDefaultHoverBgEnd = 'none';
+  public static btnDefaultActiveBg = '#ebebeb';
+  public static btnDefaultHoverBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get btnDefaultHoverBorderBottomColor() {
     return this.btnDefaultHoverBorderColor;
   }
-  public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static btnDefaultActiveBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get btnDefaultActiveBorderTopColor() {
     return this.btnDefaultActiveBorderColor;
   }
-  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get btnDefaultBorderBottomColor() {
     return this.btnDefaultBorderColor;
   }
   public static btnDefaultActiveShadow = 'none';
-  public static btnSuccessBg = '#419d14';
-  public static btnSuccessHoverBg = '#3c9312';
-  public static btnSuccessHoverBorderColor = '#3c9312';
+  public static btnSuccessBg = '#538a1b';
+  public static btnSuccessHoverBg = '#477916';
+  public static btnSuccessHoverBorderColor = '#477916';
   public static get btnSuccessHoverBorderBottomColor() {
     return this.btnSuccessHoverBorderColor;
   }
-  public static btnSuccessBorderColor = '#419d14';
+  public static btnSuccessBorderColor = '#538a1b';
   public static get btnSuccessBorderBottomColor() {
     return this.btnSuccessBorderColor;
   }
-  public static btnSuccessBgStart = '#419d14';
-  public static btnSuccessBgEnd = '#419d14';
+  public static btnSuccessBgStart = 'none';
+  public static btnSuccessBgEnd = 'none';
   public static btnSuccessTextColor = '#fff';
-  public static btnSuccessHoverBgStart = '#3c9312';
-  public static btnSuccessHoverBgEnd = '#3c9312';
-  public static btnSuccessActiveBg = '#398911';
-  public static btnSuccessActiveBorderColor = '#398911';
+  public static btnSuccessHoverBgStart = 'none';
+  public static btnSuccessHoverBgEnd = 'none';
+  public static btnSuccessActiveBg = '#3a6710';
+  public static btnSuccessActiveBorderColor = '#3a6710';
   public static get btnSuccessActiveBorderTopColor() {
     return this.btnSuccessActiveBorderColor;
   }
   public static btnSuccessActiveShadow = 'none';
-  public static btnPrimaryBg = '#1d85d0';
-  public static btnPrimaryHoverBg = '#1b7dc3';
-  public static btnPrimaryHoverBorderColor = '#1b7dc3';
+  public static btnPrimaryBg = '#1c7edf';
+  public static btnPrimaryHoverBg = '#1874cf';
+  public static btnPrimaryHoverBorderColor = '#1874cf';
   public static get btnPrimaryHoverBorderBottomColor() {
     return this.btnPrimaryHoverBorderColor;
   }
-  public static btnPrimaryBorderColor = '#1d85d0';
+  public static btnPrimaryBorderColor = '#1c7edf';
   public static get btnPrimaryBorderBottomColor() {
     return this.btnPrimaryBorderColor;
   }
-  public static btnPrimaryBgStart = '#1d85d0';
-  public static btnPrimaryBgEnd = '#1d85d0';
+  public static btnPrimaryBgStart = 'none';
+  public static btnPrimaryBgEnd = 'none';
   public static btnPrimaryTextColor = '#fff';
-  public static btnPrimaryHoverBgStart = '#1b7dc3';
-  public static btnPrimaryHoverBgEnd = '#1b7dc3';
-  public static btnPrimaryActiveBg = '#1974b6';
-  public static btnPrimaryActiveBorderColor = '#1974b6';
+  public static btnPrimaryHoverBgStart = 'none';
+  public static btnPrimaryHoverBgEnd = 'none';
+  public static btnPrimaryActiveBg = '#156abe';
+  public static btnPrimaryActiveBorderColor = '#156abe';
   public static get btnPrimaryActiveBorderTopColor() {
     return this.btnPrimaryActiveBorderColor;
   }
   public static btnPrimaryActiveShadow = 'none';
-  public static btnDangerBg = '#d9472b';
-  public static btnDangerHoverBg = '#cc4228';
-  public static btnDangerHoverBorderColor = '#cc4228';
+  public static btnDangerBg = '#dd473b';
+  public static btnDangerHoverBg = '#cb3d35';
+  public static btnDangerHoverBorderColor = '#cb3d35';
   public static get btnDangerHoverBorderBottomColor() {
     return this.btnDangerHoverBorderColor;
   }
-  public static btnDangerBorderColor = '#d9472b';
+  public static btnDangerBorderColor = '#dd473b';
   public static get btnDangerBorderBottomColor() {
     return this.btnDangerBorderColor;
   }
-  public static btnDangerBgStart = '#d9472b';
-  public static btnDangerBgEnd = '#d9472b';
+  public static btnDangerBgStart = 'none';
+  public static btnDangerBgEnd = 'none';
   public static btnDangerTextColor = '#fff';
-  public static btnDangerHoverBgStart = '#cc4228';
-  public static btnDangerHoverBgEnd = '#cc4228';
-  public static btnDangerActiveBg = '#be3e25';
-  public static btnDangerActiveBorderColor = '#be3e25';
+  public static btnDangerHoverBgStart = 'none';
+  public static btnDangerHoverBgEnd = 'none';
+  public static btnDangerActiveBg = '#ba342e';
+  public static btnDangerActiveBorderColor = '#ba342e';
   public static get btnDangerActiveBorderTopColor() {
     return this.btnDangerActiveBorderColor;
   }
   public static btnDangerActiveShadow = 'none';
-  public static btnPayBg = '#ffca43';
-  public static btnPayHoverBg = 'f0be3f';
-  public static btnPayHoverBorderColor = '#f0be3f';
+  public static btnPayBg = '#ffa236';
+  public static btnPayHoverBg = '#ff8227';
+  public static btnPayHoverBorderColor = '#ff8227';
   public static get btnPayHoverBorderBottomColor() {
     return this.btnPayHoverBorderColor;
   }
-  public static btnPayBorderColor = '#ffca43';
+  public static btnPayBorderColor = '#ffa236';
   public static get btnPayBorderBottomColor() {
     return this.btnPayBorderColor;
   }
-  public static btnPayBgStart = '#ffca43';
-  public static btnPayBgEnd = '#ffca43';
+  public static btnPayBgStart = 'none';
+  public static btnPayBgEnd = 'none';
   public static get btnPayTextColor() {
     return this.textColorDefault;
   }
-  public static btnPayHoverBgStart = '#f0be3f';
-  public static btnPayHoverBgEnd = '#f0be3f';
-  public static btnPayActiveBg = '#e0b13a';
-  public static btnPayActiveBorderColor = '#e0b13a';
+  public static btnPayHoverBgStart = 'none';
+  public static btnPayHoverBgEnd = 'none';
+  public static btnPayActiveBg = '#ea7324';
+  public static btnPayActiveBorderColor = '#ea7324';
   public static get btnPayActiveBorderTopColor() {
     return this.btnPayActiveBorderColor;
   }
@@ -501,7 +501,7 @@ export class NewDefaultTheme {
   }
   //#endregion
   //#region Select
-  public static selectPlaceholderColor = '#a0a0a0';
+  public static selectPlaceholderColor = '#adadad';
   public static get selectBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -583,7 +583,7 @@ export class NewDefaultTheme {
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
   public static tooltipCloseBtnPadding = '8px';
-  public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.374)';
+  public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.32)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static get tooltipTextColor() {
     return this.textColorDefault;
@@ -627,11 +627,11 @@ export class NewDefaultTheme {
   public static kebabBorder = '2px solid transparent';
   //#endregion
   //#region Modal
-  public static modalBackBg = '#333';
+  public static modalBackBg = '#222';
   public static modalBackOpacity = '0.6';
-  public static modalCloseButtonColor = '#808080';
+  public static modalCloseButtonColor = 'rgba(0, 0, 0, 0.32)';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
-  public static modalCloseButtonHoverColor = '#333';
+  public static modalCloseButtonHoverColor = 'rgba(0, 0, 0, 0.865)';
   public static modalCloseButtonPadding = '36px';
   public static modalCloseButtonLegacyShift = '0px';
   public static modalCloseButtonBottomPadding = '20px';
@@ -646,7 +646,7 @@ export class NewDefaultTheme {
   public static get modalFixedFooterShadow() {
     return this.fixedPanelShadow;
   }
-  public static modalFooterBg = '#e5e5e5';
+  public static modalFooterBg = '#ebebeb';
   public static modalAdaptiveThreshold = '425px';
   public static modalPaddingTop = '24px';
   public static modalPaddingLeft = '32px';
@@ -669,8 +669,8 @@ export class NewDefaultTheme {
   public static modalFooterPanelPaddingBottom = '20px';
   //#endregion
   //#region SidePage
-  public static sidePageFooterPanelBg = '#e5e5e5';
-  public static sidePageBackingBg = '#333';
+  public static sidePageFooterPanelBg = '#ebebeb';
+  public static sidePageBackingBg = '#222';
   public static sidePageBackingBgOpacity = '0.6';
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
@@ -709,17 +709,19 @@ export class NewDefaultTheme {
   }
   //#endregion
   //#region DateInput
-  public static dateInputIconColor = '#333';
+  public static get dateInputIconColor() {
+    return this.textColorDefault;
+  }
   public static dateInputMaskColor = '#b8b8b8';
-  public static dateInputComponentSelectedBgColor = '#cae0f4';
+  public static dateInputComponentSelectedBgColor = '#cdedff';
   //#endregion
   //#region Calendar
   public static calendarCellBg = 'white';
   public static calendarCellHoverColor = 'white';
   public static calendarCellActiveHoverColor = 'white';
-  public static calendarCellWeekendColor = '#f00';
-  public static calendarCellTodayBorder = '1px solid #8b8b8b';
-  public static calendarCellSelectedBgColor = '#e9e9e9';
+  public static calendarCellWeekendColor = '#cb3d35';
+  public static calendarCellTodayBorder = '1px solid rgba(0, 0, 0, 0.32)';
+  public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px';
   public static calendarMonthHeaderStickedBgColor = 'white';
@@ -757,7 +759,9 @@ export class NewDefaultTheme {
   public static get dateSelectTextColorInvert() {
     return this.textColorInvert;
   }
-  public static datePickerOpenBtnColor = '#333';
+  public static get datePickerOpenBtnColor() {
+    return this.textColorDefault;
+  }
   public static pickerBg = '#fff';
   public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
   public static pickerTodayWrapperBgColor = 'white';
@@ -811,7 +815,9 @@ export class NewDefaultTheme {
     return this.textColorDefault;
   }
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
-  public static pagingPageLinkHintColor = '#bbb';
+  public static get pagingPageLinkHintColor() {
+    return this.placeholderColor;
+  }
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
   public static pagingPageLinkBorderRadius = '50%';
@@ -857,9 +863,9 @@ export class NewDefaultTheme {
   public static toastTop = '24px';
   public static toastBg = 'rgba(51, 51, 51, 0.8)';
   public static toastColor = 'white';
-  public static toastLinkColor = '#80caff';
+  public static toastLinkColor = '#8fcdff';
   public static toastClosePadding = '16px';
-  public static toastCloseColor = '#a0a0a0';
+  public static toastCloseColor = 'rgba(255, 255, 255, 0.6)';
   public static toastCloseHoverColor = 'white';
   public static toastCloseSize = '8px';
   //#endregion
@@ -918,7 +924,7 @@ export class NewDefaultTheme {
   public static get menuItemLinkColor() {
     return this.linkColor;
   }
-  public static menuItemCommentColor = '#a0a0a0';
+  public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
   public static menuItemPaddingMobile = '12px 16px';
   //menuHeader
@@ -932,7 +938,7 @@ export class NewDefaultTheme {
   public static menuHeaderPaddingBottom = '4px';
   public static menuHeaderLegacyPaddingRight = '0px';
   //menuSeparator
-  public static menuSeparatorBorderColor = '#e6e6e6';
+  public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
@@ -958,11 +964,9 @@ export class NewDefaultTheme {
   public static get toggleBgDisabled() {
     return this.bgDisabled;
   }
-  public static get toggleBgDisabledChecked() {
-    return this.bgDisabled;
-  }
+  public static toggleBgDisabledChecked = '#dadada';
   public static toggleBgHover = '#f3f3f2';
-  public static toggleBgChecked = '#3072c4';
+  public static toggleBgChecked = '#1874cf';
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
   }
@@ -971,7 +975,7 @@ export class NewDefaultTheme {
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     return `${outlineWidth + borderWidth}px`;
   }
-  public static toggleBorderColor = '#d0d0d0';
+  public static toggleBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get toggleBorderColorDisabled() {
     return this.toggleBorderColor;
   }
@@ -1257,7 +1261,7 @@ export class NewDefaultTheme {
   public static get textareaBorderColor() {
     return this.borderColorGrayLight;
   }
-  public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.15)';
+  public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.16)';
   public static get textareaBorderColorFocus() {
     return this.borderColorFocus;
   }
@@ -1322,10 +1326,10 @@ export class NewDefaultTheme {
   public static get radioBorderWidth() {
     return this.controlBorderWidth;
   }
-  public static radioBorderColor = 'rgba(0, 0, 0, 0.15)';
+  public static radioBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static radioBoxShadow = 'none';
   public static get radioBorder() {
-    return `${this.radioBorderWidth} solid rgba(0, 0, 0, 0.15)`;
+    return `${this.radioBorderWidth} solid rgba(0, 0, 0, 0.16)`;
   }
   public static get radioBorderColorFocus() {
     return this.borderColorFocus;
