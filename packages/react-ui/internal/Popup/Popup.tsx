@@ -217,7 +217,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       if (!state.location) {
         return { location: DUMMY_LOCATION };
       }
-    }else if (state.location) {
+    } else if (state.location) {
       return { location: DUMMY_LOCATION };
     }
     return state;
