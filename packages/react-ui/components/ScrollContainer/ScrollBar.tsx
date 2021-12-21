@@ -235,11 +235,11 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (!this.inner || this.inner[pos] === 0) {
       return 'begin';
     }
-    // Do floor() and round() for scaling cases in Chrome
+    // Do floor() and ceil() for scaling cases in Chrome
     const floorPos = Math.floor(this.inner[pos]);
-    const roundPos = Math.round(this.inner[pos]);
+    const ceilPos = Math.ceil(this.inner[pos]);
     const latestScrollPos = this.inner[size] - this.inner[clientSize];
-    if (floorPos === latestScrollPos || roundPos === latestScrollPos) {
+    if (floorPos === latestScrollPos || ceilPos === latestScrollPos) {
       return 'end';
     }
 
