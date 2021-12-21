@@ -13,9 +13,9 @@ import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
+import { Hint } from '../../../components/Hint';
 
 import { jsStyles } from './FileUploaderFile.styles';
-import {Hint} from "../../../components/Hint";
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
@@ -153,7 +153,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       <Tooltip data-tid="FileUploader__fileTooltip" pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
-          <Hint maxWidth={"100%"} text={isTruncated ? name : null}>
+          <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
             <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
               {truncatedFileName}
             </span>

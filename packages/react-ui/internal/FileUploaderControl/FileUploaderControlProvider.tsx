@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useCallback, useState } from 'react';
 
 import { useMemoObject } from '../../hooks/useMemoObject';
+import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 
 import { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils';
 import { FileUploaderControlContext } from './FileUploaderControlContext';
@@ -43,67 +44,48 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   const [files, setFiles] = useState<FileUploaderAttachedFile[]>([]);
   const locale = useControlLocale();
 
+  useEffectWithoutInitCall(() => {
+    onValueChange?.(files);
+  }, [files]);
+
   const setFileStatus = useCallback(
     (fileId: string, status: FileUploaderFileStatus) => {
-      setFiles((files) => {
-        const newFiles = updateFile(files, fileId, (file) => {
-          return {
-            status,
-            validationResult:
-              status === FileUploaderFileStatus.Error
-                ? FileUploaderFileValidationResult.error(locale.requestErrorText)
-                : file.validationResult,
-          };
-        });
-        onValueChange?.(newFiles);
-        return newFiles;
-      });
+      setFiles((files) =>
+        updateFile(files, fileId, (file) => ({
+          status,
+          validationResult:
+            status === FileUploaderFileStatus.Error
+              ? FileUploaderFileValidationResult.error(locale.requestErrorText)
+              : file.validationResult,
+        })),
+      );
     },
-    [locale, onValueChange],
+    [locale],
   );
 
   const handleExternalSetFiles = useCallback(
     (files: FileUploaderAttachedFile[]) => {
       onAttach?.(files);
-      setFiles((state) => {
-        const newFiles = [...state, ...files];
-        onValueChange?.(newFiles);
-        return newFiles;
-      });
+      setFiles((state) => [...state, ...files]);
     },
-    [onValueChange, onAttach],
+    [onAttach],
   );
 
   const removeFile = useCallback(
     (fileId: string) => {
       onRemove?.(fileId);
-      setFiles((state) => {
-        const newFiles = state.filter((file) => file.id !== fileId);
-        onValueChange?.(newFiles);
-        return newFiles;
-      });
+      setFiles((state) => state.filter((file) => file.id !== fileId));
     },
-    [onValueChange, onRemove],
+    [onRemove],
   );
 
-  const setFileValidationResult = useCallback(
-    (fileId: string, validationResult: FileUploaderFileValidationResult) => {
-      setFiles((files) => {
-        const newFiles = updateFile(files, fileId, () => ({ validationResult }));
-        onValueChange?.(newFiles);
-        return newFiles;
-      });
-    },
-    [onValueChange],
-  );
+  const setFileValidationResult = useCallback((fileId: string, validationResult: FileUploaderFileValidationResult) => {
+    setFiles((files) => updateFile(files, fileId, () => ({ validationResult })));
+  }, []);
 
   const reset = React.useCallback(() => {
-    setFiles(() => {
-      const newFiles = [] as FileUploaderAttachedFile[];
-      onValueChange?.(newFiles);
-      return newFiles;
-    });
-  }, [onValueChange]);
+    setFiles(() => [] as FileUploaderAttachedFile[]);
+  }, []);
 
   return (
     <FileUploaderControlContext.Provider

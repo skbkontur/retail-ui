@@ -223,7 +223,7 @@ describe('FileUploader', () => {
         await addFiles(component, [file]);
 
         expect(onRemove).toHaveBeenCalledTimes(1);
-        expect(onValueChange).toHaveBeenCalledTimes(3);
+        expect(onValueChange).toHaveBeenCalledTimes(2);
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
       });
 
@@ -234,7 +234,7 @@ describe('FileUploader', () => {
 
         await addFiles(component, [file]);
 
-        expect(onValueChange).toHaveBeenCalledTimes(3);
+        expect(onValueChange).toHaveBeenCalledTimes(2);
       });
 
       it('should handle onValueChange after file validation changing', async () => {
@@ -258,6 +258,7 @@ describe('FileUploader', () => {
         expect(onValueChange).toHaveBeenCalledWith([readFile]);
 
         ref.current?.reset();
+        await delay(100);
 
         expect(onValueChange).toHaveBeenCalledTimes(2);
         expect(onValueChange).toHaveBeenCalledWith([]);

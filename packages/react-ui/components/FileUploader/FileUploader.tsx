@@ -23,8 +23,7 @@ import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-interface _FileUploaderProps
-  extends CommonProps, React.InputHTMLAttributes<HTMLInputElement> {
+interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTMLInputElement> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
