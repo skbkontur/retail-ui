@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
+import shallowEqual from 'shallowequal';
 
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -25,6 +26,7 @@ import { styles } from './Popup.styles';
 
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
+const MAX_REFLOW_RETRIES = 5;
 
 const DUMMY_LOCATION: PopupLocation = {
   position: 'top left',
@@ -118,7 +120,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
-export class Popup extends React.PureComponent<PopupProps, PopupState> {
+export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
   public static propTypes = {
@@ -200,13 +202,14 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
   private anchorInstance: Nullable<React.ReactInstance>;
+  private reflowCounter = 0;
 
   public componentDidMount() {
     this.updateLocation();
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  static getDerivedStateFromProps(props: PopupProps, state: PopupState) {
+  public static getDerivedStateFromProps(props: Readonly<PopupProps>, state: PopupState) {
     /**
      * Delaying updateLocation to ensure it happens after props update
      */
@@ -219,18 +222,24 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
   }
 
   public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
-    const hadNoLocation = prevState.location === DUMMY_LOCATION;
-    const hasLocation = this.state.location !== DUMMY_LOCATION;
-    if (hadNoLocation && hasLocation && this.props.onOpen) {
-      this.props.onOpen();
+    if (!shallowEqual(prevProps, this.props) || !shallowEqual(prevState, this.state)) {
+      if (this.reflowCounter < MAX_REFLOW_RETRIES) {
+        const hadNoLocation = prevState.location === DUMMY_LOCATION;
+        const hasLocation = this.state.location !== DUMMY_LOCATION;
+        if (hadNoLocation && hasLocation && this.props.onOpen) {
+          this.props.onOpen();
+        }
+        if (!hadNoLocation && !this.state.location && this.props.onClose) {
+          this.props.onClose();
+        }
+        if (this.props.opened) {
+          this.delayUpdateLocation();
+        }
+        this.reflowCounter += 1;
+        return;
+      }
     }
-    if (!hadNoLocation && !this.state.location && this.props.onClose) {
-      this.props.onClose();
-    }
-
-    if (this.props.opened) {
-      this.delayUpdateLocation();
-    }
+    this.reflowCounter = 0;
   }
 
   public componentWillUnmount() {
@@ -420,7 +429,7 @@ export class Popup extends React.PureComponent<PopupProps, PopupState> {
 
   private resetLocation = () => {
     this.cancelDelayedUpdateLocation();
-    this.setState({ location: null });
+    this.state.location !== null && this.setState({ location: null });
   };
 
   private renderChildren() {
