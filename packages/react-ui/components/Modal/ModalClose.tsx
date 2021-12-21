@@ -9,11 +9,7 @@ import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 
-interface CloseComponentProps extends CloseProps {
-  withoutAbsolute?: boolean;
-}
-
-export function ModalClose({ disableClose, requestClose, withoutAbsolute }: CloseComponentProps) {
+export function ModalClose({ disableClose, requestClose }: CloseProps) {
   const theme = useContext(ThemeContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
@@ -40,7 +36,6 @@ export function ModalClose({ disableClose, requestClose, withoutAbsolute }: Clos
             [styles.mobileClose(theme)]: isMobile,
             [styles.disabled(theme)]: disableClose,
             [styles.focus(theme)]: focusedByTab,
-            [styles.noAbsolute()]: withoutAbsolute,
           })}
           onClick={requestClose}
           onFocus={handleFocus}

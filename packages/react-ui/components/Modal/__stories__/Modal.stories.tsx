@@ -759,7 +759,7 @@ export const AlignCenterAndNoClose = () => (
 );
 AlignCenterAndNoClose.parameters = { creevey: { captureElement: null } };
 
-const Header = () => <Modal.Header>Header</Modal.Header>;
+const Header = () => <Modal.Header sticky>Header</Modal.Header>;
 const Body = () => (
   <Modal.Body>
     {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
@@ -767,7 +767,11 @@ const Body = () => (
     ))}
   </Modal.Body>
 );
-const Footer = () => <Modal.Footer panel>Footer</Modal.Footer>;
+const Footer = () => (
+  <Modal.Footer sticky panel>
+    Footer
+  </Modal.Footer>
+);
 
 export const ModalWithChildrenFromOtherComponent = () => (
   <Modal>

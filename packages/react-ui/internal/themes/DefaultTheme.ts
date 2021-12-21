@@ -635,7 +635,6 @@ export class DefaultTheme {
   public static mobileModalCloseButtonTopPadding = '12px';
   public static mobileModalCloseButtonClickArea = '16px';
   public static mobileModalCloseIconSize = '12px';
-  public static mobileModalCloseLegacyGap = '0px';
   public static mobileModalHeaderFontSize = '24px';
   public static mobileModalHeaderLineHeight = '32px';
   public static mobileModalHeaderPadding = '16px';
@@ -643,7 +642,6 @@ export class DefaultTheme {
   public static mobileModalBodyFontSize = '16px';
   public static mobileModalFooterPadding = '16px';
   public static mobileModalPaddingBottom = '16px';
-  public static mobileModalFooterPanelPadding = '16px';
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e5e5e5';

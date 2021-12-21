@@ -146,7 +146,14 @@ export const styles = memoizeStyle({
   },
 
   mobileCloseWrapper(t: Theme) {
+    const blockSizeY =
+      parseInt(t.mobileModalCloseIconSize) +
+      parseInt(t.mobileModalCloseButtonTopPadding) * 2 +
+      parseInt(t.mobileModalHeaderPadding) * 2;
+
     return css`
+      position: static;
+      height: ${blockSizeY}px;
       width: ${parseInt(t.mobileModalCloseIconSize) + 2 * parseInt(t.mobileModalCloseButtonRightPadding)}px;
     `;
   },
@@ -175,12 +182,6 @@ export const styles = memoizeStyle({
       display: flex;
       justify-content: flex-end;
       align-items: flex-start;
-    `;
-  },
-
-  noAbsolute() {
-    return css`
-      position: static;
     `;
   },
 
@@ -267,12 +268,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobilePanel(t: Theme) {
-    return css`
-      padding: ${t.mobileModalFooterPanelPadding};
-    `;
-  },
-
   fixedHeader(t: Theme) {
     return css`
       margin-bottom: 10px;
@@ -331,7 +326,7 @@ export const styles = memoizeStyle({
 
   mobileBodyWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${t.mobileModalBodyPadding};
+      padding-top: 0px;
     `;
   },
 

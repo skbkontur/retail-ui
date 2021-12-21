@@ -223,7 +223,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                             autoFocus={false}
                             className={cx({ [styles.columnFlexContainer()]: isMobile })}
                           >
-                            {!hasHeader && !this.props.noClose && !isMobile && (
+                            {!hasHeader && !this.props.noClose && (
                               <ZIndex
                                 priority={'ModalCross'}
                                 className={cx({

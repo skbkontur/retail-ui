@@ -50,7 +50,6 @@ function ModalFooter(props: ModalFooterProps) {
           [styles.fixedFooter(theme)]: fixed,
           [styles.panel(theme)]: Boolean(panel),
           [styles.mobileFooter(theme)]: layout.isMobile,
-          [styles.mobilePanel(theme)]: Boolean(panel) && layout.isMobile,
         })}
       >
         {children}
