@@ -68,7 +68,7 @@ export const parameters: Meta['parameters'] = {
     captureElement: '#test-element',
     skip: [
       {
-        in: ['chromeFlat', 'firefoxFlat', 'ie11Flat', 'chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
+        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
     ],
