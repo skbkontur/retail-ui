@@ -105,21 +105,30 @@ export const Small: Story = () => <SomethingWithKebab size="small" />;
 Small.storyName = '14px';
 
 Small.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
+    tests: kebabTests,
+  },
 };
 
 export const Medium: Story = () => <SomethingWithKebab size="medium" />;
 Medium.storyName = '18px';
 
 Medium.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
+    tests: kebabTests,
+  },
 };
 
 export const Large: Story = () => <SomethingWithKebab size="large" />;
 Large.storyName = '20px';
 
 Large.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }], tests: kebabTests },
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
+    tests: kebabTests,
+  },
 };
 
 export const KebabWithCustomIcon: Story = () => {

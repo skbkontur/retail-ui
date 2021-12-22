@@ -30,7 +30,12 @@ SimpleComboboxStory.storyName = 'simple combobox';
 
 SimpleComboboxStory.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: ['hovered', 'selected_2', 'select_1'] }],
+    skip: [
+      {
+        in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'],
+        tests: ['hovered', 'selected_2', 'select_1'],
+      },
+    ],
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -274,7 +279,7 @@ OpenToTop.storyName = 'open to top';
 
 OpenToTop.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '[data-tid="container"]' });

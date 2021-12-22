@@ -14,7 +14,7 @@ Playground.parameters = {
     skip: [
       {
         tests: ['default theme top', 'flat theme top', 'dark theme top'],
-        in: ['ie11', 'ie118px'],
+        in: ['ie11', 'ie118px', 'ie11NewTheme'],
         reason: 'flacky input outlines',
       },
     ],

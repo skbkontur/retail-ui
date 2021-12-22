@@ -21,7 +21,9 @@ export const RadioWithDifferentStates = () => (
   </div>
 );
 RadioWithDifferentStates.storyName = 'Radio with different states';
-RadioWithDifferentStates.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
+RadioWithDifferentStates.parameters = {
+  creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] },
+};
 
 export const Playground = () => {
   class Comp extends React.Component<{}, any> {
