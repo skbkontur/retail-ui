@@ -43,7 +43,5 @@ export * from './components/ResponsiveLayout';
 export * from './lib/locale';
 export * from './lib/theming/ThemeContext';
 export * from './lib/theming/ThemeFactory';
-export * from './lib/theming/themes/DefaultThemeOld';
 export * from './lib/theming/themes/DefaultTheme';
-export * from './lib/theming/themes/FlatThemeOld';
 export * from './lib/theming/themes/FlatTheme';
