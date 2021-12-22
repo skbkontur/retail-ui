@@ -95,6 +95,7 @@ const getCommonSections = () => {
         },
       ],
     },
+    { name: 'ResponsiveLayout', content: path.join(__dirname, '../components/ResponsiveLayout/ResponsiveLayout.md') },
     { name: 'Components', components, sectionDepth: 2, sections },
   ].filter((section) => !section.content || fs.existsSync(section.content));
 };
