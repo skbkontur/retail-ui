@@ -173,18 +173,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileCloseWithoutHeaderWrapper(t: Theme) {
-    return css`
-      float: right;
-      padding-top: ${parseInt(t.mobileModalCloseButtonClickArea) / 2}px;
-      width: ${parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea)}px;
-      height: ${parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea)}px;
-      display: flex;
-      justify-content: flex-end;
-      align-items: flex-start;
-    `;
-  },
-
   headerWrapper() {
     return css`
       position: relative;
@@ -353,6 +341,7 @@ export const styles = memoizeStyle({
       height: 100%;
       display: flex;
       flex-flow: column;
+      overflow-y: scroll;
     `;
   },
 });

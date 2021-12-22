@@ -158,6 +158,16 @@ const config = {
       name: 'infrafront/ie11Flat8px',
       ...capabilities,
     },
+    chromeMobile: {
+      browserName: 'chrome',
+      viewport: { width: 400, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DEFAULT_THEME_MOBILE',
+      },
+      name: 'infrafront/chromeMobile',
+      ...capabilities,
+    },
   },
 };
 

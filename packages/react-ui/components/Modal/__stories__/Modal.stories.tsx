@@ -783,7 +783,7 @@ export const ModalWithChildrenFromOtherComponent = () => (
 
 ModalWithChildrenFromOtherComponent.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
 
-export const MobileModal = () => {
+export const MobileModal: Story = () => {
   const [isOpen, setOpen] = useState(false);
   const [showThirdButton, setShowThird] = useState(false);
 
@@ -860,5 +860,58 @@ MobileModal.parameters = {
   viewport: {
     defaultViewport: 'iphonePlus',
   },
-  creevey: { skip: [true] },
+  creevey: {
+    tests: {
+      async top() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(200);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+      },
+      async middle() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(200);
+
+        await this.browser.executeScript(function () {
+          const modalContent = window.document.querySelector('.focus-lock-container');
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+
+          // @ts-ignore
+          modalContent.scrollTop = modalBody.offsetHeight / 2;
+        });
+        await delay(100);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
+      },
+      async bottom() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(200);
+
+        await this.browser.executeScript(function () {
+          const modalContent = window.document.querySelector('.focus-lock-container');
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+
+          // @ts-ignore
+          modalContent.scrollTop = modalBody.offsetHeight;
+        });
+
+        await delay(100);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+      },
+    },
+  },
 };

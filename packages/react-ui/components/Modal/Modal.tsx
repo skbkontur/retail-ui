@@ -221,7 +221,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                           <FocusLock
                             disabled={this.props.disableFocusLock}
                             autoFocus={false}
-                            className={cx({ [styles.columnFlexContainer()]: isMobile })}
+                            className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
                           >
                             {!hasHeader && !this.props.noClose && (
                               <ZIndex
