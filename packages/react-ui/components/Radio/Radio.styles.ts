@@ -166,9 +166,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  captionDisabled() {
+  captionDisabled(t: Theme) {
     return css`
-      color: #a0a0a0;
+      color: ${t.textColorDisabled};
     `;
   },
 
