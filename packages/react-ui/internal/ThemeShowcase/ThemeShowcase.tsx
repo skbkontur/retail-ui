@@ -363,13 +363,9 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
 };
 
 function isColor(input: string) {
-  return (
-    typeof input === 'string' &&
-    !!input &&
-    (input.startsWith('#') || input.startsWith('rgb') || input.startsWith('hsl'))
-  );
+  return !!input && (input.startsWith('#') || input.startsWith('rgb') || input.startsWith('hsl'));
 }
 
 function isGradient(input: string) {
-  return typeof input === 'string' && !!input && input.startsWith('linear-gradient');
+  return !!input && input.startsWith('linear-gradient');
 }
