@@ -147,17 +147,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         {(theme) => {
           this.theme = theme;
 
-          return (
-            <ResponsiveLayout>
-              {({ isMobile }) => {
-                if (isMobile) {
-                  return this.renderMobile();
-                }
-
-                return this.renderMain();
-              }}
-            </ResponsiveLayout>
-          );
+          return this.renderMain();
         }}
       </ThemeContext.Consumer>
     );
@@ -169,55 +159,35 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return (
       <CommonWrapper {...this.props}>
         <RenderContainer>
-          <div>
-            {blockBackground && this.renderShadow()}
-            <CSSTransition
-              in
-              classNames={this.getTransitionNames()}
-              appear={!disableAnimations}
-              enter={!disableAnimations}
-              exit={false}
-              timeout={{
-                enter: TRANSITION_TIMEOUT,
-                exit: TRANSITION_TIMEOUT,
-              }}
-            >
-              {this.renderContainer()}
-            </CSSTransition>
-          </div>
+          <ResponsiveLayout>
+            {({ isMobile }) => {
+              return (
+                <div>
+                  {blockBackground && this.renderShadow()}
+                  <CSSTransition
+                    in
+                    classNames={this.getTransitionNames()}
+                    appear={!disableAnimations}
+                    enter={!disableAnimations}
+                    exit={false}
+                    timeout={{
+                      enter: TRANSITION_TIMEOUT,
+                      exit: TRANSITION_TIMEOUT,
+                    }}
+                  >
+                    {this.renderContainer(isMobile)}
+                  </CSSTransition>
+                  {isMobile && <HideBodyVerticalScroll />}
+                </div>
+              );
+            }}
+          </ResponsiveLayout>
         </RenderContainer>
       </CommonWrapper>
     );
   }
 
-  private renderMobile() {
-    return (
-      <RenderContainer>
-        <ZIndex
-          priority={'Sidepage'}
-          data-tid="SidePage__root"
-          className={cx({
-            [styles.root()]: true,
-            [styles.mobileRoot()]: true,
-          })}
-          onScroll={LayoutEvents.emit}
-        >
-          <div
-            data-tid="SidePage__container"
-            className={cx(styles.wrapper(this.theme))}
-            ref={(_) => (this.layoutRef = _)}
-          >
-            <SidePageContext.Provider value={this.getSidePageContextProps()}>
-              {this.props.children}
-            </SidePageContext.Provider>
-          </div>
-        </ZIndex>
-        <HideBodyVerticalScroll />
-      </RenderContainer>
-    );
-  }
-
-  private renderContainer(): JSX.Element {
+  private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
 
     return (
@@ -226,14 +196,19 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         data-tid="SidePage__root"
         className={cx({
           [styles.root()]: true,
+          [styles.mobileRoot()]: isMobile,
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext
-        style={{
-          width: width || (blockBackground ? 800 : 500),
-          right: fromLeft ? 'auto' : offset,
-          left: fromLeft ? offset : 'auto',
-        }}
+        style={
+          isMobile
+            ? undefined
+            : {
+                width: width || (blockBackground ? 800 : 500),
+                right: fromLeft ? 'auto' : offset,
+                left: fromLeft ? offset : 'auto',
+              }
+        }
       >
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>

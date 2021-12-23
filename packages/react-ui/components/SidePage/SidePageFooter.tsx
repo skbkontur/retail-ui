@@ -36,22 +36,12 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     fixed: false,
   };
 
-  private isSticky = true;
-
   private theme!: Theme;
   private content: HTMLElement | null = null;
   private wrapper: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
 
   public componentDidMount() {
-    if (this.isMobileLayout) {
-      this.isSticky = false;
-    }
-
-    if (typeof this.props.sticky !== 'undefined') {
-      this.isSticky = this.props.sticky;
-    }
-
     this.context.footerRef(this);
     this.update();
     this.layoutSub = LayoutEvents.addListener(this.update);
@@ -70,6 +60,18 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     }
     this.context.setHasFooter?.(false);
     this.context.setHasPanel?.(false);
+  }
+
+  public checkSticky() {
+    if (typeof this.props.sticky !== 'undefined') {
+      return this.props.sticky;
+    }
+
+    if (this.isMobileLayout) {
+      return false;
+    }
+
+    return true;
   }
 
   public render(): JSX.Element {
@@ -94,7 +96,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
-                className={cx(styles.footer(), { [styles.positionStatic()]: !this.isSticky })}
+                className={cx(styles.footer(), {
+                  [styles.positionStatic()]: !this.checkSticky(),
+                })}
                 style={{
                   width: getWidth(),
                 }}

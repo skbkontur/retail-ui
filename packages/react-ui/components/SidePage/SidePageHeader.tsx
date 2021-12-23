@@ -37,8 +37,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private isMobileLayout!: boolean;
 
-  private isSticky = true;
-
   public state: SidePageHeaderState = {
     isReadyToFix: false,
     focusedByTab: false,
@@ -65,25 +63,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   }
 
   public componentDidMount = () => {
-    if (this.isMobileLayout) {
-      this.isSticky = false;
-    }
-
-    if (typeof this.props.sticky !== 'undefined') {
-      this.isSticky = this.props.sticky;
-    }
-
-    if (this.isSticky) {
-      window.addEventListener('scroll', this.update, true);
-    }
-
+    window.addEventListener('scroll', this.update, true);
     this.context.setHasHeader?.();
   };
 
   public componentWillUnmount = () => {
-    if (this.isSticky) {
-      window.removeEventListener('scroll', this.update, true);
-    }
+    window.removeEventListener('scroll', this.update, true);
     this.context.setHasHeader?.(false);
   };
 
@@ -102,11 +87,23 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     );
   }
 
+  public checkStickyProp() {
+    if (typeof this.props.sticky !== 'undefined') {
+      return this.props.sticky;
+    }
+
+    if (this.isMobileLayout) {
+      return false;
+    }
+
+    return true;
+  }
+
   private renderMain() {
     const { isReadyToFix } = this.state;
 
-    const isStickyDesktop = !this.isMobileLayout && this.isSticky && isReadyToFix;
-    const isStickyMobile = this.isMobileLayout && this.isSticky;
+    const isStickyDesktop = !this.isMobileLayout && this.checkStickyProp() && isReadyToFix;
+    const isStickyMobile = this.isMobileLayout && this.checkStickyProp();
 
     return (
       <CommonWrapper {...this.props}>
