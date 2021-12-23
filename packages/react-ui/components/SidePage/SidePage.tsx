@@ -178,6 +178,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                     >
                       {this.renderContainer(isMobile)}
                     </CSSTransition>
+                    {isMobile && <HideBodyVerticalScroll />}
                   </>
                 );
               }}
