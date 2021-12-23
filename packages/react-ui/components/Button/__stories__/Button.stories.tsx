@@ -174,8 +174,8 @@ WithError.storyName = 'with error';
 WithError.parameters = {
   creevey: {
     skip: [
-      { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeNewTheme'], tests: ['pressed', 'clicked'] },
+      { in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
+      { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
     ],
     tests: buttonTests,
   },
@@ -191,8 +191,8 @@ ArrowWithError.storyName = 'arrow with error';
 ArrowWithError.parameters = {
   creevey: {
     skip: [
-      { in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeNewTheme'], tests: ['pressed', 'clicked'] },
+      { in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hover' },
+      { in: ['chrome', 'chrome8px'], tests: ['pressed', 'clicked'] },
     ],
     tests: buttonTests,
   },

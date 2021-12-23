@@ -32,7 +32,7 @@ SimpleComboboxStory.parameters = {
   creevey: {
     skip: [
       {
-        in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'],
+        in: ['ie11', 'ie118px', 'ie11Flat8px'],
         tests: ['hovered', 'selected_2', 'select_1'],
       },
     ],

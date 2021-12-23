@@ -46,11 +46,11 @@ public context: Theme = this.context;
 ### Подключение старой плоской темы
 
 ```jsx harmony
-import {ThemeContext, FLAT_THEME, FLAT_THEME_8PX_OLD} from '@skbkontur/react-ui';
+import {ThemeContext, FLAT_THEME_8PX_OLD} from '@skbkontur/react-ui';
 import {ShowcaseGroup} from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 <ThemeContext.Provider value={FLAT_THEME_8PX_OLD}>
-  <ShowcaseGroup title="Flat Theme"/>
+  <ShowcaseGroup title="Flat Theme Old"/>
 </ThemeContext.Provider>;
 ```
 

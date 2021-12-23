@@ -146,7 +146,4 @@ export class OldColorsTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 }
 
-export const OldColorsThemeInternal = Object.setPrototypeOf(
-  exposeGetters(OldColorsTheme),
-  DefaultThemeInternal,
-) as typeof OldColorsTheme;
+export const OldColorsThemeInternal = exposeGetters(OldColorsTheme);
