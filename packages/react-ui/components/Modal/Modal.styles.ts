@@ -130,6 +130,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileCloseWithoutHeader(t: Theme) {
+    return css`
+      position: static;
+    `;
+  },
+
   closeWrapper(t: Theme) {
     const padding = parseInt(t.modalCloseButtonPadding);
     const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
@@ -146,15 +152,21 @@ export const styles = memoizeStyle({
   },
 
   mobileCloseWrapper(t: Theme) {
-    const blockSizeY =
-      parseInt(t.mobileModalCloseIconSize) +
-      parseInt(t.mobileModalCloseButtonTopPadding) * 2 +
-      parseInt(t.mobileModalHeaderPadding) * 2;
+    const size = parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea) * 2;
 
     return css`
-      position: static;
-      height: ${blockSizeY}px;
-      width: ${parseInt(t.mobileModalCloseIconSize) + 2 * parseInt(t.mobileModalCloseButtonRightPadding)}px;
+      position: absolute;
+      right: ${t.mobileModalCloseButtonRightPadding};
+      top: ${t.mobileModalCloseButtonTopPadding};
+      padding: 0px;
+      margin: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: ${size}px;
+      height: ${size}px;
+      background: radial-gradient(50% 50% at 50% 50%, #ffffff 60%, rgba(255, 255, 255, 0) 100%);
+      border-radius: ${size}px;
     `;
   },
 

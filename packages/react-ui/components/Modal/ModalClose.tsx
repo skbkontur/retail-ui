@@ -6,11 +6,12 @@ import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 
-import { CloseProps } from './ModalContext';
+import { CloseProps, ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
 
 export function ModalClose({ disableClose, requestClose }: CloseProps) {
   const theme = useContext(ThemeContext);
+  const modal = useContext(ModalContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {
@@ -34,6 +35,7 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
           className={cx({
             [styles.close(theme)]: true,
             [styles.mobileClose(theme)]: isMobile,
+            [styles.mobileCloseWithoutHeader(theme)]: !modal.hasHeader && isMobile,
             [styles.disabled(theme)]: disableClose,
             [styles.focus(theme)]: focusedByTab,
           })}
