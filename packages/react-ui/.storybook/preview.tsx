@@ -48,6 +48,11 @@ setFilter((fiber) => {
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
     const theme = themes[context.globals.theme] || DEFAULT_THEME;
+    const root = document.getElementById('root');
+    if (root) {
+      root.style.background = theme === DARK_THEME ? '#1f1f1f' : '#fff';
+      root.style.color = theme === DARK_THEME ? 'rgba(255, 255, 255, 0.865)' : 'inherit';
+    }
     if (theme !== DEFAULT_THEME) {
       return (
         <ThemeContext.Provider value={theme}>
@@ -79,19 +84,6 @@ export const parameters: Meta['parameters'] = {
   },
   viewport: {
     viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
-  },
-  backgrounds: {
-    default: 'default',
-    values: [
-      {
-        name: 'default',
-        value: '#fff',
-      },
-      {
-        name: 'dark',
-        value: '#1f1f1f',
-      },
-    ],
   },
 };
 
