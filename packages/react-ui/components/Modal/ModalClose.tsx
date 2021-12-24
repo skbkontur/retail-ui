@@ -5,13 +5,13 @@ import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 
-import { CloseProps, ModalContext } from './ModalContext';
+import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 
-export function ModalClose({ disableClose, requestClose }: CloseProps) {
+export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
   const theme = useContext(ThemeContext);
-  const modal = useContext(ModalContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
 
   const handleFocus = () => {
@@ -29,25 +29,26 @@ export function ModalClose({ disableClose, requestClose }: CloseProps) {
   };
 
   return (
-    <ResponsiveLayout>
-      {({ isMobile }) => (
-        <button
-          className={cx({
-            [styles.close(theme)]: true,
-            [styles.mobileClose(theme)]: isMobile,
-            [styles.mobileCloseWithoutHeader(theme)]: !modal.hasHeader && isMobile,
-            [styles.disabled(theme)]: disableClose,
-            [styles.focus(theme)]: focusedByTab,
-          })}
-          onClick={requestClose}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          data-tid="modal-close"
-          tabIndex={disableClose ? -1 : 0}
-        >
-          <CrossIcon />
-        </button>
-      )}
-    </ResponsiveLayout>
+    <CommonWrapper {...otherProps}>
+      <ResponsiveLayout>
+        {({ isMobile }) => (
+          <button
+            className={cx({
+              [styles.close(theme)]: true,
+              [styles.mobileClose(theme)]: isMobile,
+              [styles.disabled(theme)]: disableClose,
+              [styles.focus(theme)]: focusedByTab,
+            })}
+            onClick={requestClose}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            data-tid="modal-close"
+            tabIndex={disableClose ? -1 : 0}
+          >
+            <CrossIcon />
+          </button>
+        )}
+      </ResponsiveLayout>
+    </CommonWrapper>
   );
 }

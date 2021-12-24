@@ -130,7 +130,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileCloseWithoutHeader(t: Theme) {
+  mobileCloseWithoutHeader() {
     return css`
       position: static;
     `;
@@ -165,7 +165,7 @@ export const styles = memoizeStyle({
       align-items: center;
       width: ${size}px;
       height: ${size}px;
-      background: radial-gradient(50% 50% at 50% 50%, #ffffff 60%, rgba(255, 255, 255, 0) 100%);
+      background: radial-gradient(50% 50% at 50% 50%, ${t.bgDefault} 60%, rgba(255, 255, 255, 0) 100%);
       border-radius: ${size}px;
     `;
   },

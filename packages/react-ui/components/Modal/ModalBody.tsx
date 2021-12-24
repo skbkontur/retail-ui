@@ -51,7 +51,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     const { noPadding } = this.props;
     return (
       <ModalContext.Consumer>
-        {({ additionalPadding, hasHeader, close }) => (
+        {({ additionalPadding, hasHeader }) => (
           <CommonWrapper {...this.props}>
             <ZIndex
               priority={'ModalBody'}
