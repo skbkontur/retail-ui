@@ -166,6 +166,16 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
     return this.textColorDefault;
   }
   //#endregion
+  //#region Radio
+  public static radioBgColor = 'rgba(255, 255, 255, 0.04)';
+  public static radioBorderColor = 'rgba(255, 255, 255, 0.32)';
+  //#endregion
+  //#region Checkbox
+  public static checkboxBg = 'rgba(255, 255, 255, 0.04)';
+  public static get checkboxShadow() {
+    return `0 0 0 ${this.checkboxBorderWidth} rgba(255, 255, 255, 0.32)`;
+  }
+  //#endregion
 }
 
 export const DarkThemeInternal = Object.setPrototypeOf(
