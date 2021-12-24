@@ -106,7 +106,7 @@ Small.storyName = '14px';
 
 Small.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: kebabTests,
   },
 };
@@ -116,7 +116,7 @@ Medium.storyName = '18px';
 
 Medium.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: kebabTests,
   },
 };
@@ -126,7 +126,7 @@ Large.storyName = '20px';
 
 Large.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: kebabTests,
   },
 };

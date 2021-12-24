@@ -22,7 +22,7 @@ export const RadioWithDifferentStates = () => (
 );
 RadioWithDifferentStates.storyName = 'Radio with different states';
 RadioWithDifferentStates.parameters = {
-  creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] },
+  creevey: { skip: [{ in: ['chromeFlat8px'] }] },
 };
 
 export const Playground = () => {

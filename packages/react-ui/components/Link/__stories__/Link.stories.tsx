@@ -26,7 +26,7 @@ const linkTests: CreeveyTests = {
 export default {
   title: 'Link',
   parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px', 'ie11NewTheme'], tests: 'hover' }] },
+    creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hover' }] },
   },
 };
 
