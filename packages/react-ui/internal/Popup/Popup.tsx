@@ -19,7 +19,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout';
-import { MobilePopup, MOBILE_POPUP_ELEMENT_ID } from '../MobilePopup';
+import { MobilePopup } from '../MobilePopup';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -287,11 +287,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     return (
-      <RenderContainer
-        elementId={this.isMobileLayout ? MOBILE_POPUP_ELEMENT_ID : undefined}
-        anchor={child}
-        ref={child ? this.refAnchorElement : undefined}
-      >
+      <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
         {this.isMobileLayout ? this.renderMobile() : location && this.renderContent(location)}
       </RenderContainer>
     );

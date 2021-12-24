@@ -18,7 +18,7 @@ import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
 import { Menu } from '../../internal/Menu';
-import { MenuItem } from '../MenuItem';
+import { MenuItem, MenuItemProps } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -492,8 +492,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
         if (React.isValidElement(item)) {
           if (isReactUINode('MenuItem', item)) {
-            //@ts-ignore
-            return React.cloneElement(item, { key: i, isMobile });
+            return React.cloneElement(item, { key: i, isMobile } as MenuItemProps);
           }
           return React.cloneElement(item, { key: i });
         }

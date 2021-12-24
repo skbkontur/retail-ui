@@ -382,15 +382,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const props = this.props;
     const useWrapper = !!props.children && props.useWrapper;
 
-    let trigger: TooltipTrigger = this.props.trigger;
-
-    if (this.isMobileLayout) {
-      if (trigger !== 'closed' && trigger !== 'opened' && trigger !== 'manual') {
-        trigger = 'click';
-      }
-    }
-
-    switch (trigger) {
+    switch (this.props.trigger) {
       case 'opened':
         return {
           layerProps: {

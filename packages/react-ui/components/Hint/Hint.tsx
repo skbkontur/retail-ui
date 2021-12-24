@@ -175,8 +175,8 @@ export class Hint extends React.Component<HintProps, HintState> {
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={[]}
-          onClick={this.getMobileClickHandler()}
-          onClose={this.getMobileCloseHandler()}
+          onClick={!this.props.manual ? this.open : undefined}
+          onClose={!this.props.manual ? this.close : undefined}
         >
           {this.renderContent()}
         </Popup>
@@ -204,9 +204,6 @@ export class Hint extends React.Component<HintProps, HintState> {
       </CommonWrapper>
     );
   }
-
-  private getMobileCloseHandler = () => (this.isMobileLayout && !this.props.manual ? this.close : undefined);
-  private getMobileClickHandler = () => (this.isMobileLayout && !this.props.manual ? this.open : undefined);
 
   private renderContent() {
     if (!this.props.text) {

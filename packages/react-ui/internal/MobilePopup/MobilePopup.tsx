@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Nullable } from '../../typings/utility-types';
 import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
+import { ZIndex } from '../ZIndex';
 import { cx } from '../../lib/theming/Emotion';
 
 import { jsStyles } from './MobilePopup.styles';
@@ -25,8 +26,6 @@ interface MobilePopupState {
   isScrolled: boolean;
   isOpened: boolean;
 }
-
-export const MOBILE_POPUP_ELEMENT_ID = 'MobilePopup';
 
 export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupState> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
@@ -54,32 +53,14 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
     );
   }
 
-  private getPopupNodeZIndex = () => {
-    const mobilePopupNodes = document.querySelectorAll(`[element-id='${MOBILE_POPUP_ELEMENT_ID}']`);
-    let mobilePopupIndex = 0;
-
-    if (this.contentDiv && mobilePopupNodes.length > 1) {
-      mobilePopupNodes.forEach((item, index) => {
-        if (item.contains(this.contentDiv!)) {
-          mobilePopupIndex = index;
-        }
-      });
-    }
-
-    return mobilePopupIndex;
-  };
-
   public renderMain() {
-    const mobilePopupZIndex = this.getPopupNodeZIndex();
-
     const content = (
-      <>
+      <ZIndex priority={'MobilePopup'}>
         <div
           className={cx({
             [jsStyles.container(this.theme)]: true,
             [jsStyles.containerOpened()]: this.state.isOpened,
           })}
-          style={{ zIndex: 100000 + mobilePopupZIndex }}
         >
           <div
             className={cx({
@@ -102,15 +83,15 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           </div>
         </div>
         <HideBodyVerticalScroll />
-        <div onClick={this.close} className={jsStyles.bg()} style={{ zIndex: 99999 + mobilePopupZIndex }} />
-      </>
+        <div onClick={this.close} className={jsStyles.bg()} />
+      </ZIndex>
     );
 
     if (this.props.withoutRenderContainer) {
       return content;
     }
 
-    return <RenderContainer elementId={'MobilePopup'}>{content}</RenderContainer>;
+    return <RenderContainer>{content}</RenderContainer>;
   }
 
   public close = () => {
