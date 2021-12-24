@@ -1,4 +1,3 @@
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
@@ -77,8 +76,7 @@ export const styles = memoizeStyle({
       margin: ${t.pagingPageLinkMargin};
       outline: none;
       min-width: ${t.pagingPageLinkMinWidth};
-      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX}
-        ${is8pxTheme(t) ? t.pagingPageLinkPaddingY : t.pagingPageLinkLegacyPaddingY};
+      padding: ${t.pagingPageLinkPaddingY} ${t.pagingPageLinkPaddingX} ${t.pagingPageLinkPaddingY};
       text-decoration: none;
 
       &:hover {
@@ -97,13 +95,9 @@ export const styles = memoizeStyle({
 
   pageLinkFocused(t: Theme) {
     return css`
-      ${is8pxTheme(t)
-        ? `
+      ${`
           box-shadow: 0 0 0 2px ${t.borderColorFocus};
-        `
-        : `
-          margin: 0 -1px;
-          border: solid 2px ${t.borderColorFocus};`}
+        `}
     `;
   },
 

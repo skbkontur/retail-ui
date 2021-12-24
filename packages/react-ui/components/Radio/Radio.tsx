@@ -187,7 +187,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   private renderCaption() {
     const captionClassNames = cx({
       [styles.caption(this.theme)]: true,
-      [styles.captionDisabled()]: !!(this.props.disabled || this.context.disabled),
+      [styles.captionDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
     });
 
     return <div className={captionClassNames}>{this.props.children}</div>;
