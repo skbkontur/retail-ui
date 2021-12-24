@@ -25,7 +25,7 @@ export const SimpleDropdown: Story = () => (
 
 SimpleDropdown.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'MenuItem hover' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'MenuItem hover' }],
     tests: {
       async idle() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });

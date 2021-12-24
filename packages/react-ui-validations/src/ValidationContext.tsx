@@ -66,7 +66,7 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
   }
 
   public instanceProcessBlur(instance: ValidationWrapperInternal) {
-    for (const wrapper of this.childWrappers.filter((x) => x !== instance)) {
+    for (const wrapper of this.childWrappers.filter((x) => x !== instance && !x.isIndependent())) {
       wrapper.processBlur();
     }
   }
