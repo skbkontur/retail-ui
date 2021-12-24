@@ -87,7 +87,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     );
   }
 
-  public checkStickyProp() {
+  public getStickyProp() {
     if (typeof this.props.sticky !== 'undefined') {
       return this.props.sticky;
     }
@@ -102,8 +102,8 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private renderMain() {
     const { isReadyToFix } = this.state;
 
-    const isStickyDesktop = !this.isMobileLayout && this.checkStickyProp() && isReadyToFix;
-    const isStickyMobile = this.isMobileLayout && this.checkStickyProp();
+    const isStickyDesktop = !this.isMobileLayout && this.getStickyProp() && isReadyToFix;
+    const isStickyMobile = this.isMobileLayout && this.getStickyProp();
 
     return (
       <CommonWrapper {...this.props}>

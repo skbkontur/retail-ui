@@ -62,7 +62,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     this.context.setHasPanel?.(false);
   }
 
-  public checkSticky() {
+  public getSticky() {
     if (typeof this.props.sticky !== 'undefined') {
       return this.props.sticky;
     }
@@ -97,7 +97,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
             {({ getWidth }) => (
               <div
                 className={cx(styles.footer(), {
-                  [styles.positionStatic()]: !this.checkSticky(),
+                  [styles.positionStatic()]: !this.getSticky(),
                 })}
                 style={{
                   width: getWidth(),
