@@ -1,16 +1,35 @@
 import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
+import { addParameters } from '@storybook/react';
+import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Meta } from '@storybook/react';
 import { isTestEnv } from '../lib/currentEnvironment';
 import { ThemeContext } from '../lib/theming/ThemeContext';
 
-import { FLAT_THEME_OLD } from '../lib/theming/themes/FlatThemeOld';
-import { FLAT_THEME } from '../lib/theming/themes/FlatTheme';
-import { DEFAULT_THEME_OLD } from '../lib/theming/themes/DefaultThemeOld';
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
+import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
+import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 
-const themes = { DEFAULT_THEME, FLAT_THEME, DEFAULT_THEME_OLD, FLAT_THEME_OLD };
+const customViewports = {
+  iphone: {
+    name: 'Iphone',
+    styles: {
+      width: '375px',
+      height: '667px',
+    },
+    type: 'mobile',
+  },
+  iphonePlus: {
+    name: 'Iphone Plus',
+    styles: {
+      width: '414px',
+      height: '736px',
+    },
+    type: 'mobile',
+  },
+};
+const themes = { DEFAULT_THEME, DEFAULT_THEME_8PX_OLD, FLAT_THEME_8PX_OLD };
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
@@ -49,13 +68,16 @@ export const parameters: Meta['parameters'] = {
     captureElement: '#test-element',
     skip: [
       {
-        in: ['chromeFlat', 'firefoxFlat', 'ie11Flat', 'chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
+        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
     ],
   },
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
+  },
+  viewport: {
+    viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
   },
 };
 

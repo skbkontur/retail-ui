@@ -10,7 +10,7 @@ export default {
   title: 'Dropdown',
   decorators: [
     (Story) => (
-      <div className="dropdown-test-container" style={{ height: 150, width: 400, padding: 4 }}>
+      <div className="dropdown-test-container" style={{ height: 150, width: 400, padding: 4, overflow: 'auto' }}>
         <Story />
       </div>
     ),
@@ -25,7 +25,7 @@ export const SimpleDropdown: Story = () => (
 
 SimpleDropdown.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'MenuItem hover' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'MenuItem hover' }],
     tests: {
       async idle() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
@@ -135,3 +135,32 @@ export const WithIconAndOverflow = () => (
 );
 WithIconAndOverflow.storyName = 'With icon and overflow';
 WithIconAndOverflow.parameters = { creevey: { captureElement: '.dropdown-test-container' } };
+
+export const InsideScrollableContainer: Story = () => (
+  <div style={{ height: '200%' }}>
+    <Dropdown caption="Menu">
+      <MenuItem>Menu item</MenuItem>
+    </Dropdown>
+  </div>
+);
+InsideScrollableContainer.parameters = {
+  creevey: {
+    captureElement: '.dropdown-test-container',
+    tests: {
+      async scrolled() {
+        await this.browser
+          .actions()
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .perform();
+        const opened = await this.takeScreenshot();
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('.dropdown-test-container');
+          // @ts-ignore
+          scrollContainer.scrollTop = scrollContainer.scrollHeight;
+        });
+        const scrolled = await this.takeScreenshot();
+        await this.expect({ opened, scrolled }).to.matchImages();
+      },
+    },
+  },
+};

@@ -170,7 +170,7 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: checkboxTests,
   },
 };
@@ -184,7 +184,7 @@ Checked.storyName = 'checked';
 
 Checked.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: {
       idle: checkboxTests['idle'],
       hovered: checkboxTests['hovered'],
@@ -203,7 +203,14 @@ export const DisabledChecked = () => (
 );
 DisabledChecked.storyName = 'disabled checked';
 
-export const Error = () => <Checkbox error>Error</Checkbox>;
+export const Error = () => (
+  <Gapped vertical>
+    <Checkbox error>Error</Checkbox>
+    <Checkbox error disabled>
+      Error and Disabled
+    </Checkbox>
+  </Gapped>
+);
 Error.storyName = 'error';
 
 export const WithMouseEnterLeaveHandlers = () => (
@@ -273,7 +280,7 @@ Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '#screenshot-capture' });

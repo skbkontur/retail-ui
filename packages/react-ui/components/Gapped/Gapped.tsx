@@ -1,10 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -53,8 +50,6 @@ export class Gapped extends React.Component<GappedProps> {
     verticalAlign: PropTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
   };
 
-  private theme!: Theme;
-
   public static defaultProps = {
     wrap: false,
     vertical: false,
@@ -63,16 +58,9 @@ export class Gapped extends React.Component<GappedProps> {
 
   public render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <CommonWrapper {...this.props}>
-              {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <CommonWrapper {...this.props}>
+        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+      </CommonWrapper>
     );
   }
 
@@ -82,8 +70,7 @@ export class Gapped extends React.Component<GappedProps> {
     if (propsGap !== undefined && propsGap !== null) {
       return propsGap;
     } else {
-      const gap = is8pxTheme(this.theme) ? 8 : 10;
-      return gap;
+      return 8;
     }
   }
 
@@ -91,17 +78,16 @@ export class Gapped extends React.Component<GappedProps> {
     const subsequentItemStyle: React.CSSProperties = {
       paddingTop: this.getGapValue(),
     };
-    let isFirst = true;
-    const children = React.Children.map(this.props.children, (child) => {
-      if (!child) {
-        return child;
-      }
-      const style = isFirst ? undefined : subsequentItemStyle;
-
-      isFirst = false;
-
-      return <div style={style}>{child}</div>;
-    });
+    const children = React.Children.toArray(this.props.children)
+      .filter(this.filterChildren)
+      .map((child, index) => {
+        const style = index === 0 ? undefined : subsequentItemStyle;
+        return (
+          <div style={style} key={index}>
+            {child}
+          </div>
+        );
+      });
 
     return <div>{children}</div>;
   }
@@ -120,16 +106,22 @@ export class Gapped extends React.Component<GappedProps> {
     return (
       <div style={rootStyle}>
         <div style={contStyle}>
-          {React.Children.toArray(children).map((child, index) => {
-            const marginLeft = index === 0 ? undefined : gap;
-            return (
-              <span key={index} style={{ marginLeft, ...itemStyle }}>
-                {child}
-              </span>
-            );
-          })}
+          {React.Children.toArray(children)
+            .filter(this.filterChildren)
+            .map((child, index) => {
+              const marginLeft = index === 0 ? undefined : gap;
+              return (
+                <span key={index} style={{ marginLeft, ...itemStyle }}>
+                  {child}
+                </span>
+              );
+            })}
         </div>
       </div>
     );
+  }
+
+  private filterChildren(child: React.ReactNode): boolean {
+    return Boolean(child) || typeof child === 'number';
   }
 }

@@ -1,4 +1,3 @@
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
@@ -8,7 +7,6 @@ export const styles = memoizeStyle({
     return css`
       height: 100%;
       position: fixed;
-      right: 0;
       top: 0;
     `;
   },
@@ -25,7 +23,7 @@ export const styles = memoizeStyle({
 
   body() {
     return css`
-      height: 100%;
+      flex: 1 0 auto;
       z-index: 0;
     `;
   },
@@ -39,19 +37,25 @@ export const styles = memoizeStyle({
 
   containerWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0};
+      padding-top: ${t.sidePagePaddingTop};
     `;
   },
 
   containerWithoutFooter(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
+      padding-bottom: ${t.sidePagePaddingBottom};
     `;
   },
 
   containerWithPanel(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
+      padding-bottom: ${t.sidePagePaddingBottom};
+    `;
+  },
+
+  focusLock() {
+    return css`
+      height: 100%;
     `;
   },
 
@@ -64,6 +68,9 @@ export const styles = memoizeStyle({
       overflow-y: auto;
       position: relative;
       white-space: normal;
+      align-items: stretch;
+      display: flex;
+      flex-direction: column;
     `;
   },
 
@@ -73,11 +80,21 @@ export const styles = memoizeStyle({
     `;
   },
 
-  layout() {
+  wrapperMarginLeft() {
     return css`
-      align-items: stretch;
-      display: flex;
-      flex-direction: column;
+      margin-left: 20px;
+    `;
+  },
+
+  wrapperMarginRight() {
+    return css`
+      margin-right: 20px;
+    `;
+  },
+
+  headerWrapper() {
+    return css`
+      flex: 0 0 auto;
     `;
   },
 
@@ -152,13 +169,6 @@ export const styles = memoizeStyle({
     `;
   },
 
-  leftSide() {
-    return css`
-      left: 0;
-      right: auto;
-    `;
-  },
-
   close(t: Theme) {
     return css`
       ${resetButton()};
@@ -211,6 +221,12 @@ export const styles = memoizeStyle({
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
+    `;
+  },
+
+  footerWrapper() {
+    return css`
+      flex: 0 0 auto;
     `;
   },
 

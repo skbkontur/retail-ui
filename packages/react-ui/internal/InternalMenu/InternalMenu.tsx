@@ -17,6 +17,11 @@ import { isActiveElement } from './isActiveElement';
 interface MenuProps {
   children?: React.ReactNode;
   hasShadow?: boolean;
+  /**
+   * Максимальная высота применяется только для скролл контейнера
+   *
+   * Высота `header` и `footer` в нее не включены
+   */
   maxHeight?: number | string;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
@@ -68,7 +73,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
     this.calculateMaxHeight();
   }
 
-  public componentDidUpdate(prevProps: MenuProps, prevState: MenuState) {
+  public componentDidUpdate(prevProps: MenuProps) {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }

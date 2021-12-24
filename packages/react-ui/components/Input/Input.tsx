@@ -36,9 +36,13 @@ export interface InputProps
          * Если `() => ReactNode` применяются только стили для позиционирование
          */
         rightIcon?: InputIconType;
-        /** Состояние ошибки */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Состояние предупреждения */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Режим прозрачной рамки */
         borderless?: boolean;
@@ -159,6 +163,13 @@ export class Input extends React.Component<InputProps, InputState> {
   public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input!.blur();
+  }
+
+  /**
+   * @public
+   */
+  public getNode() {
+    return this.input;
   }
 
   /**

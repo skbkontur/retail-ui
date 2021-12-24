@@ -122,6 +122,15 @@ export const DifferentStates: Story = () => {
           <Textarea spellCheck={false} disabled defaultValue={TEXT_SAMPLE} />
         </div>
       </div>
+      <div style={rowStyles}>
+        <div style={headingStyles}>Disabled with Error</div>
+        <div id="TextareaDisabledError" style={cellStyles}>
+          <Textarea disabled error />
+        </div>
+        <div id="TextareaDisabledErrorFilled" style={cellStyles}>
+          <Textarea spellCheck={false} disabled error defaultValue={TEXT_SAMPLE} />
+        </div>
+      </div>
     </div>
   );
 };
@@ -370,7 +379,12 @@ TextareaWithCounters.storyName = 'Textarea with length counter';
 
 TextareaWithCounters.parameters = {
   creevey: {
-    skip: [{ in: ['firefox', 'firefoxFlat', 'firefox8px', 'firefoxFlat8px'], reason: 'flacky scrollbars height' }],
+    skip: [
+      {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px'],
+        reason: 'flacky scrollbars height',
+      },
+    ],
     tests: {
       async Plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');

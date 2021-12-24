@@ -14,7 +14,7 @@ class Component extends React.Component<{ items: string[]; error?: boolean }, { 
       <Switcher
         value={this.state.value}
         onValueChange={this.handleChange}
-        label={'Label for Switcher'}
+        caption={'Label for Switcher'}
         {...this.props}
       />
     );
@@ -34,7 +34,7 @@ Horizontal.storyName = 'horizontal';
 
 Horizontal.parameters = {
   creevey: {
-    skip: [{ in: ['chromeFlat', 'chromeFlat8px'], tests: 'clicked' }],
+    skip: [{ in: ['chromeFlat8px'], tests: 'clicked' }],
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -56,17 +56,19 @@ export const Errored = () => {
   return <Component error items={['One', 'Two', 'Three']} />;
 };
 Errored.storyName = 'errored';
-Errored.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
+Errored.parameters = { creevey: { skip: [{ in: ['chromeFlat8px'] }] } };
 
 export const Disabled = () => {
   return (
     <Gapped vertical>
-      <Switcher disabled value={'One'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />
-      <Switcher disabled value={'Two'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />
-      <Switcher disabled value={'Three'} label={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'One'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'Two'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'Three'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
     </Gapped>
   );
 };
 
 Disabled.storyName = 'disabled';
-Disabled.parameters = { creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'] }] } };
+Disabled.parameters = {
+  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px'] }] },
+};

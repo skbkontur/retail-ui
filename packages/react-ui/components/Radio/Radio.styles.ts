@@ -155,20 +155,20 @@ export const styles = memoizeStyle({
     `;
   },
 
-  label(t: Theme) {
+  caption(t: Theme) {
     return css`
-      display: ${t.radioLabelDisplay};
+      display: ${t.radioCaptionDisplay};
       line-height: ${t.radioLineHeight};
-      margin-left: ${t.radioLabelGap};
+      margin-left: ${t.radioCaptionGap};
       white-space: normal;
       font-size: ${t.radioFontSize};
       color: ${t.radioTextColor};
     `;
   },
 
-  labelDisabled() {
+  captionDisabled(t: Theme) {
     return css`
-      color: #a0a0a0;
+      color: ${t.textColorDisabled};
     `;
   },
 
