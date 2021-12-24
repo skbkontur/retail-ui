@@ -519,7 +519,7 @@ OnUnexpectedInputValidation.parameters = {
   creevey: {
     skip: [
       {
-        in: ['firefox', 'firefox8px', 'firefoxFlat8px'],
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
         tests: 'token select',
         reason: 'flacky "clearedOnNullReturn"',
       },

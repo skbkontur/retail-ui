@@ -66,6 +66,17 @@ const config = {
       name: 'infrafront/chrome',
       ...capabilities,
     },
+    chromeDark: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/chromeDark',
+      ...capabilities,
+    },
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
@@ -91,6 +102,16 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/firefox',
+      ...capabilities,
+    },
+    firefoxDark: {
+      browserName: 'firefox',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/firefoxDark',
       ...capabilities,
     },
     // NOTE Enable after switch new separate pool for IE to allow test hover
@@ -127,6 +148,16 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/ie11',
+      ...capabilities,
+    },
+    ie11Dark: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/ie11Dark',
       ...capabilities,
     },
   },
