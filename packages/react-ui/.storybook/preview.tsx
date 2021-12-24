@@ -80,6 +80,19 @@ export const parameters: Meta['parameters'] = {
   viewport: {
     viewports: { ...MINIMAL_VIEWPORTS, ...customViewports },
   },
+  backgrounds: {
+    default: 'default',
+    values: [
+      {
+        name: 'default',
+        value: '#fff',
+      },
+      {
+        name: 'dark',
+        value: '#1f1f1f',
+      },
+    ],
+  },
 };
 
 export const globalTypes = {

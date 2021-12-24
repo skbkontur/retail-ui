@@ -2,6 +2,7 @@ module.exports = {
   addons: [
     'creevey',
     '@storybook/addon-links',
+    '@storybook/addon-backgrounds',
     {
       name: '@storybook/addon-essentials',
       options: {

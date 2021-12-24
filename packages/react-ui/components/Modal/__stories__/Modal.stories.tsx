@@ -7,6 +7,7 @@ import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -727,16 +728,22 @@ ModalWithHeaderFromOtherComponent.storyName = 'Modal with Header from other Comp
 ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: [true] } };
 
 export const ModalBodyWithoutPadding = () => (
-  <Modal width={250}>
-    <Modal.Body noPadding>
-      <div style={{ background: 'white' }}>
-        <p>Loooooooong content content content</p>
-        <p>Loooooooong content content content</p>
-        <p>Loooooooong content content content</p>
-        <p>Loooooooong content content content</p>
-      </div>
-    </Modal.Body>
-  </Modal>
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <Modal width={250}>
+          <Modal.Body noPadding>
+            <div style={{ background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : 'white' }}>
+              <p>Loooooooong content content content</p>
+              <p>Loooooooong content content content</p>
+              <p>Loooooooong content content content</p>
+              <p>Loooooooong content content content</p>
+            </div>
+          </Modal.Body>
+        </Modal>
+      );
+    }}
+  </ThemeContext.Consumer>
 );
 ModalBodyWithoutPadding.storyName = 'Modal with no-padding';
 ModalBodyWithoutPadding.parameters = { creevey: { captureElement: null } };
