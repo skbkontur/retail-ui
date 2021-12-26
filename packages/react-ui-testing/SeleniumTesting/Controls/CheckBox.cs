@@ -1,18 +1,27 @@
-﻿using Kontur.Selone.Properties;
+﻿using Kontur.Selone.Extensions;
+using Kontur.Selone.Properties;
+using OpenQA.Selenium;
+using SKBKontur.SeleniumTesting.Controls.Base;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
-    public class Checkbox : ControlBase
+    public class Checkbox : ComponentBase
     {
         public Checkbox(ISearchContainer container, ISelector selector)
-            : base(container, selector)
+            : this(container.ToSearchContext(), selector.SeleniumBy)
         {
-            Label = new Label(this, new UniversalSelector("*:first-child + * + *"));
+        }
+
+        public Checkbox(ISearchContext searchContext, By @by)
+            : base(searchContext, @by)
+        {
+            Label = new Label(Container, new UniversalSelector("*:first-child + * + *").SeleniumBy);
         }
 
         public Label Label { get; private set; }
 
-        public IProp<bool> IsChecked => ReactProperty<bool>("checked");
-        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
+        public IProp<bool> IsChecked => Container.Attribute("data-prop-checked").Transform(bool.Parse);
+
+        public IProp<bool> IsDisabled => Container.Attribute("data-prop-disabled").Transform(s => s == "true");
     }
 }

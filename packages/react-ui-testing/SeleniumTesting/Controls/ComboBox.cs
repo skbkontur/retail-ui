@@ -1,13 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-
 using JetBrains.Annotations;
-
+using Kontur.Selone.Elements;
 using Kontur.Selone.Properties;
-
+using Kontur.Selone.Selectors.XPath;
 using OpenQA.Selenium;
-
 using SKBKontur.SeleniumTesting.Internals;
 using SKBKontur.SeleniumTesting.Internals.Selectors;
 
@@ -29,6 +27,11 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public IProp<string> InputValue => ValueFromElement(
             x => ExecuteScript("return arguments[0].value", x.FindElement(By.CssSelector("input"))) as string);
+
+        public ElementsCollection<Label> Items => new ElementsCollection<Label>(
+            GetItemsContainer().ToSearchContext(),
+            x => x.XPath(".//").AnyTag().WithAttribute("data-comp-name", "MenuItem").FixedByIndex(),
+            (s, b, _) => new Label(s, b));
 
         public IProp<string> Text => GetText();
 
@@ -57,21 +60,23 @@ namespace SKBKontur.SeleniumTesting.Controls
         public ControlListBase<T> GetItemsAs<T>(Func<ISearchContainer, ISelector, T> itemCreator) where T : ControlBase
         {
             var itemsContainer = GetItemsContainer();
-            return new ControlListBase<T>(itemsContainer, new UniversalSelector("##ComboBoxMenu__items"), new UniversalSelector("##ComboBoxMenu__item"), itemCreator);
+            return new ControlListBase<T>(itemsContainer, new UniversalSelector("##ComboBoxMenu__items"),
+                new UniversalSelector("##ComboBoxMenu__item"), itemCreator);
         }
 
         public void InputTextAndSelectSingle(string inputText, Timings timings = null)
         {
             InputText(inputText);
-            DoWithItems((x, y) => new Label(x, y), items =>
-            {
-                items.Count.Wait().That(x => x.AssertEqualTo(1), timings);
-                var result = items.First();
-                result?.Click();
-            });
+            // DoWithItems((x, y) => new Label(x, y), items =>
+            // {
+            Items.Count.Wait().That(x => x.AssertEqualTo(1), timings);
+            var result = Items.First();
+            result?.Click();
+            // });
         }
 
-        public void DoWithItems<T>(Func<ISearchContainer, ISelector, T> itemCreator, Action<ControlListBase<T>> action, Timings timings = null) where T : ControlBase
+        public void DoWithItems<T>(Func<ISearchContainer, ISelector, T> itemCreator, Action<ControlListBase<T>> action,
+            Timings timings = null) where T : ControlBase
         {
             var collection = GetItemsAs(itemCreator);
             collection.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
@@ -81,24 +86,24 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void InputTextAndSelectFirst(string inputText, Timings timings = null)
         {
             InputText(inputText);
-            DoWithItems((x, y) => new Label(x, y), items =>
-            {
-                items.Count.Wait().That(x => x.AssertGreaterThan(0), timings);
-                var result = items.First();
-                result?.Click();
-            }, timings);
+            // DoWithItems((x, y) => new Label(x, y), items =>
+            // {
+            Items.Count.Wait().That(x => x.AssertGreaterThan(0), timings);
+            var result = Items.First();
+            result?.Click();
+            // }, timings);
         }
 
         public void InputText([NotNull] string text)
         {
             ExecuteAction(
                 x =>
-                    {
-                        x.Click();
-                        var input = x.FindElement(By.CssSelector("input"));
-                        input.Clear();
-                        input.SendKeys(text);
-                    },
+                {
+                    x.Click();
+                    var input = x.FindElement(By.CssSelector("input"));
+                    input.Clear();
+                    input.SendKeys(text);
+                },
                 $"InputText('{text}')");
         }
 
@@ -108,7 +113,8 @@ namespace SKBKontur.SeleniumTesting.Controls
             try
             {
                 var renderContainer = GetRenderContainer();
-                return renderContainer.FindElements(By.CssSelector($"[data-comp-name~='{"MenuItem"}']")).Select(x => (object)x.Text).ToList();
+                return renderContainer.FindElements(By.CssSelector($"[data-comp-name~='{"MenuItem"}']"))
+                    .Select(x => (object)x.Text).ToList();
             }
             catch(NoSuchElementException)
             {
@@ -169,7 +175,7 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public ISearchContainer GetItemsContainer()
         {
-            return GetReactProp<bool>("disablePortal") ? (ISearchContainer) this : portal;
+            return GetReactProp<bool>("disablePortal") ? (ISearchContainer)this : portal;
         }
 
         protected Portal portal;

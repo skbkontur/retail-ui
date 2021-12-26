@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 
 using JetBrains.Annotations;
-
+using Kontur.RetryableAssertions.Extensions;
+using Kontur.Selone.Extensions;
 using Kontur.Selone.Properties;
-
+using Kontur.Selone.Selectors.Css;
 using OpenQA.Selenium;
 
 using SimpleJson;
@@ -32,9 +33,11 @@ namespace SKBKontur.SeleniumTesting.Controls
         public void SelectValueByText(string text, Timings timings = null)
         {
             Click();
-            var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
-            controlList.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
-            controlList.First(x => x.Text.Get() == text).Click();
+            // var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
+            var controlList = portal.GetPortalElement()
+                .SearchElements(new CssBy("[data-comp-name='MenuItem']").FixedByIndex());
+            // controlList.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
+            controlList.First(x => x.Text().Get() == text).Click();
         }
 
         public void SelectValueByValue(object value, Timings timings = null)
@@ -42,9 +45,12 @@ namespace SKBKontur.SeleniumTesting.Controls
             Click();
             var items = GetReactProp<JsonArray>("items");
             var index = items.ToList().FindIndex(x => ElementMatchToValue(value, x));
-            var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
-            controlList[index].IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
-            controlList[index].Click();
+            // var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
+            var controlList = portal.GetPortalElement()
+                .SearchElements(new CssBy("[data-comp-name='MenuItem']").FixedByIndex());
+            // controlList[index].IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
+            // controlList[index].Click();
+            controlList.ElementAt(index).Click();
         }
 
         private static bool ElementMatchToValue(object value, object x)

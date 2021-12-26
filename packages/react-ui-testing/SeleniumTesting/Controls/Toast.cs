@@ -1,6 +1,5 @@
 using Kontur.Selone.Properties;
 using OpenQA.Selenium;
-using SKBKontur.SeleniumTesting.Internals.Selectors;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
@@ -9,9 +8,10 @@ namespace SKBKontur.SeleniumTesting.Controls
         public Toast(ISearchContainer container, ISelector selector)
             : base(container, selector)
         {
-            toastView = this.Find<Label>().By("ToastView");
-            notification = new Label(toastView, new BySelector(By.CssSelector("span:first-child")));
-            Action = new Label(toastView, new BySelector(By.CssSelector("span:nth-child(2)")));
+            // toastView = this.Find<Label>().By("ToastView");
+            toastView = new Label(this, new UniversalSelector("ToastView"));
+            notification = new Label(toastView, By.CssSelector("span:first-child"));
+            Action = new Label(toastView, By.CssSelector("span:nth-child(2)"));
         }
 
         public Label Action { get; }

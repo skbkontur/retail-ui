@@ -1,24 +1,30 @@
-﻿using Kontur.Selone.Properties;
-
+﻿using Kontur.Selone.Extensions;
+using Kontur.Selone.Properties;
 using OpenQA.Selenium;
+using SKBKontur.SeleniumTesting.Controls.Base;
 
 namespace SKBKontur.SeleniumTesting.Controls
 {
-    public class Button : ControlBase
+    public class Button : ComponentBase
     {
         public Button(ISearchContainer container, ISelector selector)
+            : this(container.ToSearchContext(), selector.SeleniumBy)
+        {
+        }
+
+        public Button(ISearchContext container, By selector)
             : base(container, selector)
         {
         }
 
         public void ClickViaJavascript()
         {
-            ExecuteAction(
-                x => ExecuteScript("arguments[0].click();", x.FindElement(By.TagName("button"))),
-                "ClickViaJavascript");
+            Container.ExecuteJs("arguments[0].click();");
         }
 
-        public IProp<bool> IsDisabled => ReactProperty<bool>("disabled");
-        public IProp<string> Text => ValueFromElement(x => x.Text);
+        public IProp<bool> IsDisabled =>
+            Container.Attribute("data-prop-disabled").Transform(s => s == "true"); //ReactProperty<bool>("disabled");
+
+        public IProp<bool> HasWarning => Container.Attribute("data-prop-warning").Transform(s => s == "true");
     }
 }
