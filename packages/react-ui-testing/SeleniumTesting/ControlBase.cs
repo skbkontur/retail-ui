@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 
 using JetBrains.Annotations;
-
+using Kontur.Selone.Extensions;
 using Kontur.Selone.Properties;
 
 using OpenQA.Selenium;
@@ -232,6 +232,11 @@ namespace SKBKontur.SeleniumTesting
         public Actions CreateWebDriverActions()
         {
             return container.CreateWebDriverActions();
+        }
+
+        public virtual ISearchContext ToSearchContext()
+        {
+            return container.ToSearchContext().SearchElement(selector.SeleniumBy);
         }
 
         public string GetControlTypeDesription()

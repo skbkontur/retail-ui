@@ -24,5 +24,7 @@ namespace SKBKontur.SeleniumTesting
 
         [NotNull]
         Actions CreateWebDriverActions();
+
+        ISearchContext ToSearchContext();
     }
 }

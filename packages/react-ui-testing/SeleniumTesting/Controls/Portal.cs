@@ -13,7 +13,7 @@ namespace SKBKontur.SeleniumTesting.Controls
         {
         }
 
-        private IWebElement GetPortalElement()
+        public IWebElement GetPortalElement()
         {
             return GetValueFromElement(x =>
                 {
@@ -53,6 +53,11 @@ namespace SKBKontur.SeleniumTesting.Controls
                     var portal = container.SearchGlobal(new BySelector(By.CssSelector($"[data-rendered-container-id='{renderContainerId}']")));
                     return portal.FindElement(selector.SeleniumBy);
                 });
+        }
+
+        public override ISearchContext ToSearchContext()
+        {
+            return GetPortalElement();
         }
     }
 }
