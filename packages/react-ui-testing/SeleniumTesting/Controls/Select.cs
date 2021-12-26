@@ -35,8 +35,8 @@ namespace SKBKontur.SeleniumTesting.Controls
             Click();
             // var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
             var controlList = portal.GetPortalElement()
-                .SearchElements(new CssBy("[data-comp-name='MenuItem']").FixedByIndex());
-            // controlList.IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
+                .SearchElements(new CssBy("[data-comp-name~='MenuItem']").FixedByIndex());
+            controlList.Count.Wait().That(x => x.AssertGreaterThan(0), timings);
             controlList.First(x => x.Text().Get() == text).Click();
         }
 
@@ -47,9 +47,10 @@ namespace SKBKontur.SeleniumTesting.Controls
             var index = items.ToList().FindIndex(x => ElementMatchToValue(value, x));
             // var controlList = portal.FindList().Of<Label>("MenuItem").By("Menu");
             var controlList = portal.GetPortalElement()
-                .SearchElements(new CssBy("[data-comp-name='MenuItem']").FixedByIndex());
+                .SearchElements(new CssBy("[data-comp-name~='MenuItem']").FixedByIndex());
             // controlList[index].IsPresent.Wait().That(x => x.AssertEqualTo(true), timings);
             // controlList[index].Click();
+            controlList.Count.Wait().That(x => x.AssertGreaterThan(index), timings);
             controlList.ElementAt(index).Click();
         }
 
