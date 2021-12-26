@@ -23,3 +23,5 @@ packages
 !packages/repositories.config
 
 .env
+/SeleniumTesting.sln.DotSettings.user
+/package-lock.json

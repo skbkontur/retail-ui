@@ -7,10 +7,10 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
     {
         public static void SetUp(string tunnelIdentifier)
         {
-            var httpResponse = WebRequest.CreateHttp("http://fake.dev.kontur/ip");
-            var defaultDomain = new StreamReader(httpResponse.GetResponse().GetResponseStream()).ReadToEnd();
+            // var httpResponse = WebRequest.CreateHttp("http://fake.dev.kontur/ip");
+            // var defaultDomain = new StreamReader(httpResponse.GetResponse().GetResponseStream()).ReadToEnd();
 
-            browser = new Browser(defaultDomain, "8083", tunnelIdentifier);
+            browser = new Browser("localhost", "8083", tunnelIdentifier);
         }
 
         public static void TearDown()
