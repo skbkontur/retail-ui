@@ -28,6 +28,7 @@ namespace SKBKontur.SeleniumTesting.Tests.SwitcherTests
         [Test]
         public void TestSetValue()
         {
+            page.NormalSwitcher.Buttons.Count.Wait().EqualTo(3);
             page.NormalSwitcher.SelectItemByName(switcherValues[0].Label);
             page.NormalSwitcher.Value.Wait().EqualTo(switcherValues[0].Value);
         }

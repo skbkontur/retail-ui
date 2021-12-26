@@ -59,14 +59,15 @@ namespace SKBKontur.SeleniumTesting.Tests.ComboBoxTests
         public void TestSelectViaCustomPortalSelector()
         {
             page.SimpleComboBox.Click();
-            page.SimpleComboBoxItems.Count.Wait().That(Is.EqualTo(17));
+            page.SimpleComboBox.Items.Count.Wait().That(Is.EqualTo(17));
         }
 
         [Test]
         public void Test_ComboBox_DisablePortal()
         {
             page.ComboBoxNoPortal.Click();
-            page.NoPortalComboBoxItems.Count.Wait().That(Is.EqualTo(17));
+            // page.NoPortalComboBoxItems.Count.Wait().That(Is.EqualTo(17));
+            page.ComboBoxNoPortal.Items.Count.Wait().That(Is.EqualTo(17));
             page.ComboBoxNoPortal.InputTextAndSelectFirst("Item 1");
             page.ComboBoxNoPortal.Text.Wait().EqualTo("Item 1");
         }

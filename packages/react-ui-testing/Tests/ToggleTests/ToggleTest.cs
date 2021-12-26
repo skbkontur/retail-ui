@@ -35,6 +35,8 @@ namespace SKBKontur.SeleniumTesting.Tests.ToggleTests
         [Test]
         public void TestChangeDisabled()
         {
+            page.DisablingCheckbox.IsPresent.Wait().That(Is.True);
+            page.DisablingToggle.IsPresent.Wait().That(Is.True);
             page.DisablingToggle.IsDisabled.Wait().That(Is.False);
             page.DisablingCheckbox.Click();
             page.DisablingToggle.IsDisabled.Wait().That(Is.True);

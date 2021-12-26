@@ -3,8 +3,10 @@ using System.Linq;
 using System.Reflection;
 
 using JetBrains.Annotations;
-
+using Kontur.Selone.Selectors;
+using Kontur.Selone.Selectors.Css;
 using SKBKontur.SeleniumTesting.Controls;
+using SKBKontur.SeleniumTesting.Controls.Base;
 
 namespace SKBKontur.SeleniumTesting.Tests.AutoFill
 {
@@ -21,6 +23,11 @@ namespace SKBKontur.SeleniumTesting.Tests.AutoFill
             IntializeControlBases(control);
         }
 
+        public void OnInit(ComponentBase control)
+        {
+            IntializeControlBases(control);
+        }
+
         private static void IntializeControlBases(object instance)
         {
             var type = instance.GetType();
@@ -28,6 +35,15 @@ namespace SKBKontur.SeleniumTesting.Tests.AutoFill
             {
                 if(propertyInfo.GetCustomAttributes<SkipAutoFillAttribute>().Any())
                     break;
+                if(typeof(ComponentBase).IsAssignableFrom(propertyInfo.PropertyType))
+                {
+                    var selector =
+                        propertyInfo.GetCustomAttributes<SelectorAttribute>().Select(x => x.Selector.SeleniumBy).FirstOrDefault()
+                        ?? new CssBy().WithTid(propertyInfo.Name);
+                    propertyInfo.SetValue(
+                        instance,
+                        Activator.CreateInstance(propertyInfo.PropertyType, instance, selector));
+                }
                 if(typeof(ControlBase).IsAssignableFrom(propertyInfo.PropertyType))
                 {
                     var selector =
@@ -47,6 +63,7 @@ namespace SKBKontur.SeleniumTesting.Tests.AutoFill
                             Activator.CreateInstance(propertyInfo.PropertyType, instance, selector));
                     }
                 }
+
             }
         }
     }

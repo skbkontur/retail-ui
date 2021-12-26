@@ -87,9 +87,9 @@ namespace SKBKontur.SeleniumTesting.Tests.ExposeTidToDomTests
         public void TestFilterProps()
         {
             page.PropsFilteringCase.Component1.IsPresent.Wait().True();
-            page.PropsFilteringCase.Component1.GetAttributeValue("data-prop-customProp1").Should().Be("value-1");
-            page.PropsFilteringCase.Component1.GetAttributeValue("data-prop-customProp2").Should().BeNull();
-            page.PropsFilteringCase.Component2.GetAttributeValue("data-prop-customProp2").Should().Be("value-2");
+            page.PropsFilteringCase.Component1.Container.GetAttribute("data-prop-customProp1").Should().Be("value-1");
+            page.PropsFilteringCase.Component1.Container.GetAttribute("data-prop-customProp2").Should().BeNull();
+            page.PropsFilteringCase.Component2.Container.GetAttribute("data-prop-customProp2").Should().Be("value-2");
         }
 
         [Test]

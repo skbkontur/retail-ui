@@ -21,6 +21,7 @@ namespace SKBKontur.SeleniumTesting.Tests.TooltipTests
         [Test]
         public void TestPresence()
         {
+            // todo какая-то ерунда с дата-тидами на тултипе и на кнопке, везде "OpenTooltip SimpleTooltip"
             page.OpenTooltip.Click();
             page.SimpleTooltip.IsPresent.Wait().True();
         }
