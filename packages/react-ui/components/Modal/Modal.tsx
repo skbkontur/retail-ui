@@ -235,7 +235,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                                   className={
                                     isMobile
                                       ? cx({
-                                          [styles.mobileCloseWithoutHeader()]: !this.state.hasHeader && isMobile,
+                                          [styles.mobileCloseWithoutHeader()]: !this.state.hasHeader,
                                         })
                                       : undefined
                                   }
