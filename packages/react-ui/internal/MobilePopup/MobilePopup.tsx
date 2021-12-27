@@ -1,4 +1,5 @@
 import React from 'react';
+import { Transition } from 'react-transition-group';
 
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -24,7 +25,6 @@ interface MobilePopupProps {
 
 interface MobilePopupState {
   isScrolled: boolean;
-  isOpened: boolean;
 }
 
 export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupState> {
@@ -35,12 +35,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
 
   public state: MobilePopupState = {
     isScrolled: false,
-    isOpened: false,
   };
-
-  public componentDidMount() {
-    this.setState({ isOpened: true });
-  }
 
   public render() {
     return (
@@ -56,32 +51,36 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
   public renderMain() {
     const content = (
       <ZIndex priority={'MobilePopup'}>
-        <div
-          className={cx({
-            [jsStyles.container(this.theme)]: true,
-            [jsStyles.containerOpened()]: this.state.isOpened,
-          })}
-        >
-          <div
-            className={cx({
-              [jsStyles.root(this.theme)]: true,
-              [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
-            })}
-            onClick={this.props.useFullHeight ? undefined : this.close}
-          >
-            <MobilePopupHeader caption={this.props.caption} onClose={this.close} withShadow={this.state.isScrolled}>
-              {this.props.headerChildComponent}
-            </MobilePopupHeader>
+        <Transition mountOnEnter in={true} appear={true} timeout={0}>
+          {(state) => (
             <div
-              onClick={(e) => e.stopPropagation()}
-              className={jsStyles.content(this.theme)}
-              onScroll={this.handleScrollMenu}
-              ref={this.refContent}
+              className={cx({
+                [jsStyles.container(this.theme)]: true,
+                [jsStyles.containerOpened()]: state === 'entered',
+              })}
             >
-              {this.props.children}
+              <div
+                className={cx({
+                  [jsStyles.root(this.theme)]: true,
+                  [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
+                })}
+                onClick={this.props.useFullHeight ? undefined : this.close}
+              >
+                <MobilePopupHeader caption={this.props.caption} onClose={this.close} withShadow={this.state.isScrolled}>
+                  {this.props.headerChildComponent}
+                </MobilePopupHeader>
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className={jsStyles.content(this.theme)}
+                  onScroll={this.handleScrollMenu}
+                  ref={this.refContent}
+                >
+                  {this.props.children}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
+          )}
+        </Transition>
         <HideBodyVerticalScroll />
         <div onClick={this.close} className={jsStyles.bg()} />
       </ZIndex>
@@ -96,11 +95,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
 
   public close = () => {
     if (this.props.onClose) {
-      this.setState({
-        isOpened: false,
-      });
-
-      setTimeout(this.props.onClose, 250);
+      this.props.onClose();
     }
   };
 

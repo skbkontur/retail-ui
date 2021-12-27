@@ -317,19 +317,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
-  private getMobileOnClose = () => {
-    switch (this.props.trigger) {
-      case 'opened':
-      case 'closed':
-      case 'manual': {
-        return undefined;
-      }
-      default: {
-        return this.close;
-      }
-    }
-  };
-
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
     popupProps: Partial<PopupProps>,
@@ -347,7 +334,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           positions={this.getPositions()}
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
-          onClose={this.isMobileLayout ? this.getMobileOnClose() : this.props.onClose}
+          onClose={this.props.onClose}
           tryPreserveFirstRenderedPosition
           {...popupProps}
         >

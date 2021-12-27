@@ -106,6 +106,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
    * @see https://github.com/skbkontur/retail-ui/pull/1195
    */
   tryPreserveFirstRenderedPosition?: boolean;
+  withoutMobile?: boolean;
 }
 
 interface PopupLocation {
@@ -266,7 +267,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       opened && (
-        <MobilePopup withoutRenderContainer onClose={this.props.onClose ? this.props.onClose : undefined}>
+        <MobilePopup withoutRenderContainer onClose={this.props.onClose}>
           {this.content(this.renderChildren())}
         </MobilePopup>
       )
@@ -288,7 +289,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-        {this.isMobileLayout ? this.renderMobile() : location && this.renderContent(location)}
+        {this.isMobileLayout && !this.props.withoutMobile
+          ? this.renderMobile()
+          : location && this.renderContent(location)}
       </RenderContainer>
     );
   }
