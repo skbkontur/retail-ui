@@ -35,10 +35,10 @@ const linearLightGradient = `repeating-linear-gradient(
                               )`;
 const linearDarkGradient = `repeating-linear-gradient(
                                 60deg,
-                                #dfdede,
-                                #dfdede 20px,
-                                #333 20px,
-                                #333 40px
+                                #868b8e,
+                                #868b8e 20px,
+                                #444 20px,
+                                #444 40px
                               )`;
 
 interface SampleProps {
