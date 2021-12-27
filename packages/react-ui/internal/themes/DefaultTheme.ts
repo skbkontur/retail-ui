@@ -1475,7 +1475,9 @@ export class DefaultTheme {
 
   // Padding
   public static fileUploaderPaddingX = '7px';
-  public static fileUploaderPaddingY = '5px';
+  public static get fileUploaderPaddingY() {
+    return this.controlPaddingYSmall;
+  }
 
   // Border
   public static fileUploaderBorderRadius = '2px';
