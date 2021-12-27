@@ -217,16 +217,20 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         this.setState({ location: DUMMY_LOCATION });
       }
       this.delayUpdateLocation();
+    } else if (this.state.location) {
+      this.setState({ location: DUMMY_LOCATION });
     }
   }
 
   public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
     const hadNoLocation = prevState.location === DUMMY_LOCATION;
     const hasLocation = this.state.location !== DUMMY_LOCATION;
+    const wasClosed = prevProps.opened && !this.props.opened;
+
     if (hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
     }
-    if (!hadNoLocation && !this.state.location && this.props.onClose) {
+    if (wasClosed && !hasLocation && this.props.onClose) {
       this.props.onClose();
     }
   }
