@@ -730,6 +730,9 @@ export class DefaultTheme {
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px';
+  public static get calendarCellLineHeight() {
+    return `calc(${this.calendarCellSize} - 2px)`;
+  }
   public static calendarMonthHeaderStickedBgColor = 'white';
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {

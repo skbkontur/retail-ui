@@ -50,6 +50,7 @@ export const styles = memoizeStyle({
   icon() {
     return css`
       color: #757575;
+      line-height: 1;
     `;
   },
 

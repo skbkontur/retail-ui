@@ -561,6 +561,7 @@ export const styles = memoizeStyle({
     return css`
       box-sizing: border-box;
       display: inline-block;
+      line-height: normal;
     `;
   },
 

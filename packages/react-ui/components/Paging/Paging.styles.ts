@@ -8,6 +8,7 @@ export const styles = memoizeStyle({
       outline: 0;
       font-size: ${t.pagingFontSize};
       line-height: ${t.pagingLineHeight};
+      display: inline-block;
     `;
   },
 
