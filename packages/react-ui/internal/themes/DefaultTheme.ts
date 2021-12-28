@@ -1142,9 +1142,6 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Checkbox
-  public static get checkboxBorderWidthCompensation() {
-    return this.checkboxBorderWidth;
-  }
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
@@ -1158,6 +1155,7 @@ export class DefaultTheme {
     const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
+  public static checkboxBoxOffsetY = '1px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
