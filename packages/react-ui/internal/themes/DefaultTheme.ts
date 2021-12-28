@@ -4,6 +4,7 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 export class DefaultTheme {
   //#region Common variables
   public static fontFamilyCompensationBaseline = '0'; // deprecated
+  public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#2291ff';
