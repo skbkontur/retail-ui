@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
+import React, {useCallback, useContext, useEffect, useImperativeHandle, useRef, useState} from 'react';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -156,39 +156,30 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   useImperativeHandle(ref, () => ({ focus, blur, reset }), [ref]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) => {
-      onChange?.(event);
-      handleChange(event.target.files);
-    },
-    [handleChange, onChange],
-  );
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onChange?.(event);
+    handleChange(event.target.files);
+  };
 
-  const handleFocus = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
-      if (!disabled) {
-        // focus event fires before keyDown eventlistener
-        // so we should check tabPressed in async way
-        requestAnimationFrame(() => {
-          if (keyListener.isTabPressed) {
-            setFocusedByTab(true);
-          }
-        });
-        onFocus?.(e);
-      }
-    },
-    [disabled, onFocus],
-  );
+  const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!disabled) {
+      // focus event fires before keyDown eventlistener
+      // so we should check tabPressed in async way
+      requestAnimationFrame(() => {
+        if (keyListener.isTabPressed) {
+          setFocusedByTab(true);
+        }
+      });
+      onFocus?.(e);
+    }
+  };
 
-  const handleBlur = useCallback(
-    (e: React.FocusEvent<HTMLInputElement>) => {
-      setFocusedByTab(false);
-      if (!disabled) {
-        onBlur?.(e);
-      }
-    },
-    [disabled, onBlur],
-  );
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    setFocusedByTab(false);
+    if (!disabled) {
+      onBlur?.(e);
+    }
+  };
 
   const uploadButtonClassNames = cx(jsStyles.uploadButton(theme), {
     [jsStyles.uploadButtonFocus(theme)]: focusedByTab,
@@ -209,7 +200,10 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile;
 
+  const [hovered, setHovered] = useState(false);
+
   const linkClassNames = cx(jsStyles.link(theme), {
+    [jsStyles.linkHovered(theme)]: !disabled && hovered,
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
@@ -218,7 +212,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
       <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
         {!isSingleMode && !!files.length && <FileUploaderFileList />}
         <div className={uploadButtonWrapperClassNames}>
-          <label ref={labelRef} className={uploadButtonClassNames}>
+          <label
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+            ref={labelRef}
+            className={uploadButtonClassNames}
+          >
             <div className={jsStyles.content()}>
               <span data-tid={'FileUploader__link'} className={linkClassNames}>
                 {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
@@ -261,5 +260,5 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
 export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
-export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(_FileUploader);
+export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(React.memo(_FileUploader));
 FileUploader.displayName = 'FileUploader';

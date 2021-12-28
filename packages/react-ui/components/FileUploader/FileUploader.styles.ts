@@ -138,11 +138,13 @@ const styles = {
     return css`
       outline: none;
       text-decoration: none;
-
-      &:hover {
-        text-decoration: ${t.linkHoverTextDecoration};
-      }
       color: ${t.fileUploaderLinkColor};
+    `;
+  },
+
+  linkHovered(t: Theme) {
+    return css`
+      text-decoration: ${t.linkHoverTextDecoration};
     `;
   },
 
