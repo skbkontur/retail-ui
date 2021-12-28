@@ -949,6 +949,12 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
+  public static get toggleFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toggleLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   public static get toggleTextColor() {
     return this.textColorDefault;
   }
