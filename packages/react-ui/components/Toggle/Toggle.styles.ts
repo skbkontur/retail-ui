@@ -17,6 +17,8 @@ export const styles = memoizeStyle({
     return css`
       display: inline-flex;
       cursor: pointer;
+      align-items: baseline;
+      position: relative;
       line-height: ${t.toggleLineHeight};
       font-size: ${t.toggleFontSize};
 
@@ -29,6 +31,16 @@ export const styles = memoizeStyle({
       &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
           translateX(-${t.toggleHandleActiveWidthIncrement});
+      }
+
+      &::before {
+        // non-breaking space.
+        // makes a correct space for absolutely positioned button,
+        // and also height and baseline for toggle without caption.
+        content: '\\00A0';
+        display: inline-block;
+        width: ${t.toggleWidth};
+        flex: 0 0 auto;
       }
     `;
   },
@@ -157,25 +169,20 @@ export const styles = memoizeStyle({
     `;
   },
 
-  outline(t: Theme) {
+  button(t: Theme) {
     return css`
-      background: ${t.toggleBaseBg};
-      border-radius: ${t.toggleBorderRadius};
-    `;
-  },
-
-  wrapper(t: Theme) {
-    return css`
-      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 0;
       height: ${t.toggleHeight};
-      position: relative;
       width: ${t.toggleWidth};
       flex: 1 0 ${t.toggleWidth};
 
-      &::after {
-        content: '';
-        display: inline-block;
-      }
+      background: ${t.toggleBaseBg};
+      border-radius: ${t.toggleBorderRadius};
+      line-height: ${t.toggleHeight};
+
+      margin-top: ${t.toggleButtonOffsetY};
     `;
   },
 
