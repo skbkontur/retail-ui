@@ -595,7 +595,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
     const pattern = this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
-    const result: React.ReactNodeArray = [];
+    const result: React.ReactNode[] = [];
     let index = 0;
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
