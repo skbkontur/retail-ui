@@ -1,4 +1,3 @@
-import * as PropTypes from 'prop-types';
 import React from 'react';
 import * as ReactDom from 'react-dom';
 import warning from 'warning';
@@ -7,9 +6,9 @@ import { Nullable } from '../typings/Types';
 
 import { isBrowser } from './utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
-import { IValidationContext } from './ValidationContext';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
+import { ValidationContext, ValidationContextType } from './ValidationContextWrapper';
 
 if (isBrowser && typeof HTMLElement === 'undefined') {
   const w = window as any;
@@ -52,18 +51,15 @@ export class ValidationWrapperInternal extends React.Component<
   ValidationWrapperInternalProps,
   ValidationWrapperInternalState
 > {
-  public static contextTypes = {
-    validationContext: PropTypes.any,
-  };
   public state: ValidationWrapperInternalState = {
     validation: null,
-  };
-  public context!: {
-    validationContext: IValidationContext;
   };
 
   public isChanging = false;
   private child: any; // todo type
+
+  public static contextType = ValidationContext;
+  public context: ValidationContextType = this.context;
 
   public UNSAFE_componentWillMount() {
     this.applyValidation(this.props.validation);
@@ -71,19 +67,15 @@ export class ValidationWrapperInternal extends React.Component<
 
   public componentDidMount() {
     warning(
-      this.context.validationContext,
-      'ValidationWrapper should appears as child of ValidationContext.\n' +
+      this.context,
+      'ValidationWrapper should appears as child of ValidationContainer.\n' +
         'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
-    if (this.context.validationContext) {
-      this.context.validationContext.register(this);
-    }
+    this.context.register(this);
   }
 
   public componentWillUnmount() {
-    if (this.context.validationContext) {
-      this.context.validationContext.unregister(this);
-    }
+    this.context.unregister(this);
   }
 
   public UNSAFE_componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
@@ -93,7 +85,7 @@ export class ValidationWrapperInternal extends React.Component<
   public async focus(): Promise<void> {
     const htmlElement = ReactDom.findDOMNode(this);
     if (htmlElement instanceof HTMLElement) {
-      const { disableSmoothScroll, scrollOffset } = this.context.validationContext.getSettings();
+      const { disableSmoothScroll, scrollOffset } = this.context.getSettings();
       if (!disableSmoothScroll) {
         await smoothScrollIntoView(htmlElement, scrollOffset);
       }
@@ -193,7 +185,7 @@ export class ValidationWrapperInternal extends React.Component<
     setTimeout(() => {
       this.processBlur();
       if (!this.isIndependent()) {
-        this.context.validationContext.instanceProcessBlur(this);
+        this.context.instanceProcessBlur(this);
       }
       this.setState({});
     });
@@ -214,7 +206,7 @@ export class ValidationWrapperInternal extends React.Component<
     return new Promise((resolve) => {
       this.setState({ validation }, resolve);
       if (Boolean(current) !== Boolean(validation)) {
-        this.context.validationContext.onValidationUpdated(this, !validation);
+        this.context.onValidationUpdated(this, !validation);
       }
     });
   }
@@ -233,7 +225,7 @@ export class ValidationWrapperInternal extends React.Component<
     if (isEqual(visible, actual)) {
       return visible;
     }
-    const changing = this.context.validationContext.isAnyWrapperInChangingMode();
+    const changing = this.context.isAnyWrapperInChangingMode();
     return getVisibleValidation(visible, actual, changing);
   }
 }
