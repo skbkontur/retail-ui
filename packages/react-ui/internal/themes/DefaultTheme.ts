@@ -686,6 +686,11 @@ export class DefaultTheme {
   public static sidePageCloseButtonColor = 'rgba(0, 0, 0, 0.374)';
   public static sidePageCloseButtonHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static sidePageContainerShadow = '0 5px 10px rgba(0, 0, 0, 0.2)';
+  public static mobileSidePagePaddingLeft = '16px';
+  public static mobileSidePagePaddingRight = '16px';
+  public static mobileSidePagePaddingTop = '16px';
+  public static mobileSidePagePaddingBottom = '16px';
+  public static mobileSidePageFooterPadding = '16px';
   public static sidePagePaddingLeft = '32px';
   public static sidePagePaddingRight = '36px';
   public static sidePagePaddingTop = '24px';
@@ -698,6 +703,10 @@ export class DefaultTheme {
   public static get sidePageHeaderTextColor() {
     return this.textColorDefault;
   }
+  public static mobileSidePageHeaderFontSize = '24px';
+  public static mobileSidePageHeaderLineHeight = '32px';
+  public static mobileSidePageHeaderPaddingBottom = '16px';
+  public static mobileSidePageHeaderPaddingTop = '16px';
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
@@ -707,11 +716,13 @@ export class DefaultTheme {
   public static sidePageHeaderFixedPaddingY = '10px';
   public static sidePageHeaderStickyOffset = '5px';
   public static sidePageCloseButtonPadding = '36px';
+  public static mobileSidePageCloseButtonPadding = '16px';
   public static sidePageCloseButtonLegacyPaddingLeft = '36px';
   public static sidePageFooterPanelPaddingTop = '20px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageCloseIconSize = '12px';
   public static sidePageCloseButtonClickArea = '10px';
+  public static mobileSidePageCloseButtonClickArea = '16px';
   public static get sidePageFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }
