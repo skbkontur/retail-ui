@@ -494,24 +494,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     const location = this.getLocation(popupElement, this.state.location);
     if (!this.locationEquals(this.state.location, location)) {
-      if (!isIE11 && !isEdge) {
-        this.setState({ location });
-        return;
-      }
-
-      // Для ie/edge обновляем позицию только при разнице минимум в 1. Иначе есть вероятность
-      // уйти в бесконечный ререндер
-      const oldCoordinates = this.state.location?.coordinates;
-      const newCoordinates = location?.coordinates;
-
-      if (
-        oldCoordinates &&
-        newCoordinates &&
-        (!!Math.trunc(Math.abs(oldCoordinates.top - newCoordinates.top)) ||
-          !!Math.trunc(Math.abs(oldCoordinates.left - newCoordinates.left)))
-      ) {
-        this.setState({ location });
-      }
+      this.setState({ location });
     }
   };
 
@@ -524,8 +507,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return false;
     }
 
+    if (!isIE11 && !isEdge) {
+      return (
+        x.coordinates.left === y.coordinates.left &&
+        x.coordinates.top === y.coordinates.top &&
+        x.position === y.position
+      );
+    }
+
+    // Для ie/edge обновляем позицию только при разнице минимум в 1. Иначе есть вероятность
+    // уйти в бесконечный ререндер
+
     return (
-      x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
+      x.position === y.position &&
+      Math.trunc(Math.abs(x.coordinates.top - y.coordinates.top)) <= 1 &&
+      Math.trunc(Math.abs(x.coordinates.left - y.coordinates.left)) <= 1
     );
   }
 
