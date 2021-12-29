@@ -53,6 +53,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileWindow() {
+    return css`
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    `;
+  },
+
   centerContainer(t: Theme) {
     return css`
       position: relative;
@@ -62,11 +70,14 @@ export const styles = memoizeStyle({
       box-sizing: border-box;
       z-index: 10;
       margin: 40px 20px;
+    `;
+  },
 
-      @media screen and (max-width: ${t.modalAdaptiveThreshold}) {
-        margin: 0;
-        width: 100%;
-      }
+  mobileCenterContainer() {
+    return css`
+      margin: 0;
+      width: 100%;
+      height: 100%;
     `;
   },
 
@@ -105,6 +116,26 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileClose(t: Theme) {
+    return css`
+      right: ${t.mobileModalCloseButtonRightPadding};
+      top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
+      padding: ${t.mobileModalCloseButtonClickArea};
+      margin: -${t.mobileModalCloseButtonClickArea};
+
+      & > svg {
+        width: ${t.mobileModalCloseIconSize};
+        height: ${t.mobileModalCloseIconSize};
+      }
+    `;
+  },
+
+  mobileCloseWithoutHeader() {
+    return css`
+      position: static;
+    `;
+  },
+
   closeWrapper(t: Theme) {
     const padding = parseInt(t.modalCloseButtonPadding);
     const paddingBottom = parseInt(t.modalCloseButtonBottomPadding);
@@ -117,6 +148,25 @@ export const styles = memoizeStyle({
       float: right;
       width: ${blockSizeX + legacyGap}px;
       height: ${blockSizeY}px;
+    `;
+  },
+
+  mobileCloseWrapper(t: Theme) {
+    const size = parseInt(t.mobileModalCloseIconSize) + parseInt(t.mobileModalCloseButtonClickArea) * 2;
+
+    return css`
+      position: absolute;
+      right: ${t.mobileModalCloseButtonRightPadding};
+      top: ${t.mobileModalCloseButtonTopPadding};
+      padding: 0px;
+      margin: 0px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: ${size}px;
+      height: ${size}px;
+      background: radial-gradient(50% 50% at 50% 50%, ${t.bgDefault} 60%, rgba(255, 255, 255, 0) 100%);
+      border-radius: ${size}px;
     `;
   },
 
@@ -152,9 +202,28 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileHeader(t: Theme) {
+    return css`
+      font-size: ${t.mobileModalHeaderFontSize};
+      line-height: ${t.mobileModalHeaderLineHeight};
+      padding: ${t.mobileModalHeaderPadding};
+    `;
+  },
+
   body(t: Theme) {
     return css`
       padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
+    `;
+  },
+
+  mobileBody(t: Theme) {
+    return css`
+      padding: ${t.mobileModalBodyPadding};
+      padding-top: 0px;
+      display: flex;
+      flex-flow: column;
+      flex: 1;
+      font-size: ${t.mobileModalBodyFontSize};
     `;
   },
 
@@ -167,9 +236,21 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileHeaderWithClose(t: Theme) {
+    return css`
+      padding-right: ${2 * parseInt(t.mobileModalCloseButtonRightPadding) + parseInt(t.mobileModalCloseIconSize)}px;
+    `;
+  },
+
   footer(t: Theme) {
     return css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
+    `;
+  },
+
+  mobileFooter(t: Theme) {
+    return css`
+      padding: ${t.mobileModalFooterPadding};
     `;
   },
 
@@ -206,6 +287,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileFixedHeader(t: Theme) {
+    return css`
+      padding-bottom: ${t.mobileModalHeaderPadding};
+    `;
+  },
+
   fixedFooter(t: Theme) {
     return css`
       padding-top: 20px;
@@ -237,6 +324,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileBodyWithoutHeader(t: Theme) {
+    return css`
+      padding-top: 0px;
+    `;
+  },
+
   bodyWithoutPadding() {
     return css`
       padding: 0;
@@ -246,6 +339,21 @@ export const styles = memoizeStyle({
   bodyAddPaddingForPanel(t: Theme) {
     return css`
       padding-bottom: ${t.modalPaddingBottom};
+    `;
+  },
+
+  mobileBodyAddPaddingForPanel(t: Theme) {
+    return css`
+      padding-bottom: ${t.mobileModalBodyPadding};
+    `;
+  },
+
+  columnFlexContainer() {
+    return css`
+      height: 100%;
+      display: flex;
+      flex-flow: column;
+      overflow-y: scroll;
     `;
   },
 });
