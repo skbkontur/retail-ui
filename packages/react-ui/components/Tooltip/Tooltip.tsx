@@ -335,6 +335,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
+          mobileOnCloseRequest={this.mobileCloseHandler}
           tryPreserveFirstRenderedPosition
           {...popupProps}
         >
@@ -343,6 +344,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       </CommonWrapper>
     );
   }
+
+  private mobileCloseHandler = () => {
+    if (this.props.trigger === 'manual' || this.props.trigger === 'closed' || this.props.trigger === 'opened') {
+      return;
+    }
+
+    this.close();
+  };
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
@@ -469,6 +478,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
+    if (this.isMobileLayout) {
+      return;
+    }
+
     if (
       (this.props.trigger === 'hover&focus' && this.state.focused) ||
       (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement)

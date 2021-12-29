@@ -107,6 +107,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
    */
   tryPreserveFirstRenderedPosition?: boolean;
   withoutMobile?: boolean;
+  mobileOnCloseRequest?: () => void;
 }
 
 interface PopupLocation {
@@ -266,11 +267,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { opened } = this.props;
 
     return (
-      opened && (
-        <MobilePopup withoutRenderContainer onClose={this.props.onClose}>
-          {this.content(this.renderChildren())}
-        </MobilePopup>
-      )
+      <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
+        {this.content(this.renderChildren())}
+      </MobilePopup>
     );
   }
 

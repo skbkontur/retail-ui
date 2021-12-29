@@ -272,11 +272,19 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private getMenuRenderer() {
+    if (this.props.disabled) {
+      return null;
+    }
+
     if (this.isMobileLayout) {
       return this.renderMobileMenu();
     }
 
-    return this.renderMenu();
+    if (this.state.opened) {
+      return this.renderMenu();
+    }
+
+    return null;
   }
 
   private renderMain() {
@@ -293,7 +301,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const root = (
       <span className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })} style={style}>
         {button}
-        {!this.props.disabled && this.state.opened && this.getMenuRenderer()}
+        {this.getMenuRenderer()}
       </span>
     );
 
@@ -455,10 +463,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     return (
       <MobilePopup
-        onClose={this.close}
         headerChildComponent={search}
         caption={this.props.mobileMenuHeaderText}
         useFullHeight={isWithSearch}
+        onCloseRequest={this.close}
+        opened={this.state.opened}
       >
         <Menu hasShadow={false} onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
           {this.getMenuItems(value)}

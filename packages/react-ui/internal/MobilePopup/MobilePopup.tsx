@@ -13,14 +13,22 @@ import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
 
 interface MobilePopupProps {
-  caption?: string;
+  /**
+   * Хэндлер, вызываемый при закрытии меню
+   */
   onClose?: () => void;
+  caption?: string;
   /**
    * Компонент, закрепленный сверху меню (под холдером)
    */
   headerChildComponent?: React.ReactNode;
   useFullHeight?: boolean;
   withoutRenderContainer?: boolean;
+  /**
+   * Хэндлер, вызываемый при клике по вуали или заголовку
+   */
+  onCloseRequest?: () => void;
+  opened: boolean;
 }
 
 interface MobilePopupState {
@@ -51,38 +59,57 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
   public renderMain() {
     const content = (
       <ZIndex priority={'MobilePopup'}>
-        <Transition mountOnEnter in={true} appear={true} timeout={0}>
+        <Transition
+          in={this.props.opened}
+          onExited={this.props.onClose}
+          mountOnEnter
+          appear={true}
+          timeout={{ appear: 0, exit: 250 }}
+        >
           {(state) => (
-            <div
-              className={cx({
-                [jsStyles.container(this.theme)]: true,
-                [jsStyles.containerOpened()]: state === 'entered',
-              })}
-            >
+            <>
               <div
                 className={cx({
-                  [jsStyles.root(this.theme)]: true,
-                  [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
+                  [jsStyles.container(this.theme)]: true,
+                  [jsStyles.containerOpened()]: state === 'entered',
                 })}
-                onClick={this.props.useFullHeight ? undefined : this.close}
               >
-                <MobilePopupHeader caption={this.props.caption} onClose={this.close} withShadow={this.state.isScrolled}>
-                  {this.props.headerChildComponent}
-                </MobilePopupHeader>
                 <div
-                  onClick={(e) => e.stopPropagation()}
-                  className={jsStyles.content(this.theme)}
-                  onScroll={this.handleScrollMenu}
-                  ref={this.refContent}
+                  className={cx({
+                    [jsStyles.root(this.theme)]: true,
+                    [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
+                  })}
+                  onClick={this.props.useFullHeight ? undefined : this.close}
                 >
-                  {this.props.children}
+                  <MobilePopupHeader
+                    caption={this.props.caption}
+                    onClose={this.close}
+                    withShadow={this.state.isScrolled}
+                  >
+                    {this.props.headerChildComponent}
+                  </MobilePopupHeader>
+                  <div
+                    onClick={(e) => e.stopPropagation()}
+                    className={jsStyles.content(this.theme)}
+                    onScroll={this.handleScrollMenu}
+                    ref={this.refContent}
+                  >
+                    {this.props.children}
+                  </div>
                 </div>
               </div>
-            </div>
+              <div
+                onClick={this.close}
+                className={cx({
+                  [jsStyles.bg()]: true,
+                  [jsStyles.visibilityHidden()]: state === 'exited',
+                  [jsStyles.bgShowed()]: state === 'entered',
+                })}
+              />
+              {state === 'entered' && <HideBodyVerticalScroll />}
+            </>
           )}
         </Transition>
-        <HideBodyVerticalScroll />
-        <div onClick={this.close} className={jsStyles.bg()} />
       </ZIndex>
     );
 
@@ -94,8 +121,9 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
   }
 
   public close = () => {
-    if (this.props.onClose) {
-      this.props.onClose();
+    if (this.props.onCloseRequest) {
+      this.props.onCloseRequest();
+      console.count('CLOSE ДЕРНУТ');
     }
   };
 
