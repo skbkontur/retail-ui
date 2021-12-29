@@ -67,8 +67,8 @@ export class ValidationWrapperInternal extends React.Component<
       'ValidationWrapper should appears as child of ValidationContainer.\n' +
         'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
-    if (this.context.validationContext) {
-      this.context.validationContext.register(this);
+    if (this.context) {
+      this.context.register(this);
     }
     this.applyValidation(this.props.validation);
   }
