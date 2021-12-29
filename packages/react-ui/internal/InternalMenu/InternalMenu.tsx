@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -10,6 +9,7 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -37,6 +37,7 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
+@rootNode
 export class InternalMenu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
@@ -58,7 +59,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
-  private rootElement: Nullable<HTMLDivElement>;
+  private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private getProps = createPropsGetter(InternalMenu.defaultProps);
@@ -117,9 +118,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
-        ref={(element) => {
-          this.rootElement = element;
-        }}
+        ref={this.setRootNode}
         tabIndex={0}
       >
         {this.props.header ? this.renderHeader() : null}
@@ -208,9 +207,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   };
 
   private focusOnRootElement = (): void => {
-    if (this.rootElement) {
-      this.rootElement.focus();
-    }
+    getRootNode(this)?.focus();
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
@@ -231,9 +228,10 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
   private calculateMaxHeight = () => {
     const { maxHeight } = this.props;
     let parsedMaxHeight = maxHeight;
+    const rootNode = getRootNode(this);
 
-    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && this.rootElement) {
-      const rootElementMaxHeight = window.getComputedStyle(this.rootElement).maxHeight;
+    if (typeof maxHeight === 'string' && typeof window !== 'undefined' && rootNode) {
+      const rootElementMaxHeight = window.getComputedStyle(rootNode).maxHeight;
 
       if (rootElementMaxHeight) {
         parsedMaxHeight = parseFloat(rootElementMaxHeight);
@@ -282,7 +280,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(ReactDOM.findDOMNode(this.highlighted) as HTMLElement);
+      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
     }
   };
 
@@ -310,9 +308,7 @@ export class InternalMenu extends React.Component<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    if (this.rootElement) {
-      this.rootElement.focus();
-    }
+    getRootNode(this)?.focus();
   };
 
   private unhighlight = () => {
