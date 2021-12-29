@@ -50,8 +50,11 @@ export const decorators: Meta['decorators'] = [
     const theme = themes[context.globals.theme] || DEFAULT_THEME;
     const root = document.getElementById('root');
     if (root) {
-      root.style.background = theme === DARK_THEME ? '#1f1f1f' : '#fff';
-      root.style.color = theme === DARK_THEME ? 'rgba(255, 255, 255, 0.865)' : 'inherit';
+      if (theme === DARK_THEME) {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
     }
     if (theme !== DEFAULT_THEME) {
       return (

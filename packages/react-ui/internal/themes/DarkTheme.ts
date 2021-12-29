@@ -21,7 +21,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static textColorInvert = 'rgba(255, 255, 255, 0.865)';
   public static bgDisabled = '#434343';
   public static bgDefault = '#1f1f1f';
-  public static bgDropdownDefault = '#333333';
+  public static bgSecondary = '#333333';
   public static outlineColorFocus = '#1f1f1f';
   //#endregion
   //#region Link

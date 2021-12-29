@@ -31,7 +31,7 @@ export class DefaultTheme {
   public static yellow = '#ffa236';
   public static yellowDark = '#ea7324';
   public static bgDefault = '#fff';
-  public static get bgDropdownDefault() {
+  public static get bgSecondary() {
     return this.bgDefault;
   }
   public static bgDisabled = '#f6f6f6';
@@ -632,7 +632,7 @@ export class DefaultTheme {
   //#region Modal
   public static modalBackBg = '#222';
   public static get modalBg() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static modalBackOpacity = '0.6';
   public static modalCloseButtonColor = 'rgba(0, 0, 0, 0.32)';
@@ -646,7 +646,7 @@ export class DefaultTheme {
   public static modalCloseLegacyGap = '0px';
   public static modalCloseWrapperLegacyGap = '0px';
   public static get modalFixedHeaderBg() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static get modalFixedHeaderShadow() {
     return this.fixedPanelShadow;
@@ -692,7 +692,7 @@ export class DefaultTheme {
   public static sidePageFooterPaddingTop = '24px';
   public static sidePageFooterPaddingBottom = '32px';
   public static get sidePageBgDefault() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static get sidePageHeaderTextColor() {
     return this.textColorDefault;
@@ -729,7 +729,7 @@ export class DefaultTheme {
   //#endregion
   //#region Calendar
   public static get calendarCellBg() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static calendarCellHoverColor = 'white';
   public static calendarCellActiveHoverColor = 'white';
@@ -739,7 +739,7 @@ export class DefaultTheme {
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px';
   public static get calendarMonthHeaderStickedBgColor() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
@@ -779,11 +779,11 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static get pickerBg() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
   public static get pickerTodayWrapperBgColor() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
@@ -794,7 +794,7 @@ export class DefaultTheme {
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static get dateSelectMenuItemBgActive() {
     return this.bgActive;
@@ -898,7 +898,7 @@ export class DefaultTheme {
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
@@ -1025,7 +1025,7 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static get popupBackground() {
-    return this.bgDropdownDefault;
+    return this.bgSecondary;
   }
   public static popupPinOffset = '0'; // deprecated
   public static popupPinOffsetX = '16px';
