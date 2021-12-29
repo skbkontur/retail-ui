@@ -9,6 +9,7 @@ import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 
 import { styles } from './Link.styles';
 
@@ -63,6 +64,7 @@ export interface LinkState {
 /**
  * Элемент ссылки из HTML.
  */
+@rootNode
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
@@ -86,12 +88,18 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
+
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );

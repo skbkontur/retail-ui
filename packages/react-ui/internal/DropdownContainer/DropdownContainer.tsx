@@ -1,13 +1,10 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-
-type DOMNode = Element | Text | null;
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -18,7 +15,7 @@ export interface DropdownContainerPosition {
 
 export interface DropdownContainerProps {
   align?: 'left' | 'right';
-  getParent: () => DOMNode;
+  getParent: () => Nullable<HTMLElement>;
   children?: React.ReactNode;
   disablePortal?: boolean;
   offsetY?: number;
@@ -49,7 +46,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
-  private dom: DOMNode = null;
+  private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
 
   public componentDidMount() {
@@ -92,7 +89,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     }
 
     const content = (
-      <ZIndex priority={'DropdownContainer'} ref={this.ref} style={style}>
+      <ZIndex priority={'DropdownContainer'} wrapperRef={this.ZIndexRef} style={style}>
         {this.props.children}
       </ZIndex>
     );
@@ -100,19 +97,19 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
-  private ref = (e: ZIndex | null) => {
-    this.dom = e && findDOMNode(e);
+  private ZIndexRef = (element: Nullable<HTMLDivElement>) => {
+    this.dom = element;
   };
 
-  private isElement = (node: DOMNode): node is Element => {
+  private isElement = (node: Nullable<Element>): node is Element => {
     return node instanceof Element;
   };
 
-  private position = () => {
+  public position = () => {
     const target = this.props.getParent();
     const dom = this.dom;
 
-    if (this.isElement(target) && dom) {
+    if (target && this.isElement(target) && dom) {
       const targetRect = target.getBoundingClientRect();
       const { body, documentElement: docEl } = document;
 
@@ -174,7 +171,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
 
   private getMinWidth = () => {
     const target = this.props.getParent();
-    if (!this.isElement(target)) {
+    if (!target || !this.isElement(target)) {
       return 0;
     }
     return target.getBoundingClientRect().width;
@@ -184,7 +181,7 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
-    if (this.isElement(target)) {
+    if (target && this.isElement(target)) {
       const targetHeight = target.getBoundingClientRect().height;
       return {
         top: top !== null ? targetHeight + offsetY : null,

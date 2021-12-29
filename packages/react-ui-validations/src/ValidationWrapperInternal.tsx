@@ -1,5 +1,4 @@
 import React from 'react';
-import * as ReactDom from 'react-dom';
 import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
@@ -57,6 +56,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public isChanging = false;
   private child: any; // todo type
+  private rootNode: Nullable<HTMLElement>;
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
@@ -83,7 +83,7 @@ export class ValidationWrapperInternal extends React.Component<
   }
 
   public async focus(): Promise<void> {
-    const htmlElement = ReactDom.findDOMNode(this);
+    const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
       const { disableSmoothScroll, scrollOffset } = this.context.getSettings();
       if (!disableSmoothScroll) {
@@ -149,11 +149,19 @@ export class ValidationWrapperInternal extends React.Component<
         },
       });
     }
-    return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
+    return this.props.errorMessage(<span ref={this.setRootNode}>{clonedChild}</span>, !!validation, validation);
   }
 
+  private setRootNode = (element: Nullable<HTMLElement>) => {
+    this.rootNode = element;
+  };
+
+  public getRootNode = () => {
+    return this.rootNode;
+  };
+
   public getControlPosition(): Nullable<Point> {
-    const htmlElement = ReactDom.findDOMNode(this);
+    const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
       const rect = htmlElement.getBoundingClientRect();
       return { x: rect.top, y: rect.left };
