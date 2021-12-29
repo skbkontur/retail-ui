@@ -140,6 +140,13 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
   };
 
+  static getDerivedStateFromProps(props: RadioGroupProps, state: RadioGroupState<any>) {
+    if (props.value == null && props.value !== state.activeItem) {
+      return { activeItem: props.value };
+    }
+    return null;
+  }
+
   public render() {
     return (
       <ThemeContext.Consumer>
