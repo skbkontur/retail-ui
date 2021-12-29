@@ -517,8 +517,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
     return (
       x.position === y.position &&
-      Math.trunc(Math.abs(x.coordinates.top - y.coordinates.top)) <= 1 &&
-      Math.trunc(Math.abs(x.coordinates.left - y.coordinates.left)) <= 1
+      Math.abs(x.coordinates.top - y.coordinates.top) <= 1 &&
+      Math.abs(x.coordinates.left - y.coordinates.left) <= 1
     );
   }
 
