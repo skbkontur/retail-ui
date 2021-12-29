@@ -5,6 +5,7 @@ import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
@@ -35,8 +36,10 @@ export interface ToastProps extends CommonProps {
  *
  * Рекомендуется использовать Toast через `ref` (см. примеры).
  */
+@rootNode
 export class Toast extends React.Component<ToastProps, ToastState> {
   public static __KONTUR_REACT_UI__ = 'Toast';
+  private setRootNode!: TSetRootNode;
 
   public static push(notification: string, action?: Action) {
     ToastStatic.push(notification, action);
@@ -129,7 +132,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         enter={!isTestEnv}
         exit={!isTestEnv}
       >
-        <CommonWrapper {...this.props}>
+        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>

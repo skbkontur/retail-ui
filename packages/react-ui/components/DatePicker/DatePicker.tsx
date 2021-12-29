@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { InternalDate } from '../../lib/date/InternalDate';
 import { InternalDateTransformer } from '../../lib/date/InternalDateTransformer';
@@ -14,6 +13,7 @@ import { filterProps } from '../../lib/filterProps';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 
 import { Picker } from './Picker';
@@ -85,6 +85,7 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
+@rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
@@ -176,6 +177,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.useMobileNativeDatePicker && isMobile) {
@@ -231,7 +233,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
@@ -239,7 +245,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={() => findDOMNode(this)} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer getParent={this.getParent} offsetY={2} align={this.props.menuAlign}>
           <Picker
             value={date}
             minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
@@ -285,6 +291,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
         {!this.state.canUseMobileNativeDatePicker && picker}
       </label>
     );
+  };
+
+  public getParent = () => {
+    return getRootNode(this);
   };
 
   private getRootStyle = () => {

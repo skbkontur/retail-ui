@@ -9,6 +9,7 @@ import { OkIcon, SquareIcon } from '../../internal/icons/16px';
 import { isEdge, isFirefox, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 
 import { styles, globalClasses } from './Checkbox.styles';
@@ -61,7 +62,7 @@ export interface CheckboxState {
   focusedByTab: boolean;
   indeterminate: boolean;
 }
-
+@rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
 
@@ -90,6 +91,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
   };
+  private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(prevProps: CheckboxProps) {
     if (prevProps.checked !== this.props.checked) {
@@ -102,7 +104,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );

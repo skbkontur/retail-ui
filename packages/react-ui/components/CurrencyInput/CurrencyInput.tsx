@@ -7,6 +7,7 @@ import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { TSetRootNode, rootNode } from '../../lib/rootNode';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -53,6 +54,7 @@ export interface CurrencyInputState {
  * <br/>
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
+@rootNode
 export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
 
@@ -95,6 +97,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   private input: Nullable<Input>;
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
     const { maxLength, integerDigits, fractionDigits } = this.props;
@@ -125,7 +128,11 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {

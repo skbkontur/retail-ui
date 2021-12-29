@@ -9,6 +9,7 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Hint.styles';
 
@@ -100,6 +101,7 @@ const Positions: PopupPosition[] = [
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
+@rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
@@ -118,6 +120,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> {
 
   private timer: Nullable<number> = null;
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(prevProps: HintProps) {
     if (!this.props.manual) {
@@ -166,7 +169,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> {
 
   public renderMain() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           hasPin
           opened={this.state.opened}
