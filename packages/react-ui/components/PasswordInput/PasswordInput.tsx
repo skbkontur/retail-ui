@@ -28,7 +28,7 @@ export interface PasswordInputState {
  * Компонент для ввода пароля
  */
 @rootNode
-export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
   public static propTypes = {
@@ -52,7 +52,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillMount() {
+  public componentDidMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
     }

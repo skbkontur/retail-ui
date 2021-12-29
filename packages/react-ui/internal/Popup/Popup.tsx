@@ -208,18 +208,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
+  public static getDerivedStateFromProps(props: Readonly<PopupProps>, state: PopupState) {
     /**
      * Delaying updateLocation to ensure it happens after props update
      */
-    if (nextProps.opened) {
-      if (!this.state.location) {
-        this.setState({ location: DUMMY_LOCATION });
+    if (props.opened) {
+      if (!state.location) {
+        return { location: DUMMY_LOCATION };
       }
-      this.delayUpdateLocation();
-    } else if (this.state.location) {
-      this.setState({ location: DUMMY_LOCATION });
+    } else if (state.location) {
+      return { location: DUMMY_LOCATION };
     }
+    return state;
   }
 
   public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
@@ -232,6 +232,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
     if (wasClosed && !hasLocation && this.props.onClose) {
       this.props.onClose();
+    }
+    if (this.props.opened) {
+      this.delayUpdateLocation();
     }
   }
 
@@ -422,7 +425,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private resetLocation = () => {
     this.cancelDelayedUpdateLocation();
-    this.setState({ location: null });
+    this.state.location !== null && this.setState({ location: null });
   };
 
   private renderChildren() {
@@ -501,8 +504,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return false;
     }
 
+    if (!isIE11 && !isEdge) {
+      return (
+        x.coordinates.left === y.coordinates.left &&
+        x.coordinates.top === y.coordinates.top &&
+        x.position === y.position
+      );
+    }
+
+    // Для ie/edge обновляем позицию только при разнице минимум в 1. Иначе есть вероятность
+    // уйти в бесконечный ререндер
+
     return (
-      x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
+      x.position === y.position &&
+      Math.abs(x.coordinates.top - y.coordinates.top) <= 1 &&
+      Math.abs(x.coordinates.left - y.coordinates.left) <= 1
     );
   }
 

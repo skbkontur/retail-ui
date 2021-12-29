@@ -61,25 +61,24 @@ export class ValidationWrapperInternal extends React.Component<
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
 
-  public UNSAFE_componentWillMount() {
-    this.applyValidation(this.props.validation);
-  }
-
   public componentDidMount() {
     warning(
       this.context,
       'ValidationWrapper should appears as child of ValidationContainer.\n' +
         'https://tech.skbkontur.ru/react-ui-validations/#/getting-started',
     );
-    this.context.register(this);
+    if (this.context) {
+      this.context.register(this);
+    }
+    this.applyValidation(this.props.validation);
   }
 
   public componentWillUnmount() {
     this.context.unregister(this);
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: ValidationWrapperInternalProps) {
-    this.applyValidation(nextProps.validation);
+  public componentDidUpdate() {
+    this.applyValidation(this.props.validation);
   }
 
   public async focus(): Promise<void> {
