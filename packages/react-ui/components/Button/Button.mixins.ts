@@ -42,8 +42,7 @@ export const buttonUseMixin = (
     background-color: ${hasGradient ? `initial` : btnBackground};
     background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
     color: ${color};
-    border-color: ${borderColor};
-    border-bottom-color: ${borderBottomColor};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
 
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 0 ${borderColor};
@@ -64,8 +63,7 @@ export const buttonHoverMixin = (
     &:hover {
       background-color: ${hasGradient ? `initial` : btnBackground};
       background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
-      border-color: ${borderColor};
-      border-bottom-color: ${borderBottomColor};
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};
 
       .${globalClasses.arrowHelper} {
         box-shadow: ${borderWidth} 0 0 ${borderColor};
@@ -85,9 +83,18 @@ export const buttonActiveMixin = (
   return css`
     background-image: none;
     background-color: ${btnBackground};
-    box-shadow: ${btnShadow};
-    border-color: ${borderColor};
-    border-top-color: ${borderTopColor};
+    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``};
+
+    &::before {
+      content: '';
+      border-radius: inherit;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      box-shadow: ${btnShadow};
+    }
 
     .${globalClasses.arrowHelper} {
       box-shadow: ${borderWidth} 0 0 ${borderColor};
@@ -101,7 +108,6 @@ export const buttonActiveMixin = (
 
 export const buttonSizeMixin = (
   fontSize: string,
-  height: string, // todo: remove, in IE broke screenshots without height
   lineHeight: string,
   paddingX: string,
   paddingY: string,
@@ -110,7 +116,6 @@ export const buttonSizeMixin = (
   return css`
     font-size: ${fontSize};
     box-sizing: border-box;
-    height: ${height};
     padding: ${getBtnPadding(fontSize, paddingY, paddingX, fontFamilyCompensation)};
     line-height: ${lineHeight};
   `;

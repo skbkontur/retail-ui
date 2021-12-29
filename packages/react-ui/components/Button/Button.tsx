@@ -293,9 +293,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const wrapProps = {
       className: cx({
-        [styles.wrap()]: true,
+        [styles.wrap(this.theme)]: true,
         [styles.wrapArrow()]: arrow === true,
         [styles.wrapArrowLeft()]: arrow === 'left',
+        [this.getSizeWrapClassName()]: true,
       }),
       style: {
         width: width,
@@ -364,7 +365,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cx(styles.wrap(), styles.wrapLink()),
+        className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
@@ -419,6 +420,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       case 'small':
       default:
         return styles.iconSmall(this.theme);
+    }
+  }
+
+  private getSizeWrapClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.wrapLarge(this.theme);
+      case 'medium':
+        return styles.wrapMedium(this.theme);
+      case 'small':
+      default:
+        return styles.wrapSmall(this.theme);
     }
   }
 
