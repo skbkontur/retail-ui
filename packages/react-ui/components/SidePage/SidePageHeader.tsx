@@ -8,6 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -26,6 +27,7 @@ export interface SidePageHeaderState {
  *
  * @visibleName SidePage.Header
  */
+@rootNode
 export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePageHeaderState> {
   public static __KONTUR_REACT_UI__ = 'SidePageHeader';
 
@@ -40,6 +42,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private theme!: Theme;
   private wrapper: HTMLElement | null = null;
   private lastRegularHeight = 0;
+  private setRootNode!: TSetRootNode;
 
   public get regularHeight(): number {
     const { isReadyToFix } = this.state;
@@ -85,7 +88,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   private renderMain() {
     const { isReadyToFix } = this.state;
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div ref={this.wrapperRef} className={styles.headerWrapper()}>
           {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
         </div>
