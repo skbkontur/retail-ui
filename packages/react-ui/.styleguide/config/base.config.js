@@ -44,7 +44,7 @@ const styles = {
   },
   TableOfContents: {
     search: {
-      padding: '30px 40px 20px',
+      padding: '32px 40px 20px',
     },
     input: {
       backgroundColor: 'none',
@@ -235,7 +235,10 @@ module.exports = {
     return componentPath.replace(path.extname(componentPath), '.md');
   },
   styleguideComponents: {
+    StyleGuideRenderer: require.resolve('../components/StyleGuideWrapper/StyleGuideWrapper.tsx'),
+    Wrapper: require.resolve('../components/ThemeWrapper/ThemeWrapper.tsx'),
     PathlineRenderer: require.resolve('../components/Pathline/PathlineRenderer.tsx'),
     ArgumentRenderer: require.resolve('../components/Argument/ArgumentRenderer.tsx'),
+    Preview: require.resolve('../components/Preview/Preview.tsx'),
   },
 };

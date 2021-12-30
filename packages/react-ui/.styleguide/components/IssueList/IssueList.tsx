@@ -34,7 +34,6 @@ interface IssueListState {
 
 const styles = ({ baseBackground, color }): Classes => ({
   root: {
-    color: color.base,
     backgroundColor: baseBackground,
   },
   issues: {
