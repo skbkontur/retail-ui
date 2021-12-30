@@ -117,9 +117,15 @@ describe('Popup', () => {
 });
 
 describe('properly renders opened/closed states ', () => {
-  const closedPopupTree: ReactComponentLike[] = [ResponsiveLayout, RenderContainer, RenderInnerContainer];
+  const closedPopupTree: ReactComponentLike[] = [
+    ResponsiveLayout,
+    CommonWrapper,
+    RenderContainer,
+    RenderInnerContainer,
+  ];
   const openedPopupTree: ReactComponentLike[] = [
     ResponsiveLayout,
+    CommonWrapper,
     RenderContainer,
     RenderInnerContainer,
     Portal,
