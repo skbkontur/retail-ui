@@ -27,10 +27,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  body() {
+  body(t: Theme) {
     return css`
       flex: 1 0 auto;
       z-index: 0;
+      color: ${t.modalBodyTextColor};
     `;
   },
 
@@ -289,11 +290,12 @@ export const styles = memoizeStyle({
     `;
   },
 
-  footer() {
+  footer(t: Theme) {
     return css`
       bottom: 0;
       position: fixed;
       z-index: 10;
+      color: ${t.sidePageFooterTextColor};
     `;
   },
 

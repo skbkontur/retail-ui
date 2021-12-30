@@ -49,7 +49,7 @@ export const styles = memoizeStyle({
       white-space: normal;
       margin: auto;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-      background: ${t.bgDefault};
+      background: ${t.modalBg};
     `;
   },
 
@@ -213,6 +213,7 @@ export const styles = memoizeStyle({
   body(t: Theme) {
     return css`
       padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
+      color: ${t.modalBodyTextColor};
     `;
   },
 
@@ -245,6 +246,7 @@ export const styles = memoizeStyle({
   footer(t: Theme) {
     return css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
+      color: ${t.modalFooterTextColor};
     `;
   },
 

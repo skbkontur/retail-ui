@@ -31,6 +31,9 @@ export class DefaultTheme {
   public static yellow = '#ffa236';
   public static yellowDark = '#ea7324';
   public static bgDefault = '#fff';
+  public static get bgSecondary() {
+    return this.bgDefault;
+  }
   public static bgDisabled = '#f6f6f6';
   public static errorMain = '#dd473b';
   public static errorSecondary = '#ffd6d6';
@@ -64,7 +67,7 @@ export class DefaultTheme {
   public static fontSizeMobile = '18px';
   public static lineHeightMobile = '24px';
   public static specificityLevel = '0';
-  private static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
+  public static fixedPanelShadow = '0 0 16px 1px rgba(0, 0, 0, 0.3)';
   public static get bgActive() {
     return this.blueLight;
   }
@@ -628,6 +631,9 @@ export class DefaultTheme {
   //#endregion
   //#region Modal
   public static modalBackBg = '#222';
+  public static get modalBg() {
+    return this.bgSecondary;
+  }
   public static modalBackOpacity = '0.6';
   public static modalCloseButtonColor = 'rgba(0, 0, 0, 0.32)';
   public static modalCloseButtonDisabledColor = '#8b8b8b';
@@ -639,7 +645,9 @@ export class DefaultTheme {
   public static modalCloseIconSize = '12px';
   public static modalCloseLegacyGap = '0px';
   public static modalCloseWrapperLegacyGap = '0px';
-  public static modalFixedHeaderBg = '#fff';
+  public static get modalFixedHeaderBg() {
+    return this.bgSecondary;
+  }
   public static get modalFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }
@@ -661,6 +669,8 @@ export class DefaultTheme {
   public static get modalFixedHeaderPaddingBottom() {
     return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
   }
+  public static modalBodyTextColor = 'inherit';
+  public static modalFooterTextColor = 'inherit';
   public static modalBodyPaddingBottom = '24px';
   public static modalFooterPaddingTop = '0px';
   public static modalFooterPaddingBottom = '32px';
@@ -698,15 +708,13 @@ export class DefaultTheme {
   public static sidePageFooterPaddingTop = '24px';
   public static sidePageFooterPaddingBottom = '32px';
   public static get sidePageBgDefault() {
-    return this.bgDefault;
+    return this.bgSecondary;
   }
   public static get sidePageHeaderTextColor() {
     return this.textColorDefault;
   }
-  public static mobileSidePageHeaderFontSize = '24px';
-  public static mobileSidePageHeaderLineHeight = '32px';
-  public static mobileSidePageHeaderPaddingBottom = '16px';
-  public static mobileSidePageHeaderPaddingTop = '16px';
+  public static sidePageBodyTextColor = 'inherit';
+  public static sidePageFooterTextColor = 'inherit';
   public static sidePageHeaderFontSize = '24px';
   public static sidePageHeaderLineHeight = '32px';
   public static sidePageHeaderPaddingBottom = '16px';
@@ -729,6 +737,10 @@ export class DefaultTheme {
   public static get sidePageFixedFooterShadow() {
     return this.fixedPanelShadow;
   }
+  public static mobileSidePageHeaderFontSize = '24px';
+  public static mobileSidePageHeaderLineHeight = '32px';
+  public static mobileSidePageHeaderPaddingBottom = '16px';
+  public static mobileSidePageHeaderPaddingTop = '16px';
   //#endregion
   //#region DateInput
   public static get dateInputIconColor() {
@@ -738,7 +750,9 @@ export class DefaultTheme {
   public static dateInputComponentSelectedBgColor = '#cdedff';
   //#endregion
   //#region Calendar
-  public static calendarCellBg = 'white';
+  public static get calendarCellBg() {
+    return this.bgSecondary;
+  }
   public static calendarCellHoverColor = 'white';
   public static calendarCellActiveHoverColor = 'white';
   public static calendarCellWeekendColor = '#cb3d35';
@@ -746,7 +760,9 @@ export class DefaultTheme {
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px';
-  public static calendarMonthHeaderStickedBgColor = 'white';
+  public static get calendarMonthHeaderStickedBgColor() {
+    return this.bgSecondary;
+  }
   public static calendarMonthTitleBorderBottomColor = '#dfdede';
   public static get calendarCellHoverBgColor() {
     return this.bgActive;
@@ -784,9 +800,13 @@ export class DefaultTheme {
   public static get datePickerOpenBtnColor() {
     return this.textColorDefault;
   }
-  public static pickerBg = '#fff';
+  public static get pickerBg() {
+    return this.bgSecondary;
+  }
   public static pickerShadow = '0 4px 12px 0 rgba(0, 0, 0, 0.16)';
-  public static pickerTodayWrapperBgColor = 'white';
+  public static get pickerTodayWrapperBgColor() {
+    return this.bgSecondary;
+  }
   public static pickerTodayWrapperBorderTop = '1px solid #dfdede';
   public static pickerTodayWrapperHoverBgColor = '#f5f5f5';
   public static pickerTodayWrapperFontSize = '14px';
@@ -796,7 +816,7 @@ export class DefaultTheme {
   //#endregion
   //#region DateSelect
   public static get dateSelectMenuBg() {
-    return this.bgDefault;
+    return this.bgSecondary;
   }
   public static get dateSelectMenuItemBgActive() {
     return this.bgActive;
@@ -900,7 +920,7 @@ export class DefaultTheme {
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
-    return this.bgDefault;
+    return this.bgSecondary;
   }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
@@ -1027,7 +1047,7 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static get popupBackground() {
-    return this.bgDefault;
+    return this.bgSecondary;
   }
   public static popupPinOffset = '0'; // deprecated
   public static popupPinOffsetX = '16px';
@@ -1581,6 +1601,13 @@ export class DefaultTheme {
   public static scrollContainerScrollBarHoverSize = '10px';
   public static scrollContainerScrollBarColor = '#b7b7b7';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
+  //#endregion
+  //#region PasswordInput
+  public static passwordInputVisibilityIconColor = '#000';
+  public static passwordInputVisibilityIconOpacity = '0.6';
+  public static passwordInputVisibilityIconHoverColor = '#000';
+  public static passwordInputVisibilityIconHoverOpacity = '1';
+
   //#endregion
 }
 

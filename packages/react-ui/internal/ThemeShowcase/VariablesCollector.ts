@@ -1,5 +1,6 @@
 import { Theme } from '../../lib/theming/Theme';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 
 export interface DescriptionsType {
@@ -33,6 +34,7 @@ export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
   baseThemes.push(DEFAULT_THEME);
+  baseThemes.push(DARK_THEME);
 
   const componentsContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach((fileName) => {

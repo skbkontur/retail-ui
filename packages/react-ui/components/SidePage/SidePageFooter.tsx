@@ -96,7 +96,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
-                className={cx(styles.footer(), {
+                className={cx(styles.footer(this.theme), {
                   [styles.positionStatic()]: !this.getSticky(),
                 })}
                 style={{

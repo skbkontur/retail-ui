@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { responsiveLayout } from '../ResponsiveLayout';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -29,9 +30,17 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
 
   public render() {
     return (
-      <CommonWrapper {...this.props}>
-        <div className={cx(styles.body(), { [styles.mobileBody()]: this.isMobileLayout })}>{this.props.children}</div>
-      </CommonWrapper>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <CommonWrapper {...this.props}>
+              <div className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}>
+                {this.props.children}
+              </div>
+            </CommonWrapper>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }
