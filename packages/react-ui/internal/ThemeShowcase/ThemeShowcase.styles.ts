@@ -1,13 +1,14 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
-  searchBar() {
+  searchBar(t: Theme) {
     return css`
       position: relative;
       box-sizing: border-box;
       height: 40px;
       padding: 5px;
-      background-color: #fff;
+      background-color: ${t.bgDefault};
 
       &::after {
         content: attr(data-perf-info);
@@ -21,11 +22,11 @@ export const styles = memoizeStyle({
     `;
   },
 
-  heading() {
+  heading(t: Theme) {
     return css`
       padding: 24px 0 16px 5px;
       margin: 0;
-      background-color: #fff;
+      background-color: ${t.bgDefault};
     `;
   },
 
@@ -49,10 +50,10 @@ export const styles = memoizeStyle({
     `;
   },
 
-  row() {
+  row(t: Theme) {
     return css`
       &:hover {
-        background-color: #f8f8f8;
+        background-color: ${t.modalCloseButtonColor};
       }
     `;
   },
@@ -66,14 +67,14 @@ export const styles = memoizeStyle({
     `;
   },
 
-  invisibleRow() {
+  invisibleRow(t: Theme) {
     return css`
       padding: 0;
       height: 0;
 
       &:hover,
       &:hover ~ tr {
-        background-color: #f8f8f8;
+        background-color: ${t.modalCloseButtonColor};
       }
 
       &:hover ~ &,
