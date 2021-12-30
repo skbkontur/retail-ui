@@ -63,6 +63,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           in={this.props.opened}
           onExited={this.props.onClose}
           mountOnEnter
+          unmountOnExit
           appear={true}
           timeout={{ appear: 0, exit: 250 }}
         >
@@ -102,11 +103,10 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                 onClick={this.close}
                 className={cx({
                   [jsStyles.bg()]: true,
-                  [jsStyles.visibilityHidden()]: state === 'exited',
                   [jsStyles.bgShowed()]: state === 'entered',
                 })}
               />
-              {state === 'entered' && <HideBodyVerticalScroll />}
+              <HideBodyVerticalScroll />
             </>
           )}
         </Transition>
@@ -123,7 +123,6 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
   public close = () => {
     if (this.props.onCloseRequest) {
       this.props.onCloseRequest();
-      console.count('CLOSE ДЕРНУТ');
     }
   };
 

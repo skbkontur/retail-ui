@@ -64,12 +64,6 @@ const styles = {
     `;
   },
 
-  visibilityHidden() {
-    return css`
-      visibility: hidden;
-    `;
-  },
-
   bgShowed() {
     return css`
       opacity: 50%;

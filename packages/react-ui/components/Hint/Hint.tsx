@@ -176,7 +176,6 @@ export class Hint extends React.Component<HintProps, HintState> {
           anchorElement={this.props.children}
           positions={[]}
           onClick={!this.props.manual ? this.open : undefined}
-          onClose={!this.props.manual ? this.close : undefined}
           mobileOnCloseRequest={!this.props.manual ? this.close : undefined}
         >
           {this.renderContent()}

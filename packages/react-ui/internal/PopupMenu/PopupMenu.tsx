@@ -112,7 +112,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
-                mobileOnCloseRequest={this.isMobileLayout ? this.hideMenu : undefined}
+                mobileOnCloseRequest={this.hideMenu}
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
                 <InternalMenu
