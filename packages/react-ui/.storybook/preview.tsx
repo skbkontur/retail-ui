@@ -1,7 +1,6 @@
 import React from 'react';
 import { setFilter } from '@skbkontur/react-props2attrs';
 import { findAmongParents } from '@skbkontur/react-sorge/lib';
-import { addParameters } from '@storybook/react';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Meta } from '@storybook/react';
 import { isTestEnv } from '../lib/currentEnvironment';
@@ -9,6 +8,7 @@ import { ThemeContext } from '../lib/theming/ThemeContext';
 
 import { DEFAULT_THEME } from '../lib/theming/themes/DefaultTheme';
 import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
+import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
 import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
 import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 
@@ -30,7 +30,8 @@ const customViewports = {
     type: 'mobile',
   },
 };
-const themes = { DEFAULT_THEME, DARK_THEME, DEFAULT_THEME_8PX_OLD, FLAT_THEME_8PX_OLD };
+
+const themes = { DEFAULT_THEME, DARK_THEME, DEFAULT_THEME_8PX_OLD, FLAT_THEME_8PX_OLD, DEFAULT_THEME_MOBILE };
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
@@ -80,6 +81,8 @@ export const parameters: Meta['parameters'] = {
         in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
         kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
       },
+      { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
+      { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
     ],
   },
   options: {
