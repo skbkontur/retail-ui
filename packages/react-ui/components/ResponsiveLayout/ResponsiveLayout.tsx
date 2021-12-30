@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useEffect, useRef, useState } from 'rea
 
 import { isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
@@ -78,11 +79,11 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
     }
   }, [layoutFlags]);
 
-  if (isFunction(props.children)) {
-    return (props.children(layoutFlags) ?? null) as React.ReactElement;
-  }
-
-  return (props.children ?? null) as React.ReactElement;
+  return (
+    <CommonWrapper {...props}>
+      {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
+    </CommonWrapper>
+  );
 };
 
 export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
