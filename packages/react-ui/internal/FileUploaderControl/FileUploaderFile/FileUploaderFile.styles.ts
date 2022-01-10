@@ -12,6 +12,7 @@ const styles = {
     return css`
       display: flex;
       width: 100%;
+      align-items: center;
       position: relative;
     `;
   },

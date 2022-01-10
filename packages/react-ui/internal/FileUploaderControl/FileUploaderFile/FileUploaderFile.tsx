@@ -23,6 +23,7 @@ interface FileUploaderFileProps {
   error?: boolean;
   /** Состояние предупреждения контрола файла */
   warning?: boolean;
+  // FIXME @mozalov: warning пока не работает
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {

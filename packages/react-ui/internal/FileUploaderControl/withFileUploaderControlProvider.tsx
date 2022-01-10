@@ -7,13 +7,15 @@ export const withFileUploaderControlProvider = <TProps extends object, TRef exte
     Pick<TProps & FileUploaderControlProviderProps, Exclude<keyof TProps, keyof FileUploaderControlProviderProps>>
   >,
 ) =>
-  React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>(
-    (props: TProps & FileUploaderControlProviderProps, ref) => {
-      const { onRemove, onValueChange, onAttach, ...rest } = props;
-      return (
-        <FileUploaderControlProvider {...props}>
-          <Component ref={ref} {...rest} />
-        </FileUploaderControlProvider>
-      );
-    },
+  React.memo(
+    React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>(
+      (props: TProps & FileUploaderControlProviderProps, ref) => {
+        const { onRemove, onValueChange, onAttach, ...rest } = props;
+        return (
+          <FileUploaderControlProvider {...props}>
+            <Component ref={ref} {...rest} />
+          </FileUploaderControlProvider>
+        );
+      },
+    )
   );
