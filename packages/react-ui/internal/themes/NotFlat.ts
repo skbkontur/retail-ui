@@ -198,6 +198,7 @@ export class NotFlatTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} rgba(0, 0, 0, 0.15)`;
   }
+  public static radioBorderWidthCompensation = '1px';
   //#endregion
   //#region Switcher
   public static get switcherButtonDisabledBorderColor() {

@@ -21,7 +21,7 @@ const getBtnPadding = (
   if (fontSize === '16px' && offset) {
     [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, offset);
   }
-  if (additionalOffset) {
+  if (additionalOffset && offset) {
     [paddingTop, paddingBottom] = shiftUp(paddingTop, paddingBottom, additionalOffset);
   }
 

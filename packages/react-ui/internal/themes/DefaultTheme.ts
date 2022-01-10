@@ -3,7 +3,8 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
-  public static fontFamilyCompensationBaseline = '1';
+  public static fontFamilyCompensationBaseline = '0'; // deprecated
+  public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
   public static brand = '#2291ff';
@@ -604,6 +605,12 @@ export class DefaultTheme {
   public static get tooltipPinSize() {
     return this.popupPinSize;
   }
+  public static get tooltipFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get tooltipLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   //#endregion
   //#region TooltipMenu
   public static get tooltipMenuPinOffset() {
@@ -760,6 +767,9 @@ export class DefaultTheme {
   public static calendarCellSelectedBgColor = '#ebebeb';
   public static calendarCellSelectedFontColor = 'inherit';
   public static calendarCellSize = '32px';
+  public static get calendarCellLineHeight() {
+    return `calc(${this.calendarCellSize} - 2px)`;
+  }
   public static get calendarMonthHeaderStickedBgColor() {
     return this.bgSecondary;
   }
@@ -988,6 +998,12 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
+  public static get toggleFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get toggleLineHeight() {
+    return this.controlLineHeightSmall;
+  }
   public static get toggleTextColor() {
     return this.textColorDefault;
   }
@@ -1039,6 +1055,7 @@ export class DefaultTheme {
     return this.borderColorFocus;
   }
   public static toggleCaptionGap = '10px';
+  public static toggleButtonOffsetY = '0px';
   //#endregion
   //#region Popup
   public static popupBorder = 'none';
@@ -1172,9 +1189,6 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Checkbox
-  public static get checkboxBorderWidthCompensation() {
-    return this.checkboxBorderWidth;
-  }
   public static get checkboxFontSize() {
     return this.fontSizeSmall;
   }
@@ -1188,6 +1202,7 @@ export class DefaultTheme {
     const lineHeight = parseInt(this.checkboxLineHeight, 10) || 0;
     return `${(controlHeight - lineHeight) / 2}px`;
   }
+  public static checkboxBoxOffsetY = '1px';
   public static checkboxBgStart = '#fdfdfd';
   public static checkboxBgEnd = '#ededed';
   public static get checkboxTextColorDefault() {
@@ -1406,11 +1421,9 @@ export class DefaultTheme {
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} ${this.borderColorDisabled}`;
   }
-  public static radioCaptionDisplay = 'inline-block';
-  public static get radioBorderWidthCompensation() {
-    return this.radioBoxShadow !== 'none' ? this.radioBorderWidth : '0px';
-  }
-  public static radioMarginY = '2px';
+  public static radioCaptionDisplay = 'inline-table';
+  public static radioBorderWidthCompensation = '0px';
+  public static radioCircleOffsetY = '1px';
   //#endregion
   //#region RadioGroup
   public static radioGroupLegacyItemGap = '0px';

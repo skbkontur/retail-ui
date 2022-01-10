@@ -27,6 +27,7 @@ export interface SpinnerProps extends CommonProps {
    * @default normal
    */
   type: SpinnerType;
+  inline?: boolean;
 }
 
 /**
@@ -81,22 +82,22 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderMain() {
-    const { type, caption = this.locale.loading, dimmed } = this.props;
+    const { type, caption = this.locale.loading, dimmed, inline } = this.props;
 
     return (
       <CommonWrapper {...this.props}>
         <div className={styles.spinner()}>
-          <span className={styles.inner()}>{this.renderSpinner(type, dimmed)}</span>
+          <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>
       </CommonWrapper>
     );
   }
 
-  private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
+  private renderSpinner = (type: SpinnerType, dimmed?: boolean, inline?: boolean) => {
     const circleClassName = dimmed ? styles.circleDimmed(this.theme) : styles.circle(this.theme);
 
-    return <SpinnerIcon size={type} className={circleClassName} dimmed={dimmed} />;
+    return <SpinnerIcon size={type} className={circleClassName} dimmed={dimmed} inline={inline} />;
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (

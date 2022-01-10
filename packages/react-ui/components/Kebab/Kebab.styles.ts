@@ -50,20 +50,20 @@ export const styles = memoizeStyle({
   icon() {
     return css`
       color: #757575;
+      line-height: 1;
     `;
   },
 
   iconsmall() {
     return css`
-      margin-top: 1px;
-      margin-left: 0.8124px;
+      margin-top: 2px;
       font-size: 14px;
     `;
   },
 
   iconmedium() {
     return css`
-      margin-top: -2px;
+      margin-top: -1px;
       margin-left: 0.5px;
       font-size: 18px;
     `;
@@ -71,11 +71,9 @@ export const styles = memoizeStyle({
 
   iconlarge() {
     return css`
-      margin-top: -4px;
-      margin-left: 0.5px;
+      margin-top: -2px;
+      margin-left: 1px;
       font-size: 20px;
-      display: inline-block;
-      vertical-align: -2px;
     `;
   },
 
