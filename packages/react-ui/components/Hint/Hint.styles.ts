@@ -16,6 +16,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileContent(t: Theme) {
+    return css`
+      color: ${t.mobileHintColor};
+      max-width: 100%;
+      text-align: left;
+    `;
+  },
+
   contentCenter(t: Theme) {
     return css`
       text-align: ${t.hintTextAlign};

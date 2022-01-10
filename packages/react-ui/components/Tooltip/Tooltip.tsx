@@ -13,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './Tooltip.styles';
 
@@ -159,8 +160,11 @@ export interface TooltipState {
   focused: boolean;
 }
 
+@responsiveLayout
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
+
+  private isMobileLayout!: boolean;
 
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
@@ -261,7 +265,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger)
         : this.props.closeButton;
 
-    if (!hasCross) {
+    if (!hasCross || this.isMobileLayout) {
       return null;
     }
 
@@ -306,6 +310,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
+    if (this.isMobileLayout) {
+      return popup;
+    }
+
     return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
@@ -327,6 +335,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
+          mobileOnCloseRequest={this.mobileCloseHandler}
           tryPreserveFirstRenderedPosition
           {...popupProps}
         >
@@ -335,6 +344,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       </CommonWrapper>
     );
   }
+
+  private mobileCloseHandler = () => {
+    if (this.props.trigger === 'manual' || this.props.trigger === 'closed' || this.props.trigger === 'opened') {
+      return;
+    }
+
+    this.close();
+  };
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
@@ -360,7 +377,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   } {
     const props = this.props;
     const useWrapper = !!props.children && props.useWrapper;
-    switch (props.trigger) {
+
+    switch (this.props.trigger) {
       case 'opened':
         return {
           layerProps: {
@@ -460,6 +478,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
+    if (this.isMobileLayout) {
+      return;
+    }
+
     if (
       (this.props.trigger === 'hover&focus' && this.state.focused) ||
       (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement)

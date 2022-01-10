@@ -59,7 +59,15 @@ const styles = {
       left: 0;
       z-index: 9999;
       background: #333333;
+      opacity: 0%;
+      transition: opacity 0.25s;
+    `;
+  },
+
+  bgShowed() {
+    return css`
       opacity: 50%;
+      transition: opacity 0.25s;
     `;
   },
 };
