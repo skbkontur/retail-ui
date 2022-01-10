@@ -72,6 +72,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         margin={menuAlign === 'left' ? 1 : undefined}
         hasShadow={true}
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
+        withoutMobile
       >
         <ComboBoxMenu
           items={items}

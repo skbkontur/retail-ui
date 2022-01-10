@@ -236,10 +236,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private renderMobileMenu = () => {
-    if (!this.state.isMobileOpened) {
-      return null;
-    }
-
     const inputProps: InputProps = {
       autoFocus: true,
       width: '100%',
@@ -256,7 +252,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
         useFullHeight
-        onClose={this.handleCloseMobile}
+        opened={this.state.isMobileOpened}
+        onCloseRequest={this.handleCloseMobile}
         ref={this.refMobilePopup}
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
