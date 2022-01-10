@@ -84,10 +84,16 @@ export const styles = memoizeStyle({
       a {
         color: #51adff !important;
       }
+      pre {
+        background: #222;
+      }
+      textarea {
+        caret-color: ${t.textColorDefault};
+        background: #222 !important;
+      }
       pre,
       textarea,
       pre textarea {
-        background: #222 !important;
         .keyword {
           color: #61afef !important;
         }

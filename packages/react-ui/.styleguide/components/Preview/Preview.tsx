@@ -12,6 +12,7 @@ const improveErrorMessage = (message: string) =>
   );
 
 interface PreviewProps {
+  theme: string;
   code: string;
   evalInContext(code: string): () => any;
 }
@@ -20,98 +21,105 @@ interface PreviewState {
   error: string | null;
 }
 
-export default class Preview extends Component<PreviewProps, PreviewState> {
-  public static propTypes = {
-    code: PropTypes.string.isRequired,
-    evalInContext: PropTypes.func.isRequired,
-  };
-  public static contextType = Context;
+const withContext = (Wrapped) => (props) =>
+  <Context.Consumer>{(value) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>;
 
-  private mountNode: Element | null = null;
+const Preview = withContext(
+  class extends Component<PreviewProps, PreviewState> {
+    public static propTypes = {
+      code: PropTypes.string.isRequired,
+      evalInContext: PropTypes.func.isRequired,
+    };
+    public static contextType = Context;
 
-  public state: PreviewState = {
-    error: null,
-  };
+    private mountNode: Element | null = null;
 
-  public componentDidMount() {
-    // Clear console after hot reload, do not clear on the first load
-    // to keep any warnings
-    if (this.context.codeRevision > 0) {
-      // eslint-disable-next-line no-console
-      console.clear();
-    }
+    public state: PreviewState = {
+      error: null,
+    };
 
-    this.executeCode();
-  }
+    public componentDidMount() {
+      // Clear console after hot reload, do not clear on the first load
+      // to keep any warnings
+      if (this.context.codeRevision > 0) {
+        // eslint-disable-next-line no-console
+        console.clear();
+      }
 
-  public shouldComponentUpdate(nextProps: PreviewProps, nextState: PreviewState) {
-    return this.state.error !== nextState.error || this.props.code !== nextProps.code;
-  }
-
-  public componentDidUpdate(prevProps: PreviewProps, prevContext: any) {
-    if (this.props.code !== prevProps.code || this.context !== prevContext) {
       this.executeCode();
     }
-  }
 
-  public componentWillUnmount() {
-    this.unmountPreview();
-  }
-
-  public unmountPreview() {
-    if (this.mountNode) {
-      ReactDOM.unmountComponentAtNode(this.mountNode);
-    }
-  }
-
-  private executeCode() {
-    this.setState({
-      error: null,
-    });
-
-    const { code } = this.props;
-    if (!code) {
-      return;
+    public shouldComponentUpdate(nextProps: PreviewProps, nextState: PreviewState) {
+      return this.state.error !== nextState.error || this.props.code !== nextProps.code;
     }
 
-    const wrappedComponent: React.FunctionComponentElement<any> = (
-      <Context.Provider value={this.context}>
-        <ReactExample
-          code={code}
-          evalInContext={this.props.evalInContext}
-          onError={this.handleError}
-          compilerConfig={this.context.config.compilerConfig}
-        />
-      </Context.Provider>
-    );
-
-    window.requestAnimationFrame(() => {
-      // this.unmountPreview();
-      try {
-        ReactDOM.render(wrappedComponent, this.mountNode);
-      } catch (err) {
-        this.handleError(err);
+    public componentDidUpdate(prevProps: PreviewProps, prevContext) {
+      if (this.props.code !== prevProps.code || prevProps.theme !== this.props.theme) {
+        this.executeCode();
       }
-    });
-  }
+    }
 
-  private handleError = (err: Error) => {
-    this.unmountPreview();
+    public componentWillUnmount() {
+      this.unmountPreview();
+    }
 
-    this.setState({
-      error: improveErrorMessage(err.toString()),
-    });
+    public unmountPreview() {
+      if (this.mountNode) {
+        ReactDOM.unmountComponentAtNode(this.mountNode);
+      }
+    }
 
-    console.error(err); // eslint-disable-line no-console
-  };
+    private executeCode() {
+      this.setState({
+        error: null,
+      });
 
-  public render() {
-    const { error } = this.state;
-    return (
-      <>
-        <div data-testid="mountNode" ref={(ref) => (this.mountNode = ref)} />
-        {error && <PlaygroundError message={error} />}
-      </>
-    );
-  }
-}
+      const { code } = this.props;
+      if (!code) {
+        return;
+      }
+
+      const wrappedComponent: React.FunctionComponentElement<any> = (
+        <Context.Provider value={this.context}>
+          <ReactExample
+            code={code}
+            evalInContext={this.props.evalInContext}
+            onError={this.handleError}
+            compilerConfig={this.context.config.compilerConfig}
+          />
+        </Context.Provider>
+      );
+
+      window.requestAnimationFrame(() => {
+        // this.unmountPreview();
+        try {
+          ReactDOM.render(wrappedComponent, this.mountNode);
+        } catch (err) {
+          this.handleError(err);
+        }
+      });
+    }
+
+    private handleError = (err: Error) => {
+      this.unmountPreview();
+
+      this.setState({
+        error: improveErrorMessage(err.toString()),
+      });
+
+      console.error(err); // eslint-disable-line no-console
+    };
+
+    public render() {
+      const { error } = this.state;
+      return (
+        <>
+          <div data-testid="mountNode" ref={(ref) => (this.mountNode = ref)} />
+          {error && <PlaygroundError message={error} />}
+        </>
+      );
+    }
+  },
+);
+
+export default Preview;
