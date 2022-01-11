@@ -18,7 +18,7 @@ import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../../components/ResponsiveLayout';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 
 import { PopupPin } from './PopupPin';

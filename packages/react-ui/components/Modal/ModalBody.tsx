@@ -5,7 +5,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 

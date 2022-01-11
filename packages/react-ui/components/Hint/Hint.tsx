@@ -9,7 +9,7 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { styles } from './Hint.styles';
 
