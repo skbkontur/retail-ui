@@ -5093,6 +5093,24 @@
     util-deprecate "^1.0.2"
     uuid-browser "^3.1.0"
 
+"@storybook/addon-backgrounds@6.3.2":
+  version "6.3.2"
+  resolved "https://registry.npmjs.org/@storybook/addon-backgrounds/-/addon-backgrounds-6.3.2.tgz#a69775f02d33378988db8c8211697764ebea1d25"
+  integrity sha512-phn9kx/rmw6fD3Xqew31YPrAEQqUernQthKghSMgqNTR13ZMQ3NPzmcWOsnRq+ngqxB4XTSFya/BtgV7Od0XQQ==
+  dependencies:
+    "@storybook/addons" "6.3.2"
+    "@storybook/api" "6.3.2"
+    "@storybook/client-logger" "6.3.2"
+    "@storybook/components" "6.3.2"
+    "@storybook/core-events" "6.3.2"
+    "@storybook/theming" "6.3.2"
+    core-js "^3.8.2"
+    global "^4.4.0"
+    memoizerific "^1.11.3"
+    regenerator-runtime "^0.13.7"
+    ts-dedent "^2.0.0"
+    util-deprecate "^1.0.2"
+
 "@storybook/addon-controls@6.3.2":
   version "6.3.2"
   resolved "https://registry.npmjs.org/@storybook/addon-controls/-/addon-controls-6.3.2.tgz#2e0cdc7fcc326524c5858188d4b9d45bc5473c48"
