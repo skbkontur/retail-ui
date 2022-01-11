@@ -15,7 +15,7 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { styles } from './Autocomplete.styles';
 
