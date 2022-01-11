@@ -7,6 +7,7 @@ export const styles = memoizeStyle({
       display: inline-block;
       user-select: none;
       cursor: default;
+      line-height: normal;
     `;
   },
 

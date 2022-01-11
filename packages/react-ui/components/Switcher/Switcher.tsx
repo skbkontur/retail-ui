@@ -98,7 +98,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
     return (
       <CommonWrapper {...this.props}>
-        <div>
+        <div className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>
             <input {...inputProps} />

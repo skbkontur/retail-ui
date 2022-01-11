@@ -9,6 +9,7 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { responsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './Hint.styles';
 
@@ -100,8 +101,11 @@ const Positions: PopupPosition[] = [
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
+@responsiveLayout
 export class Hint extends React.Component<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
+
+  private isMobileLayout!: boolean;
 
   public static defaultProps = {
     pos: 'top',
@@ -156,11 +160,27 @@ export class Hint extends React.Component<HintProps, HintState> {
                 this.theme,
               )}
             >
-              {this.renderMain()}
+              {this.isMobileLayout ? this.renderMobile() : this.renderMain()}
             </ThemeContext.Provider>
           );
         }}
       </ThemeContext.Consumer>
+    );
+  }
+
+  public renderMobile() {
+    return (
+      <CommonWrapper {...this.props}>
+        <Popup
+          opened={this.state.opened}
+          anchorElement={this.props.children}
+          positions={[]}
+          onClick={!this.props.manual ? this.open : undefined}
+          mobileOnCloseRequest={!this.props.manual ? this.close : undefined}
+        >
+          {this.renderContent()}
+        </Popup>
+      </CommonWrapper>
     );
   }
 
@@ -194,9 +214,10 @@ export class Hint extends React.Component<HintProps, HintState> {
     const className = cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
+      [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (
-      <div className={className} style={{ maxWidth }}>
+      <div className={className} style={{ maxWidth: this.isMobileLayout ? '100%' : maxWidth }}>
         {this.props.text}
       </div>
     );
@@ -226,6 +247,10 @@ export class Hint extends React.Component<HintProps, HintState> {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
     }
+  };
+
+  private close = () => {
+    this.setState({ opened: false });
   };
 
   private open = () => {
