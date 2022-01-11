@@ -126,6 +126,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.state.visible && (
         <GlobalLoaderView
           expectedResponseTime={this.state.expectedResponseTime}
+          delayBeforeHide={this.props.delayBeforeHide!}
           status={status}
           data-tid="GlobalLoader"
           disableAnimations={this.props.disableAnimations}

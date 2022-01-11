@@ -1417,8 +1417,8 @@ export class DefaultTheme {
   public static globalLoaderBottom = 'auto';
   public static globalLoaderRight = 'auto';
   public static globalLoaderBackgroundColor = 'transparent';
-  public static globalLoaderTransitionDuration = '1000'; //ms
-  public static globalLoaderSpinnerAnimationDuration = '3000'; //ms
+  public static globalLoaderTransitionDuration = '500'; //ms
+  public static globalLoaderSpinnerAnimationDuration = '2000'; //ms
   //#endregion
 }
 

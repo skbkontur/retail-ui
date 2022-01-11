@@ -9,6 +9,7 @@ import { animations, styles } from './GlobalLoaderView.styles';
 
 interface GlobalLoaderViewProps {
   expectedResponseTime: number;
+  delayBeforeHide: number;
   status?: 'success' | 'error' | 'standard';
   disableAnimations: boolean;
   overtime: number;
@@ -16,6 +17,11 @@ interface GlobalLoaderViewProps {
 
 export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
   private theme!: Theme;
+  private readonly myRef: React.RefObject<HTMLDivElement>;
+  constructor(props: GlobalLoaderViewProps) {
+    super(props);
+    this.myRef = React.createRef();
+  }
 
   public render() {
     return (
@@ -29,11 +35,16 @@ export class GlobalLoaderView extends React.Component<GlobalLoaderViewProps> {
   }
 
   private renderMain() {
+    const currentWidth = this.myRef.current?.getBoundingClientRect().width || 0;
+    const currentLeftPosition = this.myRef.current?.getBoundingClientRect().left || 0;
     return (
       <ZIndex priority="GlobalLoader" className={styles.outer(this.theme)}>
         <div
+          ref={this.myRef}
           className={cx(styles.inner(this.theme), {
-            [animations.successAnimation()]: !this.props.disableAnimations && this.props.status === 'success',
+            [styles.error()]: this.props.status === 'error',
+            [animations.successAnimation(this.props.delayBeforeHide, currentWidth, currentLeftPosition)]:
+              !this.props.disableAnimations && this.props.status === 'success',
             [styles.successWithoutAnimation()]: this.props.disableAnimations && this.props.status === 'success',
             [animations.errorAnimation(this.theme)]: !this.props.disableAnimations && this.props.status === 'error',
             [styles.errorWithoutAnimation()]: this.props.disableAnimations && this.props.status === 'error',

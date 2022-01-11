@@ -27,6 +27,12 @@ export const styles = memoizeStyle({
       overflow: hidden;
     `;
   },
+  error() {
+    return css`
+      left: 0;
+      width: 100%;
+    `;
+  },
   successWithoutAnimation() {
     return css`
       left: 0;
@@ -42,50 +48,67 @@ export const styles = memoizeStyle({
 });
 
 const moveToRightAnimation = keyframes`
-      0% {
-        left: 0;
-        width: 100%;
-      }
-      50% {
-        left: 50%;
-        width: 50%;
-      }
-      100% {
-        left: 99%;
-        width: 1%
-      }
-    `;
+  0% {
+    left: 0;
+    width: 100%;
+  }
+  50% {
+    left: 50%;
+    width: 50%;
+  }
+  100% {
+    left: 99%;
+    width: 1%
+  }
+`;
 const spinnerAnimation = keyframes`
-      0% {
-        left: 0;
-        width: 100%;
-        transform: translateX(50%) scaleX(0.005);
-        animation-timing-function: cubic-bezier(0.895, 0.03, 0.685, 0.22);
-      }
-      50% {
-        left: 0;
-        width: 100%;
-        transform: translateX(0%) scaleX(0.35);
-        animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
-      }
-      100% {
-        left: 0;
-        width: 100%;
-        transform: translateX(-50%) scaleX(0.005);
-      }
-    `;
-const linearProgressAnimation = keyframes`from { width: 0; }
-        to { width: 80% }`;
+  0% {
+    transform: translateX(50%) scaleX(.005);
+    animation-timing-function: cubic-bezier(.895,.03,.685,.22);
+  }
+  50% {
+    transform: translateX(0) scaleX(.35);
+    animation-timing-function: cubic-bezier(.165,.84,.44,1);
+  }
+  100% {
+    transform: translateX(-50%) scaleX(.005);
+  }
+`;
+const linearProgressAnimation = keyframes`
+  from { width: 0; }
+  to { width: 80% }
+`;
 const slowProgressAnimation = keyframes`
-      from { width: 80% }
-      to { width: 100% }
-    `;
+  from { width: 80% }
+  to { width: 100% }
+`;
 
 export const animations = {
-  successAnimation() {
+  successAnimation(delayBeforeHide: number, width: number, left: number) {
     return css`
-      width: 100%;
-      animation: none;
+      animation: successAnimation;
+      animation-duration: ${delayBeforeHide}ms;
+      @keyframes successAnimation {
+        0% {
+          width: ${width}px;
+          left: ${left}px;
+          opacity: 1;
+        }
+        50% {
+          width: 100%;
+          left: 0;
+          opacity: 1;
+        }
+        80% {
+          width: 100%;
+          left: 0;
+          opacity: 1;
+        }
+        100% {
+          width: 100%;
+          opacity: 0;
+        }
+      }
     `;
   },
   errorAnimation(t: Theme) {
@@ -99,7 +122,7 @@ export const animations = {
   },
   standardAnimation(t: Theme, expectedTime: number, overtime: number) {
     return css`
-      animation: ${linearProgressAnimation} ${expectedTime}ms linear,
+      animation: ${linearProgressAnimation} ${expectedTime}ms ease-out,
         ${overtime}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
     `;
   },
