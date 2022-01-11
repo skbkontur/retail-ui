@@ -11,14 +11,14 @@
 ```jsx static
 import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
-<ThemeContext.Provider value={ThemeFactory.create({ mobileMediaQuery: '(max-width: 768px)') })} >
+<ThemeContext.Provider value={ThemeFactory.create({ mobileMediaQuery: '(max-width: 768px)' })}>
       /* ... */
 </ThemeContext.Provider>
 ```
 
 ### Отключение адаптивности
 
-Чтобы полностью отключить адаптивность компонентов достаточно изменить значение переменной `mobileMediaQuery` на `not all`.
+Чтобы полностью отключить адаптивность компонентов достаточно изменить значение переменной на `not all`.
 
 ## Определение текущего режима
 

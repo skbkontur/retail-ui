@@ -1,10 +1,10 @@
-Ожидает в себя функцию, в которую аргументом передается объект с флагом лэйаута.
-
 ```ts static
 interface ResponsiveLayoutFlags {
   isMobile: boolean;
 }
 ```
+
+Компонент ожидает в себя функцию, в которую аргументом передается объект с флагом лэйаута.
 
 ```jsx static
 import { ResponsiveLayout } from '@skbkontur/react-ui';

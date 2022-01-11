@@ -12,7 +12,7 @@ interface ResponsiveLayoutProps {
 }
 
 /**
- * Компонент для определения текущего лэйаута (мобильный или нет).
+ * Компонент для определения текущего лэйаута.
  */
 
 export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
