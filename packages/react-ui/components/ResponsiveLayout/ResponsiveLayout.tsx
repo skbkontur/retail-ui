@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { isFunction } from '../../lib/utils';
+import { CommonWrapper } from '../../internal/CommonWrapper';
 
 import { ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
@@ -23,9 +24,9 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
     }
   }, [layoutFlags]);
 
-  if (isFunction(props.children)) {
-    return (props.children(layoutFlags) ?? null) as React.ReactElement;
-  }
-
-  return (props.children ?? null) as React.ReactElement;
+  return (
+    <CommonWrapper {...props}>
+      {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
+    </CommonWrapper>
+  );
 };

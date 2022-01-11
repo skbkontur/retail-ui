@@ -103,9 +103,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     let iconElement = null;
     if (icon) {
       iconElement = (
-        <span className={styles.icon(this.theme)}>
-          {loading ? <Spinner caption={null} dimmed type="mini" /> : icon}
-        </span>
+        <span className={styles.icon(this.theme)}>{loading ? <Spinner caption={null} dimmed inline /> : icon}</span>
       );
     }
 

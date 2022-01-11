@@ -102,7 +102,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private input: Nullable<Input>;
-  private mobilePopup: Nullable<MobilePopup>;
+  private mobileInput: Nullable<Input> = null;
   //@ts-ignore
   private theme!: Theme;
   private isMobileLayout!: boolean;
@@ -211,10 +211,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderMobileMenu = () => {
-    if (!this.state.isMobileOpened) {
-      return null;
-    }
-
     let rightIcon = null;
 
     const { loading, items } = this.props;
@@ -234,10 +230,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     return (
       <MobilePopup
-        headerChildComponent={<Input {...inputProps} />}
+        headerChildComponent={<Input ref={this.refMobileInput} {...inputProps} />}
         useFullHeight
-        onClose={this.handleCloseMobile}
-        ref={this.refMobilePopup}
+        onCloseRequest={this.handleCloseMobile}
+        opened={this.state.isMobileOpened}
       >
         {this.getComboBoxMenu()}
       </MobilePopup>
@@ -336,6 +332,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     this.setState({
       isMobileOpened: true,
     });
+
+    if (this.mobileInput) {
+      this.mobileInput.focus();
+    }
   };
 
   private handleItemSelect = (item: T) => {
@@ -344,7 +344,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     }
 
     if (this.isMobileLayout) {
-      this.mobilePopup?.close();
+      this.handleCloseMobile();
     }
   };
 
@@ -353,10 +353,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       this.props.refInput(input);
     }
     this.input = input;
-  };
-
-  private refMobilePopup = (mobilePopup: MobilePopup | null) => {
-    this.mobilePopup = mobilePopup;
   };
 
   private renderSpinner = () => (
@@ -377,5 +373,9 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     }
 
     return null;
+  };
+
+  private refMobileInput = (input: Nullable<Input>) => {
+    this.mobileInput = input;
   };
 }

@@ -16,7 +16,7 @@ const excludedComponents = [
   'ThemeProvider',
   'ThemeShowcase',
   'Locale',
-  'Playground',
+  // 'Playground', TODO Add playground or global theme switcher with dark theme
   'ModalContext',
   'ModalClose',
   'SidePageContext',
@@ -90,10 +90,10 @@ const getCommonSections = () => {
       sections: [
         { name: 'ThemeContext', content: path.join(__dirname, '../lib/theming/ThemeContext.md') },
         { name: 'ThemeShowcase', content: path.join(__dirname, '../internal/ThemeShowcase/ThemeShowcase.md') },
-        {
-          name: 'ThemePlayground',
-          content: path.join(__dirname, '../internal/ThemePlayground/Playground.md'),
-        },
+        // {
+        //   name: 'ThemePlayground',
+        //   content: path.join(__dirname, '../internal/ThemePlayground/Playground.md'), TODO Add playground or global theme switcher with dark theme
+        // },
       ],
     },
     { name: 'Components', components, sectionDepth: 2, sections },

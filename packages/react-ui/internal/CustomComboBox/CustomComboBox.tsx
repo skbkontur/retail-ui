@@ -8,6 +8,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../../components/ResponsiveLayout';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -86,6 +87,7 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
+@responsiveLayout
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
 
@@ -97,6 +99,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public loaderShowDelay: Nullable<Promise<void>>;
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
+  private isMobileLayout!: boolean;
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
@@ -341,7 +344,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: true,
+      keepFocus: this.isMobileLayout ? false : true,
     });
   };
 

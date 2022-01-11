@@ -6,6 +6,7 @@ import { FxInput } from '../FxInput';
 import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { InputSize, InputType } from '../../Input';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default { title: 'FxInput' } as Meta;
 
@@ -127,11 +128,21 @@ class TestWrapper extends React.Component<{
       marginBottom: 15,
       background: '#eee',
     };
+    const darkStyle: React.CSSProperties = {
+      ...style,
+      background: '1f1f1f',
+    };
     return (
-      <div style={style}>
-        {ruler && <BGRuler color="#888" left={10} right={9} />}
-        {children}
-      </div>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <div style={theme.prototype.constructor.name === 'DarkTheme' ? darkStyle : style}>
+              {ruler && <BGRuler color="#888" left={10} right={9} />}
+              {children}
+            </div>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }

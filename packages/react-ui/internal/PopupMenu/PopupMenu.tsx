@@ -12,6 +12,7 @@ import { Popup, PopupPosition } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../../components/ResponsiveLayout';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
@@ -66,8 +67,11 @@ export const PopupMenuType = {
   Tooltip: 'tooltip',
 };
 
+@responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
+
+  private isMobileLayout!: boolean;
 
   public static defaultProps = {
     positions: PopupMenuPositions,
@@ -108,11 +112,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
-                width={this.props.menuWidth || 'auto'}
+                mobileOnCloseRequest={this.hideMenu}
+                width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
                 <InternalMenu
                   hasShadow={false}
-                  maxHeight={this.props.menuMaxHeight || 'none'}
+                  maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
