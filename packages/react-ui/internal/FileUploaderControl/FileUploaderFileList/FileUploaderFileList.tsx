@@ -12,7 +12,6 @@ interface FileUploaderFileListProps {
 }
 
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
-  // FIXME @mozalov мб перенести в контекст
   const {renderFile} = props;
   const { files } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);

@@ -120,7 +120,7 @@ describe('FileUploader', () => {
         const onAttach = jest.fn();
         const component = render({
           onAttach,
-          getFileValidationText: () => Promise.resolve('validation error'),
+          validateBeforeUpload: () => Promise.resolve('validation error'),
           multiple: true,
         });
 
@@ -239,8 +239,8 @@ describe('FileUploader', () => {
 
       it('should handle onValueChange after file validation changing', async () => {
         const onValueChange = jest.fn();
-        const getFileValidationText = () => Promise.resolve('validation error');
-        const component = render({ onValueChange, getFileValidationText });
+        const validateBeforeUpload = () => Promise.resolve('validation error');
+        const component = render({ onValueChange, validateBeforeUpload });
 
         await addFiles(component, [file]);
 
@@ -290,12 +290,12 @@ describe('FileUploader', () => {
 
       it('should handle one request for one valid and one invalid files', async () => {
         let count = 0;
-        const getFileValidationText = () => {
+        const validateBeforeUpload = () => {
           count++;
           const result = count % 2 === 0 ? null : 'Ошибка';
           return Promise.resolve(result);
         };
-        component = render({ request, onRequestSuccess, onRequestError, getFileValidationText, multiple: true });
+        component = render({ request, onRequestSuccess, onRequestError, validateBeforeUpload, multiple: true });
 
         await addFiles(component, [file, file]);
 
@@ -311,7 +311,7 @@ describe('FileUploader', () => {
           request,
           onRequestSuccess,
           onRequestError,
-          getFileValidationText: () => Promise.resolve('ERROR'),
+          validateBeforeUpload: () => Promise.resolve('ERROR'),
         });
 
         await addFiles(component, [file]);
@@ -334,19 +334,19 @@ describe('FileUploader', () => {
       });
     });
 
-    describe('getFileValidationText', () => {
-      it('should handle getFileValidationText for every files', async () => {
+    describe('validateBeforeUpload', () => {
+      it('should handle validateBeforeUpload for every files', async () => {
         const request = jest.fn(() => Promise.resolve());
-        const getFileValidationText = jest.fn(() => Promise.resolve(null));
-        const component = render({ request, getFileValidationText, multiple: true });
+        const validateBeforeUpload = jest.fn(() => Promise.resolve(null));
+        const component = render({ request, validateBeforeUpload, multiple: true });
 
         await addFiles(component, [file, file]);
 
-        expect(getFileValidationText).toHaveBeenCalledTimes(2);
+        expect(validateBeforeUpload).toHaveBeenCalledTimes(2);
         expect(request).toHaveBeenCalledTimes(2);
       });
 
-      it('should handle getFileValidationText before request', async () => {
+      it('should handle validateBeforeUpload before request', async () => {
         let count = 1;
         let requestOrder = 0;
         let validationOrder = 0;
@@ -356,31 +356,31 @@ describe('FileUploader', () => {
           requestOrder = increment();
           return Promise.resolve();
         });
-        const getFileValidationText = jest.fn(() => {
+        const validateBeforeUpload = jest.fn(() => {
           validationOrder = increment();
           return Promise.resolve(null);
         });
-        const component = render({ request, getFileValidationText });
+        const component = render({ request, validateBeforeUpload });
 
         await addFiles(component, [file]);
 
-        expect(getFileValidationText).toHaveBeenCalledTimes(1);
+        expect(validateBeforeUpload).toHaveBeenCalledTimes(1);
         expect(request).toHaveBeenCalledTimes(1);
         expect(validationOrder).toBeLessThan(requestOrder);
       });
     });
 
-    it('should handle one request, getFileValidationText, onAttach, onValueChange for single control, if try add several files', async () => {
+    it('should handle one request, validateBeforeUpload, onAttach, onValueChange for single control, if try add several files', async () => {
       const request = jest.fn();
-      const getFileValidationText = jest.fn();
+      const validateBeforeUpload = jest.fn();
       const onAttach = jest.fn();
       const onValueChange = jest.fn();
-      const component = render({ request, getFileValidationText, onAttach, onValueChange });
+      const component = render({ request, validateBeforeUpload, onAttach, onValueChange });
 
       await addFiles(component, [file, file, file]);
 
       expect(request).toHaveBeenCalledTimes(1);
-      expect(getFileValidationText).toHaveBeenCalledTimes(1);
+      expect(validateBeforeUpload).toHaveBeenCalledTimes(1);
 
       expect(onAttach).toHaveBeenCalledTimes(1);
       expect(onAttach).toHaveBeenCalledWith([readFile]);

@@ -46,7 +46,7 @@ MultipleSyncFileUploader.parameters = { creevey: { skip: [true] } };
 
 /** common stories **/
 export const SingleFileUploaderWithFileError = () => (
-  <FileUploader request={successRequest} getFileValidationText={() => Promise.resolve('Формат файла неверный')} />
+  <FileUploader request={successRequest} validateBeforeUpload={() => Promise.resolve('Формат файла неверный')} />
 );
 SingleFileUploaderWithFileError.parameters = { creevey: { skip: [true] } };
 
@@ -54,7 +54,7 @@ export const MultipleFileUploaderWithFileError = () => (
   <FileUploader
     multiple
     request={successRequest}
-    getFileValidationText={() => Promise.resolve('Формат файла неверный')}
+    validateBeforeUpload={() => Promise.resolve('Формат файла неверный')}
   />
 );
 MultipleFileUploaderWithFileError.parameters = { creevey: { skip: [true] } };
@@ -95,3 +95,12 @@ export const FileUploaderRefFocusAndBlur = () => {
   );
 };
 FileUploaderRefFocusAndBlur.parameters = { creevey: { skip: [true] } };
+
+export const MultipleFileUploaderWithHideFiles = () => (
+  <FileUploader
+    multiple
+    request={successRequest}
+    hideFiles
+  />
+);
+MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: [true] } };

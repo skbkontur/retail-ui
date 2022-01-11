@@ -16,6 +16,8 @@ import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploade
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import {Nullable} from "../../typings/utility-types";
+import {FileUploaderFileValidationResult} from "../../internal/FileUploaderControl/FileUploaderFileValidationResult";
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -29,6 +31,7 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
 
   /** Свойство ширины. */
   width?: React.CSSProperties['width'];
+  hideFiles?: boolean;
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
   request?: (file: FileUploaderAttachedFile) => Promise<void>;
@@ -37,14 +40,20 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
   /** Срабатывает при неудачной попытке отправки через request */
   onRequestError?: (fileId: string) => void;
 
-  /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
-  canUploadFile?: (file: FileUploaderAttachedFile) => Promise<boolean>;
-  // валидировать перед отправкой отдельно надо только для предотвращения
-  // отправки файла для асинхронного контрола
+  /**
+   * Функция валидации каждого файла.
+   * Срабатывает после выбора файлов и перед попыткой отправить в request.
+   * Чтобы вывести валидацию ошибки, промис должен вернуть строку.
+   * */
+  validateBeforeUpload?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
 
-  // Переименовать getFileValidationText в canUploadFile, и чисто проверять, можно ли отправлять или нет
-  // (саму валидацию вешать через renderFile)
+  /**
+   * Функция, позволяющая кастомизировать файлы.
+   * Через нее можно вешать кастомные валидации на каждый файл.
+   * */
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
+
+  // FIXME @mozalov: добавить тесты\стори на все 3 типа валидации и hideFiles
 }
 
 export interface FileUploaderRef {
@@ -65,18 +74,19 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     warning,
     multiple = false,
     width = theme.fileUploaderWidth,
+    hideFiles = false,
     onBlur,
     onFocus,
     onChange,
     request,
-    canUploadFile,
+    validateBeforeUpload,
     onRequestSuccess,
     onRequestError,
     renderFile = defaultRenderFile,
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, reset } = useContext(FileUploaderControlContext);
+  const { files, setFiles, removeFile, reset, setFileValidationResult } = useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
 
@@ -90,13 +100,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const tryValidateAndUpload = useCallback(
     (files: FileUploaderAttachedFile[]) => {
       files.forEach(async (file) => {
-        if (isAsync) {
-          const canUpload = canUploadFile && (await canUploadFile(file));
-          canUpload && upload(file);
+        const validationMessage = validateBeforeUpload && (await validateBeforeUpload(file));
+
+        if (!validationMessage) {
+          isAsync && upload(file);
+        } else {
+          setFileValidationResult(file.id, FileUploaderFileValidationResult.error(validationMessage));
         }
       });
     },
-    [upload, canUploadFile, isAsync],
+    [upload, validateBeforeUpload, isAsync],
   );
 
   /** common part **/
@@ -202,7 +215,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   });
 
   const hasOneFile = files.length === 1;
-  const hasOneFileForSingle = isSingleMode && hasOneFile;
+  const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
 
   const [hovered, setHovered] = useState(false);
 
@@ -214,7 +227,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   return (
     <CommonWrapper {...props}>
       <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
-        {!isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile}/>}
+        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile}/>}
         <div className={uploadButtonWrapperClassNames}>
           <label
             onMouseEnter={() => setHovered(true)}
