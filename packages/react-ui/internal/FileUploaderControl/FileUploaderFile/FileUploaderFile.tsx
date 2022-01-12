@@ -20,11 +20,8 @@ import { jsStyles } from './FileUploaderFile.styles';
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
-  /** Состояние ошибки онтрола файла */
+  /** Состояние ошибки контрола файла */
   error?: boolean;
-  /** Состояние предупреждения контрола файла */
-  warning?: boolean;
-  // FIXME @mozalov: warning пока не работает
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
