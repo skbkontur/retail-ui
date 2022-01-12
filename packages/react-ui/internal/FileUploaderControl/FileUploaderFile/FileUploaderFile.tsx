@@ -13,7 +13,7 @@ import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
-import {Tooltip} from "../../../components/Tooltip";
+import { Tooltip } from '../../../components/Tooltip';
 
 import { jsStyles } from './FileUploaderFile.styles';
 

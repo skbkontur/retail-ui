@@ -1,6 +1,6 @@
 import { getUid } from '../../lib/uidUtils';
 
-import {FileUploaderFileValidationResult} from "./FileUploaderFileValidationResult";
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 
 export enum FileUploaderFileStatus {
   Attached = 'Attached',

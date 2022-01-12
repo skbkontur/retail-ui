@@ -17,5 +17,5 @@ export const withFileUploaderControlProvider = <TProps extends object, TRef exte
           </FileUploaderControlProvider>
         );
       },
-    )
+    ),
   );

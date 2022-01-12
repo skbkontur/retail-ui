@@ -21,8 +21,16 @@ const renderComponent = (localeProviderValue = {}, props: FileUploaderProps = {}
     </LocaleContext.Provider>,
   );
 
-const getBaseButtonText = (wrapper: ReactWrapper): string => {
+const getBaseButtonLinkText = (wrapper: ReactWrapper<typeof FileUploader>): string => {
   return wrapper.find(`[data-tid='FileUploader__link']`).text();
+};
+
+const getBaseButtonContent = (wrapper: ReactWrapper<typeof FileUploader>): string => {
+  return wrapper.find(`[data-tid='FileUploader__content']`).text().replace(/\s/g, ' ');
+};
+
+const getFilesList = (wrapper: ReactWrapper<typeof FileUploader>) => {
+  return wrapper.find(`[data-tid='FileUploader__fileList']`);
 };
 
 const addFiles = async (component: ReactWrapper<typeof FileUploader>, files: File[]) => {
@@ -40,27 +48,29 @@ const removeFile = async (component: ReactWrapper<typeof FileUploader>) => {
   });
 };
 
+const getFile = () => new Blob(['fileContents'], { type: 'text/plain' }) as File;
+
 describe('FileUploader', () => {
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       const wrapper = mount(<FileUploader />);
       const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
 
-      expect(getBaseButtonText(wrapper)).toBe(expectedText);
+      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
     });
 
     it('render default locale', () => {
       const wrapper = renderComponent();
       const expectedText = FileUploaderLocaleHelper.get(defaultLangCode).chooseFile;
 
-      expect(getBaseButtonText(wrapper)).toBe(expectedText);
+      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
     });
 
     it('render correct locale when set langCode', () => {
       const wrapper = renderComponent({ langCode: LangCodes.en_GB });
       const expectedText = FileUploaderLocaleHelper.get(LangCodes.en_GB).chooseFile;
 
-      expect(getBaseButtonText(wrapper)).toBe(expectedText);
+      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
     });
 
     it('render custom locale', () => {
@@ -76,7 +86,7 @@ describe('FileUploader', () => {
         },
       });
 
-      expect(getBaseButtonText(wrapper)).toBe(customText);
+      expect(getBaseButtonLinkText(wrapper)).toBe(customText);
     });
 
     it('updates when langCode changes', () => {
@@ -85,7 +95,7 @@ describe('FileUploader', () => {
 
       wrapper.setProps({ value: { langCode: LangCodes.en_GB } });
 
-      expect(getBaseButtonText(wrapper)).toBe(expectedText);
+      expect(getBaseButtonLinkText(wrapper)).toBe(expectedText);
     });
   });
 
@@ -102,7 +112,7 @@ describe('FileUploader', () => {
     };
 
     beforeEach(() => {
-      file = new Blob(['fileContents'], { type: 'text/plain' }) as File;
+      file = getFile();
     });
 
     describe('onAttach', () => {
@@ -387,6 +397,41 @@ describe('FileUploader', () => {
 
       expect(onValueChange).toHaveBeenCalledTimes(3);
       expect(onValueChange).toHaveBeenCalledWith([readFile]);
+    });
+  });
+
+  describe('hideFiles', () => {
+    const expectation = async (wrapper: ReactWrapper<typeof FileUploader>) => {
+      const locale = FileUploaderLocaleHelper.get(defaultLangCode);
+      const { chooseFile, orDragHere } = locale;
+      const expectedText = `${chooseFile} ${orDragHere} `;
+
+      expect(getBaseButtonContent(wrapper)).toBe(expectedText);
+
+      await addFiles(wrapper, [getFile(), getFile()]);
+
+      expect(getFilesList(wrapper).length).toBe(0);
+      expect(getBaseButtonContent(wrapper)).toBe(expectedText);
+    };
+
+    it('shouldn"t render files for multiple control', async () => {
+      const wrapper = mount(<FileUploader multiple hideFiles />);
+      await expectation(wrapper);
+    });
+
+    it('shouldn"t render file for single control', async () => {
+      const wrapper = mount(<FileUploader hideFiles />);
+      await expectation(wrapper);
+    });
+  });
+
+  describe('renderFile', () => {
+    it('should render custom file item control', async () => {
+      const wrapper = mount(<FileUploader multiple renderFile={() => 'Custom file item'} />);
+
+      await addFiles(wrapper, [getFile()]);
+
+      expect(getFilesList(wrapper).text()).toBe('Custom file item');
     });
   });
 });

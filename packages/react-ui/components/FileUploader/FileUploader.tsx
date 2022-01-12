@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useImperativeHandle, useRef, useState} from 'react';
+import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -16,8 +16,8 @@ import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploade
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import {Nullable} from "../../typings/utility-types";
-import {FileUploaderFileValidationResult} from "../../internal/FileUploaderControl/FileUploaderFileValidationResult";
+import { Nullable } from '../../typings/utility-types';
+import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -28,9 +28,9 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
   error?: boolean;
   /** Состояние предупреждения всего контрола */
   warning?: boolean;
-
   /** Свойство ширины. */
   width?: React.CSSProperties['width'];
+  /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
@@ -52,8 +52,6 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
    * Через нее можно вешать кастомные валидации на каждый файл.
    * */
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
-
-  // FIXME @mozalov: добавить тесты\стори на все 3 типа валидации и hideFiles
 }
 
 export interface FileUploaderRef {
@@ -227,7 +225,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   return (
     <CommonWrapper {...props}>
       <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
-        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile}/>}
+        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} />}
         <div className={uploadButtonWrapperClassNames}>
           <label
             onMouseEnter={() => setHovered(true)}
@@ -235,16 +233,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div className={jsStyles.content()}>
+            <div data-tid={'FileUploader__content'} className={jsStyles.content()}>
               <span data-tid={'FileUploader__link'} className={linkClassNames}>
                 {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
               </span>
               &nbsp;
               <div className={jsStyles.afterLinkText()}>
                 {hasOneFileForSingle ? (
-                    <div className={jsStyles.singleFile()}>
-                      {renderFile(files[0], <FileUploaderFile file={files[0]} />)}
-                    </div>
+                  <div className={jsStyles.singleFile()}>
+                    {renderFile(files[0], <FileUploaderFile file={files[0]} />)}
+                  </div>
                 ) : (
                   <>
                     {locale.orDragHere}&nbsp;
@@ -279,5 +277,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
 export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
-export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(React.memo(_FileUploader));
+export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(
+  React.memo(_FileUploader),
+);
 FileUploader.displayName = 'FileUploader';

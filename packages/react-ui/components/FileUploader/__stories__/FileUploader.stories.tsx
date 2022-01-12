@@ -96,11 +96,5 @@ export const FileUploaderRefFocusAndBlur = () => {
 };
 FileUploaderRefFocusAndBlur.parameters = { creevey: { skip: [true] } };
 
-export const MultipleFileUploaderWithHideFiles = () => (
-  <FileUploader
-    multiple
-    request={successRequest}
-    hideFiles
-  />
-);
+export const MultipleFileUploaderWithHideFiles = () => <FileUploader multiple request={successRequest} hideFiles />;
 MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: [true] } };
