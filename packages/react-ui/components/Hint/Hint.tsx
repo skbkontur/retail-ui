@@ -1,21 +1,17 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { withClassWrapper } from '../../lib/withClassWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Theme } from '../../lib/theming/Theme';
 import { Popup, PopupPosition } from '../../internal/Popup';
-import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-import { styles } from './Hint.styles';
+import { HintContent } from './HintContent';
 
-const HINT_BORDER_COLOR = 'transparent';
-
-export interface HintProps extends CommonProps {
+export type HintProps = {
   children?: React.ReactNode;
   /**
    * Переводит отображение подсказки в _"ручной режим"_.
@@ -77,13 +73,9 @@ export interface HintProps extends CommonProps {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper: boolean;
-}
+} & CommonProps;
 
-export interface HintState {
-  opened: boolean;
-}
-
-const Positions: PopupPosition[] = [
+const positions: PopupPosition[] = [
   'top center',
   'top left',
   'top right',
@@ -98,140 +90,101 @@ const Positions: PopupPosition[] = [
   'right bottom',
 ];
 
+const getPositions = (positions: PopupPosition[], pos: HintProps['pos']) => {
+  return positions.filter((x) => x.startsWith(pos));
+};
+
+const clearTimer = (timer: number | undefined) => {
+  clearTimeout(timer);
+  timer = undefined;
+};
+
+const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, ref) => {
+  const {
+    children,
+    disableAnimations = isTestEnv,
+    useWrapper = false,
+    manual = false,
+    text,
+    opened = false,
+    pos = 'top',
+    maxWidth = 200,
+    onMouseEnter,
+    onMouseLeave,
+  } = props;
+
+  const theme = useContext(ThemeContext);
+
+  const [isOpen, setIsOpen] = useState(manual ? opened : false);
+  let timer: number | undefined = undefined;
+
+  useEffect(() => {
+    if (!manual) {
+      return;
+    }
+
+    setIsOpen(!!opened);
+  }, [manual, opened]);
+
+  useEffect(() => {
+    return clearTimer(timer);
+  }, [timer]);
+
+  const handleMouseEnter = (e: MouseEventType) => {
+    if (!manual && !timer) {
+      timer = window.setTimeout(() => {
+        setIsOpen(true);
+      }, 400);
+    }
+
+    onMouseEnter?.(e);
+  };
+
+  const handleMouseLeave = (e: MouseEventType) => {
+    if (!manual) {
+      clearTimer(timer);
+
+      setIsOpen(false);
+    }
+
+    onMouseLeave?.(e);
+  };
+
+  return (
+    // TODO: Pass `ref` down to `Popup` when it'll be possible
+    <ThemeContext.Provider
+      value={ThemeFactory.create(
+        {
+          popupPinOffset: theme.hintPinOffset,
+          popupMargin: theme.hintMargin,
+          popupBorder: theme.hintBorder,
+          popupBorderRadius: theme.hintBorderRadius,
+        },
+        theme,
+      )}
+    >
+      <CommonWrapper {...props}>
+        <Popup
+          hasPin
+          opened={isOpen}
+          anchorElement={children}
+          positions={getPositions(positions, pos)}
+          backgroundColor={theme.hintBgColor}
+          borderColor="transparent"
+          disableAnimations={disableAnimations}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          useWrapper={useWrapper}
+        >
+          <HintContent text={text} pos={pos} maxWidth={maxWidth} />
+        </Popup>
+      </CommonWrapper>
+    </ThemeContext.Provider>
+  );
+});
+
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
-@rootNode
-export class Hint extends React.PureComponent<HintProps, HintState> {
-  public static __KONTUR_REACT_UI__ = 'Hint';
-
-  public static defaultProps = {
-    pos: 'top',
-    manual: false,
-    opened: false,
-    maxWidth: 200,
-    disableAnimations: isTestEnv,
-    useWrapper: false,
-  };
-
-  public state: HintState = {
-    opened: this.props.manual ? !!this.props.opened : false,
-  };
-
-  private timer: Nullable<number> = null;
-  private theme!: Theme;
-  private setRootNode!: TSetRootNode;
-
-  public componentDidUpdate(prevProps: HintProps) {
-    if (!this.props.manual) {
-      return;
-    }
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
-    if (this.props.opened !== prevProps.opened) {
-      this.setState({ opened: !!this.props.opened });
-    }
-  }
-
-  public componentWillUnmount() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-    }
-  }
-
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  popupPinOffset: theme.hintPinOffset,
-                  popupMargin: theme.hintMargin,
-                  popupBorder: theme.hintBorder,
-                  popupBorderRadius: theme.hintBorderRadius,
-                },
-                this.theme,
-              )}
-            >
-              {this.renderMain()}
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  public renderMain() {
-    return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <Popup
-          hasPin
-          opened={this.state.opened}
-          anchorElement={this.props.children}
-          positions={this.getPositions()}
-          backgroundColor={this.theme.hintBgColor}
-          borderColor={HINT_BORDER_COLOR}
-          disableAnimations={this.props.disableAnimations}
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
-          useWrapper={this.props.useWrapper}
-        >
-          {this.renderContent()}
-        </Popup>
-      </CommonWrapper>
-    );
-  }
-
-  private renderContent() {
-    if (!this.props.text) {
-      return null;
-    }
-
-    const { pos, maxWidth } = this.props;
-    const className = cx({
-      [styles.content(this.theme)]: true,
-      [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
-    });
-    return (
-      <div className={className} style={{ maxWidth }}>
-        {this.props.text}
-      </div>
-    );
-  }
-
-  private getPositions = (): PopupPosition[] => {
-    return Positions.filter((x) => x.startsWith(this.props.pos));
-  };
-
-  private handleMouseEnter = (e: MouseEventType) => {
-    if (!this.props.manual && !this.timer) {
-      this.timer = window.setTimeout(this.open, 400);
-    }
-
-    if (this.props.onMouseEnter) {
-      this.props.onMouseEnter(e);
-    }
-  };
-
-  private handleMouseLeave = (e: MouseEventType) => {
-    if (!this.props.manual && this.timer) {
-      clearTimeout(this.timer);
-      this.timer = null;
-      this.setState({ opened: false });
-    }
-
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(e);
-    }
-  };
-
-  private open = () => {
-    this.setState({ opened: true });
-  };
-}
+export const Hint = withClassWrapper(HintFC);
+export type Hint = InstanceType<typeof Hint>;
