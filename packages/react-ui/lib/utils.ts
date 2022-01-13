@@ -79,3 +79,30 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
 };
+
+/**
+ * Checks if the given name starts with a capital letter
+ * if it's not throws an error.
+ */
+export const isComponentName = (name: string) => {
+  const firstLetter = name[0];
+  if (firstLetter === firstLetter.toLowerCase()) {
+    throw new Error("Component's name must start with a capital letter.");
+  }
+};
+
+/**
+ * Creates a function that checks if the given `child`
+ * is an instance of some component specified by `name`.
+ *
+ * @param name Component name for which function will be created.
+ * @returns A function that checks if the given `child` is an instance of the component specified by `name`.
+ */
+export const isComponent = <P>(name: string) => {
+  isComponentName(name);
+
+  return (child: React.ReactNode): child is React.ReactElement<P> => {
+    // @ts-ignore
+    return child?.type?.__KONTUR_REACT_UI__ === name;
+  };
+};

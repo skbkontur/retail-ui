@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
@@ -450,7 +451,4 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 }
 
-export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  // @ts-ignore
-  return child?.type?.__KONTUR_REACT_UI__ === 'Button';
-};
+export const isButton = isComponent<ButtonProps>('Button');
