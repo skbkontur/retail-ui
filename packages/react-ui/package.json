@@ -137,6 +137,10 @@
     "react-dom": ">=16.9"
   },
   "jest": {
+    "testResultsProcessor": "jest-teamcity-reporter",
+    "moduleNameMapper": {
+      "\\.(css|less)$": "identity-obj-proxy"
+    },
     "transform": {
       "\\.[jt]sx?$": "babel-jest"
     },
@@ -147,9 +151,6 @@
     ],
     "transformIgnorePatterns": [
       "<rootDir>/node_modules/"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    }
+    ]
   }
 }
