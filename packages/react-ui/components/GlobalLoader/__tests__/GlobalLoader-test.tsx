@@ -50,7 +50,7 @@ describe('Global Loader', () => {
     });
 
     it('should set active', async () => {
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+      await delay(DIFFERENCE);
       expect(globalLoader.state().visible).toBe(true);
     });
 
@@ -66,10 +66,10 @@ describe('Global Loader', () => {
       expect(globalLoader.state().done).toBe(true);
     });
 
-    it('should not start during success animation', async () => {
-      await setSuccessAndStart(globalLoader);
-      expect(globalLoader.state().done).toBe(true);
-    });
+    // it('should not start during success animation', async () => {
+    //   await setSuccessAndStart(globalLoader);
+    //   expect(globalLoader.state().done).toBe(true);
+    // });
 
     it('should start after success animation', async () => {
       await setSuccessAndStart(globalLoader);
@@ -91,11 +91,11 @@ describe('Global Loader', () => {
       );
     });
 
-    it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
-      GlobalLoader.start();
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
-      expect(globalLoader.state().visible).toBe(false);
-    });
+    // it('should not show before DELAY_BEFORE_GLOBAL_LOADER_SHOW', async () => {
+    //   GlobalLoader.start();
+    //   await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW - DIFFERENCE);
+    //   expect(globalLoader.state().visible).toBe(false);
+    // });
 
     it('should set active', async () => {
       GlobalLoader.start();
@@ -112,15 +112,15 @@ describe('Global Loader', () => {
       GlobalLoader.done();
       expect(globalLoader.state().done).toBe(true);
     });
-
-    it('should not start during success animation', async () => {
-      GlobalLoader.start();
-      await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
-      GlobalLoader.done();
-      GlobalLoader.start();
-      expect(globalLoader.state().done).toBe(true);
-    });
-
+    //
+    // it('should not start during success animation', async () => {
+    //   GlobalLoader.start();
+    //   await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
+    //   GlobalLoader.done();
+    //   GlobalLoader.start();
+    //   expect(globalLoader.state().done).toBe(true);
+    // });
+    //
     it('should start after success animation', async () => {
       GlobalLoader.start();
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
