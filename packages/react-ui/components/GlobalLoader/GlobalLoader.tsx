@@ -217,6 +217,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       this.props.onAccept?.();
     }
     this.setState({ rejected: reject });
+    if (!reject) {
+      this.errorTask();
+    }
   };
 
   public updateExpectedResponseTime(expectedResponseTime: number) {
