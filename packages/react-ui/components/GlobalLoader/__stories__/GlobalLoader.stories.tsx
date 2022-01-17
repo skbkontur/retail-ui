@@ -124,7 +124,7 @@ function GlobalLoaderWithTimer() {
     <div>
       <div>
         Выбирите время, через которое придет ответ от сервера:{' '}
-        <Select items={items} value={time} onValueChange={setTime} />
+        <Select<number, number> items={items} value={time} onValueChange={setTime} />
         Прошло: {timerTime / 1000} секунд
       </div>
       <Button onClick={startGlobalLoader}> Запустить Глобальный лоадер </Button>
