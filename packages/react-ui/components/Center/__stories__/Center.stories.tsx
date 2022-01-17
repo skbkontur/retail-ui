@@ -1,16 +1,16 @@
 import React from 'react';
-import { ComponentStory, Meta } from '@storybook/react';
+import { ComponentStory } from '@storybook/react';
 
 import { Center } from '../Center';
+import { Meta } from '../../../typings/stories';
 
-const meta: Meta = {
+export default {
   title: 'components/Center',
   argTypes: {
     align: { control: 'select', options: ['left', 'center', 'right'] },
   },
   parameters: { creevey: { skip: [true] } },
-};
-export default meta;
+} as Meta;
 
 const Template: ComponentStory<typeof Center> = (args) => (
   <div style={{ width: 200, height: 200, border: '1px solid #dfdede' }}>

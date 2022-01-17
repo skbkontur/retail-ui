@@ -9,23 +9,22 @@ import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Center.styles';
 
-export interface CenterProps
-  extends CommonProps,
-    Override<
-      React.HTMLAttributes<HTMLDivElement>,
-      {
-        /**
-         * Определяет, как контент будет выровнен по горизонтали.
-         *
-         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
-         */
-        align?: 'left' | 'center' | 'right';
-      }
-    > {}
+export type CenterProps = CommonProps &
+  Override<
+    React.HTMLAttributes<HTMLDivElement>,
+    {
+      /**
+       * Определяет, как контент будет выровнен по горизонтали.
+       *
+       * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+       */
+      align?: 'left' | 'center' | 'right';
+    }
+  >;
 
 const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
   'CenterFC',
-  ({ align, ...rest }, ref) => {
+  ({ instanceRef, align, ...rest }, ref) => {
     return (
       <CommonWrapper {...rest}>
         <div
