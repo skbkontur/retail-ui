@@ -1,11 +1,13 @@
 import React from 'react';
+import times from 'lodash/times';
+import { ComponentStory } from '@storybook/react';
 
 import { Meta } from '../../../typings/stories';
 import { Gapped, GappedProps } from '../Gapped';
 import { Button } from '../../Button';
 
 export default {
-  title: 'Gapped',
+  title: 'components/Gapped',
   decorators: [
     (Story) => (
       <div style={{ padding: '5px', border: '1px solid black', width: '300px' }}>
@@ -15,37 +17,49 @@ export default {
   ],
 } as Meta;
 
-export const Horizontal = () => (
-  <Gapped gap={20}>
-    <Button>Button</Button>
-    <Button>Button</Button>
-  </Gapped>
-);
+const Template: ComponentStory<typeof Gapped> = ({ children, ...rest }) => <Gapped {...rest}>{children}</Gapped>;
 
-export const Vertical = () => (
-  <Gapped gap={20} vertical>
-    <Button>Button</Button>
-    <Button>Button</Button>
-  </Gapped>
-);
+const commonArgs = {
+  gap: 20,
+  wrap: false,
+  vertical: false,
+};
 
-export const HorizontalWrap = () => (
-  <Gapped gap={100} wrap>
-    <Button>Button</Button>
-    <Button>Button</Button>
-    <Button>Button</Button>
-    <Button>Button</Button>
-  </Gapped>
-);
+const generateButtons = (amount: number) => {
+  let counter = 0;
 
-export const HorizontalNoWrap = () => (
-  <Gapped gap={20}>
-    <Button>Button</Button>
-    <Button>Button</Button>
-    <Button>Button</Button>
-    <Button>Button</Button>
-  </Gapped>
-);
+  return times(amount, () => {
+    counter++;
+    return <Button key={counter}>Button</Button>;
+  });
+};
+
+export const Horizontal = Template.bind({});
+Horizontal.args = {
+  ...commonArgs,
+  children: generateButtons(2),
+};
+
+export const Vertical = Template.bind({});
+Vertical.args = {
+  ...commonArgs,
+  vertical: true,
+  children: generateButtons(2),
+};
+
+export const HorizontalWrap = Template.bind({});
+HorizontalWrap.args = {
+  ...commonArgs,
+  gap: 100,
+  wrap: true,
+  children: generateButtons(4),
+};
+
+export const HorizontalNoWrap = Template.bind({});
+HorizontalNoWrap.args = {
+  ...commonArgs,
+  children: generateButtons(4),
+};
 
 export const WithNullChilds = () => {
   const GappedWithNulls = (props: Partial<Pick<GappedProps, 'vertical' | 'wrap'>>) => (

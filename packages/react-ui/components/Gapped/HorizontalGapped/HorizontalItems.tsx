@@ -1,36 +1,18 @@
 import React from 'react';
 
+import { HorizontalItem } from './HorizontalItem';
 import { HorizontalGappedProps } from './HorizontalGapped';
 
-export const HorizontalItems = (props: Required<HorizontalGappedProps>) => {
-  const renderItems = () => {
-    return React.Children.toArray(props.children).map((child, index) => {
-      const isFirst = index === 0;
-      const leftIndent = calcItemMarginLeft(props.gap, props.wrap, isFirst);
-
-      return (
-        <span
-          key={index}
-          style={{
-            display: 'inline-block',
-            verticalAlign: props.verticalAlign,
-            marginLeft: leftIndent,
-            marginTop: props.wrap ? props.gap : 0,
-          }}
-        >
-          {child}
-        </span>
-      );
-    });
-  };
-
-  return <>{renderItems()}</>;
-};
-
-const calcItemMarginLeft = (gap: number, isWrapped: boolean, isFirst: boolean) => {
-  if (!isFirst || isWrapped) {
-    return gap;
-  }
-
-  return 0;
+export const HorizontalItems = ({ gap, children, wrap, verticalAlign }: HorizontalGappedProps) => {
+  return (
+    <>
+      {React.Children.toArray(children).map((child, index) => {
+        return (
+          <HorizontalItem key={index} verticalAlign={verticalAlign} gap={gap} wrap={wrap} isFirst={index === 0}>
+            {child}
+          </HorizontalItem>
+        );
+      })}
+    </>
+  );
 };

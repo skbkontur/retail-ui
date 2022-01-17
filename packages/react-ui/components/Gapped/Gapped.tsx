@@ -7,7 +7,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { VerticalGapped } from './VerticalGapped';
 import { HorizontalGapped } from './HorizontalGapped';
 
-export interface GappedProps extends CommonProps {
+export type GappedProps = {
   /**
    * Расстояние между элементами в пикселях
    * @default 8
@@ -17,44 +17,45 @@ export interface GappedProps extends CommonProps {
    * Вертикальное выравнивание
    * @default "baseline"
    */
-  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
+  verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
   /**
    * Расположение элементов по вертикали
    * @default false
    */
-  vertical: boolean;
+  vertical?: boolean;
   /**
    * Перенос элементов на новую строку при горизонтальном расположении
    * @default false
    */
-  wrap: boolean;
+  wrap?: boolean;
   /**
    * @ignore
    */
   children: React.ReactNode;
-}
+} & CommonProps;
 
-const GappedFC = forwardRefAndName<HTMLDivElement, GappedProps>('GappedFC', (props, ref) => {
-  const { instanceRef, verticalAlign = 'baseline', ...rest } = props;
-
-  const content = () => {
-    if (props.vertical) {
+const GappedFC = forwardRefAndName<HTMLDivElement, GappedProps>(
+  'GappedFC',
+  ({ instanceRef, verticalAlign = 'baseline', vertical, gap, children, wrap, ...rest }, ref) => {
+    if (vertical) {
       return (
-        <VerticalGapped ref={ref} gap={rest.gap}>
-          {rest.children}
-        </VerticalGapped>
+        <CommonWrapper {...rest}>
+          <VerticalGapped ref={ref} gap={gap}>
+            {children}
+          </VerticalGapped>
+        </CommonWrapper>
       );
     }
 
     return (
-      <HorizontalGapped ref={ref} verticalAlign={verticalAlign} wrap={rest.wrap} gap={rest.gap}>
-        {rest.children}
-      </HorizontalGapped>
+      <CommonWrapper {...rest}>
+        <HorizontalGapped ref={ref} verticalAlign={verticalAlign} wrap={wrap} gap={gap}>
+          {children}
+        </HorizontalGapped>
+      </CommonWrapper>
     );
-  };
-
-  return <CommonWrapper {...rest}>{content()}</CommonWrapper>;
-});
+  },
+);
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.

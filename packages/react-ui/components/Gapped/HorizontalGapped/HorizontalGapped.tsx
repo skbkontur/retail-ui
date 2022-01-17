@@ -6,24 +6,24 @@ import { useGapValue } from '../useGapValue';
 
 import { HorizontalItems } from './HorizontalItems';
 
-export type HorizontalGappedProps = Pick<GappedProps, 'wrap' | 'children' | 'verticalAlign' | 'gap'>;
+export type HorizontalGappedProps = GappedProps;
 
 export const HorizontalGapped = forwardRefAndName<HTMLDivElement, HorizontalGappedProps>(
   'HorizontalGapped',
-  (props, ref) => {
-    const gap = useGapValue(props.gap);
+  ({ gap, wrap, children, verticalAlign }, ref) => {
+    const gapValue = useGapValue(gap);
 
     return (
-      <div ref={ref} style={{ paddingTop: props.wrap ? 1 : 0 }}>
+      <div ref={ref} style={{ paddingTop: wrap ? 1 : 0 }}>
         <div
           style={{
-            marginTop: props.wrap ? -gap - 1 : 0,
-            marginLeft: props.wrap ? -gap : 0,
-            whiteSpace: props.wrap ? 'normal' : 'nowrap',
+            marginTop: wrap ? -gapValue - 1 : 0,
+            marginLeft: wrap ? -gapValue : 0,
+            whiteSpace: wrap ? 'normal' : 'nowrap',
           }}
         >
-          <HorizontalItems wrap={props.wrap} verticalAlign={props.verticalAlign} gap={gap}>
-            {props.children}
+          <HorizontalItems wrap={wrap} verticalAlign={verticalAlign} gap={gap}>
+            {children}
           </HorizontalItems>
         </div>
       </div>

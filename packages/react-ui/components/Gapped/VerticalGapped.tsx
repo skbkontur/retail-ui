@@ -5,7 +5,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { GappedProps } from './Gapped';
 import { useGapValue } from './useGapValue';
 
-type VerticalGappedProps = Pick<GappedProps, 'children' | 'gap'>;
+export type VerticalGappedProps = GappedProps;
 
 export const VerticalGapped = forwardRefAndName<HTMLDivElement, VerticalGappedProps>('VerticalGapped', (props, ref) => {
   const gap = useGapValue(props.gap);
@@ -15,7 +15,9 @@ export const VerticalGapped = forwardRefAndName<HTMLDivElement, VerticalGappedPr
       return child;
     }
 
-    return <div style={{ paddingTop: index === 0 ? 0 : gap }}>{child}</div>;
+    const isFirst = index === 0;
+
+    return <div style={{ paddingTop: isFirst ? 0 : gap }}>{child}</div>;
   });
 
   return <div ref={ref}>{children}</div>;
