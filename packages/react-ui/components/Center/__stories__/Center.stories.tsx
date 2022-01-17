@@ -1,12 +1,27 @@
 import React from 'react';
+import { ComponentStory, Meta } from '@storybook/react';
 
 import { Center } from '../Center';
 
-export default { title: 'Center', parameters: { creevey: { skip: [true] } } };
+const meta: Meta = {
+  title: 'components/Center',
+  argTypes: {
+    align: { control: 'select', options: ['left', 'center', 'right'] },
+  },
+  parameters: { creevey: { skip: [true] } },
+};
+export default meta;
 
-export const Simple = () => (
+const Template: ComponentStory<typeof Center> = (args) => (
   <div style={{ width: 200, height: 200, border: '1px solid #dfdede' }}>
-    <Center>Hola</Center>
+    <Center {...args}>
+      <div style={{ width: 30, height: 30, background: '#000' }}></div>
+    </Center>
   </div>
 );
+
+export const Simple = Template.bind({});
+Simple.args = {
+  align: 'center',
+};
 Simple.storyName = 'simple';

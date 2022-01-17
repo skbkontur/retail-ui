@@ -9,8 +9,6 @@ import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Center.styles';
 
-export type HorizontalAlign = 'left' | 'center' | 'right';
-
 export interface CenterProps
   extends CommonProps,
     Override<
@@ -21,30 +19,31 @@ export interface CenterProps
          *
          * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
          */
-        align?: HorizontalAlign;
+        align?: 'left' | 'center' | 'right';
       }
     > {}
 
-const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>('CenterFC', (props, ref) => {
-  const { instanceRef, ...rest } = props;
-
-  return (
-    <CommonWrapper {...props}>
-      <div
-        ref={ref}
-        className={cx({
-          [styles.root()]: true,
-          [styles.rootAlignLeft()]: props.align === 'left',
-          [styles.rootAlignRight()]: props.align === 'right',
-        })}
-        {...rest}
-      >
-        <span className={styles.spring()} />
-        <span className={styles.container()}>{props.children}</span>
-      </div>
-    </CommonWrapper>
-  );
-});
+const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
+  'CenterFC',
+  ({ align, ...rest }, ref) => {
+    return (
+      <CommonWrapper {...rest}>
+        <div
+          ref={ref}
+          className={cx({
+            [styles.root()]: true,
+            [styles.rootAlignLeft()]: align === 'left',
+            [styles.rootAlignRight()]: align === 'right',
+          })}
+          {...rest}
+        >
+          <span className={styles.spring()} />
+          <span className={styles.container()}>{rest.children}</span>
+        </div>
+      </CommonWrapper>
+    );
+  },
+);
 
 CenterFC.propTypes = {
   align: oneOf(['left', 'center', 'right']),
