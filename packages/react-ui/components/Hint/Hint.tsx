@@ -10,6 +10,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { HintContent } from './HintContent';
+import { clearTimer, getPositions } from './utils';
 
 export type HintProps = {
   children?: React.ReactNode;
@@ -42,7 +43,7 @@ export type HintProps = {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos:
+  pos?:
     | 'top'
     | 'right'
     | 'bottom'
@@ -66,13 +67,13 @@ export type HintProps = {
   /**
    * Отключает анимацию.
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
+  useWrapper?: boolean;
 } & CommonProps;
 
 const positions: PopupPosition[] = [
@@ -90,14 +91,8 @@ const positions: PopupPosition[] = [
   'right bottom',
 ];
 
-const getPositions = (positions: PopupPosition[], pos: HintProps['pos']) => {
-  return positions.filter((x) => x.startsWith(pos));
-};
-
-const clearTimer = (timer: number | undefined) => {
-  clearTimeout(timer);
-  timer = undefined;
-};
+export const DEFAULT_POSITION = 'top';
+export const DEFAULT_MAX_WIDTH = 200;
 
 const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, ref) => {
   const {
@@ -107,8 +102,8 @@ const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, re
     manual = false,
     text,
     opened = false,
-    pos = 'top',
-    maxWidth = 200,
+    pos = DEFAULT_POSITION,
+    maxWidth = DEFAULT_MAX_WIDTH,
     onMouseEnter,
     onMouseLeave,
   } = props;
