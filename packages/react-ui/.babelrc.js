@@ -1,6 +1,6 @@
 module.exports = {
-  "assumptions": {
-    "setPublicClassFields": true
+  assumptions: {
+    setPublicClassFields: true,
   },
   env: {
     cjs: {
