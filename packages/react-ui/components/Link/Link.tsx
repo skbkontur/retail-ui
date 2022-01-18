@@ -7,12 +7,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
-import { DefaultTheme } from '../../internal/themes/DefaultTheme';
-import { Spinner } from '../Spinner';
 import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Link.styles';
 import { generateRel } from './utils';
+import { LinkArrow } from './LinkArrow';
+import { LinkIcon } from './LinkIcon';
 
 export interface LinkProps
   extends CommonProps,
@@ -30,7 +30,7 @@ export interface LinkProps
         /**
          * Добавляет ссылке иконку.
          */
-        icon?: React.ReactElement<any>;
+        icon?: React.ReactNode;
         /**
          * Тема ссылки.
          */
@@ -43,6 +43,10 @@ export interface LinkProps
          * @ignore
          */
         _buttonOpened?: boolean;
+        /**
+         * @ignore
+         */
+        children: React.ReactNode;
         /**
          * HTML-атрибут `tabindex`.
          */
@@ -58,93 +62,83 @@ export interface LinkProps
       }
     > {}
 
-const renderSpinner = (condition: boolean, fallback: React.ReactNode): React.ReactNode => {
-  if (condition) {
-    return <Spinner caption={null} dimmed type="mini" />;
-  }
-  return fallback;
-};
+const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
+  'LinkFC',
+  (
+    {
+      disabled = false,
+      href = '',
+      use = 'default',
+      instanceRef,
+      onClick,
+      rel,
+      loading,
+      icon,
+      children,
+      tabIndex,
+      _button,
+      _buttonOpened,
+      ...rest
+    },
+    ref,
+  ) => {
+    const theme = useContext(ThemeContext);
 
-const renderIconElement = (
-  condition: boolean,
-  props: LinkProps,
-  theme: Readonly<typeof DefaultTheme>,
-): React.ReactNode => {
-  if (condition) {
-    return <span className={styles.icon(theme)}>{renderSpinner(!!props.loading, props.icon)}</span>;
-  }
-  return null;
-};
+    const [focusedByTab, setFocusedByTab] = useState(false);
+    const isFocused = !disabled && focusedByTab;
+    const isDisabled = disabled || loading;
 
-const renderArrow = (condition: boolean): React.ReactNode => {
-  if (condition) {
-    return <span className={styles.arrow()} />;
-  }
-  return null;
-};
+    const handleFocus = () => {
+      if (!disabled) {
+        // focus event fires before keyDown eventlistener
+        // so we should check tabPressed in async way
+        requestAnimationFrame(() => {
+          if (keyListener.isTabPressed) {
+            setFocusedByTab(true);
+          }
+        });
+      }
+    };
 
-const LinkFC = forwardRefAndName<HTMLAnchorElement, React.PropsWithChildren<LinkProps>>('LinkFC', (props, ref) => {
-  const { disabled = false, href = '', use = 'default', instanceRef, ...rest } = props;
+    const linkRel = rel ?? generateRel(href, rel);
 
-  const theme = useContext(ThemeContext);
-
-  const [focusedByTab, setFocusedByTab] = useState(false);
-  const isFocused = !disabled && focusedByTab;
-
-  const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!href) {
-      event.preventDefault();
-    }
-    props.onClick?.(event);
-  };
-
-  const handleFocus = () => {
-    if (!disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
-        if (keyListener.isTabPressed) {
-          setFocusedByTab(true);
-        }
-      });
-    }
-  };
-
-  const handleBlur = () => {
-    setFocusedByTab(false);
-  };
-
-  return (
-    <CommonWrapper {...rest}>
-      <a
-        {...rest}
-        ref={ref}
-        href={href}
-        rel={props.rel ?? generateRel(href, !!(typeof props.rel === 'undefined'))}
-        onClick={handleClick}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-        tabIndex={disabled || props.loading ? -1 : props.tabIndex}
-        className={cx({
-          [styles.root(theme)]: true,
-          [styles.button(theme)]: !!props._button,
-          [styles.buttonOpened()]: !!props._buttonOpened,
-          [styles.useDefault(theme)]: use === 'default',
-          [styles.useSuccess(theme)]: use === 'success',
-          [styles.useDanger(theme)]: use === 'danger',
-          [styles.useGrayed(theme)]: use === 'grayed',
-          [styles.useGrayedFocus(theme)]: use === 'grayed' && isFocused,
-          [styles.focus(theme)]: isFocused,
-          [styles.disabled(theme)]: !!disabled || !!props.loading,
-        })}
-      >
-        {renderIconElement(!!props.icon, props, theme)}
-        {props.children}
-        {renderArrow(!!props._button)}
-      </a>
-    </CommonWrapper>
-  );
-});
+    return (
+      <CommonWrapper {...rest}>
+        <a
+          {...rest}
+          ref={ref}
+          href={href}
+          rel={linkRel}
+          onClick={(event) => {
+            if (onClick) {
+              event.preventDefault();
+              onClick(event);
+            }
+          }}
+          onFocus={handleFocus}
+          onBlur={() => setFocusedByTab(false)}
+          tabIndex={isDisabled ? -1 : tabIndex}
+          className={cx({
+            [styles.root(theme)]: true,
+            [styles.button(theme)]: _button,
+            [styles.buttonOpened()]: _buttonOpened,
+            [styles.useDefault(theme)]: use === 'default',
+            [styles.useSuccess(theme)]: use === 'success',
+            [styles.useDanger(theme)]: use === 'danger',
+            [styles.useGrayed(theme)]: use === 'grayed',
+            [styles.useGrayedFocus(theme)]: use === 'grayed' && isFocused,
+            [styles.focus(theme)]: isFocused,
+            [styles.disabled(theme)]: isDisabled,
+          })}
+        >
+          {icon && <LinkIcon loading={loading} icon={icon} />}
+          {children}
+          {_button && <LinkArrow />}
+        </a>
+      </CommonWrapper>
+    );
+  },
+);
 
 LinkFC.propTypes = {
   disabled: PropTypes.bool,

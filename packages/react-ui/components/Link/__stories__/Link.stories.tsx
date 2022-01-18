@@ -1,8 +1,10 @@
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import DeleteIcon from '@skbkontur/react-icons/Delete';
+import { ComponentStory } from '@storybook/react';
 
-import { Story, CreeveyTests } from '../../../typings/stories';
-import { Link } from '../Link';
+import { Story, CreeveyTests, Meta } from '../../../typings/stories';
+import { Link, LinkProps } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 
@@ -26,34 +28,72 @@ const linkTests: CreeveyTests = {
 export default {
   title: 'Link',
   parameters: { creevey: { skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hover' }] } },
+  argTypes: {
+    use: { control: 'select', options: ['default', 'success', 'danger', 'grayed'] },
+  },
+} as Meta;
+
+const commonArgs = {
+  disabled: false,
+  loading: false,
+  href: 'https://tech.skbkontur.ru/react-ui',
+  use: 'default' as LinkProps['use'],
 };
 
-export const Simple: Story = () => <Link>Simple Link</Link>;
+const Template: ComponentStory<typeof Link> = (args) => <Link {...args} />;
+
+export const Simple = Template.bind({});
+Simple.args = {
+  ...commonArgs,
+  children: 'Simple link',
+};
 Simple.parameters = { creevey: { tests: linkTests } };
 
-export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
+export const WithIcon = Template.bind({});
+WithIcon.args = {
+  ...commonArgs,
+  children: 'Link with icon',
+  icon: <OkIcon />,
+};
 WithIcon.parameters = { creevey: { tests: linkTests } };
 
-export const Danger: Story = () => (
-  <Link icon={<OkIcon />} use="danger">
-    Simple Link
-  </Link>
-);
+export const Danger = Template.bind({});
+Danger.args = {
+  ...commonArgs,
+  use: 'danger',
+  icon: <DeleteIcon />,
+  children: 'Danger link',
+};
 Danger.parameters = { creevey: { tests: linkTests } };
 
-export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
+export const Grayed = Template.bind({});
+Grayed.args = {
+  ...commonArgs,
+  use: 'grayed',
+  children: 'Grayed link',
+};
 Grayed.parameters = { creevey: { tests: linkTests } };
 
-export const Disabled: Story = () => <Link disabled>Simple link</Link>;
+export const Disabled = Template.bind({});
+Disabled.args = {
+  ...commonArgs,
+  disabled: true,
+  children: 'Disabled link',
+};
 Disabled.parameters = { creevey: { tests: linkTests } };
 
-export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
+export const WithOnClick = Template.bind({});
+WithOnClick.args = {
+  ...commonArgs,
+  onClick: () => Toast.push('Clicked!'),
+  children: 'Link with onClick action',
+};
 WithOnClick.storyName = 'With onClick';
 WithOnClick.parameters = { creevey: { skip: [true] } };
 
 export const Loading: Story = () => (
   <Gapped vertical>
-    <Link loading>Simple loading </Link>
+    <Link loading>Loading link</Link>
     <div style={{ width: '300px', border: '1px solid lightgrey', padding: '5px' }}>
       {'Some long text '}
       <Link loading>loading link </Link>

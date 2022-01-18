@@ -1,59 +1,37 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
-import { Link, LinkProps } from '../Link';
-
-const render = (props?: LinkProps) => mount(<Link {...props} />);
+import { Link } from '../Link';
 
 describe('Link', () => {
-  it('calls `onClick` when link clicked', () => {
-    const onClick = jest.fn();
+  it('has an interactive link', () => {
+    const { getByRole } = render(<Link href="https://tech.skbkontur.ru/react-ui">children</Link>);
 
-    const wrapper = render({ onClick });
-    wrapper.find('a').simulate('click');
-
-    expect(onClick).toHaveBeenCalled();
+    getByRole('link');
   });
 
-  describe('"rel" attribute', () => {
-    it("doesn't change if defined in props", () => {
-      const wrapper = render({ href: 'https://example.com', rel: 'nofollow' });
+  it('calls callback when an interactive link is clicked', () => {
+    const callback = jest.fn();
+    const { getByRole } = render(
+      <Link onClick={callback} href="https://tech.skbkontur.ru/react-ui">
+        children
+      </Link>,
+    );
 
-      expect(wrapper.find('a').prop('rel')).toBe('nofollow');
-    });
+    const link = getByRole('link');
+    userEvent.click(link);
 
-    it("doesn't get filled if there is no href", () => {
-      const wrapper = render();
+    expect(callback).toHaveBeenCalledTimes(1);
+  });
 
-      expect(wrapper.find('a').prop('rel')).toBe(undefined);
-    });
+  it('calls callback when an non-interactive link is clicked', () => {
+    const callback = jest.fn();
+    const { getByText } = render(<Link onClick={callback}>children</Link>);
 
-    describe('external hrefs', () => {
-      it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
-        '%s',
-        (href) => {
-          const wrapper = render({ href: href });
+    const link = getByText('children');
+    userEvent.click(link);
 
-          expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
-        },
-      );
-    });
-
-    describe('internal hrefs', () => {
-      it.each([
-        [`https://${location.host}/home`],
-        [`http://${location.host}`],
-        [`//${location.host}`],
-        ['/home'],
-        ['/home?redirect=http://example.com'],
-        ['../home'],
-        ['page.html'],
-        ['#anchor'],
-      ])('%s', (href) => {
-        const wrapper = render({ href: href });
-
-        expect(wrapper.find('a').prop('rel')).toBe('noopener');
-      });
-    });
+    expect(callback).toHaveBeenCalledTimes(1);
   });
 });
