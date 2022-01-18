@@ -1,6 +1,6 @@
 {
   "name": "retail-ui",
-  "version": "1.6.8",
+  "version": "1.6.8-fixed-modal-stack",
   "description": "UI Components",
   "main": "dist/index.js",
   "repository": {
