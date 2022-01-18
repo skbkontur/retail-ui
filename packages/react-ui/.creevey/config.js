@@ -36,47 +36,47 @@ const config = {
   }),
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
-    chrome8px: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/chrome8px',
-      ...capabilities,
-    },
-    chromeFlat8px: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/chromeFlat8px',
-      ...capabilities,
-    },
-    chrome: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/chrome',
-      ...capabilities,
-    },
-    chromeDark: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DARK_THEME',
-      },
-      backgrounds: { default: 'dark' },
-      name: 'infrafront/chromeDark',
-      ...capabilities,
-    },
+    // chrome8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/chrome8px',
+    //   ...capabilities,
+    // },
+    // chromeFlat8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/chromeFlat8px',
+    //   ...capabilities,
+    // },
+    // chrome: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/chrome',
+    //   ...capabilities,
+    // },
+    // chromeDark: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DARK_THEME',
+    //   },
+    //   backgrounds: { default: 'dark' },
+    //   name: 'infrafront/chromeDark',
+    //   ...capabilities,
+    // },
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
@@ -160,16 +160,16 @@ const config = {
       name: 'infrafront/ie11Dark',
       ...capabilities,
     },
-    chromeMobile: {
-      browserName: 'chrome',
-      viewport: { width: 400, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_MOBILE',
-      },
-      name: 'infrafront/chromeMobile',
-      ...capabilities,
-    },
+    // chromeMobile: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 400, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_MOBILE',
+    //   },
+    //   name: 'infrafront/chromeMobile',
+    //   ...capabilities,
+    // },
   },
 };
 
