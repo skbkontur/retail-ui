@@ -6,10 +6,16 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MenuHeader.styles';
 
-export interface MenuHeaderProps extends CommonProps {
+export type MenuHeaderProps = {
+  /**
+   * @ignore
+   */
   _enableIconPadding?: boolean;
+  /**
+   * @ignore
+   */
   children: ReactNode;
-}
+} & CommonProps;
 
 /**
  * `Заголовок меню` используется для того, чтобы разделить `элементы меню` на категории в рамках одного меню.
@@ -18,7 +24,7 @@ export interface MenuHeaderProps extends CommonProps {
  *
  * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
-function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
+export const MenuHeader = ({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) => {
   const theme = useContext(ThemeContext);
 
   return (
@@ -33,12 +39,10 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
       </div>
     </CommonWrapper>
   );
-}
+};
 
 MenuHeader.__KONTUR_REACT_UI__ = 'MenuHeader';
 MenuHeader.__MENU_HEADER__ = true;
-
-export { MenuHeader };
 
 export const isMenuHeader = (child: React.ReactNode): child is React.ReactElement<MenuHeaderProps> => {
   return React.isValidElement<MenuHeaderProps>(child)
