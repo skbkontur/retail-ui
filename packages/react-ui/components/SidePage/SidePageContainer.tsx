@@ -4,6 +4,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
@@ -15,10 +16,12 @@ export type SidePageContainerProps = CommonProps;
  *
  * @visibleName SidePage.Container
  */
+@rootNode
 export class SidePageContainer extends React.Component<SidePageContainerProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageContainer';
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -35,7 +38,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
     return (
       <SidePageContext.Consumer>
         {({ hasHeader, hasFooter, hasPanel }) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <div
               className={cx({
                 [styles.container(this.theme)]: true,

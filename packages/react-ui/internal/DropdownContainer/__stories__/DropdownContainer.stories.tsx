@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { Story } from '../../../typings/stories';
 import { MenuItem } from '../../../components/MenuItem';
@@ -7,6 +6,7 @@ import { Toggle } from '../../../components/Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
 import { Menu } from '../../Menu';
 import { Button } from '../../../components/Button';
+import { getRootNode, rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 export default { title: 'DropdownContainer' };
 
@@ -268,6 +268,7 @@ class Grid extends React.Component<{
   }
 }
 
+@rootNode
 class DropdownWithToggle extends React.Component<{
   show: boolean;
   onToggle: (value: boolean) => void;
@@ -276,22 +277,18 @@ class DropdownWithToggle extends React.Component<{
     disablePortal: DropdownContainerProps['disablePortal'];
   };
 }> {
-  private DOMNode: Element | Text | null = null;
-
-  public componentDidMount(): void {
-    this.DOMNode = findDOMNode(this);
-  }
+  private setRootNode!: TSetRootNode;
 
   public render() {
     const { show, onToggle, dropdownProps } = this.props;
     return (
       <span style={{ display: 'inline-block', position: 'relative' }}>
-        <Toggle checked={show} onValueChange={onToggle} />
+        <Toggle checked={show} onValueChange={onToggle} ref={this.setRootNode} />
         {show && (
           <DropdownContainer
             align={dropdownProps.align}
             disablePortal={dropdownProps.disablePortal}
-            getParent={() => this.DOMNode}
+            getParent={this.getParent}
           >
             {this.props.children}
           </DropdownContainer>
@@ -299,4 +296,8 @@ class DropdownWithToggle extends React.Component<{
       </span>
     );
   }
+
+  private getParent = () => {
+    return getRootNode(this);
+  };
 }
