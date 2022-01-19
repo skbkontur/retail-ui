@@ -1,6 +1,8 @@
-import React from 'react';
-import { mount } from 'enzyme';
+import React, { useState } from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import { fireEvent, render } from '@testing-library/react';
+import { mount } from 'enzyme';
+import '@testing-library/jest-dom';
 
 import { Autocomplete, AutocompleteProps } from '../Autocomplete';
 import { delay } from '../../../lib/utils';
@@ -31,36 +33,25 @@ describe('<Autocomplete />', () => {
   });
 
   it('resolves sources as arrays', async () => {
-    const onValueChange = jest.fn();
-    const source = ['One', 'Two'];
-    const props = { source, onValueChange };
-    const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
-    wrapper.find('input').simulate('change', { target: { value: 'two' } });
+    const { getByRole } = render(<UncontrolledAutocomplete source={['One', 'Two']} onValueChange={jest.fn()} />);
 
-    await new Promise((resolve) => setTimeout(resolve));
-    wrapper.update();
+    const input = getByRole('textbox');
+    await fireEvent.change(input, { target: { value: 'two' } });
+    expect(input).toHaveValue('two');
 
-    const menuItems = wrapper.find('MenuItem');
-    expect(menuItems).toHaveLength(1);
-    expect(menuItems.text()).toBe('Two');
+    getByRole('button', { name: 'Two' });
   });
 
   it('resolves sources as promises', async () => {
-    const onValueChange = jest.fn();
-    const source = () => Promise.resolve(['One', 'Two']);
-    const props = { source, onValueChange };
-    const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
-    wrapper.find('input').simulate('change', { target: { value: 'two' } });
+    const { getByRole } = render(
+      <UncontrolledAutocomplete source={() => Promise.resolve(['One', 'Two'])} onValueChange={jest.fn()} />,
+    );
 
-    // wait for react batch updates
-    await new Promise((resolve) => setTimeout(resolve));
-    wrapper.update();
+    const input = getByRole('textbox');
+    await fireEvent.change(input, { target: { value: 'two' } });
 
-    const menuItems = wrapper.find('MenuItem');
-
-    expect(menuItems).toHaveLength(2);
-    expect(menuItems.first().text()).toBe('One');
-    expect(menuItems.at(1).text()).toBe('Two');
+    getByRole('button', { name: 'One' });
+    getByRole('button', { name: 'Two' });
   });
 
   it('passes pattern to source', async () => {
@@ -78,21 +69,19 @@ describe('<Autocomplete />', () => {
   });
 
   it('uses renderItem prop to render items', async () => {
-    const onValueChange = jest.fn();
-    const source = () => Promise.resolve(['One', 'Two']);
-    const props = { source, renderItem: (x: string) => x.toUpperCase(), onValueChange };
-    const wrapper = mount<AutocompleteProps>(<UncontrolledAutocomplete {...props} />);
-    wrapper.find('input').simulate('change', { target: { value: 'two' } });
+    const { getByRole } = render(
+      <UncontrolledAutocomplete
+        renderItem={(x: string) => x.toUpperCase()}
+        source={() => Promise.resolve(['One', 'Two'])}
+        onValueChange={jest.fn()}
+      />,
+    );
 
-    // wait for react batch updates
-    await new Promise((resolve) => setTimeout(resolve));
-    wrapper.update();
+    const input = getByRole('textbox');
+    await fireEvent.change(input, { target: { value: 'two' } });
 
-    const menuItems = wrapper.find('MenuItem');
-
-    expect(menuItems).toHaveLength(2);
-    expect(menuItems.first().text()).toBe('ONE');
-    expect(menuItems.at(1).text()).toBe('TWO');
+    getByRole('button', { name: 'ONE' });
+    getByRole('button', { name: 'TWO' });
   });
 
   it('passes props to input', () => {
@@ -174,22 +163,8 @@ describe('<Autocomplete />', () => {
   });
 });
 
-interface UncontrolledAutocompleteState {
-  value: string;
-}
+const UncontrolledAutocomplete = (props: Partial<AutocompleteProps>) => {
+  const [value, setValue] = useState('');
 
-class UncontrolledAutocomplete extends React.Component<
-  Omit<AutocompleteProps, 'value'>,
-  UncontrolledAutocompleteState
-> {
-  public static defaultProps = Autocomplete.defaultProps;
-  public state = {
-    value: '',
-  };
-
-  public render() {
-    return (
-      <Autocomplete {...this.props} value={this.state.value} onValueChange={(value) => this.setState({ value })} />
-    );
-  }
-}
+  return <Autocomplete {...props} value={value} onValueChange={(val) => setValue(val)} />;
+};

@@ -1,66 +1,45 @@
-import { mount } from 'enzyme';
 import React from 'react';
+import { render } from '@testing-library/react';
+import '@testing-library/jest-dom';
 
 import { MenuItem } from '../MenuItem';
 
 describe('MenuItem', () => {
-  it('renders multiple children', () => {
-    const wrapper = mount(
-      <MenuItem state="hover">
-        a<i>b</i>
-      </MenuItem>,
-    );
-    expect(wrapper.text()).toBe('ab');
+  it('has button', () => {
+    const { getByRole } = render(<MenuItem>children</MenuItem>);
+
+    getByRole('button', { name: 'children' });
   });
 
-  it('calls children function', () => {
-    const wrapper = mount(<MenuItem state="hover">{(state) => state}</MenuItem>);
-    expect(wrapper.text()).toBe('hover');
+  it('has disabled button', () => {
+    const { getByRole } = render(<MenuItem disabled>children</MenuItem>);
+
+    const button = getByRole('button');
+    expect(button).toBeDisabled();
   });
 
-  it('renders button tag', () => {
-    const wrapper = mount(<MenuItem>Test item</MenuItem>);
-    expect(wrapper.find('button')).toHaveLength(1);
+  it('has an interactive link', () => {
+    const { getByRole } = render(<MenuItem href="#">children</MenuItem>);
+
+    getByRole('link', { name: 'children' });
   });
 
-  it('pass component', () => {
-    const FakeRouterLink = ({ to }: { to: string }) => <span>{to}</span>;
+  it('has result of children function', () => {
+    const { getByRole } = render(<MenuItem state="hover">{(state) => state}</MenuItem>);
 
-    const Component = ({ href }: { href: string }) => <FakeRouterLink to={href} />;
+    getByRole('button', { name: 'hover' });
+  });
 
-    const wrapper = mount(
+  it('renders passed component', () => {
+    const Link = ({ to }: { to: string }) => <button aria-label={to}>{to}</button>;
+    const Component = ({ href }: { href: string }) => <Link to={href} />;
+
+    const { getByRole } = render(
       <MenuItem href="http:test.href" component={Component}>
         Testing component
       </MenuItem>,
     );
 
-    expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);
-  });
-
-  describe('onMouseEnter', () => {
-    it('calls once', () => {
-      const onMouseEnter = jest.fn();
-      const wrapper = mount(
-        <MenuItem onMouseEnter={onMouseEnter}>
-          <span>MenuItem</span>
-        </MenuItem>,
-      );
-      const button = wrapper.find('button');
-
-      button.simulate('mouseover');
-      wrapper.find('span').simulate('mouseover');
-      button.simulate('mouseover');
-
-      expect(onMouseEnter.mock.calls.length).toBe(1);
-    });
-
-    it('calls again after onMouseLeave', () => {
-      const onMouseEnter = jest.fn();
-      const wrapper = mount(<MenuItem onMouseEnter={onMouseEnter}>MenuItem</MenuItem>);
-
-      wrapper.find('button').simulate('mouseover').simulate('mouseleave').simulate('mouseover');
-
-      expect(onMouseEnter.mock.calls.length).toBe(2);
-    });
+    getByRole('button', { name: 'http:test.href' });
   });
 });

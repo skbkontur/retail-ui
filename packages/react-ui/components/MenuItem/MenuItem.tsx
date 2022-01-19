@@ -72,7 +72,6 @@ const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('HintFC', (prop
     loose,
     state,
     component,
-    href,
     comment,
     children,
     onMouseEnter,
@@ -107,7 +106,7 @@ const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('HintFC', (prop
     }
   };
 
-  const Wrapper = getWrapper(disabled, component, href);
+  const Wrapper = getWrapper(disabled, component, rest.href);
   const content = getContent(children, state);
 
   return (
@@ -127,6 +126,7 @@ const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('HintFC', (prop
           [styles.withIcon(theme)]: hasIcon,
           [styles.disabled(theme)]: disabled,
         })}
+        disabled={disabled}
         tabIndex={-1}
       >
         {icon && <MenuItemIcon>{icon}</MenuItemIcon>}
@@ -140,10 +140,8 @@ const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('HintFC', (prop
 MenuItemFC.propTypes = {
   comment: PropTypes.node,
   disabled: PropTypes.bool,
-  href: PropTypes.string,
   icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   loose: PropTypes.bool,
-  target: PropTypes.string,
   onClick: PropTypes.func,
 };
 

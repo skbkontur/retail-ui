@@ -46,10 +46,10 @@ describe('<TooltipMenu />', () => {
     const wrapper = mount(component);
     const captionWrapper = wrapper.find('#captionForTest');
 
-    expect(wrapper.find('MenuItem')).toHaveLength(0);
+    expect(wrapper.find(MenuItem)).toHaveLength(0);
     captionWrapper.simulate('click');
 
-    expect(wrapper.find('MenuItem')).toHaveLength(3);
+    expect(wrapper.find(MenuItem)).toHaveLength(3);
   });
 
   test('Render without crashes if passed expected positions', () => {
@@ -73,10 +73,10 @@ describe('<TooltipMenu />', () => {
     );
     const captionWrapper = wrapper.find('#captionForTest');
 
-    expect(wrapper.find('MenuItem')).toHaveLength(0);
+    expect(wrapper.find(MenuItem)).toHaveLength(0);
     captionWrapper.simulate('click');
 
-    const menuItemWrapper = wrapper.find('MenuItem');
+    const menuItemWrapper = wrapper.find(MenuItem);
     expect(menuItemWrapper).toHaveLength(1);
 
     menuItemWrapper.simulate('click');
