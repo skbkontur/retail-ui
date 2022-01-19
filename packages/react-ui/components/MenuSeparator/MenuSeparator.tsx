@@ -11,7 +11,7 @@ export type MenuSeparatorProps = CommonProps;
  *
  * Сущности в которых может быть использован `MenuSeparator`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
-function MenuSeparator(props: MenuSeparatorProps) {
+export const MenuSeparator = (props: MenuSeparatorProps) => {
   const theme = useContext(ThemeContext);
 
   return (
@@ -19,8 +19,6 @@ function MenuSeparator(props: MenuSeparatorProps) {
       <div className={styles.root(theme)} />
     </CommonWrapper>
   );
-}
+};
 
 MenuSeparator.__KONTUR_REACT_UI__ = 'MenuSeparator';
-
-export { MenuSeparator };
