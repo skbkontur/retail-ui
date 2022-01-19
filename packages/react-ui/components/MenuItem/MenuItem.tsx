@@ -62,7 +62,7 @@ export type MenuItemProps = {
  *
  * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
-const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('HintFC', (props, ref) => {
+const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('MenuItemFC', (props, ref) => {
   const {
     instanceRef,
     icon,
