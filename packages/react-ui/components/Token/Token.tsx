@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -38,10 +39,12 @@ export interface TokenProps extends CommonProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
+@rootNode
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -93,7 +96,7 @@ export class Token extends React.Component<TokenProps> {
     });
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
           className={tokenClassNames}
           onClick={onClick}

@@ -1,16 +1,18 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '../../lib/listenFocusOutside';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface FocusTrapProps extends CommonProps {
   children: React.ReactElement<any>;
   onBlur?: (event: FocusEvent) => void;
 }
 
+@rootNode
 export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public static __KONTUR_REACT_UI__ = 'FocusTrap';
+  private setRootNode!: TSetRootNode;
 
   private focusOutsideListenerToken: {
     remove: () => void;
@@ -25,7 +27,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   public render() {
     const { children, onBlur } = this.props;
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         {React.cloneElement(React.Children.only(children), {
           onFocus: (...args: any[]) => {
             if (onBlur) {
@@ -48,8 +50,9 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
   };
 
   private attachListeners = () => {
-    if (!this.focusOutsideListenerToken) {
-      this.focusOutsideListenerToken = listenFocusOutside([findDOMNode(this) as HTMLElement], this.onClickOutside);
+    const rootNode = getRootNode(this);
+    if (!this.focusOutsideListenerToken && rootNode) {
+      this.focusOutsideListenerToken = listenFocusOutside([rootNode], this.onClickOutside);
 
       document.addEventListener(
         'ontouchstart' in document.documentElement ? 'touchstart' : 'mousedown',
@@ -72,9 +75,9 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
 
   private handleNativeDocClick = (event: Event) => {
     const target = event.target || event.srcElement;
-    const node = findDOMNode(this) as HTMLElement;
+    const node = getRootNode(this);
 
-    if (target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
+    if (node && target instanceof Element && containsTargetOrRenderContainer(target)(node)) {
       return;
     }
 

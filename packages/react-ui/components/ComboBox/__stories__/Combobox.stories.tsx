@@ -14,6 +14,7 @@ import { Gapped } from '../../Gapped';
 import { MenuHeader } from '../../MenuHeader';
 import { delay } from '../../../lib/utils';
 import { Tooltip } from '../../Tooltip';
+import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 const { getCities } = require('../__mocks__/getCities.js');
 
@@ -797,6 +798,7 @@ interface SimpleComboboxState {
   value: Nullable<{ value: number; label: string }>;
 }
 
+@rootNode
 class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
   public static defaultProps = {
     ...ComboBox.defaultProps,
@@ -805,11 +807,13 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
   public state: SimpleComboboxState = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
       <ComboBox
         {...this.props}
+        ref={this.setRootNode}
         value={this.state.value}
         getItems={this.getItems}
         onValueChange={(value) => this.setState({ value })}
