@@ -11,7 +11,7 @@ import { delay } from '../../../lib/utils';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 export default {
-  title: 'Hint',
+  title: 'components/Hint',
   decorators: [
     (Story) => (
       <div style={{ padding: '100px 300px' }}>
@@ -109,8 +109,7 @@ export const WithLargeWord = Template.bind({});
 WithLargeWord.args = {
   ...commonArgs,
   pos: 'bottom',
-  text:
-    'Используется на элементах, которые не вмещают полное название или требуют небольшого пояснения. Например: панель действий, иконки без текста, сокращенные слишком длинные...',
+  text: 'Используется на элементах, которые не вмещают полное название или требуют небольшого пояснения. Например: панель действий, иконки без текста, сокращенные слишком длинные...',
   children: 'Там длинное слово',
   manual: true,
   opened: true,
