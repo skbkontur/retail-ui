@@ -164,4 +164,35 @@ export const styles = memoizeStyle({
       }
     `;
   },
+  footer() {
+    return css`
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 149px;
+      height: 149px;
+      z-index: 999;
+    `;
+  },
+  footerLink() {
+    return css`
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+        'Droid Sans', 'Helvetica Neue', sans-serif;
+      position: relative;
+      right: -37px;
+      top: -22px;
+      display: block;
+      width: 190px;
+      padding: 4px 16px;
+      text-align: center;
+      color: rgb(255, 255, 255);
+      font-size: 15px;
+      background: rgb(238, 153, 0);
+      text-decoration: none;
+      text-shadow: rgb(0 0 0 / 15%) 0px -1px 0px;
+      transform-origin: 0 0;
+      transform: rotate(45deg);
+      cursor: pointer;
+    `;
+  },
 });

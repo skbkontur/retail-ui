@@ -45,8 +45,8 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
             {toc}
           </div>
         )}
-        <footer className="rsg--root-55">
-          <a href="https://github.com/skbkontur/retail-ui" className="rsg--link-56">
+        <footer className={cx(styles.footer())}>
+          <a href="https://github.com/skbkontur/retail-ui" className={cx(styles.footerLink())}>
             Fork me on GitHub
           </a>
         </footer>
