@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -84,6 +85,7 @@ export interface ToggleState {
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
+@rootNode
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
@@ -111,6 +113,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   constructor(props: ToggleProps) {
     super(props);
@@ -177,7 +180,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <label className={labelClassNames}>
           <div
             className={cx(styles.button(this.theme), {

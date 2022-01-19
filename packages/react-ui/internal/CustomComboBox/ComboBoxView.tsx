@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
@@ -13,9 +12,8 @@ import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
+import { rootNode, getRootNode } from '../../lib/rootNode';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -82,6 +80,7 @@ interface ComboBoxViewState {
 }
 
 @responsiveLayout
+@rootNode
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
@@ -103,14 +102,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   private input: Nullable<Input>;
   private mobileInput: Nullable<Input> = null;
-  //@ts-ignore
-  private theme!: Theme;
   private isMobileLayout!: boolean;
+  private dropdownContainerRef = React.createRef<DropdownContainer>();
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
       this.props.onFocus();
     }
+    this.props.opened && this.dropdownContainerRef.current?.position();
   }
 
   public state: ComboBoxViewState = {
@@ -133,28 +132,20 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     const input = this.renderInput();
 
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-
-          return (
-            <CommonWrapper {...this.props}>
-              <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
-                <span
-                  style={{ width }}
-                  className={styles.root()}
-                  onMouseEnter={onMouseEnter}
-                  onMouseLeave={onMouseLeave}
-                  onMouseOver={onMouseOver}
-                >
-                  {input}
-                  {isMobile ? this.renderMobileMenu() : this.renderMenu()}
-                </span>
-              </RenderLayer>
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
+      <CommonWrapper {...this.props}>
+        <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
+          <span
+            style={{ width }}
+            className={styles.root()}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+            onMouseOver={onMouseOver}
+          >
+            {input}
+            {isMobile ? this.renderMobileMenu() : this.renderMenu()}
+          </span>
+        </RenderLayer>
+      </CommonWrapper>
     );
   }
 
@@ -200,7 +191,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       opened && (
         <DropdownContainer
           align={menuAlign}
-          getParent={() => findDOMNode(this)}
+          getParent={this.getParent}
           offsetY={1}
           disablePortal={this.props.disablePortal}
         >
@@ -248,6 +239,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     if (this.props.onInputBlur) {
       this.props.onInputBlur();
     }
+  };
+
+  private getParent = () => {
+    return getRootNode(this);
   };
 
   private renderAddButton = (): React.ReactNode => {

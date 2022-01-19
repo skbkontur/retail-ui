@@ -25,7 +25,7 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputState> {
+export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
   public static defaultProps: Partial<MaskedInputProps> = {
@@ -53,10 +53,10 @@ export class MaskedInput extends React.Component<MaskedInputProps, MaskedInputSt
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: MaskedInputProps) {
-    if (this.props.value !== nextProps.value) {
+  public componentDidUpdate(prevProps: MaskedInputProps) {
+    if (this.props.value !== prevProps.value) {
       this.setState({
-        value: nextProps.value ? nextProps.value.toString() : '',
+        value: this.props.value ? this.props.value.toString() : '',
       });
     }
   }

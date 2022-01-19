@@ -73,7 +73,13 @@ class RouterTabs extends React.Component<any> {
   }
 }
 
-const MyLink = (props: React.InputHTMLAttributes<HTMLAnchorElement>) => <a {...props}>{props.children}</a>;
+const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
+  return (
+    <a ref={ref} {...props}>
+      {props.children}
+    </a>
+  );
+});
 
 class TabsWithMyLink extends React.Component<any, any> {
   public state = {
@@ -91,17 +97,32 @@ class TabsWithMyLink extends React.Component<any, any> {
         }
         vertical={this.props.vertical}
       >
-        <Tab id="fuji" component={(props) => <MyLink {...props} to="/1" />}>
+        <Tab
+          id="fuji"
+          component={React.forwardRef<any, any>(function Component(props: any, ref) {
+            return <MyLink ref={ref} {...props} to="/1" />;
+          })}
+        >
           <span role="img" aria-label="fuji">
             🌋&nbsp;&nbsp;Fuji
           </span>
         </Tab>
-        <Tab id="tahat" component={(props) => <MyLink {...props} to="/2" />}>
+        <Tab
+          id="tahat"
+          component={React.forwardRef<any, any>(function Component(props: any, ref) {
+            return <MyLink ref={ref} {...props} to="/2" />;
+          })}
+        >
           <span role="img" aria-label="tahat">
             ⛰&nbsp;&nbsp;Tahat
           </span>
         </Tab>
-        <Tab id="alps" component={(props) => <MyLink {...props} to="/3" />}>
+        <Tab
+          id="alps"
+          component={React.forwardRef<any, any>(function Component(props: any, ref) {
+            return <MyLink ref={ref} {...props} to="/3" />;
+          })}
+        >
           <span role="img" aria-label="alps">
             🗻&nbsp;&nbsp;Alps
           </span>

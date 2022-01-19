@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ResizeDetector } from '../../internal/ResizeDetector';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -25,12 +26,14 @@ export interface ModalBodyProps extends CommonProps {
  * @visibleName Modal.Body
  */
 @responsiveLayout
+@rootNode
 export class ModalBody extends React.Component<ModalBodyProps> {
   public static __KONTUR_REACT_UI__ = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
   private theme!: Theme;
   private isMobileLayout!: boolean;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -52,7 +55,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
               priority={'ModalBody'}
               createStackingContext

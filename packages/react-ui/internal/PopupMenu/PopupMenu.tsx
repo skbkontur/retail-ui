@@ -13,6 +13,7 @@ import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
@@ -68,6 +69,7 @@ export const PopupMenuType = {
 };
 
 @responsiveLayout
+@rootNode
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
@@ -90,10 +92,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private captionWrapper: HTMLSpanElement | null = null;
   private savedFocusableElement: HTMLElement | null = null;
   private menu: Nullable<InternalMenu> = null;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
           onClickOutside={this.hideMenuWithoutFocusing}
           onFocusOutside={this.hideMenuWithoutFocusing}

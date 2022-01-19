@@ -6,7 +6,9 @@ import { Indicator } from '../Indicator';
 
 describe('Tabs', () => {
   describe('Indicator', () => {
-    const FunctionTabComponent = () => <div />;
+    const FunctionTabComponent = React.forwardRef<any, any>(function MyLink(props: any, ref) {
+      return <div ref={ref} />;
+    });
     it('Should correct getStyles from FunctionComponent', () => {
       const wrapper = mount(
         <Tabs value="0">
