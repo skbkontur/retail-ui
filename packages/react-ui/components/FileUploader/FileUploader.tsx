@@ -1,4 +1,4 @@
-import React, {useCallback, useContext, useEffect, useImperativeHandle, useRef, useState} from 'react';
+import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -260,5 +260,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
 export interface FileUploaderProps extends _FileUploaderProps, FileUploaderControlProviderProps {}
 
-export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(React.memo(_FileUploader));
+export const FileUploader = withFileUploaderControlProvider<FileUploaderProps, FileUploaderRef>(
+  React.memo(_FileUploader),
+);
 FileUploader.displayName = 'FileUploader';
