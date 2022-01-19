@@ -30,7 +30,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';

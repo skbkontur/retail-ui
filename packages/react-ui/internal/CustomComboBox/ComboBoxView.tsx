@@ -15,7 +15,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { responsiveLayout } from '../../components/ResponsiveLayout';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';

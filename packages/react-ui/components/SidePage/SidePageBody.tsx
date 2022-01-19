@@ -2,7 +2,7 @@ import React from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './SidePage.styles';

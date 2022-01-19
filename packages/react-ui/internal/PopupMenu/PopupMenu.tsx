@@ -12,7 +12,7 @@ import { Popup, PopupPosition } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { responsiveLayout } from '../../components/ResponsiveLayout';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 
 import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
