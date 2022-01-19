@@ -5,6 +5,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ModalContext } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -21,11 +22,13 @@ export interface ModalBodyProps extends CommonProps {
  *
  * @visibleName Modal.Body
  */
+@rootNode
 export class ModalBody extends React.Component<ModalBodyProps> {
   public static __KONTUR_REACT_UI__ = 'ModalBody';
   public static __MODAL_BODY__ = true;
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -43,7 +46,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
               priority={'ModalBody'}
               createStackingContext

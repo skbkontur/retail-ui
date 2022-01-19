@@ -61,50 +61,45 @@ HorizontalNoWrap.args = {
   children: generateButtons(4),
 };
 
-export const WithNullChilds = () => {
-  const GappedWithNulls = (props: Partial<Pick<GappedProps, 'vertical' | 'wrap'>>) => (
+export const WithFalsyChilds = () => {
+  const GappedWithFalsyChilds = ({
+    falsyChild = null,
+    ...props
+  }: Partial<Omit<GappedProps, 'children'>> & { falsyChild?: React.ReactNode }) => (
     <Gapped gap={10} {...props}>
-      {null}
+      {falsyChild}
       <Button>Button</Button>
-      {null}
+      {falsyChild}
       <Button>Button</Button>
-      {null}
+      {falsyChild}
     </Gapped>
   );
-  return (
-    <table cellPadding="10">
-      <thead>
-        <tr>
-          <th />
-          <th>with null childs</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>no wrap</td>
-          <td>
-            <GappedWithNulls />
-          </td>
-        </tr>
-        <tr>
-          <td>wrap</td>
-          <td>
-            <GappedWithNulls wrap />
-          </td>
-        </tr>
-        <tr>
-          <td>vert / no wrap</td>
-          <td>
-            <GappedWithNulls vertical />
-          </td>
-        </tr>
-        <tr>
-          <td>vert / wrap</td>
-          <td>
-            <GappedWithNulls wrap vertical />
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  );
+  const falsyValues = [false, '', 0, null, undefined];
+  return falsyValues.map((value, index) => (
+    <>
+      <table cellPadding="4" key={index}>
+        <thead>
+          <tr>
+            <th />
+            <th>with &quot;{String(value)}&quot;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>horizontal</td>
+            <td>
+              <GappedWithFalsyChilds falsyChild={value} />
+            </td>
+          </tr>
+          <tr>
+            <td>vertical</td>
+            <td>
+              <GappedWithFalsyChilds falsyChild={value} vertical />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      {index + 1 < falsyValues.length && <hr />}
+    </>
+  ));
 };

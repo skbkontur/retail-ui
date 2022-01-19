@@ -5,15 +5,15 @@ import { getVisibleValidation } from '../src/ValidationHelper';
 describe('ValidationHelper', () => {
   describe('getVisibleValidation', () => {
     const visible: Record<ValidationBehaviour, Validation> = {
-      immediate: { behaviour: 'immediate', message: 'visible', level: 'error' },
-      lostfocus: { behaviour: 'lostfocus', message: 'visible', level: 'error' },
-      submit: { behaviour: 'submit', message: 'visible', level: 'error' },
+      immediate: { behaviour: 'immediate', message: 'visible', level: 'error', independent: false },
+      lostfocus: { behaviour: 'lostfocus', message: 'visible', level: 'error', independent: false },
+      submit: { behaviour: 'submit', message: 'visible', level: 'error', independent: false },
     };
 
     const actual: Record<ValidationBehaviour, Validation> = {
-      immediate: { behaviour: 'immediate', message: 'actual', level: 'error' },
-      lostfocus: { behaviour: 'lostfocus', message: 'actual', level: 'error' },
-      submit: { behaviour: 'submit', message: 'actual', level: 'error' },
+      immediate: { behaviour: 'immediate', message: 'actual', level: 'error', independent: false },
+      lostfocus: { behaviour: 'lostfocus', message: 'actual', level: 'error', independent: false },
+      submit: { behaviour: 'submit', message: 'actual', level: 'error', independent: false },
     };
 
     interface Combination {
