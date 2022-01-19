@@ -36,9 +36,9 @@ public context: Theme = this.context;
 Список существующих тем:
 
 | Имя                     | Описание         |
-| ----------------------- | ---------------- |
+| ----------------------- |------------------|
 | `DEFAULT_THEME`         | Дефолтная        |
-| `DARK_THEME`            | Темная        |
+| `DARK_THEME`            | Темная           |
 | `DEFAULT_THEME_8PX_OLD` | Старая дефолтная |
 | `FLAT_THEME_8PX_OLD`    | Старая плоская   |
 
@@ -52,7 +52,7 @@ import {ShowcaseGroup} from '@skbkontur/react-ui/internal/ThemePlayground/Showca
 
 
 <ThemeContext.Provider value={FLAT_THEME_8PX_OLD}>
-  <div style={{height: '100%', width: '100%', background: '#fff'}}>
+  <div style={{height: '100%', background: '#fff', padding: '16px'}}>
     <ShowcaseGroup title="Flat Theme Old"/>
   </div>
 </ThemeContext.Provider>;
@@ -69,7 +69,7 @@ import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/Show
 const myTheme = ThemeFactory.create({ btnBorderRadiusSmall: '10px' });
 
 <ThemeContext.Provider value={myTheme}>
-  <div style={{height: '100%', width: '100%', background: '#fff'}}>
+  <div style={{height: '100%', background: '#fff', padding: '16px'}}>
     <ShowcaseGroup title="My Theme" />
   </div>
 </ThemeContext.Provider>;
@@ -151,7 +151,7 @@ import { ThemeContext, FLAT_THEME_8PX_OLD as flatTheme8pxOld } from '@skbkontur/
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
-  <div style={{height: '100%', width: '100%', background: '#fff'}}>
+  <div style={{height: '100%', background: '#fff', padding: '16px'}}>
     <ThemeContext.Provider value={flatTheme8pxOld}>
       <div>
         <ShowcaseGroup title="Default" />
@@ -172,8 +172,9 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeContext, FLAT_THEME_8PX_OLD as flatTheme8pxOld, DEFAULT_THEME as defaultTheme, DARK_THEME } from '@skbkontur/react-ui';
-import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+import {ThemeContext, FLAT_THEME_8PX_OLD as flatTheme8pxOld, DEFAULT_THEME as defaultTheme,} from '@skbkontur/react-ui';
+import {DARK_THEME} from "@skbkontur/react-ui/lib/theming/themes/DarkTheme";
+import {ShowcaseGroup} from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
@@ -183,14 +184,14 @@ const wrapperStyles = {
 
 const NestedThemes = () => (
   <ThemeContext.Provider value={flatTheme8pxOld}>
-    <div style={{ ...wrapperStyles, width: 750, background: '#fff' }}>
-      <ShowcaseGroup title="Flat Old Theme" />
+    <div style={{...wrapperStyles, width: 750, background: '#fff'}}>
+      <ShowcaseGroup title="Flat Old Theme"/>
       <ThemeContext.Provider value={defaultTheme}>
         <div style={{...wrapperStyles, background: '#fff'}}>
-          <ShowcaseGroup title="Default Theme" />
+          <ShowcaseGroup title="Default Theme"/>
           <ThemeContext.Provider value={DARK_THEME}>
-            <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
-              <ShowcaseGroup title="Dark Theme" />
+            <div style={{...wrapperStyles, background: '#000', color: '#fff'}}>
+              <ShowcaseGroup title="Dark Theme"/>
             </div>
           </ThemeContext.Provider>
         </div>
@@ -199,7 +200,7 @@ const NestedThemes = () => (
   </ThemeContext.Provider>
 );
 
-<NestedThemes />;
+<NestedThemes/>;
 ```
 
 ## Кастомизация @skbkontur/react-ui-addons

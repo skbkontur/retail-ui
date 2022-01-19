@@ -17,6 +17,8 @@ interface StyleGuideRendererProps {
 function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: StyleGuideRendererProps) {
   const { codeRevision, config, slots, displayMode, cssRevision } = useStyleGuideContext();
   const [theme, setTheme] = useState('light');
+  document.body.style.fontFamily = 'Segoe UI, Roboto, Helvetica Neue, Arial, sans-serif';
+  document.body.style.fontSize = '14px';
   if (theme === 'dark') {
     document.documentElement.style.height = '100%';
     document.body.style.height = '100%';

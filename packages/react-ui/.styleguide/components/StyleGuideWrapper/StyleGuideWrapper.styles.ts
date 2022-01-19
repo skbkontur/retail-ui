@@ -81,19 +81,17 @@ export const styles = memoizeStyle({
       code {
         background: #333;
       }
-      a {
-        color: #51adff !important;
-      }
       pre {
         background: #222;
+        border: none;
       }
-      textarea {
+      .npm__react-simple-code-editor__textarea {
         caret-color: ${t.textColorDefault};
         background: #222 !important;
+        border-color: #444 !important;
       }
       pre,
-      textarea,
-      pre textarea {
+      .npm__react-simple-code-editor__textarea {
         .keyword {
           color: #61afef !important;
         }
@@ -103,7 +101,8 @@ export const styles = memoizeStyle({
           color: #fb5bc5 !important;
         }
         .string,
-        .attr-name {
+        .attr-name,
+        .builtin {
           color: #98c379 !important;
         }
         .script,
@@ -124,6 +123,9 @@ export const styles = memoizeStyle({
         span {
           color: #e06c75 !important;
         }
+      }
+      [data-testid='preview-wrapper'] {
+        border: 1px solid #444;
       }
     `;
   },
