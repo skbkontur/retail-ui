@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 import { CommonWrapper } from '../CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
@@ -41,8 +42,10 @@ export const Portal: React.FunctionComponent<PortalProps> = ({ container, rt_roo
   );
 };
 
+@rootNode
 export class RenderInnerContainer extends React.Component<RenderInnerContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderInnerContainer';
+  private setRootNode!: TSetRootNode;
 
   public render() {
     const { anchor, children, domContainer, rootId } = this.props;
@@ -53,7 +56,9 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
         <React.Fragment>
           {anchor}
           <Portal key="portal-ref" rt_rootID={rootId} container={domContainer}>
-            <CommonWrapper {...this.props}>{children}</CommonWrapper>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {children}
+            </CommonWrapper>
           </Portal>
         </React.Fragment>
       );
