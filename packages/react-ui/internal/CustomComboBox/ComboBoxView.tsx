@@ -196,6 +196,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           getParent={this.getParent}
           offsetY={1}
           disablePortal={this.props.disablePortal}
+          ref={this.dropdownContainerRef}
         >
           {this.getComboBoxMenu()}
         </DropdownContainer>
