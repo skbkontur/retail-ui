@@ -12,7 +12,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { HintContent } from './HintContent';
 import { clearTimer, getPositions } from './utils';
 
-export type HintProps = {
+type HintInterface = {
   children?: React.ReactNode;
   /**
    * Переводит отображение подсказки в _"ручной режим"_.
@@ -74,7 +74,9 @@ export type HintProps = {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper?: boolean;
-} & CommonProps;
+};
+
+export type HintProps = HintInterface & CommonProps;
 
 const positions: PopupPosition[] = [
   'top center',
