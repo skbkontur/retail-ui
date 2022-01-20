@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { animations, styles } from './GlobalLoaderView.styles';
 
-interface GlobalLoaderViewProps {
+export interface GlobalLoaderViewProps {
   expectedResponseTime: number;
   delayBeforeHide: number;
   status?: 'success' | 'error' | 'standard';

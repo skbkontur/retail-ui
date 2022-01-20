@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 
-import { GlobalLoaderView } from './GlabalLoaderView';
+import { GlobalLoaderView, GlobalLoaderViewProps } from './GlabalLoaderView';
 
 export interface GlobalLoaderProps {
   /**
@@ -113,13 +113,11 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   public render() {
-    let status: 'success' | 'error' | 'standard';
+    let status: GlobalLoaderViewProps['status'] = 'standard';
     if (this.state.done) {
       status = 'success';
     } else if (this.state.rejected) {
       status = 'error';
-    } else {
-      status = 'standard';
     }
     return (
       !this.state.dead &&
@@ -144,7 +142,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
    */
   public static start = (expectedResponseTime?: number) => {
     currentGlobalLoader.setActive();
-    if (expectedResponseTime) {
+    if (typeof expectedResponseTime === 'number') {
       currentGlobalLoader.updateExpectedResponseTime(expectedResponseTime);
     }
   };
