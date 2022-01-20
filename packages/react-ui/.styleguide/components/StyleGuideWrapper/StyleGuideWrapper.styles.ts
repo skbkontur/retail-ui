@@ -1,12 +1,5 @@
-import { css, memoizeStyle, prefix } from '../../../lib/theming/Emotion';
+import { css, memoizeStyle } from '../../../lib/theming/Emotion';
 import { Theme } from '../../../lib/theming/Theme';
-
-export const globalClasses = prefix('button')({
-  arrowHelper: 'arrow-helper',
-  arrowHelperTop: 'arrow-helper-top',
-  arrowHelperBottom: 'arrow-helper-bottom',
-  caption: 'caption',
-});
 
 export const styles = memoizeStyle({
   root() {

@@ -15,13 +15,11 @@ const ThemeSwitcher = () => {
     }
   };
   return (
-    <div style={{ color: '#fff' }}>
-      Default
-      <ThemeContext.Provider value={DARK_THEME}>
-        <Toggle checked={theme === 'dark'} onValueChange={handleValueChange} style={{ padding: '24px 10px' }} />
-      </ThemeContext.Provider>
-      Dark Theme
-    </div>
+    <ThemeContext.Provider value={DARK_THEME}>
+      <Toggle checked={theme === 'dark'} onValueChange={handleValueChange} style={{ margin: '24px 10px' }}>
+        Dark Theme
+      </Toggle>
+    </ThemeContext.Provider>
   );
 };
 

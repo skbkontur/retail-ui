@@ -1,3 +1,5 @@
+// Это измененный компонент Preview (node_modules/react-styleguidist/lib/client/rsg-components/Preview/), которому был добавлен контекст.
+// Подробнее на github - https://github.com/styleguidist/react-styleguidist/issues/1639
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
