@@ -13,7 +13,7 @@ import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
-import { rootNode, getRootNode } from '../../lib/rootNode';
+import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -101,6 +101,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private input: Nullable<Input>;
+  private setRootNode!: TSetRootNode;
   private mobileInput: Nullable<Input> = null;
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<DropdownContainer>();
@@ -140,6 +141,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
+            ref={this.setRootNode}
           >
             {input}
             {isMobile ? this.renderMobileMenu() : this.renderMenu()}
@@ -194,6 +196,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           getParent={this.getParent}
           offsetY={1}
           disablePortal={this.props.disablePortal}
+          ref={this.dropdownContainerRef}
         >
           {this.getComboBoxMenu()}
         </DropdownContainer>
