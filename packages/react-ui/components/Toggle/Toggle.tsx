@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -84,6 +85,7 @@ export interface ToggleState {
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
+@rootNode
 export class Toggle extends React.Component<ToggleProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
@@ -111,6 +113,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   constructor(props: ToggleProps) {
     super(props);
@@ -177,29 +180,42 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <label className={labelClassNames}>
           <div
-            className={cx(styles.outline(this.theme), {
+            className={cx(styles.button(this.theme), {
               [styles.isWarning(this.theme)]: !!warning,
               [styles.isError(this.theme)]: !!error,
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <span className={cx(styles.wrapper(this.theme))}>
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={this.handleChange}
-                className={styles.input(this.theme)}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
-                ref={this.inputRef}
-                disabled={disabled}
-                id={id}
-              />
+            <input
+              type="checkbox"
+              checked={checked}
+              onChange={this.handleChange}
+              className={styles.input(this.theme)}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+              ref={this.inputRef}
+              disabled={disabled}
+              id={id}
+            />
+            <div
+              className={containerClassNames}
+              style={
+                checked && color && !disabled
+                  ? {
+                      backgroundColor: color,
+                      boxShadow: `inset 0 0 0 1px ${color}`,
+                    }
+                  : undefined
+              }
+            >
               <div
-                className={containerClassNames}
+                className={cx(styles.activeBackground(), globalClasses.background, {
+                  [styles.activeBackgroundLoading(this.theme)]: loading,
+                  [styles.disabledBackground(this.theme)]: disabled,
+                })}
                 style={
                   checked && color && !disabled
                     ? {
@@ -208,28 +224,13 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                       }
                     : undefined
                 }
-              >
-                <div
-                  className={cx(styles.activeBackground(), globalClasses.background, {
-                    [styles.activeBackgroundLoading(this.theme)]: loading,
-                    [styles.disabledBackground(this.theme)]: disabled,
-                  })}
-                  style={
-                    checked && color && !disabled
-                      ? {
-                          backgroundColor: color,
-                          boxShadow: `inset 0 0 0 1px ${color}`,
-                        }
-                      : undefined
-                  }
-                />
-              </div>
-              <div
-                className={cx(styles.handle(this.theme), globalClasses.handle, {
-                  [styles.handleDisabled(this.theme)]: disabled,
-                })}
               />
-            </span>
+            </div>
+            <div
+              className={cx(styles.handle(this.theme), globalClasses.handle, {
+                [styles.handleDisabled(this.theme)]: disabled,
+              })}
+            />
           </div>
           {caption}
         </label>

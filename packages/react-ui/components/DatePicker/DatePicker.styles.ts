@@ -6,6 +6,7 @@ export const styles = memoizeStyle({
       display: inline-block;
       position: relative;
       touch-action: none;
+      line-height: normal;
     `;
   },
 });

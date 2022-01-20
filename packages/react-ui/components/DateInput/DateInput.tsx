@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
@@ -70,6 +71,7 @@ export interface DateInputProps extends CommonProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+@rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
@@ -91,6 +93,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private locale!: DatePickerLocale;
   private blurEvent: React.FocusEvent<HTMLElement> | null = null;
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
   private conditionalHandler = new ConditionalHandler<Actions, [React.KeyboardEvent<HTMLElement>]>()
     .add(Actions.MoveSelectionLeft, () => this.shiftSelection(-1))
     .add(Actions.MoveSelectionRight, () => this.shiftSelection(1))
@@ -187,7 +190,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const showValue = Boolean(focused || valueFormatted);
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <InputLikeText
           width={this.props.width}
           ref={this.inputLikeTextRef}

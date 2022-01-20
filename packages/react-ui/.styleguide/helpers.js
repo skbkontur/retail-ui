@@ -16,6 +16,7 @@ const excludedComponents = [
   'ThemeProvider',
   'ThemeShowcase',
   'Locale',
+  'Playground',
   'ModalContext',
   'ModalClose',
   'SidePageContext',
@@ -82,12 +83,17 @@ const getCommonSections = () => {
     { name: 'Migration', content: path.join(__dirname, '../MIGRATION.md'), exampleMode: 'expand' },
     { name: 'LocaleContext', content: path.join(__dirname, '../lib/locale/LOCALECONTEXT.md') },
     { name: 'SSR', content: path.join(__dirname, '../SSR.md') },
+    { name: 'Mobiles', content: path.join(__dirname, '../MOBILES.md') },
     {
       name: 'Customization',
       sectionDepth: 1,
       sections: [
         { name: 'ThemeContext', content: path.join(__dirname, '../lib/theming/ThemeContext.md') },
         { name: 'ThemeShowcase', content: path.join(__dirname, '../internal/ThemeShowcase/ThemeShowcase.md') },
+        {
+          name: 'ThemePlayground',
+          content: path.join(__dirname, '../internal/ThemePlayground/Playground.md'),
+        },
       ],
     },
     { name: 'Components', components, sectionDepth: 2, sections },

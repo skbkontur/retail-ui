@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.9.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.3...@skbkontur/react-ui@3.9.4) (2021-12-27)
+
+
+### Bug Fixes
+
+* **Gapped:** correctly filter falsy childs ([#2692](https://github.com/skbkontur/retail-ui/issues/2692)) ([8e21e60](https://github.com/skbkontur/retail-ui/commit/8e21e60a7b7899945c2c101e48ede1a6e3360406))
+* **Loader:** use `forEach` from `Array` ([#2702](https://github.com/skbkontur/retail-ui/issues/2702)) ([167a07a](https://github.com/skbkontur/retail-ui/commit/167a07ac3b8057396ce292d79f5bb21b9f1c7bd6))
+* **RadioGroup:** fix types inference ([#2703](https://github.com/skbkontur/retail-ui/issues/2703)) ([4d410ab](https://github.com/skbkontur/retail-ui/commit/4d410ab8cf9d6d8b56f927e3b7efd698abf83920))
+
+
+
+
+
 ## [3.9.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.2...@skbkontur/react-ui@3.9.3) (2021-12-03)
 
 

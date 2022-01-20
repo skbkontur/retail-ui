@@ -1,6 +1,5 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -15,7 +14,8 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../../internal/MobilePopup';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Autocomplete.styles';
 
@@ -82,6 +82,7 @@ export interface AutocompleteState {
  * Все свойства передаются во внутренний *Input*.
  */
 @responsiveLayout
+@rootNode
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
@@ -136,6 +137,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private requestId = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -164,7 +166,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -236,10 +242,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private renderMobileMenu = () => {
-    if (!this.state.isMobileOpened) {
-      return null;
-    }
-
     const inputProps: InputProps = {
       autoFocus: true,
       width: '100%',
@@ -256,7 +258,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
         useFullHeight
-        onClose={this.handleCloseMobile}
+        opened={this.state.isMobileOpened}
+        onCloseRequest={this.handleCloseMobile}
         ref={this.refMobilePopup}
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
@@ -382,7 +385,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private getAnchor = () => {
-    return findDOMNode(this);
+    return getRootNode(this);
   };
 
   private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {

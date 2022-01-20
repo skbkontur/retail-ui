@@ -12,7 +12,7 @@ const { publishVersion } = require('../helpers');
 const styles = {
   StyleGuide: {
     '@global body': {
-      fontFamily: '"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontFamily: '"Lab Grotesque", Roboto, "Helvetica Neue", Arial, sans-serif',
       fontSize: 14,
     },
     '@font-face': {
@@ -20,6 +20,13 @@ const styles = {
       fontWeight: 400,
       src: `local('Segoe UI'), local('SegoeUI'),
             url('//c.s-microsoft.com/static/fonts/segoe-ui/cyrillic/normal/latest.woff')
+              format('woff')`,
+    },
+    '@font-face': {
+      fontFamily: 'Lab Grotesque',
+      fontWeight: 400,
+      src: `local('Lab Grotesque'), local('Lab Grotesque K'),
+            url('https://s.kontur.ru/common-v2/fonts/LabGrotesque/LabGrotesque-Regular.woff')
               format('woff')`,
     },
     content: {
