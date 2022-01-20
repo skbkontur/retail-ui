@@ -6,7 +6,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MenuHeader.styles';
 
-export type MenuHeaderProps = {
+type MenuHeaderInterface = {
   /**
    * @ignore
    */
@@ -15,7 +15,9 @@ export type MenuHeaderProps = {
    * @ignore
    */
   children: ReactNode;
-} & CommonProps;
+};
+
+export type MenuHeaderProps = MenuHeaderInterface & CommonProps;
 
 /**
  * `Заголовок меню` используется для того, чтобы разделить `элементы меню` на категории в рамках одного меню.
