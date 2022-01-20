@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { Override } from '../../typings/utility-types';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -14,7 +15,7 @@ import { MenuItemComment } from './MenuItemComment';
 
 export type MenuItemState = null | undefined | 'hover' | 'selected';
 
-export type MenuItemProps = {
+type MenuItemInterface = {
   /**
    * @ignore
    */
@@ -53,8 +54,10 @@ export type MenuItemProps = {
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
   component?: React.ComponentType<any>;
-} & CommonProps &
-  React.HTMLAttributes<HTMLElement> &
+};
+
+export type MenuItemProps = CommonProps &
+  Override<React.HTMLAttributes<HTMLElement>, MenuItemInterface> &
   Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'>;
 
 /**
