@@ -27,12 +27,6 @@ export const styles = memoizeStyle({
       overflow: hidden;
     `;
   },
-  error() {
-    return css`
-      left: 0;
-      width: 100%;
-    `;
-  },
   standardWithoutAnimation() {
     return css`
       left: 0;
@@ -122,6 +116,8 @@ export const animations = {
     const spinnerAnimationDuration = parseInt(t.globalLoaderSpinnerAnimationDuration);
 
     return css`
+      left: 0;
+      width: 100%;
       animation: ${moveToRightAnimation} ${transitionDuration}ms linear,
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;

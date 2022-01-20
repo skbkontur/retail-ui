@@ -34,7 +34,6 @@ export const GlobalLoaderView = ({
       <div
         ref={globalLoaderViewRef}
         className={cx(styles.inner(theme), {
-          [styles.error()]: status === 'error',
           [animations.successAnimation(delayBeforeHide, currentWidth, currentLeftPosition)]:
             !disableAnimations && status === 'success',
           [styles.standardWithoutAnimation()]: disableAnimations && status === 'standard',
