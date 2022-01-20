@@ -33,10 +33,16 @@ export const styles = memoizeStyle({
       width: 100%;
     `;
   },
-  successWithoutAnimation() {
+  standardWithoutAnimation() {
     return css`
       left: 0;
       width: 80%;
+    `;
+  },
+  successWithoutAnimation() {
+    return css`
+      left: 0;
+      width: 100%;
     `;
   },
   errorWithoutAnimation() {

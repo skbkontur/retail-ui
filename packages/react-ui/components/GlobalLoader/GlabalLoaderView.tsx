@@ -37,6 +37,7 @@ export const GlobalLoaderView = ({
           [styles.error()]: status === 'error',
           [animations.successAnimation(delayBeforeHide, currentWidth, currentLeftPosition)]:
             !disableAnimations && status === 'success',
+          [styles.standardWithoutAnimation()]: disableAnimations && status === 'standard',
           [styles.successWithoutAnimation()]: disableAnimations && status === 'success',
           [animations.errorAnimation(theme)]: !disableAnimations && status === 'error',
           [styles.errorWithoutAnimation()]: disableAnimations && status === 'error',
