@@ -14,53 +14,38 @@ import { generateRel } from './utils';
 import { LinkArrow } from './LinkArrow';
 import { LinkIcon } from './LinkIcon';
 
-export interface LinkProps
-  extends CommonProps,
-    Override<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      {
-        /**
-         * Отключенное состояние.
-         */
-        disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
-        href?: string;
-        /**
-         * Добавляет ссылке иконку.
-         */
-        icon?: React.ReactNode;
-        /**
-         * Тема ссылки.
-         */
-        use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
-        _button?: boolean;
-        /**
-         * @ignore
-         */
-        _buttonOpened?: boolean;
-        /**
-         * @ignore
-         */
-        children: React.ReactNode;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
-        tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
-        loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
-        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-      }
-    > {}
+type LinkInterface = {
+  /**
+   * Отключенное состояние.
+   */
+  disabled?: boolean;
+  /**
+   * Добавляет ссылке иконку.
+   */
+  icon?: React.ReactNode;
+  /**
+   * Тема ссылки.
+   */
+  use?: 'default' | 'success' | 'danger' | 'grayed';
+  /**
+   * @ignore
+   */
+  _button?: boolean;
+  /**
+   * @ignore
+   */
+  _buttonOpened?: boolean;
+  /**
+   * @ignore
+   */
+  children: React.ReactNode;
+  /**
+   * Переводит ссылку в состояние загрузки.
+   */
+  loading?: boolean;
+};
+
+export type LinkProps = Override<React.AnchorHTMLAttributes<HTMLAnchorElement>, LinkInterface> & CommonProps;
 
 const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
   'LinkFC',
