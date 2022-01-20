@@ -7,7 +7,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { VerticalGapped } from './VerticalGapped';
 import { HorizontalGapped } from './HorizontalGapped';
 
-export type GappedProps = {
+type GappedInterface = {
   /**
    * Расстояние между элементами в пикселях
    * @default 8
@@ -32,7 +32,9 @@ export type GappedProps = {
    * @ignore
    */
   children: React.ReactNode;
-} & CommonProps;
+};
+
+export type GappedProps = GappedInterface & CommonProps;
 
 const GappedFC = forwardRefAndName<HTMLDivElement, GappedProps>(
   'GappedFC',
