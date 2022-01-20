@@ -72,7 +72,7 @@ export const styles = memoizeStyle({
         color: ${t.textColorDefault};
       }
       code {
-        background: #333;
+        background: #333 !important;
       }
       pre {
         background: #222;
