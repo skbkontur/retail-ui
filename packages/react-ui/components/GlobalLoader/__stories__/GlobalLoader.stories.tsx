@@ -127,7 +127,10 @@ function GlobalLoaderWithTimer() {
         <Select<number, number> items={items} value={time} onValueChange={setTime} />
         Прошло: {timerTime / 1000} секунд
       </div>
-      <Button onClick={startGlobalLoader}> Запустить Глобальный лоадер </Button>
+      <Button onClick={startGlobalLoader} disabled={active}>
+        {' '}
+        Запустить Глобальный лоадер{' '}
+      </Button>
       <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} disableAnimations={false} />
       <Toast />
     </div>
