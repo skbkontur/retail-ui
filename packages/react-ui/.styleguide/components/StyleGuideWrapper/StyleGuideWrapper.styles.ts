@@ -113,9 +113,6 @@ export const styles = memoizeStyle({
         code {
           color: #98c379 !important;
         }
-        span {
-          color: #e06c75 !important;
-        }
       }
       [data-testid='preview-wrapper'] {
         border: 1px solid #444;
