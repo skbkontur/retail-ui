@@ -289,5 +289,5 @@ class AnchorTooltipExample extends React.Component {
   }
 }
 
-<AnchorTooltipExample/>;
+<AnchorTooltipExample />;
 ```

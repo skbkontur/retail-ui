@@ -29,15 +29,13 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
   }
   return (
     <Context.Provider value={{ theme, setTheme, codeRevision, config, slots, displayMode, cssRevision }}>
-      <div className={cx({ [styles.root()]: true, [styles.darkRoot(DARK_THEME)]: theme === 'dark' })}>
-        <main className={cx(styles.wrapper())}>
-          <div className={cx({ [styles.content()]: true, [styles.darkContent(DARK_THEME)]: theme === 'dark' })}>
-            {children}
-          </div>
+      <div className={cx(styles.root(), { [styles.darkRoot(DARK_THEME)]: theme === 'dark' })}>
+        <main className={styles.wrapper()}>
+          <div className={cx(styles.content(), { [styles.darkContent(DARK_THEME)]: theme === 'dark' })}>{children}</div>
         </main>
         {hasSidebar && (
-          <div data-testid="sidebar" className={cx(styles.sidebar())}>
-            <header className={cx(styles.header())}>
+          <div data-testid="sidebar" className={styles.sidebar()}>
+            <header className={styles.header()}>
               <h1>{title}</h1>
               {version && <p>{version}</p>}
               <ThemeSwitcher />
@@ -45,8 +43,8 @@ function StyleGuideRenderer({ children, hasSidebar, toc, title, version }: Style
             {toc}
           </div>
         )}
-        <footer className={cx(styles.footer())}>
-          <a href="https://github.com/skbkontur/retail-ui" className={cx(styles.footerLink())}>
+        <footer className={styles.footer()}>
+          <a href="https://github.com/skbkontur/retail-ui" className={styles.footerLink()}>
             Fork me on GitHub
           </a>
         </footer>

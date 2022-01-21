@@ -47,13 +47,13 @@ public context: Theme = this.context;
 ### Подключение старой плоской темы
 
 ```jsx harmony
-import {ThemeContext, FLAT_THEME_8PX_OLD} from '@skbkontur/react-ui';
-import {ShowcaseGroup} from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+import { ThemeContext, FLAT_THEME_8PX_OLD } from '@skbkontur/react-ui';
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 
 <ThemeContext.Provider value={FLAT_THEME_8PX_OLD}>
-  <div style={{height: '100%', background: '#fff', padding: '16px'}}>
-    <ShowcaseGroup title="Flat Theme Old"/>
+  <div style={{ height: '100%', background: '#fff', padding: '16px' }}>
+    <ShowcaseGroup title="Flat Theme Old" />
   </div>
 </ThemeContext.Provider>;
 ```
@@ -147,22 +147,26 @@ ThemeFactory.overrideDefaultTheme(theme);
 <br/>
 
 ```jsx harmony
-import { ThemeContext, FLAT_THEME_8PX_OLD as flatTheme8pxOld } from '@skbkontur/react-ui';
+import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const CombinedComponents = () => (
-  <div style={{height: '100%', background: '#fff', padding: '16px'}}>
-    <ThemeContext.Provider value={flatTheme8pxOld}>
-      <div>
-        <ShowcaseGroup title="Default" />
-      </div>
-    </ThemeContext.Provider>
-    <ThemeContext.Provider value={flatTheme8pxOld}>
-      <div>
-        <ShowcaseGroup title="Flat old" />
-      </div>
-    </ThemeContext.Provider>
-  </div>
+  <>
+    <div style={{height: '100%', background: '#fff', padding: '16px'}}>
+      <ThemeContext.Provider value={DEFAULT_THEME}>
+        <div>
+          <ShowcaseGroup title="Default Theme" />
+        </div>
+      </ThemeContext.Provider>
+    </div>
+    <div style={{height: '100%', background: '#fff', padding: '16px'}}>
+      <ThemeContext.Provider value={DEFAULT_THEME_8PX_OLD}>
+        <div>
+          <ShowcaseGroup title="Default Theme Old" />
+        </div>
+      </ThemeContext.Provider>
+    </div>
+  </ >
 );
 
 <CombinedComponents />;
@@ -172,9 +176,9 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import {ThemeContext, FLAT_THEME_8PX_OLD as flatTheme8pxOld, DEFAULT_THEME as defaultTheme,} from '@skbkontur/react-ui';
-import {DARK_THEME} from "@skbkontur/react-ui/lib/theming/themes/DarkTheme";
-import {ShowcaseGroup} from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
+import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME } from '@skbkontur/react-ui';
+import { DARK_THEME } from "@skbkontur/react-ui/lib/theming/themes/DarkTheme";
+import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {
   border: '1px solid rgb(188, 187, 187)',
@@ -183,15 +187,15 @@ const wrapperStyles = {
 };
 
 const NestedThemes = () => (
-  <ThemeContext.Provider value={flatTheme8pxOld}>
-    <div style={{...wrapperStyles, width: 750, background: '#fff'}}>
-      <ShowcaseGroup title="Flat Old Theme"/>
-      <ThemeContext.Provider value={defaultTheme}>
-        <div style={{...wrapperStyles, background: '#fff'}}>
-          <ShowcaseGroup title="Default Theme"/>
+  <ThemeContext.Provider value={DEFAULT_THEME_8PX_OLD}>
+    <div style={{ ...wrapperStyles, width: 750, background: '#fff' }}>
+      <ShowcaseGroup title="Default Theme Old" />
+      <ThemeContext.Provider value={DEFAULT_THEME}>
+        <div style={{ ...wrapperStyles, background: '#fff' }}>
+          <ShowcaseGroup title="Default Theme" />
           <ThemeContext.Provider value={DARK_THEME}>
-            <div style={{...wrapperStyles, background: '#000', color: '#fff'}}>
-              <ShowcaseGroup title="Dark Theme"/>
+            <div style={{ ...wrapperStyles, background: '#000', color: '#fff' }}>
+              <ShowcaseGroup title="Dark Theme" />
             </div>
           </ThemeContext.Provider>
         </div>
@@ -200,7 +204,7 @@ const NestedThemes = () => (
   </ThemeContext.Provider>
 );
 
-<NestedThemes/>;
+<NestedThemes />;
 ```
 
 ## Кастомизация @skbkontur/react-ui-addons

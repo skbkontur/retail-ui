@@ -1,5 +1,3 @@
-// Это измененный компонент Preview (node_modules/react-styleguidist/lib/client/rsg-components/Preview/), которому был добавлен контекст.
-// Подробнее на github - https://github.com/styleguidist/react-styleguidist/issues/1639
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
@@ -23,9 +21,15 @@ interface PreviewState {
   error: string | null;
 }
 
-const withContext = (Wrapped) => (props) =>
-  <Context.Consumer>{(value) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>;
+const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewProps>) => (props: PreviewProps) =>
+  <Context.Consumer>{(value: any) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>;
 
+/**
+ * Измененный компонент Preview, которому был добавлен контекст
+ *
+ * @see https://github.com/styleguidist/react-styleguidist/issues/1639
+ * @see https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/Preview/Preview.tsx
+ */
 const Preview = withContext(
   class extends Component<PreviewProps, PreviewState> {
     public static propTypes = {
@@ -55,7 +59,7 @@ const Preview = withContext(
       return this.state.error !== nextState.error || this.props.code !== nextProps.code;
     }
 
-    public componentDidUpdate(prevProps: PreviewProps, prevContext) {
+    public componentDidUpdate(prevProps: PreviewProps) {
       if (this.props.code !== prevProps.code || prevProps.theme !== this.props.theme) {
         this.executeCode();
       }
@@ -97,7 +101,7 @@ const Preview = withContext(
         try {
           ReactDOM.render(wrappedComponent, this.mountNode);
         } catch (err) {
-          this.handleError(err);
+          this.handleError(err as Error);
         }
       });
     }
