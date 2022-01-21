@@ -3,6 +3,7 @@ import React from 'react';
 import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Center.styles';
 
@@ -25,15 +26,21 @@ export interface CenterProps
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
+@rootNode
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
   public static defaultProps = {
     align: 'center',
   };
+  private setRootNode!: TSetRootNode;
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
   private renderMain = (props: CommonWrapperRestProps<CenterProps>) => {
     const { align, ...rest } = props;

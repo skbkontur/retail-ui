@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
 import raf from 'raf';
@@ -18,6 +17,7 @@ import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -118,6 +118,7 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+@rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
@@ -199,33 +200,41 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
-  private anchorInstance: Nullable<React.ReactInstance>;
+  private setRootNode!: TSetRootNode;
+  private refForTransition = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     this.updateLocation();
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<PopupProps>) {
+  public static getDerivedStateFromProps(props: Readonly<PopupProps>, state: PopupState) {
     /**
      * Delaying updateLocation to ensure it happens after props update
      */
-    if (nextProps.opened) {
-      if (!this.state.location) {
-        this.setState({ location: DUMMY_LOCATION });
+    if (props.opened) {
+      if (!state.location) {
+        return { location: DUMMY_LOCATION };
       }
-      this.delayUpdateLocation();
+    } else if (state.location) {
+      return { location: DUMMY_LOCATION };
     }
+    return state;
   }
 
   public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
     const hadNoLocation = prevState.location === DUMMY_LOCATION;
     const hasLocation = this.state.location !== DUMMY_LOCATION;
+    const wasClosed = prevProps.opened && !this.props.opened;
+
     if (hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
     }
-    if (!hadNoLocation && !this.state.location && this.props.onClose) {
+    if (wasClosed && !hasLocation && this.props.onClose) {
       this.props.onClose();
+    }
+    if (this.props.opened) {
+      this.delayUpdateLocation();
     }
   }
 
@@ -265,35 +274,34 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       child = <span>{anchorElement}</span>;
     }
 
-    return (
-      <RenderContainer anchor={child} ref={child ? this.refAnchorElement : undefined}>
-        {location && this.renderContent(location)}
-      </RenderContainer>
-    );
+    const childWithRef = child
+      ? React.cloneElement(child as JSX.Element, {
+          ref: (instance: Nullable<React.ReactInstance>) => {
+            this.childRef(instance);
+            this.setRootNode(instance);
+            const childAsAny = child as any;
+            if (childAsAny && childAsAny.ref && typeof childAsAny.ref === 'function') {
+              childAsAny.ref(instance);
+            }
+          },
+        })
+      : null;
+
+    return <RenderContainer anchor={childWithRef}>{location && this.renderContent(location)}</RenderContainer>;
   }
 
-  private refAnchorElement = (instance: React.ReactInstance | null) => {
-    this.anchorInstance = instance;
-    const element = this.extractElement(instance);
-    this.updateAnchorElement(element);
-    this.anchorElement = element;
+  private childRef = (childInstance: Nullable<React.ReactInstance>) => {
+    childInstance && this.updateAnchorElement(childInstance);
   };
 
-  private extractElement(instance: React.ReactInstance | null) {
-    if (!instance) {
-      return null;
-    }
-    const element = findDOMNode(instance);
-    return isHTMLElement(element) ? element : null;
-  }
-
-  private updateAnchorElement(element: HTMLElement | null) {
+  private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
+    const childDomNode = getRootNode(childInstance);
     const anchorElement = this.anchorElement;
 
-    if (element !== anchorElement) {
+    if (childDomNode !== anchorElement) {
       this.removeEventListeners(anchorElement);
-      this.anchorElement = element;
-      this.addEventListeners(element);
+      this.anchorElement = childDomNode;
+      this.addEventListeners(childDomNode);
     }
   }
 
@@ -373,11 +381,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         enter={!disableAnimations}
         exit={!disableAnimations}
         onExited={this.resetLocation}
+        nodeRef={this.refForTransition}
       >
         {(state: string) => (
           <CommonWrapper {...this.props}>
             <ZIndex
-              ref={this.refPopupElement}
+              wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
                 [styles.popup(this.theme)]: true,
@@ -397,7 +406,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content(this.theme)} data-tid={'PopupContent'}>
+              <div className={styles.content(this.theme)} data-tid={'PopupContent'} ref={this.refForTransition}>
                 <div
                   className={styles.contentInner(this.theme)}
                   style={{ backgroundColor, width: this.calculateWidth(width) }}
@@ -416,17 +425,15 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private resetLocation = () => {
     this.cancelDelayedUpdateLocation();
-    this.setState({ location: null });
+    this.state.location !== null && this.setState({ location: null });
   };
 
   private renderChildren() {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupElement = (zIndex: ZIndex | null) => {
-    if (zIndex) {
-      this.lastPopupElement = zIndex && (findDOMNode(zIndex) as HTMLElement);
-    }
+  private refPopupElement = (element: Nullable<HTMLElement>) => {
+    this.lastPopupElement = element;
   };
 
   private renderPin(positionName: string): React.ReactNode {
@@ -459,9 +466,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private handleLayoutEvent = () => {
     if (!this.state.location) {
       return;
-    }
-    if (this.anchorInstance) {
-      this.updateAnchorElement(this.extractElement(this.anchorInstance));
     }
     this.updateLocation();
   };
@@ -500,8 +504,21 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return false;
     }
 
+    if (!isIE11 && !isEdge) {
+      return (
+        x.coordinates.left === y.coordinates.left &&
+        x.coordinates.top === y.coordinates.top &&
+        x.position === y.position
+      );
+    }
+
+    // Для ie/edge обновляем позицию только при разнице минимум в 1. Иначе есть вероятность
+    // уйти в бесконечный ререндер
+
     return (
-      x.coordinates.left === y.coordinates.left && x.coordinates.top === y.coordinates.top && x.position === y.position
+      x.position === y.position &&
+      Math.abs(x.coordinates.top - y.coordinates.top) <= 1 &&
+      Math.abs(x.coordinates.left - y.coordinates.left) <= 1
     );
   }
 
