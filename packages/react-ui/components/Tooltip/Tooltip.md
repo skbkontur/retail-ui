@@ -77,12 +77,11 @@ const render = () => (
 Тултип может располагаться в одной из 12 позиции и триггериться одним из 8 способов.
 
 ```jsx harmony
-import { Button, Center, Gapped, Select, Tooltip, ThemeContext } from '@skbkontur/react-ui';
-import { DARK_THEME } from "@skbkontur/react-ui/lib/theming/themes/DarkTheme";
+import { Button, Center, Gapped, Select, Tooltip } from '@skbkontur/react-ui';
 
 const S = 60;
 
-const Block = ({pos, trigger, top, left, onMouseDown, theme}) => (
+const Block = ({ pos, trigger, top, left, onMouseDown }) => (
   <div
     style={{
       top,
@@ -98,7 +97,8 @@ const Block = ({pos, trigger, top, left, onMouseDown, theme}) => (
         style={{
           height: S - 5,
           width: S - 5,
-          background: theme === DARK_THEME ? '#282828' : 'white',
+          background: 'gray',
+          border: 'solid 1px',
           boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
         }}
       />
@@ -136,7 +136,8 @@ class UseManualTooltip extends React.Component {
               width: 3 * S,
               height: S,
               lineHeight: `${S}px`,
-              background: this.props.theme === DARK_THEME ? '#282828' : '#fff',
+              background: 'gray',
+              border: 'solid 1px',
               boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
               textAlign: 'center',
             }}
@@ -153,7 +154,6 @@ class UseManualTooltip extends React.Component {
       this.tooltip.show();
     }
   }
-
   handleClickOnHide() {
     if (this.tooltip) {
       this.tooltip.hide();
@@ -162,120 +162,99 @@ class UseManualTooltip extends React.Component {
 }
 
 const blocks = [
-  {top: S, left: S * 2, pos: 'top left'},
-  {top: S, left: S * 4, pos: 'top center'},
-  {top: S, left: S * 6, pos: 'top right'},
-  {top: S * 2, left: S * 7, pos: 'right top'},
-  {top: S * 4, left: S * 7, pos: 'right middle'},
-  {top: S * 6, left: S * 7, pos: 'right bottom'},
-  {top: S * 7, left: S * 6, pos: 'bottom right'},
-  {top: S * 7, left: S * 4, pos: 'bottom center'},
-  {top: S * 7, left: S * 2, pos: 'bottom left'},
-  {top: S * 6, left: S, pos: 'left bottom'},
-  {top: S * 4, left: S, pos: 'left middle'},
-  {top: S * 2, left: S, pos: 'left top'},
+  { top: S, left: S * 2, pos: 'top left' },
+  { top: S, left: S * 4, pos: 'top center' },
+  { top: S, left: S * 6, pos: 'top right' },
+  { top: S * 2, left: S * 7, pos: 'right top' },
+  { top: S * 4, left: S * 7, pos: 'right middle' },
+  { top: S * 6, left: S * 7, pos: 'right bottom' },
+  { top: S * 7, left: S * 6, pos: 'bottom right' },
+  { top: S * 7, left: S * 4, pos: 'bottom center' },
+  { top: S * 7, left: S * 2, pos: 'bottom left' },
+  { top: S * 6, left: S, pos: 'left bottom' },
+  { top: S * 4, left: S, pos: 'left middle' },
+  { top: S * 2, left: S, pos: 'left top' },
 ];
 
 const [trigger, setTrigger] = React.useState('hover');
 
 const isManual = trigger === 'manual';
 
-const linearLightGradient = `repeating-linear-gradient(
-                                45deg,
-                                #fafafa,
-                                #fafafa ${S / 4}px,
-                                #dfdede ${S / 4}px,
-                                #dfdede ${S / 2}px
-                              )`;
+<div
+  style={{
+    width: S * 9,
+    height: S * 9,
+    position: 'relative',
+    border: '1px solid',
+    background: `repeating-linear-gradient(
+                            45deg,
+                            #808080,
+                            #808080 ${S / 4}px,
+                            #d3d3d3 ${S / 4}px,
+                            #d3d3d3 ${S / 2}px
+                          )`,
+  }}
+>
+  <Center>
+    <Gapped vertical>
+      <Gapped>
+        Trigger
+        <Select
+          width={S * 2}
+          size="small"
+          value={trigger}
+          items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
+          onValueChange={setTrigger}
+        />
+      </Gapped>
+      {isManual ? <UseManualTooltip /> : null}
+    </Gapped>
+  </Center>
 
-const linearDarkGradient = `repeating-linear-gradient(
-                                45deg,
-                                #868b8e,
-                                #868b8e ${S / 4}px,
-                                #444 ${S / 4}px,
-                                #444 ${S / 2}px
-                              )`;
-
-<ThemeContext.Consumer>
-  {(theme) => (
-    <div
-      style={{
-        width: S * 9,
-        height: S * 9,
-        position: 'relative',
-        border: theme === DARK_THEME ? '1px solid #444' : '1px solid #dfdede',
-        background: theme === DARK_THEME ? linearDarkGradient : linearLightGradient,
-      }}
-    >
-      <Center>
-        <Gapped vertical>
-          <Gapped>
-            Trigger
-            <Select
-              width={S * 2}
-              size="small"
-              value={trigger}
-              items={['click', 'hover', 'focus', 'hover&focus', 'hoverAnchor', 'opened', 'closed', 'manual']}
-              onValueChange={setTrigger}
-            />
-          </Gapped>
-          {isManual ? <UseManualTooltip theme={theme}/> : null}
-        </Gapped>
-      </Center>
-
-      {!isManual && blocks.map((block, i) => <Block key={i} {...block} trigger={trigger} theme={theme}/>)}
-    </div>
-  )}
-</ThemeContext.Consumer>
+  {!isManual && blocks.map((block, i) => <Block key={i} {...block} trigger={trigger} />)}
+</div>;
 ```
 
 Есть возможность прицеплять тултип к любому HTML элементу на странице с помощью `anchorElement`. При этом сам `Tooltip` может рендериться в совершенно другом месте приложения.
 
 ```jsx harmony
-import {Tooltip, ThemeContext} from '@skbkontur/react-ui';
-import {DARK_THEME} from "@skbkontur/react-ui/lib/theming/themes/DarkTheme";
+import { Tooltip } from '@skbkontur/react-ui';
 
 const S = 60;
 const blockStyle = {
   height: S - 5,
   width: S - 5,
   boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
+  background: 'gray',
+  border: '1px solid'
 };
-const linearLightGradient = `repeating-linear-gradient(
-                                45deg,
-                                #fafafa,
-                                #fafafa ${S / 4}px,
-                                #dfdede ${S / 4}px,
-                                #dfdede ${S / 2}px
-                              )`;
-
-const linearDarkGradient = `repeating-linear-gradient(
-                                45deg,
-                                #868b8e,
-                                #868b8e ${S / 4}px,
-                                #444 ${S / 4}px,
-                                #444 ${S / 2}px
-                              )`;
-
 const containerStyle = {
   width: S * 9,
   height: S * 9,
   position: 'relative',
+  background: `repeating-linear-gradient(
+                                45deg,
+                                #808080,
+                                #808080 ${S / 4}px,
+                                #d3d3d3 ${S / 4}px,
+                                #d3d3d3 ${S / 2}px
+                              )`,
+  border: '1px solid',
 };
 
 const blocks = [
-  {top: S, left: S * 2},
-  {top: S, left: S * 4},
-  {top: S, left: S * 6},
-  {top: S * 2, left: S * 7},
-  {top: S * 4, left: S * 7},
-  {top: S * 6, left: S * 7},
-  {top: S * 7, left: S * 6},
-  {top: S * 7, left: S * 4},
-  {top: S * 7, left: S * 2},
-  {top: S * 6, left: S},
-  {top: S * 4, left: S},
-  {top: S * 2, left: S},
+  { top: S, left: S * 2 },
+  { top: S, left: S * 4 },
+  { top: S, left: S * 6 },
+  { top: S * 2, left: S * 7 },
+  { top: S * 4, left: S * 7 },
+  { top: S * 6, left: S * 7 },
+  { top: S * 7, left: S * 6 },
+  { top: S * 7, left: S * 4 },
+  { top: S * 7, left: S * 2 },
+  { top: S * 6, left: S },
+  { top: S * 4, left: S },
+  { top: S * 2, left: S },
 ];
 
 class AnchorTooltipExample extends React.Component {
@@ -290,26 +269,22 @@ class AnchorTooltipExample extends React.Component {
 
   render() {
     return (
-      <ThemeContext.Consumer>
-        {(theme) => (
-          <>
-            {this.state.anchor ? (
-              <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover"/>
-            ) : null}
-            <div style={{...containerStyle, background: theme === DARK_THEME ? linearDarkGradient : linearLightGradient, border: theme === DARK_THEME ? '1px solid #444' : '1px solid #dfdede'}}>
-              {this.state.blocks.map(({top, left}, i) => (
-                <div key={i} style={{top, left, display: 'inline-block', position: 'absolute'}}>
-                  <div
-                    style={{...blockStyle, background: theme === DARK_THEME ? '#282828' : '#fff'}}
-                    onMouseEnter={event => this.setState({anchor: event.target})}
-                    onMouseLeave={() => this.setState({anchor: null})}
-                  />
-                </div>
-              ))}
+      <>
+        {this.state.anchor ? (
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
+        ) : null}
+        <div style={containerStyle}>
+          {this.state.blocks.map(({ top, left }, i) => (
+            <div key={i} style={{ top, left, display: 'inline-block', position: 'absolute' }}>
+              <div
+                style={blockStyle}
+                onMouseEnter={event => this.setState({ anchor: event.target })}
+                onMouseLeave={() => this.setState({ anchor: null })}
+              />
             </div>
-          </>
-        )}
-      </ThemeContext.Consumer>
+          ))}
+        </div>
+      </>
     );
   }
 }
