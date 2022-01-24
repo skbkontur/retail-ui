@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
-import { Toast, ToastProps, ToastState } from '../Toast';
+import { Toast, ToastProps, ToastState } from '../class/Toast';
 import { getRootNode } from '../../../lib/rootNode';
 
 jest.useFakeTimers();

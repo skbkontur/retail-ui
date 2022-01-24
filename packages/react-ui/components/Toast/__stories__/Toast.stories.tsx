@@ -2,7 +2,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Meta } from '../../../typings/stories';
-import { Toast } from '../Toast';
+import { Toast } from '../class/Toast';
 
 const TestNotifier = ({ complex }: { complex?: boolean }) => {
   const toastRef = React.useRef<Toast>(null);

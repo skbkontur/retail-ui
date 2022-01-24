@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Nullable } from '../../typings/utility-types';
+import { Nullable } from '../../../typings/utility-types';
 
 import { Toast, Action } from './Toast';
 

@@ -17,7 +17,7 @@ import { Popup, PopupPosition } from '../../Popup';
 import { Toast } from '../../../components/Toast';
 import { Input } from '../../../components/Input';
 import { SidePage } from '../../../components/SidePage';
-import { ToastView } from '../../../components/Toast/ToastView';
+import { ToastView } from '../../../components/Toast/class/ToastView';
 import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAndButton';
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
