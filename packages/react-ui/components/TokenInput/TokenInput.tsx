@@ -657,7 +657,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (
       (this.type !== TokenInputType.WithReference &&
         this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))) ||
-      isKeyEnter(e) && this.type === TokenInputType.WithoutReference
+      (isKeyEnter(e) && this.type === TokenInputType.WithoutReference)
     ) {
       e.preventDefault();
       const newValue = this.state.inputValue;
