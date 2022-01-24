@@ -53,7 +53,8 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   }
 
   private ref = (instance: Nullable<React.ReactInstance>) => {
-    callChildRef((this.child as any).ref, instance);
+    const childAsAny = this.child as any;
+    childAsAny && callChildRef(childAsAny.ref, instance);
     this.props.rootNodeRef?.(getRootNode(instance));
   };
 }
