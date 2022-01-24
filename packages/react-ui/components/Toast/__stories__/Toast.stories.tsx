@@ -2,34 +2,43 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Meta } from '../../../typings/stories';
-import { Toast } from '../class/Toast';
+import { ToastProvider, useToast } from '../function';
 
-const TestNotifier = ({ complex }: { complex?: boolean }) => {
-  const toastRef = React.useRef<Toast>(null);
+type TestNotifierProps = {
+  complex?: boolean;
+};
+
+const TestNotifier = ({ complex }: TestNotifierProps) => {
+  const { addToast } = useToast();
+
   const showNotification = () => {
-    const { current: toast } = toastRef;
-    if (toast) {
-      complex
-        ? toast.push('Successfully saved', {
-            label: 'Cancel',
-            handler: action('cancel_save'),
-          })
-        : toast.push('Successfully saved');
+    if (complex) {
+      return {
+        label: 'Cancel',
+        handler: action('cancel_save'),
+      };
     }
+
+    return undefined;
   };
 
   return (
-    <div>
-      <Toast ref={toastRef} onClose={action('close')} onPush={action('push')} />
-      <button data-tid="show-toast" onClick={showNotification}>
-        Show Toast
-      </button>
-    </div>
+    <button data-tid="show-toast" onClick={() => addToast('Successfully saved', showNotification())}>
+      Show Toast
+    </button>
+  );
+};
+
+const TestNotifierWithProvider = ({ complex }: TestNotifierProps) => {
+  return (
+    <ToastProvider>
+      <TestNotifier complex={complex} />
+    </ToastProvider>
   );
 };
 
 export default {
-  title: 'Toast',
+  title: 'components/Toast',
   decorators: [
     (Story) => (
       <div
@@ -58,15 +67,8 @@ export default {
   },
 } as Meta;
 
-export const SimpleNotification = () => <TestNotifier />;
+export const SimpleNotification = () => <TestNotifierWithProvider />;
 SimpleNotification.storyName = 'simple notification';
 
-export const ComplexNotification = () => <TestNotifier complex />;
+export const ComplexNotification = () => <TestNotifierWithProvider complex />;
 ComplexNotification.storyName = 'complex notification';
-
-export const StaticMethod = () => (
-  <button data-tid="show-toast" onClick={() => Toast.push('Static method call')}>
-    Show static
-  </button>
-);
-StaticMethod.storyName = 'static method';

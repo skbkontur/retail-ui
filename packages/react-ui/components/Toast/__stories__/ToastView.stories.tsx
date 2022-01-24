@@ -4,21 +4,17 @@ import { ComponentStory } from '@storybook/react';
 
 import { Toast } from '../function/Toast';
 import { ToastProvider } from '../function';
+import { Meta } from '../../../typings/stories';
 
-export default { title: 'components/ToastView', parameters: { creevey: { skip: [true] } } };
-
-type WrapperProps = {
-  children: React.ReactNode;
-};
-
-const Wrapper = ({ children }: WrapperProps) => {
-  return <ToastProvider>{children}</ToastProvider>;
-};
+export default {
+  title: 'components/ToastView',
+  parameters: { creevey: { skip: [true] } },
+} as Meta;
 
 const Template: ComponentStory<typeof Toast> = (args) => (
-  <Wrapper>
+  <ToastProvider>
     <Toast {...args} />
-  </Wrapper>
+  </ToastProvider>
 );
 
 export const SimpleToast = Template.bind({});
