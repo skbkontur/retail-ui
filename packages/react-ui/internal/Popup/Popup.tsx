@@ -280,7 +280,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           ref: (instance: Nullable<React.ReactInstance>) => {
             this.childRef(instance);
             this.setRootNode(instance);
-            callChildRef((child as any).ref, instance);
+            const childAsAny = child as any;
+            childAsAny && callChildRef(childAsAny.ref, instance);
           },
         })
       : null;
