@@ -20,6 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -299,10 +300,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
           ref: (instance: Nullable<React.ReactInstance>) => {
             this.childRef(instance);
             this.setRootNode(instance);
-            const childAsAny = child as any;
-            if (childAsAny && childAsAny.ref && typeof childAsAny.ref === 'function') {
-              childAsAny.ref(instance);
-            }
+            callChildRef((child as any).ref, instance);
           },
         })
       : null;
