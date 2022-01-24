@@ -4,6 +4,7 @@ import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode } from '../../lib/rootNode';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export interface CommonProps {
   /**
@@ -51,16 +52,9 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
       : this.child;
   }
 
-  private ref = (instance: any) => {
+  private ref = (instance: Nullable<React.ReactInstance>) => {
     const childAsAny = this.child as any;
-    if (childAsAny && childAsAny.ref) {
-      if (typeof childAsAny.ref === 'function') {
-        childAsAny.ref(instance);
-      }
-      if (Object.prototype.hasOwnProperty.call(childAsAny.ref, 'current')) {
-        childAsAny.ref.current = instance;
-      }
-    }
+    childAsAny && callChildRef(childAsAny.ref, instance);
     this.props.rootNodeRef?.(getRootNode(instance));
   };
 }
