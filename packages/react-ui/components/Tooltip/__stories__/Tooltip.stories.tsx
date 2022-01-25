@@ -1121,3 +1121,13 @@ export const TooltipWithIconFromPackage = () => (
   </TestTooltip>
 );
 TooltipWithIconFromPackage.storyName = 'tooltip with icon';
+
+const FunctionalChild = () => {
+  return <div>FunctionalChild</div>;
+};
+export const TooltipWithFunctionalChild = () => (
+  <TestTooltip trigger="opened" pos="bottom center">
+    <FunctionalChild />
+  </TestTooltip>
+);
+TooltipWithFunctionalChild.storyName = 'tooltip with functional child';
