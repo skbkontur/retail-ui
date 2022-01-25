@@ -8,49 +8,49 @@ import { GlobalLoaderView, GlobalLoaderViewProps } from './GlabalLoaderView';
 
 export interface GlobalLoaderProps {
   /**
-   * Время в миллисекундах до появления глобального лоадера после начала запроса на сервер.
-   * @default 1000
+   * Время(ms) до появления лоадера
    */
   delayBeforeShow?: number;
   /**
-   * Время в миллисекундах до исчезновения глобального лоадера после успешной загрузки данных.
-   * @default 1000
+   * Время(ms) до исчезновения лоадера
    */
   delayBeforeHide?: number;
   /**
-   * Ожидаемое время загрузки данных с сервера
+   * Ожидаемое время(ms) ответа сервера
    */
   expectedResponseTime: number;
   /**
-   * Время медленной анимации
+   * Добавочное время(ms) ответа сервера
    */
   overtime?: number;
   /**
-   * Ошибка загрузки данных с сервера
+   * Анимация лоадера в виде спиннера
    */
   rejected?: boolean;
   /**
-   * Состоянии загрузки (true - загрузка идет, false - загрузка завершена)
+   * Показывать лоадер
    */
   active?: boolean;
   /**
-   * Отключение анимации
+   * Не показывать анимацию
    */
   disableAnimations: boolean;
   /**
-   * Метод, который будет вызван при старте загрузки данных с сервера
+   * Коллбек, вызывающийся после появления лоадера
    */
   onStart?(): void;
   /**
-   * Метод, который будет вызван при окончании загрузки данных с сервера
+   * Коллбек, вызывающийся после исчезновения лоадера
    */
   onDone?(): void;
   /**
-   * Метод, который будет вызван при ошибке загрузки данных с сервера
+   * Коллбек, вызывающийся после вызова `GlobalLoader.reject()`.
+   * Или после установки пропа `rejected = true`
    */
   onReject?(): void;
   /**
-   * Метод, который будет вызван при отмене ошибки загрузки данных с сервера
+   * Коллбек, вызывающийся после вызова `GlobalLoader.accept()`.
+   * Или после установки пропа `rejected = false`
    */
   onAccept?(): void;
 }
@@ -130,7 +130,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentWillUnmount() {
-    GlobalLoader.stopTimeout(this.successAnimationInProgressTimeout);
+    this.successAnimationInProgressTimeout && clearTimeout(this.successAnimationInProgressTimeout);
   }
 
   public render() {
@@ -156,10 +156,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   /**
-   * Позволяет запустить Глобальный лоадер.
+   * Запускает анимацию лоадера <br />
    * Равносильно установке пропа `active = true`
-   * @public
    *
+   * @public
    */
   public static start = (expectedResponseTime?: number) => {
     currentGlobalLoader.setActive();
@@ -169,30 +169,30 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   /**
-   * Сигнализирует об окончании загрузки данных.
+   * Останавливает анимацию лоадера <br />
    * Равносильно установке пропа `active = false`
-   * @public
    *
+   * @public
    */
   public static done = () => {
     currentGlobalLoader.setDone();
   };
 
   /**
-   * Сигнализирует об ошибке с сервера, глобальный лоадер при этом переходит в состояние спиннера.
+   * Переключает анимацию лоадера в состояние спиннера <br />
    * Равносильно установке пропа `rejected = true`
-   * @public
    *
+   * @public
    */
   public static reject = () => {
     currentGlobalLoader.setReject(true);
   };
 
   /**
-   * Сигнализирует об отмене ошибки с сервера.
+   * Возвращает анимацию лоадера <br />
    * Равносильно установке пропа `rejected = false`
-   * @public
    *
+   * @public
    */
   public static accept = () => {
     currentGlobalLoader.setReject(false);
@@ -253,10 +253,4 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       dead: true,
     });
   };
-
-  private static stopTimeout(timeoutId: Nullable<NodeJS.Timeout>) {
-    if (timeoutId) {
-      clearTimeout(timeoutId);
-    }
-  }
 }

@@ -66,6 +66,8 @@ describe('Global Loader', () => {
       expect(globalLoader.state().done).toBe(true);
     });
 
+    // FIXME: у enzyme проблемы с тестированием lodash.debounce
+
     // it('should not start during success animation', async () => {
     //   await setSuccessAndStart(globalLoader);
     //   expect(globalLoader.state().done).toBe(true);
@@ -112,7 +114,7 @@ describe('Global Loader', () => {
       GlobalLoader.done();
       expect(globalLoader.state().done).toBe(true);
     });
-    //
+
     // it('should not start during success animation', async () => {
     //   GlobalLoader.start();
     //   await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
@@ -120,7 +122,7 @@ describe('Global Loader', () => {
     //   GlobalLoader.start();
     //   expect(globalLoader.state().done).toBe(true);
     // });
-    //
+
     it('should start after success animation', async () => {
       GlobalLoader.start();
       await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);

@@ -21,21 +21,16 @@ export const GlobalLoaderView = ({
   disableAnimations,
   overtime,
 }: GlobalLoaderViewProps) => {
-  const globalLoaderViewRef: React.RefObject<HTMLDivElement> | null = React.useRef(null);
+  const ref = React.useRef<HTMLDivElement>(null);
   const theme = React.useContext(ThemeContext);
-  let currentWidth = 0;
-  let currentLeftPosition = 0;
-  if (globalLoaderViewRef) {
-    currentWidth = globalLoaderViewRef.current?.getBoundingClientRect().width || 0;
-    currentLeftPosition = globalLoaderViewRef.current?.getBoundingClientRect().left || 0;
-  }
+  const { width = 0, left = 0 } = ref.current?.getBoundingClientRect() || {};
+
   return (
     <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
       <div
-        ref={globalLoaderViewRef}
+        ref={ref}
         className={cx(styles.inner(theme), {
-          [animations.successAnimation(delayBeforeHide, currentWidth, currentLeftPosition)]:
-            !disableAnimations && status === 'success',
+          [animations.successAnimation(delayBeforeHide, width, left)]: !disableAnimations && status === 'success',
           [styles.standardWithoutAnimation()]: disableAnimations && status === 'standard',
           [styles.successWithoutAnimation()]: disableAnimations && status === 'success',
           [animations.errorAnimation(theme)]: !disableAnimations && status === 'error',
