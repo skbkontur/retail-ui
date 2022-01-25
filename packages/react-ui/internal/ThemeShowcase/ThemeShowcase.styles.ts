@@ -53,7 +53,7 @@ export const styles = memoizeStyle({
   row(t: Theme) {
     return css`
       &:hover {
-        background-color: ${t.modalCloseButtonColor};
+        background-color: ${t.themeShowcaseHoverColor};
       }
     `;
   },
@@ -74,7 +74,7 @@ export const styles = memoizeStyle({
 
       &:hover,
       &:hover ~ tr {
-        background-color: ${t.modalCloseButtonColor};
+        background-color: ${t.themeShowcaseHoverColor};
       }
 
       &:hover ~ &,

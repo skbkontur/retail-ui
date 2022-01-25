@@ -6,15 +6,18 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Common variables
   public static grayXLight = '#313131';
   public static gray = 'rgba(255, 255, 255, 0.48)';
+  public static grayDark = '#e1e1e1';
   public static green = '#5f9c20';
   public static greenDark = '#538a1b';
   public static red = '#ee5042';
   public static redDark = '#dd473b';
   public static errorMain = '#ee5042';
   public static errorText = '#ffa236';
+  public static borderColorFocusLight = '#1260ae';
   public static borderColorGrayLight = 'rgba(255, 255, 255, 0.16)';
   public static borderColorDisabled = 'rgba(255, 255, 255, 0.16)';
   public static placeholderColor = 'rgba(255, 255, 255, 0.32)';
+  public static placeholderColorLight = 'rgba(255, 255, 255, 0.16)';
   public static textColorDefault = 'rgba(255, 255, 255, 0.865)';
   public static textColorDisabled = 'rgba(255, 255, 255, 0.32)';
   public static textColorDisabledContrast = 'rgba(255, 255, 255, 0.48)';
@@ -77,6 +80,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(255, 255, 255, 0.32)';
+  public static tooltipCloseBtnHoverColor = 'rgba(255, 255, 255, 0.865)';
   //#endregion
   //#region Modal
   public static modalBackBg = 'rgba(255, 255, 255, 0.865)';
@@ -89,6 +93,9 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get modalFooterTextColor() {
     return this.textColorDefault;
   }
+  public static get modalFixedPanelShadow() {
+    return this.fixedPanelShadow;
+  }
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = ' #434343';
@@ -100,6 +107,9 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static get sidePageFooterTextColor() {
     return this.textColorDefault;
+  }
+  public static get sidePageFixedPanelShadow() {
+    return this.fixedPanelShadow;
   }
   //#endregion
   //#region Calendar
@@ -156,6 +166,12 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region TextArea
   public static textareaBg = '#1f1f1f';
+  public static get textareaBorderTopColor() {
+    return this.textareaBorderColor;
+  }
+  public static get textareaDisabledBorderColor() {
+    return this.textareaDisabledBg;
+  }
   //#endregion
   //#region PasswordInput
   public static get passwordInputVisibilityIconColor() {
@@ -175,6 +191,21 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static get checkboxShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(255, 255, 255, 0.32)`;
   }
+  public static get checkboxShadowHover() {
+    return this.checkboxShadow;
+  }
+  //#endregion
+  //#region TokenInput
+  public static tokenShadowDisabled = 'none';
+  //#endregion
+  //#region ThemeShowcase
+  public static themeShowcaseHoverColor = 'rgba(255, 255, 255, 0.04)';
+  //#endregion
+  //#region Switcher
+  public static get switcherButtonDisabledBorderColor() {
+    return this.borderColorDisabled;
+  }
+  public static switcherButtonCheckedDisabledShadow = 'none';
   //#endregion
 }
 

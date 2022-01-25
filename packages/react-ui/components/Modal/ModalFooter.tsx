@@ -49,6 +49,7 @@ function ModalFooter(props: ModalFooterProps) {
           [styles.footer(theme)]: true,
           [styles.fixedFooter(theme)]: fixed,
           [styles.panel(theme)]: Boolean(panel),
+          [styles.fixedPanel(theme)]: fixed && Boolean(panel),
           [styles.mobileFooter(theme)]: layout.isMobile,
         })}
       >

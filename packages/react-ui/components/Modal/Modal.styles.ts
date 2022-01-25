@@ -314,6 +314,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  fixedPanel(t: Theme) {
+    return css`
+      &:before {
+        box-shadow: ${t.modalFixedPanelShadow};
+      }
+    `;
+  },
+
   headerAddPadding() {
     return css`
       padding-bottom: 22px;
