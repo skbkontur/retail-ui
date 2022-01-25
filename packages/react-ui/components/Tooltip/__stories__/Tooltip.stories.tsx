@@ -1,4 +1,5 @@
 import React from 'react';
+import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
 import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
@@ -1113,3 +1114,10 @@ TooltipWithManualControl.parameters = {
     },
   },
 };
+
+export const TooltipWithIconFromPackage = () => (
+  <TestTooltip trigger="opened" pos="bottom center">
+    <HelpDotIcon />
+  </TestTooltip>
+);
+TooltipWithIconFromPackage.storyName = 'tooltip with icon';
