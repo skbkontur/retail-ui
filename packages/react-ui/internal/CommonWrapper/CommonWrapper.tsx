@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isFunction } from '../../lib/utils';
+import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -44,7 +44,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
-          ref: this.ref,
+          ref: isRefableElement(this.child) ? this.ref : null,
           className: cx(this.child.props.className, className),
           style: {
             ...this.child.props.style,
