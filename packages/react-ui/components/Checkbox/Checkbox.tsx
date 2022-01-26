@@ -1,286 +1,162 @@
-import React from 'react';
+import React, { useState, useEffect, useRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 
-import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { OkIcon, SquareIcon } from '../../internal/icons/16px';
-import { isEdge, isFirefox, isIE11 } from '../../lib/client';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { withClassWrapper } from '../../lib/withClassWrapper';
+import { Override } from '../../typings/utility-types';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
-import { styles, globalClasses } from './Checkbox.styles';
+import { InputBox } from './InputBox';
+import { CheckboxCaption } from './CheckboxCaption';
+import { CheckboxLabel } from './CheckboxLabel';
+import { CheckboxInput } from './CheckboxInput';
+import { useIndeterminate } from './useIndeterminate';
 
-export interface CheckboxProps
-  extends CommonProps,
-    Override<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      {
-        /**
-         * Контент `label`
-         */
-        children?: React.ReactNode;
-        /**
-         * Cостояние валидации при ошибке.
-         */
-        error?: boolean;
-        /**
-         * Cостояние валидации при предупреждении.
-         */
-        warning?: boolean;
-        /**
-         * HTML-событие `mouseenter`.
-         */
-        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`.
-         */
-        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseover`.
-         */
-        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
-        onValueChange?: (value: boolean) => void;
-        /**
-         * HTML-событие `onblur`.
-         */
-        onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
-        /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
-         */
-        initialIndeterminate?: boolean;
+type CheckboxInterface = {
+  /**
+   * Контент `label`
+   */
+  children?: React.ReactNode;
+  /**
+   * Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /**
+   * Функция, вызываемая при изменении `value`.
+   */
+  onValueChange?: (value: boolean) => void;
+  /**
+   * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+   */
+  initialIndeterminate?: boolean;
+};
+
+type LabelProps = Pick<React.LabelHTMLAttributes<HTMLLabelElement>, 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'>;
+type InputAndLabelProps = Override<React.InputHTMLAttributes<HTMLInputElement>, LabelProps>;
+
+export type CheckboxProps = Override<InputAndLabelProps, CheckboxInterface> & CommonProps;
+
+export type CheckboxState = {
+  isFocusedByTab: boolean;
+  isIndeterminate: boolean;
+};
+
+export type InstanceFields = {
+  focus: () => void;
+  blur: () => void;
+  setIndeterminate: () => void;
+  resetIndeterminate: () => void;
+};
+
+const CheckboxFC = forwardRefAndName<
+  HTMLInputElement,
+  CheckboxProps & { instanceRef?: React.MutableRefObject<InstanceFields | null> }
+>('CheckboxFC', (props, ref) => {
+  const {
+    onClick,
+    initialIndeterminate,
+    checked,
+    disabled,
+    error,
+    warning,
+    onValueChange,
+    children,
+    onChange,
+    onFocus,
+    onBlur,
+    onMouseEnter,
+    onMouseLeave,
+    onMouseOver,
+    instanceRef,
+    ...rest
+  } = props;
+
+  const [isFocusedByTab, setIsFocusedByTab] = useState(false);
+  const [isIndeterminate, setIsIndeterminate] = useState(initialIndeterminate || false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
+  ref = inputRef;
+
+  const { resetIndeterminate, setIndeterminate } = useIndeterminate(inputRef, setIsIndeterminate);
+
+  useEffect(() => {
+    if (isIndeterminate && inputRef.current) {
+      inputRef.current.indeterminate = true;
+    }
+  }, []);
+
+  useEffect(() => {
+    resetIndeterminate();
+  }, [checked]);
+
+  useImperativeHandle(instanceRef, () => ({
+    focus: () => {
+      keyListener.isTabPressed = true;
+      if (inputRef.current) {
+        inputRef.current.focus();
       }
-    > {}
+    },
+    blur: () => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    },
+    resetIndeterminate: resetIndeterminate,
+    setIndeterminate: setIndeterminate,
+  }));
 
-export interface CheckboxState {
-  focusedByTab: boolean;
-  indeterminate: boolean;
-}
-@rootNode
-export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
-  public static __KONTUR_REACT_UI__ = 'Checkbox';
-
-  public static propTypes = {
-    checked: PropTypes.bool,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-    onValueChange: PropTypes.func,
-    onBlur: PropTypes.func,
-    onMouseEnter: PropTypes.func,
-    onMouseLeave: PropTypes.func,
-    onMouseOver: PropTypes.func,
-  };
-
-  public state = {
-    focusedByTab: false,
-    indeterminate: this.props.initialIndeterminate || false,
-  };
-
-  private theme!: Theme;
-  private input = React.createRef<HTMLInputElement>();
-
-  public componentDidMount = () => {
-    if (this.state.indeterminate && this.input.current) {
-      this.input.current.indeterminate = true;
-    }
-  };
-  private setRootNode!: TSetRootNode;
-
-  public componentDidUpdate(prevProps: CheckboxProps) {
-    if (prevProps.checked !== this.props.checked) {
-      this.resetIndeterminate();
-    }
-  }
-
-  public render() {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  /**
-   * Программная установка фокуса чекбоксу.
-   * @public
-   */
-  public focus() {
-    keyListener.isTabPressed = true;
-    this.input.current?.focus();
-  }
-
-  /**
-   * Программное снятие фокуса с чекбокса.
-   * @public
-   */
-  public blur() {
-    this.input.current?.blur();
-  }
-
-  /**
-   * Устанавливает чекбокс в HTML-состояние `indeterminate`.
-   * @public
-   */
-  public setIndeterminate = () => {
-    this.setState({
-      indeterminate: true,
-    });
-    if (this.input.current) {
-      this.input.current.indeterminate = true;
-    }
-  };
-
-  /**
-   * Снимает с чекбокса HTML-состояние `indeterminate`.
-   * @public
-   */
-  public resetIndeterminate = () => {
-    this.setState({
-      indeterminate: false,
-    });
-    if (this.input.current) {
-      this.input.current.indeterminate = false;
-    }
-  };
-
-  private renderMain = (props: CommonWrapperRestProps<CheckboxProps>) => {
-    const {
-      error,
-      warning,
-      onMouseEnter,
-      onMouseLeave,
-      onMouseOver,
-      onValueChange,
-      type,
-      initialIndeterminate,
-      ...rest
-    } = props;
-    const isIndeterminate = this.state.indeterminate;
-
-    const rootClass = cx({
-      [styles.root(this.theme)]: true,
-      [styles.rootFallback()]: isIE11 || isEdge,
-      [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
-      [styles.disabled(this.theme)]: Boolean(props.disabled),
-    });
-
-    const inputProps = {
-      ...rest,
-      type: 'checkbox',
-      className: styles.input(),
-      onChange: this.handleChange,
-      onFocus: this.handleFocus,
-      onBlur: this.handleBlur,
-      onClick: this.handleClick,
-      ref: this.input,
-    };
-
-    let caption = null;
-    if (this.props.children) {
-      const captionClass = cx({
-        [styles.caption(this.theme)]: true,
-        [styles.captionIE11()]: isIE11 || isEdge,
-        [styles.disabled(this.theme)]: Boolean(props.disabled),
-      });
-      caption = <span className={captionClass}>{this.props.children}</span>;
-    }
-
-    const iconClass = cx({
-      [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
-    });
-
-    const box = (
-      <span
-        className={cx(styles.box(this.theme), globalClasses.box, {
-          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
-          [styles.boxDisabled(this.theme)]: props.disabled,
-          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [styles.boxError(this.theme)]: props.error,
-          [styles.boxWarning(this.theme)]: props.warning,
-        })}
-      >
-        {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
-      </span>
-    );
-
-    return (
-      <label
-        className={rootClass}
+  return (
+    <CommonWrapper {...props}>
+      <CheckboxLabel
+        inputRef={inputRef}
+        disabled={disabled}
+        checked={checked}
+        isIndeterminate={isIndeterminate}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
         onMouseOver={onMouseOver}
-        onClick={fixFirefoxModifiedClickOnLabel(this.input)}
       >
-        <input {...inputProps} />
-        {box}
-        {caption}
-      </label>
-    );
-  };
+        <CheckboxInput
+          {...rest}
+          ref={inputRef}
+          disabled={disabled}
+          isIndeterminate={isIndeterminate}
+          onValueChange={onValueChange}
+          onClick={onClick}
+          onChange={onChange}
+          onBlur={onBlur}
+          onFocus={onFocus}
+          resetIndeterminate={resetIndeterminate}
+          setIndeterminate={setIndeterminate}
+          setIsFocusedByTab={setIsFocusedByTab}
+        />
+        <InputBox
+          isFocusedByTab={isFocusedByTab}
+          isIndeterminate={isIndeterminate}
+          checked={checked}
+          disabled={disabled}
+          error={error}
+          warning={warning}
+        />
+        {children && <CheckboxCaption disabled={disabled}>{children}</CheckboxCaption>}
+      </CheckboxLabel>
+    </CommonWrapper>
+  );
+});
 
-  private handleFocus = (e: React.FocusEvent<any>) => {
-    if (!this.props.disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
-        if (keyListener.isTabPressed) {
-          this.setState({ focusedByTab: true });
-        }
-      });
+CheckboxFC.propTypes = {
+  checked: PropTypes.bool,
+  disabled: PropTypes.bool,
+  error: PropTypes.bool,
+  warning: PropTypes.bool,
+  onValueChange: PropTypes.func,
+  onBlur: PropTypes.func,
+};
 
-      if (this.props.onFocus) {
-        this.props.onFocus(e);
-      }
-    }
-  };
-
-  private handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-    this.props.onBlur?.(e);
-    this.setState({ focusedByTab: false });
-  };
-
-  private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = event.currentTarget.checked;
-    this.props.onValueChange?.(checked);
-
-    this.resetIndeterminate();
-
-    this.props.onChange?.(event);
-  };
-
-  private handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    this.props.onClick?.(e);
-    // support IE11's and old Edge's special behavior
-    // https://github.com/jquery/jquery/issues/1698
-    if (this.state.indeterminate && (isIE11 || isEdge)) {
-      this.resetIndeterminate();
-      // simulate correct behavior only if onValueChange is used
-      // because we cant simulate real native onChange event
-      if (this.props.onValueChange && this.input.current) {
-        const checked = !this.input.current.checked;
-
-        if (this.props.checked === undefined) {
-          // in case of uncontrolled mode
-          this.input.current.checked = checked;
-        }
-
-        this.props.onValueChange(checked);
-      }
-    }
-  };
-}
+export const Checkbox = withClassWrapper(CheckboxFC);
+export type Checkbox = InstanceType<typeof Checkbox> & InstanceFields;

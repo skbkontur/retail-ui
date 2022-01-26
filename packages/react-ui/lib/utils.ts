@@ -79,3 +79,27 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
 };
+
+/**
+ * Merges two or more refs into one.
+ *
+ * @param refs Array of refs.
+ * @returns A single ref composing all the refs passed.
+ * @example
+ * const SomeComponent = forwardRef((props, ref) => {
+ *  const localRef = useRef();
+ *
+ *  return <div ref={mergeRefs([localRef, ref])} />;
+ * });
+ */
+export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        ref(value);
+      } else if (ref != null) {
+        (ref as React.MutableRefObject<T | null>).current = value;
+      }
+    });
+  };
+}
