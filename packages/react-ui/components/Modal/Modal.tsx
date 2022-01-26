@@ -186,8 +186,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
-        <RenderContainer>
+      <RenderContainer>
+        <CommonWrapper {...this.props}>
           <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
@@ -222,8 +222,8 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               </div>
             </div>
           </ZIndex>
-        </RenderContainer>
-      </CommonWrapper>
+        </CommonWrapper>
+      </RenderContainer>
     );
   }
 

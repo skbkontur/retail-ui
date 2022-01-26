@@ -3,7 +3,7 @@ import React from 'react';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
-import { getRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export interface CommonProps {
@@ -32,10 +32,13 @@ export type CommonWrapperProps<P> = P & {
 };
 export type CommonWrapperRestProps<P> = Omit<NotCommonProps<P>, 'children'>;
 
+@rootNode
 export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> extends React.Component<
   CommonWrapperProps<P> & CommonPropsRootNodeRef
 > {
   private child: React.ReactNode;
+  private setRootNode!: TSetRootNode;
+
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
@@ -55,6 +58,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   private ref = (instance: Nullable<React.ReactInstance>) => {
     const childAsAny = this.child as any;
     childAsAny && callChildRef(childAsAny.ref, instance);
+    this.setRootNode(instance);
     this.props.rootNodeRef?.(getRootNode(instance));
   };
 }
