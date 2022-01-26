@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Input.styles';
 
@@ -36,9 +37,13 @@ export interface InputProps
          * Если `() => ReactNode` применяются только стили для позиционирование
          */
         rightIcon?: InputIconType;
-        /** Состояние ошибки */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Состояние предупреждения */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Режим прозрачной рамки */
         borderless?: boolean;
@@ -106,6 +111,7 @@ export interface InputState {
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
+@rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
@@ -125,6 +131,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (polyfillPlaceholder) {
@@ -139,10 +146,11 @@ export class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: InputProps) {
-    if (polyfillPlaceholder && !nextProps.value) {
-      this.setState({ polyfillPlaceholder: true });
+  public static getDerivedStateFromProps(props: InputProps, state: InputState) {
+    if (polyfillPlaceholder && !props.value) {
+      return { polyfillPlaceholder: true };
     }
+    return state;
   }
 
   /**
@@ -159,6 +167,13 @@ export class Input extends React.Component<InputProps, InputState> {
   public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input!.blur();
+  }
+
+  /**
+   * @public
+   */
+  public getNode() {
+    return this.input;
   }
 
   /**
@@ -207,7 +222,11 @@ export class Input extends React.Component<InputProps, InputState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );

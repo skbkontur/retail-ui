@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -23,6 +24,7 @@ export interface SidePageFooterProps extends CommonProps {
  * @visibleName SidePage.Footer
  */
 
+@rootNode
 export class SidePageFooter extends React.Component<SidePageFooterProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
@@ -35,8 +37,8 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   private theme!: Theme;
   private content: HTMLElement | null = null;
-  private wrapper: HTMLElement | null = null;
   private layoutSub: ReturnType<typeof LayoutEvents.addListener> | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.context.footerRef(this);
@@ -76,8 +78,8 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
 
   private renderMain() {
     return (
-      <CommonWrapper {...this.props}>
-        <div style={{ height: this.getContentHeight() }} ref={this.refWrapper}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div style={{ height: this.getContentHeight() }} className={styles.footerWrapper()}>
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div
@@ -107,13 +109,10 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     this.content = node;
   };
 
-  private refWrapper = (node: HTMLElement | null) => {
-    this.wrapper = node;
-  };
-
   private setProperStyles = () => {
-    if (this.wrapper && this.content) {
-      const wrapperRect = this.wrapper.getBoundingClientRect();
+    const wrapper = getRootNode(this);
+    if (wrapper && this.content) {
+      const wrapperRect = wrapper.getBoundingClientRect();
       const contentRect = this.content.getBoundingClientRect();
       const fixed = wrapperRect.top > contentRect.top;
       this.setState({ fixed });

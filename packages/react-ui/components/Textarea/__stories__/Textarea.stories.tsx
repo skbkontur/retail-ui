@@ -5,13 +5,18 @@ import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 
+const TEXT_SAMPLE =
+  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
+
 interface AutoresizableTextareaState {
   value: string | null;
+  maxRows: number;
 }
 
 class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
   public state = {
     value: '',
+    maxRows: 5,
   };
 
   public render() {
@@ -28,18 +33,38 @@ class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaSta
           value={this.state.value}
           width={250}
           onValueChange={this.handleChange}
+          rows={4}
+          onFocus={this.handleFocus}
+          maxRows={this.state.maxRows}
+          data-tid={'TextArea'}
         />
+        <Button
+          data-tid={'AddButton'}
+          onClick={() => {
+            this.setState({ value: TEXT_SAMPLE });
+          }}
+        >
+          add text
+        </Button>
+        <Button
+          data-tid={'CollapseButton'}
+          onClick={() => {
+            this.setState({ maxRows: 3 });
+          }}
+        >
+          collapse
+        </Button>
       </div>
     );
   }
-
   private handleChange = (value: string | null) => {
     this.setState({ value });
   };
-}
 
-const TEXT_SAMPLE =
-  'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
+  private handleFocus = () => {
+    this.setState({ maxRows: 5 });
+  };
+}
 
 export default { title: 'Textarea' };
 
@@ -95,6 +120,15 @@ export const DifferentStates: Story = () => {
         </div>
         <div id="TextareaDisabledFilled" style={cellStyles}>
           <Textarea spellCheck={false} disabled defaultValue={TEXT_SAMPLE} />
+        </div>
+      </div>
+      <div style={rowStyles}>
+        <div style={headingStyles}>Disabled with Error</div>
+        <div id="TextareaDisabledError" style={cellStyles}>
+          <Textarea disabled error />
+        </div>
+        <div id="TextareaDisabledErrorFilled" style={cellStyles}>
+          <Textarea spellCheck={false} disabled error defaultValue={TEXT_SAMPLE} />
         </div>
       </div>
     </div>
@@ -166,8 +200,41 @@ export const TextareaInInlineFlexAndText = () => (
 TextareaInInlineFlexAndText.storyName = 'Textarea in inline-flex and text';
 TextareaInInlineFlexAndText.parameters = { creevey: { skip: [true] } };
 
-export const AutoresizableTextareaStory = () => <AutoresizableTextarea />;
+export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
+AutoresizableTextareaStory.parameters = {
+  creevey: {
+    tests: {
+      async autoresize() {
+        const textArea = () => this.browser.findElement({ css: '[data-tid~="TextArea"]' });
+
+        const before = await textArea().takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
+          .pause(500)
+          .perform();
+
+        const addText = await textArea().takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="CollapseButton"]' }))
+          .pause(500)
+          .perform();
+
+        const collapse = await textArea().takeScreenshot();
+
+        await this.expect({ before, addText, collapse }).to.matchImages();
+      },
+    },
+  },
+};
 
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.storyName = 'Textarea with custom width';

@@ -29,8 +29,8 @@
 ### Полезные ссылки:
 
 - Документация:
-  - [Контролы](http://tech.skbkontur.ru/react-ui/)
-  - [Валидации](http://tech.skbkontur.ru/react-ui-validations/)
+  - [Контролы](https://tech.skbkontur.ru/react-ui/)
+  - [Валидации](https://tech.skbkontur.ru/react-ui-validations/)
 - NPM-пакеты:
   - [retail-ui](https://npmjs.com/package/retail-ui) (больше не поддерживается, используйте `@skbkontur/react-ui`)
   - [@skbkontur/react-ui](https://www.npmjs.com/package/@skbkontur/react-ui)
@@ -261,6 +261,10 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 
 Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Creevey](https://github.com/wKich/creevey) и [Storybook](https://storybook.js.org/).
 
+Конфиг для Creevey ожидает переменные окружения `GRID_URL` и `GET_IP_URL`. Поэтому, для локального запуска добавьте 
+их в файл `.env` в корне репозитория.
+Ребята из Контура могут использовать значения для переменных [отсюда](https://wiki.skbkontur.ru/display/guides/.env). 
+
 #### Запуск
 
 `yarn workspace @skbkontur/react-ui storybook:test` - запуск storybook со стилями для тестов
@@ -293,7 +297,7 @@ ButtonWithError.parameters = {
 
 Для документирования компонентов используется [React Styleguidist](https://github.com/styleguidist/react-styleguidist). Он позволяет документировать пропы и методы, а также демонстрировать примеры использования. Более подробную информацию можно найти в [официальной документации](https://react-styleguidist.js.org/docs/documenting.html).
 
-Собранная документация всегда доступна на [витрине](http://tech.skbkontur.ru/react-ui/). А локально она запускается так:
+Собранная документация всегда доступна на [витрине](https://tech.skbkontur.ru/react-ui/). А локально она запускается так:
 
 ```
 yarn workspace @skbkontur/react-ui styleguide
@@ -318,5 +322,4 @@ components/
 
 - [Владимир Дзех](https://github.com/dzekh) — дизайн, гайдлайны. Телеграм: [@dzekh](https://t.me/dzekh);
 - [Егор Погадаев](https://github.com/zhzz) — общие вопросы, права, ключи доступа;
-- [Максим Пахомов](https://github.com/lossir) — общие вопросы. 
-
+- [Максим Пахомов](https://github.com/lossir) — общие вопросы.

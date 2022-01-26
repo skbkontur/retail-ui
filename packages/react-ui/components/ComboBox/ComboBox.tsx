@@ -5,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -31,7 +32,9 @@ export interface ComboBoxProps<T> extends CommonProps {
   disablePortal?: boolean;
 
   disabled?: boolean;
-
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
 
   leftIcon?: InputIconType;
@@ -138,7 +141,9 @@ export interface ComboBoxProps<T> extends CommonProps {
   valueToString: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
-
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
 
   width?: string | number;
@@ -161,6 +166,7 @@ export interface ComboBoxItem {
   label: string;
 }
 
+@rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
@@ -175,6 +181,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   };
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -255,6 +262,11 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={(element) => (this.comboboxElement = element)} />;
+    return <CustomComboBox {...this.props} ref={this.customComboBoxRef} />;
   }
+
+  private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {
+    this.setRootNode(element);
+    this.comboboxElement = element;
+  };
 }

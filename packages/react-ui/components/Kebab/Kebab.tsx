@@ -14,6 +14,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Kebab.styles';
 
@@ -31,8 +32,11 @@ export interface KebabProps extends CommonProps {
   onOpen: () => void;
   size: 'small' | 'medium' | 'large';
   /**
-   * Список позиций доступных для расположения выпадашки
-   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использоваться первая из этого списка
+   * Список позиций доступных для расположения выпадашки.
+   *
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
+   *
+   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions: PopupPosition[];
@@ -53,6 +57,7 @@ export interface KebabState {
   opened: boolean;
 }
 
+@rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
@@ -74,6 +79,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   private listener: {
     remove: () => void;
@@ -117,13 +123,14 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderMain() {
     const { disabled, positions } = this.props;
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
           disableAnimations={this.props.disableAnimations}
+          menuMaxHeight={this.props.menuMaxHeight}
         >
           {!disabled && this.props.children}
         </PopupMenu>

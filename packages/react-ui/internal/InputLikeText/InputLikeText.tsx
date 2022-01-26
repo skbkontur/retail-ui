@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
@@ -12,6 +13,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
+import { TSetRootNode, rootNode } from '../../lib/rootNode';
 
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -23,10 +25,12 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   onBlur?: React.FocusEventHandler<HTMLElement>;
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
+  takeContentWidth?: boolean;
 }
 
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 
+@rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
@@ -43,6 +47,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private dragging = false;
   private focusTimeout: Nullable<number>;
   private blinkTimeout: Nullable<number>;
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -119,7 +124,11 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -145,6 +154,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       value,
       onMouseDragStart,
       onMouseDragEnd,
+      takeContentWidth,
       ...rest
     } = props;
 
@@ -154,6 +164,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     const rightSide = this.renderRightSide();
 
     const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+      [jsInputStyles.disabled(this.theme)]: !!disabled,
+      [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
       [jsInputStyles.blink(this.theme)]: blinking,
       [jsInputStyles.warning(this.theme)]: !!warning,
@@ -161,8 +173,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       [jsInputStyles.focusFallback(this.theme)]: focused && (isIE11 || isEdge),
       [jsInputStyles.warningFallback(this.theme)]: !!warning && (isIE11 || isEdge),
       [jsInputStyles.errorFallback(this.theme)]: !!error && (isIE11 || isEdge),
-      [jsInputStyles.disabled(this.theme)]: !!disabled,
-      [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.hideBlinkingCursor()]: isMobile,
     });
 
@@ -187,7 +197,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         <span className={wrapperClass}>
           <span
             data-tid="InputLikeText__input"
-            className={cx(styles.input(), jsInputStyles.input(this.theme), {
+            className={cx(jsInputStyles.input(this.theme), {
+              [styles.absolute()]: !takeContentWidth,
               [jsInputStyles.inputFocus(this.theme)]: focused,
               [jsInputStyles.inputDisabled(this.theme)]: disabled,
             })}
@@ -304,8 +315,9 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private renderPlaceholder = (): JSX.Element | null => {
     const { children, placeholder, disabled } = this.props;
     const { focused } = this.state;
+    const hasValue = isNonNullable(children) && children !== '';
 
-    if (!children && placeholder) {
+    if (!hasValue && placeholder) {
       return (
         <span
           className={cx(jsInputStyles.placeholder(this.theme), {

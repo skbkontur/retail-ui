@@ -9,6 +9,7 @@ import { Select } from '../Select';
 import { Nullable } from '../../typings/utility-types';
 import { ButtonSize, ButtonUse } from '../Button';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -54,11 +55,11 @@ export interface DropdownProps extends CommonProps {
   disabled?: boolean;
 
   /**
-   * Визуально показать наличие ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Визуально показать наличие предупреждения.
+   * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
   maxMenuHeight?: number;
@@ -88,7 +89,9 @@ type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 
 /**
  * Выпадающее меню.
+ *
  */
+@rootNode
 export class Dropdown extends React.Component<DropdownProps> {
   public static __KONTUR_REACT_UI__ = 'Dropdown';
 
@@ -160,9 +163,14 @@ export class Dropdown extends React.Component<DropdownProps> {
   };
 
   private _select: Nullable<DropdownSelectType>;
+  private setRootNode!: TSetRootNode;
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = ({ caption, icon, ...props }: CommonWrapperRestProps<DropdownProps>) => {

@@ -11,20 +11,63 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
+import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
+  /**
+   * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
+   * или значений из параметра `items`
+   */
   defaultValue?: T;
+  /**
+   * Значение радиогруппы. Должно быть одним из значений радиокнопок.
+   * Если не указано, то компонент будет работать, как неконтроллируемый
+   */
   value?: T;
+  /**
+   * Может быть использовано, если не передан параметр `children`
+   *
+   * Массив параметров радиокнопок. Может быть типа `Array<Value>` или
+   * `Array<[Value, Data]>`, где тип `Value` — значение радиокнопки, а `Data`
+   * — значение которое будет использовано вторым параметром в `renderItem`.
+   * Если тип `items: Array<Value>`, то он будет приведен к типу
+   * `Array<[Value, Value]>`
+   */
   items?: T[] | [T, React.ReactNode][];
+  /**
+   * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
+   * случайное имя
+   */
   name?: string;
+  /**
+   * Дизейблит все радиокнопки
+   */
   disabled?: boolean;
+  /**
+   * Переводит все радиокнопки в состояние валидации: предупреждение.
+   */
   warning?: boolean;
+  /**
+   * Переводит все радиокнопки в состояние валидации: ошибка.
+   */
   error?: boolean;
+  /**
+   * Выравнивает элементы в строку. Не работает с `children`
+   */
   inline?: boolean;
+  /**
+   * Ширина радиогруппы. Не работает с `children`
+   */
   width?: React.CSSProperties['width'];
+  /**
+   * Метод отрисовки контента радиокнопки. Не работает с `children`.
+   *
+   * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
+   */
   renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
   /** Вызывается при изменении `value` */
   onValueChange?: (value: T) => void;
@@ -38,105 +81,30 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+/**
+ *
+ * `children` может содержать любую разметку с компонентами Radio,
+ * если не передан параметр `items`.
+ * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
+ * как и параметр `value` самой радиогруппы.
+ *
+ * Значения активного элемента сравниваются по строгому равенству `===`
+ */
+@rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
-  public static childContextTypes = {
-    error: PropTypes.bool,
-    name: PropTypes.string,
-    warning: PropTypes.bool,
-    disabled: PropTypes.bool,
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
-  };
-
   public static propTypes = {
-    /**
-     * Может быть использовано, если не передан параметр `items`
-     *
-     * `children` может содержать любую разметку с компонентами Radio.
-     * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
-     * как и параметр `value` самой радиогруппы.
-     *
-     * Значения активного элемента сравниваются по строгому равенству `===`
-     */
     children: PropTypes.node,
-
-    /**
-     * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
-     * или значей из параметра `items`
-     */
-    defaultValue: PropTypes.any,
-
-    /**
-     * Дизейблит все радиокнопки
-     */
     disabled: PropTypes.bool,
-
-    /**
-     * Переводит все радиокнопки в состоянии ошибки
-     */
     error: PropTypes.bool,
-
-    /**
-     * Выравнивает элементы в строку. Не работает с `children`
-     */
     inline: PropTypes.bool,
-
-    /**
-     * Может быть использовано, если не передан параметр `children`
-     *
-     * Массив параметров радиокнопок. Может быть типа `Array<Value>` или
-     * `Array<[Value, Data]>`, где тип `Value` — значение радиокнопки, а `Data`
-     * — значение которое будет использовано вторым параметром в `renderItem`.
-     * Если тип `items: Array<Value>`, то он будет приведен к типу
-     * `Array<[Value, Value]>`
-     */
-    items: PropTypes.any,
-
-    /**
-     * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
-     * случайное имя по алгоритму
-     * [uuid v1](https://github.com/kelektiv/node-uuid#version-1)
-     */
     name: PropTypes.string,
-
-    /**
-     * Метод отрисовки контента радиокнопки. Не работает с `children`.
-     *
-     * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
-     */
-    renderItem: PropTypes.func,
-
-    /**
-     * Значение радиогруппы. Должно быть одним из значений радиокнопок.
-     * Если не указано, то компонент будет работать, как неконтроллируемый
-     */
-    value: PropTypes.any,
-
-    /**
-     * Переводит все радиокнопки в состоянии предупреждения
-     */
     warning: PropTypes.bool,
-
-    /**
-     * Ширина радиогруппы. Не работает с `children`
-     */
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-
-    /**
-     * Обработчик события при переключении радиокнопок.
-     * Имеет тип
-     * `(value: Value) => any`
-     */
-    onValueChange: PropTypes.func,
-
     onBlur: PropTypes.func,
-
     onMouseEnter: PropTypes.func,
-
     onMouseLeave: PropTypes.func,
-
     onMouseOver: PropTypes.func,
   };
 
@@ -151,6 +119,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   constructor(props: RadioGroupProps<T>) {
     super(props);
@@ -160,7 +129,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
   }
 
-  public getChildContext() {
+  private getRadioGroupContextValue = (): RadioGroupContextType<T> => {
     return {
       activeItem: this.getValue(),
       onSelect: this.handleSelect,
@@ -169,7 +138,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
       error: this.props.error,
       warning: this.props.warning,
     };
-  }
+  };
 
   public render() {
     return (
@@ -194,10 +163,12 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
           <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
-            {this.renderChildren()}
+            <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
+              {this.renderChildren()}
+            </RadioGroupContext.Provider>
           </span>
         </FocusTrap>
       </CommonWrapper>

@@ -9,6 +9,7 @@ import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 
 import { styles } from './Link.styles';
 
@@ -17,20 +18,41 @@ export interface LinkProps
     Override<
       React.AnchorHTMLAttributes<HTMLAnchorElement>,
       {
-        /** Неактивное состояние */
+        /**
+         * Отключенное состояние.
+         */
         disabled?: boolean;
-        /** href */
+        /**
+         * HTML-атрибут `href`.
+         */
         href?: string;
-        /** Иконка */
+        /**
+         * Добавляет ссылке иконку.
+         */
         icon?: React.ReactElement<any>;
-        /** Тип */
+        /**
+         * Тема ссылки.
+         */
         use?: 'default' | 'success' | 'danger' | 'grayed';
+        /**
+         * @ignore
+         */
         _button?: boolean;
+        /**
+         * @ignore
+         */
         _buttonOpened?: boolean;
+        /**
+         * HTML-атрибут `tabindex`.
+         */
         tabIndex?: number;
-        /** Состояние загрузки */
+        /**
+         * Переводит ссылку в состояние загрузки.
+         */
         loading?: boolean;
-        /** onClick */
+        /**
+         * HTML-событие `onclick`.
+         */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
       }
     > {}
@@ -40,11 +62,9 @@ export interface LinkState {
 }
 
 /**
- * Стандартная ссылка.
- * Интерфес пропсов наследуется от `React.AnchorHTMLAttributes<HTMLAnchorElement>`.
- * Все свойства передаются в элемент `<a>`.
- * `className` и `style` не поддерживаются
+ * Элемент ссылки из HTML.
  */
+@rootNode
 export class Link extends React.Component<LinkProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
@@ -68,12 +88,18 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
+
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -121,11 +147,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick: this._handleClick,
       onFocus: this._handleFocus,
       onBlur: this._handleBlur,
-      tabIndex: this.props.tabIndex,
+      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
-    if (disabled) {
-      props.tabIndex = -1;
-    }
 
     return (
       <a {...rest} {...linkProps}>
@@ -153,11 +176,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { href, onClick, disabled } = this.props;
+    const { href, onClick, disabled, loading } = this.props;
     if (!href) {
       event.preventDefault();
     }
-    if (onClick && !disabled) {
+    if (onClick && !disabled && !loading) {
       onClick(event);
     }
   };

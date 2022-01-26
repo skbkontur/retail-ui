@@ -9,6 +9,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface FxInputProps
   extends CommonProps,
@@ -33,6 +34,7 @@ export interface FxInputProps
     > {}
 
 /** Принимает все свойства `Input`'a */
+@rootNode
 export class FxInput extends React.Component<FxInputProps> {
   public static __KONTUR_REACT_UI__ = 'FxInput';
 
@@ -50,13 +52,18 @@ export class FxInput extends React.Component<FxInputProps> {
   private input: Input | CurrencyInput | null = null;
 
   private getProps = createPropsGetter(FxInput.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
-    const { type, onRestore, auto, ...rest } = props;
+    const { type, onRestore, auto, refInput, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };

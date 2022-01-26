@@ -9,6 +9,7 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Hint.styles';
 
@@ -16,11 +17,35 @@ const HINT_BORDER_COLOR = 'transparent';
 
 export interface HintProps extends CommonProps {
   children?: React.ReactNode;
+  /**
+   * Переводит отображение подсказки в _"ручной режим"_.
+   *
+   * В _"ручном режиме"_ подcказку можно активировать только задав значение пропу `opened`.
+   */
   manual?: boolean;
+  /**
+   * Задаёт максимальную ширину подсказки.
+   */
   maxWidth?: React.CSSProperties['maxWidth'];
+  /**
+   * HTML-событие `mouseenter`.
+   */
   onMouseEnter?: (event: MouseEventType) => void;
+  /**
+   * HTML-событие `mouseleave`.
+   */
   onMouseLeave?: (event: MouseEventType) => void;
+  /**
+   * Если `true` - подсказка будет открыта.
+   *
+   * _Примечание_: работает только при `manual=true`.
+   */
   opened?: boolean;
+  /**
+   * Расположение подсказки относительно текста.
+   *
+   * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
+   */
   pos:
     | 'top'
     | 'right'
@@ -38,8 +63,19 @@ export interface HintProps extends CommonProps {
     | 'right top'
     | 'right middle'
     | 'right bottom';
+  /**
+   * Текст подсказки.
+   */
   text: React.ReactNode;
+  /**
+   * Отключает анимацию.
+   */
   disableAnimations: boolean;
+  /**
+   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
+   *
+   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
+   */
   useWrapper: boolean;
 }
 
@@ -62,7 +98,11 @@ const Positions: PopupPosition[] = [
   'right bottom',
 ];
 
-export class Hint extends React.Component<HintProps, HintState> {
+/**
+ * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
+ */
+@rootNode
+export class Hint extends React.PureComponent<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
   public static defaultProps = {
@@ -80,17 +120,18 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   private timer: Nullable<number> = null;
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
-    if (!nextProps.manual) {
+  public componentDidUpdate(prevProps: HintProps) {
+    if (!this.props.manual) {
       return;
     }
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    if (nextProps.opened !== this.props.opened) {
-      this.setState({ opened: !!nextProps.opened });
+    if (this.props.opened !== prevProps.opened) {
+      this.setState({ opened: !!this.props.opened });
     }
   }
 
@@ -128,7 +169,7 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   public renderMain() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           hasPin
           opened={this.state.opened}

@@ -3,15 +3,19 @@ import React from 'react';
 import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
+import { Upgrade } from '../../lib/Upgrades';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
 
+@rootNode
 export class RenderContainer extends React.Component<RenderContainerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderContainer';
 
   private static getRootId = () => getRandomID();
   private domContainer: Nullable<HTMLElement> = null;
+  private setRootNode!: TSetRootNode;
 
   private readonly rootId: string = RenderContainer.getRootId();
 
@@ -23,13 +27,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+  public shouldComponentUpdate(nextProps: RenderContainerProps) {
     if (!this.props.children && nextProps.children) {
       this.mountContainer();
     }
     if (this.props.children && !nextProps.children) {
       this.unmountContainer();
     }
+    return true;
   }
 
   public componentWillUnmount() {
@@ -37,13 +42,20 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   }
 
   public render() {
-    return <RenderInnerContainer {...this.props} domContainer={this.domContainer} rootId={this.rootId} />;
+    return (
+      <RenderInnerContainer
+        {...this.props}
+        domContainer={this.domContainer}
+        rootId={this.rootId}
+        ref={this.setRootNode}
+      />
+    );
   }
 
   private createContainer() {
     if (canUseDOM) {
       const domContainer = document.createElement('div');
-      domContainer.setAttribute('class', 'react-ui');
+      domContainer.setAttribute('class', Upgrade.getSpecificityClassName());
       domContainer.setAttribute('data-rendered-container-id', `${this.rootId}`);
       this.domContainer = domContainer;
     }

@@ -11,6 +11,7 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './PasswordInput.styles';
 
@@ -26,7 +27,8 @@ export interface PasswordInputState {
 /**
  * Компонент для ввода пароля
  */
-export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+@rootNode
+export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
   public static propTypes = {
@@ -48,8 +50,9 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   private theme!: Theme;
 
   private input: Nullable<Input>;
+  private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillMount() {
+  public componentDidMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
     }
@@ -67,7 +70,11 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );

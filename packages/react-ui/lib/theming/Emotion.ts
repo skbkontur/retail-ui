@@ -5,13 +5,14 @@ import { Upgrade } from '../Upgrades';
 
 import { Theme } from './Theme';
 
-const REACT_UI_PREFIX = 'react-ui';
+const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
 export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
   createEmotion({
     key: REACT_UI_PREFIX,
+    prepend: true,
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
   });
 

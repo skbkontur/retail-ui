@@ -15,6 +15,7 @@ import { isBrowser, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -28,9 +29,13 @@ export interface TextareaProps
     Override<
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
-        /** Ошибка */
+        /**
+         * Cостояние валидации при ошибке.
+         */
         error?: boolean;
-        /** Предупреждение */
+        /**
+         * Cостояние валидации при предупреждении.
+         */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
@@ -103,7 +108,6 @@ export interface TextareaProps
 
 export interface TextareaState {
   polyfillPlaceholder: boolean;
-  rows: number | string;
   isCounterVisible: boolean;
 }
 
@@ -114,6 +118,7 @@ export interface TextareaState {
  *
  * ** `className` и `style`  игнорируются**
  */
+@rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
 
@@ -180,7 +185,6 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
   public state = {
     polyfillPlaceholder,
-    rows: 1,
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -196,6 +200,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
   private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
+  private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
     // Поэтому выставляем таймаут троттла в ноль. Подробности - https://github.com/skbkontur/retail-ui/issues/2120
@@ -231,7 +236,12 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize.cancel();
       this.autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
     }
-    if ((this.props.autoResize && this.props.rows > this.state.rows) || this.props.value !== prevProps.value) {
+    if (
+      this.props.autoResize &&
+      (this.props.rows !== prevProps.rows ||
+        this.props.maxRows !== prevProps.maxRows ||
+        this.props.value !== prevProps.value)
+    ) {
       this.autoResize();
     }
   }
@@ -241,7 +251,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -319,6 +333,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       counterHelp,
       extraRow,
       disableAnimations,
+      disabled,
       ...textareaProps
     } = props;
 
@@ -332,6 +347,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaClassNames = cx({
       [styles.textarea(this.theme)]: true,
+      [styles.disabled(this.theme)]: disabled,
       [styles.error(this.theme)]: !!error,
       [styles.warning(this.theme)]: !!warning,
       [styles.disableAnimations()]: this.isAnimationsDisabled(),
@@ -389,6 +405,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
               onPaste={this.handlePaste}
               onFocus={this.handleFocus}
               onKeyDown={this.handleKeyDown}
+              disabled={disabled}
             >
               {this.props.children}
             </textarea>

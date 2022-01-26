@@ -7,6 +7,7 @@ import { PopupMenu, PopupMenuProps } from '../../internal/PopupMenu';
 import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPosition } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface DropdownMenuProps extends CommonProps {
   /** Максимальная высота меню */
@@ -18,16 +19,30 @@ export interface DropdownMenuProps extends CommonProps {
 
   /**
    * Элемент или функция возвращающая элемент,
-   * если передана, используется вместо ```caption```,
+   * если передана, используется вместо `caption`,
    * в таком случае управлять открытием и закрытием меню
    * придется в этой функции
    */
   caption: PopupMenuProps['caption'];
 
+  /**
+   * Произвольный элемент, который будет отрендерен в шапке меню.
+   *
+   * _Примечание_: контрол [`MenuHeader`](#/Components/MenuHeader) передаётся только в `children` меню-контролов. Не стоит передавать `MenuHeader` в `header`.
+   */
   header?: React.ReactNode;
+  /**
+   * Произвольный элемент, который будет отрендерен в подвале меню.
+   *
+   * Перед элементом переданным в `footer` будет отрендерен [`MenuSeparator`](#/Components/MenuSeparator).
+   */
   footer?: React.ReactNode;
   /**
-   * Массив разрешенных положений меню относительно caption'а.
+   *  Список позиций доступных для расположения выпадашки относительно `caption`.
+   *
+   * Если во всех позициях выпадашка вылезает за пределы `viewport`, будет использована первая из этого списка.
+   *
+   * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions?: PopupPosition[];
@@ -42,8 +57,9 @@ export interface DropdownMenuProps extends CommonProps {
 }
 
 /**
- * Меню, раскрывающееся по клику на переданный в ```caption``` элемент
+ * Меню, раскрывающееся по клику на переданный в `caption` элемент
  */
+@rootNode
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
 
@@ -53,6 +69,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   };
 
   private popupMenu: Nullable<PopupMenu> = null;
+  private setRootNode!: TSetRootNode;
 
   constructor(props: DropdownMenuProps) {
     super(props);
@@ -88,7 +105,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
       return null;
     }
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           ref={this.refPopupMenu}
           caption={this.props.caption}

@@ -466,7 +466,7 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static sidePageHeaderFixedFontSize = '18px';
   public static sidePageHeaderFixedLineHeight = '28px';
   public static sidePageHeaderFixedPaddingY = '10px';
-  public static sidePageHeaderStickyOffset = '7px';
+  public static sidePageHeaderStickyOffset = '5px';
   public static sidePageFooterPanelPaddingBottom = '20px';
   public static sidePageFooterPaddingTop = '24px';
   public static sidePageFooterPaddingBottom = '32px';

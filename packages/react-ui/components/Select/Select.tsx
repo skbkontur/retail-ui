@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
 import {
@@ -29,6 +28,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -68,7 +68,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   /**
-   * Визуально показать наличие ошибки.
+   * Cостояние валидации при ошибке.
    */
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
@@ -128,6 +128,9 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   search?: boolean;
   value?: TValue;
   width?: number | string;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   use?: ButtonUse;
   size?: ButtonSize;
@@ -145,6 +148,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+@rootNode
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
@@ -202,6 +206,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -279,7 +284,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const button = this.getButton(buttonParams);
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer onClickOutside={this.close} onFocusOutside={this.close} active={this.state.opened}>
           <span className={styles.root()} style={style}>
             {button}
@@ -354,7 +359,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
           <span {...labelProps}>{params.label}</span>
 
-          <div className={cx(styles.arrowWrap(this.theme), useIsCustom && styles.customUseArrow())}>
+          <div
+            className={cx(styles.arrowWrap(this.theme), {
+              [styles.arrowDisabled(this.theme)]: this.props.disabled,
+              [styles.customUseArrow()]: useIsCustom,
+            })}
+          >
             <ArrowChevronDownIcon />
           </div>
         </div>
@@ -381,7 +391,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMenu(): React.ReactNode {
     const search = this.props.search ? (
-      <div className={styles.search()}>
+      <div className={styles.search()} onKeyDown={this.handleKey}>
         <Input ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     ) : null;
@@ -436,7 +446,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private dropdownContainerGetParent = () => {
-    return ReactDOM.findDOMNode(this);
+    return getRootNode(this);
   };
 
   private focusInput = (input: Input) => {
@@ -495,6 +505,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private handleSearch = (value: string) => {
     this.setState({ searchPattern: value });
+    this.menu?.highlightItem(1);
   };
 
   private select(value: TValue) {

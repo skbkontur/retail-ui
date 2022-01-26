@@ -45,19 +45,9 @@ export const styles = memoizeStyle({
           color: ${t.textareaPlaceholderColorLight};
         }
       }
-      &:disabled {
-        color: ${t.textareaTextColorDisabled};
-        background: ${t.textareaDisabledBg};
-        border-color: ${t.textareaDisabledBorderColor};
-        box-shadow: none;
-      }
 
       &::placeholder {
         color: ${t.textareaPlaceholderColor};
-      }
-
-      &:disabled::placeholder {
-        color: ${t.textareaPlaceholderColorDisabled};
       }
 
       &:-moz-placeholder {
@@ -90,6 +80,19 @@ export const styles = memoizeStyle({
       &:focus {
         border-color: ${t.textareaBorderColorWarning};
         box-shadow: 0 0 0 ${t.textareaOutlineWidth} ${t.textareaBorderColorWarning};
+      }
+    `;
+  },
+
+  disabled(t: Theme) {
+    return css`
+      color: ${t.textareaTextColorDisabled};
+      background: ${t.textareaDisabledBg};
+      border-color: ${t.textareaDisabledBorderColor};
+      box-shadow: none;
+
+      &::placeholder {
+        color: ${t.textareaPlaceholderColorDisabled};
       }
     `;
   },

@@ -9,6 +9,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
@@ -44,6 +45,7 @@ interface SwitcherItem {
   value: string;
 }
 
+@rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';
 
@@ -69,6 +71,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -94,10 +97,10 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: styles.input(),
     };
 
-    const lableClassName = cx(styles.label(), this.getLabelSizeClassName());
+    const lableClassName = cx(styles.label(this.theme), this.getLabelSizeClassName());
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div>
           {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
           <div className={styles.wrap()}>

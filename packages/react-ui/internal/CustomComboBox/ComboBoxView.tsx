@@ -1,6 +1,6 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
+import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -11,6 +11,7 @@ import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -23,6 +24,9 @@ interface ComboBoxViewProps<T> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   editing?: boolean;
+  /**
+   * Cостояние валидации при ошибке.
+   */
   error?: boolean;
   items?: Nullable<T[]>;
   loading?: boolean;
@@ -34,6 +38,9 @@ interface ComboBoxViewProps<T> extends CommonProps {
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
   warning?: boolean;
   width?: string | number;
   maxLength?: number;
@@ -66,7 +73,8 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
-export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
+@rootNode
+export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, {}> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
   public static defaultProps = {
@@ -86,11 +94,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
   };
 
   private input: Nullable<Input>;
+  private setRootNode!: TSetRootNode;
+  private dropdownContainerRef = React.createRef<DropdownContainer>();
 
   public componentDidMount() {
     if (this.props.autoFocus && this.props.onFocus) {
       this.props.onFocus();
     }
+    this.props.opened && this.dropdownContainerRef.current?.position();
   }
 
   public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
@@ -147,14 +158,16 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onMouseOver={onMouseOver}
+            ref={this.setRootNode}
           >
             {input}
             {opened && (
               <DropdownContainer
                 align={menuAlign}
-                getParent={() => findDOMNode(this)}
+                getParent={this.getParent}
                 offsetY={1}
                 disablePortal={this.props.disablePortal}
+                ref={this.dropdownContainerRef}
               >
                 <ComboBoxMenu
                   items={items}
@@ -178,6 +191,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
       </CommonWrapper>
     );
   }
+
+  private getParent = () => {
+    return getRootNode(this);
+  };
 
   private renderAddButton = (): React.ReactNode => {
     return this.props.renderAddButton(this.props.textValue);
@@ -250,7 +267,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>> {
         width="100%"
         ref={refInputLikeText}
       >
-        {value ? renderValue!(value) : null}
+        {isNonNullable(value) && renderValue ? renderValue(value) : null}
       </InputLikeText>
     );
   }
