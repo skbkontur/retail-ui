@@ -373,6 +373,7 @@ WithHeaderAndFooter.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
+        await delay(500);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
       },
       async ['scrolled by 100']() {
