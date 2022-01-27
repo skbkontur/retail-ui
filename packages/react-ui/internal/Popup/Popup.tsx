@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable } from '../../lib/utils';
+import { isFunction, isNonNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -286,28 +286,34 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
 
-    let child: Nullable<React.ReactNode> = null;
+    let anchor: Nullable<React.ReactNode> = null;
     if (isHTMLElement(anchorElement)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
-      child = useWrapper ? <span>{anchorElement}</span> : anchorElement;
+      anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
     } else {
-      child = <span>{anchorElement}</span>;
+      anchor = <span>{anchorElement}</span>;
     }
 
-    const childWithRef = child
-      ? React.cloneElement(child as JSX.Element, {
-          ref: (instance: Nullable<React.ReactInstance>) => {
-            this.childRef(instance);
-            this.setRootNode(instance);
-            const childAsAny = child as any;
-            childAsAny && callChildRef(childAsAny.ref, instance);
-          },
-        })
-      : null;
+    const anchorWithRef =
+      anchor && React.isValidElement(anchor) && isRefableElement(anchor)
+        ? React.cloneElement(anchor, {
+            ref: (instance: Nullable<React.ReactInstance>) => {
+              this.updateAnchorElement(instance);
+              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
+              originalRef && callChildRef(originalRef, instance);
+            },
+          })
+        : null;
+
+    // we need to get anchor's DOM node
+    // so we either set our own ref on it via cloning
+    // or relay on findDOMNode (inside getRootNode)
+    // which should be called with RenderContainer's ref
+    // in the case when the anchor is not refable
 
     return (
-      <RenderContainer anchor={childWithRef}>
+      <RenderContainer anchor={anchorWithRef || anchor} ref={anchorWithRef ? null : this.renderContainerRef}>
         {this.isMobileLayout && !this.props.withoutMobile
           ? this.renderMobile()
           : location && this.renderContent(location)}
@@ -315,8 +321,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private childRef = (childInstance: Nullable<React.ReactInstance>) => {
-    childInstance && this.updateAnchorElement(childInstance);
+  private renderContainerRef = (childInstance: Nullable<React.ReactInstance>) => {
+    this.updateAnchorElement(childInstance);
   };
 
   private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
@@ -327,6 +333,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.removeEventListeners(anchorElement);
       this.anchorElement = childDomNode;
       this.addEventListeners(childDomNode);
+      this.setRootNode(childDomNode);
     }
   }
 
