@@ -184,6 +184,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
         <label className={labelClassNames}>
           <div
             className={cx(styles.button(this.theme), {
+              [styles.buttonRight()]: captionPosition === 'left',
               [styles.isWarning(this.theme)]: !!warning,
               [styles.isError(this.theme)]: !!error,
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
