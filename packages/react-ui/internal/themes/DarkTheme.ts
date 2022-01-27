@@ -198,9 +198,6 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region TokenInput
   public static tokenShadowDisabled = 'none';
   //#endregion
-  //#region ThemeShowcase
-  public static themeShowcaseHoverColor = 'rgba(255, 255, 255, 0.04)';
-  //#endregion
   //#region Switcher
   public static get switcherButtonDisabledBorderColor() {
     return this.borderColorDisabled;

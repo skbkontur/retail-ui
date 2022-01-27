@@ -1594,9 +1594,6 @@ export class DefaultTheme {
   public static passwordInputVisibilityIconHoverColor = '#000';
   public static passwordInputVisibilityIconHoverOpacity = '1';
   //#endregion
-  //#region ThemeShowcase
-  public static themeShowcaseHoverColor = '#f8f8f8';
-  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(DefaultTheme);
