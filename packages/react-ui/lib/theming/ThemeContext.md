@@ -176,8 +176,7 @@ const CombinedComponents = () => (
 <br/>
 
 ```jsx harmony
-import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME } from '@skbkontur/react-ui';
-import { DARK_THEME } from "@skbkontur/react-ui/lib/theming/themes/DarkTheme";
+import { ThemeContext, DEFAULT_THEME_8PX_OLD, DEFAULT_THEME, DARK_THEME } from '@skbkontur/react-ui';
 import { ShowcaseGroup } from '@skbkontur/react-ui/internal/ThemePlayground/ShowcaseGroup';
 
 const wrapperStyles = {

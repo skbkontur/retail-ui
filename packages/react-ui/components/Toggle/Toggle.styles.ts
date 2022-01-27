@@ -190,6 +190,13 @@ export const styles = memoizeStyle({
     `;
   },
 
+  buttonRight() {
+    return css`
+      right: 0;
+      left: auto;
+    `;
+  },
+
   disabled() {
     return css`
       cursor: default;

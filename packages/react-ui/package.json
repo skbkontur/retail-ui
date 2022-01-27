@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "3.9.4",
+  "version": "4.0.0-beta.1",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -58,6 +58,7 @@
     "raf": "^3.4.1",
     "react-focus-lock": "^2.7.1",
     "react-input-mask": "2.0.4",
+    "react-is": "^17.0.2",
     "react-transition-group": "^4.4.2",
     "shallowequal": "^1.1.0",
     "stylis-plugin-extra-scope": "^0.3.0",
@@ -94,6 +95,7 @@
     "@types/react": "17.0.38",
     "@types/react-dom": "17.0.11",
     "@types/react-input-mask": "2.0.5",
+    "@types/react-is": "^17.0.3",
     "@types/react-transition-group": "^4.4.4",
     "@types/shallowequal": "^1.1.1",
     "@types/warning": "^3.0.0",
