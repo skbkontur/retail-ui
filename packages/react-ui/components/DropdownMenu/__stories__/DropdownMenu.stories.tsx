@@ -72,6 +72,7 @@ SimpleExample.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
+        await delay(500);
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
       async tabPress() {
