@@ -93,6 +93,7 @@ export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
         {...rest}
         ref={inputRef}
         type="checkbox"
+        disabled={disabled}
         className={styles.input()}
         onChange={handleChange}
         onFocus={handleFocus}
