@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ReactDOM from 'react-dom';
 import invariant from 'invariant';
 
 import {
@@ -30,7 +29,8 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -155,6 +155,7 @@ interface FocusableReactElement extends React.ReactElement<any> {
 }
 
 @responsiveLayout
+@rootNode
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
@@ -213,6 +214,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private menu: Nullable<Menu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -306,7 +308,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     );
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
           onClickOutside={this.close}
           onFocusOutside={this.close}
@@ -522,7 +524,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private dropdownContainerGetParent = () => {
-    return ReactDOM.findDOMNode(this);
+    return getRootNode(this);
   };
 
   private focusInput = (input: Input) => {
@@ -607,7 +609,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
     const pattern = this.state.searchPattern && this.state.searchPattern.toLowerCase();
 
-    const result: React.ReactNodeArray = [];
+    const result: React.ReactNode[] = [];
     let index = 0;
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);

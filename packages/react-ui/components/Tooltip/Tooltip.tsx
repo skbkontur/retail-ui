@@ -13,7 +13,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { responsiveLayout } from '../ResponsiveLayout';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Tooltip.styles';
 
@@ -161,6 +162,7 @@ export interface TooltipState {
 }
 
 @responsiveLayout
+@rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
 
@@ -198,15 +200,16 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private contentElement: Nullable<HTMLElement> = null;
   private positions: Nullable<PopupPosition[]> = null;
   private clickedOutside = true;
+  private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
-    if (nextProps.trigger === 'closed') {
+  public componentDidUpdate(prevProps: TooltipProps) {
+    if (this.props.trigger === 'closed' && this.state.opened) {
       this.close();
     }
 
     const { allowedPositions, pos } = this.props;
-    const posChanged = nextProps.pos !== pos;
-    const allowedChanged = !isEqual(nextProps.allowedPositions, allowedPositions);
+    const posChanged = prevProps.pos !== pos;
+    const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
     if (posChanged || allowedChanged) {
       this.positions = null;
@@ -314,8 +317,16 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       return popup;
     }
 
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    return (
+      <RenderLayer {...layerProps} getAnchorElement={this.getRenderLayerAnchorElement}>
+        {popup}
+      </RenderLayer>
+    );
   }
+
+  private getRenderLayerAnchorElement = () => {
+    return getRootNode(this);
+  };
 
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
@@ -323,7 +334,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     content: JSX.Element | null,
   ) {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           anchorElement={anchorElement}
           hasPin

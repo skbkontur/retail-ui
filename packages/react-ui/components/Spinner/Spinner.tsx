@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -34,6 +35,7 @@ export interface SpinnerProps extends CommonProps {
  * DRAFT - инлайн-лоадер
  */
 
+@rootNode
 @locale('Spinner', SpinnerLocaleHelper)
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
@@ -65,6 +67,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   public static Types: typeof types = types;
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
+  private setRootNode!: TSetRootNode;
 
   constructor(props: SpinnerProps) {
     super(props);
@@ -85,7 +88,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     const { type, caption = this.locale.loading, dimmed, inline } = this.props;
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.spinner()}>
           <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}

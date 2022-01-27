@@ -11,9 +11,11 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
+import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
 export interface RadioGroupProps<T = string | number> extends CommonProps {
   /**
@@ -73,33 +75,24 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
-  /**
-   * Может быть использовано, если не передан параметр `items`
-   *
-   * `children` может содержать любую разметку с компонентами Radio.
-   * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
-   * как и параметр `value` самой радиогруппы.
-   *
-   * Значения активного элемента сравниваются по строгому равенству `===`
-   */
-  children?: React.ReactNode;
 }
 
 export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+/**
+ *
+ * `children` может содержать любую разметку с компонентами Radio,
+ * если не передан параметр `items`.
+ * Каждому компоненту Radio нужно указать параметр `value`, такого же типа
+ * как и параметр `value` самой радиогруппы.
+ *
+ * Значения активного элемента сравниваются по строгому равенству `===`
+ */
+@rootNode
 export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
-
-  public static childContextTypes = {
-    error: PropTypes.bool,
-    name: PropTypes.string,
-    warning: PropTypes.bool,
-    disabled: PropTypes.bool,
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
-  };
 
   public static propTypes = {
     children: PropTypes.node,
@@ -126,6 +119,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
   private getProps = createPropsGetter(RadioGroup.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   constructor(props: RadioGroupProps<T>) {
     super(props);
@@ -135,7 +129,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
   }
 
-  public getChildContext() {
+  private getRadioGroupContextValue = (): RadioGroupContextType<T> => {
     return {
       activeItem: this.getValue(),
       onSelect: this.handleSelect,
@@ -144,7 +138,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
       error: this.props.error,
       warning: this.props.warning,
     };
-  }
+  };
 
   public render() {
     return (
@@ -169,10 +163,12 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
           <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
-            {this.renderChildren()}
+            <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
+              {this.renderChildren()}
+            </RadioGroupContext.Provider>
           </span>
         </FocusTrap>
       </CommonWrapper>

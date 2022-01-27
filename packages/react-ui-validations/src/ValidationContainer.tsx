@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Nullable } from '../typings/Types';
 
-import { isTestEnv } from './utils';
-import { ValidationContext } from './ValidationContext';
+import { isTestEnv } from './utils/utils';
+import { ValidationContextWrapper } from './ValidationContextWrapper';
 
 export interface ScrollOffset {
   top?: number;
@@ -35,7 +35,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
     },
   };
 
-  private childContext: ValidationContext | null = null;
+  private childContext: ValidationContextWrapper | null = null;
 
   public async submit(withoutFocus = false): Promise<void> {
     if (!this.childContext) {
@@ -53,16 +53,16 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
 
   public render() {
     return (
-      <ValidationContext
+      <ValidationContextWrapper
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
         disableSmoothScroll={this.props.disableSmoothScroll}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}
-      </ValidationContext>
+      </ValidationContextWrapper>
     );
   }
 
-  private refChildContext = (el: ValidationContext | null) => (this.childContext = el);
+  private refChildContext = (el: ValidationContextWrapper | null) => (this.childContext = el);
 }

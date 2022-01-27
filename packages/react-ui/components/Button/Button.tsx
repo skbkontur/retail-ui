@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { Corners } from './Corners';
@@ -162,6 +163,7 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+@rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
@@ -182,6 +184,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private theme!: Theme;
   private node: HTMLButtonElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.autoFocus) {
@@ -293,14 +296,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const wrapProps = {
       className: cx({
-        [styles.wrap()]: true,
+        [styles.wrap(this.theme)]: true,
         [styles.wrapArrow()]: arrow === true,
         [styles.wrapArrowLeft()]: arrow === 'left',
+        [this.getSizeWrapClassName()]: true,
       }),
       style: {
         width: width,
       },
     };
+
+    const innerShadowNode = <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
     if (!isFocused || isLink) {
@@ -364,7 +370,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cx(styles.wrap(), styles.wrapLink()),
+        className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
@@ -372,9 +378,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
           <button ref={this._ref} {...rootProps}>
+            {innerShadowNode}
             {outlineNode}
             {loadingNode}
             {arrowNode}
@@ -422,6 +429,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
+  private getSizeWrapClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.wrapLarge(this.theme);
+      case 'medium':
+        return styles.wrapMedium(this.theme);
+      case 'small':
+      default:
+        return styles.wrapSmall(this.theme);
+    }
+  }
+
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
@@ -448,7 +467,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 }
 
 export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  return React.isValidElement<ButtonProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__BUTTON__')
-    : false;
+  // @ts-ignore
+  return child?.type?.__KONTUR_REACT_UI__ === 'Button';
 };

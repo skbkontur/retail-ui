@@ -7,6 +7,7 @@ import { Input } from '../../Input';
 import { PopupPositions } from '../../../internal/Popup';
 import { Textarea } from '../../Textarea';
 import { delay } from '../../../lib/utils';
+import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 export default {
   title: 'Hint',
@@ -166,3 +167,20 @@ SetManualAndOpenedPropOnClick.parameters = {
     },
   },
 };
+
+@rootNode
+class CustomClassComponent extends React.Component<{}, {}> {
+  private setRootNode!: TSetRootNode;
+
+  render() {
+    return <div ref={this.setRootNode}>Ich Liebe dich</div>;
+  }
+}
+export const withClassChildren = () => (
+  <React.StrictMode>
+    <Hint pos="top" text="Something will never be changed" manual opened>
+      <CustomClassComponent />
+    </Hint>
+  </React.StrictMode>
+);
+withClassChildren.storyName = 'with class children';

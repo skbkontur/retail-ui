@@ -130,7 +130,6 @@ describe('properly renders opened/closed states ', () => {
     RenderInnerContainer,
     Portal,
     'Portal',
-    CommonWrapper,
     Transition,
     CommonWrapper,
     ZIndex,
