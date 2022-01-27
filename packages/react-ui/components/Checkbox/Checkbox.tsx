@@ -12,6 +12,7 @@ import { CheckboxCaption } from './CheckboxCaption';
 import { CheckboxLabel } from './CheckboxLabel';
 import { CheckboxInput } from './CheckboxInput';
 import { useIndeterminate } from './useIndeterminate';
+import { useSkipFirstRender } from './useSkipFirstRender';
 
 type CheckboxInterface = {
   /**
@@ -90,7 +91,7 @@ const CheckboxFC = forwardRefAndName<
     }
   }, []);
 
-  useEffect(() => {
+  useSkipFirstRender(() => {
     resetIndeterminate();
   }, [checked]);
 
