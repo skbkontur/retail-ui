@@ -151,7 +151,6 @@ MenuItemFC.propTypes = {
 export const MenuItem = withClassWrapper(MenuItemFC);
 export type MenuItem = InstanceType<typeof MenuItem>;
 
-MenuItem.__KONTUR_REACT_UI__ = 'MenuItem';
 Object.assign(MenuItem, { __MENU_ITEM__: true });
 
 export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
