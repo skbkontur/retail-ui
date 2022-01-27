@@ -1,86 +1,9 @@
-import React, { Component } from 'react';
+import React, { useRef, useState } from 'react';
+import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
-import { Checkbox } from '../Checkbox';
+import { Checkbox, CheckboxProps } from '../Checkbox';
 import { Gapped } from '../../Gapped';
-import { Nullable } from '../../../typings/utility-types';
-
-class PlainCheckbox extends Component<any, any> {
-  public state = {
-    checked: false,
-  };
-
-  public render() {
-    const { checked } = this.state;
-    return (
-      <Checkbox onValueChange={() => this.setState({ checked: !checked })} checked={checked}>
-        {this.props.children}
-      </Checkbox>
-    );
-  }
-}
-
-interface IndeterminatePlaygroundState {
-  checked: boolean;
-}
-
-class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState> {
-  public state: IndeterminatePlaygroundState = {
-    checked: false,
-  };
-
-  private checkbox: Checkbox | null = null;
-
-  public render() {
-    return (
-      <div>
-        <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
-          <Checkbox
-            onValueChange={(checked) => this.setState({ checked })}
-            checked={this.state.checked}
-            initialIndeterminate
-            ref={this.checkboxRef}
-          >
-            {this.props.children}
-          </Checkbox>
-        </span>
-        <div>
-          <button tabIndex={-1} onClick={this.setIndeterminate}>
-            setIndeterminate
-          </button>
-          <button tabIndex={-1} onClick={this.resetIndeterminate}>
-            resetIndeterminate
-          </button>
-          <button tabIndex={-1} onClick={this.changeValue}>
-            changeValue
-          </button>
-        </div>
-      </div>
-    );
-  }
-
-  private checkboxRef = (element: Checkbox) => {
-    this.checkbox = element;
-  };
-
-  private setIndeterminate = () => {
-    if (this.checkbox) {
-      this.checkbox.setIndeterminate();
-    }
-  };
-
-  private resetIndeterminate = () => {
-    if (this.checkbox) {
-      this.checkbox.resetIndeterminate();
-    }
-  };
-
-  private changeValue = () => {
-    this.setState((state: IndeterminatePlaygroundState) => ({
-      checked: !state.checked,
-    }));
-  };
-}
 
 const checkboxTests: CreeveyTests = {
   async idle() {
@@ -163,25 +86,60 @@ const checkboxTests: CreeveyTests = {
   },
 };
 
-export default { title: 'Checkbox' } as Meta;
+export default {
+  title: 'components/Checkbox',
+  component: Checkbox,
+} as Meta;
 
-export const Plain: Story = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
-Plain.storyName = 'plain';
+const commonArgs: CheckboxProps = {
+  error: false,
+  warning: false,
+  disabled: false,
+};
 
-Plain.parameters = {
+const PlainCheckboxTemplate: ComponentStory<typeof Checkbox> = ({ children, ...rest }) => {
+  const [isChecked, setIsChecked] = useState(false);
+
+  return (
+    <Checkbox onValueChange={() => setIsChecked(!isChecked)} checked={isChecked} {...rest}>
+      {children}
+    </Checkbox>
+  );
+};
+
+export const PlainCheckbox = PlainCheckboxTemplate.bind({});
+PlainCheckbox.args = {
+  ...commonArgs,
+  children: 'Plain checkbox',
+};
+PlainCheckbox.storyName = 'plain';
+PlainCheckbox.parameters = {
   creevey: {
     skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
     tests: checkboxTests,
   },
 };
 
-export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
+const CheckboxTemplate: ComponentStory<typeof Checkbox> = ({ children, ...rest }) => (
+  <Checkbox {...rest}>{children}</Checkbox>
+);
+
+export const Unchecked = CheckboxTemplate.bind({});
+Unchecked.args = {
+  ...commonArgs,
+  children: 'Unchecked',
+  checked: false,
+};
 Unchecked.storyName = 'unchecked';
 Unchecked.parameters = { creevey: { skip: [true] } };
 
-export const Checked = () => <Checkbox checked>Checked</Checkbox>;
+export const Checked = CheckboxTemplate.bind({});
+Checked.args = {
+  ...commonArgs,
+  children: 'Checked',
+  checked: true,
+};
 Checked.storyName = 'checked';
-
 Checked.parameters = {
   creevey: {
     skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
@@ -193,14 +151,21 @@ Checked.parameters = {
   },
 };
 
-export const Disabled = () => <Checkbox disabled>Disabled</Checkbox>;
+export const Disabled = CheckboxTemplate.bind({});
+Disabled.args = {
+  ...commonArgs,
+  children: 'Disabled',
+  disabled: true,
+};
 Disabled.storyName = 'disabled';
 
-export const DisabledChecked = () => (
-  <Checkbox disabled checked>
-    Disabled and checked
-  </Checkbox>
-);
+export const DisabledChecked = CheckboxTemplate.bind({});
+DisabledChecked.args = {
+  ...commonArgs,
+  children: 'Disabled and checked',
+  disabled: true,
+  checked: true,
+};
 DisabledChecked.storyName = 'disabled checked';
 
 export const Error = () => (
@@ -213,26 +178,35 @@ export const Error = () => (
 );
 Error.storyName = 'error';
 
-export const WithMouseEnterLeaveHandlers = () => (
-  <Checkbox onMouseEnter={() => console.count('enter')} onMouseLeave={() => console.count('leave')}>
-    Hover me
-  </Checkbox>
-);
+export const WithMouseEnterLeaveHandlers = CheckboxTemplate.bind({});
+WithMouseEnterLeaveHandlers.args = {
+  ...commonArgs,
+  children: 'Hover me',
+  checked: false,
+  onMouseEnter: () => console.count('enter'),
+  onMouseLeave: () => console.count('leave'),
+};
 WithMouseEnterLeaveHandlers.storyName = 'with mouse enter/leave handlers';
 WithMouseEnterLeaveHandlers.parameters = { creevey: { skip: [true] } };
 
-export const WithALongLabel = () => (
-  <div>
-    Lorem ipsum dolor --{' '}
-    <PlainCheckbox>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-      magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </PlainCheckbox>{' '}
-    -- Lorem ipsum dolor.
-  </div>
-);
+const LongLabelCheckboxTemplate: ComponentStory<typeof Checkbox> = ({ children, ...rest }) => {
+  return (
+    <div>
+      Lorem ipsum dolor --
+      <PlainCheckbox {...rest}>{children}</PlainCheckbox>
+      -- Lorem ipsum dolor.
+    </div>
+  );
+};
+export const WithALongLabel = LongLabelCheckboxTemplate.bind({});
+WithALongLabel.args = {
+  ...commonArgs,
+  children: `Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+  magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+  pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est
+  laborum.`,
+};
 WithALongLabel.storyName = 'with a long label';
 
 export const WithoutLabel = () => (
@@ -247,24 +221,26 @@ export const WithoutLabel = () => (
 );
 WithoutLabel.storyName = 'without label';
 
-export const ProgrammaticFocus = () => {
-  let checkbox: Nullable<Checkbox>;
+export const ProgrammaticFocus: ComponentStory<typeof Checkbox> = ({ children, ...rest }) => {
+  const checkboxRef = useRef<Checkbox>(null);
 
   function focus() {
-    if (checkbox) {
-      checkbox.focus();
+    if (checkboxRef.current) {
+      checkboxRef.current.focus();
     }
   }
 
   function blur() {
-    if (checkbox) {
-      checkbox.blur();
+    if (checkboxRef.current) {
+      checkboxRef.current.blur();
     }
   }
 
   return (
     <div>
-      <Checkbox ref={(el) => (checkbox = el)}>Label</Checkbox>
+      <Checkbox {...rest} ref={checkboxRef}>
+        {children}
+      </Checkbox>
       <Gapped>
         <button onClick={focus}>Focus</button>
         <button onClick={blur}>Blur</button>
@@ -272,10 +248,70 @@ export const ProgrammaticFocus = () => {
     </div>
   );
 };
+ProgrammaticFocus.args = {
+  ...commonArgs,
+  checked: false,
+  children: 'label',
+};
 ProgrammaticFocus.storyName = 'programmatic focus';
 ProgrammaticFocus.parameters = { creevey: { skip: [true] } };
 
-export const Indeterminate: Story = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
+const IndeterminateTemplate: ComponentStory<typeof Checkbox> = ({ children, ...rest }) => {
+  const checkboxRef = useRef<Checkbox>(null);
+  const [isChecked, setIsChecked] = useState(false);
+
+  return (
+    <div>
+      <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
+        <Checkbox
+          onValueChange={(checked) => setIsChecked(checked)}
+          checked={isChecked}
+          ref={checkboxRef}
+          initialIndeterminate
+          {...rest}
+        >
+          {children}
+        </Checkbox>
+      </span>
+      <div>
+        <button
+          tabIndex={-1}
+          onClick={() => {
+            if (checkboxRef.current) {
+              checkboxRef.current.setIndeterminate();
+            }
+          }}
+        >
+          setIndeterminate
+        </button>
+        <button
+          tabIndex={-1}
+          onClick={() => {
+            if (checkboxRef.current) {
+              checkboxRef.current.resetIndeterminate();
+            }
+          }}
+        >
+          resetIndeterminate
+        </button>
+        <button
+          tabIndex={-1}
+          onClick={() => {
+            setIsChecked(!isChecked);
+          }}
+        >
+          changeValue
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export const Indeterminate: Story = IndeterminateTemplate.bind({});
+Indeterminate.args = {
+  ...commonArgs,
+  children: 'label',
+};
 Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
