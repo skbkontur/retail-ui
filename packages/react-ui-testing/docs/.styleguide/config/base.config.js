@@ -6,20 +6,6 @@ const styles = {
       fontFamily: '"Lab Grotesque", Roboto, "Helvetica Neue", Arial, sans-serif',
       fontSize: 14,
     },
-    '@font-face': {
-      fontFamily: 'Segoe UI',
-      fontWeight: 400,
-      src: `local('Segoe UI'), local('SegoeUI'),
-            url('//c.s-microsoft.com/static/fonts/segoe-ui/cyrillic/normal/latest.woff')
-              format('woff')`,
-    },
-    '@font-face': {
-      fontFamily: 'Lab Grotesque',
-      fontWeight: 400,
-      src: `local('Lab Grotesque'), local('Lab Grotesque K'),
-            url('https://s.kontur.ru/common-v2/fonts/LabGrotesque/LabGrotesque-Regular.woff')
-              format('woff')`,
-    },
     content: {
       padding: '30px 40px',
     },
@@ -129,6 +115,16 @@ module.exports = {
   pagePerSection: true,
   title: 'react-ui-testing',
   require: ['core-js'],
+  template: {
+    head: {
+      links: [
+        {
+          rel: 'stylesheet',
+          href: 'https://s.kontur.ru/common-v2/fonts/LabGrotesque/LabGrotesque.css',
+        },
+      ]
+    }
+  },
   styles,
   sections: [
     {
