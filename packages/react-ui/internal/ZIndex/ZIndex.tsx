@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
@@ -22,6 +24,7 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 }
 
+@rootNode
 export class ZIndex extends React.Component<ZIndexProps> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
@@ -46,6 +49,8 @@ export class ZIndex extends React.Component<ZIndexProps> {
   };
 
   private zIndex = 0;
+
+  private setRootNode!: TSetRootNode;
 
   constructor(props: ZIndexProps) {
     super(props);
@@ -93,7 +98,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
           return (
             <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={wrapperRef} {...props}>
+              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
                 {children}
               </div>
             </ZIndexContext.Provider>
@@ -102,6 +107,12 @@ export class ZIndex extends React.Component<ZIndexProps> {
       </ZIndexContext.Consumer>
     );
   }
+
+  private wrapperRef = (element: HTMLDivElement | null) => {
+    const { wrapperRef } = this.props;
+    this.setRootNode(element);
+    wrapperRef && callChildRef(wrapperRef, element);
+  };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
     let newZIndex = this.zIndex;
