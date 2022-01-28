@@ -4,7 +4,7 @@ import { Theme } from '../../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root() {
     return css`
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Lab Grotesque', Roboto, 'Helvetica Neue', Arial, sans-serif;
       font-weight: 400;
       font-size: 14px;
       padding-left: 300px;
