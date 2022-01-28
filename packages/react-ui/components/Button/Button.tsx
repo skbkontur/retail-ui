@@ -268,6 +268,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
+        [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
