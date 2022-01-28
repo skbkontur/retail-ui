@@ -11,6 +11,10 @@ const { publishVersion } = require('../helpers');
 
 const styles = {
   StyleGuide: {
+    '@global body': {
+      fontFamily: '"Lab Grotesque", Roboto, "Helvetica Neue", Arial, sans-serif',
+      fontSize: 14,
+    },
     content: {
       padding: '30px 40px',
     },

@@ -11,6 +11,11 @@ export const styles = memoizeStyle({
       background: #fff;
       color: inherit;
       min-height: 100%;
+
+      @media (max-width: 600px) {
+        padding-left: 0;
+      }
+
       footer {
         position: fixed;
         top: 0;
@@ -52,6 +57,10 @@ export const styles = memoizeStyle({
       margin: 0 auto;
       max-width: 1000px;
       display: block;
+
+      @media (max-width: 600px) {
+        padding: 16px;
+      }
     `;
   },
   content() {
@@ -135,6 +144,12 @@ export const styles = memoizeStyle({
       left: 0;
       bottom: 0;
       overflow: auto;
+
+      @media (max-width: 600px) {
+        position: static;
+        width: auto;
+      }
+
       header {
         padding: 40px;
         border-bottom: medium none;
