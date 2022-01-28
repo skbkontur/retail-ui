@@ -5754,6 +5754,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-is@^17.0.3":
+  version "17.0.3"
+  resolved "https://registry.npmjs.org/@types/react-is/-/react-is-17.0.3.tgz#2d855ba575f2fc8d17ef9861f084acc4b90a137a"
+  integrity sha512-aBTIWg1emtu95bLTLx0cpkxwGW3ueZv71nE2YFBpL8k/z5czEW8yYpOo8Dp+UUAFAtKwNaOsh/ioSeQnWlZcfw==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-router-dom@^5.1.3":
   version "5.1.7"
   resolved "https://registry.npmjs.org/@types/react-router-dom/-/react-router-dom-5.1.7.tgz#a126d9ea76079ffbbdb0d9225073eb5797ab7271"

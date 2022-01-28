@@ -47,7 +47,7 @@ Upgrade.setSpecificityLevel(1);
 
 ### StrictMode
 
-Начиная с версий @skbkontur/react-ui@3.10.0 и @skbkontur/react-ui-validations@1.7.0, библиотека поддерживает работу в StrictMode.
+Начиная с версий `@skbkontur/react-ui@3.10.0` и `@skbkontur/react-ui-validations@1.7.0`, библиотека поддерживает работу в React.StrictMode.
 
 Некоторым компонентам библиотеки необходимо иметь доступ до корневой DOM-ноды своих
 children. Ранее для этого использовался метод findDomNode, который в StrictMode запрещён.
