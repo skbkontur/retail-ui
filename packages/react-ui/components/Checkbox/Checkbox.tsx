@@ -45,7 +45,9 @@ export type CheckboxProps = Override<InputAndLabelProps, CheckboxInterface> & Co
 
 export type CheckboxState = {
   isFocusedByTab: boolean;
+  setIsFocusedByTab: React.Dispatch<React.SetStateAction<boolean>>;
   isIndeterminate: boolean;
+  setIsIndeterminate: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export type CheckboxInstanceFields = {
@@ -55,8 +57,13 @@ export type CheckboxInstanceFields = {
   resetIndeterminate: () => void;
 };
 
+export type CheckboxRef = {
+  element: HTMLInputElement;
+  inputRef: React.RefObject<HTMLInputElement>;
+};
+
 const CheckboxFC = forwardRefAndName<
-  HTMLInputElement,
+  CheckboxRef['element'],
   CheckboxProps & { instanceRef?: React.MutableRefObject<CheckboxInstanceFields | null> }
 >(
   'CheckboxFC',
@@ -88,7 +95,7 @@ const CheckboxFC = forwardRefAndName<
     const [isFocusedByTab, setIsFocusedByTab] = useState(false);
     const [isIndeterminate, setIsIndeterminate] = useState(initialIndeterminate || false);
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<CheckboxRef['element']>(null);
     ref = inputRef;
 
     const { resetIndeterminate, setIndeterminate } = useIndeterminate(inputRef, setIsIndeterminate);

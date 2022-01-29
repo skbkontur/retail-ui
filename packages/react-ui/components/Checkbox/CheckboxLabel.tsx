@@ -5,15 +5,15 @@ import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModif
 import { isEdge, isIE11 } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 
-import { CheckboxProps, CheckboxState } from './Checkbox';
+import { CheckboxProps, CheckboxRef, CheckboxState } from './Checkbox';
 import { styles } from './Checkbox.styles';
 
 type CheckboxInterface = {
   children: React.ReactNode;
-  inputRef: React.RefObject<HTMLInputElement>;
 };
 
 export type CheckboxLabel = CheckboxInterface &
+  Pick<CheckboxRef, 'inputRef'> &
   Pick<
     CheckboxProps,
     'disabled' | 'checked' | 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver' | 'className' | 'style'

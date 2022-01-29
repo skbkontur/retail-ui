@@ -7,7 +7,8 @@ import { CheckboxProps, CheckboxState } from './Checkbox';
 import { styles, globalClasses } from './Checkbox.styles';
 import { CheckboxIcon } from './CheckboxIcon';
 
-export type InputBoxProps = CheckboxState & Pick<CheckboxProps, 'checked' | 'disabled' | 'error' | 'warning'>;
+export type InputBoxProps = Pick<CheckboxState, 'isIndeterminate' | 'isFocusedByTab'> &
+  Pick<CheckboxProps, 'checked' | 'disabled' | 'error' | 'warning'>;
 
 export const InputBox = ({ checked, disabled, error, warning, isIndeterminate, isFocusedByTab }: InputBoxProps) => {
   const theme = useContext(ThemeContext);

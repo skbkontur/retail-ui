@@ -1,8 +1,8 @@
-import { CheckboxState } from './Checkbox';
+import { CheckboxRef, CheckboxState } from './Checkbox';
 
 export const useIndeterminate = (
-  inputRef: React.RefObject<HTMLInputElement>,
-  setIsIndeterminate: React.Dispatch<React.SetStateAction<CheckboxState['isIndeterminate']>>,
+  inputRef: CheckboxRef['inputRef'],
+  setIsIndeterminate: CheckboxState['setIsIndeterminate'],
 ) => {
   /**
    * Устанавливает чекбокс в HTML-состояние `indeterminate`.

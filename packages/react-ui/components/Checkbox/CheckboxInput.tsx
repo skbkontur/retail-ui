@@ -3,18 +3,12 @@ import React, { forwardRef } from 'react';
 import { isEdge, isIE11 } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 
-import { CheckboxProps, CheckboxState } from './Checkbox';
+import { CheckboxInstanceFields, CheckboxProps, CheckboxState } from './Checkbox';
 import { styles } from './Checkbox.styles';
 
-type CheckboxInputInterface = {
-  resetIndeterminate: () => void;
-  setIndeterminate: () => void;
-  setIsFocusedByTab: React.Dispatch<React.SetStateAction<CheckboxState['isFocusedByTab']>>;
-};
-
-export type CheckboxInputProps = CheckboxInputInterface &
+export type CheckboxInputProps = Pick<CheckboxInstanceFields, 'resetIndeterminate' | 'setIndeterminate'> &
   Omit<CheckboxProps, 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'> &
-  Pick<CheckboxState, 'isIndeterminate'>;
+  Pick<CheckboxState, 'isIndeterminate' | 'setIsFocusedByTab'>;
 
 export const CheckboxInput = forwardRef<HTMLInputElement, CheckboxInputProps>(
   (
