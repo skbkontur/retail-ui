@@ -1,5 +1,5 @@
-import { ComponentStory } from '@storybook/react';
 import React, { useState } from 'react';
+import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
@@ -11,20 +11,22 @@ export default {
   parameters: { creevey: { skip: [{ stories: 'Playground' }] } },
 } as Meta;
 
-export const RadioWithDifferentStates = () => (
-  <div style={{ margin: '5px' }}>
-    <Gapped gap={20}>
-      <Radio value="value" />
-      <Radio disabled value="value" />
-      <Radio disabled checked value="value" />
-      <Radio checked value="value" />
-      <Radio focused value="value" />
-      <Radio focused checked value="value" />
-      <Radio error value="value" />
-      <Radio warning value="value" />
-    </Gapped>
-  </div>
-);
+export const RadioWithDifferentStates = () => {
+  return (
+    <div style={{ margin: '5px' }}>
+      <Gapped gap={20}>
+        <Radio value="value" />
+        <Radio disabled value="value" />
+        <Radio disabled checked value="value" />
+        <Radio checked value="value" />
+        <Radio focused value="value" />
+        <Radio focused checked value="value" />
+        <Radio error value="value" />
+        <Radio warning value="value" />
+      </Gapped>
+    </div>
+  );
+};
 RadioWithDifferentStates.storyName = 'Radio with different states';
 RadioWithDifferentStates.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
 
