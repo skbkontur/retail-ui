@@ -1,4 +1,5 @@
 import React, { useRef, useState, useImperativeHandle } from 'react';
+import propTypes from 'prop-types';
 
 import { extractDataProps } from '../../lib/utils';
 import { withClassWrapper } from '../../lib/withClassWrapper';
@@ -149,6 +150,14 @@ const RadioFC = forwardRefAndName<
     );
   },
 );
+
+RadioFC.propTypes = {
+  error: propTypes.bool,
+  warning: propTypes.bool,
+  focused: propTypes.bool,
+  onValueChange: propTypes.func,
+  value: propTypes.node,
+};
 
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
