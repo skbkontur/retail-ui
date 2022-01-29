@@ -1,18 +1,14 @@
-import React, { forwardRef, useContext } from 'react';
+import React, { forwardRef } from 'react';
+import { RadioState } from 'react-ui';
 
 import { keyListener } from '../../lib/events/keyListener';
-import { RadioGroupContext } from '../RadioGroup/RadioGroupContext';
+import { useRadioGroup } from '../RadioGroup/useRadioGroup';
 
 import { RadioProps } from './Radio';
 import { styles } from './Radio.styles';
 
-type RadioInputInterface = {
-  isInRadioGroup: boolean;
-  isRadioGroupChecked: boolean;
-  setIsFocusedByKeyboard: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-export type RadioInputProps = RadioInputInterface & Omit<RadioProps, 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'>;
+export type RadioInputProps = Pick<RadioState, 'setIsFocusedByKeyboard'> &
+  Omit<RadioProps, 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'>;
 
 export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
   (
@@ -20,21 +16,25 @@ export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
       disabled,
       tabIndex,
       value,
-      isInRadioGroup,
       onValueChange,
       onFocus,
       onBlur,
       onChange,
       name,
       suppressHydrationWarning,
-      isRadioGroupChecked,
       setIsFocusedByKeyboard,
       checked,
       ...rest
     },
     ref,
   ) => {
-    const radioGroupContext = useContext(RadioGroupContext);
+    const { radioGroupContext, getIfInRadioGroup, isInRadioGroup, isRadioGroupChecked } = useRadioGroup(value);
+
+    const inRadioGroupProps = getIfInRadioGroup({
+      checked: isRadioGroupChecked,
+      name: radioGroupContext.name,
+      suppressHydrationWarning: true,
+    });
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
       onValueChange?.(value);
@@ -79,9 +79,7 @@ export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
-        checked={isInRadioGroup ? isRadioGroupChecked : checked}
-        name={isInRadioGroup ? radioGroupContext.name : name}
-        suppressHydrationWarning={isInRadioGroup ? true : suppressHydrationWarning}
+        {...inRadioGroupProps}
       />
     );
   },

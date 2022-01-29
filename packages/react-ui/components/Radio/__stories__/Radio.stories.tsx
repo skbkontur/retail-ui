@@ -1,10 +1,15 @@
-import React from 'react';
+import { ComponentStory } from '@storybook/react';
+import React, { useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 
-export default { title: 'Radio', parameters: { creevey: { skip: [{ stories: 'Playground' }] } } } as Meta;
+export default {
+  title: 'components/Radio',
+  component: Radio,
+  parameters: { creevey: { skip: [{ stories: 'Playground' }] } },
+} as Meta;
 
 export const RadioWithDifferentStates = () => (
   <div style={{ margin: '5px' }}>
@@ -23,33 +28,23 @@ export const RadioWithDifferentStates = () => (
 RadioWithDifferentStates.storyName = 'Radio with different states';
 RadioWithDifferentStates.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
 
-export const Playground = () => {
-  class Comp extends React.Component<{}, any> {
-    public state = {
-      hovered: false,
-      checked: false,
-      active: false,
-      value: 'value',
-    };
+const PlaygroundTemplate: ComponentStory<typeof Radio> = (args) => {
+  const [isChecked, setIsChecked] = useState(false);
 
-    public render() {
-      return (
-        <div>
-          <div onClick={this.handleClick}>
-            <span style={{ display: 'inline-block', verticalAlign: 'sub' }}>
-              <Radio {...this.state} />
-            </span>
-          </div>
-        </div>
-      );
-    }
+  return (
+    <span style={{ display: 'inline-block', verticalAlign: 'sub' }}>
+      <Radio onClick={() => setIsChecked(!isChecked)} checked={isChecked} {...args} />
+    </span>
+  );
+};
 
-    private handleClick = () => {
-      this.setState({ checked: !this.state.checked });
-    };
-  }
-
-  return <Comp />;
+export const Playground = PlaygroundTemplate.bind({});
+Playground.args = {
+  error: false,
+  warning: false,
+  focused: false,
+  value: 'radio',
+  children: 'radio button',
 };
 
 export const Highlighted: Story = () => {

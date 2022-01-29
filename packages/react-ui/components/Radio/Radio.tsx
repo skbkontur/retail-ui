@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState, useImperativeHandle } from 'react';
+import React, { useRef, useState, useImperativeHandle } from 'react';
 
 import { extractDataProps } from '../../lib/utils';
 import { withClassWrapper } from '../../lib/withClassWrapper';
@@ -6,7 +6,6 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { Override } from '../../typings/utility-types';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { keyListener } from '../../lib/events/keyListener';
-import { RadioGroupContext } from '../RadioGroup/RadioGroupContext';
 
 import { RadioLabel } from './RadioLabel';
 import { RadioInput } from './RadioInput';
@@ -46,8 +45,18 @@ export type RadioInstanceFields = {
   blur: () => void;
 };
 
+export type RadioState = {
+  isFocusedByKeyboard: boolean;
+  setIsFocusedByKeyboard: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export type RadioRef = {
+  element: HTMLInputElement;
+  inputRef: React.RefObject<HTMLInputElement>;
+};
+
 const RadioFC = forwardRefAndName<
-  HTMLInputElement,
+  RadioRef['element'],
   RadioProps & { instanceRef?: React.MutableRefObject<RadioInstanceFields | null> }
 >(
   'RadioFC',
@@ -79,13 +88,9 @@ const RadioFC = forwardRefAndName<
   ) => {
     const { dataProps, restWithoutDataProps } = extractDataProps(rest);
 
-    const radioGroupContext = useContext(RadioGroupContext);
-    const isRadioGroupChecked = value === radioGroupContext.activeItem;
-    const isInRadioGroup = !!radioGroupContext.name;
-
     const [isFocusedByKeyboard, setIsFocusedByKeyboard] = useState(false);
 
-    const inputRef = useRef<HTMLInputElement>(null);
+    const inputRef = useRef<RadioRef['element']>(null);
     ref = inputRef;
 
     useImperativeHandle(instanceRef, () => ({
@@ -115,30 +120,28 @@ const RadioFC = forwardRefAndName<
       >
         <RadioInput
           {...restWithoutDataProps}
+          ref={ref}
+          checked={checked}
           disabled={disabled}
           tabIndex={tabIndex}
           value={value}
-          isInRadioGroup={isInRadioGroup}
           onValueChange={onValueChange}
           onFocus={onFocus}
           onBlur={onBlur}
           onChange={onChange}
           name={name}
           suppressHydrationWarning={suppressHydrationWarning}
-          isRadioGroupChecked={isRadioGroupChecked}
           setIsFocusedByKeyboard={setIsFocusedByKeyboard}
-          checked={checked}
         />
 
         <RadioButton
           checked={checked}
           focused={focused}
-          isFocusedByKeyboard={isFocusedByKeyboard}
-          error={error}
           warning={warning}
           disabled={disabled}
-          isInRadioGroup={isInRadioGroup}
-          isRadioGroupChecked={isRadioGroupChecked}
+          error={error}
+          isFocusedByKeyboard={isFocusedByKeyboard}
+          value={value}
         />
 
         {children && <RadioText disabled={disabled}>{children}</RadioText>}

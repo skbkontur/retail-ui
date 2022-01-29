@@ -2,18 +2,13 @@ import React, { useContext } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { useRadioGroup } from '../RadioGroup/useRadioGroup';
 
-import { RadioProps } from './Radio';
+import { RadioProps, RadioState } from './Radio';
 import { styles, globalClasses } from './Radio.styles';
 
-type RadioButtonInterface = {
-  isFocusedByKeyboard: boolean;
-  isInRadioGroup: boolean;
-  isRadioGroupChecked: boolean;
-};
-
-export type RadioButtonProps = RadioButtonInterface &
-  Pick<RadioProps, 'checked' | 'focused' | 'error' | 'warning' | 'disabled'>;
+export type RadioButtonProps = Pick<RadioState, 'isFocusedByKeyboard'> &
+  Pick<RadioProps, 'checked' | 'focused' | 'error' | 'warning' | 'disabled' | 'value'>;
 
 export const RadioButton = ({
   checked,
@@ -22,10 +17,16 @@ export const RadioButton = ({
   error,
   warning,
   disabled,
-  isInRadioGroup,
-  isRadioGroupChecked,
+  value,
 }: RadioButtonProps) => {
   const theme = useContext(ThemeContext);
+
+  const { getIfInRadioGroup, isRadioGroupChecked } = useRadioGroup(value);
+
+  const inRadioGroupClasses = getIfInRadioGroup({
+    [styles.checked(theme)]: isRadioGroupChecked || checked,
+    [styles.checkedDisabled(theme)]: isRadioGroupChecked && disabled,
+  });
 
   return (
     <span
@@ -38,8 +39,7 @@ export const RadioButton = ({
         [styles.disabled(theme)]: disabled,
         [styles.checkedDisabled(theme)]: checked && disabled,
         [globalClasses.radio]: true,
-        [styles.checked(theme)]: isInRadioGroup && isRadioGroupChecked,
-        [styles.checkedDisabled(theme)]: isInRadioGroup && isRadioGroupChecked && disabled,
+        ...inRadioGroupClasses,
       })}
     >
       <span className={styles.placeholder()} />
