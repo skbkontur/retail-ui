@@ -48,7 +48,7 @@ export type CheckboxState = {
   isIndeterminate: boolean;
 };
 
-export type InstanceFields = {
+export type CheckboxInstanceFields = {
   focus: () => void;
   blur: () => void;
   setIndeterminate: () => void;
@@ -57,7 +57,7 @@ export type InstanceFields = {
 
 const CheckboxFC = forwardRefAndName<
   HTMLInputElement,
-  CheckboxProps & { instanceRef?: React.MutableRefObject<InstanceFields | null> }
+  CheckboxProps & { instanceRef?: React.MutableRefObject<CheckboxInstanceFields | null> }
 >(
   'CheckboxFC',
   (
@@ -170,4 +170,4 @@ CheckboxFC.propTypes = {
 };
 
 export const Checkbox = withClassWrapper(CheckboxFC);
-export type Checkbox = InstanceType<typeof Checkbox> & InstanceFields;
+export type Checkbox = InstanceType<typeof Checkbox> & CheckboxInstanceFields;
