@@ -14,7 +14,10 @@ type CheckboxInterface = {
 };
 
 export type CheckboxLabel = CheckboxInterface &
-  Pick<CheckboxProps, 'disabled' | 'checked' | 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'> &
+  Pick<
+    CheckboxProps,
+    'disabled' | 'checked' | 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver' | 'className' | 'style'
+  > &
   Pick<CheckboxState, 'isIndeterminate'>;
 
 export const CheckboxLabel = ({
@@ -26,21 +29,29 @@ export const CheckboxLabel = ({
   onMouseOver,
   isIndeterminate,
   inputRef,
+  className,
+  style,
+  ...rest
 }: CheckboxLabel) => {
   const theme = useContext(ThemeContext);
 
   return (
     <label
-      className={cx({
-        [styles.root(theme)]: true,
-        [styles.rootFallback()]: isIE11 || isEdge,
-        [styles.rootChecked(theme)]: checked || isIndeterminate,
-        [styles.disabled(theme)]: disabled,
-      })}
+      className={cx(
+        {
+          [styles.root(theme)]: true,
+          [styles.rootFallback()]: isIE11 || isEdge,
+          [styles.rootChecked(theme)]: checked || isIndeterminate,
+          [styles.disabled(theme)]: disabled,
+        },
+        className,
+      )}
+      style={style}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       onMouseOver={onMouseOver}
       onClick={fixFirefoxModifiedClickOnLabel(inputRef)}
+      {...rest}
     >
       {children}
     </label>

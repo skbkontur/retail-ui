@@ -101,7 +101,15 @@ const PlainCheckboxTemplate: ComponentStory<typeof Checkbox> = ({ children, ...r
   const [isChecked, setIsChecked] = useState(false);
 
   return (
-    <Checkbox onValueChange={() => setIsChecked(!isChecked)} checked={isChecked} {...rest}>
+    <Checkbox
+      data-tip="test"
+      data-hui="blyat"
+      style={{ height: '20px' }}
+      className="oi wai"
+      onValueChange={() => setIsChecked(!isChecked)}
+      checked={isChecked}
+      {...rest}
+    >
       {children}
     </Checkbox>
   );
