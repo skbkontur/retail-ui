@@ -76,6 +76,7 @@ export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
         disabled={disabled}
         tabIndex={tabIndex}
         value={value}
+        checked={checked}
         onChange={handleChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
