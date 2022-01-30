@@ -12,6 +12,10 @@ export const getRadioButton = (element: RadioGroupRef['element']) => {
   return radio;
 };
 
-export function renderItem(_value: RadioValue, data: React.ReactNode) {
-  return data;
-}
+export const normalizeEntry = (entry: RadioValue | [RadioValue, React.ReactNode]) => {
+  if (!Array.isArray(entry)) {
+    return [entry, entry];
+  }
+
+  return entry;
+};

@@ -113,6 +113,7 @@ const RadioGroupFC = forwardRefAndName<
       className,
       instanceRef,
       defaultValue,
+      renderItem,
       onValueChange,
       onMouseEnter,
       onMouseLeave,
@@ -175,7 +176,7 @@ const RadioGroupFC = forwardRefAndName<
               warning: warning,
             }}
           >
-            <RadioGroupChildren items={items} inline={inline}>
+            <RadioGroupChildren renderItem={renderItem} items={items} inline={inline}>
               {children}
             </RadioGroupChildren>
           </RadioGroupContext.Provider>
