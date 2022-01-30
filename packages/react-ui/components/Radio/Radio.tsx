@@ -7,6 +7,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { Override } from '../../typings/utility-types';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { keyListener } from '../../lib/events/keyListener';
+import { useRadioGroup } from '../RadioGroup/useRadioGroup';
 
 import { RadioLabel } from './RadioLabel';
 import { RadioInput } from './RadioInput';
@@ -59,97 +60,95 @@ export type RadioRef = {
 const RadioFC = forwardRefAndName<
   RadioRef['element'],
   RadioProps & { instanceRef?: React.MutableRefObject<RadioInstanceFields | null> }
->(
-  'RadioFC',
-  (
-    {
-      disabled,
-      warning,
-      error,
-      checked,
-      tabIndex,
-      name,
-      value,
-      style,
-      focused = false,
-      children,
-      suppressHydrationWarning,
-      onValueChange,
-      onChange,
-      onFocus,
-      onBlur,
-      onMouseOver,
-      onMouseEnter,
-      onMouseLeave,
-      instanceRef,
-      className,
-      ...rest
+>('RadioFC', (props, ref) => {
+  const { radioGroupContext } = useRadioGroup();
+
+  const {
+    disabled = radioGroupContext.disabled,
+    warning = radioGroupContext.warning,
+    error = radioGroupContext.error,
+    checked,
+    tabIndex,
+    name,
+    value,
+    style,
+    focused = false,
+    children,
+    suppressHydrationWarning,
+    onValueChange,
+    onChange,
+    onFocus,
+    onBlur,
+    onMouseOver,
+    onMouseEnter,
+    onMouseLeave,
+    instanceRef,
+    className,
+    ...rest
+  } = props;
+
+  const { dataProps, restWithoutDataProps } = extractDataProps(rest);
+
+  const [isFocusedByKeyboard, setIsFocusedByKeyboard] = useState(false);
+
+  const inputRef = useRef<RadioRef['element']>(null);
+  ref = inputRef;
+
+  useImperativeHandle(instanceRef, () => ({
+    focus: () => {
+      keyListener.isTabPressed = true;
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     },
-    ref,
-  ) => {
-    const { dataProps, restWithoutDataProps } = extractDataProps(rest);
+    blur: () => {
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
+    },
+  }));
 
-    const [isFocusedByKeyboard, setIsFocusedByKeyboard] = useState(false);
-
-    const inputRef = useRef<RadioRef['element']>(null);
-    ref = inputRef;
-
-    useImperativeHandle(instanceRef, () => ({
-      focus: () => {
-        keyListener.isTabPressed = true;
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      },
-      blur: () => {
-        if (inputRef.current) {
-          inputRef.current.blur();
-        }
-      },
-    }));
-
-    return (
-      <RadioLabel
+  return (
+    <RadioLabel
+      checked={checked}
+      onMouseOver={onMouseOver}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
+      inputRef={inputRef}
+      style={style}
+      className={className}
+      {...dataProps}
+    >
+      <RadioInput
+        {...restWithoutDataProps}
+        ref={ref}
         checked={checked}
-        onMouseOver={onMouseOver}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        inputRef={inputRef}
-        style={style}
-        className={className}
-        {...dataProps}
-      >
-        <RadioInput
-          {...restWithoutDataProps}
-          ref={ref}
-          checked={checked}
-          disabled={disabled}
-          tabIndex={tabIndex}
-          value={value}
-          onValueChange={onValueChange}
-          onFocus={onFocus}
-          onBlur={onBlur}
-          onChange={onChange}
-          name={name}
-          suppressHydrationWarning={suppressHydrationWarning}
-          setIsFocusedByKeyboard={setIsFocusedByKeyboard}
-        />
+        disabled={disabled}
+        tabIndex={tabIndex}
+        value={value}
+        onValueChange={onValueChange}
+        onFocus={onFocus}
+        onBlur={onBlur}
+        onChange={onChange}
+        name={name}
+        suppressHydrationWarning={suppressHydrationWarning}
+        setIsFocusedByKeyboard={setIsFocusedByKeyboard}
+      />
 
-        <RadioButton
-          checked={checked}
-          focused={focused}
-          warning={warning}
-          disabled={disabled}
-          error={error}
-          isFocusedByKeyboard={isFocusedByKeyboard}
-          value={value}
-        />
+      <RadioButton
+        checked={checked}
+        focused={focused}
+        warning={warning}
+        disabled={disabled}
+        error={error}
+        isFocusedByKeyboard={isFocusedByKeyboard}
+        value={value}
+      />
 
-        {children && <RadioText disabled={disabled}>{children}</RadioText>}
-      </RadioLabel>
-    );
-  },
-);
+      {children && <RadioText disabled={disabled}>{children}</RadioText>}
+    </RadioLabel>
+  );
+});
 
 RadioFC.propTypes = {
   error: propTypes.bool,

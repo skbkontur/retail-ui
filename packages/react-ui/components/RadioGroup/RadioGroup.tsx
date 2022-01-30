@@ -78,7 +78,7 @@ export type RadioGroupInstanceFields = {
 export type RadioGroupProps<T> = RadioGroupInterface<T> &
   Pick<React.HTMLAttributes<HTMLSpanElement>, 'onMouseLeave' | 'onMouseOver' | 'onMouseEnter'> &
   CommonProps & {
-    ref: RadioGroupRef['publicRef'];
+    ref?: RadioGroupRef['publicRef'];
     instanceRef?: React.MutableRefObject<RadioGroupInstanceFields | null>;
   };
 
@@ -90,8 +90,6 @@ export type RadioGroupRef = {
   element: HTMLSpanElement;
   publicRef: React.RefObject<RadioGroupRef['element']>;
 };
-
-const generatedName = getRandomID();
 
 function RadioGroupFC<T>({
   onBlur,
@@ -146,6 +144,8 @@ function RadioGroupFC<T>({
       }
     },
   }));
+
+  const generatedName = getRandomID();
 
   return (
     <FocusTrap onBlur={onBlur}>
