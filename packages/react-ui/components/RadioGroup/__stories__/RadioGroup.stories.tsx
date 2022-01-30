@@ -1,49 +1,35 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 
 import { Story } from '../../../typings/stories';
-import { RadioGroup } from '../RadioGroup';
-import { Radio } from '../../Radio';
+import { RadioGroup, RadioGroupProps } from '../RadioGroup';
+import { Radio, RadioValue } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
-import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 
-class Component extends React.Component<any, any> {
-  public state = {
-    value: '',
-  };
+const Component = (props: RadioGroupProps) => {
+  const [value, setValue] = useState<RadioValue>('');
+  const radioGroupRef = useRef<RadioGroup>(null);
 
-  private _radioGroup: Nullable<RadioGroup<string>>;
+  return (
+    <Gapped vertical>
+      <Button data-tid={'JustButton'}>Just button</Button>
+      <div id="RadioGroup-wrap" style={{ padding: 10 }}>
+        <RadioGroup {...props} ref={radioGroupRef} value={value} onValueChange={(val) => setValue(val)} />
+      </div>
 
-  public render() {
-    return (
-      <Gapped vertical>
-        <Button data-tid={'JustButton'}>Just button</Button>
-        <div id="RadioGroup-wrap" style={{ padding: 10 }}>
-          <RadioGroup<string>
-            ref={(element) => (this._radioGroup = element)}
-            value={this.state.value}
-            onValueChange={this.handleValueChange}
-            {...this.props}
-          />
-        </div>
-        <Button
-          onClick={() => {
-            if (this._radioGroup) {
-              this._radioGroup.focus();
-            }
-          }}
-        >
-          Focus RadioGroup
-        </Button>
-      </Gapped>
-    );
-  }
-
-  private handleValueChange = (value: string) => {
-    this.setState({ value });
-  };
-}
+      <Button
+        onClick={() => {
+          if (radioGroupRef.current) {
+            radioGroupRef.current.focus();
+          }
+        }}
+      >
+        Focus RadioGroup
+      </Button>
+    </Gapped>
+  );
+};
 
 export default { title: 'RadioGroup' };
 
@@ -132,9 +118,7 @@ Inline.parameters = {
   },
 };
 
-export const WithRenderItem = () => (
-  <RadioGroup<string> items={['One', 'Two']} renderItem={(x) => <div>Value: {x}</div>} />
-);
+export const WithRenderItem = () => <RadioGroup items={['One', 'Two']} renderItem={(x) => <div>Value: {x}</div>} />;
 WithRenderItem.storyName = 'with renderItem';
 WithRenderItem.parameters = { creevey: { skip: [true] } };
 

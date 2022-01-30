@@ -28,9 +28,10 @@ export const RadioInput = forwardRef<HTMLInputElement, RadioInputProps>(
     },
     ref,
   ) => {
-    const { radioGroupContext, getIfInRadioGroup, isInRadioGroup, isRadioGroupChecked } = useRadioGroup(value);
+    const { radioGroupContext, returnContentIfInRadioGroup, isInRadioGroup, isRadioGroupChecked } =
+      useRadioGroup(value);
 
-    const inRadioGroupProps = getIfInRadioGroup({
+    const inRadioGroupProps = returnContentIfInRadioGroup({
       checked: isRadioGroupChecked,
       name: radioGroupContext.name,
       suppressHydrationWarning: true,

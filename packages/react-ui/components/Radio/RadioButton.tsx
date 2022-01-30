@@ -21,9 +21,9 @@ export const RadioButton = ({
 }: RadioButtonProps) => {
   const theme = useContext(ThemeContext);
 
-  const { getIfInRadioGroup, isRadioGroupChecked } = useRadioGroup(value);
+  const { returnContentIfInRadioGroup, isRadioGroupChecked } = useRadioGroup(value);
 
-  const inRadioGroupClasses = getIfInRadioGroup({
+  const inRadioGroupClasses = returnContentIfInRadioGroup({
     [styles.checked(theme)]: isRadioGroupChecked || checked,
     [styles.checkedDisabled(theme)]: isRadioGroupChecked && disabled,
   });

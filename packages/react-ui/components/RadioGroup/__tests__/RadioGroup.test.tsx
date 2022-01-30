@@ -5,10 +5,10 @@ import { RadioGroup, RadioGroupProps } from '../RadioGroup';
 import { Radio } from '../../Radio';
 
 const render = (
-  props: Partial<RadioGroupProps<any>> & {
+  props: Partial<RadioGroupProps> & {
     children?: React.ReactElement<any>;
   },
-) => mount<RadioGroup<any>>(<RadioGroup {...props} />);
+) => mount<RadioGroup>(<RadioGroup {...props} />);
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -221,7 +221,7 @@ describe('<RadioGroup />', () => {
   it('calls onBlur after radio click', () => {
     const items = ['one', 'two', 'three'];
     const onBlur = jest.fn();
-    const wrapper = mount<RadioGroup<any>>(<RadioGroup items={items} onBlur={onBlur} />);
+    const wrapper = mount<RadioGroup>(<RadioGroup items={items} onBlur={onBlur} />);
     wrapper.find(Radio).at(0).simulate('focus').simulate('blur').simulate('blur');
 
     clickOutside();
@@ -232,7 +232,7 @@ describe('<RadioGroup />', () => {
   it('calls onBlur after radio click', () => {
     const onBlur = jest.fn();
     const onRadioBlur = jest.fn();
-    const wrapper = mount<RadioGroup<any>>(
+    const wrapper = mount<RadioGroup>(
       <RadioGroup onBlur={onBlur}>
         <Radio value="one" onBlur={onRadioBlur} />
         <Radio value="two" onBlur={onRadioBlur} />

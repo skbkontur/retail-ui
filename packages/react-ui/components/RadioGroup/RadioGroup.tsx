@@ -7,23 +7,24 @@ import { getRandomID } from '../../lib/utils';
 import { FocusTrap } from '../../internal/FocusTrap';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { RadioValue } from '../Radio';
 
 import { styles } from './RadioGroup.styles';
 import { RadioGroupContext } from './RadioGroupContext';
 import { RadioGroupChildren } from './RadioGroupChildren';
 import { getRadioButton } from './utils';
 
-type RadioGroupInterface<T = string | number> = {
+type RadioGroupInterface = {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
    */
-  defaultValue?: T;
+  defaultValue?: RadioValue;
   /**
    * Значение радиогруппы. Должно быть одним из значений радиокнопок.
    * Если не указано, то компонент будет работать, как неконтроллируемый
    */
-  value?: T;
+  value?: RadioValue;
   /**
    * Может быть использовано, если не передан параметр `children`
    *
@@ -33,7 +34,7 @@ type RadioGroupInterface<T = string | number> = {
    * Если тип `items: Array<Value>`, то он будет приведен к типу
    * `Array<[Value, Value]>`
    */
-  items?: T[] | [T, React.ReactNode][];
+  items?: RadioValue[] | [RadioValue, React.ReactNode][];
   /**
    * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
    * случайное имя
@@ -64,9 +65,9 @@ type RadioGroupInterface<T = string | number> = {
    *
    * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
    */
-  renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
+  renderItem?: (itemValue: RadioValue, data: React.ReactNode) => React.ReactNode;
   /** Вызывается при изменении `value` */
-  onValueChange?: (value: T) => void;
+  onValueChange?: (value: RadioValue) => void;
   onBlur?: (event: FocusEvent) => void;
   children?: React.ReactNode;
 };
@@ -75,7 +76,7 @@ export type RadioGroupInstanceFields = {
   focus: () => void;
 };
 
-export type RadioGroupProps<T> = RadioGroupInterface<T> &
+export type RadioGroupProps = RadioGroupInterface &
   Pick<React.HTMLAttributes<HTMLSpanElement>, 'onMouseLeave' | 'onMouseOver' | 'onMouseEnter'> &
   CommonProps & {
     ref?: RadioGroupRef['publicRef'];
@@ -112,13 +113,13 @@ function RadioGroupFC<T>({
   onMouseLeave,
   onMouseOver,
   ...rest
-}: RadioGroupProps<T>) {
+}: RadioGroupProps) {
   const [activeItem, setActiveItem] = useState(defaultValue);
 
   const isControlled = value != null;
   const currentValue = isControlled ? value : activeItem;
 
-  const handleSelect = (value: T) => {
+  const handleSelect = (value: RadioValue) => {
     if (!isControlled) {
       setActiveItem(value);
     }
@@ -200,6 +201,6 @@ Object.assign(RadioGroupFC, { __KONTUR_REACT_UI__: 'RadioGroupFC' });
  * Значения активного элемента сравниваются по строгому равенству `===`
  */
 export const RadioGroup = withClassWrapper(
-  RadioGroupFC as unknown as ReactUIComponentWithRef<RadioGroupRef['element'], RadioGroupProps<any>>,
+  RadioGroupFC as unknown as ReactUIComponentWithRef<RadioGroupRef['element'], RadioGroupProps>,
 );
 export type RadioGroup = InstanceType<typeof RadioGroup> & RadioGroupInstanceFields;

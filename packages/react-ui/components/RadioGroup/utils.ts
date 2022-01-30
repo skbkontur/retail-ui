@@ -1,3 +1,5 @@
+import { RadioValue } from '../Radio';
+
 import { RadioGroupRef } from './RadioGroup';
 
 export const getRadioButton = (element: RadioGroupRef['element']) => {
@@ -10,6 +12,6 @@ export const getRadioButton = (element: RadioGroupRef['element']) => {
   return radio;
 };
 
-export function renderItem<T>(_value: T, data: React.ReactNode) {
+export function renderItem(_value: RadioValue, data: React.ReactNode) {
   return data;
 }

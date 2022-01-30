@@ -14,6 +14,8 @@ import { RadioInput } from './RadioInput';
 import { RadioButton } from './RadioButton';
 import { RadioText } from './RadioText';
 
+export type RadioValue = string | number;
+
 type RadioInterface = {
   /**
    *  Cостояние валидации при ошибке.
@@ -30,11 +32,11 @@ type RadioInterface = {
   /**
    * Функция, вызываемая при изменении `value`.
    */
-  onValueChange?: (value: any) => void;
+  onValueChange?: (value: RadioValue) => void;
   /**
    * HTML-атрибут `value`.
    */
-  value: any;
+  value: RadioValue;
 };
 
 type LabelProps = Pick<React.LabelHTMLAttributes<HTMLLabelElement>, 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'>;
@@ -155,7 +157,7 @@ RadioFC.propTypes = {
   warning: propTypes.bool,
   focused: propTypes.bool,
   onValueChange: propTypes.func,
-  value: propTypes.node,
+  value: propTypes.oneOfType([propTypes.string, propTypes.number]).isRequired,
 };
 
 /**
