@@ -1,7 +1,7 @@
 import React, { useState, useImperativeHandle } from 'react';
 import propTypes from 'prop-types';
 
-import { ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
 import { getRandomID } from '../../lib/utils';
 import { FocusTrap } from '../../internal/FocusTrap';
@@ -72,111 +72,118 @@ type RadioGroupInterface = {
   children?: React.ReactNode;
 };
 
+export type RadioGroupProps = RadioGroupInterface &
+  Pick<React.HTMLAttributes<HTMLSpanElement>, 'onMouseLeave' | 'onMouseOver' | 'onMouseEnter'> &
+  CommonProps;
+
+export type RadioGroupState = {
+  activeItem: RadioValue | undefined;
+  setActiveItem: React.Dispatch<React.SetStateAction<RadioGroupState['activeItem']>>;
+};
+
 export type RadioGroupInstanceFields = {
   focus: () => void;
 };
-
-export type RadioGroupProps = RadioGroupInterface &
-  Pick<React.HTMLAttributes<HTMLSpanElement>, 'onMouseLeave' | 'onMouseOver' | 'onMouseEnter'> &
-  CommonProps & {
-    ref?: RadioGroupRef['publicRef'];
-    instanceRef?: React.MutableRefObject<RadioGroupInstanceFields | null>;
-  };
-
-export interface RadioGroupState<T> {
-  activeItem?: T;
-}
 
 export type RadioGroupRef = {
   element: HTMLSpanElement;
   publicRef: React.RefObject<RadioGroupRef['element']>;
 };
 
-function RadioGroupFC<T>({
-  onBlur,
-  style,
-  ref,
-  children,
-  inline,
-  items,
-  disabled,
-  warning,
-  error,
-  name,
-  value,
-  width,
-  className,
-  instanceRef,
-  defaultValue,
-  onValueChange,
-  onMouseEnter,
-  onMouseLeave,
-  onMouseOver,
-  ...rest
-}: RadioGroupProps) {
-  const [activeItem, setActiveItem] = useState(defaultValue);
-
-  const isControlled = value != null;
-  const currentValue = isControlled ? value : activeItem;
-
-  const handleSelect = (value: RadioValue) => {
-    if (!isControlled) {
-      setActiveItem(value);
-    }
-
-    if (onValueChange) {
-      onValueChange(value);
-    }
-  };
-
-  const publicRef = React.useRef<RadioGroupRef['element']>(null);
-  ref = publicRef;
-
-  useImperativeHandle(instanceRef, () => ({
-    focus: () => {
-      if (!publicRef.current) {
-        return;
-      }
-
-      const radio = getRadioButton(publicRef.current);
-
-      if (radio) {
-        radio.focus();
-      }
+const RadioGroupFC = forwardRefAndName<
+  RadioGroupRef['element'],
+  RadioGroupProps & {
+    instanceRef?: React.MutableRefObject<RadioGroupInstanceFields | null>;
+  }
+>(
+  'RadioGroupFC',
+  (
+    {
+      onBlur,
+      style,
+      children,
+      inline,
+      items,
+      disabled,
+      warning,
+      error,
+      name,
+      value,
+      width,
+      className,
+      instanceRef,
+      defaultValue,
+      onValueChange,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
+      ...rest
     },
-  }));
+    _ref,
+  ) => {
+    const [activeItem, setActiveItem] = useState(defaultValue);
 
-  const generatedName = getRandomID();
+    const isControlled = value != null;
+    const currentValue = isControlled ? value : activeItem;
 
-  return (
-    <FocusTrap onBlur={onBlur}>
-      <span
-        ref={publicRef}
-        style={{ width: width ?? 'auto', ...style }}
-        className={cx(styles.root(), className)}
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
-        onMouseOver={onMouseOver}
-        {...rest}
-      >
-        <RadioGroupContext.Provider
-          value={{
-            activeItem: currentValue,
-            onSelect: handleSelect,
-            name: name || generatedName,
-            disabled: disabled,
-            error: error,
-            warning: warning,
-          }}
+    const handleSelect = (value: RadioValue) => {
+      if (!isControlled) {
+        setActiveItem(value);
+      }
+
+      if (onValueChange) {
+        onValueChange(value);
+      }
+    };
+
+    const publicRef = React.useRef<RadioGroupRef['element']>(null);
+
+    useImperativeHandle(instanceRef, () => ({
+      focus: () => {
+        if (!publicRef.current) {
+          return;
+        }
+
+        const radio = getRadioButton(publicRef.current);
+
+        if (radio) {
+          radio.focus();
+        }
+      },
+    }));
+
+    const generatedName = getRandomID();
+
+    return (
+      <FocusTrap onBlur={onBlur}>
+        <span
+          ref={publicRef}
+          style={{ width: width ?? 'auto', ...style }}
+          className={cx(styles.root(), className)}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+          onMouseOver={onMouseOver}
+          {...rest}
         >
-          <RadioGroupChildren items={items} inline={inline}>
-            {children}
-          </RadioGroupChildren>
-        </RadioGroupContext.Provider>
-      </span>
-    </FocusTrap>
-  );
-}
+          <RadioGroupContext.Provider
+            value={{
+              activeItem: currentValue,
+              onSelect: handleSelect,
+              name: name || generatedName,
+              disabled: disabled,
+              error: error,
+              warning: warning,
+            }}
+          >
+            <RadioGroupChildren items={items} inline={inline}>
+              {children}
+            </RadioGroupChildren>
+          </RadioGroupContext.Provider>
+        </span>
+      </FocusTrap>
+    );
+  },
+);
 
 RadioGroupFC.propTypes = {
   children: propTypes.node,
@@ -189,8 +196,6 @@ RadioGroupFC.propTypes = {
   onBlur: propTypes.func,
 };
 
-Object.assign(RadioGroupFC, { __KONTUR_REACT_UI__: 'RadioGroupFC' });
-
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -200,7 +205,5 @@ Object.assign(RadioGroupFC, { __KONTUR_REACT_UI__: 'RadioGroupFC' });
  *
  * Значения активного элемента сравниваются по строгому равенству `===`
  */
-export const RadioGroup = withClassWrapper(
-  RadioGroupFC as unknown as ReactUIComponentWithRef<RadioGroupRef['element'], RadioGroupProps>,
-);
+export const RadioGroup = withClassWrapper(RadioGroupFC);
 export type RadioGroup = InstanceType<typeof RadioGroup> & RadioGroupInstanceFields;
