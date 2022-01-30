@@ -1,11 +1,29 @@
 import React, { useRef, useState } from 'react';
+import { ComponentStory } from '@storybook/react';
 
-import { Story } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { RadioGroup, RadioGroupProps } from '../RadioGroup';
 import { Radio, RadioValue } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
+
+export default { title: 'components/RadioGroup', component: RadioGroup } as Meta;
+
+const PlaygroundTemplate: ComponentStory<typeof RadioGroup> = (args) => {
+  return <RadioGroup defaultValue="One" {...args} />;
+};
+export const Playground = PlaygroundTemplate.bind({});
+Playground.args = {
+  items: ['One', 'Two', 'Three', 'Four'],
+  name: 'Playground',
+  disabled: false,
+  warning: false,
+  error: false,
+  inline: false,
+  width: 'auto',
+};
+Playground.parameters = { creevey: { skip: [true] } };
 
 const Component = (props: RadioGroupProps) => {
   const [value, setValue] = useState<RadioValue>('');
@@ -30,9 +48,6 @@ const Component = (props: RadioGroupProps) => {
     </Gapped>
   );
 };
-
-export default { title: 'RadioGroup' };
-
 export const Vertical: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;
 };
