@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import propTypes from 'prop-types';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
@@ -147,6 +148,34 @@ const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, re
     </ThemeContext.Provider>
   );
 });
+
+HintFC.propTypes = {
+  children: propTypes.node,
+  manual: propTypes.bool,
+  maxWidth: propTypes.oneOfType([propTypes.string, propTypes.number]),
+  opened: propTypes.bool,
+  pos: propTypes.oneOf([
+    'top',
+    'right',
+    'bottom',
+    'left',
+    'top left',
+    'top center',
+    'top right',
+    'bottom left',
+    'bottom center',
+    'bottom right',
+    'left top',
+    'left middle',
+    'left bottom',
+    'right top',
+    'right middle',
+    'right bottom',
+  ]),
+  text: propTypes.node.isRequired,
+  disableAnimations: propTypes.bool,
+  useWrapper: propTypes.bool,
+};
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
