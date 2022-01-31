@@ -235,11 +235,11 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (!this.inner || this.inner[pos] === 0) {
       return 'begin';
     }
-    // For horizontal scrolling when scaling <= 33%, scrollLeft can be less by 3 (maybe more). It can be ignored
-    // When scaling in Chrome, scrollPos can be fractional or less by 1
+    // For horizontal scrolling when zoom <= 33%, scrollLeft can be less by 3 (maybe more). It can be ignored
+    // When zoom in Chrome, scrollPos can be fractional or less by 1
     const floorPos = Math.floor(this.inner[pos]);
-    const latestScrollPos = this.inner[size] - this.inner[clientSize];
-    if (latestScrollPos === floorPos || latestScrollPos === floorPos + 1 || latestScrollPos + 1 === floorPos) {
+    const maxScrollPos = this.inner[size] - this.inner[clientSize];
+    if (maxScrollPos === floorPos || maxScrollPos === floorPos + 1 || maxScrollPos + 1 === floorPos) {
       return 'end';
     }
 
