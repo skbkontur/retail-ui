@@ -1,11 +1,13 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import { withClassWrapper } from '../../lib/withClassWrapper';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 
 import { VerticalGapped } from './VerticalGapped';
 import { HorizontalGapped } from './HorizontalGapped';
+import { useGapValue } from './useGapValue';
 
 type GappedInterface = {
   /**
@@ -34,30 +36,43 @@ type GappedInterface = {
   children: React.ReactNode;
 };
 
-export type GappedProps = GappedInterface & CommonProps;
+export type GappedProps = GappedInterface &
+  CommonProps & {
+    instanceRef?: unknown;
+  };
 
-const GappedFC = forwardRefAndName<HTMLDivElement, GappedProps>(
+export type GappedRef = {
+  element: HTMLDivElement;
+};
+
+const GappedFC = forwardRefAndName<GappedRef['element'], GappedProps>(
   'GappedFC',
   ({ instanceRef, verticalAlign = 'baseline', vertical, gap, children, wrap, ...rest }, ref) => {
+    const gapValue = useGapValue(gap);
+
     if (vertical) {
       return (
-        <CommonWrapper {...rest}>
-          <VerticalGapped ref={ref} gap={gap}>
-            {children}
-          </VerticalGapped>
-        </CommonWrapper>
+        <VerticalGapped ref={ref} gap={gapValue} {...rest}>
+          {children}
+        </VerticalGapped>
       );
     }
 
     return (
-      <CommonWrapper {...rest}>
-        <HorizontalGapped ref={ref} verticalAlign={verticalAlign} wrap={wrap} gap={gap}>
-          {children}
-        </HorizontalGapped>
-      </CommonWrapper>
+      <HorizontalGapped ref={ref} verticalAlign={verticalAlign} wrap={wrap} gap={gapValue} {...rest}>
+        {children}
+      </HorizontalGapped>
     );
   },
 );
+
+GappedFC.propTypes = {
+  gap: propTypes.number,
+  verticalAlign: propTypes.oneOf(['top', 'middle', 'baseline', 'bottom']),
+  vertical: propTypes.bool,
+  wrap: propTypes.bool,
+  children: propTypes.node.isRequired,
+};
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.

@@ -1,32 +1,23 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
-import { forwardRefAndName } from '../../../lib/forwardRefAndName';
-import { GappedProps } from '../Gapped';
-import { useGapValue } from '../useGapValue';
+import { GappedProps, GappedRef } from '../Gapped';
+import { GapValue } from '../useGapValue';
 
 import { HorizontalItems } from './HorizontalItems';
+import { HorizontalWrapper } from './HorizontalWrapper';
 
-export type HorizontalGappedProps = GappedProps;
+export type HorizontalGappedProps = Omit<GappedProps, 'vertical' | 'gap'> & GapValue;
 
-export const HorizontalGapped = forwardRefAndName<HTMLDivElement, HorizontalGappedProps>(
-  'HorizontalGapped',
-  ({ gap, wrap, children, verticalAlign }, ref) => {
-    const gapValue = useGapValue(gap);
-
+export const HorizontalGapped = forwardRef<GappedRef['element'], HorizontalGappedProps>(
+  ({ gap, wrap, children, verticalAlign, ...rest }, ref) => {
     return (
-      <div ref={ref} style={{ paddingTop: wrap ? 1 : 0 }}>
-        <div
-          style={{
-            marginTop: wrap ? -gapValue - 1 : 0,
-            marginLeft: wrap ? -gapValue : 0,
-            whiteSpace: wrap ? 'normal' : 'nowrap',
-          }}
-        >
-          <HorizontalItems wrap={wrap} verticalAlign={verticalAlign} gap={gap}>
-            {children}
-          </HorizontalItems>
-        </div>
-      </div>
+      <HorizontalWrapper ref={ref} gap={gap} wrap={wrap} {...rest}>
+        <HorizontalItems wrap={wrap} verticalAlign={verticalAlign} gap={gap}>
+          {children}
+        </HorizontalItems>
+      </HorizontalWrapper>
     );
   },
 );
+
+HorizontalGapped.displayName = 'HorizontalGapped';

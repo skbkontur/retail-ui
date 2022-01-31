@@ -6,6 +6,10 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { GappedProps } from './Gapped';
 
+export type GapValue = {
+  gap: NonNullable<GappedProps['gap']>;
+};
+
 /**
  * @deprecated remove in release 4.0
  */
