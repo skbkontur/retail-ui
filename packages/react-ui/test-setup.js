@@ -16,7 +16,7 @@ jest.mock('lodash.debounce', () =>
 );
 
 /**
- * Remove this in case if project uses jsdom > 13.2 as dependency
+ * If project ever uses `jsdom` >= 13.2 instead of `react-dom` remove the `MutationObserver` class as it will be not needed.
  */
 global.MutationObserver = class {
   disconnect() {
