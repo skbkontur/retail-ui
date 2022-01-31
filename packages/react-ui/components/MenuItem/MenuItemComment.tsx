@@ -6,12 +6,13 @@ import { cx } from '../../lib/theming/Emotion';
 import { MenuItemProps } from './MenuItem';
 import { styles } from './MenuItem.styles';
 
-export type MenuItemCommentProps = {
-  children: MenuItemProps['comment'];
+type MenuItemCommentInterface = {
   isHovered: boolean;
 };
 
-export const MenuItemComment = ({ children, isHovered }: MenuItemCommentProps) => {
+export type MenuItemCommentProps = MenuItemCommentInterface & Pick<MenuItemProps, 'comment'>;
+
+export const MenuItemComment = ({ comment, isHovered }: MenuItemCommentProps) => {
   const theme = useContext(ThemeContext);
 
   return (
@@ -22,7 +23,7 @@ export const MenuItemComment = ({ children, isHovered }: MenuItemCommentProps) =
         [styles.commentHover(theme)]: isHovered,
       })}
     >
-      {children}
+      {comment}
     </div>
   );
 };

@@ -1,17 +1,18 @@
-import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import propTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MenuItem.styles';
 import { getWrapper, getContent } from './utils';
 import { MenuItemIcon } from './MenuItemIcon';
 import { MenuItemComment } from './MenuItemComment';
+import { useMouseEvents } from './useMouseEvents';
 
 export type MenuItemState = null | undefined | 'hover' | 'selected';
 
@@ -54,11 +55,17 @@ type MenuItemInterface = {
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
   component?: React.ComponentType<any>;
+  /**
+   * @ignore
+   */
+  onClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
 };
 
 export type MenuItemProps = CommonProps &
   Override<React.HTMLAttributes<HTMLElement>, MenuItemInterface> &
-  Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'>;
+  Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target'> & {
+    instanceRef?: unknown;
+  };
 
 /**
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
@@ -77,50 +84,31 @@ const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('MenuItemFC', (
     component,
     comment,
     children,
+    className,
     onMouseEnter,
     onMouseLeave,
     ...rest
   } = props;
 
   const theme = useContext(ThemeContext);
+  const { handleMouseEnter, handleMouseLeave } = useMouseEvents(onMouseEnter, onMouseLeave);
 
-  const [hasMouseEntered, setHasMouseEntered] = useState(false);
   const isHovered = state === 'hover' && !disabled;
   const isSelected = state === 'selected';
   const hasIcon = !!icon || _enableIconPadding;
 
-  /**
-   * https://github.com/facebook/react/issues/10109
-   *
-   * `mouseenter` event is not triggered
-   * when cursor moves away from disabled button.
-   */
-  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
-    if (!hasMouseEntered && onMouseEnter) {
-      setHasMouseEntered(true);
-      onMouseEnter(e);
-    }
-  };
-
-  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    setHasMouseEntered(false);
-    if (onMouseLeave) {
-      onMouseLeave(e);
-    }
-  };
-
-  const Wrapper = getWrapper(disabled, component, rest.href);
+  const MenuItemWrapper = getWrapper(disabled, component, rest.href);
   const content = getContent(children, state);
 
   return (
-    <CommonWrapper {...props}>
-      <Wrapper
-        {...rest}
-        ref={ref}
-        state={state}
-        onMouseOver={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className={cx({
+    <MenuItemWrapper
+      {...rest}
+      ref={ref}
+      state={state}
+      onMouseOver={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      className={cx(
+        {
           [styles.root(theme)]: true,
           [styles.loose()]: loose,
           [styles.hover(theme)]: isHovered,
@@ -128,24 +116,28 @@ const MenuItemFC = forwardRefAndName<HTMLElement, MenuItemProps>('MenuItemFC', (
           [styles.link(theme)]: link,
           [styles.withIcon(theme)]: hasIcon,
           [styles.disabled(theme)]: disabled,
-        })}
-        disabled={disabled}
-        tabIndex={-1}
-      >
-        {icon && <MenuItemIcon>{icon}</MenuItemIcon>}
-        {content}
-        {comment && <MenuItemComment isHovered={isHovered}>{comment}</MenuItemComment>}
-      </Wrapper>
-    </CommonWrapper>
+        },
+        className,
+      )}
+      disabled={disabled}
+      tabIndex={-1}
+    >
+      {icon && <MenuItemIcon icon={icon} />}
+      {content}
+      {comment && <MenuItemComment comment={comment} isHovered={isHovered} />}
+    </MenuItemWrapper>
   );
 });
 
 MenuItemFC.propTypes = {
-  comment: PropTypes.node,
-  disabled: PropTypes.bool,
-  icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  loose: PropTypes.bool,
-  onClick: PropTypes.func,
+  _enableIconPadding: propTypes.bool,
+  comment: propTypes.node,
+  disabled: propTypes.bool,
+  link: propTypes.bool,
+  icon: propTypes.node,
+  loose: propTypes.bool,
+  state: propTypes.oneOf([null, undefined, 'hover', 'selected']),
+  children: propTypes.oneOfType([propTypes.node, propTypes.func]),
 };
 
 export const MenuItem = withClassWrapper(MenuItemFC);
@@ -154,6 +146,6 @@ export type MenuItem = InstanceType<typeof MenuItem>;
 Object.assign(MenuItem, { __MENU_ITEM__: true });
 
 export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  // @ts-ignore
+  // @ts-expect-error
   return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem';
 };
