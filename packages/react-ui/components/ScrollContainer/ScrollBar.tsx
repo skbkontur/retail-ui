@@ -239,7 +239,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     // When scaling in Chrome, scrollPos can be fractional or less by 1
     const floorPos = Math.floor(this.inner[pos]);
     const latestScrollPos = this.inner[size] - this.inner[clientSize];
-    if (latestScrollPos === floorPos || latestScrollPos === floorPos + 1) {
+    if (latestScrollPos === floorPos || latestScrollPos === floorPos + 1 || latestScrollPos + 1 === floorPos) {
       return 'end';
     }
 
