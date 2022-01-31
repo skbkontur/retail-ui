@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../typings/Types';
 
-import { isTestEnv } from './utils';
+import { isTestEnv } from './utils/utils';
 import { ValidationContextWrapper } from './ValidationContextWrapper';
 
 export interface ScrollOffset {

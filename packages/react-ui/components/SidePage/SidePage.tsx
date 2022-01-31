@@ -110,6 +110,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
+  private rootRef = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -155,8 +156,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const { blockBackground, disableAnimations } = this.props;
 
     return (
-      <CommonWrapper {...this.props}>
-        <RenderContainer>
+      <RenderContainer>
+        <CommonWrapper {...this.props}>
           <div>
             {blockBackground && this.renderShadow()}
             <CSSTransition
@@ -169,12 +170,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 enter: TRANSITION_TIMEOUT,
                 exit: TRANSITION_TIMEOUT,
               }}
+              nodeRef={this.rootRef}
             >
               {this.renderContainer()}
             </CSSTransition>
           </div>
-        </RenderContainer>
-      </CommonWrapper>
+        </CommonWrapper>
+      </RenderContainer>
     );
   }
 
@@ -195,6 +197,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           right: fromLeft ? 'auto' : offset,
           left: fromLeft ? offset : 'auto',
         }}
+        wrapperRef={this.rootRef}
       >
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>

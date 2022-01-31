@@ -13,10 +13,15 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   }
 
   const instanceAsAny = instance as any;
+  let node;
   if (instanceAsAny && isFunction(instanceAsAny.getRootNode)) {
-    return instanceAsAny.getRootNode();
+    node = instanceAsAny.getRootNode();
   }
 
-  const node = findDOMNode(instance);
+  if (node !== undefined) {
+    return node;
+  }
+
+  node = findDOMNode(instance);
   return node instanceof HTMLElement ? node : null;
 };
