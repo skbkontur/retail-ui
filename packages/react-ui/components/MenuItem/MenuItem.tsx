@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 
 import { styles } from './MenuItem.styles';
 
@@ -79,6 +80,7 @@ export interface MenuItemProps extends CommonProps {
  *
  * Сущности в которых может быть использован `MenuItem`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
+@rootNode
 export class MenuItem extends React.Component<MenuItemProps> {
   public static __KONTUR_REACT_UI__ = 'MenuItem';
   public static __MENU_ITEM__ = true;
@@ -103,13 +105,18 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   private theme!: Theme;
   private mouseEntered = false;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -207,7 +214,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
 }
 
 export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  return React.isValidElement<MenuItemProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__MENU_ITEM__')
-    : false;
+  // @ts-ignore
+  return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem';
 };

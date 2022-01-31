@@ -1,5 +1,7 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
+
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { CommonWrapper } from '../CommonWrapper';
 
 export interface IgnoreLayerClickProps {
   children: React.ReactNode;
@@ -18,13 +20,15 @@ interface WrapperProps {
 }
 
 // NOTE Используется только в команде Контур.Бухгалтерия
+@rootNode
 class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   public static __KONTUR_REACT_UI__ = 'IgnoreLayerClick';
 
   private element: Element | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
-    const element = findDOMNode(this);
+    const element = getRootNode(this);
     if (element && element instanceof Element) {
       element.addEventListener('mousedown', this.handleMouseDown);
       this.element = element;
@@ -39,7 +43,11 @@ class IgnoreLayerClickWrapper extends React.Component<WrapperProps> {
   }
 
   public render() {
-    return React.Children.only(this.props.children);
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {React.Children.only(this.props.children)}
+      </CommonWrapper>
+    );
   }
 
   private handleMouseDown = (event: Event) => {
