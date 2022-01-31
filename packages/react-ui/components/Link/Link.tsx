@@ -62,6 +62,7 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
       children,
       tabIndex,
       className,
+      'aria-label': ariaLabel,
       _button,
       _buttonOpened,
       instanceRef,
@@ -69,6 +70,13 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
     },
     ref,
   ) => {
+    // Has only icon without description for screen readers.
+    if (!children && icon && !ariaLabel) {
+      console.error(
+        'When Link is presented solely as icon without text it must have `aria-label` attribute with description for screen reader users.',
+      );
+    }
+
     const theme = useContext(ThemeContext);
 
     const [focusedByTab, setFocusedByTab] = useState(false);
