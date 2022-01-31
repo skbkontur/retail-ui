@@ -6,6 +6,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -44,6 +45,7 @@ export interface ScrollContainerProps extends CommonProps {
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
+@rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
@@ -65,6 +67,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.scrollX?.setInnerElement(this.inner);
@@ -95,7 +98,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     const scrollbarX = this.renderScrollbar('x');
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
           {scrollbarY}
           {scrollbarX}

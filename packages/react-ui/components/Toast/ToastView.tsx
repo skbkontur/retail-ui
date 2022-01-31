@@ -6,6 +6,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './ToastView.styles';
 
@@ -26,6 +27,7 @@ export interface ToastViewProps extends CommonProps {
   onMouseLeave?: () => void;
 }
 
+@rootNode
 export class ToastView extends React.Component<ToastViewProps> {
   public static propTypes = {
     /**
@@ -43,6 +45,7 @@ export class ToastView extends React.Component<ToastViewProps> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -74,7 +77,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     return (
       <ZIndex priority="Toast" className={styles.wrapper()}>
-        <div data-tid="ToastView__root" {...rest} className={styles.root(this.theme)}>
+        <div data-tid="ToastView__root" {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
           <span>{this.props.children}</span>
           {link}
           {close}

@@ -1,5 +1,6 @@
 import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
 
@@ -41,8 +42,20 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: ReactComponentLike) {
-  return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
+export function isFunctionalComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
+}
+
+export function isClassComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
+}
+
+export function isIntrinsicElement(element: React.ReactElement): boolean {
+  return typeof element.type === 'string';
+}
+
+export function isRefableElement(element: React.ReactElement): boolean {
+  return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
 export function escapeRegExpSpecChars(s: string): string {
