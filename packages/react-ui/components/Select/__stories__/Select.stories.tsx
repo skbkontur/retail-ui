@@ -413,11 +413,12 @@ WithAlignRight.parameters = {
   creevey: {
     tests: {
       async ['open']() {
+        const root = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions()
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage();
+        await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },
   },
