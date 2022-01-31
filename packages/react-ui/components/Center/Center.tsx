@@ -1,8 +1,8 @@
 import React from 'react';
-import { oneOf } from 'prop-types';
+import propTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
@@ -16,34 +16,40 @@ type CenterInterface = {
    * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
    */
   align?: 'left' | 'center' | 'right';
+  /**
+   * @ignore
+   */
+  children: React.ReactNode;
 };
 
-export type CenterProps = CommonProps & Override<React.HTMLAttributes<HTMLDivElement>, CenterInterface>;
+export type CenterProps = CommonProps &
+  Override<React.HTMLAttributes<HTMLDivElement>, CenterInterface> & { instanceRef?: unknown };
 
-const CenterFC = forwardRefAndName<HTMLDivElement, React.PropsWithChildren<CenterProps>>(
+const CenterFC = forwardRefAndName<HTMLDivElement, CenterProps>(
   'CenterFC',
-  ({ instanceRef, align, ...rest }, ref) => {
+  ({ instanceRef, align, className, ...rest }, ref) => {
     return (
-      <CommonWrapper {...rest}>
-        <div
-          ref={ref}
-          className={cx({
+      <div
+        ref={ref}
+        className={cx(
+          {
             [styles.root()]: true,
             [styles.rootAlignLeft()]: align === 'left',
             [styles.rootAlignRight()]: align === 'right',
-          })}
-          {...rest}
-        >
-          <span className={styles.spring()} />
-          <span className={styles.container()}>{rest.children}</span>
-        </div>
-      </CommonWrapper>
+          },
+          className,
+        )}
+        {...rest}
+      >
+        <span className={styles.spring()} />
+        <span className={styles.container()}>{rest.children}</span>
+      </div>
     );
   },
 );
 
 CenterFC.propTypes = {
-  align: oneOf(['left', 'center', 'right']),
+  align: propTypes.oneOf(['left', 'center', 'right']),
 };
 
 /**
