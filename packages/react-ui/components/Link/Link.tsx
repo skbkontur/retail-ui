@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import PropTypes from 'prop-types';
+import propTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
@@ -135,15 +135,15 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
 );
 
 LinkFC.propTypes = {
-  disabled: PropTypes.bool,
-  href: PropTypes.string,
-  icon: PropTypes.element,
-  use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
-  _button: PropTypes.bool,
-  _buttonOpened: PropTypes.bool,
-  tabIndex: PropTypes.number,
-  loading: PropTypes.bool,
-  onClick: PropTypes.func,
+  disabled: propTypes.bool,
+  href: propTypes.string,
+  icon: propTypes.element,
+  use: propTypes.oneOf(['default', 'success', 'danger', 'grayed']),
+  _button: propTypes.bool,
+  _buttonOpened: propTypes.bool,
+  tabIndex: propTypes.number,
+  loading: propTypes.bool,
+  onClick: propTypes.func,
 };
 
 /**
