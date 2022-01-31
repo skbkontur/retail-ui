@@ -6,11 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { HintProps } from './Hint';
 import { styles } from './Hint.styles';
 
-export type HintContentProps = {
-  text: HintProps['text'];
-  pos: HintProps['pos'];
-  maxWidth: HintProps['maxWidth'];
-};
+export type HintContentProps = Pick<HintProps, 'text' | 'pos' | 'maxWidth'>;
 
 export const HintContent = ({ text, pos, maxWidth }: HintContentProps) => {
   const theme = useContext(ThemeContext);

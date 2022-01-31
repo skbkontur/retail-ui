@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
@@ -7,10 +7,11 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup, PopupPosition } from '../../internal/Popup';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 
 import { HintContent } from './HintContent';
-import { clearTimer, getPositions } from './utils';
+import { getPositions } from './getPositions';
+import { useDelayDisplaying } from './useDelayDisplaying';
 
 type HintInterface = {
   children?: React.ReactNode;
@@ -95,6 +96,7 @@ const positions: PopupPosition[] = [
 
 export const DEFAULT_POSITION = 'top';
 export const DEFAULT_MAX_WIDTH = 200;
+export const DISPLAY_DELAY = 400;
 
 const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, ref) => {
   const {
@@ -108,44 +110,11 @@ const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, re
     maxWidth = DEFAULT_MAX_WIDTH,
     onMouseEnter,
     onMouseLeave,
+    ...rest
   } = props;
 
   const theme = useContext(ThemeContext);
-
-  const [isOpen, setIsOpen] = useState(manual ? opened : false);
-  let timer: number | undefined = undefined;
-
-  useEffect(() => {
-    if (!manual) {
-      return;
-    }
-
-    setIsOpen(!!opened);
-  }, [manual, opened]);
-
-  useEffect(() => {
-    return clearTimer(timer);
-  }, [timer]);
-
-  const handleMouseEnter = (e: MouseEventType) => {
-    if (!manual && !timer) {
-      timer = window.setTimeout(() => {
-        setIsOpen(true);
-      }, 400);
-    }
-
-    onMouseEnter?.(e);
-  };
-
-  const handleMouseLeave = (e: MouseEventType) => {
-    if (!manual) {
-      clearTimer(timer);
-
-      setIsOpen(false);
-    }
-
-    onMouseLeave?.(e);
-  };
+  const { isOpen, handleMouseEnter, handleMouseLeave } = useDelayDisplaying(manual, opened, onMouseLeave, onMouseEnter);
 
   return (
     // TODO: Pass `ref` down to `Popup` when it'll be possible
@@ -160,22 +129,21 @@ const HintFC = forwardRefAndName<HTMLDivElement, HintProps>('HintFC', (props, re
         theme,
       )}
     >
-      <CommonWrapper {...props}>
-        <Popup
-          hasPin
-          opened={isOpen}
-          anchorElement={children}
-          positions={getPositions(positions, pos)}
-          backgroundColor={theme.hintBgColor}
-          borderColor="transparent"
-          disableAnimations={disableAnimations}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-          useWrapper={useWrapper}
-        >
-          <HintContent text={text} pos={pos} maxWidth={maxWidth} />
-        </Popup>
-      </CommonWrapper>
+      <Popup
+        hasPin
+        opened={!!isOpen}
+        anchorElement={children}
+        positions={getPositions(positions, pos)}
+        backgroundColor={theme.hintBgColor}
+        borderColor="transparent"
+        disableAnimations={disableAnimations}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        useWrapper={useWrapper}
+        {...rest}
+      >
+        <HintContent text={text} pos={pos} maxWidth={maxWidth} />
+      </Popup>
     </ThemeContext.Provider>
   );
 });
