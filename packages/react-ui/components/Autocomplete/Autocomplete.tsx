@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { findDOMNode } from 'react-dom';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -14,6 +13,7 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -72,6 +72,7 @@ export interface AutocompleteState {
  *
  * Все свойства передаются во внутренний *Input*.
  */
+@rootNode
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
@@ -123,6 +124,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private requestId = 0;
 
   private getProps = createPropsGetter(Autocomplete.defaultProps);
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -151,7 +153,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -310,7 +316,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private getAnchor = () => {
-    return findDOMNode(this);
+    return getRootNode(this);
   };
 
   private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {

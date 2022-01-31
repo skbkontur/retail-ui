@@ -1,4 +1,5 @@
 import React from 'react';
+import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
 import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
@@ -1111,3 +1112,20 @@ TooltipWithManualControl.parameters = {
     },
   },
 };
+
+export const TooltipWithIconFromPackage = () => (
+  <TestTooltip trigger="opened" pos="bottom center">
+    <HelpDotIcon />
+  </TestTooltip>
+);
+TooltipWithIconFromPackage.storyName = 'tooltip with icon';
+
+const FunctionalChild = () => {
+  return <div>FunctionalChild</div>;
+};
+export const TooltipWithFunctionalChild = () => (
+  <TestTooltip trigger="opened" pos="bottom center">
+    <FunctionalChild />
+  </TestTooltip>
+);
+TooltipWithFunctionalChild.storyName = 'tooltip with functional child';

@@ -7,6 +7,7 @@ import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { TSetRootNode, rootNode } from '../../lib/rootNode';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -53,7 +54,8 @@ export interface CurrencyInputState {
  * <br/>
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
-export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+@rootNode
+export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
 
   public static propTypes = {
@@ -95,6 +97,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
 
   private input: Nullable<Input>;
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
     const { maxLength, integerDigits, fractionDigits } = this.props;
@@ -109,24 +112,27 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     );
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: CurrencyInputProps) {
-    const { value, fractionDigits, hideTrailingZeros } = nextProps;
-    if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
-      const state = this.getState(value, fractionDigits, hideTrailingZeros);
-      this.setState(state);
+  public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
+    const { value, fractionDigits, hideTrailingZeros } = this.props;
+    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+      this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
-  }
-
-  public componentDidUpdate() {
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
 
       this.input.setSelectionRange(start, end);
     }
+    if (prevState.selection !== this.state.selection) {
+      this.scrollInput();
+    }
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
@@ -280,6 +286,31 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         });
         return;
       }
+    }
+  };
+
+  private scrollInput = () => {
+    const node = this.input?.getNode();
+    if (!node || node.scrollWidth === node.clientWidth) {
+      return;
+    }
+    const PAD = 1;
+    const SHIFT = 3;
+
+    const selection = this.state.selection;
+    const selected = selection.start !== selection.end;
+    const position = selected && selection.direction === 'forward' ? selection.end : selection.start;
+    const charsCount = this.state.formatted.length;
+    const charWidth = node.scrollWidth / charsCount;
+    const frame = Math.ceil(node.clientWidth / charWidth);
+    const frameStart = Math.ceil(node.scrollLeft / charWidth);
+    const frameEnd = frameStart + frame;
+
+    if (position < frameStart + PAD) {
+      node.scrollLeft = (position - SHIFT) * charWidth;
+    }
+    if (position > frameEnd - PAD) {
+      node.scrollLeft = (position - frame + SHIFT) * charWidth;
     }
   };
 

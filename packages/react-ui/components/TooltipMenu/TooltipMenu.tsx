@@ -8,6 +8,7 @@ import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPositionsType } from '../../internal/Popup';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
@@ -60,8 +61,10 @@ export interface TooltipMenuProps extends CommonProps {
  *
  * Если массив `positions` не передан (или передан пустой массив), будут использованы всевозможные значения.
  */
+@rootNode
 export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
+  private setRootNode!: TSetRootNode;
 
   public static defaultProps = {
     disableAnimations: isTestEnv,
@@ -103,7 +106,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}

@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { Corners } from './Corners';
@@ -162,6 +163,7 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+@rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
@@ -182,12 +184,20 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private theme!: Theme;
   private node: HTMLButtonElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.autoFocus) {
       keyListener.isTabPressed = true;
       this.focus();
     }
+  }
+
+  public static getDerivedStateFromProps(props: ButtonProps) {
+    if (props.loading || props.disabled) {
+      return { focusedByTab: false };
+    }
+    return null;
   }
 
   /**
@@ -256,8 +266,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused && !checked,
+        [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
+        [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
@@ -365,7 +376,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
           <button ref={this._ref} {...rootProps}>
             {outlineNode}
@@ -441,7 +452,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 }
 
 export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  return React.isValidElement<ButtonProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__BUTTON__')
-    : false;
+  // @ts-ignore
+  return child?.type?.__KONTUR_REACT_UI__ === 'Button';
 };

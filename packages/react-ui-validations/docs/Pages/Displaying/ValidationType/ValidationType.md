@@ -26,6 +26,8 @@
 
 Валидация по потере фокуса отображается, когда контрол находится не в фокусе.
 
+Такую валидацию можно сделать [независимой](#/independent-validation).
+
     <ValidationWrapper validationInfo={{type: "lostfocus", message: "..."}}>
       //...
     </ValidationWrapper>

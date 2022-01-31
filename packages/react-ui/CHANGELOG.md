@@ -3,6 +3,66 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.10.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.4...@skbkontur/react-ui@3.10.0) (2022-01-27)
+
+
+### Bug Fixes
+
+* **react-ui:** [StrictMode] give up findDomNode ([#2518](https://github.com/skbkontur/retail-ui/issues/2518)) ([8028cdd](https://github.com/skbkontur/retail-ui/commit/8028cdd3c2289fd48816bdaf92da6a28892f40a7))
+* **react-ui:** [StrictMode] give up legacy context ([#2694](https://github.com/skbkontur/retail-ui/issues/2694)) ([d0253cc](https://github.com/skbkontur/retail-ui/commit/d0253ccc089764a317ccaa79aa00cc96fbb7aa0a))
+* **react-ui:** [StrictMode] give up unsafe methods ([#2514](https://github.com/skbkontur/retail-ui/issues/2514)) ([6cc2201](https://github.com/skbkontur/retail-ui/commit/6cc2201f0e8f711441e6c63229b703c03d4b6953))
+* **react-ui:** call original refs while replacing them ([#2736](https://github.com/skbkontur/retail-ui/issues/2736)) ([01ff2ab](https://github.com/skbkontur/retail-ui/commit/01ff2ab3243082c9347d20e844368ac775e54449))
+* **TokenInput:** handle Enter for TokenInputType.WithoutReference ([#2738](https://github.com/skbkontur/retail-ui/issues/2738)) ([2ee48cc](https://github.com/skbkontur/retail-ui/commit/2ee48cc31342dc13fd4596020d73e352311bdb82))
+
+
+### Features
+
+* support React.StrictMode ([04a4bc9](https://github.com/skbkontur/retail-ui/commit/04a4bc9f2dd35fa98ea4d9526ddd775dd1017b71))
+* **react-ui:** prepend styles to the head instead of appending ([#2696](https://github.com/skbkontur/retail-ui/issues/2696)) ([212ee04](https://github.com/skbkontur/retail-ui/commit/212ee047ae806a073316596c2ff696b5d08c80d2))
+
+
+
+
+
+## [3.9.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.3...@skbkontur/react-ui@3.9.4) (2021-12-27)
+
+
+### Bug Fixes
+
+* **Gapped:** correctly filter falsy childs ([#2692](https://github.com/skbkontur/retail-ui/issues/2692)) ([8e21e60](https://github.com/skbkontur/retail-ui/commit/8e21e60a7b7899945c2c101e48ede1a6e3360406))
+* **Loader:** use `forEach` from `Array` ([#2702](https://github.com/skbkontur/retail-ui/issues/2702)) ([167a07a](https://github.com/skbkontur/retail-ui/commit/167a07ac3b8057396ce292d79f5bb21b9f1c7bd6))
+* **RadioGroup:** fix types inference ([#2703](https://github.com/skbkontur/retail-ui/issues/2703)) ([4d410ab](https://github.com/skbkontur/retail-ui/commit/4d410ab8cf9d6d8b56f927e3b7efd698abf83920))
+
+
+
+
+
+## [3.9.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.2...@skbkontur/react-ui@3.9.3) (2021-12-03)
+
+
+### Bug Fixes
+
+* **Button:** disable focus in loading state ([#2661](https://github.com/skbkontur/retail-ui/issues/2661)) ([1c910c1](https://github.com/skbkontur/retail-ui/commit/1c910c16a11ba81b6799d74106c74bc2afc1fd57))
+* **Checkbox,Radio:** firing events onChange manually for Firefox ([6c19412](https://github.com/skbkontur/retail-ui/commit/6c19412b1c348666c802191ca851e4670df8edcc))
+* **CurrencyInput:** refactor Input scroll on cursor is moving ([4e2e8d1](https://github.com/skbkontur/retail-ui/commit/4e2e8d135a05025454a213b77697b419bf7e1aca))
+* **select:** add handleKey to search div ([#2660](https://github.com/skbkontur/retail-ui/issues/2660)) ([310b963](https://github.com/skbkontur/retail-ui/commit/310b963a510b134b391f6cae773a7b4940986623))
+* **SidePage:** use `isTestEnv` by default for `disableAnimations` ([b4035e8](https://github.com/skbkontur/retail-ui/commit/b4035e8d2beb0a1886ba0b6590838ac363c79210))
+
+
+
+
+
+## [3.9.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.1...@skbkontur/react-ui@3.9.2) (2021-11-26)
+
+
+### Bug Fixes
+
+* **TokenInput:** non-null assertion operator replaced with optional chaining ([#2670](https://github.com/skbkontur/retail-ui/issues/2670)) ([b7532d0](https://github.com/skbkontur/retail-ui/commit/b7532d03cea7e06277fdd2b1d827c53b1c4eaa49))
+
+
+
+
+
 ## [3.9.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.0...@skbkontur/react-ui@3.9.1) (2021-11-19)
 
 

@@ -24,13 +24,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+  public shouldComponentUpdate(nextProps: RenderContainerProps) {
     if (!this.props.children && nextProps.children) {
       this.mountContainer();
     }
     if (this.props.children && !nextProps.children) {
       this.unmountContainer();
     }
+    return true;
   }
 
   public componentWillUnmount() {

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
-import { CommonWrapper } from '../CommonWrapper';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
@@ -53,7 +52,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
         <React.Fragment>
           {anchor}
           <Portal key="portal-ref" rt_rootID={rootId} container={domContainer}>
-            <CommonWrapper {...this.props}>{children}</CommonWrapper>
+            {children}
           </Portal>
         </React.Fragment>
       );
