@@ -61,6 +61,9 @@ export interface TooltipProps extends CommonProps {
    */
   render?: Nullable<() => React.ReactNode>;
 
+  /**
+   * Значение по умолчанию: `"top left"`.
+   */
   pos: PopupPositionsType;
 
   /**
@@ -106,22 +109,6 @@ export interface TooltipProps extends CommonProps {
    * будет выходить за край экрана, то будет выбрана
    * следующая позиция. Обязательно должен включать
    * позицию указанную в `pos`
-   *
-   * ```ts
-   * type PopupPositionsType =
-   *   'right bottom',
-   * | 'right middle',
-   * | 'right top',
-   * | 'top right',
-   * | 'top center',
-   * | 'top left',
-   * | 'left top',
-   * | 'left middle',
-   * | 'left bottom',
-   * | 'bottom left',
-   * | 'bottom center',
-   * | 'bottom right'
-   * ```
    */
   allowedPositions: PopupPositionsType[];
 
