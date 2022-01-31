@@ -6,7 +6,7 @@ import { keyListener } from '../../lib/events/keyListener';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Link.styles';
@@ -38,14 +38,15 @@ type LinkInterface = {
   /**
    * @ignore
    */
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /**
    * Переводит ссылку в состояние загрузки.
    */
   loading?: boolean;
 };
 
-export type LinkProps = Override<React.AnchorHTMLAttributes<HTMLAnchorElement>, LinkInterface> & CommonProps;
+export type LinkProps = Override<React.AnchorHTMLAttributes<HTMLAnchorElement>, LinkInterface> &
+  CommonProps & { instanceRef?: unknown };
 
 const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
   'LinkFC',
@@ -54,15 +55,16 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
       disabled = false,
       href = '',
       use = 'default',
-      instanceRef,
       onClick,
       rel,
       loading,
       icon,
       children,
       tabIndex,
+      className,
       _button,
       _buttonOpened,
+      instanceRef,
       ...rest
     },
     ref,
@@ -70,8 +72,12 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
     const theme = useContext(ThemeContext);
 
     const [focusedByTab, setFocusedByTab] = useState(false);
+
     const isFocused = !disabled && focusedByTab;
     const isDisabled = disabled || loading;
+
+    const linkRel = rel ?? generateRel(href, rel);
+    const linkTabIndex = isDisabled ? -1 : tabIndex;
 
     const handleFocus = () => {
       if (!disabled) {
@@ -85,25 +91,27 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
       }
     };
 
-    const linkRel = rel ?? generateRel(href, rel);
+    const handleBlur = () => setFocusedByTab(false);
+
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (onClick) {
+        event.preventDefault();
+        onClick(event);
+      }
+    };
 
     return (
-      <CommonWrapper {...rest}>
-        <a
-          {...rest}
-          ref={ref}
-          href={href}
-          rel={linkRel}
-          onClick={(event) => {
-            if (onClick) {
-              event.preventDefault();
-              onClick(event);
-            }
-          }}
-          onFocus={handleFocus}
-          onBlur={() => setFocusedByTab(false)}
-          tabIndex={isDisabled ? -1 : tabIndex}
-          className={cx({
+      <a
+        {...rest}
+        ref={ref}
+        href={href}
+        rel={linkRel}
+        onClick={handleClick}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        tabIndex={linkTabIndex}
+        className={cx(
+          {
             [styles.root(theme)]: true,
             [styles.button(theme)]: _button,
             [styles.buttonOpened()]: _buttonOpened,
@@ -114,13 +122,14 @@ const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
             [styles.useGrayedFocus(theme)]: use === 'grayed' && isFocused,
             [styles.focus(theme)]: isFocused,
             [styles.disabled(theme)]: isDisabled,
-          })}
-        >
-          {icon && <LinkIcon loading={loading} icon={icon} />}
-          {children}
-          {_button && <LinkArrow />}
-        </a>
-      </CommonWrapper>
+          },
+          className,
+        )}
+      >
+        {icon && <LinkIcon loading={loading} icon={icon} />}
+        {children}
+        {_button && <LinkArrow />}
+      </a>
     );
   },
 );
