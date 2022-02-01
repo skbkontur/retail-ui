@@ -52,7 +52,7 @@ Simple.parameters = { creevey: { tests: linkTests } };
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   ...commonArgs,
-  children: 'Link with icon',
+  children: 'Simple Link',
   icon: <OkIcon />,
 };
 WithIcon.parameters = { creevey: { tests: linkTests } };
@@ -62,7 +62,7 @@ Danger.args = {
   ...commonArgs,
   use: 'danger',
   icon: <DeleteIcon />,
-  children: 'Danger link',
+  children: 'Simple Link',
 };
 Danger.parameters = { creevey: { tests: linkTests } };
 
@@ -70,7 +70,7 @@ export const Grayed = Template.bind({});
 Grayed.args = {
   ...commonArgs,
   use: 'grayed',
-  children: 'Grayed link',
+  children: 'Simple Link',
 };
 Grayed.parameters = { creevey: { tests: linkTests } };
 
@@ -78,7 +78,7 @@ export const Disabled = Template.bind({});
 Disabled.args = {
   ...commonArgs,
   disabled: true,
-  children: 'Disabled link',
+  children: 'Simple Link',
 };
 Disabled.parameters = { creevey: { tests: linkTests } };
 
@@ -93,7 +93,7 @@ WithOnClick.parameters = { creevey: { skip: [true] } };
 
 export const Loading: Story = () => (
   <Gapped vertical>
-    <Link loading>Loading link</Link>
+    <Link loading>Simple loading </Link>
     <div style={{ width: '300px', border: '1px solid lightgrey', padding: '5px' }}>
       {'Some long text '}
       <Link loading>loading link </Link>
