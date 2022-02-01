@@ -11,6 +11,8 @@ export function RadioGroupChildren({ items, children, inline, renderItem }: Radi
   invariant((!items && children) || (items && !children), 'Either `items` or `children` can be passed, not both');
 
   if (items) {
+    // TypeScript does not infer types for this .map call at build stage.
+    // @ts-ignore
     return items.map((item, index) => {
       const [value, data] = normalizeEntry(item);
 
