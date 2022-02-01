@@ -318,7 +318,7 @@ const IndeterminateTemplate: ComponentStory<typeof Checkbox> = ({ children, ...r
 export const Indeterminate: Story = IndeterminateTemplate.bind({});
 Indeterminate.args = {
   ...commonArgs,
-  children: 'label',
+  children: 'Label',
 };
 Indeterminate.storyName = 'indeterminate';
 
