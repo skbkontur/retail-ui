@@ -5,6 +5,9 @@ export const resetStyles = memoizeStyle({
     return css`
       background: none;
       border: none;
+      font-family: inherit;
+      font-size: inherit;
+      line-height: inherit;
     `;
   },
 });
