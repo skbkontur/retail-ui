@@ -37,6 +37,7 @@ const commonArgs = {
   loading: false,
   href: 'https://tech.skbkontur.ru/react-ui',
   use: 'default' as LinkProps['use'],
+  children: 'Simple Link',
 };
 
 const Template: ComponentStory<typeof Link> = (args) => <Link {...args} />;
@@ -44,7 +45,6 @@ const Template: ComponentStory<typeof Link> = (args) => <Link {...args} />;
 export const Simple = Template.bind({});
 Simple.args = {
   ...commonArgs,
-  children: 'Simple Link',
 };
 Simple.parameters = { creevey: { tests: linkTests } };
 
