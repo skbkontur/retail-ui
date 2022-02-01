@@ -9,6 +9,7 @@ export const styles = memoizeStyle({
       box-sizing: content-box;
       overflow: auto;
       padding: ${is8pxTheme(t) ? 0 : t.menuPaddingY} 0;
+      width: 100%;
     `;
   },
 
