@@ -12,6 +12,7 @@ import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 export default {
   title: 'components/Hint',
+  component: Hint,
   decorators: [
     (Story) => (
       <div style={{ padding: '100px 300px' }}>
@@ -105,7 +106,15 @@ Bottom.args = {
 };
 Bottom.storyName = 'bottom';
 
-export const WithLargeWord = Template.bind({});
+const WithLargeWordTemplate: ComponentStory<typeof Hint> = ({ children, ...rest }) => (
+  <div style={{ marginTop: -100 }}>
+    <Hint {...rest}>
+      <span className="hint-content">{children}</span>
+    </Hint>
+  </div>
+);
+
+export const WithLargeWord = WithLargeWordTemplate.bind({});
 WithLargeWord.args = {
   ...commonArgs,
   pos: 'bottom',
