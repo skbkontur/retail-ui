@@ -1,6 +1,5 @@
 import React from 'react';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import DeleteIcon from '@skbkontur/react-icons/Delete';
 import { ComponentStory } from '@storybook/react';
 
 import { Story, CreeveyTests, Meta } from '../../../typings/stories';
@@ -52,7 +51,6 @@ Simple.parameters = { creevey: { tests: linkTests } };
 export const WithIcon = Template.bind({});
 WithIcon.args = {
   ...commonArgs,
-  children: 'Simple Link',
   icon: <OkIcon />,
 };
 WithIcon.parameters = { creevey: { tests: linkTests } };
@@ -61,8 +59,7 @@ export const Danger = Template.bind({});
 Danger.args = {
   ...commonArgs,
   use: 'danger',
-  icon: <DeleteIcon />,
-  children: 'Simple Link',
+  icon: <OkIcon />,
 };
 Danger.parameters = { creevey: { tests: linkTests } };
 
@@ -70,7 +67,7 @@ export const Grayed = Template.bind({});
 Grayed.args = {
   ...commonArgs,
   use: 'grayed',
-  children: 'Simple Link',
+  children: 'Simple link',
 };
 Grayed.parameters = { creevey: { tests: linkTests } };
 
@@ -78,7 +75,6 @@ export const Disabled = Template.bind({});
 Disabled.args = {
   ...commonArgs,
   disabled: true,
-  children: 'Simple Link',
 };
 Disabled.parameters = { creevey: { tests: linkTests } };
 
