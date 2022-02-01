@@ -75,6 +75,7 @@ export const Disabled = Template.bind({});
 Disabled.args = {
   ...commonArgs,
   disabled: true,
+  children: 'Simple link',
 };
 Disabled.parameters = { creevey: { tests: linkTests } };
 
