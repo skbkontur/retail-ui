@@ -5,7 +5,7 @@ import { GapValue } from '../useGapValue';
 
 export type HorizontalWrapperProps = Omit<GappedProps, 'vertical' | 'verticalAlign' | 'gap'> & GapValue;
 
-export const HorizontalWrapper = forwardRef<GappedRef['element'], HorizontalWrapperProps>(
+export const HorizontalGappedWrapper = forwardRef<GappedRef['element'], HorizontalWrapperProps>(
   ({ wrap, style, gap, children, ...rest }, ref) => {
     return (
       <div ref={ref} style={{ paddingTop: wrap ? 1 : 0, ...style }} {...rest}>

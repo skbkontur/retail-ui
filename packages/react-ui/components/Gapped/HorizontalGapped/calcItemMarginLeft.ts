@@ -1,4 +1,4 @@
-import { HorizontalItemProps } from './HorizontalItem';
+import { HorizontalItemProps } from './HorizontalGappedItem';
 
 export const calcItemMarginLeft = (
   gap: HorizontalItemProps['gap'],

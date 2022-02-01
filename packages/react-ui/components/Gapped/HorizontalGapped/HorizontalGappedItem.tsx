@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { calcItemMarginLeft } from './calcItemMarginLeft';
-import { HorizontalItemsProps } from './HorizontalItems';
+import { HorizontalItemsProps } from './HorizontalGappedItems';
 
 type HorizontalItemInterface = {
   isFirst: boolean;
@@ -9,7 +9,7 @@ type HorizontalItemInterface = {
 
 export type HorizontalItemProps = HorizontalItemInterface & HorizontalItemsProps;
 
-export const HorizontalItem = ({ verticalAlign, gap, wrap, children, isFirst }: HorizontalItemProps) => {
+export const HorizontalGappedItem = ({ verticalAlign, gap, wrap, children, isFirst }: HorizontalItemProps) => {
   const leftIndent = calcItemMarginLeft(gap, wrap, isFirst);
 
   return (
