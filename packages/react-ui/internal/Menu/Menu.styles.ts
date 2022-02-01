@@ -9,6 +9,11 @@ export const styles = memoizeStyle({
       box-sizing: content-box;
       overflow: auto;
       padding: ${is8pxTheme(t) ? 0 : t.menuPaddingY} 0;
+    `;
+  },
+
+  alignRight() {
+    return css`
       flex: 1 1 100%;
     `;
   },

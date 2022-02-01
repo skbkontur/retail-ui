@@ -410,6 +410,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
+          align={this.props.menuAlign}
         >
           {search}
           {this.mapItems(

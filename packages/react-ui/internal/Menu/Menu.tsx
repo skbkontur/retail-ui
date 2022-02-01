@@ -19,6 +19,7 @@ export interface MenuProps {
   onItemClick?: () => void;
   width?: number | string;
   preventWindowScroll?: boolean;
+  align?: 'left' | 'right';
 }
 
 export interface MenuState {
@@ -113,6 +114,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       <div
         className={cx({
           [styles.root(this.theme)]: true,
+          [styles.alignRight()]: this.props.align === 'right',
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{ maxWidth: this.props.width, maxHeight: this.props.maxHeight }}
