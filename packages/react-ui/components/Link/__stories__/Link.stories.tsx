@@ -45,7 +45,7 @@ const Template: ComponentStory<typeof Link> = (args) => <Link {...args} />;
 export const Simple = Template.bind({});
 Simple.args = {
   ...commonArgs,
-  children: 'Simple link',
+  children: 'Simple Link',
 };
 Simple.parameters = { creevey: { tests: linkTests } };
 
