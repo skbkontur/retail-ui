@@ -1,6 +1,6 @@
 import React, { ReactNode, useContext } from 'react';
-import { forwardRefAndName } from 'react-ui/lib/forwardRefAndName';
 
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
