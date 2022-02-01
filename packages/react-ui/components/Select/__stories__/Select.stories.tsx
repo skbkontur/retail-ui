@@ -84,11 +84,14 @@ class SelectWithNull extends React.Component<any, any> {
 export default {
   title: 'Select',
   decorators: [
-    (Story) => (
-      <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+    (Story, context) =>
+      context.originalStoryFn !== WithAlignRight ? (
+        <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+          <Story />
+        </div>
+      ) : (
         <Story />
-      </div>
-    ),
+      ),
   ],
 } as Meta;
 
@@ -408,16 +411,34 @@ WithSearchAndVariousWidth.parameters = {
   },
 };
 
-export const WithAlignRight: Story = () => <Select menuWidth="50%" menuAlign="right" items={['one', 'two', 'three']} />;
+export const WithAlignRight: Story = () => {
+  const ref = React.useRef<Select>(null);
+  React.useEffect(() => ref.current?.open());
+
+  const widths = ['auto', '100px', '200px', '50%', '150%'];
+
+  return (
+    <div style={{ paddingLeft: 100 }}>
+      {widths.map((width) => (
+        <div key={width} style={{ marginBottom: 50 }}>
+          <Select
+            ref={(el) => {
+              el?.open();
+            }}
+            menuWidth={width}
+            menuAlign="right"
+            items={[width]}
+          />
+        </div>
+      ))}
+    </div>
+  );
+};
 WithAlignRight.parameters = {
   creevey: {
     tests: {
       async ['open']() {
-        const root = await this.browser.findElement({ css: '.dropdown-test-container' });
-        await this.browser
-          .actions()
-          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
-          .perform();
+        const root = await this.browser.findElement({ css: '#test-element' });
         await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },

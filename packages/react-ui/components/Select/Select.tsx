@@ -248,7 +248,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
    */
   public close = () => {
     if (this.state.opened) {
-      this.setState({ opened: false, searchPattern: '' });
+      // this.setState({ opened: false, searchPattern: '' });
 
       if (this.props.onClose) {
         this.props.onClose();
@@ -511,7 +511,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private select(value: TValue) {
     this.focus();
-    this.setState({ opened: false, value });
+    // this.setState({ opened: false, value });
 
     if (this.props.onValueChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
       this.props.onValueChange(value);
