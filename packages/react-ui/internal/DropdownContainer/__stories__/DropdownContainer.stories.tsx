@@ -15,6 +15,12 @@ VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, i
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
+    skip: [
+      {
+        in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'],
+        stories: VariousAlignsPortalsItemsAndScrollsStory.storyName,
+      },
+    ],
     tests: {
       async ['short Items']() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
