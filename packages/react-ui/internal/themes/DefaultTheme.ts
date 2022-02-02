@@ -28,9 +28,9 @@ export class DefaultTheme {
   public static redXxLight = '#ffddd6';
   public static red = '#dd473b';
   public static redDark = '#cb3d35';
-  public static yellowXxLight = '#ffe0c3';
-  public static yellow = '#ffa236';
-  public static yellowDark = '#ea7324';
+  public static yellowXxLight = '#ffeec2';
+  public static yellow = '#fcb73e';
+  public static yellowDark = '#ef8b17';
   public static bgDefault = '#fff';
   public static get bgSecondary() {
     return this.bgDefault;
@@ -39,7 +39,7 @@ export class DefaultTheme {
   public static errorMain = '#dd473b';
   public static errorSecondary = '#ffd6d6';
   public static errorText = '#cb3d35';
-  public static warningMain = '#ffa236';
+  public static warningMain = '#fcb73e';
   public static warningSecondary = '#fff0bc';
   public static warningText = '#d97e00';
   public static borderColorFocusLight = '#cdedff';
@@ -368,11 +368,11 @@ export class DefaultTheme {
   public static btnDangerActiveBorderColor = '#ba342e';
   public static btnDangerActiveBorderTopColor = '';
   public static btnDangerActiveShadow = 'none';
-  public static btnPayBg = '#ffa236';
-  public static btnPayHoverBg = '#ff8227';
-  public static btnPayHoverBorderColor = '#ff8227';
+  public static btnPayBg = '#fcb73e';
+  public static btnPayHoverBg = '#fda70c';
+  public static btnPayHoverBorderColor = '#fda70c';
   public static btnPayHoverBorderBottomColor = '';
-  public static btnPayBorderColor = '#ffa236';
+  public static btnPayBorderColor = '#fcb73e';
   public static btnPayBorderBottomColor = '';
   public static btnPayBgStart = 'none';
   public static btnPayBgEnd = 'none';
@@ -381,8 +381,8 @@ export class DefaultTheme {
   }
   public static btnPayHoverBgStart = 'none';
   public static btnPayHoverBgEnd = 'none';
-  public static btnPayActiveBg = '#ea7324';
-  public static btnPayActiveBorderColor = '#ea7324';
+  public static btnPayActiveBg = '#f69912';
+  public static btnPayActiveBorderColor = '#f69912';
   public static btnPayActiveBorderTopColor = '';
   public static btnPayActiveShadow = 'none';
   public static btnMenuArrowColor = '#a6a6a6';

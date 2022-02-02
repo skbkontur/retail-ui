@@ -11,6 +11,10 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static greenDark = '#538a1b';
   public static red = '#ee5042';
   public static redDark = '#dd473b';
+  public static yellowXxLight = '#ffe0c3';
+  public static yellow = '#ffa236';
+  public static yellowDark = '#ea7324';
+  public static warningMain = '#ffa236';
   public static errorMain = '#ee5042';
   public static errorText = '#ffa236';
   public static borderColorFocusLight = '#1260ae';
@@ -74,9 +78,13 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   public static btnDangerBorderColor = '#ee5042';
   public static btnDangerActiveBg = '#a92a27';
   public static btnDangerActiveBorderColor = '#a92a27';
+  public static btnPayBg = '#ffa236';
+  public static btnPayHoverBg = '#ff8227';
+  public static btnPayHoverBorderColor = '#ff8227';
   public static btnPayTextColor = '#222222';
   public static btnPayActiveBg = '#d46421';
   public static btnPayActiveBorderColor = '#d46421';
+  public static btnPayBorderColor = '#ffa236';
   //#endregion
   //#region Tooltip
   public static tooltipCloseBtnColor = 'rgba(255, 255, 255, 0.32)';
