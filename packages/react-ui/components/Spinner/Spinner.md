@@ -14,6 +14,7 @@ const reactNodeCaption = (
   <Spinner type="mini" caption="mini" />
   <Spinner type="mini" dimmed caption="mini dimmed" />
   <Spinner type="big" caption={reactNodeCaption} />
+  <Spinner type="big" caption="custom" width={8} color={'#538A1B'}/>
 </Gapped>;
 ```
 

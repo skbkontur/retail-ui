@@ -511,6 +511,16 @@ export const styles = memoizeStyle({
     `;
   },
 
+  checkedFocused(t: Theme) {
+    return css`
+      &:hover {
+        box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
+          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
+        border-color: ${t.btnBorderColorFocus};
+      }
+    `;
+  },
+
   checkedDisabled(t: Theme) {
     return css`
       box-shadow: ${t.btnCheckedDisabledShadow};
