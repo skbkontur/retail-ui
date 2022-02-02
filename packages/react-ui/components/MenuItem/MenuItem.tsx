@@ -213,4 +213,4 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = isReactUIComponent<MenuItemProps>('MenuItem');
+export const isMenuItem = isReactUIComponent('MenuItem');
