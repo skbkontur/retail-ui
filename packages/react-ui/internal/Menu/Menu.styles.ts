@@ -14,8 +14,6 @@ export const styles = memoizeStyle({
 
   alignRight() {
     return css`
-      width: 100%;
-      box-sizing: border-box;
       flex: 1 1 100%;
     `;
   },

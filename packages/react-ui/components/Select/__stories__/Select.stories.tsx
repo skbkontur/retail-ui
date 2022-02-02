@@ -85,7 +85,7 @@ export default {
   title: 'Select',
   decorators: [
     (Story, context) =>
-      context.originalStoryFn !== WithAlignRight ? (
+      context.originalStoryFn !== WithMenuAlignAndVariousWidth ? (
         <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
           <Story />
         </div>
@@ -411,22 +411,37 @@ WithSearchAndVariousWidth.parameters = {
   },
 };
 
-export const WithAlignRight: Story = () => {
+export const WithMenuAlignAndVariousWidth: Story = () => {
   const ref = React.useRef<Select>(null);
   React.useEffect(() => ref.current?.open());
 
-  const widths = ['', '100px', '200px', '50%', '150%'];
+  const widths = [undefined, '100px', '200px', '50%', 'calc(100% + 10px)', '150%'];
 
   return (
-    <div style={{ paddingLeft: 100 }}>
+    <div style={{ padding: '0 100px' }}>
       {widths.map((width) => (
-        <div key={width} style={{ marginBottom: 50 }}>
+        <div
+          key={String(width)}
+          style={{ marginBottom: 50, display: 'flex', justifyContent: 'space-between', width: 300 }}
+        >
           <Select
             ref={(el) => {
               el?.open();
             }}
+            width={140}
             menuWidth={width}
             menuAlign="right"
+            value=""
+            items={[width || 'default']}
+          />
+          <Select
+            ref={(el) => {
+              el?.open();
+            }}
+            width={140}
+            menuWidth={width}
+            menuAlign="left"
+            value=""
             items={[width || 'default']}
           />
         </div>
@@ -434,7 +449,7 @@ export const WithAlignRight: Story = () => {
     </div>
   );
 };
-WithAlignRight.parameters = {
+WithMenuAlignAndVariousWidth.parameters = {
   creevey: {
     tests: {
       async ['open']() {
