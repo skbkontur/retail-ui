@@ -28,6 +28,14 @@ export interface SpinnerProps extends CommonProps {
    * @default normal
    */
   type: SpinnerType;
+  /**
+   * Толщина спиннера
+   */
+  width?: number;
+  /**
+   * Цвет спиннера
+   */
+  color?: React.CSSProperties['color'];
 }
 
 /**
@@ -97,9 +105,19 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
-    const circleClassName = dimmed ? styles.circleDimmed(this.theme) : styles.circle(this.theme);
-
-    return <SpinnerIcon size={type} className={circleClassName} dimmed={dimmed} />;
+    return (
+      <SpinnerIcon
+        size={type}
+        className={cx({
+          [styles.circle(this.theme)]: !dimmed && !this.props.color,
+          [styles.circleDimmedColor(this.theme)]: dimmed,
+          [styles.circleWithoutColorAnimation(this.theme)]: dimmed || !!this.props.color,
+        })}
+        dimmed={dimmed}
+        width={this.props.width}
+        color={this.props.color}
+      />
+    );
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (
