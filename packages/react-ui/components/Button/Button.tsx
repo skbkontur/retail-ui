@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isComponent } from '../../lib/utils';
+import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
@@ -451,4 +451,4 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 }
 
-export const isButton = isComponent<ButtonProps>('Button');
+export const isButton = isReactUIComponent<ButtonProps>('Button');

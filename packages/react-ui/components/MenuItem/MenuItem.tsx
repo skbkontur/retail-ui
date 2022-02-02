@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isComponent, isFunction } from '../../lib/utils';
+import { isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -213,4 +213,4 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = isComponent<MenuItemProps>('MenuItem');
+export const isMenuItem = isReactUIComponent<MenuItemProps>('MenuItem');
