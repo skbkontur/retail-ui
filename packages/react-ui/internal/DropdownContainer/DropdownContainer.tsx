@@ -94,7 +94,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         priority={'DropdownContainer'}
         wrapperRef={this.ZIndexRef}
         style={style}
-        className={cx({ [styles.alignRight()]: this.props.align === 'right' })}
+        className={cx({ [styles.alignRight()]: !this.props.disablePortal && this.props.align === 'right' })}
       >
         {this.props.children}
       </ZIndex>
