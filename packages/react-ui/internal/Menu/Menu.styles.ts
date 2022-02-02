@@ -9,12 +9,13 @@ export const styles = memoizeStyle({
       box-sizing: content-box;
       overflow: auto;
       padding: ${is8pxTheme(t) ? 0 : t.menuPaddingY} 0;
-      width: 100%;
     `;
   },
 
   alignRight() {
     return css`
+      width: 100%;
+      box-sizing: border-box;
       flex: 1 1 100%;
     `;
   },

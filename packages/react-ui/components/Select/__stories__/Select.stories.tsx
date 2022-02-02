@@ -415,7 +415,7 @@ export const WithAlignRight: Story = () => {
   const ref = React.useRef<Select>(null);
   React.useEffect(() => ref.current?.open());
 
-  const widths = ['auto', '100px', '200px', '50%', '150%'];
+  const widths = ['', '100px', '200px', '50%', '150%'];
 
   return (
     <div style={{ paddingLeft: 100 }}>
@@ -427,7 +427,7 @@ export const WithAlignRight: Story = () => {
             }}
             menuWidth={width}
             menuAlign="right"
-            items={[width]}
+            items={[width || 'default']}
           />
         </div>
       ))}
