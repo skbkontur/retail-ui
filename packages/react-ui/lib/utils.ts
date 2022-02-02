@@ -1,5 +1,6 @@
 import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
 
@@ -41,8 +42,20 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: ReactComponentLike) {
-  return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
+export function isFunctionalComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
+}
+
+export function isClassComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
+}
+
+export function isIntrinsicElement(element: React.ReactElement): boolean {
+  return typeof element.type === 'string';
+}
+
+export function isRefableElement(element: React.ReactElement): boolean {
+  return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
 export function escapeRegExpSpecChars(s: string): string {
@@ -92,4 +105,25 @@ export const isReactUIComponent = <P>(name: string) => {
     // @ts-ignore
     return child?.type?.__KONTUR_REACT_UI__ === name;
   };
+};
+
+/**
+ * Extracts all data attributes from props and returns them as well as props.
+ *
+ * @param props Props object to extract data attributes from.
+ * @returns Separated data attributes and all other props.
+ */
+export const extractDataProps = <T>(props: T) => {
+  const dataProps: Record<string, any> = {};
+  const restWithoutDataProps: Record<string, any> = {};
+
+  Object.entries(props).map(([name, value]) => {
+    if (name.startsWith('data-')) {
+      dataProps[name] = value;
+    } else {
+      restWithoutDataProps[name] = value;
+    }
+  });
+
+  return { dataProps, restWithoutDataProps };
 };

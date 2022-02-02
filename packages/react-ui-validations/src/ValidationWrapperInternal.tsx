@@ -3,7 +3,7 @@ import warning from 'warning';
 
 import { Nullable } from '../typings/Types';
 
-import { isBrowser } from './utils';
+import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
 import { ReactUiDetection } from './ReactUiDetection';
