@@ -11,6 +11,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
+import { isIE11 } from '../../lib/client';
 
 export interface MenuProps {
   children: React.ReactNode;
@@ -114,12 +115,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       <div
         className={cx({
           [styles.root(this.theme)]: true,
-          [styles.alignRight()]: this.props.align === 'right',
+          [styles.alignRight()]: this.props.align === 'right' && !isIE11,
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
           maxWidth: this.props.width,
-          minWidth: this.props.width,
           maxHeight: this.props.maxHeight,
         }}
         ref={this.setRootNode}
