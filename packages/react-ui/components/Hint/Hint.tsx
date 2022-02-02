@@ -5,7 +5,7 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupPosition } from '../../internal/Popup';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps } from '../../internal/CommonWrapper';
@@ -45,23 +45,7 @@ type HintInterface = {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos?:
-    | 'top'
-    | 'right'
-    | 'bottom'
-    | 'left'
-    | 'top left'
-    | 'top center'
-    | 'top right'
-    | 'bottom left'
-    | 'bottom center'
-    | 'bottom right'
-    | 'left top'
-    | 'left middle'
-    | 'left bottom'
-    | 'right top'
-    | 'right middle'
-    | 'right bottom';
+  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -80,7 +64,7 @@ type HintInterface = {
 
 export type HintProps = HintInterface & CommonProps;
 
-const positions: PopupPosition[] = [
+const positions: PopupPositionsType[] = [
   'top center',
   'top left',
   'top right',
@@ -154,7 +138,7 @@ HintFC.propTypes = {
   manual: propTypes.bool,
   maxWidth: propTypes.oneOfType([propTypes.string, propTypes.number]),
   opened: propTypes.bool,
-  pos: propTypes.oneOf([
+  pos: propTypes.oneOf<HintProps['pos']>([
     'top',
     'right',
     'bottom',
@@ -162,16 +146,16 @@ HintFC.propTypes = {
     'top left',
     'top center',
     'top right',
-    'bottom left',
-    'bottom center',
-    'bottom right',
-    'left top',
-    'left middle',
-    'left bottom',
     'right top',
     'right middle',
     'right bottom',
-  ]),
+    'bottom right',
+    'bottom center',
+    'bottom left',
+    'left bottom',
+    'left middle',
+    'left top',
+  ]).isRequired,
   text: propTypes.node.isRequired,
   disableAnimations: propTypes.bool,
   useWrapper: propTypes.bool,

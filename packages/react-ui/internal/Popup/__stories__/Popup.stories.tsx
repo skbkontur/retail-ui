@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Popup, PopupPosition } from '../Popup';
+import { Popup, PopupPositionsType } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import { Tooltip } from '../../../components/Tooltip';
 import { ComboBox } from '../../../components/ComboBox';
@@ -187,7 +187,7 @@ class MinWidth extends React.Component {
 
 interface AlwaysOpenedProps {
   small: boolean;
-  positions: PopupPosition[];
+  positions: PopupPositionsType[];
 }
 
 interface AlwaysOpenedState {
