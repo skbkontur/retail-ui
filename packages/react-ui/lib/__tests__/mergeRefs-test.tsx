@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle } from 'react';
+import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { render } from '@testing-library/react';
 
 import { mergeRefs } from '../utils';
@@ -12,7 +12,7 @@ describe('mergeRefs', () => {
     });
 
     const funcRef = jest.fn();
-    const objRef = { current: undefined };
+    const objRef = createRef();
     const Example = ({ visible }: { visible: boolean }) => {
       if (visible) {
         return <ComponentWithImperativeMethods ref={mergeRefs([funcRef, objRef])} />;
