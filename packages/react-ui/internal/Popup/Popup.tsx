@@ -29,29 +29,7 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-const DUMMY_LOCATION: PopupLocation = {
-  position: 'top left',
-  coordinates: {
-    top: -9999,
-    left: -9999,
-  },
-};
-
-export type PopupPosition =
-  | 'top left'
-  | 'top center'
-  | 'top right'
-  | 'right top'
-  | 'right middle'
-  | 'right bottom'
-  | 'bottom left'
-  | 'bottom center'
-  | 'bottom right'
-  | 'left top'
-  | 'left middle'
-  | 'left bottom';
-
-export const PopupPositions: PopupPosition[] = [
+export const PopupPositions = [
   'top left',
   'top center',
   'top right',
@@ -64,7 +42,18 @@ export const PopupPositions: PopupPosition[] = [
   'left bottom',
   'left middle',
   'left top',
-];
+] as const;
+export const DefaultPosition = PopupPositions[0];
+
+export type PopupPositionsType = typeof PopupPositions[number];
+
+const DUMMY_LOCATION: PopupLocation = {
+  position: DefaultPosition,
+  coordinates: {
+    top: -9999,
+    left: -9999,
+  },
+};
 
 export interface PopupHandlerProps {
   onMouseEnter?: (event: MouseEventType) => void;
@@ -90,7 +79,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   pinOffset?: number;
   pinSize?: number;
   popupOffset: number;
-  positions: PopupPosition[];
+  positions: Readonly<PopupPositionsType[]>;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
@@ -116,7 +105,7 @@ interface PopupLocation {
     left: number;
     top: number;
   };
-  position: PopupPosition;
+  position: PopupPositionsType;
 }
 
 export interface PopupState {
@@ -578,7 +567,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    let position: PopupPosition;
+    let position: PopupPositionsType;
     let coordinates: Offset;
 
     if (location && location !== DUMMY_LOCATION && location.position) {

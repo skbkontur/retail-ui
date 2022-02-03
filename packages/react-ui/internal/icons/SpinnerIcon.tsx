@@ -19,6 +19,8 @@ export interface SpinnerIconProps {
   size: 'mini' | 'normal' | 'big';
   dimmed?: boolean;
   inline?: boolean;
+  width?: number;
+  color?: React.CSSProperties['color'];
 }
 
 export const sizes = {
@@ -39,7 +41,7 @@ export const sizes = {
   },
 };
 
-export const SpinnerIcon = ({ size, className, dimmed, inline }: SpinnerIconProps) => {
+export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: SpinnerIconProps) => {
   const currentSize = inline ? sizes.mini : sizes[size];
   const svgRef = React.useRef<SVGSVGElement>(null);
 
@@ -94,9 +96,10 @@ export const SpinnerIcon = ({ size, className, dimmed, inline }: SpinnerIconProp
         width={currentSize.size}
         height={currentSize.size}
         fill="none"
+        stroke={color}
         strokeDasharray={`${(10 * currentSize.radius) / 6}, ${(27 * currentSize.radius) / 6}`}
         strokeDashoffset="0"
-        strokeWidth={currentSize.width}
+        strokeWidth={width || currentSize.width}
         ref={svgRef}
       >
         <circle cx={currentSize.size / 2} cy={currentSize.size / 2} r={currentSize.radius} />

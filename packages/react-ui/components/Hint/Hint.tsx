@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { Popup, PopupPosition } from '../../internal/Popup';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -47,23 +47,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos:
-    | 'top'
-    | 'right'
-    | 'bottom'
-    | 'left'
-    | 'top left'
-    | 'top center'
-    | 'top right'
-    | 'bottom left'
-    | 'bottom center'
-    | 'bottom right'
-    | 'left top'
-    | 'left middle'
-    | 'left bottom'
-    | 'right top'
-    | 'right middle'
-    | 'right bottom';
+  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -84,7 +68,7 @@ export interface HintState {
   opened: boolean;
 }
 
-const Positions: PopupPosition[] = [
+const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
   'top right',
@@ -226,7 +210,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> {
     );
   }
 
-  private getPositions = (): PopupPosition[] => {
+  private getPositions = (): PopupPositionsType[] => {
     return Positions.filter((x) => x.startsWith(this.props.pos));
   };
 

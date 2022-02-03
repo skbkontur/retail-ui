@@ -47,3 +47,4 @@ export * from './lib/theming/themes/DefaultTheme';
 export * from './lib/theming/themes/DarkTheme';
 export * from './lib/theming/themes/DefaultTheme8pxOld';
 export * from './lib/theming/themes/FlatTheme8pxOld';
+export * from './internal/Popup/types';

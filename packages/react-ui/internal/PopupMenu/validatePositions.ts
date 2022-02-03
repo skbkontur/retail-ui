@@ -1,13 +1,11 @@
 import { isProductionEnv } from '../../lib/currentEnvironment';
-import { PopupPosition } from '../Popup';
+import { PopupPositionsType, PopupPositions } from '../Popup';
 
-import { PopupMenuPositions } from './PopupMenuPositions';
-
-const isValidPosition = (position: PopupPosition): boolean => {
-  return PopupMenuPositions.includes(position);
+const isValidPosition = (position: PopupPositionsType): boolean => {
+  return PopupPositions.includes(position);
 };
 
-export const isValidPositions = (positions: PopupPosition[]): boolean => {
+export const isValidPositions = (positions: PopupPositionsType[]): boolean => {
   return positions.every((item) => {
     if (isProductionEnv) {
       return isValidPosition(item);
