@@ -5,6 +5,7 @@ export type LayerComponentName = keyof typeof componentPriorities;
 const componentPriorities = {
   MobilePopup: 9000,
   Toast: 10000,
+  GlobalLoader: 10,
   Sidepage: 9,
   Modal: 9,
   Sticky: 7,
