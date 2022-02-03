@@ -1,6 +1,6 @@
 import React from 'react';
 
-export type PropsOf = {
+export type HTMLProps = {
   a: React.AnchorHTMLAttributes<HTMLAnchorElement>;
   abbr: React.HTMLAttributes<HTMLElement>;
   div: React.HTMLAttributes<HTMLDivElement>;
