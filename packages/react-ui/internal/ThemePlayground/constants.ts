@@ -34,6 +34,7 @@ export const VARIABLES_GROUPS = [
   { title: 'Spinner', prefix: 'spinner' },
   { title: 'Switcher', prefix: 'switcher' },
   { title: 'Legacy', prefix: 'chb slt' },
+  { title: 'GlobalLoader', prefix: 'globalLoader' },
 ];
 
 export const DEPRECATED_VARIABLES: Array<keyof Theme> = [];

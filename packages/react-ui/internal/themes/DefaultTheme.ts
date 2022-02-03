@@ -1594,6 +1594,21 @@ export class DefaultTheme {
   public static passwordInputVisibilityIconHoverColor = '#000';
   public static passwordInputVisibilityIconHoverOpacity = '1';
   //#endregion
+  //#region GlobalLoader
+  public static get globalLoaderColor() {
+    return this.blueLight;
+  }
+  public static globalLoaderHeight = '4px';
+  public static globalLoaderWidth = '100%';
+  public static globalLoaderPosition = 'fixed';
+  public static globalLoaderTop = '0';
+  public static globalLoaderLeft = '0';
+  public static globalLoaderBottom = 'auto';
+  public static globalLoaderRight = 'auto';
+  public static globalLoaderBackgroundColor = 'transparent';
+  public static globalLoaderTransitionDuration = '500'; //ms
+  public static globalLoaderSpinnerAnimationDuration = '2000'; //ms
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(DefaultTheme);
