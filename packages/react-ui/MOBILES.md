@@ -45,4 +45,4 @@ function SomeComponent(props) {
 }
 ```
 
-Как альтернативу можно использовать отдельный компонент [ResponsiveLayout](https://tech.skbkontur.ru/react-ui/#/Components/ResponsiveLayout).
+Как альтернативу можно использовать отдельный компонент [ResponsiveLayout](https://ui.gitlab-pages.kontur.host/docs/4.0/react-ui/#/Components/ResponsiveLayout).

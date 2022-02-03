@@ -4,13 +4,18 @@ import { Theme } from '../../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root() {
     return css`
-      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Lab Grotesque', Roboto, 'Helvetica Neue', Arial, sans-serif;
       font-weight: 400;
       font-size: 14px;
       padding-left: 300px;
       background: #fff;
       color: inherit;
       min-height: 100%;
+
+      @media (max-width: 600px) {
+        padding-left: 0;
+      }
+
       footer {
         position: fixed;
         top: 0;
@@ -52,6 +57,10 @@ export const styles = memoizeStyle({
       margin: 0 auto;
       max-width: 1000px;
       display: block;
+
+      @media (max-width: 600px) {
+        padding: 16px;
+      }
     `;
   },
   content() {
@@ -136,6 +145,12 @@ export const styles = memoizeStyle({
       left: 0;
       bottom: 0;
       overflow: auto;
+
+      @media (max-width: 600px) {
+        position: static;
+        width: auto;
+      }
+
       header {
         padding: 40px;
         border-bottom: medium none;
