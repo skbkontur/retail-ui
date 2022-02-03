@@ -10,6 +10,7 @@ import {
   DatePicker,
   Dropdown,
   DropdownMenu,
+  FileUploader,
   FxInput,
   Gapped,
   Group,
@@ -151,6 +152,7 @@ export const App = () => {
       <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
         <LocaleContext.Consumer>{(locale) => locale.langCode}</LocaleContext.Consumer>
       </LocaleContext.Provider>
+      <FileUploader />
     </main>
   );
 };

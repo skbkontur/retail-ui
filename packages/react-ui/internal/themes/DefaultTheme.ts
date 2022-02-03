@@ -1609,6 +1609,49 @@ export class DefaultTheme {
   public static globalLoaderTransitionDuration = '500'; //ms
   public static globalLoaderSpinnerAnimationDuration = '2000'; //ms
   //#endregion
+  //#region FileUploader
+  public static fileUploaderWidth = '362px';
+  public static fileUploaderBg = '#fff';
+  public static get fileUploaderFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static get fileUploaderLineHeight() {
+    return this.controlLineHeightSmall;
+  }
+  public static get fileUploaderTextColorDefault() {
+    return this.textColorDefault;
+  }
+  public static fileUploaderPaddingX = '7px';
+  public static get fileUploaderPaddingY() {
+    return this.controlPaddingYSmall;
+  }
+  public static fileUploaderBorderRadius = '2px';
+  public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';
+  public static get fileUploaderBorderWidth() {
+    return this.controlBorderWidth;
+  }
+  public static fileUploaderBorderStyle = 'dashed';
+  public static get fileUploaderBorderColorFocus() {
+    return this.borderColorFocus;
+  }
+  public static get fileUploaderLinkColor() {
+    return this.linkColor;
+  }
+  public static fileUploaderIconSize = '14px';
+  public static fileUploaderIconColor = '#808080';
+  public static fileUploaderIconHoverColor = '#333';
+  public static get fileUploaderBorderColorError() {
+    return this.borderColorError;
+  }
+  public static get fileUploaderBorderColorWarning() {
+    return this.borderColorWarning;
+  }
+  public static fileUploaderDisabledBg = '#f2f2f2';
+  public static fileUploaderDisabledBorderColor = '#f2f2f2';
+  public static fileUploaderDisabledTextColor = '#808080';
+  public static fileUploaderDisabledLinkColor = '#808080';
+  public static fileUploaderDisabledIconColor = '#A0A0A0';
+  //#endregion
 }
 
 export const DefaultThemeInternal = exposeGetters(DefaultTheme);

@@ -9,6 +9,7 @@ export * from './components/DateInput';
 export * from './components/DatePicker';
 export * from './components/Dropdown';
 export * from './components/DropdownMenu';
+export * from './components/FileUploader';
 export * from './components/FxInput';
 export * from './components/Gapped';
 export * from './components/Group';

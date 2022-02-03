@@ -212,6 +212,22 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   public static switcherButtonCheckedDisabledShadow = 'none';
   //#endregion
+  //#region FileUploader
+  public static fileUploaderBg = 'rgba(255, 255, 255, 0.04)';
+  public static fileUploaderTextColorDefault = '#fff';
+  public static fileUploaderBorderColor = 'rgba(255, 255, 255, 0.32)';
+  public static fileUploaderBorderColorFocus = '#1f87ef';
+  public static fileUploaderLinkColor = '#51adff';
+  public static fileUploaderIconColor = 'rgba(255, 255, 255, 0.48)';
+  public static fileUploaderIconHoverColor = 'rgba(255, 255, 255, 0.80)';
+  public static fileUploaderBorderColorError = '#ee5042';
+  public static fileUploaderBorderColorWarning = '#ffa236';
+  public static fileUploaderDisabledBg = 'rgba(255, 255, 255, 0.16)';
+  public static fileUploaderDisabledBorderColor = 'rgba(255, 255, 255, 0.32)';
+  public static fileUploaderDisabledTextColor = 'rgba(255, 255, 255, 0.32)';
+  public static fileUploaderDisabledLinkColor = 'rgba(255, 255, 255, 0.32)';
+  public static fileUploaderDisabledIconColor = 'rgba(255, 255, 255, 0.32)';
+  //#endregion
 }
 
 export const DarkThemeInternal = Object.setPrototypeOf(

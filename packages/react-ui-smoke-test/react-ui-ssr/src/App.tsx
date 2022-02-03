@@ -10,6 +10,7 @@ import {
   DatePicker,
   Dropdown,
   DropdownMenu,
+  FileUploader,
   FxInput,
   Gapped,
   Group,
@@ -152,6 +153,7 @@ export const App = () => {
           <Input />
         </ValidationWrapper>
       </ValidationContainer>
+      <FileUploader />
     </main>
   );
 };

@@ -268,6 +268,20 @@ export const darkTheme = ThemeFactory.create(
     specificityLevel: '0',
     textareaBg: 'none',
     textareaColor: 'inherit',
+    fileUploaderBg: 'rgba(255, 255, 255, 0.04)',
+    fileUploaderTextColorDefault: '#fff',
+    fileUploaderBorderColor: 'rgba(255, 255, 255, 0.32)',
+    fileUploaderBorderColorFocus: '#1f87ef',
+    fileUploaderLinkColor: '#51adff',
+    fileUploaderIconColor: 'rgba(255, 255, 255, 0.48)',
+    fileUploaderIconHoverColor: 'rgba(255, 255, 255, 0.80)',
+    fileUploaderBorderColorError: '#ee5042',
+    fileUploaderBorderColorWarning: '#ffa236',
+    fileUploaderDisabledBg: 'rgba(255, 255, 255, 0.16)',
+    fileUploaderDisabledBorderColor: 'rgba(255, 255, 255, 0.32)',
+    fileUploaderDisabledTextColor: 'rgba(255, 255, 255, 0.32)',
+    fileUploaderDisabledLinkColor: 'rgba(255, 255, 255, 0.32)',
+    fileUploaderDisabledIconColor: 'rgba(255, 255, 255, 0.32)',
 
     // react-ui-addons vars
     // live here because
