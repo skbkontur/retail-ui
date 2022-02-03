@@ -111,6 +111,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       return null;
     }
 
+    const minWidth = isIE11 && this.props.width === 'auto' ? '100%' : this.props.width;
+
     return (
       <div
         className={cx({
@@ -119,8 +121,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={{
+          minWidth,
           maxWidth: this.props.width,
-          minWidth: this.props.width,
           maxHeight: this.props.maxHeight,
         }}
         ref={this.setRootNode}
