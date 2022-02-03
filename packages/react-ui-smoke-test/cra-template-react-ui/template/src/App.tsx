@@ -10,6 +10,7 @@ import {
   DatePicker,
   Dropdown,
   DropdownMenu,
+  FileUploader,
   FxInput,
   Gapped,
   Group,
@@ -155,6 +156,7 @@ export const App = () => {
       <ThemeContext.Provider value={ThemeFactory.create(FLAT_THEME)}>
         <ThemeContext.Consumer>{theme => theme.btnFontSizeMedium}</ThemeContext.Consumer>
       </ThemeContext.Provider>
+      <FileUploader />
     </main>
   );
 };

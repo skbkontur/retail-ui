@@ -19,6 +19,7 @@ import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { FileUploader } from '../../components/FileUploader';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -78,6 +79,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           {this.renderHintsGroup()}
           {this.renderTooltip()}
           {this.renderPaging()}
+          {this.renderFileUploader()}
         </Gapped>
       </div>
     );
@@ -310,6 +312,14 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     return (
       <ComponentsGroup title={'Пейджинг'} theme={this.theme}>
         <PagingPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderFileUploader = () => {
+    return (
+      <ComponentsGroup title={'FileUploader'} theme={this.theme}>
+        <FileUploader multiple />
       </ComponentsGroup>
     );
   };
