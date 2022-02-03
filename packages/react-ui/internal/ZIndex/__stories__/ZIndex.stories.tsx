@@ -13,7 +13,7 @@ import { Tooltip } from '../../../components/Tooltip';
 import { ZIndex } from '../ZIndex';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
-import { Popup, PopupPosition } from '../../Popup';
+import { Popup, PopupPositionsType } from '../../Popup';
 import { Toast } from '../../../components/Toast';
 import { Input } from '../../../components/Input';
 import { SidePage } from '../../../components/SidePage';
@@ -120,7 +120,7 @@ interface ZSampleState {
 
 interface InputWithTooltipProps {
   text?: string;
-  pos?: PopupPosition;
+  pos?: PopupPositionsType;
 }
 
 class ZSample extends React.Component<ZSampleProps, ZSampleState> {

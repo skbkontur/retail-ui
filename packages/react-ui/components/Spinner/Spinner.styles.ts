@@ -17,10 +17,13 @@ export const styles = memoizeStyle({
         `}
     `;
   },
-  circleDimmed(t: Theme) {
+  circleDimmedColor(t: Theme) {
     return css`
       stroke: ${t.spinnerDimmedColor};
-
+    `;
+  },
+  circleWithoutColorAnimation(t: Theme) {
+    return css`
       ${!isIE11 &&
       `
           animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,

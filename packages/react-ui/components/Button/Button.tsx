@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
@@ -266,8 +267,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused && !checked,
+        [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
+        [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
@@ -466,7 +468,4 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 }
 
-export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  // @ts-ignore
-  return child?.type?.__KONTUR_REACT_UI__ === 'Button';
-};
+export const isButton = isReactUIComponent<ButtonProps>('Button');

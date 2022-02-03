@@ -613,6 +613,7 @@ OnUnexpectedInputValidation.parameters = {
           .pause(1000)
           .sendKeys('bbb')
           .sendKeys(this.keys.ENTER)
+          .pause(1000)
           .perform();
 
         await this.browser
@@ -623,6 +624,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('aaa')
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withSameValue = await this.takeScreenshot();
@@ -635,6 +637,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('zzz')
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withNotEditedToken = await this.takeScreenshot();
@@ -652,6 +655,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys('clear')
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withRemovedToken = await this.takeScreenshot();
@@ -666,6 +670,7 @@ OnUnexpectedInputValidation.parameters = {
           .sendKeys(this.keys.ENTER)
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withEditedToken = await this.takeScreenshot();
