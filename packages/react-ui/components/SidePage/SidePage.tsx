@@ -232,10 +232,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const root = this.layoutRef;
     if (root) {
       root.addEventListener('wheel', (e: WheelEvent) => {
-        if (
-          (root.scrollTop <= 0 && e.deltaY < 0) ||
-          (root.scrollTop >= root.scrollHeight - root.offsetHeight && e.deltaY > 0)
-        ) {
+        const reachedTop = root.scrollTop <= 0 && e.deltaY < 0;
+        const reachedBottom = root.scrollTop >= root.scrollHeight - root.offsetHeight && e.deltaY > 0;
+        if (reachedTop || reachedBottom) {
           window.addEventListener('wheel', this.preventDefault, { passive: false });
         } else {
           window.removeEventListener('wheel', this.preventDefault);
