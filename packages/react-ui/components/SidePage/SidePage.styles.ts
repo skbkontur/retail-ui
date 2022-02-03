@@ -337,6 +337,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  panelFixed(t: Theme) {
+    return css`
+      &:before {
+        box-shadow: ${t.sidePageFixedPanelShadow};
+      }
+    `;
+  },
+
   transitionLeft() {
     return css`
       transform: translateX(100px);

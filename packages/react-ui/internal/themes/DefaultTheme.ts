@@ -28,9 +28,9 @@ export class DefaultTheme {
   public static redXxLight = '#ffddd6';
   public static red = '#dd473b';
   public static redDark = '#cb3d35';
-  public static yellowXxLight = '#ffe0c3';
-  public static yellow = '#ffa236';
-  public static yellowDark = '#ea7324';
+  public static yellowXxLight = '#ffeec2';
+  public static yellow = '#fcb73e';
+  public static yellowDark = '#ef8b17';
   public static bgDefault = '#fff';
   public static get bgSecondary() {
     return this.bgDefault;
@@ -39,13 +39,15 @@ export class DefaultTheme {
   public static errorMain = '#dd473b';
   public static errorSecondary = '#ffd6d6';
   public static errorText = '#cb3d35';
-  public static warningMain = '#ffa236';
+  public static warningMain = '#fcb73e';
   public static warningSecondary = '#fff0bc';
   public static warningText = '#d97e00';
   public static borderColorFocusLight = '#cdedff';
   public static borderColorGrayDark = 'rgba(0, 0, 0, 0.28)';
   public static borderColorGrayLight = 'rgba(0, 0, 0, 0.16)';
-  public static borderColorDisabled = 'rgba(0, 0, 0, 0.16)';
+  public static get borderColorDisabled() {
+    return this.bgDisabled;
+  }
   public static placeholderColor = '#adadad';
   public static outlineColorFocus = '#fff';
   public static placeholderColorLight = '#cdcdcd';
@@ -366,11 +368,11 @@ export class DefaultTheme {
   public static btnDangerActiveBorderColor = '#ba342e';
   public static btnDangerActiveBorderTopColor = '';
   public static btnDangerActiveShadow = 'none';
-  public static btnPayBg = '#ffa236';
-  public static btnPayHoverBg = '#ff8227';
-  public static btnPayHoverBorderColor = '#ff8227';
+  public static btnPayBg = '#fcb73e';
+  public static btnPayHoverBg = '#fda70c';
+  public static btnPayHoverBorderColor = '#fda70c';
   public static btnPayHoverBorderBottomColor = '';
-  public static btnPayBorderColor = '#ffa236';
+  public static btnPayBorderColor = '#fcb73e';
   public static btnPayBorderBottomColor = '';
   public static btnPayBgStart = 'none';
   public static btnPayBgEnd = 'none';
@@ -379,8 +381,8 @@ export class DefaultTheme {
   }
   public static btnPayHoverBgStart = 'none';
   public static btnPayHoverBgEnd = 'none';
-  public static btnPayActiveBg = '#ea7324';
-  public static btnPayActiveBorderColor = '#ea7324';
+  public static btnPayActiveBg = '#f69912';
+  public static btnPayActiveBorderColor = '#f69912';
   public static btnPayActiveBorderTopColor = '';
   public static btnPayActiveShadow = 'none';
   public static btnMenuArrowColor = '#a6a6a6';
@@ -627,6 +629,7 @@ export class DefaultTheme {
   public static get modalFixedFooterShadow() {
     return this.fixedPanelShadow;
   }
+  public static modalFixedPanelShadow = 'none';
   public static modalFooterBg = '#ebebeb';
   public static modalAdaptiveThreshold = '425px';
   public static modalPaddingTop = '24px';
@@ -710,6 +713,7 @@ export class DefaultTheme {
   public static get sidePageFixedFooterShadow() {
     return this.fixedPanelShadow;
   }
+  public static sidePageFixedPanelShadow = 'none';
   public static mobileSidePageHeaderFontSize = '24px';
   public static mobileSidePageHeaderLineHeight = '32px';
   public static mobileSidePageHeaderPaddingBottom = '16px';
@@ -798,7 +802,7 @@ export class DefaultTheme {
     return this.bgActive;
   }
   public static get dateSelectMenuItemBgDisabled() {
-    return this.bgDefault;
+    return this.bgSecondary;
   }
   public static get dateSelectMenuItemFontActive() {
     return this.textColorInvert;
@@ -1298,9 +1302,7 @@ export class DefaultTheme {
     return this.borderColorError;
   }
   public static textareaDisabledBg = 'rgba(0, 0, 0, 0.05)';
-  public static get textareaDisabledBorderColor() {
-    return this.textareaDisabledBg;
-  }
+  public static textareaDisabledBorderColor = 'transparent';
   public static get textareaCounterColor() {
     return this.gray;
   }
@@ -1560,9 +1562,11 @@ export class DefaultTheme {
     return this.btnBorderWidth;
   }
   public static get switcherButtonDisabledBorderColor() {
-    return this.borderColorDisabled;
+    return this.btnDisabledBorderColor;
   }
-  public static switcherButtonCheckedDisabledShadow = 'none';
+  public static get switcherButtonCheckedDisabledShadow() {
+    return this.btnCheckedDisabledShadow;
+  }
   //#endregion
   //#region MobilePopup
   public static mobilePopupTopPadding = '20px';
@@ -1581,7 +1585,7 @@ export class DefaultTheme {
   //#region ScrollContainer
   public static scrollContainerScrollBarSize = '4px';
   public static scrollContainerScrollBarHoverSize = '10px';
-  public static scrollContainerScrollBarColor = '#b7b7b7';
+  public static scrollContainerScrollBarColor = 'rgba(183, 183, 183, 0.7)';
   public static scrollContainerScrollBarInvertColor = 'rgba(255, 255, 255, 0.5)';
   //#endregion
   //#region PasswordInput
@@ -1589,7 +1593,6 @@ export class DefaultTheme {
   public static passwordInputVisibilityIconOpacity = '0.6';
   public static passwordInputVisibilityIconHoverColor = '#000';
   public static passwordInputVisibilityIconHoverOpacity = '1';
-
   //#endregion
 }
 

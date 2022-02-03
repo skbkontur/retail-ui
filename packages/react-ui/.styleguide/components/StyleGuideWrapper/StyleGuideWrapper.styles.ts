@@ -78,7 +78,8 @@ export const styles = memoizeStyle({
       strong,
       pre,
       li,
-      em {
+      em,
+      summary {
         color: ${t.textColorDefault};
       }
       code {

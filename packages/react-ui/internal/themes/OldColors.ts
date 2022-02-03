@@ -101,10 +101,16 @@ export class OldColorsTheme extends (class {} as typeof DefaultThemeInternal) {
   public static modalCloseButtonColor = '#808080';
   public static modalCloseButtonHoverColor = '#333';
   public static modalFooterBg = '#e5e5e5';
+  public static get modalFixedPanelShadow() {
+    return this.fixedPanelShadow;
+  }
   //#endregion
   //#region SidePage
   public static sidePageFooterPanelBg = '#e5e5e5';
   public static sidePageBackingBg = '#333';
+  public static get sidePageFixedPanelShadow() {
+    return this.fixedPanelShadow;
+  }
   //#endregion
   //#region DateInput
   public static dateInputIconColor = '#333';
@@ -140,9 +146,21 @@ export class OldColorsTheme extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
   //#region TextArea
   public static textareaBorderTopColor = 'rgba(0, 0, 0, 0.15)';
+  public static get textareaDisabledBorderColor() {
+    return this.textareaDisabledBg;
+  }
   //#endregion
   //#region Radio
   public static radioBorderColor = 'rgba(0, 0, 0, 0.15)';
+  //#endregion
+  //#region ScrollContainer
+  public static scrollContainerScrollBarColor = '#b7b7b7';
+  //#endregion
+  //#region Switcher
+  public static get switcherButtonDisabledBorderColor() {
+    return this.borderColorDisabled;
+  }
+  public static switcherButtonCheckedDisabledShadow = 'none';
   //#endregion
 }
 

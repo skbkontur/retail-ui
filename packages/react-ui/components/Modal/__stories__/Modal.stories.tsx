@@ -787,7 +787,12 @@ export const ModalWithChildrenFromOtherComponent = () => (
   </Modal>
 );
 
-ModalWithChildrenFromOtherComponent.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
+ModalWithChildrenFromOtherComponent.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] }],
+    tests: TopMiddleBottomModalTests,
+  },
+};
 
 export const MobileModal: Story = () => {
   const [isOpen, setOpen] = useState(false);

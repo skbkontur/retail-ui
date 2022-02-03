@@ -50,10 +50,17 @@ export const styles = memoizeStyle({
     `;
   },
 
-  row(t: Theme) {
+  row() {
     return css`
       &:hover {
-        background-color: ${t.modalCloseButtonColor};
+        background-color: #f8f8f8;
+      }
+    `;
+  },
+  darkRow() {
+    return css`
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.04);
       }
     `;
   },
@@ -67,19 +74,27 @@ export const styles = memoizeStyle({
     `;
   },
 
-  invisibleRow(t: Theme) {
+  invisibleRow() {
     return css`
       padding: 0;
       height: 0;
 
       &:hover,
       &:hover ~ tr {
-        background-color: ${t.modalCloseButtonColor};
+        background-color: #f8f8f8;
       }
 
       &:hover ~ &,
       &:hover ~ & ~ tr {
         background-color: transparent;
+      }
+    `;
+  },
+  invisibleDarkRow() {
+    return css`
+      &:hover,
+      &:hover ~ tr {
+        background-color: rgba(255, 255, 255, 0.04);
       }
     `;
   },

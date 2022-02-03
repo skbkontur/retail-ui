@@ -107,9 +107,8 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
             <div className={styles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.DefaultOld}>Старая дефолтная</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.FlatOld}>Старая плоская</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.DarkOld}>Старая темная</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.DefaultOld}>Дефолтная 3.0</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.FlatOld}>Плоская 3.0</Tabs.Tab>
             </div>
           </Tabs>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>
@@ -126,8 +125,6 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
         return ThemeType.FlatOld;
       case ThemeType.DefaultOld:
         return ThemeType.DefaultOld;
-      case ThemeType.DarkOld:
-        return ThemeType.DarkOld;
       default:
         return ThemeType.Default;
     }

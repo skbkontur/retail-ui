@@ -234,7 +234,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
         {(theme) => {
           return (
             <React.Fragment>
-              <tr className={styles.invisibleRow(theme)}>
+              <tr className={cx(styles.invisibleRow(), { [styles.invisibleDarkRow()]: theme === darkVariables })}>
                 <td className={cx(styles.cell(), styles.majorCell())} rowSpan={rowSpan}>
                   <span className={styles.elementName()}>.{el}</span>
                 </td>
@@ -250,7 +250,10 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
                 return (
                   <tr
                     key={`${el}_${varName}`}
-                    className={cx(styles.row(theme), { [styles.suspiciousRow()]: hasNoVariables })}
+                    className={cx(styles.row(), {
+                      [styles.suspiciousRow()]: hasNoVariables,
+                      [styles.darkRow()]: theme === darkVariables,
+                    })}
                   >
                     <td className={styles.cell()}>
                       <VariableName

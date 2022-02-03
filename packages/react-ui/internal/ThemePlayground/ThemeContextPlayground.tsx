@@ -17,7 +17,6 @@ import { Writeable } from '../../typings/utility-types';
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
 import { Playground } from './Playground';
-import { darkTheme } from './darkTheme';
 import { ThemeType } from './constants';
 
 interface PlaygroundState {
@@ -33,14 +32,12 @@ interface Themes {
   dark: Theme;
   defaultOld: Theme;
   flatOld: Theme;
-  darkOld: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
   dark: ThemeErrorsType;
   defaultOld: ThemeErrorsType;
   flatOld: ThemeErrorsType;
-  darkOld: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -57,7 +54,6 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     { value: ThemeType.Dark, label: 'Темная' },
     { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
     { value: ThemeType.FlatOld, label: 'Старая плоская' },
-    { value: ThemeType.DarkOld, label: 'Старая темная' },
   ];
 
   constructor(props: PlaygroundProps) {
@@ -69,14 +65,12 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
       themes: {
         default: DEFAULT_THEME,
         defaultOld: DEFAULT_THEME_8PX_OLD,
-        darkOld: darkTheme,
         dark: DARK_THEME,
         flatOld: FLAT_THEME_8PX_OLD,
       },
       themesErrors: {
         default: {},
         defaultOld: {},
-        darkOld: {},
         dark: {},
         flatOld: {},
       },

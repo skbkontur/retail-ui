@@ -109,6 +109,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
                   className={cx(styles.footerContent(this.theme), {
                     [styles.footerFixed(this.theme)]: this.state.fixed,
                     [styles.panel(this.theme)]: !!this.props.panel,
+                    [styles.panelFixed(this.theme)]: !!this.props.panel && this.state.fixed,
                     [styles.mobileFooterContent(this.theme)]: this.isMobileLayout,
                   })}
                   ref={this.refContent}
