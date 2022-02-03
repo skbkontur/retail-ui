@@ -114,12 +114,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
+    this.rootRef.current?.addEventListener('wheel', this.disablePageScroll, { passive: false });
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
-    this.enablePageScroll();
+    this.rootRef.current?.removeEventListener('wheel', this.disablePageScroll);
     if (this.stackSubscription != null) {
       this.stackSubscription.remove();
     }
@@ -192,8 +193,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
           [styles.root()]: true,
         })}
         onScroll={LayoutEvents.emit}
-        onMouseLeave={this.enablePageScroll}
-        onMouseEnter={this.disablePageScroll}
         createStackingContext
         style={{
           width: width || (blockBackground ? 800 : 500),
@@ -224,27 +223,15 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private preventDefault = (e: Event) => {
-    e.preventDefault();
-  };
+  private disablePageScroll = (e: WheelEvent) => {
+    const layout = this.layoutRef;
+    if (!layout) return;
+    const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
+    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
 
-  private disablePageScroll = () => {
-    const root = this.layoutRef;
-    if (root) {
-      root.addEventListener('wheel', (e: WheelEvent) => {
-        const reachedTop = root.scrollTop <= 0 && e.deltaY < 0;
-        const reachedBottom = root.scrollTop >= root.scrollHeight - root.offsetHeight && e.deltaY > 0;
-        if (reachedTop || reachedBottom) {
-          window.addEventListener('wheel', this.preventDefault, { passive: false });
-        } else {
-          window.removeEventListener('wheel', this.preventDefault);
-        }
-      });
+    if (!this.props.blockBackground && (reachedTop || reachedBottom)) {
+      e.preventDefault();
     }
-  };
-
-  private enablePageScroll = () => {
-    window.removeEventListener('wheel', this.preventDefault);
   };
 
   private getSidePageContextProps = (): SidePageContextType => {
@@ -334,7 +321,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private requestClose = () => {
-    this.enablePageScroll();
     if (this.props.disableClose) {
       return;
     }
