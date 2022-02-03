@@ -120,6 +120,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         })}
         style={{
           maxWidth: this.props.width,
+          minWidth: this.props.width,
           maxHeight: this.props.maxHeight,
         }}
         ref={this.setRootNode}
