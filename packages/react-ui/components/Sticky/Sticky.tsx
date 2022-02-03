@@ -154,7 +154,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
+    const fixed = side === 'top' ? top < offset : Math.floor(bottom) > windowHeight - offset;
 
     this.setState({ fixed, left });
 

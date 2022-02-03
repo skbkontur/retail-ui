@@ -26,6 +26,8 @@ export const styles = memoizeStyle({
       color: ${t.tooltipTextColor};
       padding: ${t.tooltipPaddingY} ${t.tooltipPaddingX};
       position: relative;
+      font-size: ${t.tooltipFontSize};
+      line-height: ${t.tooltipLineHeight};
     `;
   },
 });

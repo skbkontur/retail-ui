@@ -3,6 +3,9 @@ import { Theme } from '../../lib/theming/Theme';
 import { shift } from '../../lib/styles/DimensionFunctions';
 import { resetText } from '../../lib/styles/Mixins';
 
+const shouldCompensateFontFamily = (fontFamilyCompensation: string): boolean =>
+  Boolean(parseInt(fontFamilyCompensation));
+
 export const styles = memoizeStyle({
   wrapper() {
     return css`
@@ -239,8 +242,14 @@ export const styles = memoizeStyle({
 
   sizeSmallFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.inputPaddingYSmall, '-1')};
-      padding-bottom: ${shift(t.inputPaddingYSmall, '1')};
+      padding-top: ${shift(
+        t.inputPaddingYSmall,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
+      )};
+      padding-bottom: ${shift(
+        t.inputPaddingYSmall,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
+      )};
       padding-left: ${t.inputPaddingXSmall};
       padding-right: ${t.inputPaddingXSmall};
       line-height: normal;
@@ -262,8 +271,14 @@ export const styles = memoizeStyle({
 
   sizeMediumFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.inputPaddingYMedium, '-1')};
-      padding-bottom: ${shift(t.inputPaddingYMedium, '1')};
+      padding-top: ${shift(
+        t.inputPaddingYMedium,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
+      )};
+      padding-bottom: ${shift(
+        t.inputPaddingYMedium,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
+      )};
       padding-left: ${t.inputPaddingXMedium};
       padding-right: ${t.inputPaddingXMedium};
       line-height: normal;
@@ -275,8 +290,14 @@ export const styles = memoizeStyle({
       font-size: ${t.inputFontSizeLarge};
       line-height: ${t.inputLineHeightLarge};
       height: ${t.inputHeightLarge};
-      padding-top: ${shift(t.inputPaddingYLarge, '-1')};
-      padding-bottom: ${shift(t.inputPaddingYLarge, '1')};
+      padding-top: ${shift(
+        t.inputPaddingYLarge,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-1' : '0',
+      )};
+      padding-bottom: ${shift(
+        t.inputPaddingYLarge,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '1' : '0',
+      )};
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
       border-radius: ${t.inputBorderRadiusLarge};
@@ -285,8 +306,14 @@ export const styles = memoizeStyle({
 
   sizeLargeFallback(t: Theme) {
     return css`
-      padding-top: ${shift(t.inputPaddingYLarge, '-2')};
-      padding-bottom: ${shift(t.inputPaddingYLarge, '2')};
+      padding-top: ${shift(
+        t.inputPaddingYLarge,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '-2' : '0',
+      )};
+      padding-bottom: ${shift(
+        t.inputPaddingYLarge,
+        shouldCompensateFontFamily(t.fontFamilyCompensationBaseline) ? '2' : '0',
+      )};
       padding-left: ${t.inputPaddingXLarge};
       padding-right: ${t.inputPaddingXLarge};
       line-height: normal;

@@ -271,6 +271,9 @@ describe('Tooltip', () => {
 
   it('clears hoverTimeout timer after unmount', () => {
     jest.useFakeTimers();
+    jest.spyOn(window, 'setTimeout');
+    jest.spyOn(window, 'clearTimeout');
+
     const wrapper = mount<Tooltip, TooltipProps, TooltipState>(
       <Tooltip disableAnimations={true} render={() => <div />}>
         <Button>Anchor</Button>
@@ -278,7 +281,8 @@ describe('Tooltip', () => {
     );
     const instance = wrapper.instance();
     // @ts-ignore: private property
-    const timer = (instance.hoverTimeout = setTimeout());
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    const timer = (instance.hoverTimeout = setTimeout(() => {}));
 
     wrapper.unmount();
 

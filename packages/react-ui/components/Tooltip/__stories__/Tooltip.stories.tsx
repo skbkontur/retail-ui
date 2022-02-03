@@ -272,7 +272,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
 
 TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px'] }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'] }],
     tests: {
       async hover() {
         await this.browser
@@ -477,7 +477,7 @@ DynamicTriggersStory.storyName = 'dynamic triggers';
 DynamicTriggersStory.parameters = {
   creevey: {
     captureElement: '[data-comp-name~="TestTooltip"]',
-    skip: [{ in: ['ie11', 'ie118px'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
     tests: {
       async ['without trigger']() {
         await delay(100);

@@ -173,7 +173,7 @@ class CustomClassComponent extends React.Component<{}, {}> {
   private setRootNode!: TSetRootNode;
 
   render() {
-    return <div ref={this.setRootNode}>children text</div>;
+    return <div ref={this.setRootNode}>Ich Liebe dich</div>;
   }
 }
 export const withClassChildren = () => (

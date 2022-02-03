@@ -17,7 +17,7 @@ var divStyle = {
   width: 200,
 };
 var absStyle = {
-  border: '1px solid #000',
+  border: '1px solid',
   boxSizing: 'border-box',
   position: 'absolute',
   width: '100%',
@@ -72,7 +72,7 @@ var divStyle = {
   width: 200,
 };
 var absStyle = {
-  border: '1px solid #000',
+  border: '1px solid',
   boxSizing: 'border-box',
   position: 'absolute',
   width: '100%',

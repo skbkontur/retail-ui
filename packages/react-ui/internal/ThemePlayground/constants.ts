@@ -2,7 +2,6 @@ import { Theme } from '../../lib/theming/Theme';
 
 export enum ThemeType {
   Default = 'default',
-  Flat = 'flat',
   Dark = 'dark',
   DefaultOld = 'defaultOld',
   FlatOld = 'flatOld',
