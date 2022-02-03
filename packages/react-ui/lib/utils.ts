@@ -94,6 +94,20 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
 };
 
 /**
+ * Creates a function that checks if the given `child`
+ * is an instance of some component specified by `name`.
+ *
+ * @param name Component name for which function will be created.
+ * @returns A function that checks if the given `child` is an instance of the component specified by `name`.
+ */
+export const isReactUIComponent = <P = any>(name: string) => {
+  return (child: React.ReactNode): child is React.ReactElement<P> => {
+    // @ts-ignore
+    return child?.type?.__KONTUR_REACT_UI__ === name;
+  };
+};
+
+/**
  * Merges two or more refs into one.
  *
  * @param refs Array of refs.
