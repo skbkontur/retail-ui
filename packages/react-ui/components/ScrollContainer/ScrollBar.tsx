@@ -235,8 +235,10 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     if (!this.inner || this.inner[pos] === 0) {
       return 'begin';
     }
-
-    if (this.inner[pos] === this.inner[size] - this.inner[clientSize]) {
+    // Zoom in Chrome causes problems
+    // https://github.com/skbkontur/retail-ui/pull/2705#issue-806286945
+    const maxScrollPos = this.inner[size] - this.inner[clientSize];
+    if (Math.abs(maxScrollPos - this.inner[pos]) <= 1) {
       return 'end';
     }
 
