@@ -6,7 +6,6 @@ import { TextWidthHelper } from '../../../internal/TextWidthHelper/TextWidthHelp
 import { truncate } from '../../../lib/stringUtils';
 import { Spinner } from '../../../components/Spinner';
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
-import { Tooltip } from '../../../components/Tooltip';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
@@ -14,12 +13,15 @@ import { keyListener } from '../../../lib/events/keyListener';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
+import { Tooltip } from '../../../components/Tooltip';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
+  /** Состояние ошибки контрола файла */
+  error?: boolean;
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
@@ -38,7 +40,7 @@ const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, n
 };
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
-  const { file, showSize } = props;
+  const { file, showSize, error } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size } = originalFile;
 
@@ -78,11 +80,17 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   const { isValid, message } = validationResult;
 
+  const isInvalid = error || !isValid;
+
   const icon: ReactNode = useMemo(() => {
     const deleteIcon = <DeleteIcon className={jsStyles.deleteIcon(theme)} />;
 
     if (hovered || focusedByTab) {
       return deleteIcon;
+    }
+
+    if (isInvalid) {
+      return <ErrorIcon />;
     }
 
     switch (status) {
@@ -91,19 +99,16 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
       case FileUploaderFileStatus.Uploaded:
         return <OkIcon color={theme.fileUploaderIconColor} />;
       default:
-        if (!isValid) {
-          return <ErrorIcon />;
-        }
         return deleteIcon;
     }
-  }, [hovered, status, isValid, theme, focusedByTab]);
+  }, [hovered, status, isInvalid, theme, focusedByTab]);
 
   const renderTooltipContent = useCallback((): ReactNode => {
-    return isValid ? null : message;
-  }, [isValid, message]);
+    return !isValid && !error && message ? message : null;
+  }, [isValid, error, message]);
 
   const contentClassNames = cx(jsStyles.content(), {
-    [jsStyles.error(theme)]: !isValid,
+    [jsStyles.error(theme)]: isInvalid,
   });
 
   const handleMouseEnter = useCallback(() => {

@@ -4,11 +4,9 @@ import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUp
 import { cx } from '../../lib/theming/Emotion';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
-import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
 import { useUpload } from '../../internal/FileUploaderControl/hooks/useUpload';
 import { useDrop } from '../../hooks/useDrop';
-import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { UploadIcon } from '../../internal/icons/16px';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
@@ -18,6 +16,8 @@ import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploade
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { Nullable } from '../../typings/utility-types';
+import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -28,9 +28,10 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
   error?: boolean;
   /** Состояние предупреждения всего контрола */
   warning?: boolean;
-
   /** Свойство ширины. */
   width?: React.CSSProperties['width'];
+  /** Свойство, скрывающее отображение файлов.  */
+  hideFiles?: boolean;
 
   /** Функция, через которую отправляем файлы. Используется для отслеживания статуса загрузки файла. */
   request?: (file: FileUploaderAttachedFile) => Promise<void>;
@@ -39,8 +40,18 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
   /** Срабатывает при неудачной попытке отправки через request */
   onRequestError?: (fileId: string) => void;
 
-  /** Функция валидации каждого файла. Срабатывает после выбора файлов и перед попыткой отправить в request. */
-  getFileValidationText?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
+  /**
+   * Функция валидации каждого файла.
+   * Срабатывает после выбора файлов и перед попыткой отправить в request.
+   * Чтобы вывести валидацию ошибки, промис должен вернуть строку.
+   * */
+  validateBeforeUpload?: (file: FileUploaderAttachedFile) => Promise<Nullable<string>>;
+
+  /**
+   * Функция, позволяющая кастомизировать файлы.
+   * Через нее можно вешать кастомные валидации на каждый файл.
+   * */
+  renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
 export interface FileUploaderRef {
@@ -49,6 +60,8 @@ export interface FileUploaderRef {
   /** Сбрасывает выбранные файлы */
   reset: () => void;
 }
+
+const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
   const theme = useContext(ThemeContext);
@@ -59,17 +72,19 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     warning,
     multiple = false,
     width = theme.fileUploaderWidth,
+    hideFiles = false,
     onBlur,
     onFocus,
     onChange,
     request,
-    getFileValidationText,
+    validateBeforeUpload,
     onRequestSuccess,
     onRequestError,
+    renderFile = defaultRenderFile,
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, setFileValidationResult, reset } = useContext(FileUploaderControlContext);
+  const { files, setFiles, removeFile, reset, setFileValidationResult } = useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
 
@@ -83,7 +98,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const tryValidateAndUpload = useCallback(
     (files: FileUploaderAttachedFile[]) => {
       files.forEach(async (file) => {
-        const validationMessage = getFileValidationText && (await getFileValidationText(file));
+        const validationMessage = validateBeforeUpload && (await validateBeforeUpload(file));
 
         if (!validationMessage) {
           isAsync && upload(file);
@@ -92,7 +107,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
         }
       });
     },
-    [upload, error, getFileValidationText, isAsync],
+    [upload, validateBeforeUpload, isAsync],
   );
 
   /** common part **/
@@ -198,7 +213,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   });
 
   const hasOneFile = files.length === 1;
-  const hasOneFileForSingle = isSingleMode && hasOneFile;
+  const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
 
   const [hovered, setHovered] = useState(false);
 
@@ -210,7 +225,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   return (
     <CommonWrapper {...props}>
       <div className={jsStyles.root(theme)} style={useMemoObject({ width })}>
-        {!isSingleMode && !!files.length && <FileUploaderFileList />}
+        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} />}
         <div className={uploadButtonWrapperClassNames}>
           <label
             onMouseEnter={() => setHovered(true)}
@@ -218,14 +233,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div className={jsStyles.content()}>
+            <div data-tid={'FileUploader__content'} className={jsStyles.content()}>
               <span data-tid={'FileUploader__link'} className={linkClassNames}>
                 {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
               </span>
               &nbsp;
               <div className={jsStyles.afterLinkText()}>
                 {hasOneFileForSingle ? (
-                  <FileUploaderFile file={files[0]} />
+                  <div className={jsStyles.singleFile()}>
+                    {renderFile(files[0], <FileUploaderFile file={files[0]} />)}
+                  </div>
                 ) : (
                   <>
                     {locale.orDragHere}&nbsp;

@@ -5,8 +5,8 @@ import { useEffectWithoutInitCall } from '../../hooks/useEffectWithoutInitCall';
 
 import { FileUploaderAttachedFile, FileUploaderFileStatus } from './fileUtils';
 import { FileUploaderControlContext } from './FileUploaderControlContext';
-import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 import { useControlLocale } from './hooks/useControlLocale';
+import { FileUploaderFileValidationResult } from './FileUploaderFileValidationResult';
 
 export interface FileUploaderControlProviderProps {
   /** Срабатывает при выборе файлов */
