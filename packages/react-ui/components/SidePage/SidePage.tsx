@@ -114,11 +114,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
+    this.rootRef.current?.addEventListener('wheel', this.disablePageScroll, { passive: false });
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
+    this.rootRef.current?.removeEventListener('wheel', this.disablePageScroll);
     if (this.stackSubscription != null) {
       this.stackSubscription.remove();
     }
@@ -220,6 +222,17 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       </ZIndex>
     );
   }
+
+  private disablePageScroll = (e: WheelEvent) => {
+    const layout = this.layoutRef;
+    if (!layout) return;
+    const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
+    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
+
+    if (!this.props.blockBackground && (reachedTop || reachedBottom)) {
+      e.preventDefault();
+    }
+  };
 
   private getSidePageContextProps = (): SidePageContextType => {
     return {
