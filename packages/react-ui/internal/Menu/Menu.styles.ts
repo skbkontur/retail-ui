@@ -18,9 +18,16 @@ export const styles = memoizeStyle({
     `;
   },
 
-  alignRightIE11(t: Theme) {
+  alignRightIE11() {
     return css`
       flex: 1 0 0;
+    `;
+  },
+
+  alignRightIE11DefaultWidth() {
+    return css`
+      box-sizing: border-box;
+      overflow: hidden;
     `;
   },
 

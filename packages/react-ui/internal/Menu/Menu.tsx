@@ -33,7 +33,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   public static defaultProps = {
     align: 'left',
-    width: 'auto',
+    width: !isIE11 ? 'auto' : '100%',
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
@@ -112,29 +112,31 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       return null;
     }
 
-    const minWidth = isIE11 && this.props.width === 'auto' ? '100%' : this.props.width;
     const style: CSSProperties =
       this.props.align === 'right'
         ? {
             maxWidth: this.props.width,
-            minWidth: minWidth,
+            minWidth: this.props.width,
             maxHeight: this.props.maxHeight,
           }
         : {
             width: this.props.width,
             maxHeight: this.props.maxHeight,
           };
-    if (isIE11 && this.props.width === 'auto' && this.props.align === 'right') {
-      style.boxSizing = 'border-box';
-      style.overflow = 'hidden';
-    }
+
+    const alignRightClass =
+      this.props.align === 'right'
+        ? cx({
+            [styles.alignRight()]: !isIE11,
+            [styles.alignRightIE11()]: isIE11,
+            [styles.alignRightIE11DefaultWidth()]: isIE11 && this.props.width === Menu.defaultProps.width,
+          })
+        : '';
 
     return (
       <div
-        className={cx({
+        className={cx(alignRightClass, {
           [styles.root(this.theme)]: true,
-          [styles.alignRight()]: this.props.align === 'right' && !isIE11,
-          [styles.alignRightIE11(this.theme)]: this.props.align === 'right' && isIE11,
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
         style={style}
