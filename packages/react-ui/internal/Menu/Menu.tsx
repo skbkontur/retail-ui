@@ -8,10 +8,10 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
-import { isIE11 } from '../../lib/client';
 
 export interface MenuProps {
   children: React.ReactNode;
