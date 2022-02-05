@@ -18,6 +18,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  alignRightIE11(t: Theme) {
+    return css`
+      flex: 1 0 0;
+    `;
+  },
+
   scrollContainer(t: Theme) {
     return css`
       padding: ${is8pxTheme(t) ? t.menuPaddingY : 0} 0;

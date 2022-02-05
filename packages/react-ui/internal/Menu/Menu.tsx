@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -32,6 +32,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
   public static defaultProps = {
+    align: 'left',
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -112,19 +113,30 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     }
 
     const minWidth = isIE11 && this.props.width === 'auto' ? '100%' : this.props.width;
+    const style: CSSProperties =
+      this.props.align === 'right'
+        ? {
+            maxWidth: this.props.width,
+            minWidth: minWidth,
+            maxHeight: this.props.maxHeight,
+          }
+        : {
+            width: this.props.width,
+            maxHeight: this.props.maxHeight,
+          };
+    if (isIE11 && this.props.width === 'auto') {
+      style.boxSizing = 'border-box';
+    }
 
     return (
       <div
         className={cx({
           [styles.root(this.theme)]: true,
           [styles.alignRight()]: this.props.align === 'right' && !isIE11,
+          [styles.alignRightIE11(this.theme)]: this.props.align === 'right' && isIE11,
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
-        style={{
-          minWidth,
-          maxWidth: this.props.width,
-          maxHeight: this.props.maxHeight,
-        }}
+        style={style}
         ref={this.setRootNode}
       >
         <ScrollContainer
