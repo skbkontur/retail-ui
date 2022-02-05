@@ -124,8 +124,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
             width: this.props.width,
             maxHeight: this.props.maxHeight,
           };
-    if (isIE11 && this.props.width === 'auto') {
+    if (isIE11 && this.props.width === 'auto' && this.props.align === 'right') {
       style.boxSizing = 'border-box';
+      style.overflow = 'hidden';
     }
 
     return (
