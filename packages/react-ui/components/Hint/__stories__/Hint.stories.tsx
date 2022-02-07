@@ -1,7 +1,8 @@
 import React from 'react';
+import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
-import { Hint } from '../Hint';
+import { DEFAULT_MAX_WIDTH, DEFAULT_POSITION, Hint, HintProps } from '../Hint';
 import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { PopupPositions } from '../../../internal/Popup';
@@ -10,7 +11,8 @@ import { delay } from '../../../lib/utils';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
 export default {
-  title: 'Hint',
+  title: 'components/Hint',
+  component: Hint,
   decorators: [
     (Story) => (
       <div style={{ padding: '100px 300px' }}>
@@ -18,9 +20,28 @@ export default {
       </div>
     ),
   ],
+  argTypes: {
+    pos: { control: 'select', options: PopupPositions },
+  },
 } as Meta;
 
-export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
+const PlaygroundTemplate: ComponentStory<typeof Hint> = (args) => <Hint {...args} />;
+
+const commonArgs = {
+  pos: DEFAULT_POSITION as HintProps['pos'],
+  manual: false,
+  opened: false,
+  maxWidth: DEFAULT_MAX_WIDTH,
+  disableAnimations: false,
+  useWrapper: false,
+};
+
+export const Playground = PlaygroundTemplate.bind({});
+Playground.args = {
+  ...commonArgs,
+  text: 'hello',
+  children: 'Plain hint with knobs',
+};
 Playground.storyName = 'playground';
 Playground.parameters = { creevey: { skip: [true] } };
 
@@ -36,50 +57,76 @@ export const TooMuchHints = () => (
 TooMuchHints.storyName = 'too much hints';
 TooMuchHints.parameters = { creevey: { skip: [true] } };
 
-export const Default = () => (
-  <Hint text="Something will never be changed" manual opened>
-    <span className="hint-content">Ich Liebe dich</span>
+const Template: ComponentStory<typeof Hint> = ({ children, ...rest }) => (
+  <Hint {...rest}>
+    <span className="hint-content">{children}</span>
   </Hint>
 );
+
+export const Default = Template.bind({});
+Default.args = {
+  ...commonArgs,
+  text: 'Something will never be changed',
+  children: 'Ich Liebe dich',
+  manual: true,
+  opened: true,
+};
 Default.storyName = 'default';
 
-export const Left = () => (
-  <Hint pos="left" text="Something will never be changed" manual opened>
-    <span className="hint-content">Je t&apos;aime</span>
-  </Hint>
-);
+export const Left = Template.bind({});
+Left.args = {
+  ...commonArgs,
+  pos: 'left',
+  text: 'Something will never be changed',
+  children: <span>Je t&apos;aime</span>,
+  manual: true,
+  opened: true,
+};
 Left.storyName = 'left';
 
-export const Right = () => (
-  <Hint pos="right" text="Something will never be changed" manual opened>
-    <span className="hint-content">Ti voglio bene</span>
-  </Hint>
-);
+export const Right = Template.bind({});
+Right.args = {
+  ...commonArgs,
+  pos: 'right',
+  text: 'Something will never be changed',
+  children: 'Ti voglio bene',
+  manual: true,
+  opened: true,
+};
 Right.storyName = 'right';
 
-export const Bottom = () => (
-  <Hint pos="bottom" text="Something will never be changed" manual opened>
-    <span className="hint-content">Te amo</span>
-  </Hint>
-);
+export const Bottom = Template.bind({});
+Bottom.args = {
+  ...commonArgs,
+  pos: 'bottom',
+  text: 'Something will never be changed',
+  children: 'Te amo',
+  manual: true,
+  opened: true,
+};
 Bottom.storyName = 'bottom';
 
-export const WithLargeWord = () => (
+const WithLargeWordTemplate: ComponentStory<typeof Hint> = ({ children, ...rest }) => (
   <div style={{ marginTop: -100 }}>
-    <Hint
-      pos="bottom"
-      manual
-      opened
-      text="Используется на элементах, которые не вмещают полноеназваниеилитребуютнебольшогопояснения. Например: панель действий, иконки без текста, сокращенные слишком длинные..."
-    >
-      <span className="hint-content">Там длинное слово</span>
+    <Hint {...rest}>
+      <span className="hint-content">{children}</span>
     </Hint>
   </div>
 );
+
+export const WithLargeWord = WithLargeWordTemplate.bind({});
+WithLargeWord.args = {
+  ...commonArgs,
+  pos: 'bottom',
+  text: 'Используется на элементах, которые не вмещают полноеназваниеилитребуютнебольшогопояснения. Например: панель действий, иконки без текста, сокращенные слишком длинные...',
+  children: 'Там длинное слово',
+  manual: true,
+  opened: true,
+};
 WithLargeWord.storyName = 'with large word';
 
-export const WithBlockElement = () => (
-  <Hint pos="right" text="Something will never be changed" manual opened>
+const BlockTemplate: ComponentStory<typeof Hint> = ({ children, ...rest }) => (
+  <Hint {...rest}>
     <div
       className="hint-content"
       style={{
@@ -87,19 +134,36 @@ export const WithBlockElement = () => (
         border: '1px solid',
       }}
     >
-      <span>Ti voglio bene</span>
+      <span>{children}</span>
     </div>
   </Hint>
 );
+export const WithBlockElement = BlockTemplate.bind({});
+WithBlockElement.args = {
+  ...commonArgs,
+  pos: 'right',
+  text: 'Something will never be changed',
+  children: 'Ti voglio bene',
+  manual: true,
+  opened: true,
+};
 WithBlockElement.storyName = 'with block-element';
 
-export const With100WidthInput = () => (
+const InputTemplate: ComponentStory<typeof Hint> = (args) => (
   <span style={{ width: '400px', display: 'inline-block' }}>
-    <Hint pos="top" text="Something will never be changed" manual opened>
+    <Hint {...args}>
       <Input width="100%" />
     </Hint>
   </span>
 );
+export const With100WidthInput = InputTemplate.bind({});
+With100WidthInput.args = {
+  ...commonArgs,
+  pos: 'top',
+  text: 'Something will never be changed',
+  manual: true,
+  opened: true,
+};
 With100WidthInput.storyName = 'with 100%-width input';
 
 export const HintWithoutAnimations = () => (
@@ -176,11 +240,19 @@ class CustomClassComponent extends React.Component<{}, {}> {
     return <div ref={this.setRootNode}>children text</div>;
   }
 }
-export const withClassChildren = () => (
+const ClassTemplate: ComponentStory<typeof Hint> = (args) => (
   <React.StrictMode>
-    <Hint pos="top" text="Something will never be changed" manual opened>
+    <Hint {...args}>
       <CustomClassComponent />
     </Hint>
   </React.StrictMode>
 );
+export const withClassChildren = ClassTemplate.bind({});
+withClassChildren.args = {
+  ...commonArgs,
+  pos: 'top',
+  text: 'Something will never be changed',
+  manual: true,
+  opened: true,
+};
 withClassChildren.storyName = 'with class children';
