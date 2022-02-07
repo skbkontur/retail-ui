@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Center } from '../Center';
 
 describe('Center', () => {
   it('should render children', () => {
-    const { getByText } = render(<Center>children</Center>);
+    render(<Center>children</Center>);
 
-    getByText('children');
+    expect(screen.getByText('children')).toBeInTheDocument();
   });
 });
