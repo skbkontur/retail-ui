@@ -1,60 +1,51 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 
 import { MenuItem } from '../MenuItem';
 
 describe('MenuItem', () => {
-  it('has button', () => {
-    const children = 'children';
+  it('should have button', () => {
+    render(<MenuItem>children</MenuItem>);
 
-    const { getByRole } = render(<MenuItem>{children}</MenuItem>);
-
-    getByRole('button', { name: children });
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('has disabled button', () => {
-    const { getByRole } = render(<MenuItem disabled>children</MenuItem>);
+  it('should have disabled button', () => {
+    render(<MenuItem disabled>children</MenuItem>);
 
-    const button = getByRole('button');
-    expect(button).toBeDisabled();
+    expect(screen.getByRole('button')).toBeDisabled();
   });
 
-  it('has an interactive link', () => {
-    const children = 'children';
+  it('should have an interactive link', () => {
+    render(<MenuItem href="#">children</MenuItem>);
 
-    const { getByRole } = render(<MenuItem href="#">{children}</MenuItem>);
-
-    getByRole('link', { name: children });
+    expect(screen.getByRole('link')).toBeInTheDocument();
   });
 
   it('should have result of children function', () => {
-    const state = 'hover';
+    render(<MenuItem state={'hover'}>{(state) => state}</MenuItem>);
 
-    const { getByRole } = render(<MenuItem state={state}>{(state) => state}</MenuItem>);
-
-    getByRole('button', { name: state });
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('should render passed component', () => {
-    const href = 'http:test.href';
-
     const Link = ({ to }: { to: string }) => <button aria-label={to}>{to}</button>;
     const Component = ({ href }: { href: string }) => <Link to={href} />;
-    const { getByRole } = render(
-      <MenuItem href={href} component={Component}>
+    render(
+      <MenuItem href="http:test.href" component={Component}>
         Testing component
       </MenuItem>,
     );
 
-    getByRole('button', { name: href });
+    expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
   it('should render comment', () => {
     const comment = 'comment';
 
-    const { getByText } = render(<MenuItem comment={comment}>children</MenuItem>);
+    render(<MenuItem comment={comment}>children</MenuItem>);
 
-    getByText(comment);
+    expect(screen.getByText(comment)).toBeInTheDocument();
   });
 });
