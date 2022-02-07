@@ -1,5 +1,6 @@
 import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
 
@@ -41,8 +42,20 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: ReactComponentLike) {
-  return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
+export function isFunctionalComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
+}
+
+export function isClassComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
+}
+
+export function isIntrinsicElement(element: React.ReactElement): boolean {
+  return typeof element.type === 'string';
+}
+
+export function isRefableElement(element: React.ReactElement): boolean {
+  return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
 export function escapeRegExpSpecChars(s: string): string {
@@ -78,4 +91,64 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
  */
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
+};
+
+/**
+ * Creates a function that checks if the given `child`
+ * is an instance of some component specified by `name`.
+ *
+ * @param name Component name for which function will be created.
+ * @returns A function that checks if the given `child` is an instance of the component specified by `name`.
+ */
+export const isReactUIComponent = <P = any>(name: string) => {
+  return (child: React.ReactNode): child is React.ReactElement<P> => {
+    // @ts-ignore
+    return child?.type?.__KONTUR_REACT_UI__ === name;
+  };
+};
+
+/**
+ * Merges two or more refs into one.
+ *
+ * @param refs Array of refs.
+ * @returns A single ref composing all the refs passed.
+ *
+ * @example
+ * const SomeComponent = forwardRef((props, ref) => {
+ *  const localRef = useRef();
+ *
+ *  return <div ref={mergeRefs([localRef, ref])} />;
+ * });
+ */
+export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        return ref(value);
+      } else if (isNonNullable(ref)) {
+        return ((ref as React.MutableRefObject<T | null>).current = value);
+      }
+    });
+  };
+}
+
+/**
+ * Extracts all data attributes from props and returns them as well as props.
+ *
+ * @param props Props object to extract data attributes from.
+ * @returns Separated data attributes and all other props.
+ */
+export const extractDataProps = <T>(props: T) => {
+  const dataProps: Record<string, any> = {};
+  const restWithoutDataProps: Record<string, any> = {};
+
+  Object.entries(props).map(([name, value]) => {
+    if (name.startsWith('data-')) {
+      dataProps[name] = value;
+    } else {
+      restWithoutDataProps[name] = value;
+    }
+  });
+
+  return { dataProps, restWithoutDataProps };
 };

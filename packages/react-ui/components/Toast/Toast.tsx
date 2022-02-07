@@ -51,6 +51,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   public _toast: Nullable<ToastView>;
   private _timeout: Nullable<number> = null;
+  private rootRef = React.createRef<HTMLElement>();
 
   constructor(props: ToastProps) {
     super(props);
@@ -131,13 +132,20 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         }}
         enter={!isTestEnv}
         exit={!isTestEnv}
+        nodeRef={this.rootRef}
       >
-        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <CommonWrapper rootNodeRef={this.setRootRef} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>
     );
   }
+
+  private setRootRef = (element: Nullable<HTMLElement>) => {
+    this.setRootNode(element);
+    // @ts-ignore
+    this.rootRef.current = element;
+  };
 
   private _clearTimer = () => {
     if (this._timeout) {

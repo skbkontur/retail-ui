@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import { Override } from '../../typings/utility-types';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { withClassWrapper } from '../../lib/withClassWrapper';
+import { isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -145,7 +146,4 @@ export type MenuItem = InstanceType<typeof MenuItem>;
 
 Object.assign(MenuItem, { __MENU_ITEM__: true });
 
-export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  // @ts-expect-error
-  return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem';
-};
+export const isMenuItem = isReactUIComponent('MenuItem');
