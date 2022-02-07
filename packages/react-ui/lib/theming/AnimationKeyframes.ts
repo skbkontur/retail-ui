@@ -18,8 +18,8 @@ export const AnimationKeyframes = {
   },
   spinnerCircleOffset(t: Theme) {
     return keyframes`
-        0% { stroke-dashoffset: 0; }
-        100% { stroke-dashoffset: -231.25%; }
+        0% { stroke-dashoffset: 231.25%; }
+        100% { stroke-dashoffset: 0%; }
       `;
   },
   spinnerCircleLength(t: Theme) {

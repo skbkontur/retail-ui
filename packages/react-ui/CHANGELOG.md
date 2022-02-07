@@ -3,6 +3,46 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.10.0...@skbkontur/react-ui@3.11.0) (2022-02-04)
+
+
+### Bug Fixes
+
+* **ScrollContainer:** consider scaling cases in browsers ([#2705](https://github.com/skbkontur/retail-ui/issues/2705)) ([e64d3de](https://github.com/skbkontur/retail-ui/commit/e64d3de80f12cdb7c2329d0b38d2531f84237f55))
+* **SidePage:** change scroll behavior according to Guides ([#2756](https://github.com/skbkontur/retail-ui/issues/2756)) ([47dfb5a](https://github.com/skbkontur/retail-ui/commit/47dfb5ac895c26655edef2e08cf1f86f5b246390))
+* **Spinner:** refactor animation for Safari ([#2748](https://github.com/skbkontur/retail-ui/issues/2748)) ([1698a4a](https://github.com/skbkontur/retail-ui/commit/1698a4a5542d9884f3e6deb833161a6219b9d72a))
+* **Switcher:** restore border in error and checked state ([#2742](https://github.com/skbkontur/retail-ui/issues/2742)) ([6fbe8f5](https://github.com/skbkontur/retail-ui/commit/6fbe8f529cfe14f8338a79b354a1201f38b06ee2))
+
+
+### Features
+
+* **Spinner:** add width and color props ([4ea170d](https://github.com/skbkontur/retail-ui/commit/4ea170d4f1cc30091c30e0ee637e38494ad79f0a))
+
+
+
+
+
+# [3.10.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.4...@skbkontur/react-ui@3.10.0) (2022-01-27)
+
+
+### Bug Fixes
+
+* **react-ui:** [StrictMode] give up findDomNode ([#2518](https://github.com/skbkontur/retail-ui/issues/2518)) ([8028cdd](https://github.com/skbkontur/retail-ui/commit/8028cdd3c2289fd48816bdaf92da6a28892f40a7))
+* **react-ui:** [StrictMode] give up legacy context ([#2694](https://github.com/skbkontur/retail-ui/issues/2694)) ([d0253cc](https://github.com/skbkontur/retail-ui/commit/d0253ccc089764a317ccaa79aa00cc96fbb7aa0a))
+* **react-ui:** [StrictMode] give up unsafe methods ([#2514](https://github.com/skbkontur/retail-ui/issues/2514)) ([6cc2201](https://github.com/skbkontur/retail-ui/commit/6cc2201f0e8f711441e6c63229b703c03d4b6953))
+* **react-ui:** call original refs while replacing them ([#2736](https://github.com/skbkontur/retail-ui/issues/2736)) ([01ff2ab](https://github.com/skbkontur/retail-ui/commit/01ff2ab3243082c9347d20e844368ac775e54449))
+* **TokenInput:** handle Enter for TokenInputType.WithoutReference ([#2738](https://github.com/skbkontur/retail-ui/issues/2738)) ([2ee48cc](https://github.com/skbkontur/retail-ui/commit/2ee48cc31342dc13fd4596020d73e352311bdb82))
+
+
+### Features
+
+* support React.StrictMode ([04a4bc9](https://github.com/skbkontur/retail-ui/commit/04a4bc9f2dd35fa98ea4d9526ddd775dd1017b71))
+* **react-ui:** prepend styles to the head instead of appending ([#2696](https://github.com/skbkontur/retail-ui/issues/2696)) ([212ee04](https://github.com/skbkontur/retail-ui/commit/212ee047ae806a073316596c2ff696b5d08c80d2))
+
+
+
+
+
 ## [3.9.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.3...@skbkontur/react-ui@3.9.4) (2021-12-27)
 
 

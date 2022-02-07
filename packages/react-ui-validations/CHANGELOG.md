@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.7.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.6.0...react-ui-validations@1.7.0) (2022-01-27)
+
+
+### Bug Fixes
+
+* **react-ui:** [StrictMode] give up findDomNode ([#2518](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2518)) ([8028cdd](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/8028cdd3c2289fd48816bdaf92da6a28892f40a7))
+* **react-ui:** [StrictMode] give up legacy context ([#2694](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2694)) ([d0253cc](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/d0253ccc089764a317ccaa79aa00cc96fbb7aa0a))
+* **react-ui:** [StrictMode] give up unsafe methods ([#2514](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2514)) ([6cc2201](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/6cc2201f0e8f711441e6c63229b703c03d4b6953))
+* **react-ui:** call original refs while replacing them ([#2736](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2736)) ([01ff2ab](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/01ff2ab3243082c9347d20e844368ac775e54449))
+
+
+### Features
+
+* support React.StrictMode ([04a4bc9](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/04a4bc9f2dd35fa98ea4d9526ddd775dd1017b71))
+
+
+
+
+
 # [1.6.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.7...react-ui-validations@1.6.0) (2021-12-27)
 
 
