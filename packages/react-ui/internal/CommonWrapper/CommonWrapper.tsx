@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { isFunction } from '../../lib/utils';
+import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
-import { getRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export interface CommonProps {
   /**
@@ -31,16 +32,19 @@ export type CommonWrapperProps<P> = P & {
 };
 export type CommonWrapperRestProps<P> = Omit<NotCommonProps<P>, 'children'>;
 
+@rootNode
 export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> extends React.Component<
   CommonWrapperProps<P> & CommonPropsRootNodeRef
 > {
   private child: React.ReactNode;
+  private setRootNode!: TSetRootNode;
+
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
-          ref: this.ref,
+          ref: isRefableElement(this.child) ? this.ref : null,
           className: cx(this.child.props.className, className),
           style: {
             ...this.child.props.style,
@@ -51,16 +55,10 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
       : this.child;
   }
 
-  private ref = (instance: any) => {
+  private ref = (instance: Nullable<React.ReactInstance>) => {
     const childAsAny = this.child as any;
-    if (childAsAny && childAsAny.ref) {
-      if (typeof childAsAny.ref === 'function') {
-        childAsAny.ref(instance);
-      }
-      if (Object.prototype.hasOwnProperty.call(childAsAny.ref, 'current')) {
-        childAsAny.ref.current = instance;
-      }
-    }
+    childAsAny && callChildRef(childAsAny.ref, instance);
+    this.setRootNode(instance);
     this.props.rootNodeRef?.(getRootNode(instance));
   };
 }

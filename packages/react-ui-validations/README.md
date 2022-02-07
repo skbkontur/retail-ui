@@ -39,3 +39,7 @@ export default class DataEditor extends React.Component {
 ```shell
 yarn start:docs
 ```
+
+## StrictMode
+
+Библиотека поддерживает работу в React.StrictMode начиная с версии `1.7.0`. [Подробнее](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md#strictmode).
