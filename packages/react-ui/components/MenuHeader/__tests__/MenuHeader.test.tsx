@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { MenuHeader } from '../MenuHeader';
 
 describe('MenuHeader', () => {
-  it('should have children', () => {
-    const { getByText } = render(<MenuHeader>children</MenuHeader>);
+  it('should have `children`', () => {
+    render(<MenuHeader>children</MenuHeader>);
 
-    getByText('children');
+    expect(screen.getByText('children')).toBeInTheDocument();
   });
 });
