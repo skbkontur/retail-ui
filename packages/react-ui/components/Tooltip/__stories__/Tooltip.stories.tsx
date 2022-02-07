@@ -4,7 +4,7 @@ import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
-import { PopupPosition, PopupPositions } from '../../../internal/Popup';
+import { PopupPositionsType, PopupPositions } from '../../../internal/Popup';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { Textarea } from '../../Textarea';
 import { Checkbox } from '../../Checkbox';
@@ -13,16 +13,14 @@ import { Input } from '../../Input';
 import { delay } from '../../../lib/utils';
 
 interface TestTooltipProps {
-  pos?: PopupPosition;
+  pos?: PopupPositionsType;
   trigger?: TooltipTrigger;
   useWrapper?: boolean;
   disableAnimations?: boolean;
 }
 
 class TestTooltip extends React.Component<TestTooltipProps> {
-  public static defaultProps: {
-    pos: PopupPosition;
-  } = {
+  public static defaultProps: TestTooltipProps = {
     pos: 'top center',
   };
 
@@ -818,7 +816,7 @@ const LARGE_CONTENT = (
 );
 
 interface HasPopupPositionProps {
-  position?: PopupPosition;
+  position?: PopupPositionsType;
 }
 interface HasDynamicContentState {
   content: React.ReactNode;
@@ -923,7 +921,7 @@ class DynamicAnchor extends React.Component<{}, DynamicAnchorState> {
   };
 }
 
-const DYNAMIC_TOOLTIP_POSITIONS: PopupPosition[] = [
+const DYNAMIC_TOOLTIP_POSITIONS: PopupPositionsType[] = [
   'top left',
   'top left',
   'left middle',
