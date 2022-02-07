@@ -109,6 +109,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
+  private header: SidePageHeader | null = null;
   private footer: SidePageFooter | null = null;
   private rootRef = React.createRef<HTMLDivElement>();
 
@@ -132,6 +133,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
    * @public
    */
   public updateLayout = (): void => {
+    if (this.header) {
+      this.header.update();
+    }
     if (this.footer) {
       this.footer.update();
     }
@@ -242,6 +246,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
+      headerRef: this.headerRef,
       footerRef: this.footerRef,
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
@@ -327,6 +332,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.props.onClose) {
       this.props.onClose();
     }
+  };
+
+  private headerRef = (ref: SidePageHeader | null) => {
+    this.header = ref;
   };
 
   private footerRef = (ref: SidePageFooter | null) => {
