@@ -1,12 +1,12 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { MenuSeparator } from '../MenuSeparator';
 
 describe('MenuSeparator', () => {
   it('should render without errors', () => {
-    const { getByTestId } = render(<MenuSeparator data-testid="MenuSeparator" />);
+    render(<MenuSeparator data-testid="MenuSeparator" />);
 
-    getByTestId('MenuSeparator');
+    expect(screen.getByTestId('MenuSeparator')).toBeInTheDocument();
   });
 });
