@@ -31,7 +31,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
   public static defaultProps = {
     delta: 10,
     priority: 0,
-    style: {},
+    style: {} as React.CSSProperties,
     applyZIndex: true,
     coverChildren: false,
     createStackingContext: false,

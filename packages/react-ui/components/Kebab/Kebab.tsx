@@ -66,7 +66,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   public static defaultProps = {
     onOpen: () => undefined,
     onClose: () => undefined,
-    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
+    positions: ['bottom left', 'bottom right', 'top left', 'top right'] as PopupPositionsType[],
     size: 'small',
     disableAnimations: isTestEnv,
     icon: <MenuKebabIcon />,

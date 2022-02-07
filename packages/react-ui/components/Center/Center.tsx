@@ -31,7 +31,7 @@ export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
   public static defaultProps = {
-    align: 'center',
+    align: 'center' as HorizontalAlign,
   };
   private setRootNode!: TSetRootNode;
 

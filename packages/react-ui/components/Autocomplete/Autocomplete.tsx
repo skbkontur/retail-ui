@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputSize } from '../Input';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
@@ -101,7 +101,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   public static defaultProps = {
     renderItem,
-    size: 'small',
+    size: 'small' as InputSize,
     disablePortal: false,
     hasShadow: true,
     menuMaxHeight: 300,

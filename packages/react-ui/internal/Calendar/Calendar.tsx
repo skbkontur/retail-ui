@@ -49,17 +49,16 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
   public static defaultProps = {
-    holidays: [],
     minDate: {
       year: MIN_YEAR,
       month: MIN_MONTH,
       date: MIN_DATE,
-    },
+    } as CalendarDateShape,
     maxDate: {
       year: MAX_YEAR,
       month: MAX_MONTH,
       date: MAX_DATE,
-    },
+    } as CalendarDateShape,
   };
 
   private theme!: Theme;

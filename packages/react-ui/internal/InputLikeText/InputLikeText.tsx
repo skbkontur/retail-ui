@@ -6,7 +6,7 @@ import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
+import { InputProps, InputIconType, InputState, InputSize } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -34,7 +34,7 @@ export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps = { size: 'small' as InputSize };
 
   public state = { blinking: false, focused: false };
 

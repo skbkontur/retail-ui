@@ -188,8 +188,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     onFocus: emptyHandler,
     onMouseEnter: emptyHandler,
     onMouseLeave: emptyHandler,
-    menuWidth: 'auto',
-    menuAlign: 'cursor',
+    menuWidth: 'auto' as React.CSSProperties['width'],
+    menuAlign: 'cursor' as TokenInputMenuAlign,
   };
 
   public state: TokenInputState<T> = DefaultState;

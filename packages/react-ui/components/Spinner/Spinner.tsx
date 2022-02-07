@@ -68,7 +68,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   };
 
   public static defaultProps: SpinnerProps = {
-    type: 'normal',
+    type: 'normal' as SpinnerType,
   };
 
   public static Types: typeof types = types;

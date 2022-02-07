@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputSize } from '../Input';
 import { Nullable } from '../../typings/utility-types';
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
@@ -39,7 +39,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   public static defaultProps = {
-    size: 'small',
+    size: 'small' as InputSize,
   };
 
   public state: PasswordInputState = {

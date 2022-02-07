@@ -181,7 +181,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     renderItem,
     areValuesEqual,
     filterItem,
-    use: 'default',
+    use: 'default' as ButtonUse,
   };
 
   public static Item = Item;
