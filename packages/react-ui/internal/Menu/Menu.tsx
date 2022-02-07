@@ -33,7 +33,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   public static defaultProps = {
     align: 'left',
-    width: !isIE11 ? 'auto' : '100%',
+    width: 'auto',
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
@@ -116,7 +116,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       this.props.align === 'right'
         ? {
             maxWidth: this.props.width,
-            minWidth: this.props.width,
+            minWidth: isIE11 && this.props.width === 'auto' ? '100%' : this.props.width,
             maxHeight: this.props.maxHeight,
           }
         : {
@@ -129,7 +129,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         ? cx({
             [styles.alignRight()]: !isIE11,
             [styles.alignRightIE11()]: isIE11,
-            [styles.alignRightIE11DefaultWidth()]: isIE11 && this.props.width === Menu.defaultProps.width,
+            [styles.alignRightIE11DefaultWidth()]: isIE11 && this.props.width === 'auto',
           })
         : '';
 
