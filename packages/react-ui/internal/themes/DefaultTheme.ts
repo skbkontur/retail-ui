@@ -769,7 +769,7 @@ export class DefaultTheme {
   public static pagingPageLinkHintColor = '#bbb';
   public static pagingPageLinkHintFontSize = '11px';
   public static pagingPageLinkHintLineHeight = '15px';
-  public static pagingPageLinkBorderRadius = '16px';
+  public static pagingPageLinkBorderRadius = '9999px';
   public static pagingPageLinkMargin = '2px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
