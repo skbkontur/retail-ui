@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction } from '../../lib/utils';
+import { isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -213,7 +213,4 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  // @ts-ignore
-  return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem';
-};
+export const isMenuItem = isReactUIComponent('MenuItem');

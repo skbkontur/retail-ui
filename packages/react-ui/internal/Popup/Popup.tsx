@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable } from '../../lib/utils';
+import { isFunction, isNonNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -27,29 +27,7 @@ import { styles } from './Popup.styles';
 const POPUP_BORDER_DEFAULT_COLOR = 'transparent';
 const TRANSITION_TIMEOUT = { enter: 0, exit: 200 };
 
-const DUMMY_LOCATION: PopupLocation = {
-  position: 'top left',
-  coordinates: {
-    top: -9999,
-    left: -9999,
-  },
-};
-
-export type PopupPosition =
-  | 'top left'
-  | 'top center'
-  | 'top right'
-  | 'right top'
-  | 'right middle'
-  | 'right bottom'
-  | 'bottom left'
-  | 'bottom center'
-  | 'bottom right'
-  | 'left top'
-  | 'left middle'
-  | 'left bottom';
-
-export const PopupPositions: PopupPosition[] = [
+export const PopupPositions = [
   'top left',
   'top center',
   'top right',
@@ -62,7 +40,18 @@ export const PopupPositions: PopupPosition[] = [
   'left bottom',
   'left middle',
   'left top',
-];
+] as const;
+export const DefaultPosition = PopupPositions[0];
+
+export type PopupPositionsType = typeof PopupPositions[number];
+
+const DUMMY_LOCATION: PopupLocation = {
+  position: DefaultPosition,
+  coordinates: {
+    top: -9999,
+    left: -9999,
+  },
+};
 
 export interface PopupHandlerProps {
   onMouseEnter?: (event: MouseEventType) => void;
@@ -88,7 +77,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   pinOffset?: number;
   pinSize?: number;
   popupOffset: number;
-  positions: PopupPosition[];
+  positions: Readonly<PopupPositionsType[]>;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
@@ -112,7 +101,7 @@ interface PopupLocation {
     left: number;
     top: number;
   };
-  position: PopupPosition;
+  position: PopupPositionsType;
 }
 
 export interface PopupState {
@@ -266,31 +255,41 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
 
-    let child: Nullable<React.ReactNode> = null;
+    let anchor: Nullable<React.ReactNode> = null;
     if (isHTMLElement(anchorElement)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
-      child = useWrapper ? <span>{anchorElement}</span> : anchorElement;
+      anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
     } else {
-      child = <span>{anchorElement}</span>;
+      anchor = <span>{anchorElement}</span>;
     }
 
-    const childWithRef = child
-      ? React.cloneElement(child as JSX.Element, {
-          ref: (instance: Nullable<React.ReactInstance>) => {
-            this.childRef(instance);
-            this.setRootNode(instance);
-            const childAsAny = child as any;
-            childAsAny && callChildRef(childAsAny.ref, instance);
-          },
-        })
-      : null;
+    const anchorWithRef =
+      anchor && React.isValidElement(anchor) && isRefableElement(anchor)
+        ? React.cloneElement(anchor, {
+            ref: (instance: Nullable<React.ReactInstance>) => {
+              this.updateAnchorElement(instance);
+              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
+              originalRef && callChildRef(originalRef, instance);
+            },
+          })
+        : null;
 
-    return <RenderContainer anchor={childWithRef}>{location && this.renderContent(location)}</RenderContainer>;
+    // we need to get anchor's DOM node
+    // so we either set our own ref on it via cloning
+    // or relay on findDOMNode (inside getRootNode)
+    // which should be called with RenderContainer's ref
+    // in the case when the anchor is not refable
+
+    return (
+      <RenderContainer anchor={anchorWithRef || anchor} ref={anchorWithRef ? null : this.renderContainerRef}>
+        {location && this.renderContent(location)}
+      </RenderContainer>
+    );
   }
 
-  private childRef = (childInstance: Nullable<React.ReactInstance>) => {
-    childInstance && this.updateAnchorElement(childInstance);
+  private renderContainerRef = (childInstance: Nullable<React.ReactInstance>) => {
+    this.updateAnchorElement(childInstance);
   };
 
   private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
@@ -301,6 +300,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.removeEventListeners(anchorElement);
       this.anchorElement = childDomNode;
       this.addEventListeners(childDomNode);
+      this.setRootNode(childDomNode);
     }
   }
 
@@ -537,7 +537,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorRect = PopupHelper.getElementAbsoluteRect(anchorElement);
     const popupRect = PopupHelper.getElementAbsoluteRect(popupElement);
 
-    let position: PopupPosition;
+    let position: PopupPositionsType;
     let coordinates: Offset;
 
     if (location && location !== DUMMY_LOCATION && location.position) {
