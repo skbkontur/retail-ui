@@ -1,6 +1,6 @@
 /* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
-import '@testing-library/jest-dom/extend-expect';
+import '@testing-library/jest-dom';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
@@ -16,10 +16,10 @@ jest.mock('lodash.debounce', () =>
 );
 
 /**
- * Mock MutationObserver for jsdom < 13.2
+ * Mock MutationObserver for `jsdom` < 13.2
  * @see https://github.com/jsdom/jsdom/pull/2398
  *
- * TODO: remove when Jest >= 25.1.0
+ * TODO: remove when `jest` >= 25.1.0 (`react-ui-codemod` still has an old version of `jest`)
  * @see https://github.com/facebook/jest/blob/master/CHANGELOG.md#2510
  */
 global.MutationObserver = class {
