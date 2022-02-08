@@ -90,7 +90,7 @@ export const animations = {
           left: ${left}px;
           opacity: 1;
         }
-        50% {
+        20% {
           width: 100%;
           left: 0;
           opacity: 1;
