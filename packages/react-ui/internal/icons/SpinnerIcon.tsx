@@ -55,8 +55,9 @@ export const SpinnerIcon = ({ size, className, dimmed, width, color }: SpinnerIc
     const { red, yellow, green, brand } = React.useContext(ThemeContext);
     // eslint-disable-next-line react-hooks/rules-of-hooks
     React.useEffect(() => {
+      const svg = svgRef.current;
+
       const setStyleProperty: CSSStyleDeclaration['setProperty'] = (...args) => {
-        const svg = svgRef.current;
         if (svg) {
           svg.style.setProperty(...args);
         }
@@ -74,7 +75,6 @@ export const SpinnerIcon = ({ size, className, dimmed, width, color }: SpinnerIc
 
       return () => {
         const fallbackAnimation = fallbackAnimationRef.current;
-        const svg = svgRef.current;
         if (fallbackAnimation) {
           fallbackAnimation.stop();
         }
