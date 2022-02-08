@@ -1,9 +1,7 @@
 import React from 'react';
-import { Select, Toast } from '@skbkontur/react-ui';
+import { Select, Toast, GlobalLoader, Button } from '@skbkontur/react-ui';
 
 import { Story } from '../../../typings/stories';
-import { GlobalLoader } from '../GlobalLoader';
-import { Button } from '../../Button';
 
 function GlobalLoaderWithProps() {
   const [error, setError] = React.useState(false);
@@ -43,6 +41,7 @@ function GlobalLoaderWithStaticMethods() {
       <Button onClick={showGlobalLoader}>Start</Button>
       <Button onClick={sendSuccess}>Success</Button>
       <Button onClick={sendError}>Error</Button>
+      <Button onClick={sendAccept}>Accept</Button>
       <GlobalLoader expectedResponseTime={2000} disableAnimations={false} />
     </div>
   );
@@ -57,6 +56,10 @@ function GlobalLoaderWithStaticMethods() {
 
   function sendError() {
     GlobalLoader.reject();
+  }
+
+  function sendAccept() {
+    GlobalLoader.accept();
   }
 }
 
