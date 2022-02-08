@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import { action } from '@storybook/addon-actions';
+import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Paging } from '../Paging';
@@ -219,6 +220,18 @@ PagingWithCustomComponentStory.parameters = { creevey: { skip: [true] } };
 export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
 PagingWithGlobalListener.storyName = 'Paging with global listener';
 PagingWithGlobalListener.parameters = { creevey: { skip: [true] } };
+
+const WithLongItemsTemplate: ComponentStory<typeof Paging> = ({ activePage, ...rest }) => {
+  const [currentPage, setCurrentPage] = useState(activePage);
+
+  return <Paging {...rest} activePage={currentPage} onPageChange={(pageNumber) => setCurrentPage(pageNumber)} />;
+};
+
+export const WithLongItems = WithLongItemsTemplate.bind({});
+WithLongItems.args = {
+  activePage: 753000,
+  pagesCount: 7530050,
+};
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
