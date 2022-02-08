@@ -419,17 +419,15 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
     { menuAlign: 'left' },
     { menuAlign: 'left', disablePortal: true },
   ];
-  const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => {
-    return (
-      <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
-    );
-  };
+  const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
+    <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
+  );
 
   return (
     <div style={{ padding: '0 50px' }}>
       <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
-        {row.map((props) => (
-          <code>portal: {String(!props.disablePortal)}</code>
+        {row.map((props, i) => (
+          <code key={i}>portal: {String(!props.disablePortal)}</code>
         ))}
       </div>
       {widths.map((width) => (

@@ -6,9 +6,9 @@ import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
+import { isIE11 } from '../../lib/client';
 
 import { styles } from './DropdownContainer.styles';
-import { isIE11 } from '../../lib/client';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
