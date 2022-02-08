@@ -1,44 +1,44 @@
 import React, { useRef } from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Checkbox } from '../Checkbox';
 
 describe('Checkbox', () => {
-  it('has label', () => {
-    const { getByLabelText } = render(<Checkbox>label</Checkbox>);
+  it('should have label', () => {
+    render(<Checkbox>label</Checkbox>);
 
-    getByLabelText('label');
+    expect(screen.getByLabelText('label')).toBeInTheDocument();
   });
 
   it('should check and uncheck', () => {
-    const { getByLabelText } = render(<Checkbox>label</Checkbox>);
+    render(<Checkbox>label</Checkbox>);
 
-    const checkbox = getByLabelText('label');
-
+    const checkbox = screen.getByLabelText('label');
+    // Initially checkbox shouldn't be checked.
     expect(checkbox).not.toBeChecked();
 
     userEvent.click(checkbox);
-
+    // After we click on it, it should become checked.
     expect(checkbox).toBeChecked();
   });
 
   it('should not check if disabled', () => {
-    const { getByLabelText } = render(<Checkbox disabled>label</Checkbox>);
+    render(<Checkbox disabled>label</Checkbox>);
 
-    const checkbox = getByLabelText('label');
-
+    const checkbox = screen.getByLabelText('label');
+    // Initially disabled checkbox shouldn't be checked.
     expect(checkbox).not.toBeChecked();
 
     userEvent.click(checkbox);
-
+    // After we click on it, it still should be unchecked.
     expect(checkbox).not.toBeChecked();
   });
 
   it('should be in indeterminate state by default', () => {
-    const { getByLabelText } = render(<Checkbox initialIndeterminate>label</Checkbox>);
+    render(<Checkbox initialIndeterminate>label</Checkbox>);
 
-    const checkbox = getByLabelText('label');
+    const checkbox = screen.getByLabelText('label');
 
     expect(checkbox).toBePartiallyChecked();
   });
@@ -71,20 +71,21 @@ describe('Checkbox', () => {
         </>
       );
     };
-    const { getByLabelText, getByText } = render(<Component />);
+    render(<Component />);
 
-    const checkbox = getByLabelText('label');
-    const setButton = getByText('set');
-    const resetButton = getByText('reset');
+    const checkbox = screen.getByLabelText('label');
+    const setButton = screen.getByText('set');
+    const resetButton = screen.getByText('reset');
 
+    // Initially checkbox should be partially checked.
     expect(checkbox).not.toBePartiallyChecked();
 
     userEvent.click(setButton);
-
+    // After we call `setIndeterminate` method it should be partially checked.
     expect(checkbox).toBePartiallyChecked();
 
     userEvent.click(resetButton);
-
+    // After we call `resetIndeterminate` method it should return in intial state.
     expect(checkbox).not.toBePartiallyChecked();
   });
 });
