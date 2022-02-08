@@ -1,26 +1,24 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 
 import { Radio } from '../Radio';
 
 describe('Radio', () => {
-  it('has label', () => {
-    const { getByLabelText } = render(<Radio value="radio">label</Radio>);
+  it('should have label', () => {
+    render(<Radio value="radio">label</Radio>);
 
-    getByLabelText('label');
+    expect(screen.getByLabelText('label')).toBeInTheDocument();
   });
 
   it('input element should be `disabled` when `disabled` prop passed', () => {
-    const { getByLabelText } = render(
+    render(
       <Radio disabled value="radio">
         label
       </Radio>,
     );
 
-    const radio = getByLabelText('label');
-
-    expect(radio).toBeDisabled();
+    expect(screen.getByLabelText('label')).toBeDisabled();
   });
 
   it('should check and uncheck', () => {
@@ -33,15 +31,14 @@ describe('Radio', () => {
         </Radio>
       );
     };
+    render(<Component />);
 
-    const { getByLabelText } = render(<Component />);
-
-    const radio = getByLabelText('label');
-
+    const radio = screen.getByLabelText('label');
+    // Initially radio button should not be checked.
     expect(radio).not.toBeChecked();
 
     userEvent.click(radio);
-
+    // After we click on it, it should become checked.
     expect(radio).toBeChecked();
   });
 
@@ -55,27 +52,24 @@ describe('Radio', () => {
         </Radio>
       );
     };
+    render(<Component />);
 
-    const { getByLabelText } = render(<Component />);
-
-    const radio = getByLabelText('label');
-
+    const radio = screen.getByLabelText('label');
+    // Initially disabled radio button should not be checked.
     expect(radio).not.toBeChecked();
 
     userEvent.click(radio);
-
+    // After we click on it, it still should be not checked as it is disabled.
     expect(radio).not.toBeChecked();
   });
 
   it('should be checked by default', () => {
-    const { getByLabelText } = render(
+    render(
       <Radio checked={true} value="radio">
         label
       </Radio>,
     );
 
-    const radio = getByLabelText('label');
-
-    expect(radio).toBeChecked();
+    expect(screen.getByLabelText('label')).toBeChecked();
   });
 });
