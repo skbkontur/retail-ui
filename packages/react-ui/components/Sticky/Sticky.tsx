@@ -136,7 +136,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
-  private reflow = () => {
+  public reflow = () => {
     const { documentElement } = document;
 
     if (!documentElement) {

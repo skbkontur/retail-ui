@@ -92,6 +92,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
+  private header: SidePageHeader | null = null;
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -111,15 +112,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
    * @public
    */
   public updateLayout = (): void => {
-    if (this.footer) {
-      this.footer.update();
-    }
+    this.header?.update();
+    this.footer?.update();
   };
 
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -175,7 +175,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={_ => (this.layoutRef = _)} className={jsStyles.layout()}>
+            <div ref={(_) => (this.layoutRef = _)} className={jsStyles.layout()}>
               <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
               </SidePageContext.Provider>
@@ -191,7 +191,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     let hasFooter = false;
     let hasPanel = false;
 
-    React.Children.toArray(this.props.children).forEach(child => {
+    React.Children.toArray(this.props.children).forEach((child) => {
       if (isHeader(child)) {
         hasHeader = true;
       }
@@ -211,6 +211,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
       footerRef: this.footerRef,
+      headerRef: this.headerRef,
     };
 
     return sidePageContextProps;
@@ -266,7 +267,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
-    const sidePages = stack.filter(x => x instanceof SidePage && x.props.fromLeft === this.props.fromLeft);
+    const sidePages = stack.filter((x) => x instanceof SidePage && x.props.fromLeft === this.props.fromLeft);
     const currentSidePagePosition = sidePages.indexOf(this);
 
     const hasMargin = sidePages.length > 1 && currentSidePagePosition === sidePages.length - 1;
@@ -308,6 +309,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (this.props.onClose) {
       this.props.onClose();
     }
+  };
+
+  private headerRef = (ref: SidePageHeader | null) => {
+    this.header = ref;
   };
 
   private footerRef = (ref: SidePageFooter | null) => {

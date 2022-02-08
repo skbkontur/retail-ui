@@ -9,7 +9,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 
 import { jsStyles } from './SidePage.styles';
-import { SidePageContext } from './SidePageContext';
+import { SidePageContext, SidePageContextType } from './SidePageContext';
 
 export interface SidePageHeaderProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -31,8 +31,12 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     isReadyToFix: false,
   };
 
+  public static contextType = SidePageContext;
+  public context: SidePageContextType = this.context;
+
   private theme!: Theme;
   private wrapper: HTMLElement | null = null;
+  private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
 
   public get regularHeight(): number {
@@ -53,20 +57,23 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   public componentDidMount = () => {
     window.addEventListener('scroll', this.update, true);
+    this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
     window.removeEventListener('scroll', this.update, true);
+    this.context.headerRef(null);
   };
 
   public update = () => {
+    this.sticky?.reflow();
     this.updateReadyToFix();
   };
 
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
-        {theme => {
+        {(theme) => {
           this.theme = theme;
           return this.renderMain();
         }}
@@ -79,7 +86,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     return (
       <CommonWrapper {...this.props}>
         <div ref={this.wrapperRef}>
-          {isReadyToFix ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
+          {isReadyToFix ? (
+            <Sticky side="top" ref={this.stickyRef}>
+              {this.renderHeader}
+            </Sticky>
+          ) : (
+            this.renderHeader()
+          )}
         </div>
       </CommonWrapper>
     );
@@ -132,11 +145,15 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     if (this.wrapper) {
       const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
       const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
-      this.setState(state => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
+      this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { isReadyToFix } : state));
     }
   };
 
   private wrapperRef = (el: HTMLElement | null) => {
     this.wrapper = el;
+  };
+
+  private stickyRef = (el: Sticky | null) => {
+    this.sticky = el;
   };
 }
