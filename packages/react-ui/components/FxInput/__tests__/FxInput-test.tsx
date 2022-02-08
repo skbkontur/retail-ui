@@ -22,10 +22,10 @@ describe('FxInput', () => {
 
     wrapper.instance().focus();
 
-    expect(document.activeElement).toBe(input.instance());
+    expect(input.instance()).toHaveFocus();
 
     wrapper.instance().blur();
 
-    expect(document.activeElement).toBe(document.body);
+    expect(document.body).toHaveFocus();
   });
 });

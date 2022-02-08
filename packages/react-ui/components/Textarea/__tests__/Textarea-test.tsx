@@ -54,6 +54,6 @@ describe('Textarea', () => {
 
     wrapper.instance().focus();
 
-    expect(document.activeElement).toBe(wrapper.find('textarea').instance());
+    expect(wrapper.find('textarea').instance()).toHaveFocus();
   });
 });
