@@ -78,10 +78,6 @@ const linearProgressAnimation = keyframes`
   from { width: 0; }
   to { width: 80% }
 `;
-const slowProgressAnimation = keyframes`
-  from { width: 80% }
-  to { width: 100% }
-`;
 
 export const animations = {
   successAnimation(delayBeforeHide: number, width: number, left: number) {
@@ -122,10 +118,10 @@ export const animations = {
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
-  standardAnimation(t: Theme, expectedTime: number, overtime: number) {
+  standardAnimation(t: Theme, expectedTime: number) {
     return css`
-      animation: ${linearProgressAnimation} ${expectedTime}ms ease-out,
-        ${overtime}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
+      width: 80%;
+      animation: ${linearProgressAnimation} ${expectedTime}ms ease-out;
     `;
   },
 };

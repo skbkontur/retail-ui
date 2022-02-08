@@ -11,7 +11,6 @@ export interface GlobalLoaderViewProps {
   delayBeforeHide: number;
   status?: 'success' | 'error' | 'standard';
   disableAnimations: boolean;
-  overtime: number;
 }
 
 export const GlobalLoaderView = ({
@@ -19,7 +18,6 @@ export const GlobalLoaderView = ({
   delayBeforeHide,
   status,
   disableAnimations,
-  overtime,
 }: GlobalLoaderViewProps) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const theme = React.useContext(ThemeContext);
@@ -35,8 +33,7 @@ export const GlobalLoaderView = ({
           [styles.successWithoutAnimation()]: disableAnimations && status === 'success',
           [animations.errorAnimation(theme)]: !disableAnimations && status === 'error',
           [styles.errorWithoutAnimation()]: disableAnimations && status === 'error',
-          [animations.standardAnimation(theme, expectedResponseTime, overtime)]:
-            !disableAnimations && status === 'standard',
+          [animations.standardAnimation(theme, expectedResponseTime)]: !disableAnimations && status === 'standard',
         })}
       />
     </ZIndex>
