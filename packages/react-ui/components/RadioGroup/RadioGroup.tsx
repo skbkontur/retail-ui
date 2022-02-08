@@ -17,7 +17,7 @@ import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
-export interface RadioGroupProps<T = string | number> extends CommonProps {
+export interface RadioGroupProps<T = string | number | null> extends CommonProps {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
@@ -77,7 +77,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   onMouseEnter?: () => any;
 }
 
-export interface RadioGroupState<T> {
+export interface RadioGroupState<T = string | number | null> {
   activeItem?: T;
 }
 
@@ -91,7 +91,7 @@ export interface RadioGroupState<T> {
  * Значения активного элемента сравниваются по строгому равенству `===`
  */
 @rootNode
-export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
+export class RadioGroup<T = string | number | null> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
   public static propTypes = {
@@ -200,7 +200,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private getName = () => this.props.name || this.name;
 
-  private isControlled = () => this.props.value != null;
+  private isControlled = () => this.props.value !== undefined;
 
   private handleSelect = (value: T) => {
     if (!this.isControlled()) {
