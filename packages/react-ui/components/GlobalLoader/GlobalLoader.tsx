@@ -54,6 +54,7 @@ export interface GlobalLoaderState {
   visible: boolean;
   done: boolean;
   rejected: boolean;
+  accept: boolean;
   dead: boolean;
   successAnimationInProgress: boolean;
   expectedResponseTime: number;
@@ -89,6 +90,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       visible: false,
       done: false,
       rejected: false,
+      accept: false,
       dead: false,
       successAnimationInProgress: false,
       expectedResponseTime: this.props.expectedResponseTime,
@@ -129,6 +131,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       status = 'success';
     } else if (this.state.rejected) {
       status = 'error';
+    } else if (this.state.accept) {
+      status = 'accept';
     }
     return (
       !this.state.dead &&
@@ -194,7 +198,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         this.setActive();
       }, this.props.delayBeforeHide);
     } else {
-      this.setState({ visible: false, done: false, rejected: false });
+      this.setState({ visible: false, done: false, rejected: false, accept: false });
       if (this.props.rejected) {
         this.setReject(true);
       } else {
@@ -219,6 +223,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     if (reject) {
       this.props.onReject?.();
     } else {
+      this.setState({ accept: true });
       this.props.onAccept?.();
     }
     this.setState({ rejected: reject });

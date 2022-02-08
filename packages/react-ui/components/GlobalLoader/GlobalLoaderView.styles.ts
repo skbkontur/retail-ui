@@ -118,10 +118,29 @@ export const animations = {
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
-  standardAnimation(t: Theme, expectedTime: number) {
+  standardAnimation(expectedTime: number) {
     return css`
       width: 80%;
       animation: ${linearProgressAnimation} ${expectedTime}ms ease-out;
+    `;
+  },
+  acceptAnimation(startWidth: number, expectedTime: number) {
+    return css`
+      width: 80%;
+      animation: acceptAnimation ${expectedTime}ms ease-out;
+      @keyframes acceptAnimation {
+        from {
+          width: ${startWidth}px;
+        }
+        to {
+          width: 80%;
+        }
+      }
+    `;
+  },
+  acceptWithoutAnimation(startWidth: number) {
+    return css`
+      width: ${startWidth};
     `;
   },
 };

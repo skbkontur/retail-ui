@@ -9,7 +9,7 @@ import { animations, styles } from './GlobalLoaderView.styles';
 export interface GlobalLoaderViewProps {
   expectedResponseTime: number;
   delayBeforeHide: number;
-  status?: 'success' | 'error' | 'standard';
+  status?: 'success' | 'error' | 'standard' | 'accept';
   disableAnimations: boolean;
 }
 
@@ -22,6 +22,18 @@ export const GlobalLoaderView = ({
   const ref = React.useRef<HTMLDivElement>(null);
   const theme = React.useContext(ThemeContext);
   const { width = 0, left = 0 } = ref.current?.getBoundingClientRect() || {};
+  const [startWidth, setStartWidth] = React.useState(0);
+
+  const prevStatus = usePrevious(status);
+  React.useEffect(() => {
+    if (prevStatus === 'standard' && status === 'error') {
+      setStartWidth(width);
+    } else if (prevStatus === 'error' && status === 'accept') {
+      setStartWidth(startWidth);
+    } else {
+      setStartWidth(0);
+    }
+  }, [status]);
 
   return (
     <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
@@ -30,12 +42,21 @@ export const GlobalLoaderView = ({
         className={cx(styles.inner(theme), {
           [animations.successAnimation(delayBeforeHide, width, left)]: !disableAnimations && status === 'success',
           [styles.standardWithoutAnimation()]: disableAnimations && status === 'standard',
+          [animations.acceptAnimation(startWidth, expectedResponseTime)]: !disableAnimations && status === 'accept',
+          [animations.acceptWithoutAnimation(startWidth)]: disableAnimations && status === 'accept',
           [styles.successWithoutAnimation()]: disableAnimations && status === 'success',
           [animations.errorAnimation(theme)]: !disableAnimations && status === 'error',
           [styles.errorWithoutAnimation()]: disableAnimations && status === 'error',
-          [animations.standardAnimation(theme, expectedResponseTime)]: !disableAnimations && status === 'standard',
+          [animations.standardAnimation(expectedResponseTime)]: !disableAnimations && status === 'standard',
         })}
       />
     </ZIndex>
   );
 };
+function usePrevious(value: any) {
+  const ref = React.useRef();
+  React.useEffect(() => {
+    ref.current = value;
+  });
+  return ref.current;
+}
