@@ -3,6 +3,8 @@ import debounce from 'lodash.debounce';
 
 import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlabalLoaderView';
 
@@ -62,8 +64,10 @@ export interface GlobalLoaderState {
 
 let currentGlobalLoader: GlobalLoader;
 
+@rootNode
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
+  private setRootNode!: TSetRootNode;
 
   private readonly startTask = debounce(() => {
     this.setState({ visible: true });
@@ -137,13 +141,15 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     return (
       !this.state.dead &&
       this.state.visible && (
-        <GlobalLoaderView
-          expectedResponseTime={this.state.expectedResponseTime}
-          delayBeforeHide={this.props.delayBeforeHide!}
-          status={status}
-          data-tid="GlobalLoader"
-          disableAnimations={this.props.disableAnimations}
-        />
+        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+          <GlobalLoaderView
+            expectedResponseTime={this.state.expectedResponseTime}
+            delayBeforeHide={this.props.delayBeforeHide!}
+            status={status}
+            data-tid="GlobalLoader"
+            disableAnimations={this.props.disableAnimations}
+          />
+        </CommonWrapper>
       )
     );
   }
