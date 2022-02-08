@@ -24,7 +24,7 @@ export interface DropdownContainerProps {
   disablePortal?: boolean;
   offsetY?: number;
   offsetX?: number;
-  hasWidth?: boolean;
+  fixedWidth?: boolean;
 }
 
 export interface DropdownContainerState {
@@ -88,7 +88,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         left: left !== null ? left : undefined,
         right: right !== null ? right : undefined,
         minWidth: this.state.minWidth,
-        maxWidth: this.props.hasWidth ? this.state.minWidth : undefined,
+        maxWidth: this.props.fixedWidth ? this.state.minWidth : undefined,
       };
     }
 

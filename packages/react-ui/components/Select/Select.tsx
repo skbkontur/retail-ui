@@ -404,7 +404,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
-        hasWidth={this.props.menuWidth !== 'auto'}
+        fixedWidth={!!this.props.menuWidth && this.props.menuWidth !== 'auto'}
       >
         <Menu
           ref={this.refMenu}
