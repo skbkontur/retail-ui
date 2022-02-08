@@ -5,7 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
-import { Select } from '../Select';
+import { Select, SelectProps } from '../Select';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -412,38 +412,32 @@ WithSearchAndVariousWidth.parameters = {
 };
 
 export const WithMenuAlignAndVariousWidth: Story = () => {
-  const ref = React.useRef<Select>(null);
-  React.useEffect(() => ref.current?.open());
-
-  const widths = [undefined, '100px', '200px', '50%', 'calc(100% + 10px)', '150%'];
+  const widths: SelectProps<any, any>['width'][] = [undefined, '80px', '120px', '80%', '120%', 'calc(100% + 40px)'];
+  const row: Array<Partial<SelectProps<any, any>>> = [
+    { menuAlign: 'right' },
+    { menuAlign: 'right', disablePortal: true },
+    { menuAlign: 'left' },
+    { menuAlign: 'left', disablePortal: true },
+  ];
+  const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => {
+    return (
+      <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
+    );
+  };
 
   return (
-    <div style={{ padding: '0 100px' }}>
+    <div style={{ padding: '0 50px' }}>
+      <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
+        {row.map((props) => (
+          <code>portal: {String(!props.disablePortal)}</code>
+        ))}
+      </div>
       {widths.map((width) => (
         <div
           key={String(width)}
-          style={{ marginBottom: 50, display: 'flex', justifyContent: 'space-between', width: 300 }}
+          style={{ marginBottom: 50, display: 'flex', justifyContent: 'space-between', width: 550 }}
         >
-          <Select
-            ref={(el) => {
-              el?.open();
-            }}
-            width={140}
-            menuWidth={width}
-            menuAlign="right"
-            value=""
-            items={[width || 'default']}
-          />
-          <Select
-            ref={(el) => {
-              el?.open();
-            }}
-            width={140}
-            menuWidth={width}
-            menuAlign="left"
-            value=""
-            items={[width || 'default']}
-          />
+          {row.map((props) => renderSelect(width, props))}
         </div>
       ))}
     </div>

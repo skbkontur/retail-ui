@@ -20,7 +20,7 @@ export const styles = memoizeStyle({
 
   alignRightIE11() {
     return css`
-      flex: 1 0 0;
+      float: right;
     `;
   },
 
