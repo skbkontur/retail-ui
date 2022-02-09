@@ -67,6 +67,11 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
   private reflowCounter = 0;
 
+  /**
+   * Пересчитать габариты и позицию залипшего элемента
+   *
+   * @public
+   */
   public componentDidMount() {
     this.reflow();
 
