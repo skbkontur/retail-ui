@@ -90,7 +90,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public state: SidePageState = {};
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
-  private layoutRef: HTMLElement | null = null;
+  private layout: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
   private header: SidePageHeader | null = null;
 
@@ -175,7 +175,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
             className={cn(jsStyles.wrapper(this.theme), this.state.hasShadow && jsStyles.shadow(this.theme))}
             style={this.getSidebarStyle()}
           >
-            <div ref={(_) => (this.layoutRef = _)} className={jsStyles.layout()}>
+            <div ref={this.layoutRef} className={jsStyles.layout()}>
               <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
               </SidePageContext.Provider>
@@ -218,10 +218,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private getWidth = () => {
-    if (!this.layoutRef) {
+    if (!this.layout) {
       return 'auto';
     }
-    return this.layoutRef.getBoundingClientRect().width;
+    return this.layout.getBoundingClientRect().width;
   };
 
   private renderShadow(): JSX.Element {
@@ -317,5 +317,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private footerRef = (ref: SidePageFooter | null) => {
     this.footer = ref;
+  };
+
+  private layoutRef = (ref: HTMLDivElement | null) => {
+    this.layout = ref;
   };
 }
