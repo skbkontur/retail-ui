@@ -146,11 +146,12 @@ export class Input extends React.Component<InputProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  public static getDerivedStateFromProps(props: InputProps, state: InputState) {
-    if (polyfillPlaceholder && !props.value) {
-      return { polyfillPlaceholder: true };
+  public componentDidUpdate(prevProps: Readonly<InputProps>) {
+    if (this.props.value !== prevProps.value) {
+      if (polyfillPlaceholder && !this.props.value) {
+        this.setState({ polyfillPlaceholder: true });
+      }
     }
-    return state;
   }
 
   /**
