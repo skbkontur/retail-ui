@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.11](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.10...retail-ui@1.6.11) (2022-02-09)
+
+
+### Bug Fixes
+
+* **ModalStack:** Добавил fallback для `eventemitter3` из последних версий контролов ([#2776](https://github.com/skbkontur/retail-ui/issues/2776)) ([14c4be6](https://github.com/skbkontur/retail-ui/commit/14c4be6)), closes [#2197](https://github.com/skbkontur/retail-ui/issues/2197)
+* **RadioGroup:** Сделал `null` значением для сброса ([e6551e6](https://github.com/skbkontur/retail-ui/commit/e6551e6))
+
+
+
+
+
 ## [1.6.10](https://github.com/skbkontur/retail-ui/compare/retail-ui@1.6.9...retail-ui@1.6.10) (2020-07-20)
 
 
