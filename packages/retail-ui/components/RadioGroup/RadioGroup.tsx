@@ -208,7 +208,7 @@ class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<
 
   private _getName = () => this.props.name || this._name;
 
-  private _isControlled = () => this.props.value != null;
+  private _isControlled = () => this.props.value !== undefined;
 
   private _handleSelect = (event: SyntheticRadioEvent<T>, value: T) => {
     if (!this._isControlled()) {
