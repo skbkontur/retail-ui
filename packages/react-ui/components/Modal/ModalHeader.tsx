@@ -28,7 +28,7 @@ function ModalHeader(props: ModalHeaderProps) {
     modal.setHasHeader?.();
 
     return () => modal.setHasHeader?.(false);
-  }, [modal]);
+  }, [modal.setHasHeader?.()]);
 
   const renderContent = (fixed = false) => {
     return (
