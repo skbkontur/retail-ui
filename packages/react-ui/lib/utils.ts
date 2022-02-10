@@ -144,10 +144,10 @@ export const extractDataProps = <T>(props: T) => {
 
   Object.entries(props).map(([name, value]) => {
     if (name.startsWith('data-')) {
-      dataProps[name] = value;
-    } else {
-      restWithoutDataProps[name] = value;
+      return (dataProps[name] = value);
     }
+
+    return (restWithoutDataProps[name] = value);
   });
 
   return { dataProps, restWithoutDataProps };
