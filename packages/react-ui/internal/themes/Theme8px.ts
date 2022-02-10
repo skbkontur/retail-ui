@@ -392,7 +392,6 @@ export class Theme8px extends (class {} as typeof DefaultThemeInternal) {
   public static pagingPageLinkMinWidth = '0.75em';
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
-  public static pagingPageLinkBorderRadius = '9999px';
   public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardIconSize() {
     return this.pagingFontSize;
