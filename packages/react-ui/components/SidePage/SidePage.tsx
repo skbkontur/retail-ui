@@ -130,12 +130,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
    * @public
    */
   public updateLayout = (): void => {
-    if (this.header) {
-      this.header.update();
-    }
-    if (this.footer) {
-      this.footer.update();
-    }
+    this.header?.update();
+    this.footer?.update();
   };
 
   public static defaultProps = {
