@@ -30,7 +30,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps<T = string> extends CommonProps {
+export interface DatePickerProps<T> extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;

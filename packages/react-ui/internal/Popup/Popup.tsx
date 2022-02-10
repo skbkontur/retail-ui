@@ -181,7 +181,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     disableAnimations: isTestEnv,
     useWrapper: false,
     ignoreHover: false,
-    width: 'auto' as React.CSSProperties['width'],
+    width: 'auto',
   };
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };

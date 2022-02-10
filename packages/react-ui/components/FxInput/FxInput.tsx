@@ -45,7 +45,7 @@ export class FxInput extends React.Component<FxInputProps> {
 
   public static defaultProps = {
     width: 250,
-    type: 'text' as 'currency' | InputProps['type'],
+    type: 'text',
     value: '',
   };
 

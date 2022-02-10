@@ -65,7 +65,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
 
   public static defaultProps = {
     disableAnimations: isTestEnv,
-    positions: ['bottom left', 'bottom right', 'top left', 'top right'] as PopupPositionsType[],
+    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
 
   private popupMenu: Nullable<PopupMenu> = null;

@@ -59,7 +59,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   public static defaultProps = {
     invert: false,
-    scrollBehaviour: 'auto' as ScrollBehaviour,
+    scrollBehaviour: 'auto',
     preventWindowScroll: false,
   };
 

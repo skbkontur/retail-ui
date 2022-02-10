@@ -166,11 +166,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   public static defaultProps = {
-    pos: DefaultPosition as PopupPositionsType,
-    trigger: 'hover' as TooltipTrigger,
+    pos: DefaultPosition,
+    trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
+    closeOnChildrenMouseLeave: false,
   };
 
   public static delay = 100;
