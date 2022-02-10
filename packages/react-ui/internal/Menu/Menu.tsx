@@ -112,34 +112,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       return null;
     }
 
-    const style: CSSProperties =
-      this.props.align === 'right'
-        ? {
-            maxWidth: this.props.width,
-            minWidth: isIE11 && this.props.width === 'auto' ? '100%' : this.props.width,
-            maxHeight: this.props.maxHeight,
-          }
-        : {
-            width: this.props.width,
-            maxHeight: this.props.maxHeight,
-          };
-
-    const alignRightClass =
-      this.props.align === 'right'
-        ? cx({
-            [styles.alignRight()]: !isIE11,
-            [styles.alignRightIE11()]: isIE11,
-            [styles.alignRightIE11DefaultWidth()]: isIE11 && this.props.width === 'auto',
-          })
-        : '';
-
     return (
       <div
-        className={cx(alignRightClass, {
+        className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
-        style={style}
+        style={getStyle(this.props)}
         ref={this.setRootNode}
       >
         <ScrollContainer
@@ -304,3 +283,30 @@ function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   });
   return ret;
 }
+
+const getStyle = (props: MenuProps): CSSProperties => {
+  if (props.align === 'right') {
+    return {
+      maxWidth: props.width,
+      minWidth: isIE11 && props.width === 'auto' ? '100%' : props.width,
+      maxHeight: props.maxHeight,
+    };
+  }
+
+  return {
+    width: props.width,
+    maxHeight: props.maxHeight,
+  };
+};
+
+const getAlignRightClass = (props: MenuProps) => {
+  if (props.align === 'right') {
+    return cx({
+      [styles.alignRight()]: !isIE11,
+      [styles.alignRightIE11()]: isIE11,
+      [styles.alignRightIE11DefaultWidth()]: isIE11 && props.width === 'auto',
+    });
+  }
+
+  return null;
+};

@@ -397,6 +397,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     ) : null;
 
     const value = this.getValue();
+    const fixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
 
     return (
       <DropdownContainer
@@ -404,7 +405,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
-        fixedWidth={!!this.props.menuWidth && this.props.menuWidth !== 'auto'}
+        fixedWidth={fixedWidth}
       >
         <Menu
           ref={this.refMenu}
