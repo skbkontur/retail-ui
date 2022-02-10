@@ -636,7 +636,7 @@ describe('ComboBox', () => {
       wrapper.update();
 
       expect(inputNode).toBeTruthy();
-      expect(inputNode).toHaveFocus(); // input has focus
+      expect(inputNode).toHaveFocus();
       expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
 
       expect(onFocus).toHaveBeenCalledTimes(0);
@@ -652,7 +652,7 @@ describe('ComboBox', () => {
       const inputNode = wrapper.find('input').getDOMNode() as HTMLInputElement;
 
       expect(inputNode).toBeTruthy();
-      expect(inputNode).toHaveFocus(); // input has focus
+      expect(inputNode).toHaveFocus();
       expect(inputNode.selectionStart).toBe(inputNode.selectionEnd); // input text is not selected
 
       expect(onFocus).toHaveBeenCalledTimes(0);
