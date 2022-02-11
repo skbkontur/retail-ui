@@ -84,10 +84,9 @@ export class Gapped extends React.Component<GappedProps> {
     const { gap: propsGap } = this.props;
     if (propsGap !== undefined && propsGap !== null) {
       return propsGap;
-    } else {
-      const gap = is8pxTheme(this.theme) ? 8 : 10;
-      return gap;
     }
+
+    return is8pxTheme(this.theme) ? 8 : 10;
   }
 
   private renderVertical() {

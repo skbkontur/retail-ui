@@ -598,9 +598,9 @@ function areValuesEqual(value1: any, value2: any) {
 function normalizeEntry(entry: any) {
   if (Array.isArray(entry)) {
     return entry;
-  } else {
-    return [entry, entry, undefined];
   }
+
+  return [entry, entry, undefined];
 }
 
 function filterItem(value: any, item: any, pattern: string) {

@@ -134,9 +134,9 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
     const values = this.getValues(query);
     if (values.length > 0) {
       return values[0];
-    } else {
-      return this.resetVariable();
     }
+
+    return this.resetVariable();
   };
   private resetVariable = () => {
     if (!this.isUnmounting) {
