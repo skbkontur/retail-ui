@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
 import { MenuItem, MenuItemState } from '../../components/MenuItem';

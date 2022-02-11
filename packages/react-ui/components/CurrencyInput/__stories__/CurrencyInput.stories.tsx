@@ -1,6 +1,6 @@
 import React from 'react';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';

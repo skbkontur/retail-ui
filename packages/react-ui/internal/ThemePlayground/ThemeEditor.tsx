@@ -1,6 +1,6 @@
 import React from 'react';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { Gapped } from '../../components/Gapped';

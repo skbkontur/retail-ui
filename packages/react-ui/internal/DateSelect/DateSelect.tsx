@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';

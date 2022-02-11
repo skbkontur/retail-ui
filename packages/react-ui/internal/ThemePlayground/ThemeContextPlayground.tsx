@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';

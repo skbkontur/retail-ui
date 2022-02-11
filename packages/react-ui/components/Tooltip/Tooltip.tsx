@@ -1,8 +1,8 @@
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { DefaultPosition, Popup, PopupProps, PopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';

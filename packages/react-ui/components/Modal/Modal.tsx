@@ -1,7 +1,7 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../../internal/RenderContainer';

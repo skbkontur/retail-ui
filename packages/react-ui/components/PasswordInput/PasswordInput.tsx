@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';

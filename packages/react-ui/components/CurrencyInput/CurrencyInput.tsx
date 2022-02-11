@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
-import { isNonNullable } from 'react-ui/lib/utils';
 
+import { isNonNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';

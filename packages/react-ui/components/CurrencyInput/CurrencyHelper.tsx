@@ -1,5 +1,4 @@
-import { isNonNullable } from 'react-ui/lib/utils';
-
+import { isNonNullable } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 import { isSafari } from '../../lib/client';
 
