@@ -1,3 +1,5 @@
+import { isNonNullable } from 'react-ui/lib/utils';
+
 import { Nullable } from '../../typings/utility-types';
 import { isSafari } from '../../lib/client';
 
@@ -65,7 +67,7 @@ export class CurrencyHelper {
   }
 
   public static format(value: Nullable<number>, options?: Nullable<DecimalFormattingOptions>): string {
-    if (value == null) {
+    if (!isNonNullable(value)) {
       return '';
     }
 
@@ -159,15 +161,15 @@ export class CurrencyHelper {
     const integerDigits = integer === '0' ? 0 : integer.length;
     const fractionDigits = fraction.length;
 
-    if (options.integerDigits != null && integerDigits > options.integerDigits) {
+    if (isNonNullable(options.integerDigits) && integerDigits > options.integerDigits) {
       return false;
     }
 
-    if (options.integerDigits == null && integerDigits > MAX_SAFE_DIGITS - (options.fractionDigits || 0)) {
+    if (!isNonNullable(options.integerDigits) && integerDigits > MAX_SAFE_DIGITS - (options.fractionDigits || 0)) {
       return false;
     }
 
-    if (options.fractionDigits != null && fractionDigits > options.fractionDigits) {
+    if (isNonNullable(options.fractionDigits) && fractionDigits > options.fractionDigits) {
       return false;
     }
 

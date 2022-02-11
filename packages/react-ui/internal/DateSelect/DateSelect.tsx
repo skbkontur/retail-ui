@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
@@ -209,13 +210,13 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private disableItems(index: number) {
     const value = this.props.value + index;
-    if (this.props.maxValue != null && this.props.minValue != null) {
+    if (isNonNullable(this.props.maxValue) && isNonNullable(this.props.minValue)) {
       return value > this.props.maxValue || value < this.props.minValue;
     }
-    if (this.props.minValue != null) {
+    if (isNonNullable(this.props.minValue)) {
       return value < this.props.minValue;
     }
-    if (this.props.maxValue != null) {
+    if (isNonNullable(this.props.maxValue)) {
       return value > this.props.maxValue;
     }
   }

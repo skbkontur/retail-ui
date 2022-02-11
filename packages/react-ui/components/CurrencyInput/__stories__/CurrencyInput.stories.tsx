@@ -1,4 +1,5 @@
 import React from 'react';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 import { Meta, Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
@@ -61,7 +62,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
         </div>
         <input
           type="range"
-          value={this.state.digits == null ? 15 : this.state.digits}
+          value={!isNonNullable(this.state.digits) ? 15 : this.state.digits}
           min={0}
           max={15}
           onChange={this.handleDigits}
@@ -78,7 +79,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 
   private handleRand = () => {
-    const fraction = this.state.digits == null ? 4 : this.state.digits;
+    const fraction = !isNonNullable(this.state.digits) ? 4 : this.state.digits;
     const length = Math.min(15, 7 + fraction);
     const rand = Math.floor(Math.random() * Math.pow(10, length));
     const value = rand / Math.pow(10, fraction);
@@ -107,7 +108,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 
   private formatValue = (value: Nullable<number>): string => {
-    return value == null ? 'null' : value.toString();
+    return !isNonNullable(value) ? 'null' : value.toString();
   };
 }
 

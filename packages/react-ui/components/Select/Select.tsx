@@ -22,7 +22,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction } from '../../lib/utils';
+import { isFunction, isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -299,7 +299,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const item = this.getItemByValue(value);
 
-    if (item != null || value != null) {
+    if (isNonNullable(item) || isNonNullable(value)) {
       return {
         label: this.getProps().renderValue(value, item),
         isPlaceholder: false,

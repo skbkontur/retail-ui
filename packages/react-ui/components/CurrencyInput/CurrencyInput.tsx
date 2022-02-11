@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
@@ -137,10 +138,14 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
-    const placeholder =
-      this.props.placeholder == null
-        ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
-        : this.props.placeholder;
+
+    const getPlaceholder = () => {
+      if (!isNonNullable(this.props.placeholder)) {
+        return CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros });
+      }
+
+      return this.props.placeholder;
+    };
 
     return (
       <Input
@@ -158,7 +163,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
         ref={this.refInput}
-        placeholder={this.state.focused ? '' : placeholder}
+        placeholder={this.state.focused ? '' : getPlaceholder()}
       />
     );
   };
@@ -371,7 +376,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private handleValueChange = (value: string): void => {
     const selection = this.tempSelectionForOnChange;
     const delta = this.getOnChangeDelta(value);
-    if (delta != null && !this.inputValue(selection.start, selection.end, delta)) {
+    if (isNonNullable(delta) && !this.inputValue(selection.start, selection.end, delta)) {
       this.setState({ selection });
     }
   };

@@ -499,7 +499,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return true;
     }
 
-    if (x == null || y == null) {
+    if (!isNonNullable(x) || !isNonNullable(y)) {
       return false;
     }
 

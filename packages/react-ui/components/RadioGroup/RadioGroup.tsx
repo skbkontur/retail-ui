@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { getRandomID } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -154,7 +154,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public renderMain() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
     const style = {
-      width: width != null ? width : 'auto',
+      width: isNonNullable(width) ? width : 'auto',
     };
     const handlers = {
       onMouseOver,
@@ -200,7 +200,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private getName = () => this.props.name || this.name;
 
-  private isControlled = () => this.props.value != null;
+  private isControlled = () => isNonNullable(this.props.value);
 
   private handleSelect = (value: T) => {
     if (!this.isControlled()) {

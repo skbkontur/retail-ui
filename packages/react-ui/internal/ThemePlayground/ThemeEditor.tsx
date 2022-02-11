@@ -1,4 +1,5 @@
 import React from 'react';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
@@ -149,7 +150,7 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   return [...acc, ...splitPrefix];
 };
 const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Theme> => {
-  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+  for (; isNonNullable(theme); theme = Object.getPrototypeOf(theme)) {
     if (Object.prototype.hasOwnProperty.call(theme, variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
 

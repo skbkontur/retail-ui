@@ -1,5 +1,6 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -132,7 +133,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
 
     window.removeEventListener('keydown', this.handleKeyDown);
-    if (this.stackSubscription != null) {
+    if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);

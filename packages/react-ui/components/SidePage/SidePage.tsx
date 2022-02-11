@@ -1,6 +1,7 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -121,7 +122,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
     this.rootRef.current?.removeEventListener('wheel', this.disablePageScroll);
-    if (this.stackSubscription != null) {
+    if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);

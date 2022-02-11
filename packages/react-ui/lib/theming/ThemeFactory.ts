@@ -1,5 +1,6 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
 import { Theme8pxInternal } from '../../internal/themes/Theme8px';
+import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 import { isFullTheme, markAs8pxTheme } from './ThemeHelpers';
@@ -23,7 +24,7 @@ export class ThemeFactory {
 
   public static getKeys<T extends Theme>(theme: T) {
     const keys: Array<keyof T> = [];
-    while (theme != null) {
+    while (isNonNullable(theme)) {
       (Object.keys(theme) as Array<keyof T>).forEach((key) => {
         if (!keys.includes(key)) {
           keys.push(key);
