@@ -949,7 +949,7 @@ const items: ValueType[] = [
 ];
 
 function search(query: string) {
-  return Promise.resolve(items.filter((x) => ~x.name.toLowerCase().indexOf(query.toLowerCase())));
+  return Promise.resolve(items.filter((x) => x.name.toLowerCase().indexOf(query.toLowerCase()) !== -1));
 }
 
 let searchCount = 0;
@@ -965,7 +965,7 @@ function searchWithRejections(query: string): Promise<ValueType[]> {
       if (searchCount % 2) {
         throw new Error();
       }
-      return items.filter((x) => ~x.name.indexOf(query.toLowerCase()));
+      return items.filter((x) => x.name.indexOf(query.toLowerCase()) !== -1);
     });
 }
 
