@@ -38,6 +38,7 @@
     "no-proto": 2,
     "no-throw-literal": 2,
     "no-undef-init": 2,
+    "no-unneeded-ternary": 1,
     "no-useless-concat": 1,
     "prefer-spread": 1,
     "no-restricted-syntax": [

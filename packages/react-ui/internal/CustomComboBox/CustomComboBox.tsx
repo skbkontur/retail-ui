@@ -347,7 +347,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: this.isMobileLayout ? false : true,
+      keepFocus: !this.isMobileLayout,
     });
   };
 

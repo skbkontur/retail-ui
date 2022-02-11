@@ -480,7 +480,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSearch = (noMargin?: boolean) => {
     return (
-      <div className={cx({ [styles.search()]: noMargin ? false : true })}>
+      <div className={cx({ [styles.search()]: !noMargin })}>
         <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );
