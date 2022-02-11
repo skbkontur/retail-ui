@@ -6,7 +6,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-import { GlobalLoaderView, GlobalLoaderViewProps } from './GlabalLoaderView';
+import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
 export interface GlobalLoaderProps {
   /**
