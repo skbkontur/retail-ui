@@ -24,7 +24,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  alignRightIE11DefaultWidth() {
+  alignRightIE11FixAutoWidth() {
     return css`
       box-sizing: border-box !important; // override root styles
       overflow: hidden !important; // override root styles

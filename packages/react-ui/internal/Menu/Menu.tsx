@@ -304,7 +304,7 @@ const getAlignRightClass = (props: MenuProps) => {
     return cx({
       [styles.alignRight()]: !isIE11,
       [styles.alignRightIE11()]: isIE11,
-      [styles.alignRightIE11DefaultWidth()]: isIE11 && props.width === 'auto',
+      [styles.alignRightIE11FixAutoWidth()]: isIE11 && props.width === 'auto',
     });
   }
 
