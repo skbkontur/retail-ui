@@ -23,10 +23,10 @@ export interface TextareaCounterRef {
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
-export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TextareaCounter(
+export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>((
   { length, value, help, onCloseHelp, textarea },
   ref,
-) {
+) => {
   const theme = useContext(ThemeContext);
   const [width, setWidth] = useState(textarea.clientWidth);
   const [height, setHeight] = useState(textarea.clientHeight);

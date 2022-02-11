@@ -21,6 +21,7 @@
     "ReactTesting": true
   },
   "rules": {
+    "prefer-arrow-callback": 2,
     "no-restricted-syntax": [
       2,
       {

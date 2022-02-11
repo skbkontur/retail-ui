@@ -64,7 +64,7 @@ describe('Select', () => {
     expect(event.key).toBe('k');
   });
 
-  it('should work search with item any types', function () {
+  it('should work search with item any types', () => {
     const wrapper = mount(
       <Select
         items={[

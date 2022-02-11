@@ -73,7 +73,7 @@ class RouterTabs extends React.Component<any> {
   }
 }
 
-const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
+const MyLink = React.forwardRef<any, any>((props: any, ref) => {
   return (
     <a ref={ref} {...props}>
       {props.children}
@@ -99,7 +99,7 @@ class TabsWithMyLink extends React.Component<any, any> {
       >
         <Tab
           id="fuji"
-          component={React.forwardRef<any, any>(function Component(props: any, ref) {
+          component={React.forwardRef<any, any>((props: any, ref) => {
             return <MyLink ref={ref} {...props} to="/1" />;
           })}
         >
@@ -109,7 +109,7 @@ class TabsWithMyLink extends React.Component<any, any> {
         </Tab>
         <Tab
           id="tahat"
-          component={React.forwardRef<any, any>(function Component(props: any, ref) {
+          component={React.forwardRef<any, any>((props: any, ref) => {
             return <MyLink ref={ref} {...props} to="/2" />;
           })}
         >
@@ -119,7 +119,7 @@ class TabsWithMyLink extends React.Component<any, any> {
         </Tab>
         <Tab
           id="alps"
-          component={React.forwardRef<any, any>(function Component(props: any, ref) {
+          component={React.forwardRef<any, any>((props: any, ref) => {
             return <MyLink ref={ref} {...props} to="/3" />;
           })}
         >

@@ -20,7 +20,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
       },
       async ['short Items scroll']() {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;
@@ -40,7 +40,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;

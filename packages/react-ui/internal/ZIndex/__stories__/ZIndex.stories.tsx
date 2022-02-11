@@ -737,7 +737,7 @@ BigModalWithLoaderStory.parameters = {
   creevey: {
     tests: {
       async ['Header covers Loader']() {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
           if (sidePage) {
@@ -781,7 +781,7 @@ LoaderInSidePageBody.parameters = {
   creevey: {
     tests: {
       async ['is covered by Header and Footer']() {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
           if (sidePage) {

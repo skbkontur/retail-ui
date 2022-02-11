@@ -599,7 +599,7 @@ const TopMiddleBottomModalTests: CreeveyTests = {
     await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
   },
   async middle() {
-    await this.browser.executeScript(function () {
+    await this.browser.executeScript(() => {
       const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
       const modalContent = window.document.querySelector('[data-tid="modal-content"]');
 
@@ -610,7 +610,7 @@ const TopMiddleBottomModalTests: CreeveyTests = {
     await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
   },
   async bottom() {
-    await this.browser.executeScript(function () {
+    await this.browser.executeScript(() => {
       const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
       const modalContent = window.document.querySelector('[data-tid="modal-content"]');
 

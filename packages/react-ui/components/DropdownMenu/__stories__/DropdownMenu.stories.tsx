@@ -170,7 +170,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
   return {
     async ['out of viewport']() {
       if (side === 'left') {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           // @ts-ignore
           const container: Element = window.document.querySelector('[data-tid="container"]');
           container.scrollLeft = container.scrollWidth;
@@ -188,7 +188,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
     },
     async ['out of edge with min menu width']() {
       if (side === 'left') {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           // @ts-ignore
           const container: Element = window.document.querySelector('[data-tid="container"]');
           container.scrollLeft = container.scrollWidth;
@@ -383,7 +383,7 @@ WithHeaderAndFooter.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           // @ts-ignore
           const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
           scrollContainer.scrollTop += 100;
@@ -397,7 +397,7 @@ WithHeaderAndFooter.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           // @ts-ignore
           const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
           scrollContainer.scrollTop += scrollContainer.scrollHeight;

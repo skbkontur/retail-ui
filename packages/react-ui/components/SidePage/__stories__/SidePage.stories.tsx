@@ -690,7 +690,7 @@ BodyWithoutFooter.parameters = {
           })
           .click(this.browser.findElement({ css: 'button' }))
           .perform();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
@@ -798,7 +798,7 @@ WithLongTitleStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
       },
       async ['fixed close element']() {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           const fixedHeaderHeight = 50;
@@ -810,7 +810,7 @@ WithLongTitleStory.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
       },
       async ['fixed header']() {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
           const fixedHeaderHeight = 50;
@@ -882,7 +882,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('without header, footer');
       },
       async ['scroll to bottom without header, footer']() {
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore
@@ -913,7 +913,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .perform();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore
@@ -941,7 +941,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
           .perform();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
           // @ts-ignore

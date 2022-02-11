@@ -153,7 +153,7 @@ InsideScrollableContainer.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
         const opened = await this.takeScreenshot();
-        await this.browser.executeScript(function () {
+        await this.browser.executeScript(() => {
           const scrollContainer = window.document.querySelector('.dropdown-test-container');
           // @ts-ignore
           scrollContainer.scrollTop = scrollContainer.scrollHeight;
