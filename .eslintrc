@@ -21,6 +21,25 @@
     "ReactTesting": true
   },
   "rules": {
+    "no-self-compare": 1,
+    "no-template-curly-in-string": 1,
+    "no-unmodified-loop-condition": 2,
+    "no-unreachable-loop": 2,
+    "default-case-last": 2,
+    "default-param-last": 2,
+    "no-array-constructor": 2,
+    "no-eval": 2,
+    "no-implied-eval": 2,
+    "no-extend-native": 2,
+    "no-extra-label": 2,
+    "no-floating-decimal": 1,
+    "no-lone-blocks": 2,
+    "no-new-wrappers": 1,
+    "no-proto": 2,
+    "no-throw-literal": 2,
+    "no-undef-init": 2,
+    "no-useless-concat": 1,
+    "prefer-spread": 1,
     "no-restricted-syntax": [
       2,
       {
