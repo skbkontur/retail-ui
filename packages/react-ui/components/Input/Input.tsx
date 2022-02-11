@@ -147,10 +147,9 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   public componentDidUpdate(prevProps: Readonly<InputProps>) {
-    if (this.props.value !== prevProps.value) {
-      if (polyfillPlaceholder && !this.props.value) {
-        this.setState({ polyfillPlaceholder: true });
-      }
+    const isValueChanged = this.props.value !== prevProps.value;
+    if (isValueChanged && polyfillPlaceholder && !this.props.value) {
+      this.setState({ polyfillPlaceholder: true });
     }
   }
 
