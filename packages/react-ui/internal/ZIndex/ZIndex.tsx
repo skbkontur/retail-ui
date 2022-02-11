@@ -2,7 +2,7 @@ import React from 'react';
 
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
-import { mergeRefs } from '../../lib/utils';
+import { callChildRefs } from '../../lib/utils';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -111,7 +111,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
   private wrapperRef = (element: HTMLDivElement | null) => {
     const { wrapperRef } = this.props;
     this.setRootNode(element);
-    wrapperRef && mergeRefs([wrapperRef])(element);
+    wrapperRef && callChildRefs([wrapperRef], element);
   };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {

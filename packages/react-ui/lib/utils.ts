@@ -149,6 +149,15 @@ export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React
     });
   };
 }
+/**
+ * Merges two or more refs into one and calls them.
+ *
+ * @param refs Array of refs.
+ * @param value Argument for refs.
+ */
+export function callChildRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>, value: T): void {
+  mergeRefs(refs)(value);
+}
 
 /**
  * Extracts all data attributes from props and returns them as well as props.

@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable, isRefableElement, mergeRefs } from '../../lib/utils';
+import { callChildRefs, isFunction, isNonNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -289,7 +289,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
             ref: (instance: Nullable<React.ReactInstance>) => {
               this.updateAnchorElement(instance);
               const originalRef = (anchor as React.RefAttributes<any>)?.ref;
-              originalRef && mergeRefs([originalRef])(instance);
+              originalRef && callChildRefs([originalRef], instance);
             },
           })
         : null;

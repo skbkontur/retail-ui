@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isFunction, isRefableElement, mergeRefs } from '../../lib/utils';
+import { callChildRefs, isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -58,7 +58,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     this.setRootNode(instance);
     this.props.rootNodeRef?.(getRootNode(instance));
     const originalRef = (this.child as React.RefAttributes<any>)?.ref;
-    originalRef && mergeRefs([originalRef])(instance);
+    originalRef && callChildRefs([originalRef], instance);
   };
 }
 
