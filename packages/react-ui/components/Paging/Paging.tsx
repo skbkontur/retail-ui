@@ -125,6 +125,10 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
+    if (this.props.pagesCount < 2) {
+      return null;
+    }
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {
