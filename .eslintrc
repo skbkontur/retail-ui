@@ -21,6 +21,7 @@
     "ReactTesting": true
   },
   "rules": {
+    "new-cap": 2,
     "no-restricted-syntax": [
       2,
       {

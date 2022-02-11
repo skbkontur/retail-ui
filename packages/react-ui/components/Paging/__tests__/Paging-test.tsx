@@ -130,17 +130,17 @@ describe('Pager', () => {
   describe('Locale', () => {
     let wrapper: ReactWrapper;
     const getForwardText = () => wrapper.find(`[data-tid='Paging__forwardLink']`).text();
-    const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />;
+    const pagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />;
 
     it('render without LocaleProvider', () => {
-      wrapper = mount(PagingContext());
+      wrapper = mount(pagingContext());
       const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
 
       expect(getForwardText()).toBe(expectedText);
     });
 
     it('render default locale', () => {
-      wrapper = mount(<LocaleContext.Provider value={{}}>{PagingContext()}</LocaleContext.Provider>);
+      wrapper = mount(<LocaleContext.Provider value={{}}>{pagingContext()}</LocaleContext.Provider>);
       const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
 
       expect(getForwardText()).toBe(expectedText);
@@ -148,7 +148,7 @@ describe('Pager', () => {
 
     it('render default locale', () => {
       wrapper = mount(
-        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>,
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{pagingContext()}</LocaleContext.Provider>,
       );
       const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
@@ -163,7 +163,7 @@ describe('Pager', () => {
             locale: { Paging: { forward: customPlaceholder } },
           }}
         >
-          {PagingContext()}
+          {pagingContext()}
         </LocaleContext.Provider>,
       );
 
@@ -172,7 +172,7 @@ describe('Pager', () => {
 
     it('updates when langCode changes', () => {
       wrapper = mount(
-        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>,
+        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{pagingContext()}</LocaleContext.Provider>,
       );
       const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
 
