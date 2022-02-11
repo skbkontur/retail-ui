@@ -807,12 +807,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (this.isEditingMode) {
       this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(item) }, this.finishTokenEdit);
-    } else {
-      if (!this.hasValueInItems(selectedItems, item)) {
-        this.handleValueChange(selectedItems.concat([item]));
-        this.dispatch({ type: 'CLEAR_INPUT' });
-        this.tryGetItems();
-      }
+    } else if (!this.hasValueInItems(selectedItems, item)) {
+      this.handleValueChange(selectedItems.concat([item]));
+      this.dispatch({ type: 'CLEAR_INPUT' });
+      this.tryGetItems();
     }
   };
 

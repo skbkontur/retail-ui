@@ -9,12 +9,10 @@ export const isValidPositions = (positions: PopupPositionsType[]): boolean => {
   return positions.every((item) => {
     if (isProductionEnv) {
       return isValidPosition(item);
-    } else {
-      if (isValidPosition(item)) {
-        return true;
-      } else {
-        throw new Error(`Unxpected position "${item}"`);
-      }
+    } else if (isValidPosition(item)) {
+      return true;
     }
+
+    throw new Error(`Unxpected position "${item}"`);
   });
 };
