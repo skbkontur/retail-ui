@@ -297,14 +297,22 @@ export class InternalDate {
       return this;
     }
 
-    const restoreYear =
-      prev.year !== null && InternalDateValidator.testParseToNumber(prev.year)
-        ? prev.year > 50 && prev.year < 100
-          ? Number(prev.year) + 1900
-          : prev.year > 0 && prev.year < 51
-          ? Number(prev.year) + 2000
-          : prev.year
-        : today.year;
+    const getRestoreYear = () => {
+      if (prev.year !== null && InternalDateValidator.testParseToNumber(prev.year)) {
+        if (prev.year > 50 && prev.year < 100) {
+          return Number(prev.year) + 1900;
+        } else if (prev.year > 0 && prev.year < 51) {
+          return Number(prev.year) + 2000;
+        }
+
+        return prev.year;
+      }
+
+      return today.year;
+    };
+
+    const restoreYear = getRestoreYear();
+
     if (
       (type === null && restoreYear !== prev.year) ||
       type === InternalDateComponentType.Year ||

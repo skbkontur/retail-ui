@@ -125,7 +125,13 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   private getValue = (props: MaskedInputProps): string => {
     const { value, defaultValue } = props;
 
-    return value !== undefined ? value.toString() : defaultValue !== undefined ? defaultValue.toString() : '';
+    if (value !== undefined) {
+      return value.toString();
+    } else if (defaultValue !== undefined) {
+      return defaultValue.toString();
+    }
+
+    return '';
   };
 
   private refInput = (input: HTMLInputElement | null) => {

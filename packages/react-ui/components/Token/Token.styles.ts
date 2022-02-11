@@ -112,14 +112,23 @@ export const colorStyles = [
       const error = css`
         box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
       `;
-      const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
+
+      const getVStyle = () => {
+        if (v === 'error') {
+          return error;
+        } else if (v === 'warning') {
+          return warning;
+        }
+
+        return '';
+      };
 
       return css`
         background-color: ${color(t)};
         color: ${ColorFunctions.contrast(color(t))};
         box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
 
-        ${vStyle}
+        ${getVStyle()}
 
         .${globalClasses.removeIcon}:hover {
           color: ${ColorFunctions.contrast(color(t))};

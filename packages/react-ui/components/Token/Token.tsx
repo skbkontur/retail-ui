@@ -73,8 +73,18 @@ export class Token extends React.Component<TokenProps> {
       onBlur = emptyHandler,
     } = this.props;
 
+    const getValidation = () => {
+      if (error) {
+        return 'error';
+      } else if (warning) {
+        return 'warning';
+      }
+
+      return null;
+    };
+
     const theme = this.theme;
-    const validation = error ? 'error' : warning ? 'warning' : null;
+    const validation = getValidation();
     const disableClassNames = cx(colorStyles.defaultDisabled(theme), {
       [colorStyles.defaultDisabledWarning(theme)]: warning,
       [colorStyles.defaultDisabledError(theme)]: error,

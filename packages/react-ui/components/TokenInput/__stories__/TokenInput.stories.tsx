@@ -44,11 +44,18 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
 class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   constructor(props: any) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
+
+    const getSelectedItems = () => {
+      if (props.selectedItems) {
+        return props.selectedItems;
+      } else if (props.numberItems) {
+        return new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3));
+      }
+
+      return [];
+    };
+
+    const selectedItems = getSelectedItems();
     this.state = { selectedItems };
   }
 
@@ -121,11 +128,17 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
 class ColoredWrapper extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
+    const getSelectedItems = () => {
+      if (props.selectedItems) {
+        return props.selectedItems;
+      } else if (props.numberItems) {
+        return new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3));
+      }
+
+      return [];
+    };
+
+    const selectedItems = getSelectedItems();
     this.state = { selectedItems };
   }
 

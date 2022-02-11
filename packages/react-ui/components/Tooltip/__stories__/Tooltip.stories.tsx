@@ -688,7 +688,8 @@ RenderInFirstAvailablePosition.parameters = {
   },
 };
 
-class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNode; opened: boolean }> {
+type DynamicContentTooltipState = { content: React.ReactNode; opened: boolean };
+class DynamicContentTooltip extends React.Component<{}, DynamicContentTooltipState> {
   public state = {
     content: SMALL_CONTENT,
     opened: false,
@@ -711,8 +712,18 @@ class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNo
   }
 
   private buttonClickHandler = () => {
+    const getContent = (state: DynamicContentTooltipState) => {
+      if (state.opened) {
+        return state.content;
+      } else if (state.content === SMALL_CONTENT) {
+        return LARGE_CONTENT;
+      }
+
+      return SMALL_CONTENT;
+    };
+
     this.setState((state) => ({
-      content: state.opened ? state.content : state.content === SMALL_CONTENT ? LARGE_CONTENT : SMALL_CONTENT,
+      content: getContent(state),
       opened: !state.opened,
     }));
   };

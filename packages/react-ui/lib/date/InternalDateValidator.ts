@@ -27,8 +27,16 @@ export class InternalDateValidator {
     type?: InternalDateComponentType,
   ): boolean {
     if (type !== undefined) {
-      const value =
-        type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
+      const getValue = () => {
+        if (type === InternalDateComponentType.Year) {
+          return year;
+        } else if (type === InternalDateComponentType.Month) {
+          return month;
+        }
+        return date;
+      };
+
+      const value = getValue();
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);
     }

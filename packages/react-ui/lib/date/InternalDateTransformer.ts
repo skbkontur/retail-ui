@@ -117,8 +117,17 @@ export class InternalDateTransformer {
       return null;
     }
 
-    const re =
-      order === InternalDateOrder.MDY ? RE_ORDER_MDY : order === InternalDateOrder.DMY ? RE_ORDER_DMY : RE_ORDER_YMD;
+    const getRe = () => {
+      if (InternalDateOrder.MDY) {
+        return RE_ORDER_MDY;
+      } else if (order === InternalDateOrder.DMY) {
+        return RE_ORDER_DMY;
+      }
+
+      return RE_ORDER_YMD;
+    };
+
+    const re = getRe();
     if (!re.test(value)) {
       return null;
     }
