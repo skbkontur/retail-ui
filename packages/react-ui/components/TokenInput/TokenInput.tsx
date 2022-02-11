@@ -511,7 +511,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     }
 
-    if (this.isInputChanged) this.checkForUnexpectedInput();
+    if (this.isInputChanged) {
+      this.checkForUnexpectedInput();
+    }
   };
 
   private get isInputChanged() {
@@ -693,7 +695,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode) this.moveFocusToLastToken();
+        if (!this.isEditingMode) {
+          this.moveFocusToLastToken();
+        }
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
@@ -846,8 +850,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.state.inputValue !== '') {
-      if (this.state.reservedInputValue === undefined)
+      if (this.state.reservedInputValue === undefined) {
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
+      }
     }
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) }, this.selectInputText);
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });

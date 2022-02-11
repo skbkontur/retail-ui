@@ -87,8 +87,11 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if ((items == null || items.length === 0) && renderNotFound) {
       const notFoundValue = renderNotFound();
-      if (renderAddButton) return <Menu ref={refMenu}>{renderAddButton}</Menu>;
-      if (notFoundValue)
+      if (renderAddButton) {
+        return <Menu ref={refMenu}>{renderAddButton}</Menu>;
+      }
+
+      if (notFoundValue) {
         return (
           <Menu ref={refMenu}>
             <MenuItem data-tid="ComboBoxMenu__notFound" disabled>
@@ -96,6 +99,8 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
             </MenuItem>
           </Menu>
         );
+      }
+
       return null;
     }
 

@@ -268,7 +268,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
    * @public
    */
   public show() {
-    if (this.state.opened) return;
+    if (this.state.opened) {
+      return;
+    }
     if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
       warning(true, `Function 'show' is not supported with trigger specified '${this.props.trigger}'`);
       return;

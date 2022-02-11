@@ -7,7 +7,9 @@ import { canUseDOM } from '../client';
 import { isFunction } from '../utils';
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
-  if (!canUseDOM) return null;
+  if (!canUseDOM) {
+    return null;
+  }
   if (isHTMLElement(instance) || instance === null) {
     return instance;
   }

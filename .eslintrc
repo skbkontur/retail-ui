@@ -21,6 +21,7 @@
     "ReactTesting": true
   },
   "rules": {
+    "curly": 1,
     "no-restricted-syntax": [
       2,
       {

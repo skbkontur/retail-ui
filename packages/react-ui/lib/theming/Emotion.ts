@@ -35,7 +35,9 @@ const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R
 
   const cache = new WeakMap();
   return (arg: A) => {
-    if (!cache.has(arg)) cache.set(arg, fn(arg));
+    if (!cache.has(arg)) {
+      cache.set(arg, fn(arg));
+    }
     return cache.get(arg);
   };
 };

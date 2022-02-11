@@ -225,7 +225,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private disablePageScroll = (e: WheelEvent) => {
     const layout = this.layoutRef;
-    if (!layout) return;
+    if (!layout) {
+      return;
+    }
     const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
     const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
 
