@@ -21,6 +21,7 @@
     "ReactTesting": true
   },
   "rules": {
+    "yoda": 1,
     "no-restricted-syntax": [
       2,
       {
