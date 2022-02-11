@@ -8,6 +8,7 @@ import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface DropdownMenuProps extends CommonProps {
   /** Максимальная высота меню */
@@ -56,6 +57,12 @@ export interface DropdownMenuProps extends CommonProps {
   disableAnimations: boolean;
 }
 
+const defaultPropsInstance = {
+  disableAnimations: isTestEnv,
+  positions: ['bottom left', 'bottom right', 'top left', 'top right'],
+};
+const defaultProps = getDefaultProps<DropdownMenuProps>(defaultPropsInstance as DropdownMenuProps);
+
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент
  */
@@ -63,10 +70,7 @@ export interface DropdownMenuProps extends CommonProps {
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
 
-  public static defaultProps = {
-    disableAnimations: isTestEnv,
-    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
-  };
+  public static defaultProps = defaultProps;
 
   private popupMenu: Nullable<PopupMenu> = null;
   private setRootNode!: TSetRootNode;

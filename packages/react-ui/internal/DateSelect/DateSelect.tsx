@@ -13,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './DateSelect.styles';
 
@@ -43,6 +44,11 @@ export interface DateSelectState {
   topCapped: boolean;
   nodeTop: number;
 }
+const defaultPropsInstance = {
+  type: 'year',
+  width: 'auto',
+};
+const defaultProps = getDefaultProps<DateSelectProps>(defaultPropsInstance as DateSelectProps);
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
@@ -64,12 +70,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     maxValue: PropTypes.number,
   };
 
-  public static defaultProps = {
-    type: 'year',
-    minMonth: 0,
-    maxMonth: 11,
-    width: 'auto',
-  };
+  public static defaultProps = defaultProps;
 
   public state = {
     botCapped: false,

@@ -19,6 +19,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -108,6 +109,17 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+const defaultPropsInstance = {
+  popupOffset: 0,
+  hasPin: false,
+  hasShadow: false,
+  disableAnimations: isTestEnv,
+  useWrapper: false,
+  ignoreHover: false,
+  width: 'auto',
+};
+const defaultProps = getDefaultProps<PopupProps>(defaultPropsInstance as PopupProps);
+
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
@@ -174,15 +186,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: PropTypes.bool,
   };
 
-  public static defaultProps = {
-    popupOffset: 0,
-    hasPin: false,
-    hasShadow: false,
-    disableAnimations: isTestEnv,
-    useWrapper: false,
-    ignoreHover: false,
-    width: 'auto',
-  };
+  public static defaultProps = defaultProps;
 
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;

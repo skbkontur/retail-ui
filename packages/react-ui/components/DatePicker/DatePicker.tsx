@@ -15,6 +15,7 @@ import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -85,6 +86,13 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
+const defaultPropsInstance = {
+  minDate: MIN_FULLDATE,
+  maxDate: MAX_FULLDATE,
+  isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
+};
+const defaultProps = getDefaultProps<DatePickerProps<any>>(defaultPropsInstance as DatePickerProps<any>);
+
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -139,11 +147,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     isHoliday: PropTypes.func.isRequired,
   };
 
-  public static defaultProps = {
-    minDate: MIN_FULLDATE,
-    maxDate: MAX_FULLDATE,
-    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
-  };
+  public static defaultProps = defaultProps;
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {

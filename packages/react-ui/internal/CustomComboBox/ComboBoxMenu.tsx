@@ -6,6 +6,7 @@ import { MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -27,14 +28,17 @@ export interface ComboBoxMenuProps<T> {
   requestStatus?: ComboBoxRequestStatus;
 }
 
+const defaultPropsInstance = {
+  repeatRequest: () => undefined,
+  requestStatus: ComboBoxRequestStatus.Unknown,
+};
+const defaultProps = getDefaultProps<ComboBoxMenuProps<any>>(defaultPropsInstance as ComboBoxMenuProps<any>);
+
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
 
-  public static defaultProps = {
-    repeatRequest: () => undefined,
-    requestStatus: ComboBoxRequestStatus.Unknown,
-  };
+  public static defaultProps = defaultProps;
 
   private readonly locale!: ComboBoxLocale;
 

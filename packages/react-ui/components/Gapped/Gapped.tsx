@@ -6,6 +6,7 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -30,6 +31,13 @@ export interface GappedProps extends CommonProps {
   wrap: boolean;
   children: React.ReactNode;
 }
+
+const defaultPropsInstance = {
+  wrap: false,
+  vertical: false,
+  verticalAlign: 'baseline',
+};
+const defaultProps = getDefaultProps<GappedProps>(defaultPropsInstance as GappedProps);
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
@@ -58,11 +66,7 @@ export class Gapped extends React.Component<GappedProps> {
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
-    wrap: false,
-    vertical: false,
-    verticalAlign: 'baseline',
-  };
+  public static defaultProps = defaultProps;
 
   public render() {
     return (

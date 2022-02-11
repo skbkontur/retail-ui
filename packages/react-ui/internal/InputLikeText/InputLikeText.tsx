@@ -14,6 +14,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWra
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -30,11 +31,16 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
 
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 
+const defaultPropsInstance = {
+  size: 'small',
+};
+const defaultProps = getDefaultProps<InputLikeTextProps>(defaultPropsInstance as InputLikeTextProps);
+
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps = defaultProps;
 
   public state = { blinking: false, focused: false };
 

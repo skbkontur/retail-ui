@@ -13,6 +13,7 @@ import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -54,6 +55,7 @@ export interface PagingProps extends CommonProps {
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
   useGlobalListener: boolean;
+  'data-tid': string;
 }
 
 export interface PagingState {
@@ -64,20 +66,23 @@ export interface PagingState {
 
 export type ItemType = number | '.' | 'forward';
 
+const defaultPropsInstance = {
+  component: ({ className, onClick, children }: any) => (
+    <span className={className} onClick={onClick}>
+      {children}
+    </span>
+  ),
+  useGlobalListener: false,
+  ['data-tid']: 'Paging__root',
+};
+const defaultProps = getDefaultProps<PagingProps>(defaultPropsInstance as PagingProps);
+
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
-  public static defaultProps = {
-    component: ({ className, onClick, children }: any) => (
-      <span className={className} onClick={onClick}>
-        {children}
-      </span>
-    ),
-    useGlobalListener: false,
-    ['data-tid']: 'Paging__root',
-  };
+  public static defaultProps = defaultProps;
 
   public static propTypes = {};
   private setRootNode!: TSetRootNode;

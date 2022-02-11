@@ -16,6 +16,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -111,6 +112,14 @@ export interface TextareaState {
   isCounterVisible: boolean;
 }
 
+const defaultPropsInstance = {
+  rows: 3,
+  maxRows: 15,
+  extraRow: true,
+  disableAnimations: isTestEnv,
+};
+const defaultProps = getDefaultProps<TextareaProps>(defaultPropsInstance as TextareaProps);
+
 /**
  * Компонент для ввода многострочного текста.
  *
@@ -176,12 +185,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     onCopy: PropTypes.func,
   };
 
-  public static defaultProps = {
-    rows: 3,
-    maxRows: 15,
-    extraRow: true,
-    disableAnimations: isTestEnv,
-  };
+  public static defaultProps = defaultProps;
 
   public state = {
     polyfillPlaceholder,

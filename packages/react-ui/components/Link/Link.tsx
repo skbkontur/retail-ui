@@ -10,6 +10,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Link.styles';
 
@@ -61,6 +62,12 @@ export interface LinkState {
   focusedByTab: boolean;
 }
 
+const defaultPropsInstance = {
+  href: '',
+  use: 'default',
+};
+const defaultProps = getDefaultProps<LinkProps>(defaultPropsInstance as LinkProps);
+
 /**
  * Элемент ссылки из HTML.
  */
@@ -78,10 +85,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
-  public static defaultProps = {
-    href: '',
-    use: 'default',
-  };
+  public static defaultProps = defaultProps;
 
   public state = {
     focusedByTab: false,

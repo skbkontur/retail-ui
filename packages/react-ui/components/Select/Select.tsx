@@ -29,6 +29,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -148,6 +149,15 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+const defaultPropsInstance = {
+  renderValue,
+  renderItem,
+  areValuesEqual,
+  filterItem,
+  use: 'default',
+};
+const defaultProps = getDefaultProps<SelectProps<any, any>>(defaultPropsInstance as SelectProps<any, any>);
+
 @rootNode
 @locale('Select', SelectLocaleHelper)
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
@@ -176,13 +186,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
-    renderValue,
-    renderItem,
-    areValuesEqual,
-    filterItem,
-    use: 'default',
-  };
+  public static defaultProps = defaultProps;
 
   public static Item = Item;
   public static SEP = () => <MenuSeparator />;
@@ -301,7 +305,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (item != null || value != null) {
       return {
-        label: this.getProps().renderValue(value, item),
+        label: this.getProps().renderValue!(value, item),
         isPlaceholder: false,
       };
     }
@@ -431,11 +435,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
               return (
                 <MenuItem
                   key={i}
-                  state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
+                  state={this.getProps().areValuesEqual!(iValue, value) ? 'selected' : null}
                   onClick={this.select.bind(this, iValue)}
                   comment={comment}
                 >
-                  {this.getProps().renderItem(iValue, item)}
+                  {this.getProps().renderItem!(iValue, item)}
                 </MenuItem>
               );
             },
@@ -512,7 +516,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.focus();
     this.setState({ opened: false, value });
 
-    if (this.props.onValueChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
+    if (this.props.onValueChange && !this.getProps().areValuesEqual!(this.getValue(), value)) {
       this.props.onValueChange(value);
     }
   }
@@ -536,7 +540,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem!(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -555,7 +559,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [itemValue, item] = normalizeEntry(entry);
 
-      if (this.getProps().areValuesEqual(itemValue, value)) {
+      if (this.getProps().areValuesEqual!(itemValue, value)) {
         return item;
       }
     }

@@ -12,6 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
@@ -81,6 +82,11 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+const defaultPropsInstance = {
+  renderItem,
+};
+const defaultProps = getDefaultProps<RadioGroupProps<any>>(defaultPropsInstance as RadioGroupProps<any>);
+
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -108,9 +114,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps = {
-    renderItem,
-  };
+  public static defaultProps = defaultProps;
 
   public static Prevent = Prevent;
 
@@ -229,7 +233,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
+        <Radio value={itemValue}>{this.getProps().renderItem!(itemValue, data)}</Radio>
       </span>
     );
   };

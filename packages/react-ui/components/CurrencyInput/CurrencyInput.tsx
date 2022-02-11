@@ -8,6 +8,7 @@ import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -46,6 +47,15 @@ export interface CurrencyInputState {
   focused: boolean;
 }
 
+const defaultPropsInstance = {
+  align: 'right',
+  fractionDigits: 2,
+  hideTrailingZeros: false,
+  value: null,
+  inputMode: 'decimal',
+};
+const defaultProps = getDefaultProps<CurrencyInputProps>(defaultPropsInstance as CurrencyInputProps);
+
 /**
  * Поле для денежных сумм (и других числовых значений).
  * Принимает любые свойства `Input`.
@@ -82,13 +92,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     onSubmit: PropTypes.func,
   };
 
-  public static defaultProps = {
-    align: 'right',
-    fractionDigits: 2,
-    hideTrailingZeros: false,
-    value: null,
-    inputMode: 'decimal',
-  };
+  public static defaultProps = defaultProps;
 
   public state: CurrencyInputState = {
     ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros),

@@ -26,6 +26,7 @@ import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -169,28 +170,31 @@ const defaultRenderToken = <T extends {}>(
   </Token>
 );
 
+const defaultPropsInstance = {
+  selectedItems: [],
+  delimiters: [',', ' '],
+  renderItem: identity,
+  renderValue: identity,
+  valueToString: identity,
+  valueToItem: (item: string) => item,
+  toKey: defaultToKey,
+  onValueChange: () => void 0,
+  width: 250 as string | number,
+  onBlur: emptyHandler,
+  onFocus: emptyHandler,
+  onMouseEnter: emptyHandler,
+  onMouseLeave: emptyHandler,
+  menuWidth: 'auto',
+  menuAlign: 'cursor',
+};
+const defaultProps = getDefaultProps<TokenInputProps<any>>(defaultPropsInstance as TokenInputProps<any>);
+
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
 
-  public static defaultProps: Partial<TokenInputProps<any>> = {
-    selectedItems: [],
-    delimiters: [',', ' '],
-    renderItem: identity,
-    renderValue: identity,
-    valueToString: identity,
-    valueToItem: (item: string) => item,
-    toKey: defaultToKey,
-    onValueChange: () => void 0,
-    width: 250 as string | number,
-    onBlur: emptyHandler,
-    onFocus: emptyHandler,
-    onMouseEnter: emptyHandler,
-    onMouseLeave: emptyHandler,
-    menuWidth: 'auto',
-    menuAlign: 'cursor',
-  };
+  public static defaultProps = defaultProps;
 
   public state: TokenInputState<T> = DefaultState;
 

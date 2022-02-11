@@ -4,6 +4,7 @@ import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Center.styles';
 
@@ -23,6 +24,11 @@ export interface CenterProps
       }
     > {}
 
+const defaultPropsInstance = {
+  align: 'center',
+};
+const defaultProps = getDefaultProps<CenterProps>(defaultPropsInstance as CenterProps);
+
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
@@ -30,9 +36,7 @@ export interface CenterProps
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
-  public static defaultProps = {
-    align: 'center',
-  };
+  public static defaultProps = defaultProps;
   private setRootNode!: TSetRootNode;
 
   public render() {

@@ -8,6 +8,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 import { Corners } from './Corners';
@@ -163,6 +164,13 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+const defaultPropsInstance = {
+  use: 'default',
+  size: 'small',
+  type: 'button',
+};
+const defaultProps = getDefaultProps<ButtonProps>(defaultPropsInstance as ButtonProps);
+
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
@@ -172,11 +180,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
   public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
-  public static defaultProps = {
-    use: 'default' as ButtonUse,
-    size: 'small' as ButtonSize,
-    type: 'button' as ButtonType,
-  };
+  public static defaultProps = defaultProps;
 
   public state = {
     focusedByTab: false,
@@ -263,8 +267,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: cx({
         [styles.root(this.theme)]: true,
-        [styles[use](this.theme)]: true,
-        [activeStyles[use](this.theme)]: active,
+        [styles[use!](this.theme)]: true,
+        [activeStyles[use!](this.theme)]: active,
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,

@@ -8,6 +8,7 @@ import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -38,6 +39,11 @@ export interface SpinnerProps extends CommonProps {
   color?: React.CSSProperties['color'];
 }
 
+const defaultPropsInstance = {
+  type: 'normal',
+};
+const defaultProps = getDefaultProps<SpinnerProps>(defaultPropsInstance as SpinnerProps);
+
 /**
  * DRAFT - инлайн-лоадер
  */
@@ -67,9 +73,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps: SpinnerProps = {
-    type: 'normal',
-  };
+  public static defaultProps = defaultProps;
 
   public static Types: typeof types = types;
   private theme!: Theme;

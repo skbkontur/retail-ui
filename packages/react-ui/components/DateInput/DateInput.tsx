@@ -12,6 +12,7 @@ import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
@@ -71,18 +72,21 @@ export interface DateInputProps extends CommonProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+const defaultPropsInstance = {
+  value: '',
+  minDate: MIN_FULLDATE,
+  maxDate: MAX_FULLDATE,
+  size: 'small',
+  width: 125,
+};
+const defaultProps = getDefaultProps<DateInputProps>(defaultPropsInstance as DateInputProps);
+
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
 
-  public static defaultProps = {
-    value: '',
-    minDate: MIN_FULLDATE,
-    maxDate: MAX_FULLDATE,
-    size: 'small',
-    width: 125,
-  };
+  public static defaultProps = defaultProps;
 
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;

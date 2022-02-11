@@ -7,6 +7,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -46,6 +47,11 @@ export interface TabsProps<T extends string = string> extends CommonProps {
   width?: number | string;
 }
 
+const defaultPropsInstance = {
+  vertical: false,
+};
+const defaultProps = getDefaultProps<TabsProps<any>>(defaultPropsInstance as TabsProps<any>);
+
 /**
  * Tabs wrapper
  *
@@ -62,9 +68,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
-  public static defaultProps = {
-    vertical: false,
-  };
+  public static defaultProps = defaultProps;
 
   public static Tab = Tab;
 

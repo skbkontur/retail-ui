@@ -15,6 +15,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Kebab.styles';
 
@@ -57,20 +58,23 @@ export interface KebabState {
   opened: boolean;
 }
 
+const defaultPropsInstance = {
+  onOpen: () => undefined,
+  onClose: () => undefined,
+  positions: ['bottom left', 'bottom right', 'top left', 'top right'],
+  size: 'small',
+  disableAnimations: isTestEnv,
+  icon: <MenuKebabIcon />,
+};
+const defaultProps = getDefaultProps<KebabProps>(defaultPropsInstance as KebabProps);
+
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
   public static propTypes = {};
 
-  public static defaultProps = {
-    onOpen: () => undefined,
-    onClose: () => undefined,
-    positions: ['bottom left', 'bottom right', 'top left', 'top right'],
-    size: 'small',
-    disableAnimations: isTestEnv,
-    icon: <MenuKebabIcon />,
-  };
+  public static defaultProps = defaultProps;
 
   public state = {
     opened: false,

@@ -13,6 +13,7 @@ import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
@@ -81,16 +82,19 @@ const Positions: PopupPositionsType[] = [
   'left bottom',
 ];
 
+const defaultPropsInstance = {
+  positions: Positions,
+  type: PopupMenuType.Tooltip,
+  popupHasPin: true,
+  disableAnimations: false,
+};
+const defaultProps = getDefaultProps<PopupMenuProps>(defaultPropsInstance as PopupMenuProps);
+
 @rootNode
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
-  public static defaultProps = {
-    positions: Positions,
-    type: PopupMenuType.Tooltip,
-    popupHasPin: true,
-    disableAnimations: false,
-  };
+  public static defaultProps = defaultProps;
 
   public static Type = PopupMenuType;
 

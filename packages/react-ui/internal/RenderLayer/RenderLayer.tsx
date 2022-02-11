@@ -4,6 +4,7 @@ import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '.
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -12,6 +13,11 @@ export interface RenderLayerProps extends CommonProps {
   active?: boolean;
   getAnchorElement?: () => Nullable<HTMLElement>;
 }
+
+const defaultPropsInstance = {
+  active: true,
+};
+const defaultProps = getDefaultProps<RenderLayerProps>(defaultPropsInstance as RenderLayerProps);
 
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
@@ -28,9 +34,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     },
   };
 
-  public static defaultProps = {
-    active: true,
-  };
+  public static defaultProps = defaultProps;
 
   private focusOutsideListenerToken: {
     remove: () => void;

@@ -3,6 +3,7 @@ import React from 'react';
 import { MAX_SAFE_DIGITS } from '../CurrencyInput/constants';
 import { CurrencyHelper } from '../CurrencyInput/CurrencyHelper';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface CurrencyLabelProps extends CommonProps {
   /**
@@ -14,9 +15,10 @@ export interface CurrencyLabelProps extends CommonProps {
   currencySymbol?: React.ReactNode;
 }
 
-export const defaultProps = {
+const defaultPropsInstance = {
   fractionDigits: 2,
 };
+const defaultProps = getDefaultProps<CurrencyLabelProps>(defaultPropsInstance as CurrencyLabelProps);
 
 export const CurrencyLabel = (props: CurrencyLabelProps): JSX.Element => {
   const { value, fractionDigits, currencySymbol } = props;
