@@ -21,6 +21,7 @@
     "ReactTesting": true
   },
   "rules": {
+    "no-useless-computed-key": 1,
     "no-restricted-syntax": [
       2,
       {
