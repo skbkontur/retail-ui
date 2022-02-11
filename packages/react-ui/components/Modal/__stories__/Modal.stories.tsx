@@ -638,7 +638,7 @@ ModalWithoutStickyElements.storyName = 'Modal without sticky elements';
 ModalWithoutStickyElements.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
 
 export const WithAlignTop = () => (
-  <Modal alignTop={true}>
+  <Modal alignTop>
     <Modal.Body>
       <p>Use rxjs operators with react hooks.</p>
     </Modal.Body>

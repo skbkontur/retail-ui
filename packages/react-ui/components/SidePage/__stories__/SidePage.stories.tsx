@@ -301,7 +301,7 @@ class SidePageWithLeftPosition extends React.Component<{
 }> {
   public render() {
     return (
-      <SidePage disableAnimations={this.props.disableAnimations} fromLeft={true} onClose={this.props.close}>
+      <SidePage disableAnimations={this.props.disableAnimations} fromLeft onClose={this.props.close}>
         <SidePage.Header>test</SidePage.Header>
         <SidePage.Body>
           <SidePage.Container>
@@ -326,7 +326,7 @@ class LeftSidePageWithRightSidePage extends React.Component<{
   public render() {
     return (
       <>
-        <SidePage disableAnimations={this.props.disableAnimations} fromLeft={true}>
+        <SidePage disableAnimations={this.props.disableAnimations} fromLeft>
           <SidePage.Header>test</SidePage.Header>
           <SidePage.Body>
             <SidePage.Container>

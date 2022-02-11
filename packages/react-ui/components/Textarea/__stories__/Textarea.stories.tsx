@@ -332,7 +332,7 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE.split('').join(' ')}
           width={400}
           lengthCounter={700}
-          showLengthCounter={true}
+          showLengthCounter
           spellCheck={false}
         />
       </div>
@@ -343,8 +343,8 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE}
           width={400}
           lengthCounter={50}
-          autoResize={true}
-          showLengthCounter={true}
+          autoResize
+          showLengthCounter
           spellCheck={false}
         />
       </div>
@@ -355,8 +355,8 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE}
           width={400}
           maxLength={50}
-          disabled={true}
-          showLengthCounter={true}
+          disabled
+          showLengthCounter
           spellCheck={false}
         />
       </div>
@@ -367,7 +367,7 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE}
           width={400}
           maxLength={50}
-          showLengthCounter={true}
+          showLengthCounter
           counterHelp={'test'}
           spellCheck={false}
         />

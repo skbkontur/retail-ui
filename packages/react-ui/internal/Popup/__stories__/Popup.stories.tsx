@@ -24,7 +24,7 @@ PositioningStory.parameters = { creevey: { skip: [true] } };
 export const DisableAnimations = () => (
   <div>
     <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
-    <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
+    <PopupWithPositions disableAnimations placeholder={'disableAnimations: true'} />
   </div>
 );
 DisableAnimations.storyName = 'disableAnimations';
