@@ -421,7 +421,7 @@ Simple.parameters = {
     skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }],
     tests: {
       ...tabsTests,
-      async ['move focus forward']() {
+      async 'move focus forward'() {
         await this.browser
           .actions({
             bridge: true,
@@ -438,7 +438,7 @@ Simple.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
       },
-      async ['move focus backward']() {
+      async 'move focus backward'() {
         await this.browser
           .actions({
             bridge: true,
@@ -461,7 +461,7 @@ Simple.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
       },
-      async ['reset focus after click']() {
+      async 'reset focus after click'() {
         await this.browser
           .actions({
             bridge: true,

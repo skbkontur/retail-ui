@@ -76,7 +76,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       </span>
     ),
     useGlobalListener: false,
-    ['data-tid']: 'Paging__root',
+    'data-tid': 'Paging__root',
   };
 
   public static propTypes = {};

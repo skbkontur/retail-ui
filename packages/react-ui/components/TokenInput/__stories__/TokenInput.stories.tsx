@@ -525,7 +525,7 @@ OnUnexpectedInputValidation.parameters = {
       },
     ],
     tests: {
-      async ['token select']() {
+      async 'token select'() {
         await this.browser
           .actions({
             bridge: true,
@@ -602,7 +602,7 @@ OnUnexpectedInputValidation.parameters = {
           withSelectedTokens,
         }).to.matchImages();
       },
-      async ['token edit']() {
+      async 'token edit'() {
         await this.browser
           .actions({
             bridge: true,

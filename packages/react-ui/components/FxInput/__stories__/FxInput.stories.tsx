@@ -40,11 +40,11 @@ WithWidthStory.storyName = 'with width';
 WithWidthStory.parameters = {
   creevey: {
     tests: {
-      async ['inside auto container']() {
+      async 'inside auto container'() {
         const element = await this.browser.findElement({ css: '[data-tid="container"]' });
         await this.expect(await element.takeScreenshot()).to.matchImage('inside auto container');
       },
-      async ['inside fixed container']() {
+      async 'inside fixed container'() {
         const element = await this.browser.findElement({ css: '[data-tid="container"]' });
         await this.browser
           .actions({

@@ -164,7 +164,7 @@ WithMouseeventHandlers.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
-      async ['DateSelect month']() {
+      async 'DateSelect month'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -183,7 +183,7 @@ WithMouseeventHandlers.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
       },
-      async ['DateSelect year']() {
+      async 'DateSelect year'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -262,7 +262,7 @@ DatePickerWithMinMaxDate.storyName = 'DatePicker with min max date';
 DatePickerWithMinMaxDate.parameters = {
   creevey: {
     tests: {
-      async ['DateSelect months']() {
+      async 'DateSelect months'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -281,7 +281,7 @@ DatePickerWithMinMaxDate.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
-      async ['DateSelect years']() {
+      async 'DateSelect years'() {
         await delay(1000);
         await this.browser
           .actions({

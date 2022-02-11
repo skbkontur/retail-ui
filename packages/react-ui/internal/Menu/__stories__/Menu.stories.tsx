@@ -91,7 +91,7 @@ WithMaxHeight.parameters = {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
       },
-      async ['moved up from top to the last Item']() {
+      async 'moved up from top to the last Item'() {
         await this.browser
           .actions({
             bridge: true,
@@ -100,7 +100,7 @@ WithMaxHeight.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('moved up from top to the last Item');
       },
-      async ['moved up from bottom to the first Item']() {
+      async 'moved up from bottom to the first Item'() {
         await this.browser
           .actions({
             bridge: true,
@@ -111,7 +111,7 @@ WithMaxHeight.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('moved up from bottom to the first Item');
       },
-      async ['moved down from top to the last Item']() {
+      async 'moved down from top to the last Item'() {
         await this.browser
           .actions({
             bridge: true,
@@ -124,7 +124,7 @@ WithMaxHeight.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('moved down from top to the last Item');
       },
-      async ['moved down from bottom to the first Item']() {
+      async 'moved down from bottom to the first Item'() {
         await this.browser
           .actions({
             bridge: true,
