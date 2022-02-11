@@ -239,14 +239,14 @@ export const DifferentAligns = () => (
 );
 DifferentAligns.storyName = 'different aligns';
 
-export const differentWidths: Story = () => (
+export const DifferentWidths: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'long-long-long text' }}
     combinations={[widthStates, [{ props: { use: 'link' } }, { props: { use: 'default' } }]]}
   />
 );
-differentWidths.storyName = 'different widths';
+DifferentWidths.storyName = 'different widths';
 
 export const DefaultCombinations: Story = () => (
   <ComponentCombinator
