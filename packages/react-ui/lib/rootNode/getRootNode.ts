@@ -22,6 +22,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return node;
   }
 
+  // eslint-disable-next-line react/no-find-dom-node
   node = findDOMNode(instance);
   return node instanceof HTMLElement ? node : null;
 };
