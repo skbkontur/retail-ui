@@ -288,7 +288,7 @@ const getStyle = (props: MenuProps): CSSProperties => {
   if (props.align === 'right') {
     return {
       maxWidth: props.width,
-      minWidth: isIE11 && props.width === 'auto' ? '100%' : props.width,
+      minWidth: props.width,
       maxHeight: props.maxHeight,
     };
   }

@@ -21,6 +21,7 @@ export const styles = memoizeStyle({
   alignRightIE11() {
     return css`
       float: right;
+      width: 100%;
     `;
   },
 
