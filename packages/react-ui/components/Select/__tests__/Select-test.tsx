@@ -48,7 +48,7 @@ describe('Select', () => {
     const defaultValueText = wrapper.prop('renderItem')!(currentValue, currentValue);
 
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
-    const selectedMenuItem = menu.findWhere((node) => node.is('MenuItem') && node.prop('state') === 'selected');
+    const selectedMenuItem = menu.findWhere((node) => node.is(MenuItem) && node.prop('state') === 'selected');
     expect(selectedMenuItem.length).toBe(1);
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });
@@ -85,13 +85,13 @@ describe('Select', () => {
     );
 
     wrapper.find(Select).setState({ opened: true, searchPattern: 'o' });
-    expect(wrapper.find(MenuItem)).toHaveLength(4);
+    expect(wrapper.find('MenuItem')).toHaveLength(4);
 
     wrapper.find(Select).setState({ searchPattern: 's' });
-    expect(wrapper.find(MenuItem)).toHaveLength(3);
+    expect(wrapper.find('MenuItem')).toHaveLength(3);
 
     wrapper.find(Select).setState({ searchPattern: '3' });
-    expect(wrapper.find(MenuItem)).toHaveLength(1);
+    expect(wrapper.find('MenuItem')).toHaveLength(1);
   });
 
   describe('Locale', () => {

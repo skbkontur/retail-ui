@@ -45,6 +45,7 @@ export const styles = memoizeStyle({
       background: transparent;
       color: ${t.menuItemDisabledColor};
       cursor: default;
+      pointer-events: none;
     `;
   },
   link(t: Theme) {
