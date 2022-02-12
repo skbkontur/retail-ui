@@ -12,16 +12,4 @@ export const styles = memoizeStyle({
       transform: translateY(0);
     `;
   },
-  exit() {
-    return css`
-      transform: translateY(0);
-      opacity: 1;
-    `;
-  },
-  exitActive() {
-    return css`
-      opacity: 0.01;
-      transition: opacity 0.15s ease-out;
-    `;
-  },
 });

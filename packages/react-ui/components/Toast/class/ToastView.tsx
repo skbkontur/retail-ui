@@ -1,14 +1,13 @@
 import React from 'react';
 import { func, shape, string } from 'prop-types';
 
-import { CrossIcon } from '../../internal/icons/CrossIcon';
-import { ZIndex } from '../../internal/ZIndex';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Theme } from '../../lib/theming/Theme';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
-
-import { styles } from './ToastView.styles';
+import { CrossIcon } from '../../../internal/icons/CrossIcon';
+import { ZIndex } from '../../../internal/ZIndex';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { Theme } from '../../../lib/theming/Theme';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { styles } from '../ToastView.styles';
 
 export interface ToastViewProps extends CommonProps {
   /**

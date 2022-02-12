@@ -1,13 +1,13 @@
 import React from 'react';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
-import { RenderContainer } from '../../internal/RenderContainer';
-import { Nullable } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { isTestEnv } from '../../lib/currentEnvironment';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { RenderContainer } from '../../../internal/RenderContainer';
+import { Nullable } from '../../../typings/utility-types';
+import { CommonProps, CommonWrapper } from '../../../internal/CommonWrapper';
+import { isTestEnv } from '../../../lib/currentEnvironment';
+import { rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { styles } from '../Toast.styles';
 
-import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
 import { ToastStatic } from './ToastStatic';
 
@@ -123,16 +123,9 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         classNames={{
           enter: styles.enter(),
           enterActive: styles.enterActive(),
-          exit: styles.exit(),
-          exitActive: styles.exitActive(),
         }}
-        timeout={{
-          enter: 200,
-          exit: 150,
-        }}
+        timeout={200}
         enter={!isTestEnv}
-        exit={!isTestEnv}
-        nodeRef={this.rootRef}
       >
         <CommonWrapper rootNodeRef={this.setRootRef} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
