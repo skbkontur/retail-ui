@@ -49,6 +49,7 @@
     "react/display-name": 1,
     "react/jsx-boolean-value": 2,
     "react/prop-types": [2, { "skipUndeclared": true }],
+    "react/no-unstable-nested-components": 2,
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/ban-ts-ignore": 0,

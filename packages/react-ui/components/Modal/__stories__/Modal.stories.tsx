@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { Component, useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
