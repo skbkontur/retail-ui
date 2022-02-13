@@ -46,7 +46,7 @@
     "import/no-unresolved": 0,
     "import/no-duplicates": 2,
     "import/no-default-export": 2,
-    "react/no-find-dom-node": 0,
+    "react/no-find-dom-node": 2,
     "react/display-name": 1,
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-explicit-any": 0,
