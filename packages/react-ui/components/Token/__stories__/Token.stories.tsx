@@ -46,8 +46,8 @@ Default.storyName = 'default';
 export const Disabled = () => {
   return (
     <>
-      <Token disabled={true}>test disabled 01</Token>
-      <Token disabled={true}>test disabled 02</Token>
+      <Token disabled>test disabled 01</Token>
+      <Token disabled>test disabled 02</Token>
     </>
   );
 };
@@ -119,8 +119,8 @@ Colored.storyName = 'colored';
 export const Validations = () => {
   return (
     <>
-      <Token error={true}>test</Token>
-      <Token warning={true} isActive>
+      <Token error>test</Token>
+      <Token warning isActive>
         test
       </Token>
     </>

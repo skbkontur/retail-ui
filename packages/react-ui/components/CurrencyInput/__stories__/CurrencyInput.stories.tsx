@@ -158,7 +158,7 @@ export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: [true] } };
-export const WithBorderless = () => <CurrencyInputDemo borderless={true} />;
+export const WithBorderless = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
 

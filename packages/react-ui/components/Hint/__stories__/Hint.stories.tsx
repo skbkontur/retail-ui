@@ -110,7 +110,7 @@ export const HintWithoutAnimations = () => (
     <Hint text="disableAnimations={false}" disableAnimations={false}>
       <button>Hover me (disableAnimations: false)</button>
     </Hint>
-    <Hint text="disableAnimations={true}" disableAnimations={true}>
+    <Hint text="disableAnimations={true}" disableAnimations>
       <button>Hover me (disableAnimations: true)</button>
     </Hint>
   </div>

@@ -483,24 +483,24 @@ WithBorderless.storyName = 'with borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
 
 export const WithCenterAlign = () => (
-  <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue={true} />
+  <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue />
 );
 WithCenterAlign.storyName = 'with center align';
 WithCenterAlign.parameters = { creevey: { skip: [true] } };
 
 export const NotRenderNotFound = () => (
-  <SimpleCombobox placeholder={'placeholder'} noInitialValue={true} renderNotFound={() => null} />
+  <SimpleCombobox placeholder={'placeholder'} noInitialValue renderNotFound={() => null} />
 );
 NotRenderNotFound.storyName = 'not render NotFound';
 NotRenderNotFound.parameters = { creevey: { skip: [true] } };
 
 export const WithRightAlign = () => (
-  <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />
+  <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue />
 );
 WithRightAlign.storyName = 'with right align';
 WithRightAlign.parameters = { creevey: { skip: [true] } };
 
-export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue={true} />;
+export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue />;
 WithMaxLength.storyName = 'with maxLength';
 WithMaxLength.parameters = { creevey: { skip: [true] } };
 
@@ -614,7 +614,7 @@ OpenCloseSearchMethods.parameters = { creevey: { skip: [true] } };
 
 export const FocusFlow: Story = () => (
   <div>
-    <SimpleCombobox autoFocus={true} />
+    <SimpleCombobox autoFocus />
     <br />
     <br />
     <SimpleCombobox />

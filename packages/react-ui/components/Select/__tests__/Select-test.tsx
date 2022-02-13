@@ -79,7 +79,7 @@ describe('Select', () => {
           [7, 'Seven', 777],
         ]}
         search
-        disablePortal={true}
+        disablePortal
         onValueChange={console.log}
       />,
     );

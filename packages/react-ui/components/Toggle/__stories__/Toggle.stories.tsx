@@ -35,7 +35,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled />
+                <Toggle checked disabled />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -55,7 +55,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled warning />
+                <Toggle checked disabled warning />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -75,7 +75,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled error />
+                <Toggle checked disabled error />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -94,7 +94,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled color="#28bf4f" />
+                <Toggle checked disabled color="#28bf4f" />
                 {' On disabled'}
               </div>
             </Gapped>

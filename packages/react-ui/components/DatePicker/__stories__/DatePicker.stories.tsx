@@ -313,7 +313,7 @@ export const DatePickerLocaleProvider = () => {
           minDate="02.07.2017"
           maxDate="30.01.2020"
           onValueChange={action('change')}
-          enableTodayLink={true}
+          enableTodayLink
         />
       </LocaleContext.Provider>
     </div>

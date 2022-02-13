@@ -264,7 +264,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     );
     return (
       <ComponentsGroup title={'Тултип'} theme={this.theme}>
-        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations={true}>
+        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
           <Link icon={<HelpDotIcon />} />
         </Tooltip>
       </ComponentsGroup>
