@@ -34,7 +34,6 @@
     ],
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "react/prop-types": 0,
     "react-hooks/rules-of-hooks": 2,
     "import/default": 0,
     "import/order": [
@@ -49,6 +48,7 @@
     "react/no-find-dom-node": 2,
     "react/display-name": 1,
     "react/jsx-boolean-value": 2,
+    "react/prop-types": [2, { "skipUndeclared": true }],
     "@typescript-eslint/no-unused-vars": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/ban-ts-ignore": 0,
