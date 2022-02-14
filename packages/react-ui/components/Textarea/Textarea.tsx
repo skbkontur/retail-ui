@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import raf from 'raf';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
+import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -107,7 +107,7 @@ export interface TextareaProps
     > {}
 
 export interface TextareaState {
-  polyfillPlaceholder: boolean;
+  needsPolyfillPlaceholder: boolean;
   isCounterVisible: boolean;
 }
 
@@ -184,7 +184,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   public state = {
-    polyfillPlaceholder,
+    needsPolyfillPlaceholder: needsPolyfillPlaceholder(),
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -359,7 +359,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     let placeholderPolyfill = null;
 
-    if (this.state.polyfillPlaceholder && !textareaProps.value) {
+    if (this.state.needsPolyfillPlaceholder && !textareaProps.value) {
       placeholderPolyfill = <span className={styles.placeholder()}>{placeholder}</span>;
     }
 
@@ -435,11 +435,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (polyfillPlaceholder) {
+    if (needsPolyfillPlaceholder()) {
       const fieldIsEmpty = e.target.value === '';
 
-      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });
       }
     }
 
