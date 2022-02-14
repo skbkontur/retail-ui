@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { animations, styles } from './GlobalLoaderView.styles';
-import { useGlobalLoaderViewParams } from './useGlobalLoaderViewParams';
+import { useWidthAndPosition } from './useWidthAndPosition';
 
 export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
   expectedResponseTime: number;
@@ -15,6 +15,11 @@ export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
   disableAnimations: boolean;
 }
 
+export type GlobalLoaderViewRef = {
+  element: HTMLDivElement;
+  refObject: React.RefObject<GlobalLoaderViewRef['element']>;
+};
+
 export const GlobalLoaderView = ({
   expectedResponseTime,
   delayBeforeHide,
@@ -22,11 +27,11 @@ export const GlobalLoaderView = ({
   disableAnimations,
   ...rest
 }: GlobalLoaderViewProps) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<GlobalLoaderViewRef['element']>(null);
   const theme = useContext(ThemeContext);
-  const { width, startWidth, left } = useGlobalLoaderViewParams(status, ref);
+  const { width, startWidth, left } = useWidthAndPosition(status, ref);
 
-  const getGlobalLoaderClasses = (status: GlobalLoaderViewProps['status']) => {
+  const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
     if (!disableAnimations) {
       switch (status) {
         case 'success':
@@ -57,7 +62,7 @@ export const GlobalLoaderView = ({
   return (
     <CommonWrapper {...rest}>
       <ZIndex priority="GlobalLoader" className={styles.outer(theme)}>
-        <div ref={ref} className={cx(styles.inner(theme), getGlobalLoaderClasses(status))} />
+        <div ref={ref} className={cx(styles.inner(theme), getAnimationClass(status))} />
       </ZIndex>
     </CommonWrapper>
   );
