@@ -123,7 +123,7 @@ export class ValidationContext extends React.Component<ValidationContextProps> i
 
   public async validate(withoutFocus: boolean): Promise<boolean> {
     await Promise.all(this.childWrappers.map(x => x.processSubmit()));
-    const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError());
+    const firstInvalid = this.getChildWrappersSortedByPosition().find(x => x.hasError() || x.hasWarning());
     if (firstInvalid) {
       if (!withoutFocus) {
         firstInvalid.focus();

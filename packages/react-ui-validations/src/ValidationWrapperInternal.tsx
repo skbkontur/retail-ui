@@ -172,6 +172,10 @@ export class ValidationWrapperInternal extends React.Component<
     return getLevel(this.state.validation) === 'error';
   }
 
+  public hasWarning(): boolean {
+    return getLevel(this.state.validation) === 'warning';
+  }
+
   private handleBlur() {
     this.processBlur();
     this.context.validationContext.instanceProcessBlur(this);
