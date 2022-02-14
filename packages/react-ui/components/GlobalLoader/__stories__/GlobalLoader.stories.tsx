@@ -67,20 +67,31 @@ function GlobalLoaderWithTimer() {
   const [active, setActive] = React.useState(false);
   const [time, setTime] = React.useState(1);
   const [timerTime, setTimerTime] = React.useState(0);
-  const items = [0.5, 1, 2, 4, 8, 16];
+  const [expectedResponseTime, setExpectedResponseTime] = React.useState(2);
+  const times = [0.5, 1, 2, 4, 8, 16];
   let timer: ReturnType<typeof setInterval> | null = null;
   return (
     <div>
       <div>
-        Выбирите время, через которое придет ответ от сервера:{' '}
-        <Select<number, number> items={items} value={time} onValueChange={setTime} />
+        Выбирите время, через которое предполагается что придет ответ от сервера:
+        <Select<number, number> items={times} value={expectedResponseTime} onValueChange={setExpectedResponseTime} />
+        секунд
+      </div>
+      <div>
+        Выбирите время, через которое придет ответ от сервера:
+        <Select<number, number> items={times} value={time} onValueChange={setTime} />
         Прошло: {timerTime / 1000} секунд
       </div>
       <Button onClick={startGlobalLoader} disabled={active}>
         {' '}
         Запустить Глобальный лоадер{' '}
       </Button>
-      <GlobalLoader expectedResponseTime={2000} delayBeforeShow={0} active={active} disableAnimations={false} />
+      <GlobalLoader
+        expectedResponseTime={expectedResponseTime * 1000}
+        delayBeforeShow={0}
+        active={active}
+        disableAnimations={false}
+      />
       <Toast />
     </div>
   );
