@@ -121,7 +121,7 @@ export const animations = {
   standardAnimation(expectedTime: number) {
     return css`
       width: 80%;
-      animation: ${linearProgressAnimation} ${expectedTime}ms ease-out;
+      animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1);
     `;
   },
   acceptAnimation(startWidth: number, expectedTime: number) {
