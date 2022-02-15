@@ -94,7 +94,7 @@ describe('Tooltip', () => {
           <div />
         </Tooltip>,
       );
-      wrapper.find(Popup).invoke('onOpen')!();
+      wrapper.find(Popup).invoke('onOpen')?.();
       expect(onOpen).toBeCalledTimes(1);
     });
   });

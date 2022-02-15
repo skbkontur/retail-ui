@@ -10,8 +10,10 @@ export class ThemeFactory {
 
   public static overrideDefaultTheme(theme: ThemeIn) {
     Object.keys(theme).forEach((variableName) => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, variableName)!;
-      Object.defineProperty(DefaultThemeInternal, variableName, descriptor);
+      const descriptor = Object.getOwnPropertyDescriptor(theme, variableName);
+      if (descriptor) {
+        Object.defineProperty(DefaultThemeInternal, variableName, descriptor);
+      }
     });
   }
 
@@ -31,8 +33,10 @@ export class ThemeFactory {
   private static constructTheme(base: Theme, theme: ThemeIn) {
     const newTheme = Object.create(base);
     Object.keys(theme).forEach((propName) => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, propName)!;
-      Object.defineProperty(newTheme, propName, descriptor);
+      const descriptor = Object.getOwnPropertyDescriptor(theme, propName);
+      if (descriptor) {
+        Object.defineProperty(newTheme, propName, descriptor);
+      }
     });
 
     return Object.freeze(newTheme);

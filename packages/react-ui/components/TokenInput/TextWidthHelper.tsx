@@ -35,7 +35,11 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   }
 
   public getTextHeight(): number {
-    return this.element!.getBoundingClientRect().height;
+    if (!this.element) {
+      return 0;
+    }
+
+    return this.element.getBoundingClientRect().height;
   }
 
   private elementRef = (node: HTMLDivElement) => (this.element = node);

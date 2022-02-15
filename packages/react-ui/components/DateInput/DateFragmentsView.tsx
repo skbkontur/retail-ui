@@ -71,9 +71,18 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     const { inputMode, onSelectDateComponent, selected } = this.props;
     const { type, value, length, valueWithPad } = fragment;
 
-    const valueMask = value === null || (selected === type && inputMode) ? value : valueWithPad || value;
+    const getValueMask = () => {
+      if (value === null || (selected === type && inputMode)) {
+        return value;
+      }
+
+      return valueWithPad || value;
+    };
+
+    const valueMask = getValueMask();
+
     const lengthMask = InternalDateValidator.testParseToNumber(valueMask)
-      ? Math.max(length - valueMask!.toString().length, 0)
+      ? Math.max(length - valueMask.toString().length, 0)
       : length;
 
     const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {

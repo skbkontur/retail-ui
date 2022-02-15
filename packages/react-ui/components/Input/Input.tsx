@@ -158,7 +158,7 @@ export class Input extends React.Component<InputProps, InputState> {
    */
   public focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
-    this.input!.focus();
+    this.input.focus();
   }
 
   /**
@@ -166,7 +166,7 @@ export class Input extends React.Component<InputProps, InputState> {
    */
   public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
-    this.input!.blur();
+    this.input.blur();
   }
 
   /**

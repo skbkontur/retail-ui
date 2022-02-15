@@ -73,7 +73,7 @@ describe('Popup', () => {
     await openPopup(wrapper);
 
     expect(wrapper.state('location')).not.toBeNull();
-    expect(wrapper.state('location')!.position).toBe('bottom right');
+    expect(wrapper.state('location')?.position).toBe('bottom right');
   });
 
   it('одна и та же позиция при каждом открытии', async () => {
@@ -101,7 +101,7 @@ describe('Popup', () => {
     const check = async () => {
       await openPopup(wrapper);
 
-      expect(wrapper.state('location')!.position).toBe('bottom right');
+      expect(wrapper.state('location')?.position).toBe('bottom right');
 
       await closePopup(wrapper);
     };
@@ -157,7 +157,7 @@ describe('properly renders opened/closed states ', () => {
     expect(innerContainer).toBeDefined();
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
-    expect(innerContainer!.children()).toHaveLength(0);
+    expect(innerContainer?.children()).toHaveLength(0);
   });
 
   it('02 - then opened', async () => {
@@ -168,7 +168,7 @@ describe('properly renders opened/closed states ', () => {
     expect(content).toBeDefined();
     expect(content).not.toBeNull();
     expect(content).toHaveLength(1);
-    expect(content!.text()).toBe('Test content');
+    expect(content?.text()).toBe('Test content');
   });
 
   it('03 - and closed again', async () => {
@@ -178,6 +178,6 @@ describe('properly renders opened/closed states ', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
-    expect(innerContainer!.children()).toHaveLength(0);
+    expect(innerContainer?.children()).toHaveLength(0);
   });
 });

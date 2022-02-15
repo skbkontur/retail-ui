@@ -363,7 +363,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
+                anchorElement={menuAlign === 'cursor' ? this.input : this.wrapper}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
@@ -554,8 +554,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     this.dispatch({ type: 'SET_PREVENT_BLUR', payload: true });
     const target = event.target as HTMLElement;
-    const isClickOnToken =
-      target && this.wrapper?.contains(target) && target !== this.wrapper! && target !== this.input!;
+    const isClickOnToken = target && this.wrapper?.contains(target) && target !== this.wrapper && target !== this.input;
     if (!isClickOnToken) {
       this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     }

@@ -114,8 +114,9 @@ export class Picker extends React.Component<Props, State> {
 
   private handleSelectToday = (today: InternalDate) => () => {
     if (this.props.onSelect) {
-      this.props.onSelect(today.toNativeFormat()!);
+      this.props.onSelect(today.toNativeFormat());
     }
+
     if (this.calendar) {
       const { month, year } = this.state.today;
       this.calendar.scrollToMonth(month, year);

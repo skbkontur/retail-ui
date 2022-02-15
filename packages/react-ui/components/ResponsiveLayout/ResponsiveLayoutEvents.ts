@@ -86,7 +86,7 @@ export function checkMatches(mediaQuery: string) {
   } else {
     const eventListener = eventListenersMap.get(mediaQuery);
 
-    return eventListener!.mql.matches;
+    return eventListener?.mql.matches;
   }
 }
 

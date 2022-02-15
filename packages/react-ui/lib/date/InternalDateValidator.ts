@@ -87,8 +87,12 @@ export class InternalDateValidator {
     return true;
   }
 
-  public static testParseToNumber(value: InternalDateComponentRaw): boolean {
-    return value !== null && (typeof value === 'number' || !Number.isNaN(parseInt(value, 10)));
+  public static testParseToNumber(value: InternalDateComponentRaw): value is NonNullable<typeof value> {
+    if (value !== null) {
+      return typeof value === 'number' || !Number.isNaN(parseInt(value, 10));
+    }
+
+    return false;
   }
 
   public static isEqualDateValues(a: InternalDate, b: InternalDate): boolean {
@@ -96,6 +100,9 @@ export class InternalDateValidator {
   }
 
   public static isEqualDateFormats(a: InternalDate, b: InternalDate): boolean {
-    return a.getOrder() === b.getOrder() && a.getSeparator() === b.getSeparator();
+    const areOrdersEqual = a.getOrder() === b.getOrder();
+    const areSeparatorsEqual = a.getSeparator() === b.getSeparator();
+
+    return areOrdersEqual && areSeparatorsEqual;
   }
 }

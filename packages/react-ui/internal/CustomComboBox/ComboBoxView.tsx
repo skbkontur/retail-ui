@@ -175,7 +175,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         opened={opened}
         refMenu={refMenu}
         renderTotalCount={renderTotalCount}
-        renderItem={renderItem!}
+        renderItem={renderItem as NonNullable<ComboBoxViewProps<T>['renderItem']>}
         renderNotFound={renderNotFound}
         renderAddButton={this.renderAddButton}
         repeatRequest={repeatRequest}

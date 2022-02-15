@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup } from '../../internal/Popup';
+import { Popup, PopupProps } from '../../internal/Popup';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
 import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
@@ -10,7 +10,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
-  anchorElement: HTMLElement;
+  anchorElement: PopupProps['anchorElement'];
   menuWidth: TokenInputProps<string>['menuWidth'];
   menuAlign: TokenInputMenuAlign;
 }
@@ -65,7 +65,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
     return (
       <Popup
-        opened={opened!}
+        opened={!!opened}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}
         popupOffset={menuAlign === 'left' ? 0 : 5}
