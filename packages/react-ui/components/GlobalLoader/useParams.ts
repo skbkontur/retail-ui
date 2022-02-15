@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
 
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+
 import { GlobalLoaderViewProps, GlobalLoaderViewRef } from './GlobalLoaderView';
 
 /**
@@ -10,7 +12,7 @@ import { GlobalLoaderViewProps, GlobalLoaderViewRef } from './GlobalLoaderView';
  */
 
 export const usePosition = (ref: GlobalLoaderViewRef['refObject']) => {
-  const { left = 0 } = ref.current?.getBoundingClientRect() || {};
+  const { left } = getDOMRect(ref);
   return { left };
 };
 
@@ -23,7 +25,7 @@ export const usePosition = (ref: GlobalLoaderViewRef['refObject']) => {
  */
 
 export const useWidth = (status: GlobalLoaderViewProps['status'], ref: GlobalLoaderViewRef['refObject']) => {
-  const { width = 0 } = ref.current?.getBoundingClientRect() || {};
+  const { width } = getDOMRect(ref);
   const [startWidth, setStartWidth] = useState(0);
   useEffect(() => {
     if (status === 'error') {
