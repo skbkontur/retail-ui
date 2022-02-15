@@ -21,7 +21,9 @@ import { PagingLocale, PagingLocaleHelper } from './locale';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
-interface ItemComponentProps {
+// TODO: Stop passing `active` prop to `component`.
+
+export interface ItemComponentProps {
   active: boolean;
   children?: React.ReactNode;
   className: string;
@@ -314,7 +316,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     }
   };
 
-  private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+  private handleFocus = () => {
     if (this.props.disabled) {
       return;
     }

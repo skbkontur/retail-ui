@@ -121,7 +121,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     };
   }
 
-  public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
+  public componentDidUpdate(prevProps: DateInputProps) {
     if (
       prevProps.value !== this.props.value ||
       prevProps.minDate !== this.props.minDate ||

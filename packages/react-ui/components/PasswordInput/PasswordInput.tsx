@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -147,7 +149,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  private getEyeWrapperClassname(right = false) {
+  private getEyeWrapperClassname() {
     switch (this.props.size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);

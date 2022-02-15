@@ -62,17 +62,10 @@ export class ZIndex extends React.Component<ZIndexProps> {
   }
 
   public render() {
-    const {
-      style,
-      children,
-      delta,
-      priority,
-      applyZIndex,
-      coverChildren,
-      createStackingContext,
-      wrapperRef,
-      ...props
-    } = this.props;
+    // TODO: Enable this rule in functional components.
+    /* eslint-disable @typescript-eslint/no-unused-vars */
+    const { style, children, delta, priority, applyZIndex, coverChildren, createStackingContext, wrapperRef, ...rest } =
+      this.props;
 
     const wrapperStyle: React.CSSProperties = {};
 
@@ -98,7 +91,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
           return (
             <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...rest}>
                 {children}
               </div>
             </ZIndexContext.Provider>

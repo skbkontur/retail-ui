@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 

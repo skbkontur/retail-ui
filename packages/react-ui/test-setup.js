@@ -37,7 +37,7 @@ global.MutationObserver = class {
   disconnect() {
     /**/
   }
-  observe(element, initObject) {
+  observe() {
     /**/
   }
 };

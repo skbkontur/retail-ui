@@ -64,7 +64,7 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
     e.stopPropagation();
   };
 
-  private wrapperClickHandler = (e: React.MouseEvent) => {
+  private wrapperClickHandler = () => {
     this.props.onClose();
   };
 }

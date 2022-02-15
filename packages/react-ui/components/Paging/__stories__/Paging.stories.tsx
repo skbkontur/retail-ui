@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Meta, Story } from '../../../typings/stories';
-import { Paging } from '../Paging';
+import { ItemComponentProps, Paging } from '../Paging';
 import { delay } from '../../../lib/utils';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
@@ -62,16 +62,21 @@ class PagingWithState extends Component<any, any> {
 
 const getPageFromHash = () => +document.location.hash.slice(1);
 
-const CustomComponent: React.SFC<any> = ({ active, pageNumber, ...props }) =>
-  Paging.isForward(pageNumber) ? (
-    <a href={'#' + (getPageFromHash() + 1)} {...props}>
-      {props.children}
-    </a>
-  ) : (
-    <a href={'#' + pageNumber} {...props}>
-      {props.children}
+const CustomComponent = ({ children, pageNumber, ...rest }: ItemComponentProps) => {
+  if (Paging.isForward(pageNumber)) {
+    return (
+      <a href={'#' + (getPageFromHash() + 1)} {...rest}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <a href={'#' + pageNumber} {...rest}>
+      {children}
     </a>
   );
+};
 
 class PagingWithCustomComponent extends Component<any, any> {
   public state = {

@@ -2,6 +2,7 @@ import requestAnimationFrame, { cancel as cancelAnimationFrame } from 'raf';
 
 import { stepper } from './stepper';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const noop = (...args: any[]) => {
   /* do nothing */
 };

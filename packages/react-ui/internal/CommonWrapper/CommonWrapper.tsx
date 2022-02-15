@@ -40,6 +40,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   private setRootNode!: TSetRootNode;
 
   render() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)

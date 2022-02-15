@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';

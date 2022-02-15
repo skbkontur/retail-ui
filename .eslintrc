@@ -48,7 +48,7 @@
     "import/no-default-export": 2,
     "react/no-find-dom-node": 0,
     "react/display-name": 0,
-    "@typescript-eslint/no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": 1,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/ban-ts-ignore": 0,
     "@typescript-eslint/no-use-before-define": 0,

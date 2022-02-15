@@ -1074,7 +1074,7 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });
 
-  private onUnexpectedInput = (query: string) => {
+  private onUnexpectedInput = () => {
     this.setState({
       warning: true,
     });

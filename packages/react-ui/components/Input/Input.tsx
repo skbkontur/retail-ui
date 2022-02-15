@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';

@@ -196,7 +196,7 @@ export const Effect: EffectFactory = {
     const combobox = getInstance();
     combobox.selectInputText();
   },
-  InputKeyDown: (event) => (dispatch, getState, getProps, getInstance) => {
+  InputKeyDown: (event) => (dispatch, getState, getProps) => {
     const { onInputKeyDown } = getProps();
     if (onInputKeyDown) {
       onInputKeyDown(event);
@@ -204,7 +204,7 @@ export const Effect: EffectFactory = {
   },
 };
 
-const never = (_: never) => null;
+const never = () => null;
 
 export function reducer<T>(
   state: CustomComboBoxState<T>,
@@ -389,7 +389,7 @@ export function reducer<T>(
       };
     }
     default: {
-      never(action);
+      never();
     }
   }
   return state;

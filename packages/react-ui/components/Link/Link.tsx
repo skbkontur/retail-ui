@@ -157,7 +157,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   };
 
-  private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
+  private _handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way

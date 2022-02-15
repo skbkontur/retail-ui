@@ -10,6 +10,8 @@ export const withFileUploaderControlProvider = <TProps extends object, TRef exte
   React.memo(
     React.forwardRef<TRef, TProps & FileUploaderControlProviderProps>(
       (props: TProps & FileUploaderControlProviderProps, ref) => {
+        // TODO: Find a way to enable the rule below.
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { onRemove, onValueChange, onAttach, ...rest } = props;
         return (
           <FileUploaderControlProvider {...props}>

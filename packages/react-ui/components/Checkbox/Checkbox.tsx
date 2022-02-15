@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -200,7 +202,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const iconClass = cx({
-      [styles.icon(this.theme)]: true,
+      [styles.icon()]: true,
       [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
     });
 

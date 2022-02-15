@@ -14,7 +14,7 @@ class SimpleComponent extends React.Component {
 
 const testCase: Array<{
   label: string;
-  renderNode: (label: string) => React.ReactNode;
+  renderNode: (label?: string) => React.ReactNode;
 }> = [
   {
     label: 'First',
@@ -33,7 +33,7 @@ const testCase: Array<{
 
   {
     label: 'Fourth',
-    renderNode: (label) => label.split('').map((char, index) => <span key={index}>{char}</span>),
+    renderNode: (label) => label?.split('').map((char, index) => <span key={index}>{char}</span>),
   },
 
   {
@@ -47,7 +47,7 @@ const testCase: Array<{
 
   {
     label: '123',
-    renderNode: (_label) => 123,
+    renderNode: () => 123,
   },
 ];
 
