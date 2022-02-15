@@ -11,7 +11,7 @@ import { GlobalLoaderViewProps, GlobalLoaderViewRef } from './GlobalLoaderView';
  * @returns - возвращает положение полоски `GlobalLoader`
  */
 
-export const usePosition = (ref: GlobalLoaderViewRef['refObject']) => {
+export const useGlobalLoaderPosition = (ref: GlobalLoaderViewRef['refObject']) => {
   const { left } = getDOMRect(ref);
   return { left };
 };
@@ -24,7 +24,10 @@ export const usePosition = (ref: GlobalLoaderViewRef['refObject']) => {
  * @returns - возвращает ширину полоски `GlobalLoader`
  */
 
-export const useWidth = (status: GlobalLoaderViewProps['status'], ref: GlobalLoaderViewRef['refObject']) => {
+export const useGlobalLoaderWidth = (
+  status: GlobalLoaderViewProps['status'],
+  ref: GlobalLoaderViewRef['refObject'],
+) => {
   const { width } = getDOMRect(ref);
   const [startWidth, setStartWidth] = useState(0);
   useEffect(() => {

@@ -6,7 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 
 import { animations, styles } from './GlobalLoaderView.styles';
-import { usePosition, useWidth } from './useParams';
+import { useGlobalLoaderPosition, useGlobalLoaderWidth } from './useParams';
 
 export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
   expectedResponseTime: number;
@@ -29,8 +29,8 @@ export const GlobalLoaderView = ({
 }: GlobalLoaderViewProps) => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
   const theme = useContext(ThemeContext);
-  const { width, startWidth } = useWidth(status, ref);
-  const { left } = usePosition(ref);
+  const { width, startWidth } = useGlobalLoaderWidth(status, ref);
+  const { left } = useGlobalLoaderPosition(ref);
 
   const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
     if (!disableAnimations) {
