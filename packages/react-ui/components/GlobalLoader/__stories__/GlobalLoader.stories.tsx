@@ -40,7 +40,7 @@ function GlobalLoaderWithStaticMethods() {
     <div>
       <Button onClick={showGlobalLoader}>Start</Button>
       <Button onClick={sendSuccess}>Success</Button>
-      <Button onClick={sendError}>Error</Button>
+      <Button onClick={sendReject}>Reject</Button>
       <Button onClick={sendAccept}>Accept</Button>
       <GlobalLoader expectedResponseTime={2000} disableAnimations={false} />
     </div>
@@ -54,7 +54,7 @@ function GlobalLoaderWithStaticMethods() {
     GlobalLoader.done();
   }
 
-  function sendError() {
+  function sendReject() {
     GlobalLoader.reject();
   }
 
@@ -74,12 +74,12 @@ function GlobalLoaderWithTimer() {
   return (
     <div>
       <div>
-        Выберите время, через которое предполагается что придет ответ от сервера (expectedResponseTime):
+        Выберите ожидаемое время ответа от сервера (expectedResponseTime):
         <Select<number, number> items={times} value={expectedResponseTime} onValueChange={setExpectedResponseTime} />
         секунд
       </div>
       <div>
-        Выберите время, через которое придет ответ от сервера:
+        Выберите реальное время ответа от сервера:
         <Select<number, number> items={times} value={time} onValueChange={setTime} />
         Прошло: {timerTime / 1000} секунд
       </div>
