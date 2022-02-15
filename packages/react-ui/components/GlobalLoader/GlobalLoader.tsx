@@ -60,6 +60,7 @@ export interface GlobalLoaderState {
   dead: boolean;
   successAnimationInProgress: boolean;
   expectedResponseTime: number;
+  started: boolean;
 }
 
 let currentGlobalLoader: GlobalLoader;
@@ -75,7 +76,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }, this.props.delayBeforeShow!);
 
   private readonly stopTask = debounce(() => {
-    this.setState({ visible: false, successAnimationInProgress: false });
+    this.setState({ visible: false, successAnimationInProgress: false, started: false });
     this.props.onDone?.();
   }, this.props.delayBeforeHide!);
 
@@ -91,6 +92,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   constructor(props: GlobalLoaderProps) {
     super(props);
     this.state = {
+      started: false,
       visible: false,
       done: false,
       rejected: false,
@@ -207,7 +209,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         this.setActive();
       }, this.props.delayBeforeHide);
     } else {
-      this.setState({ visible: false, done: false, rejected: false, accept: false });
+      this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
       if (this.props.rejected) {
         this.setReject(true);
       } else {
@@ -224,7 +226,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.visible && this.props.active) {
+    if (!this.state.visible && (this.state.started || this.props.active)) {
       this.setState({ visible: true });
     }
     this.startTask.cancel();
