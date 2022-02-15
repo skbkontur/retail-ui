@@ -171,7 +171,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   /**
-   * Останавливает анимацию лоадера <br />
+   * Показывает анимацию успешного завершения загрузки <br />
    * Равносильно установке пропа `active = false`
    *
    * @public
