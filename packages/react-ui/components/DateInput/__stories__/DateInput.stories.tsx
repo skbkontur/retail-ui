@@ -376,11 +376,11 @@ BlurAlwaysAfterChange.parameters = {
       },
       async ['value restored']() {
         await this.browser.executeScript(function () {
-          // @ts-ignore
+          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
           window.OldDate = window.Date;
-          // @ts-ignore
+          // @ts-expect-error: Read the comment above.
           window.Date = function () {
-            // @ts-ignore
+            // @ts-expect-error: Read the comment above.
             return new window.OldDate(2000, 0, 1);
           };
         });
@@ -397,11 +397,10 @@ BlurAlwaysAfterChange.parameters = {
           .sendKeys(this.keys.DELETE)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
-        // @ts-ignore
         await this.browser.executeScript(function () {
-          // @ts-ignore
+          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
           if (window.OldDate) {
-            // @ts-ignore
+            // @ts-expect-error: Read the comment above.
             window.Date = window.OldDate;
           }
         });

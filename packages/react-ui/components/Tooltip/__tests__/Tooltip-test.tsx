@@ -280,14 +280,14 @@ describe('Tooltip', () => {
       </Tooltip>,
     );
     const instance = wrapper.instance();
-    // @ts-ignore: private property
+    // @ts-expect-error: Use of private property.
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const timer = (instance.hoverTimeout = setTimeout(() => {}));
 
     wrapper.unmount();
 
     expect(clearTimeout).toHaveBeenCalledWith(timer);
-    // @ts-ignore: private property
+    // @ts-expect-error: Use of private property.
     expect(instance.hoverTimeout).toBeNull();
   });
 });

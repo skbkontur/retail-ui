@@ -21,8 +21,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
       },
       async ['short Items scroll']() {
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const innerScroll: Element = window.document.querySelector('#inner-scroll');
+          const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
@@ -41,8 +40,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const innerScroll: Element = window.document.querySelector('#inner-scroll');
+          const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });

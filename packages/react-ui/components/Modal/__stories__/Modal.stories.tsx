@@ -604,10 +604,9 @@ const TopMiddleBottomModalTests: CreeveyTests = {
   },
   async middle() {
     await this.browser.executeScript(function () {
-      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
 
-      // @ts-ignore
       modalContainer.scrollTop = modalContent.offsetHeight / 2;
     });
     await delay(100);
@@ -615,10 +614,9 @@ const TopMiddleBottomModalTests: CreeveyTests = {
   },
   async bottom() {
     await this.browser.executeScript(function () {
-      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
 
-      // @ts-ignore
       modalContainer.scrollTop = modalContent.offsetHeight;
     });
     await delay(100);
@@ -894,10 +892,9 @@ MobileModal.parameters = {
         await delay(200);
 
         await this.browser.executeScript(function () {
-          const modalContent = window.document.querySelector('.focus-lock-container');
-          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+          const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ') as HTMLElement;
 
-          // @ts-ignore
           modalContent.scrollTop = modalBody.offsetHeight / 2;
         });
         await delay(100);
@@ -913,10 +910,9 @@ MobileModal.parameters = {
         await delay(200);
 
         await this.browser.executeScript(function () {
-          const modalContent = window.document.querySelector('.focus-lock-container');
-          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+          const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ') as HTMLElement;
 
-          // @ts-ignore
           modalContent.scrollTop = modalBody.offsetHeight;
         });
 

@@ -31,7 +31,7 @@ export class ModalStack {
       remove: () => {
         // Backwards compatible with versions 0.x and 1.w which using the fbemitter package
         if ('remove' in _token) {
-          // @ts-ignore
+          // @ts-expect-error: `remove` is method of `ModalStack`.
           _token.remove();
           return;
         }
@@ -100,7 +100,7 @@ const isReactUIInstance = <T>(componentName: string) => {
 
     return (
       Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
-      // @ts-ignore
+      // @ts-expect-error: React doesn't know about existence of __KONTUR_REACT_UI__.
       constructor.__KONTUR_REACT_UI__ === componentName
     );
   };

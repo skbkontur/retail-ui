@@ -508,7 +508,7 @@ class TestUpdateLayoutMethod extends React.Component {
   };
 
   private sidePage: SidePage | null = null;
-  // @ts-ignore: only refers to a type, but is being used as a namespace here
+  // @ts-expect-error: Only refers to a type, but is being used as a namespace here.
   private childComp: TestUpdateLayoutMethod.ChildComp | null = null;
 
   public updateLayout = () => {
@@ -719,8 +719,8 @@ BodyWithoutFooter.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-          // @ts-ignore
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);
@@ -827,11 +827,10 @@ WithLongTitleStory.parameters = {
       },
       async ['fixed close element']() {
         await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]') as HTMLElement;
           const fixedHeaderHeight = 50;
 
-          // @ts-ignore
           sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
         });
         await delay(1000);
@@ -839,11 +838,10 @@ WithLongTitleStory.parameters = {
       },
       async ['fixed header']() {
         await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]') as HTMLElement;
           const fixedHeaderHeight = 50;
 
-          // @ts-ignore
           sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
         });
         await delay(1000);
@@ -911,9 +909,8 @@ SidePageWithChildrenFromOtherComponent.parameters = {
       },
       async ['scroll to bottom without header, footer']() {
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);
@@ -942,9 +939,8 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);
@@ -970,9 +966,8 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);

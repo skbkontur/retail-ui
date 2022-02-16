@@ -72,10 +72,10 @@ const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
 
   for (const key in props) {
     if (isCommonProp(key)) {
-      // @ts-ignore
+      // @ts-expect-error: See: https://github.com/skbkontur/retail-ui/pull/2257#discussion_r565275843 and https://github.com/skbkontur/retail-ui/pull/2257#discussion_r569542736.
       common[key] = props[key];
     } else {
-      // @ts-ignore
+      // @ts-expect-error: Read the comment above.
       rest[key] = props[key];
     }
   }

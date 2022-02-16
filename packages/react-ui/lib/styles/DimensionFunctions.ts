@@ -1,5 +1,5 @@
 const EPS = 0.00001;
-export const shift = (value: string, shift: string): string => {
+export const shift = (value: string, shift?: string): string => {
   if (!value || !shift) {
     return value;
   }

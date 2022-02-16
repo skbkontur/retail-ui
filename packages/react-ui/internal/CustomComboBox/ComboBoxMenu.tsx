@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
+import { isFunction } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
-import { MenuItem, MenuItemState } from '../../components/MenuItem';
+import { isMenuItem, MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
@@ -110,8 +111,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     let total = null;
     const renderedItems = items && items.map(this.renderItem);
-    // @ts-ignore // todo fix checking
-    const countItems = renderedItems?.filter((item) => item?.type?.__KONTUR_REACT_UI__ === 'MenuItem').length;
+    const menuItems = renderedItems?.filter((item) => {
+      return isMenuItem(item);
+    });
+    const countItems = menuItems?.length;
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
@@ -134,9 +137,8 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     // NOTE this is undesireable feature, better
     // to remove it from further versions
     const { renderItem, onValueChange } = this.props;
-    if (typeof item === 'function' || React.isValidElement(item)) {
-      // @ts-ignore
-      const element = typeof item === 'function' ? item() : item;
+    if (isFunction(item) || React.isValidElement(item)) {
+      const element = isFunction(item) ? item() : item;
       const props = Object.assign(
         {
           key: index,

@@ -160,8 +160,7 @@ export const Effect: EffectFactory = {
     menu.highlightItem(index);
 
     if (index >= 0) {
-      // FIXME: accessing private props
-      // @ts-ignore
+      // @ts-expect-error: Use of private property.
       requestAnimationFrame(() => menu && menu.scrollToSelected());
       return;
     }

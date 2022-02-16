@@ -154,8 +154,7 @@ InsideScrollableContainer.parameters = {
           .perform();
         const opened = await this.takeScreenshot();
         await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('.dropdown-test-container');
-          // @ts-ignore
+          const scrollContainer = window.document.querySelector('.dropdown-test-container') as HTMLElement;
           scrollContainer.scrollTop = scrollContainer.scrollHeight;
         });
         const scrolled = await this.takeScreenshot();

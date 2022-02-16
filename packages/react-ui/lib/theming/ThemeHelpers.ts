@@ -15,7 +15,7 @@ export const exposeGetters = <T extends object>(theme: T): T => {
 export const REACT_UI_DARK_THEME_KEY = '__IS_REACT_UI_DARK_THEME__';
 
 export const isDarkTheme = (theme: Theme | ThemeIn): boolean => {
-  //@ts-ignore
+  // @ts-expect-error: internal value.
   return theme[REACT_UI_DARK_THEME_KEY] === true;
 };
 

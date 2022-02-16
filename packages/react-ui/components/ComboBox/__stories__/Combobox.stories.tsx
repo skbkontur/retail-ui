@@ -426,7 +426,7 @@ Disabled.storyName = 'disabled';
 Disabled.parameters = { creevey: { skip: [true] } };
 
 export const WithCustomElements = () => (
-  // @ts-ignore undocumented feature
+  // @ts-expect-error: Undocumented feature.
   <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
 );
 WithCustomElements.storyName = 'with custom elements';

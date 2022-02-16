@@ -75,7 +75,7 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
   if (React.isValidElement(node)) {
     return (
       Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
-      // @ts-ignore
+      // @ts-expect-error: React doesn't know about existence of __KONTUR_REACT_UI__.
       node.type.__KONTUR_REACT_UI__ === componentName
     );
   }
@@ -120,7 +120,7 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
  */
 export const isReactUIComponent = <P = any>(name: string) => {
   return (child: React.ReactNode): child is React.ReactElement<P> => {
-    // @ts-ignore
+    // @ts-expect-error: Property `type` doesn't exist on type `React.ReactNode`, but exists on type `React.ReactElement` meanwhile `React.ReactElement` is not compatible with `React` `children` type.
     return child?.type?.__KONTUR_REACT_UI__ === name;
   };
 };

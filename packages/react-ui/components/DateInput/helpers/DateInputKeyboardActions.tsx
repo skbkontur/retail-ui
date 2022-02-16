@@ -1,4 +1,3 @@
-// @ts-ignore noUnusedVar
 import React from 'react';
 
 import { SEPARATOR } from '../../../lib/date/constants';

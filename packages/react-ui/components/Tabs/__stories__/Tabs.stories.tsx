@@ -53,7 +53,6 @@ class UncTabs extends React.Component<any, UncTabsState> {
 }
 
 const RouteTab = (props: any) => (
-  // @ts-ignore: wrong @storybook/addon-links types
   <Tab id={props.to} onClick={linkTo('Tabs', props.to)}>
     {props.children}
   </Tab>

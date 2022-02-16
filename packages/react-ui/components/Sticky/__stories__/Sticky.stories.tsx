@@ -121,11 +121,9 @@ WideContainer.parameters = {
     tests: {
       async fixed() {
         await this.browser.executeScript(function () {
-          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-          const nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]');
-          // @ts-ignore
+          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]') as HTMLElement;
+          const nonStickyText = window.document.querySelector('[data-tid="nonStickyText"]') as HTMLElement;
           const scrollXOffset = nonStickyText.getBoundingClientRect().width / 2;
-          // @ts-ignore
           const scrollYOffset = stickyContent.getBoundingClientRect().height / 2;
 
           window.scrollTo(scrollXOffset, scrollYOffset);
@@ -148,8 +146,7 @@ Top.parameters = {
       },
       async fixed() {
         await this.browser.executeScript(function () {
-          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
-          // @ts-ignore
+          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]') as HTMLElement;
           const scrollOffset = stickyStop.getBoundingClientRect().top - window.innerHeight / 2;
 
           window.scrollTo(0, scrollOffset);
@@ -158,13 +155,11 @@ Top.parameters = {
       },
       async stoped() {
         await this.browser.executeScript(function () {
-          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
-          // @ts-ignore
+          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]') as HTMLElement;
           stickyStop.scrollIntoView();
         });
         await this.browser.executeScript(function () {
-          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-          // @ts-ignore
+          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]') as HTMLElement;
           const scrollOffset = pageYOffset - stickyContent.getBoundingClientRect().height / 2;
 
           window.scrollTo(0, scrollOffset);
@@ -190,8 +185,7 @@ Bottom.parameters = {
       },
       async fixed() {
         await this.browser.executeScript(function () {
-          const sticky = window.document.querySelector('[data-comp-name~="Sticky"]');
-          // @ts-ignore
+          const sticky = window.document.querySelector('[data-comp-name~="Sticky"]') as HTMLElement;
           const scrollOffset = sticky.getBoundingClientRect().top - window.innerHeight;
 
           window.scrollTo(0, scrollOffset);
@@ -200,13 +194,11 @@ Bottom.parameters = {
       },
       async stoped() {
         await this.browser.executeScript(function () {
-          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]');
-          // @ts-ignore
+          const stickyStop = window.document.querySelector('[data-tid="stickyStop"]') as HTMLElement;
           stickyStop.scrollIntoView(false);
         });
         await this.browser.executeScript(function () {
-          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]');
-          // @ts-ignore
+          const stickyContent = window.document.querySelector('[data-tid="stickyContent"]') as HTMLElement;
           const scrollOffset = pageYOffset + stickyContent.getBoundingClientRect().height / 2;
 
           window.scrollTo(0, scrollOffset);

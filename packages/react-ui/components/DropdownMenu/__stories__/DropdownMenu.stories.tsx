@@ -171,8 +171,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
     async ['out of viewport']() {
       if (side === 'left') {
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const container: Element = window.document.querySelector('[data-tid="container"]');
+          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
           container.scrollLeft = container.scrollWidth;
         });
       }
@@ -189,8 +188,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
     async ['out of edge with min menu width']() {
       if (side === 'left') {
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const container: Element = window.document.querySelector('[data-tid="container"]');
+          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
           container.scrollLeft = container.scrollWidth;
         });
       }
@@ -384,8 +382,7 @@ WithHeaderAndFooter.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
           scrollContainer.scrollTop += 100;
         });
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
@@ -398,8 +395,7 @@ WithHeaderAndFooter.parameters = {
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
+          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
           scrollContainer.scrollTop += scrollContainer.scrollHeight;
         });
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled down to bottom');

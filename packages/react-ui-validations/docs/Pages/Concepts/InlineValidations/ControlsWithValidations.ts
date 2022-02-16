@@ -25,7 +25,6 @@ type WrappedProps<TValue, TProps extends { value?: TValue }> = TProps & Validati
 function prepareProps<TValue, TProps extends { value?: any }>(
   props: WrappedProps<TValue, TProps>,
 ): PreparedProps<TProps> {
-  // @ts-ignore Rest types may only be created from object types
   const { required, email, validations = [], renderErrorMessage, ...rest } = props;
   const value = props.value;
 

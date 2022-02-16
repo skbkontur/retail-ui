@@ -71,8 +71,7 @@ export class ComponentTable<
               <td style={{ whiteSpace: 'nowrap' }}>{renderPropsDesc(rowProps)}</td>
               {cols.map(({ props: colProps = {}, state: colState = {} }, colIndex) => (
                 <td key={colIndex}>
-                  {/* Defaultized props incompatible with JSX.LibraryManagedAttributes so just ignore it
-                  // @ts-ignore */}
+                  {/* @ts-expect-error: Defaultized props incompatible with JSX.LibraryManagedAttributes so just ignore it */}
                   <Component
                     {...presetProps}
                     {...rowProps}
