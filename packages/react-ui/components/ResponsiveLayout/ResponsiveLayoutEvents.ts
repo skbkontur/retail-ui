@@ -44,7 +44,11 @@ function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent)
   const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
   eventListenersMap.set(mediaQuery, newMediaQueryInfo);
-  eventListenersMap.get(mediaQuery)?.mql.addEventListener('change', changeCallback);
+  if (mql.addEventListener) {
+    mql.addEventListener('change', changeCallback);
+  } else {
+    mql.addListener(changeCallback);
+  }
 }
 
 function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
@@ -55,7 +59,11 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
       const newListeners = eventListener.listeners.filter((listener) => listener !== callback);
 
       if (newListeners.length === 0) {
-        eventListener.mql.removeEventListener('change', changeCallback);
+        if (eventListener.mql.removeEventListener) {
+          eventListener.mql.removeEventListener('change', changeCallback);
+        } else {
+          eventListener.mql.removeListener(changeCallback);
+        }
         eventListenersMap.delete(mediaQuery);
         return;
       }
