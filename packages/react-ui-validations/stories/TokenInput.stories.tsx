@@ -3,7 +3,7 @@ import React from 'react';
 import { Token } from '@skbkontur/react-ui/components/Token';
 import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
 
-import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip, text } from '../src';
+import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip } from '../src';
 import { Nullable } from '../typings/Types';
 
 storiesOf('TokenInput', module).add('required', () => <TokenInputStory />);

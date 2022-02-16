@@ -29,7 +29,7 @@ const validate = createValidator<string[]>((b, a) => {
       b.invalid((x) => !x, 'Укажите значение', 'submit');
       b.invalid((x) => !/^\d+$/.test(x), 'Только цифры');
       const d = getDuplicatesFor(a, i);
-      b.invalid((x) => !!d.length, 'Дубль со строками ' + d.map((x) => x + 1).join(', '));
+      b.invalid(() => !!d.length, 'Дубль со строками ' + d.map((x) => x + 1).join(', '));
     },
   );
 });

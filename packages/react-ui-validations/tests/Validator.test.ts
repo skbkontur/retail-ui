@@ -96,7 +96,7 @@ describe('Validator', () => {
           objectRule();
           b.prop(
             (x) => x.value,
-            (b) => {
+            () => {
               valueRule();
             },
           );

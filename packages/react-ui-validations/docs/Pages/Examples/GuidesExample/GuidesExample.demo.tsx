@@ -123,13 +123,13 @@ const validate = createValidator<Organization>((b, organization) => {
         'ИНН должен состоять из 10 или 12 цифр',
       );
       b.invalid((x) => !isValidInn(x), 'Неверный ИНН');
-      b.invalid((x) => isKppRequiredError, kppRequiredMessage, 'submit');
+      b.invalid(() => isKppRequiredError, kppRequiredMessage, 'submit');
     },
   );
   b.prop(
     (x) => x.kpp,
     (b) => {
-      b.invalid((x) => isKppRequiredError, kppRequiredMessage, 'submit');
+      b.invalid(() => isKppRequiredError, kppRequiredMessage, 'submit');
       b.invalid((x) => isKppRequired && !isValidKpp(x), 'Неверный КПП');
     },
   );
