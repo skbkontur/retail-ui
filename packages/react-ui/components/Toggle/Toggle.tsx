@@ -8,7 +8,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -83,13 +82,6 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
-const defaultPropsInstance = {
-  disabled: false,
-  loading: false,
-  captionPosition: 'right',
-};
-const defaultProps = getDefaultProps<ToggleProps>(defaultPropsInstance as ToggleProps);
-
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
@@ -113,7 +105,11 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     },
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    disabled: false,
+    loading: false,
+    captionPosition: 'right',
+  };
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;

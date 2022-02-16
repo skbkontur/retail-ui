@@ -10,7 +10,6 @@ import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface FxInputProps
   extends CommonProps,
@@ -34,13 +33,6 @@ export interface FxInputProps
       }
     > {}
 
-const defaultPropsInstance = {
-  width: 250,
-  type: 'text',
-  value: '',
-};
-const defaultProps = getDefaultProps<FxInputProps>(defaultPropsInstance as FxInputProps);
-
 /** Принимает все свойства `Input`'a */
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
@@ -51,7 +43,11 @@ export class FxInput extends React.Component<FxInputProps> {
     type: PropTypes.string,
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    width: 250,
+    type: 'text',
+    value: '',
+  };
 
   private input: Input | CurrencyInput | null = null;
 

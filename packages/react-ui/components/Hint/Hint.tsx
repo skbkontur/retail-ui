@@ -10,7 +10,6 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Hint.styles';
 
@@ -82,15 +81,6 @@ const Positions: PopupPositionsType[] = [
   'right top',
   'right bottom',
 ];
-const defaultPropsInstance = {
-  pos: 'top',
-  manual: false,
-  opened: false,
-  maxWidth: 200,
-  disableAnimations: isTestEnv,
-  useWrapper: false,
-};
-const defaultProps = getDefaultProps<HintProps>(defaultPropsInstance as HintProps);
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
@@ -99,7 +89,14 @@ const defaultProps = getDefaultProps<HintProps>(defaultPropsInstance as HintProp
 export class Hint extends React.PureComponent<HintProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    pos: 'top',
+    manual: false,
+    opened: false,
+    maxWidth: 200,
+    disableAnimations: isTestEnv,
+    useWrapper: false,
+  };
 
   public state: HintState = {
     opened: this.props.manual ? !!this.props.opened : false,

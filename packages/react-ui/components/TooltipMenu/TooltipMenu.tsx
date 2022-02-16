@@ -9,7 +9,6 @@ import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPositionsType } from '../../internal/Popup';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
@@ -51,11 +50,6 @@ export interface TooltipMenuProps extends CommonProps {
   disableAnimations: boolean;
 }
 
-const defaultPropsInstance = {
-  disableAnimations: isTestEnv,
-};
-const defaultProps = getDefaultProps<TooltipMenuProps>(defaultPropsInstance as TooltipMenuProps);
-
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент.
  *
@@ -72,7 +66,9 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    disableAnimations: isTestEnv,
+  };
   constructor(props: TooltipMenuProps) {
     super(props);
 

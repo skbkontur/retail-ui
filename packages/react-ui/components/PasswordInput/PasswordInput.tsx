@@ -12,7 +12,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './PasswordInput.styles';
 
@@ -24,11 +23,6 @@ export interface PasswordInputState {
   visible: boolean;
   capsLockEnabled?: boolean | null;
 }
-
-const defaultPropsInstance = {
-  size: 'small',
-};
-const defaultProps = getDefaultProps<PasswordInputProps>(defaultPropsInstance as PasswordInputProps);
 
 /**
  * Компонент для ввода пароля
@@ -44,7 +38,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    size: 'small',
+  };
 
   public state: PasswordInputState = {
     visible: false,

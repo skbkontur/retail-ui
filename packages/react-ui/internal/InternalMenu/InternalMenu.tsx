@@ -10,7 +10,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -38,21 +37,18 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
-const defaultPropsInstance = {
-  width: 'auto',
-  maxHeight: 300,
-  hasShadow: true,
-  preventWindowScroll: true,
-  cyclicSelection: true,
-  initialSelectedItemIndex: -1,
-};
-const defaultProps = getDefaultProps<MenuProps>(defaultPropsInstance as MenuProps);
-
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    width: 'auto',
+    maxHeight: 300,
+    hasShadow: true,
+    preventWindowScroll: true,
+    cyclicSelection: true,
+    initialSelectedItemIndex: -1,
+  };
 
   public state: MenuState = {
     highlightedIndex: -1,
@@ -253,7 +249,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private setInitialSelection = () => {
-    for (let i = this.getProps().initialSelectedItemIndex!; i > -1; i--) {
+    for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
       this.moveDown();
     }
   };

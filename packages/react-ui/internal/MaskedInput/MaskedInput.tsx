@@ -5,7 +5,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './MaskedInput.styles';
 
@@ -26,15 +25,12 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-const defaultPropsInstance = {
-  maskChar: '_',
-};
-const defaultProps = getDefaultProps<MaskedInputProps>(defaultPropsInstance as MaskedInputProps);
-
 export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps: Partial<MaskedInputProps> = {
+    maskChar: '_',
+  };
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;

@@ -9,7 +9,6 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Sticky.styles';
 
@@ -36,11 +35,6 @@ export interface StickyState {
   relativeTop: number;
 }
 
-const defaultPropsInstance = {
-  offset: 0,
-};
-const defaultProps = getDefaultProps<StickyProps>(defaultPropsInstance as StickyProps);
-
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
@@ -61,7 +55,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = { offset: 0 };
 
   public state: StickyState = {
     fixed: false,

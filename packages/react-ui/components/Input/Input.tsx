@@ -12,7 +12,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Input.styles';
 
@@ -108,11 +107,6 @@ export interface InputState {
   polyfillPlaceholder: boolean;
 }
 
-const defaultPropsInstance = {
-  size: 'small',
-};
-const defaultProps = getDefaultProps<InputProps>(defaultPropsInstance as InputProps);
-
 /**
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
@@ -121,7 +115,11 @@ const defaultProps = getDefaultProps<InputProps>(defaultPropsInstance as InputPr
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps: {
+    size: InputSize;
+  } = {
+    size: 'small',
+  };
 
   public state: InputState = {
     polyfillPlaceholder: false,

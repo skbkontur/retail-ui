@@ -8,7 +8,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -46,24 +45,22 @@ const getTodayDate = () => {
   };
 };
 
-const defaultPropsInstance = {
-  minDate: {
-    year: MIN_YEAR,
-    month: MIN_MONTH,
-    date: MIN_DATE,
-  },
-  maxDate: {
-    year: MAX_YEAR,
-    month: MAX_MONTH,
-    date: MAX_DATE,
-  },
-};
-const defaultProps = getDefaultProps<CalendarProps>(defaultPropsInstance as CalendarProps);
-
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    holidays: [],
+    minDate: {
+      year: MIN_YEAR,
+      month: MIN_MONTH,
+      date: MIN_DATE,
+    },
+    maxDate: {
+      year: MAX_YEAR,
+      month: MAX_MONTH,
+      date: MAX_DATE,
+    },
+  };
 
   private theme!: Theme;
   private wheelEndTimeout: Nullable<number>;

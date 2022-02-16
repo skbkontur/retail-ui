@@ -14,7 +14,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Tooltip.styles';
 
@@ -148,16 +147,6 @@ const Positions: PopupPositionsType[] = [
   'bottom right',
 ];
 
-const defaultPropsInstance = {
-  pos: DefaultPosition,
-  trigger: 'hover',
-  allowedPositions: Positions,
-  disableAnimations: isTestEnv,
-  useWrapper: false,
-  closeOnChildrenMouseLeave: false,
-};
-const defaultProps = getDefaultProps<TooltipProps>(defaultPropsInstance as TooltipProps);
-
 @rootNode
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
@@ -176,7 +165,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     },
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    pos: DefaultPosition,
+    trigger: 'hover',
+    allowedPositions: Positions,
+    disableAnimations: isTestEnv,
+    useWrapper: false,
+    closeOnChildrenMouseLeave: false,
+  };
 
   public static delay = 100;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];

@@ -10,7 +10,6 @@ import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Playground.styles';
 
@@ -31,13 +30,10 @@ export interface VariableValueState {
   editing: boolean;
 }
 
-const defaultPropsInstance = {
-  deprecated: false,
-};
-const defaultProps = getDefaultProps<VariableValueProps>(defaultPropsInstance as VariableValueProps);
-
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    deprecated: false,
+  };
   public state = {
     value: this.props.value,
     editing: false,

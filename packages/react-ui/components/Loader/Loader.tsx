@@ -14,7 +14,6 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Loader.styles';
 
@@ -51,14 +50,6 @@ export interface LoaderState {
   spinnerStyle?: object;
 }
 
-const defaultPropsInstance = {
-  type: Spinner.Types.normal,
-  active: false,
-  delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
-  minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
-};
-const defaultProps = getDefaultProps<LoaderProps>(defaultPropsInstance as LoaderProps);
-
 /**
  * DRAFT - лоадер-контейнер
  */
@@ -66,7 +57,12 @@ const defaultProps = getDefaultProps<LoaderProps>(defaultPropsInstance as Loader
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps: Partial<LoaderProps> = {
+    type: Spinner.Types.normal,
+    active: false,
+    delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
+    minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
+  };
 
   public static propTypes = {
     /**

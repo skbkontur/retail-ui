@@ -12,7 +12,6 @@ import { Nullable } from '../../typings/utility-types';
 import { ArrowChevronDownIcon } from '../icons/16px';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -74,28 +73,25 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
-const defaultPropsInstance = {
-  renderItem: (item: any) => item,
-  renderValue: (item: any) => item,
-  renderAddButton: () => null,
-  repeatRequest: () => undefined,
-  requestStatus: ComboBoxRequestStatus.Unknown,
-  onClickOutside: () => {
-    /**/
-  },
-  onFocusOutside: () => {
-    /**/
-  },
-  size: 'small',
-  width: 250,
-};
-const defaultProps = getDefaultProps<ComboBoxViewProps<any>>(defaultPropsInstance as ComboBoxViewProps<any>);
-
 @rootNode
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, {}> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    renderItem: (item: any) => item,
+    renderValue: (item: any) => item,
+    renderAddButton: () => null,
+    repeatRequest: () => undefined,
+    requestStatus: ComboBoxRequestStatus.Unknown,
+    onClickOutside: () => {
+      /**/
+    },
+    onFocusOutside: () => {
+      /**/
+    },
+    size: 'small',
+    width: 250,
+  };
 
   private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;

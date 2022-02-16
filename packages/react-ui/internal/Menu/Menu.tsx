@@ -8,7 +8,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -26,19 +25,16 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
-const defaultPropsInstance = {
-  width: 'auto',
-  maxHeight: 300,
-  hasShadow: true,
-  preventWindowScroll: true,
-};
-const defaultProps = getDefaultProps<MenuProps>(defaultPropsInstance as MenuProps);
-
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    width: 'auto',
+    maxHeight: 300,
+    hasShadow: true,
+    preventWindowScroll: true,
+  };
 
   public state = {
     highlightedIndex: -1,

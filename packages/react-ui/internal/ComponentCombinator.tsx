@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { DefaultizeProps } from '../lib/utils';
-import { getDefaultProps } from '../lib/getDefaultProps';
 
 import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
@@ -12,14 +11,6 @@ export interface ComponentCombinatorProps<C, P, S> {
   presetState: Partial<S>;
 }
 
-const defaultPropsInstance = {
-  presetProps: {},
-  presetState: {},
-};
-const defaultProps = getDefaultProps<ComponentCombinatorProps<any, any, any>>(
-  defaultPropsInstance as ComponentCombinatorProps<any, any, any>,
-);
-
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
@@ -28,7 +19,12 @@ export class ComponentCombinator<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
 > {
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    props: [],
+    states: [],
+    presetProps: {},
+    presetState: {},
+  };
 
   public state = {
     page: 0,

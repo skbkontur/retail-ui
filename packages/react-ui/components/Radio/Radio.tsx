@@ -9,7 +9,6 @@ import { keyListener } from '../../lib/events/keyListener';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -57,11 +56,6 @@ export interface RadioState {
   focusedByKeyboard: boolean;
 }
 
-const defaultPropsInstance = {
-  focused: false,
-};
-const defaultProps = getDefaultProps<RadioProps<any>>(defaultPropsInstance as RadioProps<any>);
-
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
@@ -73,7 +67,9 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focusedByKeyboard: false,
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    focused: false,
+  };
 
   public static contextType = RadioGroupContext;
   public context: RadioGroupContextType<T> = this.context;

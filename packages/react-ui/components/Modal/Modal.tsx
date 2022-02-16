@@ -14,7 +14,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -69,12 +68,6 @@ export interface ModalState {
   hasPanel: boolean;
 }
 
-const defaultPropsInstance = {
-  // NOTE: в ie нормально не работает
-  disableFocusLock: isIE11,
-};
-const defaultProps = getDefaultProps<ModalProps>(defaultPropsInstance as ModalProps);
-
 /**
  * Модальное окно
  *
@@ -96,7 +89,10 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    // NOTE: в ie нормально не работает
+    disableFocusLock: isIE11,
+  };
 
   public state: ModalState = {
     stackPosition: 0,

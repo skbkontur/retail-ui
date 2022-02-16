@@ -14,7 +14,6 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -68,17 +67,6 @@ export interface AutocompleteState {
   focused: boolean;
 }
 
-const defaultPropsInstance = {
-  renderItem,
-  size: 'small',
-  disablePortal: false,
-  hasShadow: true,
-  menuMaxHeight: 300,
-  menuAlign: 'left',
-  preventWindowScroll: true,
-};
-const defaultProps = getDefaultProps<AutocompleteProps>(defaultPropsInstance as AutocompleteProps);
-
 /**
  * Стандартный инпут с подсказками.
  *
@@ -111,7 +99,15 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   };
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    renderItem,
+    size: 'small',
+    disablePortal: false,
+    hasShadow: true,
+    menuMaxHeight: 300,
+    menuAlign: 'left',
+    preventWindowScroll: true,
+  };
 
   public state: AutocompleteState = {
     items: null,

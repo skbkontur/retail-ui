@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { isFunctionalComponent, DefaultizeProps } from '../lib/utils';
-import { getDefaultProps } from '../lib/getDefaultProps';
 
 // TODO We should output state too
 const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNode => {
@@ -41,14 +40,6 @@ export interface ComponentTableProps<C, P, S> {
   Component: C;
 }
 
-const defaultPropsInstance = {
-  presetProps: {},
-  presetState: {},
-};
-const defaultProps = getDefaultProps<ComponentTableProps<any, any, any>>(
-  defaultPropsInstance as ComponentTableProps<any, any, any>,
-);
-
 // Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<
   T extends React.Component<any, any, any>,
@@ -57,7 +48,7 @@ export class ComponentTable<
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
-  public static defaultProps = defaultProps;
+  public static defaultProps = { presetProps: {}, presetState: {} };
 
   public render() {
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;

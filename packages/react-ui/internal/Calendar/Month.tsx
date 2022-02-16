@@ -4,7 +4,6 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../DateSelect';
 import { Nullable } from '../../typings/utility-types';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
@@ -141,15 +140,12 @@ interface MonthDayGridProps {
   isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
-const defaultPropsInstance = {
-  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
-};
-const defaultProps = getDefaultProps<MonthDayGridProps>(defaultPropsInstance as MonthDayGridProps);
-
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
+  };
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     if (!CDS.isEqual(nextProps.value, this.props.value)) {

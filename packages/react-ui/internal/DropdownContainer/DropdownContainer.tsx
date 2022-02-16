@@ -5,7 +5,6 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -28,18 +27,16 @@ export interface DropdownContainerState {
   minWidth: number;
   isDocumentElementRoot?: boolean;
 }
-const defaultPropsInstance = {
-  align: 'left',
-  disablePortal: false,
-  offsetX: 0,
-  offsetY: -1,
-};
-const defaultProps = getDefaultProps<DropdownContainerProps>(defaultPropsInstance as DropdownContainerProps);
 
 export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    align: 'left',
+    disablePortal: false,
+    offsetX: 0,
+    offsetY: -1,
+  };
 
   public state: DropdownContainerState = {
     position: null,
@@ -126,9 +123,9 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX!;
+        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
       } else {
-        left = targetRect.left + scrollX + this.getProps().offsetX!;
+        left = targetRect.left + scrollX + this.getProps().offsetX;
       }
 
       const { offsetY = 0 } = this.props;

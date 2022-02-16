@@ -6,7 +6,6 @@ import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { getDefaultProps } from '../../lib/getDefaultProps';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -167,22 +166,19 @@ export interface ComboBoxItem {
   label: string;
 }
 
-const defaultPropsInstance = {
-  itemToValue: (item: ComboBoxItem) => item.value,
-  valueToString: (item: ComboBoxItem) => item.label,
-  renderValue: (item: ComboBoxItem) => item.label,
-  renderItem: (item: ComboBoxItem) => item.label,
-  menuAlign: 'left',
-  searchOnFocus: true,
-  drawArrow: true,
-};
-const defaultProps = getDefaultProps<ComboBoxProps<any>>(defaultPropsInstance as ComboBoxProps<any>);
-
 @rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
-  public static defaultProps = defaultProps;
+  public static defaultProps = {
+    itemToValue: (item: ComboBoxItem) => item.value,
+    valueToString: (item: ComboBoxItem) => item.label,
+    renderValue: (item: ComboBoxItem) => item.label,
+    renderItem: (item: ComboBoxItem) => item.label,
+    menuAlign: 'left',
+    searchOnFocus: true,
+    drawArrow: true,
+  };
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
   private setRootNode!: TSetRootNode;
