@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.10.0...@skbkontur/react-ui@3.11.0) (2022-02-04)
+
+
+### Bug Fixes
+
+* **ScrollContainer:** consider scaling cases in browsers ([#2705](https://github.com/skbkontur/retail-ui/issues/2705)) ([e64d3de](https://github.com/skbkontur/retail-ui/commit/e64d3de80f12cdb7c2329d0b38d2531f84237f55))
+* **SidePage:** change scroll behavior according to Guides ([#2756](https://github.com/skbkontur/retail-ui/issues/2756)) ([47dfb5a](https://github.com/skbkontur/retail-ui/commit/47dfb5ac895c26655edef2e08cf1f86f5b246390))
+* **Spinner:** refactor animation for Safari ([#2748](https://github.com/skbkontur/retail-ui/issues/2748)) ([1698a4a](https://github.com/skbkontur/retail-ui/commit/1698a4a5542d9884f3e6deb833161a6219b9d72a))
+* **Switcher:** restore border in error and checked state ([#2742](https://github.com/skbkontur/retail-ui/issues/2742)) ([6fbe8f5](https://github.com/skbkontur/retail-ui/commit/6fbe8f529cfe14f8338a79b354a1201f38b06ee2))
+
+
+### Features
+
+* **Spinner:** add width and color props ([4ea170d](https://github.com/skbkontur/retail-ui/commit/4ea170d4f1cc30091c30e0ee637e38494ad79f0a))
+
+
+
+
+
 # [3.10.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.9.4...@skbkontur/react-ui@3.10.0) (2022-01-27)
 
 

@@ -5,6 +5,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
+import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -104,7 +105,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
           <div
             style={innerStyle}
             ref={this.refInner}
-            className={cx(styles.inner(), globalClasses.inner)}
+            className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
             data-tid="ScrollContainer__inner"
             onScroll={this.handleNativeScroll}
           >

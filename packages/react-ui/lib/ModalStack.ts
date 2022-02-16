@@ -91,22 +91,21 @@ export class ModalStack {
   }
 }
 
-const isSidePage = (component: React.Component): component is React.Component<SidePageProps> => {
-  return isReactUIInstance('SidePage', component);
-};
-
-const isModal = (component: React.Component): component is React.Component<ModalProps> => {
-  return isReactUIInstance('Modal', component);
-};
-
 /**
  * Specific check for component type by its instance
  */
-const isReactUIInstance = (componentName: string, instance: React.Component) => {
-  const { constructor } = instance;
-  return (
-    Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
-    // @ts-ignore
-    constructor.__KONTUR_REACT_UI__ === componentName
-  );
+const isReactUIInstance = <T>(componentName: string) => {
+  return (instance: React.Component): instance is React.Component<T> => {
+    const { constructor } = instance;
+
+    return (
+      Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
+      // @ts-ignore
+      constructor.__KONTUR_REACT_UI__ === componentName
+    );
+  };
 };
+
+const isSidePage = isReactUIInstance<SidePageProps>('SidePage');
+
+const isModal = isReactUIInstance<ModalProps>('Modal');
