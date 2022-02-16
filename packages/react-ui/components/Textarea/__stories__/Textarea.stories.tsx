@@ -339,26 +339,12 @@ export const TextareaWithCounters: Story = () => {
 
       <div style={headingStyle}>Autoresize</div>
       <div id="CounterAutoresizeTextarea" style={blockStyle}>
-        <Textarea
-          value={TEXT_SAMPLE}
-          width={400}
-          lengthCounter={50}
-          autoResize
-          showLengthCounter
-          spellCheck={false}
-        />
+        <Textarea value={TEXT_SAMPLE} width={400} lengthCounter={50} autoResize showLengthCounter spellCheck={false} />
       </div>
 
       <div style={headingStyle}>Disabled</div>
       <div id="CounterDisabled" style={blockStyle}>
-        <Textarea
-          value={TEXT_SAMPLE}
-          width={400}
-          maxLength={50}
-          disabled
-          showLengthCounter
-          spellCheck={false}
-        />
+        <Textarea value={TEXT_SAMPLE} width={400} maxLength={50} disabled showLengthCounter spellCheck={false} />
       </div>
 
       <div style={headingStyle}>With help</div>
