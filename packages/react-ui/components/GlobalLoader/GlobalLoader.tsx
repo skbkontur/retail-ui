@@ -8,7 +8,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
-export interface GlobalLoaderProps {
+export interface GlobalLoaderProps extends Partial<DefaultProps> {
   /**
    * Время(ms) до появления лоадера
    */
@@ -62,25 +62,34 @@ export interface GlobalLoaderState {
   expectedResponseTime: number;
   started: boolean;
 }
+interface DefaultProps {
+  expectedResponseTime: number;
+  delayBeforeShow: number;
+  delayBeforeHide: number;
+  rejected: boolean;
+  active: boolean;
+  disableAnimations: boolean;
+}
+export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
 let currentGlobalLoader: GlobalLoader;
 
 @rootNode
-export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
+export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
   private setRootNode!: TSetRootNode;
 
   private readonly startTask = debounce(() => {
     this.setState({ visible: true });
     this.props.onStart?.();
-  }, this.props.delayBeforeShow!);
+  }, this.props.delayBeforeShow);
 
   private readonly stopTask = debounce(() => {
     this.setState({ visible: false, successAnimationInProgress: false, started: false });
     this.props.onDone?.();
-  }, this.props.delayBeforeHide!);
+  }, this.props.delayBeforeHide);
 
-  public static defaultProps: Partial<GlobalLoaderProps> = {
+  public static defaultProps: DefaultProps = {
     expectedResponseTime: 1000,
     delayBeforeShow: 1000,
     delayBeforeHide: 1000,
@@ -89,7 +98,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     disableAnimations: isTestEnv,
   };
 
-  constructor(props: GlobalLoaderProps) {
+  constructor(props: GlobalLoaderComponentProps) {
     super(props);
     this.state = {
       started: false,
@@ -149,7 +158,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <GlobalLoaderView
             expectedResponseTime={this.state.expectedResponseTime}
-            delayBeforeHide={this.props.delayBeforeHide!}
+            delayBeforeHide={this.props.delayBeforeHide}
             status={status}
             data-tid="GlobalLoader"
             disableAnimations={this.props.disableAnimations}
