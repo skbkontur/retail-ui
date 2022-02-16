@@ -78,10 +78,6 @@ const linearProgressAnimation = keyframes`
   from { width: 0; }
   to { width: 80% }
 `;
-const slowProgressAnimation = keyframes`
-  from { width: 80% }
-  to { width: 100% }
-`;
 
 export const animations = {
   successAnimation(delayBeforeHide: number, width: number, left: number) {
@@ -94,7 +90,7 @@ export const animations = {
           left: ${left}px;
           opacity: 1;
         }
-        50% {
+        20% {
           width: 100%;
           left: 0;
           opacity: 1;
@@ -122,10 +118,29 @@ export const animations = {
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
-  standardAnimation(t: Theme, expectedTime: number, overtime: number) {
+  standardAnimation(expectedTime: number) {
     return css`
-      animation: ${linearProgressAnimation} ${expectedTime}ms ease-out,
-        ${overtime}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
+      width: 80%;
+      animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1);
+    `;
+  },
+  acceptAnimation(startWidth: number, expectedTime: number) {
+    return css`
+      width: 80%;
+      animation: acceptAnimation ${expectedTime}ms ease-out;
+      @keyframes acceptAnimation {
+        from {
+          width: ${startWidth}px;
+        }
+        to {
+          width: 80%;
+        }
+      }
+    `;
+  },
+  acceptWithoutAnimation(startWidth: number) {
+    return css`
+      width: ${startWidth};
     `;
   },
 };
