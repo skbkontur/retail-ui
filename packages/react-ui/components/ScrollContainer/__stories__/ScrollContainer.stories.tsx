@@ -93,7 +93,7 @@ export const WithHorizontalScroll = () => {
 };
 
 export const WithScrollState = () => {
-  class Wrapper extends React.Component<{}, { scrollState: ScrollContainerScrollState }> {
+  class Wrapper extends React.Component<unknown, { scrollState: ScrollContainerScrollState }> {
     public state = { scrollState: 'top' as ScrollContainerScrollState };
 
     public render() {

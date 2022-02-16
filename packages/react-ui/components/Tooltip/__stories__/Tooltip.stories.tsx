@@ -688,7 +688,9 @@ RenderInFirstAvailablePosition.parameters = {
   },
 };
 
-class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNode; opened: boolean }> {
+type DynamicContentTooltipState = { content: React.ReactNode; opened: boolean };
+
+class DynamicContentTooltip extends React.Component<unknown, DynamicContentTooltipState> {
   public state = {
     content: SMALL_CONTENT,
     opened: false,
@@ -855,7 +857,7 @@ class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
   };
 }
 
-class TooltipWithDynamicContent extends React.Component<{}, HasDynamicContentState> {
+class TooltipWithDynamicContent extends React.Component<unknown, HasDynamicContentState> {
   public state: HasDynamicContentState = {
     content: SMALL_CONTENT,
   };
@@ -879,7 +881,7 @@ class TooltipWithDynamicContent extends React.Component<{}, HasDynamicContentSta
   };
 }
 
-class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProps, {}> {
+class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProps> {
   public render() {
     return (
       <Tooltip
@@ -903,7 +905,7 @@ class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
 interface DynamicAnchorState {
   isFirst: boolean;
 }
-class DynamicAnchor extends React.Component<{}, DynamicAnchorState> {
+class DynamicAnchor extends React.Component<unknown, DynamicAnchorState> {
   public state: DynamicAnchorState = {
     isFirst: true,
   };
@@ -957,7 +959,7 @@ function DynamicAnchorTooltip() {
   );
 }
 
-class TooltipWithClickTrigger extends React.Component<{}, {}> {
+class TooltipWithClickTrigger extends React.Component {
   public render() {
     return (
       <div style={{ padding: 100 }}>
@@ -1009,7 +1011,7 @@ interface DynamicTriggersState {
   trigger?: TooltipTrigger;
 }
 
-class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
+class DynamicTriggers extends React.Component<unknown, DynamicTriggersState> {
   public state: DynamicTriggersState = {};
 
   public render() {

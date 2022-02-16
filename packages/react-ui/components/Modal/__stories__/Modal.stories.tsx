@@ -1,4 +1,4 @@
-import React, { Component, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
@@ -18,7 +18,7 @@ const basicFontStyle = {
   margin: '0',
 };
 
-class ModalWithScrollableContent extends Component<{}, { opened: boolean; panel: boolean }> {
+class ModalWithScrollableContent extends React.Component<unknown, { opened: boolean; panel: boolean }> {
   public state = {
     opened: false,
     panel: false,
@@ -88,7 +88,7 @@ class ModalWithScrollableContent extends Component<{}, { opened: boolean; panel:
   };
 }
 
-class ModalWithIconInput extends Component<{}, { opened: boolean }> {
+class ModalWithIconInput extends React.Component<unknown, { opened: boolean }> {
   public state = {
     opened: false,
   };
@@ -133,7 +133,7 @@ class ModalWithIconInput extends Component<{}, { opened: boolean }> {
   };
 }
 
-class ModalOverAnotherModal extends Component<{}, any> {
+class ModalOverAnotherModal extends React.Component {
   public state = {
     firstModalOpened: false,
     secondModalOpened: false,
@@ -169,7 +169,7 @@ class ModalOverAnotherModal extends Component<{}, any> {
   }
 }
 
-class ModalWithFooterPanel extends Component<{}, { opened: boolean; panel: boolean }> {
+class ModalWithFooterPanel extends React.Component<unknown, { opened: boolean; panel: boolean }> {
   public state = {
     opened: false,
     panel: true,
@@ -207,7 +207,7 @@ class ModalWithFooterPanel extends Component<{}, { opened: boolean; panel: boole
   };
 }
 
-class ModalWithoutFooterPanel extends Component<{}, { opened: boolean }> {
+class ModalWithoutFooterPanel extends React.Component<unknown, { opened: boolean }> {
   public state = {
     opened: false,
   };
@@ -247,7 +247,7 @@ class ModalWithoutFooterPanel extends Component<{}, { opened: boolean }> {
   };
 }
 
-class ModalWithoutFooter extends Component<{}, { opened: boolean }> {
+class ModalWithoutFooter extends React.Component<unknown, { opened: boolean }> {
   public state = {
     opened: false,
   };
@@ -284,7 +284,7 @@ class ModalWithoutFooter extends Component<{}, { opened: boolean }> {
   };
 }
 
-class ModalMobileView extends Component<{}, { opened: boolean }> {
+class ModalMobileView extends React.Component<unknown, { opened: boolean }> {
   public state = {
     opened: true,
   };
@@ -307,14 +307,10 @@ class ModalMobileView extends Component<{}, { opened: boolean }> {
   }
 }
 
-class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      bigHeight: false,
-    };
-  }
+class ModalInner extends React.Component<unknown, { bigHeight: boolean }> {
+  public state = {
+    bigHeight: false,
+  };
 
   public render() {
     return (
@@ -338,7 +334,7 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
   }
 }
 
-class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: boolean }> {
+class ModalWithVariableHeight extends React.Component<unknown, { opened: boolean; panel: boolean }> {
   public state = {
     opened: false,
     panel: false,
@@ -382,7 +378,7 @@ class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: bo
   };
 }
 
-class SmallModalOnTop extends Component<{}, {}> {
+class SmallModalOnTop extends React.Component {
   public state = {
     opened: false,
   };

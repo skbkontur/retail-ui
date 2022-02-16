@@ -2,7 +2,9 @@ import React from 'react';
 
 import { Paging } from '../../components/Paging';
 
-export class PagingPlayground extends React.Component<{}, { active: number }> {
+type PagingPlaygroundState = { active: number };
+
+export class PagingPlayground extends React.Component<unknown, PagingPlaygroundState> {
   public state = {
     active: 1,
   };

@@ -691,7 +691,7 @@ interface ComboBoxWithErrorTogglerState {
   error: boolean;
   value: { label: number };
 }
-class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogglerState> {
+class ComboBoxWithErrorToggler extends React.Component<unknown, ComboBoxWithErrorTogglerState> {
   public state: ComboBoxWithErrorTogglerState = {
     error: false,
     value: { label: 0 },
@@ -844,7 +844,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     );
 }
 
-class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, {}> {
+class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>> {
   public static defaultProps = ComboBox.defaultProps;
   public state = {
     value: null,

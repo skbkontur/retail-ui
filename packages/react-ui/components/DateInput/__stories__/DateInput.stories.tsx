@@ -14,7 +14,7 @@ interface DateInputFormattingState {
   separator: keyof typeof InternalDateSeparator;
   value: string;
 }
-class DateInputFormatting extends React.Component<{}, DateInputFormattingState> {
+class DateInputFormatting extends React.Component<unknown, DateInputFormattingState> {
   public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
     separator: 'Dot',

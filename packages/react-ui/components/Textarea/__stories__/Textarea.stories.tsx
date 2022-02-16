@@ -13,7 +13,7 @@ interface AutoresizableTextareaState {
   maxRows: number;
 }
 
-class AutoresizableTextarea extends React.Component<{}, AutoresizableTextareaState> {
+class AutoresizableTextarea extends React.Component<unknown, AutoresizableTextareaState> {
   public state = {
     value: '',
     maxRows: 5,

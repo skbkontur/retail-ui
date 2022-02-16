@@ -39,7 +39,7 @@ const linearDarkGradient = `repeating-linear-gradient(
                                 #444 40px
                               )`;
 
-class ZKebab extends React.Component<{}> {
+class ZKebab extends React.Component {
   public render() {
     return (
       <Kebab>
@@ -54,7 +54,7 @@ class ZKebab extends React.Component<{}> {
   }
 }
 
-class ZSelect extends React.Component<{}> {
+class ZSelect extends React.Component {
   public render() {
     return <Select value={1} items={[1, 2, 3, 4, 5, 6]} />;
   }
@@ -97,7 +97,7 @@ class ZModal extends React.Component<{ size: number; children?: React.ReactNode 
   }
 }
 
-class LightboxUnderLightbox extends React.Component<{}> {
+class LightboxUnderLightbox extends React.Component {
   public render() {
     return (
       <div>
@@ -196,7 +196,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   }
 }
 
-class Demo extends React.Component<{}> {
+class Demo extends React.Component {
   public render() {
     return (
       <div>
@@ -250,7 +250,7 @@ const ModalWrapper = ({ caption = 'Title', ...props }: { caption?: string; child
   </Modal>
 );
 
-class LoaderCoversTooltip extends React.Component<{}> {
+class LoaderCoversTooltip extends React.Component {
   public render() {
     return (
       <div style={{ width: '500px' }}>
@@ -263,7 +263,7 @@ class LoaderCoversTooltip extends React.Component<{}> {
   }
 }
 
-class ModalWithTooltipInLoader extends React.Component<{}> {
+class ModalWithTooltipInLoader extends React.Component {
   public render() {
     return (
       <Loader type="big" active>
@@ -277,7 +277,7 @@ class ModalWithTooltipInLoader extends React.Component<{}> {
   }
 }
 
-class TooltipNearLoader extends React.Component<{}> {
+class TooltipNearLoader extends React.Component {
   public render() {
     return (
       <div style={{ display: 'flex', width: 500, paddingBottom: 10 }}>
@@ -293,7 +293,7 @@ class TooltipNearLoader extends React.Component<{}> {
   }
 }
 
-class NestedElementsInLoader extends React.Component<{}> {
+class NestedElementsInLoader extends React.Component {
   public renderNestedModal() {
     return (
       <ModalWrapper caption="Second Modal Title">
@@ -319,7 +319,7 @@ class NestedElementsInLoader extends React.Component<{}> {
   }
 }
 
-class HintAndModal extends React.Component<{}> {
+class HintAndModal extends React.Component {
   public state = {
     modalOpened: false,
     hintOpened: false,
@@ -380,7 +380,7 @@ class HintAndModal extends React.Component<{}> {
   }
 }
 
-class LoaderInModal extends React.Component<{}> {
+class LoaderInModal extends React.Component {
   public render() {
     return (
       <Modal>
@@ -399,7 +399,7 @@ interface TooltipAndDropdownMenuState {
   tooltipTrigger: 'closed' | 'opened';
 }
 
-class TooltipAndSelect extends React.Component<{}> {
+class TooltipAndSelect extends React.Component {
   public state: TooltipAndDropdownMenuState = {
     tooltipTrigger: 'closed',
   };
@@ -434,7 +434,7 @@ class TooltipAndSelect extends React.Component<{}> {
   }
 }
 
-class LoaderInSidePage extends React.Component<{}> {
+class LoaderInSidePage extends React.Component {
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -469,7 +469,7 @@ class LoaderInSidePage extends React.Component<{}> {
   }
 }
 
-class SidePageAndSelect extends React.Component<{}> {
+class SidePageAndSelect extends React.Component {
   public state = {
     opened: false,
   };
@@ -531,7 +531,7 @@ class SidePageAndSelect extends React.Component<{}> {
   }
 }
 
-class BigModalWithLoader extends React.Component<{}> {
+class BigModalWithLoader extends React.Component {
   public render() {
     return (
       <Modal>

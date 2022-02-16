@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Gapped } from '../../components/Gapped';
 import { Toggle } from '../../components/Toggle';
 
-export class TogglePlayground extends Component<{}, any> {
+export class TogglePlayground extends React.Component {
   public state = {
     checked: false,
     loadingActive: false,

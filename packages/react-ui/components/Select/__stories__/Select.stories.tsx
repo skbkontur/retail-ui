@@ -12,7 +12,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 
-class SelectWrapper extends React.Component<{}, any> {
+class SelectWrapper extends React.Component {
   public state = {
     value: { label: 'One', value: 1 },
   };
@@ -40,7 +40,7 @@ class SelectWrapper extends React.Component<{}, any> {
   }
 }
 
-class ItemsWithComments extends React.Component<{}, any> {
+class ItemsWithComments extends React.Component {
   private static items: Array<[number, string, React.ReactNode?]> = [
     [1, 'ООО Эльбрус', '8387666415 - 113445852'],
     [2, 'ИП Иванов Петр', '583662338391'],

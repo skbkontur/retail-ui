@@ -232,7 +232,7 @@ SampleStory.parameters = {
 
 export const ManualMount = () => {
   class ManualMounting extends React.Component<
-    {},
+    unknown,
     {
       mounted: boolean;
     }

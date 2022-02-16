@@ -24,7 +24,7 @@ interface IndeterminatePlaygroundState {
   checked: boolean;
 }
 
-class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState> {
+class IndeterminatePlayground extends Component<unknown, IndeterminatePlaygroundState> {
   public state: IndeterminatePlaygroundState = {
     checked: false,
   };

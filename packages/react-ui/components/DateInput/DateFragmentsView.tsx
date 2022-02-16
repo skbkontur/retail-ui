@@ -16,7 +16,7 @@ interface DateFragmentViewProps {
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
-export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
+export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   private theme!: Theme;
   private rootNode: HTMLSpanElement | null = null;
 

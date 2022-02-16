@@ -24,7 +24,7 @@ const darkWrapperStyle = {
 };
 
 class ContentComponent extends React.Component<{
-  additionalStyle?: object;
+  additionalStyle?: Record<string, unknown>;
   loaderProps?: Partial<LoaderProps>;
 }> {
   public render() {

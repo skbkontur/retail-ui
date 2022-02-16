@@ -10,7 +10,7 @@ interface SampleState {
   open: boolean;
 }
 
-class Sample extends Component<{}, SampleState> {
+class Sample extends Component<unknown, SampleState> {
   public state: SampleState = {
     active: false,
     open: false,

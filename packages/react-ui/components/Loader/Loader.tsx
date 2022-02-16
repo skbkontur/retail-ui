@@ -47,7 +47,7 @@ export interface LoaderState {
   isStickySpinner: boolean;
   isSpinnerVisible: boolean;
   isLoaderActive: boolean;
-  spinnerStyle?: object;
+  spinnerStyle?: Record<string, unknown>;
 }
 
 /**

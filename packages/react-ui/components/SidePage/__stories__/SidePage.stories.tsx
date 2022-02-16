@@ -176,7 +176,7 @@ class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
   }
 }
 
-class SidePageWithScrollableContent extends React.Component<{}, {}> {
+class SidePageWithScrollableContent extends React.Component {
   public render() {
     return (
       <div style={{ width: '300px' }}>
@@ -192,7 +192,7 @@ interface SidePageWithInputInHeaderState {
   opened: boolean;
 }
 
-class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInHeaderState> {
+class SidePageWithInputInHeader extends React.Component<unknown, SidePageWithInputInHeaderState> {
   public state: SidePageWithInputInHeaderState = {
     opened: false,
   };
@@ -229,7 +229,7 @@ class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInH
   };
 }
 
-class SidePageOverAnotherSidePage extends React.Component<{}> {
+class SidePageOverAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={5} ignoreBackgroundClick blockBackground withContent />;
   }
@@ -241,7 +241,7 @@ interface SidePageWithCloseConfigurationState {
   withContent: boolean;
 }
 
-class SidePageWithCloseConfiguration extends React.Component<{}, SidePageWithCloseConfigurationState> {
+class SidePageWithCloseConfiguration extends React.Component<unknown, SidePageWithCloseConfigurationState> {
   public state: SidePageWithCloseConfigurationState = {
     ignoreBackgroundClick: false,
     blockBackground: false,
@@ -282,7 +282,7 @@ interface SidePageWithModalInsideState {
   withContent: boolean;
 }
 
-class SidePageWithModalInside extends React.Component<{}, SidePageWithModalInsideState> {
+class SidePageWithModalInside extends React.Component<unknown, SidePageWithModalInsideState> {
   public state: SidePageWithModalInsideState = {
     isModalOpened: false,
     ignoreBackgroundClick: true,
@@ -380,7 +380,7 @@ class LeftSidePageWithRightSidePage extends React.Component<{
   }
 }
 
-class SimpleSidePage extends React.Component<{}, {}> {
+class SimpleSidePage extends React.Component {
   public render() {
     return (
       <div style={{ width: '300px' }}>
@@ -395,7 +395,7 @@ interface WithVariableContentState {
   sidePageText: string[];
   pageText: string[];
 }
-class WithVariableContent extends React.Component<{}, WithVariableContentState> {
+class WithVariableContent extends React.Component<unknown, WithVariableContentState> {
   public state: WithVariableContentState = {
     opened: false,
     sidePageText: [],

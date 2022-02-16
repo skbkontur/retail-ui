@@ -27,7 +27,7 @@ const render = (
   propsLocale: LocaleContextProps = {},
 ) => mount<LocaleDateInputProps>(<LocaleDateInput {...{ propsDateInput, propsLocale }} />);
 
-const getInput = (root: ReactWrapper<LocaleDateInputProps, {}>) => root.find('[data-tid="InputLikeText__input"]');
+const getInput = (root: ReactWrapper<LocaleDateInputProps>) => root.find('[data-tid="InputLikeText__input"]');
 
 const getValue = (input: ReactWrapper) => input.text();
 

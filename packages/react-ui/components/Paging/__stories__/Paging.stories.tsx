@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -10,7 +10,7 @@ dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
 sunt corrupti deserunt ab eius nobis suscipit praesentium labore.
 Distinctio hic asperiores consequatur?`;
 
-class GoToAbsensePage extends Component<{}, any> {
+class GoToAbsensePage extends React.Component {
   public state = {
     activePage: 3,
   };
@@ -37,7 +37,7 @@ class GoToAbsensePage extends Component<{}, any> {
   };
 }
 
-class PagingWithState extends Component<any, any> {
+class PagingWithState extends React.Component<any, any> {
   public state = {
     activePage: 1,
   };
@@ -78,7 +78,7 @@ const CustomComponent = ({ children, pageNumber, ...rest }: ItemComponentProps) 
   );
 };
 
-class PagingWithCustomComponent extends Component<any, any> {
+class PagingWithCustomComponent extends React.Component<any, any> {
   public state = {
     activePage: 1,
   };
@@ -229,7 +229,7 @@ export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
 PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
-class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
+class Playground extends React.Component<unknown, { useGlobalListener: boolean }> {
   public state = {
     useGlobalListener: true,
   };

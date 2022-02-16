@@ -148,7 +148,7 @@ class TestWrapper extends React.Component<{
 }
 
 class WithWidth extends React.Component<
-  {},
+  unknown,
   {
     isFixedWidth: boolean;
   }

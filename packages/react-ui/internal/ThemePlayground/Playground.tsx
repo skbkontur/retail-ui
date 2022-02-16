@@ -44,7 +44,7 @@ export interface PlaygroundProps {
   onEditLinkClick: () => void;
 }
 
-export class Playground extends React.Component<PlaygroundProps, {}> {
+export class Playground extends React.Component<PlaygroundProps> {
   private theme!: Theme;
   private stopEl = React.createRef<HTMLDivElement>();
 
