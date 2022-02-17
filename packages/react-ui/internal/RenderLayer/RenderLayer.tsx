@@ -5,7 +5,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 
-export interface RenderLayerProps extends CommonProps {
+export interface RenderLayerProps extends CommonProps, Partial<DefaultProps> {
   children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
@@ -13,8 +13,14 @@ export interface RenderLayerProps extends CommonProps {
   getAnchorElement?: () => Nullable<HTMLElement>;
 }
 
+interface DefaultProps {
+  active: boolean;
+}
+
+type RenderLayerComponentPorps = RenderLayerProps & DefaultProps;
+
 @rootNode
-export class RenderLayer extends React.Component<RenderLayerProps> {
+export class RenderLayer extends React.Component<RenderLayerComponentPorps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
 
   public static propTypes = {
@@ -28,7 +34,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     active: true,
   };
 

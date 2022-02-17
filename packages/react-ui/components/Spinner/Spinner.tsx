@@ -20,7 +20,7 @@ const types: Record<SpinnerType, SpinnerType> = {
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
-export interface SpinnerProps extends CommonProps {
+export interface SpinnerProps extends CommonProps, Partial<DefaultProps> {
   caption?: React.ReactNode;
   dimmed?: boolean;
   /**
@@ -38,13 +38,19 @@ export interface SpinnerProps extends CommonProps {
   color?: React.CSSProperties['color'];
 }
 
+interface DefaultProps {
+  type: SpinnerType;
+}
+
+type SpinnerComponentProps = SpinnerProps & DefaultProps;
+
 /**
  * DRAFT - инлайн-лоадер
  */
 
 @rootNode
 @locale('Spinner', SpinnerLocaleHelper)
-export class Spinner extends React.Component<SpinnerProps> {
+export class Spinner extends React.Component<SpinnerComponentProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
 
   public static propTypes = {
@@ -67,7 +73,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps: SpinnerProps = {
+  public static defaultProps: DefaultProps = {
     type: 'normal',
   };
 

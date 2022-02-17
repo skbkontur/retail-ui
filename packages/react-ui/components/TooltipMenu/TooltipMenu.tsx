@@ -12,7 +12,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
-export interface TooltipMenuProps extends CommonProps {
+export interface TooltipMenuProps extends CommonProps, Partial<DefaultProps> {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -50,6 +50,12 @@ export interface TooltipMenuProps extends CommonProps {
   disableAnimations: boolean;
 }
 
+interface DefaultProps {
+  disableAnimations: boolean;
+}
+
+type TooltipComponentMenuProps = TooltipMenuProps & DefaultProps;
+
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент.
  *
@@ -62,14 +68,14 @@ export interface TooltipMenuProps extends CommonProps {
  * Если массив `positions` не передан (или передан пустой массив), будут использованы всевозможные значения.
  */
 @rootNode
-export class TooltipMenu extends React.Component<TooltipMenuProps> {
+export class TooltipMenu extends React.Component<TooltipComponentMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
   };
-  constructor(props: TooltipMenuProps) {
+  constructor(props: TooltipComponentMenuProps) {
     super(props);
 
     if (!props.caption && !isProductionEnv) {

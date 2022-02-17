@@ -41,7 +41,7 @@ export enum TokenInputType {
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
-export interface TokenInputProps<T> extends CommonProps {
+export interface TokenInputProps<T> extends CommonProps, Partial<DefaultProps<T>> {
   selectedItems: T[];
   onValueChange: (items: T[]) => void;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
@@ -169,12 +169,32 @@ const defaultRenderToken = <T extends {}>(
   </Token>
 );
 
+interface DefaultProps<T> {
+  selectedItems: T[];
+  delimiters: string[];
+  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
+  renderValue: (item: T) => React.ReactNode;
+  valueToString: (item: T) => string;
+  valueToItem: (item: string) => T;
+  toKey: (item: T) => string | number | undefined;
+  onValueChange: (items: T[]) => void;
+  width: string | number;
+  onBlur: FocusEventHandler<HTMLTextAreaElement>;
+  onFocus: FocusEventHandler<HTMLTextAreaElement>;
+  onMouseEnter: MouseEventHandler<HTMLDivElement>;
+  onMouseLeave: MouseEventHandler<HTMLDivElement>;
+  menuWidth: React.CSSProperties['width'];
+  menuAlign: TokenInputMenuAlign;
+}
+
+type TokenInputComponentProps<T> = TokenInputProps<T> & DefaultProps<T>;
+
 @rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
-export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
+export class TokenInput<T = string> extends React.PureComponent<TokenInputComponentProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
 
-  public static defaultProps: Partial<TokenInputProps<any>> = {
+  public static defaultProps: DefaultProps<any> = {
     selectedItems: [],
     delimiters: [',', ' '],
     renderItem: identity,

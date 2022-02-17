@@ -17,7 +17,7 @@ import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 
-interface ComboBoxViewProps<T> extends CommonProps {
+interface ComboBoxViewProps<T> extends CommonProps, Partial<DefaultProps<T>> {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -73,11 +73,25 @@ interface ComboBoxViewProps<T> extends CommonProps {
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 
+interface DefaultProps<T> {
+  renderItem: (item: T, state: MenuItemState) => React.ReactNode;
+  renderValue: (item: T) => React.ReactNode;
+  renderAddButton: (query?: string) => React.ReactNode;
+  repeatRequest: () => void;
+  requestStatus: ComboBoxRequestStatus;
+  onClickOutside: (e: Event) => void;
+  onFocusOutside: () => void;
+  size: 'small' | 'medium' | 'large';
+  width: string | number;
+}
+
+type ComboBoxViewComponentProps<T> = ComboBoxViewProps<T> & DefaultProps<T>;
+
 @rootNode
-export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, {}> {
+export class ComboBoxView<T> extends React.Component<ComboBoxViewComponentProps<T>, {}> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<any> = {
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
     renderAddButton: () => null,

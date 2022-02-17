@@ -13,7 +13,7 @@ import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps<T extends string = string> extends CommonProps {
+export interface TabsProps<T extends string = string> extends CommonProps, Partial<DefaultProps> {
   /**
    * Tab component should be child of Tabs component
    */
@@ -46,13 +46,19 @@ export interface TabsProps<T extends string = string> extends CommonProps {
   width?: number | string;
 }
 
+interface DefaultProps {
+  vertical: boolean;
+}
+
+type TabsComponentProps<T extends string = string> = TabsProps<T> & DefaultProps;
+
 /**
  * Tabs wrapper
  *
  * contains static property `Tab`
  */
 @rootNode
-export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
+export class Tabs<T extends string = string> extends React.Component<TabsComponentProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
   public static propTypes = {
@@ -62,7 +68,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     vertical: false,
   };
 

@@ -1,12 +1,6 @@
 import React from 'react';
 
-/**
- * Компонент рисует пиксельную линейку на заднем фоне.
- * Помогает контролировать размеры элементов при скриншотном тестировании.
- *
- * @see FxInput/__stories__/FxInput.stories.tsx
- */
-export class BGRuler extends React.Component<{
+interface BGRulerProps extends Partial<DefaultProps> {
   width?: string | number;
   height?: string | number;
   top?: string | number;
@@ -14,8 +8,26 @@ export class BGRuler extends React.Component<{
   right?: string | number;
   left?: string | number;
   color?: string;
-}> {
-  public static defaultProps = {
+}
+
+interface DefaultProps {
+  height: string | number;
+  top: string | number;
+  left: string | number;
+  right: string | number;
+  color: string;
+}
+
+type BgRulerComponentPorps = BGRulerProps & DefaultProps;
+
+/**
+ * Компонент рисует пиксельную линейку на заднем фоне.
+ * Помогает контролировать размеры элементов при скриншотном тестировании.
+ *
+ * @see FxInput/__stories__/FxInput.stories.tsx
+ */
+export class BGRuler extends React.Component<BgRulerComponentPorps> {
+  public static defaultProps: DefaultProps = {
     height: 20,
     top: 0,
     left: 0,

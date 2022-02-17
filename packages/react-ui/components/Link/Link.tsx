@@ -13,59 +13,66 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 
 import { styles } from './Link.styles';
 
-export interface LinkProps
-  extends CommonProps,
-    Override<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      {
-        /**
-         * Отключенное состояние.
-         */
-        disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
-        href?: string;
-        /**
-         * Добавляет ссылке иконку.
-         */
-        icon?: React.ReactElement<any>;
-        /**
-         * Тема ссылки.
-         */
-        use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
-        _button?: boolean;
-        /**
-         * @ignore
-         */
-        _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
-        tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
-        loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
-        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-      }
-    > {}
+export type LinkProps = Override<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  {
+    /**
+     * Отключенное состояние.
+     */
+    disabled?: boolean;
+    /**
+     * HTML-атрибут `href`.
+     */
+    href?: string;
+    /**
+     * Добавляет ссылке иконку.
+     */
+    icon?: React.ReactElement<any>;
+    /**
+     * Тема ссылки.
+     */
+    use?: 'default' | 'success' | 'danger' | 'grayed';
+    /**
+     * @ignore
+     */
+    _button?: boolean;
+    /**
+     * @ignore
+     */
+    _buttonOpened?: boolean;
+    /**
+     * HTML-атрибут `tabindex`.
+     */
+    tabIndex?: number;
+    /**
+     * Переводит ссылку в состояние загрузки.
+     */
+    loading?: boolean;
+    /**
+     * HTML-событие `onclick`.
+     */
+    onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+  }
+> &
+  CommonProps &
+  Partial<DefaultProps>;
 
 export interface LinkState {
   focusedByTab: boolean;
 }
 
+interface DefaultProps {
+  href: string;
+  use: 'default' | 'success' | 'danger' | 'grayed';
+}
+
+type LinkComponentProps = LinkProps & DefaultProps;
+
 /**
  * Элемент ссылки из HTML.
  */
 @rootNode
-export class Link extends React.Component<LinkProps, LinkState> {
+export class Link extends React.Component<LinkComponentProps, LinkState> {
   public static __KONTUR_REACT_UI__ = 'Link';
 
   public static propTypes = {
@@ -78,7 +85,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     href: '',
     use: 'default',
   };

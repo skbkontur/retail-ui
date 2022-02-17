@@ -32,7 +32,7 @@ export type StatePropsCombinations<P, S> = Array<{ props?: Partial<P>; state?: P
 
 export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
 
-export interface ComponentTableProps<C, P, S> {
+export interface ComponentTableProps<C, P, S> extends Partial<DefaultProps<C, P, S>> {
   rows?: StatePropsCombinations<P, S>;
   cols?: StatePropsCombinations<P, S>;
   presetProps: DefaultizeProps<C, P>;
@@ -40,15 +40,22 @@ export interface ComponentTableProps<C, P, S> {
   Component: C;
 }
 
+interface DefaultProps<C, P, S> {
+  presetProps: DefaultizeProps<C, P>;
+  presetState: Partial<S>;
+}
+
+type ComponentTableComponentProps<C, P, S> = ComponentTableProps<C, P, S> & DefaultProps<C, P, S>;
+
 // Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
   P extends React.ComponentProps<C>,
 > extends React.Component<
-  ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
+  ComponentTableComponentProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
-  public static defaultProps = { presetProps: {}, presetState: {} };
+  public static defaultProps: DefaultProps<any, any, any> = { presetProps: {}, presetState: {} };
 
   public render() {
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;

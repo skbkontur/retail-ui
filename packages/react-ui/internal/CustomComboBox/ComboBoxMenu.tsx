@@ -10,7 +10,7 @@ import { MenuSeparator } from '../../components/MenuSeparator';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
 
-export interface ComboBoxMenuProps<T> {
+export interface ComboBoxMenuProps<T> extends Partial<DefaultProps> {
   opened?: boolean;
   items?: Nullable<T[]>;
   totalCount?: number;
@@ -27,11 +27,18 @@ export interface ComboBoxMenuProps<T> {
   requestStatus?: ComboBoxRequestStatus;
 }
 
+interface DefaultProps {
+  repeatRequest: () => void;
+  requestStatus: ComboBoxRequestStatus;
+}
+
+type ComboBoxMenuComponentProps<T> = ComboBoxMenuProps<T> & DefaultProps;
+
 @locale('ComboBox', CustomComboBoxLocaleHelper)
-export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
+export class ComboBoxMenu<T> extends Component<ComboBoxMenuComponentProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
   };

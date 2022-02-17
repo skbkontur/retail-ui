@@ -17,7 +17,7 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
-export interface CalendarProps {
+export interface CalendarProps extends Partial<DefaultProps> {
   initialMonth?: number;
   initialYear?: number;
   onSelect?: (date: CalendarDateShape) => void;
@@ -36,6 +36,13 @@ export interface CalendarState {
   touchStart: number;
 }
 
+interface DefaultProps {
+  minDate: CalendarDateShape;
+  maxDate: CalendarDateShape;
+}
+
+type CalendarComponentProps = CalendarProps & DefaultProps;
+
 const getTodayDate = () => {
   const date = new Date();
   return {
@@ -45,11 +52,10 @@ const getTodayDate = () => {
   };
 };
 
-export class Calendar extends React.Component<CalendarProps, CalendarState> {
+export class Calendar extends React.Component<CalendarComponentProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
-  public static defaultProps = {
-    holidays: [],
+  public static defaultProps: DefaultProps = {
     minDate: {
       year: MIN_YEAR,
       month: MIN_MONTH,
@@ -68,7 +74,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private animation = Animation();
   private touchStartY: Nullable<number> = null;
 
-  constructor(props: CalendarProps) {
+  constructor(props: CalendarComponentProps) {
     super(props);
 
     const today = getTodayDate();

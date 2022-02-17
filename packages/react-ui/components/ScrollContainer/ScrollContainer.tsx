@@ -22,7 +22,7 @@ export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
 export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
-export interface ScrollContainerProps extends CommonProps {
+export interface ScrollContainerProps extends CommonProps, Partial<DefaultProps> {
   /**
    * Инвертировать цвет скроллбара
    * @default false
@@ -45,8 +45,16 @@ export interface ScrollContainerProps extends CommonProps {
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 
+interface DefaultProps {
+  invert: boolean;
+  scrollBehaviour: ScrollBehaviour;
+  preventWindowScroll: boolean;
+}
+
+type ScrollContainerComponentProps = ScrollContainerProps & DefaultProps;
+
 @rootNode
-export class ScrollContainer extends React.Component<ScrollContainerProps> {
+export class ScrollContainer extends React.Component<ScrollContainerComponentProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
   public static propTypes = {
@@ -58,7 +66,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     onScrollStateChange: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,

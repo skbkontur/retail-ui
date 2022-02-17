@@ -4,24 +4,33 @@ import { DefaultizeProps } from '../lib/utils';
 
 import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
-export interface ComponentCombinatorProps<C, P, S> {
+export interface ComponentCombinatorProps<C, P, S> extends DefaultProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
   presetProps: DefaultizeProps<C, P>;
   presetState: Partial<S>;
 }
 
+interface DefaultProps<C, P, S> {
+  presetProps: DefaultizeProps<C, P>;
+  presetState: Partial<S>;
+}
+
+type ComponentCombinatorComponentProps<C, P, S> = ComponentCombinatorProps<C, P, S> & DefaultProps<C, P, S>;
+
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
   P extends React.ComponentProps<C>,
 > extends React.Component<
-  ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
+  ComponentCombinatorComponentProps<
+    C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C,
+    P,
+    StateType<C>
+  >,
   { page: number }
 > {
-  public static defaultProps = {
-    props: [],
-    states: [],
+  public static defaultProps: DefaultProps<any, any, any> = {
     presetProps: {},
     presetState: {},
   };

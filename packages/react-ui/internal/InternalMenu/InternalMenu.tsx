@@ -4,7 +4,6 @@ import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keybo
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { isMenuHeader } from '../../components/MenuHeader';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -14,7 +13,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 
-interface MenuProps {
+interface MenuProps extends Partial<DefaultProps> {
   children?: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -37,11 +36,22 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
+interface DefaultProps {
+  width: number | string;
+  maxHeight: number | string;
+  hasShadow: boolean;
+  preventWindowScroll: boolean;
+  cyclicSelection: boolean;
+  initialSelectedItemIndex: number;
+}
+
+type InternalMenuComponentProps = MenuProps & DefaultProps;
+
 @rootNode
-export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
+export class InternalMenu extends React.PureComponent<InternalMenuComponentProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -62,7 +72,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
-  private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -249,7 +258,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private setInitialSelection = () => {
-    for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
+    for (let i = this.props.initialSelectedItemIndex; i > -1; i--) {
       this.moveDown();
     }
   };

@@ -13,7 +13,7 @@ import { styles, globalClasses } from './Toggle.styles';
 
 let colorWarningShown = false;
 
-export interface ToggleProps extends CommonProps {
+export interface ToggleProps extends CommonProps, Partial<DefaultProps> {
   children?: React.ReactNode;
   /**
    * Положение `children` относительно переключателя.
@@ -82,11 +82,19 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
+interface DefaultProps {
+  disabled: boolean;
+  loading: boolean;
+  captionPosition: 'left' | 'right';
+}
+
+type ToggleComponentProps = ToggleProps & DefaultProps;
+
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
 @rootNode
-export class Toggle extends React.Component<ToggleProps, ToggleState> {
+export class Toggle extends React.Component<ToggleComponentProps, ToggleState> {
   public static __KONTUR_REACT_UI__ = 'Toggle';
 
   public static propTypes = {
@@ -105,7 +113,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disabled: false,
     loading: false,
     captionPosition: 'right',
@@ -115,7 +123,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
-  constructor(props: ToggleProps) {
+  constructor(props: ToggleComponentProps) {
     super(props);
 
     this.state = {

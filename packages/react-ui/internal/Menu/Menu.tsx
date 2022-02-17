@@ -13,7 +13,7 @@ import { isIE11 } from '../../lib/client';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps {
+export interface MenuProps extends Partial<DefaultProps> {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -27,11 +27,21 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
+interface DefaultProps {
+  align: 'left' | 'right';
+  width: number | string;
+  maxHeight: number | string;
+  hasShadow: boolean;
+  preventWindowScroll: boolean;
+}
+
+type MenuComponentProps = MenuProps & DefaultProps;
+
 @rootNode
-export class Menu extends React.Component<MenuProps, MenuState> {
+export class Menu extends React.Component<MenuComponentProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     width: 'auto',
     maxHeight: 300,

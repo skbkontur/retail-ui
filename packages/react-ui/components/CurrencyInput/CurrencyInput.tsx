@@ -15,36 +15,45 @@ import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 
-export interface CurrencyInputProps
-  extends CommonProps,
-    Override<
-      InputProps,
-      {
-        /** Значение */
-        value: Nullable<number>;
-        /** Убрать лишние нули после запятой */
-        hideTrailingZeros: boolean;
-        /** Кол-во цифр после зяпятой */
-        fractionDigits?: Nullable<number>;
-        /** Отрицательные значения */
-        signed?: boolean;
-        /**
-         * Допустимое кол-во цифр целой части.
-         * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
-         */
-        integerDigits?: Nullable<number>;
-        /** Вызывается при изменении `value` */
-        onValueChange: (value: Nullable<number>) => void;
-        /** onSubmit */
-        onSubmit?: () => void;
-      }
-    > {}
+export type CurrencyInputProps = Override<
+  InputProps,
+  {
+    /** Значение */
+    value: Nullable<number>;
+    /** Убрать лишние нули после запятой */
+    hideTrailingZeros: boolean;
+    /** Кол-во цифр после зяпятой */
+    fractionDigits?: Nullable<number>;
+    /** Отрицательные значения */
+    signed?: boolean;
+    /**
+     * Допустимое кол-во цифр целой части.
+     * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
+     */
+    integerDigits?: Nullable<number>;
+    /** Вызывается при изменении `value` */
+    onValueChange: (value: Nullable<number>) => void;
+    /** onSubmit */
+    onSubmit?: () => void;
+  }
+> &
+  CommonProps &
+  Partial<DefaultProps>;
 
 export interface CurrencyInputState {
   formatted: string;
   selection: Selection;
   focused: boolean;
 }
+
+interface DefaultProps {
+  align: InputProps['align'];
+  fractionDigits: Nullable<number>;
+  hideTrailingZeros: boolean;
+  value: Nullable<number>;
+}
+
+type CurrencyInputComponentProps = CurrencyInputProps & DefaultProps;
 
 /**
  * Поле для денежных сумм (и других числовых значений).
@@ -55,7 +64,7 @@ export interface CurrencyInputState {
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
 @rootNode
-export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
+export class CurrencyInput extends React.PureComponent<CurrencyInputComponentProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
 
   public static propTypes = {
@@ -82,12 +91,11 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     onSubmit: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'right',
     fractionDigits: 2,
     hideTrailingZeros: false,
     value: null,
-    inputMode: 'decimal',
   };
 
   public state: CurrencyInputState = {

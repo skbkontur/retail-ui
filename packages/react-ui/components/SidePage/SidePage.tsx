@@ -23,7 +23,7 @@ import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { styles } from './SidePage.styles';
 
-export interface SidePageProps extends CommonProps {
+export interface SidePageProps extends CommonProps, Partial<DefaultProps> {
   /**
    * Добавить блокирующий фон, когда сайдпейдж открыт
    */
@@ -83,6 +83,14 @@ export interface SidePageState {
   hasPanel: boolean;
 }
 
+interface DefaultProps {
+  disableAnimations: boolean;
+  disableFocusLock: boolean;
+  offset: number | string;
+}
+
+type SidePageComponentProps = SidePageProps & DefaultProps;
+
 const TRANSITION_TIMEOUT = 200;
 
 /**
@@ -94,7 +102,7 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
-export class SidePage extends React.Component<SidePageProps, SidePageState> {
+export class SidePage extends React.Component<SidePageComponentProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
   public static Header = SidePageHeader;
@@ -137,7 +145,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
     disableFocusLock: true,
     offset: 0,

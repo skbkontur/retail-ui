@@ -14,7 +14,7 @@ import { styles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
-export interface StickyProps extends CommonProps {
+export interface StickyProps extends CommonProps, Partial<DefaultProps> {
   side: 'top' | 'bottom';
   /**
    * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
@@ -35,8 +35,14 @@ export interface StickyState {
   relativeTop: number;
 }
 
+interface DefaultProps {
+  offset: number;
+}
+
+type StickyComponentProps = StickyProps & DefaultProps;
+
 @rootNode
-export class Sticky extends React.Component<StickyProps, StickyState> {
+export class Sticky extends React.Component<StickyComponentProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
 
   public static propTypes = {
@@ -55,7 +61,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
 
-  public static defaultProps = { offset: 0 };
+  public static defaultProps: DefaultProps = { offset: 0 };
 
   public state: StickyState = {
     fixed: false,

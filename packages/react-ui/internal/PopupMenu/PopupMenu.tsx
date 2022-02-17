@@ -24,7 +24,7 @@ export interface PopupMenuCaptionProps {
   toggleMenu: () => void;
 }
 
-export interface PopupMenuProps extends CommonProps {
+export interface PopupMenuProps extends CommonProps, Partial<DefaultProps> {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -52,7 +52,7 @@ export interface PopupMenuProps extends CommonProps {
   popupHasPin?: boolean;
   popupMargin?: number;
   popupPinOffset?: number;
-  type?: 'dropdown' | 'tooltip';
+  type?: typeof PopupMenuType[keyof typeof PopupMenuType];
   disableAnimations: boolean;
 }
 
@@ -61,10 +61,19 @@ interface PopupMenuState {
   firstItemShouldBeSelected?: boolean;
 }
 
+interface DefaultProps {
+  positions: PopupPositionsType[];
+  type: typeof PopupMenuType[keyof typeof PopupMenuType];
+  popupHasPin: boolean;
+  disableAnimations: boolean;
+}
+
 export const PopupMenuType = {
   Dropdown: 'dropdown',
   Tooltip: 'tooltip',
 };
+
+type PopupMenuComponentProps = PopupMenuProps & DefaultProps;
 
 const Positions: PopupPositionsType[] = [
   'top left',
@@ -82,10 +91,10 @@ const Positions: PopupPositionsType[] = [
 ];
 
 @rootNode
-export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
+export class PopupMenu extends React.Component<PopupMenuComponentProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     positions: Positions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,

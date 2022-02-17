@@ -30,7 +30,7 @@ interface ItemComponentProps {
   tabIndex: number;
 }
 
-export interface PagingProps extends CommonProps {
+export interface PagingProps extends CommonProps, Partial<DefaultProps> {
   activePage: number;
   /**
    * Компонент обертки по умолчанию
@@ -64,12 +64,20 @@ export interface PagingState {
 
 export type ItemType = number | '.' | 'forward';
 
+interface DefaultProps {
+  component: React.ComponentType<ItemComponentProps>;
+  useGlobalListener: boolean;
+  ['data-tid']: string;
+}
+
+type PagingComponentProps = PagingProps & DefaultProps;
+
 @rootNode
 @locale('Paging', PagingLocaleHelper)
-export class Paging extends React.PureComponent<PagingProps, PagingState> {
+export class Paging extends React.PureComponent<PagingComponentProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick}>
         {children}

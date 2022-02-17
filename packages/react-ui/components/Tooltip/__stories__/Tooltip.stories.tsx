@@ -5,7 +5,6 @@ import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
 import { PopupPositionsType, PopupPositions } from '../../../internal/Popup';
-import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { Textarea } from '../../Textarea';
 import { Checkbox } from '../../Checkbox';
 import { Gapped } from '../../Gapped';
@@ -24,15 +23,13 @@ class TestTooltip extends React.Component<TestTooltipProps> {
     pos: 'top center',
   };
 
-  private getProps = createPropsGetter(TestTooltip.defaultProps);
-
   public render(): JSX.Element {
     const { trigger, children } = this.props;
 
     return (
       <div style={{ padding: '150px' }}>
         <Tooltip
-          pos={this.getProps().pos}
+          pos={this.props.pos}
           render={() => <div>Hey there!</div>}
           trigger={trigger}
           useWrapper={this.props.useWrapper}

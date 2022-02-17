@@ -7,7 +7,7 @@ import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface ComboBoxProps<T> extends CommonProps {
+export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> {
   align?: 'left' | 'center' | 'right';
   /**
    * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
@@ -166,11 +166,23 @@ export interface ComboBoxItem {
   label: string;
 }
 
+interface DefaultProps<T> {
+  itemToValue: (item: T) => string | number;
+  valueToString: (item: T) => string;
+  renderValue: (item: T) => React.ReactNode;
+  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  menuAlign: 'left' | 'right';
+  searchOnFocus: boolean;
+  drawArrow: boolean;
+}
+
+export type ComboBoxComponentProps<T> = ComboBoxProps<T> & DefaultProps<T>;
+
 @rootNode
-export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
+export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxComponentProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<ComboBoxItem> = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,

@@ -15,7 +15,7 @@ import { styles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
-export interface HintProps extends CommonProps {
+export interface HintProps extends CommonProps, Partial<DefaultProps> {
   children?: React.ReactNode;
   /**
    * Переводит отображение подсказки в _"ручной режим"_.
@@ -67,6 +67,17 @@ export interface HintState {
   opened: boolean;
 }
 
+interface DefaultProps {
+  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  manual: boolean;
+  opened: boolean;
+  maxWidth: React.CSSProperties['maxWidth'];
+  disableAnimations: boolean;
+  useWrapper: boolean;
+}
+
+type HintComponentProps = HintProps & DefaultProps;
+
 const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
@@ -86,10 +97,10 @@ const Positions: PopupPositionsType[] = [
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
 @rootNode
-export class Hint extends React.PureComponent<HintProps, HintState> {
+export class Hint extends React.PureComponent<HintComponentProps, HintState> {
   public static __KONTUR_REACT_UI__ = 'Hint';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     pos: 'top',
     manual: false,
     opened: false,

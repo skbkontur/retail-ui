@@ -8,7 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInput.styles';
 
-export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement>, Partial<DefaultProps> {
   mask: string;
   maskChar: string | null;
   formatChars?: { [key: string]: string };
@@ -25,10 +25,16 @@ interface MaskedInputState {
   focused: boolean;
 }
 
-export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
+interface DefaultProps {
+  maskChar: string | null;
+}
+
+type MaskedInputComponentProps = MaskedInputProps & DefaultProps;
+
+export class MaskedInput extends React.PureComponent<MaskedInputComponentProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
-  public static defaultProps: Partial<MaskedInputProps> = {
+  public static defaultProps: DefaultProps = {
     maskChar: '_',
   };
 

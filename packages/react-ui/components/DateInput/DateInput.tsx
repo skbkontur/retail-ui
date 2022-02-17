@@ -26,7 +26,7 @@ export interface DateInputState {
   dragged: boolean;
 }
 
-export interface DateInputProps extends CommonProps {
+export interface DateInputProps extends CommonProps, Partial<DefaultProps> {
   autoFocus?: boolean;
   value: string;
   /**
@@ -71,12 +71,22 @@ export interface DateInputProps extends CommonProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+interface DefaultProps {
+  value: string;
+  minDate: string;
+  maxDate: string;
+  size: 'small' | 'large' | 'medium';
+  width: string | number;
+}
+
+type DateInputComponentProps = DateInputProps & DefaultProps;
+
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
-export class DateInput extends React.Component<DateInputProps, DateInputState> {
+export class DateInput extends React.Component<DateInputComponentProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
@@ -109,7 +119,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     .add(Actions.WrongInput, () => this.blink())
     .build();
 
-  constructor(props: DateInputProps) {
+  constructor(props: DateInputComponentProps) {
     super(props);
 
     this.state = {

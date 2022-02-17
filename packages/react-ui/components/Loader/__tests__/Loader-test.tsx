@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { Loader, LoaderProps, LoaderState } from '../Loader';
+import { Loader, LoaderComponentProps, LoaderState } from '../Loader';
 import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_SPINNER_SHOW = 1000;
@@ -12,18 +12,22 @@ const SpinnerSelector = `[data-tid='Loader__Spinner']`;
 
 const expectComponentLengthInWrapper = (
   component: string,
-  wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>,
+  wrapper: ReactWrapper<LoaderComponentProps, LoaderState, Loader>,
   length: number,
 ) => expect(wrapper.find(component)).toHaveLength(length);
 
-const expectComponentExistInWrapper = (component: string, wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>) =>
-  expectComponentLengthInWrapper(component, wrapper, 1);
+const expectComponentExistInWrapper = (
+  component: string,
+  wrapper: ReactWrapper<LoaderComponentProps, LoaderState, Loader>,
+) => expectComponentLengthInWrapper(component, wrapper, 1);
 
-const expectComponentNotExistInWrapper = (component: string, wrapper: ReactWrapper<LoaderProps, LoaderState, Loader>) =>
-  expectComponentLengthInWrapper(component, wrapper, 0);
+const expectComponentNotExistInWrapper = (
+  component: string,
+  wrapper: ReactWrapper<LoaderComponentProps, LoaderState, Loader>,
+) => expectComponentLengthInWrapper(component, wrapper, 0);
 
 describe('Loader', () => {
-  let loader: ReactWrapper<LoaderProps, LoaderState, Loader>;
+  let loader: ReactWrapper<LoaderComponentProps, LoaderState, Loader>;
 
   describe('with immutable active=false', () => {
     beforeEach(() => {

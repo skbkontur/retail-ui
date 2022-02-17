@@ -15,7 +15,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './PasswordInput.styles';
 
-export interface PasswordInputProps extends CommonProps, InputProps {
+export interface PasswordInputProps extends CommonProps, InputProps, Partial<DefaultProps> {
   detectCapsLock?: boolean;
 }
 
@@ -24,11 +24,17 @@ export interface PasswordInputState {
   capsLockEnabled?: boolean | null;
 }
 
+interface DefaultProps {
+  size: InputProps['size'];
+}
+
+type PasswordInputComponentProps = PasswordInputProps & DefaultProps;
+
 /**
  * Компонент для ввода пароля
  */
 @rootNode
-export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
+export class PasswordInput extends React.PureComponent<PasswordInputComponentProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
   public static propTypes = {
@@ -38,7 +44,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
 

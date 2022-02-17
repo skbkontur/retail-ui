@@ -24,7 +24,7 @@ export interface TabIndicators {
   disabled: boolean;
 }
 
-export interface TabProps<T extends string = string> extends CommonProps {
+export interface TabProps<T extends string = string> extends CommonProps, Partial<DefaultProps> {
   /**
    * Tab content
    */
@@ -90,6 +90,13 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
+interface DefaultProps {
+  component: React.ComponentType<any> | string;
+  href: string;
+}
+
+type TabsComponentProps<T extends string = string> = TabProps<T> & DefaultProps;
+
 /**
  * Tab element of Tabs component
  *
@@ -106,7 +113,7 @@ export interface TabState {
  * Works only inside Tabs component, otherwise throws
  */
 @rootNode
-export class Tab<T extends string = string> extends React.Component<TabProps<T>, TabState> {
+export class Tab<T extends string = string> extends React.Component<TabsComponentProps<T>, TabState> {
   public static __KONTUR_REACT_UI__ = 'Tab';
 
   public static contextType = TabsContext;
@@ -120,7 +127,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     component: 'a',
     href: '',
   };
@@ -133,7 +140,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   private tabComponent: Nullable<React.ReactElement<Tab<T>>> = null;
   private setRootNode!: TSetRootNode;
 
-  constructor(props: TabProps<T>) {
+  constructor(props: TabsComponentProps<T>) {
     super(props);
     invariant(this.context !== TabsContextDefaultValue, 'Tab should be placed inside Tabs component');
   }

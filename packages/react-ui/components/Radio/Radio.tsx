@@ -12,62 +12,68 @@ import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGro
 
 import { styles, globalClasses } from './Radio.styles';
 
-export interface RadioProps<T>
-  extends CommonProps,
-    Override<
-      React.InputHTMLAttributes<HTMLInputElement>,
-      {
-        /**
-         *  Cостояние валидации при ошибке.
-         */
-        error?: boolean;
-        /**
-         * Cостояние валидации при предупреждении.
-         */
-        warning?: boolean;
-        /**
-         * Состояние фокуса.
-         */
-        focused?: boolean;
-        /**
-         * Функция, вызываемая при изменении `value`.
-         */
-        onValueChange?: (value: T) => void;
-        /**
-         * HTML-событие `onmouseenter`
-         */
-        onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `mouseleave`
-         */
-        onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-событие `onmouseover`
-         */
-        onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-        /**
-         * HTML-атрибут `value`.
-         */
-        value: T;
-      }
-    > {}
+export type RadioProps<T> = Override<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  {
+    /**
+     *  Cостояние валидации при ошибке.
+     */
+    error?: boolean;
+    /**
+     * Cостояние валидации при предупреждении.
+     */
+    warning?: boolean;
+    /**
+     * Состояние фокуса.
+     */
+    focused?: boolean;
+    /**
+     * Функция, вызываемая при изменении `value`.
+     */
+    onValueChange?: (value: T) => void;
+    /**
+     * HTML-событие `onmouseenter`
+     */
+    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+    /**
+     * HTML-событие `mouseleave`
+     */
+    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+    /**
+     * HTML-событие `onmouseover`
+     */
+    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+    /**
+     * HTML-атрибут `value`.
+     */
+    value: T;
+  }
+> &
+  CommonProps &
+  Partial<DefaultProps>;
 
 export interface RadioState {
   focusedByKeyboard: boolean;
 }
 
+interface DefaultProps {
+  focused: boolean;
+}
+
+type RadioComponentProps<T> = RadioProps<T> & DefaultProps;
+
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
 @rootNode
-export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
+export class Radio<T> extends React.Component<RadioComponentProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
   public state = {
     focusedByKeyboard: false,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     focused: false,
   };
 

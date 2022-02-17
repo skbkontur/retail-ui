@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface GappedProps extends CommonProps {
+export interface GappedProps extends CommonProps, Partial<DefaultProps> {
   /**
    * Расстояние между элементами в пикселях
    * @default 8
@@ -31,11 +31,19 @@ export interface GappedProps extends CommonProps {
   children: React.ReactNode;
 }
 
+interface DefaultProps {
+  wrap: boolean;
+  vertical: boolean;
+  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
+}
+
+type GappedComponentProps = GappedProps & DefaultProps;
+
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
 @rootNode
-export class Gapped extends React.Component<GappedProps> {
+export class Gapped extends React.Component<GappedComponentProps> {
   public static __KONTUR_REACT_UI__ = 'Gapped';
 
   public static propTypes = {
@@ -58,7 +66,7 @@ export class Gapped extends React.Component<GappedProps> {
   private theme!: Theme;
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     wrap: false,
     vertical: false,
     verticalAlign: 'baseline',

@@ -24,7 +24,7 @@ import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-export interface ModalProps extends CommonProps {
+export interface ModalProps extends CommonProps, Partial<DefaultProps> {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
@@ -68,6 +68,12 @@ export interface ModalState {
   hasPanel: boolean;
 }
 
+interface DefaultProps {
+  disableFocusLock: boolean;
+}
+
+type ModalComponentProps = ModalProps & DefaultProps;
+
 /**
  * Модальное окно
  *
@@ -82,14 +88,14 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
-export class Modal extends React.Component<ModalProps, ModalState> {
+export class Modal extends React.Component<ModalComponentProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
   public static Header = ModalHeader;
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
   };

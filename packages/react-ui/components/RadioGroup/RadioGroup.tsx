@@ -4,7 +4,6 @@ import invariant from 'invariant';
 
 import { getRandomID } from '../../lib/utils';
 import { Radio } from '../Radio';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { FocusTrap } from '../../internal/FocusTrap';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -17,7 +16,7 @@ import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
-export interface RadioGroupProps<T = string | number> extends CommonProps {
+export interface RadioGroupProps<T = string | number> extends CommonProps, Partial<DefaultProps<T>> {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
@@ -81,6 +80,12 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+type RadioGroupComponentProps<T> = RadioGroupProps<T> & DefaultProps<T>;
+
+interface DefaultProps<T> {
+  renderItem: (itemValue: T, data: React.ReactNode) => React.ReactNode;
+}
+
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -91,7 +96,7 @@ export interface RadioGroupState<T> {
  * Значения активного элемента сравниваются по строгому равенству `===`
  */
 @rootNode
-export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGroupState<T>> {
+export class RadioGroup<T> extends React.Component<RadioGroupComponentProps<T>, RadioGroupState<T>> {
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
   public static propTypes = {
@@ -108,7 +113,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<any> = {
     renderItem,
   };
 
@@ -118,10 +123,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private node: Nullable<HTMLSpanElement>;
   private name = getRandomID();
-  private getProps = createPropsGetter(RadioGroup.defaultProps);
   private setRootNode!: TSetRootNode;
 
-  constructor(props: RadioGroupProps<T>) {
+  constructor(props: RadioGroupComponentProps<T>) {
     super(props);
 
     this.state = {
@@ -229,7 +233,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
+        <Radio value={itemValue}>{this.props.renderItem(itemValue, data)}</Radio>
       </span>
     );
   };

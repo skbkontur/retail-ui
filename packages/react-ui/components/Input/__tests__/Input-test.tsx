@@ -4,6 +4,7 @@ import MaskedInput from 'react-input-mask';
 
 import { Input, InputProps } from '../Input';
 
+// @ts-ignore
 const render = (props: InputProps) => mount<Input, InputProps>(React.createElement(Input, props));
 
 describe('<Input />', () => {

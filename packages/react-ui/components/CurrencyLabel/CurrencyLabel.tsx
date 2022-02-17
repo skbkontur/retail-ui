@@ -14,7 +14,7 @@ export interface CurrencyLabelProps extends CommonProps {
   currencySymbol?: React.ReactNode;
 }
 
-export const defaultProps = {
+export const defaultProps: Partial<CurrencyLabelProps> = {
   fractionDigits: 2,
 };
 

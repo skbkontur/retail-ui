@@ -9,7 +9,6 @@ import { DropdownContainer } from '../../internal/DropdownContainer';
 import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -29,37 +28,37 @@ function renderItem(item: any) {
   return item;
 }
 
-export interface AutocompleteProps
-  extends CommonProps,
-    Override<
-      InputProps,
-      {
-        /** Функция отрисовки элемента меню */
-        renderItem: (item: string) => React.ReactNode;
-        /** Промис, резолвящий элементы меню */
-        source?: string[] | ((patter: string) => Promise<string[]>);
-        /** Отключает использование портала */
-        disablePortal: boolean;
-        /** Отрисовка тени у выпадающего меню */
-        hasShadow: boolean;
-        /** Выравнивание выпадающего меню */
-        menuAlign: 'left' | 'right';
-        /** Максимальная высота меню */
-        menuMaxHeight: number | string;
-        /** Ширина меню */
-        menuWidth?: number | string;
-        /** Отключить скролл окна, когда меню открыто */
-        preventWindowScroll: boolean;
-        /** Вызывается при изменении `value` */
-        onValueChange: (value: string) => void;
-        /** onBlur */
-        onBlur?: () => void;
-        /** Размер инпута */
-        size: InputProps['size'];
-        /** value */
-        value: string;
-      }
-    > {}
+export type AutocompleteProps = Override<
+  InputProps,
+  {
+    /** Функция отрисовки элемента меню */
+    renderItem: (item: string) => React.ReactNode;
+    /** Промис, резолвящий элементы меню */
+    source?: string[] | ((patter: string) => Promise<string[]>);
+    /** Отключает использование портала */
+    disablePortal: boolean;
+    /** Отрисовка тени у выпадающего меню */
+    hasShadow: boolean;
+    /** Выравнивание выпадающего меню */
+    menuAlign: 'left' | 'right';
+    /** Максимальная высота меню */
+    menuMaxHeight: number | string;
+    /** Ширина меню */
+    menuWidth?: number | string;
+    /** Отключить скролл окна, когда меню открыто */
+    preventWindowScroll: boolean;
+    /** Вызывается при изменении `value` */
+    onValueChange: (value: string) => void;
+    /** onBlur */
+    onBlur?: () => void;
+    /** Размер инпута */
+    size: InputProps['size'];
+    /** value */
+    value: string;
+  }
+> &
+  CommonProps &
+  Partial<DefaultProps>;
 
 export interface AutocompleteState {
   items: Nullable<string[]>;
@@ -67,13 +66,25 @@ export interface AutocompleteState {
   focused: boolean;
 }
 
+interface DefaultProps {
+  renderItem: (item: string) => React.ReactNode;
+  size: InputProps['size'];
+  disablePortal: boolean;
+  hasShadow: boolean;
+  menuMaxHeight: number;
+  menuAlign: 'left' | 'right';
+  preventWindowScroll: boolean;
+}
+
+type AutocompleteComponentProps = AutocompleteProps & DefaultProps;
+
 /**
  * Стандартный инпут с подсказками.
  *
  * Все свойства передаются во внутренний *Input*.
  */
 @rootNode
-export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
+export class Autocomplete extends React.Component<AutocompleteComponentProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
 
   public static propTypes = {
@@ -99,7 +110,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     renderItem,
     size: 'small',
     disablePortal: false,
@@ -123,7 +134,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private requestId = 0;
 
-  private getProps = createPropsGetter(Autocomplete.defaultProps);
   private setRootNode!: TSetRootNode;
 
   /**
@@ -224,7 +234,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           {items.map((item, i) => {
             return (
               <MenuItem onClick={this.handleMenuItemClick(i)} key={i}>
-                {this.getProps().renderItem(item)}
+                {this.props.renderItem(item)}
               </MenuItem>
             );
           })}

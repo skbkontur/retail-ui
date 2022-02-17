@@ -4,7 +4,6 @@ import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
 import { Gapped } from '../../Gapped';
-import { createPropsGetter } from '../../../lib/createPropsGetter';
 import { InputSize, InputType } from '../../Input';
 
 export default { title: 'FxInput' } as Meta;
@@ -76,8 +75,6 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
     type: 'text',
   };
 
-  private getProps = createPropsGetter(TestFxInput.defaultProps);
-
   constructor(props: TestFxInputProps) {
     super(props);
 
@@ -92,7 +89,7 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
       <FxInput
         auto={this.state.auto}
         borderless={this.props.borderless}
-        type={this.getProps().type}
+        type={this.props.type}
         value={this.state.value}
         onRestore={this.handleRestore}
         onValueChange={this.handleChange}

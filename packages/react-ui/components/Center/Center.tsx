@@ -9,28 +9,34 @@ import { styles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
-export interface CenterProps
-  extends CommonProps,
-    Override<
-      React.HTMLAttributes<HTMLDivElement>,
-      {
-        /**
-         * Определяет, как контент будет выровнен по горизонтали.
-         *
-         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
-         */
-        align?: HorizontalAlign;
-      }
-    > {}
+export type CenterProps = Override<
+  React.HTMLAttributes<HTMLDivElement>,
+  {
+    /**
+     * Определяет, как контент будет выровнен по горизонтали.
+     *
+     * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+     */
+    align?: HorizontalAlign;
+  }
+> &
+  CommonProps &
+  Partial<DefaultProps>;
+
+interface DefaultProps {
+  align: HorizontalAlign;
+}
+
+type CenterComponentProps = CenterProps & DefaultProps;
 
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
 @rootNode
-export class Center extends React.Component<CenterProps> {
+export class Center extends React.Component<CenterComponentProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'center',
   };
   private setRootNode!: TSetRootNode;

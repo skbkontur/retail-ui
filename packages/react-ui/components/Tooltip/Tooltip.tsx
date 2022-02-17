@@ -35,7 +35,7 @@ export type TooltipTrigger =
   /** Управление через публичные функции show и hide */
   | 'manual';
 
-export interface TooltipProps extends CommonProps {
+export interface TooltipProps extends CommonProps, Partial<DefaultProps> {
   /**
    * Относительно какого элемента позиционировать тултип
    */
@@ -132,6 +132,17 @@ export interface TooltipState {
   focused: boolean;
 }
 
+interface DefaultProps {
+  pos: PopupPositionsType;
+  trigger: TooltipTrigger;
+  allowedPositions: PopupPositionsType[];
+  disableAnimations: boolean;
+  useWrapper: boolean;
+  closeOnChildrenMouseLeave: boolean;
+}
+
+type TooltipComponentProps = TooltipProps & DefaultProps;
+
 const Positions: PopupPositionsType[] = [
   'right bottom',
   'right middle',
@@ -148,7 +159,7 @@ const Positions: PopupPositionsType[] = [
 ];
 
 @rootNode
-export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+export class Tooltip extends React.PureComponent<TooltipComponentProps, TooltipState> {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
 
   public static propTypes = {
@@ -165,7 +176,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     pos: DefaultPosition,
     trigger: 'hover',
     allowedPositions: Positions,

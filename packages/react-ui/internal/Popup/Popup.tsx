@@ -63,7 +63,7 @@ export interface PopupHandlerProps {
   onClose?: () => void;
 }
 
-export interface PopupProps extends CommonProps, PopupHandlerProps {
+export interface PopupProps extends CommonProps, PopupHandlerProps, Partial<DefaultProps> {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
@@ -108,8 +108,20 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+interface DefaultProps {
+  popupOffset: number;
+  hasPin: boolean;
+  hasShadow: boolean;
+  disableAnimations: boolean;
+  useWrapper: boolean;
+  ignoreHover: boolean;
+  width: React.CSSProperties['width'];
+}
+
+type PopupComponentProps = PopupProps & DefaultProps;
+
 @rootNode
-export class Popup extends React.Component<PopupProps, PopupState> {
+export class Popup extends React.Component<PopupComponentProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
 
   public static propTypes = {
@@ -174,7 +186,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     popupOffset: 0,
     hasPin: false,
     hasShadow: false,

@@ -129,7 +129,7 @@ export class Month extends React.Component<MonthProps> {
   };
 }
 
-interface MonthDayGridProps {
+interface MonthDayGridProps extends Partial<DefaultProps> {
   days: DayCellViewModel[];
   offset: number;
   minDate?: CDS.CalendarDateShape;
@@ -140,10 +140,16 @@ interface MonthDayGridProps {
   isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
-class MonthDayGrid extends React.Component<MonthDayGridProps> {
+interface DefaultProps {
+  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+}
+
+type MonthDayGridComponentProps = MonthDayGridProps & DefaultProps;
+
+class MonthDayGrid extends React.Component<MonthDayGridComponentProps> {
   private theme!: Theme;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
   };
 

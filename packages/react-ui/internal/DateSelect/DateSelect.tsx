@@ -23,7 +23,7 @@ const monthsCount = 12;
 const defaultMinYear = 1900;
 const defaultMaxYear = 2100;
 
-export interface DateSelectProps {
+export interface DateSelectProps extends Partial<DefaultProps> {
   disabled?: boolean | null;
   onValueChange: (value: number) => void;
   type?: 'month' | 'year';
@@ -44,8 +44,15 @@ export interface DateSelectState {
   nodeTop: number;
 }
 
+interface DefaultProps {
+  type: 'month' | 'year';
+  width: number | string;
+}
+
+type DateSelectComponentProps = DateSelectProps & DefaultProps;
+
 @locale('DatePicker', DatePickerLocaleHelper)
-export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
+export class DateSelect extends React.PureComponent<DateSelectComponentProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
 
   public static propTypes = {
@@ -64,10 +71,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     maxValue: PropTypes.number,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     type: 'year',
-    minMonth: 0,
-    maxMonth: 11,
     width: 'auto',
   };
 

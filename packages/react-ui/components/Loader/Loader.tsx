@@ -17,7 +17,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Loader.styles';
 
-export interface LoaderProps extends CommonProps {
+export interface LoaderProps extends CommonProps, Partial<DefaultProps> {
   children?: React.ReactNode;
   /**
    * Флаг переключения состояния лоадера
@@ -50,14 +50,23 @@ export interface LoaderState {
   spinnerStyle?: object;
 }
 
+interface DefaultProps {
+  type: 'mini' | 'normal' | 'big';
+  active: boolean;
+  delayBeforeSpinnerShow: number;
+  minimalDelayBeforeSpinnerHide: number;
+}
+
+export type LoaderComponentProps = LoaderProps & DefaultProps;
+
 /**
  * DRAFT - лоадер-контейнер
  */
 @rootNode
-export class Loader extends React.Component<LoaderProps, LoaderState> {
+export class Loader extends React.Component<LoaderComponentProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
-  public static defaultProps: Partial<LoaderProps> = {
+  public static defaultProps: DefaultProps = {
     type: Spinner.Types.normal,
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
@@ -113,7 +122,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private spinnerTask: TaskWithDelayAndMinimalDuration;
   private childrenObserver: Nullable<MutationObserver>;
 
-  constructor(props: LoaderProps) {
+  constructor(props: LoaderComponentProps) {
     super(props);
 
     this.spinnerContainerNode = null;

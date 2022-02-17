@@ -3,7 +3,6 @@ import React from 'react';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
-import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
@@ -17,7 +16,7 @@ export interface DropdownContainerPosition {
   right: Nullable<number>;
 }
 
-export interface DropdownContainerProps {
+export interface DropdownContainerProps extends Partial<DefaultProps> {
   align?: 'left' | 'right';
   getParent: () => Nullable<HTMLElement>;
   children?: React.ReactNode;
@@ -33,10 +32,19 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
-export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
+interface DefaultProps {
+  align: 'left' | 'right';
+  disablePortal: boolean;
+  offsetX: number;
+  offsetY: number;
+}
+
+type DropdownContainerComponentProps = DropdownContainerProps & DefaultProps;
+
+export class DropdownContainer extends React.PureComponent<DropdownContainerComponentProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
@@ -48,8 +56,6 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     minWidth: 0,
     isDocumentElementRoot: true,
   };
-
-  private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
   private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
@@ -136,9 +142,9 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
+        right = docWidth - (targetRect.right + scrollX) + this.props.offsetX;
       } else {
-        left = targetRect.left + scrollX + this.getProps().offsetX;
+        left = targetRect.left + scrollX + this.props.offsetX;
       }
 
       const { offsetY = 0 } = this.props;

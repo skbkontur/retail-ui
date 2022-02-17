@@ -18,7 +18,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Kebab.styles';
 
-export interface KebabProps extends CommonProps {
+export interface KebabProps extends CommonProps, Partial<DefaultProps> {
   disabled?: boolean;
   /**
    * Функция вызываемая при закрытии выпадашки
@@ -57,13 +57,24 @@ export interface KebabState {
   opened: boolean;
 }
 
+interface DefaultProps {
+  onOpen: () => void;
+  onClose: () => void;
+  positions: PopupPositionsType[];
+  size: 'small' | 'medium' | 'large';
+  disableAnimations: boolean;
+  icon: React.ReactNode;
+}
+
+type KebabComponentProps = KebabProps & DefaultProps;
+
 @rootNode
-export class Kebab extends React.Component<KebabProps, KebabState> {
+export class Kebab extends React.Component<KebabComponentProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
   public static propTypes = {};
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],

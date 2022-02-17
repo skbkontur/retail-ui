@@ -17,7 +17,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps extends CommonProps {
+export interface ButtonProps extends CommonProps, Partial<DefaultProps> {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -164,8 +164,16 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+interface DefaultProps {
+  use: ButtonUse;
+  size: ButtonSize;
+  type: ButtonType;
+}
+
+type ButtonComponentProps = ButtonProps & DefaultProps;
+
 @rootNode
-export class Button extends React.Component<ButtonProps, ButtonState> {
+export class Button extends React.Component<ButtonComponentProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
   public static TOP_LEFT = Corners.TOP_LEFT;
@@ -173,10 +181,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
   public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
-  public static defaultProps = {
-    use: 'default' as ButtonUse,
-    size: 'small' as ButtonSize,
-    type: 'button' as ButtonType,
+  public static defaultProps: DefaultProps = {
+    use: 'default',
+    size: 'small',
+    type: 'button',
   };
 
   public state = {

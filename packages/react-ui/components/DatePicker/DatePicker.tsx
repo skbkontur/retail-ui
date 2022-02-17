@@ -30,7 +30,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps<T> extends CommonProps {
+export interface DatePickerProps<T> extends CommonProps, Partial<DefaultProps<T>> {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -83,10 +83,18 @@ export interface DatePickerState {
   canUseMobileNativeDatePicker: boolean;
 }
 
+interface DefaultProps<T> {
+  minDate: T;
+  maxDate: T;
+  isHoliday: (day: T, isWeekend: boolean) => boolean;
+}
+
+type DatePickerComponentProps<T> = DatePickerProps<T> & DefaultProps<T>;
+
 type DatePickerValue = string;
 
 @rootNode
-export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
+export class DatePicker extends React.PureComponent<DatePickerComponentProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
   public static propTypes = {
@@ -139,7 +147,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     isHoliday: PropTypes.func.isRequired,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<DatePickerValue> = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,

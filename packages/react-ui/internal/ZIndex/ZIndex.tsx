@@ -10,7 +10,7 @@ const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Inf
 
 ZIndexContext.displayName = 'ZIndexContext';
 
-export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement>, Partial<DefaultProps> {
   /**
    * Приращение к z-index
    */
@@ -24,11 +24,22 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 }
 
+interface DefaultProps {
+  delta: number;
+  priority: number | LayerComponentName;
+  style: React.CSSProperties;
+  applyZIndex: boolean;
+  coverChildren: boolean;
+  createStackingContext: boolean;
+}
+
+type ZIndexComponentPorps = ZIndexProps & DefaultProps;
+
 @rootNode
-export class ZIndex extends React.Component<ZIndexProps> {
+export class ZIndex extends React.Component<ZIndexComponentPorps> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     delta: 10,
     priority: 0,
     style: {},
@@ -52,7 +63,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
   private setRootNode!: TSetRootNode;
 
-  constructor(props: ZIndexProps) {
+  constructor(props: ZIndexComponentPorps) {
     super(props);
     this.zIndex = incrementZIndex(props.priority, props.delta);
   }

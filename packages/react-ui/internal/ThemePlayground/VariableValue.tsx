@@ -15,7 +15,7 @@ import { styles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
-export interface VariableValueProps {
+export interface VariableValueProps extends Partial<DefaultProps> {
   onChange: (variable: keyof Theme, value: string) => void;
   value: string;
   isError: boolean;
@@ -30,8 +30,14 @@ export interface VariableValueState {
   editing: boolean;
 }
 
-export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
-  public static defaultProps = {
+interface DefaultProps {
+  deprecated: boolean;
+}
+
+type VariableValueComponentProps = VariableValueProps & DefaultProps;
+
+export class VariableValue extends React.Component<VariableValueComponentProps, VariableValueState> {
+  public static defaultProps: DefaultProps = {
     deprecated: false,
   };
   public state = {
