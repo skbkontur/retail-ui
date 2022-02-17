@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction, isReactUIComponent } from '../../lib/utils';
+import { getRandomID, isFunction } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { MenuContext, MenuContextType } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuItem.styles';
 
@@ -108,6 +109,19 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private theme!: Theme;
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
+  private commonRef = React.createRef();
+  private _key = getRandomID();
+
+  public static contextType = MenuContext;
+  public context: MenuContextType = this.context;
+
+  public componentDidMount() {
+    !this.props.disabled && this.context.addMenuItem?.(this._key, this);
+  }
+
+  public componentWillUnmount() {
+    this.context.deleteMenuItem?.(this._key);
+  }
 
   public render() {
     return (
@@ -139,7 +153,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       ...rest
     } = props;
 
-    const hover = state === 'hover' && !this.props.disabled;
+    const hover = (state === 'hover' || this._key === this.context.highlightedKey) && !this.props.disabled;
 
     let iconElement = null;
     if (icon) {
@@ -153,7 +167,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',
       [styles.link(this.theme)]: !!link,
-      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding,
+      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding || this.context._enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 
@@ -174,6 +188,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
         onMouseLeave={this.handleMouseLeave}
         className={className}
         tabIndex={-1}
+        ref={this.commonRef}
+        onClick={this.onClick}
       >
         {iconElement}
         {content}
@@ -192,20 +208,37 @@ export class MenuItem extends React.Component<MenuItemProps> {
     );
   };
 
+  public getRef = () => {
+    return this.commonRef.current;
+  };
+
+  private onClick = (e: React.MouseEvent<HTMLElement>) => {
+    this.context.onClick?.(this._key);
+    // this.props.onClick?.(e);
+  };
+
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button
   private handleMouseEnterFix = (e: React.MouseEvent<HTMLElement>) => {
+    this.context.setHighlightedKey?.(this._key);
     if (!this.mouseEntered && this.props.onMouseEnter) {
       this.mouseEntered = true;
       this.props.onMouseEnter(e);
     }
+
+    if (!this.mouseEntered && this.context.onMouseEnter) {
+      this.mouseEntered = true;
+      this.context.onMouseEnter(e);
+    }
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+    this.context.setHighlightedKey?.(undefined);
     this.mouseEntered = false;
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
     }
+    this.context.onMouseLeave?.(e);
   };
 
   private getComponent = () => {
@@ -227,4 +260,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = isReactUIComponent('MenuItem');
+export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
+  // @ts-ignore
+  return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem' || child?.__KONTUR_REACT_UI__ === 'MenuItem';
+};

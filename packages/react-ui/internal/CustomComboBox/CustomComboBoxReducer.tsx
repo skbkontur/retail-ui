@@ -141,31 +141,40 @@ export const Effect: EffectFactory = {
   },
   HighlightMenuItem: (dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue, valueToString } = getProps();
-    const { items, focused, textValue, requestStatus } = getState();
+    const {
+      items,
+      // focused,
+      textValue,
+      requestStatus,
+    } = getState();
     const { menu } = getInstance();
     const valueString = getValueString(value, valueToString);
-
+    //
     if (!menu) {
       return;
     }
-
-    if (!focused) {
-      return;
-    }
-
+    //
+    // if (!focused) {
+    //   return;
+    // }
+    //
     let index = -1;
+
     if (items && items.length && isNonNullable(value)) {
-      index = items.findIndex((x) => itemToValue(x) === itemToValue(value));
+      index = items.findIndex((x: any) => itemToValue(x) === itemToValue(value));
+      const item = menu.getMenuItems()[index];
+      if (index >= 0 && item !== undefined) {
+        menu.highlightItem(item.key);
+      }
     }
-    menu.highlightItem(index);
-
-    if (index >= 0) {
-      // FIXME: accessing private props
-      // @ts-ignore
-      requestAnimationFrame(() => menu && menu.scrollToSelected());
-      return;
-    }
-
+    //
+    // if (index >= 0) {
+    //   // FIXME: accessing private props
+    //   // @ts-ignore
+    //   requestAnimationFrame(() => menu && menu.scrollToSelected());
+    //   return;
+    // }
+    //
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
       requestAnimationFrame(() => menu && menu.down());
     }

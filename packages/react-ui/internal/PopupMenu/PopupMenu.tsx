@@ -277,15 +277,15 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   };
 
   private handleItemSelection = (event: React.SyntheticEvent<HTMLElement>): void => {
-    if (event.isDefaultPrevented()) {
+    if (event?.isDefaultPrevented()) {
       return;
     }
 
-    if (event.type === 'keydown') {
-      event.preventDefault();
+    if (event?.type === 'keydown') {
+      event?.preventDefault();
     }
 
-    const restoreFocus = event.type === 'keydown';
+    const restoreFocus = event?.type === 'keydown';
     this.hideMenu(restoreFocus);
   };
 }

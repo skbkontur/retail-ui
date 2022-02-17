@@ -9,8 +9,11 @@ export type TSetRootNode = (e: Nullable<React.ReactNode>) => void;
 export function rootNode<T extends new (...args: any[]) => React.Component>(Component: T) {
   const rootNode = class extends Component {
     public rootNode: Nullable<HTMLElement>;
+    public __KONTUR_REACT_UI__: string;
     public constructor(...args: any[]) {
       super(args[0]);
+      // @ts-ignore
+      this.__KONTUR_REACT_UI__ = Component.__KONTUR_REACT_UI__;
     }
 
     public setRootNode = (instance: Nullable<React.ReactInstance>) => {

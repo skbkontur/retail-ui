@@ -3,6 +3,7 @@ import React, { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { MenuContext } from '../../internal/Menu/MenuContext';
 
 import { styles } from './MenuHeader.styles';
 
@@ -20,13 +21,14 @@ export interface MenuHeaderProps extends CommonProps {
  */
 function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
+  const menuContext = useContext(MenuContext);
 
   return (
     <CommonWrapper {...rest}>
       <div
         className={cx({
           [styles.root(theme)]: true,
-          [styles.withLeftPadding(theme)]: _enableIconPadding,
+          [styles.withLeftPadding(theme)]: _enableIconPadding || menuContext._enableIconPadding,
         })}
       >
         {children}
