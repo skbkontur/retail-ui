@@ -344,10 +344,15 @@ export class ScrollContainer extends React.Component<ScrollContainerProps, Scrol
   private getImmediateScrollState(): ScrollContainerScrollState {
     if (!this.inner || this.inner.scrollTop === 0) {
       return 'top';
-    } else if (this.inner.scrollTop === this.inner.scrollHeight - this.inner.clientHeight) {
-      return 'bottom';
-    } else {
-      return 'scroll';
     }
+
+    // Zoom in Chrome causes problems
+    // https://github.com/skbkontur/retail-ui/pull/2705
+    const maxScrollPos = this.inner.scrollHeight - this.inner.clientHeight;
+    if (Math.abs(maxScrollPos - this.inner.scrollTop) <= 1) {
+      return 'bottom';
+    }
+
+    return 'scroll';
   }
 }
