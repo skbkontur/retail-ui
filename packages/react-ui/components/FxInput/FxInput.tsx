@@ -10,33 +10,30 @@ import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export type FxInputProps = Override<
-  CurrencyInputProps,
-  {
-    /** Авто-режим */
-    auto?: boolean;
-    /** Тип инпута */
-    type?: 'currency' | InputProps['type'];
-    /** onRestore */
-    onRestore?: () => void;
-    /** onValueChange */
-    onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
-    /** Значение */
-    value?: React.ReactText;
-    /** ref Input'а */
-    refInput?: (element: CurrencyInput | Input | null) => void;
-    /** Убрать лишние нули после запятой */
-    hideTrailingZeros?: boolean;
-  }
-> &
-  CommonProps &
-  Partial<DefaultProps>;
+type FxInputInterface = {
+  /** Авто-режим */
+  auto?: boolean;
+  /** Тип инпута */
+  type?: 'currency' | InputProps['type'];
+  /** onRestore */
+  onRestore?: () => void;
+  /** onValueChange */
+  onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
+  /** Значение */
+  value?: React.ReactText;
+  /** ref Input'а */
+  refInput?: (element: CurrencyInput | Input | null) => void;
+  /** Убрать лишние нули после запятой */
+  hideTrailingZeros?: boolean;
+};
 
-interface DefaultProps {
+export type FxInputProps = Override<CurrencyInputProps, FxInputInterface> & CommonProps & Partial<DefaultProps>;
+
+type DefaultProps = {
   width: number | string;
   type: 'currency' | InputProps['type'];
   value: React.ReactText;
-}
+};
 
 type FxInputComponentProps = FxInputProps & DefaultProps;
 

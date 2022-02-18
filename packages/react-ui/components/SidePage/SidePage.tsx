@@ -23,7 +23,7 @@ import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { styles } from './SidePage.styles';
 
-export interface SidePageProps extends CommonProps, Partial<DefaultProps> {
+export type SidePageProps = {
   /**
    * Добавить блокирующий фон, когда сайдпейдж открыт
    */
@@ -55,25 +55,10 @@ export interface SidePageProps extends CommonProps, Partial<DefaultProps> {
    *
    */
   fromLeft?: boolean;
+} & CommonProps &
+  Partial<DefaultProps>;
 
-  /**
-   * Отключить анимации
-   *
-   */
-  disableAnimations?: boolean;
-
-  /**
-   * Работает только при заблокированном фоне: `blockBackground = true`
-   */
-  disableFocusLock: boolean;
-
-  /**
-   * задает отступ от края экрана
-   */
-  offset?: number | string;
-}
-
-export interface SidePageState {
+export type SidePageState = {
   stackPosition?: number;
   hasMargin?: boolean;
   hasShadow?: boolean;
@@ -81,13 +66,23 @@ export interface SidePageState {
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Отключить анимации
+   *
+   */
   disableAnimations: boolean;
+  /**
+   * Работает только при заблокированном фоне: `blockBackground = true`
+   */
   disableFocusLock: boolean;
+  /**
+   * задает отступ от края экрана
+   */
   offset: number | string;
-}
+};
 
 type SidePageComponentProps = SidePageProps & DefaultProps;
 

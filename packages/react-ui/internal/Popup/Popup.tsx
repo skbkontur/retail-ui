@@ -53,7 +53,7 @@ const DUMMY_LOCATION: PopupLocation = {
   },
 };
 
-export interface PopupHandlerProps {
+export type PopupHandlerProps = {
   onMouseEnter?: (event: MouseEventType) => void;
   onMouseLeave?: (event: MouseEventType) => void;
   onClick?: (event: MouseEventType) => void;
@@ -61,31 +61,19 @@ export interface PopupHandlerProps {
   onBlur?: (event: FocusEventType) => void;
   onOpen?: () => void;
   onClose?: () => void;
-}
+};
 
-export interface PopupProps extends CommonProps, PopupHandlerProps, Partial<DefaultProps> {
+export type PopupProps = {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
-  hasPin: boolean;
-  hasShadow: boolean;
-  disableAnimations: boolean;
   margin?: number;
   maxWidth?: number | string;
   opened: boolean;
   pinOffset?: number;
   pinSize?: number;
-  popupOffset: number;
   positions: Readonly<PopupPositionsType[]>;
-  /**
-   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
-   *
-   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
-   */
-  useWrapper: boolean;
-  ignoreHover: boolean;
-  width: React.CSSProperties['width'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
    * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
@@ -94,31 +82,38 @@ export interface PopupProps extends CommonProps, PopupHandlerProps, Partial<Defa
    * @see https://github.com/skbkontur/retail-ui/pull/1195
    */
   tryPreserveFirstRenderedPosition?: boolean;
-}
+} & CommonProps &
+  PopupHandlerProps &
+  Partial<DefaultProps>;
 
-interface PopupLocation {
+type PopupLocation = {
   coordinates: {
     left: number;
     top: number;
   };
   position: PopupPositionsType;
-}
+};
 
-export interface PopupState {
+export type PopupState = {
   location: Nullable<PopupLocation>;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   popupOffset: number;
   hasPin: boolean;
   hasShadow: boolean;
   disableAnimations: boolean;
+  /**
+   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
+   *
+   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
+   */
   useWrapper: boolean;
   ignoreHover: boolean;
   width: React.CSSProperties['width'];
-}
+};
 
-type PopupComponentProps = PopupProps & DefaultProps;
+export type PopupComponentProps = PopupProps & DefaultProps;
 
 @rootNode
 export class Popup extends React.Component<PopupComponentProps, PopupState> {
@@ -210,7 +205,7 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
   }
 
-  public static getDerivedStateFromProps(props: Readonly<PopupProps>, state: PopupState) {
+  public static getDerivedStateFromProps(props: Readonly<PopupComponentProps>, state: PopupState) {
     /**
      * Delaying updateLocation to ensure it happens after props update
      */
@@ -224,7 +219,7 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     return state;
   }
 
-  public componentDidUpdate(prevProps: PopupProps, prevState: PopupState) {
+  public componentDidUpdate(prevProps: PopupComponentProps, prevState: PopupState) {
     const hadNoLocation = prevState.location === DUMMY_LOCATION;
     const hasLocation = this.state.location !== DUMMY_LOCATION;
     const wasClosed = prevProps.opened && !this.props.opened;
@@ -366,7 +361,7 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     }
   };
 
-  private calculateWidth = (width: PopupProps['width']) => {
+  private calculateWidth = (width: PopupComponentProps['width']) => {
     if (typeof width === 'string' && width.includes('%')) {
       return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(width)) / 100 : 0;
     }

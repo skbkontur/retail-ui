@@ -16,7 +16,7 @@ import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
-export interface RadioGroupProps<T = string | number> extends CommonProps, Partial<DefaultProps<T>> {
+export type RadioGroupProps<T = string | number> = {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
@@ -62,29 +62,29 @@ export interface RadioGroupProps<T = string | number> extends CommonProps, Parti
    * Ширина радиогруппы. Не работает с `children`
    */
   width?: React.CSSProperties['width'];
-  /**
-   * Метод отрисовки контента радиокнопки. Не работает с `children`.
-   *
-   * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
-   */
-  renderItem?: (itemValue: T, data: React.ReactNode) => React.ReactNode;
   /** Вызывается при изменении `value` */
   onValueChange?: (value: T) => void;
   onBlur?: (event: FocusEvent) => void;
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
-}
+} & CommonProps &
+  Partial<DefaultProps<T>>;
 
-export interface RadioGroupState<T> {
+export type RadioGroupState<T> = {
   activeItem?: T;
-}
+};
 
 type RadioGroupComponentProps<T> = RadioGroupProps<T> & DefaultProps<T>;
 
-interface DefaultProps<T> {
+type DefaultProps<T = string | number> = {
+  /**
+   * Метод отрисовки контента радиокнопки. Не работает с `children`.
+   *
+   * Принимает два аргумента: `(value: Value, data: Data) => React.Node`
+   */
   renderItem: (itemValue: T, data: React.ReactNode) => React.ReactNode;
-}
+};
 
 /**
  *
@@ -113,7 +113,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupComponentProps<T>, 
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps: DefaultProps<any> = {
+  public static defaultProps: DefaultProps = {
     renderItem,
   };
 

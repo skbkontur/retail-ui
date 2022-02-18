@@ -17,14 +17,14 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
 
-export interface PopupMenuCaptionProps {
+export type PopupMenuCaptionProps = {
   opened: boolean;
   openMenu: (firstItemShouldBeSelected?: boolean) => void;
   closeMenu: (restoreFocus?: boolean) => void;
   toggleMenu: () => void;
-}
+};
 
-export interface PopupMenuProps extends CommonProps, Partial<DefaultProps> {
+export type PopupMenuProps = {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -43,30 +43,25 @@ export interface PopupMenuProps extends CommonProps, Partial<DefaultProps> {
 
   header?: React.ReactNode;
   footer?: React.ReactNode;
-
-  /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: PopupPositionsType[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
-  /** Пропсы, передающиеся в Popup */
-  popupHasPin?: boolean;
   popupMargin?: number;
   popupPinOffset?: number;
-  type?: typeof PopupMenuType[keyof typeof PopupMenuType];
-  disableAnimations: boolean;
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-interface PopupMenuState {
+type PopupMenuState = {
   menuVisible: boolean;
   firstItemShouldBeSelected?: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**  Массив разрешенных положений меню относительно caption'а. */
   positions: PopupPositionsType[];
   type: typeof PopupMenuType[keyof typeof PopupMenuType];
   popupHasPin: boolean;
   disableAnimations: boolean;
-}
+};
 
 export const PopupMenuType = {
   Dropdown: 'dropdown',

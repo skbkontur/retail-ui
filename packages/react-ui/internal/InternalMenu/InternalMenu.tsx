@@ -13,37 +13,29 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 
-interface MenuProps extends Partial<DefaultProps> {
+type MenuProps = {
   children?: React.ReactNode;
-  hasShadow?: boolean;
-  maxHeight?: number | string;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
-  width?: number | string;
-  preventWindowScroll?: boolean;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
-
   header?: React.ReactNode;
   footer?: React.ReactNode;
+} & Partial<DefaultProps>;
 
-  // Циклический перебор айтемов меню (по-дефолтну включен)
-  cyclicSelection?: boolean;
-  initialSelectedItemIndex?: number;
-}
-
-interface MenuState {
+type MenuState = {
   highlightedIndex: number;
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   width: number | string;
   maxHeight: number | string;
   hasShadow: boolean;
   preventWindowScroll: boolean;
+  // Циклический перебор айтемов меню (по-дефолтну включен)
   cyclicSelection: boolean;
   initialSelectedItemIndex: number;
-}
+};
 
 type InternalMenuComponentProps = MenuProps & DefaultProps;
 

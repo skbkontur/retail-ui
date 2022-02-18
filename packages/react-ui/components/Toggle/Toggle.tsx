@@ -13,13 +13,8 @@ import { styles, globalClasses } from './Toggle.styles';
 
 let colorWarningShown = false;
 
-export interface ToggleProps extends CommonProps, Partial<DefaultProps> {
+export type ToggleProps = {
   children?: React.ReactNode;
-  /**
-   * Положение `children` относительно переключателя.
-   * @default 'right'
-   */
-  captionPosition: 'left' | 'right';
   /**
    * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
    * @default false
@@ -29,10 +24,6 @@ export interface ToggleProps extends CommonProps, Partial<DefaultProps> {
    * Делает `тогл` включенным по умолчанию.
    */
   defaultChecked?: boolean;
-  /**
-   * Отключает `тогл`.
-   */
-  disabled?: boolean;
   /**
    * Событие вызывающееся, когда значение `тогла` меняется, передаёт текущее значение тогла в переданную функцию.
    */
@@ -51,10 +42,6 @@ export interface ToggleProps extends CommonProps, Partial<DefaultProps> {
    * @default false
    */
   error?: boolean;
-  /**
-   * Добавляет стили для состояния `loading` и отключает `тогл`.
-   */
-  loading?: boolean;
   /**
    * Если true, выставляет фокус на `тогле` после загрузки страницы.
    */
@@ -75,18 +62,29 @@ export interface ToggleProps extends CommonProps, Partial<DefaultProps> {
    * HTML-атрибут `id` для передачи во внутренний `<input />`.
    */
   id?: string;
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-export interface ToggleState {
+export type ToggleState = {
   checked?: boolean;
   focusByTab?: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Отключает `тогл`.
+   */
   disabled: boolean;
+  /**
+   * Добавляет стили для состояния `loading` и отключает `тогл`.
+   */
   loading: boolean;
+  /**
+   * Положение `children` относительно переключателя.
+   * @default 'right'
+   */
   captionPosition: 'left' | 'right';
-}
+};
 
 type ToggleComponentProps = ToggleProps & DefaultProps;
 

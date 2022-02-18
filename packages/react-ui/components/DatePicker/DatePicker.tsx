@@ -30,7 +30,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps<T> extends CommonProps, Partial<DefaultProps<T>> {
+export type DatePickerProps<T> = {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -38,8 +38,6 @@ export interface DatePickerProps<T> extends CommonProps, Partial<DefaultProps<T>
    * Cостояние валидации при ошибке.
    */
   error?: boolean;
-  minDate: T;
-  maxDate: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
@@ -66,7 +64,17 @@ export interface DatePickerProps<T> extends CommonProps, Partial<DefaultProps<T>
    * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
+} & CommonProps &
+  Partial<DefaultProps<T>>;
 
+export type DatePickerState = {
+  opened: boolean;
+  canUseMobileNativeDatePicker: boolean;
+};
+
+type DefaultProps<T = DatePickerValue> = {
+  minDate: T;
+  maxDate: T;
   /**
    * Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
@@ -76,18 +84,7 @@ export interface DatePickerProps<T> extends CommonProps, Partial<DefaultProps<T>
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
   isHoliday: (day: T, isWeekend: boolean) => boolean;
-}
-
-export interface DatePickerState {
-  opened: boolean;
-  canUseMobileNativeDatePicker: boolean;
-}
-
-interface DefaultProps<T> {
-  minDate: T;
-  maxDate: T;
-  isHoliday: (day: T, isWeekend: boolean) => boolean;
-}
+};
 
 type DatePickerComponentProps<T> = DatePickerProps<T> & DefaultProps<T>;
 
@@ -147,7 +144,7 @@ export class DatePicker extends React.PureComponent<DatePickerComponentProps<Dat
     isHoliday: PropTypes.func.isRequired,
   };
 
-  public static defaultProps: DefaultProps<DatePickerValue> = {
+  public static defaultProps: DefaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,

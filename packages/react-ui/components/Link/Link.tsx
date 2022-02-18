@@ -13,58 +13,57 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 
 import { styles } from './Link.styles';
 
-export type LinkProps = Override<
-  React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  {
-    /**
-     * Отключенное состояние.
-     */
-    disabled?: boolean;
-    /**
-     * HTML-атрибут `href`.
-     */
-    href?: string;
-    /**
-     * Добавляет ссылке иконку.
-     */
-    icon?: React.ReactElement<any>;
-    /**
-     * Тема ссылки.
-     */
-    use?: 'default' | 'success' | 'danger' | 'grayed';
-    /**
-     * @ignore
-     */
-    _button?: boolean;
-    /**
-     * @ignore
-     */
-    _buttonOpened?: boolean;
-    /**
-     * HTML-атрибут `tabindex`.
-     */
-    tabIndex?: number;
-    /**
-     * Переводит ссылку в состояние загрузки.
-     */
-    loading?: boolean;
-    /**
-     * HTML-событие `onclick`.
-     */
-    onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
-  }
-> &
+type LinkInterface = {
+  /**
+   * Отключенное состояние.
+   */
+  disabled?: boolean;
+  /**
+   * HTML-атрибут `href`.
+   */
+  href?: string;
+  /**
+   * Добавляет ссылке иконку.
+   */
+  icon?: React.ReactElement<any>;
+  /**
+   * Тема ссылки.
+   */
+  use?: 'default' | 'success' | 'danger' | 'grayed';
+  /**
+   * @ignore
+   */
+  _button?: boolean;
+  /**
+   * @ignore
+   */
+  _buttonOpened?: boolean;
+  /**
+   * HTML-атрибут `tabindex`.
+   */
+  tabIndex?: number;
+  /**
+   * Переводит ссылку в состояние загрузки.
+   */
+  loading?: boolean;
+  /**
+   * HTML-событие `onclick`.
+   */
+  onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+};
+
+export type LinkProps = Override<React.AnchorHTMLAttributes<HTMLAnchorElement>, LinkInterface> &
   CommonProps &
   Partial<DefaultProps>;
 
-export interface LinkState {
+export type LinkState = {
   focusedByTab: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   href: string;
   use: 'default' | 'success' | 'danger' | 'grayed';
-}
+};
 
 type LinkComponentProps = LinkProps & DefaultProps;
 

@@ -34,14 +34,14 @@ import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
 import { getSelectTheme } from './selectTheme';
 
-export interface ButtonParams {
+export type ButtonParams = {
   disabled?: boolean;
   label: React.ReactNode;
   onClick: () => void;
   onKeyDown: (event: React.KeyboardEvent<HTMLElement>) => void;
   opened: boolean;
   isPlaceholder: boolean;
-}
+};
 
 const PASS_BUTTON_PROPS = {
   disabled: true,
@@ -55,7 +55,7 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true,
 };
 
-export interface SelectProps<TValue, TItem> extends CommonProps, Partial<DefaultProps<TValue, TItem>> {
+export type SelectProps<TValue, TItem> = {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -70,7 +70,6 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Partial<Default
    * Cостояние валидации при ошибке.
    */
   error?: boolean;
-  filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
   /**
    * Набор значений. Поддерживаются любые перечисляемые типы, в том числе
    * `Array`, `Map`, `Immutable.Map`.
@@ -109,19 +108,6 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Partial<Default
   onOpen?: () => void;
   placeholder?: React.ReactNode;
   /**
-   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
-   * *item*.
-   */
-  renderItem?: (value: TValue, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
-   */
-  renderValue?: (value: Nullable<TValue>, item?: TItem) => React.ReactNode;
-  /**
-   * Функция для сравнения `value` с элементом из `items`
-   */
-  areValuesEqual?: (value1: Nullable<TValue>, value2: Nullable<TValue>) => boolean;
-  /**
    * Показывать строку поиска в списке.
    */
   search?: boolean;
@@ -131,29 +117,39 @@ export interface SelectProps<TValue, TItem> extends CommonProps, Partial<Default
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  use?: ButtonUse;
   size?: ButtonSize;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
-}
+} & CommonProps &
+  Partial<DefaultProps<TValue, TItem>>;
 
-export interface SelectState<TValue> {
+export type SelectState<TValue> = {
   opened: boolean;
   searchPattern: string;
   value: Nullable<TValue>;
-}
+};
 
-interface FocusableReactElement extends React.ReactElement<any> {
+type FocusableReactElement = {
   focus: (event?: any) => void;
-}
+} & React.ReactElement<any>;
 
-interface DefaultProps<TValue, TItem> {
+type DefaultProps<TValue = any, TItem = any> = {
+  /**
+   * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
+   */
   renderValue: (value: Nullable<TValue>, item?: TItem) => React.ReactNode;
+  /**
+   * Функция для отрисовки элемента в выпадающем списке. Аргументы — *value*,
+   * *item*.
+   */
   renderItem: (value: TValue, item?: TItem) => React.ReactNode;
+  /**
+   * Функция для сравнения `value` с элементом из `items`
+   */
   areValuesEqual: (value1: Nullable<TValue>, value: Nullable<TValue>) => boolean;
   filterItem: (value: TValue, item: TItem, pattern: string) => boolean;
   use: ButtonUse;
-}
+};
 
 type SelectComponentProps<TValue, TItem> = SelectProps<TValue, TItem> & DefaultProps<TValue, TItem>;
 
@@ -188,7 +184,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps: DefaultProps<any, any> = {
+  public static defaultProps: DefaultProps = {
     renderValue,
     renderItem,
     areValuesEqual,

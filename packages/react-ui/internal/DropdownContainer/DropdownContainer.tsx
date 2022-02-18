@@ -9,35 +9,31 @@ import { isIE11 } from '../../lib/client';
 
 import { styles } from './DropdownContainer.styles';
 
-export interface DropdownContainerPosition {
+export type DropdownContainerPosition = {
   top: Nullable<number>;
   bottom: Nullable<number>;
   left: Nullable<number>;
   right: Nullable<number>;
-}
+};
 
-export interface DropdownContainerProps extends Partial<DefaultProps> {
-  align?: 'left' | 'right';
+export type DropdownContainerProps = {
   getParent: () => Nullable<HTMLElement>;
   children?: React.ReactNode;
-  disablePortal?: boolean;
-  offsetY?: number;
-  offsetX?: number;
   hasFixedWidth?: boolean;
-}
+} & Partial<DefaultProps>;
 
-export interface DropdownContainerState {
+export type DropdownContainerState = {
   position: Nullable<DropdownContainerPosition>;
   minWidth: number;
   isDocumentElementRoot?: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   align: 'left' | 'right';
   disablePortal: boolean;
   offsetX: number;
   offsetY: number;
-}
+};
 
 type DropdownContainerComponentProps = DropdownContainerProps & DefaultProps;
 

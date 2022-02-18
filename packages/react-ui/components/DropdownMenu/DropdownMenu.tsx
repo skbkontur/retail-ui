@@ -9,7 +9,7 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface DropdownMenuProps extends CommonProps, Partial<DefaultProps> {
+export type DropdownMenuProps = {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -37,6 +37,16 @@ export interface DropdownMenuProps extends CommonProps, Partial<DefaultProps> {
    * Перед элементом переданным в `footer` будет отрендерен [`MenuSeparator`](#/Components/MenuSeparator).
    */
   footer?: React.ReactNode;
+  onOpen?: () => void;
+  onClose?: () => void;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
+  /**
+   * Не показывать анимацию
+   */
+  disableAnimations: boolean;
   /**
    *  Список позиций доступных для расположения выпадашки относительно `caption`.
    *
@@ -45,21 +55,8 @@ export interface DropdownMenuProps extends CommonProps, Partial<DefaultProps> {
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
-  positions?: PopupPositionsType[];
-
-  onOpen?: () => void;
-  onClose?: () => void;
-
-  /**
-   * Не показывать анимацию
-   */
-  disableAnimations: boolean;
-}
-
-interface DefaultProps {
-  disableAnimations: boolean;
   positions: PopupPositionsType[];
-}
+};
 
 type DropdownMenuComponentProps = DropdownMenuProps & DefaultProps;
 

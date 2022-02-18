@@ -21,22 +21,17 @@ import { PagingLocale, PagingLocaleHelper } from './locale';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
-interface ItemComponentProps {
+type ItemComponentProps = {
   active: boolean;
   children?: React.ReactNode;
   className: string;
   onClick: () => void;
   pageNumber: number | 'forward';
   tabIndex: number;
-}
+};
 
-export interface PagingProps extends CommonProps, Partial<DefaultProps> {
+export type PagingProps = {
   activePage: number;
-  /**
-   * Компонент обертки по умолчанию
-   * @default <span />
-   */
-  component: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
@@ -47,6 +42,23 @@ export interface PagingProps extends CommonProps, Partial<DefaultProps> {
    */
   withoutNavigationHint?: boolean;
   caption?: string;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+export type PagingState = {
+  focusedByTab: boolean;
+  focusedItem: Nullable<ItemType>;
+  keyboardControl: boolean;
+};
+
+export type ItemType = number | '.' | 'forward';
+
+type DefaultProps = {
+  /**
+   * Компонент обертки по умолчанию
+   * @default <span />
+   */
+  component: React.ComponentType<ItemComponentProps>;
   /**
    * Глобальный слушатель **keyDown**, для навигации клавишами без фокуса на компоненте.
    * Если на странице используется несколько элементов
@@ -54,21 +66,8 @@ export interface PagingProps extends CommonProps, Partial<DefaultProps> {
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
   useGlobalListener: boolean;
-}
-
-export interface PagingState {
-  focusedByTab: boolean;
-  focusedItem: Nullable<ItemType>;
-  keyboardControl: boolean;
-}
-
-export type ItemType = number | '.' | 'forward';
-
-interface DefaultProps {
-  component: React.ComponentType<ItemComponentProps>;
-  useGlobalListener: boolean;
   ['data-tid']: string;
-}
+};
 
 type PagingComponentProps = PagingProps & DefaultProps;
 

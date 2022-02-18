@@ -9,23 +9,22 @@ import { styles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
-export type CenterProps = Override<
-  React.HTMLAttributes<HTMLDivElement>,
-  {
-    /**
-     * Определяет, как контент будет выровнен по горизонтали.
-     *
-     * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
-     */
-    align?: HorizontalAlign;
-  }
-> &
+type CenterInterface = {
+  /**
+   * Определяет, как контент будет выровнен по горизонтали.
+   *
+   * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+   */
+  align?: HorizontalAlign;
+};
+
+export type CenterProps = Override<React.HTMLAttributes<HTMLDivElement>, CenterInterface> &
   CommonProps &
   Partial<DefaultProps>;
 
-interface DefaultProps {
+type DefaultProps = {
   align: HorizontalAlign;
-}
+};
 
 type CenterComponentProps = CenterProps & DefaultProps;
 

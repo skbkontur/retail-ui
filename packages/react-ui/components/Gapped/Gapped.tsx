@@ -7,35 +7,33 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface GappedProps extends CommonProps, Partial<DefaultProps> {
+export type GappedProps = {
   /**
    * Расстояние между элементами в пикселях
    * @default 8
    */
   gap?: number;
+  children: React.ReactNode;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
   /**
-   * Вертикальное выравнивание
-   * @default "baseline"
+   * Перенос элементов на новую строку при горизонтальном расположении
+   * @default false
    */
-  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
+  wrap: boolean;
   /**
    * Расположение элементов по вертикали
    * @default false
    */
   vertical: boolean;
   /**
-   * Перенос элементов на новую строку при горизонтальном расположении
-   * @default false
+   * Вертикальное выравнивание
+   * @default "baseline"
    */
-  wrap: boolean;
-  children: React.ReactNode;
-}
-
-interface DefaultProps {
-  wrap: boolean;
-  vertical: boolean;
   verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
-}
+};
 
 type GappedComponentProps = GappedProps & DefaultProps;
 

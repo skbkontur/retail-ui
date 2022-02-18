@@ -12,53 +12,52 @@ import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGro
 
 import { styles, globalClasses } from './Radio.styles';
 
-export type RadioProps<T> = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    /**
-     *  Cостояние валидации при ошибке.
-     */
-    error?: boolean;
-    /**
-     * Cостояние валидации при предупреждении.
-     */
-    warning?: boolean;
-    /**
-     * Состояние фокуса.
-     */
-    focused?: boolean;
-    /**
-     * Функция, вызываемая при изменении `value`.
-     */
-    onValueChange?: (value: T) => void;
-    /**
-     * HTML-событие `onmouseenter`
-     */
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    /**
-     * HTML-событие `mouseleave`
-     */
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    /**
-     * HTML-событие `onmouseover`
-     */
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /**
-     * HTML-атрибут `value`.
-     */
-    value: T;
-  }
-> &
+type RadioInterface<T> = {
+  /**
+   *  Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /**
+   * Состояние фокуса.
+   */
+  focused?: boolean;
+  /**
+   * Функция, вызываемая при изменении `value`.
+   */
+  onValueChange?: (value: T) => void;
+  /**
+   * HTML-событие `onmouseenter`
+   */
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `mouseleave`
+   */
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-событие `onmouseover`
+   */
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  /**
+   * HTML-атрибут `value`.
+   */
+  value: T;
+};
+
+export type RadioProps<T> = Override<React.InputHTMLAttributes<HTMLInputElement>, RadioInterface<T>> &
   CommonProps &
   Partial<DefaultProps>;
 
-export interface RadioState {
+export type RadioState = {
   focusedByKeyboard: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   focused: boolean;
-}
+};
 
 type RadioComponentProps<T> = RadioProps<T> & DefaultProps;
 

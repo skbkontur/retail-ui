@@ -18,17 +18,16 @@ import { styles } from './DateInput.styles';
 import { Actions, extractAction } from './helpers/DateInputKeyboardActions';
 import { InternalDateMediator } from './helpers/InternalDateMediator';
 
-export interface DateInputState {
+export type DateInputState = {
   selected: InternalDateComponentType | null;
   valueFormatted: string;
   inputMode: boolean;
   focused: boolean;
   dragged: boolean;
-}
+};
 
-export interface DateInputProps extends CommonProps, Partial<DefaultProps> {
+export type DateInputProps = {
   autoFocus?: boolean;
-  value: string;
   /**
    * Cостояние валидации при ошибке.
    */
@@ -38,6 +37,22 @@ export interface DateInputProps extends CommonProps, Partial<DefaultProps> {
    */
   warning?: boolean;
   disabled?: boolean;
+  withIcon?: boolean;
+  onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
+  onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
+  onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
+  /**
+   * Вызывается при изменении `value`
+   *
+   * @param value - строка в формате `dd.mm.yyyy`.
+   */
+  onValueChange?: (value: string) => void;
+  onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
+  value: string;
   /**
    * Минимальная дата.
    * @default '01.01.1900'
@@ -49,35 +64,16 @@ export interface DateInputProps extends CommonProps, Partial<DefaultProps> {
    */
   maxDate: string;
   /**
-   * Ширина поля
-   * @default 125
-   */
-  width?: string | number;
-  withIcon?: boolean;
-  /**
    * Размер поля
    * @default 'small'
    */
   size: 'small' | 'large' | 'medium';
-  onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
-  onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
-  onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
   /**
-   * Вызывается при изменении `value`
-   *
-   * @param value - строка в формате `dd.mm.yyyy`.
+   * Ширина поля
+   * @default 125
    */
-  onValueChange?: (value: string) => void;
-  onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
-}
-
-interface DefaultProps {
-  value: string;
-  minDate: string;
-  maxDate: string;
-  size: 'small' | 'large' | 'medium';
   width: string | number;
-}
+};
 
 type DateInputComponentProps = DateInputProps & DefaultProps;
 

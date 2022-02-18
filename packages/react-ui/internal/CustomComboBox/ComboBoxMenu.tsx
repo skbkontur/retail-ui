@@ -10,7 +10,7 @@ import { MenuSeparator } from '../../components/MenuSeparator';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
 
-export interface ComboBoxMenuProps<T> extends Partial<DefaultProps> {
+export type ComboBoxMenuProps<T> = {
   opened?: boolean;
   items?: Nullable<T[]>;
   totalCount?: number;
@@ -23,14 +23,12 @@ export interface ComboBoxMenuProps<T> extends Partial<DefaultProps> {
   onValueChange: (value: T) => any;
   renderAddButton?: () => React.ReactNode;
   caption?: React.ReactNode;
-  repeatRequest?: () => void;
-  requestStatus?: ComboBoxRequestStatus;
-}
+} & Partial<DefaultProps>;
 
-interface DefaultProps {
+type DefaultProps = {
   repeatRequest: () => void;
   requestStatus: ComboBoxRequestStatus;
-}
+};
 
 type ComboBoxMenuComponentProps<T> = ComboBoxMenuProps<T> & DefaultProps;
 

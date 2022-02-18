@@ -16,29 +16,19 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
 
-export interface TabIndicators {
+export type TabIndicators = {
   error: boolean;
   warning: boolean;
   success: boolean;
   primary: boolean;
   disabled: boolean;
-}
+};
 
-export interface TabProps<T extends string = string> extends CommonProps, Partial<DefaultProps> {
+export type TabProps<T extends string = string> = {
   /**
    * Tab content
    */
   children?: React.ReactNode;
-
-  /**
-   * Component to use as a tab
-   */
-  component?: React.ComponentType<any> | string;
-
-  /**
-   * Link href
-   */
-  href?: string;
 
   /**
    * Tab identifier
@@ -84,16 +74,23 @@ export interface TabProps<T extends string = string> extends CommonProps, Partia
    * Style property
    */
   style?: React.CSSProperties;
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-export interface TabState {
+export type TabState = {
   focusedByKeyboard: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Component to use as a tab
+   */
   component: React.ComponentType<any> | string;
+  /**
+   * Link href
+   */
   href: string;
-}
+};
 
 type TabsComponentProps<T extends string = string> = TabProps<T> & DefaultProps;
 

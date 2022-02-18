@@ -18,19 +18,29 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Kebab.styles';
 
-export interface KebabProps extends CommonProps, Partial<DefaultProps> {
+export type KebabProps = {
   disabled?: boolean;
-  /**
-   * Функция вызываемая при закрытии выпадашки
-   * @default () => undefined
-   */
-  onClose: () => void;
+  menuMaxHeight?: number | string;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+export type KebabState = {
+  anchor: Nullable<HTMLElement>;
+  focusedByTab: boolean;
+  opened: boolean;
+};
+
+type DefaultProps = {
   /**
    * Функция вызываемая при открытии выпадашки
    * @default () => undefined
    */
   onOpen: () => void;
-  size: 'small' | 'medium' | 'large';
+  /**
+   * Функция вызываемая при закрытии выпадашки
+   * @default () => undefined
+   */
+  onClose: () => void;
   /**
    * Список позиций доступных для расположения выпадашки.
    *
@@ -40,7 +50,7 @@ export interface KebabProps extends CommonProps, Partial<DefaultProps> {
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions: PopupPositionsType[];
-  menuMaxHeight?: number | string;
+  size: 'small' | 'medium' | 'large';
   /**
    * Не показывать анимацию
    */
@@ -48,23 +58,8 @@ export interface KebabProps extends CommonProps, Partial<DefaultProps> {
   /**
    * Кастомная иконка
    */
-  icon?: React.ReactNode;
-}
-
-export interface KebabState {
-  anchor: Nullable<HTMLElement>;
-  focusedByTab: boolean;
-  opened: boolean;
-}
-
-interface DefaultProps {
-  onOpen: () => void;
-  onClose: () => void;
-  positions: PopupPositionsType[];
-  size: 'small' | 'medium' | 'large';
-  disableAnimations: boolean;
   icon: React.ReactNode;
-}
+};
 
 type KebabComponentProps = KebabProps & DefaultProps;
 

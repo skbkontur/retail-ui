@@ -14,18 +14,14 @@ import { styles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
-export interface StickyProps extends CommonProps, Partial<DefaultProps> {
+export type StickyProps = {
   side: 'top' | 'bottom';
-  /**
-   * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
-   * @default 0
-   */
-  offset: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-export interface StickyState {
+export type StickyState = {
   fixed: boolean;
   deltaHeight: number;
   height?: number;
@@ -33,11 +29,15 @@ export interface StickyState {
   left?: number;
   stopped: boolean;
   relativeTop: number;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
+   * @default 0
+   */
   offset: number;
-}
+};
 
 type StickyComponentProps = StickyProps & DefaultProps;
 

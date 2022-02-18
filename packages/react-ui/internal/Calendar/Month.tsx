@@ -13,7 +13,7 @@ import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
 
-interface MonthProps {
+type MonthProps = {
   top: number;
   month: MonthViewModel;
   maxDate?: CDS.CalendarDateShape;
@@ -23,7 +23,7 @@ interface MonthProps {
   onDateClick?: (date: CDS.CalendarDateShape) => void;
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-}
+};
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
@@ -129,7 +129,7 @@ export class Month extends React.Component<MonthProps> {
   };
 }
 
-interface MonthDayGridProps extends Partial<DefaultProps> {
+type MonthDayGridProps = {
   days: DayCellViewModel[];
   offset: number;
   minDate?: CDS.CalendarDateShape;
@@ -137,12 +137,11 @@ interface MonthDayGridProps extends Partial<DefaultProps> {
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
-  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-}
+} & Partial<DefaultProps>;
 
-interface DefaultProps {
+type DefaultProps = {
   isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-}
+};
 
 type MonthDayGridComponentProps = MonthDayGridProps & DefaultProps;
 

@@ -17,7 +17,7 @@ import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 
-interface ComboBoxViewProps<T> extends CommonProps, Partial<DefaultProps<T>> {
+type ComboBoxViewProps<T> = {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -34,7 +34,6 @@ interface ComboBoxViewProps<T> extends CommonProps, Partial<DefaultProps<T>> {
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
@@ -42,17 +41,13 @@ interface ComboBoxViewProps<T> extends CommonProps, Partial<DefaultProps<T>> {
    * Cостояние валидации при предупреждении.
    */
   warning?: boolean;
-  width?: string | number;
   maxLength?: number;
   maxMenuHeight?: number | string;
   leftIcon?: InputIconType;
   rightIcon?: InputIconType;
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
-
   onValueChange?: (value: T) => void;
-  onClickOutside?: (e: Event) => void;
   onFocus?: () => void;
-  onFocusOutside?: () => void;
   onInputBlur?: () => void;
   onInputValueChange?: (value: string) => void;
   onInputFocus?: () => void;
@@ -61,19 +56,15 @@ interface ComboBoxViewProps<T> extends CommonProps, Partial<DefaultProps<T>> {
   onMouseEnter?: (e: React.MouseEvent) => void;
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
-  renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
-  renderValue?: (item: T) => React.ReactNode;
-  renderAddButton: (query?: string) => React.ReactNode;
-  repeatRequest?: () => void;
-  requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
-}
+} & CommonProps &
+  Partial<DefaultProps<T>>;
 
-interface DefaultProps<T> {
+type DefaultProps<T = any> = {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;
   renderValue: (item: T) => React.ReactNode;
   renderAddButton: (query?: string) => React.ReactNode;
@@ -83,7 +74,7 @@ interface DefaultProps<T> {
   onFocusOutside: () => void;
   size: 'small' | 'medium' | 'large';
   width: string | number;
-}
+};
 
 type ComboBoxViewComponentProps<T> = ComboBoxViewProps<T> & DefaultProps<T>;
 
@@ -91,7 +82,7 @@ type ComboBoxViewComponentProps<T> = ComboBoxViewProps<T> & DefaultProps<T>;
 export class ComboBoxView<T> extends React.Component<ComboBoxViewComponentProps<T>, {}> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
-  public static defaultProps: DefaultProps<any> = {
+  public static defaultProps: DefaultProps = {
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
     renderAddButton: () => null,

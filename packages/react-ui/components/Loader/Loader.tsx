@@ -17,20 +17,31 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Loader.styles';
 
-export interface LoaderProps extends CommonProps, Partial<DefaultProps> {
+export type LoaderProps = {
   children?: React.ReactNode;
-  /**
-   * Флаг переключения состояния лоадера
-   * @default false
-   */
-  active: boolean;
   caption?: SpinnerProps['caption'];
   /**
    * Компонент заменяющий спиннер.
    */
   component?: React.ReactNode;
   className?: string;
-  type?: 'mini' | 'normal' | 'big';
+} & CommonProps &
+  Partial<DefaultProps>;
+
+export type LoaderState = {
+  isStickySpinner: boolean;
+  isSpinnerVisible: boolean;
+  isLoaderActive: boolean;
+  spinnerStyle?: object;
+};
+
+type DefaultProps = {
+  type: 'mini' | 'normal' | 'big';
+  /**
+   * Флаг переключения состояния лоадера
+   * @default false
+   */
+  active: boolean;
   /**
    * Время в миллисекундах для показа вуали без спиннера.
    * @default 300
@@ -41,21 +52,7 @@ export interface LoaderProps extends CommonProps, Partial<DefaultProps> {
    * @default 1000
    */
   minimalDelayBeforeSpinnerHide: number;
-}
-
-export interface LoaderState {
-  isStickySpinner: boolean;
-  isSpinnerVisible: boolean;
-  isLoaderActive: boolean;
-  spinnerStyle?: object;
-}
-
-interface DefaultProps {
-  type: 'mini' | 'normal' | 'big';
-  active: boolean;
-  delayBeforeSpinnerShow: number;
-  minimalDelayBeforeSpinnerHide: number;
-}
+};
 
 export type LoaderComponentProps = LoaderProps & DefaultProps;
 

@@ -17,7 +17,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export interface ButtonProps extends CommonProps, Partial<DefaultProps> {
+export type ButtonProps = {
   /** @ignore */
   _noPadding?: boolean;
 
@@ -123,28 +123,9 @@ export interface ButtonProps extends CommonProps, Partial<DefaultProps> {
   onMouseOver?: React.MouseEventHandler<HTMLButtonElement>;
 
   /**
-   * Задаёт размер кнопки.
-   *
-   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
-   */
-  size?: ButtonSize;
-
-  /**
-   * HTML-атрибут `type`.
-   */
-  type?: ButtonType;
-
-  /**
    * HTML-атрибут `title`.
    */
   title?: string;
-
-  /**
-   * Стиль кнопки.
-   *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
-   */
-  use?: ButtonUse;
 
   /** @ignore */
   visuallyFocused?: boolean;
@@ -158,17 +139,33 @@ export interface ButtonProps extends CommonProps, Partial<DefaultProps> {
    * CSS-свойство `width`.
    */
   width?: number | string;
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-export interface ButtonState {
+export type ButtonState = {
   focusedByTab: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Стиль кнопки.
+   *
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
+   */
   use: ButtonUse;
+
+  /**
+   * Задаёт размер кнопки.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
   size: ButtonSize;
+
+  /**
+   * HTML-атрибут `type`.
+   */
   type: ButtonType;
-}
+};
 
 type ButtonComponentProps = ButtonProps & DefaultProps;
 

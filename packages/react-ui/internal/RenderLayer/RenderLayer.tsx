@@ -5,22 +5,22 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 
-export interface RenderLayerProps extends CommonProps, Partial<DefaultProps> {
+export type RenderLayerProps = {
   children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
-  active?: boolean;
   getAnchorElement?: () => Nullable<HTMLElement>;
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-interface DefaultProps {
+type DefaultProps = {
   active: boolean;
-}
+};
 
-type RenderLayerComponentPorps = RenderLayerProps & DefaultProps;
+type RenderLayerComponentProps = RenderLayerProps & DefaultProps;
 
 @rootNode
-export class RenderLayer extends React.Component<RenderLayerComponentPorps> {
+export class RenderLayer extends React.Component<RenderLayerComponentProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
 
   public static propTypes = {

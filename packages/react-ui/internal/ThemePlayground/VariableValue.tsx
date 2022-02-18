@@ -15,24 +15,23 @@ import { styles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
-export interface VariableValueProps extends Partial<DefaultProps> {
+export type VariableValueProps = {
   onChange: (variable: keyof Theme, value: string) => void;
   value: string;
   isError: boolean;
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
-  deprecated: boolean;
-}
+} & Partial<DefaultProps>;
 
-export interface VariableValueState {
+export type VariableValueState = {
   value: string;
   editing: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   deprecated: boolean;
-}
+};
 
 type VariableValueComponentProps = VariableValueProps & DefaultProps;
 
@@ -202,10 +201,10 @@ export class VariableValue extends React.Component<VariableValueComponentProps, 
   };
 }
 
-interface BaseVariableLinkProps {
+type BaseVariableLinkProps = {
   baseVariable: string | number;
   emitClickEvent: (baseVariable: string | number) => void;
-}
+};
 class BaseVariableLink extends React.Component<BaseVariableLinkProps> {
   public render() {
     return <Link onClick={this.emitClickEvent}>{this.props.baseVariable}</Link>;

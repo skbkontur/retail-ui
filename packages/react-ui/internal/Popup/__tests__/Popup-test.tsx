@@ -3,7 +3,7 @@ import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
 
-import { Popup, PopupProps, PopupState } from '../Popup';
+import { Popup, PopupComponentProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
@@ -11,7 +11,7 @@ import { CommonWrapper } from '../../CommonWrapper';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
-const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
+const openPopup = async (wrapper: ReactWrapper<PopupComponentProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
     wrapper.setProps({ opened: true }, async () => {
       await delay(100);
@@ -19,7 +19,7 @@ const openPopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =
     });
   });
 
-const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) =>
+const closePopup = async (wrapper: ReactWrapper<PopupComponentProps, PopupState, Popup>) =>
   new Promise<void>((resolve) => {
     wrapper.setProps({ opened: false }, async () => {
       await delay(100);
@@ -27,7 +27,7 @@ const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) 
     });
   });
 
-const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, PopupState, Popup> => {
+const renderWrapper = (props?: Partial<PopupComponentProps>): ReactWrapper<PopupComponentProps, PopupState, Popup> => {
   const anchor = document.createElement('button');
 
   anchor.id = 'test-id';
@@ -64,7 +64,7 @@ describe('Popup', () => {
         >
           Test content
         </Popup>
-      ) as React.ReactElement<PopupProps>,
+      ) as React.ReactElement<PopupComponentProps>,
     );
 
     expect(wrapper.state('location')).toBeNull();
@@ -92,7 +92,7 @@ describe('Popup', () => {
         >
           Test content
         </Popup>
-      ) as React.ReactElement<PopupProps>,
+      ) as React.ReactElement<PopupComponentProps>,
     );
 
     expect(wrapper.state('location')).toBeNull();

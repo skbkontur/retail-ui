@@ -13,27 +13,22 @@ import { isIE11 } from '../../lib/client';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps extends Partial<DefaultProps> {
+export type MenuProps = {
   children: React.ReactNode;
-  hasShadow?: boolean;
-  maxHeight?: number | string;
   onItemClick?: () => void;
-  width?: number | string;
-  preventWindowScroll?: boolean;
-  align?: 'left' | 'right';
-}
+} & Partial<DefaultProps>;
 
-export interface MenuState {
+export type MenuState = {
   highlightedIndex: number;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   align: 'left' | 'right';
   width: number | string;
   maxHeight: number | string;
   hasShadow: boolean;
   preventWindowScroll: boolean;
-}
+};
 
 type MenuComponentProps = MenuProps & DefaultProps;
 

@@ -10,33 +10,28 @@ const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Inf
 
 ZIndexContext.displayName = 'ZIndexContext';
 
-export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement>, Partial<DefaultProps> {
+export type ZIndexProps = {
+  className?: string;
+  wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
+} & React.HTMLAttributes<HTMLDivElement> &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
   /**
    * Приращение к z-index
    */
   delta: number;
   priority: number | LayerComponentName;
   style: React.CSSProperties;
-  createStackingContext?: boolean;
-  coverChildren?: boolean;
-  applyZIndex?: boolean;
-  className?: string;
-  wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
-}
-
-interface DefaultProps {
-  delta: number;
-  priority: number | LayerComponentName;
-  style: React.CSSProperties;
   applyZIndex: boolean;
   coverChildren: boolean;
   createStackingContext: boolean;
-}
+};
 
-type ZIndexComponentPorps = ZIndexProps & DefaultProps;
+type ZIndexComponentProps = ZIndexProps & DefaultProps;
 
 @rootNode
-export class ZIndex extends React.Component<ZIndexComponentPorps> {
+export class ZIndex extends React.Component<ZIndexComponentProps> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
   public static defaultProps: DefaultProps = {
@@ -49,7 +44,7 @@ export class ZIndex extends React.Component<ZIndexComponentPorps> {
   };
 
   public static propTypes = {
-    delta(props: ZIndexProps) {
+    delta(props: ZIndexComponentProps) {
       if (props.delta <= 0) {
         return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
       }
@@ -63,7 +58,7 @@ export class ZIndex extends React.Component<ZIndexComponentPorps> {
 
   private setRootNode!: TSetRootNode;
 
-  constructor(props: ZIndexComponentPorps) {
+  constructor(props: ZIndexComponentProps) {
     super(props);
     this.zIndex = incrementZIndex(props.priority, props.delta);
   }

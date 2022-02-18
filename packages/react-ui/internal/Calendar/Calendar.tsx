@@ -17,29 +17,27 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
-export interface CalendarProps extends Partial<DefaultProps> {
+export type CalendarProps = {
   initialMonth?: number;
   initialYear?: number;
   onSelect?: (date: CalendarDateShape) => void;
   value?: Nullable<CalendarDateShape>;
-  maxDate?: CalendarDateShape;
-  minDate?: CalendarDateShape;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
-}
+} & Partial<DefaultProps>;
 
-export interface CalendarState {
+export type CalendarState = {
   scrollPosition: number;
   months: MonthViewModel[];
   today: CalendarDateShape;
   scrollDirection: number;
   scrollTarget: number;
   touchStart: number;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   minDate: CalendarDateShape;
   maxDate: CalendarDateShape;
-}
+};
 
 type CalendarComponentProps = CalendarProps & DefaultProps;
 

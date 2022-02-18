@@ -22,34 +22,29 @@ export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
 export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
-export interface ScrollContainerProps extends CommonProps, Partial<DefaultProps> {
+export type ScrollContainerProps = {
+  maxHeight?: React.CSSProperties['maxHeight'];
+  maxWidth?: React.CSSProperties['maxWidth'];
+  onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
+  onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
+  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
   /**
    * Инвертировать цвет скроллбара
    * @default false
    */
   invert: boolean;
-  maxHeight?: React.CSSProperties['maxHeight'];
-  maxWidth?: React.CSSProperties['maxWidth'];
-  /**
-   * @default false
-   */
-  preventWindowScroll: boolean;
   /**
    * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
    * @default 'auto'
    */
-  scrollBehaviour?: ScrollBehaviour;
-  onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
-  onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
-  onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
-  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
-}
-
-interface DefaultProps {
-  invert: boolean;
   scrollBehaviour: ScrollBehaviour;
   preventWindowScroll: boolean;
-}
+};
 
 type ScrollContainerComponentProps = ScrollContainerProps & DefaultProps;
 

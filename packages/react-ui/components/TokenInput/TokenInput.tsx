@@ -41,26 +41,9 @@ export enum TokenInputType {
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
-export interface TokenInputProps<T> extends CommonProps, Partial<DefaultProps<T>> {
-  selectedItems: T[];
-  onValueChange: (items: T[]) => void;
-  onMouseEnter: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave: MouseEventHandler<HTMLDivElement>;
-  onFocus: FocusEventHandler<HTMLTextAreaElement>;
-  onBlur: FocusEventHandler<HTMLTextAreaElement>;
+export type TokenInputProps<T> = {
   autoFocus?: boolean;
   type?: TokenInputType;
-  /**
-   * Ширина выпадающего меню может быть указана как 'auto'
-   * а также в пикселях, процентах (от ширины инпута)
-   * или других конкретных единицах
-   *
-   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
-   * (по ширине текста)
-   */
-  menuWidth: React.CSSProperties['width'];
-  menuAlign: TokenInputMenuAlign;
-
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
    * По умолчанию ожидаются строки.
@@ -70,18 +53,8 @@ export interface TokenInputProps<T> extends CommonProps, Partial<DefaultProps<T>
    */
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue: (item: T) => React.ReactNode;
-  /**
-   * Функция должна возвращать строковое представление токена
-   * @default item => item
-   */
-  valueToString: (item: T) => string;
   renderNotFound?: () => React.ReactNode;
-  valueToItem: (item: string) => T;
-  toKey: (item: T) => string | number | undefined;
   placeholder?: string;
-  delimiters: string[];
   /**
    * Cостояние валидации при ошибке.
    */
@@ -91,7 +64,6 @@ export interface TokenInputProps<T> extends CommonProps, Partial<DefaultProps<T>
    */
   warning?: boolean;
   disabled?: boolean;
-  width?: string | number;
   maxMenuHeight?: number | string;
   renderToken?: (item: T, props: Partial<TokenProps>) => ReactNode;
   /**
@@ -121,9 +93,10 @@ export interface TokenInputProps<T> extends CommonProps, Partial<DefaultProps<T>
    */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
   inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
-}
+} & CommonProps &
+  Partial<DefaultProps<T>>;
 
-export interface TokenInputState<T> {
+export type TokenInputState<T> = {
   autocompleteItems?: T[];
   activeTokens: T[];
   editingTokenIndex: number;
@@ -136,7 +109,7 @@ export interface TokenInputState<T> {
   inputValueHeight: number;
   preventBlur?: boolean;
   loading?: boolean;
-}
+};
 
 export const DefaultState = {
   inputValue: '',
@@ -169,11 +142,15 @@ const defaultRenderToken = <T extends {}>(
   </Token>
 );
 
-interface DefaultProps<T> {
+type DefaultProps<T = any> = {
   selectedItems: T[];
   delimiters: string[];
   renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
   renderValue: (item: T) => React.ReactNode;
+  /**
+   * Функция должна возвращать строковое представление токена
+   * @default item => item
+   */
   valueToString: (item: T) => string;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
@@ -183,9 +160,17 @@ interface DefaultProps<T> {
   onFocus: FocusEventHandler<HTMLTextAreaElement>;
   onMouseEnter: MouseEventHandler<HTMLDivElement>;
   onMouseLeave: MouseEventHandler<HTMLDivElement>;
+  /**
+   * Ширина выпадающего меню может быть указана как 'auto'
+   * а также в пикселях, процентах (от ширины инпута)
+   * или других конкретных единицах
+   *
+   * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
+   * (по ширине текста)
+   */
   menuWidth: React.CSSProperties['width'];
   menuAlign: TokenInputMenuAlign;
-}
+};
 
 type TokenInputComponentProps<T> = TokenInputProps<T> & DefaultProps<T>;
 
@@ -194,7 +179,7 @@ type TokenInputComponentProps<T> = TokenInputProps<T> & DefaultProps<T>;
 export class TokenInput<T = string> extends React.PureComponent<TokenInputComponentProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
 
-  public static defaultProps: DefaultProps<any> = {
+  public static defaultProps: DefaultProps = {
     selectedItems: [],
     delimiters: [',', ' '],
     renderItem: identity,
@@ -230,7 +215,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputCompon
     }
   }
 
-  public componentDidUpdate(prevProps: TokenInputProps<T>, prevState: TokenInputState<T>) {
+  public componentDidUpdate(prevProps: TokenInputComponentProps<T>, prevState: TokenInputState<T>) {
     if (prevState.inputValue !== this.state.inputValue) {
       this.updateInputTextWidth();
     }

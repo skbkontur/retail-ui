@@ -35,7 +35,7 @@ export type TooltipTrigger =
   /** Управление через публичные функции show и hide */
   | 'manual';
 
-export interface TooltipProps extends CommonProps, Partial<DefaultProps> {
+export type TooltipProps = {
   /**
    * Относительно какого элемента позиционировать тултип
    */
@@ -63,27 +63,6 @@ export interface TooltipProps extends CommonProps, Partial<DefaultProps> {
   render?: Nullable<() => React.ReactNode>;
 
   /**
-   * Значение по умолчанию: `"top left"`.
-   */
-  pos: PopupPositionsType;
-
-  /**
-   * Триггер открытия тултипа
-   * ```ts
-   * type TooltipTrigger =
-   * | 'hover'
-   * | 'click'
-   * | 'focus'
-   * | 'hover&focus'
-   * | 'opened'
-   * | 'closed'
-   * | 'hoverAnchor'
-   * | 'manual';
-   * ```
-   */
-  trigger: TooltipTrigger;
-
-  /**
    * Хэндлер, вызываемый при клике по крестику
    */
   onCloseClick?: React.MouseEventHandler<HTMLElement>;
@@ -105,6 +84,37 @@ export interface TooltipProps extends CommonProps, Partial<DefaultProps> {
   onOpen?: () => void;
 
   /**
+   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
+   *
+   * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
+   */
+  useWrapper: boolean;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+export type TooltipState = {
+  opened: boolean;
+  focused: boolean;
+};
+
+type DefaultProps = {
+  pos: PopupPositionsType;
+  /**
+   * Триггер открытия тултипа
+   * ```ts
+   * type TooltipTrigger =
+   * | 'hover'
+   * | 'click'
+   * | 'focus'
+   * | 'hover&focus'
+   * | 'opened'
+   * | 'closed'
+   * | 'hoverAnchor'
+   * | 'manual';
+   * ```
+   */
+  trigger: TooltipTrigger;
+  /**
    * Список позиций, которые тултип будет занимать.
    * Если положение тултипа в определенной позиции
    * будет выходить за край экрана, то будет выбрана
@@ -112,34 +122,18 @@ export interface TooltipProps extends CommonProps, Partial<DefaultProps> {
    * позицию указанную в `pos`
    */
   allowedPositions: PopupPositionsType[];
-
   /**
    * Флаг отключения анимации.
    * @default false
    */
   disableAnimations: boolean;
-
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper: boolean;
-}
-
-export interface TooltipState {
-  opened: boolean;
-  focused: boolean;
-}
-
-interface DefaultProps {
-  pos: PopupPositionsType;
-  trigger: TooltipTrigger;
-  allowedPositions: PopupPositionsType[];
-  disableAnimations: boolean;
-  useWrapper: boolean;
-  closeOnChildrenMouseLeave: boolean;
-}
+};
 
 type TooltipComponentProps = TooltipProps & DefaultProps;
 
@@ -182,7 +176,6 @@ export class Tooltip extends React.PureComponent<TooltipComponentProps, TooltipS
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
-    closeOnChildrenMouseLeave: false,
   };
 
   public static delay = 100;

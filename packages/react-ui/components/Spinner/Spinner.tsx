@@ -20,14 +20,9 @@ const types: Record<SpinnerType, SpinnerType> = {
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
-export interface SpinnerProps extends CommonProps, Partial<DefaultProps> {
+export type SpinnerProps = {
   caption?: React.ReactNode;
   dimmed?: boolean;
-  /**
-   * Тип спиннера
-   * @default normal
-   */
-  type: SpinnerType;
   /**
    * Толщина спиннера
    */
@@ -36,11 +31,16 @@ export interface SpinnerProps extends CommonProps, Partial<DefaultProps> {
    * Цвет спиннера
    */
   color?: React.CSSProperties['color'];
-}
+} & CommonProps &
+  Partial<DefaultProps>;
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Тип спиннера
+   * @default normal
+   */
   type: SpinnerType;
-}
+};
 
 type SpinnerComponentProps = SpinnerProps & DefaultProps;
 
@@ -82,7 +82,7 @@ export class Spinner extends React.Component<SpinnerComponentProps> {
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;
 
-  constructor(props: SpinnerProps) {
+  constructor(props: SpinnerComponentProps) {
     super(props);
   }
 

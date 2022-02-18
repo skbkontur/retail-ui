@@ -8,26 +8,26 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MaskedInput.styles';
 
-export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement>, Partial<DefaultProps> {
+export type MaskedInputProps = {
   mask: string;
-  maskChar: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;
   hasRightIcon?: boolean;
   onUnexpectedInput?: (value: string) => void;
   onValueChange?: (value: string) => void;
-}
+} & React.InputHTMLAttributes<HTMLInputElement> &
+  Partial<DefaultProps>;
 
-interface MaskedInputState {
+type MaskedInputState = {
   value: string;
   emptyValue: string;
   focused: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   maskChar: string | null;
-}
+};
 
 type MaskedInputComponentProps = MaskedInputProps & DefaultProps;
 
@@ -42,7 +42,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputComponentProps, 
   private theme!: Theme;
   private reactInputMask: ReactInputMask | null = null;
 
-  public constructor(props: MaskedInputProps) {
+  public constructor(props: MaskedInputComponentProps) {
     super(props);
 
     this.state = {

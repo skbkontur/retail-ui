@@ -24,7 +24,7 @@ import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-export interface ModalProps extends CommonProps, Partial<DefaultProps> {
+export type ModalProps = {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
@@ -51,26 +51,25 @@ export interface ModalProps extends CommonProps, Partial<DefaultProps> {
    * Escape или на крестик).
    */
   onClose?: () => void;
+} & CommonProps &
+  Partial<DefaultProps>;
 
-  /**
-   * Не использовать фокус-лок внутри модалки.
-   * По умолчанию true для IE11.
-   */
-  disableFocusLock?: boolean;
-}
-
-export interface ModalState {
+export type ModalState = {
   stackPosition: number;
   hasBackground: boolean;
   horizontalScroll: boolean;
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
+  /**
+   * Не использовать фокус-лок внутри модалки.
+   * По умолчанию true для IE11.
+   */
   disableFocusLock: boolean;
-}
+};
 
 type ModalComponentProps = ModalProps & DefaultProps;
 

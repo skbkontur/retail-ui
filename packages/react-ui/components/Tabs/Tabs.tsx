@@ -13,7 +13,7 @@ import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps<T extends string = string> extends CommonProps, Partial<DefaultProps> {
+export type TabsProps<T extends string = string> = {
   /**
    * Tab component should be child of Tabs component
    */
@@ -35,20 +35,19 @@ export interface TabsProps<T extends string = string> extends CommonProps, Parti
   value: T;
 
   /**
+   * Width of tabs container
+   */
+  width?: number | string;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
+  /**
    * Vertical indicator
    * @default false
    */
   vertical: boolean;
-
-  /**
-   * Width of tabs container
-   */
-  width?: number | string;
-}
-
-interface DefaultProps {
-  vertical: boolean;
-}
+};
 
 type TabsComponentProps<T extends string = string> = TabsProps<T> & DefaultProps;
 

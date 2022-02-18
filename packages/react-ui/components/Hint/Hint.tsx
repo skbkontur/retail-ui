@@ -15,18 +15,8 @@ import { styles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
-export interface HintProps extends CommonProps, Partial<DefaultProps> {
+export type HintProps = {
   children?: React.ReactNode;
-  /**
-   * Переводит отображение подсказки в _"ручной режим"_.
-   *
-   * В _"ручном режиме"_ подcказку можно активировать только задав значение пропу `opened`.
-   */
-  manual?: boolean;
-  /**
-   * Задаёт максимальную ширину подсказки.
-   */
-  maxWidth?: React.CSSProperties['maxWidth'];
   /**
    * HTML-событие `mouseenter`.
    */
@@ -36,11 +26,17 @@ export interface HintProps extends CommonProps, Partial<DefaultProps> {
    */
   onMouseLeave?: (event: MouseEventType) => void;
   /**
-   * Если `true` - подсказка будет открыта.
-   *
-   * _Примечание_: работает только при `manual=true`.
+   * Текст подсказки.
    */
-  opened?: boolean;
+  text: React.ReactNode;
+} & CommonProps &
+  Partial<DefaultProps>;
+
+export type HintState = {
+  opened: boolean;
+};
+
+type DefaultProps = {
   /**
    * Расположение подсказки относительно текста.
    *
@@ -48,9 +44,21 @@ export interface HintProps extends CommonProps, Partial<DefaultProps> {
    */
   pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   /**
-   * Текст подсказки.
+   * Переводит отображение подсказки в _"ручной режим"_.
+   *
+   * В _"ручном режиме"_ подcказку можно активировать только задав значение пропу `opened`.
    */
-  text: React.ReactNode;
+  manual: boolean;
+  /**
+   * Если `true` - подсказка будет открыта.
+   *
+   * _Примечание_: работает только при `manual=true`.
+   */
+  opened: boolean;
+  /**
+   * Задаёт максимальную ширину подсказки.
+   */
+  maxWidth: React.CSSProperties['maxWidth'];
   /**
    * Отключает анимацию.
    */
@@ -61,20 +69,7 @@ export interface HintProps extends CommonProps, Partial<DefaultProps> {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper: boolean;
-}
-
-export interface HintState {
-  opened: boolean;
-}
-
-interface DefaultProps {
-  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
-  manual: boolean;
-  opened: boolean;
-  maxWidth: React.CSSProperties['maxWidth'];
-  disableAnimations: boolean;
-  useWrapper: boolean;
-}
+};
 
 type HintComponentProps = HintProps & DefaultProps;
 

@@ -18,7 +18,7 @@ import { TSetRootNode, rootNode } from '../../lib/rootNode';
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
 
-export interface InputLikeTextProps extends CommonProps, InputProps {
+export type InputLikeTextProps = {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onFocus?: React.FocusEventHandler<HTMLElement>;
@@ -26,15 +26,23 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
   takeContentWidth?: boolean;
-}
+} & CommonProps &
+  InputProps &
+  Partial<DefaultProps>;
+
+type DefaultProps = {
+  size: InputProps['size'];
+};
+
+type InputLikeTextComponentProps = InputLikeTextProps & DefaultProps;
 
 export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
 
 @rootNode
-export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
+export class InputLikeText extends React.Component<InputLikeTextComponentProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps: DefaultProps = { size: 'small' };
 
   public state = { blinking: false, focused: false };
 

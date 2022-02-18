@@ -20,96 +20,95 @@ export type InputAlign = 'left' | 'center' | 'right';
 export type InputType = 'password' | 'text';
 export type InputIconType = React.ReactNode | (() => React.ReactNode);
 
-export type InputProps = Override<
-  React.InputHTMLAttributes<HTMLInputElement>,
-  {
-    /**
-     * Иконка слева
-     * Если `ReactNode` применяются дефолтные стили для иконки
-     * Если `() => ReactNode` применяются только стили для позиционирование
-     */
-    leftIcon?: InputIconType;
-    /**
-     * Иконка справа
-     * Если `ReactNode` применяются дефолтные стили для иконки
-     * Если `() => ReactNode` применяются только стили для позиционирование
-     */
-    rightIcon?: InputIconType;
-    /**
-     * Cостояние валидации при ошибке.
-     */
-    error?: boolean;
-    /**
-     * Cостояние валидации при предупреждении.
-     */
-    warning?: boolean;
-    /** Режим прозрачной рамки */
-    borderless?: boolean;
-    /** Выравнивание текста */
-    align?: InputAlign;
-    /** Паттерн маски */
-    mask?: Nullable<string>;
-    /** Символ маски */
-    maskChar?: Nullable<string>;
-    /**
-     * Словарь символов-регулярок для задания маски
-     * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
-     */
-    formatChars?: Record<string, string>;
-    /** Показывать символы маски */
-    alwaysShowMask?: boolean;
-    /** Размер */
-    size?: InputSize;
-    /** onValueChange */
-    onValueChange?: (value: string) => void;
-    /** Вызывается на label */
-    onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Вызывается на label */
-    onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
-    /** Тип */
-    type?: InputType;
-    /** Значение */
-    value?: string;
-    capture?: boolean;
+type InputInterface = {
+  /**
+   * Иконка слева
+   * Если `ReactNode` применяются дефолтные стили для иконки
+   * Если `() => ReactNode` применяются только стили для позиционирование
+   */
+  leftIcon?: InputIconType;
+  /**
+   * Иконка справа
+   * Если `ReactNode` применяются дефолтные стили для иконки
+   * Если `() => ReactNode` применяются только стили для позиционирование
+   */
+  rightIcon?: InputIconType;
+  /**
+   * Cостояние валидации при ошибке.
+   */
+  error?: boolean;
+  /**
+   * Cостояние валидации при предупреждении.
+   */
+  warning?: boolean;
+  /** Режим прозрачной рамки */
+  borderless?: boolean;
+  /** Выравнивание текста */
+  align?: InputAlign;
+  /** Паттерн маски */
+  mask?: Nullable<string>;
+  /** Символ маски */
+  maskChar?: Nullable<string>;
+  /**
+   * Словарь символов-регулярок для задания маски
+   * @default { '9': '[0-9]', 'a': '[A-Za-z]', '*': '[A-Za-z0-9]' }
+   */
+  formatChars?: Record<string, string>;
+  /** Показывать символы маски */
+  alwaysShowMask?: boolean;
+  /** Размер */
+  size?: InputSize;
+  /** onValueChange */
+  onValueChange?: (value: string) => void;
+  /** Вызывается на label */
+  onMouseEnter?: React.MouseEventHandler<HTMLLabelElement>;
+  /** Вызывается на label */
+  onMouseLeave?: React.MouseEventHandler<HTMLLabelElement>;
+  /** Вызывается на label */
+  onMouseOver?: React.MouseEventHandler<HTMLLabelElement>;
+  /** Тип */
+  type?: InputType;
+  /** Значение */
+  value?: string;
+  capture?: boolean;
 
-    /**
-     * Префикс
-     * `ReactNode` перед значением, но после иконки
-     */
-    prefix?: React.ReactNode;
-    /**
-     * Суффикс
-     * `ReactNode` после значения, но перед правой иконкой
-     */
-    suffix?: React.ReactNode;
-    /** Выделять введенное значение при фокусе */
-    selectAllOnFocus?: boolean;
-    /**
-     * Обработчик неправильного ввода.
-     * По-умолчанию, инпут вспыхивает синим.
-     * Если передан - вызывается переданный обработчик,
-     * в таком случае вспыхивание можно вызвать
-     * публичным методом инстанса `blink()`.
-     *
-     * @param value значение инпута.
-     */
-    onUnexpectedInput?: (value: string) => void;
-  }
-> &
+  /**
+   * Префикс
+   * `ReactNode` перед значением, но после иконки
+   */
+  prefix?: React.ReactNode;
+  /**
+   * Суффикс
+   * `ReactNode` после значения, но перед правой иконкой
+   */
+  suffix?: React.ReactNode;
+  /** Выделять введенное значение при фокусе */
+  selectAllOnFocus?: boolean;
+  /**
+   * Обработчик неправильного ввода.
+   * По-умолчанию, инпут вспыхивает синим.
+   * Если передан - вызывается переданный обработчик,
+   * в таком случае вспыхивание можно вызвать
+   * публичным методом инстанса `blink()`.
+   *
+   * @param value значение инпута.
+   */
+  onUnexpectedInput?: (value: string) => void;
+};
+
+export type InputProps = Override<React.InputHTMLAttributes<HTMLInputElement>, InputInterface> &
   CommonProps &
   Partial<DefaultProps>;
 
-export interface InputState {
+export type InputState = {
   blinking: boolean;
   focused: boolean;
   polyfillPlaceholder: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   size: InputSize;
-}
+};
 
 type InputComponentProps = InputProps & DefaultProps;
 
@@ -150,7 +149,7 @@ export class Input extends React.Component<InputComponentProps, InputState> {
     this.cancelDelayedSelectAll();
   }
 
-  public static getDerivedStateFromProps(props: InputProps, state: InputState) {
+  public static getDerivedStateFromProps(props: InputComponentProps, state: InputState) {
     if (polyfillPlaceholder && !props.value) {
       return { polyfillPlaceholder: true };
     }
@@ -268,7 +267,7 @@ export class Input extends React.Component<InputComponentProps, InputState> {
     }
   };
 
-  private renderMain = (props: CommonWrapperRestProps<InputProps>) => {
+  private renderMain = (props: CommonWrapperRestProps<InputComponentProps>) => {
     const {
       onMouseEnter,
       onMouseLeave,

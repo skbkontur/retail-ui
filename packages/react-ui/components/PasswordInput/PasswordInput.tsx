@@ -15,18 +15,20 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './PasswordInput.styles';
 
-export interface PasswordInputProps extends CommonProps, InputProps, Partial<DefaultProps> {
+export type PasswordInputProps = {
   detectCapsLock?: boolean;
-}
+} & CommonProps &
+  InputProps &
+  Partial<DefaultProps>;
 
-export interface PasswordInputState {
+export type PasswordInputState = {
   visible: boolean;
   capsLockEnabled?: boolean | null;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   size: InputProps['size'];
-}
+};
 
 type PasswordInputComponentProps = PasswordInputProps & DefaultProps;
 

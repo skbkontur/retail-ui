@@ -15,43 +15,40 @@ import { CurrencyHelper } from './CurrencyHelper';
 import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 
-export type CurrencyInputProps = Override<
-  InputProps,
-  {
-    /** Значение */
-    value: Nullable<number>;
-    /** Убрать лишние нули после запятой */
-    hideTrailingZeros: boolean;
-    /** Кол-во цифр после зяпятой */
-    fractionDigits?: Nullable<number>;
-    /** Отрицательные значения */
-    signed?: boolean;
-    /**
-     * Допустимое кол-во цифр целой части.
-     * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
-     */
-    integerDigits?: Nullable<number>;
-    /** Вызывается при изменении `value` */
-    onValueChange: (value: Nullable<number>) => void;
-    /** onSubmit */
-    onSubmit?: () => void;
-  }
-> &
-  CommonProps &
-  Partial<DefaultProps>;
+type CurrencyInputInterface = {
+  /** Значение */
+  value: Nullable<number>;
+  /** Убрать лишние нули после запятой */
+  hideTrailingZeros: boolean;
+  /** Кол-во цифр после зяпятой */
+  fractionDigits?: Nullable<number>;
+  /** Отрицательные значения */
+  signed?: boolean;
+  /**
+   * Допустимое кол-во цифр целой части.
+   * Если передан **0**, или `fractionDigits=15`, то и в целой части допускается только **0**.
+   */
+  integerDigits?: Nullable<number>;
+  /** Вызывается при изменении `value` */
+  onValueChange: (value: Nullable<number>) => void;
+  /** onSubmit */
+  onSubmit?: () => void;
+};
 
-export interface CurrencyInputState {
+export type CurrencyInputProps = Override<InputProps, CurrencyInputInterface> & CommonProps & Partial<DefaultProps>;
+
+export type CurrencyInputState = {
   formatted: string;
   selection: Selection;
   focused: boolean;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   align: InputProps['align'];
   fractionDigits: Nullable<number>;
   hideTrailingZeros: boolean;
   value: Nullable<number>;
-}
+};
 
 type CurrencyInputComponentProps = CurrencyInputProps & DefaultProps;
 

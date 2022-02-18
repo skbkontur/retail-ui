@@ -1,24 +1,19 @@
 import React from 'react';
 
-interface BGRulerProps extends Partial<DefaultProps> {
+type BGRulerProps = {
   width?: string | number;
-  height?: string | number;
-  top?: string | number;
   bottom?: string | number;
-  right?: string | number;
-  left?: string | number;
-  color?: string;
-}
+} & Partial<DefaultProps>;
 
-interface DefaultProps {
+type DefaultProps = {
   height: string | number;
   top: string | number;
   left: string | number;
   right: string | number;
   color: string;
-}
+};
 
-type BgRulerComponentPorps = BGRulerProps & DefaultProps;
+type BgRulerComponentProps = BGRulerProps & DefaultProps;
 
 /**
  * Компонент рисует пиксельную линейку на заднем фоне.
@@ -26,7 +21,7 @@ type BgRulerComponentPorps = BGRulerProps & DefaultProps;
  *
  * @see FxInput/__stories__/FxInput.stories.tsx
  */
-export class BGRuler extends React.Component<BgRulerComponentPorps> {
+export class BGRuler extends React.Component<BgRulerComponentProps> {
   public static defaultProps: DefaultProps = {
     height: 20,
     top: 0,

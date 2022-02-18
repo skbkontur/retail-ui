@@ -7,18 +7,8 @@ import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> {
+export type ComboBoxProps<T> = {
   align?: 'left' | 'center' | 'right';
-  /**
-   * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
-   * @default true
-   */
-  searchOnFocus?: boolean;
-  /**
-   * Рисует справа иконку в виде стрелки
-   * @default true
-   */
-  drawArrow?: boolean;
 
   autoFocus?: boolean;
 
@@ -50,15 +40,7 @@ export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> 
    */
   getItems: (query: string) => Promise<T[]>;
 
-  /**
-   * Необходим для сравнения полученных результатов с `value`
-   * @default item => item.label
-   */
-  itemToValue: (item: T) => string | number;
-
   maxLength?: number;
-
-  menuAlign?: 'left' | 'right';
 
   onBlur?: () => void;
 
@@ -92,13 +74,6 @@ export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> 
   placeholder?: string;
 
   /**
-   * Функция отрисовки элементов результата поиска.
-   * Не применяется если элемент является функцией или React-элементом
-   * @default item => item.label
-   */
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-
-  /**
    * Функция для отрисовки сообщения о пустом результате поиска
    * Если есть renderAddButton - не работает
    */
@@ -109,12 +84,6 @@ export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> 
    * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`.
    */
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
-
-  /**
-   * Функция отрисовки выбранного значения
-   * @default item => item.label
-   */
-  renderValue: (item: T) => React.ReactNode;
 
   /**
    * Функция отрисовки кнопки добавления в выпадающем списке
@@ -133,12 +102,6 @@ export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> 
    * возвращаемом в `getItems`
    */
   value?: Nullable<T>;
-
-  /**
-   * Необходим для преобразования `value` в строку при фокусировке
-   * @default item => item.label
-   */
-  valueToString: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
   /**
@@ -159,22 +122,49 @@ export interface ComboBoxProps<T> extends CommonProps, Partial<DefaultProps<T>> 
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
-}
+} & CommonProps &
+  Partial<DefaultProps<T>>;
 
-export interface ComboBoxItem {
+export type ComboBoxItem = {
   value: string;
   label: string;
-}
+};
 
-interface DefaultProps<T> {
+type DefaultProps<T = ComboBoxItem> = {
+  /**
+   * Необходим для сравнения полученных результатов с `value`
+   * @default item => item.label
+   */
   itemToValue: (item: T) => string | number;
+
+  /**
+   * Необходим для преобразования `value` в строку при фокусировке
+   * @default item => item.label
+   */
   valueToString: (item: T) => string;
+  /**
+   * Функция отрисовки выбранного значения
+   * @default item => item.label
+   */
   renderValue: (item: T) => React.ReactNode;
+  /**
+   * Функция отрисовки элементов результата поиска.
+   * Не применяется если элемент является функцией или React-элементом
+   * @default item => item.label
+   */
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
   menuAlign: 'left' | 'right';
+  /**
+   * Вызывает функцию поиска `getItems` при фокусе и очистке поля ввода
+   * @default true
+   */
   searchOnFocus: boolean;
+  /**
+   * Рисует справа иконку в виде стрелки
+   * @default true
+   */
   drawArrow: boolean;
-}
+};
 
 export type ComboBoxComponentProps<T> = ComboBoxProps<T> & DefaultProps<T>;
 
@@ -182,7 +172,7 @@ export type ComboBoxComponentProps<T> = ComboBoxProps<T> & DefaultProps<T>;
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxComponentProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
-  public static defaultProps: DefaultProps<ComboBoxItem> = {
+  public static defaultProps: DefaultProps = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,

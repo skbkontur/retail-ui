@@ -23,17 +23,15 @@ const monthsCount = 12;
 const defaultMinYear = 1900;
 const defaultMaxYear = 2100;
 
-export interface DateSelectProps extends Partial<DefaultProps> {
+export type DateSelectProps = {
   disabled?: boolean | null;
   onValueChange: (value: number) => void;
-  type?: 'month' | 'year';
   value: number;
-  width?: number | string;
   minValue?: number;
   maxValue?: number;
-}
+} & Partial<DefaultProps>;
 
-export interface DateSelectState {
+export type DateSelectState = {
   botCapped: boolean;
   current: Nullable<number>;
   height: number;
@@ -42,12 +40,12 @@ export interface DateSelectState {
   top: number;
   topCapped: boolean;
   nodeTop: number;
-}
+};
 
-interface DefaultProps {
+type DefaultProps = {
   type: 'month' | 'year';
   width: number | string;
-}
+};
 
 type DateSelectComponentProps = DateSelectProps & DefaultProps;
 
