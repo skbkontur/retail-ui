@@ -37,7 +37,8 @@ function ModalFooter(props: ModalFooterProps) {
       modal.setHasFooter?.(false);
       modal.setHasPanel?.(false);
     };
-  }, [panel, modal.setHasFooter?.(), modal.setHasPanel?.(panel)]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [panel]);
 
   const renderContent = (fixed = false) => (
     <div

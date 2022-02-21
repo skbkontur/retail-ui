@@ -28,7 +28,8 @@ function ModalHeader(props: ModalHeaderProps) {
     modal.setHasHeader?.();
 
     return () => modal.setHasHeader?.(false);
-  }, [modal.setHasHeader?.()]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderContent = (fixed = false) => {
     return (
