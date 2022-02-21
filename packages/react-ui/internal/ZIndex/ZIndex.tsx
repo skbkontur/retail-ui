@@ -22,6 +22,9 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   applyZIndex?: boolean;
   className?: string;
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
+
+  // Не добавлять обёртку, атрибуты и z-index
+  onlyContext: boolean;
 }
 
 @rootNode
@@ -35,6 +38,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
     applyZIndex: true,
     coverChildren: false,
     createStackingContext: false,
+    onlyContext: false,
   };
 
   public static propTypes = {
@@ -57,6 +61,13 @@ export class ZIndex extends React.Component<ZIndexProps> {
     this.zIndex = incrementZIndex(props.priority, props.delta);
   }
 
+  public componentDidUpdate(prevProps: Readonly<ZIndexProps>) {
+    if (prevProps.priority !== this.props.priority || prevProps.delta !== this.props.delta) {
+      this.zIndex = incrementZIndex(this.props.priority, this.props.delta);
+      this.forceUpdate();
+    }
+  }
+
   public componentWillUnmount() {
     removeZIndex(this.zIndex);
   }
@@ -71,6 +82,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
       coverChildren,
       createStackingContext,
       wrapperRef,
+      onlyContext,
       ...props
     } = this.props;
 
@@ -96,13 +108,15 @@ export class ZIndex extends React.Component<ZIndexProps> {
             }
           }
 
-          return (
-            <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
-                {children}
-              </div>
-            </ZIndexContext.Provider>
+          const child = onlyContext ? (
+            children
+          ) : (
+            <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+              {children}
+            </div>
           );
+
+          return <ZIndexContext.Provider value={zIndexContexValue}>{child}</ZIndexContext.Provider>;
         }}
       </ZIndexContext.Consumer>
     );
