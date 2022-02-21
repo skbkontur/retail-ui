@@ -194,7 +194,6 @@ object ReactUiTestingTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-testing@*"
     useTagsAsBranches = true
-    checkoutPolicy = "USE_MIRRORS"
 })
 
 object ReactUiValidationsTags : GitVcsRoot({
@@ -202,7 +201,6 @@ object ReactUiValidationsTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-validations@*"
     useTagsAsBranches = true
-    checkoutPolicy = "USE_MIRRORS"
 })
 
 object RetailUiTags : GitVcsRoot({
@@ -210,7 +208,6 @@ object RetailUiTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/@skbkontur/react-ui@*"
     useTagsAsBranches = true
-    checkoutPolicy = "USE_MIRRORS"
 })
 
 
