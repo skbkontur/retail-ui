@@ -4,7 +4,7 @@ import EventEmitter from 'eventemitter3';
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
 
-interface StackInfo {
+export interface StackInfo {
   emitter: EventEmitter;
   mounted: React.Component[];
 }
@@ -65,7 +65,7 @@ export class ModalStack {
     return false;
   }
 
-  private static getStackInfo(): StackInfo {
+  public static getStackInfo(): StackInfo {
     const globalWithStack = global as GlobalWithStackInfo;
     return (
       globalWithStack.__ReactUIStackInfo ||
