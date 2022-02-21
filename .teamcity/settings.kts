@@ -174,9 +174,7 @@ object ReactUI_GitHubFeatures : Template({
             id = "PULL_REQUESTS"
             provider = github {
                 serverUrl = ""
-                authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
-                }
+                authType = vcsRoot()
                 filterSourceBranch = ""
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
