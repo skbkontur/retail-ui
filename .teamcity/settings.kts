@@ -118,7 +118,9 @@ object RunAll : BuildType({
     features {
         pullRequests {
             provider = github {
-                authType = vcsRoot()
+                authType = token {
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
+                }
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
@@ -172,7 +174,9 @@ object ReactUI_GitHubFeatures : Template({
             id = "PULL_REQUESTS"
             provider = github {
                 serverUrl = ""
-                authType = vcsRoot()
+                authType = token {
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
+                }
                 filterSourceBranch = ""
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
