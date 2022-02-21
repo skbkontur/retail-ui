@@ -118,9 +118,7 @@ object RunAll : BuildType({
     features {
         pullRequests {
             provider = github {
-                authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
-                }
+                authType = vcsRoot()
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
