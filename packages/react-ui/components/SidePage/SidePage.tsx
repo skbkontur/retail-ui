@@ -81,6 +81,7 @@ export interface SidePageState {
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
+  shards: Array<React.RefObject<any> | HTMLElement>;
 }
 
 const TRANSITION_TIMEOUT = 200;
@@ -105,12 +106,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     hasHeader: false,
     hasFooter: false,
     hasPanel: false,
+    shards: [],
   };
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
   private layoutRef: HTMLElement | null = null;
   private footer: SidePageFooter | null = null;
   private rootRef = React.createRef<HTMLDivElement>();
+  private shards = new Set<React.RefObject<any> | HTMLElement>();
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -182,6 +185,35 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
+  /**
+   * Добавить элемент, который будет учитываться при блокировке фокуса
+   *
+   * @public
+   * @param shard RefObject | HTMLElement
+   *
+   * @link https://github.com/theKashey/react-focus-lock#api shards
+   */
+  public addFocusLockShard = (shard: React.RefObject<any> | HTMLElement) => {
+    if (!this.shards.has(shard)) {
+      this.shards.add(shard);
+      this.setState({ shards: [...Array.from(this.shards.values())] });
+    }
+  };
+
+  /**
+   * Удалить элемент, чтобы он не учитывался при блокировке фокуса
+   *
+   * @public
+   * @param shard RefObject | HTMLElement
+   *
+   * @link https://github.com/theKashey/react-focus-lock#api shards
+   */
+  public deleteFocusLockShard = (shard: React.RefObject<any> | HTMLElement) => {
+    if (this.shards.delete(shard)) {
+      this.setState({ shards: [...Array.from(this.shards.values())] });
+    }
+  };
+
   private renderContainer(): JSX.Element {
     const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
 
@@ -201,7 +233,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         }}
         wrapperRef={this.rootRef}
       >
-        <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
+        <FocusLock
+          shards={this.state.shards}
+          disabled={disableFocusLock || !blockBackground}
+          autoFocus={false}
+          className={styles.focusLock()}
+        >
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
               data-tid="SidePage__container"
