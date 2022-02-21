@@ -29,28 +29,14 @@ function renderItem(item: any) {
 }
 
 type AutocompleteInterface = {
-  /** Функция отрисовки элемента меню */
-  renderItem: (item: string) => React.ReactNode;
   /** Промис, резолвящий элементы меню */
   source?: string[] | ((patter: string) => Promise<string[]>);
-  /** Отключает использование портала */
-  disablePortal: boolean;
-  /** Отрисовка тени у выпадающего меню */
-  hasShadow: boolean;
-  /** Выравнивание выпадающего меню */
-  menuAlign: 'left' | 'right';
-  /** Максимальная высота меню */
-  menuMaxHeight: number;
   /** Выравнивание выпадающего меню */
   menuWidth?: number | string;
-  /** Отключить скролл окна, когда меню открыто */
-  preventWindowScroll: boolean;
   /** Вызывается при изменении `value` */
   onValueChange: (value: string) => void;
   /** onBlur */
   onBlur?: () => void;
-  /** Размер инпута */
-  size: InputProps['size'];
   /** value */
   value: string;
 };
@@ -62,12 +48,19 @@ export type AutocompleteState = {
 };
 
 type DefaultProps = {
+  /** Функция отрисовки элемента меню */
   renderItem: (item: string) => React.ReactNode;
+  /** Размер инпута */
   size: InputProps['size'];
+  /** Отключает использование портала */
   disablePortal: boolean;
+  /** Отрисовка тени у выпадающего меню */
   hasShadow: boolean;
+  /** Максимальная высота меню */
   menuMaxHeight: number;
+  /** Выравнивание выпадающего меню */
   menuAlign: 'left' | 'right';
+  /** Отключить скролл окна, когда меню открыто */
   preventWindowScroll: boolean;
 };
 

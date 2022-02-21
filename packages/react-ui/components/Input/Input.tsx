@@ -56,8 +56,6 @@ type InputInterface = {
   formatChars?: Record<string, string>;
   /** Показывать символы маски */
   alwaysShowMask?: boolean;
-  /** Размер */
-  size?: InputSize;
   /** onValueChange */
   onValueChange?: (value: string) => void;
   /** Вызывается на label */
@@ -96,9 +94,9 @@ type InputInterface = {
   onUnexpectedInput?: (value: string) => void;
 };
 
-export type InputProps = Override<React.InputHTMLAttributes<HTMLInputElement>, InputInterface> &
-  CommonProps &
-  Partial<DefaultProps>;
+type PropsMergedWithHTMLProps = Override<React.InputHTMLAttributes<HTMLInputElement>, InputInterface>;
+
+export type InputProps = Override<PropsMergedWithHTMLProps, Partial<DefaultProps>> & CommonProps;
 
 export type InputState = {
   blinking: boolean;
@@ -107,10 +105,11 @@ export type InputState = {
 };
 
 type DefaultProps = {
+  /** Размер */
   size: InputSize;
 };
 
-type InputComponentProps = InputProps & DefaultProps;
+type InputComponentProps = Override<InputProps, DefaultProps>;
 
 /**
  * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.

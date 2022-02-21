@@ -19,17 +19,9 @@ type LinkInterface = {
    */
   disabled?: boolean;
   /**
-   * HTML-атрибут `href`.
-   */
-  href?: string;
-  /**
    * Добавляет ссылке иконку.
    */
   icon?: React.ReactElement<any>;
-  /**
-   * Тема ссылки.
-   */
-  use?: 'default' | 'success' | 'danger' | 'grayed';
   /**
    * @ignore
    */
@@ -61,7 +53,13 @@ export type LinkState = {
 };
 
 type DefaultProps = {
+  /**
+   * HTML-атрибут `href`.
+   */
   href: string;
+  /**
+   * Тема ссылки.
+   */
   use: 'default' | 'success' | 'danger' | 'grayed';
 };
 

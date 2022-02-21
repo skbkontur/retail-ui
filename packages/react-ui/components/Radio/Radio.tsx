@@ -22,10 +22,6 @@ type RadioInterface<T> = {
    */
   warning?: boolean;
   /**
-   * Состояние фокуса.
-   */
-  focused?: boolean;
-  /**
    * Функция, вызываемая при изменении `value`.
    */
   onValueChange?: (value: T) => void;
@@ -56,6 +52,9 @@ export type RadioState = {
 };
 
 type DefaultProps = {
+  /**
+   * Состояние фокуса.
+   */
   focused: boolean;
 };
 

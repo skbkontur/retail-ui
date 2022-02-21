@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -9,20 +8,14 @@ import { styles } from './Center.styles';
 
 export type HorizontalAlign = 'left' | 'center' | 'right';
 
-type CenterInterface = {
+export type CenterProps = React.HTMLAttributes<HTMLDivElement> & CommonProps & Partial<DefaultProps>;
+
+type DefaultProps = {
   /**
    * Определяет, как контент будет выровнен по горизонтали.
    *
    * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
    */
-  align?: HorizontalAlign;
-};
-
-export type CenterProps = Override<React.HTMLAttributes<HTMLDivElement>, CenterInterface> &
-  CommonProps &
-  Partial<DefaultProps>;
-
-type DefaultProps = {
   align: HorizontalAlign;
 };
 

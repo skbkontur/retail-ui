@@ -41,15 +41,6 @@ type TextareaInterface = {
    * в зависимости от содержимого
    */
   autoResize?: boolean;
-  /**
-   * Число строк
-   */
-  rows: number;
-  /**
-   * Максимальное число строк при
-   * автоматическом ресайзе
-   */
-  maxRows: string | number;
 
   /**
    * Стандартный ресайз
@@ -89,16 +80,6 @@ type TextareaInterface = {
    * ```
    * */
   counterHelp?: ReactNode | (() => ReactNode);
-
-  /** Добавлять дополнительную свободную строку при авто-ресайзе.
-   * @see https://guides.kontur.ru/components/textarea/#04
-   * */
-  extraRow: boolean;
-
-  /** Отключать анимацию при авто-ресайзе.
-   * Автоматически отключается когда в `extraRow` передан `false`.
-   */
-  disableAnimations: boolean;
 };
 
 export type TextareaProps = Override<React.TextareaHTMLAttributes<HTMLTextAreaElement>, TextareaInterface> &
@@ -111,9 +92,22 @@ export type TextareaState = {
 };
 
 type DefaultProps = {
+  /**
+   * Число строк
+   */
   rows: number;
+  /**
+   * Максимальное число строк при
+   * автоматическом ресайзе
+   */
   maxRows: string | number;
+  /** Добавлять дополнительную свободную строку при авто-ресайзе.
+   * @see https://guides.kontur.ru/components/textarea/#04
+   * */
   extraRow: boolean;
+  /** Отключать анимацию при авто-ресайзе.
+   * Автоматически отключается когда в `extraRow` передан `false`.
+   */
   disableAnimations: boolean;
 };
 

@@ -16,12 +16,6 @@ import { CurrencyInputHelper } from './CurrencyInputHelper';
 import { CURRENCY_INPUT_ACTIONS, extractAction } from './CurrencyInputKeyboardActions';
 
 type CurrencyInputInterface = {
-  /** Значение */
-  value: Nullable<number>;
-  /** Убрать лишние нули после запятой */
-  hideTrailingZeros: boolean;
-  /** Кол-во цифр после зяпятой */
-  fractionDigits?: Nullable<number>;
   /** Отрицательные значения */
   signed?: boolean;
   /**
@@ -35,7 +29,9 @@ type CurrencyInputInterface = {
   onSubmit?: () => void;
 };
 
-export type CurrencyInputProps = Override<InputProps, CurrencyInputInterface> & CommonProps & Partial<DefaultProps>;
+type PropsMergedWithInputProps = Override<InputProps, CurrencyInputInterface>;
+
+export type CurrencyInputProps = Override<PropsMergedWithInputProps, Partial<DefaultProps>> & CommonProps;
 
 export type CurrencyInputState = {
   formatted: string;
@@ -45,12 +41,15 @@ export type CurrencyInputState = {
 
 type DefaultProps = {
   align: InputProps['align'];
+  /** Кол-во цифр после зяпятой */
   fractionDigits: Nullable<number>;
+  /** Убрать лишние нули после запятой */
   hideTrailingZeros: boolean;
+  /** Значение */
   value: Nullable<number>;
 };
 
-type CurrencyInputComponentProps = CurrencyInputProps & DefaultProps;
+type CurrencyInputComponentProps = Override<CurrencyInputProps, DefaultProps>;
 
 /**
  * Поле для денежных сумм (и других числовых значений).

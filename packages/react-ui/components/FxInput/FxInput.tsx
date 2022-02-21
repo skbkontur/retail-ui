@@ -13,29 +13,29 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 type FxInputInterface = {
   /** Авто-режим */
   auto?: boolean;
-  /** Тип инпута */
-  type?: 'currency' | InputProps['type'];
   /** onRestore */
   onRestore?: () => void;
   /** onValueChange */
   onValueChange: CurrencyInputProps['onValueChange'] | InputProps['onValueChange'];
-  /** Значение */
-  value?: React.ReactText;
   /** ref Input'а */
   refInput?: (element: CurrencyInput | Input | null) => void;
   /** Убрать лишние нули после запятой */
   hideTrailingZeros?: boolean;
 };
 
-export type FxInputProps = Override<CurrencyInputProps, FxInputInterface> & CommonProps & Partial<DefaultProps>;
+type PropsMergedWithCurrencyInputProps = Override<CurrencyInputProps, FxInputInterface>;
+
+export type FxInputProps = Override<PropsMergedWithCurrencyInputProps, Partial<DefaultProps>> & CommonProps;
 
 type DefaultProps = {
   width: number | string;
+  /** Тип инпута */
   type: 'currency' | InputProps['type'];
+  /** Значение */
   value: React.ReactText;
 };
 
-type FxInputComponentProps = FxInputProps & DefaultProps;
+type FxInputComponentProps = Override<FxInputProps, DefaultProps>;
 
 /** Принимает все свойства `Input`'a */
 @rootNode
@@ -65,7 +65,7 @@ export class FxInput extends React.Component<FxInputComponentProps> {
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
+  public renderMain = (props: CommonWrapperRestProps<FxInputComponentProps>) => {
     const { type, onRestore, auto, refInput, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
