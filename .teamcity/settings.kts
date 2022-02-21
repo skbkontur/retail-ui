@@ -42,7 +42,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2020.1"
+version = "2021.2"
 
 project {
 
@@ -118,9 +118,7 @@ object RunAll : BuildType({
     features {
         pullRequests {
             provider = github {
-                authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
-                }
+                authType = vcsRoot()
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
@@ -196,6 +194,7 @@ object ReactUiTestingTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-testing@*"
     useTagsAsBranches = true
+    checkoutPolicy = "USE_MIRRORS"
 })
 
 object ReactUiValidationsTags : GitVcsRoot({
@@ -203,6 +202,7 @@ object ReactUiValidationsTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/react-ui-validations@*"
     useTagsAsBranches = true
+    checkoutPolicy = "USE_MIRRORS"
 })
 
 object RetailUiTags : GitVcsRoot({
@@ -210,6 +210,7 @@ object RetailUiTags : GitVcsRoot({
     url = "https://github.com/skbkontur/retail-ui.git"
     branchSpec = "+:refs/tags/@skbkontur/react-ui@*"
     useTagsAsBranches = true
+    checkoutPolicy = "USE_MIRRORS"
 })
 
 
