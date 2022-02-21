@@ -15,14 +15,16 @@ import { styles } from './Playground.styles';
 
 const emitter = new EventEmitter();
 
-export type VariableValueProps = {
+type VariableValueInterface = {
   onChange: (variable: keyof Theme, value: string) => void;
   value: string;
   isError: boolean;
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
-} & Partial<DefaultProps>;
+};
+
+export type VariableValueProps = VariableValueInterface & Partial<DefaultProps>;
 
 export type VariableValueState = {
   value: string;

@@ -13,7 +13,7 @@ import { styles, globalClasses } from './Toggle.styles';
 
 let colorWarningShown = false;
 
-export type ToggleProps = {
+type ToggleInterface = {
   children?: React.ReactNode;
   /**
    * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
@@ -62,8 +62,9 @@ export type ToggleProps = {
    * HTML-атрибут `id` для передачи во внутренний `<input />`.
    */
   id?: string;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type ToggleProps = ToggleInterface & CommonProps & Partial<DefaultProps>;
 
 export type ToggleState = {
   checked?: boolean;

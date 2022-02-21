@@ -24,7 +24,7 @@ import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
 
-export type ModalProps = {
+type ModalInterface = {
   /**
    * Отключает событие onClose, также дизейблит кнопку закрытия модалки
    */
@@ -51,8 +51,9 @@ export type ModalProps = {
    * Escape или на крестик).
    */
   onClose?: () => void;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type ModalProps = ModalInterface & CommonProps & Partial<DefaultProps>;
 
 export type ModalState = {
   stackPosition: number;

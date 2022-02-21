@@ -5,22 +5,30 @@ import { Nullable } from '../typings/Types';
 import { isTestEnv } from './utils/utils';
 import { ValidationContextWrapper } from './ValidationContextWrapper';
 
-export interface ScrollOffset {
+export type ScrollOffset = {
   top?: number;
   bottom?: number;
-}
+};
 
-export interface ValidationContainerProps {
+type ValidationContainerInterface = {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
   scrollOffset?: number | ScrollOffset;
   disableSmoothScroll: boolean;
-}
+};
 
-export class ValidationContainer extends React.Component<ValidationContainerProps> {
+export type ValidationContainerProps = ValidationContainerInterface & Partial<DefaultProps>;
+
+type DefaultProps = {
+  disableSmoothScroll: boolean;
+};
+
+type ValidationContainerComponentProps = ValidationContainerProps & DefaultProps;
+
+export class ValidationContainer extends React.Component<ValidationContainerComponentProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableSmoothScroll: isTestEnv,
   };
 

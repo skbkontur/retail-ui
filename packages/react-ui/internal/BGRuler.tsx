@@ -1,9 +1,11 @@
 import React from 'react';
 
-type BGRulerProps = {
+type BGRulerInterface = {
   width?: string | number;
   bottom?: string | number;
-} & Partial<DefaultProps>;
+};
+
+type BGRulerProps = BGRulerInterface & Partial<DefaultProps>;
 
 type DefaultProps = {
   height: string | number;

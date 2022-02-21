@@ -18,11 +18,12 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Kebab.styles';
 
-export type KebabProps = {
+type KebabInterface = {
   disabled?: boolean;
   menuMaxHeight?: number | string;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type KebabProps = KebabInterface & CommonProps & Partial<DefaultProps>;
 
 export type KebabState = {
   anchor: Nullable<HTMLElement>;

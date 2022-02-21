@@ -15,7 +15,7 @@ import { styles } from './Hint.styles';
 
 const HINT_BORDER_COLOR = 'transparent';
 
-export type HintProps = {
+type HintInterface = {
   children?: React.ReactNode;
   /**
    * HTML-событие `mouseenter`.
@@ -29,8 +29,9 @@ export type HintProps = {
    * Текст подсказки.
    */
   text: React.ReactNode;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type HintProps = HintInterface & CommonProps & Partial<DefaultProps>;
 
 export type HintState = {
   opened: boolean;

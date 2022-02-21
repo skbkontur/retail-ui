@@ -18,7 +18,7 @@ import { TSetRootNode, rootNode } from '../../lib/rootNode';
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
 
-export type InputLikeTextProps = {
+type InputLikeTextInterface = {
   children?: React.ReactNode;
   innerRef?: (el: HTMLElement | null) => void;
   onFocus?: React.FocusEventHandler<HTMLElement>;
@@ -26,9 +26,9 @@ export type InputLikeTextProps = {
   onMouseDragStart?: MouseDragEventHandler;
   onMouseDragEnd?: MouseDragEventHandler;
   takeContentWidth?: boolean;
-} & CommonProps &
-  InputProps &
-  Partial<DefaultProps>;
+};
+
+export type InputLikeTextProps = InputLikeTextInterface & CommonProps & InputProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   size: InputProps['size'];

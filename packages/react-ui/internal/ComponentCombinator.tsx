@@ -4,10 +4,12 @@ import { DefaultizeProps } from '../lib/utils';
 
 import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
-export type ComponentCombinatorProps<C, P, S> = {
+type ComponentCombinatorInterface<C, P, S> = {
   combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
-} & DefaultProps<C, P, S>;
+};
+
+export type ComponentCombinatorProps<C, P, S> = ComponentCombinatorInterface<C, P, S> & DefaultProps<C, P, S>;
 
 type DefaultProps<C = any, P = any, S = any> = {
   presetProps: DefaultizeProps<C, P>;

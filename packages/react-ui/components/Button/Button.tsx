@@ -17,9 +17,8 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
 
-export type ButtonProps = {
-  /** @ignore */
-  _noPadding?: boolean;
+type ButtonInterface = {
+  /** @ignore */ _noPadding?: boolean;
 
   /** @ignore */
   _noRightPadding?: boolean;
@@ -139,8 +138,9 @@ export type ButtonProps = {
    * CSS-свойство `width`.
    */
   width?: number | string;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type ButtonProps = ButtonInterface & CommonProps & Partial<DefaultProps>;
 
 export type ButtonState = {
   focusedByTab: boolean;

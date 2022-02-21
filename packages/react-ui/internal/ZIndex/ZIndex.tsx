@@ -10,11 +10,12 @@ const ZIndexContext = React.createContext({ parentLayerZIndex: 0, maxZIndex: Inf
 
 ZIndexContext.displayName = 'ZIndexContext';
 
-export type ZIndexProps = {
+type ZIndexInterface = {
   className?: string;
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
-} & React.HTMLAttributes<HTMLDivElement> &
-  Partial<DefaultProps>;
+};
+
+export type ZIndexProps = ZIndexInterface & React.HTMLAttributes<HTMLDivElement> & Partial<DefaultProps>;
 
 type DefaultProps = {
   /**

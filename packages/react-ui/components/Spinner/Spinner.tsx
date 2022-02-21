@@ -20,7 +20,7 @@ const types: Record<SpinnerType, SpinnerType> = {
 
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
-export type SpinnerProps = {
+type SpinnerInterface = {
   caption?: React.ReactNode;
   dimmed?: boolean;
   /**
@@ -31,8 +31,9 @@ export type SpinnerProps = {
    * Цвет спиннера
    */
   color?: React.CSSProperties['color'];
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type SpinnerProps = SpinnerInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   /**

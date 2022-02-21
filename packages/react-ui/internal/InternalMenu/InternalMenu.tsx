@@ -13,13 +13,15 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
 
-type MenuProps = {
+type MenuInterface = {
   children?: React.ReactNode;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   onKeyDown?: (event: React.KeyboardEvent<HTMLElement>) => void;
   header?: React.ReactNode;
   footer?: React.ReactNode;
-} & Partial<DefaultProps>;
+};
+
+type MenuProps = MenuInterface & Partial<DefaultProps>;
 
 type MenuState = {
   highlightedIndex: number;

@@ -17,7 +17,7 @@ import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
 
-type ComboBoxViewProps<T> = {
+type ComboBoxViewInterface<T> = {
   align?: 'left' | 'center' | 'right';
   autoFocus?: boolean;
   borderless?: boolean;
@@ -61,8 +61,9 @@ type ComboBoxViewProps<T> = {
   refInput?: (input: Nullable<Input>) => void;
   refMenu?: (menu: Nullable<Menu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
-} & CommonProps &
-  Partial<DefaultProps<T>>;
+};
+
+type ComboBoxViewProps<T> = ComboBoxViewInterface<T> & CommonProps & Partial<DefaultProps<T>>;
 
 type DefaultProps<T = any> = {
   renderItem: (item: T, state: MenuItemState) => React.ReactNode;

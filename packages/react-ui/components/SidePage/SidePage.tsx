@@ -23,7 +23,7 @@ import { SidePageFooter } from './SidePageFooter';
 import { SidePageHeader } from './SidePageHeader';
 import { styles } from './SidePage.styles';
 
-export type SidePageProps = {
+type SidePageInterface = {
   /**
    * Добавить блокирующий фон, когда сайдпейдж открыт
    */
@@ -55,8 +55,9 @@ export type SidePageProps = {
    *
    */
   fromLeft?: boolean;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type SidePageProps = SidePageInterface & CommonProps & Partial<DefaultProps>;
 
 export type SidePageState = {
   stackPosition?: number;

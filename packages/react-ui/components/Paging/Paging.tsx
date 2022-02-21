@@ -30,7 +30,7 @@ type ItemComponentProps = {
   tabIndex: number;
 };
 
-export type PagingProps = {
+type PagingInterface = {
   activePage: number;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
@@ -42,8 +42,9 @@ export type PagingProps = {
    */
   withoutNavigationHint?: boolean;
   caption?: string;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type PagingProps = PagingInterface & CommonProps & Partial<DefaultProps>;
 
 export type PagingState = {
   focusedByTab: boolean;

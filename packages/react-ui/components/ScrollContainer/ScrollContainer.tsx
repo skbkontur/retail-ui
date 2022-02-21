@@ -22,15 +22,16 @@ export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
 export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
-export type ScrollContainerProps = {
+type ScrollContainerInterface = {
   maxHeight?: React.CSSProperties['maxHeight'];
   maxWidth?: React.CSSProperties['maxWidth'];
   onScrollStateChangeX?: (scrollState: ScrollContainerScrollStateX) => void;
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type ScrollContainerProps = ScrollContainerInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   /**

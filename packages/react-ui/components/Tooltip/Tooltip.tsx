@@ -35,7 +35,7 @@ export type TooltipTrigger =
   /** Управление через публичные функции show и hide */
   | 'manual';
 
-export type TooltipProps = {
+type TooltipInterface = {
   /**
    * Относительно какого элемента позиционировать тултип
    */
@@ -89,8 +89,9 @@ export type TooltipProps = {
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
   useWrapper: boolean;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type TooltipProps = TooltipInterface & CommonProps & Partial<DefaultProps>;
 
 export type TooltipState = {
   opened: boolean;

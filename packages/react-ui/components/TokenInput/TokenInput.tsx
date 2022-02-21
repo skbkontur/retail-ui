@@ -41,7 +41,7 @@ export enum TokenInputType {
 
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
-export type TokenInputProps<T> = {
+type TokenInputInterface<T> = {
   autoFocus?: boolean;
   type?: TokenInputType;
   /**
@@ -93,8 +93,9 @@ export type TokenInputProps<T> = {
    */
   onUnexpectedInput?: (value: string) => void | null | undefined | T;
   inputMode?: React.HTMLAttributes<HTMLTextAreaElement>['inputMode'];
-} & CommonProps &
-  Partial<DefaultProps<T>>;
+};
+
+export type TokenInputProps<T> = TokenInputInterface<T> & CommonProps & Partial<DefaultProps<T>>;
 
 export type TokenInputState<T> = {
   autocompleteItems?: T[];

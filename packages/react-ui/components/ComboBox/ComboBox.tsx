@@ -7,7 +7,7 @@ import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export type ComboBoxProps<T> = {
+type ComboBoxInterface<T> = {
   align?: 'left' | 'center' | 'right';
 
   autoFocus?: boolean;
@@ -122,8 +122,9 @@ export type ComboBoxProps<T> = {
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
 
   inputMode?: React.HTMLAttributes<HTMLInputElement>['inputMode'];
-} & CommonProps &
-  Partial<DefaultProps<T>>;
+};
+
+export type ComboBoxProps<T> = ComboBoxInterface<T> & CommonProps & Partial<DefaultProps<T>>;
 
 export type ComboBoxItem = {
   value: string;

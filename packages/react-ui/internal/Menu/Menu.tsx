@@ -13,10 +13,12 @@ import { isIE11 } from '../../lib/client';
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export type MenuProps = {
+type MenuInterface = {
   children: React.ReactNode;
   onItemClick?: () => void;
-} & Partial<DefaultProps>;
+};
+
+export type MenuProps = MenuInterface & Partial<DefaultProps>;
 
 export type MenuState = {
   highlightedIndex: number;

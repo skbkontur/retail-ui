@@ -7,15 +7,16 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export type GappedProps = {
+type GappedInterface = {
   /**
    * Расстояние между элементами в пикселях
    * @default 8
    */
   gap?: number;
   children: React.ReactNode;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type GappedProps = GappedInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   /**

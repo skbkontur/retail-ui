@@ -63,7 +63,7 @@ export type PopupHandlerProps = {
   onClose?: () => void;
 };
 
-export type PopupProps = {
+type PopupInterface = {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
@@ -82,9 +82,9 @@ export type PopupProps = {
    * @see https://github.com/skbkontur/retail-ui/pull/1195
    */
   tryPreserveFirstRenderedPosition?: boolean;
-} & CommonProps &
-  PopupHandlerProps &
-  Partial<DefaultProps>;
+};
+
+export type PopupProps = PopupInterface & CommonProps & PopupHandlerProps & Partial<DefaultProps>;
 
 type PopupLocation = {
   coordinates: {

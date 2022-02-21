@@ -23,13 +23,15 @@ const monthsCount = 12;
 const defaultMinYear = 1900;
 const defaultMaxYear = 2100;
 
-export type DateSelectProps = {
+type DataSelectInterface = {
   disabled?: boolean | null;
   onValueChange: (value: number) => void;
   value: number;
   minValue?: number;
   maxValue?: number;
-} & Partial<DefaultProps>;
+};
+
+export type DateSelectProps = DataSelectInterface & Partial<DefaultProps>;
 
 export type DateSelectState = {
   botCapped: boolean;

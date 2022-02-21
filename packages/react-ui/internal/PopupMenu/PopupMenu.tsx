@@ -24,7 +24,7 @@ export type PopupMenuCaptionProps = {
   toggleMenu: () => void;
 };
 
-export type PopupMenuProps = {
+type PopupMenuInterface = {
   children?: React.ReactNode;
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -47,8 +47,9 @@ export type PopupMenuProps = {
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
   popupMargin?: number;
   popupPinOffset?: number;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type PopupMenuProps = PopupMenuInterface & CommonProps & Partial<DefaultProps>;
 
 type PopupMenuState = {
   menuVisible: boolean;

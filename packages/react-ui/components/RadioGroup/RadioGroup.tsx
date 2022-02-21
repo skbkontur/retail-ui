@@ -16,7 +16,7 @@ import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
-export type RadioGroupProps<T = string | number> = {
+type RadioGroupInterface<T> = {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
@@ -68,8 +68,9 @@ export type RadioGroupProps<T = string | number> = {
   onMouseLeave?: () => any;
   onMouseOver?: () => any;
   onMouseEnter?: () => any;
-} & CommonProps &
-  Partial<DefaultProps<T>>;
+};
+
+export type RadioGroupProps<T = string | number> = RadioGroupInterface<T> & CommonProps & Partial<DefaultProps<T>>;
 
 export type RadioGroupState<T> = {
   activeItem?: T;

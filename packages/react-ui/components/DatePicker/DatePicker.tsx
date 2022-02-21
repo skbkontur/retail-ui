@@ -30,7 +30,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export type DatePickerProps<T> = {
+type DatePickerInterface<T> = {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -64,8 +64,9 @@ export type DatePickerProps<T> = {
    * - На iOS нативный календарь не умеет работать с minDate и maxDate
    */
   useMobileNativeDatePicker?: boolean;
-} & CommonProps &
-  Partial<DefaultProps<T>>;
+};
+
+export type DatePickerProps<T> = DatePickerInterface<T> & CommonProps & Partial<DefaultProps<T>>;
 
 export type DatePickerState = {
   opened: boolean;

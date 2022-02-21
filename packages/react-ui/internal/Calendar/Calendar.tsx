@@ -17,13 +17,15 @@ import { Month } from './Month';
 import { styles } from './Calendar.styles';
 import { CalendarDateShape, create, isGreater, isLess } from './CalendarDateShape';
 
-export type CalendarProps = {
+type CalendarInterface = {
   initialMonth?: number;
   initialYear?: number;
   onSelect?: (date: CalendarDateShape) => void;
   value?: Nullable<CalendarDateShape>;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
-} & Partial<DefaultProps>;
+};
+
+export type CalendarProps = CalendarInterface & Partial<DefaultProps>;
 
 export type CalendarState = {
   scrollPosition: number;

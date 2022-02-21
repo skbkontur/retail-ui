@@ -16,11 +16,13 @@ export type DropdownContainerPosition = {
   right: Nullable<number>;
 };
 
-export type DropdownContainerProps = {
+type DropdownContainerInterface = {
   getParent: () => Nullable<HTMLElement>;
   children?: React.ReactNode;
   hasFixedWidth?: boolean;
-} & Partial<DefaultProps>;
+};
+
+export type DropdownContainerProps = DropdownContainerInterface & Partial<DefaultProps>;
 
 export type DropdownContainerState = {
   position: Nullable<DropdownContainerPosition>;

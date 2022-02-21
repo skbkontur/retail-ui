@@ -17,7 +17,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Loader.styles';
 
-export type LoaderProps = {
+type LoaderInterface = {
   children?: React.ReactNode;
   caption?: SpinnerProps['caption'];
   /**
@@ -25,8 +25,9 @@ export type LoaderProps = {
    */
   component?: React.ReactNode;
   className?: string;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type LoaderProps = LoaderInterface & CommonProps & Partial<DefaultProps>;
 
 export type LoaderState = {
   isStickySpinner: boolean;

@@ -9,7 +9,7 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export type DropdownMenuProps = {
+type DropdownMenuInterface = {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -39,8 +39,9 @@ export type DropdownMenuProps = {
   footer?: React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type DropdownMenuProps = DropdownMenuInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   /**

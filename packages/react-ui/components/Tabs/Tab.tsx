@@ -24,7 +24,7 @@ export type TabIndicators = {
   disabled: boolean;
 };
 
-export type TabProps<T extends string = string> = {
+type TabInterface<T> = {
   /**
    * Tab content
    */
@@ -74,8 +74,9 @@ export type TabProps<T extends string = string> = {
    * Style property
    */
   style?: React.CSSProperties;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type TabProps<T extends string = string> = TabInterface<T> & CommonProps & Partial<DefaultProps>;
 
 export type TabState = {
   focusedByKeyboard: boolean;

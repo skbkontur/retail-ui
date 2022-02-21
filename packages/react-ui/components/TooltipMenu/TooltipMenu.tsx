@@ -12,7 +12,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
-export type TooltipMenuProps = {
+type TooltipMenuInterface = {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -44,8 +44,9 @@ export type TooltipMenuProps = {
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    */
   positions?: PopupPositionsType[];
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type TooltipMenuProps = TooltipMenuInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   /**

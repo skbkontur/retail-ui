@@ -26,7 +26,7 @@ export type DateInputState = {
   dragged: boolean;
 };
 
-export type DateInputProps = {
+type DateInputInterface = {
   autoFocus?: boolean;
   /**
    * Cостояние валидации при ошибке.
@@ -48,8 +48,9 @@ export type DateInputProps = {
    */
   onValueChange?: (value: string) => void;
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type DateInputProps = DateInputInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   value: string;

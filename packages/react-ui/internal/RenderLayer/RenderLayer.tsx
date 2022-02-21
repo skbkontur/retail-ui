@@ -5,13 +5,14 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
 
-export type RenderLayerProps = {
+type RenderLayerInterface = {
   children: JSX.Element;
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   getAnchorElement?: () => Nullable<HTMLElement>;
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type RenderLayerProps = RenderLayerInterface & CommonProps & Partial<DefaultProps>;
 
 type DefaultProps = {
   active: boolean;

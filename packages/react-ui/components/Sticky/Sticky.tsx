@@ -14,12 +14,13 @@ import { styles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
-export type StickyProps = {
+type StickyInterface = {
   side: 'top' | 'bottom';
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
-} & CommonProps &
-  Partial<DefaultProps>;
+};
+
+export type StickyProps = StickyInterface & CommonProps & Partial<DefaultProps>;
 
 export type StickyState = {
   fixed: boolean;

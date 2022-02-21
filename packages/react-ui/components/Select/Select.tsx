@@ -55,7 +55,7 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true,
 };
 
-export type SelectProps<TValue, TItem> = {
+type SelectInterface<TValue, TItem> = {
   /** @ignore */
   _icon?: React.ReactNode;
   /** @ignore */
@@ -120,7 +120,10 @@ export type SelectProps<TValue, TItem> = {
   size?: ButtonSize;
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
-} & CommonProps &
+};
+
+export type SelectProps<TValue, TItem> = SelectInterface<TValue, TItem> &
+  CommonProps &
   Partial<DefaultProps<TValue, TItem>>;
 
 export type SelectState<TValue> = {

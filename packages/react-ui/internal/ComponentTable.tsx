@@ -32,11 +32,13 @@ export type StatePropsCombinations<P, S> = Array<{ props?: Partial<P>; state?: P
 
 export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
 
-export type ComponentTableProps<C, P, S> = {
+type ComponentTableInterface<C, P, S> = {
   rows?: StatePropsCombinations<P, S>;
   cols?: StatePropsCombinations<P, S>;
   Component: C;
-} & Partial<DefaultProps<C, P, S>>;
+};
+
+export type ComponentTableProps<C, P, S> = ComponentTableInterface<C, P, S> & Partial<DefaultProps<C, P, S>>;
 
 type DefaultProps<C = any, P = any, S = any> = {
   presetProps: DefaultizeProps<C, P>;
