@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.11.0...@skbkontur/react-ui@3.12.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* **Select:** fix menuAlign right ([#2693](https://github.com/skbkontur/retail-ui/issues/2693)) ([6428498](https://github.com/skbkontur/retail-ui/commit/6428498b8cb895f0bcfe853959b26caa41b53189))
+* **SidePage:** Исправил ошибку `Maximum update`, когда скролишь второй SidePage ([74134d8](https://github.com/skbkontur/retail-ui/commit/74134d8bf5d8a4aaed5aa554e41bb50e44d3836d))
+* **SidePage:** Исправил положение залипшего заголовка  после закрытия второго SidePage ([76c6ff4](https://github.com/skbkontur/retail-ui/commit/76c6ff40eac3c76bb86e9118c4727b5bf6a442ae))
+
+
+### Features
+
+* **Sticky:** Сделал метод `ref.reflow()` публичным ([bdfc991](https://github.com/skbkontur/retail-ui/commit/bdfc991e20317d6da68191357a9ecd554990ef9b))
+
+
+
+
+
 # [3.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.10.0...@skbkontur/react-ui@3.11.0) (2022-02-04)
 
 
