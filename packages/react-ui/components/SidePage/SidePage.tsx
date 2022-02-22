@@ -4,7 +4,6 @@ import FocusLock from 'react-focus-lock';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
 import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
 import { RenderContainer } from '../../internal/RenderContainer';
@@ -316,7 +315,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       return;
     }
     if (isKeyEscape(e)) {
-      stopPropagation(e);
+      e.stopPropagation();
       this.requestClose();
     }
   };
