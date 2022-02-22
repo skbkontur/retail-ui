@@ -270,7 +270,7 @@ class AnchorTooltipExample extends React.Component {
     return (
       <>
         {this.state.anchor ? (
-          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="opened" />
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
         ) : null}
         <div style={containerStyle}>
           {this.state.blocks.map(({ top, left }, i) => (
