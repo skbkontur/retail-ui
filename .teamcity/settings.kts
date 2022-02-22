@@ -42,7 +42,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2020.1"
+version = "2021.2"
 
 project {
 
@@ -119,7 +119,7 @@ object RunAll : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
                 }
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
@@ -175,7 +175,7 @@ object ReactUI_GitHubFeatures : Template({
             provider = github {
                 serverUrl = ""
                 authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
                 }
                 filterSourceBranch = ""
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
