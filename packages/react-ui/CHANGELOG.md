@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.7...@skbkontur/react-ui@2.17.8) (2022-02-22)
+
+
+### Bug Fixes
+
+* **ScrollContainer:** Исправили проблемы с масштабированием в Хроме ([ae77db2](https://github.com/skbkontur/retail-ui/commit/ae77db26f78e04185dbc3b7f2eea4b4536a2b8d6))
+* **SidePage:** Исправил положение залипшего заголовка после закрытия второго SidePage ([1c2a266](https://github.com/skbkontur/retail-ui/commit/1c2a266861da92dd66e322dd2922adae3acd86a3))
+
+
+
+
+
 ## [2.17.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.6...@skbkontur/react-ui@2.17.7) (2021-11-26)
 
 
