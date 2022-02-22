@@ -282,7 +282,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // in the case when the anchor is not refable
 
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={anchorWithRef ? null : this.renderContainerRef}>
+      <RenderContainer anchor={anchorWithRef || anchor} ref={this.anchorElement ? null : this.renderContainerRef}>
         {location && this.renderContent(location)}
       </RenderContainer>
     );
