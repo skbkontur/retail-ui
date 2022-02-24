@@ -1,3 +1,5 @@
+import { getDOMRect } from '@skbkontur/react-ui/lib/dom/getDOMRect';
+
 import { Nullable, Omit } from '../typings/Types';
 
 import { ScrollOffset } from './ValidationContainer';
@@ -5,8 +7,8 @@ import { isBrowser } from './utils/utils';
 
 export async function smoothScrollIntoView(element: HTMLElement, scrollOffset: ScrollOffset): Promise<void> {
   const scrollableParent = findScrollableParent(element);
-  const parentRects = scrollableParent.getBoundingClientRect();
-  const clientRects = element.getBoundingClientRect();
+  const parentRects = getDOMRect(scrollableParent);
+  const clientRects = getDOMRect(element);
 
   const topOffset = scrollOffset.top || 0;
   const bottomOffset = scrollOffset.bottom || 0;

@@ -1,5 +1,6 @@
 import React from 'react';
 import warning from 'warning';
+import { getDOMRect } from '@skbkontur/react-ui/lib/dom/getDOMRect';
 
 import { Nullable } from '../typings/Types';
 
@@ -162,7 +163,7 @@ export class ValidationWrapperInternal extends React.Component<
   public getControlPosition(): Nullable<Point> {
     const htmlElement = this.getRootNode();
     if (htmlElement instanceof HTMLElement) {
-      const rect = htmlElement.getBoundingClientRect();
+      const rect = getDOMRect(htmlElement);
       return { x: rect.top, y: rect.left };
     }
     return null;

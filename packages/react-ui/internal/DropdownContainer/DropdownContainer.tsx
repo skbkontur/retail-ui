@@ -5,6 +5,7 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -108,7 +109,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const dom = this.dom;
 
     if (target && this.isElement(target) && dom) {
-      const targetRect = target.getBoundingClientRect();
+      const targetRect = getDOMRect(target);
       const { body, documentElement: docEl } = document;
 
       if (!docEl) {
@@ -161,33 +162,25 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
       return 0;
     }
     const child = this.dom.children.item(0);
-    if (!child) {
-      return 0;
-    }
-    return child.getBoundingClientRect().height;
+    return getDOMRect(child).height;
   };
 
   private getMinWidth = () => {
     const target = this.props.getParent();
-    if (!target || !this.isElement(target)) {
-      return 0;
-    }
-    return target.getBoundingClientRect().width;
+    return getDOMRect(target).width;
   };
 
   private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
     const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
-    if (target && this.isElement(target)) {
-      const targetHeight = target.getBoundingClientRect().height;
-      return {
-        top: top !== null ? targetHeight + offsetY : null,
-        bottom: bottom !== null ? targetHeight + offsetY : null,
-        left: left !== null ? offsetX : null,
-        right: right !== null ? offsetX : null,
-      };
-    }
+    const targetHeight = getDOMRect(target).height;
+    return {
+      top: top !== null ? targetHeight + offsetY : null,
+      bottom: bottom !== null ? targetHeight + offsetY : null,
+      left: left !== null ? offsetX : null,
+      right: right !== null ? offsetX : null,
+    };
     return {
       top: offsetY,
       bottom: null,

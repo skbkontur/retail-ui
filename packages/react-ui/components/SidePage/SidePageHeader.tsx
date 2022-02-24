@@ -10,6 +10,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -55,7 +56,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       return 0;
     }
     if (!isReadyToFix) {
-      this.lastRegularHeight = this.wrapper.getBoundingClientRect().height;
+      this.lastRegularHeight = getDOMRect(this.wrapper).height;
     }
     return this.lastRegularHeight;
   }
@@ -183,7 +184,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private updateReadyToFix = () => {
     if (this.wrapper) {
-      const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
+      const wrapperScrolledUp = getDOMRect(this.wrapper).top;
       const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
       this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { ...state, isReadyToFix } : state));
     }
