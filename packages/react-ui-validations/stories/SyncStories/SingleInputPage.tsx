@@ -6,23 +6,33 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
+import { Select } from '@skbkontur/react-ui';
 
 interface SingleInputPageProps {
   initialValue?: string;
   validationType: ValidationInfo['type'];
+  validationLevel?: ValidationInfo['level'];
 }
 
 interface SingleInputPageState {
   sending: boolean;
   value: string;
+  level: ValidationInfo['level'];
   validation: ValidationState;
+  focused: boolean;
 }
 
 export class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
   public state: SingleInputPageState = {
     sending: false,
     value: this.props.initialValue || '',
+    level: this.props.validationLevel,
     validation: 'none',
+    focused: false,
+  };
+
+  public static defaultProps: Partial<SingleInputPageProps> = {
+    validationLevel: 'error',
   };
 
   private container: ValidationContainer | null = null;
@@ -32,6 +42,7 @@ export class SingleInputPage extends React.Component<SingleInputPageProps, Singl
       return {
         message: 'incorrect value',
         type: this.props.validationType,
+        level: this.state.level,
       };
     }
     return null;
@@ -43,14 +54,28 @@ export class SingleInputPage extends React.Component<SingleInputPageProps, Singl
         <div style={{ padding: 30 }}>
           <Gapped vertical>
             <ValidationWrapper data-tid="InputValidation" validationInfo={this.validate()} renderMessage={text()}>
-              <Input data-tid={'Input'} value={this.state.value} onValueChange={(value) => this.setState({ value })} />
+              <Input
+                data-prop-focused={String(this.state.focused)}
+                data-tid={'Input'}
+                value={this.state.value}
+                onValueChange={(value) => this.setState({ value })}
+                onFocus={() => this.setState({ focused: true })}
+                onBlur={() => this.setState({ focused: false })}
+              />
             </ValidationWrapper>
+            <Select<ValidationInfo['level']>
+              value={this.state.level}
+              data-tid={'ValidationLevel'}
+              items={['error', 'warning']}
+              onValueChange={(level) => this.setState({ level })}
+            />
             <Gapped wrap verticalAlign="middle">
               <Button data-tid={'SubmitButton'} loading={this.state.sending} onClick={this.handleSubmit}>
                 Submit
               </Button>
               <span data-tid={'ValidationState'}>{this.state.validation}</span>
             </Gapped>
+            <span data-tid={'InputFocused'}>focused: {String(this.state.focused)}</span>
           </Gapped>
         </div>
       </ValidationContainer>
