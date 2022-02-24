@@ -1,12 +1,9 @@
 import React from 'react';
-import { Button } from '@skbkontur/react-ui/components/Button';
-import { Gapped } from '@skbkontur/react-ui/components/Gapped';
-import { Input } from '@skbkontur/react-ui/components/Input';
+import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
-import { Select } from '@skbkontur/react-ui';
 
 interface SingleInputPageProps {
   initialValue?: string;
