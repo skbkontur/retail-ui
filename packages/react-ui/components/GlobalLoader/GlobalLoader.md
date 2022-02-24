@@ -29,8 +29,18 @@ const [manually, setManually] = React.useState(false);
 const [active, setActive] = React.useState(false);
 const [error, setError] = React.useState(false);
 
+const handleChange= () => {
+    if (manually) {
+        setManually(false);
+        setError(false);
+        setActive(false);
+    } else {
+        setManually(true);
+    }
+}
+
 <Gapped vertical>
-  <Toggle checked={manually} onValueChange={setManually}>
+  <Toggle checked={manually} onValueChange={handleChange}>
     Управление пропами
   </Toggle>
   <Toggle checked={active} onValueChange={setActive} disabled={!manually}>
