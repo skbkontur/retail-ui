@@ -202,7 +202,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
   };
 
   /**
-   * Возвращает анимацию лоадера <br />
+   * Возвращает лоадер из состояния спиннера в обычное и продолжает анимацию с того места, на котором она была прерван <br />
    * Равносильно установке пропа `rejected = false`
    *
    * @public
