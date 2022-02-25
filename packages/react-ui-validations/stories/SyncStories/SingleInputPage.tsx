@@ -72,7 +72,6 @@ export class SingleInputPage extends React.Component<SingleInputPageProps, Singl
               </Button>
               <span data-tid={'ValidationState'}>{this.state.validation}</span>
             </Gapped>
-            <span data-tid={'InputFocused'}>focused: {String(this.state.focused)}</span>
           </Gapped>
         </div>
       </ValidationContainer>

@@ -40,7 +40,7 @@ namespace SKBKontur.ValidationTests.Controls
 
         public static bool HasFocus(this ControlBase control)
         {
-             return control.GetAttributeValue("data-prop-focused") == "true";
+            return control.GetAttributeValue("data-prop-focused") == "true";
         }
 
         public static void WaitFocus(this ControlBase control)

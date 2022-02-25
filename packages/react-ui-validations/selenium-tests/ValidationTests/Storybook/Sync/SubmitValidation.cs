@@ -156,11 +156,11 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             var page = new SingleInputPage(GetWebDriver()).WaitReady();
             page.ValidationLevel.ExecuteAction(x =>
             {
-                var inputTag = x.FindElement(By.CssSelector("button"));
-                inputTag.Click();
-                inputTag.SendKeys(Keys.Down);
-                inputTag.SendKeys(Keys.Down);
-                inputTag.SendKeys(Keys.Enter);
+                var tag = x.FindElement(By.CssSelector("button"));
+                tag.Click();
+                tag.SendKeys(Keys.Down);
+                tag.SendKeys(Keys.Down);
+                tag.SendKeys(Keys.Enter);
             }, "SetValue('warning')");
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
