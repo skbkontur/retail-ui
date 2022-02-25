@@ -9,14 +9,17 @@ namespace SKBKontur.ValidationTests.Controls
     {
         public static IProp<bool> WithError(this ControlBase control)
         {
-            return Prop.Create(control.HasError, "error");
+            return Prop.Check(control.HasError, v =>
+            {
+                bool v1 = v == true;
+            });
         }
 
         public static IProp<bool> WithWarning(this ControlBase control)
         {
             return Prop.Check(control.HasWarning, v =>
             {
-              bool v1 = v == true;
+                bool v1 = v == true;
             });
         }
 
