@@ -29,7 +29,7 @@ export const GlobalLoaderView = ({
 }: GlobalLoaderViewProps) => {
   const ref = useRef<GlobalLoaderViewRef['element']>(null);
   const theme = useContext(ThemeContext);
-  const { width, startWidth } = useGlobalLoaderWidth(status, ref);
+  const { width, startWidth, fullWidth } = useGlobalLoaderWidth(status, ref);
   const { left } = useGlobalLoaderPosition(ref);
 
   const getAnimationClass = (status: GlobalLoaderViewProps['status']) => {
@@ -38,7 +38,10 @@ export const GlobalLoaderView = ({
         case 'success':
           return animations.successAnimation(delayBeforeHide, width, left);
         case 'accept':
-          return animations.acceptAnimation(startWidth, expectedResponseTime);
+          if (startWidth < fullWidth * 0.8) {
+            return animations.acceptAnimation(startWidth, expectedResponseTime);
+          }
+          return animations.slowAcceptAnimation(startWidth);
         case 'error':
           return animations.errorAnimation(theme);
         case 'standard':

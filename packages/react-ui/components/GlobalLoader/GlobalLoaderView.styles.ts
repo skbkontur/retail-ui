@@ -30,7 +30,7 @@ export const styles = memoizeStyle({
   standardWithoutAnimation() {
     return css`
       left: 0;
-      width: 80%;
+      width: 90%;
     `;
   },
   successWithoutAnimation() {
@@ -78,6 +78,10 @@ const linearProgressAnimation = keyframes`
   from { width: 0; }
   to { width: 80% }
 `;
+const slowProgressAnimation = keyframes`
+  from { width: 80%; }
+  to { width: 90% }
+`;
 
 export const animations = {
   successAnimation(delayBeforeHide: number, width: number, left: number) {
@@ -120,14 +124,15 @@ export const animations = {
   },
   standardAnimation(expectedTime: number) {
     return css`
-      width: 80%;
-      animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1);
+      width: 90%;
+      animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
+        20s ${slowProgressAnimation} ${expectedTime}ms linear;
     `;
   },
   acceptAnimation(startWidth: number, expectedTime: number) {
     return css`
-      width: 80%;
-      animation: acceptAnimation ${expectedTime}ms ease-out;
+      width: 90%;
+      animation: acceptAnimation ${expectedTime}ms ease-out, 20s ${slowProgressAnimation} ${expectedTime}ms linear;
       @keyframes acceptAnimation {
         from {
           width: ${startWidth}px;
@@ -138,9 +143,23 @@ export const animations = {
       }
     `;
   },
+  slowAcceptAnimation(startWidth: number) {
+    return css`
+      width: 90%;
+      animation: acceptAnimation 20s linear;
+      @keyframes acceptAnimation {
+        from {
+          width: ${startWidth}px;
+        }
+        to {
+          width: 90%;
+        }
+      }
+    `;
+  },
   acceptWithoutAnimation(startWidth: number) {
     return css`
-      width: ${startWidth};
+      width: ${startWidth}px;
     `;
   },
 };
