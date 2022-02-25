@@ -60,7 +60,7 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         {
         }
 
-        [ChildSelector("##TableItem")]
+        [Selector("::local"), ChildSelector("##TableItem")]
         public ControlList<Label> TableItems { get; set; }
     }
 }
