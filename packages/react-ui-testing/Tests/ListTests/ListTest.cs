@@ -211,6 +211,14 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
             //            @"Время ожидания: 2 секунды."));
         }
 
+        [Test]
+        public void Test_ListOfList()
+        {
+            page.ListOfLists.Count.Wait().EqualTo(3);
+            page.ListOfLists[2].TableItems.Count.Wait().EqualTo(2);
+            page.ListOfLists[1].TableItems[2].Text.Wait().EqualTo("row23");
+        }
+
         private ListsTestPage page;
     }
 }

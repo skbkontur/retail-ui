@@ -52,6 +52,30 @@ export default class InputTextPage extends React.Component {
             </div>
           </Case.Body>
         </Case>
+        <Case title="Список списков">
+          <Case.Body data-tid="ListOfLists">
+            <div data-tid="Table">
+              <div data-tid="TableItems">
+                <div data-tid="TableItem">row11</div>
+                <div data-tid="TableItem">row12</div>
+                <div data-tid="TableItem">row13</div>
+              </div>
+            </div>
+            <div data-tid="Table">
+              <div data-tid="TableItems">
+                <div data-tid="TableItem">row21</div>
+                <div data-tid="TableItem">row22</div>
+                <div data-tid="TableItem">row23</div>
+              </div>
+            </div>
+            <div data-tid="Table">
+              <div data-tid="TableItems">
+                <div data-tid="TableItem">row31</div>
+                <div data-tid="TableItem">row32</div>
+              </div>
+            </div>
+          </Case.Body>
+        </Case>
       </CaseSuite>
     );
   }

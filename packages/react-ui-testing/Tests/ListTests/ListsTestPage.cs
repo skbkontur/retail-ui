@@ -22,6 +22,9 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         public ControlList<Item> CompositeReadonlyElementListCase { get; set; }
 
         public ControlsWithoutRootTid NoRootTidList { get; set; }
+
+        [ChildSelector("##Table")]
+        public ControlList<Table> ListOfLists { get; set; }
     }
 
     [AutoFillControls]
@@ -48,5 +51,16 @@ namespace SKBKontur.SeleniumTesting.Tests.ListTests
         public Label Value2 { get; private set; }
         public Label NotExitingValue { get; private set; }
         public Label ExistsInSingleItem { get; private set; }
+    }
+
+    [AutoFillControls]
+    public class Table : CompoundControl
+    {
+        public Table(ISearchContainer container, ISelector selector) : base(container, selector)
+        {
+        }
+
+        [ChildSelector("##TableItem")]
+        public ControlList<Label> TableItems { get; set; }
     }
 }
