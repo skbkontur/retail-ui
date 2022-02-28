@@ -1606,8 +1606,10 @@ export class DefaultTheme {
   public static globalLoaderBottom = 'auto';
   public static globalLoaderRight = 'auto';
   public static globalLoaderBackgroundColor = 'transparent';
-  public static globalLoaderTransitionDuration = '500'; //ms
+  public static globalLoaderTransitionToSpinnerDuration = '500'; //ms
   public static globalLoaderSpinnerAnimationDuration = '2000'; //ms
+  public static globalLoaderSlowAnimationDuration = '20000'; //ms
+  public static globalLoaderTransitionFromSpinnerDuration = '200'; //ms
   //#endregion
   //#region FileUploader
   public static fileUploaderWidth = '362px';

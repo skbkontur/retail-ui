@@ -39,13 +39,13 @@ export const GlobalLoaderView = ({
           return animations.successAnimation(delayBeforeHide, width, left);
         case 'accept':
           if (startWidth < fullWidth * 0.8) {
-            return animations.acceptAnimation(startWidth, expectedResponseTime);
+            return animations.acceptAnimation(theme, startWidth, expectedResponseTime, width, left);
           }
-          return animations.slowAcceptAnimation(startWidth);
+          return animations.slowAcceptAnimation(theme, startWidth, width, left);
         case 'error':
           return animations.errorAnimation(theme);
         case 'standard':
-          return animations.standardAnimation(expectedResponseTime);
+          return animations.standardAnimation(theme, expectedResponseTime);
       }
     }
 

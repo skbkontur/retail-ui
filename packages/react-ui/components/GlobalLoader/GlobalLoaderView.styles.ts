@@ -112,7 +112,7 @@ export const animations = {
     `;
   },
   errorAnimation(t: Theme) {
-    const transitionDuration = parseInt(t.globalLoaderTransitionDuration);
+    const transitionDuration = parseInt(t.globalLoaderTransitionToSpinnerDuration);
     const spinnerAnimationDuration = parseInt(t.globalLoaderSpinnerAnimationDuration);
 
     return css`
@@ -122,17 +122,32 @@ export const animations = {
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
-  standardAnimation(expectedTime: number) {
+  standardAnimation(t: Theme, expectedTime: number) {
+    const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
       width: 90%;
       animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
-        20s ${slowProgressAnimation} ${expectedTime}ms linear;
+        ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime}ms linear;
     `;
   },
-  acceptAnimation(startWidth: number, expectedTime: number) {
+  acceptAnimation(t: Theme, startWidth: number, expectedTime: number, width: number, left: number) {
+    const transitionTime = parseInt(t.globalLoaderTransitionFromSpinnerDuration);
+    const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
       width: 90%;
-      animation: acceptAnimation ${expectedTime}ms ease-out, 20s ${slowProgressAnimation} ${expectedTime}ms linear;
+      animation: transitionAnimation ${transitionTime}ms linear,
+        ${expectedTime}ms acceptAnimation ${transitionTime}ms cubic-bezier(0, 0.4, 0.4, 1),
+        ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime + transitionTime}ms linear;
+      @keyframes transitionAnimation {
+        from {
+          width: ${width}px;
+          left: ${left}px;
+        }
+        to {
+          width: ${startWidth}px;
+          left: 0;
+        }
+      }
       @keyframes acceptAnimation {
         from {
           width: ${startWidth}px;
@@ -143,10 +158,23 @@ export const animations = {
       }
     `;
   },
-  slowAcceptAnimation(startWidth: number) {
+  slowAcceptAnimation(t: Theme, startWidth: number, width: number, left: number) {
+    const transitionTime = parseInt(t.globalLoaderTransitionFromSpinnerDuration);
+    const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
       width: 90%;
-      animation: acceptAnimation 20s linear;
+      animation: transitionAnimation ${transitionTime}ms linear,
+        ${slowProgressAnimationTime}ms acceptAnimation ${transitionTime}ms linear;
+      @keyframes transitionAnimation {
+        from {
+          width: ${width}px;
+          left: ${left}px;
+        }
+        to {
+          width: ${startWidth}px;
+          left: 0;
+        }
+      }
       @keyframes acceptAnimation {
         from {
           width: ${startWidth}px;
