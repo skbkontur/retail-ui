@@ -1188,12 +1188,12 @@ TooltipWithAnchor.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'body' }))
-          .move({ origin: this.browser.findElement({ css: '[data-tid~="tooltip_anchor_0"]' }) })
-          .pause(500)
+          .move({ x: 0, y: 0 })
           .move({ origin: this.browser.findElement({ css: '[data-tid~="tooltip_anchor_1"]' }) })
-          .pause(500)
           .perform();
+
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover by dynamic anchor');
       },
     },
