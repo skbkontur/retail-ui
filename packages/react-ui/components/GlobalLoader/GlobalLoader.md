@@ -29,18 +29,18 @@ const [manually, setManually] = React.useState(false);
 const [active, setActive] = React.useState(false);
 const [error, setError] = React.useState(false);
 
-const handleChange= () => {
-    if (manually) {
-        setManually(false);
-        setError(false);
-        setActive(false);
-    } else {
-        setManually(true);
-    }
+const reset = () => {
+  if (manually) {
+    setManually(false);
+    setError(false);
+    setActive(false);
+  } else {
+    setManually(true);
+  }
 }
 
 <Gapped vertical>
-  <Toggle checked={manually} onValueChange={handleChange}>
+  <Toggle checked={manually} onValueChange={reset}>
     Управление пропами
   </Toggle>
   <Toggle checked={active} onValueChange={setActive} disabled={!manually}>
@@ -52,8 +52,8 @@ const handleChange= () => {
 
   <ThemeContext.Provider value={myTheme}>
     <GlobalLoader expectedResponseTime={2000} delayBeforeShow={1000} active={active} rejected={error}
-      onStart={(s) => console.log('start', s)}
-      onDone={(s) => console.log('done', s)}
+      onStart={() => console.log('start')}
+      onDone={() => console.log('done')}
       onReject={() => console.log('reject')}
       onAccept={() => console.log('accept')}
     />
