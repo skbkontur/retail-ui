@@ -1,8 +1,6 @@
-import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { ReactComponentLike } from 'prop-types';
 import { isForwardRef } from 'react-is';
-
-import { isBrowser } from './client';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -63,10 +61,6 @@ export function escapeRegExpSpecChars(s: string): string {
 }
 
 export const getRandomID = (): string => Math.random().toString(16).slice(2);
-
-export const isExternalLink = (link: string): boolean => {
-  return new RegExp(`^(https?:)?//${isBrowser ? `(?!${window.location.host})` : ``}\\S+`, 'gi').test(link);
-};
 
 /**
  * Check if the given ReactNode is an element of the specified ReactUI component

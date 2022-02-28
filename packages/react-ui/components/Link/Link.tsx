@@ -1,187 +1,154 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext, useState } from 'react';
+import propTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { isExternalLink } from '../../lib/utils';
-import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { CommonProps } from '../../internal/CommonWrapper';
+import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Link.styles';
+import { generateRel } from './utils';
+import { LinkArrow } from './LinkArrow';
+import { LinkIcon } from './LinkIcon';
 
-export interface LinkProps
-  extends CommonProps,
-    Override<
-      React.AnchorHTMLAttributes<HTMLAnchorElement>,
-      {
-        /**
-         * Отключенное состояние.
-         */
-        disabled?: boolean;
-        /**
-         * HTML-атрибут `href`.
-         */
-        href?: string;
-        /**
-         * Добавляет ссылке иконку.
-         */
-        icon?: React.ReactElement<any>;
-        /**
-         * Тема ссылки.
-         */
-        use?: 'default' | 'success' | 'danger' | 'grayed';
-        /**
-         * @ignore
-         */
-        _button?: boolean;
-        /**
-         * @ignore
-         */
-        _buttonOpened?: boolean;
-        /**
-         * HTML-атрибут `tabindex`.
-         */
-        tabIndex?: number;
-        /**
-         * Переводит ссылку в состояние загрузки.
-         */
-        loading?: boolean;
-        /**
-         * HTML-событие `onclick`.
-         */
-        onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+type LinkInterface = {
+  /**
+   * Отключенное состояние.
+   */
+  disabled?: boolean;
+  /**
+   * Добавляет ссылке иконку.
+   */
+  icon?: React.ReactNode;
+  /**
+   * Тема ссылки.
+   */
+  use?: 'default' | 'success' | 'danger' | 'grayed';
+  /**
+   * @ignore
+   */
+  _button?: boolean;
+  /**
+   * @ignore
+   */
+  _buttonOpened?: boolean;
+  /**
+   * @ignore
+   */
+  children?: React.ReactNode;
+  /**
+   * Переводит ссылку в состояние загрузки.
+   */
+  loading?: boolean;
+};
+
+export type LinkProps = Override<React.AnchorHTMLAttributes<HTMLAnchorElement>, LinkInterface> &
+  CommonProps & { instanceRef?: unknown };
+
+const LinkFC = forwardRefAndName<HTMLAnchorElement, LinkProps>(
+  'LinkFC',
+  (
+    {
+      disabled = false,
+      href = '',
+      use = 'default',
+      onClick,
+      rel,
+      loading,
+      icon,
+      children,
+      tabIndex,
+      className,
+      'aria-label': ariaLabel,
+      _button,
+      _buttonOpened,
+      instanceRef,
+      ...rest
+    },
+    ref,
+  ) => {
+    const theme = useContext(ThemeContext);
+
+    const [focusedByTab, setFocusedByTab] = useState(false);
+
+    const isFocused = !disabled && focusedByTab;
+    const isDisabled = disabled || loading;
+
+    const linkRel = rel ?? generateRel(href, rel);
+    const linkTabIndex = isDisabled ? -1 : tabIndex;
+
+    const handleFocus = () => {
+      if (!disabled) {
+        // focus event fires before keyDown eventlistener
+        // so we should check tabPressed in async way
+        requestAnimationFrame(() => {
+          if (keyListener.isTabPressed) {
+            setFocusedByTab(true);
+          }
+        });
       }
-    > {}
+    };
 
-export interface LinkState {
-  focusedByTab: boolean;
-}
+    const handleBlur = () => setFocusedByTab(false);
+
+    const handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+      if (onClick) {
+        event.preventDefault();
+        onClick(event);
+      }
+    };
+
+    return (
+      <a
+        {...rest}
+        ref={ref}
+        href={href}
+        rel={linkRel}
+        onClick={handleClick}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        tabIndex={linkTabIndex}
+        className={cx(
+          {
+            [styles.root(theme)]: true,
+            [styles.button(theme)]: _button,
+            [styles.buttonOpened()]: _buttonOpened,
+            [styles.useDefault(theme)]: use === 'default',
+            [styles.useSuccess(theme)]: use === 'success',
+            [styles.useDanger(theme)]: use === 'danger',
+            [styles.useGrayed(theme)]: use === 'grayed',
+            [styles.useGrayedFocus(theme)]: use === 'grayed' && isFocused,
+            [styles.focus(theme)]: isFocused,
+            [styles.disabled(theme)]: isDisabled,
+          },
+          className,
+        )}
+      >
+        {icon && <LinkIcon loading={loading} icon={icon} />}
+        {children}
+        {_button && <LinkArrow />}
+      </a>
+    );
+  },
+);
+
+LinkFC.propTypes = {
+  disabled: propTypes.bool,
+  href: propTypes.string,
+  icon: propTypes.element,
+  use: propTypes.oneOf(['default', 'success', 'danger', 'grayed']),
+  _button: propTypes.bool,
+  _buttonOpened: propTypes.bool,
+  tabIndex: propTypes.number,
+  loading: propTypes.bool,
+  onClick: propTypes.func,
+};
 
 /**
  * Элемент ссылки из HTML.
  */
-@rootNode
-export class Link extends React.Component<LinkProps, LinkState> {
-  public static __KONTUR_REACT_UI__ = 'Link';
-
-  public static propTypes = {
-    disabled: PropTypes.bool,
-
-    href: PropTypes.string,
-
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-
-    use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
-  };
-
-  public static defaultProps = {
-    href: '',
-    use: 'default',
-  };
-
-  public state = {
-    focusedByTab: false,
-  };
-
-  private theme!: Theme;
-  private setRootNode!: TSetRootNode;
-
-  public render(): JSX.Element {
-    return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              {this.renderMain}
-            </CommonWrapper>
-          );
-        }}
-      </ThemeContext.Consumer>
-    );
-  }
-
-  private renderMain = (props: CommonWrapperRestProps<LinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
-
-    let iconElement = null;
-    if (icon) {
-      iconElement = (
-        <span className={styles.icon(this.theme)}>
-          {loading ? <Spinner caption={null} dimmed type="mini" /> : icon}
-        </span>
-      );
-    }
-
-    let arrow = null;
-    if (_button) {
-      arrow = <span className={styles.arrow()} />;
-    }
-
-    let rel = relOrigin;
-    if (typeof rel === 'undefined' && href) {
-      rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
-    }
-
-    const focused = !disabled && this.state.focusedByTab;
-
-    const linkProps = {
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [styles.button(this.theme)]: !!_button,
-        [styles.buttonOpened()]: !!_buttonOpened,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
-        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        [styles.focus(this.theme)]: focused,
-        [styles.disabled(this.theme)]: !!disabled || !!loading,
-      }),
-      href,
-      rel,
-      onClick: this._handleClick,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
-      tabIndex: disabled || loading ? -1 : this.props.tabIndex,
-    };
-
-    return (
-      <a {...rest} {...linkProps}>
-        {iconElement}
-        {this.props.children}
-        {arrow}
-      </a>
-    );
-  };
-
-  private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
-    if (!this.props.disabled) {
-      // focus event fires before keyDown eventlistener
-      // so we should check tabPressed in async way
-      requestAnimationFrame(() => {
-        if (keyListener.isTabPressed) {
-          this.setState({ focusedByTab: true });
-        }
-      });
-    }
-  };
-
-  private _handleBlur = () => {
-    this.setState({ focusedByTab: false });
-  };
-
-  private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { href, onClick, disabled, loading } = this.props;
-    if (!href) {
-      event.preventDefault();
-    }
-    if (onClick && !disabled && !loading) {
-      onClick(event);
-    }
-  };
-}
+export const Link = withClassWrapper(LinkFC);
+export type Link = InstanceType<typeof Link>;
