@@ -1181,7 +1181,7 @@ export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
 
 TooltipWithAnchor.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'] }],
+    skip: [{ in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] }],
     tests: {
       async ['hover by dynamic anchor']() {
         await this.browser
