@@ -184,7 +184,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   public state = {
-    needsPolyfillPlaceholder: needsPolyfillPlaceholder(),
+    needsPolyfillPlaceholder: needsPolyfillPlaceholder,
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -435,7 +435,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (needsPolyfillPlaceholder()) {
+    if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = e.target.value === '';
 
       if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {

@@ -134,7 +134,7 @@ export class Input extends React.Component<InputProps, InputState> {
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
-    if (needsPolyfillPlaceholder()) {
+    if (needsPolyfillPlaceholder) {
       this.setState({ needsPolyfillPlaceholder: true });
     }
   }
@@ -150,7 +150,7 @@ export class Input extends React.Component<InputProps, InputState> {
     if (!this.state.needsPolyfillPlaceholder) {
       const isValueChanged = this.props.value !== prevProps.value;
       const isValueCleared = isValueChanged && !this.props.value;
-      if (needsPolyfillPlaceholder() && isValueCleared) {
+      if (needsPolyfillPlaceholder && isValueCleared) {
         this.setState({ needsPolyfillPlaceholder: true });
       }
     }
@@ -333,7 +333,7 @@ export class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder() ? placeholder : undefined,
+      placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
     };
 
@@ -471,7 +471,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (needsPolyfillPlaceholder()) {
+    if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
       if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
         this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });

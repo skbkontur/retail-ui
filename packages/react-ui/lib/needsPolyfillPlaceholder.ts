@@ -2,13 +2,7 @@ import { canUseDOM, isIE11 } from './client';
 
 export const supportsPlaceholder = 'placeholder' in document.createElement('input');
 
-/**
- * Определяет поддерживает ли браузер аттрибут `placeholder` для тега `input`
- *
- * @returns {Boolean} - возвращает true, если браузеру нужен полифил для placeholder. Иначе - false
- */
-
-export const needsPolyfillPlaceholder = () => {
+const needsPolyfillPlaceholderInternal = () => {
   if (canUseDOM) {
     if (!supportsPlaceholder || isIE11) {
       return true;
@@ -17,3 +11,10 @@ export const needsPolyfillPlaceholder = () => {
 
   return false;
 };
+
+/**
+ * Определяет поддерживает ли браузер аттрибут `placeholder` для тега `input`
+ *
+ * @returns {Boolean} - возвращает true, если браузеру нужен полифил для placeholder. Иначе - false
+ */
+export const needsPolyfillPlaceholder = needsPolyfillPlaceholderInternal();
