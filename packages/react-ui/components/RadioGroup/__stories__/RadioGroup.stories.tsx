@@ -1,52 +1,53 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
+import { ComponentStory } from '@storybook/react';
 
-import { Story } from '../../../typings/stories';
-import { RadioGroup } from '../RadioGroup';
-import { Radio } from '../../Radio';
+import { Meta, Story } from '../../../typings/stories';
+import { RadioGroup, RadioGroupProps } from '../RadioGroup';
+import { Radio, RadioValue } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
-import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 
-class Component extends React.Component<any, any> {
-  public state = {
-    value: '',
-  };
+export default { title: 'components/RadioGroup', component: RadioGroup } as Meta;
 
-  private _radioGroup: Nullable<RadioGroup<string>>;
+const PlaygroundTemplate: ComponentStory<typeof RadioGroup> = (args) => {
+  return <RadioGroup defaultValue="One" {...args} />;
+};
+export const Playground = PlaygroundTemplate.bind({});
+Playground.args = {
+  items: ['One', 'Two', 'Three', 'Four'],
+  name: 'Playground',
+  disabled: false,
+  warning: false,
+  error: false,
+  inline: false,
+  width: 'auto',
+};
+Playground.parameters = { creevey: { skip: [true] } };
 
-  public render() {
-    return (
-      <Gapped vertical>
-        <Button data-tid={'JustButton'}>Just button</Button>
-        <div id="RadioGroup-wrap" style={{ padding: 10 }}>
-          <RadioGroup<string>
-            ref={(element) => (this._radioGroup = element)}
-            value={this.state.value}
-            onValueChange={this.handleValueChange}
-            {...this.props}
-          />
-        </div>
-        <Button
-          onClick={() => {
-            if (this._radioGroup) {
-              this._radioGroup.focus();
-            }
-          }}
-        >
-          Focus RadioGroup
-        </Button>
-      </Gapped>
-    );
-  }
+const Component = (props: RadioGroupProps) => {
+  const [value, setValue] = useState<RadioValue>('');
+  const radioGroupRef = useRef<RadioGroup>(null);
 
-  private handleValueChange = (value: string) => {
-    this.setState({ value });
-  };
-}
+  return (
+    <Gapped vertical>
+      <Button data-tid={'JustButton'}>Just button</Button>
+      <div id="RadioGroup-wrap" style={{ padding: 10 }}>
+        <RadioGroup {...props} ref={radioGroupRef} value={value} onValueChange={(val) => setValue(val)} />
+      </div>
 
-export default { title: 'RadioGroup' };
-
+      <Button
+        onClick={() => {
+          if (radioGroupRef.current) {
+            radioGroupRef.current.focus();
+          }
+        }}
+      >
+        Focus RadioGroup
+      </Button>
+    </Gapped>
+  );
+};
 export const Vertical: Story = () => {
   return <Component items={['One', 'Two', 'Three']} />;
 };
@@ -132,9 +133,7 @@ Inline.parameters = {
   },
 };
 
-export const WithRenderItem = () => (
-  <RadioGroup<string> items={['One', 'Two']} renderItem={(x) => <div>Value: {x}</div>} />
-);
+export const WithRenderItem = () => <RadioGroup items={['One', 'Two']} renderItem={(x) => <div>Value: {x}</div>} />;
 WithRenderItem.storyName = 'with renderItem';
 WithRenderItem.parameters = { creevey: { skip: [true] } };
 

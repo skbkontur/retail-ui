@@ -1,15 +1,17 @@
 import React from 'react';
 
-export interface RadioGroupContextType<T> {
-  activeItem: T | undefined;
-  onSelect: (value: T) => void;
+import { RadioValue } from '../Radio';
+
+export type RadioGroupContextType = {
+  activeItem: RadioValue | undefined;
+  onSelect: (value: RadioValue) => void;
   name: string;
   disabled: boolean | undefined;
   error: boolean | undefined;
   warning: boolean | undefined;
-}
+};
 
-export const RadioGroupContext = React.createContext<RadioGroupContextType<any>>({
+export const RadioGroupContext = React.createContext<RadioGroupContextType>({
   activeItem: undefined,
   onSelect: () => undefined,
   name: '',

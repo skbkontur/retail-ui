@@ -7,7 +7,7 @@ import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 import { getComponentsFromPropsList } from './helpers';
 
-const propsList: RadioProps<string>[] = [
+const propsList: RadioProps[] = [
   { value: '', children: 'Default', checked: false },
   { value: '', children: 'Checked' },
   { value: '', children: 'Disabled', disabled: true },
