@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.0...@skbkontur/react-ui@3.12.1) (2022-03-01)
+
+
+### Bug Fixes
+
+* **Popup:** correct DOM node extraction ([#2811](https://github.com/skbkontur/retail-ui/issues/2811)) ([#2796](https://github.com/skbkontur/retail-ui/issues/2796)) ([01f951d](https://github.com/skbkontur/retail-ui/commit/01f951d872e2b59a1b049509a9882b24990bbb0e))
+
+
+
+
+
 # [3.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.11.0...@skbkontur/react-ui@3.12.0) (2022-02-22)
 
 
