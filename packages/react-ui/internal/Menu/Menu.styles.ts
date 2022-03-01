@@ -11,6 +11,26 @@ export const styles = memoizeStyle({
     `;
   },
 
+  alignRight() {
+    return css`
+      flex: 1 1 100%;
+    `;
+  },
+
+  alignRightIE11() {
+    return css`
+      float: right;
+      width: 100%;
+    `;
+  },
+
+  alignRightIE11FixAutoWidth() {
+    return css`
+      box-sizing: border-box !important; // override root styles
+      overflow: hidden !important; // override root styles
+    `;
+  },
+
   scrollContainer(t: Theme) {
     return css`
       padding: ${t.menuPaddingY} 0;

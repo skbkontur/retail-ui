@@ -1,7 +1,8 @@
 {
   "overrides": [
     {
-      "files": ["**/*.stories.tsx"],
+      "extends": ["plugin:storybook/recommended"],
+      "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
         "import/no-default-export": 0
       }
