@@ -10,6 +10,7 @@ export const styles = memoizeStyle({
   container() {
     return css`
       display: inline-block;
+      line-height: normal;
     `;
   },
 });

@@ -72,6 +72,8 @@ export interface MenuItemProps extends CommonProps {
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
   component?: React.ComponentType<any>;
+
+  isMobile?: boolean;
 }
 
 /**
@@ -123,8 +125,19 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const { link, comment, icon, loose, state, _enableIconPadding, component, onMouseEnter, onMouseLeave, ...rest } =
-      props;
+    const {
+      link,
+      comment,
+      icon,
+      loose,
+      state,
+      _enableIconPadding,
+      component,
+      onMouseEnter,
+      onMouseLeave,
+      isMobile,
+      ...rest
+    } = props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -135,6 +148,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     const className = cx({
       [styles.root(this.theme)]: true,
+      [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',

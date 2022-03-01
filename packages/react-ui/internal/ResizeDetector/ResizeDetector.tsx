@@ -1,9 +1,12 @@
 import React from 'react';
 
+import { cx } from '../../lib/theming/Emotion';
+
 import { styles } from './ResizeDetector.styles';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
+  fullHeight?: boolean;
 }
 
 export class ResizeDetector extends React.Component<ResizeDetectorProps> {
@@ -21,7 +24,9 @@ export class ResizeDetector extends React.Component<ResizeDetectorProps> {
     return (
       <div className={styles.root()}>
         <iframe title="resizeDetector" ref={this.iframeRef} className={styles.iframe()} tabIndex={-1} />
-        <div className={styles.content()}>{this.props.children}</div>
+        <div className={cx({ [styles.content()]: true, [styles.fullHeight()]: this.props.fullHeight })}>
+          {this.props.children}
+        </div>
       </div>
     );
   }

@@ -237,3 +237,45 @@ export const HelpDotIcon = React.forwardRef<HTMLElement, SvgIconProps>(function 
     </SvgIcon>
   );
 });
+
+export const ErrorIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ErrorIcon(props, ref) {
+  return (
+    <SvgIcon ref={ref} {...props}>
+      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+        <path
+          fillRule="evenodd"
+          d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8ZM4.5 6.5C4.22386 6.5 4 6.72386 4 7V9C4 9.27614 4.22386 9.5 4.5 9.5H11.5C11.7761 9.5 12 9.27614 12 9V7C12 6.72386 11.7761 6.5 11.5 6.5H4.5Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </SvgIcon>
+  );
+});
+
+export const DeleteIcon = React.forwardRef<HTMLElement, SvgIconProps>(function DeleteIcon(props, ref) {
+  return (
+    <SvgIcon ref={ref} {...props}>
+      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+        <path
+          fillRule="evenodd"
+          d="M11.298 12.6992L7.99628 9.41797L4.70135 12.6992L3.29999 11.2979L6.58124 8.00293L3.29999 4.70117L4.70135 3.2998L7.99628 6.58105L11.298 3.2998L12.6994 4.70117L9.41815 8.00293L12.6994 11.2979L11.298 12.6992Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </SvgIcon>
+  );
+});
+
+export const UploadIcon = React.forwardRef<HTMLElement, SvgIconProps>(function UploadIcon(props, ref) {
+  return (
+    <SvgIcon ref={ref} {...props}>
+      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+        <path
+          fillRule="evenodd"
+          d="M13.0232 10.9968V12.9997H2.02417V10.9968H13.0232ZM6.02318 5.99969H3.22729L7.52708 1.50165L11.8269 5.99969H9.02414V9.99872H6.02318V5.99969Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </SvgIcon>
+  );
+});

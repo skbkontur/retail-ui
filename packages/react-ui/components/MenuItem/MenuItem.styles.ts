@@ -28,6 +28,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  rootMobile(t: Theme) {
+    return css`
+      font-size: ${t.fontSizeMobile};
+      line-height: ${t.lineHeightMobile};
+      padding: ${t.menuItemPaddingMobile};
+    `;
+  },
+
   hover(t: Theme) {
     // Color with !important in purpose to override `a:hover`
     return css`
