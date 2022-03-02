@@ -71,10 +71,6 @@ export interface SidePageProps extends CommonProps {
    * задает отступ от края экрана
    */
   offset?: number | string;
-  /**
-   * Разрешить скролл элементов
-   */
-  enableScroll?: boolean;
 }
 
 export interface SidePageState {
@@ -232,9 +228,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     if (!layout) return;
     const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
     const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
-    const scrollAvailable = !reachedTop && !reachedBottom;
 
-    if (!this.props.blockBackground && !scrollAvailable && !this.props.enableScroll) {
+    if (!this.props.blockBackground && (reachedTop || reachedBottom)) {
       e.preventDefault();
     }
   };
