@@ -15,6 +15,6 @@ const needsPolyfillPlaceholderInternal = () => {
 /**
  * Определяет поддерживает ли браузер аттрибут `placeholder` для тега `input`
  *
- * @returns {Boolean} - возвращает true, если браузеру нужен полифил для placeholder. Иначе - false
+ * Равен true, если браузеру нужен полифил для placeholder. Иначе - false
  */
 export const needsPolyfillPlaceholder = needsPolyfillPlaceholderInternal();
