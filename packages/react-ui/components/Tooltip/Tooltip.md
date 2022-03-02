@@ -97,7 +97,8 @@ const Block = ({ pos, trigger, top, left, onMouseDown }) => (
         style={{
           height: S - 5,
           width: S - 5,
-          background: 'white',
+          background: 'gray',
+          border: 'solid 1px',
           boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
         }}
       />
@@ -135,7 +136,8 @@ class UseManualTooltip extends React.Component {
               width: 3 * S,
               height: S,
               lineHeight: `${S}px`,
-              background: 'white',
+              background: 'gray',
+              border: 'solid 1px',
               boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
               textAlign: 'center',
             }}
@@ -183,14 +185,14 @@ const isManual = trigger === 'manual';
     width: S * 9,
     height: S * 9,
     position: 'relative',
-    border: '1px solid #dfdede',
+    border: '1px solid',
     background: `repeating-linear-gradient(
-                   45deg,
-                   #fafafa,
-                   #fafafa ${S / 4}px,
-                   #dfdede ${S / 4}px,
-                   #dfdede ${S / 2}px
-                 )`,
+                            45deg,
+                            #808080,
+                            #808080 ${S / 4}px,
+                            #d3d3d3 ${S / 4}px,
+                            #d3d3d3 ${S / 2}px
+                          )`,
   }}
 >
   <Center>
@@ -222,23 +224,22 @@ const S = 60;
 const blockStyle = {
   height: S - 5,
   width: S - 5,
-  background: 'white',
   boxShadow: '0 1px 5px rgba(0, 0, 0, 0.3)',
+  background: 'gray',
+  border: '1px solid'
 };
 const containerStyle = {
   width: S * 9,
   height: S * 9,
   position: 'relative',
-  border: '1px solid #dfdede',
-  background: `
-    repeating-linear-gradient(
-      45deg,
-      #fafafa,
-      #fafafa ${S / 4}px,
-      #dfdede ${S / 4}px,
-      #dfdede ${S / 2}px
-    )
-  `,
+  background: `repeating-linear-gradient(
+                                45deg,
+                                #808080,
+                                #808080 ${S / 4}px,
+                                #d3d3d3 ${S / 4}px,
+                                #d3d3d3 ${S / 2}px
+                              )`,
+  border: '1px solid',
 };
 
 const blocks = [
@@ -270,7 +271,7 @@ class AnchorTooltipExample extends React.Component {
     return (
       <>
         {this.state.anchor ? (
-          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="opened" />
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
         ) : null}
         <div style={containerStyle}>
           {this.state.blocks.map(({ top, left }, i) => (

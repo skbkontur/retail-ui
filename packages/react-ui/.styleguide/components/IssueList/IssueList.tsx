@@ -7,6 +7,10 @@ import { Link } from '../../../components/Link';
 import { Gapped } from '../../../components/Gapped';
 import { Button } from '../../../components/Button';
 import { fetch } from '../../../lib/net/fetch';
+import Context from 'react-styleguidist/lib/client/rsg-components/Context';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
+import { DARK_THEME } from '../../../lib/theming/themes/DarkTheme';
 
 interface GithubIssue {
   id: string;
@@ -34,7 +38,6 @@ interface IssueListState {
 
 const styles = ({ baseBackground, color }): Classes => ({
   root: {
-    color: color.base,
     backgroundColor: baseBackground,
   },
   issues: {
@@ -50,6 +53,7 @@ const API_URL = 'https://guides.kontur.ru/github';
 const GUIDES_LINK = 'https://guides.kontur.ru/components/';
 
 export class IssueList extends React.Component<IssueListProps, IssueListState> {
+  static contextType = Context;
   public static propTypes = {
     classes: PropTypes.object.isRequired,
   };
@@ -118,44 +122,46 @@ export class IssueList extends React.Component<IssueListProps, IssueListState> {
     const componentName = this.getComponentName();
 
     return (
-      <div className={classes.root}>
-        <div>
-          <span className={classes.issues}>
-            {isFetching ? (
-              <Spinner type="mini" caption="Загрузка issues" />
-            ) : this.hasIssues ? (
-              <Button onClick={this.toggleIssuesVisibility} use="link">
-                <span>{this.toggleSymbol}</span>&nbsp; Список связанных issues:
-              </Button>
-            ) : (
-              <span>Нет связанных issues</span>
+      <ThemeContext.Provider value={this.context.theme === 'dark' ? DARK_THEME : DEFAULT_THEME}>
+        <div className={classes.root}>
+          <div>
+            <span className={classes.issues}>
+              {isFetching ? (
+                <Spinner type="mini" caption="Загрузка issues" />
+              ) : this.hasIssues ? (
+                <Button onClick={this.toggleIssuesVisibility} use="link">
+                  <span>{this.toggleSymbol}</span>&nbsp; Список связанных issues:
+                </Button>
+              ) : (
+                <span>Нет связанных issues</span>
+              )}
+            </span>
+            <ul>
+              {issuesIsOpen &&
+                this.hasIssues &&
+                issueList.map((issue) => {
+                  return (
+                    <li key={issue.id}>
+                      <Link href={issue.html_url} target="_blank">
+                        {issue.title}
+                      </Link>
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+          <Gapped gap={20}>
+            {componentExistsInGuide && (
+              <Link target="_blank" href={`${GUIDES_LINK}${componentName.toLowerCase()}`}>
+                Компонент в гайдах
+              </Link>
             )}
-          </span>
-          <ul>
-            {issuesIsOpen &&
-              this.hasIssues &&
-              issueList.map((issue) => {
-                return (
-                  <li key={issue.id}>
-                    <Link href={issue.html_url} target="_blank">
-                      {issue.title}
-                    </Link>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-        <Gapped gap={20}>
-          {componentExistsInGuide && (
-            <Link target="_blank" href={`${GUIDES_LINK}${componentName.toLowerCase()}`}>
-              Компонент в гайдах
+            <Link target="_blank" href={this.getCreateNewIssueLink()}>
+              Создать задачу
             </Link>
-          )}
-          <Link target="_blank" href={this.getCreateNewIssueLink()}>
-            Создать задачу
-          </Link>
-        </Gapped>
-      </div>
+          </Gapped>
+        </div>
+      </ThemeContext.Provider>
     );
   }
 }

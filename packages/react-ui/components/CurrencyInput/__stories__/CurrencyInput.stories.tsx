@@ -167,6 +167,13 @@ SampleStory.storyName = 'Sample';
 
 SampleStory.parameters = {
   creevey: {
+    skip: [
+      {
+        in: ['chromeDark'],
+        tests: ['Focus', 'Input value', 'External focus and input'],
+        reason: 'flacky visible(?!) cursor',
+      },
+    ],
     tests: {
       async Plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');

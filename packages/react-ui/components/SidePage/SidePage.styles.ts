@@ -1,4 +1,3 @@
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
@@ -12,6 +11,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileRoot() {
+    return css`
+      width: 100%;
+    `;
+  },
+
   overlay() {
     return css`
       position: fixed;
@@ -22,10 +27,18 @@ export const styles = memoizeStyle({
     `;
   },
 
-  body() {
+  body(t: Theme) {
     return css`
       flex: 1 0 auto;
       z-index: 0;
+      color: ${t.modalBodyTextColor};
+    `;
+  },
+
+  mobileBody() {
+    return css`
+      font-size: 16px;
+      line-height: 22px;
     `;
   },
 
@@ -36,21 +49,35 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileContainer(t: Theme) {
+    return css`
+      padding-left: ${t.mobileSidePagePaddingLeft};
+      padding-right: ${t.mobileSidePagePaddingRight};
+      padding-bottom: ${t.mobileSidePagePaddingBottom};
+    `;
+  },
+
   containerWithoutHeader(t: Theme) {
     return css`
-      padding-top: ${is8pxTheme(t) ? t.sidePagePaddingTop : 0};
+      padding-top: ${t.sidePagePaddingTop};
+    `;
+  },
+
+  mobileContainerWithoutHeader(t: Theme) {
+    return css`
+      padding-top: ${t.mobileSidePagePaddingTop};
     `;
   },
 
   containerWithoutFooter(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
+      padding-bottom: ${t.sidePagePaddingBottom};
     `;
   },
 
   containerWithPanel(t: Theme) {
     return css`
-      padding-bottom: ${is8pxTheme(t) ? t.sidePagePaddingBottom : 0};
+      padding-bottom: ${t.sidePagePaddingBottom};
     `;
   },
 
@@ -110,6 +137,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileHeader(t: Theme) {
+    return css`
+      font-size: ${t.mobileSidePageHeaderFontSize};
+      line-height: ${t.mobileSidePageHeaderLineHeight};
+      padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
+    `;
+  },
+
   headerFixed(t: Theme) {
     return css`
       background: ${t.sidePageBgDefault};
@@ -137,6 +172,14 @@ export const styles = memoizeStyle({
       parseInt(t.sidePageCloseIconSize);
     return css`
       padding-left: ${t.sidePagePaddingLeft};
+      padding-right: ${paddingRight}px;
+    `;
+  },
+
+  mobileTitle(t: Theme) {
+    const paddingRight = parseInt(t.mobileSidePageCloseButtonPadding) * 2 + parseInt(t.sidePageCloseIconSize);
+    return css`
+      padding-left: ${t.mobileSidePagePaddingLeft};
       padding-right: ${paddingRight}px;
     `;
   },
@@ -192,6 +235,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileClose(t: Theme) {
+    return css`
+      padding: ${t.mobileSidePageCloseButtonClickArea};
+      margin: -${t.mobileSidePageCloseButtonClickArea};
+      font-size: 0;
+    `;
+  },
+
   closeFocus(t: Theme) {
     return css`
       outline: 2px solid ${t.borderColorFocus};
@@ -210,6 +261,14 @@ export const styles = memoizeStyle({
     `;
   },
 
+  mobileWrapperClose(t: Theme) {
+    return css`
+      line-height: ${t.mobileSidePageHeaderLineHeight};
+      padding: ${t.mobileSidePageHeaderPaddingTop} 0 ${t.mobileSidePageHeaderPaddingBottom};
+      right: ${t.mobileSidePageCloseButtonPadding};
+    `;
+  },
+
   panel(t: Theme) {
     return css`
       background: ${t.sidePageFooterPanelBg};
@@ -218,7 +277,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  fixed(t: Theme) {
+  wrapperCloseFixed(t: Theme) {
     return css`
       line-height: ${t.sidePageHeaderFixedLineHeight};
       padding: ${t.sidePageHeaderFixedPaddingY} 0;
@@ -231,11 +290,18 @@ export const styles = memoizeStyle({
     `;
   },
 
-  footer() {
+  footer(t: Theme) {
     return css`
       bottom: 0;
       position: fixed;
       z-index: 10;
+      color: ${t.sidePageFooterTextColor};
+    `;
+  },
+
+  positionStatic() {
+    return css`
+      position: static;
     `;
   },
 
@@ -243,6 +309,14 @@ export const styles = memoizeStyle({
     return css`
       padding: ${t.sidePageFooterPaddingTop} ${t.sidePagePaddingRight} ${t.sidePageFooterPaddingBottom}
         ${t.sidePagePaddingLeft};
+    `;
+  },
+
+  mobileFooterContent(t: Theme) {
+    return css`
+      display: flex;
+      flex-flow: column nowrap;
+      padding: ${t.mobileSidePageFooterPadding};
     `;
   },
 
@@ -259,6 +333,14 @@ export const styles = memoizeStyle({
         left: 0;
         z-index: -1;
         box-shadow: ${t.sidePageFixedFooterShadow};
+      }
+    `;
+  },
+
+  panelFixed(t: Theme) {
+    return css`
+      &:before {
+        box-shadow: ${t.sidePageFixedPanelShadow};
       }
     `;
   },

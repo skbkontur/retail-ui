@@ -2,7 +2,7 @@
 const [value, setValue] = React.useState();
 
 <Switcher
-  label="Switch the switcher"
+  caption="Switch the switcher"
   items={['One', 'Two', 'Three']}
   value={value}
   onValueChange={setValue}

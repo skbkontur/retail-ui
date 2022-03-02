@@ -2,8 +2,6 @@ import React from 'react';
 
 import { Gapped } from '../../components/Gapped';
 import { Radio, RadioProps } from '../../components/Radio';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 import { getComponentsFromPropsList } from './helpers';
 
@@ -17,10 +15,8 @@ const propsList: RadioProps<string>[] = [
 ];
 
 export const RadioPlayground = () => {
-  const theme = React.useContext(ThemeContext);
-  const gap = is8pxTheme(theme) ? 0 : 10;
   return (
-    <Gapped gap={gap} vertical>
+    <Gapped gap={0} vertical>
       {getComponentsFromPropsList(<Radio value={''} checked />, propsList)}
     </Gapped>
   );
