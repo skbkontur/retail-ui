@@ -1,6 +1,6 @@
 # 5.0 Август 2022
 
-- <input type="checkbox" readonly /> Адаптивные версии компонентов DatePicker, Tabs, Paging для мобильных.
+- <input type="checkbox" readonly /> Адаптивные версии компонентов DatePicker, Tabs, Paging для мобильных устройств.
 - <input type="checkbox" readonly /> Новый дизайн контролов. Обновление в соответствии с новым фирменным стилем и визуальным языком.
 - <input type="checkbox" readonly /> Добление нового компонента — панели действий. 
 
