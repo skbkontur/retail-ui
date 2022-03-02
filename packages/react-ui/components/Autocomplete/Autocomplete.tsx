@@ -223,7 +223,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
+      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan).width),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -283,10 +283,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           );
         })
       : null;
-  };
-
-  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
-    return getDOMRect(target).width;
   };
 
   private handleValueChange = (value: string) => {
