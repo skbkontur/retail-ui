@@ -1,13 +1,19 @@
+# 5.0 Август 2022
+
+- <input type="checkbox" readonly /> Адаптивные версии компонентов DatePicker, Tabs, Paging для мобильных устройств.
+- <input type="checkbox" readonly /> Обновление дизайна компонентов в соответствии с новым фирменным стилем и визуальным языком.
+- <input type="checkbox" readonly /> Добавление нового компонента — панель действий. 
+
 # 2021
 
-- <input type="checkbox" readonly/> Адаптивные версии компонентов использующих выпадающие меню — селекта, автокомплита, комбобокса для мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963).
-- <input type="checkbox" readonly/> Адаптивные версии модалки и сайдпейджа.
-- <input type="checkbox" readonly/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18.
-- <input type="checkbox" readonly/> Новые цвета контролов. Обновление в соответствии с новым дизайном и фирменным стилем.
-- <input type="checkbox" readonly/> Официальный старт поддержки темной темы.
-- <input type="checkbox" readonly/> Адаптация контролов для использования с шрифтом Lab Grotesque.
-- <input type="checkbox" readonly/> Добавление компонента FileUploader для загрузки файлов на сервер.
-- <input type="checkbox" readonly/> Добавление компонента [GlobalLoader](https://guides.kontur.ru/components/global-loader/).
+- <input type="checkbox" readonly checked/> Адаптивные версии компонентов использующих выпадающие меню — селекта, автокомплита, комбобокса для мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963).
+- <input type="checkbox" readonly checked/> Адаптивные версии модалки и сайдпейджа.
+- <input type="checkbox" readonly checked/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18.
+- <input type="checkbox" readonly checked/> Новые цвета контролов. Обновление в соответствии с «преходным» дизайном.
+- <input type="checkbox" readonly checked/> Официальный старт поддержки темной темы.
+- <input type="checkbox" readonly checked/> Адаптация контролов для использования с шрифтом Lab Grotesque.
+- <input type="checkbox" readonly checked/> Добавление компонента FileUploader для загрузки файлов на сервер.
+- <input type="checkbox" readonly checked/> Добавление компонента [GlobalLoader](https://guides.kontur.ru/components/global-loader/).
 
 ### 3.0 Май 2021
 
