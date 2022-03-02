@@ -141,7 +141,7 @@ export const Top: Story = () => <SampleTop />;
 Top.decorators = [withThinContainer];
 Top.parameters = {
   creevey: {
-    skip: [{ in: ['firefox', 'firefox8px'], tests: 'stoped', reason: 'flacky stopped position' }],
+    skip: [{ in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped', reason: 'flacky stopped position' }],
     tests: {
       async top() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
@@ -180,7 +180,7 @@ export const Bottom: Story = () => <SampleBottom />;
 Bottom.decorators = [withThinContainer];
 Bottom.parameters = {
   creevey: {
-    skip: [{ in: ['firefox', 'firefox8px'], tests: 'stoped', reason: 'flacky stopped position' }],
+    skip: [{ in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped', reason: 'flacky stopped position' }],
     tests: {
       async bottom() {
         await this.browser.executeScript(function () {

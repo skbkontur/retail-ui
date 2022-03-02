@@ -18,6 +18,7 @@ export interface SpinnerIconProps {
   className: string;
   size: 'mini' | 'normal' | 'big';
   dimmed?: boolean;
+  inline?: boolean;
   width?: number;
   color?: React.CSSProperties['color'];
 }
@@ -40,8 +41,8 @@ export const sizes = {
   },
 };
 
-export const SpinnerIcon = ({ size, className, dimmed, width, color }: SpinnerIconProps) => {
-  const currentSize = sizes[size];
+export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: SpinnerIconProps) => {
+  const currentSize = inline ? sizes.mini : sizes[size];
   const svgRef = React.useRef<SVGSVGElement>(null);
 
   if (isIE11 && !isTestEnv) {
@@ -86,10 +87,12 @@ export const SpinnerIcon = ({ size, className, dimmed, width, color }: SpinnerIc
   }
 
   return (
-    <span className={styles.root()}>
+    <span className={cx(styles.root(), { [styles.rootInline()]: inline })}>
       <svg
         viewBox={`0 0 ${currentSize.size} ${currentSize.size}`}
-        className={cx(styles.icon(), className)}
+        className={cx(styles.icon(), className, {
+          [styles.iconInline()]: inline,
+        })}
         width={currentSize.size}
         height={currentSize.size}
         fill="none"

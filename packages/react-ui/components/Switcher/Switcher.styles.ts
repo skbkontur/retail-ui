@@ -2,6 +2,12 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
+  root() {
+    return css`
+      line-height: normal;
+    `;
+  },
+
   wrap() {
     return css`
       display: inline-block;
@@ -18,7 +24,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  label(t: Theme) {
+  caption(t: Theme) {
     return css`
       color: ${t.switcherTextColor};
       vertical-align: middle;
@@ -26,27 +32,27 @@ export const styles = memoizeStyle({
     `;
   },
 
-  labelSmall(t: Theme) {
+  captionSmall(t: Theme) {
     return css`
-      margin-right: ${t.switcherLabelGapSmall};
-      font-size: ${t.switcherLabelFontSizeSmall};
-      line-height: ${t.switcherLabelLineHeightSmall};
+      margin-right: ${t.switcherCaptionGapSmall};
+      font-size: ${t.switcherCaptionFontSizeSmall};
+      line-height: ${t.switcherCaptionLineHeightSmall};
     `;
   },
 
-  labelMedium(t: Theme) {
+  captionMedium(t: Theme) {
     return css`
-      margin-right: ${t.switcherLabelGapMedium};
-      font-size: ${t.switcherLabelFontSizeMedium};
-      line-height: ${t.switcherLabelLineHeightMedium};
+      margin-right: ${t.switcherCaptionGapMedium};
+      font-size: ${t.switcherCaptionFontSizeMedium};
+      line-height: ${t.switcherCaptionLineHeightMedium};
     `;
   },
 
-  labelLarge(t: Theme) {
+  captionLarge(t: Theme) {
     return css`
-      margin-right: ${t.switcherLabelGapLarge};
-      font-size: ${t.switcherLabelFontSizeLarge};
-      line-height: ${t.switcherLabelLineHeightLarge};
+      margin-right: ${t.switcherCaptionGapLarge};
+      font-size: ${t.switcherCaptionFontSizeLarge};
+      line-height: ${t.switcherCaptionLineHeightLarge};
     `;
   },
 

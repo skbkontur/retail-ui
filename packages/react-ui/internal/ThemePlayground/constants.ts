@@ -2,7 +2,6 @@ import { Theme } from '../../lib/theming/Theme';
 
 export enum ThemeType {
   Default = 'default',
-  Flat = 'flat',
   Dark = 'dark',
   DefaultOld = 'defaultOld',
   FlatOld = 'flatOld',
@@ -35,6 +34,7 @@ export const VARIABLES_GROUPS = [
   { title: 'Spinner', prefix: 'spinner' },
   { title: 'Switcher', prefix: 'switcher' },
   { title: 'Legacy', prefix: 'chb slt' },
+  { title: 'GlobalLoader', prefix: 'globalLoader' },
 ];
 
 export const DEPRECATED_VARIABLES: Array<keyof Theme> = [];

@@ -7,9 +7,7 @@ import { Gapped, MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
@@ -55,9 +53,7 @@ import { Gapped, MenuItem, Toast} from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
@@ -97,14 +93,13 @@ import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
   width: 250,
 };
+
 
 let Card = ({ title }) => (
   <div style={style}>
@@ -135,9 +130,7 @@ import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
@@ -176,9 +169,7 @@ import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
@@ -214,9 +205,7 @@ import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',
@@ -252,9 +241,7 @@ import { MenuItem, Toast } from '@skbkontur/react-ui';
 
 let style = {
   alignItems: 'center',
-  background: 'white',
   border: '1px solid #dfdede',
-  color: '#333',
   display: 'flex',
   justifyContent: 'space-between',
   padding: '0 20px',

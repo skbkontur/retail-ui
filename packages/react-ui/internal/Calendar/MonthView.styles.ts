@@ -5,7 +5,6 @@ export const styles = memoizeStyle({
   headerMonth(t: Theme) {
     return css`
       display: inline-block;
-      line-height: ${t.calendarMonthTitleLineHeight};
       padding: ${t.calendarMonthTitlePaddingTop} 0 ${t.calendarMonthTitlePaddingBottom};
     `;
   },
@@ -15,7 +14,6 @@ export const styles = memoizeStyle({
       display: inline-block;
       position: absolute;
       right: 0;
-      line-height: ${t.calendarMonthTitleLineHeight};
       padding: ${t.calendarMonthTitlePaddingTop} 0 ${t.calendarMonthTitlePaddingBottom};
     `;
   },
@@ -46,6 +44,13 @@ export const styles = memoizeStyle({
       border-bottom: 1px solid ${t.calendarMonthTitleBorderBottomColor};
       font-weight: ${t.dateSelectFontWeight};
       margin: 0 ${t.calendarMonthTitleMarginX} ${t.calendarMonthTitleMarginBottom};
+      line-height: ${t.calendarMonthTitleLineHeight};
+    `;
+  },
+
+  monthDayGrid(t: Theme) {
+    return css`
+      line-height: ${t.calendarCellLineHeight};
     `;
   },
 });
