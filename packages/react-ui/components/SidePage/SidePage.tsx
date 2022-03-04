@@ -226,21 +226,27 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private disablePageScroll = (e: WheelEvent) => {
     const layout = this.layout;
     if (!layout) return;
-    const scrollContainer = layout.querySelector("[data-tid='ScrollContainer__inner']");
-    let scrollContainerScrollAvailable = false;
-    if (scrollContainer) {
-      const scrollContainerReachedTop = scrollContainer.scrollTop <= 0 && e.deltaY < 0;
-      const scrollContainerReachedBottom =
-        scrollContainer.scrollTop >= scrollContainer.scrollHeight - scrollContainer.clientHeight && e.deltaY > 0;
-      scrollContainerScrollAvailable = !scrollContainerReachedTop && !scrollContainerReachedBottom;
-    }
-    const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
-    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
+    const scrollingUp = e.deltaY < 0;
+    const scrollContainerScrollAvailable = this.checkScrollContainerScrollAvailability(layout, scrollingUp);
+    const reachedTop = layout.scrollTop <= 0 && scrollingUp;
+    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && !scrollingUp;
     const scrollAvailable = !reachedTop && !reachedBottom;
-
     if (!this.props.blockBackground && !scrollAvailable && !scrollContainerScrollAvailable) {
       e.preventDefault();
     }
+  };
+
+  private checkScrollContainerScrollAvailability = (layout: HTMLElement, scrollingUp: boolean) => {
+    const scrollContainer = layout.querySelector("[data-tid='ScrollContainer__inner']");
+    if (scrollContainer) {
+      const scrollContainerReachedTop = scrollContainer.scrollTop <= 0;
+      const scrollContainerUnableScrollUp = scrollContainerReachedTop && scrollingUp;
+      const scrollContainerReachedBottom =
+        scrollContainer.scrollTop >= scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      const scrollContainerUnableScrollDown = scrollContainerReachedBottom && !scrollingUp;
+      return !scrollContainerUnableScrollUp && !scrollContainerUnableScrollDown;
+    }
+    return false;
   };
 
   private getSidePageContextProps = (): SidePageContextType => {
