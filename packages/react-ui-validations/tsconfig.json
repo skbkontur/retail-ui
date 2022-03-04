@@ -1,4 +1,7 @@
 {
   "extends": "../../tsconfig.json",
-  "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"]
+  "include": ["./src/**/*", "./docs/**/*", "./typings/**/*", "../react-ui/typings/**/*"],
+  "compilerOptions": {
+    "useUnknownInCatchVariables": false
+  }
 }

@@ -12,6 +12,7 @@ import { DayCellViewModel } from './DayCellViewModel';
 import { MonthView } from './MonthView';
 import { DayCellView } from './DayCellView';
 import * as CalendarScrollEvents from './CalendarScrollEvents';
+import { styles } from './MonthView.styles';
 
 type MonthProps = {
   top: number;
@@ -183,7 +184,7 @@ class MonthDayGrid extends React.Component<MonthDayGridComponentProps> {
 
   public renderMain() {
     return (
-      <div>
+      <div className={styles.monthDayGrid(this.theme)}>
         <div
           style={{
             width: this.props.offset * themeConfig(this.theme).DAY_SIZE,

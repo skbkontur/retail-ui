@@ -3,10 +3,14 @@ import { mount } from 'enzyme';
 import MaskedInput from 'react-input-mask';
 
 import { Input, InputProps } from '../Input';
+import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
-const render = (props: InputProps) => mount<Input, InputProps>(<Input {...props} />);
+const render = (props: InputProps) =>
+  mount<Input, InputProps>(<Input {...props} />, { attachTo: getAttachedTarget() });
 
 describe('<Input />', () => {
+  buildMountAttachTarget();
+
   it('renders', () => {
     expect(() => render({ value: 'Hello' })).not.toThrow();
   });

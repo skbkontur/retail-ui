@@ -146,7 +146,12 @@ export class Sticky extends React.Component<StickyComponentProps, StickyState> {
 
   private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
-  private reflow = () => {
+  /**
+   * Пересчитать габариты и позицию залипшего элемента
+   *
+   * @public
+   */
+  public reflow = () => {
     const { documentElement } = document;
 
     if (!documentElement) {
@@ -161,7 +166,7 @@ export class Sticky extends React.Component<StickyComponentProps, StickyState> {
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
+    const fixed = side === 'top' ? top < offset : Math.floor(bottom) > windowHeight - offset;
 
     this.setState({ fixed, left });
 

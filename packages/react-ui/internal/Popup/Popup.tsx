@@ -17,6 +17,8 @@ import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
+import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
@@ -82,6 +84,8 @@ type PopupInterface = {
    * @see https://github.com/skbkontur/retail-ui/pull/1195
    */
   tryPreserveFirstRenderedPosition?: boolean;
+  withoutMobile?: boolean;
+  mobileOnCloseRequest?: () => void;
 };
 
 export type PopupProps = PopupInterface & CommonProps & PopupHandlerProps & Partial<DefaultProps>;
@@ -115,6 +119,7 @@ type DefaultProps = {
 
 export type PopupComponentProps = PopupProps & DefaultProps;
 
+@responsiveLayout
 @rootNode
 export class Popup extends React.Component<PopupComponentProps, PopupState> {
   public static __KONTUR_REACT_UI__ = 'Popup';
@@ -197,6 +202,7 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
   private anchorElement: Nullable<HTMLElement> = null;
+  private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
 
@@ -223,6 +229,10 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     const hadNoLocation = prevState.location === DUMMY_LOCATION;
     const hasLocation = this.state.location !== DUMMY_LOCATION;
     const wasClosed = prevProps.opened && !this.props.opened;
+
+    if (this.isMobileLayout && prevState.location === null && this.state.location === null) {
+      this.setState({ location: DUMMY_LOCATION });
+    }
 
     if (hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
@@ -258,6 +268,16 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     );
   }
 
+  private renderMobile() {
+    const { opened } = this.props;
+
+    return (
+      <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
+        {this.content(this.renderChildren())}
+      </MobilePopup>
+    );
+  }
+
   private renderMain() {
     const { location } = this.state;
     const { anchorElement, useWrapper } = this.props;
@@ -288,9 +308,13 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     // which should be called with RenderContainer's ref
     // in the case when the anchor is not refable
 
+    const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
+
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={anchorWithRef ? null : this.renderContainerRef}>
-        {location && this.renderContent(location)}
+      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.renderContainerRef}>
+        {this.isMobileLayout && !this.props.withoutMobile
+          ? this.renderMobile()
+          : location && this.renderContent(location)}
       </RenderContainer>
     );
   }
@@ -368,8 +392,24 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
     return width;
   };
 
+  private content = (children: React.ReactNode) => {
+    const { backgroundColor, width } = this.props;
+
+    return (
+      <div className={styles.content(this.theme)} data-tid={'PopupContent'} ref={this.refForTransition}>
+        <div
+          className={styles.contentInner(this.theme)}
+          style={{ backgroundColor, width: this.calculateWidth(width) }}
+          data-tid={'PopupContentInner'}
+        >
+          {children}
+        </div>
+      </div>
+    );
+  };
+
   private renderContent(location: PopupLocation) {
-    const { backgroundColor, disableAnimations, maxWidth, hasShadow, ignoreHover, opened, width } = this.props;
+    const { disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -412,16 +452,8 @@ export class Popup extends React.Component<PopupComponentProps, PopupState> {
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
             >
-              <div className={styles.content(this.theme)} data-tid={'PopupContent'} ref={this.refForTransition}>
-                <div
-                  className={styles.contentInner(this.theme)}
-                  style={{ backgroundColor, width: this.calculateWidth(width) }}
-                  data-tid={'PopupContentInner'}
-                >
-                  {children}
-                </div>
-              </div>
-              {this.renderPin(location.position)}
+              {this.content(children)}
+              {!this.isMobileLayout && this.renderPin(location.position)}
             </ZIndex>
           </CommonWrapper>
         )}

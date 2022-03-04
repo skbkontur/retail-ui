@@ -29,6 +29,10 @@ type ScrollContainerInterface = {
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  /**
+   * Отключение кастомного скролла
+   */
+  disabled?: boolean;
 };
 
 export type ScrollContainerProps = ScrollContainerInterface & CommonProps & Partial<DefaultProps>;
@@ -91,6 +95,10 @@ export class ScrollContainer extends React.Component<ScrollContainerComponentPro
 
   public render = () => {
     const props = this.props;
+
+    if (this.props.disabled) {
+      return this.props.children;
+    }
 
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,

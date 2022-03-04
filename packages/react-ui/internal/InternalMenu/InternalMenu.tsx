@@ -31,6 +31,11 @@ type MenuState = {
 
 type DefaultProps = {
   width: number | string;
+  /**
+   * Максимальная высота применяется только для скролл контейнера
+   *
+   * Высота `header` и `footer` в нее не включены
+   */
   maxHeight: number | string;
   hasShadow: boolean;
   preventWindowScroll: boolean;
@@ -72,7 +77,7 @@ export class InternalMenu extends React.PureComponent<InternalMenuComponentProps
     this.calculateMaxHeight();
   }
 
-  public componentDidUpdate(prevProps: MenuProps, prevState: MenuState) {
+  public componentDidUpdate(prevProps: MenuProps) {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }

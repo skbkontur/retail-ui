@@ -31,6 +31,7 @@ type SpinnerInterface = {
    * Цвет спиннера
    */
   color?: React.CSSProperties['color'];
+  inline?: boolean;
 };
 
 export type SpinnerProps = SpinnerInterface & CommonProps & Partial<DefaultProps>;
@@ -99,19 +100,19 @@ export class Spinner extends React.Component<SpinnerComponentProps> {
   }
 
   private renderMain() {
-    const { type, caption = this.locale.loading, dimmed } = this.props;
+    const { type, caption = this.locale.loading, dimmed, inline } = this.props;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.spinner()}>
-          <span className={styles.inner()}>{this.renderSpinner(type, dimmed)}</span>
+          <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>
       </CommonWrapper>
     );
   }
 
-  private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
+  private renderSpinner = (type: SpinnerType, dimmed?: boolean, inline?: boolean) => {
     return (
       <SpinnerIcon
         size={type}
@@ -123,6 +124,7 @@ export class Spinner extends React.Component<SpinnerComponentProps> {
         dimmed={dimmed}
         width={this.props.width}
         color={this.props.color}
+        inline={inline}
       />
     );
   };

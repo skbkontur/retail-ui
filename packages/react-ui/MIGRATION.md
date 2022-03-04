@@ -1,5 +1,10 @@
 # Migration
 
+- [3.x - 4.0](#3x---40)
+  - [Новые темы](#новые-темы)
+  - [Адаптация под Lab Grotesque](#адаптация-под-lab-grotesque)
+  - [Мобильные версии компонентов](#мобильные-версии-компонентов)
+  - [Переименование label в caption](#переименование-label-в-caption)
 - [2.x - 3.0](#2x---30)
   - [8px-тема по умолчанию](#8px-тема-по-умолчанию)
   - [Удаление старых компонентов, переменных и пропов](#удаление-старых-компонентов-переменных-и-пропов)
@@ -20,6 +25,66 @@
 - [0.x - 1.0](#0x---10)
   - [Переход с кастомизации с помощью `less`](#переход-с-кастомизации-с-помощью-less)
   - [Подключение плоской темы](#подключение-плоской-темы)
+
+## 3.x - 4.0
+
+### Новые темы
+
+В версии 4.0 обновлён список доступных тем. Вместо двух отдельных (дефолтной и плоской) теперь осталась одна тема по умолчанию, которая базируется на плоской теме и использует обновлённую цветовую палитру. Также, добавилась официальная тёмная тема, и были удалены темы со старыми размерами (`DEFAULT_THEME_OLD` и `FLAT_THEME_OLD`). Предыдущие 8px-темы пока остаются в пакете, но планируются к удалению в 5.0. Они получили суффикс `_8PX_OLD` к своему имени.
+
+Текущий список тем:
+
+| Имя                     | Описание           |
+| ----------------------- | ------------------ |
+| `DEFAULT_THEME`         | Новая по умолчанию |
+| `DARK_THEME`            | Темная             |
+| `DEFAULT_THEME_8PX_OLD` | Старая дефолтная   |
+| `FLAT_THEME_8PX_OLD`    | Старая плоская     |
+
+Чтобы продожить использовать предыдущую тему, просто включите ее вручную.
+
+```jsx static
+import { ThemeContext, DEFAULT_THEME_8PX } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={DEFAULT_THEME_8PX}>...</ThemeContext.Provider>;
+```
+
+### Адаптация под Lab Grotesque
+
+Библиотека по умолчанию теперь ориентирована на использование шрифта `Lab Grotesque` вместо `Segoe UI`. В стили компонентов `Checkbox`, `Radio` и `Toggle` была добавлена компенсация базовой линии. Ее можно отключить переменной темы `labGrotesqueBaselineCompensation`, передав значение `"0"`. Старая компенсация для Segoe, которая присутствовала в компоненте `Button`, теперь отключена. Однако, прежнюю компенсацию в случае необходимости можно вернуть, передав переменной `fontFamilyCompensationBaseline` значение `"1"`.
+
+### Мобильные версии компонентов
+
+У таких компонентов, как `Select`, `Autocomplete`, `ComboBox`, `Modal`, `SidePage`, `Hint`, `Tooltip`, `TooltipMenu`, `Dropdown`, `DropdownMenu`, `Kebab` появились мобильные версии, которые активируются автоматически на мобильных устройствах. Подробнее об этом в [соответствующем разделе](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui/MOBILES.md) документации.
+
+### Переименование label в caption
+
+Для большей консистентности имен среди всех компонентов были произведены следующие переименования:
+
+1. проп в Switcher
+
+   | Было    | Стало     |
+   | ------- | --------- |
+   | `label` | `caption` |
+
+2. переменные темы
+
+   | Было                            | Стало                             |
+   | ------------------------------- | --------------------------------- |
+   | `checkboxLabelGap`              | `checkboxCaptionGap`              |
+   | `radioLabelGap`                 | `radioCaptionGap`                 |
+   | `radioLabelDisplay`             | `radioCaptionDisplay`             |
+   | `switcherLabelFontSizeSmall`    | `switcherCaptionFontSizeSmall`    |
+   | `switcherLabelFontSizeMedium`   | `switcherCaptionFontSizeMedium`   |
+   | `switcherLabelFontSizeLarge`    | `switcherCaptionFontSizeLarge`    |
+   | `switcherLabelLineHeightSmall`  | `switcherCaptionLineHeightSmall`  |
+   | `switcherLabelLineHeightMedium` | `switcherCaptionLineHeightMedium` |
+   | `switcherLabelLineHeightLarge`  | `switcherCaptionLineHeightLarge`  |
+   | `switcherLabelGapSmall`         | `switcherCaptionGapSmall`         |
+   | `switcherLabelGapMedium`        | `switcherCaptionGapMedium`        |
+   | `switcherLabelGapLarge`         | `switcherCaptionGapLarge`         |
+
+Для автоматической адаптации этих изменений доступны кодмоды: [react-ui-4.0/transformLabelToCaption](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui-codemod/README.md#react-ui-40transformlabeltocaption) и [react-ui-4.0/renameThemeVars](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui-codemod/README.md#react-ui-40renamethemevars).
 
 ## 2.x - 3.0
 
