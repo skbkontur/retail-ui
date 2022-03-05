@@ -1,9 +1,8 @@
 import { canUseDOM, isIE11 } from './client';
 
-export const supportsPlaceholder = 'placeholder' in document.createElement('input');
-
 const needsPolyfillPlaceholderInternal = () => {
   if (canUseDOM) {
+    const supportsPlaceholder = 'placeholder' in document.createElement('input');
     if (!supportsPlaceholder || isIE11) {
       return true;
     }
