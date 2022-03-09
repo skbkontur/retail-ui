@@ -92,7 +92,7 @@ const checkboxTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'span' }),
+        origin: this.browser.findElement({ css: '[data-tid="Checkbox__caption"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
@@ -103,7 +103,7 @@ const checkboxTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'span' }),
+        origin: this.browser.findElement({ css: '[data-tid="Checkbox__caption"]' }),
       })
       .press()
       .perform();
@@ -120,7 +120,7 @@ const checkboxTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'span' }))
+      .click(this.browser.findElement({ css: '[data-tid="Checkbox__caption"]' }))
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
@@ -129,7 +129,7 @@ const checkboxTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'span' }))
+      .click(this.browser.findElement({ css: '[data-tid="Checkbox__caption"]' }))
       .perform();
     await this.browser
       .actions({
@@ -147,7 +147,7 @@ const checkboxTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'span' }))
+      .click(this.browser.findElement({ css: '[data-tid="Checkbox__caption"]' }))
       .perform();
     await this.browser
       .actions({
@@ -293,7 +293,7 @@ Indeterminate.parameters = {
             bridge: true,
           })
           .move({
-            origin: this.browser.findElement({ css: 'label' }),
+            origin: this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' }),
           })
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
@@ -314,7 +314,7 @@ Indeterminate.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' }))
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
       },

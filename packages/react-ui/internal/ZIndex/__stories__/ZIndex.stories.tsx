@@ -350,7 +350,9 @@ class HintAndModal extends React.Component<{}> {
             <br />
             <br />
             <br />
-            <Button onClick={() => this.setState({ hintOpened: true })}>Show Hint</Button>
+            <Button data-tid="show-hint" onClick={() => this.setState({ hintOpened: true })}>
+              Show Hint
+            </Button>
           </div>
         </Modal.Body>
         <Modal.Footer panel={true}>
@@ -373,7 +375,9 @@ class HintAndModal extends React.Component<{}> {
       <div style={{ padding: '100px' }}>
         {this.state.modalOpened && this.renderModal()}
         <Hint text="Text" opened={this.state.hintOpened} manual={true}>
-          <Button onClick={this.open}>Open</Button>
+          <Button data-tid="open-modal" onClick={this.open}>
+            Open
+          </Button>
         </Hint>
       </div>
     );
@@ -734,12 +738,12 @@ HintAndModalStory.parameters = {
       async ['Modal covers hint']() {
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid="open-modal"]' }))
           .perform();
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '.modalBody button' }))
+          .click(this.browser.findElement({ css: '[data-tid="show-hint"]' }))
           .perform();
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
@@ -786,7 +790,7 @@ TooltipAndSelectStory.parameters = {
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-comp-name=~"Select"]' }))
           .sendKeys('q')
           .perform();
 

@@ -16,7 +16,7 @@ const linkTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'a' }),
+        origin: this.browser.findElement({ css: '[data-comp-name~="Link"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');

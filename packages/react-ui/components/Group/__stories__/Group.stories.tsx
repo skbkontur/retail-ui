@@ -32,7 +32,7 @@ SimpleGroupWithInputAndButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('focused input');
       },

@@ -117,7 +117,7 @@ FocusTooltip.parameters = {
 
 export const FocusTooltipNativeInput: Story = () => (
   <TestTooltip trigger="focus" disableAnimations>
-    <input />
+    <input data-tid="native-input" />
   </TestTooltip>
 );
 FocusTooltipNativeInput.storyName = 'focus tooltip (native input)';
@@ -133,7 +133,7 @@ FocusTooltipNativeInput.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-tid="native-input"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - focus');
       },
@@ -142,7 +142,7 @@ FocusTooltipNativeInput.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-tid="native-input"]' }))
           .perform();
         await this.browser
           .actions({
@@ -280,7 +280,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
             bridge: true,
           })
           .move({
-            origin: this.browser.findElement({ css: 'textarea' }),
+            origin: this.browser.findElement({ css: '[data-comp-name~="Textarea"]' }),
           })
           .perform();
         await delay(1500);
@@ -451,7 +451,7 @@ TooltipWithInputAndSwitchableContent.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('Hi')
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
@@ -461,7 +461,7 @@ TooltipWithInputAndSwitchableContent.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('Hi')
           .sendKeys(this.keys.BACK_SPACE, this.keys.BACK_SPACE)
           .perform();

@@ -260,7 +260,7 @@ SelectAllByProp.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Textarea"]' }))
           .pause(500)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
@@ -279,7 +279,9 @@ export const SelectAllByButton: Story = () => {
 
   return (
     <div>
-      <Button onClick={handleClick}>Select All</Button>
+      <Button data-tid="select-all" onClick={handleClick}>
+        Select All
+      </Button>
       <div>
         <Textarea
           spellCheck={false}
@@ -305,7 +307,7 @@ SelectAllByButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid="select-all"]' }))
           .pause(500)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Selected');

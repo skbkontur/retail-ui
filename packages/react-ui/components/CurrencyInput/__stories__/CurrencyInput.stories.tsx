@@ -133,7 +133,9 @@ class Sample extends React.Component<
           onValueChange={this.handleChange}
         />
         <div style={{ margin: '15px 0', position: 'absolute' }}>
-          <button onClick={this.handleClickButton}>focus</button>
+          <button data-tid="focus" onClick={this.handleClickButton}>
+            focus
+          </button>
         </div>
       </div>
     );
@@ -209,7 +211,7 @@ SampleStory.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid="focus"]' }))
           .perform();
         await this.browser
           .actions({

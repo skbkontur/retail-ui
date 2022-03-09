@@ -214,7 +214,7 @@ Plain.parameters = {
             bridge: true,
           })
           .move({
-            origin: this.browser.findElement({ css: 'label' }),
+            origin: this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }),
           })
           .press()
           .perform();
@@ -231,7 +231,7 @@ Plain.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
@@ -268,7 +268,7 @@ DisabledWithTooltip.parameters = {
             bridge: true,
           })
           .move({
-            origin: this.browser.findElement({ css: 'label' }),
+            origin: this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }),
           })
           .press()
           .perform();
@@ -313,7 +313,7 @@ WithLongDescription.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },

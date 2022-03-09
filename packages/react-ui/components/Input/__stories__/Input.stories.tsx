@@ -457,7 +457,7 @@ InputWithPhoneMask.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
       },
@@ -466,7 +466,7 @@ InputWithPhoneMask.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('9')
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Editing');
@@ -476,7 +476,7 @@ InputWithPhoneMask.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'input' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('9')
           .perform();
         await this.browser
@@ -505,7 +505,7 @@ SelectAllByProp.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'label' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
       },
@@ -527,7 +527,9 @@ export const SelectAllByButton: Story = () => {
       <div>
         <Input ref={(element) => (input = element)} defaultValue="Some value" />
       </div>
-      <Button onClick={selectAll}>Select all</Button>
+      <Button data-tid="select-all" onClick={selectAll}>
+        Select all
+      </Button>
     </div>
   );
 };
@@ -544,7 +546,7 @@ SelectAllByButton.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-tid="select-all"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
       },

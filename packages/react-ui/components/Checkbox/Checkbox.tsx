@@ -196,7 +196,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
         [styles.captionIE11()]: isIE11 || isEdge,
         [styles.disabled(this.theme)]: Boolean(props.disabled),
       });
-      caption = <span className={captionClass}>{this.props.children}</span>;
+      caption = (
+        <span data-tid="Checkbox__caption" className={captionClass}>
+          {this.props.children}
+        </span>
+      );
     }
 
     const iconClass = cx({
