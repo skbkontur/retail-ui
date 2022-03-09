@@ -8,6 +8,7 @@ import { Button, ButtonProps } from '../Button';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { ComponentCombinator } from '../../../internal/ComponentCombinator';
+import { delay } from '../../../lib/utils';
 
 export default { title: 'Button' } as Meta;
 
@@ -16,6 +17,7 @@ const buttonTests: CreeveyTests = {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
   async hover() {
+    await delay(2000);
     await this.browser
       .actions({
         bridge: true,
@@ -27,6 +29,8 @@ const buttonTests: CreeveyTests = {
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
   },
   async pressed() {
+    await delay(2000);
+
     await this.browser
       .actions({
         bridge: true,
@@ -45,6 +49,8 @@ const buttonTests: CreeveyTests = {
       .perform();
   },
   async clicked() {
+    await delay(2000);
+
     await this.browser
       .actions({
         bridge: true,
