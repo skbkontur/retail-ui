@@ -75,15 +75,17 @@ export const decorators: Meta['decorators'] = [
 
 export const parameters: Meta['parameters'] = {
   creevey: {
-    captureElement: '#test-element',
-    skip: [
-      {
-        in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
-      },
-      { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
-      { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
-    ],
+    global: {
+      captureElement: '#test-element',
+      skip: [
+        {
+          in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
+          kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
+        },
+        { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
+        { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
+      ],
+    },
   },
   options: {
     storySort: (a, b) => (a[1].kind === b[1].kind ? 0 : a[1].id.localeCompare(b[1].id, undefined, { numeric: true })),
