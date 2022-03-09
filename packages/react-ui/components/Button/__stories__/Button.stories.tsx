@@ -23,7 +23,7 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-comp-name~="Button"]' }),
       })
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
@@ -36,7 +36,7 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .move({
-        origin: this.browser.findElement({ css: 'button' }),
+        origin: this.browser.findElement({ css: '[data-comp-name~="Button"]' }),
       })
       .press()
       .perform();
@@ -55,7 +55,7 @@ const buttonTests: CreeveyTests = {
       .actions({
         bridge: true,
       })
-      .click(this.browser.findElement({ css: 'button' }))
+      .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
