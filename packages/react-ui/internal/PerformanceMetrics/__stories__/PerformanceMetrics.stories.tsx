@@ -34,7 +34,7 @@ const inputsWithTooltip = (
   </div>
 );
 
-export default { title: 'PerformanceMetrics', parameters: { creevey: { skip: [true] } } };
+export default { title: 'PerformanceMetrics', parameters: { creevey: { kind: { skip: [true] } } } };
 
 export const BareInputsVsTooltipInput = () => {
   return (
