@@ -17,7 +17,7 @@ const buttonTests: CreeveyTests = {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
   async hover() {
-    await delay(2000);
+    await delay(10000);
     await this.browser
       .actions({
         bridge: true,
@@ -29,7 +29,7 @@ const buttonTests: CreeveyTests = {
     await this.expect(await this.takeScreenshot()).to.matchImage('hover');
   },
   async pressed() {
-    await delay(2000);
+    await delay(10000);
 
     await this.browser
       .actions({
@@ -49,7 +49,7 @@ const buttonTests: CreeveyTests = {
       .perform();
   },
   async clicked() {
-    await delay(2000);
+    await delay(10000);
 
     await this.browser
       .actions({
