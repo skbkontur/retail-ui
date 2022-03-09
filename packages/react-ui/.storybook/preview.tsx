@@ -85,6 +85,7 @@ export const parameters: Meta['parameters'] = {
         { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
         { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
       ],
+      delay: 3000,
     },
   },
   options: {
