@@ -11,7 +11,7 @@ module.exports = {
     },
   ],
   stories: [
-    '../components/**/Dropdown.stories.tsx',
+    '../components/**/Button.stories.tsx',
     // '../components/**/*.stories.tsx',
     // '../internal/**/*.stories.tsx'
   ],
