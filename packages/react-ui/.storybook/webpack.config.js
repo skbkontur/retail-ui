@@ -18,7 +18,9 @@ module.exports = async ({ config, mode }) => {
     {
       test: /\.(j|t)sx?$/,
       loader: 'babel-loader',
-      exclude: /node_modules/,
+      // @see https://github.com/storybookjs/storybook/issues/17057
+      // should be fixed in Storybook 6.5
+      exclude: /node_modules\/(?!(strip-ansi|ansi-regex|slash))/,
       options: {
         babelrc: false,
         envName: 'cjs',

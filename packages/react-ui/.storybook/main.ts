@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   addons: [
     'creevey',
@@ -16,5 +18,19 @@ module.exports = {
   },
   features: {
     postcss: false,
+  },
+  managerWebpack: (config) => {
+    // @see https://github.com/storybookjs/storybook/issues/17057
+    // should be fixed in Storybook 6.5
+    config.module.rules.push({
+      test: /node_modules\/(react-router|react-router-dom)\/.*\.js$/,
+      loader: 'babel-loader',
+      options: {
+        babelrc: false,
+        envName: 'cjs',
+        extends: path.join(__dirname, '../.babelrc.js'),
+      },
+    });
+    return config;
   },
 };
