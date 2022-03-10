@@ -382,7 +382,9 @@ class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: bo
             </Modal.Footer>
           </Modal>
         )}
-        <Button onClick={this.open}>Open modal</Button>
+        <Button data-tid="open-modal" onClick={this.open}>
+          Open modal
+        </Button>
       </div>
     );
   }

@@ -790,7 +790,7 @@ TooltipAndSelectStory.parameters = {
 
         await this.browser
           .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name=~"Select"]' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .sendKeys('q')
           .perform();
 
