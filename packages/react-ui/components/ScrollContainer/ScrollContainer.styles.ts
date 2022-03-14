@@ -23,12 +23,6 @@ export const styles = memoizeStyle({
       max-height: 100%;
       max-width: 100%;
 
-      /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
-      margin-bottom: -1px;
-      padding-bottom: 1px;
-      margin-right: -1px;
-      padding-right: 1px;
-
       /* Hide scrobars without losing functionality */
       scrollbar-width: none;
       -ms-overflow-style: none;
@@ -36,6 +30,16 @@ export const styles = memoizeStyle({
         width: 0;
         height: 0;
       }
+    `;
+  },
+
+  innerIE11() {
+    return css`
+      /* IE sometimes enabled scroll: http://codepen.io/anon/pen/RRrLNX */
+      margin-bottom: -1px;
+      padding-bottom: 1px;
+      margin-right: -1px;
+      padding-right: 1px;
     `;
   },
 

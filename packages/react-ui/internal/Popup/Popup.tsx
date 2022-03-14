@@ -301,8 +301,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // which should be called with RenderContainer's ref
     // in the case when the anchor is not refable
 
+    const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
+
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={anchorWithRef ? null : this.renderContainerRef}>
+      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.renderContainerRef}>
         {this.isMobileLayout && !this.props.withoutMobile
           ? this.renderMobile()
           : location && this.renderContent(location)}

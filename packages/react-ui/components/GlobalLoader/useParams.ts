@@ -30,6 +30,7 @@ export const useGlobalLoaderWidth = (
 ) => {
   const { width } = getDOMRect(ref);
   const [startWidth, setStartWidth] = useState(0);
+  const fullWidth = ref.current?.parentElement?.offsetWidth || 0;
   useEffect(() => {
     if (status === 'error') {
       setStartWidth(width);
@@ -40,5 +41,5 @@ export const useGlobalLoaderWidth = (
     }
   }, [status]);
 
-  return { width, startWidth };
+  return { width, startWidth, fullWidth };
 };
