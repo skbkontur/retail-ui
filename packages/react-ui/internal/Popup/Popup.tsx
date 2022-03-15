@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable, isRefableElement } from '../../lib/utils';
+import { isFunction, isNonNullable, isRefableElement, mergeRefs } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -20,7 +20,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -289,8 +288,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? React.cloneElement(anchor, {
             ref: (instance: Nullable<React.ReactInstance>) => {
               this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
-              originalRef && callChildRef(originalRef, instance);
+              mergeRefs([(anchor as React.RefAttributes<any>)?.ref])(instance);
             },
           })
         : null;
@@ -316,7 +314,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     this.updateAnchorElement(childInstance);
   };
 
-  private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
+  private updateAnchorElement = (childInstance: Nullable<React.ReactInstance>) => {
     const childDomNode = getRootNode(childInstance);
     const anchorElement = this.anchorElement;
 
@@ -326,7 +324,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.addEventListeners(childDomNode);
       this.setRootNode(childDomNode);
     }
-  }
+  };
 
   private addEventListeners(element: Nullable<HTMLElement>) {
     if (element && isHTMLElement(element)) {

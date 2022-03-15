@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
+import { mergeRefs } from '../../lib/utils';
+import { memo } from '../../lib/memo';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -98,7 +99,11 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
           return (
             <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+              <div
+                style={{ ...style, ...wrapperStyle }}
+                ref={this.memoRefs([this.setRootNode, this.props.wrapperRef])}
+                {...props}
+              >
                 {children}
               </div>
             </ZIndexContext.Provider>
@@ -108,11 +113,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
     );
   }
 
-  private wrapperRef = (element: HTMLDivElement | null) => {
-    const { wrapperRef } = this.props;
-    this.setRootNode(element);
-    wrapperRef && callChildRef(wrapperRef, element);
-  };
+  private memoRefs = memo(mergeRefs);
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
     let newZIndex = this.zIndex;
