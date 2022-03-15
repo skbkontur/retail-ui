@@ -1,17 +1,11 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
-import { Theme8pxInternal } from '../../internal/themes/Theme8px';
 
 import { Theme, ThemeIn } from './Theme';
-import { isFullTheme, markAs8pxTheme } from './ThemeHelpers';
 
 export class ThemeFactory {
   public static create<T extends {}>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
-    const base = baseTheme || markAs8pxTheme(this.constructTheme(DefaultThemeInternal, Theme8pxInternal));
+    const base = baseTheme || DefaultThemeInternal;
     return this.constructTheme(base, theme);
-  }
-
-  public static isFullTheme(theme: ThemeIn | Theme): theme is Theme {
-    return isFullTheme(theme);
   }
 
   public static overrideDefaultTheme(theme: ThemeIn) {

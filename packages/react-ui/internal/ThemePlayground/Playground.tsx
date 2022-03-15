@@ -12,13 +12,13 @@ import { Tabs } from '../../components/Tabs';
 import { Gapped } from '../../components/Gapped';
 import { Link, LinkProps } from '../../components/Link';
 import { Input, InputProps } from '../../components/Input';
-import { Toggle } from '../../components/Toggle';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { FileUploader } from '../../components/FileUploader';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -78,6 +78,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           {this.renderHintsGroup()}
           {this.renderTooltip()}
           {this.renderPaging()}
+          {this.renderFileUploader()}
         </Gapped>
       </div>
     );
@@ -94,7 +95,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
   };
 
   private renderTabs() {
-    const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
+    const { onThemeChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
     const tabsOuterWrapperClass = cx({
       [styles.tabsWrapper(this.theme)]: true,
@@ -107,18 +108,11 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
             <div className={styles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.DefaultOld}>Дефолтная 3.0</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.FlatOld}>Плоская 3.0</Tabs.Tab>
             </div>
           </Tabs>
-          <Gapped>
-            <Toggle
-              checked={this.is8pxTheme}
-              onValueChange={this.toggle8pxTheme}
-              disabled={currentThemeType === ThemeType.Dark}
-            />
-            <span>8px</span>
-          </Gapped>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>
         </Gapped>
       </div>
@@ -129,41 +123,12 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     switch (this.props.currentThemeType) {
       case ThemeType.Dark:
         return ThemeType.Dark;
-      case ThemeType.Flat:
       case ThemeType.FlatOld:
-        return ThemeType.Flat;
-      case ThemeType.Default:
+        return ThemeType.FlatOld;
       case ThemeType.DefaultOld:
+        return ThemeType.DefaultOld;
       default:
         return ThemeType.Default;
-    }
-  };
-
-  private get is8pxTheme(): boolean {
-    switch (this.props.currentThemeType) {
-      case ThemeType.Default:
-      case ThemeType.Flat:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  private toggle8pxTheme = (value: boolean) => {
-    const { currentThemeType, onThemeChange } = this.props;
-    switch (currentThemeType) {
-      case ThemeType.Default:
-        onThemeChange(ThemeType.DefaultOld);
-        break;
-      case ThemeType.DefaultOld:
-        onThemeChange(ThemeType.Default);
-        break;
-      case ThemeType.Flat:
-        onThemeChange(ThemeType.FlatOld);
-        break;
-      case ThemeType.FlatOld:
-        onThemeChange(ThemeType.Flat);
-        break;
     }
   };
 
@@ -310,6 +275,14 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     return (
       <ComponentsGroup title={'Пейджинг'} theme={this.theme}>
         <PagingPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderFileUploader = () => {
+    return (
+      <ComponentsGroup title={'FileUploader'} theme={this.theme}>
+        <FileUploader multiple />
       </ComponentsGroup>
     );
   };

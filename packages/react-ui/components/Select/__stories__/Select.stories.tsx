@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
-import { Select } from '../Select';
+import { Select, SelectProps } from '../Select';
+import { Gapped } from '../../Gapped';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -84,11 +89,14 @@ class SelectWithNull extends React.Component<any, any> {
 export default {
   title: 'Select',
   decorators: [
-    (Story) => (
-      <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+    (Story, context) =>
+      context.originalStoryFn !== WithMenuAlignAndVariousWidth ? (
+        <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+          <Story />
+        </div>
+      ) : (
         <Story />
-      </div>
-    ),
+      ),
   ],
 } as Meta;
 
@@ -139,17 +147,116 @@ const selectTests: CreeveyTests = {
   },
 };
 
-export const Simple: Story = () => <Select items={['one', 'two', 'three']} />;
+export const Simple: Story = () => (
+  <div style={{ height: '1000px' }}>
+    <Select items={['one', 'two', 'three']} />
+  </div>
+);
 
 Simple.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
     tests: selectTests,
   },
 };
 
-export const Disabled: Story = () => (
+export const MobileSimple = () => {
+  const items = [
+    'one',
+    'two',
+    'three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '16',
+    'seventeen',
+    '18',
+    '19',
+    'откуда мы можем знать что это двадцать?',
+  ];
+
+  const [show, setShow] = useState<{ showFirst: boolean; showSecond: boolean; showThird: boolean }>({
+    showFirst: true,
+    showSecond: true,
+    showThird: true,
+  });
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider
+            value={ThemeFactory.create(
+              {
+                mobileMediaQuery: '(max-width: 576px)',
+              },
+              theme,
+            )}
+          >
+            <Gapped vertical>
+              <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
+              {show.showFirst && (
+                <Select
+                  items={items.slice(-5)}
+                  mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+                />
+              )}
+              <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
+              {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
+              <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
+              {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
+              <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
+            </Gapped>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+MobileSimple.title = 'Mobile stories';
+MobileSimple.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: { skip: [true] },
+};
+MobileSimple.decorators = [
+  (Story: Story) => (
+    <div
+      style={{
+        width: 'calc(100vw - 16px)',
+        height: 'calc(100vh - 16px)',
+        margin: -8,
+        padding: 8,
+        overflow: 'auto',
+      }}
+    >
+      <div
+        style={{
+          width: 'calc(100vw - 16px)',
+          height: 'calc(125vh - 16px)',
+          backgroundColor: 'lightBlue',
+          margin: -8,
+          padding: 8,
+        }}
+      >
+        <Story />
+      </div>
+    </div>
+  ),
+];
+MobileSimple.creevey = { skip: [true] };
+
+export const Disabled: CSFStory<JSX.Element> = () => (
   <>
     <Select disabled items={['value']} value="value" />
     <Select disabled placeholder="placeholder" />
@@ -176,7 +283,7 @@ UseLink.storyName = 'use link';
 UseLink.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
     tests: selectTests,
   },
 };
@@ -187,7 +294,7 @@ UseLinkWithIcon.storyName = 'use link with icon';
 UseLinkWithIcon.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
     tests: selectTests,
   },
 };
@@ -198,7 +305,7 @@ WithTextOverflow.storyName = 'with text overflow';
 WithTextOverflow.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
     tests: selectTests,
   },
 };
@@ -403,6 +510,47 @@ WithSearchAndVariousWidth.parameters = {
         const w100prc = await root.takeScreenshot();
 
         await this.expect({ w100px, w300px, w100prc }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const WithMenuAlignAndVariousWidth: Story = () => {
+  const widths: SelectProps<any, any>['width'][] = [undefined, '80px', '120px', '80%', '120%', 'calc(100% + 40px)'];
+  const row: Array<Partial<SelectProps<any, any>>> = [
+    { menuAlign: 'right' },
+    { menuAlign: 'right', disablePortal: true },
+    { menuAlign: 'left' },
+    { menuAlign: 'left', disablePortal: true },
+  ];
+  const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
+    <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
+  );
+
+  return (
+    <div style={{ padding: '0 50px' }}>
+      <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
+        {row.map((props, i) => (
+          <code key={i}>portal: {String(!props.disablePortal)}</code>
+        ))}
+      </div>
+      {widths.map((width) => (
+        <div
+          key={String(width)}
+          style={{ marginBottom: 50, display: 'flex', justifyContent: 'space-between', width: 550 }}
+        >
+          {row.map((props) => renderSelect(width, props))}
+        </div>
+      ))}
+    </div>
+  );
+};
+WithMenuAlignAndVariousWidth.parameters = {
+  creevey: {
+    tests: {
+      async ['open']() {
+        const root = await this.browser.findElement({ css: '#test-element' });
+        await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },
   },

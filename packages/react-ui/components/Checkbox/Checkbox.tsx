@@ -6,7 +6,7 @@ import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
-import { isEdge, isFirefox, isIE11 } from '../../lib/client';
+import { isEdge, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -200,22 +200,24 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const iconClass = cx({
+      [styles.icon(this.theme)]: true,
       [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
-      <span
-        className={cx(styles.box(this.theme), globalClasses.box, {
-          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
-          [styles.boxDisabled(this.theme)]: props.disabled,
-          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [styles.boxError(this.theme)]: props.error,
-          [styles.boxWarning(this.theme)]: props.warning,
-        })}
-      >
-        {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
-      </span>
+      <div className={cx(styles.boxWrapper(this.theme))}>
+        <div
+          className={cx(styles.box(this.theme), globalClasses.box, {
+            [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+            [styles.boxFocus(this.theme)]: this.state.focusedByTab,
+            [styles.boxError(this.theme)]: props.error,
+            [styles.boxWarning(this.theme)]: props.warning,
+            [styles.boxDisabled(this.theme)]: props.disabled,
+          })}
+        >
+          {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
+        </div>
+      </div>
     );
 
     return (

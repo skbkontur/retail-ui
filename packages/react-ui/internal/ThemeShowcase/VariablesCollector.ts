@@ -1,6 +1,6 @@
 import { Theme } from '../../lib/theming/Theme';
-import { DEFAULT_THEME_OLD } from '../../lib/theming/themes/DefaultThemeOld';
-import { FLAT_THEME_OLD } from '../../lib/theming/themes/FlatThemeOld';
+import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 
 export interface DescriptionsType {
@@ -33,8 +33,8 @@ export const COMPONENT_DESCRIPTIONS_BY_VARIABLE: VariableNameToComponentsMap = {
 
 if (IS_PROXY_SUPPORTED) {
   const baseThemes: Theme[] = [];
-  baseThemes.push(DEFAULT_THEME_OLD);
-  baseThemes.push(FLAT_THEME_OLD);
+  baseThemes.push(DEFAULT_THEME);
+  baseThemes.push(DARK_THEME);
 
   const componentsContext = require.context('../../../', true, /\.styles.ts$/);
   componentsContext.keys().forEach((fileName) => {
@@ -106,18 +106,23 @@ if (IS_PROXY_SUPPORTED) {
 function getProxyHandler(accumulator: Set<keyof Theme>, dependencies: VariableDependencies): ProxyHandler<Theme> {
   let accessLevel = 0;
   let rootProp = '';
+  function isThemeVariable<T extends Theme>(theme: T, name: keyof T) {
+    return typeof theme[name] === 'string';
+  }
   return {
     get(target, prop, receiver) {
       const propName = prop as keyof Theme;
-      ALL_USED_VARIABLES_SET.add(propName);
-      if (accessLevel === 0) {
-        rootProp = propName;
-        accumulator.add(propName);
-      } else {
-        if (!dependencies[rootProp]) {
-          dependencies[rootProp] = [propName];
-        } else if (!dependencies[rootProp].includes(propName)) {
-          dependencies[rootProp].push(propName);
+      if (isThemeVariable(target, propName)) {
+        ALL_USED_VARIABLES_SET.add(propName);
+        if (accessLevel === 0) {
+          rootProp = propName;
+          accumulator.add(propName);
+        } else {
+          if (!dependencies[rootProp]) {
+            dependencies[rootProp] = [propName];
+          } else if (!dependencies[rootProp].includes(propName)) {
+            dependencies[rootProp].push(propName);
+          }
         }
       }
       accessLevel++;

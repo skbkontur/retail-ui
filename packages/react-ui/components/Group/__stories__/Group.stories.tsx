@@ -9,6 +9,7 @@ import { Group } from '../Group';
 import { Input } from '../../Input';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default { title: 'Group' };
 
@@ -81,22 +82,34 @@ ComplexElements.storyName = 'Complex elements';
 ComplexElements.parameters = { creevey: { skip: [true] } };
 
 export const WithWidth = () => (
-  <div style={{ background: '#eee', padding: '30px 10px 10px', position: 'relative' }}>
-    <BGRuler color="#888" left={10} right={9} />
-    <Group width={240}>
-      <Button>
-        <DeleteIcon />
-      </Button>
-      <Input placeholder="240px" width="100%" />
-    </Group>
-    <br />
-    <br />
-    <Group>
-      <Button>
-        <DeleteIcon />
-      </Button>
-      <Input placeholder="no width" width="100%" />
-    </Group>
-  </div>
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <div
+          style={{
+            background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : '#eee',
+            padding: '30px 10px 10px',
+            position: 'relative',
+          }}
+        >
+          <BGRuler color="#888" left={10} right={9} />
+          <Group width={240}>
+            <Button>
+              <DeleteIcon />
+            </Button>
+            <Input placeholder="240px" width="100%" />
+          </Group>
+          <br />
+          <br />
+          <Group>
+            <Button>
+              <DeleteIcon />
+            </Button>
+            <Input placeholder="no width" width="100%" />
+          </Group>
+        </div>
+      );
+    }}
+  </ThemeContext.Consumer>
 );
 WithWidth.storyName = 'With width';
