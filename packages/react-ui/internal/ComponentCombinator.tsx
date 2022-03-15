@@ -5,7 +5,7 @@ import { DefaultizeProps } from '../lib/utils';
 import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
 export interface ComponentCombinatorProps<C, P, S> {
-  combinations: Array<StatePropsCombinations<P, S>>;
+  combinations: StatePropsCombinations<P, S>[];
   Component: C;
   presetProps: DefaultizeProps<C, P>;
   presetState: Partial<S>;

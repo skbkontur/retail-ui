@@ -318,7 +318,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   }
 
   private dispatch = (action: CustomComboBoxAction<T>) => {
-    let effects: Array<CustomComboBoxEffect<T>>;
+    let effects: CustomComboBoxEffect<T>[];
     let nextState: Pick<CustomComboBoxState<T>, never>;
 
     this.setState(

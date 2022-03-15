@@ -8,9 +8,9 @@ interface KeyboardActionMatcher<Actions> {
 }
 
 export class KeyboardActionExctracterBuilder<T> {
-  private _actionMatchers: Array<KeyboardActionMatcher<any>>;
+  private _actionMatchers: KeyboardActionMatcher<any>[];
 
-  constructor(actionMatchers: Array<KeyboardActionMatcher<T>> = []) {
+  constructor(actionMatchers: KeyboardActionMatcher<T>[] = []) {
     this._actionMatchers = actionMatchers;
   }
 

@@ -580,7 +580,7 @@ describe('ComboBox', () => {
 
   describe('search by method', () => {
     const VALUE = { value: 1, label: 'one' };
-    let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
+    let getItems: jest.Mock<Promise<typeof VALUE[]>>;
     let promise: Promise<void>;
     let wrapper: ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
 
@@ -677,7 +677,7 @@ describe('ComboBox', () => {
       comboboxWrapper.update();
       comboboxWrapper.find('input').simulate('click');
     };
-    let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
+    let getItems: jest.Mock<Promise<typeof VALUE[]>>;
     let promise: Promise<void>;
     let wrapper: TComboBoxWrapper;
 

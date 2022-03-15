@@ -1,13 +1,15 @@
 import { isFunction } from './utils';
 
-type Handler<K extends any[]> = (...args: K) => void;
+type ArgsBaseType = any[];
+type Handler<K extends ArgsBaseType> = (...args: K) => void;
 type Condition<T> = T | ((reference: T) => boolean);
+type ActionFunc<T, K extends ArgsBaseType> = {
+  condition: Condition<T>;
+  handler: Handler<K>;
+};
 
-export class ConditionalHandler<T, K extends any[] = any[]> {
-  private readonly actions: Array<{
-    condition: Condition<T>;
-    handler: Handler<K>;
-  }> = [];
+export class ConditionalHandler<T, K extends ArgsBaseType = any[]> {
+  private readonly actions: ActionFunc<T, K>[] = [];
 
   public add(condition: Condition<T>, handler: Handler<K>): ConditionalHandler<T, K> {
     this.actions.push({ condition, handler });
