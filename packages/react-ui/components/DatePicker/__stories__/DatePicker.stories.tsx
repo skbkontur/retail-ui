@@ -8,7 +8,7 @@ import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
-import { delay } from '../../../lib/utils';
+import { delay, emptyHandler } from '../../../lib/utils';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -321,3 +321,14 @@ export const DatePickerLocaleProvider = () => {
 };
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
 DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
+
+export const DatePickerInRelativeBody = () => {
+  ['html', 'body'].forEach((selector) => document.querySelector(selector)?.classList.add('relative'));
+
+  return (
+    <div style={{ padding: '400px 150px 0' }}>
+      <DatePicker autoFocus onValueChange={emptyHandler} />
+    </div>
+  );
+};
+DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
