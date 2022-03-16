@@ -106,18 +106,23 @@ if (IS_PROXY_SUPPORTED) {
 function getProxyHandler(accumulator: Set<keyof Theme>, dependencies: VariableDependencies): ProxyHandler<Theme> {
   let accessLevel = 0;
   let rootProp = '';
+  function isThemeVariable<T extends Theme>(theme: T, name: keyof T) {
+    return typeof theme[name] === 'string';
+  }
   return {
     get(target, prop, receiver) {
       const propName = prop as keyof Theme;
-      ALL_USED_VARIABLES_SET.add(propName);
-      if (accessLevel === 0) {
-        rootProp = propName;
-        accumulator.add(propName);
-      } else {
-        if (!dependencies[rootProp]) {
-          dependencies[rootProp] = [propName];
-        } else if (!dependencies[rootProp].includes(propName)) {
-          dependencies[rootProp].push(propName);
+      if (isThemeVariable(target, propName)) {
+        ALL_USED_VARIABLES_SET.add(propName);
+        if (accessLevel === 0) {
+          rootProp = propName;
+          accumulator.add(propName);
+        } else {
+          if (!dependencies[rootProp]) {
+            dependencies[rootProp] = [propName];
+          } else if (!dependencies[rootProp].includes(propName)) {
+            dependencies[rootProp].push(propName);
+          }
         }
       }
       accessLevel++;

@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useContext, useCallback, useImperativeHandle, useState } from 'react';
+import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
@@ -31,13 +31,12 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   const theme = useContext(ThemeContext);
   const [width, setWidth] = useState(textarea.clientWidth);
   const [height, setHeight] = useState(textarea.clientHeight);
-  const reflow = () => {
+  const reflow = useCallback(() => {
     const { clientWidth, clientHeight } = textarea;
     setWidth(clientWidth);
     setHeight(clientHeight);
-  };
-  useEffect(reflow, [textarea]);
-  useImperativeHandle(ref, () => ({ reflow }), [ref]);
+  }, [textarea]);
+  useImperativeHandle(ref, () => ({ reflow }), [reflow]);
   const renderTooltipContent = useCallback(() => help, [help]);
   const textareaValue = value ? value.toString().length : 0;
   const counterValue = length - textareaValue;
