@@ -27,8 +27,8 @@ export default {
   title: 'Link',
   parameters: {
     creevey: {
-      kind: {
-        skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+      skip: {
+        'hover tests in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
       },
     },
   },

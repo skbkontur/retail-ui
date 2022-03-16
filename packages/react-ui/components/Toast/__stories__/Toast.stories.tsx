@@ -44,16 +44,14 @@ export default {
   ],
   parameters: {
     creevey: {
-      kind: {
-        captureElement: 'body',
-        tests: {
-          async toastShown() {
-            const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
+      captureElement: 'body',
+      tests: {
+        async toastShown() {
+          const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
 
-            await this.browser.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
+          await this.browser.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
 
-            await this.expect(await this.takeScreenshot()).to.matchImage();
-          },
+          await this.expect(await this.takeScreenshot()).to.matchImage();
         },
       },
     },

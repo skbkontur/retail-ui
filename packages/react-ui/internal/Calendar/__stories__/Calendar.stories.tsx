@@ -8,7 +8,7 @@ import { Gapped } from '../../../components/Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { Calendar } from '../Calendar';
 
-export default { title: 'Calendar', parameters: { creevey: { kind: { skip: [true] } } } };
+export default { title: 'Calendar', parameters: { creevey: { skip: true } } };
 
 export const Simple = () => (
   <ThemeContext.Consumer>

@@ -4,7 +4,7 @@ import { Meta, Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { Radio } from '../Radio';
 
-export default { title: 'Radio', parameters: { creevey: { kind: { skip: [{ stories: 'Playground' }] } } } } as Meta;
+export default { title: 'Radio' } as Meta;
 
 export const RadioWithDifferentStates = () => (
   <div style={{ margin: '5px' }}>
@@ -52,6 +52,9 @@ export const Playground = () => {
   }
 
   return <Comp />;
+};
+Playground.parameters = {
+  creevey: { skip: true },
 };
 
 export const Highlighted: Story = () => {

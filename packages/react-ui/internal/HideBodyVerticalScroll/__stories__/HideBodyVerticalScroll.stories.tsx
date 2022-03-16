@@ -139,7 +139,7 @@ class Example2 extends React.Component {
   };
 }
 
-export default { title: 'HideBodyVerticalScroll', parameters: { creevey: { kind: { skip: [true] } } } };
+export default { title: 'HideBodyVerticalScroll', parameters: { creevey: { skip: true } } };
 
 export const Simple = () => <Example />;
 export const WithPageResize = () => <Example2 />;

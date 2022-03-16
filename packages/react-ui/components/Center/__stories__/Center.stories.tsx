@@ -6,9 +6,7 @@ export default {
   title: 'Center',
   parameters: {
     creevey: {
-      kind: {
-        skip: [true],
-      },
+      skip: true,
     },
   },
 };

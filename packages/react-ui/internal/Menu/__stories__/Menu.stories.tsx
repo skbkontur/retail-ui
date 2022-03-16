@@ -9,7 +9,7 @@ import { MenuSeparator } from '../../../components/MenuSeparator';
 
 export default {
   title: 'Menu',
-  parameters: { creevey: { kind: { captureElement: '#menu-test-container' } } },
+  parameters: { creevey: { captureElement: '#menu-test-container' } },
   decorators: [
     (Story) => (
       <div id="menu-test-container" style={{ padding: 10 }}>
