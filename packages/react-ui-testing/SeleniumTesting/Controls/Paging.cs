@@ -13,7 +13,7 @@ namespace SKBKontur.SeleniumTesting.Controls
     public class Paging : ControlList<Label>
     {
         public Paging(ISearchContainer container, ISelector selector)
-            : base(container, selector, new BySelector(By.CssSelector("[data-comp-name~='component']")))
+            : base(container, selector, Paging.GetPagesSelector())
         {
         }
 
@@ -29,5 +29,17 @@ namespace SKBKontur.SeleniumTesting.Controls
 
         public IProp<int> ActivePage => ReactProperty<int>("ActivePage");
         public IProp<int> PagesCount => ReactProperty<int>("PagesCount");
+
+        public static ISelector GetPagesSelector()
+        {
+            try
+            {
+                return new BySelector(By.CssSelector("[data-tid~='Paging__pageLink'],[data-tid~='Paging__forwardLink']"));
+            }
+            catch(NoSuchElementException ex)
+            {
+                return new BySelector(By.CssSelector("[data-comp-name~='component']"));
+            }
+        }
     }
 }
