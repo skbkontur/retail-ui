@@ -322,13 +322,35 @@ export const DatePickerLocaleProvider = () => {
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
 DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
 
-export const DatePickerInRelativeBody = () => {
+export const DatePickerInRelativeBody: Story = () => {
   ['html', 'body'].forEach((selector) => document.querySelector(selector)?.classList.add('relative'));
 
   return (
     <div style={{ padding: '400px 150px 0' }}>
-      <DatePicker autoFocus onValueChange={emptyHandler} />
+      <DatePicker
+        autoFocus
+        onValueChange={emptyHandler}
+        onBlur={() => {
+          ['html', 'body'].forEach((selector) => document.querySelector(selector)?.classList.remove('relative'));
+        }}
+      />
     </div>
   );
 };
 DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
+DatePickerInRelativeBody.parameters = {
+  creevey: {
+    tests: {
+      async opened() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'body' }))
+          .perform();
+        await delay(1000);
+      },
+    },
+  },
+};
