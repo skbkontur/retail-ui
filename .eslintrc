@@ -2,7 +2,7 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": ["@skbkontur", "plugin:@typescript-eslint/recommended"],
+  "extends": ["@skbkontur", "plugin:react-hooks/recommended", "plugin:@typescript-eslint/recommended"],
   "globals": {
     "__DEV__": true,
     "Generator": true,

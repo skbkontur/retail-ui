@@ -5,6 +5,10 @@ import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+import { isIE11 } from '../../lib/client';
+
+import { styles } from './DropdownContainer.styles';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -20,6 +24,7 @@ export interface DropdownContainerProps {
   disablePortal?: boolean;
   offsetY?: number;
   offsetX?: number;
+  hasFixedWidth?: boolean;
 }
 
 export interface DropdownContainerState {
@@ -83,11 +88,19 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         left: left !== null ? left : undefined,
         right: right !== null ? right : undefined,
         minWidth: this.state.minWidth,
+        maxWidth: this.props.hasFixedWidth ? this.state.minWidth : undefined,
       };
     }
 
     const content = (
-      <ZIndex priority={'DropdownContainer'} wrapperRef={this.ZIndexRef} style={style}>
+      <ZIndex
+        priority={'DropdownContainer'}
+        wrapperRef={this.ZIndexRef}
+        style={style}
+        className={cx({
+          [styles.alignRight()]: this.props.align === 'right' && !isIE11,
+        })}
+      >
         {this.props.children}
       </ZIndex>
     );

@@ -145,7 +145,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
                     onToggle={(value) => this.toggle(dropdownId, value)}
                     dropdownProps={{ align, disablePortal }}
                   >
-                    <Menu>
+                    <Menu align={align}>
                       <MenuItem style={{ pointerEvents: 'none' }}>
                         {`${row}/${col}/align-${align}/portal-${!disablePortal}; `.repeat(long ? 3 : 1)}
                       </MenuItem>
