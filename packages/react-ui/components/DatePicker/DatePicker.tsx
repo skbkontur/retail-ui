@@ -174,7 +174,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private input: DateInput | null = null;
   private focused = false;
-  private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
   private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
   private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
   private setRootNode!: TSetRootNode;
@@ -191,12 +190,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   }
 
   public componentDidUpdate() {
-    const { disabled, value, minDate, maxDate } = this.props;
+    const { disabled, minDate, maxDate } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
     }
-    this.internalDate = this.parseValueToDate(value);
     this.minDate = this.parseValueToDate(minDate);
     this.maxDate = this.parseValueToDate(maxDate);
   }
@@ -242,7 +240,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
-    const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
+    const internalDate = this.parseValueToDate(this.props.value);
+    const date = internalDate ? internalDate.toNativeFormat() : null;
     if (this.state.opened) {
       picker = (
         <DropdownContainer getParent={this.getParent} offsetY={2} align={this.props.menuAlign}>
