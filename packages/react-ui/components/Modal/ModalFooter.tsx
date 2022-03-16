@@ -40,6 +40,7 @@ function ModalFooter(props: ModalFooterProps) {
       modal.setHasFooter?.(false);
       modal.setHasPanel?.(false);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [panel]);
 
   const renderContent = (fixed = false) => {
