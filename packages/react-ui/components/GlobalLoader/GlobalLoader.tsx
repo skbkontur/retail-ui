@@ -3,10 +3,12 @@ import debounce from 'lodash.debounce';
 
 import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-import { GlobalLoaderView, GlobalLoaderViewProps } from './GlabalLoaderView';
+import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
-export interface GlobalLoaderProps {
+export interface GlobalLoaderProps extends Partial<DefaultProps> {
   /**
    * Время(ms) до появления лоадера
    */
@@ -19,10 +21,6 @@ export interface GlobalLoaderProps {
    * Ожидаемое время(ms) ответа сервера
    */
   expectedResponseTime: number;
-  /**
-   * Добавочное время(ms) ответа сервера
-   */
-  overtime?: number;
   /**
    * Анимация лоадера в виде спиннера
    */
@@ -58,47 +56,56 @@ export interface GlobalLoaderState {
   visible: boolean;
   done: boolean;
   rejected: boolean;
+  accept: boolean;
   dead: boolean;
   successAnimationInProgress: boolean;
   expectedResponseTime: number;
+  started: boolean;
 }
+interface DefaultProps {
+  expectedResponseTime: number;
+  delayBeforeShow: number;
+  delayBeforeHide: number;
+  rejected: boolean;
+  active: boolean;
+  disableAnimations: boolean;
+}
+export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
 let currentGlobalLoader: GlobalLoader;
 
-export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
+@rootNode
+export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
+  private setRootNode!: TSetRootNode;
 
   private readonly startTask = debounce(() => {
     this.setState({ visible: true });
     this.props.onStart?.();
-    this.errorTask();
-  }, this.props.delayBeforeShow!);
-
-  private readonly errorTask = debounce(() => {
-    this.setState({ rejected: true });
-  }, this.props.expectedResponseTime + this.props.overtime!);
+  }, this.props.delayBeforeShow);
 
   private readonly stopTask = debounce(() => {
-    this.setState({ visible: false, successAnimationInProgress: false });
+    this.setState({ visible: false, successAnimationInProgress: false, started: false });
     this.props.onDone?.();
-  }, this.props.delayBeforeHide!);
+  }, this.props.delayBeforeHide);
 
-  public static defaultProps: Partial<GlobalLoaderProps> = {
+  public static defaultProps: DefaultProps = {
     expectedResponseTime: 1000,
     delayBeforeShow: 1000,
     delayBeforeHide: 1000,
     rejected: false,
     active: false,
     disableAnimations: isTestEnv,
-    overtime: 5000,
   };
 
-  constructor(props: GlobalLoaderProps) {
+  constructor(props: GlobalLoaderComponentProps) {
     super(props);
     this.state = {
+      started: false,
       visible: false,
       done: false,
       rejected: false,
+      accept: false,
       dead: false,
       successAnimationInProgress: false,
       expectedResponseTime: this.props.expectedResponseTime,
@@ -117,6 +124,9 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
+    if (this.props.expectedResponseTime !== prevProps.expectedResponseTime) {
+      this.setState({ expectedResponseTime: this.props.expectedResponseTime });
+    }
     if (this.props.rejected !== prevProps.rejected) {
       this.setReject(!!this.props.rejected);
     }
@@ -139,18 +149,21 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       status = 'success';
     } else if (this.state.rejected) {
       status = 'error';
+    } else if (this.state.accept) {
+      status = 'accept';
     }
     return (
       !this.state.dead &&
       this.state.visible && (
-        <GlobalLoaderView
-          expectedResponseTime={this.state.expectedResponseTime}
-          delayBeforeHide={this.props.delayBeforeHide!}
-          status={status}
-          data-tid="GlobalLoader"
-          disableAnimations={this.props.disableAnimations}
-          overtime={this.props.overtime!}
-        />
+        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+          <GlobalLoaderView
+            expectedResponseTime={this.state.expectedResponseTime}
+            delayBeforeHide={this.props.delayBeforeHide}
+            status={status}
+            data-tid="GlobalLoader"
+            disableAnimations={this.props.disableAnimations}
+          />
+        </CommonWrapper>
       )
     );
   }
@@ -169,7 +182,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   /**
-   * Останавливает анимацию лоадера <br />
+   * Показывает анимацию успешного завершения загрузки <br />
    * Равносильно установке пропа `active = false`
    *
    * @public
@@ -189,7 +202,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   /**
-   * Возвращает анимацию лоадера <br />
+   * Возвращает лоадер из состояния спиннера в обычное и продолжает анимацию с того места, на котором она была прерван <br />
    * Равносильно установке пропа `rejected = false`
    *
    * @public
@@ -205,11 +218,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         this.setActive();
       }, this.props.delayBeforeHide);
     } else {
-      this.setState({ visible: false, done: false, rejected: false });
+      this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
       if (this.props.rejected) {
         this.setReject(true);
       } else {
-        this.errorTask.cancel();
         this.stopTask.cancel();
         this.startTask();
       }
@@ -218,27 +230,25 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   public setDone = () => {
     this.setState({ done: true, successAnimationInProgress: true });
-    this.errorTask.cancel();
     this.startTask.cancel();
     this.stopTask();
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.visible && this.props.active) {
+    if (!this.state.visible && (this.state.started || this.props.active)) {
       this.setState({ visible: true });
     }
-    this.errorTask.cancel();
     this.startTask.cancel();
     this.stopTask.cancel();
     if (reject) {
       this.props.onReject?.();
     } else {
-      this.props.onAccept?.();
+      if (this.state.rejected) {
+        this.setState({ accept: true });
+        this.props.onAccept?.();
+      }
     }
     this.setState({ rejected: reject });
-    if (!reject) {
-      this.errorTask();
-    }
   };
 
   public updateExpectedResponseTime(expectedResponseTime: number) {
@@ -246,7 +256,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   }
 
   public kill = () => {
-    this.errorTask.cancel();
     this.stopTask.cancel();
     this.startTask.cancel();
     this.setState({

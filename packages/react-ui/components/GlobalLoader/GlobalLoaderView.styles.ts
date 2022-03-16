@@ -30,7 +30,7 @@ export const styles = memoizeStyle({
   standardWithoutAnimation() {
     return css`
       left: 0;
-      width: 80%;
+      width: 90%;
     `;
   },
   successWithoutAnimation() {
@@ -79,8 +79,8 @@ const linearProgressAnimation = keyframes`
   to { width: 80% }
 `;
 const slowProgressAnimation = keyframes`
-  from { width: 80% }
-  to { width: 100% }
+  from { width: 80%; }
+  to { width: 90% }
 `;
 
 export const animations = {
@@ -94,7 +94,7 @@ export const animations = {
           left: ${left}px;
           opacity: 1;
         }
-        50% {
+        20% {
           width: 100%;
           left: 0;
           opacity: 1;
@@ -112,7 +112,7 @@ export const animations = {
     `;
   },
   errorAnimation(t: Theme) {
-    const transitionDuration = parseInt(t.globalLoaderTransitionDuration);
+    const transitionDuration = parseInt(t.globalLoaderTransitionToSpinnerDuration);
     const spinnerAnimationDuration = parseInt(t.globalLoaderSpinnerAnimationDuration);
 
     return css`
@@ -122,10 +122,72 @@ export const animations = {
         ${spinnerAnimationDuration}ms ${spinnerAnimation} ${transitionDuration}ms infinite alternate;
     `;
   },
-  standardAnimation(t: Theme, expectedTime: number, overtime: number) {
+  standardAnimation(t: Theme, expectedTime: number) {
+    const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
     return css`
-      animation: ${linearProgressAnimation} ${expectedTime}ms ease-out,
-        ${overtime}ms ${slowProgressAnimation} ${expectedTime}ms ease-out;
+      width: 90%;
+      animation: ${linearProgressAnimation} ${expectedTime}ms cubic-bezier(0, 0.4, 0.4, 1),
+        ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime}ms linear;
+    `;
+  },
+  acceptAnimation(t: Theme, startWidth: number, expectedTime: number, width: number, left: number) {
+    const transitionTime = parseInt(t.globalLoaderTransitionFromSpinnerDuration);
+    const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
+    return css`
+      width: 90%;
+      animation: transitionAnimation ${transitionTime}ms linear,
+        ${expectedTime}ms acceptAnimation ${transitionTime}ms cubic-bezier(0, 0.4, 0.4, 1),
+        ${slowProgressAnimationTime}ms ${slowProgressAnimation} ${expectedTime + transitionTime}ms linear;
+      @keyframes transitionAnimation {
+        from {
+          width: ${width}px;
+          left: ${left}px;
+        }
+        to {
+          width: ${startWidth}px;
+          left: 0;
+        }
+      }
+      @keyframes acceptAnimation {
+        from {
+          width: ${startWidth}px;
+        }
+        to {
+          width: 80%;
+        }
+      }
+    `;
+  },
+  slowAcceptAnimation(t: Theme, startWidth: number, width: number, left: number) {
+    const transitionTime = parseInt(t.globalLoaderTransitionFromSpinnerDuration);
+    const slowProgressAnimationTime = parseInt(t.globalLoaderSlowAnimationDuration);
+    return css`
+      width: 90%;
+      animation: transitionAnimation ${transitionTime}ms linear,
+        ${slowProgressAnimationTime}ms acceptAnimation ${transitionTime}ms linear;
+      @keyframes transitionAnimation {
+        from {
+          width: ${width}px;
+          left: ${left}px;
+        }
+        to {
+          width: ${startWidth}px;
+          left: 0;
+        }
+      }
+      @keyframes acceptAnimation {
+        from {
+          width: ${startWidth}px;
+        }
+        to {
+          width: 90%;
+        }
+      }
+    `;
+  },
+  acceptWithoutAnimation(startWidth: number) {
+    return css`
+      width: ${startWidth}px;
     `;
   },
 };

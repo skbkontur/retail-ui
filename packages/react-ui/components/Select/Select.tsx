@@ -436,6 +436,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     ) : null;
 
     const value = this.getValue();
+    const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
 
     return (
       <DropdownContainer
@@ -443,12 +444,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         offsetY={-1}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
+        hasFixedWidth={hasFixedWidth}
       >
         <Menu
           ref={this.refMenu}
           width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
+          align={this.props.menuAlign}
         >
           {search}
           {this.getMenuItems(value)}

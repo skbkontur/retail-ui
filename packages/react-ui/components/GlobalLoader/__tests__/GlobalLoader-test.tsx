@@ -1,14 +1,16 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
-import { GlobalLoader, GlobalLoaderProps, GlobalLoaderState } from '../GlobalLoader';
+import { GlobalLoader, GlobalLoaderComponentProps, GlobalLoaderState } from '../GlobalLoader';
 import { delay } from '../../../lib/utils';
 
 const DELAY_BEFORE_GLOBAL_LOADER_SHOW = 1000;
 const DELAY_BEFORE_GLOBAL_LOADER_HIDE = 1000;
 const DIFFERENCE = 100;
 
-async function setSuccessAndStart(globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>) {
+async function setSuccessAndStart(
+  globalLoader: ReactWrapper<GlobalLoaderComponentProps, GlobalLoaderState, GlobalLoader>,
+) {
   globalLoader.setProps({ active: true });
   globalLoader.update();
   await delay(DELAY_BEFORE_GLOBAL_LOADER_SHOW);
@@ -19,7 +21,7 @@ async function setSuccessAndStart(globalLoader: ReactWrapper<GlobalLoaderProps, 
 }
 
 describe('Global Loader', () => {
-  let globalLoader: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader>;
+  let globalLoader: ReactWrapper<GlobalLoaderComponentProps, GlobalLoaderState, GlobalLoader>;
   let active = false;
 
   describe('with props', () => {
@@ -35,9 +37,8 @@ describe('Global Loader', () => {
     });
 
     it('should be the only one', async () => {
-      const globalLoader2: ReactWrapper<GlobalLoaderProps, GlobalLoaderState, GlobalLoader> = mount<GlobalLoader>(
-        <GlobalLoader expectedResponseTime={2000} />,
-      );
+      const globalLoader2: ReactWrapper<GlobalLoaderComponentProps, GlobalLoaderState, GlobalLoader> =
+        mount<GlobalLoader>(<GlobalLoader expectedResponseTime={2000} />);
 
       expect(globalLoader.state().dead).toBe(true);
       expect(globalLoader2.state().dead).toBe(false);

@@ -531,9 +531,12 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(1000)
           .sendKeys('aaa')
+          .pause(1000)
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withNotSelectedToken = await this.takeScreenshot();

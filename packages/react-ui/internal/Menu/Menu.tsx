@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -8,6 +8,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -23,6 +24,7 @@ export interface MenuProps {
    * Отключение кастомного скролла контейнера
    */
   disableScrollContainer?: boolean;
+  align?: 'left' | 'right';
 }
 
 export interface MenuState {
@@ -34,6 +36,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
   public static defaultProps = {
+    align: 'left',
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -111,11 +114,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cx({
+        className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
         })}
-        style={{ width: this.props.width, maxHeight: this.props.maxHeight }}
+        style={getStyle(this.props)}
         ref={this.setRootNode}
       >
         <ScrollContainer
@@ -287,3 +290,30 @@ function childrenToArray(children: React.ReactNode): React.ReactNode[] {
   });
   return ret;
 }
+
+const getStyle = (props: MenuProps): CSSProperties => {
+  if (props.align === 'right') {
+    return {
+      maxWidth: props.width,
+      minWidth: props.width,
+      maxHeight: props.maxHeight,
+    };
+  }
+
+  return {
+    width: props.width,
+    maxHeight: props.maxHeight,
+  };
+};
+
+const getAlignRightClass = (props: MenuProps) => {
+  if (props.align === 'right') {
+    return cx({
+      [styles.alignRight()]: !isIE11,
+      [styles.alignRightIE11()]: isIE11,
+      [styles.alignRightIE11FixAutoWidth()]: isIE11 && props.width === 'auto',
+    });
+  }
+
+  return null;
+};
