@@ -7,7 +7,7 @@ export const styles = memoizeStyle({
       overflow: auto;
       padding: 5px 0;
       outline: none;
-      background: ${t.bgDefault};
+      background: ${t.bgSecondary};
     `;
   },
 

@@ -4,6 +4,7 @@ export const styles = memoizeStyle({
   root() {
     return css`
       display: inline-flex;
+      line-height: normal;
     `;
   },
 

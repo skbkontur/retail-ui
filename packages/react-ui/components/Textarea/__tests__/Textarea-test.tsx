@@ -2,8 +2,10 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { Textarea } from '../Textarea';
+import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('Textarea', () => {
+  buildMountAttachTarget();
   afterEach(() => {
     if (document.activeElement instanceof HTMLElement) {
       document.activeElement.blur();
@@ -17,7 +19,7 @@ describe('Textarea', () => {
   });
 
   it('setSelectionRange works', () => {
-    const wrapper = mount<Textarea>(<Textarea value={'text here'} />);
+    const wrapper = mount<Textarea>(<Textarea value={'text here'} />, { attachTo: getAttachedTarget() });
     const SELECTION_START = 0;
     const SELECTION_END = 4;
 
@@ -29,7 +31,7 @@ describe('Textarea', () => {
 
   it('selectAll works by method', () => {
     const VALUE = 'Text for test';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} />);
+    const wrapper = mount<Textarea>(<Textarea value={VALUE} />, { attachTo: getAttachedTarget() });
 
     wrapper.instance().selectAll();
 
@@ -39,7 +41,7 @@ describe('Textarea', () => {
 
   it('selectAllOnFocus prop works', () => {
     const VALUE = 'selectAllOnFocus prop works';
-    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />);
+    const wrapper = mount<Textarea>(<Textarea value={VALUE} selectAllOnFocus />, { attachTo: getAttachedTarget() });
 
     wrapper.find('textarea').simulate('focus');
 
@@ -48,7 +50,7 @@ describe('Textarea', () => {
   });
 
   it('manual focus', () => {
-    const wrapper = mount<Textarea>(<Textarea />);
+    const wrapper = mount<Textarea>(<Textarea />, { attachTo: getAttachedTarget() });
 
     expect(document.activeElement).toBeInstanceOf(HTMLBodyElement);
 

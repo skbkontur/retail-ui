@@ -183,26 +183,40 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <label className={labelClassNames}>
           <div
-            className={cx(styles.outline(this.theme), {
+            className={cx(styles.button(this.theme), {
+              [styles.buttonRight()]: captionPosition === 'left',
               [styles.isWarning(this.theme)]: !!warning,
               [styles.isError(this.theme)]: !!error,
               [styles.focused(this.theme)]: !disabled && !!this.state.focusByTab,
             })}
           >
-            <span className={cx(styles.wrapper(this.theme))}>
-              <input
-                type="checkbox"
-                checked={checked}
-                onChange={this.handleChange}
-                className={styles.input(this.theme)}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
-                ref={this.inputRef}
-                disabled={disabled}
-                id={id}
-              />
+            <input
+              type="checkbox"
+              checked={checked}
+              onChange={this.handleChange}
+              className={styles.input(this.theme)}
+              onFocus={this.handleFocus}
+              onBlur={this.handleBlur}
+              ref={this.inputRef}
+              disabled={disabled}
+              id={id}
+            />
+            <div
+              className={containerClassNames}
+              style={
+                checked && color && !disabled
+                  ? {
+                      backgroundColor: color,
+                      boxShadow: `inset 0 0 0 1px ${color}`,
+                    }
+                  : undefined
+              }
+            >
               <div
-                className={containerClassNames}
+                className={cx(styles.activeBackground(), globalClasses.background, {
+                  [styles.activeBackgroundLoading(this.theme)]: loading,
+                  [styles.disabledBackground(this.theme)]: disabled,
+                })}
                 style={
                   checked && color && !disabled
                     ? {
@@ -211,28 +225,13 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
                       }
                     : undefined
                 }
-              >
-                <div
-                  className={cx(styles.activeBackground(), globalClasses.background, {
-                    [styles.activeBackgroundLoading(this.theme)]: loading,
-                    [styles.disabledBackground(this.theme)]: disabled,
-                  })}
-                  style={
-                    checked && color && !disabled
-                      ? {
-                          backgroundColor: color,
-                          boxShadow: `inset 0 0 0 1px ${color}`,
-                        }
-                      : undefined
-                  }
-                />
-              </div>
-              <div
-                className={cx(styles.handle(this.theme), globalClasses.handle, {
-                  [styles.handleDisabled(this.theme)]: disabled,
-                })}
               />
-            </span>
+            </div>
+            <div
+              className={cx(styles.handle(this.theme), globalClasses.handle, {
+                [styles.handleDisabled(this.theme)]: disabled,
+              })}
+            />
           </div>
           {caption}
         </label>

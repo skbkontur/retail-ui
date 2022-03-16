@@ -12,6 +12,7 @@ import { delay } from '../../../lib/utils';
 import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
+import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -29,12 +30,16 @@ function searchFactory<T = string[]>(promise: Promise<T>): [jest.Mock<Promise<T>
 }
 
 describe('ComboBox', () => {
+  buildMountAttachTarget();
+
   it('renders', () => {
     mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
   });
 
   it('focuses on focus call', () => {
-    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
+    const wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />, {
+      attachTo: getAttachedTarget(),
+    });
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     expect(wrapper.getDOMNode().contains(document.activeElement)).toBeTruthy();
   });
@@ -143,7 +148,9 @@ describe('ComboBox', () => {
 
   it('keeps focus after a click on the refresh button', async () => {
     const [search, promise] = searchFactory(Promise.reject());
-    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={(x) => x} />);
+    const wrapper = mount<ComboBox<string>>(<ComboBox getItems={search} renderItem={(x) => x} />, {
+      attachTo: getAttachedTarget(),
+    });
 
     wrapper.find(ComboBoxView).prop('onFocus')?.();
     await promise;
@@ -615,6 +622,9 @@ describe('ComboBox', () => {
       [search, promise] = searchFactory(Promise.resolve(ITEMS));
       wrapper = mount<ComboBox<string>>(
         <ComboBox getItems={search} onFocus={onFocus} onBlur={onBlur} renderItem={(x) => x} />,
+        {
+          attachTo: getAttachedTarget(),
+        },
       );
       wrapper.find(ComboBoxView).prop('onFocus')?.();
 

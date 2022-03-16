@@ -66,6 +66,10 @@ describe('Props Forwarding', () => {
           (wrapper as ReactWrapper<{}, {}, ReactUI.Toast>).instance().push('Tast');
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
+        case 'GlobalLoader':
+          (wrapper as ReactWrapper<{}, {}, ReactUI.GlobalLoader>).setProps({ active: true });
+          wrapper.update();
+          return wrapper.getDOMNode();
         default:
           return wrapper.getDOMNode();
       }
