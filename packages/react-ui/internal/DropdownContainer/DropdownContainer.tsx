@@ -51,14 +51,12 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
   constructor(props: DropdownContainerProps) {
     super(props);
 
-    this.state = { position: null, minWidth: 0, isDocumentElementRoot: this.getIsDocumentElementRoot() };
+    this.state = { position: null, minWidth: 0, isDocumentElementRoot: getIsDocumentElementRoot() };
   }
 
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
-
-    this.setState({ isDocumentElementRoot: this.getIsDocumentElementRoot() });
   }
 
   public componentWillUnmount() {
@@ -100,16 +98,6 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
     return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
-
-  private getIsDocumentElementRoot = () => {
-    const { body, documentElement: docEl } = document;
-    const htmlPosition = getComputedStyle(docEl).position;
-    const bodyPosition = getComputedStyle(body).position;
-
-    const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
-    const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
-    return hasLimitedHeightRoot || hasStaticRoot;
-  };
 
   private ZIndexRef = (element: Nullable<HTMLDivElement>) => {
     this.dom = element;
@@ -212,3 +200,13 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     };
   };
 }
+
+const getIsDocumentElementRoot = () => {
+  const { body, documentElement } = document;
+  const htmlPosition = getComputedStyle(documentElement).position;
+  const bodyPosition = getComputedStyle(body).position;
+
+  const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
+  const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
+  return hasLimitedHeightRoot || hasStaticRoot;
+};
