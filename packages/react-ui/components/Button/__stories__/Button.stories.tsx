@@ -100,7 +100,9 @@ Playground.storyName = 'playground';
 
 Playground.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+    },
     tests: buttonTests,
   },
 };
@@ -127,7 +129,9 @@ UseLink.storyName = 'use link';
 
 UseLink.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+    },
     tests: buttonTests,
   },
 };
@@ -141,7 +145,9 @@ UseLinkWithIcon.storyName = 'use link with icon';
 
 UseLinkWithIcon.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+    },
     tests: buttonTests,
   },
 };
@@ -159,7 +165,9 @@ MultilineTextWithLinkButton.storyName = 'multiline text with link button';
 
 MultilineTextWithLinkButton.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+    },
     tests: buttonTests,
   },
 };
@@ -179,10 +187,10 @@ WithError.storyName = 'with error';
 
 WithError.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-    ],
+    skip: {
+      'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      'click in chrome': { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
+    },
     tests: buttonTests,
   },
 };
@@ -196,10 +204,10 @@ ArrowWithError.storyName = 'arrow with error';
 
 ArrowWithError.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-    ],
+    skip: {
+      'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      'click in chrome': { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
+    },
     tests: buttonTests,
   },
 };

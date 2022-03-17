@@ -438,7 +438,7 @@ export default { title: 'Modal' };
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
-WithScrollableParentContent.parameters = { creevey: { skip: [true] } };
+WithScrollableParentContent.parameters = { creevey: { skip: true } };
 
 export const WithIconInput: Story = () => <ModalWithIconInput />;
 
@@ -500,7 +500,7 @@ export const DisabledModal = () => (
   </Modal>
 );
 DisabledModal.storyName = 'Disabled modal';
-DisabledModal.parameters = { creevey: { skip: [true] } };
+DisabledModal.parameters = { creevey: { skip: true } };
 
 export const ModalWithFooterPanelStory: Story = () => <ModalWithFooterPanel />;
 ModalWithFooterPanelStory.storyName = 'Modal with footer panel';
@@ -576,7 +576,7 @@ ModalWithoutHeader.parameters = { creevey: { captureElement: null } };
 
 export const ModalMobileViewStory = () => <ModalMobileView />;
 ModalMobileViewStory.storyName = 'Modal mobile view';
-ModalMobileViewStory.parameters = { creevey: { skip: [true] } };
+ModalMobileViewStory.parameters = { creevey: { skip: true } };
 
 export const ModalWithVariableHeightOfContent: Story = () => (
   <ModalWithVariableHeight>
@@ -746,7 +746,7 @@ export const ModalWithHeaderFromOtherComponent = () => {
   );
 };
 ModalWithHeaderFromOtherComponent.storyName = 'Modal with Header from other Component';
-ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: [true] } };
+ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: true } };
 
 export const ModalBodyWithoutPadding = () => (
   <ThemeContext.Consumer>
@@ -807,7 +807,7 @@ export const ModalWithChildrenFromOtherComponent = () => (
 
 ModalWithChildrenFromOtherComponent.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] }],
+    skip: { 'flacky in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] } },
     tests: TopMiddleBottomModalTests,
   },
 };

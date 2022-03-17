@@ -55,7 +55,7 @@ Disabled.parameters = { creevey: { tests: linkTests } };
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
 WithOnClick.storyName = 'With onClick';
-WithOnClick.parameters = { creevey: { skip: [true] } };
+WithOnClick.parameters = { creevey: { skip: true } };
 
 export const Loading: Story = () => (
   <Gapped vertical>

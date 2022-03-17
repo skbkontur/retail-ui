@@ -53,7 +53,7 @@ export const SimpleTooltip = () => (
   </TestTooltip>
 );
 SimpleTooltip.storyName = 'simple tooltip';
-SimpleTooltip.parameters = { creevey: { skip: [true] } };
+SimpleTooltip.parameters = { creevey: { skip: true } };
 
 export const StaticTooltip = () => (
   <TestTooltip trigger="opened">
@@ -68,7 +68,7 @@ export const ClickableTooltip = () => (
   </TestTooltip>
 );
 ClickableTooltip.storyName = 'clickable tooltip';
-ClickableTooltip.parameters = { creevey: { skip: [true] } };
+ClickableTooltip.parameters = { creevey: { skip: true } };
 
 export const FocusTooltip: Story = () => (
   <TestTooltip trigger="focus" disableAnimations>
@@ -189,7 +189,7 @@ export const TooltipWithFunctionalComponentChild = () => {
   );
 };
 TooltipWithFunctionalComponentChild.storyName = 'tooltip with functional component child';
-TooltipWithFunctionalComponentChild.parameters = { creevey: { skip: [true] } };
+TooltipWithFunctionalComponentChild.parameters = { creevey: { skip: true } };
 
 export const TooltipWithFunctionalComponentChildHover = () => {
   function PureComp() {
@@ -203,7 +203,7 @@ export const TooltipWithFunctionalComponentChildHover = () => {
   );
 };
 TooltipWithFunctionalComponentChildHover.storyName = 'tooltip with functional component child hover';
-TooltipWithFunctionalComponentChildHover.parameters = { creevey: { skip: [true] } };
+TooltipWithFunctionalComponentChildHover.parameters = { creevey: { skip: true } };
 
 export const TooltipWithFunctionalComponentClick = () => {
   function PureComp() {
@@ -217,15 +217,15 @@ export const TooltipWithFunctionalComponentClick = () => {
   );
 };
 TooltipWithFunctionalComponentClick.storyName = 'tooltip with functional component click';
-TooltipWithFunctionalComponentClick.parameters = { creevey: { skip: [true] } };
+TooltipWithFunctionalComponentClick.parameters = { creevey: { skip: true } };
 
 export const MyCustomTooltipStory = () => <MyCustomTooltip />;
 MyCustomTooltipStory.storyName = 'MyCustomTooltip';
-MyCustomTooltipStory.parameters = { creevey: { skip: [true] } };
+MyCustomTooltipStory.parameters = { creevey: { skip: true } };
 
 export const ManualTooltipStory = () => <ManualTooltip />;
 ManualTooltipStory.storyName = 'ManualTooltip';
-ManualTooltipStory.parameters = { creevey: { skip: [true] } };
+ManualTooltipStory.parameters = { creevey: { skip: true } };
 
 export const TooltipWithoutAnimations = () => (
   <div>
@@ -241,7 +241,7 @@ export const TooltipWithoutAnimations = () => (
   </div>
 );
 TooltipWithoutAnimations.storyName = 'tooltip without animations';
-TooltipWithoutAnimations.parameters = { creevey: { skip: [true] } };
+TooltipWithoutAnimations.parameters = { creevey: { skip: true } };
 
 export const HoverOnChildOnly = () => (
   <TestTooltip trigger="hoverAnchor">
@@ -251,7 +251,7 @@ export const HoverOnChildOnly = () => (
   </TestTooltip>
 );
 HoverOnChildOnly.storyName = 'hover on child only';
-HoverOnChildOnly.parameters = { creevey: { skip: [true] } };
+HoverOnChildOnly.parameters = { creevey: { skip: true } };
 
 export const TooltipsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ padding: '150px', width: '500px' }}>
@@ -272,7 +272,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
 
 TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'] }],
+    skip: { 'flacky in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'] } },
     tests: {
       async hover() {
         await this.browser
@@ -426,19 +426,19 @@ export const TooltipWithInternalDynamicContent = () => (
   <DynamicContentStory TooltipComponentClass={InternalDynamicContentTooltip} />
 );
 TooltipWithInternalDynamicContent.storyName = 'Tooltip with internal dynamic content';
-TooltipWithInternalDynamicContent.parameters = { creevey: { skip: [true] } };
+TooltipWithInternalDynamicContent.parameters = { creevey: { skip: true } };
 
 export const TooltipWithTriggerClick = () => <TooltipWithClickTrigger />;
 TooltipWithTriggerClick.storyName = 'Tooltip with trigger=click';
-TooltipWithTriggerClick.parameters = { creevey: { skip: [true] } };
+TooltipWithTriggerClick.parameters = { creevey: { skip: true } };
 
 export const TooltipWithDynamicAnchor = () => <DynamicAnchorTooltip />;
 TooltipWithDynamicAnchor.storyName = 'Tooltip with dynamic anchor';
-TooltipWithDynamicAnchor.parameters = { creevey: { skip: [true] } };
+TooltipWithDynamicAnchor.parameters = { creevey: { skip: true } };
 
 export const MultipleTooltipsWithUseWrapperFalse = () => <MultipleTooltips />;
 MultipleTooltipsWithUseWrapperFalse.storyName = 'Multiple tooltips with useWrapper=false';
-MultipleTooltipsWithUseWrapperFalse.parameters = { creevey: { skip: [true] } };
+MultipleTooltipsWithUseWrapperFalse.parameters = { creevey: { skip: true } };
 
 export const TooltipWithInputAndSwitchableContent: Story = () => <TooltipWithInput />;
 TooltipWithInputAndSwitchableContent.storyName = 'Tooltip with Input and switchable content';
@@ -477,7 +477,12 @@ DynamicTriggersStory.storyName = 'dynamic triggers';
 DynamicTriggersStory.parameters = {
   creevey: {
     captureElement: '[data-comp-name~="TestTooltip"]',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
+    skip: {
+      'flacky in IE11': {
+        in: ['ie11', 'ie118px', 'ie11Dark'],
+        tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'],
+      },
+    },
     tests: {
       async ['without trigger']() {
         await delay(100);
@@ -1181,7 +1186,7 @@ export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
 
 TooltipWithAnchor.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] }],
+    skip: { 'flacky in IE11': { in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] } },
     tests: {
       async ['hover by dynamic anchor']() {
         await this.browser

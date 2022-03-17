@@ -20,7 +20,7 @@ AllPinOpenedOnSmallElements.storyName = 'All pin opened on small elements';
 
 export const PositioningStory = () => <Positioning />;
 PositioningStory.storyName = 'Positioning';
-PositioningStory.parameters = { creevey: { skip: [true] } };
+PositioningStory.parameters = { creevey: { skip: true } };
 
 export const DisableAnimations = () => (
   <div>
@@ -29,7 +29,7 @@ export const DisableAnimations = () => (
   </div>
 );
 DisableAnimations.storyName = 'disableAnimations';
-DisableAnimations.parameters = { creevey: { skip: [true] } };
+DisableAnimations.parameters = { creevey: { skip: true } };
 
 export const HintStory = () => (
   <div style={{ padding: '100px' }}>
@@ -50,7 +50,7 @@ SmallWidth.storyName = 'Small width';
 
 export const HoverBehaviourStory = () => <HoverBehaviour />;
 HoverBehaviourStory.storyName = 'Hover behaviour';
-HoverBehaviourStory.parameters = { creevey: { skip: [true] } };
+HoverBehaviourStory.parameters = { creevey: { skip: true } };
 
 const AllCases = ({ small, padding }: { small: boolean; padding: string }) => (
   <div style={{ padding }}>

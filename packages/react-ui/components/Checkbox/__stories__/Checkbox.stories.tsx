@@ -170,21 +170,25 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: {
+      'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    },
     tests: checkboxTests,
   },
 };
 
 export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
 Unchecked.storyName = 'unchecked';
-Unchecked.parameters = { creevey: { skip: [true] } };
+Unchecked.parameters = { creevey: { skip: true } };
 
 export const Checked = () => <Checkbox checked>Checked</Checkbox>;
 Checked.storyName = 'checked';
 
 Checked.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: {
+      'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    },
     tests: {
       idle: checkboxTests['idle'],
       hovered: checkboxTests['hovered'],
@@ -219,7 +223,7 @@ export const WithMouseEnterLeaveHandlers = () => (
   </Checkbox>
 );
 WithMouseEnterLeaveHandlers.storyName = 'with mouse enter/leave handlers';
-WithMouseEnterLeaveHandlers.parameters = { creevey: { skip: [true] } };
+WithMouseEnterLeaveHandlers.parameters = { creevey: { skip: true } };
 
 export const WithALongLabel = () => (
   <div>
@@ -273,14 +277,16 @@ export const ProgrammaticFocus = () => {
   );
 };
 ProgrammaticFocus.storyName = 'programmatic focus';
-ProgrammaticFocus.parameters = { creevey: { skip: [true] } };
+ProgrammaticFocus.parameters = { creevey: { skip: true } };
 
 export const Indeterminate: Story = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
 Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: {
+      'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    },
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '#screenshot-capture' });

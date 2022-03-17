@@ -126,7 +126,7 @@ GoToAbsensePageStory.storyName = 'GoToAbsensePage';
 
 GoToAbsensePageStory.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' }],
+    skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' } },
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -210,19 +210,19 @@ export const SimpleSamples = () => (
   </>
 );
 SimpleSamples.storyName = 'SimpleSamples';
-SimpleSamples.parameters = { creevey: { skip: [true] } };
+SimpleSamples.parameters = { creevey: { skip: true } };
 
 export const PagingWithCustomComponentStory = () => <PagingWithCustomComponent pagesCount={12} />;
 PagingWithCustomComponentStory.storyName = 'PagingWithCustomComponent';
-PagingWithCustomComponentStory.parameters = { creevey: { skip: [true] } };
+PagingWithCustomComponentStory.parameters = { creevey: { skip: true } };
 
 export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
 PagingWithGlobalListener.storyName = 'Paging with global listener';
-PagingWithGlobalListener.parameters = { creevey: { skip: [true] } };
+PagingWithGlobalListener.parameters = { creevey: { skip: true } };
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
-PlaygroundStory.parameters = { creevey: { skip: [true] } };
+PlaygroundStory.parameters = { creevey: { skip: true } };
 
 class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
   public state = {

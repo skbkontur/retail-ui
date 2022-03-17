@@ -228,21 +228,21 @@ export const WithMobileNativeDatePicker = () => {
   );
 };
 WithMobileNativeDatePicker.storyName = 'with native datepickers on mobile devices';
-WithMobileNativeDatePicker.parameters = { creevey: { skip: [true] } };
+WithMobileNativeDatePicker.parameters = { creevey: { skip: true } };
 
 export const WithAutoFocus = () => (
   <DatePicker width={200} value="02.07.2017" onValueChange={action('change')} autoFocus />
 );
 WithAutoFocus.storyName = 'with autoFocus';
-WithAutoFocus.parameters = { creevey: { skip: [true] } };
+WithAutoFocus.parameters = { creevey: { skip: true } };
 
 export const DatePickerWithErrorStory = () => <DatePickerWithError />;
 DatePickerWithErrorStory.storyName = 'DatePickerWithError';
-DatePickerWithErrorStory.parameters = { creevey: { skip: [true] } };
+DatePickerWithErrorStory.parameters = { creevey: { skip: true } };
 
 export const DatePickerDisabled = () => <DatePickerWithError disabled />;
 DatePickerDisabled.storyName = 'DatePicker disabled';
-DatePickerDisabled.parameters = { creevey: { skip: [true] } };
+DatePickerDisabled.parameters = { creevey: { skip: true } };
 
 export const DifferentSizes = () => (
   <Gapped>
@@ -320,4 +320,4 @@ export const DatePickerLocaleProvider = () => {
   );
 };
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
-DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
+DatePickerLocaleProvider.parameters = { creevey: { skip: true } };

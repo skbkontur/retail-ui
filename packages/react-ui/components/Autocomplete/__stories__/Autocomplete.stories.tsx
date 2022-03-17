@@ -111,7 +111,7 @@ WithOnBlurOnFocusHandlers.storyName = 'with onBlur/onFocus handlers';
 
 WithOnBlurOnFocusHandlers.parameters = {
   creevey: {
-    skip: [true],
+    skip: true,
   },
 };
 
@@ -239,5 +239,5 @@ MobileSimple.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: { skip: [true] },
+  creevey: { skip: true },
 };

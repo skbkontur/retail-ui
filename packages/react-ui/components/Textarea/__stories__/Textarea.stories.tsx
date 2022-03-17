@@ -198,7 +198,7 @@ export const TextareaInInlineFlexAndText = () => (
   </div>
 );
 TextareaInInlineFlexAndText.storyName = 'Textarea in inline-flex and text';
-TextareaInInlineFlexAndText.parameters = { creevey: { skip: [true] } };
+TextareaInInlineFlexAndText.parameters = { creevey: { skip: true } };
 
 export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
@@ -381,12 +381,11 @@ TextareaWithCounters.storyName = 'Textarea with length counter';
 
 TextareaWithCounters.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      'flacky scrollbars height': {
         in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
-        reason: 'flacky scrollbars height',
       },
-    ],
+    },
     tests: {
       async Plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');

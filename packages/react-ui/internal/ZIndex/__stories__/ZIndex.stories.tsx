@@ -705,15 +705,15 @@ export default { title: 'ZIndex' };
 
 export const LightboxUnderLightboxStory = () => <LightboxUnderLightbox />;
 LightboxUnderLightboxStory.storyName = 'LightboxUnderLightbox';
-LightboxUnderLightboxStory.parameters = { creevey: { skip: [true] } };
+LightboxUnderLightboxStory.parameters = { creevey: { skip: true } };
 
 export const ZSampleStory = () => <ZSample total={3} />;
 ZSampleStory.storyName = 'ZSample';
-ZSampleStory.parameters = { creevey: { skip: [true] } };
+ZSampleStory.parameters = { creevey: { skip: true } };
 
 export const DemoStory = () => <Demo />;
 DemoStory.storyName = 'Demo';
-DemoStory.parameters = { creevey: { skip: [true] } };
+DemoStory.parameters = { creevey: { skip: true } };
 
 export const LoaderCoversTooltipStory = () => <LoaderCoversTooltip />;
 LoaderCoversTooltipStory.storyName = 'Loader covers tooltip';
@@ -954,7 +954,7 @@ export const ModalSidePageStack = () => {
   );
 };
 ModalSidePageStack.storyName = 'Modal and SidePage Stack';
-ModalSidePageStack.parameters = { creevey: { skip: [true] } };
+ModalSidePageStack.parameters = { creevey: { skip: true } };
 
 export const ModalAndToast: Story = () => {
   const toast = React.useRef<Toast>(null);

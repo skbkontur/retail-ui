@@ -106,7 +106,9 @@ Small.storyName = '14px';
 
 Small.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    },
     tests: kebabTests,
   },
 };
@@ -116,7 +118,9 @@ Medium.storyName = '18px';
 
 Medium.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    },
     tests: kebabTests,
   },
 };
@@ -126,7 +130,9 @@ Large.storyName = '20px';
 
 Large.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: {
+      'hovers in IE11': { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+    },
     tests: kebabTests,
   },
 };
@@ -143,17 +149,17 @@ export const KebabWithCustomIcon: Story = () => {
 
 export const LargeDisabled = () => <SomethingWithKebab size="large" disabled />;
 LargeDisabled.storyName = '20px-disabled';
-LargeDisabled.parameters = { creevey: { skip: [true] } };
+LargeDisabled.parameters = { creevey: { skip: true } };
 
 export const WithFixedMenuHeight = () => (
   <SomethingWithKebab size="large" menuMaxHeight={'200px'} items={manyItemsList} />
 );
 WithFixedMenuHeight.storyName = 'With fixed menu height';
-WithFixedMenuHeight.parameters = { creevey: { skip: [true] } };
+WithFixedMenuHeight.parameters = { creevey: { skip: true } };
 
 export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimations size="small" />;
 KebabWithoutAnimations.storyName = 'Kebab without animations';
-KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
+KebabWithoutAnimations.parameters = { creevey: { skip: true } };
 
 class SomethingWithKebab extends Component<{
   size: 'small' | 'medium' | 'large';

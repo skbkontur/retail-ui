@@ -156,7 +156,7 @@ export const Simple: Story = () => (
 Simple.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' } },
     tests: selectTests,
   },
 };
@@ -227,7 +227,7 @@ MobileSimple.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: { skip: [true] },
+  creevey: { skip: true },
 };
 MobileSimple.decorators = [
   (Story: Story) => (
@@ -254,7 +254,7 @@ MobileSimple.decorators = [
     </div>
   ),
 ];
-MobileSimple.creevey = { skip: [true] };
+MobileSimple.creevey = { skip: true };
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
@@ -267,15 +267,15 @@ Disabled.storyName = 'disabled';
 
 export const ComplexValues = () => <SelectWrapper />;
 ComplexValues.storyName = 'Complex values';
-ComplexValues.parameters = { creevey: { skip: [true] } };
+ComplexValues.parameters = { creevey: { skip: true } };
 
 export const ItemsWithCommentsStory = () => <ItemsWithComments />;
 ItemsWithCommentsStory.storyName = 'Items with comments';
-ItemsWithCommentsStory.parameters = { creevey: { skip: [true] } };
+ItemsWithCommentsStory.parameters = { creevey: { skip: true } };
 
 export const WithNull = () => <SelectWithNull />;
 WithNull.storyName = 'With null';
-WithNull.parameters = { creevey: { skip: [true] } };
+WithNull.parameters = { creevey: { skip: true } };
 
 export const UseLink: Story = () => <Select use="link" items={['one', 'two', 'three']} />;
 UseLink.storyName = 'use link';
@@ -283,7 +283,7 @@ UseLink.storyName = 'use link';
 UseLink.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' } },
     tests: selectTests,
   },
 };
@@ -294,7 +294,7 @@ UseLinkWithIcon.storyName = 'use link with icon';
 UseLinkWithIcon.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' } },
     tests: selectTests,
   },
 };
@@ -305,7 +305,7 @@ WithTextOverflow.storyName = 'with text overflow';
 WithTextOverflow.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' } },
     tests: selectTests,
   },
 };
@@ -343,7 +343,7 @@ export const ExternalFocus = () => {
   return <Sample />;
 };
 ExternalFocus.storyName = 'external focus';
-ExternalFocus.parameters = { creevey: { skip: [true] } };
+ExternalFocus.parameters = { creevey: { skip: true } };
 
 export const UsingOnKeyDown: Story = () => {
   class Sample extends React.Component {

@@ -11,8 +11,8 @@ Playground.storyName = 'playground';
 
 Playground.parameters = {
   creevey: {
-    skip: [
-      {
+    skip: {
+      'repeating tests': {
         tests: [
           'default theme top',
           'default theme bottom',
@@ -35,9 +35,8 @@ Playground.parameters = {
           'firefoxFlat8px',
           'firefoxDark',
         ],
-        reason: 'repeating tests',
       },
-    ],
+    },
     tests: {
       async ['default theme top']() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('default theme top');

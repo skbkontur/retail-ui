@@ -626,11 +626,11 @@ export default { title: 'SidePage' };
 
 export const WithScrollableParentContent = () => <SidePageWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
-WithScrollableParentContent.parameters = { creevey: { skip: [true] } };
+WithScrollableParentContent.parameters = { creevey: { skip: true } };
 
 export const WithInputInHeader = () => <SidePageWithInputInHeader />;
 WithInputInHeader.storyName = 'With Input in header';
-WithInputInHeader.parameters = { creevey: { skip: [true] } };
+WithInputInHeader.parameters = { creevey: { skip: true } };
 
 export const SidePageOverAnotherSidePageStory: Story = () => <SidePageOverAnotherSidePage />;
 SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
@@ -711,11 +711,11 @@ StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
 
 export const SidePageWithConfiguration = () => <SidePageWithCloseConfiguration />;
 SidePageWithConfiguration.storyName = 'SidePage with configuration';
-SidePageWithConfiguration.parameters = { creevey: { skip: [true] } };
+SidePageWithConfiguration.parameters = { creevey: { skip: true } };
 
 export const SidePageWithModal = () => <SidePageWithModalInside />;
 SidePageWithModal.storyName = 'SidePage with Modal';
-SidePageWithModal.parameters = { creevey: { skip: [true] } };
+SidePageWithModal.parameters = { creevey: { skip: true } };
 
 export const DisabledSidePage = () => (
   <SidePage disableClose>
@@ -724,7 +724,7 @@ export const DisabledSidePage = () => (
   </SidePage>
 );
 DisabledSidePage.storyName = 'Disabled SidePage';
-DisabledSidePage.parameters = { creevey: { skip: [true] } };
+DisabledSidePage.parameters = { creevey: { skip: true } };
 
 export const SidePageWithLeftPositionStory = () => (
   <SidePageWithLeftPosition close={() => undefined} disableAnimations />
@@ -801,7 +801,7 @@ BodyWithoutHeader.parameters = {
 
 export const SidePageWithVariableContent = () => <WithVariableContent />;
 SidePageWithVariableContent.storyName = 'SidePage with variable content';
-SidePageWithVariableContent.parameters = { creevey: { skip: [true] } };
+SidePageWithVariableContent.parameters = { creevey: { skip: true } };
 
 export const TestUpdateLayoutMethodStory: Story = () => <TestUpdateLayoutMethod />;
 TestUpdateLayoutMethodStory.storyName = 'test updateLayout method';
@@ -863,7 +863,7 @@ export const WithScrollableParentContentAndScrollingBeforeOpen = () => (
 );
 WithScrollableParentContentAndScrollingBeforeOpen.storyName =
   'With scrollable parent content and scrolling before open';
-WithScrollableParentContentAndScrollingBeforeOpen.parameters = { creevey: { skip: [true] } };
+WithScrollableParentContentAndScrollingBeforeOpen.parameters = { creevey: { skip: true } };
 
 export const WithLongTitleStory: Story = () => <WithLongTitle />;
 WithLongTitleStory.storyName = 'With long title';

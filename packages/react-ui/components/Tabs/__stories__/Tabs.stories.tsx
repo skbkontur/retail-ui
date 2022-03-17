@@ -418,7 +418,7 @@ Simple.storyName = 'simple';
 
 Simple.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }],
+    skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' } },
     tests: {
       ...tabsTests,
       async ['move focus forward']() {
@@ -484,11 +484,11 @@ Simple.parameters = {
 
 export const First = () => <RouterTabs value="first" />;
 First.storyName = 'first';
-First.parameters = { creevey: { skip: [true] } };
+First.parameters = { creevey: { skip: true } };
 
 export const Another = () => <RouterTabs value="another" />;
 Another.storyName = 'another';
-Another.parameters = { creevey: { skip: [true] } };
+Another.parameters = { creevey: { skip: true } };
 
 export const HrefsFirst = () => (
   <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
@@ -497,7 +497,7 @@ export const HrefsFirst = () => (
   </Tabs>
 );
 HrefsFirst.storyName = 'hrefs first';
-HrefsFirst.parameters = { creevey: { skip: [true] } };
+HrefsFirst.parameters = { creevey: { skip: true } };
 
 export const HrefsSecond = () => (
   <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
@@ -506,35 +506,35 @@ export const HrefsSecond = () => (
   </Tabs>
 );
 HrefsSecond.storyName = 'hrefs second';
-HrefsSecond.parameters = { creevey: { skip: [true] } };
+HrefsSecond.parameters = { creevey: { skip: true } };
 
 export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
 Vertical.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
+  creevey: { skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' } }, tests: tabsTests },
 };
 
 export const WithComponent = () => <TabsWithMyLink />;
 WithComponent.storyName = 'with component';
-WithComponent.parameters = { creevey: { skip: [true] } };
+WithComponent.parameters = { creevey: { skip: true } };
 
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
-WithUnexpectedTabSizeChange.parameters = { creevey: { skip: [true] } };
+WithUnexpectedTabSizeChange.parameters = { creevey: { skip: true } };
 
 export const WithDisabledTab: Story = () => <DisabledTab />;
 WithDisabledTab.storyName = 'with disabled tab';
 WithDisabledTab.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
+  creevey: { skip: { 'hover in IE11': { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' } }, tests: tabsTests },
 };
 
 export const TabsInModalStory = () => <TabsInModal />;
 TabsInModalStory.storyName = 'tabs in modal';
-TabsInModalStory.parameters = { creevey: { skip: [true] } };
+TabsInModalStory.parameters = { creevey: { skip: true } };
 
 export const HoverTable = () => <TabsTable />;
 HoverTable.storyName = 'hover table';
-HoverTable.parameters = { creevey: { skip: [true] } };
+HoverTable.parameters = { creevey: { skip: true } };
 
 export const TabsWithImage: Story = () => {
   const [activeTab, setActiveTab] = React.useState('search4');

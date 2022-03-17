@@ -556,7 +556,7 @@ SelectAllByButton.parameters = {
 
 export const InputWithMaxLengthAttr = () => <Input maxLength={3} placeholder="maxLength={3}" />;
 InputWithMaxLengthAttr.storyName = 'Input with maxLength attr';
-InputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
+InputWithMaxLengthAttr.parameters = { creevey: { skip: true } };
 
 export const ManualBlinking = () => {
   class Sample extends React.Component {
@@ -585,7 +585,7 @@ export const ManualBlinking = () => {
   return <Sample />;
 };
 ManualBlinking.storyName = 'Manual blinking';
-ManualBlinking.parameters = { creevey: { skip: [true] } };
+ManualBlinking.parameters = { creevey: { skip: true } };
 
 export const PrefixAndSuffixSmall: Story = () => <InputWithPrefixSuffix size="small" />;
 PrefixAndSuffixSmall.storyName = 'Prefix and suffix small';

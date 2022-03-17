@@ -29,26 +29,26 @@ const errorRequest = () =>
 /** async control stories **/
 export const SingleAsyncFileUploader = () => <FileUploader request={successRequest} />;
 export const MultipleAsyncFileUploader = () => <FileUploader multiple request={successRequest} />;
-MultipleAsyncFileUploader.parameters = { creevey: { skip: [true] } };
+MultipleAsyncFileUploader.parameters = { creevey: { skip: true } };
 
 export const MultipleAsyncFileUploaderWithLoading = () => <FileUploader multiple request={loadingRequest} />;
-MultipleAsyncFileUploaderWithLoading.parameters = { creevey: { skip: [true] } };
+MultipleAsyncFileUploaderWithLoading.parameters = { creevey: { skip: true } };
 
 export const MultipleAsyncFileUploaderWithErrorRequest = () => <FileUploader multiple request={errorRequest} />;
-MultipleAsyncFileUploaderWithErrorRequest.parameters = { creevey: { skip: [true] } };
+MultipleAsyncFileUploaderWithErrorRequest.parameters = { creevey: { skip: true } };
 
 /** sync control stories **/
 export const SingleSyncFileUploader = () => <FileUploader />;
-SingleSyncFileUploader.parameters = { creevey: { skip: [true] } };
+SingleSyncFileUploader.parameters = { creevey: { skip: true } };
 
 export const MultipleSyncFileUploader = () => <FileUploader multiple />;
-MultipleSyncFileUploader.parameters = { creevey: { skip: [true] } };
+MultipleSyncFileUploader.parameters = { creevey: { skip: true } };
 
 /** common stories **/
 export const SingleFileUploaderWithFileError = () => (
   <FileUploader request={successRequest} validateBeforeUpload={() => Promise.resolve('Формат файла неверный')} />
 );
-SingleFileUploaderWithFileError.parameters = { creevey: { skip: [true] } };
+SingleFileUploaderWithFileError.parameters = { creevey: { skip: true } };
 
 export const MultipleFileUploaderWithFileError = () => (
   <FileUploader
@@ -57,7 +57,7 @@ export const MultipleFileUploaderWithFileError = () => (
     validateBeforeUpload={() => Promise.resolve('Формат файла неверный')}
   />
 );
-MultipleFileUploaderWithFileError.parameters = { creevey: { skip: [true] } };
+MultipleFileUploaderWithFileError.parameters = { creevey: { skip: true } };
 
 export const DifferentStates = () => (
   <Gapped vertical>
@@ -94,7 +94,7 @@ export const FileUploaderRefFocusAndBlur = () => {
     </Gapped>
   );
 };
-FileUploaderRefFocusAndBlur.parameters = { creevey: { skip: [true] } };
+FileUploaderRefFocusAndBlur.parameters = { creevey: { skip: true } };
 
 export const MultipleFileUploaderWithHideFiles = () => <FileUploader multiple request={successRequest} hideFiles />;
-MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: [true] } };
+MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: true } };

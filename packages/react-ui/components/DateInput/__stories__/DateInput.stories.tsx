@@ -286,7 +286,7 @@ WithAutoFocus.storyName = 'with autoFocus';
 
 export const Formatting = () => <DateInputFormatting />;
 Formatting.storyName = 'formatting';
-Formatting.parameters = { creevey: { skip: [true] } };
+Formatting.parameters = { creevey: { skip: true } };
 
 export const DifferentFormatting = () => <DateInputDifferentFormatting />;
 DifferentFormatting.storyName = 'different formatting';
