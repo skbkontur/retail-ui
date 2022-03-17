@@ -38,7 +38,8 @@
   },
   "files": [
     "index.d.ts",
-    "index.js"
+    "index.js",
+    "index.js.map"
   ],
   "peerDependencies": {
     "react": ">=16.9",
