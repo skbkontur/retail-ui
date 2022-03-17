@@ -22,6 +22,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
     if (props.onLayoutChange) {
       props.onLayoutChange(layoutFlags);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [layoutFlags]);
 
   return (

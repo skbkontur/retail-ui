@@ -10,5 +10,6 @@ export const useLocaleForControl = <TTranslationByLangCode extends object>(
 ): TTranslationByLangCode => {
   const { locale, langCode } = useContext(LocaleContext);
   const localeFromContext = locale?.[controlName];
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useMemo(() => Object.assign({}, localeHelper.get(langCode), localeFromContext), [langCode, localeFromContext]);
 };

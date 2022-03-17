@@ -39,6 +39,7 @@ export const useGlobalLoaderWidth = (
     } else {
       setStartWidth(0);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
   return { width, startWidth, fullWidth };

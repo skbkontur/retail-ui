@@ -55,6 +55,7 @@ export function useResponsiveLayout() {
     return () => {
       mobileListener.current?.remove;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return state;

@@ -684,8 +684,9 @@ StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
-          // @ts-ignore
-          sidepageContainer.scrollTop = 3000;
+          if (sidepageContainer) {
+            sidepageContainer.scrollTop = 3000;
+          }
         });
         await this.browser
           .actions({ bridge: true })
