@@ -174,8 +174,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private input: DateInput | null = null;
   private focused = false;
-  private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
-  private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -190,13 +188,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   }
 
   public componentDidUpdate() {
-    const { disabled, minDate, maxDate } = this.props;
+    const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
     }
-    this.minDate = this.parseValueToDate(minDate);
-    this.maxDate = this.parseValueToDate(maxDate);
   }
 
   /**
@@ -240,15 +236,25 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
-    const internalDate = this.parseValueToDate(this.props.value);
+
+    const { value, minDate, maxDate } = this.props;
+
+    const internalDate = this.parseValueToDate(value);
     const date = internalDate ? internalDate.toNativeFormat() : null;
+
+    const parsedMinDate = this.parseValueToDate(minDate);
+    const formattedMinDate = (parsedMinDate && parsedMinDate.toNativeFormat()) || undefined;
+
+    const parsedMaxDate = this.parseValueToDate(maxDate);
+    const formattedMaxDate = (parsedMaxDate && parsedMaxDate.toNativeFormat()) || undefined;
+
     if (this.state.opened) {
       picker = (
         <DropdownContainer getParent={this.getParent} offsetY={2} align={this.props.menuAlign}>
           <Picker
             value={date}
-            minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
-            maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
+            minDate={formattedMinDate}
+            maxDate={formattedMaxDate}
             onPick={this.handlePick}
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}
