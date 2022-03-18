@@ -355,7 +355,9 @@ DatePickerInRelativeBody.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'button' }));
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(1000);
       },
     },
   },
