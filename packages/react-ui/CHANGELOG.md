@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.1...@skbkontur/react-ui@3.12.2) (2022-03-18)
+
+
+### Bug Fixes
+
+* **DatePicker:** scroll to date ([#2830](https://github.com/skbkontur/retail-ui/issues/2830)) ([9fbd169](https://github.com/skbkontur/retail-ui/commit/9fbd1694199f71ad9337f2e89626320b78bd4e47))
+* **DropdownContainer:** position with relative body (lts) ([#2828](https://github.com/skbkontur/retail-ui/issues/2828)) ([8db4e1c](https://github.com/skbkontur/retail-ui/commit/8db4e1cc6214f2a1bc9d8f02a071881a29f711d0))
+
+
+
+
+
 ## [3.12.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.0...@skbkontur/react-ui@3.12.1) (2022-03-01)
 
 
