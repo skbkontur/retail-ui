@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -323,18 +323,19 @@ DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
 DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
 
 export const DatePickerInRelativeBody: Story = () => {
-  ['html', 'body'].forEach((selector) => document.querySelector(selector)?.classList.add('relative'));
-
+  const [isRelative, toggleIsRelative] = useState(false);
+  const onClick = useCallback(() => {
+    toggleIsRelative(!isRelative);
+    document.querySelector('html')?.classList.toggle('relative');
+  }, [isRelative]);
+  const paddingTop = document.documentElement.clientHeight - 32 * 3;
   return (
-    <div style={{ padding: '400px 150px 0' }}>
-      <DatePicker
-        autoFocus
-        onValueChange={emptyHandler}
-        onBlur={() => {
-          ['html', 'body'].forEach((selector) => document.querySelector(selector)?.classList.remove('relative'));
-        }}
-      />
-    </div>
+    <>
+      <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
+      <div style={{ padding: `${paddingTop}px 150px 0` }}>
+        <DatePicker value="02.07.2017" autoFocus onValueChange={emptyHandler} />
+      </div>
+    </>
   );
 };
 DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
@@ -342,12 +343,19 @@ DatePickerInRelativeBody.parameters = {
   creevey: {
     tests: {
       async opened() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
         await this.browser
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'button' }))
           .perform();
         await delay(1000);
       },
