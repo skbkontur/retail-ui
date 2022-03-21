@@ -9,7 +9,7 @@ export const styles = memoizeStyle({
   enterActive() {
     return css`
       transition: transform 0.2s cubic-bezier(0.22, 0.61, 0.36, 1);
-      transform: translateY(0);
+      transform: translateY(0) !important;
     `;
   },
   exit() {
@@ -20,7 +20,7 @@ export const styles = memoizeStyle({
   },
   exitActive() {
     return css`
-      opacity: 0.01;
+      opacity: 0.01 !important;
       transition: opacity 0.15s ease-out;
     `;
   },
