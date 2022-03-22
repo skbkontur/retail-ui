@@ -19,6 +19,26 @@ export interface CommonProps {
    * На равне с data-tid транслируются любые data-атрибуты. Они попадают на корневой элемент.
    */
   'data-tid'?: string;
+  /**
+   * HTML-атрибут `aria-describedby`.
+   */
+  'aria-describedby'?: string;
+  /**
+   * HTML-атрибут `aria-labelledby`.
+   */
+  'aria-labelledby'?: string;
+  /**
+   * HTML-атрибут `aria-label`.
+   */
+  'aria-label'?: string;
+  /**
+   * HTML-атрибут `aria-required`.
+   */
+  'aria-required'?: boolean;
+  /**
+   * HTML-атрибут `aria-invalid`.
+   */
+  'aria-invalid'?: boolean;
 }
 
 interface CommonPropsRootNodeRef {

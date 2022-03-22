@@ -81,6 +81,11 @@ describe('Props Forwarding', () => {
         const props = {
           'data-tid': 'my-data-tid',
           'data-testid': 'my-data-testid',
+          'aria-describedby': 'my-aria-describedby',
+          'aria-labelledby': 'my-aria-labelledby',
+          'aria-label': 'my-aria-label',
+          'aria-required': false,
+          'aria-invalid': false,
           className: 'my-classname',
           style: {
             width: '95.5%',
@@ -93,6 +98,11 @@ describe('Props Forwarding', () => {
 
         expect(wrapperNode.getAttribute('data-tid')).toBe(props['data-tid']);
         expect(wrapperNode.getAttribute('data-testid')).toBe(props['data-testid']);
+        expect(wrapperNode.getAttribute('aria-describedby')).toBe(props['aria-describedby']);
+        expect(wrapperNode.getAttribute('aria-labelledby')).toBe(props['aria-labelledby']);
+        expect(wrapperNode.getAttribute('aria-label')).toBe(props['aria-label']);
+        expect(wrapperNode.getAttribute('aria-required')).toBe(props['aria-required']);
+        expect(wrapperNode.getAttribute('aria-invalid')).toBe(props['aria-invalid']);
         expect(wrapperNode.classList.contains(props.className)).toBe(true);
         expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
       },
