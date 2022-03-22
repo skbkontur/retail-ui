@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.17.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.8...@skbkontur/react-ui@2.17.9) (2022-03-22)
+
+
+### Bug Fixes
+
+* **TokenInput:** add delimiter comma support for IE ([#2539](https://github.com/skbkontur/retail-ui/issues/2539)) ([b72a8e3](https://github.com/skbkontur/retail-ui/commit/b72a8e331a77dbd3dec3977b76f83de6ff5fd28c))
+* **TokenInput:** add handling Enter for TokenInputType.WithoutReference ([#2706](https://github.com/skbkontur/retail-ui/issues/2706)) ([a3cbcea](https://github.com/skbkontur/retail-ui/commit/a3cbcea1a62efd9fd10336c0207d9bdfcf8ca9b9))
+
+
+
+
+
 ## [2.17.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@2.17.7...@skbkontur/react-ui@2.17.8) (2022-02-22)
 
 
