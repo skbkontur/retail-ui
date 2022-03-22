@@ -70,7 +70,7 @@
 ```css
 .visually-hidden {
   position: absolute;
-  weight: 1px;
+  width: 1px;
   height: 1px;
   padding: 0;
   margin: -1px;
@@ -78,6 +78,35 @@
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+```
+
+9. Если вы не используете необходимый тэг, но хотите придать элементу семантичное значение - не используйте атрибут `role`. Скринридер прочитает элемент как кнопку, но вам придётся добавлять управление фокусом, обработку нажатий клавиш с клавиатуры
+```html
+<div role="button">Нажми на меня!</div>
+```
+
+
+## ARIA атрибуты
+1. Если у инпута нет лейбла - задайте его при помощи `aria-label`, например:
+```html
+<Input aria-label="Введите имя (обязательно)" />
+```
+
+2. Если нет возможности обернуть `<Input />` в `<label>` - используйте `aria-labeledby`:
+```html
+<label id="label">Я лейбл для поля!</label>
+<Input aria-labeledby="label" />
+```
+
+3. Если хотите добавить описание элементу, используйте `aria-describedby`, например:
+```html
+<span id="button-description">По нажатию на кнопку отправится отчёт, после чего вам придёт уведомление на почту</span>
+<Button aria-describedby="button-description">Нажми!</Button>
+```
+
+4. Для дизейбла элемента используйте `aria-disabled`, а визуально и интерактивно блокируйте элемент при помощи стилей и JS - скринридер остановится на этом элементе, тогда как атрибут `disabled` скринридер проигнорирует.
+```html
+<Input aria-disabled="true"/>
 ```
 
 
@@ -161,7 +190,7 @@
 ```css
 .visually-hidden {
   position: absolute;
-  weight: 1px;
+  width: 1px;
   height: 1px;
   padding: 0;
   margin: -1px;
