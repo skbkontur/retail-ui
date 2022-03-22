@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.2...@skbkontur/react-ui@4.0.3) (2022-03-22)
+
+
+### Bug Fixes
+
+* **SidePage:** fix animation styles ([#2837](https://github.com/skbkontur/retail-ui/issues/2837)) ([2eeebb0](https://github.com/skbkontur/retail-ui/commit/2eeebb00fb651da8062d6b672f8bd71ae0fa7587))
+
+
+
+
+
 ## [4.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.1...@skbkontur/react-ui@4.0.2) (2022-03-22)
 
 
