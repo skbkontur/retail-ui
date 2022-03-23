@@ -86,7 +86,7 @@
 <div role="button">Нажми на меня!</div>
 
 /** Хорошо! */
-<Button>Нажми на меня!</div>
+<Button>Нажми на меня!</Button>
 ```
 
 
