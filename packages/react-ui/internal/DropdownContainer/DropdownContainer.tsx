@@ -43,29 +43,20 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     offsetY: -1,
   };
 
-  public state: DropdownContainerState = {
-    position: null,
-    minWidth: 0,
-    isDocumentElementRoot: true,
-  };
-
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
   private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
 
+  constructor(props: DropdownContainerProps) {
+    super(props);
+
+    this.state = { position: null, minWidth: 0, isDocumentElementRoot: getIsDocumentElementRoot() };
+  }
+
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
-
-    const { body, documentElement: docEl } = document;
-    const htmlPosition = getComputedStyle(docEl).position;
-    const bodyPosition = getComputedStyle(body).position;
-
-    const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
-    const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
-
-    this.setState({ isDocumentElementRoot: hasLimitedHeightRoot || hasStaticRoot });
   }
 
   public componentWillUnmount() {
@@ -209,3 +200,13 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     };
   };
 }
+
+const getIsDocumentElementRoot = () => {
+  const { body, documentElement } = document;
+  const htmlPosition = getComputedStyle(documentElement).position;
+  const bodyPosition = getComputedStyle(body).position;
+
+  const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
+  const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
+  return hasLimitedHeightRoot || hasStaticRoot;
+};

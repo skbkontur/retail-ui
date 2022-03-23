@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.2...@skbkontur/react-ui@4.0.3) (2022-03-22)
+
+
+### Bug Fixes
+
+* **SidePage:** fix animation styles ([#2837](https://github.com/skbkontur/retail-ui/issues/2837)) ([2eeebb0](https://github.com/skbkontur/retail-ui/commit/2eeebb00fb651da8062d6b672f8bd71ae0fa7587))
+
+
+
+
+
+## [4.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.1...@skbkontur/react-ui@4.0.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **Button:** use default prop when "use"={null} ([#2833](https://github.com/skbkontur/retail-ui/issues/2833)) ([#2834](https://github.com/skbkontur/retail-ui/issues/2834)) ([cc2b506](https://github.com/skbkontur/retail-ui/commit/cc2b506d976e678857cbeed1582b76e952b62169))
+* **SidePage,Toast:** fix animation bugs ([#2835](https://github.com/skbkontur/retail-ui/issues/2835)) ([3c8e77d](https://github.com/skbkontur/retail-ui/commit/3c8e77dc67710b342d8df96043333f2cbf012c73))
+
+
+
+
+
+## [4.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.0...@skbkontur/react-ui@4.0.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* **DatePicker:** scroll to date ([#2829](https://github.com/skbkontur/retail-ui/issues/2829)) ([3f3366d](https://github.com/skbkontur/retail-ui/commit/3f3366dbf16b7348eef3981976cf2d07d0b54e2d))
+* dropdownContainer position (master) ([#2827](https://github.com/skbkontur/retail-ui/issues/2827)) ([81467af](https://github.com/skbkontur/retail-ui/commit/81467af568ff519dd362b32dc8db360856f0ef7a))
+* **Modal:** fix lodash import ([#2824](https://github.com/skbkontur/retail-ui/issues/2824)) ([0f15b5e](https://github.com/skbkontur/retail-ui/commit/0f15b5eb041337eda552d096a34914ed86aad79b))
+
+
+
+
+
 # [4.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.0...@skbkontur/react-ui@4.0.0) (2022-03-01)
 
 

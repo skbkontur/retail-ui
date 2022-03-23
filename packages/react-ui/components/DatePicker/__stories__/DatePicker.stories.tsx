@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -8,7 +8,7 @@ import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
 import { DatePicker } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
-import { delay } from '../../../lib/utils';
+import { delay, emptyHandler } from '../../../lib/utils';
 
 class DatePickerWithError extends React.Component<any, any> {
   public state = {
@@ -321,3 +321,44 @@ export const DatePickerLocaleProvider = () => {
 };
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
 DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
+
+export const DatePickerInRelativeBody: Story = () => {
+  const [isRelative, toggleIsRelative] = useState(false);
+  const onClick = useCallback(() => {
+    toggleIsRelative(!isRelative);
+    document.querySelector('html')?.classList.toggle('relative');
+  }, [isRelative]);
+  const paddingTop = document.documentElement.clientHeight - 32 * 3;
+  return (
+    <>
+      <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
+      <div style={{ padding: `${paddingTop}px 150px 0` }}>
+        <DatePicker value="02.07.2017" autoFocus onValueChange={emptyHandler} />
+      </div>
+    </>
+  );
+};
+DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
+DatePickerInRelativeBody.parameters = {
+  creevey: {
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(1000);
+      },
+    },
+  },
+};
