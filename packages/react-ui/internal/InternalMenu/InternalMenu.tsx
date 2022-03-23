@@ -2,14 +2,13 @@ import React from 'react';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
-import { MenuItem } from '../../components/MenuItem';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { MenuContext, MenuItemContextType } from '../Menu/MenuContext';
+import { MenuContext, MenuContextType, MenuItemContextType } from '../Menu/MenuContext';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -38,7 +37,7 @@ interface MenuProps {
 
 interface MenuState {
   highlightedKey?: MenuItemContextType['key'];
-  _enableIconPadding?: boolean;
+  enableIconPadding?: MenuContextType['enableIconPadding'];
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
 }
@@ -63,7 +62,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
-  private highlighted: Nullable<MenuItem>;
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
@@ -134,7 +132,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
               deleteMenuItem: this.deleteMenuItem,
               setHighlightedKey: this.highlight,
               highlightedKey: this.state.highlightedKey,
-              _enableIconPadding: this.state._enableIconPadding,
+              enableIconPadding: this.state.enableIconPadding,
               onClick: this.select.bind(this),
             }}
           >
@@ -146,15 +144,15 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     );
   }
 
-  private addMenuItem = (key: string, item: MenuItem) => {
-    if (item.props.icon && !this.state._enableIconPadding) {
-      this.setState({ _enableIconPadding: true });
+  private addMenuItem = (newItem: MenuItemContextType) => {
+    if (newItem.item.props.icon && !this.state.enableIconPadding) {
+      this.setState({ enableIconPadding: true });
     }
-    this.menuItems.push({ key, item });
+    this.menuItems.push(newItem);
   };
 
-  private deleteMenuItem = (key: string) => {
-    const index = this.menuItems.findIndex((x) => x.key === key);
+  private deleteMenuItem = (key: MenuItemContextType['key']) => {
+    const index = this.menuItems.findIndex((x: MenuItemContextType) => x.key === key);
     if (index >= 0) {
       this.menuItems.splice(index, 1);
     }
@@ -242,31 +240,23 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     this.scrollContainer = scrollContainer;
   };
 
-  //
   private select(key: string, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const items: MenuItemContextType[] = this.menuItems;
-    const item = items.find((item: MenuItemContextType) => item.key === key)?.item as any;
-    if (!item) {
+    const selectedItem = this.menuItems.find((item: MenuItemContextType) => item.key === key)?.item as any;
+    if (!selectedItem || !isActiveElement(selectedItem)) {
       return false;
     }
 
-    if (isActiveElement(item)) {
-      if (shouldHandleHref && item.props.href) {
-        if (item.props.target) {
-          window.open(item.props.href, item.props.target);
-        } else {
-          location.href = item.props.href;
-        }
+    if (shouldHandleHref && selectedItem.props.href) {
+      if (selectedItem.props.target) {
+        window.open(selectedItem.props.href, selectedItem.props.target);
+      } else {
+        location.href = selectedItem.props.href;
       }
-      if (item.props.onClick) {
-        item.props.onClick(event as React.MouseEvent<HTMLElement>);
-      }
-      if (this.props.onItemClick) {
-        this.props.onItemClick(event);
-      }
-      return true;
     }
-    return false;
+
+    selectedItem.props.onClick?.(event);
+    this.props.onItemClick?.(event);
+    return true;
   }
 
   private highlight = (key?: MenuItemContextType['key']) => {
@@ -275,8 +265,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private move(step: number) {
-    const menuItems = this.menuItems;
-    if (!menuItems.length) {
+    if (!this.menuItems.length) {
       return;
     }
 
@@ -286,25 +275,26 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     }
 
     const newHighlightedIndex = highlightedIndex + step;
+
     if (newHighlightedIndex < 0) {
-      this.setState({ highlightedKey: menuItems[menuItems.length - 1].key });
+      this.setState({ highlightedKey: this.menuItems[this.menuItems.length - 1].key });
       this.scrollToBottom();
       return;
     }
 
-    if (newHighlightedIndex >= menuItems.length) {
-      this.setState({ highlightedKey: menuItems[0].key });
+    if (newHighlightedIndex >= this.menuItems.length) {
+      this.setState({ highlightedKey: this.menuItems[0].key });
       this.scrollToTop();
       return;
     }
 
-    this.setState({ highlightedKey: menuItems[newHighlightedIndex].key });
+    this.setState({ highlightedKey: this.menuItems[newHighlightedIndex].key });
 
     switch (newHighlightedIndex) {
       case 0:
         this.scrollToTop();
         break;
-      case menuItems.length - 1:
+      case this.menuItems.length - 1:
         this.scrollToBottom();
         break;
       default:
@@ -313,8 +303,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private scrollToSelected = () => {
-    if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+    const highlighted = this.menuItems.find(
+      (item: MenuItemContextType) => item.key === this.state.highlightedKey,
+    )?.item;
+    if (this.scrollContainer && highlighted) {
+      this.scrollContainer.scrollTo(getRootNode(highlighted));
     }
   };
 
@@ -359,8 +352,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       e.preventDefault();
       this.moveDown();
     } else if (isKeyEnter(e)) {
-      if (this.highlighted && this.highlighted.props.onClick) {
-        this.highlighted.props.onClick(e);
+      const highlighted = this.menuItems.find(
+        (item: MenuItemContextType) => item.key === this.state.highlightedKey,
+      )?.item;
+      if (highlighted) {
+        highlighted.props.onClick?.(e);
       }
     }
   };

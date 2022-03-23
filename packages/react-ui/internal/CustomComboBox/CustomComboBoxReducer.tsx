@@ -6,6 +6,7 @@ import { isNonNullable } from '../../lib/utils';
 import { isKeyArrowUp, isKeyArrowVertical, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
+import { MenuItemContextType } from '../Menu/MenuContext';
 
 import { CustomComboBox, CustomComboBoxProps, CustomComboBoxState, DefaultState } from './CustomComboBox';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -141,12 +142,7 @@ export const Effect: EffectFactory = {
   },
   HighlightMenuItem: (dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue, valueToString } = getProps();
-    const {
-      items,
-      // focused,
-      textValue,
-      requestStatus,
-    } = getState();
+    const { items, focused, textValue, requestStatus } = getState();
     const { menu } = getInstance();
     const valueString = getValueString(value, valueToString);
 
@@ -154,8 +150,12 @@ export const Effect: EffectFactory = {
       return;
     }
 
+    if (!focused) {
+      return;
+    }
+
     if (items && items.length && isNonNullable(value)) {
-      const index = items.findIndex((x: any) => itemToValue(x) === itemToValue(value));
+      const index = items.findIndex((x: MenuItemContextType) => itemToValue(x) === itemToValue(value));
       const item = menu.getMenuItems()[index];
       if (index >= 0 && item !== undefined) {
         menu.highlightItem(item.key);

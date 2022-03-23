@@ -8,7 +8,6 @@ import { MenuContext } from '../../internal/Menu/MenuContext';
 import { styles } from './MenuHeader.styles';
 
 export interface MenuHeaderProps extends CommonProps {
-  _enableIconPadding?: boolean;
   children: ReactNode;
 }
 
@@ -19,7 +18,7 @@ export interface MenuHeaderProps extends CommonProps {
  *
  * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
-function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
+function MenuHeader({ children, ...rest }: MenuHeaderProps) {
   const theme = useContext(ThemeContext);
   const menuContext = useContext(MenuContext);
 
@@ -28,7 +27,7 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
       <div
         className={cx({
           [styles.root(theme)]: true,
-          [styles.withLeftPadding(theme)]: _enableIconPadding || menuContext._enableIconPadding,
+          [styles.withLeftPadding(theme)]: menuContext.enableIconPadding,
         })}
       >
         {children}

@@ -4,14 +4,14 @@ import { MenuItem } from '../../components/MenuItem';
 
 export interface MenuContextType {
   // menuItems: MenuItemContextType[];
-  addMenuItem?: (key: MenuItemContextType['key'], item: MenuItemContextType['item']) => void;
+  addMenuItem?: (newItem: MenuItemContextType) => void;
   deleteMenuItem?: (key: MenuItemContextType['key']) => void;
   onClick?: (key: MenuItemContextType['key'], shouldHandleHref: boolean, event: React.MouseEvent<HTMLElement>) => void;
   highlightedKey?: MenuItemContextType['key'];
   setHighlightedKey?: (key?: MenuItemContextType['key']) => void;
-  _enableIconPadding?: boolean;
-  onMouseEnter?: (e: React.MouseEvent<HTMLElement>) => void;
-  onMouseLeave?: (e: React.MouseEvent<HTMLElement>) => void;
+  enableIconPadding?: boolean;
+  onMouseEnter?: (event: React.MouseEvent<HTMLElement>) => void;
+  onMouseLeave?: (event: React.MouseEvent<HTMLElement>) => void;
 }
 
 export interface MenuItemContextType {

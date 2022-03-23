@@ -15,10 +15,6 @@ export type MenuItemState = null | 'hover' | 'selected' | void;
 
 export interface MenuItemProps extends CommonProps {
   /**
-   * @ignore
-   */
-  _enableIconPadding?: boolean;
-  /**
    * Добавляет описание для элемента меню.
    */
   comment?: React.ReactNode;
@@ -117,7 +113,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   public componentDidMount() {
     if (!this.props.disabled) {
-      this.context.addMenuItem?.(this._key, this);
+      this.context.addMenuItem?.({ key: this._key, item: this });
     }
   }
 
@@ -141,19 +137,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const {
-      link,
-      comment,
-      icon,
-      loose,
-      state,
-      _enableIconPadding,
-      component,
-      onMouseEnter,
-      onMouseLeave,
-      isMobile,
-      ...rest
-    } = props;
+    const { link, comment, icon, loose, state, component, onMouseEnter, onMouseLeave, isMobile, ...rest } = props;
 
     const hover = (state === 'hover' || this._key === this.context.highlightedKey) && !this.props.disabled;
 
@@ -162,8 +146,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={styles.icon(this.theme)}>{icon}</div>;
     }
 
-    const shouldEnableIconPadding = !!_enableIconPadding || this.context._enableIconPadding;
-
     const className = cx({
       [styles.root(this.theme)]: true,
       [styles.rootMobile(this.theme)]: isMobile,
@@ -171,7 +153,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',
       [styles.link(this.theme)]: !!link,
-      [styles.withIcon(this.theme)]: Boolean(iconElement) || shouldEnableIconPadding,
+      [styles.withIcon(this.theme)]: Boolean(iconElement) || this.context.enableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 
@@ -222,24 +204,20 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
   // https://github.com/facebook/react/issues/10109
   // Mouseenter event not triggered when cursor moves from disabled button
-  private handleMouseEnterFix = (e: React.MouseEvent<HTMLElement>) => {
-    this.context.setHighlightedKey?.(this._key);
-    if (!this.mouseEntered && this.props.onMouseEnter) {
+  private handleMouseEnterFix = (event: React.MouseEvent<HTMLElement>) => {
+    if (!this.mouseEntered) {
       this.mouseEntered = true;
-      this.props.onMouseEnter(e);
-    }
-
-    if (!this.mouseEntered && this.context.onMouseEnter) {
-      this.mouseEntered = true;
-      this.context.onMouseEnter(e);
+      this.context.setHighlightedKey?.(this._key);
+      this.props.onMouseEnter?.(event);
+      this.context.onMouseEnter?.(event);
     }
   };
 
-  private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
+  private handleMouseLeave = (event: React.MouseEvent<HTMLElement>) => {
     this.mouseEntered = false;
-    this.props.onMouseLeave?.(e);
+    this.props.onMouseLeave?.(event);
     this.context.setHighlightedKey?.();
-    this.context.onMouseLeave?.(e);
+    this.context.onMouseLeave?.(event);
   };
 
   private getComponent = () => {

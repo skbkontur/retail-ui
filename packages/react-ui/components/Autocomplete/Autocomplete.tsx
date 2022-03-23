@@ -389,11 +389,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   };
 
   private handleItemClick(event: React.SyntheticEvent<HTMLElement> | React.MouseEvent<HTMLElement>, index: number) {
-    if ((event as React.MouseEvent<HTMLElement>)?.button) {
+    if ((event as React.MouseEvent<HTMLElement>).button) {
       return;
     }
 
-    event?.preventDefault();
+    event.preventDefault();
     this.choose(index);
   }
 

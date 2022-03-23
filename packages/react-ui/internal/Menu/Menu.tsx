@@ -1,7 +1,6 @@
 import React, { CSSProperties } from 'react';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
-import { MenuItem } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -11,7 +10,7 @@ import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
-import { MenuContext, MenuItemContextType } from './MenuContext';
+import { MenuContext, MenuContextType, MenuItemContextType } from './MenuContext';
 
 export interface MenuProps {
   children: React.ReactNode;
@@ -28,8 +27,8 @@ export interface MenuProps {
 }
 
 export interface MenuState {
-  highlightedKey?: string;
-  _enableIconPadding?: boolean;
+  highlightedKey?: MenuContextType['highlightedKey'];
+  enableIconPadding?: MenuContextType['enableIconPadding'];
 }
 
 @rootNode
@@ -46,12 +45,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   public state = {
     highlightedKey: undefined,
-    _enableIconPadding: false,
+    enableIconPadding: false,
   };
 
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
-  private highlighted: Nullable<MenuItem>;
   private unmounted = false;
   private setRootNode!: TSetRootNode;
   private menuItems: MenuItemContextType[] = [];
@@ -109,7 +107,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
    * @public
    */
   public hasHighlightedItem() {
-    return Boolean(this.state.highlightedKey);
+    return Boolean(this.state.highlightedKey !== undefined);
   }
 
   public highlightItem(key: string) {
@@ -119,7 +117,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   public highlightItemByIndex(index: number) {
     const item = this.menuItems[index];
     if (item) {
-      this.highlight(item?.key);
+      this.highlight(item.key);
     }
   }
 
@@ -150,7 +148,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
                 deleteMenuItem: this.deleteMenuItem,
                 setHighlightedKey: this.highlight,
                 highlightedKey: this.state.highlightedKey,
-                _enableIconPadding: this.state._enableIconPadding,
+                enableIconPadding: this.state.enableIconPadding,
                 onClick: this.select.bind(this),
               }}
             >
@@ -167,8 +165,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private scrollToSelected = () => {
-    if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+    const highlighted = this.menuItems.find(
+      (item: MenuItemContextType) => item.key === this.state.highlightedKey,
+    )?.item;
+    if (this.scrollContainer && highlighted) {
+      this.scrollContainer.scrollTo(getRootNode(highlighted));
     }
   };
 
@@ -185,11 +186,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private select(key: string, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const items: MenuItemContextType[] = this.menuItems;
-    const selectedItem = items.find((item: MenuItemContextType) => item.key === key)?.item;
+    const selectedItem = this.menuItems.find((item: MenuItemContextType) => item.key === key)?.item as any;
     if (!selectedItem || !isActiveElement(selectedItem)) {
       return false;
     }
+
     if (shouldHandleHref && selectedItem.props.href) {
       if (selectedItem.props.target) {
         window.open(selectedItem.props.href, selectedItem.props.target);
@@ -197,6 +198,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         location.href = selectedItem.props.href;
       }
     }
+
     selectedItem.props.onClick?.(event);
     this.props.onItemClick?.();
     return true;
@@ -206,47 +208,42 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     this.setState({ highlightedKey: key });
   };
 
-  // private unhighlight = () => {
-  //   this.setState({ highlightedIndex: -1 });
-  // };
-
   private move(step: number) {
     if (this.unmounted) {
       // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
       return;
     }
-    const menuItems = this.menuItems;
-    if (!menuItems.length) {
+
+    if (!this.menuItems.length) {
       return;
     }
 
     let highlightedIndex = -1;
     if (this.state.highlightedKey) {
-      highlightedIndex = this.menuItems.findIndex(
-        (item: MenuItemContextType) => item.key === this.state.highlightedKey,
-      );
+      highlightedIndex = this.menuItems.findIndex((item) => item.key === this.state.highlightedKey);
     }
 
     const newHighlightedIndex = highlightedIndex + step;
+
     if (newHighlightedIndex < 0) {
-      this.setState({ highlightedKey: menuItems[menuItems.length - 1].key });
+      this.setState({ highlightedKey: this.menuItems[this.menuItems.length - 1].key });
       this.scrollToBottom();
       return;
     }
 
-    if (newHighlightedIndex >= menuItems.length) {
-      this.setState({ highlightedKey: menuItems[0].key });
+    if (newHighlightedIndex >= this.menuItems.length) {
+      this.setState({ highlightedKey: this.menuItems[0].key });
       this.scrollToTop();
       return;
     }
 
-    this.setState({ highlightedKey: menuItems[newHighlightedIndex].key });
+    this.setState({ highlightedKey: this.menuItems[newHighlightedIndex].key });
 
     switch (newHighlightedIndex) {
       case 0:
         this.scrollToTop();
         break;
-      case menuItems.length - 1:
+      case this.menuItems.length - 1:
         this.scrollToBottom();
         break;
       default:
@@ -259,14 +256,14 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private addMenuItem = (key: string, item: MenuItem) => {
-    if (item.props.icon && !this.state._enableIconPadding) {
-      this.setState({ _enableIconPadding: true });
+  private addMenuItem = (newItem: MenuItemContextType) => {
+    if (newItem.item.props.icon && !this.state.enableIconPadding) {
+      this.setState({ enableIconPadding: true });
     }
-    this.menuItems.push({ key, item });
+    this.menuItems.push(newItem);
   };
 
-  private deleteMenuItem = (key: string) => {
+  private deleteMenuItem = (key: MenuItemContextType['key']) => {
     const index = this.menuItems.findIndex((x) => x.key === key);
     if (index >= 0) {
       this.menuItems.splice(index, 1);
