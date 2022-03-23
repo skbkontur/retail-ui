@@ -9,7 +9,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { MenuContext } from '../Menu/MenuContext';
+import { MenuContext, MenuItemContextType } from '../Menu/MenuContext';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -37,8 +37,8 @@ interface MenuProps {
 }
 
 interface MenuState {
-  highlightedKey: string | undefined;
-  _enableIconPadding: boolean;
+  highlightedKey?: MenuItemContextType['key'];
+  _enableIconPadding?: boolean;
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
 }
@@ -57,8 +57,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   public state: MenuState = {
-    highlightedKey: undefined,
-    _enableIconPadding: false,
     maxHeight: this.props.maxHeight || 'none',
     scrollState: 'top',
   };
@@ -70,7 +68,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private getProps = createPropsGetter(InternalMenu.defaultProps);
-  private menuItems: Array<{ key: string; item: MenuItem }> = [];
+  private menuItems: MenuItemContextType[] = [];
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -149,16 +147,17 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private addMenuItem = (key: string, item: MenuItem) => {
-    item.props.icon && !this.state._enableIconPadding && this.setState({ _enableIconPadding: true });
-    const items: Array<{ key: string; item: MenuItem }> = this.menuItems;
-    items.push({ key, item });
-    this.menuItems = items;
+    if (item.props.icon && !this.state._enableIconPadding) {
+      this.setState({ _enableIconPadding: true });
+    }
+    this.menuItems.push({ key, item });
   };
 
   private deleteMenuItem = (key: string) => {
-    const items: Array<{ key: string; item: MenuItem }> = this.menuItems;
-    const newItems = items.filter((x) => x.key !== key);
-    this.menuItems = newItems;
+    const index = this.menuItems.findIndex((x) => x.key === key);
+    if (index >= 0) {
+      this.menuItems.splice(index, 1);
+    }
   };
 
   private renderHeader = () => {
@@ -245,8 +244,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   //
   private select(key: string, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const items: Array<{ key: string; item: MenuItem }> = this.menuItems;
-    const item = items.find((item: { key: string; item: MenuItem }) => item.key === key)?.item as any;
+    const items: MenuItemContextType[] = this.menuItems;
+    const item = items.find((item: MenuItemContextType) => item.key === key)?.item as any;
     if (!item) {
       return false;
     }
@@ -270,7 +269,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     return false;
   }
 
-  private highlight = (key: string | undefined) => {
+  private highlight = (key?: MenuItemContextType['key']) => {
     this.setState({ highlightedKey: key });
     getRootNode(this)?.focus();
   };

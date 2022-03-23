@@ -11,7 +11,7 @@ import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
-import { MenuContext } from './MenuContext';
+import { MenuContext, MenuItemContextType } from './MenuContext';
 
 export interface MenuProps {
   children: React.ReactNode;
@@ -28,8 +28,8 @@ export interface MenuProps {
 }
 
 export interface MenuState {
-  highlightedKey: string | undefined;
-  _enableIconPadding: boolean;
+  highlightedKey?: string;
+  _enableIconPadding?: boolean;
 }
 
 @rootNode
@@ -52,12 +52,12 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   private theme!: Theme;
   private scrollContainer: Nullable<ScrollContainer>;
   private highlighted: Nullable<MenuItem>;
-  // private _enableIconPadding: boolean | undefined;
+  private unmounted = false;
   private setRootNode!: TSetRootNode;
-  private menuItems: Array<{ key: string; item: MenuItem }> = [];
+  private menuItems: MenuItemContextType[] = [];
 
   public componentWillUnmount() {
-    // this.unmounted = true;
+    this.unmounted = true;
   }
 
   public render() {
@@ -93,7 +93,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
    * @public
    */
   public enter(event: React.SyntheticEvent<HTMLElement>) {
-    return this.state.highlightedKey && this.select(this.state.highlightedKey, true, event);
+    if (this.state.highlightedKey) {
+      return this.select(this.state.highlightedKey, true, event);
+    }
   }
 
   /**
@@ -115,10 +117,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   public highlightItemByIndex(index: number) {
-    const items = this.menuItems;
-    const item = items[index];
-    if (!item) return;
-    this.highlight((item as any)?.key);
+    const item = this.menuItems[index];
+    if (item) {
+      this.highlight(item?.key);
+    }
   }
 
   private renderMain() {
@@ -183,31 +185,24 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private select(key: string, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const items: Array<{ key: string; item: MenuItem }> = this.menuItems;
-    const selectedItem = items.find((item: { key: string; item: MenuItem }) => item.key === key)?.item as any;
-    if (!selectedItem) {
+    const items: MenuItemContextType[] = this.menuItems;
+    const selectedItem = items.find((item: MenuItemContextType) => item.key === key)?.item;
+    if (!selectedItem || !isActiveElement(selectedItem)) {
       return false;
     }
-    if (isActiveElement(selectedItem)) {
-      if (shouldHandleHref && selectedItem.props.href) {
-        if (selectedItem.props.target) {
-          window.open(selectedItem.props.href, selectedItem.props.target);
-        } else {
-          location.href = selectedItem.props.href;
-        }
+    if (shouldHandleHref && selectedItem.props.href) {
+      if (selectedItem.props.target) {
+        window.open(selectedItem.props.href, selectedItem.props.target);
+      } else {
+        location.href = selectedItem.props.href;
       }
-      if (selectedItem.props.onClick) {
-        selectedItem.props.onClick(event);
-      }
-      if (this.props.onItemClick) {
-        this.props.onItemClick();
-      }
-      return true;
     }
-    return false;
+    selectedItem.props.onClick?.(event);
+    this.props.onItemClick?.();
+    return true;
   }
 
-  private highlight = (key: string | undefined) => {
+  private highlight = (key?: MenuItemContextType['key']) => {
     this.setState({ highlightedKey: key });
   };
 
@@ -216,6 +211,10 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   // };
 
   private move(step: number) {
+    if (this.unmounted) {
+      // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
+      return;
+    }
     const menuItems = this.menuItems;
     if (!menuItems.length) {
       return;
@@ -223,7 +222,9 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     let highlightedIndex = -1;
     if (this.state.highlightedKey) {
-      highlightedIndex = this.menuItems.findIndex((item) => item.key === this.state.highlightedKey);
+      highlightedIndex = this.menuItems.findIndex(
+        (item: MenuItemContextType) => item.key === this.state.highlightedKey,
+      );
     }
 
     const newHighlightedIndex = highlightedIndex + step;
@@ -259,16 +260,17 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private addMenuItem = (key: string, item: MenuItem) => {
-    item.props.icon && !this.state._enableIconPadding && this.setState({ _enableIconPadding: true });
-    const items: Array<{ key: string; item: MenuItem }> = this.menuItems;
-    items.push({ key, item });
-    this.menuItems = items;
+    if (item.props.icon && !this.state._enableIconPadding) {
+      this.setState({ _enableIconPadding: true });
+    }
+    this.menuItems.push({ key, item });
   };
 
   private deleteMenuItem = (key: string) => {
-    const items: Array<{ key: string; item: MenuItem }> = this.menuItems;
-    const newItems = items.filter((x) => x.key !== key);
-    this.menuItems = newItems;
+    const index = this.menuItems.findIndex((x) => x.key === key);
+    if (index >= 0) {
+      this.menuItems.splice(index, 1);
+    }
   };
 }
 

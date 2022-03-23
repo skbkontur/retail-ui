@@ -398,7 +398,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   }
 
   private choose(index: number) {
-    console.log(index);
     if (!this.state.items) {
       return;
     }

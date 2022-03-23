@@ -121,7 +121,7 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
 export const isReactUIComponent = <P = any>(name: string) => {
   return (child: React.ReactNode): child is React.ReactElement<P> => {
     // @ts-ignore
-    return child?.type?.__KONTUR_REACT_UI__ === name;
+    return child?.type?.__KONTUR_REACT_UI__ === name || child?.__KONTUR_REACT_UI__ === name;
   };
 };
 

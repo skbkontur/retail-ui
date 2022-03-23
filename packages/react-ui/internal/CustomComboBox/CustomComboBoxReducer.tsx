@@ -149,32 +149,19 @@ export const Effect: EffectFactory = {
     } = getState();
     const { menu } = getInstance();
     const valueString = getValueString(value, valueToString);
-    //
+
     if (!menu) {
       return;
     }
-    //
-    // if (!focused) {
-    //   return;
-    // }
-    //
-    let index = -1;
 
     if (items && items.length && isNonNullable(value)) {
-      index = items.findIndex((x: any) => itemToValue(x) === itemToValue(value));
+      const index = items.findIndex((x: any) => itemToValue(x) === itemToValue(value));
       const item = menu.getMenuItems()[index];
       if (index >= 0 && item !== undefined) {
         menu.highlightItem(item.key);
       }
     }
-    //
-    // if (index >= 0) {
-    //   // FIXME: accessing private props
-    //   // @ts-ignore
-    //   requestAnimationFrame(() => menu && menu.scrollToSelected());
-    //   return;
-    // }
-    //
+
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
       requestAnimationFrame(() => menu && menu.down());
     }

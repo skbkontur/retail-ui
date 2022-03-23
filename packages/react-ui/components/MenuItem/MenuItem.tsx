@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { getRandomID, isFunction } from '../../lib/utils';
+import { getRandomID, isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -116,7 +116,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public context: MenuContextType = this.context;
 
   public componentDidMount() {
-    !this.props.disabled && this.context.addMenuItem?.(this._key, this);
+    if (!this.props.disabled) {
+      this.context.addMenuItem?.(this._key, this);
+    }
   }
 
   public componentWillUnmount() {
@@ -160,6 +162,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       iconElement = <div className={styles.icon(this.theme)}>{icon}</div>;
     }
 
+    const shouldEnableIconPadding = !!_enableIconPadding || this.context._enableIconPadding;
+
     const className = cx({
       [styles.root(this.theme)]: true,
       [styles.rootMobile(this.theme)]: isMobile,
@@ -167,7 +171,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',
       [styles.link(this.theme)]: !!link,
-      [styles.withIcon(this.theme)]: Boolean(iconElement) || !!_enableIconPadding || this.context._enableIconPadding,
+      [styles.withIcon(this.theme)]: Boolean(iconElement) || shouldEnableIconPadding,
       [styles.disabled(this.theme)]: !!this.props.disabled,
     });
 
@@ -212,9 +216,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
     return this.commonRef.current;
   };
 
-  private onClick = (e: React.MouseEvent<HTMLElement>) => {
-    this.context.onClick?.(this._key);
-    // this.props.onClick?.(e);
+  private onClick = (event: React.MouseEvent<HTMLElement>) => {
+    this.context.onClick?.(this._key, false, event);
   };
 
   // https://github.com/facebook/react/issues/10109
@@ -233,11 +236,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 
   private handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
-    this.context.setHighlightedKey?.(undefined);
     this.mouseEntered = false;
-    if (this.props.onMouseLeave) {
-      this.props.onMouseLeave(e);
-    }
+    this.props.onMouseLeave?.(e);
+    this.context.setHighlightedKey?.();
     this.context.onMouseLeave?.(e);
   };
 
@@ -260,7 +261,4 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = (child: React.ReactNode): child is React.ReactElement<MenuItemProps> => {
-  // @ts-ignore
-  return child?.type?.__KONTUR_REACT_UI__ === 'MenuItem' || child?.__KONTUR_REACT_UI__ === 'MenuItem';
-};
+export const isMenuItem = isReactUIComponent('MenuItem');
