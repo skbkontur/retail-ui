@@ -16,7 +16,6 @@ import { Button, ButtonProps, ButtonSize, ButtonUse } from '../Button';
 import { DropdownContainer } from '../../internal/DropdownContainer';
 import { filterProps } from '../../lib/filterProps';
 import { Input } from '../Input';
-import { Menu } from '../../internal/Menu';
 import { MenuItem, MenuItemProps } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
@@ -31,6 +30,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InternalMenu } from '../../internal/InternalMenu';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -211,7 +211,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private theme!: Theme;
   private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
-  private menu: Nullable<Menu>;
+  private menu: Nullable<InternalMenu>;
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
@@ -446,16 +446,16 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
       >
-        <Menu
+        <InternalMenu
           ref={this.refMenu}
           width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
-          align={this.props.menuAlign}
+          // align={this.props.menuAlign}
         >
           {search}
           {this.getMenuItems(value)}
-        </Menu>
+        </InternalMenu>
       </DropdownContainer>
     );
   }
@@ -474,9 +474,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         onCloseRequest={this.close}
         opened={this.state.opened}
       >
-        <Menu hasShadow={false} onItemClick={this.close} disableScrollContainer maxHeight={'auto'}>
+        <InternalMenu
+          hasShadow={false}
+          onItemClick={this.close}
+          // disableScrollContainer
+          maxHeight={'auto'}
+        >
           {this.getMenuItems(value)}
-        </Menu>
+        </InternalMenu>
       </MobilePopup>
     );
   }
@@ -535,7 +540,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     setTimeout(() => input?.focus(), 0);
   };
 
-  private refMenu = (menu: Menu) => {
+  private refMenu = (menu: InternalMenu) => {
     this.menu = menu;
   };
 
@@ -562,19 +567,19 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         case isKeyArrowUp(e):
           e.preventDefault();
           if (this.menu) {
-            this.menu.up();
+            this.menu.moveUp();
           }
           break;
         case isKeyArrowDown(e):
           e.preventDefault();
           if (this.menu) {
-            this.menu.down();
+            this.menu.moveDown();
           }
           break;
         case isKeyEnter(e):
           e.preventDefault(); // To prevent form submission.
           if (this.menu) {
-            this.menu.enter(e);
+            this.menu.handleKeyDown(e);
           }
           break;
       }

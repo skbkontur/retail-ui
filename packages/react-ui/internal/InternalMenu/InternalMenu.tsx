@@ -309,16 +309,16 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     return false;
   }
 
-  private highlightItem = (index: number): void => {
+  public highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
     getRootNode(this)?.focus();
   };
 
-  private unhighlight = () => {
+  public unhighlight = () => {
     this.setState({ highlightedIndex: -1 });
   };
 
-  private move(step: number) {
+  public move(step: number) {
     this.setState((state, props) => {
       const children = childrenToArray(props.children);
       if (!children.some(isActiveElement)) {
@@ -346,11 +346,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     }, this.scrollToSelected);
   }
 
-  private moveUp = () => {
+  public moveUp = () => {
     this.move(-1);
   };
 
-  private moveDown = () => {
+  public moveDown = () => {
     this.move(1);
   };
 
@@ -359,7 +359,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     return !children || !childrenToArray(children).filter(isExist).length;
   }
 
-  private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
+  public handleKeyDown = (e: React.KeyboardEvent<HTMLElement>): void => {
     if (typeof this.props.onKeyDown === 'function') {
       this.props.onKeyDown(e);
     }
@@ -386,6 +386,10 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       this.setState({ scrollState });
     }
   };
+
+  public hasHighlightedItem() {
+    return this.state.highlightedIndex !== -1;
+  }
 }
 
 function isExist(value: any): value is any {

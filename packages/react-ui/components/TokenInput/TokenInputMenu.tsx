@@ -3,9 +3,9 @@ import React from 'react';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Popup } from '../../internal/Popup';
 import { ComboBoxMenu, ComboBoxMenuProps } from '../../internal/CustomComboBox';
-import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { InternalMenu } from '../../internal/InternalMenu';
 
 import { TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
@@ -20,7 +20,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
   private theme!: Theme;
 
-  private menu: Menu | null = null;
+  private menu: InternalMenu | null = null;
 
   public render() {
     return (

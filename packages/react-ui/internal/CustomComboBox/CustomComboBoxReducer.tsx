@@ -167,26 +167,26 @@ export const Effect: EffectFactory = {
     }
 
     if (textValue !== valueString || requestStatus === ComboBoxRequestStatus.Failed) {
-      requestAnimationFrame(() => menu && menu.down());
+      requestAnimationFrame(() => menu && menu.moveDown());
     }
   },
   SelectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
     const { menu } = getInstance();
     if (menu) {
-      menu.enter(event);
+      menu.handleKeyDown(event);
     }
   },
   MoveMenuHighlight: (direction) => (dispatch, getState, getProps, getInstance) => {
     const { menu } = getInstance();
     if (menu) {
-      menu[direction]();
+      direction === 'up' ? menu.moveUp() : menu.moveDown();
     }
   },
   ResetHighlightedMenuItem: (dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
 
     if (combobox.menu && combobox.menu.hasHighlightedItem()) {
-      combobox.menu.reset();
+      combobox.menu.unhighlight();
     }
   },
   Reflow: () => {

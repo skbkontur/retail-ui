@@ -7,12 +7,12 @@ import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
 import { InputLikeText } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
-import { Menu } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
 import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
 import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
+import { InternalMenu } from '../../../internal/InternalMenu';
 
 function clickOutside() {
   const event = document.createEvent('HTMLEvents');
@@ -74,7 +74,7 @@ describe('ComboBox', () => {
 
     wrapper.update();
 
-    expect(wrapper.find(Menu)).toHaveLength(1);
+    expect(wrapper.find(InternalMenu)).toHaveLength(1);
   });
 
   it('sets items on search resolve', async () => {
@@ -267,7 +267,7 @@ describe('ComboBox', () => {
     await promise;
     wrapper.update();
 
-    expect(wrapper.find(Menu).containsAllMatchingElements(items)).toBeTruthy();
+    expect(wrapper.find(InternalMenu).containsAllMatchingElements(items)).toBeTruthy();
   });
 
   it('calls default onClick on custom element select', async () => {
@@ -394,7 +394,7 @@ describe('ComboBox', () => {
 
     wrapper.update();
 
-    const menuInstance = wrapper.find(Menu).instance() as Menu;
+    const menuInstance = wrapper.find(InternalMenu).instance() as InternalMenu;
     expect(menuInstance.hasHighlightedItem()).toBe(false);
   });
 
@@ -409,7 +409,7 @@ describe('ComboBox', () => {
 
     wrapper.update();
 
-    const menuInstance = wrapper.find(Menu).instance() as Menu;
+    const menuInstance = wrapper.find(InternalMenu).instance() as InternalMenu;
     expect(menuInstance.hasHighlightedItem()).toBe(true);
   });
 
@@ -496,7 +496,7 @@ describe('ComboBox', () => {
     wrapper.update();
 
     expect(getItems).toHaveBeenCalledTimes(0);
-    expect(wrapper.find(Menu)).toHaveLength(0);
+    expect(wrapper.find(InternalMenu)).toHaveLength(0);
   });
 
   it('reset', () => {
@@ -562,19 +562,19 @@ describe('ComboBox', () => {
     });
 
     it('opens', () => {
-      expect(wrapper.find(Menu)).toHaveLength(1);
+      expect(wrapper.find(InternalMenu)).toHaveLength(1);
     });
 
     it('closes', () => {
       wrapper.instance().close();
       wrapper.update();
-      expect(wrapper.find(Menu)).toHaveLength(0);
+      expect(wrapper.find(InternalMenu)).toHaveLength(0);
     });
 
     it('closes on clickOutside', () => {
       clickOutside();
       wrapper.update();
-      expect(wrapper.find(Menu)).toHaveLength(0);
+      expect(wrapper.find(InternalMenu)).toHaveLength(0);
     });
   });
 
@@ -593,7 +593,7 @@ describe('ComboBox', () => {
       wrapper.instance().search();
       await promise;
       wrapper.update();
-      expect(wrapper.find(Menu)).toHaveLength(1);
+      expect(wrapper.find(InternalMenu)).toHaveLength(1);
     });
 
     it('searches current value by default', () => {
@@ -695,7 +695,7 @@ describe('ComboBox', () => {
         clickOnInput(wrapper);
         await delay(300);
         wrapper.update();
-        expect(wrapper.find(Menu)).toHaveLength(1);
+        expect(wrapper.find(InternalMenu)).toHaveLength(1);
       });
 
       it('runs empty search if menu is closed', () => {
@@ -722,7 +722,7 @@ describe('ComboBox', () => {
       it("doesn't open menu if it is closed", () => {
         wrapper.instance().close();
         clickOnInput(wrapper);
-        expect(wrapper.find(Menu)).toHaveLength(0);
+        expect(wrapper.find(InternalMenu)).toHaveLength(0);
       });
 
       it("doesn't run search if menu is closed", () => {

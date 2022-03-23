@@ -4,7 +4,6 @@ import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
-import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
 import { RenderLayer } from '../RenderLayer';
 import { Spinner } from '../../components/Spinner';
@@ -14,6 +13,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
+import { InternalMenu } from '../InternalMenu';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -71,7 +71,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
-  refMenu?: (menu: Nullable<Menu>) => void;
+  refMenu?: (menu: Nullable<InternalMenu>) => void;
   refInputLikeText?: (inputLikeText: Nullable<InputLikeText>) => void;
 }
 

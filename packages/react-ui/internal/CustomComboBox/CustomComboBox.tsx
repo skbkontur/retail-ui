@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
 import { Input, InputIconType } from '../../components/Input';
-import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
@@ -10,6 +9,7 @@ import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InternalMenu } from '../InternalMenu';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { CustomComboBoxAction, CustomComboBoxEffect, reducer } from './CustomComboBoxReducer';
@@ -95,7 +95,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
 
   public state: CustomComboBoxState<T> = DefaultState;
   public input: Nullable<Input>;
-  public menu: Nullable<Menu>;
+  public menu: Nullable<InternalMenu>;
   public inputLikeText: Nullable<InputLikeText>;
   public requestId = 0;
   public loaderShowDelay: Nullable<Promise<void>>;
@@ -281,7 +281,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       refInput: (input: Nullable<Input>) => {
         this.input = input;
       },
-      refMenu: (menu: Nullable<Menu>) => {
+      refMenu: (menu: Nullable<InternalMenu>) => {
         this.menu = menu;
       },
       refInputLikeText: (inputLikeText: Nullable<InputLikeText>) => {
