@@ -25,21 +25,18 @@ describe('Kebab', () => {
     const onBlur = jest.fn();
     const wrapper = mount(<Kebab onBlur={onBlur} />);
 
-    wrapper
-      .find(MenuKebabIcon)
-      .simulate('focus')
-      .simulate('blur');
+    wrapper.find(MenuKebabIcon).simulate('focus').simulate('blur');
 
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it("doesn't call onBlur after opening kebab menu", () => {
+  it('calls onBlur after opening kebab menu', () => {
     const onBlur = jest.fn();
     const wrapper = mount(<Kebab onBlur={onBlur} />);
 
     wrapper.find(MenuKebabIcon).simulate('click');
 
-    expect(onBlur).not.toHaveBeenCalled();
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('calls onBlur callback after click outside', () => {

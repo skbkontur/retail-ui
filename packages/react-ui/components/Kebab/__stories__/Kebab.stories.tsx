@@ -172,7 +172,10 @@ export const ProgrammaticFocus: CSFStory = () => {
         <Button data-tid="blur-button" onMouseEnter={blur}>
           Blur
         </Button>
-        <Kebab size="small" ref={kebab} onFocus={action('focus')} onBlur={action('blur')} />
+        <Kebab size="small" ref={kebab} onFocus={action('focus')} onBlur={action('blur')}>
+          <MenuItem>One</MenuItem>
+          <MenuItem>Two</MenuItem>
+        </Kebab>
       </Gapped>
     </div>
   );
@@ -182,7 +185,7 @@ ProgrammaticFocus.story = {
   name: 'Kebab with programmatic focus',
   parameters: {
     creevey: {
-      skip: [{ in: 'ie11' }],
+      skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'] }],
       captureElement: '[data-comp-name~="Kebab"]',
       tests: {
         async callFocusThenBlur() {

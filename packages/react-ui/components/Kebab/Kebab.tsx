@@ -213,9 +213,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         }
 
         if (this.state.opened) {
+          !restoreFocus && this.props.onBlur?.();
           this.props.onOpen();
         } else {
-          !restoreFocus && this.props.onBlur?.();
+          restoreFocus && this.props.onFocus?.();
           this.props.onClose();
         }
       },
