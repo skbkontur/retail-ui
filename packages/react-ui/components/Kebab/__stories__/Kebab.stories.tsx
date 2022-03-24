@@ -6,6 +6,7 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
 import { Gapped } from '../../Gapped';
+import { Button } from '../../Button';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
@@ -165,13 +166,13 @@ export const ProgrammaticFocus: CSFStory = () => {
   return (
     <div style={{ width: 200, textAlign: 'center' }}>
       <Gapped>
-        <button data-tid="focus-button" onClick={focus}>
+        <Button data-tid="focus-button" onClick={focus}>
           Focus
-        </button>
-        <button data-tid="blur-button" onMouseEnter={blur}>
+        </Button>
+        <Button data-tid="blur-button" onMouseEnter={blur}>
           Blur
-        </button>
-        <Kebab size="small" ref={kebab} />
+        </Button>
+        <Kebab size="small" ref={kebab} onFocus={action('focus')} onBlur={action('blur')} />
       </Gapped>
     </div>
   );
@@ -188,16 +189,10 @@ ProgrammaticFocus.story = {
           const focusButton = await this.browser.findElement({ css: '[data-tid="focus-button"]' });
           const blurButton = await this.browser.findElement({ css: '[data-tid="blur-button"]' });
 
-          await this.browser
-            .actions()
-            .click(focusButton)
-            .perform();
+          await this.browser.actions().click(focusButton).perform();
           const focus = await this.takeScreenshot();
 
-          await this.browser
-            .actions()
-            .move({ origin: blurButton })
-            .perform();
+          await this.browser.actions().move({ origin: blurButton }).perform();
 
           const blur = await this.takeScreenshot();
 

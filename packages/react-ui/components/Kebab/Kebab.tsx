@@ -86,7 +86,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
    * @public
    */
   public focus() {
-    tabListener.isTabPressed = true;
+    keyListener.isTabPressed = true;
     this.spanEl.current?.focus();
   }
 
