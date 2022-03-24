@@ -68,7 +68,7 @@ export interface ButtonProps extends CommonProps {
   disableFocus?: boolean;
 
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -150,7 +150,7 @@ export interface ButtonProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 

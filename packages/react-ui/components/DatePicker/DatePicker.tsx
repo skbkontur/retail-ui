@@ -35,7 +35,7 @@ export interface DatePickerProps<T> extends CommonProps {
   disabled?: boolean;
   enableTodayLink?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   minDate: T;
@@ -44,7 +44,7 @@ export interface DatePickerProps<T> extends CommonProps {
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   width?: number | string;
