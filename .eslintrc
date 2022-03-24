@@ -49,14 +49,24 @@
     "import/no-default-export": 2,
     "react/no-find-dom-node": 0,
     "react/display-name": 0,
-    "@typescript-eslint/no-unused-vars": 1,
+    "@typescript-eslint/no-unused-vars": [1, { "ignoreRestSiblings": true }],
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-non-null-assertion": 2,
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/ban-types": 0,
+    "@typescript-eslint/ban-types": [
+      2,
+      {
+        "types": {
+          "Function": false,
+          "object": false,
+          "{}": false
+        },
+        "extendDefaults": true
+      }
+    ],
     "jsx-a11y/click-events-have-key-events": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-noninteractive-tabindex": 0,

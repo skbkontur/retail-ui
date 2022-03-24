@@ -21,8 +21,6 @@ import { PagingLocale, PagingLocaleHelper } from './locale';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
-// TODO: Stop passing `active` prop to `component`.
-
 export interface ItemComponentProps {
   active: boolean;
   children?: React.ReactNode;

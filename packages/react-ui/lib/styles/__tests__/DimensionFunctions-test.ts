@@ -57,9 +57,4 @@ describe('DimensionFunctions.shift helper', () => {
     const actual = shift('', '5');
     expect(actual).toEqual('');
   });
-
-  test('does not shift if no shift passed', () => {
-    const actual = shift('50px');
-    expect(actual).toBe('50px');
-  });
 });

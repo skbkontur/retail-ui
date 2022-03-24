@@ -62,7 +62,7 @@ class PagingWithState extends React.Component<any, any> {
 
 const getPageFromHash = () => +document.location.hash.slice(1);
 
-const CustomComponent = ({ children, pageNumber, ...rest }: ItemComponentProps) => {
+const CustomComponent = ({ children, pageNumber, active, ...rest }: ItemComponentProps) => {
   if (Paging.isForward(pageNumber)) {
     return (
       <a href={'#' + (getPageFromHash() + 1)} {...rest}>
