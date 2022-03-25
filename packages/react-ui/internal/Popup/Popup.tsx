@@ -286,10 +286,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: (instance: Nullable<React.ReactInstance>) => {
-              this.updateAnchorElement(instance);
-              mergeRefs([(anchor as React.RefAttributes<any>)?.ref])(instance);
-            },
+            ref: mergeRefs([this.updateAnchorElement, (anchor as React.RefAttributes<any>)?.ref]),
           })
         : null;
 

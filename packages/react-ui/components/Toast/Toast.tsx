@@ -5,7 +5,8 @@ import { RenderContainer } from '../../internal/RenderContainer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { mergeRefs } from '../../lib/utils';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
@@ -134,7 +135,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         exit={!isTestEnv}
         nodeRef={this.rootRef}
       >
-        <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <CommonWrapper rootNodeRef={mergeRefs([this.setRootNode, this.rootRef])} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>
@@ -158,8 +159,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
 
   private _refToast = (element: ToastView) => {
     this._toast = element;
-    // @ts-expect-error Assign to readonly variable (ref.current)
-    this.rootRef.current = getRootNode(element);
   };
 }
 
