@@ -157,7 +157,7 @@ export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimation
 KebabWithoutAnimations.storyName = 'Kebab without animations';
 KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
-export const ProgrammaticFocus: CSFStory = () => {
+export const ProgrammaticFocus: Story = () => {
   const kebab = React.useRef<Kebab | null>(null);
 
   const focus = () => kebab.current?.focus();
@@ -181,26 +181,25 @@ export const ProgrammaticFocus: CSFStory = () => {
   );
 };
 
-ProgrammaticFocus.story = {
-  name: 'Kebab with programmatic focus',
-  parameters: {
-    creevey: {
-      skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'] }],
-      captureElement: '[data-comp-name~="Kebab"]',
-      tests: {
-        async callFocusThenBlur() {
-          const focusButton = await this.browser.findElement({ css: '[data-tid="focus-button"]' });
-          const blurButton = await this.browser.findElement({ css: '[data-tid="blur-button"]' });
+ProgrammaticFocus.storyName = 'Kebab with programmatic focus';
 
-          await this.browser.actions().click(focusButton).perform();
-          const focus = await this.takeScreenshot();
+ProgrammaticFocus.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'] }],
+    captureElement: '[data-comp-name~="Kebab"]',
+    tests: {
+      async callFocusThenBlur() {
+        const focusButton = await this.browser.findElement({ css: '[data-tid="focus-button"]' });
+        const blurButton = await this.browser.findElement({ css: '[data-tid="blur-button"]' });
 
-          await this.browser.actions().move({ origin: blurButton }).perform();
+        await this.browser.actions().click(focusButton).perform();
+        const focus = await this.takeScreenshot();
 
-          const blur = await this.takeScreenshot();
+        await this.browser.actions().move({ origin: blurButton }).perform();
 
-          await this.expect({ focus, blur }).to.matchImages();
-        },
+        const blur = await this.takeScreenshot();
+
+        await this.expect({ focus, blur }).to.matchImages();
       },
     },
   },
