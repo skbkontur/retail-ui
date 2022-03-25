@@ -42,12 +42,12 @@ export interface ToggleProps extends CommonProps {
    */
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    * @default false
    */
   warning?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    * @default false
    */
   error?: boolean;

@@ -68,7 +68,7 @@ export interface ButtonProps extends CommonProps {
   disableFocus?: boolean;
 
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -150,7 +150,7 @@ export interface ButtonProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 
@@ -241,7 +241,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       icon,
       _noPadding,
       _noRightPadding,
-      use = Button.defaultProps.use,
       visuallyFocused,
       align,
       disableFocus,
@@ -253,6 +252,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
+    const use = this.props.use || Button.defaultProps.use;
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
