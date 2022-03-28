@@ -360,8 +360,8 @@ export const styles = memoizeStyle({
   transitionActive() {
     return css`
       transition: transform 0.18s cubic-bezier(0.22, 0.61, 0.36, 1), opacity 0.18s cubic-bezier(0.22, 0.61, 0.36, 1);
-      opacity: 1;
-      transform: translate(0, 0);
+      opacity: 1 !important;
+      transform: translate(0, 0) !important;
     `;
   },
 
@@ -373,7 +373,7 @@ export const styles = memoizeStyle({
 
   transitionLeaveActive() {
     return css`
-      opacity: 0.01;
+      opacity: 0.01 !important;
       transition: opacity 0.15s ease-out;
     `;
   },

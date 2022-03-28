@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": "@skbkontur",
+  "extends": ["@skbkontur", "plugin:react-hooks/recommended"],
   "globals": {
     "__DEV__": true,
     "Generator": true,
