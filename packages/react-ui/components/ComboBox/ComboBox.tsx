@@ -6,6 +6,8 @@ import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
+import { mergeRefs } from '../../lib/utils';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -180,25 +182,21 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     drawArrow: true,
   };
 
-  private comboboxElement: Nullable<CustomComboBox<T>> = null;
+  private comboboxElement = React.createRef<CustomComboBox<T>>();
   private setRootNode!: TSetRootNode;
 
   /**
    * @public
    */
   public focus() {
-    if (this.comboboxElement) {
-      this.comboboxElement.focus();
-    }
+    this.comboboxElement.current?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    if (this.comboboxElement) {
-      this.comboboxElement.blur();
-    }
+    this.comboboxElement.current?.blur();
   }
 
   /**
@@ -209,36 +207,28 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * текст из инпута или результат `valueToString(value)`
    */
   public search(query?: string) {
-    if (this.comboboxElement) {
-      this.comboboxElement.search(query);
-    }
+    this.comboboxElement.current?.search(query);
   }
 
   /**
    * @public
    */
   public cancelSearch() {
-    if (this.comboboxElement) {
-      this.comboboxElement.cancelSearch();
-    }
+    this.comboboxElement.current?.cancelSearch();
   }
 
   /**
    * @public Открывает выпадающий список
    */
   public open() {
-    if (this.comboboxElement) {
-      this.comboboxElement.open();
-    }
+    this.comboboxElement.current?.open();
   }
 
   /**
    * @public Закрывает выпадающий список
    */
   public close() {
-    if (this.comboboxElement) {
-      this.comboboxElement.close();
-    }
+    this.comboboxElement.current?.close();
   }
 
   /**
@@ -246,9 +236,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * @public
    */
   public selectInputText() {
-    if (this.comboboxElement) {
-      this.comboboxElement.selectInputText();
-    }
+    this.comboboxElement.current?.selectInputText();
   }
 
   /**
@@ -256,17 +244,14 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
    * @public
    */
   public reset() {
-    if (this.comboboxElement) {
-      this.comboboxElement.reset();
-    }
+    this.comboboxElement.current?.reset();
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={this.customComboBoxRef} />;
+    return (
+      <CustomComboBox {...this.props} ref={this.shallowEqualMemoMergeRef([this.setRootNode, this.comboboxElement])} />
+    );
   }
 
-  private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {
-    this.setRootNode(element);
-    this.comboboxElement = element;
-  };
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 }

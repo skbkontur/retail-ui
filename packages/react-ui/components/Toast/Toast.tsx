@@ -7,6 +7,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { mergeRefs } from '../../lib/utils';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
@@ -135,7 +136,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         exit={!isTestEnv}
         nodeRef={this.rootRef}
       >
-        <CommonWrapper rootNodeRef={mergeRefs([this.setRootNode, this.rootRef])} {...this.props}>
+        <CommonWrapper rootNodeRef={this.shallowEqualMemoMergeRef([this.setRootNode, this.rootRef])} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>
@@ -160,6 +161,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private _refToast = (element: ToastView) => {
     this._toast = element;
   };
+
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 }
 
 function safelyCall(fn: Nullable<(a?: any) => any>, ...args: any[]) {

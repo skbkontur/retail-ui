@@ -20,6 +20,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -286,7 +287,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: mergeRefs([this.updateAnchorElement, (anchor as React.RefAttributes<any>)?.ref]),
+            ref: this.shallowEqualMemoMergeRef([this.updateAnchorElement, (anchor as React.RefAttributes<any>)?.ref]),
           })
         : null;
 
@@ -692,4 +693,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         throw new Error(`Unexpected align '${align}'`);
     }
   }
+
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 }

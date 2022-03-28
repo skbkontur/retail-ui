@@ -4,7 +4,7 @@ import { isFunction, isRefableElement, mergeRefs } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { memo } from '../../lib/memo';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 
 export interface CommonProps {
   /**
@@ -39,15 +39,13 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
 
-  private memoRefs = memo(mergeRefs);
-
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
           ref: isRefableElement(this.child)
-            ? this.memoRefs([this.rootNodeRef, (this.child as any)?.ref, this.setRootNode])
+            ? this.shallowEqualMemoMergeRef([this.rootNodeRef, (this.child as any)?.ref, this.setRootNode])
             : null,
           className: cx(this.child.props.className, className),
           style: {
@@ -60,8 +58,10 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   }
 
   private rootNodeRef = (instance: Nullable<React.ReactInstance>) => {
-    this.props.rootNodeRef?.(getRootNode(instance));
+    return this.props.rootNodeRef?.(getRootNode(instance));
   };
+
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 }
 
 const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
