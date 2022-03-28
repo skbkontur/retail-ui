@@ -76,7 +76,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   disablePortal?: boolean;
   disabled?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   filterItem?: (value: TValue, item: TItem, pattern: string) => boolean;
@@ -137,7 +137,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   value?: TValue;
   width?: number | string;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   use?: ButtonUse;
@@ -145,7 +145,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   onFocus?: React.FocusEventHandler<HTMLElement>;
   onBlur?: React.FocusEventHandler<HTMLElement>;
   /**
-   * Текст заголовка выпдающего меню в мобильной версии
+   * Текст заголовка выпадающего меню в мобильной версии
    */
   mobileMenuHeaderText?: string;
 }
