@@ -107,6 +107,8 @@ export const isReactUIComponent = <P = any>(name: string) => {
   };
 };
 
+export type Ref<T> = React.MutableRefObject<T> | React.LegacyRef<T> | undefined;
+
 /**
  * Merges two or more refs into one.
  *
@@ -120,7 +122,7 @@ export const isReactUIComponent = <P = any>(name: string) => {
  *  return <div ref={mergeRefs([localRef, ref])} />;
  * });
  */
-export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
+export function mergeRefs<T = any>(refs: Ref<T>[]): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {

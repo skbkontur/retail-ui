@@ -14,6 +14,8 @@ import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
+import { mergeRefs } from '../../lib/utils';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
@@ -119,7 +121,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
-  private rootSpan: Nullable<HTMLSpanElement>;
+  private rootSpan = React.createRef<HTMLElement>();
 
   private requestId = 0;
 
@@ -192,7 +194,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
-        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <span style={{ display: 'inline-block', width }} ref={this.shallowEqualMemoMergeRef([this.rootSpan])}>
           <Input {...inputProps} />
           {this.renderMenu()}
         </span>
@@ -200,13 +202,15 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   };
 
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
+
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
     const menuProps = {
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
+      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan.current)),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -384,9 +388,5 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refMenu = (menu: Menu | null) => {
     this.menu = menu;
-  };
-
-  private refRootSpan = (span: HTMLSpanElement) => {
-    this.rootSpan = span;
   };
 }

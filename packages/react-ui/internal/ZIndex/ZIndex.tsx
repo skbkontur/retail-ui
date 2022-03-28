@@ -1,8 +1,9 @@
 import React from 'react';
 
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
+import { mergeRefs } from '../../lib/utils';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -98,7 +99,11 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
           return (
             <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+              <div
+                style={{ ...style, ...wrapperStyle }}
+                ref={this.shallowEqualMemoMergeRef([this.setRootNode, this.props.wrapperRef])}
+                {...props}
+              >
                 {children}
               </div>
             </ZIndexContext.Provider>
@@ -107,12 +112,6 @@ export class ZIndex extends React.Component<ZIndexProps> {
       </ZIndexContext.Consumer>
     );
   }
-
-  private wrapperRef = (element: HTMLDivElement | null) => {
-    const { wrapperRef } = this.props;
-    this.setRootNode(element);
-    wrapperRef && callChildRef(wrapperRef, element);
-  };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
     let newZIndex = this.zIndex;
@@ -127,4 +126,6 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
     return newZIndex;
   }
+
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 }
