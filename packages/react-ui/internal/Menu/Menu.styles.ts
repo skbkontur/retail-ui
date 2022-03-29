@@ -1,6 +1,5 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 export const styles = memoizeStyle({
   root(t: Theme) {
@@ -8,13 +7,33 @@ export const styles = memoizeStyle({
       background: ${t.menuBgDefault};
       box-sizing: content-box;
       overflow: auto;
-      padding: ${is8pxTheme(t) ? 0 : t.menuPaddingY} 0;
+      padding: 0 0;
+    `;
+  },
+
+  alignRight() {
+    return css`
+      flex: 1 1 100%;
+    `;
+  },
+
+  alignRightIE11() {
+    return css`
+      float: right;
+      width: 100%;
+    `;
+  },
+
+  alignRightIE11FixAutoWidth() {
+    return css`
+      box-sizing: border-box !important; // override root styles
+      overflow: hidden !important; // override root styles
     `;
   },
 
   scrollContainer(t: Theme) {
     return css`
-      padding: ${is8pxTheme(t) ? t.menuPaddingY : 0} 0;
+      padding: ${t.menuPaddingY} 0;
     `;
   },
 

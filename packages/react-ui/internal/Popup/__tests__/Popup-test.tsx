@@ -8,6 +8,7 @@ import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { CommonWrapper } from '../../CommonWrapper';
+import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
@@ -116,8 +117,15 @@ describe('Popup', () => {
 });
 
 describe('properly renders opened/closed states ', () => {
-  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
+  const closedPopupTree: ReactComponentLike[] = [
+    ResponsiveLayout,
+    CommonWrapper,
+    RenderContainer,
+    RenderInnerContainer,
+  ];
   const openedPopupTree: ReactComponentLike[] = [
+    ResponsiveLayout,
+    CommonWrapper,
     RenderContainer,
     RenderInnerContainer,
     Portal,

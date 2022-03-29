@@ -113,7 +113,6 @@ export const colorStyles = [
         box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
       `;
       const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
-
       return css`
         background-color: ${color(t)};
         color: ${ColorFunctions.contrast(color(t))};
