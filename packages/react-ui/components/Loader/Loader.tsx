@@ -108,7 +108,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private setRootNode!: TSetRootNode;
   private spinnerContainerNode: Nullable<HTMLDivElement>;
   private childrenContainerNode: Nullable<HTMLDivElement>;
-  private spinnerNode: Nullable<HTMLDivElement>;
+  private spinnerNode = React.createRef<HTMLDivElement>();
   private layoutEvents: Nullable<{ remove: () => void }>;
   private spinnerTask: TaskWithDelayAndMinimalDuration;
   private childrenObserver: Nullable<MutationObserver>;
@@ -119,7 +119,6 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     this.spinnerContainerNode = null;
     this.childrenContainerNode = null;
     this.childrenObserver = null;
-    this.spinnerNode = null;
 
     this.state = {
       isStickySpinner: false,
@@ -257,12 +256,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
         className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
-        <div
-          className={styles.spinnerComponentWrapper()}
-          ref={(element) => {
-            this.spinnerNode = element;
-          }}
-        >
+        <div className={styles.spinnerComponentWrapper()} ref={this.spinnerNode}>
           {component !== undefined ? component : <Spinner type={type} caption={caption} />}
         </div>
       </span>
@@ -324,7 +318,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
     if (this.spinnerNode) {
-      const spinnerHeight = this.spinnerNode.getBoundingClientRect().height;
+      const spinnerHeight = this.spinnerNode.current?.getBoundingClientRect().height;
 
       if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
         delete spinnerStyle.top;

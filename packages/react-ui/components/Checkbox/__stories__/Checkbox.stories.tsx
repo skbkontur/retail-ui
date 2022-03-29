@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
-import { Nullable } from '../../../typings/utility-types';
 
 class PlainCheckbox extends Component<any, any> {
   public state = {
@@ -29,7 +28,7 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
     checked: false,
   };
 
-  private checkbox: Checkbox | null = null;
+  private checkboxRef = React.createRef<Checkbox>();
 
   public render() {
     return (
@@ -59,20 +58,12 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
     );
   }
 
-  private checkboxRef = (element: Checkbox) => {
-    this.checkbox = element;
-  };
-
   private setIndeterminate = () => {
-    if (this.checkbox) {
-      this.checkbox.setIndeterminate();
-    }
+    this.checkboxRef.current?.setIndeterminate();
   };
 
   private resetIndeterminate = () => {
-    if (this.checkbox) {
-      this.checkbox.resetIndeterminate();
-    }
+    this.checkboxRef.current?.resetIndeterminate();
   };
 
   private changeValue = () => {
@@ -248,23 +239,19 @@ export const WithoutLabel = () => (
 WithoutLabel.storyName = 'without label';
 
 export const ProgrammaticFocus = () => {
-  let checkbox: Nullable<Checkbox>;
+  const checkbox = React.useRef<Checkbox>(null);
 
   function focus() {
-    if (checkbox) {
-      checkbox.focus();
-    }
+    checkbox.current?.focus();
   }
 
   function blur() {
-    if (checkbox) {
-      checkbox.blur();
-    }
+    checkbox.current?.blur();
   }
 
   return (
     <div>
-      <Checkbox ref={(el) => (checkbox = el)}>Label</Checkbox>
+      <Checkbox ref={checkbox}>Label</Checkbox>
       <Gapped>
         <button onClick={focus}>Focus</button>
         <button onClick={blur}>Blur</button>

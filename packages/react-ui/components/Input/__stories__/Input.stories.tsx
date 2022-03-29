@@ -514,18 +514,16 @@ SelectAllByProp.parameters = {
 };
 
 export const SelectAllByButton: Story = () => {
-  let input: Input | null = null;
+  const input = React.useRef<Input>(null);
 
   const selectAll = () => {
-    if (input) {
-      input.selectAll();
-    }
+    input.current?.selectAll();
   };
 
   return (
     <div>
       <div>
-        <Input ref={(element) => (input = element)} defaultValue="Some value" />
+        <Input ref={input} defaultValue="Some value" />
       </div>
       <Button onClick={selectAll}>Select all</Button>
     </div>
@@ -558,25 +556,19 @@ InputWithMaxLengthAttr.parameters = { creevey: { skip: [true] } };
 
 export const ManualBlinking = () => {
   class Sample extends React.Component {
-    private input: Input | null = null;
+    private input = React.createRef<Input>();
 
     public render() {
       return (
         <Gapped>
-          <Input ref={this.refInput} />
+          <Input ref={this.input} />
           <button onClick={this.handleClick}>Blink!</button>
         </Gapped>
       );
     }
 
     private handleClick = () => {
-      if (this.input) {
-        this.input.blink();
-      }
-    };
-
-    private refInput = (element: Input | null) => {
-      this.input = element;
+      this.input.current?.blink();
     };
   }
 

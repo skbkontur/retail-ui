@@ -10,6 +10,8 @@ import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
+import { mergeRefs } from '../../lib/utils';
 
 export interface FxInputProps
   extends CommonProps,
@@ -49,7 +51,7 @@ export class FxInput extends React.Component<FxInputProps> {
     value: '',
   };
 
-  private input: Input | CurrencyInput | null = null;
+  private input = React.createRef<Input | CurrencyInput>();
 
   private getProps = createPropsGetter(FxInput.defaultProps);
   private setRootNode!: TSetRootNode;
@@ -94,7 +96,7 @@ export class FxInput extends React.Component<FxInputProps> {
             {...inputProps}
             {...rest}
             width={'100%'}
-            ref={this.refInput}
+            ref={this.shallowMergeRefs([this.input, this.props.refInput])}
             value={this.props.value as CurrencyInputProps['value']}
             onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
           />
@@ -103,7 +105,7 @@ export class FxInput extends React.Component<FxInputProps> {
             {...inputProps}
             {...rest}
             width={'100%'}
-            ref={this.refInput}
+            ref={this.shallowMergeRefs([this.input, this.props.refInput])}
             type={this.props.type as InputType}
             value={this.props.value as InputProps['value']}
             onValueChange={this.props.onValueChange as InputProps['onValueChange']}
@@ -113,29 +115,19 @@ export class FxInput extends React.Component<FxInputProps> {
     );
   };
 
+  private shallowMergeRefs = shallowEqualMemo(mergeRefs);
+
   /**
    * @public
    */
   public focus = () => {
-    if (this.input) {
-      this.input.focus();
-    }
+    this.input.current?.focus();
   };
 
   /**
    * @public
    */
   public blur = () => {
-    if (this.input) {
-      this.input.blur();
-    }
-  };
-
-  private refInput = (element: Input | CurrencyInput | null) => {
-    this.input = element;
-
-    if (this.props.refInput) {
-      this.props.refInput(this.input);
-    }
+    this.input.current?.blur();
   };
 }

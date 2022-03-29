@@ -107,7 +107,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
-  private containerNode: HTMLDivElement | null = null;
+  private containerNode = React.createRef<HTMLDivElement>();
   private mouseDownTarget: EventTarget | null = null;
   private mouseUpTarget: EventTarget | null = null;
 
@@ -122,9 +122,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     window.addEventListener('keydown', this.handleKeyDown);
     this.checkHorizontalScrollAppearance();
 
-    if (this.containerNode) {
-      this.containerNode.addEventListener('scroll', LayoutEvents.emit);
-    }
+    this.containerNode.current?.addEventListener('scroll', LayoutEvents.emit);
   }
 
   public componentWillUnmount() {
@@ -139,9 +137,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
     ModalStack.remove(this);
 
-    if (this.containerNode) {
-      this.containerNode.removeEventListener('scroll', LayoutEvents.emit);
-    }
+    this.containerNode.current?.removeEventListener('scroll', LayoutEvents.emit);
   }
 
   public render(): JSX.Element {
@@ -194,7 +190,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
             <div
-              ref={this.refContainer}
+              ref={this.containerNode}
               className={styles.container()}
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
@@ -266,10 +262,6 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     }
   };
 
-  private refContainer = (center: HTMLDivElement | null) => {
-    this.containerNode = center;
-  };
-
   private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
     this.setState({ stackPosition: stack.indexOf(this), hasBackground: ModalStack.isBlocking(this) });
   };
@@ -304,9 +296,9 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   private checkHorizontalScrollAppearance = () => {
     let hasScroll = false;
 
-    if (this.containerNode) {
-      const containerClientWidth = this.containerNode.clientWidth;
-      const containerScrollWidth = this.containerNode.scrollWidth;
+    if (this.containerNode.current) {
+      const containerClientWidth = this.containerNode.current.clientWidth;
+      const containerScrollWidth = this.containerNode.current.scrollWidth;
       hasScroll = containerClientWidth < containerScrollWidth;
     }
     if (hasScroll && !this.state.horizontalScroll) {

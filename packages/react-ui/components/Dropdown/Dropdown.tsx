@@ -6,7 +6,6 @@ import { MenuHeader } from '../MenuHeader';
 import { MenuItem } from '../MenuItem';
 import { MenuSeparator } from '../MenuSeparator';
 import { Select } from '../Select';
-import { Nullable } from '../../typings/utility-types';
 import { ButtonSize, ButtonUse } from '../Button';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -162,7 +161,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     onOpen: PropTypes.func,
   };
 
-  private _select: Nullable<DropdownSelectType>;
+  private _select = React.createRef<DropdownSelectType>();
   private setRootNode!: TSetRootNode;
 
   public render() {
@@ -178,7 +177,7 @@ export class Dropdown extends React.Component<DropdownProps> {
 
     return (
       <Select<React.ReactNode, React.ReactNode>
-        ref={this._refSelect}
+        ref={this._select}
         {...filterProps(props, PASS_PROPS)}
         value={caption}
         items={items}
@@ -192,23 +191,15 @@ export class Dropdown extends React.Component<DropdownProps> {
    * @public
    */
   public open() {
-    if (this._select) {
-      this._select.open();
-    }
+    this._select.current?.open();
   }
 
   /**
    * @public
    */
   public close() {
-    if (this._select) {
-      this._select.close();
-    }
+    this._select.current?.close();
   }
-
-  private _refSelect = (element: DropdownSelectType): void => {
-    this._select = element;
-  };
 }
 
 function renderValue(value: any) {

@@ -95,7 +95,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private theme!: Theme;
   private readonly locale!: PagingLocale;
   private addedGlobalListener = false;
-  private container: HTMLSpanElement | null = null;
+  private container = React.createRef<HTMLSpanElement>();
 
   public componentDidMount() {
     const { useGlobalListener } = this.props;
@@ -146,7 +146,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onMouseDown={this.handleMouseDown}
-          ref={this.refContainer}
+          ref={this.container}
         >
           {this.getItems().map(this.renderItem)}
         </span>
@@ -268,7 +268,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     if (isIE11) {
       // Клик по span внутри контейнера с tabindex="0" переносит фокус именно на этот span.
       // Поэтому горячие клавиши работают пока span существует на странице.
-      setTimeout(() => this.container && this.container.focus(), 0);
+      setTimeout(() => this.container.current?.focus(), 0);
     }
   };
 
@@ -298,7 +298,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       return;
     }
 
-    if (this.container && this.container === e.target) {
+    if (this.container.current === e.target) {
       if (isArrowLeft) {
         this.setState({ focusedByTab: true }, this.moveFocusLeft);
         return;
@@ -433,10 +433,6 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
       this.addedGlobalListener = false;
     }
-  };
-
-  private refContainer = (element: HTMLSpanElement | null) => {
-    this.container = element;
   };
 }
 

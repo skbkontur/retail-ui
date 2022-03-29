@@ -64,7 +64,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     relativeTop: 0,
   };
 
-  private wrapper: Nullable<HTMLElement>;
+  private wrapper = React.createRef<HTMLDivElement>();
   private inner: Nullable<HTMLElement>;
   private layoutSubscription: { remove: Nullable<() => void> } = { remove: null };
   private reflowCounter = 0;
@@ -116,7 +116,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div ref={this.refWrapper} className={styles.wrapper()}>
+        <div ref={this.wrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
@@ -135,8 +135,6 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     );
   }
 
-  private refWrapper = (ref: Nullable<HTMLElement>) => (this.wrapper = ref);
-
   private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
   /**
@@ -152,10 +150,10 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     const windowHeight = window.innerHeight || documentElement.clientHeight;
-    if (!this.wrapper || !this.inner) {
+    if (!this.wrapper.current || !this.inner) {
       return;
     }
-    const { top, bottom, left } = this.wrapper.getBoundingClientRect();
+    const { top, bottom, left } = this.wrapper.current.getBoundingClientRect();
     const { width, height } = this.inner.getBoundingClientRect();
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;

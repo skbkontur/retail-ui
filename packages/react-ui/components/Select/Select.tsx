@@ -211,7 +211,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private theme!: Theme;
   private isMobileLayout!: boolean;
   private readonly locale!: SelectLocale;
-  private menu: Nullable<Menu>;
+  private menu = React.createRef<Menu>();
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
@@ -447,7 +447,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         hasFixedWidth={hasFixedWidth}
       >
         <Menu
-          ref={this.refMenu}
+          ref={this.menu}
           width={this.props.menuWidth}
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
@@ -535,10 +535,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     setTimeout(() => input?.focus(), 0);
   };
 
-  private refMenu = (menu: Menu) => {
-    this.menu = menu;
-  };
-
   private toggle = () => {
     if (this.state.opened) {
       this.close();
@@ -561,21 +557,15 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           break;
         case isKeyArrowUp(e):
           e.preventDefault();
-          if (this.menu) {
-            this.menu.up();
-          }
+          this.menu.current?.up();
           break;
         case isKeyArrowDown(e):
           e.preventDefault();
-          if (this.menu) {
-            this.menu.down();
-          }
+          this.menu.current?.down();
           break;
         case isKeyEnter(e):
           e.preventDefault(); // To prevent form submission.
-          if (this.menu) {
-            this.menu.enter(e);
-          }
+          this.menu.current?.enter(e);
           break;
       }
     }
@@ -586,7 +576,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private handleSearch = (value: string) => {
     this.setState({ searchPattern: value });
-    this.menu?.highlightItem(1);
+    this.menu.current?.highlightItem(1);
   };
 
   private select(value: TValue) {

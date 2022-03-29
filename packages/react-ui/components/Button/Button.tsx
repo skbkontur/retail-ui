@@ -184,7 +184,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 
   private theme!: Theme;
-  private node: HTMLButtonElement | null = null;
+  private buttonNode = React.createRef<HTMLButtonElement>();
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -205,14 +205,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
    * @public
    */
   public focus() {
-    this.node?.focus();
+    this.buttonNode.current?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    this.node?.blur();
+    this.buttonNode.current?.blur();
   }
 
   public render(): JSX.Element {
@@ -382,7 +382,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button ref={this._ref} {...rootProps}>
+          <button ref={this.buttonNode} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}
@@ -461,10 +461,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if (!this.props.disabled && !this.props.disableFocus) {
       this.props.onBlur?.(e);
     }
-  };
-
-  private _ref = (node: HTMLButtonElement | null) => {
-    this.node = node;
   };
 }
 

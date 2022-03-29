@@ -129,7 +129,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     popup: false,
   };
 
-  private popupAnchor: HTMLElement | null = null;
+  private popupAnchor = React.createRef<HTMLDivElement>();
   private notifier: Toast | null = null;
 
   public render(): React.ReactNode {
@@ -150,7 +150,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
         {controls}
         <Gapped>
           <ZLoader size={150} />
-          <div ref={(e) => (this.popupAnchor = e)}>
+          <div ref={this.popupAnchor}>
             <Toggle checked={this.state.popup} onValueChange={(v) => this.setState({ popup: v })} />
           </div>
           {this.popupAnchor && (

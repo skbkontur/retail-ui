@@ -32,7 +32,7 @@ const TEXT = (
 );
 
 class SampleTop extends React.Component {
-  private stopElement: HTMLDivElement | null = null;
+  private stopElement = React.createRef<HTMLDivElement>();
 
   public render() {
     return (
@@ -42,18 +42,14 @@ class SampleTop extends React.Component {
           {stickyContent}
         </Sticky>
         {TEXT}
-        <div data-tid="stickyStop" style={{ height: 2, background: '#999' }} ref={this.refStop} />
+        <div data-tid="stickyStop" style={{ height: 2, background: '#999' }} ref={this.stopElement} />
         {TEXT}
         {TEXT}
       </div>
     );
   }
 
-  private refStop = (element: HTMLDivElement) => {
-    this.stopElement = element;
-  };
-
-  private getStickyStopElement = () => this.stopElement;
+  private getStickyStopElement = () => this.stopElement.current;
 }
 
 class SampleBottom extends React.Component {

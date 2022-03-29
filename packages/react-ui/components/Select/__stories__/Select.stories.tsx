@@ -312,14 +312,15 @@ WithTextOverflow.parameters = {
 
 export const ExternalFocus = () => {
   class Sample extends React.Component {
-    private selectElem: Select | null = null;
+    private selectElem = React.createRef<Select>();
+
     public render() {
       return (
         <div>
           <Select
             width="100px"
             items={['oneoneone', 'twotwotwo', 'twotwotwo']}
-            ref={this.refSelect}
+            ref={this.selectElem}
             onFocus={action('handleFocus')}
             onBlur={action('handleBlur')}
           />
@@ -329,14 +330,8 @@ export const ExternalFocus = () => {
       );
     }
 
-    private refSelect = (element: Select<any, any> | null) => {
-      this.selectElem = element;
-    };
-
     private handleClick = () => {
-      if (this.selectElem) {
-        this.selectElem.focus();
-      }
+      this.selectElem.current?.focus();
     };
   }
 
@@ -351,7 +346,8 @@ export const UsingOnKeyDown: Story = () => {
       opened: false,
       text: 'wait...',
     };
-    private button: Button | null = null;
+    private button = React.createRef<Button>();
+
     public render() {
       return (
         <div>
@@ -362,12 +358,7 @@ export const UsingOnKeyDown: Story = () => {
             onClose={this.onClose}
           />
           <br />
-          <Button
-            onFocus={this.onFocus}
-            ref={(el) => {
-              this.button = el;
-            }}
-          >
+          <Button onFocus={this.onFocus} ref={this.button}>
             {this.state.text}
           </Button>
         </div>
@@ -378,8 +369,8 @@ export const UsingOnKeyDown: Story = () => {
     private onClose = () => this.setState({ opened: false });
     private onFocus = () => this.setState({ text: 'focused!' });
     private onKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-      if (this.button && isKeyEnter(e) && this.state.opened) {
-        this.button.focus();
+      if (isKeyEnter(e) && this.state.opened) {
+        this.button.current?.focus();
       }
     };
   }
@@ -409,13 +400,11 @@ UsingOnKeyDown.parameters = {
 };
 
 export const WithSearchAndVariousWidth: Story = () => {
-  let selectElem: Select | null = null;
+  const selectElem = React.useRef<Select>(null);
   const [width, setWidth] = useState<string>();
   const changeWidth = (w: string) => {
     setWidth(w);
-    if (selectElem) {
-      selectElem.open();
-    }
+    selectElem.current?.open();
   };
 
   return (
@@ -430,7 +419,7 @@ export const WithSearchAndVariousWidth: Story = () => {
         100%
       </Button>
       <br />
-      <Select ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select ref={selectElem} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };
