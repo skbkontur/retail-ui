@@ -23,18 +23,18 @@ export class BGRuler extends React.Component<{
     color: '#333',
   };
 
-  private iframe: HTMLIFrameElement | null = null;
+  private iframe = React.createRef<HTMLIFrameElement>();
 
   public componentDidMount = () => {
-    if (this.iframe && this.iframe.contentWindow) {
-      this.iframe.contentWindow.addEventListener('resize', this.update, true);
+    if (this.iframe.current?.contentWindow) {
+      this.iframe.current.contentWindow.addEventListener('resize', this.update, true);
+      this.update();
     }
-    this.update();
   };
 
   public componentWillUnmount = () => {
-    if (this.iframe && this.iframe.contentWindow) {
-      this.iframe.contentWindow.removeEventListener('resize', this.update, true);
+    if (this.iframe.current?.contentWindow) {
+      this.iframe.current.contentWindow.removeEventListener('resize', this.update, true);
     }
   };
 
@@ -93,7 +93,7 @@ export class BGRuler extends React.Component<{
         linear-gradient(90deg, transparent 0, transparent 89px, ${color} 89px, ${color} 90px, transparent 90px)
       `,
     };
-    const rulerWidth = this.iframe ? this.iframe.getBoundingClientRect().width : 0;
+    const rulerWidth = this.iframe.current ? this.iframe.current.getBoundingClientRect().width : 0;
     const labels = Array(Math.ceil(rulerWidth / 100) + 1)
       .fill(null)
       .map((value, index) => {
@@ -118,12 +118,8 @@ export class BGRuler extends React.Component<{
         <div style={middleMarks} />
         <div style={shortMarks} />
         {labels}
-        <iframe title="BGRuler" style={iframe} ref={this.iframeRef} />
+        <iframe title="BGRuler" style={iframe} ref={this.iframe} />
       </div>
     );
   }
-
-  private iframeRef = (ref: HTMLIFrameElement | null) => {
-    this.iframe = ref;
-  };
 }

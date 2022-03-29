@@ -26,7 +26,7 @@ describe('Toast', () => {
     const wrapper = mount<ToastProps, ToastState>(<Toast />);
     (wrapper.instance() as Toast).push('message');
 
-    const toast = (wrapper.instance() as Toast)._toast;
+    const toast = (wrapper.instance() as Toast)._toast.current;
     expect(toast).toBeTruthy();
     const domNode = getRootNode(wrapper.instance() as Toast);
     expect(domNode).toBeInstanceOf(HTMLElement);
@@ -37,7 +37,7 @@ describe('Toast', () => {
     const wrapper = mount(<Toast />);
     (wrapper.instance() as Toast).push('message');
     jest.runAllTimers();
-    const toast = (wrapper.instance() as Toast)._toast;
+    const toast = (wrapper.instance() as Toast)._toast.current;
     expect(toast).toBeFalsy();
   });
 
@@ -80,7 +80,7 @@ describe('Toast', () => {
       handler,
     });
 
-    const toast = (wrapper.instance() as Toast)._toast;
+    const toast = (wrapper.instance() as Toast)._toast.current;
 
     expect(toast!.props.action).toEqual({ label: 'action', handler });
   });

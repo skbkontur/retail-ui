@@ -51,7 +51,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     ToastStatic.close();
   }
 
-  public _toast: Nullable<ToastView>;
+  public _toast = React.createRef<ToastView>();
   private _timeout: Nullable<number> = null;
   private rootRef = React.createRef<HTMLElement>();
 
@@ -137,7 +137,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         nodeRef={this.rootRef}
       >
         <CommonWrapper rootNodeRef={this.shallowEqualMemoMergeRef([this.setRootNode, this.rootRef])} {...this.props}>
-          <ToastView ref={this._refToast} {...toastProps} />
+          <ToastView ref={this._toast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>
     );
@@ -156,10 +156,6 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     const timeOut = this.state.action ? 7 : 3;
 
     this._timeout = window.setTimeout(this.close, timeOut * 1000);
-  };
-
-  private _refToast = (element: ToastView) => {
-    this._toast = element;
   };
 
   private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);

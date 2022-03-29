@@ -112,7 +112,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   };
 
   private theme!: Theme;
-  private input: HTMLInputElement | null = null;
+  private input = React.createRef<HTMLInputElement>();
   private setRootNode!: TSetRootNode;
 
   constructor(props: ToggleProps) {
@@ -135,9 +135,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
    * @public
    */
   public focus = () => {
-    if (this.input) {
+    if (this.input.current) {
       keyListener.isTabPressed = true;
-      this.input.focus();
+      this.input.current.focus();
     }
   };
 
@@ -197,7 +197,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               className={styles.input(this.theme)}
               onFocus={this.handleFocus}
               onBlur={this.handleBlur}
-              ref={this.inputRef}
+              ref={this.input}
               disabled={disabled}
               id={id}
             />
@@ -238,10 +238,6 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
       </CommonWrapper>
     );
   }
-
-  private inputRef = (element: HTMLInputElement) => {
-    this.input = element;
-  };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (this.props.onValueChange) {

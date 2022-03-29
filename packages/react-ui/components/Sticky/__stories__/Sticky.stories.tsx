@@ -53,14 +53,14 @@ class SampleTop extends React.Component {
 }
 
 class SampleBottom extends React.Component {
-  private stopElement: HTMLDivElement | null = null;
+  private stopElement = React.createRef<HTMLDivElement>();
 
   public render() {
     return (
       <div>
         {TEXT}
         {TEXT}
-        <div data-tid="stickyStop" style={{ height: 2, background: '#999' }} ref={this.refStop} />
+        <div data-tid="stickyStop" style={{ height: 2, background: '#999' }} ref={this.stopElement} />
         {TEXT}
         <Sticky side="bottom" getStop={this.getStickyStopElement}>
           {stickyContent}
@@ -70,11 +70,7 @@ class SampleBottom extends React.Component {
     );
   }
 
-  private refStop = (element: HTMLDivElement) => {
-    this.stopElement = element;
-  };
-
-  private getStickyStopElement = () => this.stopElement;
+  private getStickyStopElement = () => this.stopElement.current;
 }
 
 function SampleFlex() {
