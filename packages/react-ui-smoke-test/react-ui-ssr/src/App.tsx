@@ -10,6 +10,7 @@ import {
   DatePicker,
   Dropdown,
   DropdownMenu,
+  FileUploader,
   FxInput,
   Gapped,
   Group,
@@ -46,7 +47,6 @@ import {
   TooltipMenu,
 } from '@skbkontur/react-ui';
 import EditIcon from '@skbkontur/react-icons/Edit';
-import { FLAT_THEME } from '@skbkontur/react-ui/lib/theming/themes/FlatTheme';
 import { ValidationContainer, ValidationWrapper } from 'react-ui-validations/src';
 
 export const App = () => {
@@ -60,7 +60,7 @@ export const App = () => {
       <Checkbox checked={false} onValueChange={() => ({})}>
         Checkbox
       </Checkbox>
-      <ComboBox getItems={q => Promise.resolve([{ value: 1, label: 'First' }])} />
+      <ComboBox getItems={(q) => Promise.resolve([{ value: 1, label: 'First' }])} />
       <CurrencyLabel value={12356.1} currencySymbol={'₽'} />
       <DateInput />
       <DatePicker value={''} onValueChange={() => ({})} />
@@ -128,7 +128,7 @@ export const App = () => {
       </SidePage>
       <Spinner type="big" caption="big" />
       <Sticky side="top" getStop={() => null}>
-        {_ => 'Small loan of a million dollars'}
+        {(_) => 'Small loan of a million dollars'}
       </Sticky>
       <Switcher items={['One', 'Two', 'Three']} />
       <Tabs value="fuji">
@@ -138,7 +138,7 @@ export const App = () => {
       <Textarea />
       <Toggle />
       <Token>Default</Token>
-      <TokenInput type={TokenInputType.Combined} getItems={_ => Promise.resolve(['First'])} />
+      <TokenInput type={TokenInputType.Combined} getItems={(_) => Promise.resolve(['First'])} />
       <Tooltip render={() => <div />} pos="right top">
         a
       </Tooltip>
@@ -146,16 +146,14 @@ export const App = () => {
         <MenuHeader>Заголовок меню</MenuHeader>
       </TooltipMenu>
       <LocaleContext.Provider value={{ langCode: LangCodes.ru_RU }}>
-        <LocaleContext.Consumer>{locale => locale.langCode}</LocaleContext.Consumer>
+        <LocaleContext.Consumer>{(locale) => locale.langCode}</LocaleContext.Consumer>
       </LocaleContext.Provider>
-      <ThemeContext.Provider value={ThemeFactory.create(FLAT_THEME)}>
-        <ThemeContext.Consumer>{theme => theme.btnFontSizeMedium}</ThemeContext.Consumer>
-      </ThemeContext.Provider>
       <ValidationContainer scrollOffset={{ top: 100 }}>
         <ValidationWrapper validationInfo={{ type: 'immediate', message: 'Bad' }}>
           <Input />
         </ValidationWrapper>
       </ValidationContainer>
+      <FileUploader />
     </main>
   );
 };

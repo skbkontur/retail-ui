@@ -11,12 +11,12 @@ function renderSidePage() {
         <div
           style={{
             background: `repeating-linear-gradient(
-                          60deg,
-                          #fafafa,
-                          #fafafa 20px,
-                          #dfdede 20px,
-                          #dfdede 40px
-                        )`,
+                                60deg,
+                                #808080,
+                                #808080 20px,
+                                #d3d3d3 20px,
+                                #d3d3d3 40px
+                              )`,
             height: 600,
             padding: '20px 0',
           }}

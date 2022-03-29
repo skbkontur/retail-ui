@@ -519,7 +519,7 @@ OnUnexpectedInputValidation.parameters = {
   creevey: {
     skip: [
       {
-        in: ['firefox', 'firefoxFlat', 'firefox8px', 'firefoxFlat8px'],
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
         tests: 'token select',
         reason: 'flacky "clearedOnNullReturn"',
       },
@@ -531,9 +531,12 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(1000)
           .sendKeys('aaa')
+          .pause(1000)
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withNotSelectedToken = await this.takeScreenshot();

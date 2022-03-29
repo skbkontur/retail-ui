@@ -170,7 +170,7 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
     tests: checkboxTests,
   },
 };
@@ -184,7 +184,7 @@ Checked.storyName = 'checked';
 
 Checked.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
     tests: {
       idle: checkboxTests['idle'],
       hovered: checkboxTests['hovered'],
@@ -280,7 +280,7 @@ Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie11Flat', 'ie118px', 'ie11Flat8px'], tests: 'hovered' }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '#screenshot-capture' });

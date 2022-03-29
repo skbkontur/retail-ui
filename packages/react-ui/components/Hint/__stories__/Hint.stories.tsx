@@ -173,14 +173,14 @@ class CustomClassComponent extends React.Component<{}, {}> {
   private setRootNode!: TSetRootNode;
 
   render() {
-    return <div ref={this.setRootNode}>children text</div>;
+    return <div ref={this.setRootNode}>Ich Liebe dich</div>;
   }
 }
-export const withClassChildren = () => (
+export const WithClassChildren = () => (
   <React.StrictMode>
     <Hint pos="top" text="Something will never be changed" manual opened>
       <CustomClassComponent />
     </Hint>
   </React.StrictMode>
 );
-withClassChildren.storyName = 'with class children';
+WithClassChildren.storyName = 'with class children';

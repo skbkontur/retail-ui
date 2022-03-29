@@ -1,4 +1,7 @@
 module.exports = {
+  assumptions: {
+    setPublicClassFields: true,
+  },
   env: {
     cjs: {
       presets: [['@babel/preset-env', { loose: true, modules: 'commonjs', targets: { ie: '11' } }]],
@@ -9,6 +12,5 @@ module.exports = {
   plugins: [
     ['@babel/plugin-transform-runtime', { useESModules: true, version: '7.8.3' }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ['@babel/plugin-proposal-class-properties', { loose: true }],
   ],
 };

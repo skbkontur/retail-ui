@@ -111,9 +111,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     let iconElement = null;
     if (icon) {
       iconElement = (
-        <span className={styles.icon(this.theme)}>
-          {loading ? <Spinner caption={null} dimmed type="mini" /> : icon}
-        </span>
+        <span className={styles.icon(this.theme)}>{loading ? <Spinner caption={null} dimmed inline /> : icon}</span>
       );
     }
 
@@ -133,7 +131,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
       className: cx({
         [styles.root(this.theme)]: true,
         [styles.button(this.theme)]: !!_button,
-        [styles.buttonOpened()]: !!_buttonOpened,
+        [styles.buttonOpened(this.theme)]: !!_buttonOpened,
         [styles.useDefault(this.theme)]: use === 'default',
         [styles.useSuccess(this.theme)]: use === 'success',
         [styles.useDanger(this.theme)]: use === 'danger',
