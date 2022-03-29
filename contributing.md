@@ -145,7 +145,7 @@ git clone https://github.com/%YOUR_USER_NAME%/retail-ui.git
 
 #### Коммиты
 
-Особое внимание стоит уделить коммитам. В проекте используется [commitlint](https://github.com/conventional-changelog/commitlint) с конфигурацией [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional). Это означает, что сообщения ваших коммитов должны соответсвовать следующему формату:
+Особое внимание стоит уделить коммитам. В проекте используется [commitlint](https://github.com/conventional-changelog/commitlint) с конфигурацией [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/@commitlint/config-conventional). Это означает, что сообщения ваших коммитов должны соответствовать следующему формату:
 
 ```
 тип(scope?): короткое описание
@@ -233,7 +233,7 @@ packages/
 
 #### Code style
 
-Для контроля над стилем и форматированием кода в проекте используются [editorconfig](https://editorconfig.org/), [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) и [Prettier](https://prettier.io/). По возможности, рекомендуем установить соответсвующие плагины в свою IDE, чтобы получать от нее предупреждения в режиме реального времени. Но запускать линтеры можно и вручную, с помощью команды `yarn workspace @skbkontur/react-ui lint`. Советуем делать это перед каждым коммитом или пользоваться командой `yarn commit`. PR, не прошедший проверку линтеров, не может быть принят.
+Для контроля над стилем и форматированием кода в проекте используются [editorconfig](https://editorconfig.org/), [ESLint](https://eslint.org/), [Stylelint](https://stylelint.io/) и [Prettier](https://prettier.io/). По возможности, рекомендуем установить соответствующие плагины в свою IDE, чтобы получать от нее предупреждения в режиме реального времени. Но запускать линтеры можно и вручную, с помощью команды `yarn workspace @skbkontur/react-ui lint`. Советуем делать это перед каждым коммитом или пользоваться командой `yarn commit`. PR, не прошедший проверку линтеров, не может быть принят.
 
 ## Тесты
 
@@ -241,7 +241,7 @@ packages/
 
 ### Unit-тесты
 
-Для unit-тестирования используются [Jest](https://jestjs.io/) и [Enzyme](https://airbnb.io/enzyme/). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служит команда `yarn workspace @skbkontur/react-ui test`. Её тоже желательно выполнять перед отправкой своих изменений, чтобы убетится в том, что они не сломали существующие сценарии.
+Для unit-тестирования используются [Jest](https://jestjs.io/) и [Enzyme](https://airbnb.io/enzyme/). Тесты находятся в поддиректориях `__tests__` внутри почти каждого компонента. Для их запуска служит команда `yarn workspace @skbkontur/react-ui test`. Её тоже желательно выполнять перед отправкой своих изменений, чтобы убедиться в том, что они не сломали существующие сценарии.
 
 ### Storybook
 
@@ -261,9 +261,9 @@ export const ButtonWithError = () => <Button error>Error</Button>;
 
 Скриншотные тесты пишут для проверки функциональности в различных браузерах (Chrome, Firefox, IE11). Они построены на основе [Creevey](https://github.com/wKich/creevey) и [Storybook](https://storybook.js.org/).
 
-Конфиг для Creevey ожидает переменные окружения `GRID_URL` и `GET_IP_URL`. Поэтому, для локального запуска добавьте 
+Конфиг для Creevey ожидает переменные окружения `GRID_URL` и `GET_IP_URL`. Поэтому, для локального запуска добавьте
 их в файл `.env` в корне репозитория.
-Ребята из Контура могут использовать значения для переменных [отсюда](https://wiki.skbkontur.ru/display/guides/.env). 
+Ребята из Контура могут использовать значения для переменных [отсюда](https://wiki.skbkontur.ru/display/guides/.env).
 
 #### Запуск
 
