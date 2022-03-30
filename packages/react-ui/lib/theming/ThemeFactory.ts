@@ -8,9 +8,9 @@ export class ThemeFactory {
     return this.constructTheme(base, theme);
   }
 
-  public static overrideDefaultTheme(theme: ThemeIn) {
-    Object.keys(theme).forEach((variableName) => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, variableName)!;
+  public static overrideDefaultTheme(theme: Theme) {
+    ThemeFactory.getKeys(DefaultThemeInternal).forEach((variableName) => {
+      const descriptor = findPropertyDescriptor(theme, variableName);
       Object.defineProperty(DefaultThemeInternal, variableName, descriptor);
     });
   }
@@ -37,4 +37,13 @@ export class ThemeFactory {
 
     return Object.freeze(newTheme);
   }
+}
+
+export function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
+  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
+      return Object.getOwnPropertyDescriptor(theme, propName) || {};
+    }
+  }
+  return {};
 }

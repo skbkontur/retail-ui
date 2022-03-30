@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { findPropertyDescriptor, ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { FLAT_THEME_8PX_OLD } from '../../lib/theming/themes/FlatTheme8pxOld';
 import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
@@ -213,13 +213,4 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
     return ThemeFactory.create<ThemeIn>(result);
   };
-}
-
-function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
-  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
-    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
-      return Object.getOwnPropertyDescriptor(theme, propName) || {};
-    }
-  }
-  return {};
 }
