@@ -1,4 +1,3 @@
-import { parseRGBParts } from 'react-ui/lib/styles/ColorHelpers';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
@@ -10,7 +9,7 @@ export class DefaultTheme {
   public static primaryHover = '#3d3d3d';
   public static primaryPressed = '#3d3d3d';
 
-  public static lightBackground = 'rgba(0,0,0,0.4)'
+  public static lightBackground = 'rgba(0,0,0,0.4)';
   // /custom
 
   public static fontFamilyCompensationBaseline = '0'; // deprecated
@@ -105,7 +104,7 @@ export class DefaultTheme {
   // custom
   static get linkColor() {
     return this.textColorDefault;
-  };
+  }
   public static get linkActiveColor() {
     return this.primary;
   }
@@ -622,9 +621,9 @@ export class DefaultTheme {
   //#region Kebab
 
   // custom
-  public static kebabPaddingXSmall = "4px";
-  public static kebabPaddingXMedium = "6px";
-  public static kebabPaddingXLarge = "8px";
+  public static kebabPaddingXSmall = '4px';
+  public static kebabPaddingXMedium = '6px';
+  public static kebabPaddingXLarge = '8px';
   // /custom
 
   public static get kebabPinOffset() {
@@ -642,8 +641,8 @@ export class DefaultTheme {
   //#region Modal
 
   // custom
-  public static modalBorderRadius = "16px";
-  public static modalPaddingX = "32px";
+  public static modalBorderRadius = '16px';
+  public static modalPaddingX = '32px';
   public static modalHeaderFontWeight = 'bold';
   // /custom
 
@@ -950,7 +949,7 @@ export class DefaultTheme {
   //#region Dropdown
   public static get dropdownMenuSelectedBg() {
     return this.grayXLight;
-  }; //deprecated
+  } //deprecated
   public static get dropdownMenuHoverBg() {
     //deprecated
     return this.bgDisabled;
@@ -959,9 +958,9 @@ export class DefaultTheme {
   //#region Menu
 
   // custom
-  public static menuPaddingXSmall = "4px";
-  public static menuPaddingXMedium = "6px";
-  public static menuPaddingXLarge = "8px";
+  public static menuPaddingXSmall = '4px';
+  public static menuPaddingXMedium = '6px';
+  public static menuPaddingXLarge = '8px';
   // /custom
 
   public static get menuBgDefault() {
@@ -990,11 +989,12 @@ export class DefaultTheme {
   public static menuItemIconLegacyMargin = '0px';
   public static menuItemIconLegacyShift = '0px';
   public static get menuItemPaddingForIcon() {
-    return `${parseInt(this.menuItemPaddingX) +
+    return `${
+      parseInt(this.menuItemPaddingX) +
       parseInt(this.menuItemIconWidth) +
       parseInt(this.menuItemIconGap) +
       parseInt(this.menuItemIconLegacyMargin)
-      }px`;
+    }px`;
   }
   public static get menuItemLineHeight() {
     return this.controlLineHeightSmall;

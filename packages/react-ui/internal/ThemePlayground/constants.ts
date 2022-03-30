@@ -5,6 +5,7 @@ export enum ThemeType {
   Dark = 'dark',
   DefaultOld = 'defaultOld',
   FlatOld = 'flatOld',
+  Theme2022 = 'theme2022',
 }
 
 export const VARIABLES_GROUPS = [
