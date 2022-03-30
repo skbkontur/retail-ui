@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isNonNullable } from '../../lib/utils';
+import { isNonNullable, mergeRefs } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
@@ -14,6 +14,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWra
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -39,7 +40,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   public state = { blinking: false, focused: false };
 
   private theme!: Theme;
-  private node: HTMLElement | null = null;
+  private node = React.createRef<HTMLElement>();
   private hiddenInput: HTMLInputElement | null = null;
   private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
   private frozen = false;
@@ -53,18 +54,14 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
    * @public
    */
   public focus() {
-    if (this.node) {
-      this.node.focus();
-    }
+    this.node.current?.focus();
   }
 
   /**
    * @public
    */
   public blur() {
-    if (this.node) {
-      this.node.blur();
-    }
+    this.node.current?.blur();
   }
 
   /**
@@ -80,7 +77,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   }
 
   public getNode(): HTMLElement | null {
-    return this.node;
+    return this.node.current;
   }
 
   public selectInnerNode = (node: HTMLElement | null, start = 0, end = 1) => {
@@ -99,12 +96,14 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.focusTimeout) {
       clearInterval(this.focusTimeout);
     }
-    this.focusTimeout = window.setTimeout(() => (isIE11 || isEdge) && this.node && this.node.focus(), 0);
+    this.focusTimeout = window.setTimeout(() => (isIE11 || isEdge) && this.node.current?.focus(), 0);
   };
 
   public componentDidMount() {
-    if (this.node) {
-      MouseDrag.listen(this.node).onMouseDragStart(this.handleMouseDragStart).onMouseDragEnd(this.handleMouseDragEnd);
+    if (this.node.current) {
+      MouseDrag.listen(this.node.current)
+        .onMouseDragStart(this.handleMouseDragStart)
+        .onMouseDragEnd(this.handleMouseDragEnd);
     }
     document.addEventListener('mousedown', this.handleDocumentMouseDown);
     document.addEventListener('keydown', this.handleDocumentKeyDown);
@@ -114,7 +113,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
     }
-    MouseDrag.stop(this.node);
+    MouseDrag.stop(this.node.current);
     document.removeEventListener('mousedown', this.handleDocumentMouseDown);
     document.removeEventListener('keydown', this.handleDocumentKeyDown);
   }
@@ -188,7 +187,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         tabIndex={disabled ? undefined : 0}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
-        ref={this.innerRef}
+        ref={this.shallowEqualMemoMergeRef([this.props.innerRef, this.node])}
         onKeyDown={this.handleKeyDown}
         onMouseDown={this.handleMouseDown}
       >
@@ -212,6 +211,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       </span>
     );
   };
+
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 
   private getIconClassname(right = false) {
     switch (this.props.size) {
@@ -333,7 +334,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private handleDocumentMouseDown = (e: MouseEvent) => {
-    if (this.state.focused && this.node && e.target instanceof Node && !this.node.contains(e.target)) {
+    if (this.state.focused && e.target instanceof Node && !this.node.current?.contains(e.target)) {
       this.defrost();
     }
   };
@@ -359,9 +360,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         if (this.lastSelectedInnerNode) {
           this.selectInnerNode(...this.lastSelectedInnerNode);
         }
-        if (this.node) {
-          this.node.focus();
-        }
+        this.node.current?.focus();
       }, 0);
 
       this.hiddenInput.focus();
@@ -449,13 +448,6 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private hiddenInputRef = (el: HTMLInputElement | null) => {
     this.hiddenInput = el;
-  };
-
-  private innerRef = (el: HTMLElement | null) => {
-    if (this.props.innerRef) {
-      this.props.innerRef(el);
-    }
-    this.node = el;
   };
 
   private defrost = (): void => {

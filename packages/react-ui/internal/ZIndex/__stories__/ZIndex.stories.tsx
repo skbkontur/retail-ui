@@ -130,7 +130,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   };
 
   private popupAnchor = React.createRef<HTMLDivElement>();
-  private notifier: Toast | null = null;
+  private notifier = React.createRef<Toast>();
 
   public render(): React.ReactNode {
     const controls = (
@@ -146,7 +146,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
     const { total = 0, current = 0 } = this.props;
     return (
       <Gapped vertical>
-        <Toast ref={(e) => (this.notifier = e)} />
+        <Toast ref={this.notifier} />
         {controls}
         <Gapped>
           <ZLoader size={150} />
@@ -186,9 +186,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   }
 
   public notify(value: number) {
-    if (this.notifier) {
-      this.notifier.push('Message from #' + value);
-    }
+    this.notifier.current?.push('Message from #' + value);
   }
 
   public renderBlock(content: React.ReactNode, width: number, height?: number) {

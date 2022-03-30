@@ -10,7 +10,6 @@ import {
 import { InternalMenu } from '../InternalMenu';
 import { Popup, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
-import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -105,7 +104,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private captionWrapper: HTMLSpanElement | null = null;
   private savedFocusableElement: HTMLElement | null = null;
-  private menu: Nullable<InternalMenu> = null;
+  private menu = React.createRef<InternalMenu>();
   private setRootNode!: TSetRootNode;
 
   public render() {
@@ -138,7 +137,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
-                  ref={this.refInternalMenu}
+                  ref={this.menu}
                   initialSelectedItemIndex={this.state.firstItemShouldBeSelected ? 0 : -1}
                   header={this.props.header}
                   footer={this.props.footer}
@@ -156,12 +155,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public open = (): void => this.showMenu();
   public close = (): void => this.hideMenu();
 
-  private refInternalMenu = (element: Nullable<InternalMenu>) => (this.menu = element);
-
   private handleOpen = () => {
-    if (this.menu) {
-      this.menu.focus();
-    }
+    this.menu.current?.focus();
   };
 
   private renderCaption = () => {
@@ -177,7 +172,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         <span
           data-tid="PopupMenu__caption"
           className={styles.caption()}
-          ref={(element) => (this.captionWrapper = element)}
+          ref={(element) => (this.captionWrapper = element)} //
         >
           {caption}
         </span>
@@ -189,7 +184,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
         data-tid="PopupMenu__caption"
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
-        ref={(element) => (this.captionWrapper = element)}
+        ref={(element) => (this.captionWrapper = element)} //
         className={styles.caption()}
       >
         {this.props.caption}

@@ -34,7 +34,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
-  private reactInputMask: ReactInputMask | null = null;
+  private reactInputMask = React.createRef<ReactInputMask>();
 
   public constructor(props: MaskedInputProps) {
     super(props);
@@ -47,10 +47,8 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   }
 
   public componentDidMount() {
-    if (this.reactInputMask) {
-      // FIXME: принудительно вызываем beforeMaskedValueChange, чтобы получить emptyValue
-      this.reactInputMask.forceUpdate();
-    }
+    // FIXME: принудительно вызываем beforeMaskedValueChange, чтобы получить emptyValue
+    this.reactInputMask.current?.forceUpdate();
   }
 
   public componentDidUpdate(prevProps: MaskedInputProps) {
@@ -109,7 +107,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
           onBlur={this.handleBlur}
           value={value}
           inputRef={this.refInput}
-          ref={this.refMaskedInput}
+          ref={this.reactInputMask}
           style={{ ...style }}
         />
         {this.isMaskVisible() && (
@@ -130,10 +128,6 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
   private refInput = (input: HTMLInputElement | null) => {
     this.input = input;
-  };
-
-  private refMaskedInput = (reactInputMask: ReactInputMask) => {
-    this.reactInputMask = reactInputMask;
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

@@ -62,7 +62,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private theme!: Theme;
-  private scrollContainer: Nullable<ScrollContainer>;
+  private scrollContainer = React.createRef<ScrollContainer>();
   private highlighted: Nullable<MenuItem>;
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
@@ -126,7 +126,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       >
         {this.props.header ? this.renderHeader() : null}
         <ScrollContainer
-          ref={this.refScrollContainer}
+          ref={this.scrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
@@ -184,7 +184,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={(el) => (this.header = el)}
+        ref={(el) => (this.header = el)} //
         className={cx({
           [styles.header()]: true,
           [styles.fixedHeader()]: this.state.scrollState !== 'top',
@@ -198,7 +198,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={(el) => (this.footer = el)}
+        ref={(el) => (this.footer = el)} //
         className={cx({
           [styles.footer()]: true,
           [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
@@ -259,10 +259,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     }
   };
 
-  private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
-    this.scrollContainer = scrollContainer;
-  };
-
   private refHighlighted(
     originalRef: string | ((instance: MenuItem | null) => void) | React.RefObject<MenuItem> | null | undefined,
     menuItem: MenuItem | null,
@@ -282,8 +278,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private scrollToSelected = () => {
-    if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+    if (this.highlighted) {
+      this.scrollContainer.current?.scrollTo(getRootNode(this.highlighted));
     }
   };
 

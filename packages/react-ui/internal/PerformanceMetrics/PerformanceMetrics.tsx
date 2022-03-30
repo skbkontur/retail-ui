@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { Button } from '../../components/Button';
-import { Nullable } from '../../typings/utility-types';
 import { Spinner } from '../../components/Spinner';
 
 const PANEL_WRAPPER_STYLES = { width: '45%', display: 'inline-block', verticalAlign: 'top' };
@@ -42,7 +41,7 @@ class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelPro
   public state = {
     mounted: false,
   };
-  private container: Nullable<HTMLElement>;
+  private container = React.createRef<HTMLDivElement>();
 
   public render() {
     return (
@@ -53,31 +52,27 @@ class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelPro
             {this.state.mounted ? 'Unmount' : 'Mount'}
           </Button>
         </div>
-        <div ref={this.setContainerRef} />
+        <div ref={this.container} />
       </div>
     );
   }
 
   public componentDidMount() {
-    if (this.state.mounted && this.container) {
-      ReactDOM.render(this.props.component, this.container);
+    if (this.state.mounted && this.container.current) {
+      ReactDOM.render(this.props.component, this.container.current);
     }
   }
 
   public componentDidUpdate(): void {
-    if (!this.container) {
+    if (!this.container.current) {
       return;
     }
     if (this.state.mounted) {
-      ReactDOM.render(this.props.component, this.container);
+      ReactDOM.render(this.props.component, this.container.current);
     } else {
-      ReactDOM.unmountComponentAtNode(this.container);
+      ReactDOM.unmountComponentAtNode(this.container.current);
     }
   }
-
-  private setContainerRef = (element: Nullable<HTMLElement>) => {
-    this.container = element;
-  };
 
   private toggleMountedState = () => {
     this.setState({

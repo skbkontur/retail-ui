@@ -1,8 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Nullable } from '../../typings/utility-types';
-
 import { Toast, Action } from './Toast';
 
 export class ToastStatic {
@@ -15,10 +13,8 @@ export class ToastStatic {
       }
       body.appendChild(ToastStatic.node);
 
-      ReactDOM.render(
-        <Toast data-tid="StaticToast" ref={(el) => (ToastStatic.instance = el)} />,
-        ToastStatic.node,
-        () => ToastStatic._push(notification, action),
+      ReactDOM.render(<Toast data-tid="StaticToast" ref={ToastStatic.instance} />, ToastStatic.node, () =>
+        ToastStatic._push(notification, action),
       );
     } else {
       ToastStatic._push(notification, action);
@@ -26,17 +22,13 @@ export class ToastStatic {
   };
 
   public static _push = (notification: string, action?: Action) => {
-    if (ToastStatic.instance) {
-      ToastStatic.instance.push(notification, action);
-    }
+    ToastStatic.instance.current?.push(notification, action);
   };
 
   public static close = () => {
-    if (ToastStatic.instance) {
-      ToastStatic.instance.close();
-    }
+    ToastStatic.instance.current?.close();
   };
 
   private static node: HTMLDivElement;
-  private static instance: Nullable<Toast> = null;
+  private static instance = React.createRef<Toast>();
 }

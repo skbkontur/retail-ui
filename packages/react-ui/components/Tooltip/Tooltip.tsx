@@ -184,7 +184,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   public state: TooltipState = { opened: false, focused: false };
   private theme!: Theme;
   private hoverTimeout: Nullable<number> = null;
-  private contentElement: Nullable<HTMLElement> = null;
+  private contentElement = React.createRef<HTMLDivElement>();
   private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
   private setRootNode!: TSetRootNode;
@@ -242,7 +242,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <div ref={this.refContent} className={styles.tooltipContent(this.theme)}>
+      <div ref={this.contentElement} className={styles.tooltipContent(this.theme)}>
         {content}
         {this.renderCloseButton()}
       </div>
@@ -349,10 +349,6 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     this.close();
-  };
-
-  private refContent = (node: HTMLElement | null) => {
-    this.contentElement = node;
   };
 
   private getPositions() {
@@ -466,7 +462,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
   private handleMouseEnter = (event: MouseEventType) => {
     const isHoverAnchor = this.props.trigger === 'hoverAnchor';
-    if (isHoverAnchor && event.target === this.contentElement) {
+    if (isHoverAnchor && event.target === this.contentElement.current) {
       return;
     }
 
@@ -482,7 +478,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
     if (
       (this.props.trigger === 'hover&focus' && this.state.focused) ||
-      (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement)
+      (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement.current)
     ) {
       return;
     }
@@ -511,8 +507,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && event.target instanceof Element) {
-      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
+    if (this.contentElement.current && event.target instanceof Element) {
+      return !containsTargetOrRenderContainer(event.target)(this.contentElement.current);
     }
 
     return true;

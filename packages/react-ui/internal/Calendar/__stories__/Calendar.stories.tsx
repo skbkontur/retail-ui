@@ -2,7 +2,6 @@ import React from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../../components/Button';
 import { Gapped } from '../../../components/Gapped';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -102,7 +101,7 @@ const datesToScroll = [
 ];
 
 class CalendarWithButtons extends React.Component {
-  private cal: Nullable<Calendar>;
+  private calendar = React.createRef<Calendar>();
 
   public render() {
     return (
@@ -117,16 +116,14 @@ class CalendarWithButtons extends React.Component {
               }}
             >
               <Gapped vertical>
-                <Calendar ref={(cal) => (this.cal = cal)} value={initialDate} />
+                <Calendar ref={this.calendar} value={initialDate} />
                 <Gapped vertical>
                   {datesToScroll.map((x) => (
                     <Button
                       key={x.year + '-' + x.month + '-' + x.date}
                       width={240}
                       onClick={() => {
-                        if (this.cal) {
-                          this.cal.scrollToMonth(x.month, x.year);
-                        }
+                        this.calendar.current?.scrollToMonth(x.month, x.year);
                       }}
                     >
                       Scroll to: {x.date + '-' + (1 + x.month) + '-' + x.year}

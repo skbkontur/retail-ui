@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isNonNullable } from '../../lib/utils';
+import { isNonNullable, mergeRefs } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
 import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
@@ -14,6 +14,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { MobilePopup } from '../MobilePopup';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -100,9 +101,9 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     width: 250,
   };
 
-  private input: Nullable<Input>;
   private setRootNode!: TSetRootNode;
-  private mobileInput: Nullable<Input> = null;
+  private input = React.createRef<Input>();
+  private mobileInput = React.createRef<Input>();
   private isMobileLayout!: boolean;
   private dropdownContainerRef = React.createRef<DropdownContainer>();
 
@@ -120,8 +121,8 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   public componentDidUpdate(prevProps: ComboBoxViewProps<T>) {
     const { input, props } = this;
 
-    if (props.editing && !prevProps.editing && input) {
-      input.focus();
+    if (props.editing && !prevProps.editing && input.current) {
+      input.current.focus();
     }
   }
 
@@ -224,7 +225,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     return (
       <MobilePopup
-        headerChildComponent={<Input ref={this.refMobileInput} {...inputProps} />}
+        headerChildComponent={<Input ref={this.mobileInput} {...inputProps} />}
         useFullHeight
         onCloseRequest={this.handleCloseMobile}
         opened={this.state.isMobileOpened}
@@ -299,7 +300,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           placeholder={placeholder}
           width="100%"
           size={size}
-          ref={this.refInput}
+          ref={this.shallowEqualMemoMergeRef([this.props.refInput, this.input])}
           warning={warning}
           inputMode={inputMode}
         />
@@ -326,14 +327,14 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     );
   }
 
+  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
+
   private handleFocusMobile = () => {
     this.setState({
       isMobileOpened: true,
     });
 
-    if (this.mobileInput) {
-      this.mobileInput.focus();
-    }
+    this.mobileInput.current?.focus();
   };
 
   private handleItemSelect = (item: T) => {
@@ -344,13 +345,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     if (this.isMobileLayout) {
       this.handleCloseMobile();
     }
-  };
-
-  private refInput = (input: Nullable<Input>) => {
-    if (this.props.refInput) {
-      this.props.refInput(input);
-    }
-    this.input = input;
   };
 
   private renderSpinner = () => (
@@ -371,9 +365,5 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     }
 
     return null;
-  };
-
-  private refMobileInput = (input: Nullable<Input>) => {
-    this.mobileInput = input;
   };
 }

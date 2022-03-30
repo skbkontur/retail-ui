@@ -157,20 +157,20 @@ class MinWidth extends React.Component {
     anchor: null,
   };
 
-  private anchor: Nullable<HTMLElement>;
+  private anchor = React.createRef<HTMLElement>();
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor,
+      anchor: this.anchor.current,
     });
   }
 
   public render() {
     return (
       <div style={{ padding: '100px' }}>
-        <span ref={(el) => (this.anchor = el)}>x</span>
+        <span ref={this.anchor}>x</span>
         {this.state.anchor && (
-          <Popup hasShadow hasPin opened anchorElement={this.anchor} positions={['bottom center']}>
+          <Popup hasShadow hasPin opened anchorElement={this.anchor.current} positions={['bottom center']}>
             <div
               style={{
                 textAlign: 'center',
@@ -200,11 +200,11 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
     anchor: null,
   };
 
-  private anchor: Nullable<HTMLElement>;
+  private anchor = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor,
+      anchor: this.anchor.current,
     });
   }
 
@@ -232,7 +232,7 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
         {(theme) => {
           return (
             <div>
-              <div ref={this._handleRef} style={style}>
+              <div ref={this.anchor} style={style}>
                 x
               </div>
               {this.state.anchor && (
@@ -264,10 +264,6 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
       </ThemeContext.Consumer>
     );
   }
-
-  private _handleRef = (e: HTMLDivElement) => {
-    this.anchor = e;
-  };
 }
 
 class PopupWithPositions extends Component<any, any> {
@@ -276,11 +272,11 @@ class PopupWithPositions extends Component<any, any> {
     anchor: null,
   };
 
-  private anchor: Nullable<HTMLElement>;
+  private anchor = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor,
+      anchor: this.anchor.current,
     });
   }
 
@@ -292,7 +288,7 @@ class PopupWithPositions extends Component<any, any> {
             <div>
               <div
                 onClick={this._handleClick}
-                ref={this._handleRef}
+                ref={this.anchor}
                 style={{
                   width: '34px',
                   height: '34px',
@@ -331,10 +327,6 @@ class PopupWithPositions extends Component<any, any> {
     );
   }
 
-  private _handleRef = (element: HTMLDivElement) => {
-    this.anchor = element;
-  };
-
   private _handleClick = () => {
     const currentOpened = this.state.opened;
     this.setState({ opened: !currentOpened });
@@ -350,11 +342,11 @@ class FakeHint extends Component<any, any> {
     anchor: null,
   };
 
-  private anchor: Nullable<HTMLElement>;
+  private anchor = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor,
+      anchor: this.anchor.current,
     });
   }
 
@@ -364,10 +356,7 @@ class FakeHint extends Component<any, any> {
         {(theme) => {
           return (
             <div>
-              <div
-                ref={(e) => (this.anchor = e)}
-                style={{ width: '100px', height: '100px', border: '1px solid black' }}
-              >
+              <div ref={this.anchor} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
                 Hello
               </div>
               {this.state.anchor && (
@@ -397,18 +386,19 @@ class Toast extends Component<any, any> {
     anchor: null,
   };
 
-  private anchor: Nullable<HTMLElement>;
+  private anchor = React.createRef<HTMLDivElement>();
 
   public componentDidMount() {
     this.setState({
-      anchor: this.anchor,
+      anchor: this.anchor.current,
     });
   }
 
   public render() {
     return (
       <div>
-        <div ref={(e) => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
+        {' '}
+        <div ref={this.anchor} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
           Hello
         </div>
         {this.state.anchor && (
