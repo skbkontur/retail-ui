@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using SKBKontur.SeleniumTesting.Tests.Helpers;
 using SKBKontur.SeleniumTesting.Tests.TestEnvironment;
@@ -20,9 +20,9 @@ namespace SKBKontur.SeleniumTesting.Tests.PagingTests
         }
 
         [Test]
-        public void TestPresence()
+        public void TestPagingLessThanTwo()
         {
-            page.Paging1.IsPresent.Wait().That(Is.True);
+            page.Paging1.IsPresent.Wait().That(Is.False);
         }
 
         [Test]
