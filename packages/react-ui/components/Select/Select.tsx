@@ -119,11 +119,11 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   /**
    * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
    */
-  renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
+  renderValue?: (value: TValue | undefined, item?: TItem) => React.ReactNode;
   /**
    * Функция для сравнения `value` с элементом из `items`
    */
-  areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
+  areValuesEqual?: (value1: TValue | undefined, value2: TValue | undefined) => boolean;
   /**
    * Показывать строку поиска в списке.
    */
@@ -340,7 +340,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (item != null || value != null) {
       return {
-        label: this.getProps().renderValue(value, item),
+        label: this.getProps().renderValue<TValue, TItem>(value, item),
         isPlaceholder: false,
       };
     }
@@ -514,12 +514,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         return (
           <MenuItem
             key={i}
-            state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
+            state={this.getProps().areValuesEqual<TValue>(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}
             isMobile={isMobile}
           >
-            {this.getProps().renderItem(iValue, item)}
+            {this.getProps().renderItem<TValue, TItem>(iValue, item)}
           </MenuItem>
         );
       },
@@ -593,7 +593,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.focus();
     this.setState({ opened: false, value });
 
-    if (this.props.onValueChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
+    if (this.props.onValueChange && !this.getProps().areValuesEqual<TValue>(this.getValue(), value)) {
       this.props.onValueChange(value);
     }
   }
@@ -617,7 +617,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem<TValue>(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -636,7 +636,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [itemValue, item] = normalizeEntry(entry);
 
-      if (this.getProps().areValuesEqual(itemValue, value)) {
+      if (this.getProps().areValuesEqual<TValue>(itemValue, value)) {
         return item;
       }
     }
@@ -664,15 +664,15 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 }
 
-function renderValue(value: any, item: any) {
+function renderValue<TValue, TItem>(value: Nullable<TValue>, item: Nullable<TItem>) {
   return item;
 }
 
-function renderItem(value: any, item: any) {
+function renderItem<TValue, TItem>(value: TValue, item?: TItem | undefined) {
   return item;
 }
 
-function areValuesEqual(value1: any, value2: any) {
+function areValuesEqual<TValue>(value1: Nullable<TValue>, value2: Nullable<TValue>) {
   return value1 === value2;
 }
 
@@ -684,7 +684,7 @@ function normalizeEntry(entry: any) {
   }
 }
 
-function filterItem(value: any, item: any, pattern: string) {
+function filterItem<TValue>(value: TValue, item: any, pattern: string) {
   if (item === Select.SEP) {
     return false;
   }
