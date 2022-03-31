@@ -1,6 +1,7 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
 
 import { Theme, ThemeIn } from './Theme';
+import { findPropertyDescriptor } from './ThemeHelpers';
 
 export class ThemeFactory {
   public static create<T extends {}>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
@@ -37,13 +38,4 @@ export class ThemeFactory {
 
     return Object.freeze(newTheme);
   }
-}
-
-export function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
-  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
-    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
-      return Object.getOwnPropertyDescriptor(theme, propName) || {};
-    }
-  }
-  return {};
 }
