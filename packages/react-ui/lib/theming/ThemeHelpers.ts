@@ -29,3 +29,12 @@ export const markAsDarkTheme = <T extends object>(theme: T): T => {
     },
   });
 };
+
+export function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
+  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
+      return Object.getOwnPropertyDescriptor(theme, propName) || {};
+    }
+  }
+  return {};
+}
