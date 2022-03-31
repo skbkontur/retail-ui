@@ -47,18 +47,17 @@ export const styles = memoizeStyle({
   },
 
   handle(t: Theme) {
-    const handleSize = `calc(${t.toggleHeight} - 4 * ${t.toggleBorderWidth})`;
     return css`
       background: ${t.toggleBg};
       border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
       box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
-      height: ${handleSize};
-      left: calc(${t.toggleBorderWidth} + 1px);
+      height: ${t.toggleHandleSize};
+      left: ${t.toggleHandleLeft};
       position: absolute;
-      top: calc(${t.toggleBorderWidth} + 1px);
+      top: ${t.toggleHandleTop};
       transition: 0.2s ease-in;
-      width: ${handleSize};
+      width: ${t.toggleHandleSize};
     `;
   },
 
@@ -70,7 +69,7 @@ export const styles = memoizeStyle({
 
   input(t: Theme) {
     const handleWidthWithBorders = t.toggleHeight;
-    const handleSize = `calc(${t.toggleHeight} - 4 * ${t.toggleBorderWidth} - 2px)`;
+    const handleSize = t.toggleInputHandleSize;
     return css`
       position: absolute;
       opacity: 0;
@@ -104,10 +103,10 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
-        background: ${t.toogleHandleBgActive};
-        height: ${handleSize};
-        top: calc(${t.toggleBorderWidth} + 2px);
-        width: ${handleSize};
+        background: ${t.toggleHandleBgActive};
+        height: ${isCurrentTheme2022 ? `${handleSize}` : 'auto'};
+        top: ${isCurrentTheme2022 ? `calc(${t.toggleBorderWidth} + 2px)` : '0'};
+        width: ${isCurrentTheme2022 ? `${handleSize}` : 'auto'};
       }
     `;
   },

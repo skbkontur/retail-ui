@@ -33,7 +33,7 @@ export const styles = memoizeStyle({
 
   scrollContainer(t: Theme) {
     return css`
-      padding: ${t.menuPaddingY} ${t.menuPaddingXSmall};
+      padding: ${t.menuPaddingY} ${t.menuPaddingX};
     `;
   },
 

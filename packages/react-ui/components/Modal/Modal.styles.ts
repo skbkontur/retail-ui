@@ -197,7 +197,7 @@ export const styles = memoizeStyle({
       font-size: ${t.modalHeaderFontSize};
       font-weight: ${t.modalHeaderFontWeight};
       line-height: ${t.modalHeaderLineHeight};
-      padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingX} ${t.modalHeaderPaddingBottom} ${t.modalPaddingX};
+      padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
       word-wrap: break-word;
       color: ${t.modalHeaderTextColor};
@@ -214,7 +214,7 @@ export const styles = memoizeStyle({
 
   body(t: Theme) {
     return css`
-      padding: 0 ${t.modalPaddingX} ${t.modalBodyPaddingBottom} ${t.modalPaddingX};
+      padding: 0 ${t.modalPaddingRight} ${t.modalBodyPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalBodyTextColor};
     `;
   },
@@ -247,7 +247,7 @@ export const styles = memoizeStyle({
 
   footer(t: Theme) {
     return css`
-      padding: ${t.modalFooterPaddingTop} ${t.modalPaddingX} ${t.modalFooterPaddingBottom} ${t.modalPaddingX};
+      padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalFooterTextColor};
     `;
   },

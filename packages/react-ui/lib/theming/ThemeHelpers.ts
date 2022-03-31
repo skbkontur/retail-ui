@@ -29,3 +29,21 @@ export const markAsDarkTheme = <T extends object>(theme: T): T => {
     },
   });
 };
+
+export const REACT_UI_THEME_2022_KEY = '__REACT_UI_THEME_2022_KEY__';
+
+export const isTheme2022 = (theme: Theme | ThemeIn): boolean => {
+  //@ts-ignore
+  return theme[REACT_UI_THEME_2022_KEY] === true;
+};
+
+export const markAsTheme2022 = <T extends object>(theme: T): T => {
+  return Object.create(theme, {
+    [REACT_UI_THEME_2022_KEY]: {
+      value: true,
+      writable: false,
+      enumerable: false,
+      configurable: false,
+    },
+  });
+};
