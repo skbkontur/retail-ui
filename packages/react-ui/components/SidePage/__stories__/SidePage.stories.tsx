@@ -235,6 +235,12 @@ class SidePageOverAnotherSidePage extends React.Component<{}> {
   }
 }
 
+class StickySidePageHeaderWhenAnotherSidePage extends React.Component<{}> {
+  public render() {
+    return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
+  }
+}
+
 interface SidePageWithCloseConfigurationState {
   ignoreBackgroundClick: boolean;
   blockBackground: boolean;
@@ -655,6 +661,39 @@ SidePageOverAnotherSidePageStory.parameters = {
           .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
+      },
+    },
+  },
+};
+
+export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
+StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
+
+StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
+  creevey: {
+    tests: {
+      async ['sticky header, open and close internal side-page']() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
+          'sticky header, open and close internal side-page',
+        );
       },
     },
   },

@@ -1,7 +1,7 @@
 Индикатор обмена данными с сервером.
 
-Глобальный Лоадер может быть только один в приложении. Поэтому, каждый новый экземпляр компонента 
-"убивает" предыдущий 
+Глобальный Лоадер может быть только один в приложении. Поэтому, каждый новый экземпляр компонента
+"убивает" предыдущий
 экземпляр, и начинает перехватывать статические методы.
 
 Предполагается монтирование компонента в единственном месте. И управление им через статические методы, либо через пропы.
@@ -20,7 +20,7 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 
 Монтирование и кастомизация:
 ```jsx harmony
-import { Button, Toggle, Gapped, Loader, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
+import { Button, Toggle, Gapped, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 import { GlobalLoader } from './GlobalLoader';
 
 const myTheme = ThemeFactory.create({ globalLoaderColor: 'red' });
@@ -29,25 +29,31 @@ const [manually, setManually] = React.useState(false);
 const [active, setActive] = React.useState(false);
 const [error, setError] = React.useState(false);
 
+const reset = () => {
+  if (manually) {
+    setManually(false);
+    setError(false);
+    setActive(false);
+  } else {
+    setManually(true);
+  }
+}
+
 <Gapped vertical>
-  <Toggle checked={manually} onValueChange={setManually}>
+  <Toggle checked={manually} onValueChange={reset}>
     Управление пропами
   </Toggle>
-  <Loader active={!manually} component={null}>
-    <Gapped vertical>
-      <Toggle checked={active} onValueChange={setActive}>
-        <code>active</code>
-      </Toggle>
-      <Toggle checked={error} onValueChange={setError}>
-        <code>rejected</code>
-      </Toggle>
-    </Gapped>
-  </Loader>
+  <Toggle checked={active} onValueChange={setActive} disabled={!manually}>
+    <code>active</code>
+  </Toggle>
+  <Toggle checked={error} onValueChange={setError} disabled={!manually}>
+    <code>rejected</code>
+  </Toggle>
 
   <ThemeContext.Provider value={myTheme}>
     <GlobalLoader expectedResponseTime={2000} delayBeforeShow={1000} active={active} rejected={error}
-      onStart={(s) => console.log('start', s)}
-      onDone={(s) => console.log('done', s)}
+      onStart={() => console.log('start')}
+      onDone={() => console.log('done')}
       onReject={() => console.log('reject')}
       onAccept={() => console.log('accept')}
     />

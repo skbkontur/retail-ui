@@ -6,7 +6,7 @@ import { CSFStory } from 'creevey';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
-import { Select } from '../Select';
+import { Select, SelectProps } from '../Select';
 import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
@@ -89,11 +89,14 @@ class SelectWithNull extends React.Component<any, any> {
 export default {
   title: 'Select',
   decorators: [
-    (Story) => (
-      <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+    (Story, context) =>
+      context.originalStoryFn !== WithMenuAlignAndVariousWidth ? (
+        <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+          <Story />
+        </div>
+      ) : (
         <Story />
-      </div>
-    ),
+      ),
   ],
 } as Meta;
 
@@ -507,6 +510,47 @@ WithSearchAndVariousWidth.parameters = {
         const w100prc = await root.takeScreenshot();
 
         await this.expect({ w100px, w300px, w100prc }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const WithMenuAlignAndVariousWidth: Story = () => {
+  const widths: SelectProps<any, any>['width'][] = [undefined, '80px', '120px', '80%', '120%', 'calc(100% + 40px)'];
+  const row: Array<Partial<SelectProps<any, any>>> = [
+    { menuAlign: 'right' },
+    { menuAlign: 'right', disablePortal: true },
+    { menuAlign: 'left' },
+    { menuAlign: 'left', disablePortal: true },
+  ];
+  const renderSelect = (width: SelectProps<any, any>['width'], props: Partial<SelectProps<any, any>>) => (
+    <Select ref={(el) => el?.open()} width={100} menuWidth={width} items={[width || 'default']} value="" {...props} />
+  );
+
+  return (
+    <div style={{ padding: '0 50px' }}>
+      <div style={{ marginBottom: 10, display: 'flex', justifyContent: 'space-between', width: 550 }}>
+        {row.map((props, i) => (
+          <code key={i}>portal: {String(!props.disablePortal)}</code>
+        ))}
+      </div>
+      {widths.map((width) => (
+        <div
+          key={String(width)}
+          style={{ marginBottom: 50, display: 'flex', justifyContent: 'space-between', width: 550 }}
+        >
+          {row.map((props) => renderSelect(width, props))}
+        </div>
+      ))}
+    </div>
+  );
+};
+WithMenuAlignAndVariousWidth.parameters = {
+  creevey: {
+    tests: {
+      async ['open']() {
+        const root = await this.browser.findElement({ css: '#test-element' });
+        await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },
   },

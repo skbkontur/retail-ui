@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
 import { Story } from '../../../typings/stories';
@@ -1129,3 +1129,74 @@ export const TooltipWithFunctionalChild = () => (
   </TestTooltip>
 );
 TooltipWithFunctionalChild.storyName = 'tooltip with functional child';
+
+const anchorStyle: CSSProperties = {
+  left: 60,
+  position: 'absolute',
+  height: 55,
+  width: 55,
+  border: '1px solid #dfdede',
+};
+
+interface AnchorTooltipExampleState {
+  anchor: HTMLElement | null;
+}
+class AnchorTooltipExample extends React.Component<{}, AnchorTooltipExampleState> {
+  public state: AnchorTooltipExampleState = {
+    anchor: null,
+  };
+
+  render() {
+    return (
+      <>
+        {this.state.anchor ? (
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
+        ) : null}
+        <div style={{ width: 180, height: 180, position: 'relative' }}>
+          <div
+            data-tid={`tooltip_anchor_0`}
+            style={{
+              ...anchorStyle,
+              top: 60,
+            }}
+            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
+            onMouseLeave={() => this.setState({ anchor: null })}
+          />
+          <div
+            data-tid={`tooltip_anchor_1`}
+            style={{
+              ...anchorStyle,
+              top: 120,
+            }}
+            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
+            onMouseLeave={() => this.setState({ anchor: null })}
+          />
+        </div>
+      </>
+    );
+  }
+}
+
+export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
+
+TooltipWithAnchor.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] }],
+    tests: {
+      async ['hover by dynamic anchor']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ x: 0, y: 0 })
+          .move({ origin: this.browser.findElement({ css: '[data-tid~="tooltip_anchor_1"]' }) })
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover by dynamic anchor');
+      },
+    },
+  },
+};
+TooltipWithAnchor.storyName = 'Tooltip with anchor';
