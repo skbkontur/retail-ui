@@ -7,7 +7,7 @@ const ENV_PACKAGE_REGISTRY = getRegistryFromEnv();
 
 if (ENV_PACKAGE_REGISTRY) {
   const CONFIG_PACKAGE_REGISTRY = execSync('yarn config get registry').toString().trim();
-  if (/^http(s?):\/\//.test(CONFIG_PACKAGE_REGISTRY) && CONFIG_PACKAGE_REGISTRY !== ENV_PACKAGE_REGISTRY) {
+   if (/^http(s?):\/\//.test(CONFIG_PACKAGE_REGISTRY) && CONFIG_PACKAGE_REGISTRY !== ENV_PACKAGE_REGISTRY) {
     const lockFile = readFileSync(LOCK_FILE_PATH, 'utf-8');
 
     const modifiedLockFile = process.argv.includes('back')
@@ -29,5 +29,5 @@ function getRegistryFromEnv() {
   return readFileSync(ENV_FILE_PATH, 'utf-8')
     .split('\n')
     .find((line) => line.startsWith(`${ENV_VAR_NAME}=`))
-    ?.split('=')[1];
+    ?.split('=')[1].replace(/(\r\n|\n|\r)/gm,"");
 }
