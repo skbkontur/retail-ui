@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.0...react-ui-validations@1.8.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** publish source maps ([#2825](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2825)) ([e0466d8](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/e0466d8301cc3a519487648110a1b94a75416eb2))
+
+
+
+
+
 # [1.8.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.7.0...react-ui-validations@1.8.0) (2022-03-01)
 
 
