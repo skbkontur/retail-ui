@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { extractDataProps } from '../../lib/utils';
 import { CommonProps } from '../../internal/CommonWrapper';
 
 type PagingDefaultComponentInterface = {
@@ -9,8 +10,12 @@ type PagingDefaultComponentInterface = {
 
 export type PagingDefaultComponentProps = PagingDefaultComponentInterface & Pick<CommonProps, 'className'>;
 
-export const PagingDefaultComponent = ({ className, onClick, children }: PagingDefaultComponentProps) => (
-  <span className={className} onClick={onClick}>
-    {children}
-  </span>
-);
+export const PagingDefaultComponent = ({ onClick, className, children, ...rest }: PagingDefaultComponentProps) => {
+  const { dataProps } = extractDataProps(rest);
+
+  return (
+    <span onClick={onClick} className={className} {...dataProps}>
+      {children}
+    </span>
+  );
+};
