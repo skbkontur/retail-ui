@@ -50,7 +50,6 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.toggleBg};
       border-radius: ${t.toggleHandleBorderRadius};
-      bottom: ${t.toggleBorderWidth};
       box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
       height: ${t.toggleHandleSize};
       left: ${t.toggleHandleLeft};
@@ -69,7 +68,6 @@ export const styles = memoizeStyle({
 
   input(t: Theme) {
     const handleWidthWithBorders = t.toggleHeight;
-    const handleSize = t.toggleInputHandleSize;
     return css`
       position: absolute;
       opacity: 0;
@@ -104,9 +102,9 @@ export const styles = memoizeStyle({
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
         background: ${t.toggleHandleBgActive};
-        height: ${isCurrentTheme2022 ? `${handleSize}` : 'auto'};
-        top: ${isCurrentTheme2022 ? `calc(${t.toggleBorderWidth} + 2px)` : '0'};
-        width: ${isCurrentTheme2022 ? `${handleSize}` : 'auto'};
+        height: ${t.toggleHandleCheckedHeight};
+        top: ${t.toggleHandleCheckedTop};
+        width: ${t.toggleHandleCheckedWidth};
       }
     `;
   },

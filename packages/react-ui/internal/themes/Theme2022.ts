@@ -98,11 +98,20 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get toggleHandleSize() {
     return `${parseInt(this.toggleHeight, 10) - 4 * parseInt(this.toggleBorderWidth, 10)}px`;
   }
-  public static toggleHandleLeft() {
+  public static get toggleHandleLeft() {
     return `${parseInt(this.toggleBorderWidth) + 1}px`;
   }
-  public static toggleHandleTop() {
+  public static get toggleHandleTop() {
     return `${parseInt(this.toggleBorderWidth) + 1}px`;
+  }
+  public static get toggleHandleCheckedHeight() {
+    return this.toggleInputHandleSize;
+  }
+  public static get toggleHandleCheckedTop() {
+    return `${parseInt(this.toggleBorderWidth) + 2}px`;
+  }
+  public static get toggleHandleCheckedWidth() {
+    return this.toggleInputHandleSize;
   }
 
   public static popupBorderRadius = '8px';

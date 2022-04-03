@@ -1003,11 +1003,20 @@ export class DefaultTheme {
   public static get toggleInputHandleSize() {
     return `${parseInt(this.toggleHeight) - 4 * parseInt(this.toggleBorderWidth) - 2}px`;
   }
-  public static toggleHandleLeft() {
+  public static get toggleHandleLeft() {
     return this.toggleBorderWidth;
   }
-  public static toggleHandleTop() {
+  public static get toggleHandleTop() {
     return this.toggleBorderWidth;
+  }
+  public static get toggleHandleCheckedHeight() {
+    return 'auto';
+  }
+  public static get toggleHandleCheckedTop() {
+    return '0';
+  }
+  public static get toggleHandleCheckedWidth() {
+    return 'auto';
   }
   public static toggleHeight = '20px';
   public static toggleWidth = '32px';
