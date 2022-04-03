@@ -14,6 +14,8 @@ import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
 import { THEME_2022, THEME_2022_DARK } from '../../lib/theming/themes/Theme2022';
+import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
+
 
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
@@ -224,13 +226,4 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
     return ThemeFactory.create<ThemeIn>(result);
   };
-}
-
-function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
-  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
-    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
-      return Object.getOwnPropertyDescriptor(theme, propName) || {};
-    }
-  }
-  return {};
 }
