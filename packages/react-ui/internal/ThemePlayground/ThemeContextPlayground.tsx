@@ -16,7 +16,6 @@ import { Writeable } from '../../typings/utility-types';
 import { THEME_2022, THEME_2022_DARK } from '../../lib/theming/themes/Theme2022';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
 
-
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
 import { Playground } from './Playground';
