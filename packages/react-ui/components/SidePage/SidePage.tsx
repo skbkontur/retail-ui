@@ -15,6 +15,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { Nullable } from '../../typings/utility-types';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -227,24 +228,21 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     const layout = this.layout;
     if (!layout) return;
     const scrollingUp = e.deltaY < 0;
-    const scrollContainerScrollAvailable = this.checkScrollContainerScrollAvailability(layout, scrollingUp);
-    const reachedTop = layout.scrollTop <= 0 && scrollingUp;
-    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && !scrollingUp;
-    const scrollAvailable = !reachedTop && !reachedBottom;
+    const scrollContainer = layout.querySelector("[data-tid='ScrollContainer__inner']");
+    const scrollContainerScrollAvailable = this.checkScrollAvailability(scrollContainer, scrollingUp);
+    const scrollAvailable = this.checkScrollAvailability(layout, scrollingUp);
     if (!this.props.blockBackground && !scrollAvailable && !scrollContainerScrollAvailable) {
       e.preventDefault();
     }
   };
 
-  private checkScrollContainerScrollAvailability = (layout: HTMLElement, scrollingUp: boolean) => {
-    const scrollContainer = layout.querySelector("[data-tid='ScrollContainer__inner']");
-    if (scrollContainer) {
-      const scrollContainerReachedTop = scrollContainer.scrollTop <= 0;
-      const scrollContainerUnableScrollUp = scrollContainerReachedTop && scrollingUp;
-      const scrollContainerReachedBottom =
-        scrollContainer.scrollTop >= scrollContainer.scrollHeight - scrollContainer.clientHeight;
-      const scrollContainerUnableScrollDown = scrollContainerReachedBottom && !scrollingUp;
-      return !scrollContainerUnableScrollUp && !scrollContainerUnableScrollDown;
+  private checkScrollAvailability = (element: Nullable<Element>, scrollingUp: boolean) => {
+    if (element) {
+      const elementReachedTop = element.scrollTop <= 0;
+      const elementUnableScrollUp = elementReachedTop && scrollingUp;
+      const elementReachedBottom = element.scrollTop >= element.scrollHeight - element.clientHeight;
+      const elementUnableScrollDown = elementReachedBottom && !scrollingUp;
+      return !elementUnableScrollUp && !elementUnableScrollDown;
     }
     return false;
   };
