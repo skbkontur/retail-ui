@@ -22,6 +22,22 @@ import { LoaderAndButton } from '../../../components/Loader/__stories__/LoaderAn
 import { DropdownMenu } from '../../../components/DropdownMenu';
 import { Sticky } from '../../../components/Sticky';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+
+const linearLightGradient = `repeating-linear-gradient(
+                                60deg,
+                                #fafafa,
+                                #fafafa 20px,
+                                #dfdede 20px,
+                                #dfdede 40px
+                              )`;
+const linearDarkGradient = `repeating-linear-gradient(
+                                60deg,
+                                #868b8e,
+                                #868b8e 20px,
+                                #444 20px,
+                                #444 40px
+                              )`;
 
 class ZKebab extends React.Component<{}> {
   public render() {
@@ -421,31 +437,34 @@ class TooltipAndSelect extends React.Component<{}> {
 class LoaderInSidePage extends React.Component<{}> {
   public render() {
     return (
-      <SidePage onClose={close} blockBackground fromLeft={true}>
-        <SidePage.Header>Title</SidePage.Header>
-        <SidePage.Body>
-          <div
-            style={{
-              background: `repeating-linear-gradient(
-                      60deg,
-                      #fafafa,
-                      #fafafa 20px,
-                      #dfdede 20px,
-                      #dfdede 40px
-                    )`,
-              height: 600,
-              padding: '20px 0',
-            }}
-          >
-            <SidePage.Container>
-              <ZLoader size={800} />
-            </SidePage.Container>
-          </div>
-        </SidePage.Body>
-        <SidePage.Footer panel>
-          <Button>Close</Button>
-        </SidePage.Footer>
-      </SidePage>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <SidePage onClose={close} blockBackground fromLeft={true}>
+              <SidePage.Header>Title</SidePage.Header>
+              <SidePage.Body>
+                <div
+                  style={{
+                    background:
+                      theme.prototype.constructor.name === 'DarkTheme'
+                        ? '' + linearDarkGradient + ''
+                        : '' + linearLightGradient + '',
+                    height: 600,
+                    padding: '20px 0',
+                  }}
+                >
+                  <SidePage.Container>
+                    <ZLoader size={800} />
+                  </SidePage.Container>
+                </div>
+              </SidePage.Body>
+              <SidePage.Footer panel>
+                <Button>Close</Button>
+              </SidePage.Footer>
+            </SidePage>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }
@@ -456,33 +475,36 @@ class SidePageAndSelect extends React.Component<{}> {
   };
   public renderSidePage() {
     return (
-      <SidePage onClose={close} blockBackground fromLeft={true}>
-        <SidePage.Header>Title</SidePage.Header>
-        <SidePage.Body>
-          <div
-            style={{
-              background: `repeating-linear-gradient(
-                      60deg,
-                      #fafafa,
-                      #fafafa 20px,
-                      #dfdede 20px,
-                      #dfdede 40px
-                    )`,
-              height: 600,
-              padding: '20px 0',
-            }}
-          >
-            <SidePage.Container>
-              <div className="sidepage-select-continer" style={{ display: 'flex', justifyContent: 'center' }}>
-                <TooltipAndSelect />
-              </div>
-            </SidePage.Container>
-          </div>
-        </SidePage.Body>
-        <SidePage.Footer panel>
-          <Button onClick={this.close}>Close</Button>
-        </SidePage.Footer>
-      </SidePage>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <SidePage onClose={close} blockBackground fromLeft={true}>
+              <SidePage.Header>Title</SidePage.Header>
+              <SidePage.Body>
+                <div
+                  style={{
+                    background:
+                      theme.prototype.constructor.name === 'DarkTheme'
+                        ? '' + linearDarkGradient + ''
+                        : '' + linearLightGradient + '',
+                    height: 600,
+                    padding: '20px 0',
+                  }}
+                >
+                  <SidePage.Container>
+                    <div className="sidepage-select-continer" style={{ display: 'flex', justifyContent: 'center' }}>
+                      <TooltipAndSelect />
+                    </div>
+                  </SidePage.Container>
+                </div>
+              </SidePage.Body>
+              <SidePage.Footer panel>
+                <Button onClick={this.close}>Close</Button>
+              </SidePage.Footer>
+            </SidePage>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 

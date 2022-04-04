@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
@@ -6,7 +6,11 @@ import { Modal } from '../Modal';
 import { Button } from '../../Button';
 import { Input } from '../../Input';
 import { Toggle } from '../../Toggle';
+import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ResponsiveLayout } from '../../ResponsiveLayout';
 
 const basicFontStyle = {
   fontSize: '14px',
@@ -727,16 +731,22 @@ ModalWithHeaderFromOtherComponent.storyName = 'Modal with Header from other Comp
 ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: [true] } };
 
 export const ModalBodyWithoutPadding = () => (
-  <Modal width={250}>
-    <Modal.Body noPadding>
-      <div style={{ background: 'white' }}>
-        <p>Loooooooong content content content</p>
-        <p>Loooooooong content content content</p>
-        <p>Loooooooong content content content</p>
-        <p>Loooooooong content content content</p>
-      </div>
-    </Modal.Body>
-  </Modal>
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <Modal width={250}>
+          <Modal.Body noPadding>
+            <div style={{ background: theme.prototype.constructor.name === 'DarkTheme' ? '1f1f1f' : 'white' }}>
+              <p>Loooooooong content content content</p>
+              <p>Loooooooong content content content</p>
+              <p>Loooooooong content content content</p>
+              <p>Loooooooong content content content</p>
+            </div>
+          </Modal.Body>
+        </Modal>
+      );
+    }}
+  </ThemeContext.Consumer>
 );
 ModalBodyWithoutPadding.storyName = 'Modal with no-padding';
 ModalBodyWithoutPadding.parameters = { creevey: { captureElement: null } };
@@ -755,7 +765,7 @@ export const AlignCenterAndNoClose = () => (
 );
 AlignCenterAndNoClose.parameters = { creevey: { captureElement: null } };
 
-const Header = () => <Modal.Header>Header</Modal.Header>;
+const Header = () => <Modal.Header sticky>Header</Modal.Header>;
 const Body = () => (
   <Modal.Body>
     {new Array(200).fill('Use rxjs operators with react hooks.').map((item, index) => (
@@ -763,7 +773,11 @@ const Body = () => (
     ))}
   </Modal.Body>
 );
-const Footer = () => <Modal.Footer panel>Footer</Modal.Footer>;
+const Footer = () => (
+  <Modal.Footer sticky panel>
+    Footer
+  </Modal.Footer>
+);
 
 export const ModalWithChildrenFromOtherComponent = () => (
   <Modal>
@@ -773,4 +787,142 @@ export const ModalWithChildrenFromOtherComponent = () => (
   </Modal>
 );
 
-ModalWithChildrenFromOtherComponent.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
+ModalWithChildrenFromOtherComponent.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] }],
+    tests: TopMiddleBottomModalTests,
+  },
+};
+
+export const MobileModal: Story = () => {
+  const [isOpen, setOpen] = useState(false);
+  const [showThirdButton, setShowThird] = useState(false);
+
+  const theme = useContext(ThemeContext);
+
+  const modal = (
+    <ThemeContext.Provider
+      value={ThemeFactory.create(
+        {
+          mobileMediaQuery: '(max-width: 576px)',
+        },
+        theme,
+      )}
+    >
+      <ResponsiveLayout>
+        {({ isMobile }) => {
+          return (
+            <Modal onClose={() => setOpen(false)}>
+              <Modal.Header>Это какой-то заголовок заголовок</Modal.Header>
+              <Modal.Body>
+                <p style={{ margin: 0 }}>
+                  {new Array(80).fill(
+                    'ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст тек ст',
+                    0,
+                    80,
+                  )}
+                </p>
+              </Modal.Body>
+              <Modal.Footer panel>
+                <Gapped vertical={isMobile} gap={isMobile ? 8 : 25}>
+                  <Button
+                    use={'primary'}
+                    onClick={() => {
+                      setShowThird(true);
+                    }}
+                    style={isMobile ? { width: '100%' } : undefined}
+                  >
+                    Ок
+                  </Button>
+                  <Button
+                    use={'danger'}
+                    onClick={() => {
+                      setShowThird(false);
+                    }}
+                    style={isMobile ? { width: '100%' } : undefined}
+                  >
+                    Удалить
+                  </Button>
+                  {showThirdButton && (
+                    <Button style={isMobile ? { width: '100%', marginTop: '8px' } : { marginLeft: '100px' }}>
+                      Изменить
+                    </Button>
+                  )}
+                </Gapped>
+              </Modal.Footer>
+            </Modal>
+          );
+        }}
+      </ResponsiveLayout>
+    </ThemeContext.Provider>
+  );
+
+  const render = (
+    <div>
+      <Button onClick={() => setOpen(true)}>Open modal</Button>
+      {isOpen && modal}
+    </div>
+  );
+
+  return render;
+};
+MobileModal.storyName = 'Mobile modal';
+MobileModal.parameters = {
+  viewport: {
+    defaultViewport: 'iphonePlus',
+  },
+  creevey: {
+    tests: {
+      async top() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(200);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
+      },
+      async middle() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(200);
+
+        await this.browser.executeScript(function () {
+          const modalContent = window.document.querySelector('.focus-lock-container');
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+
+          // @ts-ignore
+          modalContent.scrollTop = modalBody.offsetHeight / 2;
+        });
+        await delay(100);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
+      },
+      async bottom() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await delay(200);
+
+        await this.browser.executeScript(function () {
+          const modalContent = window.document.querySelector('.focus-lock-container');
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+
+          // @ts-ignore
+          modalContent.scrollTop = modalBody.offsetHeight;
+        });
+
+        await delay(100);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
+      },
+    },
+  },
+};

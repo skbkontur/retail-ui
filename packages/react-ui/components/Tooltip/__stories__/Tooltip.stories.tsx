@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
 import { Story } from '../../../typings/stories';
@@ -272,7 +272,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
 
 TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px'] }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'] }],
     tests: {
       async hover() {
         await this.browser
@@ -477,7 +477,7 @@ DynamicTriggersStory.storyName = 'dynamic triggers';
 DynamicTriggersStory.parameters = {
   creevey: {
     captureElement: '[data-comp-name~="TestTooltip"]',
-    skip: [{ in: ['ie11', 'ie118px'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
     tests: {
       async ['without trigger']() {
         await delay(100);
@@ -1041,13 +1041,22 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     });
   };
 }
-
-class TestTooltipForManual extends React.Component {
+interface TestTooltipForManualState {
+  onOpenCalledTimes: number;
+  onCloseCalledTimes: number;
+}
+class TestTooltipForManual extends React.Component<{}, TestTooltipForManualState> {
   private tooltip: Tooltip | null = null;
+  public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
   render() {
     return (
       <div style={{ padding: '100px' }}>
+        <Gapped vertical gap={10}>
+          <div>onOpen called {this.state.onOpenCalledTimes} times</div>
+          <div>onClose called {this.state.onCloseCalledTimes} times</div>
+          <div />
+        </Gapped>
         <Gapped>
           <Button key={'Show'} onClick={this.handleClickOnShow.bind(this)}>
             Show()
@@ -1062,6 +1071,12 @@ class TestTooltipForManual extends React.Component {
           pos="bottom left"
           ref={(element) => {
             this.tooltip = element;
+          }}
+          onOpen={() => {
+            this.setState({ onOpenCalledTimes: this.state.onOpenCalledTimes + 1 });
+          }}
+          onClose={() => {
+            this.setState({ onCloseCalledTimes: this.state.onCloseCalledTimes + 1 });
           }}
         >
           <Button disabled>Anchor</Button>
@@ -1129,3 +1144,74 @@ export const TooltipWithFunctionalChild = () => (
   </TestTooltip>
 );
 TooltipWithFunctionalChild.storyName = 'tooltip with functional child';
+
+const anchorStyle: CSSProperties = {
+  left: 60,
+  position: 'absolute',
+  height: 55,
+  width: 55,
+  border: '1px solid #dfdede',
+};
+
+interface AnchorTooltipExampleState {
+  anchor: HTMLElement | null;
+}
+class AnchorTooltipExample extends React.Component<{}, AnchorTooltipExampleState> {
+  public state: AnchorTooltipExampleState = {
+    anchor: null,
+  };
+
+  render() {
+    return (
+      <>
+        {this.state.anchor ? (
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
+        ) : null}
+        <div style={{ width: 180, height: 180, position: 'relative' }}>
+          <div
+            data-tid={`tooltip_anchor_0`}
+            style={{
+              ...anchorStyle,
+              top: 60,
+            }}
+            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
+            onMouseLeave={() => this.setState({ anchor: null })}
+          />
+          <div
+            data-tid={`tooltip_anchor_1`}
+            style={{
+              ...anchorStyle,
+              top: 120,
+            }}
+            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
+            onMouseLeave={() => this.setState({ anchor: null })}
+          />
+        </div>
+      </>
+    );
+  }
+}
+
+export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
+
+TooltipWithAnchor.parameters = {
+  creevey: {
+    skip: [{ in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] }],
+    tests: {
+      async ['hover by dynamic anchor']() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ x: 0, y: 0 })
+          .move({ origin: this.browser.findElement({ css: '[data-tid~="tooltip_anchor_1"]' }) })
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover by dynamic anchor');
+      },
+    },
+  },
+};
+TooltipWithAnchor.storyName = 'Tooltip with anchor';

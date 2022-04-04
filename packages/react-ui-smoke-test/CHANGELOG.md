@@ -3,6 +3,31 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@2.0.0...react-ui-smoke-test@2.0.1) (2022-04-01)
+
+**Note:** Version bump only for package react-ui-smoke-test
+
+
+
+
+
+# [2.0.0](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@1.2.6...react-ui-smoke-test@2.0.0) (2022-03-01)
+
+
+### Features
+
+* **FileUploader:** new component FileUploader ([#2542](https://github.com/skbkontur/retail-ui/issues/2542)) ([18d009a](https://github.com/skbkontur/retail-ui/commit/18d009a8ebeafa2379d5fb46a564ead97c3da6a5))
+* **react-ui:** use new theme by default ([#2707](https://github.com/skbkontur/retail-ui/issues/2707)) ([6de91d3](https://github.com/skbkontur/retail-ui/commit/6de91d3f6a44a86a8a9179f9718ab0b15256d91a))
+
+
+### BREAKING CHANGES
+
+* **react-ui:** update, rename and remove some themes, see #2592
+
+
+
+
+
 ## [1.2.6](https://github.com/skbkontur/retail-ui/compare/react-ui-smoke-test@1.2.5...react-ui-smoke-test@1.2.6) (2022-02-22)
 
 **Note:** Version bump only for package react-ui-smoke-test

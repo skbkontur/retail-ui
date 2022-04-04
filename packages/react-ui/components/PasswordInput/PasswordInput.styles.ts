@@ -6,6 +6,7 @@ export const styles = memoizeStyle({
     return css`
       position: relative;
       display: inline-block;
+      line-height: normal;
 
       input::-ms-clear,
       input::-ms-reveal {
@@ -13,15 +14,16 @@ export const styles = memoizeStyle({
       }
     `;
   },
-  toggleVisibility() {
+  toggleVisibility(t: Theme) {
     return css`
-      color: #000;
+      color: ${t.passwordInputVisibilityIconColor};
       cursor: pointer;
-      opacity: 0.6;
+      opacity: ${t.passwordInputVisibilityIconOpacity};
       user-select: none;
 
       &:hover {
-        opacity: 1;
+        color: ${t.passwordInputVisibilityIconHoverColor};
+        opacity: ${t.passwordInputVisibilityIconHoverOpacity};
       }
     `;
   },

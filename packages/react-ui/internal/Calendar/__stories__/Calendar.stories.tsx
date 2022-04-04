@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../../components/Button';
@@ -10,14 +11,42 @@ import { Calendar } from '../Calendar';
 export default { title: 'Calendar', parameters: { creevey: { skip: [true] } } };
 
 export const Simple = () => (
-  <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            background: theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff',
+          }}
+        >
+          <Calendar minDate={{ year: 2017, month: 10, date: 13 }} maxDate={{ year: 2018, month: 3, date: 15 }} />
+        </div>
+      );
+    }}
+  </ThemeContext.Consumer>
 );
 Simple.storyName = 'simple';
 
 export const LocaleContextProvider = () => (
-  <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-    <Calendar />
-  </LocaleContext.Provider>
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+            background: theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff',
+          }}
+        >
+          <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+            <Calendar />
+          </LocaleContext.Provider>
+        </div>
+      );
+    }}
+  </ThemeContext.Consumer>
 );
 LocaleContextProvider.storyName = 'LocaleContext.Provider';
 
@@ -38,11 +67,25 @@ export const CalendarWithHolidays = () => {
   } while (holidays.length < 100);
 
   return (
-    <Calendar
-      isHoliday={(date) => {
-        return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <div
+            style={{
+              height: '100%',
+              width: '100%',
+              background: theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff',
+            }}
+          >
+            <Calendar
+              isHoliday={(date) => {
+                return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
+              }}
+            />
+          </div>
+        );
       }}
-    />
+    </ThemeContext.Consumer>
   );
 };
 CalendarWithHolidays.storyName = 'Calendar with holidays';
@@ -63,24 +106,38 @@ class CalendarWithButtons extends React.Component {
 
   public render() {
     return (
-      <Gapped vertical>
-        <Calendar ref={(cal) => (this.cal = cal)} value={initialDate} />
-        <Gapped vertical>
-          {datesToScroll.map((x) => (
-            <Button
-              key={x.year + '-' + x.month + '-' + x.date}
-              width={240}
-              onClick={() => {
-                if (this.cal) {
-                  this.cal.scrollToMonth(x.month, x.year);
-                }
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <div
+              style={{
+                height: '100%',
+                width: '100%',
+                background: theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff',
               }}
             >
-              Scroll to: {x.date + '-' + (1 + x.month) + '-' + x.year}
-            </Button>
-          ))}
-        </Gapped>
-      </Gapped>
+              <Gapped vertical>
+                <Calendar ref={(cal) => (this.cal = cal)} value={initialDate} />
+                <Gapped vertical>
+                  {datesToScroll.map((x) => (
+                    <Button
+                      key={x.year + '-' + x.month + '-' + x.date}
+                      width={240}
+                      onClick={() => {
+                        if (this.cal) {
+                          this.cal.scrollToMonth(x.month, x.year);
+                        }
+                      }}
+                    >
+                      Scroll to: {x.date + '-' + (1 + x.month) + '-' + x.year}
+                    </Button>
+                  ))}
+                </Gapped>
+              </Gapped>
+            </div>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }

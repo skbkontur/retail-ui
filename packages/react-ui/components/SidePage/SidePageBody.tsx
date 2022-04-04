@@ -1,6 +1,9 @@
 import React from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './SidePage.styles';
@@ -14,12 +17,14 @@ export interface SidePageBodyProps extends CommonProps {
  *
  * @visibleName SidePage.Body
  */
+@responsiveLayout
 @rootNode
 export class SidePageBody extends React.Component<SidePageBodyProps> {
   public static __KONTUR_REACT_UI__ = 'SidePageBody';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
+  private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
 
   public componentDidUpdate() {
@@ -28,9 +33,17 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.body()}>{this.props.children}</div>
-      </CommonWrapper>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <div className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}>
+                {this.props.children}
+              </div>
+            </CommonWrapper>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }

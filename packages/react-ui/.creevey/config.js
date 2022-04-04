@@ -36,34 +36,14 @@ const config = {
   }),
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
-    chrome: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_OLD',
-      },
-      name: 'infrafront/chrome',
-      ...capabilities,
-    },
     chrome8px: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
+        theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/chrome8px',
-      ...capabilities,
-    },
-    chromeFlat: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_OLD',
-      },
-      name: 'infrafront/chromeFlat',
       ...capabilities,
     },
     chromeFlat8px: {
@@ -71,91 +51,123 @@ const config = {
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'FLAT_THEME',
+        theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/chromeFlat8px',
       ...capabilities,
     },
-    firefox: {
-      browserName: 'firefox',
+    chrome: {
+      browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME_OLD',
+        theme: 'DEFAULT_THEME',
       },
-      name: 'infrafront/firefox',
+      name: 'infrafront/chrome',
+      ...capabilities,
+    },
+    chromeDark: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/chromeDark',
       ...capabilities,
     },
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
+        theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefox8px',
-      ...capabilities,
-    },
-    firefoxFlat: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_OLD',
-      },
-      name: 'infrafront/firefoxFlat',
       ...capabilities,
     },
     firefoxFlat8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME',
+        theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefoxFlat8px',
       ...capabilities,
     },
-    ie11: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_OLD',
-      },
-      name: 'infrafront/ie11',
-      ...capabilities,
-
-      // NOTE Enable after switch new separate pool for IE to allow test hover
-      // 'se:ieOptions': {
-      //   enablePersistentHover: true,
-      //   nativeEvents: true,
-      //   requireWindowFocus: true,
-      //   'ie.usePerProcessProxy': true,
-      //   'ie.browserCommandLineSwitches': '-private',
-      //   'ie.ensureCleanSession': true,
-      // },
-    },
-    ie118px: {
-      browserName: 'internet explorer',
+    firefox: {
+      browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
-      name: 'infrafront/ie118px',
+      name: 'infrafront/firefox',
       ...capabilities,
     },
-    ie11Flat: {
+    firefoxDark: {
+      browserName: 'firefox',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/firefoxDark',
+      ...capabilities,
+    },
+    // NOTE Enable after switch new separate pool for IE to allow test hover
+    // 'se:ieOptions': {
+    //   enablePersistentHover: true,
+    //   nativeEvents: true,
+    //   requireWindowFocus: true,
+    //   'ie.usePerProcessProxy': true,
+    //   'ie.browserCommandLineSwitches': '-private',
+    //   'ie.ensureCleanSession': true,
+    // },
+    ie118px: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME_OLD',
+        theme: 'DEFAULT_THEME_8PX_OLD',
       },
-      name: 'infrafront/ie11Flat',
+      name: 'infrafront/ie118px',
       ...capabilities,
     },
     ie11Flat8px: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME',
+        theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/ie11Flat8px',
+      ...capabilities,
+    },
+    ie11: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'DEFAULT_THEME',
+      },
+      name: 'infrafront/ie11',
+      ...capabilities,
+    },
+    ie11Dark: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/ie11Dark',
+      ...capabilities,
+    },
+    chromeMobile: {
+      browserName: 'chrome',
+      viewport: { width: 400, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DEFAULT_THEME_MOBILE',
+      },
+      name: 'infrafront/chromeMobile',
       ...capabilities,
     },
   },

@@ -1,13 +1,19 @@
+# 5.0 Август 2022
+
+- <input type="checkbox" readonly /> Адаптивные версии компонентов DatePicker, Tabs, Paging для мобильных устройств.
+- <input type="checkbox" readonly /> Обновление дизайна компонентов в соответствии с новым фирменным стилем и визуальным языком.
+- <input type="checkbox" readonly /> Добавление нового компонента — панель действий.
+
 # 2021
 
-- <input type="checkbox" readonly/> Адаптивные версии компонентов использующих выпадающие меню — селекта, автокомплита, комбобокса для мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963).
-- <input type="checkbox" readonly/> Адаптивные версии модалки и сайдпейджа.
-- <input type="checkbox" readonly/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18.
-- <input type="checkbox" readonly/> Новые цвета контролов. Обновление в соответствии с новым дизайном и фирменным стилем.
-- <input type="checkbox" readonly/> Официальный старт поддержки темной темы.
-- <input type="checkbox" readonly/> Адаптация контролов для использования с шрифтом Lab Grotesque.
-- <input type="checkbox" readonly/> Добавление компонента FileUploader для загрузки файлов на сервер.
-- <input type="checkbox" readonly/> Добавление компонента [GlobalLoader](https://guides.kontur.ru/components/global-loader/).
+- <input type="checkbox" readonly checked/> Адаптивные версии компонентов использующих выпадающие меню — селекта, автокомплита, комбобокса для мобильных [#1963](https://github.com/skbkontur/retail-ui/issues/1963).
+- <input type="checkbox" readonly checked/> Адаптивные версии модалки и сайдпейджа.
+- <input type="checkbox" readonly checked/> Поддержка [StrictMode](https://reactjs.org/docs/strict-mode.html) и React 18.
+- <input type="checkbox" readonly checked/> Новые цвета контролов. Обновление в соответствии с «переходным» дизайном.
+- <input type="checkbox" readonly checked/> Официальный старт поддержки темной темы.
+- <input type="checkbox" readonly checked/> Адаптация контролов для использования с шрифтом Lab Grotesque.
+- <input type="checkbox" readonly checked/> Добавление компонента FileUploader для загрузки файлов на сервер.
+- <input type="checkbox" readonly checked/> Добавление компонента [GlobalLoader](https://guides.kontur.ru/components/global-loader/).
 
 ### 3.0 Май 2021
 
@@ -26,7 +32,7 @@
 
 ### 2.0.0 Март 2020
 
-- <input type="checkbox" readonly checked/> Релиз версии [2.0](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md) 
+- <input type="checkbox" readonly checked/> Релиз версии [2.0](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MIGRATION.md)
 - <input type="checkbox" readonly checked/> Уменьшение техдолга [#1578](https://github.com/skbkontur/retail-ui/issues/1578)
 - <input type="checkbox" readonly checked/> Переезд всех стилей с Less на CSS-in-JS [#1625](https://github.com/skbkontur/retail-ui/issues/1625)
 - <input type="checkbox" readonly checked/> Перенос kontur-specific компонентов в приватную библиотеку (Fias, TopBar, Logotype, Spinner) [#1842](https://github.com/skbkontur/retail-ui/issues/1842)
@@ -37,7 +43,7 @@
 
 ### Декабрь 2019
 
-- <input type="checkbox" readonly checked/> Создание отдельного репозитория для «велосипедов» (парковка для обеконтуровских решений для фронта), в которую пойдет приватная библиотека для kontur-specific компонентов типа Fias, TopBar, Logotype, Spinner. 
+- <input type="checkbox" readonly checked/> Создание отдельного репозитория для «велосипедов» (парковка для общеконтуровских решений для фронта), в которую пойдет приватная библиотека для kontur-specific компонентов типа Fias, TopBar, Logotype, Spinner.
 - <input type="checkbox" readonly checked/> Обновление react-styleguidist и примеров в доке [#1791](https://github.com/skbkontur/retail-ui/issues/1791)
 
 ### Ноябрь 2019
@@ -62,9 +68,9 @@
 
 ### Июнь 2019
 
-- <input type="checkbox" readonly checked/> Старт поддержки `LTS` версии библиотеки [#1295](https://github.com/skbkontur/retail-ui/issues/1295) 
+- <input type="checkbox" readonly checked/> Старт поддержки `LTS` версии библиотеки [#1295](https://github.com/skbkontur/retail-ui/issues/1295)
 - <input type="checkbox" readonly checked/> Локализация DateInput и DatePicker [#1278](https://github.com/skbkontur/retail-ui/pull/1278)
-- <input type="checkbox" readonly checked/> Реализация механизма кастомизации на `css-in-js` [#1318](https://github.com/skbkontur/retail-ui/issues/1318) 
+- <input type="checkbox" readonly checked/> Реализация механизма кастомизации на `css-in-js` [#1318](https://github.com/skbkontur/retail-ui/issues/1318)
 
 ### Май 2019
 
