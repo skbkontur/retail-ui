@@ -161,6 +161,27 @@ export const Disabled: Story = () => (
 
 Disabled.storyName = 'disabled';
 
+export const WithDisabledItem: Story = () => (
+  <Select isItemDisabled={(val) => val === 'two'} items={['one', 'two', 'three']} />
+);
+
+WithDisabledItem.storyName = 'With simple disabled item';
+WithDisabledItem.parameters = {
+  creevey: {
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+    },
+  },
+};
+
 export const ComplexValues = () => <SelectWrapper />;
 ComplexValues.storyName = 'Complex values';
 ComplexValues.parameters = { creevey: { skip: [true] } };

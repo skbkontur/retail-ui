@@ -123,6 +123,10 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    */
   areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
   /**
+   * Функция для задания элементам состояния disabled (в случае, если элемент это простое значение или кортеж)
+   */
+  isItemDisabled?: (value: TValue) => boolean;
+  /**
    * Показывать строку поиска в списке.
    */
   search?: boolean;
@@ -437,6 +441,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
                   state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
                   onClick={this.select.bind(this, iValue)}
                   comment={comment}
+                  disabled={this.props.isItemDisabled ? this.props.isItemDisabled(iValue) : undefined}
                 >
                   {this.getProps().renderItem(iValue, item)}
                 </MenuItem>
