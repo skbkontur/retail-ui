@@ -178,13 +178,15 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
     const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
-    const targetHeight = getDOMRect(target).height;
-    return {
-      top: top !== null ? targetHeight + offsetY : null,
-      bottom: bottom !== null ? targetHeight + offsetY : null,
-      left: left !== null ? offsetX : null,
-      right: right !== null ? offsetX : null,
-    };
+    if (target && this.isElement(target)) {
+      const targetHeight = getDOMRect(target).height;
+      return {
+        top: top !== null ? targetHeight + offsetY : null,
+        bottom: bottom !== null ? targetHeight + offsetY : null,
+        left: left !== null ? offsetX : null,
+        right: right !== null ? offsetX : null,
+      };
+    }
     return {
       top: offsetY,
       bottom: null,
