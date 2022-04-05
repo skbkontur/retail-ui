@@ -119,11 +119,11 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
   /**
    * Функция для отрисовки выбранного элемента. Аргументы — *value*, *item*.
    */
-  renderValue?: (value: TValue | undefined, item?: TItem) => React.ReactNode;
+  renderValue?: (value: TValue, item?: TItem) => React.ReactNode;
   /**
    * Функция для сравнения `value` с элементом из `items`
    */
-  areValuesEqual?: (value1: TValue | undefined, value2: TValue | undefined) => boolean;
+  areValuesEqual?: (value1: TValue, value2: TValue) => boolean;
   /**
    * Показывать строку поиска в списке.
    */
@@ -339,8 +339,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const item = this.getItemByValue(value);
 
     if (item != null || value != null) {
+      const label = value === null ? this.getProps().renderItem(value, item) : this.getProps().renderValue(value, item);
       return {
-        label: this.getProps().renderValue<TValue, TItem>(value, item),
+        label,
         isPlaceholder: false,
       };
     }
@@ -514,7 +515,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         return (
           <MenuItem
             key={i}
-            state={this.getProps().areValuesEqual<TValue>(iValue, value) ? 'selected' : null}
+            state={value && this.getProps().areValuesEqual<TValue>(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}
             isMobile={isMobile}
@@ -593,8 +594,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.focus();
     this.setState({ opened: false, value });
 
-    if (this.props.onValueChange && !this.getProps().areValuesEqual<TValue>(this.getValue(), value)) {
-      this.props.onValueChange(value);
+    const currentValue = this.getValue();
+
+    if (!currentValue || (currentValue && !this.getProps().areValuesEqual<TValue>(currentValue, value))) {
+      this.props.onValueChange?.(value);
     }
   }
 
@@ -664,7 +667,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 }
 
-function renderValue<TValue, TItem>(value: Nullable<TValue>, item: Nullable<TItem>) {
+function renderValue<TValue, TItem>(value: TValue, item: Nullable<TItem>) {
   return item;
 }
 
@@ -672,7 +675,7 @@ function renderItem<TValue, TItem>(value: TValue, item?: TItem | undefined) {
   return item;
 }
 
-function areValuesEqual<TValue>(value1: Nullable<TValue>, value2: Nullable<TValue>) {
+function areValuesEqual<TValue>(value1: TValue, value2: TValue) {
   return value1 === value2;
 }
 
