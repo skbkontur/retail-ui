@@ -87,14 +87,18 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
    */
   public focus() {
     keyListener.isTabPressed = true;
-    this.spanEl.current?.focus();
+    if (!this.state.opened) {
+      this.spanEl.current?.focus();
+    }
   }
 
   /**
    * @public
    */
   public blur() {
-    this.spanEl.current?.blur();
+    if (!this.state.opened) {
+      this.spanEl.current?.blur();
+    }
   }
 
   private theme!: Theme;
@@ -213,11 +217,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
         }
 
         if (this.state.opened) {
-          !restoreFocus && this.props.onBlur?.();
           this.props.onOpen();
         } else {
-          restoreFocus && this.props.onFocus?.();
           this.props.onClose();
+          if (!restoreFocus) this.props.onBlur?.();
         }
       },
     );
