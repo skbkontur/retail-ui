@@ -278,23 +278,23 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // we need to get anchor's DOM node
     // so we either set our own ref on it via cloning
     // or relay on findDOMNode (inside getRootNode)
-    // which should be called with RenderContainer's ref
+    // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
     const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
 
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.renderContainerRef}>
+      <RenderContainer
+        anchor={anchorWithRef || anchor}
+        containerRef={this.setRootNode}
+        ref={canGetAnchorNode ? null : this.updateAnchorElement}
+      >
         {location && this.renderContent(location)}
       </RenderContainer>
     );
   }
 
-  private renderContainerRef = (childInstance: Nullable<React.ReactInstance>) => {
-    this.updateAnchorElement(childInstance);
-  };
-
-  private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
+  private updateAnchorElement = (childInstance: Nullable<React.ReactInstance>) => {
     const childDomNode = getRootNode(childInstance);
     const anchorElement = this.anchorElement;
 
@@ -302,9 +302,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.removeEventListeners(anchorElement);
       this.anchorElement = childDomNode;
       this.addEventListeners(childDomNode);
-      this.setRootNode(childDomNode);
     }
-  }
+  };
 
   private addEventListeners(element: Nullable<HTMLElement>) {
     if (element && isHTMLElement(element)) {
