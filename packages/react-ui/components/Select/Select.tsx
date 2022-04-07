@@ -22,7 +22,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction, isReactUINode } from '../../lib/utils';
+import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -338,10 +338,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const item = this.getItemByValue(value);
 
-    if (item != null || value != null) {
-      const label = value === null ? this.getProps().renderItem(value, item) : this.getProps().renderValue(value, item);
+    if (isNonNullable(value)) {
       return {
-        label,
+        label: this.getProps().renderValue(value, item),
         isPlaceholder: false,
       };
     }
@@ -515,7 +514,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         return (
           <MenuItem
             key={i}
-            state={value && this.getProps().areValuesEqual<TValue>(iValue, value) ? 'selected' : null}
+            state={this.areValuesEqual(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}
             isMobile={isMobile}
@@ -594,9 +593,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.focus();
     this.setState({ opened: false, value });
 
-    const currentValue = this.getValue();
-
-    if (!currentValue || (currentValue && !this.getProps().areValuesEqual<TValue>(currentValue, value))) {
+    if (!this.areValuesEqual(this.getValue(), value)) {
       this.props.onValueChange?.(value);
     }
   }
@@ -665,6 +662,14 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         })
       : buttonElement;
   };
+
+  private areValuesEqual = (value1: Nullable<TValue>, value2: Nullable<TValue>): boolean => {
+    if (!isNonNullable(value1) || isNonNullable(value2)) {
+      return false;
+    }
+
+    return this.getProps().areValuesEqual(value1, value2);
+  }
 }
 
 function renderValue<TValue, TItem>(value: TValue, item: Nullable<TItem>) {
