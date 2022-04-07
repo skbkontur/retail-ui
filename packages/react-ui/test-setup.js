@@ -2,9 +2,14 @@
 /* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import '@testing-library/jest-dom';
+import { configure } from '@testing-library/dom';
 import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
+
+configure({
+  testIdAttribute: 'data-tid',
+});
 
 Enzyme.configure({ adapter: new Adapter() });
 
