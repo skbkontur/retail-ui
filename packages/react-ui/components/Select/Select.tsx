@@ -664,7 +664,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private areValuesEqual = (value1: Nullable<TValue>, value2: Nullable<TValue>): boolean => {
-    if (!isNonNullable(value1) || isNonNullable(value2)) {
+    if (!isNonNullable(value1) || !isNonNullable(value2)) {
       return false;
     }
 
