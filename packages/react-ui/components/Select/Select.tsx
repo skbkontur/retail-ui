@@ -669,7 +669,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
 
     return this.getProps().areValuesEqual(value1, value2);
-  }
+  };
 }
 
 function renderValue<TValue, TItem>(value: TValue, item: Nullable<TItem>) {
