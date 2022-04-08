@@ -1,6 +1,8 @@
 import React from 'react';
 
 import {
+  isKeyArrowDown,
+  isKeyArrowUp,
   isKeyArrowVertical,
   isKeyEnter,
   isKeyEscape,
@@ -178,6 +180,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           data-tid="PopupMenu__caption"
           className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
+          onKeyDown={this.handleCaptionKeyDown}
         >
           {caption}
         </span>
@@ -241,9 +244,32 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   };
 
   private handleCaptionKeyDown = (e: React.KeyboardEvent<HTMLElement>): void => {
-    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
-      e.preventDefault();
-      this.showMenu(true);
+    if (!this.state.menuVisible) {
+      if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
+        if (!e.defaultPrevented) {
+          e.preventDefault();
+          this.showMenu(true);
+        }
+      }
+    } else {
+      if (isKeyArrowUp(e)) {
+        e.preventDefault();
+        // @ts-ignore
+        this.menu?.moveUp();
+      } else if (isKeyArrowDown(e)) {
+        e.preventDefault();
+        // @ts-ignore
+        this.menu?.moveDown();
+      } else if (isKeyEscape(e)) {
+        e.preventDefault();
+        this.hideMenu();
+      } else if (isKeyEnter(e)) {
+        // @ts-ignore
+        if (this.menu?.highlighted && this.menu.highlighted.props.onClick) {
+          // @ts-ignore
+          this.menu.highlighted.props.onClick(e);
+        }
+      }
     }
   };
 

@@ -199,7 +199,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     e: React.KeyboardEvent<HTMLDivElement>,
     openMenu: PopupMenuCaptionProps['openMenu'],
   ) => {
-    if (someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
+    if (!this.state.opened && someKeys(isKeyEnter, isKeySpace, isKeyArrowVertical)(e)) {
       e.preventDefault();
       openMenu(true);
     }
