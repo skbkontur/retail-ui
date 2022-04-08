@@ -26,7 +26,7 @@ import { styles } from './ThemeShowcase.styles';
 
 const EMPTY_ARRAY: string[] = [];
 
-const ALL_VARIABLES = Object.keys(defaultVariables) as Array<keyof Theme>;
+const ALL_VARIABLES = Object.keys(defaultVariables) as (keyof Theme)[];
 
 interface ShowcaseProps {
   isDebugMode?: boolean;
@@ -281,7 +281,7 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
 
 interface VariableNameProps {
   variableName: string;
-  dependencies: Array<keyof Theme>;
+  dependencies: (keyof Theme)[];
   onVariableSelect: (item: ComboBoxItem) => void;
 }
 

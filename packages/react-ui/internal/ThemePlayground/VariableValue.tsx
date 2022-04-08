@@ -21,7 +21,7 @@ export interface VariableValueProps {
   isError: boolean;
   variable: string;
   theme: Theme;
-  baseVariables: Array<keyof Theme>;
+  baseVariables: (keyof Theme)[];
   deprecated: boolean;
 }
 

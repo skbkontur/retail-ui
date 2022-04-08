@@ -12,7 +12,7 @@ export interface ComponentDescriptionType {
 }
 
 export interface ComponentRowDescriptionType {
-  variables: Array<keyof Theme>;
+  variables: (keyof Theme)[];
   dependencies: VariableDependencies;
 }
 
@@ -21,7 +21,7 @@ export interface VariableNameToComponentsMap {
 }
 
 export interface VariableDependencies {
-  [variableName: string]: Array<keyof Theme>;
+  [variableName: string]: (keyof Theme)[];
 }
 
 let callsCount = 0;
