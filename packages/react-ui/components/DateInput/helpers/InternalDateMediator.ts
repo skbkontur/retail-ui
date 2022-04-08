@@ -45,7 +45,11 @@ export class InternalDateMediator {
     return this;
   };
 
-  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): boolean {
+  public inputKey(
+    key: string,
+    type: InternalDateComponentType | null,
+    inputMode: boolean,
+  ): { inputMode: boolean; changed: boolean } {
     const prevValue = this.iDate.get(type);
     if (type === null) {
       type = this.getLeftmostType();
@@ -56,9 +60,10 @@ export class InternalDateMediator {
     } else {
       this.iDate.restore(type);
     }
-    const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode);
+    const maxValue = InternalDateGetter.getDefaultMax(type, this.iDate.getComponentsLikeNumber());
+    const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode, maxValue);
     this.iDate.set(type, nextValue);
-    return nextInputMode;
+    return { inputMode: nextInputMode, changed: nextValue !== prevValue };
   }
 
   public paste = (pasted: string): InternalDateMediator => {
@@ -91,7 +96,7 @@ export class InternalDateMediator {
         iDate.duplicateOf(end);
       }
     } else {
-      const clone = iDate.clone().shift(type, step, { isRange: false, isLoop: true });
+      const clone = iDate.clone().shift(type, step, { isRange: false, isLoop: true, isCutFeb: true });
       if (clone.validate({ checks: [InternalDateValidateCheck.Range] })) {
         iDate.duplicateOf(clone);
       }

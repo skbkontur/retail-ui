@@ -6,6 +6,7 @@ export const inputNumber = (
   prev: InternalDateComponentRaw,
   key: string,
   inputMode: boolean,
+  maxValue: number,
 ): { nextValue: InternalDateComponentRaw; nextInputMode: boolean } => {
   let nextInputMode = false;
   let nextValue: string;
@@ -16,7 +17,7 @@ export const inputNumber = (
     length = LENGTH_MONTH;
   }
   if (type === InternalDateComponentType.Date) {
-    first = 3;
+    first = Math.floor(maxValue / 10);
     length = LENGTH_DATE;
   }
   if (!inputMode) {
@@ -25,6 +26,10 @@ export const inputNumber = (
   } else {
     nextValue = `${prev === null ? '' : prev}${key}`.slice(-length);
     nextInputMode = nextValue.length < length;
+    if (Number(nextValue) > maxValue || (Number(nextValue) === 0 && nextValue.length === length)) {
+      nextValue = prev + '';
+      nextInputMode = true;
+    }
   }
   return { nextValue, nextInputMode };
 };
