@@ -83,11 +83,11 @@ export interface TokenInputProps<T> extends CommonProps {
   placeholder?: string;
   delimiters: string[];
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   disabled?: boolean;
@@ -500,7 +500,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
 
-    // чекаем автокомплит на совпадение с введеным значением в инпут
+    // чекаем автокомплит на совпадение с введенным значением в инпут
     if (autocompleteItems && autocompleteItems.length === 1) {
       const item = autocompleteItems[0];
 

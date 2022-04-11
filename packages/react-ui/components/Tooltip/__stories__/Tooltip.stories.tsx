@@ -1043,13 +1043,22 @@ class DynamicTriggers extends React.Component<unknown, DynamicTriggersState> {
     });
   };
 }
-
-class TestTooltipForManual extends React.Component {
+interface TestTooltipForManualState {
+  onOpenCalledTimes: number;
+  onCloseCalledTimes: number;
+}
+class TestTooltipForManual extends React.Component<{}, TestTooltipForManualState> {
   private tooltip: Tooltip | null = null;
+  public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
   render() {
     return (
       <div style={{ padding: '100px' }}>
+        <Gapped vertical gap={10}>
+          <div>onOpen called {this.state.onOpenCalledTimes} times</div>
+          <div>onClose called {this.state.onCloseCalledTimes} times</div>
+          <div />
+        </Gapped>
         <Gapped>
           <Button key={'Show'} onClick={this.handleClickOnShow.bind(this)}>
             Show()
@@ -1064,6 +1073,12 @@ class TestTooltipForManual extends React.Component {
           pos="bottom left"
           ref={(element) => {
             this.tooltip = element;
+          }}
+          onOpen={() => {
+            this.setState({ onOpenCalledTimes: this.state.onOpenCalledTimes + 1 });
+          }}
+          onClose={() => {
+            this.setState({ onCloseCalledTimes: this.state.onCloseCalledTimes + 1 });
           }}
         >
           <Button disabled>Anchor</Button>

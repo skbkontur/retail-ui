@@ -26,7 +26,7 @@ export interface CurrencyInputProps
         value: Nullable<number>;
         /** Убрать лишние нули после запятой */
         hideTrailingZeros: boolean;
-        /** Кол-во цифр после зяпятой */
+        /** Кол-во цифр после запятой */
         fractionDigits?: Nullable<number>;
         /** Отрицательные значения */
         signed?: boolean;
@@ -408,11 +408,11 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     const { selectionStart, selectionEnd, selectionDirection } = event.target;
-    const valueLenght = event.target.value.length;
+    const valueLength = event.target.value.length;
 
     const selection = {
-      start: selectionStart !== selectionEnd ? selectionStart || 0 : selectionStart || valueLenght,
-      end: selectionEnd !== selectionStart ? selectionEnd || 0 : selectionEnd || valueLenght,
+      start: selectionStart !== selectionEnd ? selectionStart || 0 : selectionStart || valueLength,
+      end: selectionEnd !== selectionStart ? selectionEnd || 0 : selectionEnd || valueLength,
       direction: (selectionDirection as SelectionDirection) || 'none',
     };
 

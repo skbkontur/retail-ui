@@ -21,11 +21,11 @@ export interface RadioProps<T>
       React.InputHTMLAttributes<HTMLInputElement>,
       {
         /**
-         *  Cостояние валидации при ошибке.
+         *  Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /**

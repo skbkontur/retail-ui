@@ -40,11 +40,11 @@ export interface InputProps
          */
         rightIcon?: InputIconType;
         /**
-         * Cостояние валидации при ошибке.
+         * Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /** Режим прозрачной рамки */
@@ -110,7 +110,7 @@ export interface InputState {
 }
 
 /**
- * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
+ * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
 @rootNode

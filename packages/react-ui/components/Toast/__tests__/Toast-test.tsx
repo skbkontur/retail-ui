@@ -30,7 +30,7 @@ describe('Toast', () => {
     expect(toast).toBeTruthy();
     const domNode = getRootNode(wrapper.instance() as Toast);
     expect(domNode).toBeInstanceOf(HTMLElement);
-    expect(domNode?.textContent).toEqual('message');
+    expect(domNode).toHaveTextContent('message');
   });
 
   it('hides message after interval', () => {
