@@ -47,18 +47,16 @@ export const styles = memoizeStyle({
   },
 
   handle(t: Theme) {
-    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
       background: ${t.toggleBg};
       border-radius: ${t.toggleHandleBorderRadius};
-      bottom: ${t.toggleBorderWidth};
       box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
-      height: ${handleSize};
-      left: ${t.toggleBorderWidth};
+      height: ${t.toggleHandleSize};
+      left: ${t.toggleHandleLeft};
       position: absolute;
-      top: ${t.toggleBorderWidth};
+      top: ${t.toggleHandleTop};
       transition: 0.2s ease-in;
-      width: ${handleSize};
+      width: ${t.toggleHandleSize};
     `;
   },
 
@@ -103,6 +101,10 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
+        background: ${t.toggleHandleBgActive};
+        height: ${t.toggleHandleCheckedHeight};
+        top: ${t.toggleHandleCheckedTop};
+        width: ${t.toggleHandleCheckedWidth};
       }
     `;
   },

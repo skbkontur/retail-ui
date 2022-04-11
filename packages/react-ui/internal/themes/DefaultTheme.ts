@@ -200,6 +200,9 @@ export class DefaultTheme {
   }
   //#endregion
   //#region TokenInput
+
+  public static tokenInputBorderRadius = '0px';
+
   public static get tokenInputBorderColor() {
     return this.inputBorderColor;
   }
@@ -592,6 +595,11 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Kebab
+
+  public static kebabPaddingXSmall = '0px';
+  public static kebabPaddingXMedium = '0px';
+  public static kebabPaddingXLarge = '0px';
+
   public static get kebabPinOffset() {
     return this.popupPinOffset;
   }
@@ -605,6 +613,8 @@ export class DefaultTheme {
   public static kebabBorder = '2px solid transparent';
   //#endregion
   //#region Modal
+  public static modalBorderRadius = '0';
+  public static modalHeaderFontWeight = 'normal';
   public static modalBackBg = '#222';
   public static get modalBg() {
     return this.bgSecondary;
@@ -902,6 +912,7 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Menu
+  public static menuPaddingX = '0';
   public static get menuBgDefault() {
     return this.bgSecondary;
   }
@@ -909,6 +920,7 @@ export class DefaultTheme {
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
   // menuItem
+  public static menuItemBorderRadius = '0px';
   public static get menuItemTextColor() {
     return this.textColorDefault;
   }
@@ -968,6 +980,7 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
+  public static toggleHandleBgActive = 'transparent';
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
@@ -983,6 +996,27 @@ export class DefaultTheme {
     const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
+  }
+  public static get toggleHandleSize() {
+    return `${parseInt(this.toggleHeight, 10) - 2 * parseInt(this.toggleBorderWidth, 10)}px`;
+  }
+  public static get toggleInputHandleSize() {
+    return `${parseInt(this.toggleHeight) - 4 * parseInt(this.toggleBorderWidth) - 2}px`;
+  }
+  public static get toggleHandleLeft() {
+    return this.toggleBorderWidth;
+  }
+  public static get toggleHandleTop() {
+    return this.toggleBorderWidth;
+  }
+  public static get toggleHandleCheckedHeight() {
+    return 'auto';
+  }
+  public static get toggleHandleCheckedTop() {
+    return '0';
+  }
+  public static get toggleHandleCheckedWidth() {
+    return 'auto';
   }
   public static toggleHeight = '20px';
   public static toggleWidth = '32px';
@@ -1612,6 +1646,9 @@ export class DefaultTheme {
   public static globalLoaderTransitionFromSpinnerDuration = '200'; //ms
   //#endregion
   //#region FileUploader
+  public static get fileUploaderBgHover() {
+    return 'transparent';
+  }
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '#fff';
   public static get fileUploaderFontSize() {

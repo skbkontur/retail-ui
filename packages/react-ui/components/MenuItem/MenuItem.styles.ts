@@ -18,6 +18,7 @@ export const styles = memoizeStyle({
       line-height: ${t.menuItemLineHeight};
       font-size: ${t.menuItemFontSize};
       padding: ${t.menuItemPaddingY} ${paddingX} ${paddingY} ${t.menuItemPaddingX};
+      border-radius: ${t.menuItemBorderRadius};
       position: relative;
       text-decoration: none;
       color: ${t.menuItemTextColor};

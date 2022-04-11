@@ -13,6 +13,7 @@ import { ComboBox } from '../../components/ComboBox';
 import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
+import { THEME_2022, THEME_2022_DARK } from '../../lib/theming/themes/Theme2022';
 import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
 
 import { ThemeEditor } from './ThemeEditor';
@@ -33,12 +34,16 @@ interface Themes {
   dark: Theme;
   defaultOld: Theme;
   flatOld: Theme;
+  theme2022: Theme;
+  theme2022Dark: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
   dark: ThemeErrorsType;
   defaultOld: ThemeErrorsType;
   flatOld: ThemeErrorsType;
+  theme2022: ThemeErrorsType;
+  theme2022Dark: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -55,6 +60,8 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     { value: ThemeType.Dark, label: 'Темная' },
     { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
     { value: ThemeType.FlatOld, label: 'Старая плоская' },
+    { value: ThemeType.Theme2022, label: 'Новая 2022' },
+    { value: ThemeType.Theme2022Dark, label: 'Новая 2022 Тёмная' },
   ];
 
   constructor(props: PlaygroundProps) {
@@ -68,12 +75,16 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
         defaultOld: DEFAULT_THEME_8PX_OLD,
         dark: DARK_THEME,
         flatOld: FLAT_THEME_8PX_OLD,
+        theme2022: THEME_2022,
+        theme2022Dark: THEME_2022_DARK,
       },
       themesErrors: {
         default: {},
         defaultOld: {},
         dark: {},
         flatOld: {},
+        theme2022: {},
+        theme2022Dark: {},
       },
     };
   }

@@ -50,6 +50,7 @@ export const styles = memoizeStyle({
       margin: auto;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
       background: ${t.modalBg};
+      border-radius: ${t.modalBorderRadius};
     `;
   },
 
@@ -194,6 +195,7 @@ export const styles = memoizeStyle({
   header(t: Theme) {
     return css`
       font-size: ${t.modalHeaderFontSize};
+      font-weight: ${t.modalHeaderFontWeight};
       line-height: ${t.modalHeaderLineHeight};
       padding: ${t.modalHeaderPaddingTop} ${t.modalPaddingRight} ${t.modalHeaderPaddingBottom} ${t.modalPaddingLeft};
       overflow-wrap: break-word;
