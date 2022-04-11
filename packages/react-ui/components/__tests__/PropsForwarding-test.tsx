@@ -91,9 +91,9 @@ describe('Props Forwarding', () => {
 
         const wrapperNode = getTestDOMNode(compName, wrapper);
 
-        expect(wrapperNode.getAttribute('data-tid')).toBe(props['data-tid']);
-        expect(wrapperNode.getAttribute('data-testid')).toBe(props['data-testid']);
-        expect(wrapperNode.classList.contains(props.className)).toBe(true);
+        expect(wrapperNode).toHaveAttribute('data-tid', props['data-tid']);
+        expect(wrapperNode).toHaveAttribute('data-testid', props['data-testid']);
+        expect(wrapperNode).toHaveClass(props.className);
         expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
       },
     );
