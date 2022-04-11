@@ -270,12 +270,12 @@ export class InternalDate {
     return InternalDateTransformer.dateToInternalString(this.getComponentsRaw());
   }
 
-  public toNativeFormat(): InternalDateComponentsNumber {
+  public toNativeFormat(): InternalDateComponentsNumber | null {
     const components = this.getComponentsLikeNumber();
     if (InternalDateValidator.compareWithNativeDate(components)) {
       return { ...components, month: components.month - 1 };
     }
-    return components;
+    return null;
   }
 
   public clone(): InternalDate {

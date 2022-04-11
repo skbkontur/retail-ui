@@ -354,8 +354,16 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     this.blur();
   };
 
-  private handleSelect = ({ date, month, year }: CalendarDateShape) => {
-    const value = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
+  private handleSelect = (dateShape: CalendarDateShape | null) => {
+    if (!dateShape) {
+      return null;
+    }
+
+    const value = InternalDateTransformer.dateToInternalString({
+      date: dateShape.date,
+      month: dateShape.month + 1,
+      year: dateShape.year,
+    });
     if (this.props.onValueChange) {
       this.props.onValueChange(value);
     }
