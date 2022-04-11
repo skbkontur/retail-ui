@@ -289,7 +289,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? React.cloneElement(anchor, {
             ref: (instance: Nullable<React.ReactInstance>) => {
               this.updateAnchorElement(instance);
-              const originalRef = (anchor as React.RefAttributes<any>)?.ref;
+              const originalRef = (anchor as React.RefAttributes<HTMLAnchorElement>)?.ref;
               originalRef && callChildRef(originalRef, instance);
             },
           })

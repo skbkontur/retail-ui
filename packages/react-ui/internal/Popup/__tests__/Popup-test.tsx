@@ -138,11 +138,13 @@ describe('properly renders opened/closed states ', () => {
     'div[data-tid="PopupContentInner"]',
   ];
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function traverseTree(root: ReactWrapper<any>, tree: ReactComponentLike[]): Nullable<ReactWrapper> {
     return tree.reduce((found: Nullable<ReactWrapper>, toFind) => {
       if (found) {
         // NOTE: приходится кастовать к тайпингам Enzyme'а
         // (https://github.com/skbkontur/retail-ui/pull/1434/files#r289259497)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const children = found.children(toFind as ComponentClass<any>);
         return children.length > 0 ? children : null;
       }

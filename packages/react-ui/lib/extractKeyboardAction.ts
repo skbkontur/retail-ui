@@ -2,13 +2,14 @@ import React from 'react';
 
 type ActionCheck = (x0: React.KeyboardEvent<HTMLElement>) => boolean;
 
-interface KeyboardActionMatcher<Actions> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface KeyboardActionMatcher<Actions = any> {
   type: Actions;
   check: (x0: React.KeyboardEvent<HTMLElement>) => boolean;
 }
 
 export class KeyboardActionExctracterBuilder<T> {
-  private _actionMatchers: Array<KeyboardActionMatcher<any>>;
+  private _actionMatchers: Array<KeyboardActionMatcher>;
 
   constructor(actionMatchers: Array<KeyboardActionMatcher<T>> = []) {
     this._actionMatchers = actionMatchers;

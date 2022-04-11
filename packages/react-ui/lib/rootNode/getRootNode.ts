@@ -12,6 +12,8 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return instance;
   }
 
+  // Intended behavior.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const instanceAsAny = instance as any;
   let node;
   if (instanceAsAny && isFunction(instanceAsAny.getRootNode)) {

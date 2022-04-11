@@ -70,6 +70,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
   public static defaultProps = {
+    // Was fixed in #2800.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     component: ({ className, onClick, children }: any) => (
       <span className={className} onClick={onClick}>
         {children}

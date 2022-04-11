@@ -16,7 +16,7 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
   });
 
-function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
+function isZeroArgs<R, T extends (...args: unknown[]) => R>(fn: T | Function): fn is () => R {
   return fn.length == 0;
 }
 

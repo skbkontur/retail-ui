@@ -150,8 +150,8 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
-interface FocusableReactElement extends React.ReactElement<any> {
-  focus: (event?: any) => void;
+interface FocusableReactElement extends React.ReactElement {
+  focus: () => void;
 }
 
 @responsiveLayout
@@ -664,27 +664,27 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 }
 
-function renderValue(value: any, item: any) {
+function renderValue<TValue, TItem>(value: TValue, item: TItem) {
   return item;
 }
 
-function renderItem(value: any, item: any) {
+function renderItem<TValue, TItem>(value: TValue, item: TItem) {
   return item;
 }
 
-function areValuesEqual(value1: any, value2: any) {
+function areValuesEqual<TFirst extends unknown, TSecond extends unknown>(value1: TFirst, value2: TSecond) {
   return value1 === value2;
 }
 
-function normalizeEntry(entry: any) {
+function normalizeEntry<T>(entry: T) {
   if (Array.isArray(entry)) {
     return entry;
-  } else {
-    return [entry, entry, undefined];
   }
+
+  return [entry, entry, undefined];
 }
 
-function filterItem(value: any, item: any, pattern: string) {
+function filterItem(value: unknown, item: React.ReactNode, pattern: string) {
   if (item === Select.SEP) {
     return false;
   }

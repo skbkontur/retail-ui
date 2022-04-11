@@ -1,8 +1,9 @@
 import React, { CSSProperties } from 'react';
 
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
-import { isMenuHeader } from '../../components/MenuHeader';
+import { isMenuHeader, MenuHeaderProps } from '../../components/MenuHeader';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -147,7 +148,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       }
 
       if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-        child = React.cloneElement(child, {
+        child = React.cloneElement<MenuItemProps | MenuHeaderProps>(child, {
           _enableIconPadding: true,
         });
       }
@@ -176,7 +177,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private refHighlighted(
-    originalRef: ((menuItem: MenuItem | null) => any) | React.RefObject<MenuItem> | null | undefined,
+    originalRef: ((menuItem: MenuItem | null) => void) | React.RefObject<MenuItem> | null | undefined,
     menuItem: MenuItem | null,
   ) {
     this.highlighted = menuItem;
@@ -274,12 +275,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

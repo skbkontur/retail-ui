@@ -2,8 +2,10 @@ import * as ColorFunctions from '../ColorFunctions';
 
 describe('ColorFunctions', () => {
   test('returns empty string for unexpected input', () => {
-    expect(ColorFunctions.lighten(null as any, '10%')).toBe('');
-    expect(ColorFunctions.darken(null as any, '10%')).toBe('');
+    // @ts-expect-error: argument of wrong type passed intentionally.
+    expect(ColorFunctions.lighten(null, '10%')).toBe('');
+    // @ts-expect-error: argument of wrong type passed intentionally.
+    expect(ColorFunctions.darken(null, '10%')).toBe('');
   });
 
   describe('extracts red', () => {

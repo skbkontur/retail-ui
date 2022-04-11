@@ -3,6 +3,7 @@ import * as PropTypes from 'prop-types';
 import { isBrowser } from './client';
 
 export function safePropTypesInstanceOf<T>(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getExpectedClass: () => new (...args: any[]) => T,
 ): PropTypes.Requireable<T> {
   if (isBrowser) {
@@ -12,7 +13,7 @@ export function safePropTypesInstanceOf<T>(
   return PropTypes.any;
 }
 
-export function isHTMLElement(el: any): el is HTMLElement {
+export function isHTMLElement(el: unknown): el is HTMLElement {
   if (isBrowser) {
     return el instanceof HTMLElement;
   }

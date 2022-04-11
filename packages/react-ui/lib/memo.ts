@@ -1,8 +1,10 @@
-type MemoFunction<T> = (...args: T[]) => any;
+type MemoFunction<T> = (...args: T[]) => void;
 
-export function memo<T>(fn: MemoFunction<T>) {
-  let cache: { [key: string]: any } = {};
-  const getHash = (args: any[]) => args.reduce((acc, x) => acc + x, '');
+export function memo<T extends string | number>(fn: MemoFunction<T>) {
+  // The value can actually be `any`thing.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let cache: Record<string, any> = {};
+  const getHash = (args: T[]) => args.reduce((acc, x) => acc + x, '');
   let keysCount = 0;
   const limit = 1e4;
 

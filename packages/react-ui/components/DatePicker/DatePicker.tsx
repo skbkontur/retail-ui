@@ -15,6 +15,7 @@ import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
+import { HTMLProps } from '../../typings/html-props';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -30,7 +31,8 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps<T> extends CommonProps {
+type LabelInteractiveEvents = Pick<HTMLProps['label'], 'onKeyDown' | 'onMouseEnter' | 'onMouseLeave' | 'onMouseOver'>;
+export interface DatePickerProps<T> extends CommonProps, LabelInteractiveEvents {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -56,10 +58,6 @@ export interface DatePickerProps<T> extends CommonProps {
    */
   onValueChange: (value: T) => void;
   onFocus?: () => void;
-  onKeyDown?: (e: React.KeyboardEvent<any>) => void;
-  onMouseEnter?: (e: React.MouseEvent<any>) => void;
-  onMouseLeave?: (e: React.MouseEvent<any>) => void;
-  onMouseOver?: (e: React.MouseEvent<any>) => void;
   /**
    * Использовать на мобильных устройствах нативный календарь для выбора дат.
    *

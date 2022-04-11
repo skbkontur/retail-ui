@@ -3,7 +3,7 @@ interface ApiResponseType {
   status: number;
   statusText: string;
   text: () => Promise<string>;
-  json: () => Promise<Record<string, any>>;
+  json: () => Promise<Record<string, unknown>>;
 }
 
 type Result = Promise<ApiResponseType>;

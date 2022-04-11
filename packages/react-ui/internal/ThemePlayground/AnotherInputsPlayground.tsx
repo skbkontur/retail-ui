@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Tooltip } from '../../components/Tooltip';
-import { DatePicker } from '../../components/DatePicker';
+import { DatePicker, DatePickerProps } from '../../components/DatePicker';
 
-export class DatePickerPlayground extends React.Component<any, any> {
+export class DatePickerPlayground extends React.Component<Partial<DatePickerProps<string>>> {
   public state = {
     value: '17.06.2019',
     error: false,

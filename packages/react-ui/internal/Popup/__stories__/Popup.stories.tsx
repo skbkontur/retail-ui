@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Popup, PopupPositionsType } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
@@ -195,7 +195,7 @@ interface AlwaysOpenedState {
   anchor: Nullable<HTMLElement>;
 }
 
-class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
+class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState> {
   public state: AlwaysOpenedState = {
     anchor: null,
   };
@@ -270,7 +270,8 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
   };
 }
 
-class PopupWithPositions extends Component<any, any> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+class PopupWithPositions extends React.Component<any> {
   public state = {
     opened: false,
     anchor: null,
@@ -345,7 +346,8 @@ class PopupWithPositions extends Component<any, any> {
   };
 }
 
-class FakeHint extends Component<any, any> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+class FakeHint extends React.Component<any> {
   public state = {
     anchor: null,
   };
@@ -392,7 +394,8 @@ class FakeHint extends Component<any, any> {
   }
 }
 
-class Toast extends Component<any, any> {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+class Toast extends React.Component<any> {
   public state = {
     anchor: null,
   };
@@ -452,7 +455,7 @@ interface HoverTestProps {
   popupProps?: { useWrapper: boolean };
   useText?: boolean;
 }
-class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
+class TooltipWithCombobox extends React.Component<HoverTestProps, HasDropdownState> {
   public state: HasDropdownState = {};
 
   public render() {
@@ -486,7 +489,7 @@ class TooltipWithCombobox extends Component<HoverTestProps, HasDropdownState> {
   };
 }
 
-class HintWithSelect extends Component<HoverTestProps, HasDropdownState> {
+class HintWithSelect extends React.Component<HoverTestProps, HasDropdownState> {
   public state: HasDropdownState = {};
 
   public render() {
@@ -552,7 +555,7 @@ const DescribeProps = (props: HoverTestProps) => {
   );
 };
 
-class HoverBehaviour extends Component<any, any> {
+class HoverBehaviour extends React.Component {
   public render() {
     return (
       <table cellPadding={20}>

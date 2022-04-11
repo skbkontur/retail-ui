@@ -5,7 +5,7 @@ import { isForwardRef } from 'react-is';
 import { isBrowser } from './client';
 
 // NOTE: Copy-paste from @types/react
-export type Defaultize<P, D> = P extends any
+export type Defaultize<P, D> = P extends unknown
   ? string extends keyof P
     ? P
     : Pick<P, Exclude<keyof P, keyof D>> &
@@ -17,7 +17,8 @@ export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaul
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-export const emptyHandler = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
+export const emptyHandler = (...args: any[]) => {
   /* noop */
 };
 
@@ -118,7 +119,7 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
  * @param name Component name for which function will be created.
  * @returns A function that checks if the given `child` is an instance of the component specified by `name`.
  */
-export const isReactUIComponent = <P = any>(name: string) => {
+export const isReactUIComponent = <P = unknown>(name: string) => {
   return (child: React.ReactNode): child is React.ReactElement<P> => {
     // @ts-expect-error: Property `type` doesn't exist on type `React.ReactNode`, but exists on type `React.ReactElement` meanwhile `React.ReactElement` is not compatible with `React` `children` type.
     return child?.type?.__KONTUR_REACT_UI__ === name;
@@ -138,7 +139,9 @@ export const isReactUIComponent = <P = any>(name: string) => {
  *  return <div ref={mergeRefs([localRef, ref])} />;
  * });
  */
-export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
+export function mergeRefs<T = unknown>(
+  refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>,
+): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
@@ -157,8 +160,8 @@ export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React
  * @returns Separated data attributes and all other props.
  */
 export const extractDataProps = <T>(props: T) => {
-  const dataProps: Record<string, any> = {};
-  const restWithoutDataProps: Record<string, any> = {};
+  const dataProps: Record<string, unknown> = {};
+  const restWithoutDataProps: Record<string, unknown> = {};
 
   Object.entries(props).map(([name, value]) => {
     if (name.startsWith('data-')) {

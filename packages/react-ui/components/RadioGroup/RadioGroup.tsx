@@ -12,12 +12,15 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { HTMLProps } from '../../typings/html-props';
 
 import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
-export interface RadioGroupProps<T = string | number> extends CommonProps {
+export interface RadioGroupProps<T = string | number>
+  extends CommonProps,
+    Pick<HTMLProps['html'], 'onMouseLeave' | 'onMouseOver' | 'onMouseEnter'> {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
@@ -72,9 +75,6 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   /** Вызывается при изменении `value` */
   onValueChange?: (value: T) => void;
   onBlur?: (event: FocusEvent) => void;
-  onMouseLeave?: () => any;
-  onMouseOver?: () => any;
-  onMouseEnter?: () => any;
 }
 
 export interface RadioGroupState<T> {

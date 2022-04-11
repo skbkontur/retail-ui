@@ -7,7 +7,7 @@ import { TokenInputLocale } from '../../components/TokenInput/locale';
 import { FileUploaderLocale } from '../../components/FileUploader/locale';
 
 export interface LocaleControls {
-  [key: string]: any;
+  [key: string]: unknown;
   Spinner?: Partial<SpinnerLocale>;
   TokenInput?: Partial<TokenInputLocale>;
   ComboBox?: Partial<ComboBoxLocale>;
