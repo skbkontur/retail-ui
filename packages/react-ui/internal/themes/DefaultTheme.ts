@@ -980,7 +980,13 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
-  public static toggleHandleBgActive = 'transparent';
+
+  // custom
+  public static get toogleHandleBgActive() {
+    return 'auto';
+  }
+  // /custom
+
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
@@ -998,6 +1004,10 @@ export class DefaultTheme {
     return `${handleSize / 2}px`;
   }
   public static get toggleHandleSize() {
+    // const height = parseInt(this.toggleHeight, 10) || 0;
+    // const borderWidth =  parseInt(this.toggleBorderWidth, 10);
+    // const handleSize = height - 2 * borderWidth;
+    // return `${handleSize}px`;
     return `${parseInt(this.toggleHeight, 10) - 2 * parseInt(this.toggleBorderWidth, 10)}px`;
   }
   public static get toggleInputHandleSize() {
@@ -1009,11 +1019,11 @@ export class DefaultTheme {
   public static get toggleHandleTop() {
     return this.toggleBorderWidth;
   }
-  public static get toggleHandleCheckedHeight() {
+  public static get toggleInputHandleCheckedHeight() {
     return 'auto';
   }
   public static get toggleHandleCheckedTop() {
-    return '0';
+    return this.toggleBorderWidth;
   }
   public static get toggleHandleCheckedWidth() {
     return 'auto';
@@ -1601,6 +1611,7 @@ export class DefaultTheme {
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;
   }
+  public static switcherErrorBorderRadius = '2px';
   //#endregion
   //#region MobilePopup
   public static mobilePopupTopPadding = '20px';

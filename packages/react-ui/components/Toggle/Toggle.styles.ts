@@ -50,6 +50,7 @@ export const styles = memoizeStyle({
     return css`
       background: ${t.toggleBg};
       border-radius: ${t.toggleHandleBorderRadius};
+      bottom: ${t.toggleBorderWidth};
       box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
       height: ${t.toggleHandleSize};
       left: ${t.toggleHandleLeft};
@@ -101,10 +102,10 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
-        background: ${t.toggleHandleBgActive};
-        height: ${t.toggleHandleCheckedHeight};
+        background: ${t.toogleHandleBgActive};
+        height: ${t.toggleInputHandleCheckedHeight};
         top: ${t.toggleHandleCheckedTop};
-        width: ${t.toggleHandleCheckedWidth};
+        height: ${t.toggleInputHandleCheckedHeight};
       }
     `;
   },

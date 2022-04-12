@@ -104,8 +104,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get toggleHandleTop() {
     return `${parseInt(this.toggleBorderWidth) + 1}px`;
   }
-  public static get toggleHandleCheckedHeight() {
-    return this.toggleInputHandleSize;
+  public static get toggleInputHandleCheckedHeight() {
+    return `${parseInt(this.toggleHeight) - 4 * parseInt(this.toggleBorderWidth) - 2}px`;
+  }
+  public static get toogleHandleBgActive() {
+    return this.white
   }
   public static get toggleHandleCheckedTop() {
     return `${parseInt(this.toggleBorderWidth) + 2}px`;
@@ -115,6 +118,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   }
 
   public static popupBorderRadius = '8px';
+
+  public static switcherErrorBorderRadius = '8px';
 }
 
 export const Theme2022Internal = Object.setPrototypeOf(
