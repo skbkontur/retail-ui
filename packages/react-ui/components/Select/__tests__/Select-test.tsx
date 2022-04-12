@@ -37,7 +37,7 @@ describe('Select', () => {
         items={objectItems}
         renderItem={(x) => x.name}
         renderValue={(x) => x?.name}
-        areValuesEqual={(x1, x2) => x1?.id === x2?.id}
+        areValuesEqual={(x1, x2) => x1.id === x2.id}
       />,
     );
 
