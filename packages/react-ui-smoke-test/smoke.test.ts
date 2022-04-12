@@ -74,8 +74,6 @@ function buildReactUI(reactUIPackagePath: string) {
 function initApplication(appDirectory: string, templateDirectory: string, reactUIPackagePath: string) {
   execSync(`npx create-react-app@latest ${appDirectory} --template file:${templateDirectory}`, { stdio: 'inherit' });
 
-  execSync(`npm i @types/node @types/react @types/react-dom @types/jest -D`, { cwd: appDirectory, stdio: 'inherit' });
-
   // yarn save and get package from cache
   // https://github.com/yarnpkg/yarn/issues/2165
   execSync(`npm install ${reactUIPackagePath}`, { cwd: appDirectory, stdio: 'inherit' });
