@@ -108,7 +108,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return `${parseInt(this.toggleHeight) - 4 * parseInt(this.toggleBorderWidth) - 2}px`;
   }
   public static get toogleHandleBgActive() {
-    return this.white
+    return this.white;
   }
   public static get toggleHandleCheckedTop() {
     return `${parseInt(this.toggleBorderWidth) + 2}px`;
