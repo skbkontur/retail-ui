@@ -1004,10 +1004,6 @@ export class DefaultTheme {
     return `${handleSize / 2}px`;
   }
   public static get toggleHandleSize() {
-    // const height = parseInt(this.toggleHeight, 10) || 0;
-    // const borderWidth =  parseInt(this.toggleBorderWidth, 10);
-    // const handleSize = height - 2 * borderWidth;
-    // return `${handleSize}px`;
     return `${parseInt(this.toggleHeight, 10) - 2 * parseInt(this.toggleBorderWidth, 10)}px`;
   }
   public static get toggleInputHandleSize() {
