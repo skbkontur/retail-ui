@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.4...@skbkontur/react-ui@4.0.5) (2022-04-12)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix focus and fragments selection ([#2858](https://github.com/skbkontur/retail-ui/issues/2858)) ([ec4499e](https://github.com/skbkontur/retail-ui/commit/ec4499e444fead65fcaeb703e129ee3adb0f6fe4)), closes [#2614](https://github.com/skbkontur/retail-ui/issues/2614)
+
+
+
+
+
+## [4.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.3...@skbkontur/react-ui@4.0.4) (2022-04-01)
+
+
+### Bug Fixes
+
+* **Tooltip:** do not call onOpen after close ([#2848](https://github.com/skbkontur/retail-ui/issues/2848)) ([a3e0772](https://github.com/skbkontur/retail-ui/commit/a3e07728e9ed25b48afcc5a995acfbb7f5d7c93a))
+* corrected ThemeFactory.overrideDefaultTheme ([#2845](https://github.com/skbkontur/retail-ui/issues/2845)) ([2cc964f](https://github.com/skbkontur/retail-ui/commit/2cc964f5a7f052a442893e1312de1cf9115e131f))
+
+
+
+
+
 ## [4.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.2...@skbkontur/react-ui@4.0.3) (2022-03-22)
 
 
