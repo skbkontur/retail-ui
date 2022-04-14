@@ -9833,7 +9833,7 @@ create-react-context@0.3.0:
 
 creevey@0.7.35:
   version "0.7.35"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/creevey/-/creevey-0.7.35.tgz#8c0afe7ac4742ae9b5e945545b073703cccf75d0"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.7.35.tgz#8c0afe7ac4742ae9b5e945545b073703cccf75d0"
   integrity sha512-2gQjgky4k4OUtnplf3WUPRXBB6vn44kv9urpsj3X7eTsNo0Qai06IKoXB4w4u7YutDcaHk5DjfXQfVAuXZaUbw==
   dependencies:
     "@babel/code-frame" "^7.12.13"
@@ -11459,7 +11459,7 @@ etag@~1.8.1:
 
 event-source-polyfill@1.0.25:
   version "1.0.25"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/event-source-polyfill/-/event-source-polyfill-1.0.25.tgz#d8bb7f99cb6f8119c2baf086d9f6ee0514b6d9c8"
+  resolved "https://registry.npmjs.org/event-source-polyfill/-/event-source-polyfill-1.0.25.tgz#d8bb7f99cb6f8119c2baf086d9f6ee0514b6d9c8"
   integrity sha512-hQxu6sN1Eq4JjoI7ITdQeGGUN193A2ra83qC0Ltm9I2UJVAten3OFVN6k5RX4YWeCS0BoC8xg/5czOCIHVosQg==
 
 event-source-polyfill@^1.0.21:
@@ -16752,7 +16752,7 @@ log-symbols@^3.0.0:
 
 loglevel-plugin-prefix@^0.8.4:
   version "0.8.4"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/loglevel-plugin-prefix/-/loglevel-plugin-prefix-0.8.4.tgz#2fe0e05f1a820317d98d8c123e634c1bd84ff644"
+  resolved "https://registry.npmjs.org/loglevel-plugin-prefix/-/loglevel-plugin-prefix-0.8.4.tgz#2fe0e05f1a820317d98d8c123e634c1bd84ff644"
   integrity sha512-WpG9CcFAOjz/FtNht+QJeGpvVl/cdR6P0z6OcXSkr8wFJOsV2GRj2j10JLfjuA4aYkcKCNIEqRGCyTife9R8/g==
 
 loglevel@^1.6.4, loglevel@^1.6.8:
@@ -16762,7 +16762,7 @@ loglevel@^1.6.4, loglevel@^1.6.8:
 
 loglevel@^1.7.1:
   version "1.8.0"
-  resolved "https://nexus.kontur.host/repository/kontur-npm-group/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
+  resolved "https://registry.npmjs.org/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
   integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
 
 lolex@^5.0.0:
