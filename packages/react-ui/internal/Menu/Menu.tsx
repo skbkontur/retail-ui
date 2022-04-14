@@ -9,11 +9,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isIE11 } from '../../lib/client';
+import { CommonProps } from '../CommonWrapper';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
 
-export interface MenuProps {
+export interface MenuProps extends CommonProps {
   children: React.ReactNode;
   hasShadow?: boolean;
   maxHeight?: number | string;
@@ -114,11 +115,15 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        className={cx(getAlignRightClass(this.props), {
-          [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.props.hasShadow,
-        })}
-        style={getStyle(this.props)}
+        className={cx(
+          getAlignRightClass(this.props),
+          {
+            [styles.root(this.theme)]: true,
+            [styles.shadow(this.theme)]: this.props.hasShadow,
+          },
+          this.props.className,
+        )}
+        style={{ ...getStyle(this.props), ...this.props.style }}
         ref={this.setRootNode}
       >
         <ScrollContainer

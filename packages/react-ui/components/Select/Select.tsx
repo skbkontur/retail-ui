@@ -458,6 +458,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
           onItemClick={this.close}
           maxHeight={this.props.maxMenuHeight}
           align={this.props.menuAlign}
+          className={styles.selectMenu(this.theme)}
         >
           {search}
           {this.getMenuItems(value)}
