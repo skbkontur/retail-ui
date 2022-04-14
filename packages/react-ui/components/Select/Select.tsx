@@ -58,6 +58,12 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true,
 };
 
+type SelectItem<TValue, TItem> =
+  | [TValue, TItem, React.ReactNode?]
+  | TItem
+  | React.ReactElement
+  | (() => React.ReactElement);
+
 export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
   _icon?: React.ReactNode;
@@ -98,7 +104,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    * <Select.Item>My Element</Select.Item>
    * ```
    */
-  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
+  items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
