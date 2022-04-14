@@ -23,7 +23,7 @@ const resolverStorybookUrl = (port) => ({
 });
 
 const config = {
-  ...resolverStorybookUrl(6060),
+  ...resolverStorybookUrl(6064),
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
@@ -36,82 +36,122 @@ const config = {
   }),
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
-    chrome8px: {
+    // chrome8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/chrome8px',
+    //   ...capabilities,
+    // },
+    // chromeFlat8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/chromeFlat8px',
+    //   ...capabilities,
+    // },
+    // chrome: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/chrome',
+    //   ...capabilities,
+    // },
+    // chromeDark: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DARK_THEME',
+    //   },
+    //   backgrounds: { default: 'dark' },
+    //   name: 'infrafront/chromeDark',
+    //   ...capabilities,
+    // },
+    chrome2022: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME_8PX_OLD',
+        theme: 'THEME_2022',
       },
-      name: 'infrafront/chrome8px',
+      name: 'infrafront/chrome2022',
       ...capabilities,
     },
-    chromeFlat8px: {
+    chrome2022Dark: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
-        theme: 'FLAT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/chromeFlat8px',
-      ...capabilities,
-    },
-    chrome: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/chrome',
-      ...capabilities,
-    },
-    chromeDark: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DARK_THEME',
+        theme: 'THEME_2022_DARK',
       },
       backgrounds: { default: 'dark' },
-      name: 'infrafront/chromeDark',
+      name: 'infrafront/chrome2022Dark',
       ...capabilities,
     },
-    firefox8px: {
+    // firefox8px: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/firefox8px',
+    //   ...capabilities,
+    // },
+    // firefoxFlat8px: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/firefoxFlat8px',
+    //   ...capabilities,
+    // },
+    // firefox: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/firefox',
+    //   ...capabilities,
+    // },
+    // firefoxDark: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DARK_THEME',
+    //   },
+    //   backgrounds: { default: 'dark' },
+    //   name: 'infrafront/firefoxDark',
+    //   ...capabilities,
+    // },
+    firefox2022: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME_8PX_OLD',
+        theme: 'THEME_2022',
       },
-      name: 'infrafront/firefox8px',
+      name: 'infrafront/firefox2022',
       ...capabilities,
     },
-    firefoxFlat8px: {
+    firefox2022Dark: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/firefoxFlat8px',
-      ...capabilities,
-    },
-    firefox: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/firefox',
-      ...capabilities,
-    },
-    firefoxDark: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DARK_THEME',
+        theme: 'THEME_2022_DARK',
       },
       backgrounds: { default: 'dark' },
-      name: 'infrafront/firefoxDark',
+      name: 'infrafront/firefox2022Dark',
       ...capabilities,
     },
     // NOTE Enable after switch new separate pool for IE to allow test hover
@@ -123,53 +163,72 @@ const config = {
     //   'ie.browserCommandLineSwitches': '-private',
     //   'ie.ensureCleanSession': true,
     // },
-    ie118px: {
+    // ie118px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/ie118px',
+    //   ...capabilities,
+    // },
+    // ie11Flat8px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/ie11Flat8px',
+    //   ...capabilities,
+    // },
+    // ie11: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/ie11',
+    //   ...capabilities,
+    // },
+    // ie11Dark: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DARK_THEME',
+    //   },
+    //   backgrounds: { default: 'dark' },
+    //   name: 'infrafront/ie11Dark',
+    //   ...capabilities,
+    // },
+    ie112022: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'DEFAULT_THEME_8PX_OLD',
+        theme: 'THEME_2022',
       },
-      name: 'infrafront/ie118px',
+      name: 'infrafront/ie112022',
       ...capabilities,
     },
-    ie11Flat8px: {
+    ie112022Dark: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
-        theme: 'FLAT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/ie11Flat8px',
-      ...capabilities,
-    },
-    ie11: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/ie11',
-      ...capabilities,
-    },
-    ie11Dark: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DARK_THEME',
+        theme: 'THEME_2022_DARK',
       },
       backgrounds: { default: 'dark' },
-      name: 'infrafront/ie11Dark',
+      name: 'infrafront/ie112022Dark',
       ...capabilities,
     },
-    chromeMobile: {
-      browserName: 'chrome',
-      viewport: { width: 400, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_MOBILE',
-      },
-      name: 'infrafront/chromeMobile',
-      ...capabilities,
-    },
+    // chromeMobile: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 400, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_MOBILE',
+    //   },
+    //   name: 'infrafront/chromeMobile',
+    //   ...capabilities,
+    // },
   },
 };
 
