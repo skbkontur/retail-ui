@@ -9,7 +9,7 @@ type ActionFunc<T, K extends ArgsBaseType> = {
 };
 
 export class ConditionalHandler<T, K extends ArgsBaseType = any[]> {
-  private readonly actions: ActionFunc<T, K>[] = [];
+  private readonly actions: Array<ActionFunc<T, K>> = [];
 
   public add(condition: Condition<T>, handler: Handler<K>): ConditionalHandler<T, K> {
     this.actions.push({ condition, handler });

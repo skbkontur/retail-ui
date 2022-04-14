@@ -517,8 +517,15 @@ WithSearchAndVariousWidth.parameters = {
 };
 
 export const WithMenuAlignAndVariousWidth: Story = () => {
-  const widths: SelectProps<any, any>['width'][] = [undefined, '80px', '120px', '80%', '120%', 'calc(100% + 40px)'];
-  const row: Partial<SelectProps<any, any>>[] = [
+  const widths: Array<SelectProps<any, any>['width']> = [
+    undefined,
+    '80px',
+    '120px',
+    '80%',
+    '120%',
+    'calc(100% + 40px)',
+  ];
+  const row: Array<Partial<SelectProps<any, any>>> = [
     { menuAlign: 'right' },
     { menuAlign: 'right', disablePortal: true },
     { menuAlign: 'left' },

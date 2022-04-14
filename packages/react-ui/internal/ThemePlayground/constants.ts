@@ -37,4 +37,4 @@ export const VARIABLES_GROUPS = [
   { title: 'GlobalLoader', prefix: 'globalLoader' },
 ];
 
-export const DEPRECATED_VARIABLES: (keyof Theme)[] = [];
+export const DEPRECATED_VARIABLES: Array<keyof Theme> = [];

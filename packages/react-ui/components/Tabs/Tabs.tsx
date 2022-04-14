@@ -77,7 +77,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   private theme!: Theme;
 
-  private tabs: TabType<T>[] = [];
+  private tabs: Array<TabType<T>> = [];
 
   private tabUpdates = {
     on: (cb: () => void) => {
@@ -88,7 +88,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     },
   };
 
-  private listeners: typeof emptyHandler[] = [];
+  private listeners: Array<typeof emptyHandler> = [];
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {

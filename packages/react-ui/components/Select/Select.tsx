@@ -104,7 +104,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    * <Select.Item>My Element</Select.Item>
    * ```
    */
-  items?: SelectItem<TValue, TItem>[];
+  items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';

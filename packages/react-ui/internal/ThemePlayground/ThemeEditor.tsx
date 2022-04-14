@@ -93,7 +93,7 @@ interface GroupProps {
   currentTheme: Theme;
   currentErrors: ThemeErrorsType;
   title: string;
-  variables: (keyof Theme)[];
+  variables: Array<keyof Theme>;
   onValueChange: (variable: keyof Theme, value: string) => void;
 }
 const Group = (props: GroupProps) => {
@@ -149,7 +149,7 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   return [...acc, ...splitPrefix];
 };
 
-type GetBaseVariablesReturnType = (keyof Theme)[];
+type GetBaseVariablesReturnType = Array<keyof Theme>;
 const getBaseVariables = (theme: Theme, variable: keyof Theme): GetBaseVariablesReturnType => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
     if (Object.prototype.hasOwnProperty.call(theme, variable)) {

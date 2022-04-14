@@ -17,7 +17,7 @@ export class ThemeFactory {
   }
 
   public static getKeys<T extends Theme>(theme: T) {
-    const keys: (keyof T)[] = [];
+    const keys: Array<keyof T> = [];
     while (theme != null) {
       (Object.keys(theme) as typeof keys).forEach((key) => {
         if (!keys.includes(key)) {
