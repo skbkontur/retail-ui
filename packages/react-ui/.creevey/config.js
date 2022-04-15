@@ -23,7 +23,7 @@ const resolverStorybookUrl = (port) => ({
 });
 
 const config = {
-  ...resolverStorybookUrl(6064),
+  ...resolverStorybookUrl(6060),
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
   screenDir: path.join(__dirname, 'images'),
