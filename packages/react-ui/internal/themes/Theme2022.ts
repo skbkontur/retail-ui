@@ -14,6 +14,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.primary;
   }
 
+  public static inputBorderRadiusSmall = '2px';
+  public static inputBorderRadiusMedium = '2px';
+  public static inputBorderRadiusLarge = '2px';
+
+  public static textareaBorderRadius = '2px';
+
   public static get calendarCellHoverBgColor() {
     return this.primary;
   }
