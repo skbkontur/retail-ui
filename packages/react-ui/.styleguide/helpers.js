@@ -84,6 +84,7 @@ const getCommonSections = () => {
     { name: 'LocaleContext', content: path.join(__dirname, '../lib/locale/LOCALECONTEXT.md') },
     { name: 'SSR', content: path.join(__dirname, '../SSR.md') },
     { name: 'Mobiles', content: path.join(__dirname, '../MOBILES.md') },
+    { name: 'Accessibility', content: path.join(__dirname, '../../../accessibility.md') },
     {
       name: 'Customization',
       sectionDepth: 1,
