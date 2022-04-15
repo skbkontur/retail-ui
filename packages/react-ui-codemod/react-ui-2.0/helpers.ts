@@ -96,7 +96,7 @@ export const moveSpecifierToSeparateDeclaration: (
 };
 
 export const dedupe: (collection: Collection<any>) => void = (collection): void => {
-  const map: { [key: string]: Array<ASTPath<any>> } = {};
+  const map: { [key: string]: ASTPath<any>[] } = {};
 
   collection.forEach((declaration: any) => {
     const source = declaration.value.source.value;
