@@ -53,6 +53,7 @@
     "@typescript-eslint/ban-ts-ignore": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/array-type": [1, { "default": "array-simple" }],
     "@typescript-eslint/no-non-null-assertion": 0,
     "jsx-a11y/click-events-have-key-events": 0,
     "react-hooks/exhaustive-deps": 0,

@@ -805,6 +805,8 @@ interface SimpleComboboxState {
   value: Nullable<{ value: number; label: string }>;
 }
 
+type ComboboxItem = { value: number; label: string };
+
 @rootNode
 class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
   public static defaultProps = {
@@ -839,11 +841,11 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         { value: 6, label: 'Sixth' },
         { value: 7, label: 'A long long long long long long time ago' },
       ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
-    ).then<Array<{ value: number; label: string }>>(
-      (result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)),
-    );
+    ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
+type City = { Id: number; City: string };
+type ComboboxSearchResult = { foundItems: City[]; totalCount: number };
 class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, {}> {
   public static defaultProps = ComboBox.defaultProps;
   public state = {
@@ -871,7 +873,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
 
   private getItems = (query: string) => {
     return getCities(query)
-      .then(({ foundItems, totalCount }: { foundItems: Array<{ Id: number; City: string }>; totalCount: number }) => ({
+      .then(({ foundItems, totalCount }: ComboboxSearchResult) => ({
         foundItems: foundItems.map(this.mapCity),
         totalCount,
       }))
