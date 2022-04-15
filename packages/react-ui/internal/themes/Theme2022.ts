@@ -14,11 +14,17 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
     return this.primary;
   }
 
+  public static inputBorderRadiusSmall = '2px';
+  public static inputBorderRadiusMedium = '2px';
+  public static inputBorderRadiusLarge = '2px';
+
+  public static textareaBorderRadius = '2px';
+
   public static get calendarCellHoverBgColor() {
     return this.primary;
   }
 
-  public static lightBackground = 'rgba(0,0,0,0.4)';
+  public static lightBackground = 'rgba(0,0,0,0.04)';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
@@ -72,6 +78,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get fileUploaderTextColorDefault() {
     return this.gray;
   }
+  public static fileUploaderLinkHoverTextDecoration = 'none';
+  public static fileUploaderHoveredBg = 'rgba(0,0,0,0.04)';
 
   public static radioBulletSize = '6px';
 
@@ -84,9 +92,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static kebabPaddingXMedium = '6px';
   public static kebabPaddingXLarge = '8px';
 
-  public static get toastBorderRadius() {
-    return this.popupBorderRadius;
-  }
+  public static toastBorderRadius = '8px';
 
   public static get dropdownMenuHoverBg() {
     //deprecated
@@ -95,14 +101,15 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static toggleHandleBgActive = this.white;
   public static toggleBg = this.primary;
+  public static toggleBoxShadowColor = this.primary;
   public static get toggleHandleSize() {
-    return `${parseInt(this.toggleHeight, 10) - 4 * parseInt(this.toggleBorderWidth, 10)}px`;
+    return `${parseInt(this.toggleHeight, 10) - 6 * parseInt(this.toggleBorderWidth, 10)}px`;
   }
   public static get toggleHandleLeft() {
-    return `${parseInt(this.toggleBorderWidth) + 1}px`;
+    return `${parseInt(this.toggleBorderWidth) + 2}px`;
   }
   public static get toggleHandleTop() {
-    return `${parseInt(this.toggleBorderWidth) + 1}px`;
+    return `${parseInt(this.toggleBorderWidth) + 2}px`;
   }
   public static get toggleInputHandleCheckedHeight() {
     return `${parseInt(this.toggleHeight) - 4 * parseInt(this.toggleBorderWidth) - 2}px`;

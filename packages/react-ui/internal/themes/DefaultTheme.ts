@@ -1035,6 +1035,7 @@ export class DefaultTheme {
   public static get toggleBgDisabled() {
     return this.bgDisabled;
   }
+  public static toggleBoxShadowColor = 'rgba(0, 0, 0, 0.15)';
   public static toggleBgDisabledChecked = '#dadada';
   public static toggleBgHover = '#f3f3f2';
   public static toggleBgChecked = '#1874cf';
@@ -1693,10 +1694,14 @@ export class DefaultTheme {
     return this.borderColorWarning;
   }
   public static fileUploaderDisabledBg = '#f2f2f2';
+  public static fileUploaderHoveredBg = '#fff';
   public static fileUploaderDisabledBorderColor = '#f2f2f2';
   public static fileUploaderDisabledTextColor = '#808080';
   public static fileUploaderDisabledLinkColor = '#808080';
   public static fileUploaderDisabledIconColor = '#A0A0A0';
+  public static get fileUploaderLinkHoverTextDecoration() {
+    return this.linkHoverTextDecoration;
+  }
   //#endregion
 }
 

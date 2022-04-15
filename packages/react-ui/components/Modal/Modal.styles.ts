@@ -249,6 +249,7 @@ export const styles = memoizeStyle({
     return css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalFooterTextColor};
+      border-radius: 0 0 ${t.modalBorderRadius} ${t.modalBorderRadius};
     `;
   },
 
