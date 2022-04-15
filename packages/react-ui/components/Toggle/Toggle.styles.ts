@@ -51,13 +51,13 @@ export const styles = memoizeStyle({
       background: ${t.toggleBg};
       border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
-      box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
+      box-shadow: 0 ${t.toggleBorderWidth} 0 0 ${t.toggleBoxShadowColor}, 0 0 0 ${t.toggleBorderWidth} ${t.toggleBoxShadowColor};
       height: ${t.toggleHandleSize};
-      left: ${t.toggleHandleLeft};
+      width: ${t.toggleHandleSize};
       position: absolute;
+      left: ${t.toggleHandleLeft};
       top: ${t.toggleHandleTop};
       transition: 0.2s ease-in;
-      width: ${t.toggleHandleSize};
     `;
   },
 
@@ -104,8 +104,8 @@ export const styles = memoizeStyle({
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
         background: ${t.toogleHandleBgActive};
         height: ${t.toggleInputHandleCheckedHeight};
+        width: ${t.toggleInputHandleCheckedHeight};
         top: ${t.toggleHandleCheckedTop};
-        height: ${t.toggleInputHandleCheckedHeight};
       }
     `;
   },
