@@ -270,7 +270,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.containerNode = center;
   };
 
-  private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
+  private handleStackChange = (stack: readonly React.Component[]) => {
     this.setState({ stackPosition: stack.indexOf(this), hasBackground: ModalStack.isBlocking(this) });
   };
 
