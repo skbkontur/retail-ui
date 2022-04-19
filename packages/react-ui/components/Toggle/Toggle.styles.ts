@@ -47,18 +47,18 @@ export const styles = memoizeStyle({
   },
 
   handle(t: Theme) {
-    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
       background: ${t.toggleBg};
       border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
-      box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
-      height: ${handleSize};
-      left: ${t.toggleBorderWidth};
+      box-shadow: 0 ${t.toggleBorderWidth} 0 0 ${t.toggleBoxShadowColor},
+        0 0 0 ${t.toggleBorderWidth} ${t.toggleBoxShadowColor};
+      height: ${t.toggleHandleSize};
+      width: ${t.toggleHandleSize};
       position: absolute;
-      top: ${t.toggleBorderWidth};
+      left: ${t.toggleHandleLeft};
+      top: ${t.toggleHandleTop};
       transition: 0.2s ease-in;
-      width: ${handleSize};
     `;
   },
 
@@ -103,6 +103,10 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
+        background: ${t.toogleHandleBgActive};
+        height: ${t.toggleInputHandleCheckedHeight};
+        width: ${t.toggleInputHandleCheckedWidth};
+        top: ${t.toggleHandleCheckedTop};
       }
     `;
   },

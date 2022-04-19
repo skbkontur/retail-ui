@@ -200,6 +200,9 @@ export class DefaultTheme {
   }
   //#endregion
   //#region TokenInput
+
+  public static tokenInputBorderRadius = '0px';
+
   public static get tokenInputBorderColor() {
     return this.inputBorderColor;
   }
@@ -592,6 +595,11 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Kebab
+
+  public static kebabPaddingXSmall = '0px';
+  public static kebabPaddingXMedium = '0px';
+  public static kebabPaddingXLarge = '0px';
+
   public static get kebabPinOffset() {
     return this.popupPinOffset;
   }
@@ -605,6 +613,8 @@ export class DefaultTheme {
   public static kebabBorder = '2px solid transparent';
   //#endregion
   //#region Modal
+  public static modalBorderRadius = '0';
+  public static modalHeaderFontWeight = 'normal';
   public static modalBackBg = '#222';
   public static get modalBg() {
     return this.bgSecondary;
@@ -902,6 +912,7 @@ export class DefaultTheme {
   }
   //#endregion
   //#region Menu
+  public static menuPaddingX = '0';
   public static get menuBgDefault() {
     return this.bgSecondary;
   }
@@ -909,6 +920,7 @@ export class DefaultTheme {
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
   // menuItem
+  public static menuItemBorderRadius = '0px';
   public static get menuItemTextColor() {
     return this.textColorDefault;
   }
@@ -968,6 +980,13 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
+
+  // custom
+  public static get toogleHandleBgActive() {
+    return 'auto';
+  }
+  // /custom
+
   public static get toggleFontSize() {
     return this.fontSizeSmall;
   }
@@ -984,6 +1003,31 @@ export class DefaultTheme {
     const handleSize = height - 2 * borderWidth;
     return `${handleSize / 2}px`;
   }
+  // calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})
+  public static get toggleHandleSize() {
+    const height = parseInt(this.toggleHeight, 10) || 0;
+    const borderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    const handleSize = height - 2 * borderWidth;
+    return `${handleSize}px`;
+  }
+  public static get toggleInputHandleSize() {
+    return `${parseInt(this.toggleHeight) - 4 * parseInt(this.toggleBorderWidth) - 2}px`;
+  }
+  public static get toggleHandleLeft() {
+    return this.toggleBorderWidth;
+  }
+  public static get toggleHandleTop() {
+    return this.toggleBorderWidth;
+  }
+  public static get toggleInputHandleCheckedHeight() {
+    return this.toggleHandleSize;
+  }
+  public static get toggleInputHandleCheckedWidth() {
+    return this.toggleHandleSize;
+  }
+  public static get toggleHandleCheckedTop() {
+    return this.toggleBorderWidth;
+  }
   public static toggleHeight = '20px';
   public static toggleWidth = '32px';
   public static get toggleBorderRadius() {
@@ -995,6 +1039,7 @@ export class DefaultTheme {
   public static get toggleBgDisabled() {
     return this.bgDisabled;
   }
+  public static toggleBoxShadowColor = 'rgba(0, 0, 0, 0.15)';
   public static toggleBgDisabledChecked = '#dadada';
   public static toggleBgHover = '#f3f3f2';
   public static toggleBgChecked = '#1874cf';
@@ -1567,6 +1612,7 @@ export class DefaultTheme {
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;
   }
+  public static switcherErrorBorderRadius = '2px';
   //#endregion
   //#region MobilePopup
   public static mobilePopupTopPadding = '20px';
@@ -1612,6 +1658,9 @@ export class DefaultTheme {
   public static globalLoaderTransitionFromSpinnerDuration = '200'; //ms
   //#endregion
   //#region FileUploader
+  public static get fileUploaderBgHover() {
+    return 'transparent';
+  }
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '#fff';
   public static get fileUploaderFontSize() {
@@ -1649,10 +1698,14 @@ export class DefaultTheme {
     return this.borderColorWarning;
   }
   public static fileUploaderDisabledBg = '#f2f2f2';
+  public static fileUploaderHoveredBg = '#fff';
   public static fileUploaderDisabledBorderColor = '#f2f2f2';
   public static fileUploaderDisabledTextColor = '#808080';
   public static fileUploaderDisabledLinkColor = '#808080';
   public static fileUploaderDisabledIconColor = '#A0A0A0';
+  public static get fileUploaderLinkHoverTextDecoration() {
+    return this.linkHoverTextDecoration;
+  }
   //#endregion
 }
 

@@ -96,6 +96,12 @@ const styles = {
     `;
   },
 
+  hovered(t: Theme) {
+    return css`
+      background: ${t.fileUploaderHoveredBg};
+    `;
+  },
+
   warning(t: Theme) {
     return css`
       border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderBorderColorWarning};
@@ -144,7 +150,7 @@ const styles = {
 
   linkHovered(t: Theme) {
     return css`
-      text-decoration: ${t.linkHoverTextDecoration};
+      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
     `;
   },
 
