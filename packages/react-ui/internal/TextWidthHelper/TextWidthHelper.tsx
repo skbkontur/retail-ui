@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+
 import { jsStyles } from './TextWidthHelper.styles';
 
 const THIN_SPACE = '\u2009';
@@ -24,11 +26,11 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   }
 
   public getTextWidth(): number {
-    return this.element?.getBoundingClientRect().width || 0;
+    return getDOMRect(this.element).width;
   }
 
   public getTextHeight(): number {
-    return this.element!.getBoundingClientRect().height;
+    return getDOMRect(this.element).height;
   }
 
   private elementRef = (node: HTMLDivElement) => (this.element = node);

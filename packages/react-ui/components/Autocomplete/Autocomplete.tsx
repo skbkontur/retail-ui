@@ -16,6 +16,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Autocomplete.styles';
 
@@ -222,7 +223,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
+      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan).width),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -282,14 +283,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           );
         })
       : null;
-  };
-
-  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
-    if (target instanceof Element) {
-      return target.getBoundingClientRect().width;
-    }
-
-    return 0;
   };
 
   private handleValueChange = (value: string) => {

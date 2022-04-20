@@ -5,10 +5,11 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 
+type ValidationFunc<T> = (value: Nullable<T>) => Nullable<ValidationInfo>;
 interface ValidationProps<TValue> {
   required?: boolean;
   email?: boolean;
-  validations?: Array<(value: Nullable<TValue>) => Nullable<ValidationInfo>>;
+  validations?: ValidationFunc<TValue>[];
   renderErrorMessage?: RenderErrorMessage;
 }
 
