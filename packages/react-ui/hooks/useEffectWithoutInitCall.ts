@@ -9,6 +9,5 @@ export const useEffectWithoutInitCall = (effect: () => void, deps: DependencyLis
     } else {
       effect();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, deps);
 };
