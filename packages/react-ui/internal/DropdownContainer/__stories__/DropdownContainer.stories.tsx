@@ -50,8 +50,9 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   },
 };
 
+type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
-  public aligns: Array<'left' | 'right'> = ['left', 'right'];
+  public aligns: Align[] = ['left', 'right'];
   public portals = [false, true];
   public rows = ['top', 'middle', 'bottom'];
   public cols = ['left', 'center', 'right'];

@@ -14,6 +14,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Loader.styles';
 
@@ -281,7 +282,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       left: containerLeft,
       height: containerHeight,
       width: containerWidth,
-    } = this.spinnerContainerNode.getBoundingClientRect();
+    } = getDOMRect(this.spinnerContainerNode);
 
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
@@ -323,12 +324,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
-    if (this.spinnerNode) {
-      const spinnerHeight = this.spinnerNode.getBoundingClientRect().height;
 
-      if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
-        delete spinnerStyle.top;
-      }
+    const spinnerHeight = getDOMRect(this.spinnerNode).height;
+
+    if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
+      delete spinnerStyle.top;
     }
 
     // ПО ГОРИЗОНТАЛИ

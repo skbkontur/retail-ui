@@ -28,7 +28,8 @@ const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNo
     ));
 };
 
-export type StatePropsCombinations<P, S> = Array<{ props?: Partial<P>; state?: Partial<S> }>;
+type StatePropsObject<P, S> = { props?: Partial<P>; state?: Partial<S> };
+export type StatePropsCombinations<P, S> = Array<StatePropsObject<P, S>>;
 
 export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
 

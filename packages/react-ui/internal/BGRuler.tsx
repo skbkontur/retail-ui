@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { getDOMRect } from '../lib/dom/getDOMRect';
+
 /**
  * Компонент рисует пиксельную линейку на заднем фоне.
  * Помогает контролировать размеры элементов при скриншотном тестировании.
@@ -93,7 +95,7 @@ export class BGRuler extends React.Component<{
         linear-gradient(90deg, transparent 0, transparent 89px, ${color} 89px, ${color} 90px, transparent 90px)
       `,
     };
-    const rulerWidth = this.iframe ? this.iframe.getBoundingClientRect().width : 0;
+    const rulerWidth = getDOMRect(this.iframe).width;
     const labels = Array(Math.ceil(rulerWidth / 100) + 1)
       .fill(null)
       .map((value, index) => {

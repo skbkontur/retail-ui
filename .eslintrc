@@ -67,6 +67,8 @@
         "extendDefaults": true
       }
     ],
+    "@typescript-eslint/camelcase": 0,
+    "@typescript-eslint/array-type": [1, { "default": "array-simple" }],
     "jsx-a11y/click-events-have-key-events": 0,
     "react-hooks/exhaustive-deps": 0,
     "jsx-a11y/no-static-element-interactions": 0,

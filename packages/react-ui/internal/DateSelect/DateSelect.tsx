@@ -13,6 +13,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './DateSelect.styles';
 
@@ -202,7 +203,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     }
     this.timeout = setTimeout(() =>
       this.setState({
-        nodeTop: root.getBoundingClientRect().top,
+        nodeTop: getDOMRect(root).top,
       }),
     );
   };

@@ -12,10 +12,12 @@ class SimpleComponent extends React.Component {
   }
 }
 
-const testCase: Array<{
+type TextContent = {
   label: string;
-  renderNode: (label?: string) => React.ReactNode;
-}> = [
+  renderNode: (label: string) => React.ReactNode;
+};
+
+const testCase: TextContent[] = [
   {
     label: 'First',
     renderNode: (label) => label,
