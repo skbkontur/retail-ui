@@ -10,7 +10,7 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
+export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
 export interface TooltipMenuProps extends CommonProps {
   children?: TooltipMenuChildType | TooltipMenuChildType[];

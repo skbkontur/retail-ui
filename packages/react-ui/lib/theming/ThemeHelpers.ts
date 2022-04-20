@@ -1,6 +1,6 @@
 import { Theme, ThemeIn } from './Theme';
 
-export const exposeGetters = <T extends object>(theme: T): T => {
+export const exposeGetters = <T extends Record<string, any>>(theme: T): T => {
   const descriptors = Object.getOwnPropertyDescriptors(theme);
   Object.keys(descriptors).forEach((key) => {
     const descriptor = descriptors[key];
@@ -19,7 +19,7 @@ export const isDarkTheme = (theme: Theme | ThemeIn): boolean => {
   return theme[REACT_UI_DARK_THEME_KEY] === true;
 };
 
-export const markAsDarkTheme = <T extends object>(theme: T): T => {
+export const markAsDarkTheme = <T extends Record<string, any>>(theme: T): T => {
   return Object.create(theme, {
     [REACT_UI_DARK_THEME_KEY]: {
       value: true,

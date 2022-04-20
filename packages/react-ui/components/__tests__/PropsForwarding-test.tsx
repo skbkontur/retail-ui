@@ -47,10 +47,10 @@ jest.mock('invariant', () => (...args: any[]) => {
   }
 });
 
-const createWrapper = <T extends React.Component>(compName: string, initProps: object = {}) => {
+const createWrapper = <T extends React.Component>(compName: string, initProps: Record<string, unknown> = {}) => {
   const component = (ReactUI as any)[compName];
   const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
-  return mount<T, {}, {}>(React.createElement(component, props));
+  return mount<T>(React.createElement(component, props));
 };
 
 describe('Props Forwarding', () => {
@@ -63,11 +63,11 @@ describe('Props Forwarding', () => {
         case 'Tooltip':
           return wrapper.find('Portal').last().getDOMNode();
         case 'Toast':
-          (wrapper as ReactWrapper<{}, {}, ReactUI.Toast>).instance().push('Tast');
+          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
         case 'GlobalLoader':
-          (wrapper as ReactWrapper<{}, {}, ReactUI.GlobalLoader>).setProps({ active: true });
+          (wrapper as ReactWrapper<unknown, unknown, ReactUI.GlobalLoader>).setProps({ active: true });
           wrapper.update();
           return wrapper.getDOMNode();
         default:

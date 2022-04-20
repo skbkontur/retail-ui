@@ -235,7 +235,7 @@ class SidePageOverAnotherSidePage extends React.Component {
   }
 }
 
-class StickySidePageHeaderWhenAnotherSidePage extends React.Component<{}> {
+class StickySidePageHeaderWhenAnotherSidePage extends React.Component<unknown> {
   public render() {
     return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
   }

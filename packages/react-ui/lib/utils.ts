@@ -38,7 +38,8 @@ export function taskWithDelay(task: () => void, ms: number) {
   return cancelationToken;
 }
 
-export function isFunction<T>(x: T | Function): x is Function {
+export type FunctionWithParams<R = any> = (...args: any[]) => R;
+export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParams {
   return typeof x === 'function';
 }
 

@@ -846,7 +846,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
 
 type City = { Id: number; City: string };
 type ComboboxSearchResult = { foundItems: City[]; totalCount: number };
-class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, {}> {
+class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, unknown> {
   public static defaultProps = ComboBox.defaultProps;
   public state = {
     value: null,

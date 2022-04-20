@@ -4,7 +4,7 @@ import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor } from './ThemeHelpers';
 
 export class ThemeFactory {
-  public static create<T extends {}>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
+  public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
     const base = baseTheme || DefaultThemeInternal;
     return this.constructTheme(base, theme);
   }

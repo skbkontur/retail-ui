@@ -1047,7 +1047,7 @@ interface TestTooltipForManualState {
   onOpenCalledTimes: number;
   onCloseCalledTimes: number;
 }
-class TestTooltipForManual extends React.Component<{}, TestTooltipForManualState> {
+class TestTooltipForManual extends React.Component<unknown, TestTooltipForManualState> {
   private tooltip: Tooltip | null = null;
   public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
@@ -1158,7 +1158,7 @@ const anchorStyle: CSSProperties = {
 interface AnchorTooltipExampleState {
   anchor: HTMLElement | null;
 }
-class AnchorTooltipExample extends React.Component<{}, AnchorTooltipExampleState> {
+class AnchorTooltipExample extends React.Component<unknown, AnchorTooltipExampleState> {
   public state: AnchorTooltipExampleState = {
     anchor: null,
   };

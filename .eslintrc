@@ -56,17 +56,7 @@
     "@typescript-eslint/explicit-module-boundary-types": 0,
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-var-requires": 0,
-    "@typescript-eslint/ban-types": [
-      2,
-      {
-        "types": {
-          "Function": false,
-          "object": false,
-          "{}": false
-        },
-        "extendDefaults": true
-      }
-    ],
+    "@typescript-eslint/ban-types": 2,
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/array-type": [1, { "default": "array-simple" }],
     "jsx-a11y/click-events-have-key-events": 0,

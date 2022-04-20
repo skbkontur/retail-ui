@@ -2,6 +2,7 @@ import createEmotion from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 
 import { Upgrade } from '../Upgrades';
+import { FunctionWithParams } from '../utils';
 
 import { Theme } from './Theme';
 
@@ -16,11 +17,13 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
     stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
   });
 
-function isZeroArgs<R, T extends (...args: any[]) => R>(fn: T | Function): fn is () => R {
+function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
   return fn.length == 0;
 }
 
-const memoize = <A extends object, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
+const memoize = <A extends Record<string, unknown>, R>(
+  fn: (() => R) | ((arg: A) => R),
+): (() => R) | ((arg: A) => R) => {
   if (isZeroArgs(fn)) {
     let isCalled = false;
     let result: R;

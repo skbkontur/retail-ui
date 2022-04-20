@@ -151,9 +151,9 @@ export const DefaultState = {
   inputValueHeight: 22,
 };
 
-const defaultToKey = <T extends {}>(item: T): string => item.toString();
-const identity = <T extends {}>(item: T): T => item;
-const defaultRenderToken = <T extends {}>(
+const defaultToKey = <T extends Record<string, unknown>>(item: T): string => item.toString();
+const identity = <T extends unknown>(item: T): T => item;
+const defaultRenderToken = <T extends Record<string, unknown>>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
 ) => (
@@ -977,7 +977,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    return renderToken(item, {
+    return renderToken(item as T & Record<string, unknown>, {
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,
