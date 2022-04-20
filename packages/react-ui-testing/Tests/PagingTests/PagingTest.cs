@@ -22,7 +22,7 @@ namespace SKBKontur.SeleniumTesting.Tests.PagingTests
         [Test]
         public void TestPagingLessThanTwo()
         {
-            page.Paging1.IsPresent.Wait().That(Is.False);
+            page.Paging1.IsPresent.Wait().That(Is.True);
         }
 
         [Test]
