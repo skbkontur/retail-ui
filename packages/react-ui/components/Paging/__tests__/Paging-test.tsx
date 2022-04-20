@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { render, screen } from '@testing-library/react';
-import { mount } from 'enzyme';
 
 import { emptyHandler } from '../../../lib/utils';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -117,7 +116,7 @@ describe('Paging', () => {
     const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
 
     await userEvent.click(activeLink);
-    await userEvent.keyboard('[ArrowRight][Enter]');
+    await userEvent.keyboard('{ArrowRight}{Enter}');
 
     expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
   });
@@ -131,7 +130,7 @@ describe('Paging', () => {
     const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
 
     await userEvent.click(activeLink);
-    await userEvent.keyboard('[ArrowLeft][Enter]');
+    await userEvent.keyboard('{ArrowLeft}{Enter}');
 
     expect(onPageChange).toHaveBeenCalledWith(activePage - 1);
   });
@@ -139,41 +138,39 @@ describe('Paging', () => {
   it('should handle ctrl + right keys', async () => {
     const onPageChange = jest.fn();
     const activePage = 1;
-    const wrapper = mount(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    wrapper.simulate('keydown', { key: 'ArrowRight', ctrlKey: true });
+    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+
+    await userEvent.click(activeLink);
+    await userEvent.keyboard('{Control>}{ArrowRight}');
 
     expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
   });
 
-  it('should handle ctrl + left keys', () => {
+  it('should handle ctrl + left keys', async () => {
     const onPageChange = jest.fn();
     const activePage = 2;
-    const wrapper = mount(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    wrapper.simulate('keydown', { key: 'ArrowLeft', ctrlKey: true });
+    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+
+    await userEvent.click(activeLink);
+    await userEvent.keyboard('{Control>}{ArrowLeft}');
 
     expect(onPageChange).toHaveBeenCalledWith(activePage - 1);
   });
 
-  it('keyboard control available with global listener', () => {
+  it('keyboard control available with global listener', async () => {
     const onPageChange = jest.fn();
-    const wrapper = mount<Paging>(
-      <Paging useGlobalListener pagesCount={2} activePage={2} onPageChange={onPageChange} />,
-    );
+    const activePage = 1;
+    render(<Paging useGlobalListener pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    expect(wrapper.state('keyboardControl')).toBe(true);
-  });
+    await userEvent.keyboard('{Control>}{ArrowRight}');
 
-  it('keyboard control available with focus', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount<Paging>(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-
-    expect(wrapper.state('keyboardControl')).toBe(false);
-
-    wrapper.simulate('focus');
-
-    expect(wrapper.state('keyboardControl')).toBe(true);
+    expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
   });
 });
 
