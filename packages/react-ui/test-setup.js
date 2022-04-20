@@ -1,11 +1,16 @@
 /* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import '@testing-library/jest-dom';
+import { configure } from '@testing-library/dom';
 import React from 'react';
 import Enzyme from 'enzyme';
 import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
 
 Enzyme.configure({ adapter: new Adapter() });
+
+configure({
+  testIdAttribute: 'data-tid',
+});
 
 jest.mock('react-focus-lock', () => (props) => <div>{props.children}</div>);
 jest.mock('lodash.debounce', () =>

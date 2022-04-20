@@ -1,5 +1,6 @@
-import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
+import { mount, ReactWrapper } from 'enzyme';
 
 import { emptyHandler } from '../../../lib/utils';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -10,6 +11,27 @@ import { Paging } from '../Paging';
 describe('Pager', () => {
   it('renders', () => {
     mount(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
+  });
+
+  it('should not be rendered when only one page is presented and the flag is enabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={1} activePage={1} onPageChange={callback} shouldBeVisibleWithOnePage />);
+
+    expect(screen.queryByTestId('Paging__root')).not.toBeInTheDocument();
+  });
+
+  it('should be rendered when only one page is presented and the flag is disabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
+
+    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+  });
+
+  it('should be rendered when two or more pages are presented and the flag is enabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={2} activePage={1} onPageChange={callback} shouldBeVisibleWithOnePage />);
+
+    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
   });
 
   it('renders links', () => {
