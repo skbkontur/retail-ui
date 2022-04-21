@@ -908,6 +908,9 @@ export class DefaultTheme {
   public static get menuBgDefault() {
     return this.bgSecondary;
   }
+  public static get menuBorderRadius() {
+    return '0px';
+  }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';

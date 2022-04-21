@@ -105,10 +105,4 @@ export const styles = memoizeStyle({
       justify-content: space-between;
     `;
   },
-
-  selectMenu(t: Theme) {
-    return css`
-      border-radius: ${t.selectMenuBorderRadius};
-    `;
-  },
 });
