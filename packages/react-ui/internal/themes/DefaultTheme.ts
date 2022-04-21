@@ -550,9 +550,6 @@ export class DefaultTheme {
   public static get selectBorderColorDisabled() {
     return this.btnDisabledBorderColor;
   }
-  public static get selectMenuBorderRadius() {
-    return '0px';
-  }
   //#endregion
   //#region Tooltip
   public static tooltipPaddingY = '16px';
