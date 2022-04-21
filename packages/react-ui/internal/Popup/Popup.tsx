@@ -19,6 +19,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -189,9 +190,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
   private lastPopupElement: Nullable<HTMLElement>;
-  private anchorElement: Nullable<HTMLElement> = null;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
+
+  public anchorElement: Nullable<HTMLElement> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -294,8 +296,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private updateAnchorElement = (childInstance: Nullable<React.ReactInstance>) => {
-    const childDomNode = getRootNode(childInstance);
+  private updateAnchorElement = (instance: Nullable<React.ReactInstance>) => {
+    const childDomNode = isInstanceWithAnchorElement(instance) ? instance.getAnchorElement() : getRootNode(instance);
     const anchorElement = this.anchorElement;
 
     if (childDomNode !== anchorElement) {
