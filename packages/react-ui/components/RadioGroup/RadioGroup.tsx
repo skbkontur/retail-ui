@@ -25,7 +25,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
   defaultValue?: T;
   /**
    * Значение радиогруппы. Должно быть одним из значений радиокнопок.
-   * Если не указано, то компонент будет работать, как неконтроллируемый
+   * Если не указано, то компонент будет работать, как неконтролируемый
    */
   value?: T;
   /**
@@ -37,7 +37,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
    * Если тип `items: Array<Value>`, то он будет приведен к типу
    * `Array<[Value, Value]>`
    */
-  items?: T[] | [T, React.ReactNode][];
+  items?: T[] | Array<[T, React.ReactNode]>;
   /**
    * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
    * случайное имя
@@ -245,7 +245,7 @@ function renderItem<T>(_value: T, data: React.ReactNode) {
 
 function mapItems<T>(
   fn: (value: T, data: React.ReactNode, index: number) => React.ReactNode,
-  items: T[] | [T, React.ReactNode][],
+  items: T[] | Array<[T, React.ReactNode]>,
 ) {
   const result: React.ReactNode[] = [];
   let index = 0;

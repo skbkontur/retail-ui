@@ -15,18 +15,19 @@ import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
+type SwitcherItems = string | SwitcherItem;
 
 export interface SwitcherProps extends CommonProps {
   /**
    * Список строк или список элементов типа `{ label: string, value: string }`
    */
-  items: Array<string | SwitcherItem>;
+  items: SwitcherItems[];
 
   value?: string;
 
   onValueChange?: (value: string) => void;
 
-  label?: string;
+  caption?: string;
 
   error?: boolean;
 
@@ -61,7 +62,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         }),
       ),
     ]).isRequired,
-    label: PropTypes.string,
+    caption: PropTypes.string,
     value: PropTypes.string,
     onValueChange: PropTypes.func,
   };
@@ -97,12 +98,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: styles.input(),
     };
 
-    const lableClassName = cx(styles.label(this.theme), this.getLabelSizeClassName());
+    const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div>
-          {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
+        <div className={styles.root()}>
+          {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>
             <input {...inputProps} />
             <div className={listClassName}>
@@ -213,12 +214,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
       case 'large':
-        return styles.labelLarge(this.theme);
+        return styles.captionLarge(this.theme);
       case 'medium':
-        return styles.labelMedium(this.theme);
+        return styles.captionMedium(this.theme);
       case 'small':
       default:
-        return styles.labelSmall(this.theme);
+        return styles.captionSmall(this.theme);
     }
   };
 }

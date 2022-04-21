@@ -1,7 +1,7 @@
 {
   "name": "react-ui-testing",
   "private": true,
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "React selenium testing",
   "main": "react-selenium-testing.js",
   "scripts": {

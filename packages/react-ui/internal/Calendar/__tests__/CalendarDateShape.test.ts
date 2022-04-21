@@ -1,5 +1,9 @@
 import * as CDS from '../CalendarDateShape';
 
+type Date = [number, number, number];
+type NullableDate = Date | null;
+type CalendarCase = [Date, NullableDate, NullableDate];
+
 test('CDS.create creates given date', () => {
   const date = CDS.create(10, 3, 2017);
   expect(date.date).toBe(10);
@@ -220,7 +224,7 @@ test('CDS.isGreaterOrEqual returns true if date is after or equal given', () => 
 });
 
 test('CDS.isBetween returns true if date is between given', () => {
-  const cases: Array<[[number, number, number], [number, number, number] | null, [number, number, number] | null]> = [
+  const cases: CalendarCase[] = [
     [
       [10, 3, 2017],
       [9, 3, 2017],
@@ -252,7 +256,7 @@ test('CDS.isBetween returns true if date is between given', () => {
 });
 
 test('CDS.isBetween returns false if date is not between given', () => {
-  const cases: Array<[[number, number, number], [number, number, number] | null, [number, number, number] | null]> = [
+  const cases: CalendarCase[] = [
     [
       [10, 3, 2017],
       [11, 3, 2017],

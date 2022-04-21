@@ -68,7 +68,7 @@ export interface ButtonProps extends CommonProps {
   disableFocus?: boolean;
 
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -150,7 +150,7 @@ export interface ButtonProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 
@@ -241,7 +241,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       icon,
       _noPadding,
       _noRightPadding,
-      use = Button.defaultProps.use,
       visuallyFocused,
       align,
       disableFocus,
@@ -253,6 +252,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
+    const use = this.props.use || Button.defaultProps.use;
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -298,14 +298,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     const wrapProps = {
       className: cx({
-        [styles.wrap()]: true,
+        [styles.wrap(this.theme)]: true,
         [styles.wrapArrow()]: arrow === true,
         [styles.wrapArrowLeft()]: arrow === 'left',
+        [this.getSizeWrapClassName()]: true,
       }),
       style: {
         width: width,
       },
     };
+
+    const innerShadowNode = <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
     if (!isFocused || isLink) {
@@ -369,7 +372,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cx(styles.wrap(), styles.wrapLink()),
+        className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
@@ -380,6 +383,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
           <button ref={this._ref} {...rootProps}>
+            {innerShadowNode}
             {outlineNode}
             {loadingNode}
             {arrowNode}
@@ -424,6 +428,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       case 'small':
       default:
         return styles.iconSmall(this.theme);
+    }
+  }
+
+  private getSizeWrapClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.wrapLarge(this.theme);
+      case 'medium':
+        return styles.wrapMedium(this.theme);
+      case 'small':
+      default:
+        return styles.wrapSmall(this.theme);
     }
   }
 

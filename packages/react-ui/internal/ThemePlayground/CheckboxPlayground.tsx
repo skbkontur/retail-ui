@@ -2,12 +2,11 @@ import React from 'react';
 
 import { Gapped } from '../../components/Gapped';
 import { Checkbox, CheckboxProps } from '../../components/Checkbox';
-import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { is8pxTheme } from '../../lib/theming/ThemeHelpers';
 
 import { getComponentsFromPropsList } from './helpers';
 
-const propsList: Array<CheckboxProps & { focused?: boolean }> = [
+type CheckboxProp = CheckboxProps & { focused?: boolean };
+const propsList: CheckboxProp[] = [
   { children: 'Default' },
   { children: 'Checked', checked: true },
   { children: 'Disabled', checked: true, disabled: true },
@@ -18,10 +17,8 @@ const propsList: Array<CheckboxProps & { focused?: boolean }> = [
 ];
 
 export const CheckboxPlayground = () => {
-  const theme = React.useContext(ThemeContext);
-  const gap = is8pxTheme(theme) ? 0 : 10;
   return (
-    <Gapped gap={gap} vertical>
+    <Gapped gap={0} vertical>
       {getComponentsFromPropsList(<Checkbox />, propsList)}
     </Gapped>
   );

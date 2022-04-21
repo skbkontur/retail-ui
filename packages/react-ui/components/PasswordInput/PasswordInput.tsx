@@ -168,7 +168,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
         <span
           data-tid="PasswordInputEyeIcon"
           className={cx({
-            [styles.toggleVisibility()]: true,
+            [styles.toggleVisibility(this.theme)]: true,
             [this.getEyeWrapperClassname()]: true,
             [styles.eyeWrapperDisabled()]: this.props.disabled,
           })}

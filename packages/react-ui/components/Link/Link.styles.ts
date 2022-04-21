@@ -20,9 +20,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  buttonOpened() {
+  buttonOpened(t: Theme) {
     return css`
-      background: #e1e1e1;
+      background: ${t.btnDefaultActiveBg};
     `;
   },
 

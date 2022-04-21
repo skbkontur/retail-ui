@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/skbkontur/retail-ui/compare/react-ui-codemod@1.1.0...react-ui-codemod@1.2.0) (2022-03-01)
+
+
+### Features
+
+* **react-ui-codemod:** add codemod for react-ui 4.0 ([#2633](https://github.com/skbkontur/retail-ui/issues/2633)) ([7dd740d](https://github.com/skbkontur/retail-ui/commit/7dd740d7a358548e8501e9e771d45365f5595ea6))
+
+
+
+
+
 # [1.1.0](https://github.com/skbkontur/retail-ui/compare/react-ui-codemod@1.0.6...react-ui-codemod@1.1.0) (2021-11-02)
 
 

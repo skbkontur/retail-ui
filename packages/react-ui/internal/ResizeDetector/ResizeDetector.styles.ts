@@ -4,6 +4,7 @@ export const styles = memoizeStyle({
   root() {
     return css`
       position: relative;
+      height: 100%;
     `;
   },
 
@@ -25,6 +26,12 @@ export const styles = memoizeStyle({
   content() {
     return css`
       position: relative;
+    `;
+  },
+
+  fullHeight() {
+    return css`
+      height: 100%;
     `;
   },
 });

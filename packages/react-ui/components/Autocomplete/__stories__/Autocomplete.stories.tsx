@@ -1,8 +1,11 @@
 import React from 'react';
+import { flatten } from 'lodash';
 
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 
 export default {
   title: 'Autocomplete',
@@ -203,4 +206,38 @@ WithZeroWidth.parameters = {
   creevey: {
     tests: commonTests,
   },
+};
+
+export const MobileSimple = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />
+          <span>With caption</span>
+          <UncontrolledAutocomplete source={['One', 'Two', 'Three']} mobileMenuHeaderText={'With caption'} />
+          <span>With many items</span>
+          <UncontrolledAutocomplete
+            source={flatten(
+              new Array(10).fill(['One', 'Two', 'Three']).map((arr, index) => arr.map((i: string) => `${i} ${index}`)),
+            )}
+          />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileSimple.title = 'Mobile autocomplete stories';
+MobileSimple.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: { skip: [true] },
 };

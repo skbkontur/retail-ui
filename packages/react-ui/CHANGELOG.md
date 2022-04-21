@@ -3,6 +3,127 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.4...@skbkontur/react-ui@4.0.5) (2022-04-12)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix focus and fragments selection ([#2858](https://github.com/skbkontur/retail-ui/issues/2858)) ([ec4499e](https://github.com/skbkontur/retail-ui/commit/ec4499e444fead65fcaeb703e129ee3adb0f6fe4)), closes [#2614](https://github.com/skbkontur/retail-ui/issues/2614)
+
+
+
+
+
+## [4.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.3...@skbkontur/react-ui@4.0.4) (2022-04-01)
+
+
+### Bug Fixes
+
+* **Tooltip:** do not call onOpen after close ([#2848](https://github.com/skbkontur/retail-ui/issues/2848)) ([a3e0772](https://github.com/skbkontur/retail-ui/commit/a3e07728e9ed25b48afcc5a995acfbb7f5d7c93a))
+* corrected ThemeFactory.overrideDefaultTheme ([#2845](https://github.com/skbkontur/retail-ui/issues/2845)) ([2cc964f](https://github.com/skbkontur/retail-ui/commit/2cc964f5a7f052a442893e1312de1cf9115e131f))
+
+
+
+
+
+## [4.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.2...@skbkontur/react-ui@4.0.3) (2022-03-22)
+
+
+### Bug Fixes
+
+* **SidePage:** fix animation styles ([#2837](https://github.com/skbkontur/retail-ui/issues/2837)) ([2eeebb0](https://github.com/skbkontur/retail-ui/commit/2eeebb00fb651da8062d6b672f8bd71ae0fa7587))
+
+
+
+
+
+## [4.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.1...@skbkontur/react-ui@4.0.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **Button:** use default prop when "use"={null} ([#2833](https://github.com/skbkontur/retail-ui/issues/2833)) ([#2834](https://github.com/skbkontur/retail-ui/issues/2834)) ([cc2b506](https://github.com/skbkontur/retail-ui/commit/cc2b506d976e678857cbeed1582b76e952b62169))
+* **SidePage,Toast:** fix animation bugs ([#2835](https://github.com/skbkontur/retail-ui/issues/2835)) ([3c8e77d](https://github.com/skbkontur/retail-ui/commit/3c8e77dc67710b342d8df96043333f2cbf012c73))
+
+
+
+
+
+## [4.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.0...@skbkontur/react-ui@4.0.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* **DatePicker:** scroll to date ([#2829](https://github.com/skbkontur/retail-ui/issues/2829)) ([3f3366d](https://github.com/skbkontur/retail-ui/commit/3f3366dbf16b7348eef3981976cf2d07d0b54e2d))
+* dropdownContainer position (master) ([#2827](https://github.com/skbkontur/retail-ui/issues/2827)) ([81467af](https://github.com/skbkontur/retail-ui/commit/81467af568ff519dd362b32dc8db360856f0ef7a))
+* **Modal:** fix lodash import ([#2824](https://github.com/skbkontur/retail-ui/issues/2824)) ([0f15b5e](https://github.com/skbkontur/retail-ui/commit/0f15b5eb041337eda552d096a34914ed86aad79b))
+
+
+
+
+
+# [4.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.0...@skbkontur/react-ui@4.0.0) (2022-03-01)
+
+
+### Bug Fixes
+
+* **Button:** use shadows instead of borders ([d400c69](https://github.com/skbkontur/retail-ui/commit/d400c6925a0493b0f8b5300dc77625ac4b3810f6)), closes [#2559](https://github.com/skbkontur/retail-ui/issues/2559)
+* **Checkbox:** fix baseline ([3571ee3](https://github.com/skbkontur/retail-ui/commit/3571ee3877fd554201b5e901a581207b513c2f20))
+* **GlobalLoader:** Доработали поведение и поправили мелкие баги ([#2767](https://github.com/skbkontur/retail-ui/issues/2767)) ([17a666d](https://github.com/skbkontur/retail-ui/commit/17a666d94acbcebb41c69563a8b489ca0f43da45))
+* **Popup:** correct DOM node extraction ([#2811](https://github.com/skbkontur/retail-ui/issues/2811)) ([#2796](https://github.com/skbkontur/retail-ui/issues/2796)) ([01f951d](https://github.com/skbkontur/retail-ui/commit/01f951d872e2b59a1b049509a9882b24990bbb0e))
+* **Radio:** fix baseline ([fcb021d](https://github.com/skbkontur/retail-ui/commit/fcb021d1ee63df6a8fecc9d5757c072c6863df28))
+* **react-ui:** call original refs while replacing them ([#2729](https://github.com/skbkontur/retail-ui/issues/2729)) ([cd75e9f](https://github.com/skbkontur/retail-ui/commit/cd75e9f8fb03b469b783171cb74c099841b5ab6f))
+* **react-ui:** don't depend on global line-height ([98cb4dc](https://github.com/skbkontur/retail-ui/commit/98cb4dcb8f71417c89e1fc61b4f1f45ba3119943))
+* **ResponsiveLayout:** fallback for ie11 ([956f723](https://github.com/skbkontur/retail-ui/commit/956f7239c08bdb08d86e6056b2f6b71b540eaf22))
+* **Spinner:** add inline type ([f7a0f35](https://github.com/skbkontur/retail-ui/commit/f7a0f3505b90777424da60d137c32ea25500c81b))
+* **Toggle:** add vars for font-size and line-height ([911f1df](https://github.com/skbkontur/retail-ui/commit/911f1dfd89495265baa6cac2df45a1c52281ac8e))
+* **Toggle:** fix baseline ([1d3960b](https://github.com/skbkontur/retail-ui/commit/1d3960b496fbfec9796e3eb72614b79be7436374))
+* **Tooltip:** add vars for font-size and line-height ([3f27477](https://github.com/skbkontur/retail-ui/commit/3f274776c89ef194383de84f9cd5dbda3c0f6c1b))
+
+
+### Features
+
+* **FileUploader:** new component FileUploader ([#2542](https://github.com/skbkontur/retail-ui/issues/2542)) ([18d009a](https://github.com/skbkontur/retail-ui/commit/18d009a8ebeafa2379d5fb46a564ead97c3da6a5))
+* **GlobalLoader:** new component GlobalLoader ([#2554](https://github.com/skbkontur/retail-ui/issues/2554)) ([dfeef98](https://github.com/skbkontur/retail-ui/commit/dfeef98098932ee12d8f3591536f51b5add811c6))
+* **Hint,Tooltip,TooltipMenu,Dropdown,DropdownMenu:** add mobile version ([#2688](https://github.com/skbkontur/retail-ui/issues/2688)) ([1aa395b](https://github.com/skbkontur/retail-ui/commit/1aa395b493c65497c567c6d421eaa125a643e1e6))
+* **Modal:** add mobile version ([#2682](https://github.com/skbkontur/retail-ui/issues/2682)) ([10324c6](https://github.com/skbkontur/retail-ui/commit/10324c69505e11c1638aab7f128e8d0537cd4289))
+* **Radio, Switcher, Checkbox:** rename label to caption ([#2629](https://github.com/skbkontur/retail-ui/issues/2629)) ([bd1a7a7](https://github.com/skbkontur/retail-ui/commit/bd1a7a7f1ca8c6983b69e2044f182f34a627c194)), closes [#2196](https://github.com/skbkontur/retail-ui/issues/2196)
+* **react-ui:** add lab grotesque compensation ([b1920bb](https://github.com/skbkontur/retail-ui/commit/b1920bbc5534161e686c2147979f47b7bc36b049))
+* **react-ui:** add new theme ([#2592](https://github.com/skbkontur/retail-ui/issues/2592)) ([1aaaf17](https://github.com/skbkontur/retail-ui/commit/1aaaf17785bb624b730e26c525d019ae22acecd0))
+* **react-ui:** dark theme ([#2698](https://github.com/skbkontur/retail-ui/issues/2698)) ([8047743](https://github.com/skbkontur/retail-ui/commit/8047743c1572e753b327a5323c9f4481b0c1db45))
+* **react-ui:** use new theme by default ([#2707](https://github.com/skbkontur/retail-ui/issues/2707)) ([6de91d3](https://github.com/skbkontur/retail-ui/commit/6de91d3f6a44a86a8a9179f9718ab0b15256d91a))
+* **ResponsiveLayout:** add useResponsiveLayout, a hook for getting current layout ([#2699](https://github.com/skbkontur/retail-ui/issues/2699)) ([1596e91](https://github.com/skbkontur/retail-ui/commit/1596e911ddad9d300038904baf1ed93597276c35))
+* **Select,ComboBox,Autocomplete:** add responsive mobile layouts  ([861f23a](https://github.com/skbkontur/retail-ui/commit/861f23affdc93e283a7dfdeaddd6b3af7cb27287))
+* **SidePage:** add mobile version ([#2695](https://github.com/skbkontur/retail-ui/issues/2695)) ([46d469b](https://github.com/skbkontur/retail-ui/commit/46d469bcfa57ee2a85f9014f7fa8b56b10406062))
+
+
+### BREAKING CHANGES
+
+* **react-ui:** update, rename and remove some themes, see #2592
+* **Radio, Switcher, Checkbox:** rename label to caption
+
+
+
+
+
+# [3.12.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.11.0...@skbkontur/react-ui@3.12.0) (2022-02-22)
+
+
+### Bug Fixes
+
+* **Select:** fix menuAlign right ([#2693](https://github.com/skbkontur/retail-ui/issues/2693)) ([6428498](https://github.com/skbkontur/retail-ui/commit/6428498b8cb895f0bcfe853959b26caa41b53189))
+* **SidePage:** Исправил ошибку `Maximum update`, когда скролишь второй SidePage ([74134d8](https://github.com/skbkontur/retail-ui/commit/74134d8bf5d8a4aaed5aa554e41bb50e44d3836d))
+* **SidePage:** Исправил положение залипшего заголовка  после закрытия второго SidePage ([76c6ff4](https://github.com/skbkontur/retail-ui/commit/76c6ff40eac3c76bb86e9118c4727b5bf6a442ae))
+
+
+### Features
+
+* **Sticky:** Сделал метод `ref.reflow()` публичным ([bdfc991](https://github.com/skbkontur/retail-ui/commit/bdfc991e20317d6da68191357a9ecd554990ef9b))
+
+
+
+
+
 # [3.11.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.10.0...@skbkontur/react-ui@3.11.0) (2022-02-04)
 
 

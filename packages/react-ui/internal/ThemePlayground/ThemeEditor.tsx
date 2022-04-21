@@ -148,7 +148,9 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   const splitPrefix = current.prefix.split(' ');
   return [...acc, ...splitPrefix];
 };
-const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Theme> => {
+
+type GetBaseVariablesReturnType = Array<keyof Theme>;
+const getBaseVariables = (theme: Theme, variable: keyof Theme): GetBaseVariablesReturnType => {
   for (; theme != null; theme = Object.getPrototypeOf(theme)) {
     if (Object.prototype.hasOwnProperty.call(theme, variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
@@ -156,7 +158,7 @@ const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Them
       if (descriptor && typeof descriptor.get !== 'undefined') {
         const getterBody = descriptor.get.toString();
         const variableNameMatchArray = getterBody.match(/this\.(\w+)\b/gm) || [];
-        return (variableNameMatchArray || []).map((v) => v.replace(/this\./g, '')) as Array<keyof Theme>;
+        return (variableNameMatchArray || []).map((v) => v.replace(/this\./g, '')) as GetBaseVariablesReturnType;
       }
       break;
     }
