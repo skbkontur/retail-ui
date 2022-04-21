@@ -6,9 +6,15 @@ import { getRootNode } from './getRootNode';
 
 export type TSetRootNode = (e: Nullable<React.ReactNode>) => void;
 
+export interface InstanceWithRootNode {
+  rootNode: Nullable<HTMLElement>;
+  setRootNode: (instance: Nullable<React.ReactInstance>) => void;
+  getRootNode: () => Nullable<HTMLElement>;
+}
+
 export function rootNode<T extends new (...args: any[]) => React.Component>(Component: T) {
-  const rootNode = class extends Component {
-    public rootNode: Nullable<HTMLElement>;
+  const rootNode = class extends Component implements InstanceWithRootNode {
+    public rootNode: Nullable<HTMLElement> = null;
     public constructor(...args: any[]) {
       super(args[0]);
     }
@@ -29,3 +35,11 @@ export function rootNode<T extends new (...args: any[]) => React.Component>(Comp
 
   return rootNode;
 }
+
+export const isInstanceWithRootNode = (instance: unknown): instance is InstanceWithRootNode => {
+  return (
+    Boolean(instance) &&
+    Object.prototype.hasOwnProperty.call(instance, 'rootNode') &&
+    Object.prototype.hasOwnProperty.call(instance, 'setRootNode')
+  );
+};

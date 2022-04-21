@@ -4,7 +4,8 @@ import React from 'react';
 import { Nullable } from '../../typings/utility-types';
 import { isHTMLElement } from '../SSRSafe';
 import { canUseDOM } from '../client';
-import { isFunction } from '../utils';
+
+import { isInstanceWithRootNode } from './rootNodeDecorator';
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
   if (!canUseDOM) return null;
@@ -12,10 +13,10 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return instance;
   }
 
-  const instanceAsAny = instance as any;
   let node;
-  if (instanceAsAny && isFunction(instanceAsAny.getRootNode)) {
-    node = instanceAsAny.getRootNode();
+
+  if (isInstanceWithRootNode(instance)) {
+    node = instance.rootNode;
   }
 
   if (node !== undefined) {
