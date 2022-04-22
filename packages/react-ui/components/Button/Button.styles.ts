@@ -801,7 +801,7 @@ export const activeStyles = memoizeStyle({
     return css`
       &,
       &:hover {
-        color: ${t.linkActiveColor};
+        color: ${t.btnLinkActiveColor};
       }
     `;
   },
