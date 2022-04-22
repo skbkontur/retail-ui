@@ -38,7 +38,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
 > {
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
-  private rootNodeSubscription: TRootNodeSubscription | null = null;
+  private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
@@ -66,7 +66,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     this.rootNodeSubscription = null;
 
     if (instance && isInstanceWithRootNode(instance)) {
-      this.rootNodeSubscription = instance.addRootNodeChangeListener((node) => {
+      this.rootNodeSubscription = instance.addRootNodeChangeListener?.((node) => {
         this.setRootNode(node);
         this.props.rootNodeRef?.(node);
       });

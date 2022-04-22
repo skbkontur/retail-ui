@@ -13,6 +13,7 @@ export type TRootNodeSubscription = {
 
 export interface InstanceWithRootNode {
   getRootNode: () => Nullable<HTMLElement>;
+  addRootNodeChangeListener?: (callback: (node: Nullable<HTMLElement>) => void) => TRootNodeSubscription;
 }
 
 export function rootNode<T extends new (...args: any[]) => React.Component>(Component: T) {
