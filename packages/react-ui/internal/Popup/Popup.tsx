@@ -308,6 +308,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return (
       <RenderContainer
         anchor={anchorWithRef || anchor}
+        // rootNode for Popup is its content container, see #2873
         containerRef={this.setRootNode}
         ref={canGetAnchorNode ? null : this.updateAnchorElement}
       >
