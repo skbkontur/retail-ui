@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.3...@skbkontur/react-ui@3.12.4) (2022-04-25)
+
+
+### Reverts
+
+* Revert "fix(SidePage): change scroll behavior according to Guides (#2756)" (#2875) ([b127634](https://github.com/skbkontur/retail-ui/commit/b127634c10897584324afd71056fd6429a623bde)), closes [#2756](https://github.com/skbkontur/retail-ui/issues/2756) [#2875](https://github.com/skbkontur/retail-ui/issues/2875)
+
+
+
+
+
 ## [3.12.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.2...@skbkontur/react-ui@3.12.3) (2022-04-01)
 
 
