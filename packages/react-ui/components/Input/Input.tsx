@@ -122,7 +122,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   public state: InputState = {
-    needsPolyfillPlaceholder: false,
+    needsPolyfillPlaceholder: needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
   };
@@ -132,12 +132,6 @@ export class Input extends React.Component<InputProps, InputState> {
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
-
-  public componentDidMount() {
-    if (needsPolyfillPlaceholder) {
-      this.setState({ needsPolyfillPlaceholder: true });
-    }
-  }
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
@@ -424,7 +418,13 @@ export class Input extends React.Component<InputProps, InputState> {
     const { focused } = this.state;
     let placeholder = null;
 
-    if (this.state.needsPolyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
+    if (
+      this.state.needsPolyfillPlaceholder &&
+      this.props.placeholder &&
+      !this.isMaskVisible &&
+      !this.props.value &&
+      !this.props.defaultValue
+    ) {
       placeholder = (
         <div
           className={cx(styles.placeholder(this.theme), {

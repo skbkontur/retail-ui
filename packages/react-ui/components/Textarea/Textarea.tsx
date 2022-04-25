@@ -359,7 +359,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     let placeholderPolyfill = null;
 
-    if (this.state.needsPolyfillPlaceholder && !textareaProps.value) {
+    if (this.state.needsPolyfillPlaceholder && !textareaProps.value && !textareaProps.defaultValue) {
       placeholderPolyfill = <span className={styles.placeholder()}>{placeholder}</span>;
     }
 
