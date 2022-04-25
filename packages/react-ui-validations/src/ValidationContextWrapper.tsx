@@ -127,7 +127,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   public async validate(withoutFocus: boolean): Promise<boolean> {
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
-    const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => x.hasError());
+    const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => x.hasError() || x.hasWarning());
     if (firstInvalid) {
       if (!withoutFocus) {
         firstInvalid.focus();
