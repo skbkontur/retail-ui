@@ -2,7 +2,7 @@ import { canUseDOM } from '../../lib/client';
 
 interface mediaQueryData {
   mql: MediaQueryList;
-  listeners: ((e: MediaQueryListEvent) => void)[];
+  listeners: Array<(e: MediaQueryListEvent) => void>;
 }
 
 export interface listenerToken {

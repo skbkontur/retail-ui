@@ -10,6 +10,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -244,8 +245,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
-          ((this.header && this.header.getBoundingClientRect().height) || 0) +
-          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
+          ((this.header && getDOMRect(this.header).height) || 0) +
+          ((this.footer && getDOMRect(this.footer).height) || 0)
         : maxHeight;
 
     this.setState({
