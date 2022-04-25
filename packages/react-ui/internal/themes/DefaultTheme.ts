@@ -446,6 +446,9 @@ export class DefaultTheme {
   public static get btnLinkHoverColor() {
     return this.linkHoverColor;
   }
+  public static get btnLinkActiveColor() {
+    return this.linkActiveColor;
+  }
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }

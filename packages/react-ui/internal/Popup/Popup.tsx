@@ -265,12 +265,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderMobile() {
     const { opened } = this.props;
+    const children = this.renderChildren();
 
-    return (
+    return children ? (
       <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
-        {this.content(this.renderChildren())}
+        {this.content(children)}
       </MobilePopup>
-    );
+    ) : null;
   }
 
   private renderMain() {
