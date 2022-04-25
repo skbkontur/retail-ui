@@ -1,6 +1,6 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
-import { throttle } from 'lodash';
+import throttle from 'lodash.throttle';
 
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -80,7 +80,7 @@ export interface ModalState {
  * **Footer** необходимо передать пропс **panel**
  *
  * Для отключения прилипания шапки и футера
- * в соответствующий компонет нужно передать
+ * в соответствующий компонент нужно передать
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
@@ -270,7 +270,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     this.containerNode = center;
   };
 
-  private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
+  private handleStackChange = (stack: readonly React.Component[]) => {
     this.setState({ stackPosition: stack.indexOf(this), hasBackground: ModalStack.isBlocking(this) });
   };
 

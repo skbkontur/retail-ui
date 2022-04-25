@@ -33,7 +33,7 @@ export interface ComboBoxProps<T> extends CommonProps {
 
   disabled?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -70,7 +70,7 @@ export interface ComboBoxProps<T> extends CommonProps {
   /**
    * Вызывается при изменении текста в поле ввода,
    * если результатом функции будет строка,
-   * то она станет следующим состояним полем ввода
+   * то она станет следующим состоянием полем ввода
    */
   onInputValueChange?: (value: string) => Nullable<string> | void;
 
@@ -142,7 +142,7 @@ export interface ComboBoxProps<T> extends CommonProps {
 
   size?: 'small' | 'medium' | 'large';
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 

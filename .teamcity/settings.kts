@@ -310,7 +310,7 @@ object ReactUI_LintTest : BuildType({
     }
 
     failureConditions {
-        executionTimeoutMin = 10
+        executionTimeoutMin = 15
     }
 })
 

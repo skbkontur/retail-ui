@@ -227,7 +227,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       this.setState({ location: DUMMY_LOCATION });
     }
 
-    if (hadNoLocation && hasLocation && this.props.onOpen) {
+    if (this.props.opened && hadNoLocation && hasLocation && this.props.onOpen) {
       this.props.onOpen();
     }
     if (wasClosed && !hasLocation && this.props.onClose) {
@@ -263,12 +263,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderMobile() {
     const { opened } = this.props;
+    const children = this.renderChildren();
 
-    return (
+    return children ? (
       <MobilePopup opened={opened} withoutRenderContainer onCloseRequest={this.props.mobileOnCloseRequest}>
-        {this.content(this.renderChildren())}
+        {this.content(children)}
       </MobilePopup>
-    );
+    ) : null;
   }
 
   private renderMain() {
