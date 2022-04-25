@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.5...@skbkontur/react-ui@4.0.6) (2022-04-25)
+
+
+### Bug Fixes
+
+* **Button:** add btnLinkActiveColor theme var ([#2871](https://github.com/skbkontur/retail-ui/issues/2871)) ([0588d56](https://github.com/skbkontur/retail-ui/commit/0588d5699d07668aeb0ba25bece9fb95ea2ca89e))
+* **Popup:** use content container as rootNode instead of anchorElement ([4eed6a0](https://github.com/skbkontur/retail-ui/commit/4eed6a06eaee691a3f2e0c8e474dc9a5b139ac5b))
+* **select:** prevent calling areValuesEqual with null ([#2847](https://github.com/skbkontur/retail-ui/issues/2847)) ([52a03b5](https://github.com/skbkontur/retail-ui/commit/52a03b5ee541d129716a8690a60f070ae4617bec)), closes [#1927](https://github.com/skbkontur/retail-ui/issues/1927)
+* **Tooltip:** don't render without content on mobiles  ([#2877](https://github.com/skbkontur/retail-ui/issues/2877)) ([#2878](https://github.com/skbkontur/retail-ui/issues/2878)) ([396be08](https://github.com/skbkontur/retail-ui/commit/396be087ca7be38eb425d1c3a5262838fdb2749c))
+
+
+### Reverts
+
+* Revert "fix(SidePage): change scroll behavior according to Guides (#2756)" (#2874) ([6e4eb1a](https://github.com/skbkontur/retail-ui/commit/6e4eb1af176a1ed668beb63a0e132c69ba3bfdde)), closes [#2756](https://github.com/skbkontur/retail-ui/issues/2756) [#2874](https://github.com/skbkontur/retail-ui/issues/2874)
+
+
+
+
+
 ## [4.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.4...@skbkontur/react-ui@4.0.5) (2022-04-12)
 
 
