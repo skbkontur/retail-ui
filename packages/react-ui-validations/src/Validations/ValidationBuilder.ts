@@ -3,6 +3,7 @@ import React from 'react';
 import { Nullable } from '../../typings/Types';
 import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
 import { ValidationInfo } from '../ValidationWrapper';
+import { hasOwnProperty, isObject } from '../utils/utils';
 
 import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationWriter } from './ValidationWriter';
@@ -94,4 +95,4 @@ export class ValidationBuilder<TRoot, T> {
 }
 
 const isValidationInfo = (argument: unknown): argument is ValidationInfo =>
-  typeof argument === 'object' && Object.prototype.hasOwnProperty.call(argument, 'message');
+  isObject(argument) && hasOwnProperty(argument, 'message');

@@ -2,6 +2,7 @@ import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
 import * as ReactUI from '../../index';
+import { hasOwnProperty } from '../../lib/utils';
 
 // all components that are available for import from the react-ui
 const PUBLIC_COMPONENTS = Object.keys(ReactUI).filter((name) => {
@@ -179,6 +180,6 @@ export function isPublicComponent(component: any) {
   // it's either ClassComponent or FunctionalComponent with Kontur's mark
   return (
     typeof component === 'function' &&
-    (component.prototype.isReactComponent || Object.prototype.hasOwnProperty.call(component, '__KONTUR_REACT_UI__'))
+    (component.prototype.isReactComponent || hasOwnProperty(component, '__KONTUR_REACT_UI__'))
   );
 }

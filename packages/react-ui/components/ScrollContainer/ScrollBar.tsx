@@ -4,6 +4,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { hasOwnProperty } from '../../lib/utils';
 
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
@@ -184,7 +185,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
         mouseMoveEvent.preventDefault();
       }
 
-      if (Object.prototype.hasOwnProperty.call(mouseMoveEvent, 'returnValue')) {
+      if (hasOwnProperty(mouseMoveEvent, 'returnValue')) {
         (
           mouseMoveEvent as MouseEvent & {
             returnValue: boolean;

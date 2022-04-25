@@ -2,6 +2,7 @@ import React from 'react';
 import EventEmitter from 'eventemitter3';
 
 import { Nullable } from '../../typings/utility-types';
+import { hasOwnProperty } from '../utils';
 
 import { getRootNode } from './getRootNode';
 
@@ -54,6 +55,6 @@ export function rootNode<T extends new (...args: any[]) => React.Component>(Comp
   return rootNode;
 }
 
-export const isInstanceWithRootNode = (instance: unknown): instance is InstanceWithRootNode => {
-  return Boolean(instance) && Object.prototype.hasOwnProperty.call(instance, 'getRootNode');
+export const isInstanceWithRootNode = (instance: Nullable<object>): instance is InstanceWithRootNode => {
+  return hasOwnProperty(instance, 'getRootNode');
 };

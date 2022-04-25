@@ -2,6 +2,8 @@ import { ReactComponentLike } from 'prop-types';
 import React from 'react';
 import { isForwardRef } from 'react-is';
 
+import { Nullable } from '../typings/utility-types';
+
 import { isBrowser } from './client';
 
 // NOTE: Copy-paste from @types/react
@@ -42,6 +44,10 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
+export function isObject(x: unknown): x is object {
+  return (typeof x === 'object' && x !== null && !Array.isArray(x)) || typeof x === 'function';
+}
+
 export function isFunctionalComponent(Component: ReactComponentLike): boolean {
   return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
 }
@@ -72,15 +78,19 @@ export const isExternalLink = (link: string): boolean => {
  * Check if the given ReactNode is an element of the specified ReactUI component
  */
 export const isReactUINode = (componentName: string, node: React.ReactNode): boolean => {
-  if (React.isValidElement(node)) {
+  if (React.isValidElement(node) && isObject(node.type)) {
     return (
-      Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
+      hasOwnProperty(node.type, '__KONTUR_REACT_UI__') &&
       // @ts-ignore
       node.type.__KONTUR_REACT_UI__ === componentName
     );
   }
 
   return false;
+};
+
+export const hasOwnProperty = (object: Nullable<object>, propertyName: string): boolean => {
+  return Boolean(object) && Object.prototype.hasOwnProperty.call(object, propertyName);
 };
 
 const KB = 1024;
