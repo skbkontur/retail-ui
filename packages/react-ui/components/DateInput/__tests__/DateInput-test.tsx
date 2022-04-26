@@ -7,6 +7,11 @@ import { InternalDateOrder } from '../../../lib/date/types';
 import { DateInput, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
+type InitialDate = string;
+type PressedKeys = string[];
+type ChangedDate = string | boolean;
+type KeyDownCase = [InitialDate, PressedKeys, ChangedDate];
+
 interface LocaleDateInputProps {
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>;
   propsLocale: LocaleContextProps;
@@ -59,7 +64,7 @@ describe('DateInput as InputlikeText', () => {
       expect(getValue(getInput(root))).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
     });
 
-    const KeyDownCases: Array<[string, string[], string]> = [
+    const KeyDownCases: KeyDownCase[] = [
       // [initial date, [...keys], expected date]
 
       // Date
@@ -164,7 +169,7 @@ describe('DateInput as InputlikeText', () => {
 
     const maxDate = '12.09.2019';
 
-    const KeyDownCases: Array<[string, string[], string | boolean]> = [
+    const KeyDownCases: KeyDownCase[] = [
       // Date
       ['31.03.2017', ['ArrowUp'], '01.03.2017'],
       ['12.09.2019', ['ArrowUp'], false],

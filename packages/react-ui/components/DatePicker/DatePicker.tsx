@@ -106,7 +106,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
      */
     maxDate: PropTypes.string.isRequired,
 
-    menuAlign: PropTypes.oneOf(['left', 'right'] as Array<'left' | 'right'>),
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Минимальная дата в календаре.
