@@ -71,10 +71,4 @@ export const styles = memoizeStyle({
       min-width: ${t.inputIconSizeLarge};
     `;
   },
-
-  eyeWrapperDisabled() {
-    return css`
-      pointer-events: none;
-    `;
-  },
 });
