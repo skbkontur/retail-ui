@@ -736,3 +736,27 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
     </div>
   );
 }
+
+export const UncontrolledInputWithPlaceholder: Story = () => {
+  const [_, setValue] = React.useState<string>();
+  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
+};
+UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input With Placeholder';
+UncontrolledInputWithPlaceholder.parameters = {
+  creevey: {
+    tests: {
+      async PlainAndTyped() {
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('text')
+          .perform();
+        const typed = await this.takeScreenshot();
+        await this.expect({ plain, typed }).to.matchImages();
+      },
+    },
+  },
+};
