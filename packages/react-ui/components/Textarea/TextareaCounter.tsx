@@ -1,7 +1,7 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
-import { forwardRefAndName } from 'react-ui/lib/forwardRefAndName';
 
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';

@@ -104,6 +104,7 @@ export class Group extends React.Component<GroupProps> {
             const modifiedChild = passCornersIfButton(child, firstChild, lastChild);
 
             const isFirstChild = child === firstChild;
+            const hasOnlyOneChild = firstChild === null;
 
             return (
               <div
@@ -116,7 +117,7 @@ export class Group extends React.Component<GroupProps> {
                 <div
                   className={cx({
                     [styles.item()]: true,
-                    [styles.itemFirst()]: isFirstChild,
+                    [styles.itemFirst()]: isFirstChild || hasOnlyOneChild,
                   })}
                 >
                   {modifiedChild}
