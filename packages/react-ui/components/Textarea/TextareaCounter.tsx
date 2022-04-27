@@ -1,4 +1,5 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
+import propTypes from 'prop-types';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -60,3 +61,11 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
     </div>
   );
 });
+
+TextareaCounter.propTypes = {
+  length: propTypes.number.isRequired,
+  value: propTypes.oneOf([propTypes.string, propTypes.number]),
+  help: propTypes.oneOf([propTypes.node, propTypes.func]),
+  onCloseHelp: propTypes.func.isRequired,
+  textarea: propTypes.node.isRequired,
+};

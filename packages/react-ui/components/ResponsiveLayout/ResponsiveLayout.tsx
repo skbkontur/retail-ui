@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import propTypes from 'prop-types';
 
 import { isFunction } from '../../lib/utils';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -29,4 +30,9 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
       {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
     </CommonWrapper>
   );
+};
+
+ResponsiveLayout.propTypes = {
+  onLayoutChange: propTypes.func,
+  children: propTypes.node,
 };

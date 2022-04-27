@@ -163,7 +163,7 @@ const BaselineFont: React.FC<{
         <CrownIcon />
         <Link>Ok</Link>
         <Link icon={<CrownIcon />}>Ok</Link>
-        <Link loading={true} icon={<CrownIcon />}>
+        <Link loading icon={<CrownIcon />}>
           Ok
         </Link>
         <Toggle>Tg</Toggle>

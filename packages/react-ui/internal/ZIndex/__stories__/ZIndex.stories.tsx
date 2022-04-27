@@ -246,7 +246,7 @@ const ModalWrapper = ({ caption = 'Title', ...props }: { caption?: string; child
   <Modal>
     <Modal.Header>{caption}</Modal.Header>
     <Modal.Body>{props.children}</Modal.Body>
-    <Modal.Footer panel={true} />
+    <Modal.Footer panel />
   </Modal>
 );
 
@@ -353,7 +353,7 @@ class HintAndModal extends React.Component<{}> {
             <Button onClick={() => this.setState({ hintOpened: true })}>Show Hint</Button>
           </div>
         </Modal.Body>
-        <Modal.Footer panel={true}>
+        <Modal.Footer panel>
           <Button onClick={this.close}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -372,7 +372,7 @@ class HintAndModal extends React.Component<{}> {
     return (
       <div style={{ padding: '100px' }}>
         {this.state.modalOpened && this.renderModal()}
-        <Hint text="Text" opened={this.state.hintOpened} manual={true}>
+        <Hint text="Text" opened={this.state.hintOpened} manual>
           <Button onClick={this.open}>Open</Button>
         </Hint>
       </div>
@@ -390,7 +390,7 @@ class LoaderInModal extends React.Component<{}> {
             Body
           </Loader>
         </Modal.Body>
-        <Modal.Footer panel={true}>Footer</Modal.Footer>
+        <Modal.Footer panel>Footer</Modal.Footer>
       </Modal>
     );
   }
@@ -440,7 +440,7 @@ class LoaderInSidePage extends React.Component<{}> {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <SidePage onClose={close} blockBackground fromLeft={true}>
+            <SidePage onClose={close} blockBackground fromLeft>
               <SidePage.Header>Title</SidePage.Header>
               <SidePage.Body>
                 <div
@@ -478,7 +478,7 @@ class SidePageAndSelect extends React.Component<{}> {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <SidePage onClose={close} blockBackground fromLeft={true}>
+            <SidePage onClose={close} blockBackground fromLeft>
               <SidePage.Header>Title</SidePage.Header>
               <SidePage.Body>
                 <div
