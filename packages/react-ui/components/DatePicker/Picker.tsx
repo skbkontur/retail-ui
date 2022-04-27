@@ -17,7 +17,7 @@ interface Props {
   minDate?: CalendarDateShape;
   value: Nullable<CalendarDateShape>;
   onPick: (date: CalendarDateShape) => void;
-  onSelect?: (date: CalendarDateShape | null) => void;
+  onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
@@ -114,7 +114,10 @@ export class Picker extends React.Component<Props, State> {
 
   private handleSelectToday = (today: InternalDate) => () => {
     if (this.props.onSelect) {
-      this.props.onSelect(today.toNativeFormat());
+      const todayInNativeFormat = today.toNativeFormat();
+      if (todayInNativeFormat) {
+        this.props.onSelect(todayInNativeFormat);
+      }
     }
 
     if (this.calendar) {
