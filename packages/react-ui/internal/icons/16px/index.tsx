@@ -1,4 +1,5 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import { styles } from './icon.styles';
 
@@ -24,6 +25,13 @@ const SvgIcon = React.forwardRef<HTMLElement, SvgIconProps>(function SvgIcon(
     </span>
   );
 });
+
+SvgIcon.propTypes = {
+  color: propTypes.string,
+  size: propTypes.oneOf([propTypes.string, propTypes.number]),
+  style: propTypes.object,
+  children: propTypes.node,
+};
 
 export const ArrowChevronDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronDownIcon(
   props,

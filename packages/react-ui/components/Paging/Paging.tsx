@@ -18,6 +18,7 @@ import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
 import { getItems } from './PagingHelper';
 import { PagingLocale, PagingLocaleHelper } from './locale';
+import { PagingDefaultComponent } from './PagingDefaultComponent';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
@@ -70,11 +71,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
   public static defaultProps = {
-    component: ({ className, onClick, children }: any) => (
-      <span className={className} onClick={onClick}>
-        {children}
-      </span>
-    ),
+    component: PagingDefaultComponent,
     useGlobalListener: false,
     ['data-tid']: 'Paging__root',
   };

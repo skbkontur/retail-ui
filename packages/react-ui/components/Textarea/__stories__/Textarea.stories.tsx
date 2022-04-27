@@ -332,33 +332,19 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE.split('').join(' ')}
           width={400}
           lengthCounter={700}
-          showLengthCounter={true}
+          showLengthCounter
           spellCheck={false}
         />
       </div>
 
       <div style={headingStyle}>Autoresize</div>
       <div id="CounterAutoresizeTextarea" style={blockStyle}>
-        <Textarea
-          value={TEXT_SAMPLE}
-          width={400}
-          lengthCounter={50}
-          autoResize={true}
-          showLengthCounter={true}
-          spellCheck={false}
-        />
+        <Textarea value={TEXT_SAMPLE} width={400} lengthCounter={50} autoResize showLengthCounter spellCheck={false} />
       </div>
 
       <div style={headingStyle}>Disabled</div>
       <div id="CounterDisabled" style={blockStyle}>
-        <Textarea
-          value={TEXT_SAMPLE}
-          width={400}
-          maxLength={50}
-          disabled={true}
-          showLengthCounter={true}
-          spellCheck={false}
-        />
+        <Textarea value={TEXT_SAMPLE} width={400} maxLength={50} disabled showLengthCounter spellCheck={false} />
       </div>
 
       <div style={headingStyle}>With help</div>
@@ -367,7 +353,7 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE}
           width={400}
           maxLength={50}
-          showLengthCounter={true}
+          showLengthCounter
           counterHelp={'test'}
           spellCheck={false}
         />

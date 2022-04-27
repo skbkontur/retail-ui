@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { CSSProperties } from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
@@ -972,7 +974,7 @@ class TooltipWithClickTrigger extends React.Component {
   private outerTooltipContentGetter = () => {
     return (
       <Gapped vertical gap={5}>
-        <Checkbox checked={true}>Item 1</Checkbox>
+        <Checkbox checked>Item 1</Checkbox>
         <Checkbox checked={false}>Item 2</Checkbox>
         <Tooltip pos={'bottom left'} render={this.innerTooltipContentGetter} trigger={'click'}>
           <span>Click me for more...</span>
@@ -984,7 +986,7 @@ class TooltipWithClickTrigger extends React.Component {
     return (
       <Gapped vertical gap={5}>
         More:
-        <Checkbox checked={true}>Item 3</Checkbox>
+        <Checkbox checked>Item 3</Checkbox>
         <Checkbox checked={false}>Item 4</Checkbox>
       </Gapped>
     );

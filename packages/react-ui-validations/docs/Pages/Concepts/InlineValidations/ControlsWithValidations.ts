@@ -81,6 +81,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
     JSX.LibraryManagedAttributes<TComponent, { value?: ExtractValue<TComponent> } & ExtractProps<TComponent>>
   >
 > {
+  // eslint-disable-next-line react/display-name
   return (props) => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;

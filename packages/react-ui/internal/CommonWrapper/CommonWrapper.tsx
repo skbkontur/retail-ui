@@ -3,7 +3,7 @@ import React from 'react';
 import { isFunction, isRefableElement } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getRootNode, rootNode, TSetRootNode, TRootNodeSubscription, isInstanceWithRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export interface CommonProps {
@@ -38,6 +38,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
 > {
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
+  private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
   render() {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -59,6 +60,19 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   private ref = (instance: Nullable<React.ReactInstance>) => {
     this.setRootNode(instance);
     this.props.rootNodeRef?.(getRootNode(instance));
+
+    // refs are called when instances change
+    // so we have to renew or remove old subscription
+    this.rootNodeSubscription?.remove();
+    this.rootNodeSubscription = null;
+
+    if (instance && isInstanceWithRootNode(instance)) {
+      this.rootNodeSubscription = instance.addRootNodeChangeListener?.((node) => {
+        this.setRootNode(node);
+        this.props.rootNodeRef?.(node);
+      });
+    }
+
     const originalRef = (this.child as React.RefAttributes<any>)?.ref;
     originalRef && callChildRef(originalRef, instance);
   };

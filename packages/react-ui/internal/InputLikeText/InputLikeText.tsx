@@ -30,7 +30,7 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   takeContentWidth?: boolean;
 }
 
-export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
+export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
 
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {

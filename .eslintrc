@@ -35,8 +35,6 @@
       }
     ],
 
-    "react/prop-types": 0,
-    "react-hooks/rules-of-hooks": 2,
     "import/default": 0,
     "import/order": [
       2,
@@ -50,6 +48,12 @@
     "react/no-find-dom-node": 0,
     "react/display-name": 0,
     "@typescript-eslint/no-unused-vars": [1, { "ignoreRestSiblings": true }],
+    "react/jsx-boolean-value": 2,
+    "react/prop-types": [2, { "skipUndeclared": true }],
+    "react-hooks/exhaustive-deps": 0,
+    "react/no-unstable-nested-components": 2,
+    "react-hooks/rules-of-hooks": 2,
+    "react/no-typos": 2,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-use-before-define": 0,
     "@typescript-eslint/no-non-null-assertion": 2,
@@ -60,7 +64,6 @@
     "@typescript-eslint/camelcase": 0,
     "@typescript-eslint/array-type": [1, { "default": "array-simple" }],
     "jsx-a11y/click-events-have-key-events": 0,
-    "react-hooks/exhaustive-deps": 0,
     "jsx-a11y/no-static-element-interactions": 0,
     "jsx-a11y/no-noninteractive-tabindex": 0,
     "jsx-a11y/no-autofocus": 0,

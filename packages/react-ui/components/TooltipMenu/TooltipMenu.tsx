@@ -114,7 +114,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
           header={this.props.header}
           footer={this.props.footer}
           positions={this.props.positions}
-          popupHasPin={true}
+          popupHasPin
           disableAnimations={this.props.disableAnimations}
         >
           {this.props.children}
