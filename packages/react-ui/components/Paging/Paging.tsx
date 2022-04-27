@@ -63,7 +63,7 @@ export interface PagingProps extends CommonProps {
    *
    * @default false
    */
-  shouldBeVisibleWithOnePage: boolean;
+  shouldBeVisibleWithLessThanTwoPages: boolean;
 }
 
 export interface PagingState {
@@ -81,7 +81,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   public static defaultProps = {
     component: PagingDefaultComponent,
-    shouldBeVisibleWithOnePage: false,
+    shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
     ['data-tid']: 'Paging__root',
   };
@@ -132,7 +132,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
-    if (this.props.pagesCount < 2 && this.props.shouldBeVisibleWithOnePage) {
+    if (this.props.pagesCount < 2 && !this.props.shouldBeVisibleWithLessThanTwoPages) {
       return null;
     }
 
