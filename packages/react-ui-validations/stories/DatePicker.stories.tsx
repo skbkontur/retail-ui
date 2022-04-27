@@ -12,7 +12,7 @@ interface DatePickerStoryState {
   value: Date | string | null;
 }
 
-class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
+class DatePickerStory extends React.Component<unknown, DatePickerStoryState> {
   public state: DatePickerStoryState = {
     value: null,
   };

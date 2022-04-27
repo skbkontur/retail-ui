@@ -19,7 +19,7 @@ interface State {
   isValid: boolean | null;
 }
 
-export default class FormValidityDemo extends React.Component<{}, State> {
+export default class FormValidityDemo extends React.Component<unknown, State> {
   public state: State = {
     immediate: '',
     lostfocus: '',

@@ -20,7 +20,7 @@ interface State {
   emails: string[];
 }
 
-export default class PrimitiveTypeArrayDemo extends React.Component<{}, State> {
+export default class PrimitiveTypeArrayDemo extends React.Component<unknown, State> {
   public state: State = {
     emails: ['', '', ''],
   };

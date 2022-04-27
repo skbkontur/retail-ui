@@ -9,7 +9,7 @@ interface State {
   value: string;
 }
 
-export default class ImmediateValidationDemo extends React.Component<{}, State> {
+export default class ImmediateValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     value: '',
   };

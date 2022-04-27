@@ -31,7 +31,7 @@ interface State {
   contactInfo: ContactInfo;
 }
 
-export default class FlatObjectDemo extends React.Component<{}, State> {
+export default class FlatObjectDemo extends React.Component<unknown, State> {
   public state: State = {
     contactInfo: {
       name: '',

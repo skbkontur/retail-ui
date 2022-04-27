@@ -35,7 +35,7 @@ const validateEmail: ValidationRule<unknown, string> = (b) => {
 
 const validate = createValidator<string>(validateEmail);
 
-export default class ReusableDemo extends React.Component<{}, State> {
+export default class ReusableDemo extends React.Component<unknown, State> {
   public state: State = {
     email: '',
   };

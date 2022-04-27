@@ -8,7 +8,7 @@ interface State {
   value: string;
 }
 
-export default class ConditionalValidationDemo extends React.Component<{}, State> {
+export default class ConditionalValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     value: '',
   };

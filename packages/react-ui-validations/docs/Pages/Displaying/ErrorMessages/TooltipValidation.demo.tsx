@@ -14,7 +14,7 @@ interface State {
   value: string;
 }
 
-export default class TooltipValidationDemo extends React.Component<{}, State> {
+export default class TooltipValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     value: '',
   };

@@ -11,7 +11,7 @@ interface ComboBoxStoryState {
   selected: { value: string; label: string };
 }
 
-class ComboBoxStory extends React.Component<{}, ComboBoxStoryState> {
+class ComboBoxStory extends React.Component<unknown, ComboBoxStoryState> {
   public state: ComboBoxStoryState = {
     selected: { value: 'one', label: 'one' },
   };

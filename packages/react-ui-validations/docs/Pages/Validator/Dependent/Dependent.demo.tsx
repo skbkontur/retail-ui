@@ -23,7 +23,7 @@ interface State {
   data: Data;
 }
 
-export default class LostfocusValidationDemo extends React.Component<{}, State> {
+export default class LostfocusValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     data: {
       onlyDigits: false,

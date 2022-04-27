@@ -10,7 +10,7 @@ interface State {
   value: string;
 }
 
-export default class SubmitValidationDemo extends React.Component<{}, State> {
+export default class SubmitValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     value: '',
   };

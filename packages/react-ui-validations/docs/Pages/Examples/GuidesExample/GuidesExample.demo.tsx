@@ -151,7 +151,7 @@ interface State {
   organization: Organization;
 }
 
-export default class GuidesExampleDemo extends React.Component<{}, State> {
+export default class GuidesExampleDemo extends React.Component<unknown, State> {
   public state: State = {
     organization: {
       name: '',

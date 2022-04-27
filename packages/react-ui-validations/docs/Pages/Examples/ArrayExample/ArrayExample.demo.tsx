@@ -33,7 +33,7 @@ const validate = createValidator<string[]>((b, a) => {
     },
   );
 });
-export default class ArrayExampleDemo extends React.Component<{}, State> {
+export default class ArrayExampleDemo extends React.Component<unknown, State> {
   public state: State = {
     values: [''],
   };

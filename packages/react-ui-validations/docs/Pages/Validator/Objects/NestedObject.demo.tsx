@@ -47,7 +47,7 @@ interface State {
   contactInfo: ContactInfo;
 }
 
-export default class NestedObjectDemo extends React.Component<{}, State> {
+export default class NestedObjectDemo extends React.Component<unknown, State> {
   public state: State = {
     contactInfo: {
       fullName: {

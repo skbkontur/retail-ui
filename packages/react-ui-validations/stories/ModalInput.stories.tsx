@@ -16,7 +16,7 @@ interface ModalInputStoryState {
   value: string;
 }
 
-class ModalInputStory extends React.Component<{}, ModalInputStoryState> {
+class ModalInputStory extends React.Component<unknown, ModalInputStoryState> {
   public state = {
     value: '',
   };
@@ -97,7 +97,7 @@ interface SmallModalInputStoryState {
   value: string;
 }
 
-class SmallModalInputStory extends React.Component<{}, SmallModalInputStoryState> {
+class SmallModalInputStory extends React.Component<unknown, SmallModalInputStoryState> {
   public state: SmallModalInputStoryState = {
     value: '',
   };

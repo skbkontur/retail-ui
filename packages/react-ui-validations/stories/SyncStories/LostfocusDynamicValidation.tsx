@@ -11,7 +11,7 @@ interface LostfocusDynamicValidationState {
   valueB: string;
 }
 
-export class LostfocusDynamicValidation extends React.Component<{}, LostfocusDynamicValidationState> {
+export class LostfocusDynamicValidation extends React.Component<unknown, LostfocusDynamicValidationState> {
   public state: LostfocusDynamicValidationState = {
     sending: false,
     valueA: '',

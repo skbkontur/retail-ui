@@ -17,7 +17,7 @@ interface State {
   data: ContactInfo;
 }
 
-export default class InlineValidationsDemo extends React.Component<{}, State> {
+export default class InlineValidationsDemo extends React.Component<unknown, State> {
   public state: State = {
     data: {
       name: '',

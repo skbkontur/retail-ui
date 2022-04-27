@@ -42,7 +42,7 @@ interface State {
   data: Data;
 }
 
-export default class MissingObjectNode extends React.Component<{}, State> {
+export default class MissingObjectNode extends React.Component<unknown, State> {
   public state: State = {
     data: {
       withContact: false,

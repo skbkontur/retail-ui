@@ -39,7 +39,7 @@ const initialState: State = {
   reset: 1,
 };
 
-export default class IndependentCompare extends React.Component<{}, State> {
+export default class IndependentCompare extends React.Component<unknown, State> {
   public state: State = initialState;
 
   private container: Nullable<ValidationContainer> = null;

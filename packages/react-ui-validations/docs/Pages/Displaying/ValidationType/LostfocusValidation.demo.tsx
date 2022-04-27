@@ -9,7 +9,7 @@ interface State {
   value: string;
 }
 
-export default class LostfocusValidationDemo extends React.Component<{}, State> {
+export default class LostfocusValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     value: '',
   };

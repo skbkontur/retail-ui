@@ -36,7 +36,7 @@ interface State {
   contacts: ContactInfo[];
 }
 
-export default class ObjectArrayDemo extends React.Component<{}, State> {
+export default class ObjectArrayDemo extends React.Component<unknown, State> {
   public state: State = {
     contacts: [
       { name: '', email: '' },

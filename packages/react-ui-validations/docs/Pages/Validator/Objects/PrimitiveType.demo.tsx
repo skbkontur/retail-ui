@@ -15,7 +15,7 @@ const validate = createValidator<string>((b) => {
   b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
 });
 
-export default class PrimitiveTypeDemo extends React.Component<{}, State> {
+export default class PrimitiveTypeDemo extends React.Component<unknown, State> {
   public state: State = {
     email: '',
   };

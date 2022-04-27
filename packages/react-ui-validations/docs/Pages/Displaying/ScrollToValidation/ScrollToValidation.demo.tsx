@@ -14,7 +14,7 @@ interface State {
   value3: string;
 }
 
-export default class ScrollToValidationDemo extends React.Component<{}, State> {
+export default class ScrollToValidationDemo extends React.Component<unknown, State> {
   public state: State = {
     value0: '',
     value1: '',

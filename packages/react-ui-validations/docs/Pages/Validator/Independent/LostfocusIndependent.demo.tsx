@@ -16,7 +16,7 @@ interface State {
 }
 
 export default class LostfocusDependentErrorValidationDemo extends React.Component<
-  {},
+  unknown,
   State
 > {
   public state: State = {

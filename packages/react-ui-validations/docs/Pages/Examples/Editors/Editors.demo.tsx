@@ -112,7 +112,7 @@ interface State {
   data: ContactInfo;
 }
 
-export default class EditorsDemo extends React.Component<{}, State> {
+export default class EditorsDemo extends React.Component<unknown, State> {
   public state: State = {
     data: {
       name: '',

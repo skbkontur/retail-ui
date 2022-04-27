@@ -15,7 +15,7 @@ interface State {
   lastname: string;
 }
 
-export default class LostfocusDependentDemo extends React.Component<{}, State> {
+export default class LostfocusDependentDemo extends React.Component<unknown, State> {
   public state: State = {
     name: '',
     lastname: '',
