@@ -11,7 +11,6 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -57,7 +56,7 @@ export interface ButtonProps extends CommonProps {
   children?: React.ReactNode;
 
   /** @ignore */
-  corners?: number;
+  corners?: React.CSSProperties;
 
   /**
    * Отключенное состояние кнопки.
@@ -68,7 +67,7 @@ export interface ButtonProps extends CommonProps {
   disableFocus?: boolean;
 
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -150,7 +149,7 @@ export interface ButtonProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 
@@ -168,10 +167,6 @@ export interface ButtonState {
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
-  public static TOP_LEFT = Corners.TOP_LEFT;
-  public static TOP_RIGHT = Corners.TOP_RIGHT;
-  public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
-  public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
   public static defaultProps = {
     use: 'default' as ButtonUse,
@@ -228,7 +223,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private renderMain() {
     const {
-      corners = 0,
+      corners,
       active,
       disabled,
       borderless,
@@ -241,7 +236,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       icon,
       _noPadding,
       _noRightPadding,
-      use = Button.defaultProps.use,
       visuallyFocused,
       align,
       disableFocus,
@@ -253,6 +247,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
+    const use = this.props.use || Button.defaultProps.use;
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -278,20 +273,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.noRightPadding()]: _noRightPadding,
       }),
       style: {
-        borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
-        borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
-        borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
-        borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: align,
+        ...corners,
       },
       disabled: disabled || loading,
-      onClick: onClick,
+      onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: onKeyDown,
-      onMouseEnter: onMouseEnter,
-      onMouseLeave: onMouseLeave,
-      onMouseOver: onMouseOver,
+      onKeyDown,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
       tabIndex: disableFocus ? -1 : 0,
       title: this.props.title,
     };
@@ -304,7 +296,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
-        width: width,
+        width,
       },
     };
 

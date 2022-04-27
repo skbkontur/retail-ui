@@ -10,10 +10,7 @@ export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   ref?: any;
 }
 
-const SvgIcon = React.forwardRef<HTMLElement, SvgIconProps>(function SvgIcon(
-  { color, size, style, children, ...rest },
-  ref,
-) {
+const SvgIcon = React.forwardRef<HTMLElement, SvgIconProps>(({ color, size, style, children, ...rest }, ref) => {
   return (
     <span ref={ref} className={styles.root()} style={{ ...style, fontSize: size, color }} {...rest}>
       {React.cloneElement(children as JSX.Element, {
@@ -25,10 +22,7 @@ const SvgIcon = React.forwardRef<HTMLElement, SvgIconProps>(function SvgIcon(
   );
 });
 
-export const ArrowChevronDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronDownIcon(
-  props,
-  ref,
-) {
+export const ArrowChevronDownIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
@@ -42,7 +36,7 @@ export const ArrowChevronDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(
   );
 });
 
-export const ArrowChevronUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronUpIcon(props, ref) {
+export const ArrowChevronUpIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
@@ -56,10 +50,7 @@ export const ArrowChevronUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(fu
   );
 });
 
-export const ArrowChevronRightIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronRightIcon(
-  props,
-  ref,
-) {
+export const ArrowChevronRightIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -72,10 +63,7 @@ export const ArrowChevronRightIcon = React.forwardRef<HTMLElement, SvgIconProps>
   );
 });
 
-export const ArrowTriangleDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowTriangleDownIcon(
-  props,
-  ref,
-) {
+export const ArrowTriangleDownIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -85,10 +73,7 @@ export const ArrowTriangleDownIcon = React.forwardRef<HTMLElement, SvgIconProps>
   );
 });
 
-export const ArrowTriangleUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowTriangleUpIcon(
-  props,
-  ref,
-) {
+export const ArrowTriangleUpIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -98,10 +83,7 @@ export const ArrowTriangleUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(f
   );
 });
 
-export const ArrowTriangleUpDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowTriangleUpDownIcon(
-  props,
-  ref,
-) {
+export const ArrowTriangleUpDownIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -111,7 +93,7 @@ export const ArrowTriangleUpDownIcon = React.forwardRef<HTMLElement, SvgIconProp
   );
 });
 
-export const CalendarIcon = React.forwardRef<HTMLElement, SvgIconProps>(function CalendarIcon(props, ref) {
+export const CalendarIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -124,7 +106,7 @@ export const CalendarIcon = React.forwardRef<HTMLElement, SvgIconProps>(function
   );
 });
 
-export const EditIcon = React.forwardRef<HTMLElement, SvgIconProps>(function EditIcon(props, ref) {
+export const EditIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -137,7 +119,7 @@ export const EditIcon = React.forwardRef<HTMLElement, SvgIconProps>(function Edi
   );
 });
 
-export const EyeClosedIcon = React.forwardRef<HTMLElement, SvgIconProps>(function EyeClosedIcon(props, ref) {
+export const EyeClosedIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -150,7 +132,7 @@ export const EyeClosedIcon = React.forwardRef<HTMLElement, SvgIconProps>(functio
   );
 });
 
-export const EyeOpenedIcon = React.forwardRef<HTMLElement, SvgIconProps>(function EyeOpenedIcon(props, ref) {
+export const EyeOpenedIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -163,7 +145,7 @@ export const EyeOpenedIcon = React.forwardRef<HTMLElement, SvgIconProps>(functio
   );
 });
 
-export const FunctionIcon = React.forwardRef<HTMLElement, SvgIconProps>(function FunctionIcon(props, ref) {
+export const FunctionIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -176,7 +158,7 @@ export const FunctionIcon = React.forwardRef<HTMLElement, SvgIconProps>(function
   );
 });
 
-export const MenuKebabIcon = React.forwardRef<HTMLElement, SvgIconProps>(function MenuKebabIcon(props, ref) {
+export const MenuKebabIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -189,7 +171,7 @@ export const MenuKebabIcon = React.forwardRef<HTMLElement, SvgIconProps>(functio
   );
 });
 
-export const OkIcon = React.forwardRef<HTMLElement, SvgIconProps>(function OkIcon(props, ref) {
+export const OkIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -202,7 +184,7 @@ export const OkIcon = React.forwardRef<HTMLElement, SvgIconProps>(function OkIco
   );
 });
 
-export const SquareIcon = React.forwardRef<HTMLElement, SvgIconProps>(function SquareIcon(props, ref) {
+export const SquareIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -212,7 +194,7 @@ export const SquareIcon = React.forwardRef<HTMLElement, SvgIconProps>(function S
   );
 });
 
-export const UndoIcon = React.forwardRef<HTMLElement, SvgIconProps>(function UndoIcon(props, ref) {
+export const UndoIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -225,7 +207,7 @@ export const UndoIcon = React.forwardRef<HTMLElement, SvgIconProps>(function Und
   );
 });
 
-export const HelpDotIcon = React.forwardRef<HTMLElement, SvgIconProps>(function HelpDotIcon(props, ref) {
+export const HelpDotIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -238,7 +220,7 @@ export const HelpDotIcon = React.forwardRef<HTMLElement, SvgIconProps>(function 
   );
 });
 
-export const ErrorIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ErrorIcon(props, ref) {
+export const ErrorIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
@@ -252,7 +234,7 @@ export const ErrorIcon = React.forwardRef<HTMLElement, SvgIconProps>(function Er
   );
 });
 
-export const DeleteIcon = React.forwardRef<HTMLElement, SvgIconProps>(function DeleteIcon(props, ref) {
+export const DeleteIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
@@ -266,7 +248,7 @@ export const DeleteIcon = React.forwardRef<HTMLElement, SvgIconProps>(function D
   );
 });
 
-export const UploadIcon = React.forwardRef<HTMLElement, SvgIconProps>(function UploadIcon(props, ref) {
+export const UploadIcon = React.forwardRef<HTMLElement, SvgIconProps>((props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>

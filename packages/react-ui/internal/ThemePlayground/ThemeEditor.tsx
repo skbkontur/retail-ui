@@ -4,6 +4,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { Gapped } from '../../components/Gapped';
 import { Loader } from '../../components/Loader';
+import { isNonNullable } from '../../lib/utils';
 
 import { VariableValue } from './VariableValue';
 import { VARIABLES_GROUPS, DEPRECATED_VARIABLES } from './constants';
@@ -148,18 +149,24 @@ const prefixesReducer = (acc: string[], current: { title: string; prefix: string
   const splitPrefix = current.prefix.split(' ');
   return [...acc, ...splitPrefix];
 };
-const getBaseVariables = (theme: Theme, variable: keyof Theme): Array<keyof Theme> => {
-  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
+
+type GetBaseVariablesReturnType = Array<keyof Theme>;
+const getBaseVariables = (theme: Theme, variable: keyof Theme): GetBaseVariablesReturnType => {
+  // TODO: Rewrite for loop.
+  // TODO: Enable `no-param-reassign` rule.
+  // eslint-disable-next-line no-param-reassign
+  for (; isNonNullable(theme); theme = Object.getPrototypeOf(theme)) {
     if (Object.prototype.hasOwnProperty.call(theme, variable)) {
       const descriptor = Object.getOwnPropertyDescriptor(theme, variable);
 
       if (descriptor && typeof descriptor.get !== 'undefined') {
         const getterBody = descriptor.get.toString();
         const variableNameMatchArray = getterBody.match(/this\.(\w+)\b/gm) || [];
-        return (variableNameMatchArray || []).map((v) => v.replace(/this\./g, '')) as Array<keyof Theme>;
+        return (variableNameMatchArray || []).map((v) => v.replace(/this\./g, '')) as GetBaseVariablesReturnType;
       }
       break;
     }
   }
+
   return [];
 };

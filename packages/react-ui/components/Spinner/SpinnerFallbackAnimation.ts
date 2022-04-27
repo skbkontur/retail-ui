@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 import { ColorFactory } from '../../lib/styles/ColorFactory';
 
 export class SpinnerFallbackAnimationRunner {
@@ -28,9 +29,14 @@ const rafInterval = (fn: () => void, delay: number) => {
   let rafId = 0;
 
   const interval = () => {
-    if (cleared) return;
+    if (cleared) {
+      return;
+    }
+
     const timestamp = new Date().getTime();
-    if (!lastcall) lastcall = timestamp;
+    if (!lastcall) {
+      lastcall = timestamp;
+    }
     if (timestamp - lastcall > delay) {
       fn();
       lastcall = timestamp;
@@ -58,9 +64,14 @@ class Animation {
   ) {}
 
   public step = () => {
-    if (this.isFinished) return;
+    if (this.isFinished) {
+      return;
+    }
+
     const timestamp = new Date().getTime();
-    if (!this.startTime) this.startTime = timestamp;
+    if (!this.startTime) {
+      this.startTime = timestamp;
+    }
     const progress = (timestamp - this.startTime) / this.duration;
 
     this.onProgress(progress);

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';
@@ -126,7 +127,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       return;
     }
 
-    if (isKeyCapsLock(e) && capsLockEnabled != null) {
+    if (isKeyCapsLock(e) && isNonNullable(capsLockEnabled)) {
       this.setState({ capsLockEnabled: !capsLockEnabled });
     }
   };

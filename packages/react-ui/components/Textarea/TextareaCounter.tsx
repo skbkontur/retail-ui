@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useContext, useCallback, useImperativeHandle, useState } from 'react';
+import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -23,41 +23,39 @@ export interface TextareaCounterRef {
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
-export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TextareaCounter(
-  { length, value, help, onCloseHelp, textarea },
-  ref,
-) {
-  const theme = useContext(ThemeContext);
-  const [width, setWidth] = useState(textarea.clientWidth);
-  const [height, setHeight] = useState(textarea.clientHeight);
-  const reflow = () => {
-    const { clientWidth, clientHeight } = textarea;
-    setWidth(clientWidth);
-    setHeight(clientHeight);
-  };
-  useEffect(reflow, [textarea]);
-  useImperativeHandle(ref, () => ({ reflow }), [ref]);
-  const renderTooltipContent = useCallback(() => help, [help]);
-  const textareaValue = value ? value.toString().length : 0;
-  const counterValue = length - textareaValue;
-  const counterHelp = isFunction(help) ? (
-    help()
-  ) : (
-    <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
-      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
-    </Tooltip>
-  );
+export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(
+  ({ length, value, help, onCloseHelp, textarea }, ref) => {
+    const theme = useContext(ThemeContext);
+    const [width, setWidth] = useState(textarea.clientWidth);
+    const [height, setHeight] = useState(textarea.clientHeight);
+    const reflow = useCallback(() => {
+      const { clientWidth, clientHeight } = textarea;
+      setWidth(clientWidth);
+      setHeight(clientHeight);
+    }, [textarea]);
+    useImperativeHandle(ref, () => ({ reflow }), [reflow]);
+    const renderTooltipContent = useCallback(() => help, [help]);
+    const textareaValue = value ? value.toString().length : 0;
+    const counterValue = length - textareaValue;
+    const counterHelp = isFunction(help) ? (
+      help()
+    ) : (
+      <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
+        <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
+      </Tooltip>
+    );
 
-  return (
-    <div className={styles.counterContainer(theme)} style={{ width, height }}>
-      <span
-        className={cx(styles.counter(theme), {
-          [styles.counterError(theme)]: counterValue < 0,
-        })}
-      >
-        {counterValue}
-        {help && <span className={styles.counterHelp()}>{counterHelp}</span>}
-      </span>
-    </div>
-  );
-});
+    return (
+      <div className={styles.counterContainer(theme)} style={{ width, height }}>
+        <span
+          className={cx(styles.counter(theme), {
+            [styles.counterError(theme)]: counterValue < 0,
+          })}
+        >
+          {counterValue}
+          {help && <span className={styles.counterHelp()}>{counterHelp}</span>}
+        </span>
+      </div>
+    );
+  },
+);

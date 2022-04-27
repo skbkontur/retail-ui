@@ -2,6 +2,7 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
+import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { DefaultPosition, Popup, PopupProps, PopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
@@ -14,7 +15,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 
 import { styles } from './Tooltip.styles';
 
@@ -150,7 +152,7 @@ const Positions: PopupPositionsType[] = [
 
 @rootNode
 @responsiveLayout
-export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
 
   private isMobileLayout!: boolean;
@@ -189,6 +191,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private clickedOutside = true;
   private setRootNode!: TSetRootNode;
 
+  private popupRef = React.createRef<Popup>();
   public componentDidUpdate(prevProps: TooltipProps) {
     if (this.props.trigger === 'closed' && this.state.opened) {
       this.close();
@@ -237,7 +240,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
   public renderContent = () => {
     const content = this.props.render ? this.props.render() : null;
-    if (content == null) {
+    if (isNullable(content)) {
       return null;
     }
 
@@ -266,13 +269,19 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     );
   }
 
+  public getAnchorElement = (): Nullable<HTMLElement> => {
+    return this.popupRef.current?.anchorElement;
+  };
+
   /**
    * Программно открывает тултип.
    * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
    * @public
    */
   public show() {
-    if (this.state.opened) return;
+    if (this.state.opened) {
+      return;
+    }
     if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
       warning(true, `Function 'show' is not supported with trigger specified '${this.props.trigger}'`);
       return;
@@ -305,15 +314,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     }
 
     return (
-      <RenderLayer {...layerProps} getAnchorElement={this.getRenderLayerAnchorElement}>
+      <RenderLayer {...layerProps} getAnchorElement={this.getAnchorElement}>
         {popup}
       </RenderLayer>
     );
   }
-
-  private getRenderLayerAnchorElement = () => {
-    return getRootNode(this);
-  };
 
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
@@ -335,6 +340,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           onClose={this.props.onClose}
           mobileOnCloseRequest={this.mobileCloseHandler}
           tryPreserveFirstRenderedPosition
+          ref={this.popupRef}
           {...popupProps}
         >
           {content}

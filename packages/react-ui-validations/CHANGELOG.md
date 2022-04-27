@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.1...react-ui-validations@1.8.2) (2022-04-25)
+
+
+### Bug Fixes
+
+* **validations:** add focus on submit for fields with warning ([#2804](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2804)) ([5b7d468](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/5b7d468989f358ad65e9cb484fe3243c5752d333))
+
+
+
+
+
+## [1.8.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.0...react-ui-validations@1.8.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** publish source maps ([#2825](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2825)) ([e0466d8](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/e0466d8301cc3a519487648110a1b94a75416eb2))
+
+
+
+
+
+# [1.8.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.7.0...react-ui-validations@1.8.0) (2022-03-01)
+
+
+### Bug Fixes
+
+* **react-ui:** call original refs while replacing them ([#2729](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2729)) ([cd75e9f](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/cd75e9f8fb03b469b783171cb74c099841b5ab6f))
+
+
+### Features
+
+* **FileUploader:** new component FileUploader ([#2542](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2542)) ([18d009a](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/18d009a8ebeafa2379d5fb46a564ead97c3da6a5))
+
+
+
+
+
 # [1.7.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.6.0...react-ui-validations@1.7.0) (2022-01-27)
 
 

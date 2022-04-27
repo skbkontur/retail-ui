@@ -2,7 +2,7 @@ import { canUseDOM } from '../../lib/client';
 
 interface mediaQueryData {
   mql: MediaQueryList;
-  listeners: ((e: MediaQueryListEvent) => void)[];
+  listeners: Array<(e: MediaQueryListEvent) => void>;
 }
 
 export interface listenerToken {
@@ -44,7 +44,11 @@ function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent)
   const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
   eventListenersMap.set(mediaQuery, newMediaQueryInfo);
-  eventListenersMap.get(mediaQuery)?.mql.addEventListener('change', changeCallback);
+  if (mql.addEventListener) {
+    mql.addEventListener('change', changeCallback);
+  } else {
+    mql.addListener(changeCallback);
+  }
 }
 
 function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
@@ -55,7 +59,11 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
       const newListeners = eventListener.listeners.filter((listener) => listener !== callback);
 
       if (newListeners.length === 0) {
-        eventListener.mql.removeEventListener('change', changeCallback);
+        if (eventListener.mql.removeEventListener) {
+          eventListener.mql.removeEventListener('change', changeCallback);
+        } else {
+          eventListener.mql.removeListener(changeCallback);
+        }
         eventListenersMap.delete(mediaQuery);
         return;
       }
@@ -75,11 +83,10 @@ export function checkMatches(mediaQuery: string) {
 
   if (!eventListenersMap.has(mediaQuery)) {
     return window.matchMedia(mediaQuery).matches;
-  } else {
-    const eventListener = eventListenersMap.get(mediaQuery);
-
-    return eventListener!.mql.matches;
   }
+
+  const eventListener = eventListenersMap.get(mediaQuery);
+  return eventListener!.mql.matches;
 }
 
 function changeCallback(e: MediaQueryListEvent) {

@@ -16,6 +16,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Autocomplete.styles';
 
@@ -24,9 +25,12 @@ function match(pattern: string, items: string[]) {
     return Promise.resolve([]);
   }
 
-  pattern = pattern.toLowerCase();
-  const filteredItems = items.filter((item) => item.toLowerCase().includes(pattern));
-  return Promise.resolve(filteredItems);
+  const lowerCasedPattern = pattern.toLowerCase();
+  const itemsMatchingPattern = items.filter((item) => {
+    return item.toLowerCase().includes(lowerCasedPattern);
+  });
+
+  return Promise.resolve(itemsMatchingPattern);
 }
 
 function renderItem(item: any) {
@@ -222,7 +226,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
+      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan).width),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -282,14 +286,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           );
         })
       : null;
-  };
-
-  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
-    if (target instanceof Element) {
-      return target.getBoundingClientRect().width;
-    }
-
-    return 0;
   };
 
   private handleValueChange = (value: string) => {
@@ -425,7 +421,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     let promise;
-    const expectingId = (this.requestId += 1);
+    this.requestId += 1;
+    const expectingId = this.requestId;
     if (typeof source === 'function') {
       promise = source(pattern);
     } else {

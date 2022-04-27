@@ -446,6 +446,9 @@ export class DefaultTheme {
   public static get btnLinkHoverColor() {
     return this.linkHoverColor;
   }
+  public static get btnLinkActiveColor() {
+    return this.linkActiveColor;
+  }
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
@@ -904,6 +907,9 @@ export class DefaultTheme {
   //#region Menu
   public static get menuBgDefault() {
     return this.bgSecondary;
+  }
+  public static get menuBorderRadius() {
+    return '0px';
   }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
@@ -1606,8 +1612,10 @@ export class DefaultTheme {
   public static globalLoaderBottom = 'auto';
   public static globalLoaderRight = 'auto';
   public static globalLoaderBackgroundColor = 'transparent';
-  public static globalLoaderTransitionDuration = '500'; //ms
+  public static globalLoaderTransitionToSpinnerDuration = '500'; //ms
   public static globalLoaderSpinnerAnimationDuration = '2000'; //ms
+  public static globalLoaderSlowAnimationDuration = '20000'; //ms
+  public static globalLoaderTransitionFromSpinnerDuration = '200'; //ms
   //#endregion
   //#region FileUploader
   public static fileUploaderWidth = '362px';

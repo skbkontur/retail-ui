@@ -16,10 +16,10 @@ VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, i
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
     tests: {
-      async ['short Items']() {
+      async 'short Items'() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
       },
-      async ['short Items scroll']() {
+      async 'short Items scroll'() {
         await this.browser.executeScript(function () {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
@@ -28,14 +28,14 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
         });
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
       },
-      async ['long Items']() {
+      async 'long Items'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
       },
-      async ['long Items scroll']() {
+      async 'long Items scroll'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
@@ -52,8 +52,9 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   },
 };
 
+type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
-  public aligns: Array<'left' | 'right'> = ['left', 'right'];
+  public aligns: Align[] = ['left', 'right'];
   public portals = [false, true];
   public rows = ['top', 'middle', 'bottom'];
   public cols = ['left', 'center', 'right'];
@@ -147,7 +148,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
                     onToggle={(value) => this.toggle(dropdownId, value)}
                     dropdownProps={{ align, disablePortal }}
                   >
-                    <Menu>
+                    <Menu align={align}>
                       <MenuItem style={{ pointerEvents: 'none' }}>
                         {`${row}/${col}/align-${align}/portal-${!disablePortal}; `.repeat(long ? 3 : 1)}
                       </MenuItem>

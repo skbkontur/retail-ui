@@ -235,6 +235,12 @@ class SidePageOverAnotherSidePage extends React.Component<{}> {
   }
 }
 
+class StickySidePageHeaderWhenAnotherSidePage extends React.Component<{}> {
+  public render() {
+    return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
+  }
+}
+
 interface SidePageWithCloseConfigurationState {
   ignoreBackgroundClick: boolean;
   blockBackground: boolean;
@@ -630,7 +636,7 @@ SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 SidePageOverAnotherSidePageStory.parameters = {
   creevey: {
     tests: {
-      async ['open internal side-page']() {
+      async 'open internal side-page'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -641,7 +647,7 @@ SidePageOverAnotherSidePageStory.parameters = {
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
       },
-      async ['close internal side-page']() {
+      async 'close internal side-page'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -655,6 +661,39 @@ SidePageOverAnotherSidePageStory.parameters = {
           .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('close internal side-page');
+      },
+    },
+  },
+};
+
+export const StickySidePageHeaderWhenAnotherSidePageStory: Story = () => <StickySidePageHeaderWhenAnotherSidePage />;
+StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader when another SidePage';
+
+StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
+  creevey: {
+    tests: {
+      async 'sticky header, open and close internal side-page'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: 'button' }))
+          .perform();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-comp-name~="SidePageBody"] button' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+
+          // @ts-ignore
+          sidepageContainer.scrollTop = 3000;
+        });
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
+          .perform();
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage(
+          'sticky header, open and close internal side-page',
+        );
       },
     },
   },
@@ -692,7 +731,7 @@ export const Simple: Story = () => <SimpleSidePage />;
 Simple.parameters = {
   creevey: {
     tests: {
-      async ['open side-page']() {
+      async 'open side-page'() {
         await this.browser
           .actions({
             bridge: true,
@@ -711,7 +750,7 @@ BodyWithoutFooter.storyName = 'Body without Footer';
 BodyWithoutFooter.parameters = {
   creevey: {
     tests: {
-      async ['scroll to bottom']() {
+      async 'scroll to bottom'() {
         await this.browser
           .actions({
             bridge: true,
@@ -736,7 +775,7 @@ BodyWithoutHeader.storyName = 'Body without Header';
 BodyWithoutHeader.parameters = {
   creevey: {
     tests: {
-      async ['open side-page without header']() {
+      async 'open side-page without header'() {
         await this.browser
           .actions({
             bridge: true,
@@ -763,7 +802,7 @@ TestUpdateLayoutMethodStory.parameters = {
       async idle() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
       },
-      async ['Body content has been changed']() {
+      async 'Body content has been changed'() {
         await this.browser
           .actions({
             bridge: true,
@@ -772,7 +811,7 @@ TestUpdateLayoutMethodStory.parameters = {
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Body content has been changed');
       },
-      async ['child component content has been changed']() {
+      async 'child component content has been changed'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -784,7 +823,7 @@ TestUpdateLayoutMethodStory.parameters = {
           'child component content has been changed',
         );
       },
-      async ['update layout']() {
+      async 'update layout'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -822,10 +861,10 @@ WithLongTitleStory.storyName = 'With long title';
 WithLongTitleStory.parameters = {
   creevey: {
     tests: {
-      async ['not fixed']() {
+      async 'not fixed'() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
       },
-      async ['fixed close element']() {
+      async 'fixed close element'() {
         await this.browser.executeScript(function () {
           const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
@@ -837,7 +876,7 @@ WithLongTitleStory.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
       },
-      async ['fixed header']() {
+      async 'fixed header'() {
         await this.browser.executeScript(function () {
           const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
           const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
@@ -906,10 +945,10 @@ SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Childre
 SidePageWithChildrenFromOtherComponent.parameters = {
   creevey: {
     tests: {
-      async ['without header, footer']() {
+      async 'without header, footer'() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('without header, footer');
       },
-      async ['scroll to bottom without header, footer']() {
+      async 'scroll to bottom without header, footer'() {
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
@@ -919,7 +958,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom without header, footer');
       },
-      async ['with header, footer']() {
+      async 'with header, footer'() {
         await this.browser
           .actions({
             bridge: true,
@@ -932,7 +971,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('with header, footer');
       },
-      async ['scroll to bottom with header, footer']() {
+      async 'scroll to bottom with header, footer'() {
         await this.browser
           .actions({
             bridge: true,
@@ -950,7 +989,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with header, footer');
       },
-      async ['with panel']() {
+      async 'with panel'() {
         await this.browser
           .actions({
             bridge: true,
@@ -962,7 +1001,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('with panel');
       },
-      async ['scroll to bottom with panel']() {
+      async 'scroll to bottom with panel'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))

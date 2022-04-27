@@ -66,6 +66,10 @@ describe('Props Forwarding', () => {
           (wrapper as ReactWrapper<{}, {}, ReactUI.Toast>).instance().push('Tast');
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
+        case 'GlobalLoader':
+          (wrapper as ReactWrapper<{}, {}, ReactUI.GlobalLoader>).setProps({ active: true });
+          wrapper.update();
+          return wrapper.getDOMNode();
         default:
           return wrapper.getDOMNode();
       }
@@ -87,9 +91,9 @@ describe('Props Forwarding', () => {
 
         const wrapperNode = getTestDOMNode(compName, wrapper);
 
-        expect(wrapperNode.getAttribute('data-tid')).toBe(props['data-tid']);
-        expect(wrapperNode.getAttribute('data-testid')).toBe(props['data-testid']);
-        expect(wrapperNode.classList.contains(props.className)).toBe(true);
+        expect(wrapperNode).toHaveAttribute('data-tid', props['data-tid']);
+        expect(wrapperNode).toHaveAttribute('data-testid', props['data-testid']);
+        expect(wrapperNode).toHaveClass(props.className);
         expect(getComputedStyle(wrapperNode)).toMatchObject(props.style);
       },
     );

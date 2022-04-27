@@ -12,6 +12,7 @@ export * from './components/DropdownMenu';
 export * from './components/FileUploader';
 export * from './components/FxInput';
 export * from './components/Gapped';
+export * from './components/GlobalLoader';
 export * from './components/Group';
 export * from './components/Hint';
 export * from './components/Input';

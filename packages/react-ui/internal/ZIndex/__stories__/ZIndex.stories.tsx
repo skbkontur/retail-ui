@@ -731,7 +731,7 @@ HintAndModalStory.storyName = 'Hint and modal';
 HintAndModalStory.parameters = {
   creevey: {
     tests: {
-      async ['Modal covers hint']() {
+      async 'Modal covers hint'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -758,7 +758,7 @@ BigModalWithLoaderStory.storyName = 'Big modal with Loader';
 BigModalWithLoaderStory.parameters = {
   creevey: {
     tests: {
-      async ['Header covers Loader']() {
+      async 'Header covers Loader'() {
         await this.browser.executeScript(function () {
           const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
@@ -781,7 +781,7 @@ TooltipAndSelectStory.storyName = 'Tooltip and Select';
 TooltipAndSelectStory.parameters = {
   creevey: {
     tests: {
-      async ['Menu covers tooltip']() {
+      async 'Menu covers tooltip'() {
         const element = await this.browser.findElement({ css: '.container' });
 
         await this.browser
@@ -802,7 +802,7 @@ LoaderInSidePageBody.storyName = 'Loader in SidePage.Body';
 LoaderInSidePageBody.parameters = {
   creevey: {
     tests: {
-      async ['is covered by Header and Footer']() {
+      async 'is covered by Header and Footer'() {
         await this.browser.executeScript(function () {
           const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
@@ -825,7 +825,7 @@ SidepageAndSelect.storyName = 'Sidepage and Select';
 SidepageAndSelect.parameters = {
   creevey: {
     tests: {
-      async ['SidePage covers Select and Tooltip']() {
+      async 'SidePage covers Select and Tooltip'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '.select-container button' }))
@@ -859,7 +859,7 @@ ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
 ElementsInLoaderInModalStory.parameters = {
   creevey: {
     tests: {
-      async ['Open Dropdown while Loader is inactive']() {
+      async 'Open Dropdown while Loader is inactive'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
@@ -867,7 +867,7 @@ ElementsInLoaderInModalStory.parameters = {
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
       },
-      async ['Hide Hint on active Loader']() {
+      async 'Hide Hint on active Loader'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
@@ -887,7 +887,7 @@ LoaderAndSidePageStory.storyName = 'Loader and SidePage';
 LoaderAndSidePageStory.parameters = {
   creevey: {
     tests: {
-      async ['SidePage shadow cover Loader']() {
+      async 'SidePage shadow cover Loader'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
@@ -915,7 +915,7 @@ StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
 StickyAndTooltipsStory.parameters = {
   creevey: {
     tests: {
-      async ['Sticky covers outside Popup and DropdownContainer']() {
+      async 'Sticky covers outside Popup and DropdownContainer'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))

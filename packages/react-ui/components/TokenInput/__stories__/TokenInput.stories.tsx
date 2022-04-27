@@ -41,15 +41,21 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
   return getGenericItems().filter((s) => s.value.includes(query));
 }
 
+function getSelectedItems<T>(props: TokenInputProps<T> & { numberItems: any }) {
+  if (props.selectedItems) {
+    return props.selectedItems;
+  } else if (props.numberItems) {
+    return new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3));
+  }
+
+  return [];
+}
+
 class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   constructor(props: any) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
-    this.state = { selectedItems };
+
+    this.state = { selectedItems: getSelectedItems(props) };
   }
 
   public render() {
@@ -121,12 +127,7 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
 class ColoredWrapper extends React.Component<any, any> {
   constructor(props: any) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
-    this.state = { selectedItems };
+    this.state = { selectedItems: getSelectedItems(props) };
   }
 
   public render() {
@@ -525,15 +526,18 @@ OnUnexpectedInputValidation.parameters = {
       },
     ],
     tests: {
-      async ['token select']() {
+      async 'token select'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(1000)
           .sendKeys('aaa')
+          .pause(1000)
           .move({ x: 0, y: 0 })
           .click()
+          .pause(1000)
           .perform();
 
         const withNotSelectedToken = await this.takeScreenshot();
@@ -602,7 +606,7 @@ OnUnexpectedInputValidation.parameters = {
           withSelectedTokens,
         }).to.matchImages();
       },
-      async ['token edit']() {
+      async 'token edit'() {
         await this.browser
           .actions({
             bridge: true,

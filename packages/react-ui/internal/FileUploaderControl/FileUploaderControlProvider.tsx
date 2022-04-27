@@ -23,7 +23,9 @@ const updateFile = (
   getFileUpdatedProps: (file: FileUploaderAttachedFile) => Partial<FileUploaderAttachedFile>,
 ): FileUploaderAttachedFile[] => {
   const fileIndex = files.findIndex((file) => file.id === fileId);
-  if (fileIndex === -1) return files;
+  if (fileIndex === -1) {
+    return files;
+  }
 
   const newFiles = [...files];
   const file = files[fileIndex];

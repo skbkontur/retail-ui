@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
-import { Corners } from '../Button/Corners';
-import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -20,6 +18,62 @@ interface GroupChildProps {
   corners?: number;
 }
 
+const getFirstChild = (children: React.ReactNode) => {
+  if (!Array.isArray(children)) {
+    return children;
+  }
+
+  return children?.[0] as React.ReactNode;
+};
+
+const getLastChild = (children: React.ReactNode) => {
+  if (!Array.isArray(children)) {
+    return children;
+  }
+
+  const numberOfChildren = React.Children.count(children);
+
+  return children?.[numberOfChildren - 1] as React.ReactNode;
+};
+
+const getButtonCorners = (
+  child: React.ReactNode,
+  firstChild: React.ReactNode,
+  lastChild: React.ReactNode,
+): React.CSSProperties => {
+  if (firstChild === lastChild) {
+    return {};
+  }
+
+  if (child === firstChild) {
+    return {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    };
+  }
+
+  if (child === lastChild) {
+    return {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    };
+  }
+
+  return {
+    borderRadius: 0,
+  };
+};
+
+const passCornersIfButton = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
+  if (isButton(child)) {
+    const corners = getButtonCorners(child, firstChild, lastChild);
+
+    return React.cloneElement(child, { corners });
+  }
+
+  return child;
+};
+
 @rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
@@ -34,15 +88,8 @@ export class Group extends React.Component<GroupProps> {
       width: this.props.width,
     };
 
-    let first: Nullable<React.ReactElement<any>> = null;
-    let last: Nullable<React.ReactElement<any>> = null;
-
-    React.Children.forEach(this.props.children, (child) => {
-      if (child && React.isValidElement(child)) {
-        first = first || child;
-        last = child;
-      }
-    });
+    const firstChild = getFirstChild(this.props.children);
+    const lastChild = getLastChild(this.props.children);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -53,22 +100,10 @@ export class Group extends React.Component<GroupProps> {
             }
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
-            const itemCss = cx({
-              [styles.item()]: true,
-              [styles.itemFirst()]: child === first,
-            });
 
-            let corners = 0;
-            if (child !== first) {
-              corners |= Corners.TOP_LEFT | Corners.BOTTOM_LEFT;
-            }
-            if (child !== last) {
-              corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
-            }
+            const modifiedChild = passCornersIfButton(child, firstChild, lastChild);
 
-            if (isButton(child)) {
-              child = React.cloneElement(child, { corners });
-            }
+            const isFirstChild = child === firstChild;
 
             return (
               <div
@@ -78,7 +113,14 @@ export class Group extends React.Component<GroupProps> {
                   [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
                 })}
               >
-                <div className={itemCss}>{child}</div>
+                <div
+                  className={cx({
+                    [styles.item()]: true,
+                    [styles.itemFirst()]: isFirstChild,
+                  })}
+                >
+                  {modifiedChild}
+                </div>
               </div>
             );
           })}

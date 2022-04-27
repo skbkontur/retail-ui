@@ -80,11 +80,11 @@ const combinationTest: CreeveyTests = {
     const page5 = await element().takeScreenshot();
 
     await this.expect({
-      ['page - 1']: page1,
-      ['page - 2']: page2,
-      ['page - 3']: page3,
-      ['page - 4']: page4,
-      ['page - 5']: page5,
+      'page - 1': page1,
+      'page - 2': page2,
+      'page - 3': page3,
+      'page - 4': page4,
+      'page - 5': page5,
     }).to.matchImages();
   },
 };
@@ -239,14 +239,14 @@ export const DifferentAligns = () => (
 );
 DifferentAligns.storyName = 'different aligns';
 
-export const differentWidths: Story = () => (
+export const DifferentWidths: Story = () => (
   <ComponentCombinator
     Component={Button}
     presetProps={{ children: 'long-long-long text' }}
     combinations={[widthStates, [{ props: { use: 'link' } }, { props: { use: 'default' } }]]}
   />
 );
-differentWidths.storyName = 'different widths';
+DifferentWidths.storyName = 'different widths';
 
 export const DefaultCombinations: Story = () => (
   <ComponentCombinator

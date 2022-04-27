@@ -305,7 +305,13 @@ describe('FileUploader', () => {
           const result = count % 2 === 0 ? null : 'Ошибка';
           return Promise.resolve(result);
         };
-        component = render({ request, onRequestSuccess, onRequestError, validateBeforeUpload, multiple: true });
+        component = render({
+          request,
+          onRequestSuccess,
+          onRequestError,
+          validateBeforeUpload,
+          multiple: true,
+        });
 
         await addFiles(component, [file, file]);
 

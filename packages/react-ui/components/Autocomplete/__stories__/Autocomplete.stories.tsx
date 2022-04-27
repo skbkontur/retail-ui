@@ -23,7 +23,7 @@ export default {
 } as Meta;
 
 const commonTests: CreeveyTests = {
-  async ['focus and type text']() {
+  async 'focus and type text'() {
     const screenshotElement = this.browser.findElement({ css: '#test-element' });
     const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
 

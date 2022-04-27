@@ -5,9 +5,30 @@ export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       background: ${t.menuBgDefault};
+      border-radius: ${t.menuBorderRadius};
       box-sizing: content-box;
       overflow: auto;
       padding: 0 0;
+    `;
+  },
+
+  alignRight() {
+    return css`
+      flex: 1 1 100%;
+    `;
+  },
+
+  alignRightIE11() {
+    return css`
+      float: right;
+      width: 100%;
+    `;
+  },
+
+  alignRightIE11FixAutoWidth() {
+    return css`
+      box-sizing: border-box !important; // override root styles
+      overflow: hidden !important; // override root styles
     `;
   },
 

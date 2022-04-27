@@ -10,6 +10,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -46,6 +47,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private theme!: Theme;
   private wrapper: HTMLElement | null = null;
+  private sticky: Sticky | null = null;
   private lastRegularHeight = 0;
   private setRootNode!: TSetRootNode;
 
@@ -55,7 +57,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
       return 0;
     }
     if (!isReadyToFix) {
-      this.lastRegularHeight = this.wrapper.getBoundingClientRect().height;
+      this.lastRegularHeight = getDOMRect(this.wrapper).height;
     }
     return this.lastRegularHeight;
   }
@@ -68,14 +70,17 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
   public componentDidMount = () => {
     window.addEventListener('scroll', this.update, true);
     this.context.setHasHeader?.();
+    this.context.headerRef(this);
   };
 
   public componentWillUnmount = () => {
     window.removeEventListener('scroll', this.update, true);
     this.context.setHasHeader?.(false);
+    this.context.headerRef(null);
   };
 
   public update = () => {
+    this.sticky?.reflow();
     this.updateReadyToFix();
   };
 
@@ -111,7 +116,13 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div ref={this.wrapperRef} className={styles.headerWrapper()}>
-          {isStickyDesktop || isStickyMobile ? <Sticky side="top">{this.renderHeader}</Sticky> : this.renderHeader()}
+          {isStickyDesktop || isStickyMobile ? (
+            <Sticky ref={this.stickyRef} side="top">
+              {this.renderHeader}
+            </Sticky>
+          ) : (
+            this.renderHeader()
+          )}
         </div>
       </CommonWrapper>
     );
@@ -140,7 +151,6 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private renderClose = (fixed: boolean) => {
     const stickyOffset = parseInt(this.theme.sidePageHeaderStickyOffset);
-
     return (
       <div
         className={cx(styles.wrapperClose(this.theme), {
@@ -148,42 +158,39 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
           [styles.mobileWrapperClose(this.theme)]: this.isMobileLayout,
         })}
       >
-        <SidePageContext.Consumer>
-          {({ requestClose }) => {
-            const button = (
-              <button
-                className={cx(styles.close(this.theme), {
-                  [styles.closeFocus(this.theme)]: this.state.focusedByTab,
-                  [styles.mobileClose(this.theme)]: this.isMobileLayout,
-                })}
-                onFocus={this.handleFocus}
-                onBlur={this.handleBlur}
-                onClick={requestClose}
-                data-tid="SidePage__close"
-                tabIndex={0}
-              >
-                <CrossIcon />
-              </button>
-            );
-
-            if (this.isMobileLayout) {
-              return button;
-            }
-
-            return (
-              <Sticky side="top" offset={stickyOffset}>
-                {button}
-              </Sticky>
-            );
-          }}
-        </SidePageContext.Consumer>
+        {this.isMobileLayout ? (
+          this.closeIcon
+        ) : (
+          <Sticky side="top" offset={stickyOffset}>
+            {this.closeIcon}
+          </Sticky>
+        )}
       </div>
     );
   };
 
+  private closeIcon = () => (
+    <SidePageContext.Consumer>
+      {({ requestClose }) => (
+        <button
+          className={cx(styles.close(this.theme), {
+            [styles.closeFocus(this.theme)]: this.state.focusedByTab,
+          })}
+          onFocus={this.handleFocus}
+          onBlur={this.handleBlur}
+          onClick={requestClose}
+          data-tid="SidePage__close"
+          tabIndex={0}
+        >
+          <CrossIcon />
+        </button>
+      )}
+    </SidePageContext.Consumer>
+  );
+
   private updateReadyToFix = () => {
     if (this.wrapper) {
-      const wrapperScrolledUp = this.wrapper.getBoundingClientRect().top;
+      const wrapperScrolledUp = getDOMRect(this.wrapper).top;
       const isReadyToFix = this.regularHeight + wrapperScrolledUp <= this.fixedHeaderHeight;
       this.setState((state) => (state.isReadyToFix !== isReadyToFix ? { ...state, isReadyToFix } : state));
     }
@@ -191,6 +198,10 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
   private wrapperRef = (el: HTMLElement | null) => {
     this.wrapper = el;
+  };
+
+  private stickyRef = (el: Sticky | null) => {
+    this.sticky = el;
   };
 
   private handleFocus = () => {

@@ -21,11 +21,11 @@ export interface TokenProps extends CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   disabled?: boolean;
@@ -38,6 +38,16 @@ export interface TokenProps extends CommonProps {
   onFocus?: React.FocusEventHandler<HTMLDivElement>;
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
+
+const getValidation = (error: TokenProps['error'], warning: TokenProps['warning']) => {
+  if (error) {
+    return 'error';
+  } else if (warning) {
+    return 'warning';
+  }
+
+  return null;
+};
 
 @rootNode
 export class Token extends React.Component<TokenProps> {
@@ -74,7 +84,9 @@ export class Token extends React.Component<TokenProps> {
     } = this.props;
 
     const theme = this.theme;
-    const validation = error ? 'error' : warning ? 'warning' : null;
+
+    const validation = getValidation(error, warning);
+
     const disableClassNames = cx(colorStyles.defaultDisabled(theme), {
       [colorStyles.defaultDisabledWarning(theme)]: warning,
       [colorStyles.defaultDisabledError(theme)]: error,

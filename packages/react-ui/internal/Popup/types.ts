@@ -1,2 +1,3 @@
 // Public types to be used by the users
-export type { PopupPositionsType } from './Popup';
+import { PopupPositionsType as Type } from './Popup';
+export type PopupPositionsType = Type;
