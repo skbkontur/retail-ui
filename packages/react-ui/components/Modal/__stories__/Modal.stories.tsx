@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { Component, useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
@@ -642,7 +644,7 @@ ModalWithoutStickyElements.storyName = 'Modal without sticky elements';
 ModalWithoutStickyElements.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
 
 export const WithAlignTop = () => (
-  <Modal alignTop={true}>
+  <Modal alignTop>
     <Modal.Body>
       <p>Use rxjs operators with react hooks.</p>
     </Modal.Body>

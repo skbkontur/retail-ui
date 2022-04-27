@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
@@ -482,25 +484,21 @@ export const WithBorderless = () => (
 WithBorderless.storyName = 'with borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
 
-export const WithCenterAlign = () => (
-  <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue={true} />
-);
+export const WithCenterAlign = () => <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue />;
 WithCenterAlign.storyName = 'with center align';
 WithCenterAlign.parameters = { creevey: { skip: [true] } };
 
 export const NotRenderNotFound = () => (
-  <SimpleCombobox placeholder={'placeholder'} noInitialValue={true} renderNotFound={() => null} />
+  <SimpleCombobox placeholder={'placeholder'} noInitialValue renderNotFound={() => null} />
 );
 NotRenderNotFound.storyName = 'not render NotFound';
 NotRenderNotFound.parameters = { creevey: { skip: [true] } };
 
-export const WithRightAlign = () => (
-  <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />
-);
+export const WithRightAlign = () => <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue />;
 WithRightAlign.storyName = 'with right align';
 WithRightAlign.parameters = { creevey: { skip: [true] } };
 
-export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue={true} />;
+export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue />;
 WithMaxLength.storyName = 'with maxLength';
 WithMaxLength.parameters = { creevey: { skip: [true] } };
 
@@ -614,7 +612,7 @@ OpenCloseSearchMethods.parameters = { creevey: { skip: [true] } };
 
 export const FocusFlow: Story = () => (
   <div>
-    <SimpleCombobox autoFocus={true} />
+    <SimpleCombobox autoFocus />
     <br />
     <br />
     <SimpleCombobox />

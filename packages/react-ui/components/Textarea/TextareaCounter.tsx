@@ -1,4 +1,6 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
+import propTypes from 'prop-types';
+import { forwardRefAndName } from 'react-ui/lib/forwardRefAndName';
 
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -23,7 +25,8 @@ export interface TextareaCounterRef {
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
-export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(
+export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCounterProps>(
+  'TextareaCounter',
   ({ length, value, help, onCloseHelp, textarea }, ref) => {
     const theme = useContext(ThemeContext);
     const [width, setWidth] = useState(textarea.clientWidth);
@@ -59,3 +62,11 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
     );
   },
 );
+
+TextareaCounter.propTypes = {
+  length: propTypes.number.isRequired,
+  value: propTypes.oneOf([propTypes.string, propTypes.number]),
+  help: propTypes.oneOf([propTypes.node, propTypes.func]),
+  onCloseHelp: propTypes.func.isRequired,
+  textarea: propTypes.node.isRequired,
+};

@@ -394,7 +394,7 @@ WidthToken.parameters = { creevey: { skip: [true] } };
 export const WithAutofocus = () => {
   return (
     <Gapped vertical gap={10}>
-      <Wrapper getItems={getItems} autoFocus={true} />
+      <Wrapper getItems={getItems} autoFocus />
     </Gapped>
   );
 };
@@ -428,8 +428,8 @@ IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: [true] } };
 export const Disabled = () => {
   return (
     <Gapped vertical gap={10}>
-      <FilledWrapper getItems={getItems} disabled={true} />
-      <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
+      <FilledWrapper getItems={getItems} disabled />
+      <Wrapper getItems={getItems} disabled placeholder="Test text" />
     </Gapped>
   );
 };

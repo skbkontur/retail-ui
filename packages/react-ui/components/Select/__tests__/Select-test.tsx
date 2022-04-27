@@ -90,7 +90,8 @@ describe('Select', () => {
           ninth,
         ]}
         search
-        disablePortal={true}
+        disablePortal
+        onValueChange={console.log}
       />,
     );
 

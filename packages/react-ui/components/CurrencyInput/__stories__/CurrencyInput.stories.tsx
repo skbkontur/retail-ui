@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
 import { isNullable } from '../../../lib/utils';
@@ -153,7 +155,7 @@ export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
 Demo.parameters = { creevey: { skip: [true] } };
-export const WithBorderless = () => <CurrencyInputDemo borderless={true} />;
+export const WithBorderless = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
 
