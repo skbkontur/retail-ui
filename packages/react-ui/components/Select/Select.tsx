@@ -694,26 +694,36 @@ function normalizeEntry(entry: any) {
   return [entry, entry, undefined];
 }
 
+const getTextFromItem = (item: any): string => {
+  if (typeof item === 'string') {
+    return item;
+  }
+
+  if (isFunction(item)) {
+    return getTextFromItem(item());
+  }
+
+  if (React.isValidElement(item)) {
+    return reactGetTextContent(item);
+  }
+
+  if (typeof item === 'number') {
+    return item.toString(10);
+  }
+
+  return '';
+};
+
 function filterItem<TValue>(value: TValue, item: any, pattern: string) {
   if (item === Select.SEP) {
     return false;
   }
 
-  // TODO: Enable rule no-param-reassign
-  // eslint-disable-next-line no-param-reassign
-  if (React.isValidElement(item) || (isFunction(item) && React.isValidElement((item = item())))) {
-    // eslint-disable-next-line no-param-reassign
-    item = reactGetTextContent(item);
-  }
+  const itemText = getTextFromItem(item);
 
-  if (typeof item === 'number') {
-    // eslint-disable-next-line no-param-reassign
-    item = item.toString(10);
-  }
-
-  if (typeof item !== 'string') {
+  if (!itemText) {
     return false;
   }
 
-  return item.toLowerCase().indexOf(pattern) !== -1;
+  return itemText.toLowerCase().indexOf(pattern) !== -1;
 }
