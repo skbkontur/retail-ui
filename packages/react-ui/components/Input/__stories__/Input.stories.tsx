@@ -741,7 +741,7 @@ export const UncontrolledInputWithPlaceholder: Story = () => {
   const [_, setValue] = React.useState<string>();
   return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
 };
-UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input With Placeholder';
+UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
 UncontrolledInputWithPlaceholder.parameters = {
   creevey: {
     tests: {
