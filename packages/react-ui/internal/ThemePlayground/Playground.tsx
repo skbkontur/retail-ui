@@ -1,6 +1,5 @@
 import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
@@ -27,7 +26,6 @@ import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
 import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
-import { SelectPlayground } from './SelectPlayground';
 import { getComponentsFromPropsList } from './helpers';
 import { CheckboxPlayground } from './CheckboxPlayground';
 import { RadioPlayground } from './RadioPlayground';
@@ -35,6 +33,7 @@ import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import { styles } from './Playground.styles';
+import { SizesGroup } from './SizesGroup';
 
 const useSticky = !isTestEnv;
 
@@ -133,24 +132,11 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
   };
 
   private renderSizesGroup = () => {
-    const Group = ({ size }: { size: 'small' | 'medium' | 'large' }) => (
-      <Gapped wrap verticalAlign="middle" gap={10}>
-        <SelectPlayground width={120} size={size} />
-        <Input rightIcon={<CardIcon />} placeholder={'Text value'} size={size} />
-        <Button width={120} size={size}>
-          Button
-        </Button>
-        <Button icon={<LinkIcon />} use={'link'} size={size}>
-          Button like a link
-        </Button>
-      </Gapped>
-    );
-
     return (
       <ComponentsGroup title={'Размеры'} theme={this.theme}>
-        <Group size={'small'} />
-        <Group size={'medium'} />
-        <Group size={'large'} />
+        <SizesGroup size={'small'} />
+        <SizesGroup size={'medium'} />
+        <SizesGroup size={'large'} />
       </ComponentsGroup>
     );
   };
@@ -264,7 +250,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     );
     return (
       <ComponentsGroup title={'Тултип'} theme={this.theme}>
-        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations={true}>
+        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
           <Link icon={<HelpDotIcon />} />
         </Tooltip>
       </ComponentsGroup>

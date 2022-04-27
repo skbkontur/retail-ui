@@ -14,6 +14,7 @@ import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
+import { getDOMRect } from '../../../lib/dom/getDOMRect';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
@@ -59,7 +60,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   // важно запустить после рендера, чтобы успели проставиться рефы
   useEffect(() => {
     const fileNameWidth = textHelperRef.current?.getTextWidth() || 0;
-    const fileNameElementWidth = fileNameElementRef.current?.getBoundingClientRect().width || 0;
+    const fileNameElementWidth = getDOMRect(fileNameElementRef.current).width;
     const truncatedName = getTruncatedName(fileNameWidth, fileNameElementWidth, name);
 
     setTruncatedFileName(truncatedName);

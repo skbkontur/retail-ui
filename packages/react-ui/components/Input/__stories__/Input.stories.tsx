@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
@@ -736,3 +738,27 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
     </div>
   );
 }
+
+export const UncontrolledInputWithPlaceholder: Story = () => {
+  const [_, setValue] = React.useState<string>();
+  return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
+};
+UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input With Placeholder';
+UncontrolledInputWithPlaceholder.parameters = {
+  creevey: {
+    tests: {
+      async PlainAndTyped() {
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('text')
+          .perform();
+        const typed = await this.takeScreenshot();
+        await this.expect({ plain, typed }).to.matchImages();
+      },
+    },
+  },
+};

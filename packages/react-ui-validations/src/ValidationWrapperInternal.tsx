@@ -184,6 +184,10 @@ export class ValidationWrapperInternal extends React.Component<
     return getLevel(this.state.validation) === 'error';
   }
 
+  public hasWarning(): boolean {
+    return getLevel(this.state.validation) === 'warning';
+  }
+
   public isIndependent(): boolean {
     return getIndependent(this.state.validation || this.props.validation) === true;
   }

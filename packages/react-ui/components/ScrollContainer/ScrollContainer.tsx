@@ -7,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -271,8 +272,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const right = event.currentTarget.getBoundingClientRect().right - event.pageX;
-    const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
+    const right = getDOMRect(event.currentTarget).right - event.pageX;
+    const bottom = getDOMRect(event.currentTarget).bottom - event.pageY;
 
     this.scrollY?.setHover(right <= 12);
     this.scrollX?.setHover(right >= 12 && bottom <= 12);
