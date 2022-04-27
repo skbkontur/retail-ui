@@ -65,8 +65,8 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   }
 
-  public componentDidUpdate() {
-    if (this.props.disabled) {
+  public getDerivedStateFromProps(props: PasswordInputProps) {
+    if (props.disabled) {
       this.setState({ visible: false });
     }
   }
@@ -153,6 +153,14 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
+  private onBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+
+    this.setState({ visible: false });
+  };
+
   private getEyeWrapperClassname(right = false) {
     switch (this.props.size) {
       case 'large':
@@ -198,13 +206,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     return (
       <div className={styles.root()}>
         <Input
-          onBlur={(e) => {
-            if (this.props.onBlur) {
-              this.props.onBlur(e);
-            }
-
-            this.setState({ visible: false });
-          }}
+          onBlur={this.onBlur}
           ref={this.refInput}
           type={this.state.visible ? 'text' : 'password'}
           {...inputProps}
