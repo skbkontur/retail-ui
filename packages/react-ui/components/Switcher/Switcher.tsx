@@ -15,12 +15,13 @@ import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
+type SwitcherItems = string | SwitcherItem;
 
 export interface SwitcherProps extends CommonProps {
   /**
    * Список строк или список элементов типа `{ label: string, value: string }`
    */
-  items: Array<string | SwitcherItem>;
+  items: SwitcherItems[];
 
   value?: string;
 

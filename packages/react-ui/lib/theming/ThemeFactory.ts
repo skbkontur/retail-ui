@@ -19,7 +19,7 @@ export class ThemeFactory {
   public static getKeys<T extends Theme>(theme: T) {
     const keys: Array<keyof T> = [];
     while (theme != null) {
-      (Object.keys(theme) as Array<keyof T>).forEach((key) => {
+      (Object.keys(theme) as typeof keys).forEach((key) => {
         if (!keys.includes(key)) {
           keys.push(key);
         }

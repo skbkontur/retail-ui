@@ -1,6 +1,10 @@
 import { getItems } from '../PagingHelper';
 
-const cases: Array<[[number, number], Array<string | number>]> = [
+type NumberTuple = [number, number];
+type ExpectingArray = string | number;
+type CasesTuple = [NumberTuple, ExpectingArray[]];
+
+const cases: CasesTuple[] = [
   [[1, 1], [1]],
   [
     [1, 7],

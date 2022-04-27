@@ -12,4 +12,5 @@ export interface PortalProps {
 export interface RenderContainerProps extends CommonProps {
   anchor?: React.ReactNode;
   children?: React.ReactNode;
+  containerRef?: React.Ref<HTMLElement>;
 }

@@ -1,3 +1,5 @@
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+
 import { PopupPositionsType } from './Popup';
 
 export interface Rect {
@@ -63,7 +65,7 @@ function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Of
 }
 
 function _getElementRelativeRect(element: HTMLElement) {
-  const rect = element.getBoundingClientRect();
+  const rect = getDOMRect(element);
 
   return {
     top: rect.top,
