@@ -108,7 +108,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
-  private layoutRef: HTMLElement | null = null;
+  private layout: HTMLElement | null = null;
+  private header: SidePageHeader | null = null;
   private footer: SidePageFooter | null = null;
 
   public componentDidMount() {
@@ -129,9 +130,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
    * @public
    */
   public updateLayout = (): void => {
-    if (this.footer) {
-      this.footer.update();
-    }
+    this.header?.update();
+    this.footer?.update();
   };
 
   public static defaultProps = {
@@ -206,7 +206,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                 [styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
                 [styles.shadow(this.theme)]: this.state.hasShadow,
               })}
-              ref={(_) => (this.layoutRef = _)}
+              ref={this.layoutRef}
             >
               <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
@@ -226,6 +226,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
+      headerRef: this.headerRef,
       footerRef: this.footerRef,
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
@@ -234,10 +235,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private getWidth = () => {
-    if (!this.layoutRef) {
+    if (!this.layout) {
       return 'auto';
     }
-    return this.layoutRef.clientWidth;
+    return this.layout.clientWidth;
   };
 
   private renderShadow(): JSX.Element {
@@ -313,8 +314,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 
+  private headerRef = (ref: SidePageHeader | null) => {
+    this.header = ref;
+  };
+
   private footerRef = (ref: SidePageFooter | null) => {
     this.footer = ref;
+  };
+
+  private layoutRef = (ref: HTMLDivElement | null) => {
+    this.layout = ref;
   };
 
   private setHasHeader = (hasHeader = true) => {
