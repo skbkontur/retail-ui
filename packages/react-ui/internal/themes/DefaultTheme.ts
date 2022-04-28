@@ -840,12 +840,12 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
+  public static pagingPageLinkBorderRadius = '9999px';
   public static get pagingPageLinkHintColor() {
     return this.placeholderColor;
   }
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
-  public static pagingPageLinkBorderRadius = '50%';
   public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
