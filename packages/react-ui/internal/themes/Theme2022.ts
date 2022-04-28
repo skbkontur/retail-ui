@@ -19,6 +19,22 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnBorderRadiusMedium = '8px';
   public static btnBorderRadiusLarge = '8px';
 
+  public static btnPaddingXSmall = '12px';
+  public static btnPaddingXMedium = '16px';
+  public static btnPaddingXLarge = '20px';
+
+  public static btnPaddingYSmall = '6px';
+  public static btnPaddingYMedium = '9px';
+  public static btnPaddingYLarge = '12px';
+
+  public static btnIconSizeSmall = '16px';
+  public static btnIconSizeMedium = '20px';
+  public static btnIconSizeLarge = '24px';
+
+  public static btnIconGapSmall = '4px';
+  public static btnIconGapMedium = '6px';
+  public static btnIconGapLarge = '8px';
+
   public static inputBorderRadiusSmall = '2px';
   public static inputBorderRadiusMedium = '2px';
   public static inputBorderRadiusLarge = '2px';
@@ -51,6 +67,15 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static tokenInputBorderRadius = '2px';
   public static tokenBorderRadius = '2px';
+
+  public static tokenPaddingY = '1px';
+  public static tokenPaddingX = '3px';
+
+  public static tokenMarginY = '3px';
+  public static tokenMarginX = '2px';
+
+  public static tokenInputPaddingY = '2px';
+  public static tokenInputPaddingX = '2px';
 
   public static toggleHandleSize = '14px';
   public static toggleHandleLeft = '3px';
