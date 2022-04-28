@@ -1,7 +1,7 @@
 import shallowEqual from 'shallowequal';
 
 export function shallowEqualMemo<T>(fn: T): T {
-  let cache: { args: any; result: any }[] = [];
+  let cache: Array<{ args: any; result: any }> = [];
   let keysCount = 0;
   const limit = 1e4;
 

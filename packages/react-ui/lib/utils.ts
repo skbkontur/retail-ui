@@ -140,7 +140,7 @@ export type Ref<T> = React.MutableRefObject<T> | React.LegacyRef<T> | undefined;
  *  return <div ref={mergeRefs([localRef, ref])} />;
  * });
  */
-export function mergeRefs<T = any>(refs: Ref<T>[]): React.RefCallback<T> {
+export function mergeRefs<T = any>(refs: Array<Ref<T>>): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {

@@ -20,8 +20,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
