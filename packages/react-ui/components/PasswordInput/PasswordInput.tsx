@@ -65,10 +65,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   }
 
-  public getDerivedStateFromProps(props: PasswordInputProps) {
+  public static getDerivedStateFromProps(props: PasswordInputProps, state: PasswordInputState) {
     if (props.disabled) {
-      this.setState({ visible: false });
+      return { visible: false };
     }
+
+    return state;
   }
 
   public render() {
@@ -198,6 +200,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
       ...rest,
+      onBlur: this.onBlur,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
@@ -205,12 +208,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
     return (
       <div className={styles.root()}>
-        <Input
-          onBlur={this.onBlur}
-          ref={this.refInput}
-          type={this.state.visible ? 'text' : 'password'}
-          {...inputProps}
-        />
+        <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
       </div>
     );
   };
