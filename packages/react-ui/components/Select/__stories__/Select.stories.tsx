@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
@@ -40,8 +42,9 @@ class SelectWrapper extends React.Component<{}, any> {
   }
 }
 
+type ItemWithComments = [number, string, React.ReactNode?];
 class ItemsWithComments extends React.Component<{}, any> {
-  private static items: Array<[number, string, React.ReactNode?]> = [
+  private static items: ItemWithComments[] = [
     [1, 'ООО Эльбрус', '8387666415 - 113445852'],
     [2, 'ИП Иванов Петр', '583662338391'],
     [3, 'ЗАО Текстильщики'],
@@ -516,7 +519,14 @@ WithSearchAndVariousWidth.parameters = {
 };
 
 export const WithMenuAlignAndVariousWidth: Story = () => {
-  const widths: SelectProps<any, any>['width'][] = [undefined, '80px', '120px', '80%', '120%', 'calc(100% + 40px)'];
+  const widths: Array<SelectProps<any, any>['width']> = [
+    undefined,
+    '80px',
+    '120px',
+    '80%',
+    '120%',
+    'calc(100% + 40px)',
+  ];
   const row: Array<Partial<SelectProps<any, any>>> = [
     { menuAlign: 'right' },
     { menuAlign: 'right', disablePortal: true },

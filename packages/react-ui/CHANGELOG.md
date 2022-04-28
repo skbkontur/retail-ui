@@ -3,6 +3,48 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.5...@skbkontur/react-ui@4.0.6) (2022-04-25)
+
+
+### Bug Fixes
+
+* **Button:** add btnLinkActiveColor theme var ([#2871](https://github.com/skbkontur/retail-ui/issues/2871)) ([0588d56](https://github.com/skbkontur/retail-ui/commit/0588d5699d07668aeb0ba25bece9fb95ea2ca89e))
+* **Popup:** use content container as rootNode instead of anchorElement ([4eed6a0](https://github.com/skbkontur/retail-ui/commit/4eed6a06eaee691a3f2e0c8e474dc9a5b139ac5b))
+* **select:** prevent calling areValuesEqual with null ([#2847](https://github.com/skbkontur/retail-ui/issues/2847)) ([52a03b5](https://github.com/skbkontur/retail-ui/commit/52a03b5ee541d129716a8690a60f070ae4617bec)), closes [#1927](https://github.com/skbkontur/retail-ui/issues/1927)
+* **Tooltip:** don't render without content on mobiles  ([#2877](https://github.com/skbkontur/retail-ui/issues/2877)) ([#2878](https://github.com/skbkontur/retail-ui/issues/2878)) ([396be08](https://github.com/skbkontur/retail-ui/commit/396be087ca7be38eb425d1c3a5262838fdb2749c))
+
+
+### Reverts
+
+* Revert "fix(SidePage): change scroll behavior according to Guides (#2756)" (#2874) ([6e4eb1a](https://github.com/skbkontur/retail-ui/commit/6e4eb1af176a1ed668beb63a0e132c69ba3bfdde)), closes [#2756](https://github.com/skbkontur/retail-ui/issues/2756) [#2874](https://github.com/skbkontur/retail-ui/issues/2874)
+
+
+
+
+
+## [4.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.4...@skbkontur/react-ui@4.0.5) (2022-04-12)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix focus and fragments selection ([#2858](https://github.com/skbkontur/retail-ui/issues/2858)) ([ec4499e](https://github.com/skbkontur/retail-ui/commit/ec4499e444fead65fcaeb703e129ee3adb0f6fe4)), closes [#2614](https://github.com/skbkontur/retail-ui/issues/2614)
+
+
+
+
+
+## [4.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.3...@skbkontur/react-ui@4.0.4) (2022-04-01)
+
+
+### Bug Fixes
+
+* **Tooltip:** do not call onOpen after close ([#2848](https://github.com/skbkontur/retail-ui/issues/2848)) ([a3e0772](https://github.com/skbkontur/retail-ui/commit/a3e07728e9ed25b48afcc5a995acfbb7f5d7c93a))
+* corrected ThemeFactory.overrideDefaultTheme ([#2845](https://github.com/skbkontur/retail-ui/issues/2845)) ([2cc964f](https://github.com/skbkontur/retail-ui/commit/2cc964f5a7f052a442893e1312de1cf9115e131f))
+
+
+
+
+
 ## [4.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.2...@skbkontur/react-ui@4.0.3) (2022-03-22)
 
 

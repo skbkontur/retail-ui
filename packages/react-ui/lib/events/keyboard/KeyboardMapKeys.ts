@@ -2,11 +2,12 @@ import { KeyboardEventCodes as Codes } from './KeyboardEventCodes';
 
 export type Location = number;
 export type KeyCode = number;
+export type KeyboardKey = [KeyCode, Location];
 
 const STANDARD = 0; //KeyboardEvent.DOM_KEY_LOCATION_STANDARD;
 const NUMPAD = 3; //KeyboardEvent.DOM_KEY_LOCATION_NUMPAD;
 
-export const KeyboardMapKeys: { [code in Codes]: Array<[KeyCode, Location]> } = {
+export const KeyboardMapKeys: { [code in Codes]: KeyboardKey[] } = {
   [Codes.Unidentified]: [[0, 0]],
   [Codes.End]: [[35, STANDARD]],
   [Codes.Escape]: [[27, STANDARD]],

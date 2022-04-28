@@ -446,6 +446,9 @@ export class DefaultTheme {
   public static get btnLinkHoverColor() {
     return this.linkHoverColor;
   }
+  public static get btnLinkActiveColor() {
+    return this.linkActiveColor;
+  }
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
@@ -837,12 +840,12 @@ export class DefaultTheme {
     return this.textColorDefault;
   }
   public static pagingPageLinkHoverBg = 'rgba(0, 0, 0, 0.05)';
+  public static pagingPageLinkBorderRadius = '9999px';
   public static get pagingPageLinkHintColor() {
     return this.placeholderColor;
   }
   public static pagingPageLinkHintFontSize = '12px';
   public static pagingPageLinkHintLineHeight = '16px';
-  public static pagingPageLinkBorderRadius = '50%';
   public static pagingPageLinkMargin = '0px 1px';
   public static get pagingForwardLinkColor() {
     return this.linkColor;
@@ -904,6 +907,9 @@ export class DefaultTheme {
   //#region Menu
   public static get menuBgDefault() {
     return this.bgSecondary;
+  }
+  public static get menuBorderRadius() {
+    return '0px';
   }
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';

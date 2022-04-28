@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 
 using OpenQA.Selenium;
 
@@ -129,6 +129,43 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.SubmitButton.Click();
             page.Input.WaitError();
             page.InputValidation.Label.WaitText("incorrect value");
+        }
+
+        [Test]
+        public void TestFocusWhenNothing()
+        {
+            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            page.SubmitButton.Click();
+            page.ValidationState.WaitText("valid");
+            page.Input.WaitNotFocus();
+        }
+
+        [Test]
+        public void TestFocusWhenError()
+        {
+            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            page.Input.SetValue("bad");
+            page.SubmitButton.Click();
+            page.Input.WaitError();
+            page.Input.WaitFocus();
+        }
+
+        [Test]
+        public void TestFocusWhenWarning()
+        {
+            var page = new SingleInputPage(GetWebDriver()).WaitReady();
+            page.ValidationLevel.ExecuteAction(x =>
+            {
+                var tag = x.FindElement(By.CssSelector("button"));
+                tag.Click();
+                tag.SendKeys(Keys.Down);
+                tag.SendKeys(Keys.Down);
+                tag.SendKeys(Keys.Enter);
+            }, "SetValue('warning')");
+            page.Input.SetValue("bad");
+            page.SubmitButton.Click();
+            page.Input.WaitWarning();
+            page.Input.WaitFocus();
         }
     }
 }

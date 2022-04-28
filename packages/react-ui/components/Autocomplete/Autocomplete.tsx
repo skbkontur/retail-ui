@@ -18,6 +18,7 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
 import { mergeRefs } from '../../lib/utils';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Autocomplete.styles';
 
@@ -230,7 +231,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan.current)),
+      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan.current).width),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -290,14 +291,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           );
         })
       : null;
-  };
-
-  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
-    if (target instanceof Element) {
-      return target.getBoundingClientRect().width;
-    }
-
-    return 0;
   };
 
   private handleValueChange = (value: string) => {

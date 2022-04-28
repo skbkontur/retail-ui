@@ -36,7 +36,7 @@ describe('Select', () => {
         value={currentValue}
         items={objectItems}
         renderItem={(x) => x.name}
-        renderValue={(x) => x.name}
+        renderValue={(x) => x?.name}
         areValuesEqual={(x1, x2) => x1.id === x2.id}
       />,
     );
@@ -79,7 +79,7 @@ describe('Select', () => {
           [7, 'Seven', 777],
         ]}
         search
-        disablePortal={true}
+        disablePortal
         onValueChange={console.log}
       />,
     );

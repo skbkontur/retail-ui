@@ -5,7 +5,7 @@ import { Radio, RadioProps } from '../../components/Radio';
 
 import { getComponentsFromPropsList } from './helpers';
 
-const propsList: RadioProps<string>[] = [
+const propsList: Array<RadioProps<string>> = [
   { value: '', children: 'Default', checked: false },
   { value: '', children: 'Checked' },
   { value: '', children: 'Disabled', disabled: true },

@@ -3,8 +3,8 @@ import React from 'react';
 import { isFunction, isRefableElement, mergeRefs } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
+import { getRootNode, rootNode, TSetRootNode, TRootNodeSubscription, isInstanceWithRootNode } from '../../lib/rootNode';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 export interface CommonProps {
   /**
@@ -38,15 +38,15 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
 > {
   private child: React.ReactNode;
   private setRootNode!: TSetRootNode;
+  private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
   render() {
     const [{ className, style, rootNodeRef, ...dataProps }, { children, ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
-          ref: isRefableElement(this.child)
-            ? this.shallowEqualMemoMergeRef([this.rootNodeRef, (this.child as any)?.ref, this.setRootNode])
-            : null,
+        ref: isRefableElement(this.child) ? this.ref : null,
+
           className: cx(this.child.props.className, className),
           style: {
             ...this.child.props.style,
@@ -57,8 +57,24 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
       : this.child;
   }
 
-  private rootNodeRef = (instance: Nullable<React.ReactInstance>) => {
-    return this.props.rootNodeRef?.(getRootNode(instance));
+  private ref = (instance: Nullable<React.ReactInstance>) => {
+    this.setRootNode(instance);
+    this.props.rootNodeRef?.(getRootNode(instance));
+
+    // refs are called when instances change
+    // so we have to renew or remove old subscription
+    this.rootNodeSubscription?.remove();
+    this.rootNodeSubscription = null;
+
+    if (instance && isInstanceWithRootNode(instance)) {
+      this.rootNodeSubscription = instance.addRootNodeChangeListener?.((node) => {
+        this.setRootNode(node);
+        this.props.rootNodeRef?.(node);
+      });
+    }
+
+    const originalRef = (this.child as React.RefAttributes<any>)?.ref;
+    originalRef && callChildRef(originalRef, instance);
   };
 
   private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);

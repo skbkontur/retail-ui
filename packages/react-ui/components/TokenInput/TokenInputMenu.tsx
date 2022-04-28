@@ -70,7 +70,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
         anchorElement={anchorElement}
         popupOffset={menuAlign === 'left' ? 0 : 5}
         margin={menuAlign === 'left' ? 1 : undefined}
-        hasShadow={true}
+        hasShadow
         width={menuAlign === 'cursor' ? 'auto' : menuWidth}
         withoutMobile
       >

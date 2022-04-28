@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { CSSProperties } from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
@@ -970,7 +972,7 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
   private outerTooltipContentGetter = () => {
     return (
       <Gapped vertical gap={5}>
-        <Checkbox checked={true}>Item 1</Checkbox>
+        <Checkbox checked>Item 1</Checkbox>
         <Checkbox checked={false}>Item 2</Checkbox>
         <Tooltip pos={'bottom left'} render={this.innerTooltipContentGetter} trigger={'click'}>
           <span>Click me for more...</span>
@@ -982,7 +984,7 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
     return (
       <Gapped vertical gap={5}>
         More:
-        <Checkbox checked={true}>Item 3</Checkbox>
+        <Checkbox checked>Item 3</Checkbox>
         <Checkbox checked={false}>Item 4</Checkbox>
       </Gapped>
     );
@@ -1041,13 +1043,22 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     });
   };
 }
-
-class TestTooltipForManual extends React.Component {
+interface TestTooltipForManualState {
+  onOpenCalledTimes: number;
+  onCloseCalledTimes: number;
+}
+class TestTooltipForManual extends React.Component<{}, TestTooltipForManualState> {
   private tooltip: Tooltip | null = null;
+  public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
   render() {
     return (
       <div style={{ padding: '100px' }}>
+        <Gapped vertical gap={10}>
+          <div>onOpen called {this.state.onOpenCalledTimes} times</div>
+          <div>onClose called {this.state.onCloseCalledTimes} times</div>
+          <div />
+        </Gapped>
         <Gapped>
           <Button key={'Show'} onClick={this.handleClickOnShow.bind(this)}>
             Show()
@@ -1062,6 +1073,12 @@ class TestTooltipForManual extends React.Component {
           pos="bottom left"
           ref={(element) => {
             this.tooltip = element;
+          }}
+          onOpen={() => {
+            this.setState({ onOpenCalledTimes: this.state.onOpenCalledTimes + 1 });
+          }}
+          onClose={() => {
+            this.setState({ onCloseCalledTimes: this.state.onCloseCalledTimes + 1 });
           }}
         >
           <Button disabled>Anchor</Button>

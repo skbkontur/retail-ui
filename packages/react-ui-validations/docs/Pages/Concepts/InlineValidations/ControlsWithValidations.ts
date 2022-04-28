@@ -5,10 +5,11 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { RenderErrorMessage, ValidationInfo, ValidationWrapper } from '../../../../src';
 import { Nullable } from '../../../../typings/Types';
 
+type ValidationFunc<T> = (value: Nullable<T>) => Nullable<ValidationInfo>;
 interface ValidationProps<TValue> {
   required?: boolean;
   email?: boolean;
-  validations?: Array<(value: Nullable<TValue>) => Nullable<ValidationInfo>>;
+  validations?: ValidationFunc<TValue>[];
   renderErrorMessage?: RenderErrorMessage;
 }
 
@@ -81,6 +82,7 @@ function wrapControl<TComponent extends React.ComponentType<ExtractProps<TCompon
     JSX.LibraryManagedAttributes<TComponent, { value?: ExtractValue<TComponent> } & ExtractProps<TComponent>>
   >
 > {
+  // eslint-disable-next-line react/display-name
   return (props) => {
     const { controlProps, validationWrapperProps } = prepareProps(props);
     const control = React.createElement(controlType, controlProps) as React.ReactElement<any>;

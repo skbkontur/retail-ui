@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
@@ -482,25 +484,21 @@ export const WithBorderless = () => (
 WithBorderless.storyName = 'with borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
 
-export const WithCenterAlign = () => (
-  <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue={true} />
-);
+export const WithCenterAlign = () => <SimpleCombobox align={'center'} placeholder={'placeholder'} noInitialValue />;
 WithCenterAlign.storyName = 'with center align';
 WithCenterAlign.parameters = { creevey: { skip: [true] } };
 
 export const NotRenderNotFound = () => (
-  <SimpleCombobox placeholder={'placeholder'} noInitialValue={true} renderNotFound={() => null} />
+  <SimpleCombobox placeholder={'placeholder'} noInitialValue renderNotFound={() => null} />
 );
 NotRenderNotFound.storyName = 'not render NotFound';
 NotRenderNotFound.parameters = { creevey: { skip: [true] } };
 
-export const WithRightAlign = () => (
-  <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue={true} />
-);
+export const WithRightAlign = () => <SimpleCombobox align={'right'} placeholder={'placeholder'} noInitialValue />;
 WithRightAlign.storyName = 'with right align';
 WithRightAlign.parameters = { creevey: { skip: [true] } };
 
-export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue={true} />;
+export const WithMaxLength = () => <SimpleCombobox maxLength={10} placeholder={'placeholder'} noInitialValue />;
 WithMaxLength.storyName = 'with maxLength';
 WithMaxLength.parameters = { creevey: { skip: [true] } };
 
@@ -614,7 +612,7 @@ OpenCloseSearchMethods.parameters = { creevey: { skip: [true] } };
 
 export const FocusFlow: Story = () => (
   <div>
-    <SimpleCombobox autoFocus={true} />
+    <SimpleCombobox autoFocus />
     <br />
     <br />
     <SimpleCombobox />
@@ -805,6 +803,8 @@ interface SimpleComboboxState {
   value: Nullable<{ value: number; label: string }>;
 }
 
+type ComboboxItem = { value: number; label: string };
+
 @rootNode
 class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
   public static defaultProps = {
@@ -839,11 +839,11 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
         { value: 6, label: 'Sixth' },
         { value: 7, label: 'A long long long long long long time ago' },
       ].filter((x) => x.label.toLowerCase().includes(query.toLowerCase()) || x.value.toString(10) === query),
-    ).then<Array<{ value: number; label: string }>>(
-      (result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)),
-    );
+    ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
+type City = { Id: number; City: string };
+type ComboboxSearchResult = { foundItems: City[]; totalCount: number };
 class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, {}> {
   public static defaultProps = ComboBox.defaultProps;
   public state = {
@@ -871,7 +871,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
 
   private getItems = (query: string) => {
     return getCities(query)
-      .then(({ foundItems, totalCount }: { foundItems: Array<{ Id: number; City: string }>; totalCount: number }) => ({
+      .then(({ foundItems, totalCount }: ComboboxSearchResult) => ({
         foundItems: foundItems.map(this.mapCity),
         totalCount,
       }))
