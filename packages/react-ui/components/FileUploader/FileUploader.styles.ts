@@ -110,6 +110,12 @@ const styles = {
     `;
   },
 
+  hovered(t: Theme) {
+    return css`
+      background: ${t.fileUploaderHoveredBg};
+    `;
+  },
+
   disabled(t: Theme) {
     return css`
       cursor: default;
@@ -144,7 +150,7 @@ const styles = {
 
   linkHovered(t: Theme) {
     return css`
-      text-decoration: ${t.linkHoverTextDecoration};
+      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
     `;
   },
 

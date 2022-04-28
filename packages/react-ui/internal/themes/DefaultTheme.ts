@@ -215,6 +215,7 @@ export class DefaultTheme {
   public static get tokenInputBorderTopColor() {
     return this.inputBorderTopColor;
   }
+  public static tokenInputBorderRadius = '0px';
   public static get tokenInputPlaceholderColor() {
     return this.inputPlaceholderColor;
   }
@@ -623,12 +624,15 @@ export class DefaultTheme {
   public static modalCloseIconSize = '12px';
   public static modalCloseLegacyGap = '0px';
   public static modalCloseWrapperLegacyGap = '0px';
+  public static modalBorderRadius = '0px';
   public static get modalFixedHeaderBg() {
     return this.bgSecondary;
   }
   public static get modalFixedHeaderShadow() {
     return this.fixedPanelShadow;
   }
+  public static modalFixedHeaderBorder = 'none';
+  public static modalFixedFooterBorder = 'none';
   public static get modalFixedFooterShadow() {
     return this.fixedPanelShadow;
   }
@@ -914,6 +918,7 @@ export class DefaultTheme {
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
+  public static menuPaddingX = '0';
   // menuItem
   public static get menuItemTextColor() {
     return this.textColorDefault;
@@ -944,6 +949,7 @@ export class DefaultTheme {
   }
   public static menuItemPaddingX = '8px';
   public static menuItemPaddingY = '6px';
+  public static menuItemBorderRadius = '0px';
   public static menuItemLegacyPaddingX = '0px';
   public static menuItemLegacyPaddingY = '0px';
   public static get menuItemHoverColor() {
@@ -995,7 +1001,8 @@ export class DefaultTheme {
   public static get toggleBorderRadius() {
     return `calc(${this.toggleHeight} * 0.5)`;
   }
-  public static toggleBg = '#fff';
+  public static toggleHandleBg = '#fff';
+  public static toggleCheckedBg = '#fff';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
   public static get toggleBgDisabled() {
@@ -1003,6 +1010,7 @@ export class DefaultTheme {
   }
   public static toggleBgDisabledChecked = '#dadada';
   public static toggleBgHover = '#f3f3f2';
+  public static toggleCheckedBgHover = '#f3f3f2';
   public static toggleBgChecked = '#1874cf';
   public static get toggleBorderWidth() {
     return this.controlBorderWidth;
@@ -1019,6 +1027,15 @@ export class DefaultTheme {
   public static get toggleBorderColorDisabledChecked() {
     return this.toggleBorderColor;
   }
+  public static get toggleHandleSize() {
+    const toggleHeight = parseInt(this.toggleHeight, 10) || 0;
+    const toggleBorderWidth = parseInt(this.toggleBorderWidth, 10) || 0;
+    return `${toggleHeight - 2 * toggleBorderWidth}px`;
+  }
+
+  public static toggleHandleLeft = this.toggleBorderWidth;
+  public static toggleHandleTop = this.toggleBorderWidth;
+
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static toggleBgActive = '#e5e5e5';
   public static get toggleShadowColorError() {
@@ -1492,6 +1509,7 @@ export class DefaultTheme {
   public static spinnerCaptionGapLarge = '-3px';
   //#endregion
   //#region Switcher
+  public static switcherBorderRadius = '2px';
   public static get switcherTextColor() {
     return this.textColorDefault;
   }
@@ -1659,6 +1677,8 @@ export class DefaultTheme {
   public static fileUploaderDisabledTextColor = '#808080';
   public static fileUploaderDisabledLinkColor = '#808080';
   public static fileUploaderDisabledIconColor = '#A0A0A0';
+  public static fileUploaderLinkHoverTextDecoration = this.linkHoverTextDecoration;
+  public static fileUploaderHoveredBg = 'none';
   //#endregion
 }
 
