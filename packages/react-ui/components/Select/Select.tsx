@@ -163,10 +163,9 @@ interface FocusableReactElement extends React.ReactElement<any> {
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
-export class Select<TValue = unknown, TItem = unknown> extends React.Component<
-  SelectProps<TValue, TItem>,
-  SelectState<TValue>
-> {
+// Suggested solutions break current behavior
+// eslint-disable-next-line @typescript-eslint/ban-types
+export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
 
   public static propTypes = {
