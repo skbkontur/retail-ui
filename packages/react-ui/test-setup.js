@@ -13,6 +13,10 @@ configure({
 
 Enzyme.configure({ adapter: new Adapter() });
 
+configure({
+  testIdAttribute: 'data-tid',
+});
+
 jest.mock('react-focus-lock', () => (props) => <div>{props.children}</div>);
 jest.mock('lodash.debounce', () =>
   jest.fn((fn) => {
