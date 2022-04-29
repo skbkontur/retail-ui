@@ -57,17 +57,17 @@ const styles = {
     `;
   },
 
-  dragOver() {
+  dragOver(t: Theme) {
     return css`
       border: 1px solid #2da4f9;
-      border-radius: 2px;
+      border-radius: ${t.fileUploaderBorderRadius};
       box-shadow: 0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35);
     `;
   },
 
-  windowDragOver() {
+  windowDragOver(t: Theme) {
     return css`
-      border-radius: 2px;
+      border-radius: ${t.fileUploaderBorderRadius};
       animation: ${styles.pulse()} 1.5s infinite;
     `;
   },

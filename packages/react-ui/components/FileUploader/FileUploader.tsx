@@ -204,11 +204,11 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [jsStyles.hovered(theme)]: !disabled && hovered,
     [jsStyles.warning(theme)]: !!warning,
     [jsStyles.error(theme)]: !!error,
-    [jsStyles.dragOver()]: isDraggable && !disabled,
+    [jsStyles.dragOver(theme)]: isDraggable && !disabled,
   });
 
   const uploadButtonWrapperClassNames = cx({
-    [jsStyles.windowDragOver()]: isWindowDraggable && !disabled,
+    [jsStyles.windowDragOver(theme)]: isWindowDraggable && !disabled,
   });
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), {

@@ -6,6 +6,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkColor = '#3D3D3D';
   public static linkActiveColor = '#141414';
 
+  public static bgActive = '#141414';
+
   public static btnPrimaryBg = '#3D3D3D';
   public static btnPrimaryBorderColor = '#3D3D3D';
 
@@ -60,6 +62,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemHoverBg = '#EBEBEB';
   public static menuItemHoverColor = '#222';
   public static menuItemBorderRadius = '6px';
+  public static menuItemCommentColorHover = '#858585';
 
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderLinkHoverTextDecoration = 'none';
