@@ -77,6 +77,16 @@ const config = {
       name: 'infrafront/chromeDark',
       ...capabilities,
     },
+    chrome2022: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/chrome2022',
+      ...capabilities,
+    },
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
@@ -114,6 +124,16 @@ const config = {
       name: 'infrafront/firefoxDark',
       ...capabilities,
     },
+    firefox2022: {
+      browserName: 'firefox',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/firefox2022',
+      ...capabilities,
+    },
+
     // NOTE Enable after switch new separate pool for IE to allow test hover
     // 'se:ieOptions': {
     //   enablePersistentHover: true,
