@@ -18,7 +18,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import { emptyHandler } from '../../lib/utils';
+import { AnyObject, emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
@@ -151,9 +151,9 @@ export const DefaultState = {
   inputValueHeight: 22,
 };
 
-const defaultToKey = <T extends Record<string, unknown>>(item: T): string => item.toString();
+const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
 const identity = <T extends unknown>(item: T): T => item;
-const defaultRenderToken = <T extends Record<string, unknown>>(
+const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
 ) => (
@@ -977,7 +977,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    return renderToken(item as T & Record<string, unknown>, {
+    return renderToken(item as T & AnyObject, {
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,

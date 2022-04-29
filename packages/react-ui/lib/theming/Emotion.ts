@@ -2,7 +2,7 @@ import createEmotion from '@emotion/css/create-instance';
 import extraScopePlugin from 'stylis-plugin-extra-scope';
 
 import { Upgrade } from '../Upgrades';
-import { FunctionWithParams } from '../utils';
+import { AnyObject, FunctionWithParams } from '../utils';
 
 import { Theme } from './Theme';
 
@@ -21,9 +21,7 @@ function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithPara
   return fn.length == 0;
 }
 
-const memoize = <A extends Record<string, unknown>, R>(
-  fn: (() => R) | ((arg: A) => R),
-): (() => R) | ((arg: A) => R) => {
+const memoize = <A extends AnyObject, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
   if (isZeroArgs(fn)) {
     let isCalled = false;
     let result: R;

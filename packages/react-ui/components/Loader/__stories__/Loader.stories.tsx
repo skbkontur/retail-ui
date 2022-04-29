@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { AnyObject } from '../../../lib/utils';
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
@@ -24,7 +25,7 @@ const darkWrapperStyle = {
 };
 
 class ContentComponent extends React.Component<{
-  additionalStyle?: Record<string, unknown>;
+  additionalStyle?: AnyObject;
   loaderProps?: Partial<LoaderProps>;
 }> {
   public render() {

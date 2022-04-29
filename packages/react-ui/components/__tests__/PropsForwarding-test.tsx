@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
+import { AnyObject } from '../../lib/utils';
 import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
@@ -47,7 +48,7 @@ jest.mock('invariant', () => (...args: any[]) => {
   }
 });
 
-const createWrapper = <T extends React.Component>(compName: string, initProps: Record<string, unknown> = {}) => {
+const createWrapper = <T extends React.Component>(compName: string, initProps: AnyObject = {}) => {
   const component = (ReactUI as any)[compName];
   const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
   return mount<T>(React.createElement(component, props));

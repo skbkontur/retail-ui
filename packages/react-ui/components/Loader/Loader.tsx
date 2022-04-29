@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 
+import { AnyObject } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
@@ -48,7 +49,7 @@ export interface LoaderState {
   isStickySpinner: boolean;
   isSpinnerVisible: boolean;
   isLoaderActive: boolean;
-  spinnerStyle?: Record<string, unknown>;
+  spinnerStyle?: AnyObject;
 }
 
 /**

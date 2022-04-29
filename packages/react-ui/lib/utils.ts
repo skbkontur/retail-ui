@@ -15,6 +15,8 @@ export type Defaultize<P, D> = P extends any
 
 export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
 
+export type AnyObject = Record<string, unknown>;
+
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const emptyHandler = () => {
