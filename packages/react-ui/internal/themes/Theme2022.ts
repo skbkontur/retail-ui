@@ -25,9 +25,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnPaddingXMedium = '16px';
   public static btnPaddingXLarge = '20px';
 
-  public static btnPaddingYSmall = '6px';
-  public static btnPaddingYMedium = '9px';
-  public static btnPaddingYLarge = '12px';
+  // public static btnPaddingYSmall = '6px';
+  // public static btnPaddingYMedium = '9px';
+  // public static btnPaddingYLarge = '12px';
 
   public static btnIconSizeSmall = '16px';
   public static btnIconSizeMedium = '20px';
