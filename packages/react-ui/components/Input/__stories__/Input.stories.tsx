@@ -740,7 +740,8 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
 }
 
 export const UncontrolledInputWithPlaceholder: Story = () => {
-  const [_, setValue] = React.useState<string>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_value, setValue] = React.useState<string>();
   return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
 };
 UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';

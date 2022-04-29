@@ -64,7 +64,7 @@ describe('Props Forwarding', () => {
         case 'Tooltip':
           return wrapper.find('Portal').last().getDOMNode();
         case 'Paging':
-          (wrapper as ReactWrapper<{}, {}, ReactUI.Paging>).setProps({ pagesCount: 3 });
+          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Paging>).setProps({ pagesCount: 3 });
           wrapper.update();
           return wrapper.getDOMNode();
         case 'Toast':
