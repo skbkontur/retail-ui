@@ -114,7 +114,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    if (
+      CurrencyHelper.parse(`${value}`) !== CurrencyHelper.parse(prevState.formatted) ||
+      prevProps.fractionDigits !== fractionDigits
+    ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
