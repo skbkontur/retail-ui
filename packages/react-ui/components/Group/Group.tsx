@@ -88,13 +88,14 @@ export class Group extends React.Component<GroupProps> {
       width: this.props.width,
     };
 
-    const firstChild = getFirstChild(this.props.children);
-    const lastChild = getLastChild(this.props.children);
+    const childrenArray = React.Children.toArray(this.props.children);
+    const firstChild = getFirstChild(childrenArray);
+    const lastChild = getLastChild(childrenArray);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span className={styles.root()} style={style}>
-          {React.Children.map(this.props.children, (child) => {
+          {React.Children.map(childrenArray, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;
             }
@@ -104,7 +105,6 @@ export class Group extends React.Component<GroupProps> {
             const modifiedChild = passCornersIfButton(child, firstChild, lastChild);
 
             const isFirstChild = child === firstChild;
-            const hasOnlyOneChild = firstChild === null;
 
             return (
               <div
@@ -117,7 +117,7 @@ export class Group extends React.Component<GroupProps> {
                 <div
                   className={cx({
                     [styles.item()]: true,
-                    [styles.itemFirst()]: isFirstChild || hasOnlyOneChild,
+                    [styles.itemFirst()]: isFirstChild,
                   })}
                 >
                   {modifiedChild}
