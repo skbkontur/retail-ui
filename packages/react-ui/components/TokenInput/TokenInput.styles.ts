@@ -33,6 +33,7 @@ export const styles = memoizeStyle({
       align-items: start;
       outline: none;
       position: relative;
+      border-radius: ${t.tokenInputBorderRadius};
     `;
   },
 
