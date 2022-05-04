@@ -1687,7 +1687,9 @@ export class DefaultTheme {
   public static fileUploaderDisabledTextColor = '#808080';
   public static fileUploaderDisabledLinkColor = '#808080';
   public static fileUploaderDisabledIconColor = '#A0A0A0';
-  public static fileUploaderLinkHoverTextDecoration = this.linkHoverTextDecoration;
+  public static get fileUploaderLinkHoverTextDecoration() {
+    return this.linkHoverTextDecoration;
+  }
   public static fileUploaderHoveredBg = 'none';
   //#endregion
 }
