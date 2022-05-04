@@ -102,7 +102,13 @@ export class NotFlatTheme extends (class {} as typeof DefaultThemeInternal) {
   }
   //#endregion
   //#region Toggle
-  public static toggleHandleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
+  /**
+   * @deprecated use toggleHandleBg
+   */
+  public static toggleBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
+  public static get toggleHandleBg() {
+    return this.toggleBg;
+  }
   public static toggleCheckedBg = 'linear-gradient(-180deg, #fff, #ebebeb)';
   public static get toggleBgHover() {
     return this.toggleBgFocus;

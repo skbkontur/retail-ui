@@ -1001,7 +1001,13 @@ export class DefaultTheme {
   public static get toggleBorderRadius() {
     return `calc(${this.toggleHeight} * 0.5)`;
   }
-  public static toggleHandleBg = '#fff';
+  /**
+   * @deprecated use toggleHandleBg
+   */
+  public static toggleBg = '#fff';
+  public static get toggleHandleBg() {
+    return this.toggleBg;
+  }
   public static toggleCheckedBg = '#fff';
   public static toggleDisabledHandleBg = '#fff';
   public static toggleBaseBg = '#fff';
@@ -1033,8 +1039,12 @@ export class DefaultTheme {
     return `${toggleHeight - 2 * toggleBorderWidth}px`;
   }
 
-  public static toggleHandleLeft = this.toggleBorderWidth;
-  public static toggleHandleTop = this.toggleBorderWidth;
+  public static get toggleHandleLeft() {
+    return this.toggleBorderWidth;
+  }
+  public static get toggleHandleTop() {
+    return this.toggleBorderWidth;
+  }
 
   public static toggleBgFocus = 'linear-gradient(-180deg, #f1f1f1, #dedede)';
   public static toggleBgActive = '#e5e5e5';
