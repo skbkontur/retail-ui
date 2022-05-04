@@ -692,8 +692,8 @@ RenderInFirstAvailablePosition.parameters = {
 
 type DynamicContentTooltipState = { content: React.ReactNode; opened: boolean };
 
-class DynamicContentTooltip extends React.Component<unknown, DynamicContentTooltipState> {
-  public state = {
+class DynamicContentTooltip extends React.Component {
+  public state: DynamicContentTooltipState = {
     content: SMALL_CONTENT,
     opened: false,
   };
@@ -715,7 +715,7 @@ class DynamicContentTooltip extends React.Component<unknown, DynamicContentToolt
   }
 
   private buttonClickHandler = () => {
-    this.setState((state) => ({
+    this.setState((state: DynamicContentTooltipState) => ({
       content: state.opened ? state.content : state.content === SMALL_CONTENT ? LARGE_CONTENT : SMALL_CONTENT,
       opened: !state.opened,
     }));
@@ -859,7 +859,7 @@ class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
   };
 }
 
-class TooltipWithDynamicContent extends React.Component<unknown, HasDynamicContentState> {
+class TooltipWithDynamicContent extends React.Component {
   public state: HasDynamicContentState = {
     content: SMALL_CONTENT,
   };
@@ -907,7 +907,7 @@ class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
 interface DynamicAnchorState {
   isFirst: boolean;
 }
-class DynamicAnchor extends React.Component<unknown, DynamicAnchorState> {
+class DynamicAnchor extends React.Component {
   public state: DynamicAnchorState = {
     isFirst: true,
   };
@@ -1013,7 +1013,7 @@ interface DynamicTriggersState {
   trigger?: TooltipTrigger;
 }
 
-class DynamicTriggers extends React.Component<unknown, DynamicTriggersState> {
+class DynamicTriggers extends React.Component {
   public state: DynamicTriggersState = {};
 
   public render() {
@@ -1049,7 +1049,7 @@ interface TestTooltipForManualState {
   onOpenCalledTimes: number;
   onCloseCalledTimes: number;
 }
-class TestTooltipForManual extends React.Component<unknown, TestTooltipForManualState> {
+class TestTooltipForManual extends React.Component {
   private tooltip: Tooltip | null = null;
   public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
@@ -1160,7 +1160,7 @@ const anchorStyle: CSSProperties = {
 interface AnchorTooltipExampleState {
   anchor: HTMLElement | null;
 }
-class AnchorTooltipExample extends React.Component<unknown, AnchorTooltipExampleState> {
+class AnchorTooltipExample extends React.Component {
   public state: AnchorTooltipExampleState = {
     anchor: null,
   };

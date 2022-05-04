@@ -13,12 +13,12 @@ export interface ContactInfo {
   born: string;
 }
 
-interface State {
+interface InlineValidationsDemoState {
   data: ContactInfo;
 }
 
-export default class InlineValidationsDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class InlineValidationsDemo extends React.Component {
+  public state: InlineValidationsDemoState = {
     data: {
       name: '',
       email: '',

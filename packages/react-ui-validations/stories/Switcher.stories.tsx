@@ -12,7 +12,7 @@ interface SwitcherStoryState {
   value: string;
 }
 
-class SwitcherStory extends React.Component<unknown, SwitcherStoryState> {
+class SwitcherStory extends React.Component {
   public state: SwitcherStoryState = {
     value: '',
   };

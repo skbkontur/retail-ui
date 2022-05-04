@@ -12,7 +12,7 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface ArrayExampleDemoState {
   values: string[];
 }
 
@@ -33,8 +33,8 @@ const validate = createValidator<string[]>((b, a) => {
     },
   );
 });
-export default class ArrayExampleDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class ArrayExampleDemo extends React.Component {
+  public state: ArrayExampleDemoState = {
     values: [''],
   };
 

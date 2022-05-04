@@ -37,12 +37,12 @@ const validate = createValidator<Data>((b) => {
   );
 });
 
-interface State {
+interface MissingObjectNodeDemoState {
   data: Data;
 }
 
-export default class MissingObjectNodeDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class MissingObjectNodeDemo extends React.Component {
+  public state: MissingObjectNodeDemoState = {
     data: {
       contact: null,
     },

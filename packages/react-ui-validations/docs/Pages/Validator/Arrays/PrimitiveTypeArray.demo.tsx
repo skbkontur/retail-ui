@@ -16,12 +16,12 @@ const validate = createValidator<string[]>((b) => {
   );
 });
 
-interface State {
+interface PrimitiveTypeArrayDemoState {
   emails: string[];
 }
 
-export default class PrimitiveTypeArrayDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class PrimitiveTypeArrayDemo extends React.Component {
+  public state: PrimitiveTypeArrayDemoState = {
     emails: ['', '', ''],
   };
 

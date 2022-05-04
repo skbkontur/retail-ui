@@ -6,12 +6,12 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../..
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface SubmitValidationDemoState {
   value: string;
 }
 
-export default class SubmitValidationDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class SubmitValidationDemo extends React.Component {
+  public state: SubmitValidationDemoState = {
     value: '',
   };
 

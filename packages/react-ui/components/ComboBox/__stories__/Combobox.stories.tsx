@@ -689,7 +689,7 @@ interface ComboBoxWithErrorTogglerState {
   error: boolean;
   value: { label: number };
 }
-class ComboBoxWithErrorToggler extends React.Component<unknown, ComboBoxWithErrorTogglerState> {
+class ComboBoxWithErrorToggler extends React.Component {
   public state: ComboBoxWithErrorTogglerState = {
     error: false,
     value: { label: 0 },
@@ -701,7 +701,7 @@ class ComboBoxWithErrorToggler extends React.Component<unknown, ComboBoxWithErro
         <ComboBox error={this.state.error} value={this.state.value} getItems={() => Promise.resolve([{ label: 0 }])} />
         <Toggle
           onValueChange={(value) =>
-            this.setState((state) => ({
+            this.setState((state: ComboBoxWithErrorTogglerState) => ({
               error: value,
               value: { label: state.value.label + 1 },
             }))

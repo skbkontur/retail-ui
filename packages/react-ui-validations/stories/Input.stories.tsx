@@ -11,7 +11,7 @@ interface Example1State {
   value: string;
 }
 
-class Example1 extends React.Component<unknown, Example1State> {
+class Example1 extends React.Component {
   public state: Example1State = {
     value: '',
   };
@@ -44,7 +44,7 @@ interface Example2State {
   value: string;
 }
 
-class Example2 extends React.Component<unknown, Example2State> {
+class Example2 extends React.Component {
   public state: Example2State = {
     value: '',
   };
@@ -77,7 +77,7 @@ interface Example3State {
   value: string;
 }
 
-class Example3 extends React.Component<unknown, Example3State> {
+class Example3 extends React.Component {
   public state: Example3State = {
     value: '',
   };
@@ -121,7 +121,7 @@ class Example3 extends React.Component<unknown, Example3State> {
   }
 }
 
-class Example8 extends React.Component<unknown, Example3State> {
+class Example8 extends React.Component {
   public state: Example3State = {
     value: '',
   };
@@ -198,7 +198,7 @@ interface Example4State {
   value: string;
 }
 
-class Example4 extends React.Component<unknown, Example4State> {
+class Example4 extends React.Component {
   public state: Example4State = {
     type: null,
     value: '',
@@ -243,7 +243,7 @@ interface Example5State {
   value: string;
 }
 
-class Example5 extends React.Component<unknown, Example5State> {
+class Example5 extends React.Component {
   public state: Example5State = {
     value: '',
   };
@@ -292,7 +292,7 @@ interface Example6State {
   value2: string;
 }
 
-class Example6 extends React.Component<unknown, Example6State> {
+class Example6 extends React.Component {
   public state: Example6State = {
     value1: '',
     value2: '',
@@ -351,7 +351,7 @@ interface Example7State {
   value3: string;
 }
 
-class Example7 extends React.Component<unknown, Example7State> {
+class Example7 extends React.Component {
   public state: Example7State = {
     value1: '',
     value2: '',
@@ -403,7 +403,7 @@ interface Example9State {
   value: string;
 }
 
-class Example9 extends React.Component<unknown, Example9State> {
+class Example9 extends React.Component {
   public state: Example9State = {
     value: '',
   };

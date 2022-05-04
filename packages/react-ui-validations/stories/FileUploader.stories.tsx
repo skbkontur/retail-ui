@@ -12,7 +12,7 @@ interface FileUploaderStoryState {
   value: FileUploaderAttachedFile[];
 }
 
-class FileUploaderStory extends React.Component<unknown, FileUploaderStoryState> {
+class FileUploaderStory extends React.Component {
   public state: FileUploaderStoryState = {
     value: [],
   };

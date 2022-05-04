@@ -147,12 +147,12 @@ const validate = createValidator<Organization>((b, organization) => {
   );
 });
 
-interface State {
+interface GuidesExampleDemoState {
   organization: Organization;
 }
 
-export default class GuidesExampleDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class GuidesExampleDemo extends React.Component {
+  public state: GuidesExampleDemoState = {
     organization: {
       name: '',
       inn: '',

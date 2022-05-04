@@ -19,12 +19,12 @@ const validate = createValidator<Data>((b, root) => {
   );
 });
 
-interface State {
+interface LostfocusValidationDemoState {
   data: Data;
 }
 
-export default class LostfocusValidationDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class LostfocusValidationDemo extends React.Component {
+  public state: LostfocusValidationDemoState = {
     data: {
       onlyDigits: false,
       value: '',

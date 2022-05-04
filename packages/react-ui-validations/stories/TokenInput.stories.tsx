@@ -17,7 +17,7 @@ interface TokenInputStoryState {
   selectedItems: any[];
 }
 
-class TokenInputStory extends React.Component<unknown, TokenInputStoryState> {
+class TokenInputStory extends React.Component {
   public state: TokenInputStoryState = {
     checked: false,
     selectedItems: [],

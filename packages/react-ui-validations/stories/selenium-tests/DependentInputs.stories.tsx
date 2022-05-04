@@ -10,7 +10,7 @@ interface Example1State {
   value2: string;
 }
 
-class Example1 extends React.Component<unknown, Example1State> {
+class Example1 extends React.Component {
   public state: Example1State = {
     value1: '',
     value2: '',

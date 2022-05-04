@@ -192,7 +192,7 @@ interface SidePageWithInputInHeaderState {
   opened: boolean;
 }
 
-class SidePageWithInputInHeader extends React.Component<unknown, SidePageWithInputInHeaderState> {
+class SidePageWithInputInHeader extends React.Component {
   public state: SidePageWithInputInHeaderState = {
     opened: false,
   };
@@ -247,7 +247,7 @@ interface SidePageWithCloseConfigurationState {
   withContent: boolean;
 }
 
-class SidePageWithCloseConfiguration extends React.Component<unknown, SidePageWithCloseConfigurationState> {
+class SidePageWithCloseConfiguration extends React.Component {
   public state: SidePageWithCloseConfigurationState = {
     ignoreBackgroundClick: false,
     blockBackground: false,
@@ -288,7 +288,7 @@ interface SidePageWithModalInsideState {
   withContent: boolean;
 }
 
-class SidePageWithModalInside extends React.Component<unknown, SidePageWithModalInsideState> {
+class SidePageWithModalInside extends React.Component {
   public state: SidePageWithModalInsideState = {
     isModalOpened: false,
     ignoreBackgroundClick: true,
@@ -401,7 +401,7 @@ interface WithVariableContentState {
   sidePageText: string[];
   pageText: string[];
 }
-class WithVariableContent extends React.Component<unknown, WithVariableContentState> {
+class WithVariableContent extends React.Component {
   public state: WithVariableContentState = {
     opened: false,
     sidePageText: [],
@@ -460,11 +460,11 @@ class WithVariableContent extends React.Component<unknown, WithVariableContentSt
   );
 
   private hendleAddSidePageClick = () => {
-    this.setState((state) => ({ sidePageText: [...state.sidePageText, 'text'] }));
+    this.setState((state: WithVariableContentState) => ({ sidePageText: [...state.sidePageText, 'text'] }));
   };
 
   private handleAddPageClick = () => {
-    this.setState((state) => ({ pageText: [...state.pageText, 'text'] }));
+    this.setState((state: WithVariableContentState) => ({ pageText: [...state.pageText, 'text'] }));
   };
 
   private open = () => {

@@ -240,8 +240,9 @@ export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
 PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
-class Playground extends React.Component<unknown, { useGlobalListener: boolean }> {
-  public state = {
+type PlaygroundState = { useGlobalListener: boolean };
+class Playground extends React.Component {
+  public state: PlaygroundState = {
     useGlobalListener: true,
   };
 

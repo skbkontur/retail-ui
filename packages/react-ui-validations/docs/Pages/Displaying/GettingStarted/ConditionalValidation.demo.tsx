@@ -4,12 +4,12 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface ConditionalValidationDemoState {
   value: string;
 }
 
-export default class ConditionalValidationDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class ConditionalValidationDemo extends React.Component {
+  public state: ConditionalValidationDemoState = {
     value: '',
   };
 

@@ -43,12 +43,12 @@ const validate = createValidator<ContactInfo>((b) => {
   );
 });
 
-interface State {
+interface NestedObjectDemoState {
   contactInfo: ContactInfo;
 }
 
-export default class NestedObjectDemo extends React.Component<unknown, State> {
-  public state: State = {
+export default class NestedObjectDemo extends React.Component {
+  public state: NestedObjectDemoState = {
     contactInfo: {
       fullName: {
         name: '',

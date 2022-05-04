@@ -20,8 +20,9 @@ const basicFontStyle = {
   margin: '0',
 };
 
-class ModalWithScrollableContent extends React.Component<unknown, { opened: boolean; panel: boolean }> {
-  public state = {
+type ModalWithScrollableContentState = { opened: boolean; panel: boolean };
+class ModalWithScrollableContent extends React.Component {
+  public state: ModalWithScrollableContentState = {
     opened: false,
     panel: false,
   };
@@ -69,7 +70,7 @@ class ModalWithScrollableContent extends React.Component<unknown, { opened: bool
           <div>
             <Toggle
               checked={this.state.panel}
-              onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+              onValueChange={() => this.setState(({ panel }: ModalWithScrollableContentState) => ({ panel: !panel }))}
             />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
@@ -90,8 +91,9 @@ class ModalWithScrollableContent extends React.Component<unknown, { opened: bool
   };
 }
 
-class ModalWithIconInput extends React.Component<unknown, { opened: boolean }> {
-  public state = {
+type ModalWithIconInputState = { opened: boolean };
+class ModalWithIconInput extends React.Component {
+  public state: ModalWithIconInputState = {
     opened: false,
   };
 
@@ -171,8 +173,9 @@ class ModalOverAnotherModal extends React.Component {
   }
 }
 
-class ModalWithFooterPanel extends React.Component<unknown, { opened: boolean; panel: boolean }> {
-  public state = {
+type ModalWithFooterPanelState = { opened: boolean; panel: boolean };
+class ModalWithFooterPanel extends React.Component {
+  public state: ModalWithFooterPanelState = {
     opened: false,
     panel: true,
   };
@@ -209,8 +212,9 @@ class ModalWithFooterPanel extends React.Component<unknown, { opened: boolean; p
   };
 }
 
-class ModalWithoutFooterPanel extends React.Component<unknown, { opened: boolean }> {
-  public state = {
+type ModalWithoutFooterPanelState = { opened: boolean };
+class ModalWithoutFooterPanel extends React.Component {
+  public state: ModalWithoutFooterPanelState = {
     opened: false,
   };
 
@@ -249,8 +253,9 @@ class ModalWithoutFooterPanel extends React.Component<unknown, { opened: boolean
   };
 }
 
-class ModalWithoutFooter extends React.Component<unknown, { opened: boolean }> {
-  public state = {
+type ModalWithoutFooterState = { opened: boolean };
+class ModalWithoutFooter extends React.Component {
+  public state: ModalWithoutFooterState = {
     opened: false,
   };
 
@@ -286,8 +291,9 @@ class ModalWithoutFooter extends React.Component<unknown, { opened: boolean }> {
   };
 }
 
-class ModalMobileView extends React.Component<unknown, { opened: boolean }> {
-  public state = {
+type ModalMobileViewState = { opened: boolean };
+class ModalMobileView extends React.Component {
+  public state: ModalMobileViewState = {
     opened: true,
   };
 
@@ -309,8 +315,9 @@ class ModalMobileView extends React.Component<unknown, { opened: boolean }> {
   }
 }
 
-class ModalInner extends React.Component<unknown, { bigHeight: boolean }> {
-  public state = {
+type ModalInnerState = { bigHeight: boolean };
+class ModalInner extends React.Component {
+  public state: ModalInnerState = {
     bigHeight: false,
   };
 
@@ -336,8 +343,9 @@ class ModalInner extends React.Component<unknown, { bigHeight: boolean }> {
   }
 }
 
-class ModalWithVariableHeight extends React.Component<unknown, { opened: boolean; panel: boolean }> {
-  public state = {
+type ModalWithVariableHeightState = { opened: boolean; panel: boolean };
+class ModalWithVariableHeight extends React.Component {
+  public state: ModalWithVariableHeightState = {
     opened: false,
     panel: false,
   };
@@ -356,7 +364,7 @@ class ModalWithVariableHeight extends React.Component<unknown, { opened: boolean
               <div>
                 <Toggle
                   checked={this.state.panel}
-                  onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+                  onValueChange={() => this.setState(({ panel }: ModalWithVariableHeightState) => ({ panel: !panel }))}
                 />{' '}
                 Panel {this.state.panel ? 'enabled' : 'disabled'}
               </div>

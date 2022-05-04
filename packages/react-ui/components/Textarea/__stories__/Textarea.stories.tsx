@@ -9,12 +9,12 @@ const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
 
 interface AutoresizableTextareaState {
-  value: string | null;
+  value: string;
   maxRows: number;
 }
 
-class AutoresizableTextarea extends React.Component<unknown, AutoresizableTextareaState> {
-  public state = {
+class AutoresizableTextarea extends React.Component {
+  public state: AutoresizableTextareaState = {
     value: '',
     maxRows: 5,
   };

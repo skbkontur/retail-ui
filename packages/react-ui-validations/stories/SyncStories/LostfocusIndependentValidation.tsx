@@ -19,7 +19,7 @@ interface LostfocusIndependentValidationState {
   validation: ValidationState;
 }
 
-export class LostfocusIndependentValidation extends React.Component<unknown, LostfocusIndependentValidationState> {
+export class LostfocusIndependentValidation extends React.Component {
   public state: LostfocusIndependentValidationState = {
     value1: '',
     value2: '',

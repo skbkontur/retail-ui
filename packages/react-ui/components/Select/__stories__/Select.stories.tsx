@@ -42,15 +42,16 @@ class SelectWrapper extends React.Component {
   }
 }
 
+type ItemsWithCommentsState = { value: number };
 type ItemWithComments = [number, string, React.ReactNode?];
-class ItemsWithComments extends React.Component<unknown, any> {
+class ItemsWithComments extends React.Component {
   private static items: ItemWithComments[] = [
     [1, 'ООО Эльбрус', '8387666415 - 113445852'],
     [2, 'ИП Иванов Петр', '583662338391'],
     [3, 'ЗАО Текстильщики'],
   ];
 
-  public state = {
+  public state: ItemsWithCommentsState = {
     value: ItemsWithComments.items[0][0],
   };
 

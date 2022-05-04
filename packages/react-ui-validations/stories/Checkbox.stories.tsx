@@ -12,7 +12,7 @@ interface CheckboxStoryState {
   checked: boolean;
 }
 
-class CheckboxStory extends React.Component<unknown, CheckboxStoryState> {
+class CheckboxStory extends React.Component {
   public state: CheckboxStoryState = {
     checked: false,
   };

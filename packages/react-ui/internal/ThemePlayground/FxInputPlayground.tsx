@@ -4,8 +4,8 @@ import { FxInput } from '../../components/FxInput';
 
 type FxInputPlaygroundState = { value: string; auto: boolean };
 
-export class FxInputPlayground extends React.Component<unknown, FxInputPlaygroundState> {
-  public state = {
+export class FxInputPlayground extends React.Component {
+  public state: FxInputPlaygroundState = {
     auto: true,
     value: 'auto',
   };

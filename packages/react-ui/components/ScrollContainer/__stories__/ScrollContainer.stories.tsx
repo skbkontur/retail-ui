@@ -94,9 +94,10 @@ export const WithHorizontalScroll = () => {
   );
 };
 
+type WrapperState = { scrollState: ScrollContainerScrollState };
 export const WithScrollState = () => {
-  class Wrapper extends React.Component<unknown, { scrollState: ScrollContainerScrollState }> {
-    public state = { scrollState: 'top' as ScrollContainerScrollState };
+  class Wrapper extends React.Component {
+    public state: WrapperState = { scrollState: 'top' as ScrollContainerScrollState };
 
     public render() {
       const commonBlocksStyles: CSSProperties = {
