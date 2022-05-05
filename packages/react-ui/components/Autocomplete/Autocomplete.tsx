@@ -16,9 +16,9 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
-import { mergeRefs } from '../../lib/utils';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { memo } from '../../lib/memo';
+import { mergeRefs } from '../../lib/utils';
 
 import { styles } from './Autocomplete.styles';
 
@@ -211,11 +211,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
-        <span
-          className={styles.root(this.theme)}
-          style={{ width }}
-          ref={this.shallowEqualMemoMergeRef([this.rootSpan])}
-        >
+        <span className={styles.root(this.theme)} style={{ width }} ref={this.memoizedMergeRefs(this.rootSpan)}>
           <Input {...inputProps} />
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
@@ -223,7 +219,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   };
 
-  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
+  private memoizedMergeRefs = memo(mergeRefs);
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;

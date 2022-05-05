@@ -1,25 +1,35 @@
 export function memo<T>(fn: T): T {
-  let cache: { [key: string]: any } = {};
-  const getHash = (args: any[]) => args.reduce((acc, x) => acc + x, '');
+  let cache = new Map();
   let keysCount = 0;
   const limit = 1e4;
 
   // @ts-ignore
   return (...args) => {
     try {
-      const hash = getHash(args);
-      const fromCache = cache[hash];
-      if (fromCache) {
-        return fromCache;
+      let currentLevelOfCache = cache;
+      for (let i = 0; i < args.length - 1; i++) {
+        if (!currentLevelOfCache.get(args[i])) {
+          const newLevelOfCache = new Map();
+          newLevelOfCache.set(args[i + 1], undefined);
+          currentLevelOfCache.set(args[i], newLevelOfCache);
+          keysCount++;
+        }
+        currentLevelOfCache = currentLevelOfCache.get(args[i]);
       }
+      const resultFromCache = currentLevelOfCache.get(args[args.length - 1]);
+
+      if (resultFromCache) {
+        return resultFromCache;
+      }
+
       // @ts-ignore
       const result = fn(...args);
-      cache[hash] = result;
+      currentLevelOfCache.set(args[args.length - 1], result);
       keysCount++;
       return result;
     } finally {
       if (keysCount > limit) {
-        cache = {};
+        cache = new Map();
         keysCount = 0;
       }
     }

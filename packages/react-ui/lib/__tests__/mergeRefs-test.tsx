@@ -16,7 +16,7 @@ describe('mergeRefs', () => {
     const objRef = createRef();
     const Example = ({ visible }: { visible: boolean }) => {
       if (visible) {
-        return <ComponentWithImperativeMethods ref={mergeRefs([funcRef, objRef])} />;
+        return <ComponentWithImperativeMethods ref={mergeRefs(funcRef, objRef)} />;
       }
 
       return null;

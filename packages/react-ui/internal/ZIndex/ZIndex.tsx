@@ -2,7 +2,7 @@ import React from 'react';
 
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
-import { shallowEqualMemo } from '../../lib/shallowEqualMemo';
+import { memo } from '../../lib/memo';
 import { mergeRefs } from '../../lib/utils';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
@@ -101,7 +101,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
             <ZIndexContext.Provider value={zIndexContexValue}>
               <div
                 style={{ ...style, ...wrapperStyle }}
-                ref={this.shallowEqualMemoMergeRef([this.setRootNode, this.props.wrapperRef])}
+                ref={this.memoizedMergeRefs(this.setRootNode, this.props.wrapperRef)}
                 {...props}
               >
                 {children}
@@ -112,6 +112,8 @@ export class ZIndex extends React.Component<ZIndexProps> {
       </ZIndexContext.Consumer>
     );
   }
+
+  private memoizedMergeRefs = memo(mergeRefs);
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
     let newZIndex = this.zIndex;
@@ -126,6 +128,4 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
     return newZIndex;
   }
-
-  private shallowEqualMemoMergeRef = shallowEqualMemo(mergeRefs);
 }
