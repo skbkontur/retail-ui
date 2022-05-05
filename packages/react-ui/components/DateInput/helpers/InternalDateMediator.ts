@@ -1,7 +1,12 @@
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import { InternalDateComponentType, InternalDateTypesOrder, InternalDateValidateCheck } from '../../../lib/date/types';
+import {
+  InputKeyResult,
+  InternalDateComponentType,
+  InternalDateTypesOrder,
+  InternalDateValidateCheck,
+} from '../../../lib/date/types';
 import { DatePickerLocale } from '../../DatePicker/locale';
 import { DateInputProps } from '../DateInput';
 
@@ -45,11 +50,7 @@ export class InternalDateMediator {
     return this;
   };
 
-  public inputKey(
-    key: string,
-    type: InternalDateComponentType | null,
-    inputMode: boolean,
-  ): { inputMode: boolean; changed: boolean } {
+  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): InputKeyResult {
     const prevValue = this.iDate.get(type);
     if (type === null) {
       type = this.getLeftmostType();
