@@ -32,10 +32,9 @@ const validate = createValidator<ContactInfo[]>((b) => {
   );
 });
 
-interface ObjectArrayDemoState {
+type ObjectArrayDemoState = {
   contacts: ContactInfo[];
-}
-
+};
 export default class ObjectArrayDemo extends React.Component {
   public state: ObjectArrayDemoState = {
     contacts: [

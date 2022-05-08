@@ -10,11 +10,10 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface LostfocusDependentDemoState {
+type LostfocusDependentDemoState = {
   name: string;
   lastname: string;
-}
-
+};
 export default class LostfocusDependentDemo extends React.Component {
   public state: LostfocusDependentDemoState = {
     name: '',

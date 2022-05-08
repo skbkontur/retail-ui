@@ -12,10 +12,9 @@ storiesOf('ModalWithSingleInput', module)
   .add('Example1', () => <ModalInputStory />)
   .add('Example2', () => <SmallModalInputStory />);
 
-interface ModalInputStoryState {
+type ModalInputStoryState = {
   value: string;
-}
-
+};
 class ModalInputStory extends React.Component {
   public state: ModalInputStoryState = {
     value: '',
@@ -93,10 +92,9 @@ class ModalInputStory extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface SmallModalInputStoryState {
+type SmallModalInputStoryState = {
   value: string;
-}
-
+};
 class SmallModalInputStory extends React.Component {
   public state: SmallModalInputStoryState = {
     value: '',

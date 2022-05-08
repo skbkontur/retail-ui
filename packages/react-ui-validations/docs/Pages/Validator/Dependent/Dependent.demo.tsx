@@ -19,10 +19,9 @@ const validate = createValidator<Data>((b, root) => {
   );
 });
 
-interface LostfocusValidationDemoState {
+type LostfocusValidationDemoState = {
   data: Data;
-}
-
+};
 export default class LostfocusValidationDemo extends React.Component {
   public state: LostfocusValidationDemoState = {
     data: {

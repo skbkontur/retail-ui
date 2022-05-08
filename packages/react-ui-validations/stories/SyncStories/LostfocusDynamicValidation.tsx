@@ -5,12 +5,11 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
-interface LostfocusDynamicValidationState {
+type LostfocusDynamicValidationState = {
   sending: boolean;
   valueA: string;
   valueB: string;
-}
-
+};
 export class LostfocusDynamicValidation extends React.Component {
   public state: LostfocusDynamicValidationState = {
     sending: false,

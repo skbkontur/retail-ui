@@ -7,16 +7,15 @@ import { Nullable } from '../../../../typings/Types';
 
 import { Input, DatePicker, lessThanDate } from './ControlsWithValidations';
 
-export interface ContactInfo {
+export type ContactInfo = {
   name: string;
   email: string;
   born: string;
-}
+};
 
-interface InlineValidationsDemoState {
+type InlineValidationsDemoState = {
   data: ContactInfo;
-}
-
+};
 export default class InlineValidationsDemo extends React.Component {
   public state: InlineValidationsDemoState = {
     data: {

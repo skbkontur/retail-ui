@@ -108,10 +108,9 @@ const validate = createValidator<ContactInfo>((b) => {
   );
 });
 
-interface EditorsDemoState {
+type EditorsDemoState = {
   data: ContactInfo;
-}
-
+};
 export default class EditorsDemo extends React.Component {
   public state: EditorsDemoState = {
     data: {

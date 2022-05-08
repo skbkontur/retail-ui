@@ -7,13 +7,12 @@ import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '..
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
-interface LostfocusDependentValidationState {
+type LostfocusDependentValidationState = {
   sending: boolean;
   valueA: string;
   valueB: string;
   validation: ValidationState;
-}
-
+};
 export class LostfocusDependentValidation extends React.Component {
   public state: LostfocusDependentValidationState = {
     sending: false,

@@ -7,10 +7,9 @@ import { Select } from '@skbkontur/react-ui/components/Select';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-interface Example1State {
+type Example1State = {
   value: string;
-}
-
+};
 class Example1 extends React.Component {
   public state: Example1State = {
     value: '',
@@ -40,10 +39,9 @@ class Example1 extends React.Component {
   }
 }
 
-interface Example2State {
+type Example2State = {
   value: string;
-}
-
+};
 class Example2 extends React.Component {
   public state: Example2State = {
     value: '',
@@ -73,10 +71,9 @@ class Example2 extends React.Component {
   }
 }
 
-interface Example3State {
+type Example3State = {
   value: string;
-}
-
+};
 class Example3 extends React.Component {
   public state: Example3State = {
     value: '',
@@ -193,11 +190,10 @@ class Example8 extends React.Component {
 
 type Sex = 'male' | 'female';
 
-interface Example4State {
+type Example4State = {
   type: Nullable<Sex>;
   value: string;
-}
-
+};
 class Example4 extends React.Component {
   public state: Example4State = {
     type: null,
@@ -239,10 +235,9 @@ class Example4 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example5State {
+type Example5State = {
   value: string;
-}
-
+};
 class Example5 extends React.Component {
   public state: Example5State = {
     value: '',
@@ -287,11 +282,10 @@ class Example5 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example6State {
+type Example6State = {
   value1: string;
   value2: string;
-}
-
+};
 class Example6 extends React.Component {
   public state: Example6State = {
     value1: '',
@@ -345,12 +339,11 @@ class Example6 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example7State {
+type Example7State = {
   value1: string;
   value2: string;
   value3: string;
-}
-
+};
 class Example7 extends React.Component {
   public state: Example7State = {
     value1: '',
@@ -399,10 +392,9 @@ class Example7 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example9State {
+type Example9State = {
   value: string;
-}
-
+};
 class Example9 extends React.Component {
   public state: Example9State = {
     value: '',

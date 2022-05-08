@@ -1,17 +1,14 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { storiesOf } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
-import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
+import { Checkbox, CheckboxProps } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
 
-interface CheckboxStoryState {
-  checked: boolean;
-}
-
+type CheckboxStoryState = Pick<CheckboxProps, 'checked'>;
 class CheckboxStory extends React.Component {
   public state: CheckboxStoryState = {
     checked: false,

@@ -5,20 +5,18 @@ import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '..
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
-interface SingleInputPageProps {
+type SingleInputPageProps = {
   initialValue?: string;
   validationType: ValidationInfo['type'];
   validationLevel?: ValidationInfo['level'];
-}
-
-interface SingleInputPageState {
+};
+type SingleInputPageState = {
   sending: boolean;
   value: string;
   level: ValidationInfo['level'];
   validation: ValidationState;
   focused: boolean;
-}
-
+};
 export class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
   public state: SingleInputPageState = {
     sending: false,

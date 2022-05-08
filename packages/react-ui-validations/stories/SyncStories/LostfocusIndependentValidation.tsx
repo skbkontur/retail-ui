@@ -7,7 +7,7 @@ import { createValidator, ValidationContainer, ValidationInfo, ValidationWrapper
 import { Nullable } from '../../typings/Types';
 import { ValidationState } from '../ValidationHelper';
 
-interface LostfocusIndependentValidationState {
+type LostfocusIndependentValidationState = {
   value1: string;
   value2: string;
   object: {
@@ -17,8 +17,7 @@ interface LostfocusIndependentValidationState {
   submit: string;
   isValid: boolean | null;
   validation: ValidationState;
-}
-
+};
 export class LostfocusIndependentValidation extends React.Component {
   public state: LostfocusIndependentValidationState = {
     value1: '',
