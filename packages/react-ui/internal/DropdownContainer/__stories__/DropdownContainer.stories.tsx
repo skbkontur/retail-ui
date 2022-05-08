@@ -50,6 +50,10 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   },
 };
 
+type VariousAlignsPortalsItemsAndScrollsState = {
+  shown: { [id: string]: boolean };
+  long: boolean;
+};
 type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Align[] = ['left', 'right'];
@@ -60,10 +64,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
     [id: string]: DropdownWithToggle | null;
   } = {};
 
-  public state: {
-    shown: { [id: string]: boolean };
-    long: boolean;
-  } = {
+  public state: VariousAlignsPortalsItemsAndScrollsState = {
     shown: {},
     long: false,
   };
@@ -170,9 +171,10 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   };
 }
 
-class ScrollableContainer extends React.Component<{
+type ScrollableContainerProps = {
   id?: string;
-}> {
+};
+class ScrollableContainer extends React.Component<ScrollableContainerProps> {
   public render() {
     return (
       <div
@@ -190,10 +192,11 @@ class ScrollableContainer extends React.Component<{
   }
 }
 
-class ScrollMaker extends React.Component<{
+type ScrollMakerProps = {
   xScroll: number;
   yScroll: number;
-}> {
+};
+class ScrollMaker extends React.Component<ScrollMakerProps> {
   public static defaultProps = {
     xScroll: 100,
     yScroll: 100,
@@ -217,11 +220,12 @@ class ScrollMaker extends React.Component<{
   }
 }
 
-class Grid extends React.Component<{
+type GridProps = {
   rows: string[];
   cols: string[];
   children: (row: string, col: string) => React.ReactNode;
-}> {
+};
+class Grid extends React.Component<GridProps> {
   public static Row = class Row extends React.Component {
     public render() {
       return (
@@ -267,15 +271,16 @@ class Grid extends React.Component<{
   }
 }
 
-@rootNode
-class DropdownWithToggle extends React.Component<{
+type DropdownWithToggleProps = {
   show: boolean;
   onToggle: (value: boolean) => void;
   dropdownProps: {
     align: DropdownContainerProps['align'];
     disablePortal: DropdownContainerProps['disablePortal'];
   };
-}> {
+};
+@rootNode
+class DropdownWithToggle extends React.Component<DropdownWithToggleProps> {
   private setRootNode!: TSetRootNode;
 
   public render() {

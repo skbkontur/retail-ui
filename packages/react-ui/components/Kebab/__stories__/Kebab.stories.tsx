@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 import OkIcon from '@skbkontur/react-icons/Ok';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Kebab } from '../Kebab';
 import { MenuItem } from '../../MenuItem';
+import { KebabProps } from '..';
 
 import { defaultItemsList, manyItemsList } from './Kebab.items';
 
@@ -155,14 +156,11 @@ export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimation
 KebabWithoutAnimations.storyName = 'Kebab without animations';
 KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
-class SomethingWithKebab extends Component<{
-  size: 'small' | 'medium' | 'large';
-  disabled?: boolean;
+type SomethingWithKebabProps = {
   items?: KebabItem[];
-  menuMaxHeight?: string | number;
-  disableAnimations?: boolean;
-  icon?: React.ReactNode;
-}> {
+} & Pick<KebabProps, 'size' | 'disabled' | 'menuMaxHeight' | 'icon'> &
+  Partial<Pick<KebabProps, 'disableAnimations'>>;
+class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
   public render() {
     const itemsList = this.props.items || defaultItemsList;
     const menuItems = itemsList.map((item: KebabItem, index: number) => {

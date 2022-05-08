@@ -83,7 +83,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     use: 'default',
   };
 
-  public state = {
+  public state: LinkState = {
     focusedByTab: false,
   };
 

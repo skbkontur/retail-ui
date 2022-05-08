@@ -72,7 +72,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     icon: <MenuKebabIcon />,
   };
 
-  public state = {
+  public state: KebabState = {
     opened: false,
     focusedByTab: false,
     anchor: null,

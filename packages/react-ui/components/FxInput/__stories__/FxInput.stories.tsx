@@ -5,8 +5,8 @@ import { BGRuler } from '../../../internal/BGRuler';
 import { FxInput } from '../FxInput';
 import { Gapped } from '../../Gapped';
 import { createPropsGetter } from '../../../lib/createPropsGetter';
-import { InputSize, InputType } from '../../Input';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { FxInputProps } from '..';
 
 export default { title: 'FxInput' } as Meta;
 
@@ -59,19 +59,8 @@ WithWidthStory.parameters = {
   },
 };
 
-interface TestFxInputProps {
-  type?: 'currency' | InputType;
-  autoFocus?: boolean;
-  borderless?: boolean;
-  fractionDigits?: number;
-  size?: InputSize;
-}
-
-interface TestFxInputState {
-  auto: boolean;
-  value: React.ReactText;
-}
-
+type TestFxInputProps = Pick<FxInputProps, 'type' | 'borderless' | 'fractionDigits' | 'size'>;
+type TestFxInputState = Pick<FxInputProps, 'auto' | 'value'>;
 class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   public static defaultProps: { type: TestFxInputProps['type'] } = {
     type: 'text',
@@ -114,10 +103,11 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   };
 }
 
-class TestWrapper extends React.Component<{
+type TestWrapperProps = {
   width?: number | string;
   ruler?: boolean;
-}> {
+};
+class TestWrapper extends React.Component<TestWrapperProps> {
   public render() {
     const { width, ruler, children } = this.props;
     const style: React.CSSProperties = {
@@ -147,13 +137,11 @@ class TestWrapper extends React.Component<{
   }
 }
 
-class WithWidth extends React.Component<
-  unknown,
-  {
-    isFixedWidth: boolean;
-  }
-> {
-  public state = {
+type WithWidthState = {
+  isFixedWidth: boolean;
+};
+class WithWidth extends React.Component {
+  public state: WithWidthState = {
     isFixedWidth: false,
   };
 

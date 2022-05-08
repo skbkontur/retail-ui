@@ -6,6 +6,7 @@ import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { AutocompleteProps } from '..';
 
 export default {
   title: 'Autocomplete',
@@ -115,8 +116,10 @@ WithOnBlurOnFocusHandlers.parameters = {
   },
 };
 
-class UncontrolledAutocomplete extends React.Component<any, any> {
-  public state = {
+type UncontrolledAutocompleteProps = Partial<AutocompleteProps>;
+type UncontrolledAutocompleteState = Pick<AutocompleteProps, 'value'>;
+class UncontrolledAutocomplete extends React.Component<UncontrolledAutocompleteProps, UncontrolledAutocompleteState> {
+  public state: UncontrolledAutocompleteState = {
     value: '',
   };
 
@@ -133,11 +136,16 @@ class UncontrolledAutocomplete extends React.Component<any, any> {
   }
 }
 
-class WithBlurFocusHandlersExample extends React.Component<any, any> {
-  public state = {
+type WithBlurFocusHandlersExampleState = {
+  focusCount: number;
+  blurCount: number;
+};
+class WithBlurFocusHandlersExample extends React.Component {
+  public state: WithBlurFocusHandlersExampleState = {
     focusCount: 0,
     blurCount: 0,
   };
+
   public render() {
     return (
       <Gapped vertical>

@@ -21,6 +21,10 @@ export interface SidePageFooterProps extends CommonProps {
   sticky?: boolean;
 }
 
+type SidePageFooterState = {
+  fixed: boolean;
+};
+
 /**
  * Футер сайдпейджа.
  *
@@ -28,14 +32,14 @@ export interface SidePageFooterProps extends CommonProps {
  */
 @responsiveLayout
 @rootNode
-export class SidePageFooter extends React.Component<SidePageFooterProps> {
+export class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
   private isMobileLayout!: boolean;
 
-  public state = {
+  public state: SidePageFooterState = {
     fixed: false,
   };
 

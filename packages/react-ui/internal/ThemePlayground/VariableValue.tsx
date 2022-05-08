@@ -34,7 +34,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   public static defaultProps = {
     deprecated: false,
   };
-  public state = {
+  public state: VariableValueState = {
     value: this.props.value,
     editing: false,
   };

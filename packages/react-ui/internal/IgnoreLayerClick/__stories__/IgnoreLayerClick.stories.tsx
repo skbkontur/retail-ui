@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { SidePage } from '../../../components/SidePage';
 import { IgnoreLayerClick } from '../IgnoreLayerClick';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
+import { IgnoreLayerClickProps } from '..';
 
-interface SampleState {
-  active: boolean;
+type SampleState = {
   open: boolean;
-}
+} & Pick<IgnoreLayerClickProps, 'active'>;
 
-class Sample extends Component<unknown, SampleState> {
+class Sample extends React.Component {
   public state: SampleState = {
     active: false,
     open: false,
@@ -33,7 +33,7 @@ class Sample extends Component<unknown, SampleState> {
         <Toggle
           checked={this.state.active}
           onValueChange={() =>
-            this.setState((state) => {
+            this.setState((state: SampleState) => {
               return { active: !state.active };
             })
           }

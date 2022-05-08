@@ -9,11 +9,10 @@ import { DateInput, DateInputProps } from '../DateInput';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 
-interface DateInputFormattingState {
+type DateInputFormattingState = {
   order: InternalDateOrder;
   separator: keyof typeof InternalDateSeparator;
-  value: string;
-}
+} & Pick<DateInputProps, 'value'>;
 class DateInputFormatting extends React.Component {
   public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
@@ -71,7 +70,7 @@ class DateInputFormatting extends React.Component {
   }
 }
 
-class DateInputDifferentFormatting extends React.Component<any, any> {
+class DateInputDifferentFormatting extends React.Component {
   public render() {
     const value = '21.12.2012';
     return (
@@ -213,12 +212,11 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
   }
 }
 
-interface DateInputSimpleProps extends DateInputProps {
-  defaultValue?: string;
-}
+type DateInputSimpleProps = { defaultValue?: string } & Partial<DateInputProps>;
+type DateInputSimpleState = Pick<DateInputProps, 'value'>;
 
-class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
-  public state: { value: string } = {
+class DateInputSimple extends React.Component<DateInputSimpleProps, DateInputSimpleState> {
+  public state: DateInputSimpleState = {
     value: this.props.defaultValue || '',
   };
 
@@ -234,8 +232,9 @@ class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
   }
 }
 
+type DateInputLastEventState = { lastEvent: string };
 class DateInputLastEvent extends React.Component {
-  public state: { lastEvent: string } = {
+  public state: DateInputLastEventState = {
     lastEvent: 'none',
   };
 

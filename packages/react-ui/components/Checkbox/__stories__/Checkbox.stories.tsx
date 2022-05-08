@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
+import { CheckboxProps } from '..';
 
-class PlainCheckbox extends Component<any, any> {
-  public state = {
+type PlainCheckboxState = Pick<CheckboxProps, 'checked'>;
+class PlainCheckbox extends React.Component {
+  public state: PlainCheckboxState = {
     checked: false,
   };
 
@@ -20,11 +22,9 @@ class PlainCheckbox extends Component<any, any> {
   }
 }
 
-interface IndeterminatePlaygroundState {
-  checked: boolean;
-}
+type IndeterminatePlaygroundState = Pick<CheckboxProps, 'checked'>;
 
-class IndeterminatePlayground extends Component<unknown, IndeterminatePlaygroundState> {
+class IndeterminatePlayground extends React.Component {
   public state: IndeterminatePlaygroundState = {
     checked: false,
   };

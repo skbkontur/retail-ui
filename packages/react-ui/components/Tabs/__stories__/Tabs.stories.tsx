@@ -10,6 +10,7 @@ import { TabProps } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
 import { delay } from '../../../lib/utils';
+import { TabsProps } from '..';
 const { Tab } = Tabs;
 
 const Img: React.FC<{ size: string }> = ({ size }) => (
@@ -27,23 +28,18 @@ enum Mountain {
   alps = 'Alps',
 }
 
-interface UncTabsState {
-  active: Mountain;
-}
-
-class UncTabs extends React.Component<any, UncTabsState> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      active: Mountain.fuji,
-    };
-  }
+type UncTabsProps = Partial<Pick<TabsProps<Mountain>, 'vertical'>>;
+type UncTabsState = Pick<TabsProps<Mountain>, 'value'>;
+class UncTabs extends React.Component<UncTabsProps, UncTabsState> {
+  public state: UncTabsState = {
+    value: Mountain.fuji,
+  };
 
   public render() {
     return (
       <Tabs<Mountain>
-        value={this.state.active}
-        onValueChange={(v) => this.setState({ active: v })}
+        value={this.state.value}
+        onValueChange={(v) => this.setState({ value: v })}
         vertical={this.props.vertical}
       >
         <Tab id={Mountain.fuji}>{Mountain.fuji}</Tab>
@@ -60,7 +56,8 @@ const RouteTab = (props: any) => (
   </Tab>
 );
 
-class RouterTabs extends React.Component<any> {
+type RouterTabsProps = Pick<TabsProps, 'value'>;
+class RouterTabs extends React.Component<RouterTabsProps> {
   public render() {
     return (
       <div>
@@ -82,18 +79,20 @@ const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
   );
 });
 
-class TabsWithMyLink extends React.Component<any, any> {
-  public state = {
-    active: 'fuji',
+type TabsWithMyLinkProps = Partial<TabsProps>;
+type TabsWithMyLinkState = Pick<TabsProps, 'value'>;
+class TabsWithMyLink extends React.Component<TabsWithMyLinkProps, TabsWithMyLinkState> {
+  public state: TabsWithMyLinkState = {
+    value: 'fuji',
   };
 
   public render() {
     return (
       <Tabs
-        value={this.state.active}
+        value={this.state.value}
         onValueChange={(v) =>
           this.setState({
-            active: v,
+            value: v,
           })
         }
         vertical={this.props.vertical}
@@ -133,8 +132,12 @@ class TabsWithMyLink extends React.Component<any, any> {
   }
 }
 
-class UnexpectedUpdatedTab extends React.Component<{ id: string }, any> {
-  public state = {
+type UnexpectedUpdatedTabProps = { id: string };
+type UnexpectedUpdatedTabState = {
+  updated: boolean;
+};
+class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps, UnexpectedUpdatedTabState> {
+  public state: UnexpectedUpdatedTabState = {
     updated: false,
   };
 
@@ -147,18 +150,16 @@ class UnexpectedUpdatedTab extends React.Component<{ id: string }, any> {
   }
 }
 
-class OhMyTabs extends React.Component<any, any> {
-  public state = {
-    active: 'fuji',
+type OhMyTabsProps = Partial<TabsProps>;
+type OhMyTabsState = Pick<TabsProps, 'value'>;
+class OhMyTabs extends React.Component<OhMyTabsProps, OhMyTabsState> {
+  public state: OhMyTabsState = {
+    value: 'fuji',
   };
 
   public render() {
     return (
-      <Tabs
-        value={this.state.active}
-        onValueChange={(v) => this.setState({ active: v })}
-        vertical={this.props.vertical}
-      >
+      <Tabs value={this.state.value} onValueChange={(v) => this.setState({ value: v })} vertical={this.props.vertical}>
         <UnexpectedUpdatedTab id="fuji">
           <span role="img" aria-label="fuji">
             🌋&nbsp;&nbsp;Fuji
@@ -179,14 +180,15 @@ class OhMyTabs extends React.Component<any, any> {
   }
 }
 
-class DisabledTab extends React.Component<any, any> {
-  public state = {
-    active: 'first',
+type DisabledTabState = Pick<TabsProps, 'value'>;
+class DisabledTab extends React.Component {
+  public state: DisabledTabState = {
+    value: 'first',
   };
 
   public render() {
     return (
-      <Tabs value={this.state.active} onValueChange={(v) => this.setState({ active: v })}>
+      <Tabs value={this.state.value} onValueChange={(v) => this.setState({ value: v })}>
         <Tab id="first">First</Tab>
         <Tab id="second" disabled>
           Second (disabled)
@@ -200,9 +202,13 @@ class DisabledTab extends React.Component<any, any> {
   }
 }
 
-class TabsInModal extends React.Component<any, any> {
-  public state = {
-    active: '1',
+type TabsInModalState = {
+  opened: boolean;
+} & Pick<TabsProps, 'value'> &
+  Pick<TabProps, 'success' | 'error' | 'warning' | 'primary'>;
+class TabsInModal extends React.Component {
+  public state: TabsInModalState = {
+    value: '1',
     opened: false,
     error: true,
     warning: true,
@@ -229,7 +235,7 @@ class TabsInModal extends React.Component<any, any> {
         <Modal.Header>Title</Modal.Header>
         <Modal.Body>
           <div style={{ marginLeft: -30 }}>
-            <Tabs vertical value={this.state.active} onValueChange={(v) => this.setState({ active: v })}>
+            <Tabs vertical value={this.state.value} onValueChange={(v) => this.setState({ value: v })}>
               <Tab id="1">
                 <TabElement>Normal</TabElement>
               </Tab>
@@ -295,8 +301,9 @@ class TabsInModal extends React.Component<any, any> {
   };
 }
 
+type TabsTableProps = TabProps & { vertical?: boolean };
 class TabsTable extends React.Component {
-  public static TestTab = class TestTab extends React.Component<TabProps & { vertical?: boolean }, any> {
+  public static TestTab = class TestTab extends React.Component<TabsTableProps> {
     public render() {
       const { vertical, ...tabProps } = this.props;
       return (

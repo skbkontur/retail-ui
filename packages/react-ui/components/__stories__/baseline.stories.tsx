@@ -229,7 +229,7 @@ DifferentFontsAndSizes.storyName = 'Different fonts in small';
 export const NewStoryDifferentFontsAndSizesThemeM = () => <DifferentFontsAndSizesThemeM />;
 NewStoryDifferentFontsAndSizesThemeM.storyName = 'Different fonts in medium';
 
-class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
+class DifferentFontsAndSizesThemeM extends React.Component {
   public render() {
     return (
       <div style={{ fontSize: '16px', lineHeight: '22px' }}>
@@ -286,7 +286,7 @@ class DifferentFontsAndSizesThemeM extends React.Component<any, any> {
 export const NewStoryDifferentFontsAndSizesThemeL = () => <DifferentFontsAndSizesThemeL />;
 NewStoryDifferentFontsAndSizesThemeL.storyName = 'Different fonts in large';
 
-class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
+class DifferentFontsAndSizesThemeL extends React.Component {
   public render() {
     return (
       <div style={{ fontSize: '18px', lineHeight: '24px' }}>
@@ -340,8 +340,12 @@ class DifferentFontsAndSizesThemeL extends React.Component<any, any> {
   }
 }
 
-class SimpleForm extends React.Component<any, any> {
-  public state = {
+type SimpleFormState = {
+  isFormSubmitted: boolean;
+  value: string;
+};
+class SimpleForm extends React.Component {
+  public state: SimpleFormState = {
     isFormSubmitted: false,
     value: '',
   };

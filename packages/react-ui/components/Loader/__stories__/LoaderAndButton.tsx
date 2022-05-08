@@ -3,9 +3,12 @@ import React from 'react';
 import { Tooltip } from '../../Tooltip';
 import { Button } from '../../Button';
 import { Loader } from '../Loader';
+import { LoaderProps } from '..';
 
-export class LoaderAndButton extends React.Component<{ active: boolean }> {
-  public state = {
+type LoaderAndButtonProps = Pick<LoaderProps, 'active'>;
+type LoaderAndButtonState = { isTooltipOpened: boolean; isActive?: boolean };
+export class LoaderAndButton extends React.Component<LoaderAndButtonProps, LoaderAndButtonState> {
+  public state: LoaderAndButtonState = {
     isTooltipOpened: false,
   };
 

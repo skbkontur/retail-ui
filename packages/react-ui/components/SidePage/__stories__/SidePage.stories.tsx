@@ -11,6 +11,7 @@ import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { SidePageProps } from '..';
 
 const textSample = (
   <p>
@@ -41,22 +42,20 @@ const linearDarkGradient = `repeating-linear-gradient(
                                 #444 40px
                               )`;
 
-interface SampleProps {
+type SampleProps = {
   children?: React.ReactNode;
   total?: number;
   current?: number;
-  ignoreBackgroundClick?: boolean;
-  blockBackground?: boolean;
   withContent?: boolean;
   withLongBody?: boolean;
   withoutFooter?: boolean;
   withoutHeader?: boolean;
-}
+} & Pick<SidePageProps, 'ignoreBackgroundClick' | 'blockBackground'>;
 
-interface SampleState {
+type SampleState = {
   open: boolean;
   panel: boolean;
-}
+};
 
 class Sample extends React.Component<SampleProps, SampleState> {
   public state: SampleState = {
@@ -145,12 +144,9 @@ class Sample extends React.Component<SampleProps, SampleState> {
   }
 }
 
-interface SampleConfiguratorProps {
-  ignoreBackgroundClick: boolean;
-  blockBackground: boolean;
-  withContent: boolean;
+type SampleConfiguratorProps = {
   onChange: (name: string) => void;
-}
+} & SampleProps;
 
 class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
   public render() {
@@ -188,9 +184,9 @@ class SidePageWithScrollableContent extends React.Component {
   }
 }
 
-interface SidePageWithInputInHeaderState {
+type SidePageWithInputInHeaderState = {
   opened: boolean;
-}
+};
 
 class SidePageWithInputInHeader extends React.Component {
   public state: SidePageWithInputInHeaderState = {
@@ -241,11 +237,10 @@ class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
   }
 }
 
-interface SidePageWithCloseConfigurationState {
-  ignoreBackgroundClick: boolean;
-  blockBackground: boolean;
-  withContent: boolean;
-}
+type SidePageWithCloseConfigurationState = Pick<
+  SampleProps,
+  'ignoreBackgroundClick' | 'blockBackground' | 'withContent'
+>;
 
 class SidePageWithCloseConfiguration extends React.Component {
   public state: SidePageWithCloseConfigurationState = {
@@ -281,12 +276,9 @@ class SidePageWithCloseConfiguration extends React.Component {
   }
 }
 
-interface SidePageWithModalInsideState {
+type SidePageWithModalInsideState = {
   isModalOpened: boolean;
-  ignoreBackgroundClick: boolean;
-  blockBackground: boolean;
-  withContent: boolean;
-}
+} & Pick<SampleProps, 'ignoreBackgroundClick' | 'blockBackground' | 'withContent'>;
 
 class SidePageWithModalInside extends React.Component {
   public state: SidePageWithModalInsideState = {
@@ -320,10 +312,10 @@ class SidePageWithModalInside extends React.Component {
   );
 }
 
-class SidePageWithLeftPosition extends React.Component<{
-  disableAnimations?: boolean;
+type SidePageWithLeftPositionProps = {
   close: () => void;
-}> {
+} & Pick<SidePageProps, 'disableAnimations'>;
+class SidePageWithLeftPosition extends React.Component<SidePageWithLeftPositionProps> {
   public render() {
     return (
       <SidePage disableAnimations={this.props.disableAnimations} fromLeft onClose={this.props.close}>
@@ -345,9 +337,8 @@ class SidePageWithLeftPosition extends React.Component<{
   }
 }
 
-class LeftSidePageWithRightSidePage extends React.Component<{
-  disableAnimations?: boolean;
-}> {
+type LeftSidePageWithRightSidePageProps = Pick<SidePageProps, 'disableAnimations'>;
+class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRightSidePageProps> {
   public render() {
     return (
       <>
@@ -396,11 +387,11 @@ class SimpleSidePage extends React.Component {
   }
 }
 
-interface WithVariableContentState {
+type WithVariableContentState = {
   opened: boolean;
   sidePageText: string[];
   pageText: string[];
-}
+};
 class WithVariableContent extends React.Component {
   public state: WithVariableContentState = {
     opened: false,
@@ -476,9 +467,12 @@ class WithVariableContent extends React.Component {
   };
 }
 
+type TestUpdateLayoutMethodState = {
+  content: boolean;
+};
 class TestUpdateLayoutMethod extends React.Component {
   public static ChildComp = class ChildComp extends React.Component {
-    public state = {
+    public state: TestUpdateLayoutMethodState = {
       content: false,
     };
 
@@ -563,8 +557,11 @@ class TestUpdateLayoutMethod extends React.Component {
   }
 }
 
+type WithLongTitleState = {
+  title: string;
+};
 class WithLongTitle extends React.Component {
-  public state = {
+  public state: WithLongTitleState = {
     title: `On the other hand, we denounce with righteous indignation and dislike,
           who are so beguiled and demoralized by the charms of pleasure of the
           moment.`,

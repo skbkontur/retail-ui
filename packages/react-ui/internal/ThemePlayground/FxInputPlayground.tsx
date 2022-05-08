@@ -1,9 +1,8 @@
 import React from 'react';
 
-import { FxInput } from '../../components/FxInput';
+import { FxInput, FxInputProps } from '../../components/FxInput';
 
-type FxInputPlaygroundState = { value: string; auto: boolean };
-
+type FxInputPlaygroundState = Pick<FxInputProps, 'auto' | 'value'>;
 export class FxInputPlayground extends React.Component {
   public state: FxInputPlaygroundState = {
     auto: true,

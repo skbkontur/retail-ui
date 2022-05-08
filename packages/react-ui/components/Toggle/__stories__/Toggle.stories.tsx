@@ -1,16 +1,20 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Story } from '../../../typings/stories';
 import { Toggle } from '../Toggle';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
-import { Checkbox } from '../../Checkbox';
+import { Checkbox, CheckboxProps } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
 import { delay } from '../../../lib/utils';
+import { ToggleProps } from '..';
 
-class Playground extends Component<any, any> {
-  public state = {
+type PlaygroundState = {
+  loadingActive: CheckboxProps['checked'];
+} & Pick<ToggleProps, 'checked' | 'loading'>;
+class Playground extends React.Component {
+  public state: PlaygroundState = {
     checked: false,
     loadingActive: false,
     loading: false,
@@ -130,8 +134,11 @@ class Playground extends Component<any, any> {
   }
 }
 
-class Simple extends React.Component<any, any> {
-  public state = {
+type SimpleState = {
+  checked: boolean;
+};
+class Simple extends React.Component {
+  public state: SimpleState = {
     checked: true,
   };
 
@@ -151,8 +158,11 @@ class Simple extends React.Component<any, any> {
   }
 }
 
-class SimpleChildren extends React.Component<any, any> {
-  public state = {
+type SimpleChildrenState = {
+  checked: boolean;
+};
+class SimpleChildren extends React.Component {
+  public state: SimpleChildrenState = {
     checked: true,
   };
 
@@ -173,8 +183,11 @@ class SimpleChildren extends React.Component<any, any> {
   }
 }
 
-class SimpleChildrenLines extends React.Component<any, any> {
-  public state = {
+type SimpleChildrenLinesState = {
+  checked: boolean;
+};
+class SimpleChildrenLines extends React.Component {
+  public state: SimpleChildrenLinesState = {
     checked: true,
   };
 

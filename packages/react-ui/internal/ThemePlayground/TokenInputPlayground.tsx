@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TokenInput } from '../../components/TokenInput';
+import { TokenInput, TokenInputProps } from '../../components/TokenInput';
 import { Token, TokenColors } from '../../components/Token';
 
 async function getItems(query: string) {
@@ -42,8 +42,9 @@ const tokenColors: { [key: string]: TokenColors } = {
   },
 };
 
-export class TokenInputPlayground extends React.Component<any, any> {
-  public state = { selectedItems: ['First', 'Second'] };
+type TokenInputPlaygroundState = Pick<TokenInputProps<string>, 'selectedItems'>;
+export class TokenInputPlayground extends React.Component {
+  public state: TokenInputPlaygroundState = { selectedItems: ['First', 'Second'] };
 
   public render() {
     return (

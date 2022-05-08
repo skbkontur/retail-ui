@@ -4,12 +4,6 @@ import { Gapped } from '../../components/Gapped';
 import { Toggle } from '../../components/Toggle';
 
 export class TogglePlayground extends React.Component {
-  public state = {
-    checked: false,
-    loadingActive: false,
-    loading: false,
-  };
-
   public render() {
     return (
       <Gapped vertical>

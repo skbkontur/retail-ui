@@ -3,13 +3,14 @@ import React from 'react';
 import { Story } from '../../../typings/stories';
 import { PasswordInput } from '../PasswordInput';
 import { Nullable } from '../../../typings/utility-types';
+import { PasswordInputProps } from '..';
 
-interface ComponentProps {
+type ComponentProps = {
   capsLockEnabled?: boolean;
-}
-
-class Component extends React.Component<ComponentProps> {
-  public state = {
+};
+type ComponentState = Pick<PasswordInputProps, 'value'>;
+class Component extends React.Component<ComponentProps, ComponentState> {
+  public state: ComponentState = {
     value: '',
   };
 

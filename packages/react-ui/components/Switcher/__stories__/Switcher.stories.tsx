@@ -4,8 +4,10 @@ import { Story } from '../../../typings/stories';
 import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 
-class Component extends React.Component<{ items: string[]; error?: boolean }, { value: string }> {
-  public state = {
+type ComponentProps = { items: string[]; error?: boolean };
+type ComponentState = { value: string };
+class Component extends React.Component<ComponentProps, ComponentState> {
+  public state: ComponentState = {
     value: '',
   };
 

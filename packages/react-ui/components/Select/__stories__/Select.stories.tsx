@@ -14,15 +14,17 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 
+type SelectWrapperValue = { label: string; value: number };
+type SelectWrapperState = Pick<SelectProps<SelectWrapperValue, any>, 'value'>;
 class SelectWrapper extends React.Component {
-  public state = {
+  public state: SelectWrapperState = {
     value: { label: 'One', value: 1 },
   };
 
   public render() {
     return (
       <div>
-        <Select<{ label: string; value: number }>
+        <Select<SelectWrapperValue>
           items={[
             { label: 'One', value: 1 },
             { label: 'Two', value: 2 },
@@ -69,8 +71,10 @@ class ItemsWithComments extends React.Component {
   }
 }
 
-class SelectWithNull extends React.Component<any, any> {
-  public state = {
+type SelectWithNullStateValue = number | null;
+type SelectWithNullState = Pick<SelectProps<SelectWithNullStateValue, any>, 'value'>;
+class SelectWithNull extends React.Component {
+  public state: SelectWithNullState = {
     value: null,
   };
 
@@ -80,7 +84,7 @@ class SelectWithNull extends React.Component<any, any> {
         <div>
           value: <b>{JSON.stringify(this.state.value)}</b>
         </div>
-        <Select<number | null>
+        <Select<SelectWithNullStateValue>
           items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
           onValueChange={(value) => this.setState({ value })}
@@ -349,9 +353,13 @@ export const ExternalFocus = () => {
 ExternalFocus.storyName = 'external focus';
 ExternalFocus.parameters = { creevey: { skip: [true] } };
 
+type SampleState = {
+  opened: boolean;
+  text: string;
+};
 export const UsingOnKeyDown: Story = () => {
   class Sample extends React.Component {
-    public state = {
+    public state: SampleState = {
       opened: false,
       text: 'wait...',
     };

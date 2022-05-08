@@ -8,12 +8,12 @@ import { Select } from '../../../components/Select';
 import { Kebab } from '../../../components/Kebab';
 import { MenuItem } from '../../../components/MenuItem';
 import { Center } from '../../../components/Center';
-import { Hint } from '../../../components/Hint';
-import { Tooltip } from '../../../components/Tooltip';
+import { Hint, HintProps } from '../../../components/Hint';
+import { Tooltip, TooltipProps } from '../../../components/Tooltip';
 import { ZIndex } from '../ZIndex';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
-import { Popup, PopupPositionsType } from '../../Popup';
+import { Popup } from '../../Popup';
 import { Toast } from '../../../components/Toast';
 import { Input } from '../../../components/Input';
 import { SidePage } from '../../../components/SidePage';
@@ -60,7 +60,8 @@ class ZSelect extends React.Component {
   }
 }
 
-class ZLoader extends React.Component<{ size: number }> {
+type ZLoaderProps = { size: number };
+class ZLoader extends React.Component<ZLoaderProps> {
   public render() {
     const size = this.props.size + 'px';
     const style = { height: size, fontSize: '20px', border: 'solid red 1px' };
@@ -84,7 +85,8 @@ class ZLoader extends React.Component<{ size: number }> {
   }
 }
 
-class ZModal extends React.Component<{ size: number; children?: React.ReactNode }> {
+type ZModalProps = { size: number; children?: React.ReactNode };
+class ZModal extends React.Component<ZModalProps> {
   public render() {
     const size = this.props.size + 'px';
     return (
@@ -108,23 +110,18 @@ class LightboxUnderLightbox extends React.Component {
   }
 }
 
-interface ZSampleProps {
+type ZSampleProps = {
   total?: number;
   current?: number;
-}
+};
 
-interface ZSampleState {
+type ZSampleState = {
   modal: boolean;
   popup: boolean;
-}
-
-interface InputWithTooltipProps {
-  text?: string;
-  pos?: PopupPositionsType;
-}
+};
 
 class ZSample extends React.Component<ZSampleProps, ZSampleState> {
-  public state = {
+  public state: ZSampleState = {
     modal: false,
     popup: false,
   };
@@ -236,6 +233,10 @@ class Demo extends React.Component {
   }
 }
 
+type InputWithTooltipProps = {
+  text?: string;
+} & Partial<Pick<TooltipProps, 'pos'>>;
+
 const InputWithTooltip = ({ text = 'Hello', pos = 'top right' }: InputWithTooltipProps) => (
   <Tooltip render={() => text} trigger="opened" pos={pos}>
     <Input />
@@ -319,8 +320,9 @@ class NestedElementsInLoader extends React.Component {
   }
 }
 
+type HintAndModalState = { modalOpened: boolean; hintOpened: HintProps['opened'] };
 class HintAndModal extends React.Component {
-  public state = {
+  public state: HintAndModalState = {
     modalOpened: false,
     hintOpened: false,
   };
@@ -395,13 +397,10 @@ class LoaderInModal extends React.Component {
     );
   }
 }
-interface TooltipAndDropdownMenuState {
-  tooltipTrigger: 'closed' | 'opened';
-}
-
+type TooltipAndDropdownMenuState = Pick<TooltipProps, 'trigger'>;
 class TooltipAndSelect extends React.Component {
   public state: TooltipAndDropdownMenuState = {
-    tooltipTrigger: 'closed',
+    trigger: 'closed',
   };
 
   public render() {
@@ -420,7 +419,7 @@ class TooltipAndSelect extends React.Component {
 
     return (
       <div className="container" style={{ height: '300px', width: '300px' }}>
-        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.tooltipTrigger}>
+        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.trigger}>
           <Select
             onKeyDown={() => this.setState({ tooltipTrigger: 'opened' })}
             width={120}
@@ -469,8 +468,11 @@ class LoaderInSidePage extends React.Component {
   }
 }
 
+type SidePageAndSelectState = {
+  opened: boolean;
+};
 class SidePageAndSelect extends React.Component {
-  public state = {
+  public state: SidePageAndSelectState = {
     opened: false,
   };
   public renderSidePage() {
@@ -560,8 +562,11 @@ function ToastAndLoader() {
   );
 }
 
+type ElementsInLoaderInModalState = {
+  active: boolean;
+};
 class ElementsInLoaderInModal extends React.Component {
-  public state = { active: false };
+  public state: ElementsInLoaderInModalState = { active: false };
   public render() {
     const { active } = this.state;
     return (
@@ -593,8 +598,11 @@ class ElementsInLoaderInModal extends React.Component {
   private setActive = (active: boolean) => this.setState({ active });
 }
 
+type LoaderAndSidePageState = {
+  active: boolean;
+};
 class LoaderAndSidePage extends React.Component {
-  public state = { active: false };
+  public state: LoaderAndSidePageState = { active: false };
   public render() {
     const { active } = this.state;
     return (

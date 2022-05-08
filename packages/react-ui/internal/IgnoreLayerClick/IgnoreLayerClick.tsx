@@ -3,10 +3,10 @@ import React from 'react';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { CommonWrapper } from '../CommonWrapper';
 
-export interface IgnoreLayerClickProps {
+export type IgnoreLayerClickProps = {
   children: React.ReactNode;
   active: boolean;
-}
+};
 
 export class IgnoreLayerClick extends React.Component<IgnoreLayerClickProps> {
   public render() {
@@ -15,9 +15,9 @@ export class IgnoreLayerClick extends React.Component<IgnoreLayerClickProps> {
   }
 }
 
-interface WrapperProps {
+type WrapperProps = {
   children: React.ReactNode;
-}
+};
 
 // NOTE Используется только в команде Контур.Бухгалтерия
 @rootNode

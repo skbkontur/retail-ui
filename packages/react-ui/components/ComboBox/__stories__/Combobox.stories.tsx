@@ -368,9 +368,10 @@ AlwaysReject.parameters = {
   },
 };
 
+type SampleState = Pick<SimpleComboboxProps, 'delay'>;
 export const SimpleComboboxWithDelay = () => {
   class Sample extends React.Component {
-    public state = {
+    public state: SampleState = {
       delay: 1000,
     };
     public render() {
@@ -685,10 +686,9 @@ export const WithAddButton = () => (
 WithAddButton.storyName = 'with add button';
 WithAddButton.parameters = { creevey: { skip: [true] } };
 
-interface ComboBoxWithErrorTogglerState {
-  error: boolean;
+type ComboBoxWithErrorTogglerState = {
   value: { label: number };
-}
+} & Pick<ComboBoxProps<number>, 'error'>;
 class ComboBoxWithErrorToggler extends React.Component {
   public state: ComboBoxWithErrorTogglerState = {
     error: false,
@@ -844,9 +844,11 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
 
 type City = { Id: number; City: string };
 type ComboboxSearchResult = { foundItems: City[]; totalCount: number };
-class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, unknown> {
+type ComplexComboboxProps = Omit<ComboBoxProps<any>, 'getItems'>;
+type ComplexComboboxState = Pick<ComboBoxProps<any>, 'value'>;
+class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexComboboxState> {
   public static defaultProps = ComboBox.defaultProps;
-  public state = {
+  public state: ComplexComboboxState = {
     value: null,
   };
   private popularItems = [
@@ -1017,8 +1019,9 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
   );
 }
 
+type ComboBoxWithExternalValueState = Pick<ComboBoxProps<any>, 'value' | 'warning'>;
 class ComboBoxWithExternalValue extends React.Component {
-  public state = {
+  public state: ComboBoxWithExternalValueState = {
     value: { value: '1', label: 'First' },
     warning: false,
   };
