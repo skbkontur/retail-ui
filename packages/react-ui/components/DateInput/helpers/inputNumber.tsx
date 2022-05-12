@@ -17,9 +17,9 @@ export const inputNumber = (
     nextValue = key;
     nextInputMode = Number(key) <= firstDigits;
   } else {
-    nextValue = `${prev === null ? '' : prev}${key}`.slice(-maxLength);
+    nextValue = addKey(prev, key, maxLength);
     nextInputMode = nextValue.length < maxLength;
-    if (Number(nextValue) > maxValue || (Number(nextValue) === 0 && nextValue.length === maxLength)) {
+    if (!isCorrectDate(nextValue, maxValue, maxLength)) {
       nextValue = prev + '';
       nextInputMode = true;
     }
@@ -27,6 +27,18 @@ export const inputNumber = (
 
   return { nextValue, nextInputMode };
 };
+
+function addKey(prev: InternalDateComponentRaw, key: string, length: number) {
+  let value = key;
+  if (prev !== null) {
+    value = `${prev}${key}`;
+  }
+  return value.slice(-length);
+}
+
+function isCorrectDate(value: string, maxValue: number, length: number) {
+  return Number(value) <= maxValue && (Number(value) !== 0 || value.length !== length);
+}
 
 function getFirstDigits(type: InternalDateComponentType | null, maxValue: number) {
   let first = 10;
