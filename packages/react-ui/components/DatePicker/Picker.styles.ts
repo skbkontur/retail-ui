@@ -12,28 +12,4 @@ export const styles = memoizeStyle({
       touch-action: none;
     `;
   },
-
-  todayWrapper(t: Theme) {
-    return css`
-      background-color: ${t.pickerTodayWrapperBgColor};
-      border: none;
-      border-top: ${t.pickerTodayWrapperBorderTop};
-      color: ${t.linkColor};
-      display: block;
-      font-size: ${t.pickerTodayWrapperFontSize};
-      padding-bottom: ${t.pickerTodayWrapperPaddingBottom};
-      padding-top: ${t.pickerTodayWrapperPaddingTop};
-      line-height: ${t.pickerTodayWrapperLineHeight};
-      width: 100%;
-
-      &:hover {
-        background-color: ${t.pickerTodayWrapperHoverBgColor};
-        cursor: pointer;
-      }
-
-      &:active {
-        color: ${t.linkActiveColor};
-      }
-    `;
-  },
 });
