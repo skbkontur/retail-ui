@@ -12,7 +12,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { styles } from './Calendar.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './../DatePicker/locale';
 
-interface Props {
+export interface CalendarProps {
   value: Nullable<CalendarDateShape>;
   onPick: (date: CalendarDateShape) => void;
   onSelect?: (date: CalendarDateShape) => void;
@@ -37,14 +37,14 @@ const getTodayCalendarDate = () => {
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
-export class Calendar extends React.Component<Props, State> {
+export class Calendar extends React.Component<CalendarProps, State> {
   public static __KONTUR_REACT_UI__ = 'Picker';
 
   private theme!: Theme;
   private calendar: CalendarInternal | null = null;
   private readonly locale!: DatePickerLocale;
 
-  constructor(props: Props) {
+  constructor(props: CalendarProps) {
     super(props);
     const today = getTodayCalendarDate();
     this.state = {
@@ -53,7 +53,7 @@ export class Calendar extends React.Component<Props, State> {
     };
   }
 
-  public componentDidUpdate(prevProps: Props) {
+  public componentDidUpdate(prevProps: CalendarProps) {
     const { value } = this.props;
     if (value && !shallowEqual(value, prevProps.value)) {
       this.scrollToMonth(value.month, value.year);

@@ -1,15 +1,15 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
 import { DatePickerLocaleHelper } from '../../../components/DatePicker/locale';
 import { DateSelect, DateSelectProps } from '../DateSelect';
 
-const renderSelect = (props: DateSelectProps) => mount(<DateSelect {...props} />);
+const renderSelect = (props: DateSelectProps) => render(<DateSelect {...props} />);
 
 describe('DateSelect', () => {
   it('disable months not in range', () => {
     const expectedDisabledMonths = ['Январь', 'Февраль', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-    const dateSelect = renderSelect({
+    renderSelect({
       type: 'month',
       minValue: 2,
       maxValue: 7,
@@ -18,15 +18,15 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    dateSelect.find(`[data-tid='DateSelect__caption']`).simulate('click');
-    const disabledItems = dateSelect.find(`[data-tid='DateSelect__menuItem'][data-prop-disabled=true]`);
-    const disabledItemsMonths = disabledItems.map((item) => item.props().children);
-    expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
+    screen.getByTestId('DateSelect__caption').click();
+    expectedDisabledMonths.forEach((month) => {
+      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+    });
   });
 
   it('works correct with January', () => {
     const expectedDisabledMonths = DatePickerLocaleHelper.get().months.slice(1);
-    const dateSelect = renderSelect({
+    renderSelect({
       type: 'month',
       minValue: 0,
       maxValue: 0,
@@ -35,9 +35,9 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    dateSelect.find(`[data-tid='DateSelect__caption']`).simulate('click');
-    const disabledItems = dateSelect.find(`[data-tid='DateSelect__menuItem'][data-prop-disabled=true]`);
-    const disabledItemsMonths = disabledItems.map((item) => item.props().children);
-    expect(disabledItemsMonths).toEqual(expectedDisabledMonths);
+    screen.getByTestId('DateSelect__caption').click();
+    expectedDisabledMonths.forEach((month) => {
+      expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
+    });
   });
 });

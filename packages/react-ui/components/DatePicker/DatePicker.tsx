@@ -271,8 +271,10 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
+        data-tid="DatePicker"
       >
         <DateInput
+          data-tid="DatePicker__input"
           {...filterProps(props, INPUT_PASS_PROPS)}
           ref={this.getInputRef}
           value={this.props.value || ''}
