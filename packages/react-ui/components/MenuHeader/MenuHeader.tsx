@@ -3,6 +3,7 @@ import React, { ReactNode, useContext } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { hasOwnProperty, isObject } from '../../lib/utils';
 
 import { styles } from './MenuHeader.styles';
 
@@ -41,7 +42,7 @@ MenuHeader.__MENU_HEADER__ = true;
 export { MenuHeader };
 
 export const isMenuHeader = (child: React.ReactNode): child is React.ReactElement<MenuHeaderProps> => {
-  return React.isValidElement<MenuHeaderProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__MENU_HEADER__')
+  return React.isValidElement<MenuHeaderProps>(child) && isObject(child.type)
+    ? hasOwnProperty(child.type, '__MENU_HEADER__')
     : false;
 };

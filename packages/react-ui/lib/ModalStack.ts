@@ -4,6 +4,8 @@ import EventEmitter from 'eventemitter3';
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
 
+import { hasOwnProperty } from './utils';
+
 interface StackInfo {
   emitter: EventEmitter;
   mounted: React.Component[];
@@ -99,7 +101,7 @@ const isReactUIInstance = <T>(componentName: string) => {
     const { constructor } = instance;
 
     return (
-      Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
+      hasOwnProperty(constructor, '__KONTUR_REACT_UI__') &&
       // @ts-ignore
       constructor.__KONTUR_REACT_UI__ === componentName
     );

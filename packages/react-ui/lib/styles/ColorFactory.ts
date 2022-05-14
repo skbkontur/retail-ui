@@ -1,5 +1,7 @@
 import warning from 'warning';
 
+import { hasOwnProperty } from '../utils';
+
 import { clamp, extractColorParts, hue2rgb, parseHSLParts, parseRGBParts } from './ColorHelpers';
 import { ColorKeywords } from './ColorKeywords';
 import { ColorKeywordsType, ColorObject, ColorType, RGBTuple } from './ColorObject';
@@ -66,7 +68,7 @@ export class ColorFactory {
   }
 
   private static isKeyword(input: string): input is ColorKeywordsType {
-    return Object.prototype.hasOwnProperty.call(ColorKeywords, input);
+    return hasOwnProperty(ColorKeywords, input);
   }
 
   private static fromKeyword(keyword: ColorKeywordsType) {

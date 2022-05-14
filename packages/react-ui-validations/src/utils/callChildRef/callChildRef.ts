@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Nullable } from '../../../typings/Types';
+import { hasOwnProperty } from '../utils';
 
 export const callChildRef = (
   componentRef: React.RefCallback<any> | React.RefObject<any>,
@@ -12,7 +13,7 @@ export const callChildRef = (
   if (typeof componentRef === 'function') {
     componentRef(instance);
   }
-  if (Object.prototype.hasOwnProperty.call(componentRef, 'current')) {
+  if (hasOwnProperty(componentRef, 'current')) {
     // @ts-ignore
     componentRef.current = instance;
   }
