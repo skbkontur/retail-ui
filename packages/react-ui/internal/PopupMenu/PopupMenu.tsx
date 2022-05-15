@@ -278,12 +278,10 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
     if (this.state.menuVisible && this.props.onOpen) {
       this.props.onOpen();
-      return;
     }
 
     if (!this.state.menuVisible && this.props.onClose) {
       this.props.onClose();
-      return;
     }
 
     if (typeof this.props.onChangeMenuState === 'function') {
