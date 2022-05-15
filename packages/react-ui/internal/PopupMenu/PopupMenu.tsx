@@ -55,6 +55,10 @@ export interface PopupMenuProps extends CommonProps {
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
+  /** Действие при открытии меню */
+  onOpen?: () => void;
+  /** Действие при закрытии меню */
+  onClose?: () => void;
 }
 
 interface PopupMenuState {
@@ -271,6 +275,17 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     if (focusShouldBeRestored) {
       this.restoreFocus();
     }
+
+    if (this.state.menuVisible && this.props.onOpen) {
+      this.props.onOpen();
+      return;
+    }
+
+    if (!this.state.menuVisible && this.props.onClose) {
+      this.props.onClose();
+      return;
+    }
+
     if (typeof this.props.onChangeMenuState === 'function') {
       this.props.onChangeMenuState(this.state.menuVisible, focusShouldBeRestored);
     }

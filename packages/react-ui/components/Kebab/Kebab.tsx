@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { keyListener } from '../../lib/events/keyListener';
-import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
+import { PopupMenu, PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
 import { PopupPositionsType } from '../../internal/Popup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -18,18 +18,8 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Kebab.styles';
 
-export interface KebabProps extends CommonProps {
+export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   disabled?: boolean;
-  /**
-   * Функция вызываемая при закрытии выпадашки
-   * @default () => undefined
-   */
-  onClose: () => void;
-  /**
-   * Функция вызываемая при открытии выпадашки
-   * @default () => undefined
-   */
-  onOpen: () => void;
   size: 'small' | 'medium' | 'large';
   /**
    * Список позиций доступных для расположения выпадашки.
@@ -131,6 +121,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           caption={this.renderCaption}
           disableAnimations={this.props.disableAnimations}
           menuMaxHeight={this.props.menuMaxHeight}
+          onOpen={this.props.onOpen}
+          onClose={this.props.onClose}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -190,12 +182,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
       () => {
         if (this.props.disabled) {
           return;
-        }
-
-        if (this.state.opened) {
-          this.props.onOpen();
-        } else {
-          this.props.onClose();
         }
       },
     );
