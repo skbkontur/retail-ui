@@ -10,11 +10,8 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-type TextValidationDemoState = {
-  value: string;
-};
 export default class TextValidationDemo extends React.Component {
-  public state: TextValidationDemoState = {
+  public state = {
     value: '',
   };
 

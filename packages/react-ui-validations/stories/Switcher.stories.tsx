@@ -8,11 +8,8 @@ import { Nullable } from '../typings/Types';
 
 storiesOf('Switcher', module).add('required', () => <SwitcherStory />);
 
-type SwitcherStoryState = {
-  value: string;
-};
 class SwitcherStory extends React.Component {
-  public state: SwitcherStoryState = {
+  public state = {
     value: '',
   };
 

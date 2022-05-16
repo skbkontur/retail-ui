@@ -20,11 +20,8 @@ type DemoProps = {
   demo: React.ComponentClass<any>;
   source?: string;
 };
-type DemoState = {
-  isVisible: boolean;
-};
-export default class Demo extends React.Component<DemoProps, DemoState> {
-  public state: DemoState = {
+export default class Demo extends React.Component<DemoProps> {
+  public state = {
     isVisible: false,
   };
 

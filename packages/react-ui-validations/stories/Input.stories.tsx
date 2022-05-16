@@ -7,11 +7,8 @@ import { Select } from '@skbkontur/react-ui/components/Select';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-type Example1State = {
-  value: string;
-};
 class Example1 extends React.Component {
-  public state: Example1State = {
+  public state = {
     value: '',
   };
 
@@ -39,11 +36,8 @@ class Example1 extends React.Component {
   }
 }
 
-type Example2State = {
-  value: string;
-};
 class Example2 extends React.Component {
-  public state: Example2State = {
+  public state = {
     value: '',
   };
 
@@ -71,11 +65,8 @@ class Example2 extends React.Component {
   }
 }
 
-type Example3State = {
-  value: string;
-};
 class Example3 extends React.Component {
-  public state: Example3State = {
+  public state = {
     value: '',
   };
 
@@ -119,7 +110,7 @@ class Example3 extends React.Component {
 }
 
 class Example8 extends React.Component {
-  public state: Example3State = {
+  public state = {
     value: '',
   };
 
@@ -235,11 +226,8 @@ class Example4 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-type Example5State = {
-  value: string;
-};
 class Example5 extends React.Component {
-  public state: Example5State = {
+  public state = {
     value: '',
   };
 
@@ -282,12 +270,8 @@ class Example5 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-type Example6State = {
-  value1: string;
-  value2: string;
-};
 class Example6 extends React.Component {
-  public state: Example6State = {
+  public state = {
     value1: '',
     value2: '',
   };
@@ -339,13 +323,8 @@ class Example6 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-type Example7State = {
-  value1: string;
-  value2: string;
-  value3: string;
-};
 class Example7 extends React.Component {
-  public state: Example7State = {
+  public state = {
     value1: '',
     value2: '',
     value3: '',
@@ -392,11 +371,8 @@ class Example7 extends React.Component {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-type Example9State = {
-  value: string;
-};
 class Example9 extends React.Component {
-  public state: Example9State = {
+  public state = {
     value: '',
   };
 

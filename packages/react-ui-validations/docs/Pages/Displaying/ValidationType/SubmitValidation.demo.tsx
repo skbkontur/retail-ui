@@ -6,11 +6,8 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../..
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-type SubmitValidationDemoState = {
-  value: string;
-};
 export default class SubmitValidationDemo extends React.Component {
-  public state: SubmitValidationDemoState = {
+  public state = {
     value: '',
   };
 
