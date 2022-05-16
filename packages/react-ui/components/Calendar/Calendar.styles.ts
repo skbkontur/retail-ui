@@ -2,6 +2,15 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
+  root(t: Theme) {
+    return css`
+      background: ${t.pickerBg};
+      display: inline-block;
+      font-size: 0;
+      z-index: 1000;
+      touch-action: none;
+    `;
+  },
   todayWrapper(t: Theme) {
     const width = parseInt(t.calendarCellSize) * 7 + parseInt(t.calendarPaddingX) * 2;
 

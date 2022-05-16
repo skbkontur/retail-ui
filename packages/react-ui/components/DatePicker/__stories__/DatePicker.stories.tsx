@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
-import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
+import { InternalDateOrder } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
@@ -79,55 +79,6 @@ class DatePickerWithError extends React.Component<any, any> {
       tooltip: false,
     });
   };
-}
-
-class DatePickerWithMinMax extends React.Component<any, any> {
-  public state = {
-    min: '02.07.2017',
-    max: '30.01.2020',
-    value: '02.07.2017',
-    order: InternalDateOrder.DMY,
-    separator: InternalDateSeparator.Dot,
-  };
-
-  public render(): React.ReactNode {
-    return (
-      <Gapped vertical gap={10}>
-        <label>
-          Начало периода:{' '}
-          <input
-            type="text"
-            value={this.state.min}
-            placeholder="min"
-            onChange={(e) => this.setState({ min: e.target.value })}
-          />
-        </label>
-        <label>
-          Окончание периода:{' '}
-          <input
-            type="text"
-            value={this.state.max}
-            placeholder="max"
-            onChange={(e) => this.setState({ max: e.target.value })}
-          />
-        </label>
-        <LocaleContext.Provider
-          value={{
-            locale: { DatePicker: { order: this.state.order, separator: this.state.separator } },
-          }}
-        >
-          <DatePicker
-            width={200}
-            value={this.state.value}
-            minDate={this.state.min}
-            maxDate={this.state.max}
-            onValueChange={action('change')}
-            useMobileNativeDatePicker
-          />
-        </LocaleContext.Provider>
-      </Gapped>
-    );
-  }
 }
 
 export default {
@@ -251,58 +202,6 @@ export const DifferentSizes = () => (
     <DatePicker value="20.20.2020" onValueChange={() => void 0} size="large" />
   </Gapped>
 );
-
-export const DatePickerWithMinMaxDate: Story = () => (
-  <div style={{ padding: '200px 150px 350px 0px' }}>
-    <DatePickerWithMinMax />
-  </div>
-);
-DatePickerWithMinMaxDate.storyName = 'DatePicker with min max date';
-
-DatePickerWithMinMaxDate.parameters = {
-  creevey: {
-    tests: {
-      async ['DateSelect months']() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({ bridge: true })
-          .click(
-            this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
-            }),
-          )
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
-      },
-      async ['DateSelect years']() {
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({ bridge: true })
-          .click(
-            this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
-            }),
-          )
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
-      },
-    },
-  },
-};
 
 export const DatePickerLocaleProvider = () => {
   return (

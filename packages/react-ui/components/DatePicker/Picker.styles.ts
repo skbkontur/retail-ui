@@ -4,7 +4,6 @@ import { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      background: ${t.pickerBg};
       box-shadow: ${t.pickerShadow};
       display: inline-block;
       font-size: 0;

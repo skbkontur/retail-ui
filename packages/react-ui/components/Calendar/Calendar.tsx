@@ -38,7 +38,7 @@ const getTodayCalendarDate = () => {
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class Calendar extends React.Component<CalendarProps, State> {
-  public static __KONTUR_REACT_UI__ = 'Picker';
+  public static __KONTUR_REACT_UI__ = 'Calendar';
 
   private theme!: Theme;
   private calendar: CalendarInternal | null = null;
@@ -75,7 +75,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
     const { date } = this.state;
 
     return (
-      <>
+      <div className={styles.root(this.theme)}>
         <CalendarInternal
           ref={(c) => (this.calendar = c)}
           value={this.props.value}
@@ -87,7 +87,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
           isHoliday={this.props.isHoliday}
         />
         {this.props.enableTodayLink && this.renderTodayLink()}{' '}
-      </>
+      </div>
     );
   }
 

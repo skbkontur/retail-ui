@@ -6,10 +6,16 @@ import { Button } from '../../../components/Button';
 import { Gapped } from '../../../components/Gapped';
 import { Calendar } from '../Calendar';
 
-export default { title: 'Calendar', parameters: { creevey: { skip: [true] } } };
+export default { title: 'CalendarInternal' };
 
 export const CalendarWithButtonsStory = () => <CalendarWithButtons />;
 CalendarWithButtonsStory.storyName = 'CalendarWithButtons';
+
+CalendarWithButtonsStory.parameters = {
+  creevey: {
+    skip: true,
+  },
+};
 
 const initialDate = { year: 2018, month: 0, date: 1 };
 const datesToScroll = [
