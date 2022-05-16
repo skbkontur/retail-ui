@@ -31,7 +31,7 @@ enum Mountain {
 type UncTabsProps = Partial<Pick<TabsProps<Mountain>, 'vertical'>>;
 type UncTabsState = Pick<TabsProps<Mountain>, 'value'>;
 class UncTabs extends React.Component<UncTabsProps, UncTabsState> {
-  public state: UncTabsState = {
+  public state = {
     value: Mountain.fuji,
   };
 
@@ -82,7 +82,7 @@ const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
 type TabsWithMyLinkProps = Partial<TabsProps>;
 type TabsWithMyLinkState = Pick<TabsProps, 'value'>;
 class TabsWithMyLink extends React.Component<TabsWithMyLinkProps, TabsWithMyLinkState> {
-  public state: TabsWithMyLinkState = {
+  public state = {
     value: 'fuji',
   };
 
@@ -133,11 +133,9 @@ class TabsWithMyLink extends React.Component<TabsWithMyLinkProps, TabsWithMyLink
 }
 
 type UnexpectedUpdatedTabProps = { id: string };
-type UnexpectedUpdatedTabState = {
-  updated: boolean;
-};
-class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps, UnexpectedUpdatedTabState> {
-  public state: UnexpectedUpdatedTabState = {
+
+class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps> {
+  public state = {
     updated: false,
   };
 
@@ -153,7 +151,7 @@ class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps, Un
 type OhMyTabsProps = Partial<TabsProps>;
 type OhMyTabsState = Pick<TabsProps, 'value'>;
 class OhMyTabs extends React.Component<OhMyTabsProps, OhMyTabsState> {
-  public state: OhMyTabsState = {
+  public state = {
     value: 'fuji',
   };
 

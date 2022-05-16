@@ -216,7 +216,7 @@ type DateInputSimpleProps = { defaultValue?: string } & Partial<DateInputProps>;
 type DateInputSimpleState = Pick<DateInputProps, 'value'>;
 
 class DateInputSimple extends React.Component<DateInputSimpleProps, DateInputSimpleState> {
-  public state: DateInputSimpleState = {
+  public state = {
     value: this.props.defaultValue || '',
   };
 
@@ -232,9 +232,8 @@ class DateInputSimple extends React.Component<DateInputSimpleProps, DateInputSim
   }
 }
 
-type DateInputLastEventState = { lastEvent: string };
 class DateInputLastEvent extends React.Component {
-  public state: DateInputLastEventState = {
+  public state = {
     lastEvent: 'none',
   };
 

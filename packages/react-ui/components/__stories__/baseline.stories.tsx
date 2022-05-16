@@ -340,12 +340,8 @@ class DifferentFontsAndSizesThemeL extends React.Component {
   }
 }
 
-type SimpleFormState = {
-  isFormSubmitted: boolean;
-  value: string;
-};
 class SimpleForm extends React.Component {
-  public state: SimpleFormState = {
+  public state = {
     isFormSubmitted: false,
     value: '',
   };

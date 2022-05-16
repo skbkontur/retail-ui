@@ -722,11 +722,8 @@ class DynamicContentTooltip extends React.Component {
   };
 }
 
-type TooltipWithInputState = {
-  show: boolean;
-};
 class TooltipWithInput extends React.Component {
-  public state: TooltipWithInputState = { show: false };
+  public state = { show: false };
   public render() {
     return (
       <div style={{ padding: '0 10px 70px' }}>
@@ -823,7 +820,7 @@ type HasDynamicContentState = {
   content: React.ReactNode;
 };
 class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProps, HasDynamicContentState> {
-  public state: HasDynamicContentState = {
+  public state = {
     content: SMALL_CONTENT,
   };
 
@@ -900,11 +897,8 @@ class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
   };
 }
 
-type DynamicAnchorState = {
-  isFirst: boolean;
-};
 class DynamicAnchor extends React.Component {
-  public state: DynamicAnchorState = {
+  public state = {
     isFirst: true,
   };
   public render() {
@@ -1041,13 +1035,10 @@ class DynamicTriggers extends React.Component {
     });
   };
 }
-type TestTooltipForManualState = {
-  onOpenCalledTimes: number;
-  onCloseCalledTimes: number;
-};
+
 class TestTooltipForManual extends React.Component {
   private tooltip: Tooltip | null = null;
-  public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
+  public state = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
   render() {
     return (

@@ -115,13 +115,8 @@ type ZSampleProps = {
   current?: number;
 };
 
-type ZSampleState = {
-  modal: boolean;
-  popup: boolean;
-};
-
-class ZSample extends React.Component<ZSampleProps, ZSampleState> {
-  public state: ZSampleState = {
+class ZSample extends React.Component<ZSampleProps> {
+  public state = {
     modal: false,
     popup: false,
   };
@@ -468,11 +463,8 @@ class LoaderInSidePage extends React.Component {
   }
 }
 
-type SidePageAndSelectState = {
-  opened: boolean;
-};
 class SidePageAndSelect extends React.Component {
-  public state: SidePageAndSelectState = {
+  public state = {
     opened: false,
   };
   public renderSidePage() {
@@ -562,11 +554,8 @@ function ToastAndLoader() {
   );
 }
 
-type ElementsInLoaderInModalState = {
-  active: boolean;
-};
 class ElementsInLoaderInModal extends React.Component {
-  public state: ElementsInLoaderInModalState = { active: false };
+  public state = { active: false };
   public render() {
     const { active } = this.state;
     return (
@@ -598,11 +587,8 @@ class ElementsInLoaderInModal extends React.Component {
   private setActive = (active: boolean) => this.setState({ active });
 }
 
-type LoaderAndSidePageState = {
-  active: boolean;
-};
 class LoaderAndSidePage extends React.Component {
-  public state: LoaderAndSidePageState = { active: false };
+  public state = { active: false };
   public render() {
     const { active } = this.state;
     return (

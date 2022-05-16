@@ -10,7 +10,7 @@ type ComponentProps = {
 };
 type ComponentState = Pick<PasswordInputProps, 'value'>;
 class Component extends React.Component<ComponentProps, ComponentState> {
-  public state: ComponentState = {
+  public state = {
     value: '',
   };
 

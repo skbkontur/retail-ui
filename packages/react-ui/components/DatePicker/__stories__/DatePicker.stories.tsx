@@ -15,7 +15,7 @@ type DatePickerWithErrorState = {
   tooltip: boolean;
 } & Pick<DatePickerProps<any>, 'value' | 'error'>;
 class DatePickerWithError extends React.Component<DatePickerWithErrorProps, DatePickerWithErrorState> {
-  public state: DatePickerWithErrorState = {
+  public state = {
     value: '15.08.2014',
     error: false,
     tooltip: false,

@@ -134,11 +134,8 @@ class Playground extends React.Component {
   }
 }
 
-type SimpleState = {
-  checked: boolean;
-};
 class Simple extends React.Component {
-  public state: SimpleState = {
+  public state = {
     checked: true,
   };
 
@@ -158,11 +155,8 @@ class Simple extends React.Component {
   }
 }
 
-type SimpleChildrenState = {
-  checked: boolean;
-};
 class SimpleChildren extends React.Component {
-  public state: SimpleChildrenState = {
+  public state = {
     checked: true,
   };
 
@@ -183,11 +177,8 @@ class SimpleChildren extends React.Component {
   }
 }
 
-type SimpleChildrenLinesState = {
-  checked: boolean;
-};
 class SimpleChildrenLines extends React.Component {
-  public state: SimpleChildrenLinesState = {
+  public state = {
     checked: true,
   };
 

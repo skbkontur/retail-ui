@@ -12,7 +12,7 @@ import { RadioGroupProps } from '..';
 type ComponentProps = RadioGroupProps<string>;
 type ComponentState = Pick<RadioGroupProps<string>, 'value'>;
 class Component extends React.Component<ComponentProps, ComponentState> {
-  public state: ComponentState = {
+  public state = {
     value: '',
   };
 

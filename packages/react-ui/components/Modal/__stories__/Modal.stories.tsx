@@ -137,9 +137,8 @@ class ModalWithIconInput extends React.Component {
   };
 }
 
-type ModalOverAnotherModalState = { firstModalOpened: boolean; secondModalOpened: boolean };
 class ModalOverAnotherModal extends React.Component {
-  public state: ModalOverAnotherModalState = {
+  public state = {
     firstModalOpened: false,
     secondModalOpened: false,
   };
@@ -389,11 +388,8 @@ class ModalWithVariableHeight extends React.Component {
   };
 }
 
-type SmallModalOnTopState = {
-  opened: boolean;
-};
 class SmallModalOnTop extends React.Component {
-  public state: SmallModalOnTopState = {
+  public state = {
     opened: false,
   };
 

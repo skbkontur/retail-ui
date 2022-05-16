@@ -194,7 +194,7 @@ type AlwaysOpenedState = {
   anchor: Nullable<HTMLElement>;
 };
 class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState> {
-  public state: AlwaysOpenedState = {
+  public state = {
     anchor: null,
   };
 
@@ -276,7 +276,7 @@ type PopupWithPositionsState = {
   anchor: Nullable<HTMLElement>;
 };
 class PopupWithPositions extends React.Component<PopupWithPositionsProps, PopupWithPositionsState> {
-  public state: PopupWithPositionsState = {
+  public state = {
     opened: false,
     anchor: null,
   };
@@ -350,12 +350,12 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps, PopupW
   };
 }
 
-type FakeHinProps = Pick<PopupProps, 'positions' | 'margin'>;
+type FakeHintProps = Pick<PopupProps, 'positions' | 'margin'>;
 type FakeHintState = {
   anchor: Nullable<HTMLElement>;
 };
-class FakeHint extends React.Component<FakeHinProps, FakeHintState> {
-  public state: FakeHintState = {
+class FakeHint extends React.Component<FakeHintProps, FakeHintState> {
+  public state = {
     anchor: null,
   };
 
@@ -406,7 +406,7 @@ type ToastState = {
   anchor: Nullable<HTMLElement>;
 };
 class Toast extends React.Component<ToastProps, ToastState> {
-  public state: ToastState = {
+  public state = {
     anchor: null,
   };
 

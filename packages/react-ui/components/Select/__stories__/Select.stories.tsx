@@ -353,13 +353,9 @@ export const ExternalFocus = () => {
 ExternalFocus.storyName = 'external focus';
 ExternalFocus.parameters = { creevey: { skip: [true] } };
 
-type SampleState = {
-  opened: boolean;
-  text: string;
-};
 export const UsingOnKeyDown: Story = () => {
   class Sample extends React.Component {
-    public state: SampleState = {
+    public state = {
       opened: false,
       text: 'wait...',
     };

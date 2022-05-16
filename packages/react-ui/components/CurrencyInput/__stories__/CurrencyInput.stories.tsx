@@ -13,7 +13,7 @@ type CurrencyInputDemoProps = Pick<CurrencyInputProps, 'borderless'>;
 type CurrencyInputDemoState = Pick<CurrencyInputProps, 'value' | 'signed' | 'hideTrailingZeros' | 'fractionDigits'>;
 
 class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
-  public state: CurrencyInputDemoState = {
+  public state = {
     value: null,
     signed: false,
     hideTrailingZeros: false,
@@ -108,7 +108,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
 type SampleProps = Partial<CurrencyInputProps>;
 type SampleState = Pick<CurrencyInputProps, 'value'>;
 class Sample extends React.Component<SampleProps, SampleState> {
-  public state: SampleState = {
+  public state = {
     value: this.props.value,
   };
 
@@ -221,12 +221,9 @@ SampleStory.parameters = {
   },
 };
 
-type ManualMountingState = {
-  mounted: boolean;
-};
 export const ManualMount = () => {
   class ManualMounting extends React.Component {
-    public state: ManualMountingState = {
+    public state = {
       mounted: false,
     };
 

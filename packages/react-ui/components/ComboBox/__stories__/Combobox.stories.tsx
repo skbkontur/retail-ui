@@ -811,7 +811,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ...ComboBox.defaultProps,
     getItems: () => Promise.resolve([]),
   };
-  public state: SimpleComboboxState = {
+  public state = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
   private setRootNode!: TSetRootNode;
@@ -848,7 +848,7 @@ type ComplexComboboxProps = Omit<ComboBoxProps<any>, 'getItems'>;
 type ComplexComboboxState = Pick<ComboBoxProps<any>, 'value'>;
 class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexComboboxState> {
   public static defaultProps = ComboBox.defaultProps;
-  public state: ComplexComboboxState = {
+  public state = {
     value: null,
   };
   private popularItems = [

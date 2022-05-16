@@ -137,11 +137,8 @@ class TestWrapper extends React.Component<TestWrapperProps> {
   }
 }
 
-type WithWidthState = {
-  isFixedWidth: boolean;
-};
 class WithWidth extends React.Component {
-  public state: WithWidthState = {
+  public state = {
     isFixedWidth: false,
   };
 

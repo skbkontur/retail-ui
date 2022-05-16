@@ -58,7 +58,7 @@ type SampleState = {
 };
 
 class Sample extends React.Component<SampleProps, SampleState> {
-  public state: SampleState = {
+  public state = {
     open: false,
     panel: false,
   };
@@ -184,12 +184,8 @@ class SidePageWithScrollableContent extends React.Component {
   }
 }
 
-type SidePageWithInputInHeaderState = {
-  opened: boolean;
-};
-
 class SidePageWithInputInHeader extends React.Component {
-  public state: SidePageWithInputInHeaderState = {
+  public state = {
     opened: false,
   };
 
@@ -467,12 +463,9 @@ class WithVariableContent extends React.Component {
   };
 }
 
-type TestUpdateLayoutMethodState = {
-  content: boolean;
-};
 class TestUpdateLayoutMethod extends React.Component {
   public static ChildComp = class ChildComp extends React.Component {
-    public state: TestUpdateLayoutMethodState = {
+    public state = {
       content: false,
     };
 
@@ -557,11 +550,8 @@ class TestUpdateLayoutMethod extends React.Component {
   }
 }
 
-type WithLongTitleState = {
-  title: string;
-};
 class WithLongTitle extends React.Component {
-  public state: WithLongTitleState = {
+  public state = {
     title: `On the other hand, we denounce with righteous indignation and dislike,
           who are so beguiled and demoralized by the charms of pleasure of the
           moment.`,

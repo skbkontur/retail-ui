@@ -5,9 +5,8 @@ import { Switcher } from '../Switcher';
 import { Gapped } from '../../Gapped';
 
 type ComponentProps = { items: string[]; error?: boolean };
-type ComponentState = { value: string };
-class Component extends React.Component<ComponentProps, ComponentState> {
-  public state: ComponentState = {
+class Component extends React.Component<ComponentProps> {
+  public state = {
     value: '',
   };
 

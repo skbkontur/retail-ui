@@ -27,15 +27,9 @@ RadioWithDifferentStates.parameters = {
   creevey: { skip: [{ in: ['chromeFlat8px'] }] },
 };
 
-type CompState = {
-  hovered: boolean;
-  checked: boolean;
-  active: boolean;
-  value: string;
-};
 export const Playground = () => {
   class Comp extends React.Component {
-    public state: CompState = {
+    public state = {
       hovered: false,
       checked: false,
       active: false,

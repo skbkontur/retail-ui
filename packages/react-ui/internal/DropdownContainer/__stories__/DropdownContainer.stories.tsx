@@ -80,7 +80,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   }
 
   public toggle = (id: string, value: boolean) => {
-    this.setState((state: { shown: { [id: string]: boolean }; long: boolean }) => ({
+    this.setState((state: VariousAlignsPortalsItemsAndScrollsState) => ({
       shown: {
         ...state.shown,
         [id]: value,

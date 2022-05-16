@@ -408,7 +408,7 @@ WithHeaderAndFooter.parameters = {
 
 type DropdownWithScrollStateChangeState = { hasHeader: boolean } & Pick<InputProps, 'value'>;
 class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, DropdownWithScrollStateChangeState> {
-  public state: DropdownWithScrollStateChangeState = {
+  public state = {
     value: '',
     hasHeader: true,
   };

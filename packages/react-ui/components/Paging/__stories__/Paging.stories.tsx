@@ -43,7 +43,7 @@ class GoToAbsensePage extends React.Component {
 type PagingWithStateProps = Partial<PagingProps> & Pick<PagingProps, 'pagesCount'>;
 type PagingWithStateState = Pick<PagingProps, 'activePage'>;
 class PagingWithState extends React.Component<PagingWithStateProps, PagingWithStateState> {
-  public state: PagingWithStateState = {
+  public state = {
     activePage: 1,
   };
 
@@ -89,7 +89,7 @@ class PagingWithCustomComponent extends React.Component<
   PagingWithCustomComponentProps,
   PagingWithCustomComponentState
 > {
-  public state: PagingWithCustomComponentState = {
+  public state = {
     activePage: 1,
   };
 
