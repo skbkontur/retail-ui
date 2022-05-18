@@ -46,6 +46,11 @@ export const styles = memoizeStyle({
       }
     `;
   },
+  icon() {
+    return css`
+      pointer-events: none;
+    `;
+  },
   iconWrapper() {
     return css`
       display: flex;

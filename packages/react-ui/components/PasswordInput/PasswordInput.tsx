@@ -160,7 +160,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       this.props.onBlur(e);
     }
 
-    this.setState({ visible: false });
+    setTimeout(() => {
+      // @ts-expect-error: private property
+      if (document.activeElement !== this.input?.input) {
+        this.setState({ visible: false });
+      }
+    }, 200);
   };
 
   private getEyeWrapperClassname(right = false) {

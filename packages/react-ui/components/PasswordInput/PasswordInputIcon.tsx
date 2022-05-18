@@ -1,11 +1,17 @@
 import React from 'react';
 
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
+import { cx } from '../../lib/theming/Emotion';
 
 import { PasswordInputState } from './PasswordInput';
+import { styles } from './PasswordInput.styles';
 
 export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'>;
 
 export const PasswordInputIcon = ({ visible }: PasswordInputIconProps) => {
-  return visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />;
+  return visible ? (
+    <EyeClosedIcon className={cx(styles.icon())} size={14} />
+  ) : (
+    <EyeOpenedIcon className={cx(styles.icon())} size={14} />
+  );
 };
