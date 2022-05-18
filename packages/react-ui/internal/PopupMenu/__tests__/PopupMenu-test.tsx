@@ -20,7 +20,7 @@ describe('PopupMenu', () => {
     );
 
     // When the menu is closed we should not see its contents
-    const menuItem = screen.queryByRole('button', { name: menuItemContent });
+    const menuItem = screen.queryByText(menuItemContent);
     expect(menuItem).not.toBeInTheDocument();
 
     // The menu should open on caption click
@@ -28,7 +28,7 @@ describe('PopupMenu', () => {
     userEvent.click(button);
 
     // Now the contents of the menu should be visible
-    const visibleMenuItem = screen.getByRole('button', { name: menuItemContent });
+    const visibleMenuItem = screen.queryByText(menuItemContent);
     expect(visibleMenuItem).toBeInTheDocument();
   });
 
@@ -47,7 +47,7 @@ describe('PopupMenu', () => {
     );
 
     // When the menu is closed we should not see its contents
-    const menuItem = screen.queryByRole('button', { name: menuItemContent });
+    const menuItem = screen.queryByText(menuItemContent);
     expect(menuItem).not.toBeInTheDocument();
 
     // The menu should open on caption click
@@ -55,7 +55,7 @@ describe('PopupMenu', () => {
     userEvent.click(button);
 
     // Now the contents of the menu should be visible
-    const visibleMenuItem = screen.getByRole('button', { name: menuItemContent });
+    const visibleMenuItem = screen.queryByText(menuItemContent);
     expect(visibleMenuItem).toBeInTheDocument();
   });
 
@@ -66,7 +66,7 @@ describe('PopupMenu', () => {
 
     render(
       <>
-        <PopupMenu caption={<button>{captionContent}</button>} onOpen={onOpenCallback}></PopupMenu>
+        <PopupMenu caption={<button>{captionContent}</button>} onOpen={onOpenCallback} />
         <button>{outsideButtonContent}</button>
       </>,
     );
@@ -92,7 +92,7 @@ describe('PopupMenu', () => {
 
     render(
       <>
-        <PopupMenu caption={<button>{captionContent}</button>} onClose={onCloseCallback}></PopupMenu>
+        <PopupMenu caption={<button>{captionContent}</button>} onClose={onCloseCallback} />
         <button>{outsideButtonContent}</button>
       </>,
     );

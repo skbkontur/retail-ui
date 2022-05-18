@@ -44,7 +44,6 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
 export interface KebabState {
   anchor: Nullable<HTMLElement>;
   focusedByTab: boolean;
-  opened: boolean;
 }
 
 @rootNode
@@ -63,7 +62,6 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   public state = {
-    opened: false,
     focusedByTab: false,
     anchor: null,
   };
@@ -174,17 +172,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
-    this.setState(
-      {
-        opened: isOpened,
-        focusedByTab: !isOpened && restoreFocus,
-      },
-      () => {
-        if (this.props.disabled) {
-          return;
-        }
-      },
-    );
+    this.setState({
+      focusedByTab: !isOpened && restoreFocus,
+    });
   };
 
   private handleFocus = () => {
