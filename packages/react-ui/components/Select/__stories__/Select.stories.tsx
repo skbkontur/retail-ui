@@ -14,7 +14,10 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 
-interface SelectWrapperValue { label: string; value: number }
+interface SelectWrapperValue {
+  label: string;
+  value: number;
+}
 type SelectWrapperState = Pick<SelectProps<SelectWrapperValue, any>, 'value'>;
 class SelectWrapper extends React.Component {
   public state: SelectWrapperState = {
@@ -44,7 +47,9 @@ class SelectWrapper extends React.Component {
   }
 }
 
-interface ItemsWithCommentsState { value: number }
+interface ItemsWithCommentsState {
+  value: number;
+}
 type ItemWithComments = [number, string, React.ReactNode?];
 class ItemsWithComments extends React.Component {
   private static items: ItemWithComments[] = [

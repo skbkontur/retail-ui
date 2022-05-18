@@ -8,7 +8,9 @@ import { Button } from '../../components/Button';
 
 import { SelectPlayground } from './SelectPlayground';
 
-export interface SizesGroupProps { size: 'small' | 'medium' | 'large' }
+export interface SizesGroupProps {
+  size: 'small' | 'medium' | 'large';
+}
 
 export const SizesGroup = ({ size }: SizesGroupProps) => (
   <Gapped wrap verticalAlign="middle" gap={10}>

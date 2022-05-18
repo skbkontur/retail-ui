@@ -94,7 +94,9 @@ export const WithHorizontalScroll = () => {
   );
 };
 
-interface WrapperState { scrollState: ScrollContainerScrollState }
+interface WrapperState {
+  scrollState: ScrollContainerScrollState;
+}
 export const WithScrollState = () => {
   class Wrapper extends React.Component {
     public state: WrapperState = { scrollState: 'top' as ScrollContainerScrollState };

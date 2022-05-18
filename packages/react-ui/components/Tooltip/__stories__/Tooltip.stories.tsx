@@ -686,7 +686,10 @@ RenderInFirstAvailablePosition.parameters = {
   },
 };
 
-interface DynamicContentTooltipState { content: React.ReactNode; opened: boolean }
+interface DynamicContentTooltipState {
+  content: React.ReactNode;
+  opened: boolean;
+}
 
 class DynamicContentTooltip extends React.Component {
   public state: DynamicContentTooltipState = {

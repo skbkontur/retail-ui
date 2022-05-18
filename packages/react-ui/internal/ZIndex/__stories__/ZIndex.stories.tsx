@@ -60,7 +60,9 @@ class ZSelect extends React.Component {
   }
 }
 
-interface ZLoaderProps { size: number }
+interface ZLoaderProps {
+  size: number;
+}
 class ZLoader extends React.Component<ZLoaderProps> {
   public render() {
     const size = this.props.size + 'px';
@@ -85,7 +87,10 @@ class ZLoader extends React.Component<ZLoaderProps> {
   }
 }
 
-interface ZModalProps { size: number; children?: React.ReactNode }
+interface ZModalProps {
+  size: number;
+  children?: React.ReactNode;
+}
 class ZModal extends React.Component<ZModalProps> {
   public render() {
     const size = this.props.size + 'px';
@@ -315,7 +320,10 @@ class NestedElementsInLoader extends React.Component {
   }
 }
 
-interface HintAndModalState { modalOpened: boolean; hintOpened: HintProps['opened'] }
+interface HintAndModalState {
+  modalOpened: boolean;
+  hintOpened: HintProps['opened'];
+}
 class HintAndModal extends React.Component {
   public state: HintAndModalState = {
     modalOpened: false,
