@@ -132,7 +132,7 @@ class TabsWithMyLink extends React.Component<TabsWithMyLinkProps, TabsWithMyLink
   }
 }
 
-type UnexpectedUpdatedTabProps = { id: string };
+interface UnexpectedUpdatedTabProps { id: string }
 
 class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps> {
   public state = {

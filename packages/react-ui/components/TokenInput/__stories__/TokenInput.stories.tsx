@@ -72,7 +72,7 @@ class Wrapper extends React.Component<WrapperProps, WrapperState> {
 
 class MyTokenInput extends TokenInput<TokenModel> {}
 
-type WrapperCustomModelState = { selectedItems: TokenModel[] };
+interface WrapperCustomModelState { selectedItems: TokenModel[] }
 class WrapperCustomModel extends React.Component {
   public state: WrapperCustomModelState = { selectedItems: [] };
 

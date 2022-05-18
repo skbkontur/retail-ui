@@ -60,7 +60,7 @@ class ZSelect extends React.Component {
   }
 }
 
-type ZLoaderProps = { size: number };
+interface ZLoaderProps { size: number }
 class ZLoader extends React.Component<ZLoaderProps> {
   public render() {
     const size = this.props.size + 'px';
@@ -85,7 +85,7 @@ class ZLoader extends React.Component<ZLoaderProps> {
   }
 }
 
-type ZModalProps = { size: number; children?: React.ReactNode };
+interface ZModalProps { size: number; children?: React.ReactNode }
 class ZModal extends React.Component<ZModalProps> {
   public render() {
     const size = this.props.size + 'px';
@@ -110,10 +110,10 @@ class LightboxUnderLightbox extends React.Component {
   }
 }
 
-type ZSampleProps = {
+interface ZSampleProps {
   total?: number;
   current?: number;
-};
+}
 
 class ZSample extends React.Component<ZSampleProps> {
   public state = {
@@ -315,7 +315,7 @@ class NestedElementsInLoader extends React.Component {
   }
 }
 
-type HintAndModalState = { modalOpened: boolean; hintOpened: HintProps['opened'] };
+interface HintAndModalState { modalOpened: boolean; hintOpened: HintProps['opened'] }
 class HintAndModal extends React.Component {
   public state: HintAndModalState = {
     modalOpened: false,

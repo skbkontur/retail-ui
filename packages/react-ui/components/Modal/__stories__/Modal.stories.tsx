@@ -20,7 +20,7 @@ const basicFontStyle = {
   margin: '0',
 };
 
-type ModalWithScrollableContentState = { opened: boolean; panel: boolean };
+interface ModalWithScrollableContentState { opened: boolean; panel: boolean }
 class ModalWithScrollableContent extends React.Component {
   public state: ModalWithScrollableContentState = {
     opened: false,
@@ -91,7 +91,7 @@ class ModalWithScrollableContent extends React.Component {
   };
 }
 
-type ModalWithIconInputState = { opened: boolean };
+interface ModalWithIconInputState { opened: boolean }
 class ModalWithIconInput extends React.Component {
   public state: ModalWithIconInputState = {
     opened: false,
@@ -173,7 +173,7 @@ class ModalOverAnotherModal extends React.Component {
   }
 }
 
-type ModalWithFooterPanelState = { opened: boolean; panel: boolean };
+interface ModalWithFooterPanelState { opened: boolean; panel: boolean }
 class ModalWithFooterPanel extends React.Component {
   public state: ModalWithFooterPanelState = {
     opened: false,
@@ -212,7 +212,7 @@ class ModalWithFooterPanel extends React.Component {
   };
 }
 
-type ModalWithoutFooterPanelState = { opened: boolean };
+interface ModalWithoutFooterPanelState { opened: boolean }
 class ModalWithoutFooterPanel extends React.Component {
   public state: ModalWithoutFooterPanelState = {
     opened: false,
@@ -253,7 +253,7 @@ class ModalWithoutFooterPanel extends React.Component {
   };
 }
 
-type ModalWithoutFooterState = { opened: boolean };
+interface ModalWithoutFooterState { opened: boolean }
 class ModalWithoutFooter extends React.Component {
   public state: ModalWithoutFooterState = {
     opened: false,
@@ -291,7 +291,7 @@ class ModalWithoutFooter extends React.Component {
   };
 }
 
-type ModalMobileViewState = { opened: boolean };
+interface ModalMobileViewState { opened: boolean }
 class ModalMobileView extends React.Component {
   public state: ModalMobileViewState = {
     opened: true,
@@ -315,7 +315,7 @@ class ModalMobileView extends React.Component {
   }
 }
 
-type ModalInnerState = { bigHeight: boolean };
+interface ModalInnerState { bigHeight: boolean }
 class ModalInner extends React.Component {
   public state: ModalInnerState = {
     bigHeight: false,
@@ -343,7 +343,7 @@ class ModalInner extends React.Component {
   }
 }
 
-type ModalWithVariableHeightState = { opened: boolean; panel: boolean };
+interface ModalWithVariableHeightState { opened: boolean; panel: boolean }
 class ModalWithVariableHeight extends React.Component {
   public state: ModalWithVariableHeightState = {
     opened: false,

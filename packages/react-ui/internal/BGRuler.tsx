@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
 
-export type BGRulerProps = {
+export interface BGRulerProps {
   width?: string | number;
   height?: string | number;
   top?: string | number;
@@ -10,7 +10,7 @@ export type BGRulerProps = {
   right?: string | number;
   left?: string | number;
   color?: string;
-};
+}
 
 /**
  * Компонент рисует пиксельную линейку на заднем фоне.

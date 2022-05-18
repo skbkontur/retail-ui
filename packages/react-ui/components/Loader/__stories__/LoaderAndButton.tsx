@@ -6,7 +6,7 @@ import { Loader } from '../Loader';
 import { LoaderProps } from '..';
 
 type LoaderAndButtonProps = Pick<LoaderProps, 'active'>;
-type LoaderAndButtonState = { isTooltipOpened: boolean; isActive?: boolean };
+interface LoaderAndButtonState { isTooltipOpened: boolean; isActive?: boolean }
 export class LoaderAndButton extends React.Component<LoaderAndButtonProps, LoaderAndButtonState> {
   public state: LoaderAndButtonState = {
     isTooltipOpened: false,

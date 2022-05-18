@@ -190,9 +190,9 @@ class MinWidth extends React.Component {
 type AlwaysOpenedProps = {
   small: boolean;
 } & Pick<PopupProps, 'positions'>;
-type AlwaysOpenedState = {
+interface AlwaysOpenedState {
   anchor: Nullable<HTMLElement>;
-};
+}
 class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState> {
   public state = {
     anchor: null,
@@ -271,10 +271,10 @@ class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState>
 type PopupWithPositionsProps = {
   placeholder?: string;
 } & Partial<Pick<PopupProps, 'disableAnimations'>>;
-type PopupWithPositionsState = {
+interface PopupWithPositionsState {
   opened: boolean;
   anchor: Nullable<HTMLElement>;
-};
+}
 class PopupWithPositions extends React.Component<PopupWithPositionsProps, PopupWithPositionsState> {
   public state = {
     opened: false,
@@ -351,9 +351,9 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps, PopupW
 }
 
 type FakeHintProps = Pick<PopupProps, 'positions' | 'margin'>;
-type FakeHintState = {
+interface FakeHintState {
   anchor: Nullable<HTMLElement>;
-};
+}
 class FakeHint extends React.Component<FakeHintProps, FakeHintState> {
   public state = {
     anchor: null,
@@ -402,9 +402,9 @@ class FakeHint extends React.Component<FakeHintProps, FakeHintState> {
 }
 
 type ToastProps = Pick<PopupProps, 'positions'>;
-type ToastState = {
+interface ToastState {
   anchor: Nullable<HTMLElement>;
-};
+}
 class Toast extends React.Component<ToastProps, ToastState> {
   public state = {
     anchor: null,
@@ -452,19 +452,19 @@ const COMBOBOX_ITEMS = [
 const SELECT_ITEMS = COMBOBOX_ITEMS.map((i) => i.label);
 const getComboboxItems = () => Promise.resolve(COMBOBOX_ITEMS);
 
-type DropdownValue = {
+interface DropdownValue {
   value: number;
   label: string;
-};
+}
 
-type HoverTestProps = {
+interface HoverTestProps {
   dropdownProps?: Pick<DropdownProps, 'disablePortal'>;
   popupProps?: Pick<PopupProps, 'useWrapper'>;
   useText?: boolean;
-};
-type HasDropdownState = {
+}
+interface HasDropdownState {
   selected?: DropdownValue;
-};
+}
 class TooltipWithCombobox extends React.Component<HoverTestProps, HasDropdownState> {
   public state: HasDropdownState = {};
 

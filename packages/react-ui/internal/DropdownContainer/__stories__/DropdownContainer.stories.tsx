@@ -50,10 +50,10 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   },
 };
 
-type VariousAlignsPortalsItemsAndScrollsState = {
+interface VariousAlignsPortalsItemsAndScrollsState {
   shown: { [id: string]: boolean };
   long: boolean;
-};
+}
 type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Align[] = ['left', 'right'];
@@ -171,9 +171,9 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   };
 }
 
-type ScrollableContainerProps = {
+interface ScrollableContainerProps {
   id?: string;
-};
+}
 class ScrollableContainer extends React.Component<ScrollableContainerProps> {
   public render() {
     return (
@@ -192,10 +192,10 @@ class ScrollableContainer extends React.Component<ScrollableContainerProps> {
   }
 }
 
-type ScrollMakerProps = {
+interface ScrollMakerProps {
   xScroll: number;
   yScroll: number;
-};
+}
 class ScrollMaker extends React.Component<ScrollMakerProps> {
   public static defaultProps = {
     xScroll: 100,
@@ -220,11 +220,11 @@ class ScrollMaker extends React.Component<ScrollMakerProps> {
   }
 }
 
-type GridProps = {
+interface GridProps {
   rows: string[];
   cols: string[];
   children: (row: string, col: string) => React.ReactNode;
-};
+}
 class Grid extends React.Component<GridProps> {
   public static Row = class Row extends React.Component {
     public render() {
@@ -271,14 +271,14 @@ class Grid extends React.Component<GridProps> {
   }
 }
 
-type DropdownWithToggleProps = {
+interface DropdownWithToggleProps {
   show: boolean;
   onToggle: (value: boolean) => void;
   dropdownProps: {
     align: DropdownContainerProps['align'];
     disablePortal: DropdownContainerProps['disablePortal'];
   };
-};
+}
 @rootNode
 class DropdownWithToggle extends React.Component<DropdownWithToggleProps> {
   private setRootNode!: TSetRootNode;

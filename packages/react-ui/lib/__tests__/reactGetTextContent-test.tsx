@@ -13,10 +13,10 @@ class SimpleComponent extends React.Component {
   }
 }
 
-type TextContent = {
+interface TextContent {
   label: string;
   renderNode: (label: string) => React.ReactNode;
-};
+}
 
 const testCase: TextContent[] = [
   {

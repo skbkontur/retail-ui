@@ -103,10 +103,10 @@ class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   };
 }
 
-type TestWrapperProps = {
+interface TestWrapperProps {
   width?: number | string;
   ruler?: boolean;
-};
+}
 class TestWrapper extends React.Component<TestWrapperProps> {
   public render() {
     const { width, ruler, children } = this.props;

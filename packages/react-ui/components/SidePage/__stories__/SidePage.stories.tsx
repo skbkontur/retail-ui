@@ -52,10 +52,10 @@ type SampleProps = {
   withoutHeader?: boolean;
 } & Pick<SidePageProps, 'ignoreBackgroundClick' | 'blockBackground'>;
 
-type SampleState = {
+interface SampleState {
   open: boolean;
   panel: boolean;
-};
+}
 
 class Sample extends React.Component<SampleProps, SampleState> {
   public state = {
@@ -383,11 +383,11 @@ class SimpleSidePage extends React.Component {
   }
 }
 
-type WithVariableContentState = {
+interface WithVariableContentState {
   opened: boolean;
   sidePageText: string[];
   pageText: string[];
-};
+}
 class WithVariableContent extends React.Component {
   public state: WithVariableContentState = {
     opened: false,

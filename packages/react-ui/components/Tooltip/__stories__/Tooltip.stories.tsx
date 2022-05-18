@@ -686,7 +686,7 @@ RenderInFirstAvailablePosition.parameters = {
   },
 };
 
-type DynamicContentTooltipState = { content: React.ReactNode; opened: boolean };
+interface DynamicContentTooltipState { content: React.ReactNode; opened: boolean }
 
 class DynamicContentTooltip extends React.Component {
   public state: DynamicContentTooltipState = {
@@ -742,9 +742,9 @@ class TooltipWithInput extends React.Component {
   };
 }
 
-type MyCustomTooltipState = {
+interface MyCustomTooltipState {
   state: TooltipTrigger;
-};
+}
 
 class MyCustomTooltip extends React.Component<TestTooltipProps, MyCustomTooltipState> {
   public state: MyCustomTooltipState = {
@@ -816,9 +816,9 @@ const LARGE_CONTENT = (
 );
 
 type HasPopupPositionProps = Pick<TooltipProps, 'pos'>;
-type HasDynamicContentState = {
+interface HasDynamicContentState {
   content: React.ReactNode;
-};
+}
 class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProps, HasDynamicContentState> {
   public state = {
     content: SMALL_CONTENT,
@@ -999,9 +999,9 @@ function MultipleTooltips() {
   );
 }
 
-type DynamicTriggersState = {
+interface DynamicTriggersState {
   trigger?: TooltipTrigger;
-};
+}
 
 class DynamicTriggers extends React.Component {
   public state: DynamicTriggersState = {};
@@ -1144,9 +1144,9 @@ const anchorStyle: CSSProperties = {
   border: '1px solid #dfdede',
 };
 
-type AnchorTooltipExampleState = {
+interface AnchorTooltipExampleState {
   anchor: Nullable<HTMLElement>;
-};
+}
 class AnchorTooltipExample extends React.Component {
   public state: AnchorTooltipExampleState = {
     anchor: null,

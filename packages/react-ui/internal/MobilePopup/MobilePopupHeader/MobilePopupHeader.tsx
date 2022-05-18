@@ -6,11 +6,11 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 import { jsStyles } from './MobilePopupHeader.styles';
 
-type MobilePopupHeaderProps = {
+interface MobilePopupHeaderProps {
   caption?: string;
   onClose: () => void;
   withShadow?: boolean;
-};
+}
 
 export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';

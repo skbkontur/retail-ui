@@ -24,10 +24,10 @@ const darkWrapperStyle = {
   background: '#1f1f1f',
 };
 
-type ContentComponentProps = {
+interface ContentComponentProps {
   additionalStyle?: AnyObject;
   loaderProps?: Partial<LoaderProps>;
-};
+}
 class ContentComponent extends React.Component<ContentComponentProps> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;
@@ -53,9 +53,9 @@ class ContentComponent extends React.Component<ContentComponentProps> {
   }
 }
 
-type NumberListProps = {
+interface NumberListProps {
   itemsCount: number;
-};
+}
 class NumberList extends React.Component<NumberListProps> {
   public render() {
     return (

@@ -803,7 +803,7 @@ interface SimpleComboboxState {
   value: Nullable<{ value: number; label: string }>;
 }
 
-type ComboboxItem = { value: number; label: string };
+interface ComboboxItem { value: number; label: string }
 
 @rootNode
 class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
@@ -842,8 +842,8 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
-type City = { Id: number; City: string };
-type ComboboxSearchResult = { foundItems: City[]; totalCount: number };
+interface City { Id: number; City: string }
+interface ComboboxSearchResult { foundItems: City[]; totalCount: number }
 type ComplexComboboxProps = Omit<ComboBoxProps<any>, 'getItems'>;
 type ComplexComboboxState = Pick<ComboBoxProps<any>, 'value'>;
 class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexComboboxState> {

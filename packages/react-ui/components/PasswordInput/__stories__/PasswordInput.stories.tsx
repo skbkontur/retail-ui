@@ -5,9 +5,9 @@ import { PasswordInput } from '../PasswordInput';
 import { Nullable } from '../../../typings/utility-types';
 import { PasswordInputProps } from '..';
 
-type ComponentProps = {
+interface ComponentProps {
   capsLockEnabled?: boolean;
-};
+}
 type ComponentState = Pick<PasswordInputProps, 'value'>;
 class Component extends React.Component<ComponentProps, ComponentState> {
   public state = {

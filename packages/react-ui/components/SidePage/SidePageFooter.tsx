@@ -21,9 +21,9 @@ export interface SidePageFooterProps extends CommonProps {
   sticky?: boolean;
 }
 
-type SidePageFooterState = {
+interface SidePageFooterState {
   fixed: boolean;
-};
+}
 
 /**
  * Футер сайдпейджа.

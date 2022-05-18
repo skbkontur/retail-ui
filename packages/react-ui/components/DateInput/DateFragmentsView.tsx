@@ -9,12 +9,12 @@ import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './DateFragmentsView.styles';
 
-type DateFragmentViewProps = {
+interface DateFragmentViewProps {
   selected: InternalDateComponentType | null;
   fragments: InternalDateFragment[];
   inputMode: boolean;
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
-};
+}
 
 export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   private theme!: Theme;
