@@ -614,12 +614,11 @@ object Validations_LintTest : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.3%"
             projects = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
         }
-        msBuild {
+        dotnetMsBuild {
             name = "Build tests"
-            id = "RUNNER_6"
-            path = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
-            version = MSBuildStep.MSBuildVersion.V15_0
-            toolsVersion = MSBuildStep.MSBuildToolsVersion.V15_0
+            projects = "packages packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
+            version = DotnetMsBuildStep.MSBuildVersion.CrossPlatform
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
         nunit {
             name = "Run tests"
