@@ -44,8 +44,8 @@ const config = {
         theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/chrome8px',
-      browserVersion: '86.0',
-      version: '86.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chromeFlat8px: {
@@ -56,8 +56,8 @@ const config = {
         theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/chromeFlat8px',
-      browserVersion: '86.0',
-      version: '86.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chrome: {
@@ -68,8 +68,8 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/chrome',
-      browserVersion: '86.0',
-      version: '86.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chromeDark: {
@@ -81,8 +81,8 @@ const config = {
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/chromeDark',
-      browserVersion: '86.0',
-      version: '86.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefox8px: {
