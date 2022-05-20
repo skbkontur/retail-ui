@@ -39,6 +39,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  rootDisableTextSelect() {
+    return css`
+      user-select: none;
+    `;
+  },
+
   rootChecked(t: Theme) {
     return css`
       &:hover .${globalClasses.box} {

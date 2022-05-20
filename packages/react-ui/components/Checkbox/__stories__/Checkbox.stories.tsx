@@ -4,6 +4,7 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
+import { MultipleSelection as MultipleSelectionComponent } from '../__tests__/MultipleSelection';
 
 class PlainCheckbox extends Component<any, any> {
   public state = {
@@ -353,6 +354,35 @@ Highlighted.parameters = {
           .sendKeys(this.keys.TAB)
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+      },
+    },
+  },
+};
+
+export const MultipleSelection: Story = () => <MultipleSelectionComponent />;
+MultipleSelection.storyName = 'multiple selection';
+
+MultipleSelection.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async checkAll() {
+        const allCheckboxes = await this.browser.findElements({ css: '[data-comp-name~="Checkbox"]' });
+        const firstCheckbox = allCheckboxes[0];
+        const lastCheckbox = allCheckboxes[allCheckboxes.length - 1];
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .keyDown(this.keys.SHIFT)
+          .click(firstCheckbox)
+          .click(lastCheckbox)
+          .perform();
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('checkAll');
       },
     },
   },
