@@ -1,7 +1,10 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/accessible-emoji */
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { linkTo } from '@storybook/addon-links';
+import { HTMLProps } from 'react-ui/typings/html-props';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -569,5 +572,51 @@ TabsWithImage.storyName = 'Tabs with images';
 TabsWithImage.parameters = {
   creevey: {
     delay: 500,
+  },
+};
+
+interface NavLinkProps extends Pick<HTMLProps, 'a'> {
+  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+}
+const NavLink = (props: NavLinkProps) => (
+  <a
+    {...props}
+    onClick={(e) => {
+      e.preventDefault();
+      props.onClick(e);
+    }}
+  />
+);
+
+interface TabLinkProps {
+  id: string;
+  children: React.ReactNode;
+}
+const TabLink = ({ id, children }: TabLinkProps) => (
+  <Tabs.Tab id={id} component={(props) => <NavLink {...props} to={props.id} />}>
+    {children}
+  </Tabs.Tab>
+);
+
+export const TabsWithLinkAsSeparateComponent: Story = () => {
+  const [active, setActive] = React.useState('/fuji');
+
+  return (
+    <Tabs value={active} onValueChange={setActive}>
+      <TabLink id="/fuji">🌋 Fuji</TabLink>
+      <TabLink id="/tahat">⛰ Tahat</TabLink>
+      <TabLink id="/alps">🗻 Alps</TabLink>
+    </Tabs>
+  );
+};
+TabsWithLinkAsSeparateComponent.storyName = 'tabs with link as separate component';
+
+TabsWithLinkAsSeparateComponent.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+    },
   },
 };
