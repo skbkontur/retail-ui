@@ -19,7 +19,7 @@ export interface InstanceWithRootNode {
 
 export function rootNode<T extends new (...args: any[]) => React.Component>(Component: T) {
   const rootNode = class extends Component implements InstanceWithRootNode {
-    public rootNode: Nullable<HTMLElement> = null;
+    public rootNode: Nullable<HTMLElement>;
     public rootNodeEmitter = new EventEmitter();
     public constructor(...args: any[]) {
       super(args[0]);
