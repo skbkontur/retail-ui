@@ -2,6 +2,11 @@ import { css, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton } from '../../lib/styles/Mixins';
 
+const ICON_SIZE = 12;
+const getIconTopOffset = (paddingTop: string, paddingBottom: string) => {
+  return (parseInt(paddingTop) + parseInt(paddingBottom)) / 2 + ICON_SIZE;
+};
+
 export const styles = memoizeStyle({
   root() {
     return css`
@@ -90,12 +95,14 @@ export const styles = memoizeStyle({
 
   close(t: Theme) {
     const padding = parseInt(t.modalCloseButtonPadding);
+    const topOffset = getIconTopOffset(t.modalHeaderPaddingTop, t.modalHeaderPaddingBottom);
+
     return css`
       ${resetButton()};
       position: absolute;
       display: flex;
       right: ${padding}px;
-      top: ${padding}px;
+      top: ${topOffset}px;
       background: none;
       background: transparent;
       cursor: pointer;
@@ -118,9 +125,11 @@ export const styles = memoizeStyle({
   },
 
   mobileClose(t: Theme) {
+    const topOffset = getIconTopOffset(t.mobileModalHeaderPadding, t.mobileModalHeaderPadding);
+
     return css`
       right: ${t.mobileModalCloseButtonRightPadding};
-      top: ${parseInt(t.mobileModalCloseButtonTopPadding) + parseInt(t.mobileModalHeaderPadding)}px;
+      top: ${topOffset}px;
       padding: ${t.mobileModalCloseButtonClickArea};
       margin: -${t.mobileModalCloseButtonClickArea};
 
