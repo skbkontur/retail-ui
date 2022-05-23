@@ -6,7 +6,10 @@ import { findPropertyDescriptor } from './ThemeHelpers';
 // Allows to disable type infering for generic types
 type NoInfer<T> = [T][T extends unknown ? 0 : never];
 export class ThemeFactory {
-  public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
+  public static create<T extends Record<string, unknown>>(
+    theme: ThemeIn & NoInfer<T>,
+    baseTheme?: Theme,
+  ): Readonly<Theme & NoInfer<T>> {
     const base = baseTheme || DefaultThemeInternal;
     return this.constructTheme(base, theme);
   }
