@@ -1,4 +1,5 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { AnyObject } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor } from './ThemeHelpers';
@@ -6,7 +7,7 @@ import { findPropertyDescriptor } from './ThemeHelpers';
 // Allows to disable type infering for generic types
 type NoInfer<T> = [T][T extends unknown ? 0 : never];
 export class ThemeFactory {
-  public static create<T extends Record<string, unknown>>(
+  public static create<T extends AnyObject>(
     theme: ThemeIn & NoInfer<T>,
     baseTheme?: Theme,
   ): Readonly<Theme & NoInfer<T>> {
