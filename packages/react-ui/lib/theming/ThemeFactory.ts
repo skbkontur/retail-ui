@@ -3,8 +3,10 @@ import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
 import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor } from './ThemeHelpers';
 
+// Allows to disable type infering for generic types
+type NoInfer<T> = [T][T extends unknown ? 0 : never];
 export class ThemeFactory {
-  public static create<T extends {}>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
+  public static create<T>(theme: ThemeIn & NoInfer<T>, baseTheme?: Theme): Readonly<Theme & NoInfer<T>> {
     const base = baseTheme || DefaultThemeInternal;
     return this.constructTheme(base, theme);
   }
