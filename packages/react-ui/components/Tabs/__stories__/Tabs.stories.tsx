@@ -521,7 +521,10 @@ Vertical.parameters = {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
       // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+      },
     ],
     tests: tabsTests,
   },
