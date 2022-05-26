@@ -281,8 +281,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
   private executeAnimations = (pixelY: number) => {
     this.setState(({ months, scrollPosition }) => {
-      const targetPosition = CalendarUtils.calculateScrollPosition(months, scrollPosition, pixelY, this.theme)
-        .scrollPosition;
+      const targetPosition = CalendarUtils.calculateScrollPosition(
+        months,
+        scrollPosition,
+        pixelY,
+        this.theme,
+      ).scrollPosition;
       return { scrollTarget: targetPosition };
     }, this.handleWheelEnd);
 
