@@ -29,7 +29,8 @@ const config = {
   screenDir: path.join(__dirname, 'images'),
   gridUrl: process.env.GRID_URL,
   // NOTE Should refactor Button styles without 1px-border
-  maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
+  // maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
+  maxRetries: 10,
   babelOptions: (options) => ({
     ...options,
     extends: path.join(__dirname, '../.babelrc.js'),
