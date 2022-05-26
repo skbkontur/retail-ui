@@ -44,6 +44,8 @@ const config = {
         theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/chrome8px',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chromeFlat8px: {
@@ -54,6 +56,8 @@ const config = {
         theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/chromeFlat8px',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chrome: {
@@ -64,6 +68,8 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/chrome',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chromeDark: {
@@ -75,6 +81,8 @@ const config = {
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/chromeDark',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefox8px: {
@@ -84,6 +92,8 @@ const config = {
         theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefox8px',
+      browserVersion: '98.0',
+      version: '98.0',
       ...capabilities,
     },
     firefoxFlat8px: {
@@ -93,6 +103,8 @@ const config = {
         theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefoxFlat8px',
+      browserVersion: '98.0',
+      version: '98.0',
       ...capabilities,
     },
     firefox: {
@@ -102,6 +114,8 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/firefox',
+      browserVersion: '98.0',
+      version: '98.0',
       ...capabilities,
     },
     firefoxDark: {
@@ -112,6 +126,8 @@ const config = {
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/firefoxDark',
+      browserVersion: '98.0',
+      version: '98.0',
       ...capabilities,
     },
     // NOTE Enable after switch new separate pool for IE to allow test hover
@@ -168,6 +184,8 @@ const config = {
         theme: 'DEFAULT_THEME_MOBILE',
       },
       name: 'infrafront/chromeMobile',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
   },

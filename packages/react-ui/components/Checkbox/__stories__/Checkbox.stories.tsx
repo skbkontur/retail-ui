@@ -170,7 +170,11 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
+    ],
     tests: checkboxTests,
   },
 };
@@ -184,7 +188,11 @@ Checked.storyName = 'checked';
 
 Checked.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
+    ],
     tests: {
       idle: checkboxTests['idle'],
       hovered: checkboxTests['hovered'],
@@ -280,7 +288,11 @@ Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
+    ],
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '#screenshot-capture' });
