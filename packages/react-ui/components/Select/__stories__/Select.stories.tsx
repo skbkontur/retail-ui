@@ -159,7 +159,11 @@ export const Simple: Story = () => (
 Simple.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -286,7 +290,11 @@ UseLink.storyName = 'use link';
 UseLink.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -297,7 +305,11 @@ UseLinkWithIcon.storyName = 'use link with icon';
 UseLinkWithIcon.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -308,7 +320,11 @@ WithTextOverflow.storyName = 'with text overflow';
 WithTextOverflow.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
