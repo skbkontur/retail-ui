@@ -61,6 +61,10 @@ export interface LinkState {
   focusedByTab: boolean;
 }
 
+export const linkDataTid = {
+  root: 'Link__root',
+};
+
 /**
  * Элемент ссылки из HTML.
  */
@@ -149,7 +153,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     };
 
     return (
-      <a {...rest} {...linkProps}>
+      <a data-tid={linkDataTid.root} {...rest} {...linkProps}>
         {iconElement}
         {this.props.children}
         {arrow}

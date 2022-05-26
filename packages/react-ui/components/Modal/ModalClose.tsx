@@ -10,6 +10,10 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 
+export const modalCloseDataTid = {
+  close: 'modal-close',
+};
+
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
   const theme = useContext(ThemeContext);
   const [focusedByTab, setFocusedByTab] = React.useState(false);
@@ -42,7 +46,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
             onClick={requestClose}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            data-tid="modal-close"
+            data-tid={modalCloseDataTid.close}
             tabIndex={disableClose ? -1 : 0}
           >
             <CrossIcon />

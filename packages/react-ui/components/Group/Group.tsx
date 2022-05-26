@@ -20,6 +20,10 @@ interface GroupChildProps {
   corners?: number;
 }
 
+export const groupDataTid = {
+  root: 'Group__root',
+};
+
 @rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
@@ -46,7 +50,7 @@ export class Group extends React.Component<GroupProps> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span className={styles.root()} style={style}>
+        <span data-tid={groupDataTid.root} className={styles.root()} style={style}>
           {React.Children.map(this.props.children, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;

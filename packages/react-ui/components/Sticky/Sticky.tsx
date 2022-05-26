@@ -36,6 +36,10 @@ export interface StickyState {
   relativeTop: number;
 }
 
+export const stickyDataTid = {
+  root: 'Spinner__root',
+};
+
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
@@ -116,7 +120,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={stickyDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <div ref={this.refWrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"

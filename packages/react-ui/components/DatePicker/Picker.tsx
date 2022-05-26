@@ -36,6 +36,11 @@ const getTodayCalendarDate = () => {
   };
 };
 
+export const pickerDataTid = {
+  root: 'Picker__root',
+  todayWrapper: 'Picker__todayWrapper',
+};
+
 @locale('DatePicker', DatePickerLocaleHelper)
 export class Picker extends React.Component<Props, State> {
   public static __KONTUR_REACT_UI__ = 'Picker';
@@ -75,7 +80,7 @@ export class Picker extends React.Component<Props, State> {
     const { date } = this.state;
 
     return (
-      <div className={styles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
+      <div data-tid={pickerDataTid.root} className={styles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
         <Calendar
           ref={(c) => (this.calendar = c)}
           value={this.props.value}
@@ -102,7 +107,7 @@ export class Picker extends React.Component<Props, State> {
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
       <button
-        data-tid="Picker__todayWrapper"
+        data-tid={pickerDataTid.todayWrapper}
         className={styles.todayWrapper(this.theme)}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}

@@ -81,6 +81,10 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+export const radioGroupDataTid = {
+  root: 'RadioGroup__root',
+};
+
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -163,7 +167,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={radioGroupDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
           <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
             <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>

@@ -25,6 +25,10 @@ interface Props {
   size: number;
 }
 
+export const popupPinDataTid = {
+  root: 'PopupPin__root',
+};
+
 export class PopupPin extends React.Component<Props> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
 
@@ -95,7 +99,7 @@ export class PopupPin extends React.Component<Props> {
     const styleWrapper = this.getWrapperStyle(options.outerLeft, options.outerTop, options.outerSize);
 
     return (
-      <div className={styles.wrapper()} style={styleWrapper}>
+      <div data-tid={popupPinDataTid.root} className={styles.wrapper()} style={styleWrapper}>
         <div style={styleOuter}>
           <div style={styleInner} />
         </div>

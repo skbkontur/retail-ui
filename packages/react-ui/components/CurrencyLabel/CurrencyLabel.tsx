@@ -18,10 +18,14 @@ export const defaultProps = {
   fractionDigits: 2,
 };
 
+export const currencyLabelDataTid = {
+  root: 'CurrencyLabel__root',
+};
+
 export const CurrencyLabel = (props: CurrencyLabelProps): JSX.Element => {
   const { value, fractionDigits, currencySymbol } = props;
   return (
-    <CommonWrapper {...props}>
+    <CommonWrapper {...props} data-tid={currencyLabelDataTid.root}>
       <span>
         {CurrencyHelper.format(value, { fractionDigits })}
         {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}

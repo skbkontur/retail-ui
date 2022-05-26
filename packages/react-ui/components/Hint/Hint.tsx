@@ -84,6 +84,11 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
+export const hintDataTid = {
+  root: 'Hint__root',
+  modal: 'Hint__modal',
+};
+
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
@@ -160,7 +165,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMobile() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper data-tid={hintDataTid.modal} {...this.props}>
         <Popup
           opened={this.state.opened}
           anchorElement={this.props.children}
@@ -176,7 +181,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public renderMain() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={hintDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           hasPin
           opened={this.state.opened}

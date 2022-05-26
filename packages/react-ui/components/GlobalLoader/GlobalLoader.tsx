@@ -72,6 +72,10 @@ interface DefaultProps {
 }
 export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
+export const globalLoaderDataTid = {
+  root: 'GlobalLoader',
+};
+
 let currentGlobalLoader: GlobalLoader;
 
 @rootNode
@@ -160,7 +164,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
             expectedResponseTime={this.state.expectedResponseTime}
             delayBeforeHide={this.props.delayBeforeHide}
             status={status}
-            data-tid="GlobalLoader"
+            data-tid={globalLoaderDataTid.root}
             disableAnimations={this.props.disableAnimations}
           />
         </CommonWrapper>

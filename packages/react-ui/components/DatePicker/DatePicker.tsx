@@ -85,6 +85,10 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
+export const dataPickerDataTid = {
+  root: 'DatePicker__root',
+};
+
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -250,7 +254,12 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={this.getParent} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer
+          data-tid={dataPickerDataTid.root}
+          getParent={this.getParent}
+          offsetY={2}
+          align={this.props.menuAlign}
+        >
           <Picker
             value={date}
             minDate={formattedMinDate}

@@ -33,6 +33,10 @@ export interface FxInputProps
       }
     > {}
 
+export const fxInputDataTid = {
+  root: 'FxInput__root',
+};
+
 /** Принимает все свойства `Input`'a */
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
@@ -87,7 +91,7 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group width={this.props.width}>
+      <Group data-tid={fxInputDataTid.root} width={this.props.width}>
         {button}
         {this.getProps().type === 'currency' ? (
           <CurrencyInput

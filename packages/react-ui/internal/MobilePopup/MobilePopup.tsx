@@ -35,6 +35,11 @@ interface MobilePopupState {
   isScrolled: boolean;
 }
 
+export const mobilePopupDataTid = {
+  root: 'MobilePopup__root',
+  container: 'MobilePopup__container',
+};
+
 export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupState> {
   public static __KONTUR_REACT_UI__ = 'MobileMenuHeader';
 
@@ -70,12 +75,14 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           {(state) => (
             <>
               <div
+                data-tid={mobilePopupDataTid.container}
                 className={cx({
                   [jsStyles.container(this.theme)]: true,
                   [jsStyles.containerOpened()]: state === 'entered',
                 })}
               >
                 <div
+                  data-tid={mobilePopupDataTid.root}
                   className={cx({
                     [jsStyles.root(this.theme)]: true,
                     [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,

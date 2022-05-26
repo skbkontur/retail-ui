@@ -15,6 +15,10 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   menuAlign: TokenInputMenuAlign;
 }
 
+export const tokenInputMenuDataTid = {
+  root: 'TokenInputMenu__root',
+};
+
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
 
@@ -65,6 +69,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
     return (
       <Popup
+        data-tid={tokenInputMenuDataTid.root}
         opened={opened!}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}

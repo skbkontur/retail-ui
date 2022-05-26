@@ -113,6 +113,12 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+export const popupDataTid = {
+  root: 'Popup__root',
+  content: 'PopupContent',
+  contentInner: 'PopupContentInner',
+};
+
 @responsiveLayout
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
@@ -392,11 +398,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { backgroundColor, width } = this.props;
 
     return (
-      <div className={styles.content(this.theme)} data-tid={'PopupContent'} ref={this.refForTransition}>
+      <div className={styles.content(this.theme)} data-tid={popupDataTid.content} ref={this.refForTransition}>
         <div
           className={styles.contentInner(this.theme)}
           style={{ backgroundColor, width: this.calculateWidth(width) }}
-          data-tid={'PopupContentInner'}
+          data-tid={popupDataTid.contentInner}
         >
           {children}
         </div>
@@ -426,7 +432,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         nodeRef={this.refForTransition}
       >
         {(state: string) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper data-tid={popupDataTid.root} {...this.props}>
             <ZIndex
               wrapperRef={this.refPopupElement}
               priority={'Popup'}

@@ -17,6 +17,10 @@ import { getSwitcherTheme } from './switcherTheme';
 export type SwitcherSize = ButtonSize;
 type SwitcherItems = string | SwitcherItem;
 
+export const switcherDataTid = {
+  root: 'Switcher__root',
+};
+
 export interface SwitcherProps extends CommonProps {
   /**
    * Список строк или список элементов типа `{ label: string, value: string }`
@@ -101,7 +105,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={switcherDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>

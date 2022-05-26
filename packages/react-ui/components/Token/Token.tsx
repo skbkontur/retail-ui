@@ -39,6 +39,10 @@ export interface TokenProps extends CommonProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
+export const tokenDataTid = {
+  root: 'Token__root',
+};
+
 @rootNode
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
@@ -96,7 +100,7 @@ export class Token extends React.Component<TokenProps> {
     });
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={tokenDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <div
           className={tokenClassNames}
           onClick={onClick}

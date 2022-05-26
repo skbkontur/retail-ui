@@ -46,6 +46,10 @@ export interface CurrencyInputState {
   focused: boolean;
 }
 
+export const currencyInputDataTid = {
+  root: 'CurrencyInput__root',
+};
+
 /**
  * Поле для денежных сумм (и других числовых значений).
  * Принимает любые свойства `Input`.
@@ -144,6 +148,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
     return (
       <Input
+        data-tid={currencyInputDataTid.root}
         {...rest}
         value={this.state.formatted}
         onBlur={this.handleBlur}

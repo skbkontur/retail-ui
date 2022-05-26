@@ -25,6 +25,10 @@ export interface IndicatorState {
   styles: React.CSSProperties;
 }
 
+export const indicatorDataTid = {
+  root: 'Indicator__root',
+};
+
 @rootNode
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public static contextType = TabsContext;
@@ -87,6 +91,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
+        data-tid={indicatorDataTid.root}
         className={cx(
           styles.root(this.theme),
           indicators.primary && styles.primary(this.theme),

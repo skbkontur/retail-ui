@@ -25,6 +25,14 @@ interface FileUploaderFileProps {
   error?: boolean;
 }
 
+export const fileUploaderFileDataTid = {
+  file: 'FileUploader__file',
+  fileTooltip: 'FileUploader__fileTooltip',
+  fileName: 'FileUploader__fileName',
+  fileSize: 'FileUploader__fileSize',
+  fileIcon: 'FileUploader__fileIcon',
+};
+
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
   if (!fileNameWidth && !fileNameElementWidth) {
     return null;
@@ -151,27 +159,27 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   return (
     <div
-      data-tid="FileUploader__file"
+      data-tid={fileUploaderFileDataTid.file}
       className={jsStyles.root()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Tooltip data-tid="FileUploader__fileTooltip" pos="right middle" render={renderTooltipContent}>
+      <Tooltip data-tid={fileUploaderFileDataTid.fileTooltip} pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
           <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
-            <span data-tid="FileUploader__fileName" ref={fileNameElementRef} className={jsStyles.name()}>
+            <span data-tid={fileUploaderFileDataTid.fileName} ref={fileNameElementRef} className={jsStyles.name()}>
               {truncatedFileName}
             </span>
           </Hint>
           {!!showSize && formattedSize && (
-            <span data-tid="FileUploader__fileSize" className={jsStyles.size()}>
+            <span data-tid={fileUploaderFileDataTid.fileSize} className={jsStyles.size()}>
               {formattedSize}
             </span>
           )}
           <div
             className={iconClassNames}
-            data-tid="FileUploader__fileIcon"
+            data-tid={fileUploaderFileDataTid.fileIcon}
             tabIndex={0}
             onClick={handleRemove}
             onFocus={handleFocus}

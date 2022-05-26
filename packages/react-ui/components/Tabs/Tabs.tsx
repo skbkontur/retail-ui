@@ -53,6 +53,10 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
   width?: number | string;
 }
 
+export const tabsDataTid = {
+  root: 'Tabs__root',
+};
+
 /**
  * Tabs wrapper
  *
@@ -99,7 +103,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper data-tid={tabsDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
               <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
                 <TabsContext.Provider
                   value={{

@@ -12,6 +12,10 @@ import { SidePageContext } from './SidePageContext';
 
 export type SidePageContainerProps = CommonProps;
 
+export const sidePageContainerDataTid = {
+  root: 'SidePageContainer__root',
+};
+
 /**
  * Контейнер с отступами
  *
@@ -41,7 +45,7 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
     return (
       <SidePageContext.Consumer>
         {({ hasHeader, hasFooter, hasPanel }) => (
-          <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+          <CommonWrapper data-tid={sidePageContainerDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
             <div
               className={cx({
                 [styles.container(this.theme)]: true,

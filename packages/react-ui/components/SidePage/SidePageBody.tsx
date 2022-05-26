@@ -12,6 +12,10 @@ import { SidePageContext, SidePageContextType } from './SidePageContext';
 export interface SidePageBodyProps extends CommonProps {
   children?: React.ReactNode;
 }
+
+export const sidePageBodyDataTid = {
+  root: 'SidePageBody__root',
+};
 /**
  * Тело для сайдпейджа
  *
@@ -36,7 +40,7 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper data-tid={sidePageBodyDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
               <div className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}>
                 {this.props.children}
               </div>

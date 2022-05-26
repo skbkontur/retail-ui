@@ -57,6 +57,10 @@ export interface RadioState {
   focusedByKeyboard: boolean;
 }
 
+export const radioDataTid = {
+  root: 'Radio__root',
+};
+
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
@@ -180,7 +184,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     }
 
     return (
-      <label {...labelProps}>
+      <label data-tid={radioDataTid.root} {...labelProps}>
         <input {...inputProps} />
         <span {...radioProps}>
           <span className={styles.placeholder()} />

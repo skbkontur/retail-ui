@@ -22,6 +22,10 @@ export interface TextareaCounterRef {
   reflow: () => void;
 }
 
+export const textareaCounterDataTid = {
+  root: 'TextareaCounter__root',
+};
+
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
 export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCounterProps>(function TextareaCounter(
@@ -49,7 +53,7 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   );
 
   return (
-    <div className={styles.counterContainer(theme)} style={{ width, height }}>
+    <div data-tid={textareaCounterDataTid.root} className={styles.counterContainer(theme)} style={{ width, height }}>
       <span
         className={cx(styles.counter(theme), {
           [styles.counterError(theme)]: counterValue < 0,

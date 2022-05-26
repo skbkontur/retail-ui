@@ -70,6 +70,9 @@ export interface DateInputProps extends CommonProps {
   onValueChange?: (value: string) => void;
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
+export const dataInputDataTid = {
+  root: 'DateInput__root',
+};
 
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -190,7 +193,7 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     const showValue = Boolean(focused || valueFormatted);
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={dataInputDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <InputLikeText
           width={this.props.width}
           ref={this.inputLikeTextRef}

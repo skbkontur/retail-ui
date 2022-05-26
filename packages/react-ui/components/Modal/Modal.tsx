@@ -70,6 +70,12 @@ export interface ModalState {
   hasPanel: boolean;
 }
 
+export const modalDataTid = {
+  root: 'modal__root',
+  container: 'modal-container',
+  content: 'modal-content',
+};
+
 /**
  * Модальное окно
  *
@@ -189,7 +195,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
+        <CommonWrapper data-tid={modalDataTid.root} {...this.props}>
           <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}
@@ -199,7 +205,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
               onClick={this.handleContainerClick}
-              data-tid="modal-container"
+              data-tid={modalDataTid.container}
             >
               <ResponsiveLayout>
                 {({ isMobile }) => {
@@ -211,7 +217,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         [styles.alignTop()]: Boolean(this.props.alignTop),
                       })}
                       style={isMobile ? undefined : containerStyle}
-                      data-tid="modal-content"
+                      data-tid={modalDataTid.content}
                     >
                       <div
                         className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}

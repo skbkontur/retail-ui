@@ -51,6 +51,12 @@ export interface LoaderState {
   spinnerStyle?: object;
 }
 
+export const loaderDataTid = {
+  root: 'Loader__root',
+  vail: 'Loader__Veil',
+  spinner: 'Loader__Spinner',
+};
+
 /**
  * DRAFT - лоадер-контейнер
  */
@@ -216,8 +222,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const { isLoaderActive } = this.state;
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.loader()} data-tid={isLoaderActive ? 'Loader__Veil' : ''}>
+      <CommonWrapper data-tid={loaderDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+        <div className={styles.loader()} data-tid={isLoaderActive ? loaderDataTid.vail : ''}>
           <ZIndex
             priority={'Loader'}
             applyZIndex={isLoaderActive}
@@ -254,7 +260,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        data-tid={'Loader__Spinner'}
+        data-tid={loaderDataTid.spinner}
         className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >

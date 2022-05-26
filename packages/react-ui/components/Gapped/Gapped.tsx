@@ -28,6 +28,11 @@ export interface GappedProps extends CommonProps {
   children: React.ReactNode;
 }
 
+export const gappedDataTid = {
+  vertical: 'Gapped__vertical',
+  horizontal: 'Gapped__horizontal',
+};
+
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
  */
@@ -93,7 +98,7 @@ export class Gapped extends React.Component<GappedProps> {
         );
       });
 
-    return <div>{children}</div>;
+    return <div data-tid={gappedDataTid.vertical}>{children}</div>;
   }
 
   private renderHorizontal() {
@@ -108,7 +113,7 @@ export class Gapped extends React.Component<GappedProps> {
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div style={rootStyle}>
+      <div data-tid={gappedDataTid.horizontal} style={rootStyle}>
         <div style={contStyle}>
           {React.Children.toArray(children)
             .filter(this.filterChildren)

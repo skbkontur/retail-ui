@@ -6,6 +6,10 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { styles } from './MenuSeparator.styles';
 
 export type MenuSeparatorProps = CommonProps;
+
+export const menuSeparatorDataTid = {
+  root: 'MenuSeparator__root',
+};
 /**
  * Добавляет разделительную линию между элементами меню.
  *
@@ -16,7 +20,7 @@ function MenuSeparator(props: MenuSeparatorProps) {
 
   return (
     <CommonWrapper {...props}>
-      <div className={styles.root(theme)} />
+      <div data-tid={menuSeparatorDataTid.root} className={styles.root(theme)} />
     </CommonWrapper>
   );
 }

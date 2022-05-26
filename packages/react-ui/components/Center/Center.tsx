@@ -23,6 +23,10 @@ export interface CenterProps
       }
     > {}
 
+export const centerDataTid = {
+  root: 'Center__root',
+};
+
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
@@ -47,6 +51,7 @@ export class Center extends React.Component<CenterProps> {
 
     return (
       <div
+        data-tid={centerDataTid.root}
         {...rest}
         className={cx({
           [styles.root()]: true,

@@ -67,6 +67,11 @@ export const PopupMenuType = {
   Tooltip: 'tooltip',
 };
 
+export const popupMenuDataTid = {
+  root: 'PopupMenu_root',
+  caption: 'PopupMenu__caption',
+};
+
 const Positions: PopupPositionsType[] = [
   'top left',
   'top center',
@@ -110,7 +115,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={popupMenuDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
           onClickOutside={this.hideMenuWithoutFocusing}
           onFocusOutside={this.hideMenuWithoutFocusing}
@@ -175,7 +180,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
       return (
         <span
-          data-tid="PopupMenu__caption"
+          data-tid={popupMenuDataTid.caption}
           className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
@@ -186,7 +191,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
     return (
       <span
-        data-tid="PopupMenu__caption"
+        data-tid={popupMenuDataTid.caption}
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
         ref={(element) => (this.captionWrapper = element)}

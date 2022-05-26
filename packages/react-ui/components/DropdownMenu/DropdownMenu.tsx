@@ -56,6 +56,10 @@ export interface DropdownMenuProps extends CommonProps {
   disableAnimations: boolean;
 }
 
+export const dropdownMenuDataTid = {
+  root: 'DropdownMenu__root',
+};
+
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент
  */
@@ -105,7 +109,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
       return null;
     }
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={dropdownMenuDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           ref={this.refPopupMenu}
           caption={this.props.caption}

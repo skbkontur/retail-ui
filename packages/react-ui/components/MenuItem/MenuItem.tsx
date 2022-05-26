@@ -76,6 +76,11 @@ export interface MenuItemProps extends CommonProps {
   isMobile?: boolean;
 }
 
+export const menuItemDataTid = {
+  root: 'MenuItem__root',
+  comment: 'MenuItem__comment',
+};
+
 /**
  *
  * `MenuItem` - это вложенный компонент, задающий базовые стили для элемента меню и позволяющий навигироваться по элементам меню с помощью клавиатуры.
@@ -168,6 +173,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
+        data-tid={menuItemDataTid.root}
         {...rest}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
@@ -179,7 +185,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {content}
         {this.props.comment && (
           <div
-            data-tid="MenuItem__comment"
+            data-tid={menuItemDataTid.comment}
             className={cx({
               [styles.comment(this.theme)]: true,
               [styles.commentHover(this.theme)]: hover,

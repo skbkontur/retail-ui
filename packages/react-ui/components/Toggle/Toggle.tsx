@@ -82,6 +82,10 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
+export const toggleDataTid = {
+  root: 'Toggle__root',
+};
+
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
@@ -180,7 +184,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={toggleDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <label className={labelClassNames}>
           <div
             className={cx(styles.button(this.theme), {

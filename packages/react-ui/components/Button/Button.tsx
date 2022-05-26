@@ -164,6 +164,10 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+export const buttonDataTid = {
+  root: 'Button__root',
+};
+
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
@@ -382,7 +386,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button ref={this._ref} {...rootProps}>
+          <button data-tid={buttonDataTid.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}

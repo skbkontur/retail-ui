@@ -50,6 +50,10 @@ export interface TooltipMenuProps extends CommonProps {
   disableAnimations: boolean;
 }
 
+export const tooltipMenuDataTid = {
+  root: 'TooltipMenu__root',
+};
+
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент.
  *
@@ -106,7 +110,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     }
 
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper data-tid={tooltipMenuDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
