@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Story } from '../../../typings/stories';
 import { Sticky } from '../Sticky';
+import { delay } from '../../../lib/utils';
 
 const stickyContent = (fixed: boolean) => (
   <div
@@ -130,6 +131,8 @@ WideContainer.parameters = {
 
           window.scrollTo(scrollXOffset, scrollYOffset);
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
       },
     },
@@ -144,6 +147,8 @@ Top.parameters = {
     skip: [{ in: ['firefox', 'firefox8px', 'firefoxDark'], tests: 'stoped', reason: 'flacky stopped position' }],
     tests: {
       async top() {
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
       },
       async fixed() {
@@ -154,6 +159,8 @@ Top.parameters = {
 
           window.scrollTo(0, scrollOffset);
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
       },
       async stoped() {
@@ -169,6 +176,8 @@ Top.parameters = {
 
           window.scrollTo(0, scrollOffset);
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('stoped');
       },
     },
@@ -186,6 +195,8 @@ Bottom.parameters = {
         await this.browser.executeScript(function () {
           window.scrollTo(0, 9999);
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
       },
       async fixed() {
@@ -196,6 +207,8 @@ Bottom.parameters = {
 
           window.scrollTo(0, scrollOffset);
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
       },
       async stoped() {
@@ -211,6 +224,8 @@ Bottom.parameters = {
 
           window.scrollTo(0, scrollOffset);
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed');
       },
     },
