@@ -388,6 +388,7 @@ const tabsTests: CreeveyTests = {
       })
       .sendKeys(this.keys.TAB)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
   },
   async enterPress() {
@@ -411,6 +412,7 @@ const tabsTests: CreeveyTests = {
       })
       .sendKeys(this.keys.ENTER)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
   },
 };
