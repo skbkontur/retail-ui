@@ -43,6 +43,7 @@ SimpleExample.parameters = {
     skip: [
       // TODO @Khlutkova fix after update browsers
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['clickAfterClickedOnCaption', 'clicked'] },
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['tabPress'] },
     ],
     tests: {
       async plain() {

@@ -81,6 +81,10 @@ FocusTooltip.storyName = 'focus tooltip';
 
 FocusTooltip.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
+    ],
     tests: {
       async ['01 - plain']() {
         await delay(100);
@@ -126,6 +130,10 @@ FocusTooltipNativeInput.storyName = 'focus tooltip (native input)';
 
 FocusTooltipNativeInput.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
+    ],
     tests: {
       async ['01 - plain']() {
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
@@ -447,6 +455,10 @@ TooltipWithInputAndSwitchableContent.storyName = 'Tooltip with Input and switcha
 
 TooltipWithInputAndSwitchableContent.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['focus and types', 'clear input'] },
+    ],
     tests: {
       async ['focus and types']() {
         await this.browser
