@@ -5,6 +5,7 @@ import BabyIcon from '@skbkontur/react-icons/Baby';
 import { Meta, Story } from '../../../typings/stories';
 import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'Dropdown',
@@ -33,6 +34,8 @@ SimpleDropdown.parameters = {
     tests: {
       async idle() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('idle');
       },
       async clicked() {
@@ -43,6 +46,8 @@ SimpleDropdown.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
       },
       async ['MenuItem hover']() {
@@ -61,6 +66,8 @@ SimpleDropdown.parameters = {
             origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
           })
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('MenuItem hover');
       },
       async ['selected item']() {
@@ -77,6 +84,8 @@ SimpleDropdown.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('selected item');
       },
     },
@@ -126,6 +135,8 @@ WithMenuItemIcon.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },

@@ -162,6 +162,7 @@ WithMouseeventHandlers.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
       async ['DateSelect month']() {
@@ -181,6 +182,8 @@ WithMouseeventHandlers.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
       },
       async ['DateSelect year']() {
@@ -200,6 +203,8 @@ WithMouseeventHandlers.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
       },
     },
@@ -279,6 +284,8 @@ DatePickerWithMinMaxDate.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
       async ['DateSelect years']() {
@@ -298,6 +305,8 @@ DatePickerWithMinMaxDate.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
       },
     },
@@ -350,6 +359,8 @@ DatePickerInRelativeBody.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
         await this.browser
           .actions({

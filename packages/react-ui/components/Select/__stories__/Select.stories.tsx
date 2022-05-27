@@ -13,6 +13,7 @@ import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
+import { delay } from '../../../lib/utils';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -105,6 +106,8 @@ export default {
 
 const selectTests: CreeveyTests = {
   async idle() {
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
   async clicked() {
@@ -114,6 +117,8 @@ const selectTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
   async ['MenuItem hover']() {
@@ -131,6 +136,8 @@ const selectTests: CreeveyTests = {
         origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
       })
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('MenuItem hover');
   },
   async ['selected item']() {
@@ -146,6 +153,8 @@ const selectTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('selected item');
   },
 };
@@ -421,6 +430,8 @@ UsingOnKeyDown.parameters = {
           .sendKeys(this.keys.ARROW_DOWN)
           .sendKeys(this.keys.ENTER)
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
       },
     },
@@ -576,6 +587,8 @@ WithMenuAlignAndVariousWidth.parameters = {
     tests: {
       async ['open']() {
         const root = await this.browser.findElement({ css: '#test-element' });
+        await delay(1000);
+
         await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },
