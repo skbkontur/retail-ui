@@ -87,7 +87,8 @@ FocusTooltip.parameters = {
     ],
     tests: {
       async ['01 - plain']() {
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
       },
       async ['02 - focus']() {
@@ -98,6 +99,8 @@ FocusTooltip.parameters = {
           .sendKeys(this.keys.TAB)
           .pause(500)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - focus');
       },
       async ['03 - blur']() {
@@ -115,6 +118,8 @@ FocusTooltip.parameters = {
           })
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('03 - blur');
       },
     },
@@ -136,6 +141,8 @@ FocusTooltipNativeInput.parameters = {
     ],
     tests: {
       async ['01 - plain']() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
       },
       async ['02 - focus']() {
@@ -145,6 +152,8 @@ FocusTooltipNativeInput.parameters = {
           })
           .click(this.browser.findElement({ css: 'input' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - focus');
       },
       async ['03 - blur']() {
@@ -160,6 +169,8 @@ FocusTooltipNativeInput.parameters = {
           })
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('03 - blur');
       },
     },
@@ -316,6 +327,8 @@ TooltipWithExternalDynamicContent.parameters = {
   creevey: {
     tests: {
       async ['01 - plain']() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
       },
       async ['02 - changes top position if does not fit']() {
@@ -325,6 +338,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-0 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - changes top position if does not fit');
       },
       async ['03 - does not change position back on shrink']() {
@@ -336,6 +351,8 @@ TooltipWithExternalDynamicContent.parameters = {
           .pause(100)
           .click(this.browser.findElement({ css: '#Container-0 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('03 - does not change position back on shrink');
       },
       async ['04 - does not change top position if fits']() {
@@ -345,6 +362,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-1 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('04 - does not change top position if fits');
       },
       async ['05 - does not change position on shrink']() {
@@ -360,6 +379,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-1 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('05 - does not change position on shrink');
       },
       async ['06 - changes left position if does not fit']() {
@@ -369,6 +390,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-2 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('06 - changes left position if does not fit');
       },
       async ['07 - does not change position back on shrink']() {
@@ -384,6 +407,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-2 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('07 - does not change position back on shrink');
       },
       async ['08 - does not change bottom position if fits']() {
@@ -393,6 +418,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-3 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('08 - does not change bottom position if fits');
       },
       async ['09 - does not change position on shrink']() {
@@ -404,6 +431,8 @@ TooltipWithExternalDynamicContent.parameters = {
           .pause(100)
           .click(this.browser.findElement({ css: '#Container-3 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('09 - does not change position on shrink');
       },
       async ['10 - does not change bottom position if does not fit']() {
@@ -413,6 +442,8 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-4 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage(
           '10 - does not change bottom position if does not fit',
         );
@@ -426,6 +457,8 @@ TooltipWithExternalDynamicContent.parameters = {
           .pause(100)
           .click(this.browser.findElement({ css: '#Container-4 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('11 - does not change position on shrink');
       },
     },
@@ -468,6 +501,8 @@ TooltipWithInputAndSwitchableContent.parameters = {
           .click(this.browser.findElement({ css: 'input' }))
           .sendKeys('Hi')
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
       },
       async ['clear input']() {
@@ -479,6 +514,8 @@ TooltipWithInputAndSwitchableContent.parameters = {
           .sendKeys('Hi')
           .sendKeys(this.keys.BACK_SPACE, this.keys.BACK_SPACE)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clear input');
       },
     },
@@ -507,7 +544,8 @@ DynamicTriggersStory.parameters = {
     ],
     tests: {
       async ['without trigger']() {
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('without trigger');
       },
       async ['hover - mouseEnter']() {
@@ -520,7 +558,8 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: '[type="button"]' }),
           })
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover - mouseEnter');
       },
       async ['hover - mouseLeave']() {
@@ -543,6 +582,8 @@ DynamicTriggersStory.parameters = {
           })
           .pause(500)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover - mouseLeave');
       },
       async ['click - click anchor']() {
@@ -553,6 +594,8 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '#click' }))
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('click - click anchor');
       },
       async ['click - click outside']() {
@@ -564,6 +607,8 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('click - click outside');
       },
       async ['focus - focus']() {
@@ -579,6 +624,8 @@ DynamicTriggersStory.parameters = {
           })
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('focus - focus');
       },
       async ['focus - blur']() {
@@ -590,6 +637,8 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('focus - blur');
       },
       async ['opened']() {
@@ -599,6 +648,8 @@ DynamicTriggersStory.parameters = {
           })
           .click(this.browser.findElement({ css: '#opened' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
       async ['closed']() {
@@ -609,6 +660,8 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '#opened' }))
           .click(this.browser.findElement({ css: '#closed' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('closed');
       },
       async ['hover&focus - mouseEnter']() {
@@ -621,7 +674,8 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: '[type="button"]' }),
           })
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - mouseEnter');
       },
       async ['hover&focus - mouseLeave']() {
@@ -637,6 +691,8 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: 'body' }),
           })
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - mouseLeave');
       },
       async ['hover&focus - focus']() {
@@ -647,6 +703,8 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '#hover_focus' }))
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - focus');
       },
       async ['hover&focus - focus - mouseLeave']() {
@@ -660,6 +718,8 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: 'body' }),
           })
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - focus - mouseLeave');
       },
       async ['hover&focus - blur']() {
@@ -673,6 +733,8 @@ DynamicTriggersStory.parameters = {
           .sendKeys(this.keys.TAB)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - blur');
       },
     },
@@ -701,6 +763,8 @@ RenderInFirstAvailablePosition.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('render in available position');
       },
       async ['relocate on new available position']() {
@@ -716,6 +780,8 @@ RenderInFirstAvailablePosition.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('relocate on new available position');
       },
     },
@@ -1145,6 +1211,8 @@ TooltipWithManualControl.parameters = {
           })
           .click(btns[0])
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('call show');
       },
       async ['call hide after show']() {
@@ -1156,6 +1224,8 @@ TooltipWithManualControl.parameters = {
           .click(btns[0])
           .click(btns[1])
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('call hide after show');
       },
     },
