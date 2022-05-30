@@ -64,7 +64,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
 }
 
 Portal.propTypes = {
-  container: propTypes.node.isRequired,
+  container: propTypes.instanceOf(HTMLElement),
   rt_rootID: propTypes.string.isRequired,
   children: propTypes.node.isRequired,
 };
