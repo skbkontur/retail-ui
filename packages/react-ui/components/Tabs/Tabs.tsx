@@ -103,8 +103,12 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper data-tid={tabsDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
-              <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <div
+                data-tid={tabsDataTid.root}
+                className={cx(styles.root(this.theme), vertical && styles.vertical())}
+                style={{ width }}
+              >
                 <TabsContext.Provider
                   value={{
                     vertical,

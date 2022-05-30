@@ -114,7 +114,6 @@ export interface PopupState {
 }
 
 export const popupDataTid = {
-  root: 'Popup__root',
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
 };
@@ -432,7 +431,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         nodeRef={this.refForTransition}
       >
         {(state: string) => (
-          <CommonWrapper data-tid={popupDataTid.root} {...this.props}>
+          <CommonWrapper {...this.props}>
             <ZIndex
               wrapperRef={this.refPopupElement}
               priority={'Popup'}

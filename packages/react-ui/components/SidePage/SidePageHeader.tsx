@@ -119,8 +119,8 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
     const isStickyMobile = this.isMobileLayout && this.getStickyProp();
 
     return (
-      <CommonWrapper data-tid={sidePageHeaderDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
-        <div ref={this.wrapperRef} className={styles.headerWrapper()}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div data-tid={sidePageHeaderDataTid.root} ref={this.wrapperRef} className={styles.headerWrapper()}>
           {isStickyDesktop || isStickyMobile ? (
             <Sticky ref={this.stickyRef} side="top">
               {this.renderHeader}

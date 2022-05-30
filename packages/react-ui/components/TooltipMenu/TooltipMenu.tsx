@@ -110,8 +110,9 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     }
 
     return (
-      <CommonWrapper data-tid={tooltipMenuDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
+          data-tid={tooltipMenuDataTid.root}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
           caption={this.props.caption}

@@ -45,8 +45,9 @@ export class SidePageContainer extends React.Component<SidePageContainerProps> {
     return (
       <SidePageContext.Consumer>
         {({ hasHeader, hasFooter, hasPanel }) => (
-          <CommonWrapper data-tid={sidePageContainerDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+          <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <div
+              data-tid={sidePageContainerDataTid.root}
               className={cx({
                 [styles.container(this.theme)]: true,
                 [styles.containerWithoutHeader(this.theme)]: !hasHeader,

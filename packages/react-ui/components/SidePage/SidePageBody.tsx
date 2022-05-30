@@ -40,8 +40,11 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <CommonWrapper data-tid={sidePageBodyDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
-              <div className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              <div
+                data-tid={sidePageBodyDataTid.root}
+                className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}
+              >
                 {this.props.children}
               </div>
             </CommonWrapper>

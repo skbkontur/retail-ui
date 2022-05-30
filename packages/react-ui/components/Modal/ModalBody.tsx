@@ -20,10 +20,6 @@ export interface ModalBodyProps extends CommonProps {
   noPadding?: boolean;
 }
 
-export const modalBodyDataTid = {
-  root: 'ModalBody__root',
-};
-
 /**
  * Контейнер с отступами от края модалки
  *
@@ -59,7 +55,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     return (
       <ModalContext.Consumer>
         {({ additionalPadding, hasHeader }) => (
-          <CommonWrapper data-tid={modalBodyDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+          <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
             <ZIndex
               priority={'ModalBody'}
               createStackingContext

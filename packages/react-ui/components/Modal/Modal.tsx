@@ -71,7 +71,6 @@ export interface ModalState {
 }
 
 export const modalDataTid = {
-  root: 'modal__root',
   container: 'modal-container',
   content: 'modal-content',
 };
@@ -195,7 +194,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper data-tid={modalDataTid.root} {...this.props}>
+        <CommonWrapper {...this.props}>
           <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}

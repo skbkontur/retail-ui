@@ -120,8 +120,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
 
     return (
-      <CommonWrapper data-tid={stickyDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
-        <div ref={this.refWrapper} className={styles.wrapper()}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div data-tid={stickyDataTid.root} ref={this.refWrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}

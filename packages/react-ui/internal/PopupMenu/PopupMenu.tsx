@@ -115,13 +115,13 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   public render() {
     return (
-      <CommonWrapper data-tid={popupMenuDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
           onClickOutside={this.hideMenuWithoutFocusing}
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div className={styles.container()} style={{ width: this.props.width }}>
+          <div data-tid={popupMenuDataTid.root} className={styles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup

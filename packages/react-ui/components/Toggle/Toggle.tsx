@@ -184,8 +184,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     }
 
     return (
-      <CommonWrapper data-tid={toggleDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
-        <label className={labelClassNames}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <label data-tid={toggleDataTid.root} className={labelClassNames}>
           <div
             className={cx(styles.button(this.theme), {
               [styles.buttonRight()]: captionPosition === 'left',

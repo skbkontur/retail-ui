@@ -27,10 +27,6 @@ export interface ToastProps extends CommonProps {
   onClose?: (notification: string, action?: Action) => void;
 }
 
-export const toastDataTid = {
-  root: 'Toast__root',
-};
-
 /**
  * Показывает уведомления.
  *
@@ -138,7 +134,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         exit={!isTestEnv}
         nodeRef={this.rootRef}
       >
-        <CommonWrapper data-tid={toastDataTid.root} rootNodeRef={this.setRootRef} {...this.props}>
+        <CommonWrapper rootNodeRef={this.setRootRef} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>

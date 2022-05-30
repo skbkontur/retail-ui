@@ -12,10 +12,6 @@ interface ResponsiveLayoutProps {
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags) => React.ReactNode);
 }
 
-export const responsiveLayoutDataTid = {
-  root: 'ResponsiveLayout_root',
-};
-
 /**
  * Компонент для определения текущего лэйаута.
  */
@@ -30,7 +26,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
   }, [layoutFlags]);
 
   return (
-    <CommonWrapper data-tid={responsiveLayoutDataTid.root} {...props}>
+    <CommonWrapper {...props}>
       {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
     </CommonWrapper>
   );

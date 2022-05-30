@@ -52,7 +52,6 @@ export interface LoaderState {
 }
 
 export const loaderDataTid = {
-  root: 'Loader__root',
   vail: 'Loader__Veil',
   spinner: 'Loader__Spinner',
 };
@@ -222,7 +221,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const { isLoaderActive } = this.state;
 
     return (
-      <CommonWrapper data-tid={loaderDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.loader()} data-tid={isLoaderActive ? loaderDataTid.vail : ''}>
           <ZIndex
             priority={'Loader'}

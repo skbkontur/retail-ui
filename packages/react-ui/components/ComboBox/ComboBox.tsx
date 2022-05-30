@@ -166,10 +166,6 @@ export interface ComboBoxItem {
   label: string;
 }
 
-export const comboBoxDataTid = {
-  root: 'ComboBox__root',
-};
-
 @rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
@@ -266,7 +262,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox data-tid={comboBoxDataTid.root} {...this.props} ref={this.customComboBoxRef} />;
+    return <CustomComboBox {...this.props} ref={this.customComboBoxRef} />;
   }
 
   private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {

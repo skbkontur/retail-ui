@@ -327,8 +327,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     content: JSX.Element | null,
   ) {
     return (
-      <CommonWrapper data-tid={tooltipDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
+          data-tid={tooltipDataTid.root}
           anchorElement={anchorElement}
           hasPin
           hasShadow

@@ -167,9 +167,9 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     };
 
     return (
-      <CommonWrapper data-tid={radioGroupDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
-          <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
+          <span data-tid={radioGroupDataTid.root} ref={this.ref} style={style} className={styles.root()} {...handlers}>
             <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
               {this.renderChildren()}
             </RadioGroupContext.Provider>

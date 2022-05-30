@@ -100,8 +100,9 @@ export class Token extends React.Component<TokenProps> {
     });
 
     return (
-      <CommonWrapper data-tid={tokenDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
+          data-tid={tokenDataTid.root}
           className={tokenClassNames}
           onClick={onClick}
           onDoubleClick={onDoubleClick}

@@ -57,10 +57,6 @@ export interface KebabState {
   opened: boolean;
 }
 
-export const kebabDataTid = {
-  root: 'Kebab__root',
-};
-
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
@@ -127,7 +123,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderMain() {
     const { disabled, positions } = this.props;
     return (
-      <CommonWrapper data-tid={kebabDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
           positions={positions}

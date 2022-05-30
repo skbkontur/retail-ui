@@ -100,8 +100,8 @@ export class Spinner extends React.Component<SpinnerProps> {
     const { type, caption = this.locale.loading, dimmed, inline } = this.props;
 
     return (
-      <CommonWrapper data-tid={spinnerDataTid.root} rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.spinner()}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div data-tid={spinnerDataTid.root} className={styles.spinner()}>
           <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>
