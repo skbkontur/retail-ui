@@ -1,5 +1,6 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+import { findDOMNode } from 'react-dom';
 
 import { Button } from '../../Button';
 import { Tooltip, TooltipProps, TooltipState } from '../Tooltip';
@@ -289,5 +290,30 @@ describe('Tooltip', () => {
     expect(clearTimeout).toHaveBeenCalledWith(timer);
     // @ts-ignore: private property
     expect(instance.hoverTimeout).toBeNull();
+  });
+
+  describe('findDOMNode', () => {
+    beforeEach(() => {
+      (findDOMNode as jest.Mock).mockClear();
+    });
+
+    it('should not be called when opened', () => {
+      mount(
+        <Tooltip trigger={'opened'} render={() => <div />}>
+          <Button />
+        </Tooltip>,
+      );
+
+      expect(findDOMNode).not.toBeCalled();
+    });
+
+    it('should not be called when closed', () => {
+      mount(
+        <Tooltip trigger={'closed'} render={() => <div />}>
+          <Button />
+        </Tooltip>,
+      );
+      expect(findDOMNode).not.toBeCalled();
+    });
   });
 });
