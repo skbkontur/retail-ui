@@ -25,6 +25,7 @@ export interface TabIndicators {
 }
 
 export const tabDataTid = {
+  origin: 'Tab',
   root: 'Tab__root',
 };
 

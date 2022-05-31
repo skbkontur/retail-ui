@@ -8,6 +8,7 @@ import { styles } from './MenuSeparator.styles';
 export type MenuSeparatorProps = CommonProps;
 
 export const menuSeparatorDataTid = {
+  origin: 'MenuSeparator',
   root: 'MenuSeparator__root',
 };
 /**

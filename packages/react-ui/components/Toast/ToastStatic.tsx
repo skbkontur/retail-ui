@@ -6,6 +6,7 @@ import { Nullable } from '../../typings/utility-types';
 import { Toast, Action } from './Toast';
 
 export const toastStaticDataTid = {
+  origin: 'StaticToast',
   root: 'StaticToast',
 };
 

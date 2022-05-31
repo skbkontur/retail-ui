@@ -52,6 +52,7 @@ export interface LoaderState {
 }
 
 export const loaderDataTid = {
+  origin: 'Loader',
   vail: 'Loader__Veil',
   spinner: 'Loader__Spinner',
 };

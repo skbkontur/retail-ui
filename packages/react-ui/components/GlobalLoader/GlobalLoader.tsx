@@ -73,6 +73,7 @@ interface DefaultProps {
 export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
 export const globalLoaderDataTid = {
+  origin: 'GlobalLoader',
   root: 'GlobalLoader',
 };
 

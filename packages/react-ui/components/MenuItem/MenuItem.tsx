@@ -77,6 +77,7 @@ export interface MenuItemProps extends CommonProps {
 }
 
 export const menuItemDataTid = {
+  origin: 'MenuItem',
   root: 'MenuItem__root',
   comment: 'MenuItem__comment',
 };

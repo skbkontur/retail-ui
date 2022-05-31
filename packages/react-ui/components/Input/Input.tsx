@@ -108,6 +108,7 @@ export interface InputState {
 }
 
 export const inputDataTid = {
+  origin: 'Input',
   root: 'Input__root',
 };
 

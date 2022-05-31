@@ -37,6 +37,7 @@ export interface StickyState {
 }
 
 export const stickyDataTid = {
+  origin: 'Sticky',
   root: 'Spinner__root',
 };
 

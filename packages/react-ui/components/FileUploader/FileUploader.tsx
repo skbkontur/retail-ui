@@ -62,6 +62,7 @@ export interface FileUploaderRef {
 }
 
 export const fileUploaderDataTid = {
+  origin: 'FileUploader',
   root: 'FileUploader__root',
   content: 'FileUploader__content',
   link: 'FileUploader__link',

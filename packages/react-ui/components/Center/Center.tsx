@@ -24,6 +24,7 @@ export interface CenterProps
     > {}
 
 export const centerDataTid = {
+  origin: 'Center',
   root: 'Center__root',
 };
 

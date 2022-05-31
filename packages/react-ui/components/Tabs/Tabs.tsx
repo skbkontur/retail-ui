@@ -54,6 +54,7 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
 }
 
 export const tabsDataTid = {
+  origin: 'Tabs',
   root: 'Tabs__root',
 };
 

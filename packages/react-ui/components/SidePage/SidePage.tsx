@@ -85,6 +85,7 @@ export interface SidePageState {
 }
 
 export const sidePageDataTid = {
+  origin: 'SidePage',
   root: 'SidePage__root',
   container: 'SidePage__container',
 };

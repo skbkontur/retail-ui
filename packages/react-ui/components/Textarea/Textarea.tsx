@@ -112,6 +112,7 @@ export interface TextareaState {
 }
 
 export const textareaDataTid = {
+  origin: 'Textarea',
   root: 'Textarea__root',
 };
 

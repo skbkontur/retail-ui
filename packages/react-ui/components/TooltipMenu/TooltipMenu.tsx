@@ -51,6 +51,7 @@ export interface TooltipMenuProps extends CommonProps {
 }
 
 export const tooltipMenuDataTid = {
+  origin: 'TooltipMenu',
   root: 'TooltipMenu__root',
 };
 

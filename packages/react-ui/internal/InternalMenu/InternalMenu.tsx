@@ -44,6 +44,7 @@ interface MenuState {
 }
 
 export const internalMenuDataTid = {
+  origin: 'InternalMenu',
   root: 'InternalMenu__root',
 };
 

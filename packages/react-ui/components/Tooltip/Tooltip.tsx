@@ -135,6 +135,7 @@ export interface TooltipState {
 }
 
 export const tooltipDataTid = {
+  origin: 'Tooltip',
   root: 'Tooltip__root',
 };
 

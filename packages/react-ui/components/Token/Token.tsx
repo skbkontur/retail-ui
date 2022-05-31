@@ -40,6 +40,7 @@ export interface TokenProps extends CommonProps {
 }
 
 export const tokenDataTid = {
+  origin: 'Token',
   root: 'Token__root',
 };
 

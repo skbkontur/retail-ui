@@ -165,6 +165,7 @@ export interface ButtonState {
 }
 
 export const buttonDataTid = {
+  origin: 'Button',
   root: 'Button__root',
 };
 

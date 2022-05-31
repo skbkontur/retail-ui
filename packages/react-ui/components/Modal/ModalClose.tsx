@@ -11,6 +11,7 @@ import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
 
 export const modalCloseDataTid = {
+  origin: 'ModalClose',
   close: 'modal-close',
 };
 

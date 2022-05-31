@@ -152,6 +152,7 @@ export const DefaultState = {
 };
 
 export const tokenInputDataTid = {
+  origin: 'TokenInput',
   root: 'TokenInput__root',
 };
 

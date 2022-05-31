@@ -14,6 +14,7 @@ export interface SidePageBodyProps extends CommonProps {
 }
 
 export const sidePageBodyDataTid = {
+  origin: 'SidePageBody',
   root: 'SidePageBody__root',
 };
 /**

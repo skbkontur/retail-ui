@@ -68,6 +68,7 @@ export const PopupMenuType = {
 };
 
 export const popupMenuDataTid = {
+  origin: 'PopupMenu',
   root: 'PopupMenu_root',
   caption: 'PopupMenu__caption',
 };

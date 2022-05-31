@@ -28,6 +28,7 @@ export interface ToastViewProps extends CommonProps {
 }
 
 export const toastViewDataTid = {
+  origin: 'ToastView',
   root: 'ToastView__root',
   action: 'ToastView__action',
   close: 'ToastView__close',

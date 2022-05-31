@@ -83,6 +83,7 @@ export interface ToggleState {
 }
 
 export const toggleDataTid = {
+  origin: 'Toggle',
   root: 'Toggle__root',
 };
 

@@ -29,6 +29,7 @@ export interface ComboBoxMenuProps<T> {
 }
 
 export const comboBoxMenuDataTid = {
+  origin: 'ComboBoxMenu',
   loading: 'ComboBoxMenu__loading',
   failed: 'ComboBoxMenu__failed',
   notFound: 'ComboBoxMenu__notFound',

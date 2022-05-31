@@ -16,6 +16,7 @@ export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
 }
 
 export const tokenInputMenuDataTid = {
+  origin: 'TokenInputMenu',
   root: 'TokenInputMenu__root',
 };
 

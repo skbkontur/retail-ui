@@ -29,6 +29,7 @@ export interface GappedProps extends CommonProps {
 }
 
 export const gappedDataTid = {
+  origin: 'Gapped',
   vertical: 'Gapped__vertical',
   horizontal: 'Gapped__horizontal',
 };

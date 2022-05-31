@@ -46,6 +46,7 @@ export interface DateSelectState {
 }
 
 export const dateSelectDataTid = {
+  origin: 'DataSelect',
   caption: 'DateSelect__caption',
   menuItem: 'DateSelect__menuItem',
 };

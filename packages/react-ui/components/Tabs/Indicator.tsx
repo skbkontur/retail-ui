@@ -26,6 +26,7 @@ export interface IndicatorState {
 }
 
 export const indicatorDataTid = {
+  origin: 'Indicator',
   root: 'Indicator__root',
 };
 

@@ -51,6 +51,7 @@ export interface ScrollContainerProps extends CommonProps {
 }
 
 export const scrollContainerDataTid = {
+  origin: 'ScrollContainer',
   root: 'ScrollContainer__root',
   inner: 'ScrollContainer__inner',
 };

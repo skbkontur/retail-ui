@@ -17,6 +17,7 @@ export interface ModalHeaderProps extends CommonProps {
 }
 
 export const modalHeaderDataTid = {
+  origin: 'ModalHeader',
   root: 'ModalHeader__root',
 };
 

@@ -22,6 +22,7 @@ export interface SidePageFooterProps extends CommonProps {
 }
 
 export const sidePageFooterDataTid = {
+  origin: 'SidePageFooter',
   root: 'SidePageFooter__root',
 };
 

@@ -26,6 +26,7 @@ export interface SidePageHeaderState {
 }
 
 export const sidePageHeaderDataTid = {
+  origin: 'SidePageHeader',
   root: 'SidePageHeader__root',
   close: 'SidePage__close',
 };

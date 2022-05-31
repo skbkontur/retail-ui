@@ -59,6 +59,7 @@ const PASS_BUTTON_PROPS = {
 };
 
 export const selectDataTid = {
+  origin: 'Select',
   root: 'Select__root',
 };
 

@@ -58,6 +58,7 @@ export interface RadioState {
 }
 
 export const radioDataTid = {
+  origin: 'Radio',
   root: 'Radio__root',
 };
 

@@ -40,6 +40,7 @@ export interface SpinnerProps extends CommonProps {
 }
 
 export const spinnerDataTid = {
+  origin: 'Spinner',
   root: 'Spinner__root',
 };
 

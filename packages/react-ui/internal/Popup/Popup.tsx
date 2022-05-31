@@ -114,6 +114,7 @@ export interface PopupState {
 }
 
 export const popupDataTid = {
+  origin: 'Popup',
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
 };

@@ -62,6 +62,7 @@ export interface LinkState {
 }
 
 export const linkDataTid = {
+  origin: 'Link',
   root: 'Link__root',
 };
 

@@ -47,6 +47,7 @@ export interface CurrencyInputState {
 }
 
 export const currencyInputDataTid = {
+  origin: 'CurrencyInput',
   root: 'CurrencyInput__root',
 };
 
