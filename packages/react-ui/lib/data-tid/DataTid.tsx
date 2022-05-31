@@ -30,7 +30,7 @@ export class DataTid extends React.Component<{}, { selectedValue: string }> {
         });
         return (
           <div key={index} className={styles.row()}>
-            <div className={styles.leftCell()}>{componentName}:</div>{' '}
+            <div className={styles.leftCell()}>{componentName}</div>
             <div className={styles.rightCell()}>{dataTidList}</div>
           </div>
         );
@@ -39,10 +39,10 @@ export class DataTid extends React.Component<{}, { selectedValue: string }> {
 
     return (
       <div>
-        Выбрать компонент:{' '}
+        Выбрать компонент:
         <Select<string> items={this.items} value={this.state.selectedValue} onValueChange={this.setValue} />
         <div className={styles.row()}>
-          <div className={styles.leftCell()}>Название компонента:</div>{' '}
+          <div className={styles.leftCell()}>Название компонента:</div>
           <div className={styles.rightCell()}>data-tid</div>
         </div>
         {list}
