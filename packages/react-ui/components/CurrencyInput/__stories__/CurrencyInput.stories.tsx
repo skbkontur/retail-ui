@@ -307,4 +307,3 @@ WithStringValue.parameters = {
     },
   },
 };
-WithStringValue.storyName = 'With String Value';
