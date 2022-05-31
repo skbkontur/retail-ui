@@ -479,6 +479,7 @@ WithSearchAndVariousWidth.parameters = {
             bridge: true,
           })
           .click(select)
+          .pause(500)
           .perform();
 
         const plainSearch = await root.takeScreenshot();
@@ -488,6 +489,7 @@ WithSearchAndVariousWidth.parameters = {
             bridge: true,
           })
           .sendKeys(this.keys.ARROW_DOWN)
+          .pause(500)
           .perform();
 
         const pressKeyDown = await root.takeScreenshot();
@@ -498,6 +500,7 @@ WithSearchAndVariousWidth.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('test')
+          .pause(500)
           .perform();
 
         const fullFieldSearch = await root.takeScreenshot();
@@ -508,6 +511,7 @@ WithSearchAndVariousWidth.parameters = {
           })
           .click(select)
           .click(select)
+          .pause(500)
           .perform();
 
         const emptySearch = await root.takeScreenshot();
@@ -521,6 +525,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
+          .pause(500)
           .perform();
 
         const w100px = await root.takeScreenshot();
@@ -528,6 +533,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
+          .pause(500)
           .perform();
 
         const w300px = await root.takeScreenshot();
@@ -535,6 +541,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
+          .pause(500)
           .perform();
 
         const w100prc = await root.takeScreenshot();

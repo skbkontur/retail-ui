@@ -406,7 +406,7 @@ WithHeaderAndFooter.parameters = {
           const scrollContainer: Element = window.document.querySelector('[data-tid~="ScrollContainer__inner"]');
           scrollContainer.scrollTop += 100;
         });
-        await delay(1000);
+        await delay(2000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
       },
