@@ -307,12 +307,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
 
     return (
-      <RenderContainer
-        anchor={anchorWithRef || anchor}
-        // rootNode for Popup is its content container, see #2873
-        containerRef={this.setRootNode}
-        ref={canGetAnchorNode ? null : this.updateAnchorElement}
-      >
+      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
         {this.isMobileLayout && !this.props.withoutMobile
           ? this.renderMobile()
           : location && this.renderContent(location)}
@@ -426,8 +421,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         nodeRef={this.refForTransition}
       >
         {(state: string) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
+              data-tid="Popup"
               wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({

@@ -16,6 +16,7 @@ import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -84,6 +85,8 @@ export interface ModalState {
  * проп **sticky** со значением **false**
  * (по-умолчанию прилипание включено)
  */
+
+@rootNode
 export class Modal extends React.Component<ModalProps, ModalState> {
   public static __KONTUR_REACT_UI__ = 'Modal';
 
@@ -110,6 +113,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
   private mouseUpTarget: EventTarget | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -189,7 +193,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
+        <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
           <ZIndex priority={'Modal'} className={styles.root()}>
             <HideBodyVerticalScroll />
             {this.state.hasBackground && <div className={styles.bg(this.theme)} />}

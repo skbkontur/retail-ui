@@ -16,6 +16,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -95,6 +96,8 @@ const TRANSITION_TIMEOUT = 200;
  * Для отображения серой плашки в футере в компонент
  * **Footer** необходимо передать пропс **panel**
  */
+
+@rootNode
 export class SidePage extends React.Component<SidePageProps, SidePageState> {
   public static __KONTUR_REACT_UI__ = 'SidePage';
 
@@ -113,6 +116,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   private header: SidePageHeader | null = null;
   private footer: SidePageFooter | null = null;
   private rootRef = React.createRef<HTMLDivElement>();
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
@@ -158,7 +162,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
     return (
       <RenderContainer>
-        <CommonWrapper {...this.props}>
+        <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
           <div>
             <ResponsiveLayout>
               {({ isMobile }) => {

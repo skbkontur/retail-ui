@@ -52,7 +52,11 @@ export class ToastView extends React.Component<ToastViewProps> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -77,7 +81,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     return (
       <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
-        <div data-tid="ToastView__root" {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
+        <div data-tid="ToastView__root" {...rest} className={styles.root(this.theme)}>
           <span>{this.props.children}</span>
           {link}
           {close}
