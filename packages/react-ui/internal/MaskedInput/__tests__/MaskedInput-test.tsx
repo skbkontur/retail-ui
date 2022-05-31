@@ -45,6 +45,11 @@ describe('MaskedInput', () => {
     expect(wrapper.state('value')).toBe(value);
   });
 
+  it('should accept `null` as value', () => {
+    // @ts-expect-error: `Input` techinically can't accept `null` as a `value`
+    mount(<MaskedInput value={null} mask="99:99" />);
+  });
+
   it('incorrect input', () => {
     const value = '00:xx';
     const wrapper = mount(<MaskedInput maskChar="_" mask="99:99" />);
