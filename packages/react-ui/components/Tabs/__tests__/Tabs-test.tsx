@@ -6,17 +6,47 @@ import { Indicator } from '../Indicator';
 
 describe('Tabs', () => {
   describe('Indicator', () => {
-    const FunctionTabComponent = React.forwardRef<any, any>(function MyLink(props: any, ref) {
-      return <div ref={ref} />;
-    });
-    it('Should correct getStyles from FunctionComponent', () => {
-      const wrapper = mount(
-        <Tabs value="0">
-          <Tabs.Tab id="0" component={FunctionTabComponent} />
-        </Tabs>,
-      );
+    describe('should get correct styles from', () => {
+      it('default tab component', () => {
+        const wrapper = mount(
+          <Tabs value="0">
+            <Tabs.Tab id="0" />
+          </Tabs>,
+        );
+        const { top, left } = wrapper.find<Indicator>(Indicator).instance().state.styles;
 
-      expect(wrapper.find(Indicator).instance().state).toMatchObject({ styles: { top: -2, left: 0 } });
+        expect(top).toBeDefined();
+        expect(left).toBeDefined();
+      });
+
+      it('custom functional tab component with forwardRef', () => {
+        const wrapper = mount(
+          <Tabs value="0">
+            <Tabs.Tab
+              id="0"
+              component={React.forwardRef<HTMLDivElement>(function CustomTab(_, ref) {
+                return <div ref={ref} />;
+              })}
+            />
+          </Tabs>,
+        );
+        const { top, left } = wrapper.find<Indicator>(Indicator).instance().state.styles;
+
+        expect(top).toBeDefined();
+        expect(left).toBeDefined();
+      });
+
+      it('custom functional tab component without forwardRef', () => {
+        const wrapper = mount(
+          <Tabs value="0">
+            <Tabs.Tab id="0" component={() => <div />} />
+          </Tabs>,
+        );
+        const { top, left } = wrapper.find<Indicator>(Indicator).instance().state.styles;
+
+        expect(top).toBeDefined();
+        expect(left).toBeDefined();
+      });
     });
   });
 
