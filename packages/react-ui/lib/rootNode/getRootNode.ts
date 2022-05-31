@@ -19,12 +19,15 @@ import { isInstanceWithRootNode } from './rootNodeDecorator';
  */
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
-  if (!canUseDOM) return null;
+  if (!canUseDOM || !instance) {
+    // instance can be `null` if component was unmounted
+    // also checking undefined for convinient usage
+    return null;
+  }
 
-  if (isHTMLElement(instance) || instance === null) {
+  if (isHTMLElement(instance)) {
     // instance can be a HTMLElement already if comming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
-    // or it can be `null` if component was unmounted
     return instance;
   }
 
