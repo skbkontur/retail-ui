@@ -611,12 +611,15 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(300)
           .sendKeys('aaa')
+          .pause(300)
           .sendKeys(this.keys.ENTER)
-          .pause(1000)
+          .pause(300)
           .sendKeys('bbb')
+          .pause(300)
           .sendKeys(this.keys.ENTER)
-          .pause(1000)
+          .pause(300)
           .perform();
 
         await this.browser
@@ -624,10 +627,12 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys('aaa')
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withSameValue = await this.takeScreenshot();
@@ -637,10 +642,12 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys('zzz')
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withNotEditedToken = await this.takeScreenshot();
@@ -650,15 +657,17 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys('clear')
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withRemovedToken = await this.takeScreenshot();
@@ -668,12 +677,15 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys('EDITED')
+          .pause(300)
           .sendKeys(this.keys.ARROW_DOWN)
           .sendKeys(this.keys.ENTER)
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withEditedToken = await this.takeScreenshot();
