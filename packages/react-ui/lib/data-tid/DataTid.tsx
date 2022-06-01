@@ -10,28 +10,27 @@ export class DataTid extends React.Component<{}, { selectedValue: string }> {
     selectedValue: 'все',
   };
 
-  private items = ['все', ...componentsDataTid.map((el) => Object.keys(el)[0])];
+  private components = Object.keys(componentsDataTid);
+
+  private items = ['все', ...this.components];
 
   private setValue = (value: string) => {
     this.setState({ selectedValue: value });
   };
 
   public render() {
-    const list = componentsDataTid.map((element: { [key: string]: any }, index) => {
-      const componentName = Object.keys(element)[0];
+    const list = this.components.map((componentName: string, index: number) => {
       if (componentName === this.state.selectedValue || this.state.selectedValue === 'все') {
-        const dataTidList = element[componentName].map((value: { [key: string]: string }, i: number) => {
-          return (
-            <div key={i} className={styles.dataTidContainer()}>
-              <div className={styles.dataTidName()}>{Object.keys(value)}:</div>
-              <div className={styles.dataTidDescription()}>{Object.values(value)}</div>
-            </div>
-          );
-        });
+        const dataTidList = componentsDataTid[componentName];
         return (
           <div key={index} className={styles.row()}>
             <div className={styles.leftCell()}>{componentName}</div>
-            <div className={styles.rightCell()}>{dataTidList}</div>
+            <div className={styles.rightCell()}>
+              <div className={styles.dataTidContainer()}>
+                <div className={styles.dataTidName()}>{Object.keys(dataTidList)}:</div>
+                <div className={styles.dataTidDescription()}>{Object.values(dataTidList)}</div>
+              </div>
+            </div>
           </div>
         );
       }
