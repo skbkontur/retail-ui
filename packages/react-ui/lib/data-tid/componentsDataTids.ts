@@ -36,7 +36,7 @@ const tids = Object.keys(allComponents).filter((componentName) => {
   }
 });
 
-export const componentsDataTid: { [key: string]: { [key: string]: string } } = tids.reduce((accum, currTid) => {
+export const componentsDataTids: { [key: string]: { [key: string]: string } } = tids.reduce((accum, currTid) => {
   let componentName = currTid.replace('DataTid', '');
   componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1);
   return {

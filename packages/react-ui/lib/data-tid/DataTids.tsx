@@ -2,15 +2,15 @@ import React from 'react';
 
 import { Select } from '../../components/Select';
 
-import { styles } from './DataTid.styles';
-import { componentsDataTid } from './componentsDataTid';
+import { styles } from './DataTids.styles';
+import { componentsDataTids } from './componentsDataTids';
 
-export class DataTid extends React.Component<{}, { selectedValue: string }> {
+export class DataTids extends React.Component<{}, { selectedValue: string }> {
   public state = {
     selectedValue: 'все',
   };
 
-  private components = Object.keys(componentsDataTid);
+  private components = Object.keys(componentsDataTids);
 
   private items = ['все', ...this.components];
 
@@ -21,7 +21,7 @@ export class DataTid extends React.Component<{}, { selectedValue: string }> {
   public render() {
     const list = this.components.map((componentName: string, index: number) => {
       if (componentName === this.state.selectedValue || this.state.selectedValue === 'все') {
-        const dataTidList = componentsDataTid[componentName];
+        const dataTidList = componentsDataTids[componentName];
         return (
           <div key={index} className={styles.row()}>
             <div className={styles.leftCell()}>{componentName}</div>
