@@ -520,8 +520,8 @@ OnUnexpectedInputValidation.parameters = {
     skip: [
       {
         in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
-        tests: 'token select',
-        reason: 'flacky "clearedOnNullReturn"',
+        tests: ['token select', 'token edit'],
+        reason: 'flacky',
       },
     ],
     tests: {
