@@ -82,7 +82,6 @@ export interface RadioGroupState<T> {
 }
 
 export const radioGroupDataTid = {
-  origin: 'RadioGroup',
   root: 'RadioGroup__root',
 };
 

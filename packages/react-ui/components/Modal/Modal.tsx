@@ -71,7 +71,6 @@ export interface ModalState {
 }
 
 export const modalDataTid = {
-  origin: 'Modal',
   container: 'modal-container',
   content: 'modal-content',
   modalClose: modalCloseDataTid,

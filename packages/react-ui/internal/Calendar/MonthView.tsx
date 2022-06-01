@@ -27,7 +27,6 @@ interface MonthViewProps {
 }
 
 export const monthViewDataTid = {
-  origin: 'MonthView',
   month: 'MonthView__month',
   headerMonth: 'MonthView__headerMonth',
   headerYear: 'MonthView__headerYear',

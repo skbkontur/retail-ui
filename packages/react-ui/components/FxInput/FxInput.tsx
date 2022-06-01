@@ -34,7 +34,6 @@ export interface FxInputProps
     > {}
 
 export const fxInputDataTid = {
-  origin: 'FxInput',
   root: 'FxInput__root',
 };
 

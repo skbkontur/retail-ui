@@ -26,7 +26,6 @@ interface FileUploaderFileProps {
 }
 
 export const fileUploaderFileDataTid = {
-  origin: 'FileUploaderFile',
   file: 'FileUploader__file',
   fileTooltip: 'FileUploader__fileTooltip',
   fileName: 'FileUploader__fileName',

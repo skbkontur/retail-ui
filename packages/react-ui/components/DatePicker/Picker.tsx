@@ -37,7 +37,6 @@ const getTodayCalendarDate = () => {
 };
 
 export const pickerDataTid = {
-  origin: 'Picker',
   root: 'Picker__root',
   todayWrapper: 'Picker__todayWrapper',
 };

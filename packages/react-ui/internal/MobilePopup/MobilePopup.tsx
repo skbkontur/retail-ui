@@ -36,7 +36,6 @@ interface MobilePopupState {
 }
 
 export const mobilePopupDataTid = {
-  origin: 'MobilePopup',
   root: 'MobilePopup__root',
   container: 'MobilePopup__container',
 };

@@ -88,7 +88,6 @@ export interface DropdownProps extends CommonProps {
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 
 export const dropdownDataTid = {
-  origin: 'Dropdown',
   root: 'Dropdown__root',
 };
 

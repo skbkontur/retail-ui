@@ -12,7 +12,6 @@ export interface MenuHeaderProps extends CommonProps {
 }
 
 export const menuHeaderDataTid = {
-  origin: 'MenuHeader',
   root: 'MenuHeader__root',
 };
 

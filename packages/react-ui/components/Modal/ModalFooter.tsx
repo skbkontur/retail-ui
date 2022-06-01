@@ -21,7 +21,6 @@ export interface ModalFooterProps extends CommonProps {
 }
 
 export const modalFooterDataTid = {
-  origin: 'ModalFooter',
   root: 'ModalFooter__root',
 };
 

@@ -23,7 +23,6 @@ export interface TextareaCounterRef {
 }
 
 export const textareaCounterDataTid = {
-  origin: 'Textarea',
   root: 'TextareaCounter__root',
 };
 

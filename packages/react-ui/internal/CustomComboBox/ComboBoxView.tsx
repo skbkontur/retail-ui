@@ -80,7 +80,6 @@ interface ComboBoxViewState {
 }
 
 export const comboBoxViewDataTid = {
-  origin: 'ComboBoxView',
   root: 'ComboBoxView__root',
 };
 

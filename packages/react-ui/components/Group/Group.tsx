@@ -21,7 +21,6 @@ interface GroupChildProps {
 }
 
 export const groupDataTid = {
-  origin: 'Group',
   root: 'Group__root',
 };
 

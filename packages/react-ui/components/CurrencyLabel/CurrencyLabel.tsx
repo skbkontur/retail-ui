@@ -19,7 +19,6 @@ export const defaultProps = {
 };
 
 export const currencyLabelDataTid = {
-  origin: 'CurrencyLabel',
   root: 'CurrencyLabel__root',
 };
 

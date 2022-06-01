@@ -31,7 +31,6 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
 export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
 
 export const inputLikeTextDataTid = {
-  origin: 'InputLikeText',
   root: 'InputLikeText__root',
   input: 'InputLikeText__input',
 };

@@ -75,7 +75,6 @@ export interface PagingState {
 export type ItemType = number | '.' | 'forward';
 
 export const pagingDataTid = {
-  origin: 'Paging',
   root: 'Paging__root',
   dots: 'Paging__dots',
   forwardLink: 'Paging__forwardLink',

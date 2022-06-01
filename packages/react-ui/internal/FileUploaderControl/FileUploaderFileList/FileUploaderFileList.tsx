@@ -12,7 +12,6 @@ interface FileUploaderFileListProps {
 }
 
 export const fileUploaderFileListDataTid = {
-  origin: 'FileUploaderFileList',
   fileList: 'FileUploader__fileList',
 };
 

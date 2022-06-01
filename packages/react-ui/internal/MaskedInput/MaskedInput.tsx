@@ -26,7 +26,6 @@ interface MaskedInputState {
 }
 
 export const maskedInputDataTid = {
-  origin: 'MaskedInput',
   root: 'MaskedInput__root',
 };
 

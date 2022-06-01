@@ -25,7 +25,6 @@ export interface PasswordInputState {
 }
 
 export const passwordInputDataTid = {
-  origin: 'PasswordInput',
   root: 'PasswordInput',
   capsLockDetector: 'PasswordInputCapsLockDetector',
   eyeIcon: 'PasswordInputEyeIcon',

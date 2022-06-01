@@ -78,7 +78,6 @@ export interface AutocompleteState {
 }
 
 export const autocompleteDataTid = {
-  origin: 'Autocomplete',
   root: 'Autocomplete__root',
 };
 

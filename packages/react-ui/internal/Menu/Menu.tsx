@@ -32,7 +32,6 @@ export interface MenuState {
 }
 
 export const menuDataTid = {
-  origin: 'Menu',
   root: 'Menu__root',
 };
 

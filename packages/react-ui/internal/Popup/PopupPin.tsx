@@ -26,7 +26,6 @@ interface Props {
 }
 
 export const popupPinDataTid = {
-  origin: 'PopupPin',
   root: 'PopupPin__root',
 };
 

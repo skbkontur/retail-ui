@@ -86,7 +86,6 @@ export interface DatePickerState {
 type DatePickerValue = string;
 
 export const dataPickerDataTid = {
-  origin: 'DatePicker',
   root: 'DatePicker__root',
   picker: pickerDataTid,
 };

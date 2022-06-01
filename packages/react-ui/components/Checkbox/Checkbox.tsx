@@ -64,7 +64,6 @@ export interface CheckboxState {
 }
 
 export const checkboxDataTid = {
-  origin: 'Checkbox',
   root: 'Checkbox__root',
 };
 @rootNode

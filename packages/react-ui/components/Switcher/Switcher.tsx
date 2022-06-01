@@ -18,7 +18,6 @@ export type SwitcherSize = ButtonSize;
 type SwitcherItems = string | SwitcherItem;
 
 export const switcherDataTid = {
-  origin: 'Switcher',
   root: 'Switcher__root',
 };
 

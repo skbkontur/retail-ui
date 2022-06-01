@@ -37,7 +37,6 @@ export interface CalendarState {
 }
 
 export const calendarDataTid = {
-  origin: 'Calendar',
   root: 'Calendar',
 };
 

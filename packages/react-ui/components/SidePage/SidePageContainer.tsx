@@ -13,7 +13,6 @@ import { SidePageContext } from './SidePageContext';
 export type SidePageContainerProps = CommonProps;
 
 export const sidePageContainerDataTid = {
-  origin: 'SidePageContainer',
   root: 'SidePageContainer__root',
 };
 
