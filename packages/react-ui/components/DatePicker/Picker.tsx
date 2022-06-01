@@ -11,6 +11,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './Picker.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './locale';
+import { dataPickerDataTid } from './DatePicker';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -34,11 +35,6 @@ const getTodayCalendarDate = () => {
     month: d.getMonth(),
     year: d.getFullYear(),
   };
-};
-
-export const pickerDataTid = {
-  root: 'Picker__root',
-  todayWrapper: 'Picker__todayWrapper',
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
@@ -80,7 +76,11 @@ export class Picker extends React.Component<Props, State> {
     const { date } = this.state;
 
     return (
-      <div data-tid={pickerDataTid.root} className={styles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
+      <div
+        data-tid={dataPickerDataTid.pickerRoot}
+        className={styles.root(this.theme)}
+        onMouseDown={(e) => e.preventDefault()}
+      >
         <Calendar
           ref={(c) => (this.calendar = c)}
           value={this.props.value}
@@ -107,7 +107,7 @@ export class Picker extends React.Component<Props, State> {
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
       <button
-        data-tid={pickerDataTid.todayWrapper}
+        data-tid={dataPickerDataTid.pickerTodayWrapper}
         className={styles.todayWrapper(this.theme)}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}

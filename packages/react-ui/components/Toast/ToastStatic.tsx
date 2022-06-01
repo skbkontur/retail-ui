@@ -3,11 +3,7 @@ import ReactDOM from 'react-dom';
 
 import { Nullable } from '../../typings/utility-types';
 
-import { Toast, Action } from './Toast';
-
-export const toastStaticDataTid = {
-  root: 'StaticToast',
-};
+import { Toast, Action, toastDataTid } from './Toast';
 
 export class ToastStatic {
   public static push = (notification: string, action?: Action) => {
@@ -20,7 +16,7 @@ export class ToastStatic {
       body.appendChild(ToastStatic.node);
 
       ReactDOM.render(
-        <Toast data-tid={toastStaticDataTid.root} ref={(el) => (ToastStatic.instance = el)} />,
+        <Toast data-tid={toastDataTid.toastStatic} ref={(el) => (ToastStatic.instance = el)} />,
         ToastStatic.node,
         () => ToastStatic._push(notification, action),
       );

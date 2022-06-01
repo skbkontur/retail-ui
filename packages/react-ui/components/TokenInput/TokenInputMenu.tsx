@@ -7,17 +7,13 @@ import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { TokenInputMenuAlign, TokenInputProps } from './TokenInput';
+import { tokenInputDataTid, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
   menuWidth: TokenInputProps<string>['menuWidth'];
   menuAlign: TokenInputMenuAlign;
 }
-
-export const tokenInputMenuDataTid = {
-  root: 'TokenInputMenu__root',
-};
 
 export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInputMenu';
@@ -69,7 +65,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
     return (
       <Popup
-        data-tid={tokenInputMenuDataTid.root}
+        data-tid={tokenInputDataTid.tokenInputMenu}
         opened={opened!}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}

@@ -43,14 +43,7 @@ export const componentsDataTid: { [key: string]: { [key: string]: string } } = t
     ...accum,
     [componentName]: {
       [currTid]: Object.entries(allComponents[currTid])
-        .map((x) => {
-          if (typeof x[1] === 'object') {
-            return `${Object.entries(x[1])
-              .map((y) => `${x[0]}.${y.join(':')}`)
-              .join(', \n')}`;
-          }
-          return x.join(':');
-        })
+        .map((x) => x.join(': '))
         .join(', \n'),
     },
   };

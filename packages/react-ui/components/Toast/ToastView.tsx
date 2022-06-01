@@ -9,6 +9,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './ToastView.styles';
+import { toastDataTid } from './Toast';
 
 export interface ToastViewProps extends CommonProps {
   /**
@@ -26,12 +27,6 @@ export interface ToastViewProps extends CommonProps {
   onMouseEnter?: () => void;
   onMouseLeave?: () => void;
 }
-
-export const toastViewDataTid = {
-  root: 'ToastView__root',
-  action: 'ToastView__action',
-  close: 'ToastView__close',
-};
 
 @rootNode
 export class ToastView extends React.Component<ToastViewProps> {
@@ -68,14 +63,14 @@ export class ToastView extends React.Component<ToastViewProps> {
     const { action, onClose, ...rest } = props;
 
     const link = action ? (
-      <span data-tid={toastViewDataTid.action} className={styles.link(this.theme)} onClick={action.handler}>
+      <span data-tid={toastDataTid.action} className={styles.link(this.theme)} onClick={action.handler}>
         {action.label}
       </span>
     ) : null;
 
     const close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
-        <span data-tid={toastViewDataTid.close} className={styles.close(this.theme)} onClick={onClose}>
+        <span data-tid={toastDataTid.close} className={styles.close(this.theme)} onClick={onClose}>
           <CrossIcon />
         </span>
       </span>
@@ -83,7 +78,7 @@ export class ToastView extends React.Component<ToastViewProps> {
 
     return (
       <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
-        <div data-tid={toastViewDataTid.root} {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
+        <div data-tid={toastDataTid.toastView} {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
           <span>{this.props.children}</span>
           {link}
           {close}

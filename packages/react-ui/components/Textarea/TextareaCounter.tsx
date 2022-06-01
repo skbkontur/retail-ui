@@ -7,7 +7,7 @@ import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 
-import { TextareaProps } from './Textarea';
+import { textareaDataTid, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
 
 export type TextareaCounterProps = {
@@ -21,10 +21,6 @@ export type TextareaCounterProps = {
 export interface TextareaCounterRef {
   reflow: () => void;
 }
-
-export const textareaCounterDataTid = {
-  root: 'TextareaCounter__root',
-};
 
 const handleHelpMouseDown = (e: SyntheticEvent) => e.preventDefault();
 
@@ -53,7 +49,7 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   );
 
   return (
-    <div data-tid={textareaCounterDataTid.root} className={styles.counterContainer(theme)} style={{ width, height }}>
+    <div data-tid={textareaDataTid.counter} className={styles.counterContainer(theme)} style={{ width, height }}>
       <span
         className={cx(styles.counter(theme), {
           [styles.counterError(theme)]: counterValue < 0,

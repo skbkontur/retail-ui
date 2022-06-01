@@ -12,6 +12,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
+import { tabsDataTid } from './Tabs';
 
 export interface IndicatorProps {
   className?: string;
@@ -24,10 +25,6 @@ export interface IndicatorProps {
 export interface IndicatorState {
   styles: React.CSSProperties;
 }
-
-export const indicatorDataTid = {
-  root: 'Indicator__root',
-};
 
 @rootNode
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
@@ -91,7 +88,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
-        data-tid={indicatorDataTid.root}
+        data-tid={tabsDataTid.indicatorRoot}
         className={cx(
           styles.root(this.theme),
           indicators.primary && styles.primary(this.theme),

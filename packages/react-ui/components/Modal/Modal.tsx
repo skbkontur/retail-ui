@@ -21,7 +21,7 @@ import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
-import { ModalClose, modalCloseDataTid } from './ModalClose';
+import { ModalClose } from './ModalClose';
 import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
@@ -73,7 +73,7 @@ export interface ModalState {
 export const modalDataTid = {
   container: 'modal-container',
   content: 'modal-content',
-  modalClose: modalCloseDataTid,
+  close: 'modal-close',
 };
 
 /**

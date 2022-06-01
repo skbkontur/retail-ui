@@ -8,8 +8,8 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Toast.styles';
-import { ToastView, toastViewDataTid, ToastViewProps } from './ToastView';
-import { ToastStatic, toastStaticDataTid } from './ToastStatic';
+import { ToastView, ToastViewProps } from './ToastView';
+import { ToastStatic } from './ToastStatic';
 
 export interface Action {
   label: string;
@@ -28,8 +28,10 @@ export interface ToastProps extends CommonProps {
 }
 
 export const toastDataTid = {
-  toastStatic: toastStaticDataTid,
-  toastView: toastViewDataTid,
+  toastStatic: 'StaticToast',
+  toastView: 'ToastView__root',
+  action: 'ToastView__action',
+  close: 'ToastView__close',
 };
 
 /**
