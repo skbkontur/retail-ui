@@ -37,9 +37,11 @@ const tids = Object.keys(allComponents).filter((componentName) => {
 });
 
 export const componentsDataTid: { [key: string]: { [key: string]: string } } = tids.reduce((accum, currTid) => {
+  let componentName = currTid.replace('DataTid', '');
+  componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1);
   return {
     ...accum,
-    [allComponents[currTid].origin]: {
+    [componentName]: {
       [currTid]: Object.entries(allComponents[currTid])
         .map((x) => {
           if (typeof x[1] === 'object') {

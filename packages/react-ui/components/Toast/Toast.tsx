@@ -28,7 +28,6 @@ export interface ToastProps extends CommonProps {
 }
 
 export const toastDataTid = {
-  origin: 'Toast',
   toastStatic: toastStaticDataTid,
   toastView: toastViewDataTid,
 };
