@@ -21,7 +21,7 @@ import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
 import { ModalHeader } from './ModalHeader';
 import { ModalBody } from './ModalBody';
-import { ModalClose } from './ModalClose';
+import { ModalClose, modalCloseDataTid } from './ModalClose';
 import { styles } from './Modal.styles';
 
 let mountedModalsCount = 0;
@@ -74,6 +74,7 @@ export const modalDataTid = {
   origin: 'Modal',
   container: 'modal-container',
   content: 'modal-content',
+  modalClose: modalCloseDataTid,
 };
 
 /**

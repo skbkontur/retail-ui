@@ -16,7 +16,7 @@ import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
 
-import { Picker } from './Picker';
+import { Picker, pickerDataTid } from './Picker';
 import { styles } from './DatePicker.styles';
 
 const INPUT_PASS_PROPS = {
@@ -88,6 +88,7 @@ type DatePickerValue = string;
 export const dataPickerDataTid = {
   origin: 'DatePicker',
   root: 'DatePicker__root',
+  picker: pickerDataTid,
 };
 
 @rootNode

@@ -19,7 +19,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
-import { TextareaCounter, TextareaCounterRef } from './TextareaCounter';
+import { TextareaCounter, textareaCounterDataTid, TextareaCounterRef } from './TextareaCounter';
 
 const DEFAULT_WIDTH = 250;
 const AUTORESIZE_THROTTLE_DEFAULT_WAIT = 100;
@@ -114,6 +114,7 @@ export interface TextareaState {
 export const textareaDataTid = {
   origin: 'Textarea',
   root: 'Textarea__root',
+  counter: textareaCounterDataTid,
 };
 
 /**

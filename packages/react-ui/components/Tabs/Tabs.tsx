@@ -9,10 +9,10 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-import { Indicator } from './Indicator';
+import { Indicator, indicatorDataTid } from './Indicator';
 import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
-import { Tab } from './Tab';
+import { Tab, tabDataTid } from './Tab';
 
 type ValueBaseType = string;
 type TabType<T extends ValueBaseType> = {
@@ -56,6 +56,8 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
 export const tabsDataTid = {
   origin: 'Tabs',
   root: 'Tabs__root',
+  tab: tabDataTid,
+  indicator: indicatorDataTid,
 };
 
 /**

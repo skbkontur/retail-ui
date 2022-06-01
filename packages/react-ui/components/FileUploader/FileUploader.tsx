@@ -12,8 +12,14 @@ import { UploadIcon } from '../../internal/icons/16px';
 import { FileUploaderControlProviderProps } from '../../internal/FileUploaderControl/FileUploaderControlProvider';
 import { withFileUploaderControlProvider } from '../../internal/FileUploaderControl/withFileUploaderControlProvider';
 import { keyListener } from '../../lib/events/keyListener';
-import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
-import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
+import {
+  FileUploaderFile,
+  fileUploaderFileDataTid,
+} from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
+import {
+  FileUploaderFileList,
+  fileUploaderFileListDataTid,
+} from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
 import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
@@ -66,6 +72,8 @@ export const fileUploaderDataTid = {
   root: 'FileUploader__root',
   content: 'FileUploader__content',
   link: 'FileUploader__link',
+  fileUploaderFile: fileUploaderFileDataTid,
+  fileUploaderFileList: fileUploaderFileListDataTid,
 };
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;

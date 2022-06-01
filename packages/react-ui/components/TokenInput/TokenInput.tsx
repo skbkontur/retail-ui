@@ -30,7 +30,7 @@ import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
 import { TokenInputAction, tokenInputReducer } from './TokenInputReducer';
-import { TokenInputMenu } from './TokenInputMenu';
+import { TokenInputMenu, tokenInputMenuDataTid } from './TokenInputMenu';
 import { TextWidthHelper } from './TextWidthHelper';
 
 export enum TokenInputType {
@@ -154,6 +154,7 @@ export const DefaultState = {
 export const tokenInputDataTid = {
   origin: 'TokenInput',
   root: 'TokenInput__root',
+  tokenInputMenu: tokenInputMenuDataTid,
 };
 
 const defaultToKey = <T extends {}>(item: T): string => item.toString();
