@@ -13,9 +13,9 @@ export interface SidePageBodyProps extends CommonProps {
   children?: React.ReactNode;
 }
 
-export const sidePageBodyDataTid = {
+export const SidePageBodyDataTids = {
   root: 'SidePageBody__root',
-};
+} as const;
 /**
  * Тело для сайдпейджа
  *
@@ -42,7 +42,7 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
               <div
-                data-tid={sidePageBodyDataTid.root}
+                data-tid={SidePageBodyDataTids.root}
                 className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}
               >
                 {this.props.children}

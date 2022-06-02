@@ -15,7 +15,7 @@ import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
-import { fileUploaderDataTid } from '../../../components/FileUploader';
+import { FileUploaderDataTids } from '../../../components/FileUploader';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
@@ -152,27 +152,27 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   return (
     <div
-      data-tid={fileUploaderDataTid.file}
+      data-tid={FileUploaderDataTids.file}
       className={jsStyles.root()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Tooltip data-tid={fileUploaderDataTid.fileTooltip} pos="right middle" render={renderTooltipContent}>
+      <Tooltip data-tid={FileUploaderDataTids.fileTooltip} pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
           <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
-            <span data-tid={fileUploaderDataTid.fileName} ref={fileNameElementRef} className={jsStyles.name()}>
+            <span data-tid={FileUploaderDataTids.fileName} ref={fileNameElementRef} className={jsStyles.name()}>
               {truncatedFileName}
             </span>
           </Hint>
           {!!showSize && formattedSize && (
-            <span data-tid={fileUploaderDataTid.fileSize} className={jsStyles.size()}>
+            <span data-tid={FileUploaderDataTids.fileSize} className={jsStyles.size()}>
               {formattedSize}
             </span>
           )}
           <div
             className={iconClassNames}
-            data-tid={fileUploaderDataTid.fileIcon}
+            data-tid={FileUploaderDataTids.fileIcon}
             tabIndex={0}
             onClick={handleRemove}
             onFocus={handleFocus}

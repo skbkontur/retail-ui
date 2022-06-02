@@ -61,7 +61,7 @@ export interface FileUploaderRef {
   reset: () => void;
 }
 
-export const fileUploaderDataTid = {
+export const FileUploaderDataTids = {
   root: 'FileUploader__root',
   content: 'FileUploader__content',
   link: 'FileUploader__link',
@@ -71,7 +71,7 @@ export const fileUploaderDataTid = {
   fileSize: 'FileUploader__fileSize',
   fileIcon: 'FileUploader__fileIcon',
   fileList: 'FileUploader__fileList',
-};
+} as const;
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
@@ -237,7 +237,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   return (
     <CommonWrapper {...props}>
-      <div data-tid={fileUploaderDataTid.root} className={jsStyles.root(theme)} style={useMemoObject({ width })}>
+      <div data-tid={FileUploaderDataTids.root} className={jsStyles.root(theme)} style={useMemoObject({ width })}>
         {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} />}
         <div className={uploadButtonWrapperClassNames}>
           <label
@@ -246,8 +246,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div data-tid={fileUploaderDataTid.content} className={jsStyles.content()}>
-              <span data-tid={fileUploaderDataTid.link} className={linkClassNames}>
+            <div data-tid={FileUploaderDataTids.content} className={jsStyles.content()}>
+              <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
                 {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
               </span>
               &nbsp;

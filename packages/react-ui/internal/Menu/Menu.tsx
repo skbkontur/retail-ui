@@ -31,9 +31,9 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
-export const menuDataTid = {
+export const MenuDataTids = {
   root: 'Menu__root',
-};
+} as const;
 
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
@@ -118,7 +118,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        data-tid={menuDataTid.root}
+        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,

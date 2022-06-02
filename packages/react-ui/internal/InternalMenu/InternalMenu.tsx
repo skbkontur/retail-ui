@@ -43,9 +43,9 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
-export const internalMenuDataTid = {
+export const InternalMenuDataTids = {
   root: 'InternalMenu__root',
-};
+} as const;
 
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
@@ -117,7 +117,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
     return (
       <div
-        data-tid={internalMenuDataTid.root}
+        data-tid={InternalMenuDataTids.root}
         className={cx({
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,

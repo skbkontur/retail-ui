@@ -17,9 +17,9 @@ import { getSwitcherTheme } from './switcherTheme';
 export type SwitcherSize = ButtonSize;
 type SwitcherItems = string | SwitcherItem;
 
-export const switcherDataTid = {
+export const SwitcherDataTids = {
   root: 'Switcher__root',
-};
+} as const;
 
 export interface SwitcherProps extends CommonProps {
   /**
@@ -106,7 +106,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={switcherDataTid.root} className={styles.root()}>
+        <div data-tid={SwitcherDataTids.root} className={styles.root()}>
           {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>
             <input {...inputProps} />

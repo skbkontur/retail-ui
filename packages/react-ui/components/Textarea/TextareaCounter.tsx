@@ -7,7 +7,7 @@ import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 
-import { textareaDataTid, TextareaProps } from './Textarea';
+import { TextareaDataTids, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
 
 export type TextareaCounterProps = {
@@ -49,7 +49,7 @@ export const TextareaCounter = React.forwardRef<TextareaCounterRef, TextareaCoun
   );
 
   return (
-    <div data-tid={textareaDataTid.counter} className={styles.counterContainer(theme)} style={{ width, height }}>
+    <div data-tid={TextareaDataTids.counter} className={styles.counterContainer(theme)} style={{ width, height }}>
       <span
         className={cx(styles.counter(theme), {
           [styles.counterError(theme)]: counterValue < 0,

@@ -16,9 +16,9 @@ export interface ModalHeaderProps extends CommonProps {
   children?: ReactNode;
 }
 
-export const modalHeaderDataTid = {
+export const ModalHeaderDataTids = {
   root: 'ModalHeader__root',
-};
+} as const;
 
 /**
  * Шапка модального окна
@@ -41,7 +41,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const renderContent = (fixed = false) => {
     return (
       <div
-        data-tid={modalHeaderDataTid.root}
+        data-tid={ModalHeaderDataTids.root}
         className={cx({
           [styles.header(theme)]: true,
           [styles.mobileHeader(theme)]: layout.isMobile,

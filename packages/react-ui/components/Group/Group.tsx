@@ -20,9 +20,9 @@ interface GroupChildProps {
   corners?: number;
 }
 
-export const groupDataTid = {
+export const GroupDataTids = {
   root: 'Group__root',
-};
+} as const;
 
 @rootNode
 export class Group extends React.Component<GroupProps> {
@@ -50,7 +50,7 @@ export class Group extends React.Component<GroupProps> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span data-tid={groupDataTid.root} className={styles.root()} style={style}>
+        <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
           {React.Children.map(this.props.children, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;

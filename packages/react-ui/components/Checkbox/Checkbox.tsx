@@ -63,9 +63,10 @@ export interface CheckboxState {
   indeterminate: boolean;
 }
 
-export const checkboxDataTid = {
+export const CheckboxDataTids = {
   root: 'Checkbox__root',
-};
+} as const;
+
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
@@ -226,7 +227,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     return (
       <label
-        data-tid={checkboxDataTid.root}
+        data-tid={CheckboxDataTids.root}
         className={rootClass}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}

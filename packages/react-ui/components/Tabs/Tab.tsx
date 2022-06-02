@@ -24,9 +24,9 @@ export interface TabIndicators {
   disabled: boolean;
 }
 
-export const tabDataTid = {
+export const TabDataTids = {
   root: 'Tab__root',
-};
+} as const;
 
 export interface TabProps<T extends string = string> extends CommonProps {
   /**
@@ -210,7 +210,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Component
-          data-tid={tabDataTid.root}
+          data-tid={TabDataTids.root}
           className={cx({
             [styles.root(this.theme)]: true,
             [styles.vertical(this.theme)]: !!isVertical,

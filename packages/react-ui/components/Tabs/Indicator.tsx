@@ -12,7 +12,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
-import { tabsDataTid } from './Tabs';
+import { TabsDataTids } from './Tabs';
 
 export interface IndicatorProps {
   className?: string;
@@ -88,7 +88,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
-        data-tid={tabsDataTid.indicatorRoot}
+        data-tid={TabsDataTids.indicatorRoot}
         className={cx(
           styles.root(this.theme),
           indicators.primary && styles.primary(this.theme),

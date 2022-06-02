@@ -77,9 +77,9 @@ export interface AutocompleteState {
   isMobileOpened: boolean;
 }
 
-export const autocompleteDataTid = {
+export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
-};
+} as const;
 
 /**
  * Стандартный инпут с подсказками.
@@ -214,7 +214,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
         <span
-          data-tid={autocompleteDataTid.root}
+          data-tid={AutocompleteDataTids.root}
           className={styles.root(this.theme)}
           style={{ width }}
           ref={this.refRootSpan}

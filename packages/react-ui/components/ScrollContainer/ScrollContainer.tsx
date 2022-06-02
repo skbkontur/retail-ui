@@ -50,10 +50,10 @@ export interface ScrollContainerProps extends CommonProps {
   disabled?: boolean;
 }
 
-export const scrollContainerDataTid = {
+export const ScrollContainerDataTids = {
   root: 'ScrollContainer__root',
   inner: 'ScrollContainer__inner',
-};
+} as const;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
@@ -114,7 +114,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
-          data-tid={scrollContainerDataTid.root}
+          data-tid={ScrollContainerDataTids.root}
           className={styles.root()}
           onMouseMove={this.handleMouseMove}
           onMouseLeave={this.handleMouseLeave}
@@ -125,7 +125,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
             style={innerStyle}
             ref={this.refInner}
             className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
-            data-tid={scrollContainerDataTid.inner}
+            data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
           >
             {props.children}

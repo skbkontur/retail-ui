@@ -36,9 +36,9 @@ export interface StickyState {
   relativeTop: number;
 }
 
-export const stickyDataTid = {
+export const StickyDataTids = {
   root: 'Spinner__root',
-};
+} as const;
 
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
@@ -121,7 +121,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={stickyDataTid.root} ref={this.refWrapper} className={styles.wrapper()}>
+        <div data-tid={StickyDataTids.root} ref={this.refWrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}

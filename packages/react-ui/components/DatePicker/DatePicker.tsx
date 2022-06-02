@@ -85,11 +85,11 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
-export const dataPickerDataTid = {
+export const DataPickerDataTids = {
   root: 'DatePicker__root',
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
-};
+} as const;
 
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
@@ -257,7 +257,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     if (this.state.opened) {
       picker = (
         <DropdownContainer
-          data-tid={dataPickerDataTid.root}
+          data-tid={DataPickerDataTids.root}
           getParent={this.getParent}
           offsetY={2}
           align={this.props.menuAlign}

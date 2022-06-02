@@ -79,9 +79,9 @@ interface ComboBoxViewState {
   isMobileOpened: boolean;
 }
 
-export const comboBoxViewDataTid = {
+export const ComboBoxViewDataTids = {
   root: 'ComboBoxView__root',
-};
+} as const;
 
 @responsiveLayout
 @rootNode
@@ -140,7 +140,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
-            data-tid={comboBoxViewDataTid.root}
+            data-tid={ComboBoxViewDataTids.root}
             style={{ width }}
             className={styles.root()}
             onMouseEnter={onMouseEnter}

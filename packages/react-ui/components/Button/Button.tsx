@@ -164,9 +164,9 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-export const buttonDataTid = {
+export const ButtonDataTids = {
   root: 'Button__root',
-};
+} as const;
 
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
@@ -386,7 +386,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={buttonDataTid.root} ref={this._ref} {...rootProps}>
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}

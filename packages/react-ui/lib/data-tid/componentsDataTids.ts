@@ -31,14 +31,13 @@ const allComponents = {
 };
 
 const tids = Object.keys(allComponents).filter((componentName) => {
-  if (componentName.match(/datatid/i)) {
+  if (componentName.match(/datatids/i)) {
     return componentName;
   }
 });
 
 export const componentsDataTids: { [key: string]: { [key: string]: string } } = tids.reduce((accum, currTid) => {
-  let componentName = currTid.replace('DataTid', '');
-  componentName = componentName.charAt(0).toUpperCase() + componentName.slice(1);
+  const componentName = currTid.replace('DataTids', '');
   return {
     ...accum,
     [componentName]: {

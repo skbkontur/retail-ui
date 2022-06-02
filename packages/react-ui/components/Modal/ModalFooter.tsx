@@ -20,9 +20,9 @@ export interface ModalFooterProps extends CommonProps {
   children?: ReactNode;
 }
 
-export const modalFooterDataTid = {
+export const ModalFooterDataTids = {
   root: 'ModalFooter__root',
-};
+} as const;
 
 /**
  * Футер модального окна.
@@ -49,7 +49,7 @@ function ModalFooter(props: ModalFooterProps) {
   const renderContent = (fixed = false) => {
     return (
       <div
-        data-tid={modalFooterDataTid.root}
+        data-tid={ModalFooterDataTids.root}
         className={cx({
           [styles.footer(theme)]: true,
           [styles.fixedFooter(theme)]: fixed,

@@ -151,10 +151,10 @@ export const DefaultState = {
   inputValueHeight: 22,
 };
 
-export const tokenInputDataTid = {
+export const TokenInputDataTids = {
   root: 'TokenInput__root',
   tokenInputMenu: 'TokenInputMenu__root',
-};
+} as const;
 
 const defaultToKey = <T extends {}>(item: T): string => item.toString();
 const identity = <T extends {}>(item: T): T => item;
@@ -329,7 +329,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={tokenInputDataTid.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
             style={{ width }}

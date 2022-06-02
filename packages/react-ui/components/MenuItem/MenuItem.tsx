@@ -76,10 +76,10 @@ export interface MenuItemProps extends CommonProps {
   isMobile?: boolean;
 }
 
-export const menuItemDataTid = {
+export const MenuItemDataTids = {
   root: 'MenuItem__root',
   comment: 'MenuItem__comment',
-};
+} as const;
 
 /**
  *
@@ -173,7 +173,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
-        data-tid={menuItemDataTid.root}
+        data-tid={MenuItemDataTids.root}
         {...rest}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
@@ -185,7 +185,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {content}
         {this.props.comment && (
           <div
-            data-tid={menuItemDataTid.comment}
+            data-tid={MenuItemDataTids.comment}
             className={cx({
               [styles.comment(this.theme)]: true,
               [styles.commentHover(this.theme)]: hover,

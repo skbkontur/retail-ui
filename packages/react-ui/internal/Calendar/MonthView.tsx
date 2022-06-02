@@ -26,11 +26,11 @@ interface MonthViewProps {
   yearSelectRef: (select: DateSelect | null) => void;
 }
 
-export const monthViewDataTid = {
+export const MonthViewDataTids = {
   month: 'MonthView__month',
   headerMonth: 'MonthView__headerMonth',
   headerYear: 'MonthView__headerYear',
-};
+} as const;
 
 export function MonthView(props: MonthViewProps) {
   const theme = useContext(ThemeContext);
@@ -84,7 +84,7 @@ export function MonthView(props: MonthViewProps) {
   };
 
   return (
-    <div data-tid={monthViewDataTid.month} className={styles.month(theme)} style={{ top }} key={month + '-' + year}>
+    <div data-tid={MonthViewDataTids.month} className={styles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
         style={{ top: headerTop }}
         className={cx({
@@ -93,7 +93,7 @@ export function MonthView(props: MonthViewProps) {
         })}
       >
         <div style={{ borderBottomColor }} className={styles.monthTitle(theme)}>
-          <div data-tid={monthViewDataTid.headerMonth} className={styles.headerMonth(theme)}>
+          <div data-tid={MonthViewDataTids.headerMonth} className={styles.headerMonth(theme)}>
             <DateSelect
               disabled={monthSelectDisabled}
               width={85}
@@ -106,7 +106,7 @@ export function MonthView(props: MonthViewProps) {
             />
           </div>
           {isYearVisible && (
-            <div data-tid={monthViewDataTid.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
+            <div data-tid={MonthViewDataTids.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
               <DateSelect
                 disabled={yearSelectDisabled}
                 width={50}

@@ -7,7 +7,7 @@ import { Menu } from '../../internal/Menu';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { tokenInputDataTid, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
+import { TokenInputDataTids, TokenInputMenuAlign, TokenInputProps } from './TokenInput';
 
 export interface TokenInputMenuProps<T> extends ComboBoxMenuProps<T> {
   anchorElement: HTMLElement;
@@ -65,7 +65,7 @@ export class TokenInputMenu<T = string> extends React.Component<TokenInputMenuPr
 
     return (
       <Popup
-        data-tid={tokenInputDataTid.tokenInputMenu}
+        data-tid={TokenInputDataTids.tokenInputMenu}
         opened={opened!}
         positions={['bottom left', 'top left']}
         anchorElement={anchorElement}

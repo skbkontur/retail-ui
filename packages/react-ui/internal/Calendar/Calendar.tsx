@@ -36,9 +36,9 @@ export interface CalendarState {
   touchStart: number;
 }
 
-export const calendarDataTid = {
+export const CalendarDataTids = {
   root: 'Calendar',
-};
+} as const;
 
 const getTodayDate = () => {
   const date = new Date();
@@ -216,7 +216,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
-      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid={calendarDataTid.root}>
+      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid={CalendarDataTids.root}>
         <div style={wrapperStyle} className={styles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])

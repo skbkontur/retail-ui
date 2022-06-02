@@ -113,10 +113,10 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
-export const popupDataTid = {
+export const PopupDataTids = {
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
-};
+} as const;
 
 @responsiveLayout
 @rootNode
@@ -397,11 +397,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { backgroundColor, width } = this.props;
 
     return (
-      <div className={styles.content(this.theme)} data-tid={popupDataTid.content} ref={this.refForTransition}>
+      <div className={styles.content(this.theme)} data-tid={PopupDataTids.content} ref={this.refForTransition}>
         <div
           className={styles.contentInner(this.theme)}
           style={{ backgroundColor, width: this.calculateWidth(width) }}
-          data-tid={popupDataTid.contentInner}
+          data-tid={PopupDataTids.contentInner}
         >
           {children}
         </div>
