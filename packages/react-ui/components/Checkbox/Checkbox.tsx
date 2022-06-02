@@ -88,7 +88,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   private theme!: Theme;
   private input = React.createRef<HTMLInputElement>();
 
-  private handleMultipleCheck = (e: KeyboardEvent) => {
+  private handleShiftPress = (e: KeyboardEvent) => {
     if (e.key === 'Shift') {
       this.setState(() => ({
         isShiftPressed: true,
@@ -96,7 +96,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
-  private handleMultipleUncheck = () => {
+  private handleShiftRelease = () => {
     this.setState({
       isShiftPressed: false,
     });
@@ -107,13 +107,13 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       this.input.current.indeterminate = true;
     }
 
-    document.addEventListener('keydown', this.handleMultipleCheck);
-    document.addEventListener('keyup', this.handleMultipleUncheck);
+    document.addEventListener('keydown', this.handleShiftPress);
+    document.addEventListener('keyup', this.handleShiftRelease);
   };
 
   public componentWillUnmount = () => {
-    document.removeEventListener('keydown', this.handleMultipleCheck);
-    document.removeEventListener('keyup', this.handleMultipleUncheck);
+    document.removeEventListener('keydown', this.handleShiftPress);
+    document.removeEventListener('keyup', this.handleShiftRelease);
   };
 
   private setRootNode!: TSetRootNode;

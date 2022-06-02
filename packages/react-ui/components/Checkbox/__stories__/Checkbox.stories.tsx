@@ -4,7 +4,6 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
-import { MultipleSelection as MultipleSelectionComponent } from '../__tests__/MultipleSelection';
 
 class PlainCheckbox extends Component<any, any> {
   public state = {
@@ -359,30 +358,28 @@ Highlighted.parameters = {
   },
 };
 
-export const MultipleSelection: Story = () => <MultipleSelectionComponent />;
-MultipleSelection.storyName = 'multiple selection';
+export const CheckboxLabelSelectionWithPressedShift: Story = () => <Checkbox>caption</Checkbox>;
+CheckboxLabelSelectionWithPressedShift.storyName = 'checkbox label selection with pressed shift';
 
-MultipleSelection.parameters = {
+CheckboxLabelSelectionWithPressedShift.parameters = {
   creevey: {
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
-      async checkAll() {
-        const allCheckboxes = await this.browser.findElements({ css: '[data-comp-name~="Checkbox"]' });
-        const firstCheckbox = allCheckboxes[0];
-        const lastCheckbox = allCheckboxes[allCheckboxes.length - 1];
+      async selected() {
+        const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
 
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .keyDown(this.keys.SHIFT)
-          .click(firstCheckbox)
-          .click(lastCheckbox)
-          .perform();
+        await this.browser.actions({ bridge: true }).click(checkbox).click(checkbox).perform();
 
-        await this.expect(await this.takeScreenshot()).to.matchImage('checkAll');
+        await this.expect(await this.takeScreenshot()).to.matchImage('selected');
+      },
+      async selectedWithShiftPressed() {
+        const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
+
+        await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).click(checkbox).perform();
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('selectedWithShiftPressed');
       },
     },
   },
