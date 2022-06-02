@@ -13,7 +13,7 @@ import * as PopupPin from '../../internal/Popup/PopupPin';
 import * as MobilePopupDataTid from '../../internal/MobilePopup';
 import * as PopupMenu from '../../internal/PopupMenu';
 
-const allComponents = {
+const allComponents: any = {
   ...Components,
   ...Calendar,
   ...CalendarMonthView,
