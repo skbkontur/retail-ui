@@ -36,55 +36,55 @@ const config = {
   }),
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
-    // chrome8px: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME_8PX_OLD',
-    //   },
-    //   name: 'infrafront/chrome8px',
-    //   browserVersion: '100.0',
-    //   version: '100.0',
-    //   ...capabilities,
-    // },
-    // chromeFlat8px: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'FLAT_THEME_8PX_OLD',
-    //   },
-    //   name: 'infrafront/chromeFlat8px',
-    //   browserVersion: '100.0',
-    //   version: '100.0',
-    //   ...capabilities,
-    // },
-    // chrome: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'DEFAULT_THEME',
-    //   },
-    //   name: 'infrafront/chrome',
-    //   browserVersion: '100.0',
-    //   version: '100.0',
-    //   ...capabilities,
-    // },
-    // chromeDark: {
-    //   browserName: 'chrome',
-    //   viewport: { width: 1024, height: 720 },
-    //   platformName: 'linux',
-    //   _storybookGlobals: {
-    //     theme: 'DARK_THEME',
-    //   },
-    //   backgrounds: { default: 'dark' },
-    //   name: 'infrafront/chromeDark',
-    //   browserVersion: '100.0',
-    //   version: '100.0',
-    //   ...capabilities,
-    // },
+    chrome8px: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DEFAULT_THEME_8PX_OLD',
+      },
+      name: 'infrafront/chrome8px',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    chromeFlat8px: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'FLAT_THEME_8PX_OLD',
+      },
+      name: 'infrafront/chromeFlat8px',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    chrome: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DEFAULT_THEME',
+      },
+      name: 'infrafront/chrome',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    chromeDark: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/chromeDark',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
     // firefox8px: {
     //   browserName: 'firefox',
     //   platformName: 'linux',
@@ -143,43 +143,43 @@ const config = {
     //   'ie.browserCommandLineSwitches': '-private',
     //   'ie.ensureCleanSession': true,
     // },
-    ie118px: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/ie118px',
-      ...capabilities,
-    },
-    ie11Flat8px: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/ie11Flat8px',
-      ...capabilities,
-    },
-    ie11: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/ie11',
-      ...capabilities,
-    },
-    ie11Dark: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DARK_THEME',
-      },
-      backgrounds: { default: 'dark' },
-      name: 'infrafront/ie11Dark',
-      ...capabilities,
-    },
+    // ie118px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/ie118px',
+    //   ...capabilities,
+    // },
+    // ie11Flat8px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/ie11Flat8px',
+    //   ...capabilities,
+    // },
+    // ie11: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/ie11',
+    //   ...capabilities,
+    // },
+    // ie11Dark: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DARK_THEME',
+    //   },
+    //   backgrounds: { default: 'dark' },
+    //   name: 'infrafront/ie11Dark',
+    //   ...capabilities,
+    // },
     // chromeMobile: {
     //   browserName: 'chrome',
     //   viewport: { width: 400, height: 720 },
