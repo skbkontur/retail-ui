@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Select } from '../../components/Select';
+import { cx } from '../theming/Emotion';
 
 import { styles } from './DataTids.styles';
 import { componentsDataTids } from './componentsDataTids';
@@ -24,12 +25,13 @@ export class DataTids extends React.Component<{}, { selectedValue: string }> {
         const dataTidList = componentsDataTids[componentName];
         return (
           <div key={index} className={styles.row()}>
-            <div className={styles.leftCell()}>{componentName}</div>
+            <div className={styles.leftCell()}>{Object.keys(dataTidList)}:</div>
             <div className={styles.rightCell()}>
-              <div className={styles.dataTidContainer()}>
-                <div className={styles.dataTidName()}>{Object.keys(dataTidList)}:</div>
-                <div className={styles.dataTidDescription()}>{Object.values(dataTidList)}</div>
-              </div>
+              {Object.values(dataTidList)[0]
+                .split(',')
+                .map((el: string, i: number) => (
+                  <div key={i}>{el}</div>
+                ))}
             </div>
           </div>
         );
@@ -40,9 +42,9 @@ export class DataTids extends React.Component<{}, { selectedValue: string }> {
       <div>
         Выбрать компонент:
         <Select<string> items={this.items} value={this.state.selectedValue} onValueChange={this.setValue} />
-        <div className={styles.row()}>
-          <div className={styles.leftCell()}>Название компонента:</div>
-          <div className={styles.rightCell()}>data-tid</div>
+        <div className={cx(styles.row(), styles.headRow())}>
+          <div className={styles.leftCell()}>VariableName</div>
+          <div className={styles.rightCell()}>Value</div>
         </div>
         {list}
       </div>

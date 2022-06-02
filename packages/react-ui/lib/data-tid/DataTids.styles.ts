@@ -7,15 +7,27 @@ export const styles = memoizeStyle({
       width: 100%;
     `;
   },
+  headRow() {
+    return css`
+      margin-top: 20px;
+      font-size: 1.5em;
+      font-weight: bold;
+      border-top: 1px solid #000;
+    `;
+  },
   leftCell() {
     return css`
-      border: 1px solid #000;
+      padding: 5px;
+      border-right: 1px solid #000;
+      border-bottom: 1px solid #000;
       width: 30%;
+      overflow-wrap: anywhere;
     `;
   },
   rightCell() {
     return css`
-      border: 1px solid #000;
+      padding: 5px;
+      border-bottom: 1px solid #000;
       width: 70%;
     `;
   },
