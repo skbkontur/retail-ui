@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { RenderLayer } from '../../internal/RenderLayer';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';
@@ -159,13 +160,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     if (this.props.onBlur) {
       this.props.onBlur(e);
     }
-
-    setTimeout(() => {
-      // @ts-expect-error: private property
-      if (document.activeElement !== this.input?.input) {
-        this.setState({ visible: false });
-      }
-    }, 200);
   };
 
   private getEyeWrapperClassname(right = false) {
@@ -212,9 +206,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     };
 
     return (
-      <div className={styles.root()}>
-        <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
-      </div>
+      <RenderLayer onClickOutside={() => this.setState({ visible: false })}>
+        <div className={styles.root()}>
+          <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+        </div>
+      </RenderLayer>
     );
   };
 }
