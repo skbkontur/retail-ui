@@ -87,6 +87,7 @@ const config = {
     },
     firefox8px: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_8PX_OLD',
@@ -98,6 +99,7 @@ const config = {
     },
     firefoxFlat8px: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'FLAT_THEME_8PX_OLD',
@@ -109,6 +111,7 @@ const config = {
     },
     firefox: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
@@ -120,6 +123,7 @@ const config = {
     },
     firefoxDark: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DARK_THEME',

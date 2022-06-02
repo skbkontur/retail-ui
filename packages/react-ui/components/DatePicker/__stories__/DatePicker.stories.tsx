@@ -275,6 +275,12 @@ DatePickerWithMinMaxDate.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .pause(1000)
+          .perform();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
           .click(
             this.browser.findElement({
               css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
@@ -293,6 +299,12 @@ DatePickerWithMinMaxDate.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .pause(1000)
+          .perform();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
           .click(
             this.browser.findElement({
               css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
