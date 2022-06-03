@@ -50,6 +50,7 @@ export const styles = memoizeStyle({
       margin: auto;
       box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
       background: ${t.modalBg};
+      border-radius: ${t.modalBorderRadius};
     `;
   },
 
@@ -247,6 +248,7 @@ export const styles = memoizeStyle({
     return css`
       padding: ${t.modalFooterPaddingTop} ${t.modalPaddingRight} ${t.modalFooterPaddingBottom} ${t.modalPaddingLeft};
       color: ${t.modalFooterTextColor};
+      border-radius: 0 0 ${t.modalBorderRadius} ${t.modalBorderRadius};
     `;
   },
 
@@ -275,6 +277,7 @@ export const styles = memoizeStyle({
       margin-bottom: 10px;
       padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
+      border-bottom: ${t.modalFixedHeaderBorder};
 
       &:after {
         bottom: 11px;
@@ -300,6 +303,7 @@ export const styles = memoizeStyle({
       padding-top: 20px;
       margin-top: 10px;
       background: ${t.modalFixedHeaderBg};
+      border-top: ${t.modalFixedFooterBorder};
 
       &:before {
         top: 11px;

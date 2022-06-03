@@ -222,6 +222,8 @@ Plain.parameters = {
           })
           .press()
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
         await this.browser
           .actions({
@@ -237,6 +239,8 @@ Plain.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
@@ -276,7 +280,8 @@ DisabledWithTooltip.parameters = {
           })
           .press()
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
 
         await this.browser
@@ -319,6 +324,8 @@ WithLongDescription.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },

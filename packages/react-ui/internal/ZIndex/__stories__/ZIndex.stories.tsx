@@ -743,6 +743,7 @@ HintAndModalStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '.modalBody button' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
       },
@@ -769,7 +770,7 @@ BigModalWithLoaderStory.parameters = {
           }
         });
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
       },
@@ -791,6 +792,7 @@ TooltipAndSelectStory.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .sendKeys('q')
           .perform();
+        await delay(1000);
 
         await this.expect(await element.takeScreenshot()).to.matchImage('Modal covers hint');
       },
@@ -813,7 +815,7 @@ LoaderInSidePageBody.parameters = {
           }
         });
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
       },
@@ -846,6 +848,8 @@ SidepageAndSelect.parameters = {
           .perform();
 
         const element = await this.browser.findElement({ css: `[data-tid='SidePage__container']` });
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
       },
     },
@@ -866,6 +870,7 @@ ElementsInLoaderInModalStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
       },
@@ -875,7 +880,7 @@ ElementsInLoaderInModalStory.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
       },
@@ -895,7 +900,7 @@ LoaderAndSidePageStory.parameters = {
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
       },
@@ -922,6 +927,7 @@ StickyAndTooltipsStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage(
           'Sticky covers outside Popup and DropdownContainer',
@@ -983,6 +989,7 @@ ModalAndToast.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Button"] button' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },
@@ -1052,6 +1059,7 @@ ToastOverEverything.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },

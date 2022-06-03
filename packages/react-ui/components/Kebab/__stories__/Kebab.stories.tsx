@@ -107,7 +107,11 @@ Small.storyName = '14px';
 
 Small.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clickedOnButton2ndTime'] },
+    ],
     tests: kebabTests,
   },
 };
@@ -117,7 +121,11 @@ Medium.storyName = '18px';
 
 Medium.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clickedOnButton2ndTime'] },
+    ],
     tests: kebabTests,
   },
 };
@@ -127,7 +135,11 @@ Large.storyName = '20px';
 
 Large.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clickedOnButton2ndTime'] },
+    ],
     tests: kebabTests,
   },
 };

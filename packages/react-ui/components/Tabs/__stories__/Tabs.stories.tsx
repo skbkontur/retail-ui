@@ -394,6 +394,7 @@ const tabsTests: CreeveyTests = {
       })
       .sendKeys(this.keys.TAB)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
   },
   async enterPress() {
@@ -417,6 +418,7 @@ const tabsTests: CreeveyTests = {
       })
       .sendKeys(this.keys.ENTER)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
   },
 };
@@ -426,7 +428,11 @@ Simple.storyName = 'simple';
 
 Simple.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
+    ],
     tests: {
       ...tabsTests,
       async ['move focus forward']() {
@@ -519,7 +525,17 @@ HrefsSecond.parameters = { creevey: { skip: [true] } };
 export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
 Vertical.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+      },
+    ],
+    tests: tabsTests,
+  },
 };
 
 export const WithComponent = () => <TabsWithMyLink />;
@@ -533,7 +549,14 @@ WithUnexpectedTabSizeChange.parameters = { creevey: { skip: [true] } };
 export const WithDisabledTab: Story = () => <DisabledTab />;
 WithDisabledTab.storyName = 'with disabled tab';
 WithDisabledTab.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
+    ],
+    tests: tabsTests,
+  },
 };
 
 export const TabsInModalStory = () => <TabsInModal />;

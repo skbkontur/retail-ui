@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateLocaleSet, InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -168,6 +168,7 @@ WithMouseeventHandlers.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
       async ['DateSelect month']() {
@@ -187,6 +188,8 @@ WithMouseeventHandlers.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
       },
       async ['DateSelect year']() {
@@ -206,6 +209,8 @@ WithMouseeventHandlers.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
       },
     },
@@ -275,16 +280,21 @@ DatePickerWithMinMaxDate.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .pause(1000)
           .perform();
-        await delay(1000);
+
         await this.browser
-          .actions({ bridge: true })
+          .actions({
+            bridge: true,
+          })
           .click(
             this.browser.findElement({
               css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
+          .pause(1000)
           .perform();
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
       async ['DateSelect years']() {
@@ -294,16 +304,21 @@ DatePickerWithMinMaxDate.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .pause(1000)
           .perform();
-        await delay(1000);
+
         await this.browser
-          .actions({ bridge: true })
+          .actions({
+            bridge: true,
+          })
           .click(
             this.browser.findElement({
               css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
+          .pause(1000)
           .perform();
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
       },
     },
@@ -330,11 +345,20 @@ DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
 
 export const DatePickerInRelativeBody: Story = () => {
   const [isRelative, toggleIsRelative] = useState(false);
+  const relativeClassName = 'relative';
+
   const onClick = useCallback(() => {
     toggleIsRelative(!isRelative);
-    document.querySelector('html')?.classList.toggle('relative');
+    document.querySelector('html')?.classList.toggle(relativeClassName);
   }, [isRelative]);
   const paddingTop = document.documentElement.clientHeight - 32 * 3;
+
+  useEffect(() => {
+    return () => {
+      document.querySelector('html')?.classList.remove(relativeClassName);
+    };
+  }, [relativeClassName]);
+
   return (
     <>
       <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
@@ -356,14 +380,10 @@ DatePickerInRelativeBody.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
+
         await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
     },
   },
