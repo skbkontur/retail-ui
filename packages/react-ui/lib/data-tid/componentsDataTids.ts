@@ -11,6 +11,8 @@ export const componentsDataTids: { [key: string]: { [key: string]: string } } = 
   return {
     ...accum,
     [componentName]: {
+      // @ts-ignore
+      // eslint-disable-next-line import/namespace
       [currTid]: Object.entries(Components[currTid])
         .map((x) => x.join(': '))
         .join(', \n'),
