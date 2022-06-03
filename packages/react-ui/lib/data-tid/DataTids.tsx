@@ -41,7 +41,7 @@ export class DataTids extends React.Component<{}, { selectedValue: string }> {
     return (
       <div>
         Выбрать компонент:
-        <Select<string> items={this.items} value={this.state.selectedValue} onValueChange={this.setValue} />
+        <Select<string> items={this.items} value={this.state.selectedValue} onValueChange={this.setValue} search />
         <div className={cx(styles.row(), styles.headRow())}>
           <div className={styles.leftCell()}>VariableName</div>
           <div className={styles.rightCell()}>Value</div>
