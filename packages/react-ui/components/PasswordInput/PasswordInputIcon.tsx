@@ -10,8 +10,8 @@ export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'>;
 
 export const PasswordInputIcon = ({ visible }: PasswordInputIconProps) => {
   return visible ? (
-    <EyeClosedIcon className={cx(styles.icon())} size={14} />
+    <EyeClosedIcon className={cx(styles.repeatIconClickFix())} size={14} />
   ) : (
-    <EyeOpenedIcon className={cx(styles.icon())} size={14} />
+    <EyeOpenedIcon className={cx(styles.repeatIconClickFix())} size={14} />
   );
 };

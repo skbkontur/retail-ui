@@ -195,6 +195,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     this.input = element;
   };
 
+  private hideSymbols = () => {
+    this.setState({ visible: false });
+  };
+
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
@@ -206,7 +210,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     };
 
     return (
-      <RenderLayer onClickOutside={() => this.setState({ visible: false })}>
+      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
         <div className={styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>
