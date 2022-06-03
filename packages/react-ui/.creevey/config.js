@@ -7,7 +7,7 @@ require('dotenv').config({ path: '../../.env' });
  * Instructions for Windows nodes: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
  */
 
-const debug = process.env.DEBUG_SCREENSHOTS;
+const debug = process.env.DEBUG_SCREENSHOTS || true;
 
 const capabilities = debug
   ? {
@@ -85,64 +85,64 @@ const config = {
       version: '100.0',
       ...capabilities,
     },
-    firefox8px: {
-      browserName: 'firefox',
-      platformName: 'linux',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/firefox8px',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    firefoxFlat8px: {
-      browserName: 'firefox',
-      platformName: 'linux',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_8PX_OLD',
-      },
-      name: 'infrafront/firefoxFlat8px',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    firefox: {
-      browserName: 'firefox',
-      platformName: 'linux',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/firefox',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    firefoxDark: {
-      browserName: 'firefox',
-      platformName: 'linux',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DARK_THEME',
-      },
-      backgrounds: { default: 'dark' },
-      name: 'infrafront/firefoxDark',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    // NOTE Enable after switch new separate pool for IE to allow test hover
-    // 'se:ieOptions': {
-    //   enablePersistentHover: true,
-    //   nativeEvents: true,
-    //   requireWindowFocus: true,
-    //   'ie.usePerProcessProxy': true,
-    //   'ie.browserCommandLineSwitches': '-private',
-    //   'ie.ensureCleanSession': true,
+    // firefox8px: {
+    //   browserName: 'firefox',
+    //   platformName: 'linux',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/firefox8px',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
     // },
+    // firefoxFlat8px: {
+    //   browserName: 'firefox',
+    //   platformName: 'linux',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_8PX_OLD',
+    //   },
+    //   name: 'infrafront/firefoxFlat8px',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // firefox: {
+    //   browserName: 'firefox',
+    //   platformName: 'linux',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/firefox',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // firefoxDark: {
+    //   browserName: 'firefox',
+    //   platformName: 'linux',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DARK_THEME',
+    //   },
+    //   backgrounds: { default: 'dark' },
+    //   name: 'infrafront/firefoxDark',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // // NOTE Enable after switch new separate pool for IE to allow test hover
+    // // 'se:ieOptions': {
+    // //   enablePersistentHover: true,
+    // //   nativeEvents: true,
+    // //   requireWindowFocus: true,
+    // //   'ie.usePerProcessProxy': true,
+    // //   'ie.browserCommandLineSwitches': '-private',
+    // //   'ie.ensureCleanSession': true,
+    // // },
     ie118px: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
