@@ -110,7 +110,7 @@ Playground.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('flat old theme bottom');
       },
-      async ['theme 2022 top']() {
+      async 'theme 2022 top'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
@@ -118,7 +118,7 @@ Playground.parameters = {
         await delay(500);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 top');
       },
-      async ['theme 2022 bottom']() {
+      async 'theme 2022 bottom'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
@@ -129,7 +129,7 @@ Playground.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 bottom');
       },
-      async ['theme 2022 dark top']() {
+      async 'theme 2022 dark top'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
@@ -137,7 +137,7 @@ Playground.parameters = {
         await delay(500);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 dark top');
       },
-      async ['theme 2022 dark bottom']() {
+      async 'theme 2022 dark bottom'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
