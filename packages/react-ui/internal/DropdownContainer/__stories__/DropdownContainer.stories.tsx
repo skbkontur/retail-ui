@@ -16,6 +16,7 @@ VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals ite
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
+    delay: 2000,
     tests: {
       async ['short Items']() {
         await delay(1000);

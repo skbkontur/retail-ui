@@ -96,7 +96,7 @@ export const parameters: Meta['parameters'] = {
     ],
     delay: {
       in: ['chromeDark', 'ie11Dark'],
-      ms: 1000,
+      ms: 2000,
     },
   },
   options: {
