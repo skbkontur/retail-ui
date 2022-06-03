@@ -38,6 +38,9 @@ export interface CalendarState {
 
 export const CalendarDataTids = {
   root: 'Calendar',
+  month: 'MonthView__month',
+  headerMonth: 'MonthView__headerMonth',
+  headerYear: 'MonthView__headerYear',
 } as const;
 
 const getTodayDate = () => {

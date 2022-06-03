@@ -116,6 +116,7 @@ export interface PopupState {
 export const PopupDataTids = {
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
+  popupPin: 'PopupPin__root',
 } as const;
 
 @responsiveLayout

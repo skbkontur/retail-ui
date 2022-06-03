@@ -88,6 +88,10 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
+export const CustomComboBoxDataTids = {
+  comboBoxView: 'ComboBoxView__root',
+} as const;
+
 @responsiveLayout
 @rootNode
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {

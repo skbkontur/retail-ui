@@ -5,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 
 import { PopupHelper, PositionObject, Rect } from './PopupHelper';
 import { styles } from './PopupPin.styles';
+import { PopupDataTids } from './Popup';
 
 const borderStyles = {
   position: 'absolute',
@@ -25,9 +26,7 @@ interface Props {
   size: number;
 }
 
-export const PopupPinDataTids = {
-  root: 'PopupPin__root',
-} as const;
+export const PopupPinDataTids = {} as const;
 
 export class PopupPin extends React.Component<Props> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
@@ -99,7 +98,7 @@ export class PopupPin extends React.Component<Props> {
     const styleWrapper = this.getWrapperStyle(options.outerLeft, options.outerTop, options.outerSize);
 
     return (
-      <div data-tid={PopupPinDataTids.root} className={styles.wrapper()} style={styleWrapper}>
+      <div data-tid={PopupDataTids.popupPin} className={styles.wrapper()} style={styleWrapper}>
         <div style={styleOuter}>
           <div style={styleInner} />
         </div>

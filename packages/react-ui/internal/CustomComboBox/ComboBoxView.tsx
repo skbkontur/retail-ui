@@ -18,6 +18,7 @@ import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
+import { CustomComboBoxDataTids } from './CustomComboBox';
 
 interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -79,10 +80,6 @@ interface ComboBoxViewState {
   isMobileOpened: boolean;
 }
 
-export const ComboBoxViewDataTids = {
-  root: 'ComboBoxView__root',
-} as const;
-
 @responsiveLayout
 @rootNode
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
@@ -140,7 +137,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
-            data-tid={ComboBoxViewDataTids.root}
+            data-tid={CustomComboBoxDataTids.comboBoxView}
             style={{ width }}
             className={styles.root()}
             onMouseEnter={onMouseEnter}
