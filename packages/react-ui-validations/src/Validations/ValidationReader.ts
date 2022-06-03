@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-constructor */
 import { ValidationInfo } from '../ValidationWrapper';
 import { ExtractItem, Nullable } from '../../typings/Types';
 

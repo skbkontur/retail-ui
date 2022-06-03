@@ -4,6 +4,30 @@ import { Theme } from '../../lib/theming/Theme';
 import { themeConfig } from './config';
 import { DayCellViewModel } from './DayCellViewModel';
 
+const getCurrentYear = (month: number, year: number) => {
+  if (month < 0) {
+    return year - Math.ceil(-month / 12);
+  }
+
+  if (month > 11) {
+    return year + Math.floor(month / 12);
+  }
+
+  return year;
+};
+
+const getCurrentMonth = (month: number) => {
+  if (month < 0) {
+    return 12 + (month % 12);
+  }
+
+  if (month > 11) {
+    return month % 12;
+  }
+
+  return month;
+};
+
 export class MonthViewModel {
   public static create = memo((month: number, year: number): MonthViewModel => new MonthViewModel(month, year));
 
@@ -29,25 +53,20 @@ export class MonthViewModel {
   }
 
   private constructor(month: number, year: number) {
-    if (month < 0) {
-      year -= Math.ceil(-month / 12);
-      month = 12 + (month % 12);
-    }
-    if (month > 11) {
-      year += Math.floor(month / 12);
-      month %= 12;
-    }
-    const daysCount = getMonthsDays(month, year);
-    const offset = getMonthOffset(month, year);
+    const currentYear = getCurrentYear(month, year);
+    const currentMonth = getCurrentMonth(month);
+
+    const daysCount = getMonthsDays(currentMonth, currentYear);
+    const offset = getMonthOffset(currentMonth, currentYear);
     this.daysCount = daysCount;
     this.offset = offset;
-    this.month = month;
-    this.year = year;
-    this.isLastInYear = month === 11;
-    this.isFirstInYear = month === 0;
+    this.month = currentMonth;
+    this.year = currentYear;
+    this.isLastInYear = currentMonth === 11;
+    this.isFirstInYear = currentMonth === 0;
     this.days = Array.from({ length: daysCount }, (_, i) => {
-      const isWeekend = (i + getMonthOffset(month, year)) % 7 >= 5;
-      return DayCellViewModel.create(i + 1, month, year, isWeekend);
+      const isWeekend = (i + getMonthOffset(currentMonth, currentYear)) % 7 >= 5;
+      return DayCellViewModel.create(i + 1, currentMonth, currentYear, isWeekend);
     });
   }
 }

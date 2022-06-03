@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import { mount } from 'enzyme';
 import React from 'react';
 
@@ -6,7 +7,7 @@ import { Indicator } from '../Indicator';
 
 describe('Tabs', () => {
   describe('Indicator', () => {
-    const FunctionTabComponent = React.forwardRef<any, any>(function MyLink(props: any, ref) {
+    const FunctionTabComponent = React.forwardRef<any, any>((props: any, ref) => {
       return <div ref={ref} />;
     });
     it('Should correct getStyles from FunctionComponent', () => {

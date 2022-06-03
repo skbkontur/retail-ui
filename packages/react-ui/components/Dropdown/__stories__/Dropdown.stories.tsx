@@ -50,7 +50,7 @@ SimpleDropdown.parameters = {
 
         await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
       },
-      async ['MenuItem hover']() {
+      async 'MenuItem hover'() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions({
@@ -70,7 +70,7 @@ SimpleDropdown.parameters = {
 
         await this.expect(await element.takeScreenshot()).to.matchImage('MenuItem hover');
       },
-      async ['selected item']() {
+      async 'selected item'() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions({

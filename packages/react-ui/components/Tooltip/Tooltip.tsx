@@ -2,6 +2,7 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
+import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { DefaultPosition, Popup, PopupProps, PopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
@@ -239,7 +240,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   public renderContent = () => {
     const content = this.props.render ? this.props.render() : null;
-    if (content == null) {
+    if (isNullable(content)) {
       return null;
     }
 
@@ -278,7 +279,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
    * @public
    */
   public show() {
-    if (this.state.opened) return;
+    if (this.state.opened) {
+      return;
+    }
     if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
       warning(true, `Function 'show' is not supported with trigger specified '${this.props.trigger}'`);
       return;
