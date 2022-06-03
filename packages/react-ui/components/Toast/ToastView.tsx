@@ -76,7 +76,7 @@ export class ToastView extends React.Component<ToastViewProps> {
     ) : null;
 
     return (
-      <ZIndex priority="Toast" className={styles.wrapper()}>
+      <ZIndex priority="Toast" className={styles.wrapper(this.theme)}>
         <div data-tid="ToastView__root" {...rest} className={styles.root(this.theme)} ref={this.setRootNode}>
           <span>{this.props.children}</span>
           {link}

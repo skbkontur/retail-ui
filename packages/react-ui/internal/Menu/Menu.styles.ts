@@ -8,7 +8,8 @@ export const styles = memoizeStyle({
       border-radius: ${t.menuBorderRadius};
       box-sizing: content-box;
       overflow: auto;
-      padding: 0 0;
+      padding: 0 ${t.menuPaddingX};
+      border-radius: ${t.menuBorderRadius};
     `;
   },
 
