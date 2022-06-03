@@ -7,7 +7,7 @@ require('dotenv').config({ path: '../../.env' });
  * Instructions for Windows nodes: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
  */
 
-const debug = process.env.DEBUG_SCREENSHOTS;
+const debug = process.env.DEBUG_SCREENSHOTS || true;
 
 const capabilities = debug
   ? {
@@ -29,7 +29,7 @@ const config = {
   screenDir: path.join(__dirname, 'images'),
   gridUrl: process.env.GRID_URL,
   // NOTE Should refactor Button styles without 1px-border
-  maxRetries: process.env.TEAMCITY_VERSION ? 10 : 0,
+  maxRetries: process.env.TEAMCITY_VERSION ? 5 : 0,
   babelOptions: (options) => ({
     ...options,
     extends: path.join(__dirname, '../.babelrc.js'),
@@ -87,47 +87,51 @@ const config = {
     },
     firefox8px: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefox8px',
-      browserVersion: '98.0',
-      version: '98.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefoxFlat8px: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/firefoxFlat8px',
-      browserVersion: '98.0',
-      version: '98.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefox: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/firefox',
-      browserVersion: '98.0',
-      version: '98.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefoxDark: {
       browserName: 'firefox',
+      platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DARK_THEME',
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/firefoxDark',
-      browserVersion: '98.0',
-      version: '98.0',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     // NOTE Enable after switch new separate pool for IE to allow test hover

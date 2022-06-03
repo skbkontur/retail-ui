@@ -12,10 +12,11 @@ import { delay } from '../../../lib/utils';
 export default { title: 'DropdownContainer' };
 
 export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
-VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, items and scrolls';
+VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals items and scrolls';
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
+    delay: 2000,
     tests: {
       async ['short Items']() {
         await delay(1000);
@@ -38,7 +39,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
-        await delay(1000);
+        await delay(2000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
       },
@@ -47,13 +48,14 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
+        await delay(2000);
         await this.browser.executeScript(function () {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
-        await delay(1000);
+        await delay(2000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
       },
