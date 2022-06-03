@@ -96,10 +96,12 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
   };
 
-  private handleShiftRelease = () => {
-    this.setState({
-      isShiftPressed: false,
-    });
+  private handleShiftRelease = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') {
+      this.setState({
+        isShiftPressed: false,
+      });
+    }
   };
 
   public componentDidMount = () => {
