@@ -188,7 +188,6 @@ Plain.parameters = {
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
     ],
     tests: checkboxTests,
-    tests: checkboxTests,
   },
 };
 
