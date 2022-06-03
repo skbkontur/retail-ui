@@ -7,7 +7,7 @@ require('dotenv').config({ path: '../../.env' });
  * Instructions for Windows nodes: https://git.skbkontur.ru/ke/keweb.front/-/blob/f25788b0c0fce83b762e1b51553683e4d30484bd/.creevey/readme.md#debug
  */
 
-const debug = process.env.DEBUG_SCREENSHOTS || true;
+const debug = process.env.DEBUG_SCREENSHOTS;
 
 const capabilities = debug
   ? {
