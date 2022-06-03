@@ -1,5 +1,5 @@
 import { action } from '@storybook/addon-actions';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
@@ -339,11 +339,20 @@ DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
 
 export const DatePickerInRelativeBody: Story = () => {
   const [isRelative, toggleIsRelative] = useState(false);
+  const relativeClassName = 'relative';
+
   const onClick = useCallback(() => {
     toggleIsRelative(!isRelative);
-    document.querySelector('html')?.classList.toggle('relative');
+    document.querySelector('html')?.classList.toggle(relativeClassName);
   }, [isRelative]);
   const paddingTop = document.documentElement.clientHeight - 32 * 3;
+
+  useEffect(() => {
+    return () => {
+      document.querySelector('html')?.classList.remove(relativeClassName);
+    };
+  }, [relativeClassName]);
+
   return (
     <>
       <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
