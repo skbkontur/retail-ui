@@ -70,6 +70,13 @@ export interface ModalState {
   hasPanel: boolean;
 }
 
+/**
+ * @deprecated
+ * В следующей мажорной версии будет изменено на
+ * container: 'Modal__container',
+ * content: 'Modal__content',
+ * close: 'Modal__close',
+ */
 export const ModalDataTids = {
   container: 'modal-container',
   content: 'modal-content',

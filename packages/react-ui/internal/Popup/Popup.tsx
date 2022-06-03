@@ -113,6 +113,13 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
+/**
+ * @deprecated
+ * В следующей мажорной версии будет изменено на
+ * content: 'Popup__content',
+ * contentInner: 'Popup__contentInner',
+ * popupPin: 'PopupPin__root',
+ */
 export const PopupDataTids = {
   content: 'PopupContent',
   contentInner: 'PopupContentInner',
