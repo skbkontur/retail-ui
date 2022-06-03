@@ -47,7 +47,7 @@ describe('MaskedInput', () => {
 
   it('should accept `null` as value', () => {
     // @ts-expect-error: `Input` techinically can't accept `null` as a `value`
-    mount(<MaskedInput value={null} mask="99:99" />);
+    expect(() => mount(<MaskedInput value={null} mask="99:99" />)).not.toThrow();
   });
 
   it('incorrect input', () => {
