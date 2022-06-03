@@ -48,8 +48,9 @@ Playground.parameters = {
       },
       async ['default theme bottom']() {
         await this.browser.executeScript(function () {
-          document.documentElement.scrollTop = document.documentElement.offsetHeight;
+          document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('default theme bottom');
       },
       async ['dark theme top']() {
@@ -57,7 +58,7 @@ Playground.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-prop-id="dark"]' }))
           .perform();
-        await delay(500);
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('dark theme top');
       },
       async ['dark theme bottom']() {
@@ -66,8 +67,9 @@ Playground.parameters = {
           .click(this.browser.findElement({ css: '[data-prop-id="dark"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          document.documentElement.scrollTop = document.documentElement.offsetHeight;
+          document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('dark theme bottom');
       },
       async ['default old theme top']() {
@@ -75,7 +77,7 @@ Playground.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-prop-id="defaultOld"]' }))
           .perform();
-        await delay(500);
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('default old theme top');
       },
       async ['default old theme bottom']() {
@@ -84,8 +86,9 @@ Playground.parameters = {
           .click(this.browser.findElement({ css: '[data-prop-id="defaultOld"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          document.documentElement.scrollTop = document.documentElement.offsetHeight;
+          document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('default old theme bottom');
       },
       async ['flat old theme top']() {
@@ -102,8 +105,9 @@ Playground.parameters = {
           .click(this.browser.findElement({ css: '[data-prop-id="flatOld"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          document.documentElement.scrollTop = document.documentElement.offsetHeight;
+          document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('flat old theme bottom');
       },
       async ['theme 2022 top']() {
@@ -120,8 +124,9 @@ Playground.parameters = {
           .click(this.browser.findElement({ css: '[data-prop-id="theme2022"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          document.documentElement.scrollTop = document.documentElement.offsetHeight;
+          document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 bottom');
       },
       async ['theme 2022 dark top']() {
@@ -138,8 +143,9 @@ Playground.parameters = {
           .click(this.browser.findElement({ css: '[data-prop-id="theme2022Dark"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          document.documentElement.scrollTop = document.documentElement.offsetHeight;
+          document.documentElement.scrollTop = document.documentElement.scrollHeight;
         });
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('theme 2022 dark bottom');
       },
     },
