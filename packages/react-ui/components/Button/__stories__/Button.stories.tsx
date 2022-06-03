@@ -94,7 +94,11 @@ Playground.storyName = 'playground';
 
 Playground.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
+    ],
     tests: buttonTests,
   },
 };
@@ -121,7 +125,14 @@ UseLink.storyName = 'use link';
 
 UseLink.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      // TODO @Khlutkova fix after update browsers
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hover', 'pressed', 'clicked', 'tabPress'],
+      },
+    ],
     tests: buttonTests,
   },
 };
@@ -135,7 +146,14 @@ UseLinkWithIcon.storyName = 'use link with icon';
 
 UseLinkWithIcon.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      // TODO @Khlutkova fix after update browsers
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hover', 'pressed', 'clicked', 'tabPress'],
+      },
+    ],
     tests: buttonTests,
   },
 };
@@ -153,7 +171,11 @@ MultilineTextWithLinkButton.storyName = 'multiline text with link button';
 
 MultilineTextWithLinkButton.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
+    ],
     tests: buttonTests,
   },
 };
@@ -176,6 +198,8 @@ WithError.parameters = {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
       { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
     ],
     tests: buttonTests,
   },
@@ -193,6 +217,8 @@ ArrowWithError.parameters = {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
       { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
     ],
     tests: buttonTests,
   },

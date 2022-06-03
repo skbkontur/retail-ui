@@ -31,23 +31,63 @@ export default {
 };
 
 export const Simple: Story = () => <Link>Simple Link</Link>;
-Simple.parameters = { creevey: { tests: linkTests } };
+Simple.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    ],
+  },
+};
 
 export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
-WithIcon.parameters = { creevey: { tests: linkTests } };
+WithIcon.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    ],
+  },
+};
 
 export const Danger: Story = () => (
   <Link icon={<OkIcon />} use="danger">
     Simple Link
   </Link>
 );
-Danger.parameters = { creevey: { tests: linkTests } };
+Danger.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    ],
+  },
+};
 
 export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
-Grayed.parameters = { creevey: { tests: linkTests } };
+Grayed.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    ],
+  },
+};
 
 export const Disabled: Story = () => <Link disabled>Simple link</Link>;
-Disabled.parameters = { creevey: { tests: linkTests } };
+Disabled.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    ],
+  },
+};
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
 WithOnClick.storyName = 'With onClick';
@@ -71,4 +111,12 @@ export const Loading: Story = () => (
     </Link>
   </Gapped>
 );
-Loading.parameters = { creevey: { tests: linkTests } };
+Loading.parameters = {
+  creevey: {
+    tests: linkTests,
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
+    ],
+  },
+};
