@@ -12,7 +12,7 @@ import { delay } from '../../../lib/utils';
 export default { title: 'DropdownContainer' };
 
 export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
-VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, items and scrolls';
+VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals items and scrolls';
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
