@@ -11,7 +11,7 @@ const setup = (props?: PasswordInputProps) => {
 
 describe('PasswordInput', () => {
   it('renders', () => {
-    setup();
+    expect(setup).not.toThrow();
   });
 
   it('should render 1 Icon', () => {

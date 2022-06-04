@@ -8,12 +8,13 @@ jest.useFakeTimers();
 
 describe('Toast', () => {
   it('renders', () => {
-    mount<ToastProps>(<Toast />);
+    expect(() => mount<ToastProps>(<Toast />)).not.toThrow();
   });
 
   it("doesn't throw on push", () => {
     const wrapper = mount(<Toast />);
-    (wrapper.instance() as Toast).push('message');
+
+    expect(() => (wrapper.instance() as Toast).push('message')).not.toThrow();
   });
 
   it('sets message to state', () => {

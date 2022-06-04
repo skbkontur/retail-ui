@@ -203,7 +203,8 @@ describe('<RadioGroup />', () => {
     );
     const wrapper = render({ children, defaultValue: 'two' });
     const instance = wrapper.instance();
-    instance.focus();
+
+    expect(() => instance.focus()).not.toThrow();
   });
 
   it('has Prevent static prop', () => {

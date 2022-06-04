@@ -39,7 +39,7 @@ const getValue = (input: ReactWrapper) => input.text();
 describe('DateInput as InputlikeText', () => {
   describe('without min/max date', () => {
     it('renders', () => {
-      render({ value: '10.02.2017' });
+      expect(() => render({ value: '10.02.2017' })).not.toThrow();
     });
 
     it('renders with given valid value', () => {

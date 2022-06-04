@@ -30,8 +30,7 @@ describe('Tabs', () => {
         ))}
       </Tabs>
     );
-    const wrapper = mount(<TabsContainer count={initialCount} />);
 
-    wrapper.setProps({ count: 2 });
+    expect(() => mount(<TabsContainer count={initialCount} />).setProps({ count: 2 })).not.toThrow();
   });
 });

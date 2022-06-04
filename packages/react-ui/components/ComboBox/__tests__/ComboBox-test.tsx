@@ -44,7 +44,7 @@ describe('ComboBox', () => {
   buildMountAttachTarget();
 
   it('renders', () => {
-    mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
+    expect(() => mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />)).not.toThrow();
   });
 
   it('focuses on focus call', () => {
@@ -450,20 +450,24 @@ describe('ComboBox', () => {
     };
 
     it('in default mode', () => {
-      check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} getItems={() => Promise.resolve(VALUES)} />));
+      expect(() =>
+        check(mount<ComboBox<any>>(<ComboBox value={VALUES[0]} getItems={() => Promise.resolve(VALUES)} />)),
+      ).not.toThrow();
     });
 
     it('in autocomplete mode', () => {
-      check(
-        mount<ComboBox<any>>(
-          <ComboBox
-            value={VALUES[0]}
-            drawArrow={false}
-            searchOnFocus={false}
-            getItems={() => Promise.resolve(VALUES)}
-          />,
+      expect(() =>
+        check(
+          mount<ComboBox<any>>(
+            <ComboBox
+              value={VALUES[0]}
+              drawArrow={false}
+              searchOnFocus={false}
+              getItems={() => Promise.resolve(VALUES)}
+            />,
+          ),
         ),
-      );
+      ).not.toThrow();
     });
   });
 
@@ -483,15 +487,24 @@ describe('ComboBox', () => {
     };
 
     it('in default mode', () => {
-      check(mount<ComboBox<any>>(<ComboBox value={value} getItems={() => Promise.resolve([value])} />));
+      expect(() =>
+        check(mount<ComboBox<any>>(<ComboBox value={value} getItems={() => Promise.resolve([value])} />)),
+      ).not.toThrow();
     });
 
     it('in autocomplete mode', () => {
-      check(
-        mount<ComboBox<any>>(
-          <ComboBox value={value} drawArrow={false} searchOnFocus={false} getItems={() => Promise.resolve([value])} />,
+      expect(() =>
+        check(
+          mount<ComboBox<any>>(
+            <ComboBox
+              value={value}
+              drawArrow={false}
+              searchOnFocus={false}
+              getItems={() => Promise.resolve([value])}
+            />,
+          ),
         ),
-      );
+      ).not.toThrow();
     });
   });
 
