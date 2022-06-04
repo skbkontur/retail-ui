@@ -55,6 +55,15 @@ export interface PagingProps extends CommonProps {
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
   useGlobalListener: boolean;
+  /**
+   * Определяет, нужно ли показывать `Paging` когда страница всего одна.
+   *
+   * Этот проп будет удалён в 5-ой версии библиотеки,
+   * так как поведение со скрытием `Paging`'а станет поведением по умолчанию.
+   *
+   * @default false
+   */
+  shouldBeVisibleWithLessThanTwoPages: boolean;
 }
 
 export interface PagingState {
@@ -72,6 +81,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   public static defaultProps = {
     component: PagingDefaultComponent,
+    shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
     'data-tid': 'Paging__root',
   };
@@ -122,6 +132,10 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
+    if (this.props.pagesCount < 2 && !this.props.shouldBeVisibleWithLessThanTwoPages) {
+      return null;
+    }
+
     return (
       <ThemeContext.Consumer>
         {(theme) => {

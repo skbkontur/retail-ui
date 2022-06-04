@@ -305,6 +305,7 @@ InputsWithDifferentSizes.parameters = {
           .sendKeys(
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           )
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
       },

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.6...@skbkontur/react-ui@4.1.0) (2022-05-04)
+
+
+### Bug Fixes
+
+* **Paging:** add prop shouldBeVisibleWithLessThanTwoPages, true by default ([#2778](https://github.com/skbkontur/retail-ui/issues/2778)) ([d19c839](https://github.com/skbkontur/retail-ui/commit/d19c839e4a430ba6ef07ef87242b4a82a37a2dbc))
+* **Paging:** fix border-radius of long links ([#2765](https://github.com/skbkontur/retail-ui/issues/2765)) ([576dcb9](https://github.com/skbkontur/retail-ui/commit/576dcb9de546eebd7309309fb8144d0a57cb778c))
+* **PasswordInput:** disable eye along with Input & hide password on blur ([#2766](https://github.com/skbkontur/retail-ui/issues/2766)) ([b280ea4](https://github.com/skbkontur/retail-ui/commit/b280ea4a870c6d786700635d37efb92933ff79f5))
+* **Select:** add menuBorderRadius theme var ([#2864](https://github.com/skbkontur/retail-ui/issues/2864)) ([d7d7827](https://github.com/skbkontur/retail-ui/commit/d7d78271b7945bd22ccbf6a4ff78a3ad61d5041a))
+
+
+### Features
+
+* new themes (THEME_2022, THEME_2022_DARK) ([#2880](https://github.com/skbkontur/retail-ui/issues/2880)) ([c4b4615](https://github.com/skbkontur/retail-ui/commit/c4b4615db11b4dfe13efdbaba31e6a29a0305ab1))
+
+
+
+
+
 ## [4.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.5...@skbkontur/react-ui@4.0.6) (2022-04-25)
 
 

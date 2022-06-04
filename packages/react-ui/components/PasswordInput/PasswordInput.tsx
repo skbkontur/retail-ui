@@ -6,7 +6,6 @@ import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
-import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
@@ -15,6 +14,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './PasswordInput.styles';
+import { PasswordInputIcon } from './PasswordInputIcon';
 
 export interface PasswordInputProps extends CommonProps, InputProps {
   detectCapsLock?: boolean;
@@ -64,6 +64,14 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       // @ts-ignore
       window.document.msCapsLockWarningOff = true;
     }
+  }
+
+  public static getDerivedStateFromProps(props: PasswordInputProps, state: PasswordInputState) {
+    if (props.disabled) {
+      return { visible: false };
+    }
+
+    return state;
   }
 
   public render() {
@@ -148,6 +156,14 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
+  private onBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+
+    this.setState({ visible: false });
+  };
+
   private getEyeWrapperClassname(right = false) {
     switch (this.props.size) {
       case 'large':
@@ -171,7 +187,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
           className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
-          {this.state.visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />}
+          {!this.props.disabled && <PasswordInputIcon visible={this.state.visible} />}
         </span>
       </span>
     );
@@ -185,10 +201,12 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
       ...rest,
+      onBlur: this.onBlur,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
+
     return (
       <div className={styles.root()}>
         <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />

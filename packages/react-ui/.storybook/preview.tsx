@@ -11,6 +11,8 @@ import { DARK_THEME } from '../lib/theming/themes/DarkTheme';
 import { DEFAULT_THEME_MOBILE } from '../lib/theming/themes/DefaultThemeMobile';
 import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld';
 import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
+import { THEME_2022 } from '../lib/theming/themes/Theme2022';
+import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
 
 const customViewports = {
   iphone: {
@@ -31,7 +33,15 @@ const customViewports = {
   },
 };
 
-const themes = { DEFAULT_THEME, DARK_THEME, DEFAULT_THEME_8PX_OLD, FLAT_THEME_8PX_OLD, DEFAULT_THEME_MOBILE };
+const themes = {
+  DEFAULT_THEME,
+  DARK_THEME,
+  DEFAULT_THEME_8PX_OLD,
+  FLAT_THEME_8PX_OLD,
+  DEFAULT_THEME_MOBILE,
+  THEME_2022,
+  THEME_2022_DARK,
+};
 
 setFilter((fiber) => {
   // Транслируем все пропы только для контролов
@@ -51,7 +61,7 @@ export const decorators: Meta['decorators'] = [
     const theme = themes[context.globals.theme] || DEFAULT_THEME;
     const root = document.getElementById('root');
     if (root) {
-      if (theme === DARK_THEME) {
+      if ([DARK_THEME, THEME_2022_DARK].includes(theme)) {
         root.classList.add('dark');
       } else {
         root.classList.remove('dark');

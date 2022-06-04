@@ -15,6 +15,29 @@ describe('Paging', () => {
     expect(screen.getAllByTestId('Paging__pageLink')).toHaveLength(5);
   });
 
+  it('should not be rendered when only one page is presented and the flag is enabled', () => {
+    const callback = jest.fn();
+    render(
+      <Paging pagesCount={1} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages={false} />,
+    );
+
+    expect(screen.queryByTestId('Paging__root')).not.toBeInTheDocument();
+  });
+
+  it('should be rendered when only one page is presented and the flag is disabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
+
+    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+  });
+
+  it('should be rendered when two or more pages are presented and the flag is enabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={2} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages />);
+
+    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+  });
+
   it('should render right dots', () => {
     render(<Paging pagesCount={10} activePage={1} onPageChange={emptyHandler} />);
 

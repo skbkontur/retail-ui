@@ -198,16 +198,19 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     }
   };
 
+  const [hovered, setHovered] = useState(false);
+
   const uploadButtonClassNames = cx(jsStyles.uploadButton(theme), {
     [jsStyles.uploadButtonFocus(theme)]: focusedByTab,
     [jsStyles.disabled(theme)]: disabled,
+    [jsStyles.hovered(theme)]: !disabled && hovered,
     [jsStyles.warning(theme)]: !!warning,
     [jsStyles.error(theme)]: !!error,
-    [jsStyles.dragOver()]: isDraggable && !disabled,
+    [jsStyles.dragOver(theme)]: isDraggable && !disabled,
   });
 
   const uploadButtonWrapperClassNames = cx({
-    [jsStyles.windowDragOver()]: isWindowDraggable && !disabled,
+    [jsStyles.windowDragOver(theme)]: isWindowDraggable && !disabled,
   });
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), {
@@ -216,8 +219,6 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
-
-  const [hovered, setHovered] = useState(false);
 
   const linkClassNames = cx(jsStyles.link(theme), {
     [jsStyles.linkHovered(theme)]: !disabled && hovered,
