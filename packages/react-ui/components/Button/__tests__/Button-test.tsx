@@ -25,13 +25,4 @@ describe('Button', () => {
       expect(wrapper.find('button').prop('type')).toBe(type);
     });
   });
-
-  it('handles click event', () => {
-    const onClick = jest.fn();
-    const wrapper = mount(<Button onClick={onClick} />);
-
-    wrapper.find('button').simulate('click');
-
-    expect(onClick.mock.calls).toHaveLength(1);
-  });
 });

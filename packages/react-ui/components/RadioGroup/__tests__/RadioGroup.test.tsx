@@ -218,7 +218,7 @@ describe('<RadioGroup />', () => {
     expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
   });
 
-  it('calls onBlur after radio click', () => {
+  it('should call `onBlur` after click outside of radio button', () => {
     const items = ['one', 'two', 'three'];
     const onBlur = jest.fn();
     const wrapper = mount<RadioGroup<any>>(<RadioGroup items={items} onBlur={onBlur} />);
@@ -229,7 +229,7 @@ describe('<RadioGroup />', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('calls onBlur after radio click', () => {
+  it('should call `onBlur` after click outside of radio group', () => {
     const onBlur = jest.fn();
     const onRadioBlur = jest.fn();
     const wrapper = mount<RadioGroup<any>>(
