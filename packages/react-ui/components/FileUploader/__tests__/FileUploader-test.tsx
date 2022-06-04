@@ -416,7 +416,7 @@ describe('FileUploader', () => {
 
       await addFiles(wrapper, [getFile(), getFile()]);
 
-      expect(getFilesList(wrapper).length).toBe(0);
+      expect(getFilesList(wrapper)).toHaveLength(0);
       expect(getBaseButtonContent(wrapper)).toBe(expectedText);
     };
 

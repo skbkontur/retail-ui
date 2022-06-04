@@ -7,7 +7,7 @@ import { Button } from '../../Button';
 import { styles } from '../Group.styles';
 
 describe('Group', () => {
-  it('It renders', () => {
+  it('renders', () => {
     const wrapper = mount(
       <Group>
         <Input />
@@ -37,7 +37,7 @@ describe('Group', () => {
 
     const wrappingElements = wrapper.find(`.${styles.root()} *`);
 
-    expect(wrappingElements.length).toBe(0);
+    expect(wrappingElements).toHaveLength(0);
   });
 
   it('width is applied to the root from props', () => {

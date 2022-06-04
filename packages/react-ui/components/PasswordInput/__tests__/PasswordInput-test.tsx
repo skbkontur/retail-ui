@@ -21,7 +21,7 @@ describe('PasswordInput', () => {
 
   it('has Icon with 14px size', () => {
     const component = setup();
-    expect(component.find(EyeOpenedIcon).props().size).toEqual(14);
+    expect(component.find(EyeOpenedIcon).props().size).toBe(14);
   });
 
   it('should render eye Icon', () => {
@@ -53,7 +53,7 @@ describe('PasswordInput', () => {
 
   it('has capsLockEnabled = null if passed detectCapsLock prop', () => {
     const component = setup({ detectCapsLock: true });
-    expect(component.state().capsLockEnabled).toBe(null);
+    expect(component.state().capsLockEnabled).toBeNull();
   });
 
   it('should at first render CapsLock label then hide it', () => {

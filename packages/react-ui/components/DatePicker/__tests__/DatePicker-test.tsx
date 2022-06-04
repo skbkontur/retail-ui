@@ -66,8 +66,8 @@ describe('DatePicker', () => {
     });
     datePicker.setState({ opened: true });
     const yearSelect = datePicker.find(DateSelect).findWhere((node) => node.props().type === 'year');
-    expect(yearSelect.prop('minValue')).toEqual(2017);
-    expect(yearSelect.prop('maxValue')).toEqual(2020);
+    expect(yearSelect.prop('minValue')).toBe(2017);
+    expect(yearSelect.prop('maxValue')).toBe(2020);
   });
 
   it('correctly initial month/year with min date', () => {

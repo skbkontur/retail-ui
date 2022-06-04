@@ -48,7 +48,7 @@ describe('Toast', () => {
     jest.runAllTimers();
 
     expect(onPush.mock.calls[0][0]).toBe('somemessage');
-    expect(onPush.mock.calls.length).toBe(1);
+    expect(onPush.mock.calls).toHaveLength(1);
   });
 
   it('calls onClose after close', () => {
@@ -58,7 +58,7 @@ describe('Toast', () => {
     jest.runAllTimers();
 
     expect(onClose.mock.calls[0][0]).toBe('message');
-    expect(onClose.mock.calls.length).toBe(1);
+    expect(onClose.mock.calls).toHaveLength(1);
   });
 
   it('support actions in tosts', () => {

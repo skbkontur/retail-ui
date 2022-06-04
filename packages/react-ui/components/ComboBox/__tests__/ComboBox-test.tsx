@@ -59,7 +59,7 @@ describe('ComboBox', () => {
     const search = jest.fn(() => Promise.resolve([]));
     const wrapper = mount<ComboBox<any>>(<ComboBox getItems={search} />);
     wrapper.find(ComboBoxView).prop('onFocus')?.();
-    expect(search).toBeCalledWith('');
+    expect(search).toHaveBeenCalledWith('');
   });
 
   it('fetches items on input', () => {
@@ -70,7 +70,7 @@ describe('ComboBox', () => {
     wrapper.update();
     wrapper.find('input').simulate('change', { target: { value: 'world' } });
 
-    expect(search).toBeCalled();
+    expect(search).toHaveBeenCalled();
     expect(search).toHaveBeenCalledTimes(2);
     expect((search.mock.calls as string[][])[1][0]).toBe('world');
   });
@@ -119,7 +119,7 @@ describe('ComboBox', () => {
 
     wrapper.find(MenuItem).first().simulate('click');
 
-    expect(onValueChange).toBeCalledWith('one');
+    expect(onValueChange).toHaveBeenCalledWith('one');
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
@@ -136,7 +136,7 @@ describe('ComboBox', () => {
 
     wrapper.find('input').simulate('keydown', { key: 'Enter' });
 
-    expect(onValueChange).toBeCalledWith('one');
+    expect(onValueChange).toHaveBeenCalledWith('one');
     expect(onValueChange).toHaveBeenCalledTimes(1);
   });
 
@@ -153,7 +153,7 @@ describe('ComboBox', () => {
 
     await delay(0);
 
-    expect(search).toBeCalledWith('');
+    expect(search).toHaveBeenCalledWith('');
     expect(search).toHaveBeenCalledTimes(2);
   });
 
@@ -192,7 +192,7 @@ describe('ComboBox', () => {
     clickOutside();
     await delay(0);
 
-    expect(onUnexpectedInput).toBeCalledWith('one');
+    expect(onUnexpectedInput).toHaveBeenCalledWith('one');
     expect(onUnexpectedInput).toHaveBeenCalledTimes(1);
   });
 
@@ -298,7 +298,7 @@ describe('ComboBox', () => {
     wrapper.findWhere((x) => x.matchesElement(<div>Hello, world</div>)).simulate('click');
 
     expect(onValueChange).toHaveBeenCalledTimes(1);
-    expect(onValueChange).toBeCalledWith({
+    expect(onValueChange).toHaveBeenCalledWith({
       id: 'hello',
       'data-name': 'world',
       children: 'Hello, world',
@@ -372,21 +372,21 @@ describe('ComboBox', () => {
     await delay(300);
     wrapper.update();
 
-    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(true);
-    expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(true);
+    expect(wrapper.find(ComboBoxView).prop('loading')).toBe(true);
+    expect(wrapper.find(ComboBoxView).prop('opened')).toBe(true);
 
     clickOutside();
     await delay(0);
     wrapper.update();
 
-    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(false);
-    expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
+    expect(wrapper.find(ComboBoxView).prop('loading')).toBe(false);
+    expect(wrapper.find(ComboBoxView).prop('opened')).toBe(false);
 
     await delay(1000);
     wrapper.update();
 
-    expect(wrapper.find(ComboBoxView).prop('loading')).toEqual(false);
-    expect(wrapper.find(ComboBoxView).prop('opened')).toEqual(false);
+    expect(wrapper.find(ComboBoxView).prop('loading')).toBe(false);
+    expect(wrapper.find(ComboBoxView).prop('opened')).toBe(false);
     expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
       loading: false,
       opened: false,
@@ -761,7 +761,7 @@ describe('ComboBox', () => {
 
       await delay(0);
 
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
 
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Success,
@@ -783,7 +783,7 @@ describe('ComboBox', () => {
 
       await delay(0);
 
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
 
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
@@ -807,7 +807,7 @@ describe('ComboBox', () => {
 
       await delay(0);
 
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
 
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
@@ -836,7 +836,7 @@ describe('ComboBox', () => {
 
       await delay(0);
 
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Failed,
         loading: false,
@@ -856,7 +856,7 @@ describe('ComboBox', () => {
 
       await delay(0);
 
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
 
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
@@ -879,7 +879,7 @@ describe('ComboBox', () => {
 
       await delay(0);
 
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
 
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
@@ -909,7 +909,7 @@ describe('ComboBox', () => {
       await delay(0);
 
       expect(getItems).toHaveBeenCalledTimes(2);
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
@@ -936,7 +936,7 @@ describe('ComboBox', () => {
       await delay(DELAY_BEFORE_SHOW_LOADER);
 
       expect(getItems).toHaveBeenCalledTimes(2);
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
@@ -971,7 +971,7 @@ describe('ComboBox', () => {
       await delay(LOADER_SHOW_TIME + 100);
 
       expect(getItems).toHaveBeenCalledTimes(2);
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
@@ -1006,7 +1006,7 @@ describe('ComboBox', () => {
       await delay(LOADER_SHOW_TIME + 100);
 
       expect(getItems).toHaveBeenCalledTimes(2);
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,
@@ -1050,7 +1050,7 @@ describe('ComboBox', () => {
       await delay(LOADER_SHOW_TIME - 200);
 
       expect(getItems).toHaveBeenCalledTimes(2);
-      expect(getItems).toBeCalledWith(query);
+      expect(getItems).toHaveBeenCalledWith(query);
       expect(wrapper.find(CustomComboBox).instance().state).toMatchObject({
         requestStatus: ComboBoxRequestStatus.Success,
         loading: false,

@@ -16,7 +16,7 @@ describe('Button', () => {
 
     wrapper.find('button').simulate('click');
 
-    expect(onClick.mock.calls.length).toBe(1);
+    expect(onClick.mock.calls).toHaveLength(1);
   });
 
   (['submit', 'button', 'reset'] as ButtonType[]).forEach((type) => {
@@ -32,6 +32,6 @@ describe('Button', () => {
 
     wrapper.find('button').simulate('click');
 
-    expect(onClick.mock.calls.length).toBe(1);
+    expect(onClick.mock.calls).toHaveLength(1);
   });
 });

@@ -20,7 +20,7 @@ describe('Menu', () => {
     // 1. Called initially.
     // 2. Changed with a wrapper function. Previous function called with null.
     // 3. The wrapper function called.
-    expect(refItem.mock.calls.length).toBe(3);
+    expect(refItem.mock.calls).toHaveLength(3);
     expect(refItem.mock.calls[2][0]).toBeTruthy();
   });
 
@@ -36,7 +36,7 @@ describe('Menu', () => {
 
     wrapper.find('[data-click]').simulate('click');
 
-    expect(onClick.mock.calls.length).toBe(1);
+    expect(onClick.mock.calls).toHaveLength(1);
   });
 
   it('does not call onClick on disabled MenuItem', () => {
@@ -51,6 +51,6 @@ describe('Menu', () => {
 
     wrapper.find('[data-click]').simulate('click');
 
-    expect(onClick.mock.calls.length).toBe(0);
+    expect(onClick.mock.calls).toHaveLength(0);
   });
 });

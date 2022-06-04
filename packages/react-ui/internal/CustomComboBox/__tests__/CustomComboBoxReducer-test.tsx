@@ -68,13 +68,13 @@ describe('Default combobox reducer', () => {
       Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
       if (expectedDispatch) {
-        expect(mockedDispatch).toBeCalledWith({
+        expect(mockedDispatch).toHaveBeenCalledWith({
           type: 'ValueChange',
           keepFocus: false,
           value: items[0],
         });
       } else {
-        expect(mockedDispatch).not.toBeCalled();
+        expect(mockedDispatch).not.toHaveBeenCalled();
       }
     });
   });
