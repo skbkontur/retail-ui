@@ -13,7 +13,7 @@ describe('Dropdown', () => {
       </Dropdown>,
     );
 
-    expect(wrapper.exists());
+    expect(wrapper.exists()).toBe(true);
   });
 
   it('opens and closes', () => {

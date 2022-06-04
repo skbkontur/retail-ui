@@ -15,7 +15,7 @@ describe('Group', () => {
       </Group>,
     );
 
-    expect(wrapper.exists());
+    expect(wrapper.exists()).toBe(true);
   });
 
   it('main element in group gets "stretch" class', () => {
