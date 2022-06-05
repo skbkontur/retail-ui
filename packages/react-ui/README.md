@@ -121,7 +121,7 @@ process.env.STORYBOOK_REACT_UI_TEST
 
 ### Мобильная верстка
 
-С версии 4.0 многие компоненты умеют адаптироваться под мобильные устройства. Подробнее об управлении этим поведением в [MOBILES.md](https://github.com/skbkontur/retail-ui/packages/react-ui/MOBILES.md).
+С версии 4.0 многие компоненты умеют адаптироваться под мобильные устройства. Подробнее об управлении этим поведением в [MOBILES.md](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MOBILES.md).
 
 ### Помощь в развитии
 
