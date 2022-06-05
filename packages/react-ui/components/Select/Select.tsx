@@ -237,9 +237,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
-          );
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
@@ -404,16 +402,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         {(theme) => {
           this.theme = theme;
           return (
-            <ThemeContext.Provider
-              value={ThemeFactory.create(
-                {
-                  btnBorderRadiusSmall: theme.selectBorderRadiusSmall,
-                  btnBorderRadiusMedium: theme.selectBorderRadiusMedium,
-                  btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
-                },
-                theme,
-              )}
-            >
+            <ThemeContext.Provider value={ThemeFactory.create(getSelectTheme(theme, this.props))}>
               <Button {...buttonProps}>
                 <div className={styles.selectButtonContainer()}>
                   {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}

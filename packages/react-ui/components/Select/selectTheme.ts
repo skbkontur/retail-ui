@@ -14,6 +14,7 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnPaddingXSmall: props._icon ? theme.btnPaddingXSmall : theme.selectPaddingXSmall,
       btnPaddingYSmall: theme.selectPaddingYSmall,
       btnIconSizeSmall: theme.selectIconSizeSmall,
+      btnBorderRadiusSmall: theme.selectBorderRadiusSmall,
 
       btnLinkHoverTextDecoration: 'none',
 
@@ -22,12 +23,14 @@ export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Them
       btnPaddingXMedium: props._icon ? theme.btnPaddingXMedium : theme.selectPaddingXMedium,
       btnPaddingYMedium: theme.selectPaddingYMedium,
       btnIconSizeMedium: theme.selectIconSizeMedium,
+      btnBorderRadiusMedium: theme.selectBorderRadiusMedium,
 
       btnLineHeightLarge: theme.selectLineHeightLarge,
       btnFontSizeLarge: theme.selectFontSizeLarge,
       btnPaddingXLarge: props._icon ? theme.btnPaddingXLarge : theme.selectPaddingXLarge,
       btnPaddingYLarge: theme.selectPaddingYLarge,
       btnIconSizeLarge: theme.selectIconSizeLarge,
+      btnBorderRadiusLarge: theme.selectBorderRadiusLarge,
 
       btnDisabledBg: theme.selectBgDisabled,
       btnDisabledBorderColor: theme.selectBorderColorDisabled,

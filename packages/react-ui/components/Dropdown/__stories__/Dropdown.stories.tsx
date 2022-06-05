@@ -173,7 +173,9 @@ export const WithCustomSelectTheme: Story = () => {
     <ThemeContext.Consumer>
       {(theme) => {
         return (
-          <ThemeContext.Provider value={ThemeFactory.create({ selectBorderRadiusSmall: '10px' }, theme)}>
+          <ThemeContext.Provider
+            value={ThemeFactory.create({ selectBorderRadiusSmall: '12px', btnBorderRadiusSmall: '3px' }, theme)}
+          >
             <Dropdown caption="Открыть">
               <Button>Кнопка</Button>
             </Dropdown>
