@@ -1,3 +1,5 @@
+import { startsWithOneOf } from '../utils';
+
 export function clamp(val: number, max = 1) {
   return Math.min(max, Math.max(0, val));
 }
@@ -78,21 +80,42 @@ export function parseToFloat(part: string) {
   return part.endsWith('%') ? floatFromPercent(part) : parseFloat(part);
 }
 
-export function hue2rgb(hue: number, t1: number, t2: number) {
+const calculateHue = (hue: number) => {
   if (hue < 0) {
-    hue += 1;
+    return hue + 1;
   }
+
   if (hue > 1) {
-    hue -= 1;
+    return hue - 1;
   }
-  if (hue < 1 / 6) {
-    return t2 + (t1 - t2) * 6 * hue;
+
+  return hue;
+};
+
+export function hue2rgb(hue: number, t1: number, t2: number) {
+  const calculatedHue = calculateHue(hue);
+
+  if (calculatedHue < 1 / 6) {
+    return t2 + (t1 - t2) * 6 * calculatedHue;
   }
-  if (hue < 1 / 2) {
+
+  if (calculatedHue < 1 / 2) {
     return t1;
   }
-  if (hue < 2 / 3) {
-    return t2 + (t1 - t2) * (2 / 3 - hue) * 6;
+
+  if (calculatedHue < 2 / 3) {
+    return t2 + (t1 - t2) * (2 / 3 - calculatedHue) * 6;
   }
+
   return t2;
 }
+
+export const isColor = (input: string) => {
+  const colorStarters = ['#', 'rgb', 'hsl'];
+
+  if (input) {
+    return startsWithOneOf(colorStarters, input);
+  }
+
+  return false;
+};
