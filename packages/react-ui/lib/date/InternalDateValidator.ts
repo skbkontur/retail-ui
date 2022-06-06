@@ -92,11 +92,8 @@ export class InternalDateValidator {
     if (startComponents === null && endComponents === null) {
       return true;
     }
-    const {
-      year: startYear = -Infinity,
-      month: startMonth = -Infinity,
-      date: startDate = -Infinity,
-    } = startComponents || {};
+    const { year: startYear = -Infinity, month: startMonth = -Infinity, date: startDate = -Infinity } =
+      startComponents || {};
     const { year: endYear = Infinity, month: endMonth = Infinity, date: endDate = Infinity } = endComponents || {};
 
     if (type === InternalDateComponentType.Year) {

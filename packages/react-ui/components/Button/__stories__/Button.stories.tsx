@@ -434,9 +434,11 @@ const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as B
   props: x,
 }));
 
-const contentStates = [{ icon: <SearchIcon /> }, { children: 'long-long-long text' }, { children: <SearchIcon /> }].map(
-  (x) => ({ props: x }),
-);
+const contentStates = [
+  { icon: <SearchIcon /> },
+  { children: 'long-long-long text' },
+  { children: <SearchIcon /> },
+].map((x) => ({ props: x }));
 
 function getProps<TKey extends keyof ButtonProps>(
   key: TKey,

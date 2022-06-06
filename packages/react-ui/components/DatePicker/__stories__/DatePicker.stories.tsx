@@ -184,7 +184,8 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -205,7 +206,8 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -289,7 +291,8 @@ DatePickerWithMinMaxDate.parameters = {
           })
           .click(
             this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .pause(1000)
@@ -313,7 +316,8 @@ DatePickerWithMinMaxDate.parameters = {
           })
           .click(
             this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .pause(1000)
