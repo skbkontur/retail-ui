@@ -141,19 +141,13 @@ const TabsWithCustomComponent = ({ component }: { component: React.ComponentType
   return (
     <Tabs value={active} onValueChange={setActive}>
       <Tab id="fuji" component={component}>
-        <span aria-label="fuji">
-          Fuji
-        </span>
+        <span aria-label="fuji">Fuji</span>
       </Tab>
       <Tab id="tahat" component={component}>
-        <span aria-label="tahat">
-          Tahat
-        </span>
+        <span aria-label="tahat">Tahat</span>
       </Tab>
       <Tab id="alps" component={component}>
-        <span aria-label="alps">
-          Alps
-        </span>
+        <span aria-label="alps">Alps</span>
       </Tab>
     </Tabs>
   );
