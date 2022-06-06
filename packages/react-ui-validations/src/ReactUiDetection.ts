@@ -1,3 +1,5 @@
+import { isNonNullable } from '../src/utils/isNonNullable';
+
 declare function require(name: string): any;
 
 const defaultOrNamed = (module: any, component: string) =>
@@ -9,21 +11,21 @@ export { Tooltip };
 
 export class ReactUiDetection {
   public static isDatePicker(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'DatePicker';
+    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'DatePicker';
   }
 
   public static isRadioGroup(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'RadioGroup';
+    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'RadioGroup';
   }
 
   public static isTokenInput(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'TokenInput';
+    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'TokenInput';
   }
 
   public static isSwitcher(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'Switcher';
+    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'Switcher';
   }
   public static isComboBox(childrenArray: any): boolean {
-    return childrenArray != null && childrenArray.type?.__KONTUR_REACT_UI__ === 'ComboBox';
+    return isNonNullable(childrenArray) && childrenArray.type?.__KONTUR_REACT_UI__ === 'ComboBox';
   }
 }
