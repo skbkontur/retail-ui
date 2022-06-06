@@ -17,7 +17,7 @@ export interface InstanceWithRootNode {
   addRootNodeChangeListener?: (callback: (node: Nullable<HTMLElement>) => void) => TRootNodeSubscription;
 }
 
-class ComponentWithDefaultRootNode {
+interface ComponentWithDefaultRootNode {
   defaultRootNode?: HTMLElement | null;
 }
 

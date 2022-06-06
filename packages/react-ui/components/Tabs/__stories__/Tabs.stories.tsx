@@ -2,9 +2,8 @@
 /* eslint-disable jsx-a11y/accessible-emoji */
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
-import { HTMLProps } from 'react-ui/typings/html-props';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -86,7 +85,7 @@ const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
   );
 });
 
-class TabsWithMyLink extends React.Component<any, any> {
+class TabsWithLink extends React.Component<any, any> {
   public state = {
     active: 'fuji',
   };
@@ -136,6 +135,29 @@ class TabsWithMyLink extends React.Component<any, any> {
     );
   }
 }
+
+const TabsWithCustomComponent = ({ component }: { component: React.ComponentType }) => {
+  const [active, setActive] = useState('fuji');
+  return (
+    <Tabs value={active} onValueChange={setActive}>
+      <Tab id="fuji" component={component}>
+        <span role="img" aria-label="fuji">
+          🌋&nbsp;&nbsp;Fuji
+        </span>
+      </Tab>
+      <Tab id="tahat" component={component}>
+        <span role="img" aria-label="tahat">
+          ⛰&nbsp;&nbsp;Tahat
+        </span>
+      </Tab>
+      <Tab id="alps" component={component}>
+        <span role="img" aria-label="alps">
+          🗻&nbsp;&nbsp;Alps
+        </span>
+      </Tab>
+    </Tabs>
+  );
+};
 
 class UnexpectedUpdatedTab extends React.Component<{ id: string }, any> {
   public state = {
@@ -519,9 +541,40 @@ Vertical.parameters = {
   creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
 };
 
-export const WithComponent = () => <TabsWithMyLink />;
-WithComponent.storyName = 'with component';
-WithComponent.parameters = { creevey: { skip: [true] } };
+export const WithLink = () => <TabsWithLink />;
+WithLink.parameters = { creevey: { skip: [true] } };
+
+export const WithCustomTabComponent = () => {
+  type Props = React.PropsWithChildren<unknown>;
+
+  const FC = function FC(props: Props) {
+    return <span {...props} />;
+  };
+  const FCWithForwardRef = React.forwardRef<HTMLElement, Props>(function FC(props, ref) {
+    return <span {...props} ref={ref} />;
+  });
+  class ClassComponent extends React.Component<Props> {
+    render = () => <span {...this.props} />;
+  }
+  class ClassComponentWithRootNode extends React.Component<Props> {
+    rootRef = React.createRef<HTMLElement>();
+    getRootNode = () => this.rootRef.current;
+    render = () => <span {...this.props} ref={this.rootRef} />;
+  }
+
+  return (
+    <div>
+      <h3>Functional Component</h3>
+      <TabsWithCustomComponent component={FC} />
+      <h3>Functional Component with forwardRef</h3>
+      <TabsWithCustomComponent component={FCWithForwardRef} />
+      <h3>Class Component</h3>
+      <TabsWithCustomComponent component={ClassComponent} />
+      <h3>Calss Component with getRootNode</h3>
+      <TabsWithCustomComponent component={ClassComponentWithRootNode} />
+    </div>
+  );
+};
 
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
@@ -572,51 +625,5 @@ TabsWithImage.storyName = 'Tabs with images';
 TabsWithImage.parameters = {
   creevey: {
     delay: 500,
-  },
-};
-
-interface NavLinkProps extends Pick<HTMLProps, 'a'> {
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>) => void;
-}
-const NavLink = (props: NavLinkProps) => (
-  <a
-    {...props}
-    onClick={(e) => {
-      e.preventDefault();
-      props.onClick(e);
-    }}
-  />
-);
-
-interface TabLinkProps {
-  id: string;
-  children: React.ReactNode;
-}
-const TabLink = ({ id, children }: TabLinkProps) => (
-  <Tabs.Tab id={id} component={(props) => <NavLink {...props} to={props.id} />}>
-    {children}
-  </Tabs.Tab>
-);
-
-export const TabsWithLinkAsSeparateComponent: Story = () => {
-  const [active, setActive] = React.useState('/fuji');
-
-  return (
-    <Tabs value={active} onValueChange={setActive}>
-      <TabLink id="/fuji">🌋 Fuji</TabLink>
-      <TabLink id="/tahat">⛰ Tahat</TabLink>
-      <TabLink id="/alps">🗻 Alps</TabLink>
-    </Tabs>
-  );
-};
-TabsWithLinkAsSeparateComponent.storyName = 'tabs with link as separate component';
-
-TabsWithLinkAsSeparateComponent.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-    },
   },
 };
