@@ -15,7 +15,6 @@ import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
-import { FileUploaderDataTids } from '../../../components/FileUploader';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
@@ -40,6 +39,14 @@ const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, n
 
   return truncate(name, maxCharsCountInSpan);
 };
+
+export const FileUploaderFileDataTids = {
+  file: 'FileUploader__file',
+  fileTooltip: 'FileUploader__fileTooltip',
+  fileName: 'FileUploader__fileName',
+  fileSize: 'FileUploader__fileSize',
+  fileIcon: 'FileUploader__fileIcon',
+} as const;
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const { file, showSize, error } = props;
@@ -152,27 +159,27 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   return (
     <div
-      data-tid={FileUploaderDataTids.file}
+      data-tid={FileUploaderFileDataTids.file}
       className={jsStyles.root()}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-      <Tooltip data-tid={FileUploaderDataTids.fileTooltip} pos="right middle" render={renderTooltipContent}>
+      <Tooltip data-tid={FileUploaderFileDataTids.fileTooltip} pos="right middle" render={renderTooltipContent}>
         <div className={contentClassNames}>
           <TextWidthHelper ref={textHelperRef} text={name} />
           <Hint maxWidth={'100%'} text={isTruncated ? name : null}>
-            <span data-tid={FileUploaderDataTids.fileName} ref={fileNameElementRef} className={jsStyles.name()}>
+            <span data-tid={FileUploaderFileDataTids.fileName} ref={fileNameElementRef} className={jsStyles.name()}>
               {truncatedFileName}
             </span>
           </Hint>
           {!!showSize && formattedSize && (
-            <span data-tid={FileUploaderDataTids.fileSize} className={jsStyles.size()}>
+            <span data-tid={FileUploaderFileDataTids.fileSize} className={jsStyles.size()}>
               {formattedSize}
             </span>
           )}
           <div
             className={iconClassNames}
-            data-tid={FileUploaderDataTids.fileIcon}
+            data-tid={FileUploaderFileDataTids.fileIcon}
             tabIndex={0}
             onClick={handleRemove}
             onFocus={handleFocus}

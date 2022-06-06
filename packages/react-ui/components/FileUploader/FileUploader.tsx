@@ -65,12 +65,6 @@ export const FileUploaderDataTids = {
   root: 'FileUploader__root',
   content: 'FileUploader__content',
   link: 'FileUploader__link',
-  file: 'FileUploader__file',
-  fileTooltip: 'FileUploader__fileTooltip',
-  fileName: 'FileUploader__fileName',
-  fileSize: 'FileUploader__fileSize',
-  fileIcon: 'FileUploader__fileIcon',
-  fileList: 'FileUploader__fileList',
 } as const;
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
