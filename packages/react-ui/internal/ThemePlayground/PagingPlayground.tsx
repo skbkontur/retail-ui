@@ -1,8 +1,10 @@
 import React from 'react';
 
-import { Paging, PagingProps } from '../../components/Paging';
+import { Paging } from '../../components/Paging';
 
-type PagingPlaygroundState = Pick<PagingProps, 'activePage'>;
+interface PagingPlaygroundState {
+  activePage: number;
+}
 export class PagingPlayground extends React.Component {
   public state: PagingPlaygroundState = {
     activePage: 1,

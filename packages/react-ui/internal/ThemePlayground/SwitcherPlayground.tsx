@@ -4,9 +4,15 @@ import { Switcher, SwitcherProps } from '../../components/Switcher';
 
 const defaultItems = ['Default', 'Error'];
 
-type SwitcherPlaygroundProps = Partial<Pick<SwitcherProps, 'items' | 'disabled'>>;
-type SwitcherPlaygroundState = Pick<SwitcherProps, 'value' | 'error'>;
-export class SwitcherPlayground extends React.Component<SwitcherPlaygroundProps, SwitcherPlaygroundState> {
+interface SwitcherPlaygroundProps {
+  items?: SwitcherProps['items'];
+  disabled?: boolean;
+}
+interface SwitcherPlaygroundState {
+  value: string;
+  error: boolean;
+}
+export class SwitcherPlayground extends React.Component<SwitcherPlaygroundProps> {
   public state: SwitcherPlaygroundState = {
     value: '',
     error: false,

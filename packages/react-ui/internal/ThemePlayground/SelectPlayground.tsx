@@ -5,8 +5,10 @@ import { Select, SelectProps } from '../../components/Select';
 type SelectPlaygroundValue = string;
 type SelectPlaygroundItem = string;
 type SelectPlaygroundProps = SelectProps<SelectPlaygroundValue, SelectPlaygroundItem>;
-type SelectPlaygroundState = Pick<SelectProps<SelectPlaygroundValue, SelectPlaygroundItem>, 'value'>;
-export class SelectPlayground extends React.Component<SelectPlaygroundProps, SelectPlaygroundState> {
+interface SelectPlaygroundState {
+  value: string;
+}
+export class SelectPlayground extends React.Component<SelectPlaygroundProps> {
   public state: SelectPlaygroundState = {
     value: capitalize(this.props.size),
   };
