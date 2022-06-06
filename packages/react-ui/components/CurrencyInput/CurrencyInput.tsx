@@ -101,7 +101,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
-    const { maxLength, integerDigits, fractionDigits } = this.props;
+    const { maxLength, integerDigits, fractionDigits, value } = this.props;
     warning(
       maxLength === undefined,
       `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
@@ -111,11 +111,17 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
         `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
     );
+    if (isNaN(value as number)) {
+      this.setState({ formatted: '0' });
+    }
   }
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    if (
+      !isNaN(value as number) &&
+      (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits)
+    ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
@@ -125,6 +131,9 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     }
     if (prevState.selection !== this.state.selection) {
       this.scrollInput();
+    }
+    if (isNaN(value as number)) {
+      this.setState({ formatted: '0' });
     }
   }
 
