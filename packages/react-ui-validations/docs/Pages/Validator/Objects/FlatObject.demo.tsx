@@ -27,9 +27,9 @@ const validate = createValidator<ContactInfo>((b) => {
   );
 });
 
-type FlatObjectDemoState = {
+interface FlatObjectDemoState {
   contactInfo: ContactInfo;
-};
+}
 export default class FlatObjectDemo extends React.Component {
   public state: FlatObjectDemoState = {
     contactInfo: {

@@ -1,10 +1,12 @@
 import React from 'react';
-import { Input, InputProps } from '@skbkontur/react-ui/components/Input';
+import { Input } from '@skbkontur/react-ui/components/Input';
 
 import { ValidationContainer, ValidationWrapper } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-type ConditionalValidationDemoState = Required<Pick<InputProps, 'value'>>;
+interface ConditionalValidationDemoState {
+  value: string;
+}
 export default class ConditionalValidationDemo extends React.Component {
   public state: ConditionalValidationDemoState = {
     value: '',

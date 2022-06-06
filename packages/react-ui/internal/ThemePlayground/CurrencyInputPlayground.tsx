@@ -1,13 +1,12 @@
 import React from 'react';
 
+import { Nullable } from '../../typings/utility-types';
 import { CurrencyInput, CurrencyInputProps } from '../../components/CurrencyInput';
 
-type CurrencyInputPlaygroundProps = Partial<CurrencyInputProps>;
-type CurrencyInputPlaygroundState = Pick<CurrencyInputProps, 'value'>;
-export class CurrencyInputPlayground extends React.Component<
-  CurrencyInputPlaygroundProps,
-  CurrencyInputPlaygroundState
-> {
+interface CurrencyInputPlaygroundState {
+  value: Nullable<number>;
+}
+export class CurrencyInputPlayground extends React.Component<Partial<CurrencyInputProps>> {
   public state: CurrencyInputPlaygroundState = {
     value: this.props.value || 2222,
   };
