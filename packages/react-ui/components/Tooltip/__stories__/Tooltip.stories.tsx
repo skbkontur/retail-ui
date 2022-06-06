@@ -818,7 +818,7 @@ class DynamicContentTooltip extends React.Component {
       return SMALL_CONTENT;
     };
 
-    this.setState((state) => ({
+    this.setState((state: DynamicContentTooltipState) => ({
       content: getContent(state),
       opened: !state.opened,
     }));
