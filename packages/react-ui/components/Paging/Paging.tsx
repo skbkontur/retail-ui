@@ -91,7 +91,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
-    ['data-tid']: PagingDataTids.root,
+    'data-tid': PagingDataTids.root,
   };
 
   public static propTypes = {};
@@ -432,7 +432,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   };
 
   private goToPage = (pageNumber: number) => {
-    if (1 <= pageNumber && pageNumber !== this.props.activePage && pageNumber <= this.props.pagesCount) {
+    if (pageNumber >= 1 && pageNumber !== this.props.activePage && pageNumber <= this.props.pagesCount) {
       this.props.onPageChange(pageNumber);
     }
   };

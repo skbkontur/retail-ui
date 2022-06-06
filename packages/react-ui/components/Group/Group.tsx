@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isIE11, isEdge } from '../../lib/client';
-import { Corners } from '../Button/Corners';
-import { Nullable } from '../../typings/utility-types';
 import { isButton } from '../Button';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -19,6 +17,62 @@ interface GroupChildProps {
   width?: React.CSSProperties['width'];
   corners?: number;
 }
+
+const getFirstChild = (children: React.ReactNode) => {
+  if (!Array.isArray(children)) {
+    return children;
+  }
+
+  return children?.[0] as React.ReactNode;
+};
+
+const getLastChild = (children: React.ReactNode) => {
+  if (!Array.isArray(children)) {
+    return children;
+  }
+
+  const numberOfChildren = React.Children.count(children);
+
+  return children?.[numberOfChildren - 1] as React.ReactNode;
+};
+
+const getButtonCorners = (
+  child: React.ReactNode,
+  firstChild: React.ReactNode,
+  lastChild: React.ReactNode,
+): React.CSSProperties => {
+  if (firstChild === lastChild) {
+    return {};
+  }
+
+  if (child === firstChild) {
+    return {
+      borderTopRightRadius: 0,
+      borderBottomRightRadius: 0,
+    };
+  }
+
+  if (child === lastChild) {
+    return {
+      borderTopLeftRadius: 0,
+      borderBottomLeftRadius: 0,
+    };
+  }
+
+  return {
+    borderRadius: 0,
+  };
+};
+
+const passCornersIfButton = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
+  if (isButton(child)) {
+    const corners = getButtonCorners(child, firstChild, lastChild);
+
+    return React.cloneElement(child, { corners });
+  }
+
+  return child;
+};
 
 export const GroupDataTids = {
   root: 'Group__root',
@@ -38,41 +92,23 @@ export class Group extends React.Component<GroupProps> {
       width: this.props.width,
     };
 
-    let first: Nullable<React.ReactElement<any>> = null;
-    let last: Nullable<React.ReactElement<any>> = null;
-
-    React.Children.forEach(this.props.children, (child) => {
-      if (child && React.isValidElement(child)) {
-        first = first || child;
-        last = child;
-      }
-    });
+    const childrenArray = React.Children.toArray(this.props.children);
+    const firstChild = getFirstChild(childrenArray);
+    const lastChild = getLastChild(childrenArray);
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
-          {React.Children.map(this.props.children, (child) => {
+          {React.Children.map(childrenArray, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;
             }
 
             const isWidthInPercent = Boolean(child.props.width && child.props.width.toString().includes('%'));
-            const itemCss = cx({
-              [styles.item()]: true,
-              [styles.itemFirst()]: child === first,
-            });
 
-            let corners = 0;
-            if (child !== first) {
-              corners |= Corners.TOP_LEFT | Corners.BOTTOM_LEFT;
-            }
-            if (child !== last) {
-              corners |= Corners.TOP_RIGHT | Corners.BOTTOM_RIGHT;
-            }
+            const modifiedChild = passCornersIfButton(child, firstChild, lastChild);
 
-            if (isButton(child)) {
-              child = React.cloneElement(child, { corners });
-            }
+            const isFirstChild = child === firstChild;
 
             return (
               <div
@@ -82,7 +118,14 @@ export class Group extends React.Component<GroupProps> {
                   [styles.stretchFallback()]: Boolean(isWidthInPercent && this.props.width && (isIE11 || isEdge)),
                 })}
               >
-                <div className={itemCss}>{child}</div>
+                <div
+                  className={cx({
+                    [styles.item()]: true,
+                    [styles.itemFirst()]: isFirstChild,
+                  })}
+                >
+                  {modifiedChild}
+                </div>
               </div>
             );
           })}

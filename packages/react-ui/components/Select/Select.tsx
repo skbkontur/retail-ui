@@ -352,7 +352,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const item = this.getItemByValue(value);
 
-    if (value != null) {
+    if (isNonNullable(value)) {
       return {
         label: this.getProps().renderValue(value, item),
         isPlaceholder: false,
@@ -497,7 +497,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSearch = (noMargin?: boolean) => {
     return (
-      <div className={cx({ [styles.search()]: noMargin ? false : true })}>
+      <div className={cx({ [styles.search()]: !noMargin })}>
         <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );
@@ -697,23 +697,41 @@ function areValuesEqual<TValue>(value1: TValue, value2: TValue) {
 function normalizeEntry(entry: any) {
   if (Array.isArray(entry)) {
     return entry;
-  } else {
-    return [entry, entry, undefined];
   }
+
+  return [entry, entry, undefined];
 }
+
+const getTextFromItem = (item: any): string => {
+  if (typeof item === 'string') {
+    return item;
+  }
+
+  if (isFunction(item)) {
+    return getTextFromItem(item());
+  }
+
+  if (React.isValidElement(item)) {
+    return reactGetTextContent(item);
+  }
+
+  if (typeof item === 'number') {
+    return item.toString(10);
+  }
+
+  return '';
+};
 
 function filterItem<TValue>(value: TValue, item: any, pattern: string) {
   if (item === Select.SEP) {
     return false;
   }
-  if (React.isValidElement(item) || (isFunction(item) && React.isValidElement((item = item())))) {
-    item = reactGetTextContent(item);
-  }
-  if (typeof item === 'number') {
-    item = item.toString(10);
-  }
-  if (typeof item !== 'string') {
+
+  const itemText = getTextFromItem(item);
+
+  if (!itemText) {
     return false;
   }
-  return item.toLowerCase().indexOf(pattern) !== -1;
+
+  return itemText.toLowerCase().indexOf(pattern) !== -1;
 }

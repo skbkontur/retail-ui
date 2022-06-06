@@ -119,7 +119,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   /** common part **/
   const handleChange = useCallback(
     (newFiles: FileList | null) => {
-      if (!newFiles) return;
+      if (!newFiles) {
+        return;
+      }
 
       let filesArray = Array.from(newFiles);
 

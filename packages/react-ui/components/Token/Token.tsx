@@ -39,6 +39,16 @@ export interface TokenProps extends CommonProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
+const getValidation = (error: TokenProps['error'], warning: TokenProps['warning']) => {
+  if (error) {
+    return 'error';
+  } else if (warning) {
+    return 'warning';
+  }
+
+  return null;
+};
+
 export const TokenDataTids = {
   root: 'Token__root',
 } as const;
@@ -78,7 +88,9 @@ export class Token extends React.Component<TokenProps> {
     } = this.props;
 
     const theme = this.theme;
-    const validation = error ? 'error' : warning ? 'warning' : null;
+
+    const validation = getValidation(error, warning);
+
     const disableClassNames = cx(colorStyles.defaultDisabled(theme), {
       [colorStyles.defaultDisabledWarning(theme)]: warning,
       [colorStyles.defaultDisabledError(theme)]: error,

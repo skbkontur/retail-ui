@@ -81,10 +81,6 @@ export class Spinner extends React.Component<SpinnerProps> {
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;
 
-  constructor(props: SpinnerProps) {
-    super(props);
-  }
-
   public render() {
     return (
       <ThemeContext.Consumer>
