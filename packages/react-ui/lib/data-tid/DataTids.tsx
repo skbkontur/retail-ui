@@ -29,8 +29,11 @@ export class DataTids extends React.Component<{}, { selectedValue: string }> {
             <div className={styles.rightCell()}>
               {Object.values(dataTidList)[0]
                 .split(',')
-                .map((el: string, i: number) => (
-                  <div key={i}>{el}</div>
+                .map((el: string, i: number, array) => (
+                  <div key={i}>
+                    {el}
+                    {i < array.length - 1 ? ',' : ''}
+                  </div>
                 ))}
             </div>
           </div>

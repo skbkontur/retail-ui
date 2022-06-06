@@ -29,6 +29,7 @@ export class ValidationWrapper extends React.Component<ValidationWrapperProps> {
 
   public render() {
     const { children, validationInfo, renderMessage } = this.props;
+    console.log(this.props.validationInfo?.type);
     const validation: Nullable<Validation> = validationInfo
       ? {
           level: validationInfo.level || 'error',

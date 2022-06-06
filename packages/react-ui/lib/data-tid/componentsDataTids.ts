@@ -15,7 +15,7 @@ export const componentsDataTids: { [key: string]: { [key: string]: string } } = 
       // @ts-ignore
       // eslint-disable-next-line import/namespace
       [currTid]: Object.entries(Components[currTid])
-        .map((x) => x.join(': '))
+        .map((x) => `${x[0]}: '${x[1]}'`)
         .join(', \n'),
     },
   };
