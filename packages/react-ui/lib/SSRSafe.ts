@@ -21,6 +21,14 @@ export function isHTMLElement(el: unknown): el is HTMLElement {
   return false;
 }
 
+export function isNode(node: unknown): node is Node {
+  if (isBrowser) {
+    return node instanceof Node;
+  }
+
+  return false;
+}
+
 export const globalThat: typeof globalThis =
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||

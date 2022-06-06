@@ -15,6 +15,8 @@ export type Defaultize<P, D> = P extends unknown
 
 export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
 
+export type AnyObject = Record<string, unknown>;
+
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars
@@ -39,7 +41,8 @@ export function taskWithDelay(task: () => void, ms: number) {
   return cancelationToken;
 }
 
-export function isFunction<T>(x: T | Function): x is Function {
+export type FunctionWithParams<R = any> = (...args: any[]) => R;
+export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParams {
   return typeof x === 'function';
 }
 
@@ -87,17 +90,27 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 const KB = 1024;
 const UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
+const calculateDecimals = (decimals: number) => {
+  if (decimals < 0) {
+    return 0;
+  }
+
+  return 0;
+};
+
 export const formatBytes = (bytes: number, decimals = 2): string | null => {
-  if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
 
   if (!bytes) {
     return null;
   }
 
-  decimals = decimals < 0 ? 0 : decimals;
+  const calculatedDecimals = calculateDecimals(decimals);
 
   const i = Math.floor(Math.log2(bytes) / Math.log2(KB));
-  const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(decimals));
+  const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(calculatedDecimals));
 
   return `${formattedBytes} ${UNITS[i]}`;
 };
@@ -110,6 +123,17 @@ export const formatBytes = (bytes: number, decimals = 2): string | null => {
  */
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
+};
+
+/**
+ * Checks if the value `null` or `undefined`.
+ *
+ * @param value Value to check for `null` and `undefined`.
+ * @returns Returns `true` if `value` is `null` or `undefined`, else `false`.
+ */
+// @ts-expect-error: TypeScript doesn't consider the check inside of the function.
+export const isNullable = <T>(value: T): value is null | undefined => {
+  return value === null || value === undefined;
 };
 
 /**
@@ -165,11 +189,26 @@ export const extractDataProps = <T>(props: T) => {
 
   Object.entries(props).map(([name, value]) => {
     if (name.startsWith('data-')) {
-      dataProps[name] = value;
-    } else {
-      restWithoutDataProps[name] = value;
+      return (dataProps[name] = value);
     }
+
+    return (restWithoutDataProps[name] = value);
   });
 
   return { dataProps, restWithoutDataProps };
+};
+
+/**
+ * Basically `.startsWith` for arrays.
+ *
+ * @param searchKeys Array of strings to test against `inputString`.
+ * @param inputString String on which search will be performed.
+ * @returns `true` if `inputString` starts with one of keys, else `false`.
+ */
+export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
+  const keyIndex = searchKeys.findIndex((key) => {
+    return inputString.startsWith(key);
+  });
+
+  return keyIndex >= 0;
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './TokenInput.styles';
 
@@ -31,15 +32,11 @@ export class TextWidthHelper extends React.Component<TextWidthHelperProps> {
   }
 
   public getTextWidth(): number {
-    return this.element ? this.element.getBoundingClientRect().width : 0;
+    return getDOMRect(this.element).width;
   }
 
   public getTextHeight(): number {
-    if (!this.element) {
-      return 0;
-    }
-
-    return this.element.getBoundingClientRect().height;
+    return getDOMRect(this.element).height;
   }
 
   private elementRef = (node: HTMLDivElement) => (this.element = node);

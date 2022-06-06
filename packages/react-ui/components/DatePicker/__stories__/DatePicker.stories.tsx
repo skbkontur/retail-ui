@@ -1,17 +1,27 @@
 import { action } from '@storybook/addon-actions';
-import React, { useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
+import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
-import { DatePicker } from '../DatePicker';
+import { DatePicker, DatePickerProps } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
-import { delay } from '../../../lib/utils';
+import { delay, emptyHandler } from '../../../lib/utils';
 
-class DatePickerWithError extends React.Component<any, any> {
-  public state = {
+interface DatePickerWithErrorProps {
+  disabled?: boolean;
+  size?: DatePickerProps<unknown>['size'];
+}
+interface DatePickerWithErrorState {
+  tooltip: boolean;
+  value: Nullable<string>;
+  error?: boolean;
+}
+class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
+  public state: DatePickerWithErrorState = {
     value: '15.08.2014',
     error: false,
     tooltip: false,
@@ -45,7 +55,7 @@ class DatePickerWithError extends React.Component<any, any> {
             />
           </LocaleContext.Provider>
         </Tooltip>
-        <Button onClick={() => this.setState({ value: null, error: null, tooltip: false })}>Clear</Button>
+        <Button onClick={() => this.setState({ value: null, error: undefined, tooltip: false })}>Clear</Button>
         <Button onClick={() => this.setState({ value: '99.99.9999' })}>Set &quot;99.99.9999&quot;</Button>
         <Button onClick={() => this.setState({ value: '99.hello' })}>Set &quot;99.hello&quot;</Button>
         <Button onClick={() => this.setState({ value: '10.3' })}>Set &quot;10.3&quot;</Button>
@@ -81,10 +91,17 @@ class DatePickerWithError extends React.Component<any, any> {
   };
 }
 
-class DatePickerWithMinMax extends React.Component<any, any> {
-  public state = {
-    min: '02.07.2017',
-    max: '30.01.2020',
+interface DatePickerWithMinMaxState {
+  value: Nullable<string>;
+  minDate: string;
+  maxDate: string;
+  order: InternalDateOrder;
+  separator: InternalDateSeparator;
+}
+class DatePickerWithMinMax extends React.Component {
+  public state: DatePickerWithMinMaxState = {
+    minDate: '02.07.2017',
+    maxDate: '30.01.2020',
     value: '02.07.2017',
     order: InternalDateOrder.DMY,
     separator: InternalDateSeparator.Dot,
@@ -97,7 +114,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
           Начало периода:{' '}
           <input
             type="text"
-            value={this.state.min}
+            value={this.state.minDate}
             placeholder="min"
             onChange={(e) => this.setState({ min: e.target.value })}
           />
@@ -106,7 +123,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
           Окончание периода:{' '}
           <input
             type="text"
-            value={this.state.max}
+            value={this.state.maxDate}
             placeholder="max"
             onChange={(e) => this.setState({ max: e.target.value })}
           />
@@ -119,8 +136,8 @@ class DatePickerWithMinMax extends React.Component<any, any> {
           <DatePicker
             width={200}
             value={this.state.value}
-            minDate={this.state.min}
-            maxDate={this.state.max}
+            minDate={this.state.minDate}
+            maxDate={this.state.maxDate}
             onValueChange={action('change')}
             useMobileNativeDatePicker
           />
@@ -162,9 +179,10 @@ WithMouseeventHandlers.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
-      async ['DateSelect month']() {
+      async 'DateSelect month'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -177,13 +195,16 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
       },
-      async ['DateSelect year']() {
+      async 'DateSelect year'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -196,10 +217,13 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
       },
     },
@@ -262,42 +286,54 @@ DatePickerWithMinMaxDate.storyName = 'DatePicker with min max date';
 DatePickerWithMinMaxDate.parameters = {
   creevey: {
     tests: {
-      async ['DateSelect months']() {
+      async 'DateSelect months'() {
         await delay(1000);
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .pause(1000)
           .perform();
-        await delay(1000);
+
         await this.browser
-          .actions({ bridge: true })
+          .actions({
+            bridge: true,
+          })
           .click(
             this.browser.findElement({
-              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
+          .pause(1000)
           .perform();
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
-      async ['DateSelect years']() {
+      async 'DateSelect years'() {
         await delay(1000);
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .pause(1000)
           .perform();
-        await delay(1000);
+
         await this.browser
-          .actions({ bridge: true })
+          .actions({
+            bridge: true,
+          })
           .click(
             this.browser.findElement({
-              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css:
+                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
+          .pause(1000)
           .perform();
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect years');
       },
     },
@@ -313,7 +349,7 @@ export const DatePickerLocaleProvider = () => {
           minDate="02.07.2017"
           maxDate="30.01.2020"
           onValueChange={action('change')}
-          enableTodayLink={true}
+          enableTodayLink
         />
       </LocaleContext.Provider>
     </div>
@@ -321,3 +357,49 @@ export const DatePickerLocaleProvider = () => {
 };
 DatePickerLocaleProvider.storyName = 'DatePicker LocaleProvider';
 DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
+
+export const DatePickerInRelativeBody: Story = () => {
+  const [isRelative, toggleIsRelative] = useState(false);
+  const relativeClassName = 'relative';
+
+  const onClick = useCallback(() => {
+    toggleIsRelative(!isRelative);
+    document.querySelector('html')?.classList.toggle(relativeClassName);
+  }, [isRelative]);
+  const paddingTop = document.documentElement.clientHeight - 32 * 3;
+
+  useEffect(() => {
+    return () => {
+      document.querySelector('html')?.classList.remove(relativeClassName);
+    };
+  }, [relativeClassName]);
+
+  return (
+    <>
+      <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
+      <div style={{ padding: `${paddingTop}px 150px 0` }}>
+        <DatePicker value="02.07.2017" autoFocus onValueChange={emptyHandler} />
+      </div>
+    </>
+  );
+};
+DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
+DatePickerInRelativeBody.parameters = {
+  creevey: {
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
+      },
+    },
+  },
+};

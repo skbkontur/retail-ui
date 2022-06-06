@@ -42,26 +42,26 @@ export type CustomComboBoxEffect<T> = (
 type Effect = CustomComboBoxEffect<any>;
 
 interface EffectFactory {
-  Search: (query: string) => Effect;
-  DebouncedSearch: Effect & {
+  search: (query: string) => Effect;
+  debouncedSearch: Effect & {
     cancel(): void;
     flush(): void;
   };
-  CancelRequest: Effect;
-  Blur: Effect;
-  Focus: Effect;
+  cancelRequest: Effect;
+  blur: Effect;
+  focus: Effect;
 
-  ValueChange: (value: any) => Effect;
-  UnexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
-  InputChange: Effect;
-  InputFocus: Effect;
-  HighlightMenuItem: Effect;
-  SelectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
-  InputKeyDown: (event: React.KeyboardEvent<HTMLElement>) => Effect;
-  MoveMenuHighlight: (direction: 'up' | 'down') => Effect;
-  ResetHighlightedMenuItem: Effect;
-  Reflow: Effect;
-  SelectInputText: Effect;
+  valueChange: (value: any) => Effect;
+  unexpectedInput: (textValue: string, items: Nullable<any[]>) => Effect;
+  inputChange: Effect;
+  inputFocus: Effect;
+  highlightMenuItem: Effect;
+  selectMenuItem: (event: React.KeyboardEvent<HTMLElement>) => Effect;
+  inputKeyDown: (event: React.KeyboardEvent<HTMLElement>) => Effect;
+  moveMenuHighlight: (direction: 'up' | 'down') => Effect;
+  resetHighlightedMenuItem: Effect;
+  reflow: Effect;
+  selectInputText: Effect;
 }
 
 const DEBOUNCE_DELAY = 300;
@@ -71,36 +71,36 @@ const getValueString = (value: any, valueToString: CustomComboBoxProps<any>['val
 };
 
 export const Effect: EffectFactory = {
-  Search: (query) => (dispatch, getState, getProps, getInstance) => {
+  search: (query) => (dispatch, getState, getProps, getInstance) => {
     getInstance().search(query);
   },
-  DebouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
-    const searchEffect = Effect.Search(getState().textValue);
+  debouncedSearch: debounce((dispatch, getState, getProps, getInstance) => {
+    const searchEffect = Effect.search(getState().textValue);
     searchEffect(dispatch, getState, getProps, getInstance);
   }, DEBOUNCE_DELAY),
-  CancelRequest: (dispatch, getState, getProps, getInstance) => {
-    Effect.DebouncedSearch.cancel();
+  cancelRequest: (dispatch, getState, getProps, getInstance) => {
+    Effect.debouncedSearch.cancel();
     getInstance().cancelSearch();
   },
-  Blur: (dispatch, getState, getProps) => {
+  blur: (dispatch, getState, getProps) => {
     const { onBlur } = getProps();
     if (onBlur) {
       onBlur();
     }
   },
-  Focus: (dispatch, getState, getProps) => {
+  focus: (dispatch, getState, getProps) => {
     const { onFocus } = getProps();
     if (onFocus) {
       onFocus();
     }
   },
-  ValueChange: (value) => (dispatch, getState, getProps) => {
+  valueChange: (value) => (dispatch, getState, getProps) => {
     const { onValueChange } = getProps();
     if (onValueChange) {
       onValueChange(value);
     }
   },
-  UnexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
+  unexpectedInput: (textValue, items) => (dispatch, getState, getProps) => {
     const { onUnexpectedInput, valueToString } = getProps();
 
     if (Array.isArray(items) && items.length === 1) {
@@ -120,7 +120,7 @@ export const Effect: EffectFactory = {
       }
     }
   },
-  InputChange: (dispatch, getState, getProps) => {
+  inputChange: (dispatch, getState, getProps) => {
     const { onInputValueChange } = getProps();
     const { textValue } = getState();
     if (onInputValueChange) {
@@ -130,7 +130,7 @@ export const Effect: EffectFactory = {
       }
     }
   },
-  InputFocus: (dispatch, getState, getProps, getInstance) => {
+  inputFocus: (dispatch, getState, getProps, getInstance) => {
     const { input } = getInstance();
 
     if (!input) {
@@ -139,7 +139,7 @@ export const Effect: EffectFactory = {
 
     input.focus();
   },
-  HighlightMenuItem: (dispatch, getState, getProps, getInstance) => {
+  highlightMenuItem: (dispatch, getState, getProps, getInstance) => {
     const { value, itemToValue, valueToString } = getProps();
     const { items, focused, textValue, requestStatus } = getState();
     const { menu } = getInstance();
@@ -169,33 +169,33 @@ export const Effect: EffectFactory = {
       requestAnimationFrame(() => menu && menu.down());
     }
   },
-  SelectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
+  selectMenuItem: (event) => (dispatch, getState, getProps, getInstance) => {
     const { menu } = getInstance();
     if (menu) {
       menu.enter(event);
     }
   },
-  MoveMenuHighlight: (direction) => (dispatch, getState, getProps, getInstance) => {
+  moveMenuHighlight: (direction) => (dispatch, getState, getProps, getInstance) => {
     const { menu } = getInstance();
     if (menu) {
       menu[direction]();
     }
   },
-  ResetHighlightedMenuItem: (dispatch, getState, getProps, getInstance) => {
+  resetHighlightedMenuItem: (dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
 
     if (combobox.menu && combobox.menu.hasHighlightedItem()) {
       combobox.menu.reset();
     }
   },
-  Reflow: () => {
+  reflow: () => {
     LayoutEvents.emit();
   },
-  SelectInputText: (dispatch, getState, getProps, getInstance) => {
+  selectInputText: (dispatch, getState, getProps, getInstance) => {
     const combobox = getInstance();
     combobox.selectInputText();
   },
-  InputKeyDown: (event) => (dispatch, getState, getProps) => {
+  inputKeyDown: (event) => (dispatch, getState, getProps) => {
     const { onInputKeyDown } = getProps();
     if (onInputKeyDown) {
       onInputKeyDown(event);
@@ -223,7 +223,7 @@ export function reducer<T>(
             items: null,
             textValue,
           },
-          [Effect.ValueChange(value), Effect.CancelRequest, Effect.InputFocus],
+          [Effect.valueChange(value), Effect.cancelRequest, Effect.inputFocus],
         ];
       }
       return [
@@ -234,7 +234,7 @@ export function reducer<T>(
           items: null,
           textValue,
         },
-        [Effect.ValueChange(value), Effect.CancelRequest],
+        [Effect.valueChange(value), Effect.cancelRequest],
       ];
     }
     case 'TextChange': {
@@ -249,10 +249,10 @@ export function reducer<T>(
             opened: false,
             items: null,
           },
-          [Effect.InputChange],
+          [Effect.inputChange],
         ];
       }
-      return [newState, [Effect.DebouncedSearch, Effect.InputChange]];
+      return [newState, [Effect.debouncedSearch, Effect.inputChange]];
     }
     case 'KeyPress': {
       const e = action.event as React.KeyboardEvent<HTMLElement>;
@@ -262,13 +262,13 @@ export function reducer<T>(
       switch (true) {
         case isKeyEnter(e):
           e.preventDefault();
-          effects.push(Effect.SelectMenuItem(e));
+          effects.push(Effect.selectMenuItem(e));
           break;
         case isKeyArrowVertical(e):
           e.preventDefault();
-          effects.push(Effect.MoveMenuHighlight(isKeyArrowUp(e) ? 'up' : 'down'));
+          effects.push(Effect.moveMenuHighlight(isKeyArrowUp(e) ? 'up' : 'down'));
           if (!state.opened) {
-            effects.push(Effect.Search(state.textValue));
+            effects.push(Effect.search(state.textValue));
           }
           break;
         case isKeyEscape(e):
@@ -279,7 +279,7 @@ export function reducer<T>(
           };
           break;
       }
-      return [nextState, [...effects, Effect.InputKeyDown(e)]];
+      return [nextState, [...effects, Effect.inputKeyDown(e)]];
     }
     case 'DidUpdate': {
       if (isEqual(props.value, action.prevProps.value)) {
@@ -302,16 +302,16 @@ export function reducer<T>(
         editing: true,
       };
       if (!props.searchOnFocus) {
-        return [newState, [Effect.Focus]];
+        return [newState, [Effect.focus]];
       }
       if (state.editing) {
-        return [newState, [Effect.Search(state.textValue), Effect.Focus]];
+        return [newState, [Effect.search(state.textValue), Effect.focus]];
       }
-      return [newState, [Effect.Search(''), Effect.Focus, Effect.SelectInputText]];
+      return [newState, [Effect.search(''), Effect.focus, Effect.selectInputText]];
     }
     case 'InputClick': {
       if (!state.opened && props.searchOnFocus) {
-        return [state, [Effect.Search('')]];
+        return [state, [Effect.search('')]];
       }
       return state;
     }
@@ -325,7 +325,7 @@ export function reducer<T>(
             items: null,
             editing: false,
           },
-          [Effect.Blur, Effect.CancelRequest],
+          [Effect.blur, Effect.cancelRequest],
         ];
       }
 
@@ -335,7 +335,7 @@ export function reducer<T>(
           opened: false,
           items: null,
         },
-        [Effect.Blur, Effect.CancelRequest, Effect.UnexpectedInput(state.textValue, items)],
+        [Effect.blur, Effect.cancelRequest, Effect.unexpectedInput(state.textValue, items)],
       ];
     }
     case 'Reset': {
@@ -348,7 +348,7 @@ export function reducer<T>(
       return { opened: false, items: null };
     }
     case 'Search': {
-      return [state, [Effect.Search(action.query)]];
+      return [state, [Effect.search(action.query)]];
     }
     case 'RequestItems': {
       return {
@@ -366,7 +366,7 @@ export function reducer<T>(
           items: action.items,
           requestStatus: ComboBoxRequestStatus.Success,
         },
-        [shouldResetMenuHighlight ? Effect.ResetHighlightedMenuItem : Effect.HighlightMenuItem, Effect.Reflow],
+        [shouldResetMenuHighlight ? Effect.resetHighlightedMenuItem : Effect.highlightMenuItem, Effect.reflow],
       ];
     }
     case 'RequestFailure': {
@@ -378,7 +378,7 @@ export function reducer<T>(
           requestStatus: ComboBoxRequestStatus.Failed,
           repeatRequest: action.repeatRequest,
         },
-        [Effect.HighlightMenuItem],
+        [Effect.highlightMenuItem],
       ];
     }
     case 'CancelRequest': {

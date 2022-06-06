@@ -14,10 +14,9 @@ async function getItems(query: string) {
 
 interface TokenInputStoryState {
   checked: boolean;
-  selectedItems: Array<any>;
+  selectedItems: string[];
 }
-
-class TokenInputStory extends React.Component<{}, TokenInputStoryState> {
+class TokenInputStory extends React.Component {
   public state: TokenInputStoryState = {
     checked: false,
     selectedItems: [],

@@ -2,15 +2,19 @@ import React from 'react';
 
 import { Select, SelectProps } from '../../components/Select';
 
-export class SelectPlayground extends React.Component<SelectProps<string, string>, { value: string | undefined }> {
-  public state = {
+type SelectPlaygroundValue = string;
+type SelectPlaygroundItem = string;
+type SelectPlaygroundProps = SelectProps<SelectPlaygroundValue, SelectPlaygroundItem>;
+type SelectPlaygroundState = Pick<SelectProps<SelectPlaygroundValue, SelectPlaygroundItem>, 'value'>;
+export class SelectPlayground extends React.Component<SelectPlaygroundProps, SelectPlaygroundState> {
+  public state: SelectPlaygroundState = {
     value: capitalize(this.props.size),
   };
   private readonly selectItems = ['Small', 'Medium', 'Large'];
 
   public render() {
     return (
-      <Select<string, string>
+      <Select<SelectPlaygroundValue, SelectPlaygroundItem>
         {...this.props}
         value={this.state.value}
         items={this.selectItems}

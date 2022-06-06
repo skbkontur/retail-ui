@@ -63,8 +63,9 @@ export class ColorObject implements ColorObjectType {
       '#' +
       this.rgb
         .map((c) => {
-          c = clamp(Math.round(c), 255);
-          return (c < 16 ? '0' : '') + c.toString(16);
+          const clamped = clamp(Math.round(c), 255);
+
+          return (clamped < 16 ? '0' : '') + clamped.toString(16);
         })
         .join('')
     );

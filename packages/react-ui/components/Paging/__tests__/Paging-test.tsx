@@ -1,5 +1,6 @@
-import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
+import React, { useState } from 'react';
+import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 
 import { emptyHandler } from '../../../lib/utils';
 import { defaultLangCode } from '../../../lib/locale/constants';
@@ -7,178 +8,278 @@ import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { PagingLocaleHelper } from '../locale';
 import { Paging } from '../Paging';
 
-describe('Pager', () => {
-  it('renders', () => {
-    mount(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
+describe('Paging', () => {
+  it('should render correct number of links', () => {
+    render(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
+
+    expect(screen.getAllByTestId('Paging__pageLink')).toHaveLength(5);
   });
 
-  it('renders links', () => {
-    const wrapper = mount(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`[data-tid='Paging__pageLink']`)).toHaveLength(5);
-  });
-
-  it('renders right dots', () => {
-    const wrapper = mount(<Paging pagesCount={10} activePage={1} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`[data-tid='Paging__dots']`)).toHaveLength(1);
-  });
-
-  it('renders left dots', () => {
-    const wrapper = mount(<Paging pagesCount={10} activePage={9} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`[data-tid='Paging__dots']`)).toHaveLength(1);
-  });
-
-  it('renders left and right dots', () => {
-    const wrapper = mount(<Paging pagesCount={12} activePage={6} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`[data-tid='Paging__dots']`)).toHaveLength(2);
-  });
-
-  it('calls onPageChange', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-
-    wrapper.find(`[data-tid='Paging__pageLink']`).at(1).simulate('click');
-    expect(onPageChange).toHaveBeenCalled();
-  });
-
-  it('calls onPageChange with right args', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper.find(`[data-tid='Paging__pageLink']`).at(1).simulate('click');
-    expect(onPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('has forward button', () => {
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={emptyHandler} />);
-    expect(wrapper.find(`[data-tid='Paging__forwardLink']`)).toHaveLength(1);
-  });
-
-  it('calls onPageChange when clicked on forward button', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper.find(`[data-tid='Paging__forwardLink']`).at(0).simulate('click');
-    expect(onPageChange).toHaveBeenCalled();
-  });
-
-  it('calls onPageChange on forward button with right args', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper.find(`[data-tid='Paging__forwardLink']`).at(0).simulate('click');
-    expect(onPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('handles enter key', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    wrapper.setState({ focusedByTab: true, focusedItem: 2 });
-    const root = wrapper.find(Paging);
-    root.simulate('keydown', { key: 'Enter' });
-    expect(onPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('handles right key', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    const root = wrapper.find(Paging);
-    root.simulate('keydown', { key: 'ArrowRight' });
-    root.simulate('keydown', { key: 'Enter' });
-    expect(onPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('handles ctrl + right keys', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
-    const root = wrapper.find(Paging);
-    root.simulate('keydown', { key: 'ArrowRight', ctrlKey: true });
-    expect(onPageChange).toHaveBeenCalledWith(2);
-  });
-
-  it('handles left key', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-    wrapper.simulate('keydown', { key: 'ArrowLeft' });
-    wrapper.simulate('keydown', { key: 'Enter' });
-    expect(onPageChange).toHaveBeenCalledWith(1);
-  });
-
-  it('handles ctrl + left keys', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
-    wrapper.simulate('keydown', { key: 'ArrowLeft', ctrlKey: true });
-    expect(onPageChange).toHaveBeenCalledWith(1);
-  });
-
-  it('keyboard control available with global listener', () => {
-    const onPageChange = jest.fn();
-    const wrapper = mount<Paging>(
-      <Paging useGlobalListener pagesCount={2} activePage={2} onPageChange={onPageChange} />,
+  it('should not be rendered when only one page is presented and the flag is enabled', () => {
+    const callback = jest.fn();
+    render(
+      <Paging pagesCount={1} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages={false} />,
     );
 
-    expect(wrapper.state('keyboardControl')).toBe(true);
+    expect(screen.queryByTestId('Paging__root')).not.toBeInTheDocument();
   });
 
-  it('keyboard control available with focus', () => {
+  it('should be rendered when only one page is presented and the flag is disabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={1} activePage={1} onPageChange={callback} />);
+
+    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+  });
+
+  it('should be rendered when two or more pages are presented and the flag is enabled', () => {
+    const callback = jest.fn();
+    render(<Paging pagesCount={2} activePage={1} onPageChange={callback} shouldBeVisibleWithLessThanTwoPages />);
+
+    expect(screen.getByTestId('Paging__root')).toBeInTheDocument();
+  });
+
+  it('should render right dots', () => {
+    render(<Paging pagesCount={10} activePage={1} onPageChange={emptyHandler} />);
+
+    expect(screen.getByTestId('Paging__dots')).toBeInTheDocument();
+  });
+
+  it('should render left dots', () => {
+    render(<Paging pagesCount={10} activePage={9} onPageChange={emptyHandler} />);
+
+    expect(screen.getByTestId('Paging__dots')).toBeInTheDocument();
+  });
+
+  it('should render left and right dots', () => {
+    render(<Paging pagesCount={12} activePage={6} onPageChange={emptyHandler} />);
+
+    expect(screen.getAllByTestId('Paging__dots')).toHaveLength(2);
+  });
+
+  it('should call `onPageChange` on not chosen link', async () => {
     const onPageChange = jest.fn();
-    const wrapper = mount<Paging>(<Paging pagesCount={2} activePage={2} onPageChange={onPageChange} />);
+    const activePage = 2;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    expect(wrapper.state('keyboardControl')).toBe(false);
+    const links = screen.getAllByTestId('Paging__pageLink');
+    await userEvent.click(links[activePageIndex - 1]);
 
-    wrapper.simulate('focus');
-
-    expect(wrapper.state('keyboardControl')).toBe(true);
+    expect(onPageChange).toHaveBeenCalledTimes(1);
   });
 
-  describe('Locale', () => {
-    let wrapper: ReactWrapper;
-    const getForwardText = () => wrapper.find(`[data-tid='Paging__forwardLink']`).text();
-    const PagingContext = () => <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />;
+  it('should not call `onPageChange` on chosen link', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 1;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-    it('render without LocaleProvider', () => {
-      wrapper = mount(PagingContext());
-      const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+    const links = screen.getAllByTestId('Paging__pageLink');
+    await userEvent.click(links[activePageIndex]);
 
-      expect(getForwardText()).toBe(expectedText);
-    });
+    expect(onPageChange).not.toHaveBeenCalled();
+  });
 
-    it('render default locale', () => {
-      wrapper = mount(<LocaleContext.Provider value={{}}>{PagingContext()}</LocaleContext.Provider>);
-      const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+  it('should call `onPageChange` with right page number', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 1;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
 
-      expect(getForwardText()).toBe(expectedText);
-    });
+    const links = screen.getAllByTestId('Paging__pageLink');
+    await userEvent.click(links[activePageIndex + 1]);
 
-    it('render default locale', () => {
-      wrapper = mount(
-        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>,
+    expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
+  });
+
+  it('should have forward button', () => {
+    render(<Paging pagesCount={2} activePage={1} onPageChange={emptyHandler} />);
+
+    expect(screen.getByTestId('Paging__forwardLink')).toBeInTheDocument();
+  });
+
+  it('should call `onPageChange` on forward button click', async () => {
+    const onPageChange = jest.fn();
+    render(<Paging pagesCount={2} activePage={1} onPageChange={onPageChange} />);
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    await userEvent.click(forwardButton);
+
+    expect(onPageChange).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not call `onPageChange` on forward button click if active page is last', async () => {
+    const onPageChange = jest.fn();
+    const lastPage = 2;
+    render(<Paging pagesCount={lastPage} activePage={lastPage} onPageChange={onPageChange} />);
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    await userEvent.click(forwardButton);
+
+    expect(onPageChange).not.toHaveBeenCalled();
+  });
+
+  it('should call `onPageChange` on forward button click with right page number', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    await userEvent.click(forwardButton);
+
+    expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
+  });
+
+  it('should handle choosing page from keyboard (right arrow key)', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 1;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+
+    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+
+    await userEvent.click(activeLink);
+    await userEvent.keyboard('{ArrowRight}{Enter}');
+
+    expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
+  });
+
+  it('should handle choosing page from keyboard (left arrow key)', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 2;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+
+    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+
+    await userEvent.click(activeLink);
+    await userEvent.keyboard('{ArrowLeft}{Enter}');
+
+    expect(onPageChange).toHaveBeenCalledWith(activePage - 1);
+  });
+
+  it('should handle ctrl + right keys', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 1;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+
+    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+
+    await userEvent.click(activeLink);
+    await userEvent.keyboard('{Control>}{ArrowRight}');
+
+    expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
+  });
+
+  it('should handle ctrl + left keys', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 2;
+    const activePageIndex = activePage - 1;
+    render(<Paging pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+
+    const activeLink = screen.getAllByTestId('Paging__pageLink')[activePageIndex];
+
+    await userEvent.click(activeLink);
+    await userEvent.keyboard('{Control>}{ArrowLeft}');
+
+    expect(onPageChange).toHaveBeenCalledWith(activePage - 1);
+  });
+
+  it('keyboard control available with global listener', async () => {
+    const onPageChange = jest.fn();
+    const activePage = 1;
+    render(<Paging useGlobalListener pagesCount={2} activePage={activePage} onPageChange={onPageChange} />);
+
+    await userEvent.keyboard('{Control>}{ArrowRight}');
+
+    expect(onPageChange).toHaveBeenCalledWith(activePage + 1);
+  });
+});
+
+describe('Paging Locale', () => {
+  it('should not chash without LocaleProvider', () => {
+    render(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+
+    expect(forwardButton).toContainHTML(expectedText);
+  });
+
+  it('should render default locale', () => {
+    render(
+      <LocaleContext.Provider value={{}}>
+        <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />
+      </LocaleContext.Provider>,
+    );
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const expectedText = PagingLocaleHelper.get(defaultLangCode).forward;
+
+    expect(forwardButton).toContainHTML(expectedText);
+  });
+
+  it('should render `en_GB` locale', () => {
+    render(
+      <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
+        <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />
+      </LocaleContext.Provider>,
+    );
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
+
+    expect(forwardButton).toContainHTML(expectedText);
+  });
+
+  it('should render custom locale', () => {
+    const customPlaceholder = 'custom forward';
+    render(
+      <LocaleContext.Provider
+        value={{
+          locale: { Paging: { forward: customPlaceholder } },
+        }}
+      >
+        <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />
+      </LocaleContext.Provider>,
+    );
+
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+
+    expect(forwardButton).toContainHTML(customPlaceholder);
+  });
+
+  it('should update locale', async () => {
+    const buttonText = 'update langCode';
+    const Component = () => {
+      const [langCode, setLangCode] = useState(LangCodes.en_GB);
+
+      return (
+        <>
+          <button onClick={() => setLangCode(LangCodes.ru_RU)}>{buttonText}</button>
+
+          <LocaleContext.Provider value={{ langCode }}>
+            <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />
+          </LocaleContext.Provider>
+        </>
       );
-      const expectedText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
+    };
+    render(<Component />);
 
-      expect(getForwardText()).toBe(expectedText);
-    });
+    const forwardButton = screen.getByTestId('Paging__forwardLink');
+    const expectedEnglishText = PagingLocaleHelper.get(LangCodes.en_GB).forward;
 
-    it('render custom locale', () => {
-      const customPlaceholder = 'custom forward';
-      wrapper = mount(
-        <LocaleContext.Provider
-          value={{
-            locale: { Paging: { forward: customPlaceholder } },
-          }}
-        >
-          {PagingContext()}
-        </LocaleContext.Provider>,
-      );
+    // Should render `en_GB` locale by default.
+    expect(forwardButton).toContainHTML(expectedEnglishText);
 
-      expect(getForwardText()).toBe(customPlaceholder);
-    });
+    const updateButton = screen.getByRole('button', { name: buttonText });
+    const expectedRussianText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
 
-    it('updates when langCode changes', () => {
-      wrapper = mount(
-        <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>{PagingContext()}</LocaleContext.Provider>,
-      );
-      const expectedText = PagingLocaleHelper.get(LangCodes.ru_RU).forward;
+    // Updating locale.
+    await userEvent.click(updateButton);
 
-      wrapper.setProps({ value: { langCode: LangCodes.ru_RU } });
-
-      expect(getForwardText()).toBe(expectedText);
-    });
+    // Should render `ru_RU` locale.
+    expect(forwardButton).toContainHTML(expectedRussianText);
   });
 });

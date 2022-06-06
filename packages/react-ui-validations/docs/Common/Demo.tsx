@@ -4,15 +4,6 @@ import { Button, Gapped } from '@skbkontur/react-ui';
 
 import { SourceCode } from './SourceCode';
 
-interface DemoProps {
-  demo: React.ComponentClass<any>;
-  source?: string;
-}
-
-interface DemoState {
-  isVisible: boolean;
-}
-
 const DemoWrapper = styled.div`
   margin-top: 10px;
   margin-bottom: 10px;
@@ -25,8 +16,12 @@ const DemoContainer = styled.div`
   font-size: 14px;
 `;
 
+type DemoProps = {
+  demo: React.ComponentClass<any>;
+  source?: string;
+};
 export default class Demo extends React.Component<DemoProps> {
-  public state: DemoState = {
+  public state = {
     isVisible: false,
   };
 

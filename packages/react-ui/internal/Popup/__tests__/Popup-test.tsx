@@ -39,7 +39,7 @@ const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, Po
       positions={['bottom left', 'bottom right', 'top left', 'top right']}
       opened={false}
       anchorElement={anchor}
-      disableAnimations={true}
+      disableAnimations
       {...props}
     >
       Test content

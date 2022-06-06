@@ -21,6 +21,7 @@ export const styles = memoizeStyle({
       position: relative;
       text-decoration: none;
       color: ${t.menuItemTextColor};
+      border-radius: ${t.menuItemBorderRadius};
 
       button& {
         min-width: 100%;

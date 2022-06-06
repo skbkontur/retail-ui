@@ -3,6 +3,103 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.6...@skbkontur/react-ui@4.1.0) (2022-05-04)
+
+
+### Bug Fixes
+
+* **Paging:** add prop shouldBeVisibleWithLessThanTwoPages, true by default ([#2778](https://github.com/skbkontur/retail-ui/issues/2778)) ([d19c839](https://github.com/skbkontur/retail-ui/commit/d19c839e4a430ba6ef07ef87242b4a82a37a2dbc))
+* **Paging:** fix border-radius of long links ([#2765](https://github.com/skbkontur/retail-ui/issues/2765)) ([576dcb9](https://github.com/skbkontur/retail-ui/commit/576dcb9de546eebd7309309fb8144d0a57cb778c))
+* **PasswordInput:** disable eye along with Input & hide password on blur ([#2766](https://github.com/skbkontur/retail-ui/issues/2766)) ([b280ea4](https://github.com/skbkontur/retail-ui/commit/b280ea4a870c6d786700635d37efb92933ff79f5))
+* **Select:** add menuBorderRadius theme var ([#2864](https://github.com/skbkontur/retail-ui/issues/2864)) ([d7d7827](https://github.com/skbkontur/retail-ui/commit/d7d78271b7945bd22ccbf6a4ff78a3ad61d5041a))
+
+
+### Features
+
+* new themes (THEME_2022, THEME_2022_DARK) ([#2880](https://github.com/skbkontur/retail-ui/issues/2880)) ([c4b4615](https://github.com/skbkontur/retail-ui/commit/c4b4615db11b4dfe13efdbaba31e6a29a0305ab1))
+
+
+
+
+
+## [4.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.5...@skbkontur/react-ui@4.0.6) (2022-04-25)
+
+
+### Bug Fixes
+
+* **Button:** add btnLinkActiveColor theme var ([#2871](https://github.com/skbkontur/retail-ui/issues/2871)) ([0588d56](https://github.com/skbkontur/retail-ui/commit/0588d5699d07668aeb0ba25bece9fb95ea2ca89e))
+* **Popup:** use content container as rootNode instead of anchorElement ([4eed6a0](https://github.com/skbkontur/retail-ui/commit/4eed6a06eaee691a3f2e0c8e474dc9a5b139ac5b))
+* **select:** prevent calling areValuesEqual with null ([#2847](https://github.com/skbkontur/retail-ui/issues/2847)) ([52a03b5](https://github.com/skbkontur/retail-ui/commit/52a03b5ee541d129716a8690a60f070ae4617bec)), closes [#1927](https://github.com/skbkontur/retail-ui/issues/1927)
+* **Tooltip:** don't render without content on mobiles  ([#2877](https://github.com/skbkontur/retail-ui/issues/2877)) ([#2878](https://github.com/skbkontur/retail-ui/issues/2878)) ([396be08](https://github.com/skbkontur/retail-ui/commit/396be087ca7be38eb425d1c3a5262838fdb2749c))
+
+
+### Reverts
+
+* Revert "fix(SidePage): change scroll behavior according to Guides (#2756)" (#2874) ([6e4eb1a](https://github.com/skbkontur/retail-ui/commit/6e4eb1af176a1ed668beb63a0e132c69ba3bfdde)), closes [#2756](https://github.com/skbkontur/retail-ui/issues/2756) [#2874](https://github.com/skbkontur/retail-ui/issues/2874)
+
+
+
+
+
+## [4.0.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.4...@skbkontur/react-ui@4.0.5) (2022-04-12)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix focus and fragments selection ([#2858](https://github.com/skbkontur/retail-ui/issues/2858)) ([ec4499e](https://github.com/skbkontur/retail-ui/commit/ec4499e444fead65fcaeb703e129ee3adb0f6fe4)), closes [#2614](https://github.com/skbkontur/retail-ui/issues/2614)
+
+
+
+
+
+## [4.0.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.3...@skbkontur/react-ui@4.0.4) (2022-04-01)
+
+
+### Bug Fixes
+
+* **Tooltip:** do not call onOpen after close ([#2848](https://github.com/skbkontur/retail-ui/issues/2848)) ([a3e0772](https://github.com/skbkontur/retail-ui/commit/a3e07728e9ed25b48afcc5a995acfbb7f5d7c93a))
+* corrected ThemeFactory.overrideDefaultTheme ([#2845](https://github.com/skbkontur/retail-ui/issues/2845)) ([2cc964f](https://github.com/skbkontur/retail-ui/commit/2cc964f5a7f052a442893e1312de1cf9115e131f))
+
+
+
+
+
+## [4.0.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.2...@skbkontur/react-ui@4.0.3) (2022-03-22)
+
+
+### Bug Fixes
+
+* **SidePage:** fix animation styles ([#2837](https://github.com/skbkontur/retail-ui/issues/2837)) ([2eeebb0](https://github.com/skbkontur/retail-ui/commit/2eeebb00fb651da8062d6b672f8bd71ae0fa7587))
+
+
+
+
+
+## [4.0.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.1...@skbkontur/react-ui@4.0.2) (2022-03-22)
+
+
+### Bug Fixes
+
+* **Button:** use default prop when "use"={null} ([#2833](https://github.com/skbkontur/retail-ui/issues/2833)) ([#2834](https://github.com/skbkontur/retail-ui/issues/2834)) ([cc2b506](https://github.com/skbkontur/retail-ui/commit/cc2b506d976e678857cbeed1582b76e952b62169))
+* **SidePage,Toast:** fix animation bugs ([#2835](https://github.com/skbkontur/retail-ui/issues/2835)) ([3c8e77d](https://github.com/skbkontur/retail-ui/commit/3c8e77dc67710b342d8df96043333f2cbf012c73))
+
+
+
+
+
+## [4.0.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.0...@skbkontur/react-ui@4.0.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* **DatePicker:** scroll to date ([#2829](https://github.com/skbkontur/retail-ui/issues/2829)) ([3f3366d](https://github.com/skbkontur/retail-ui/commit/3f3366dbf16b7348eef3981976cf2d07d0b54e2d))
+* dropdownContainer position (master) ([#2827](https://github.com/skbkontur/retail-ui/issues/2827)) ([81467af](https://github.com/skbkontur/retail-ui/commit/81467af568ff519dd362b32dc8db360856f0ef7a))
+* **Modal:** fix lodash import ([#2824](https://github.com/skbkontur/retail-ui/issues/2824)) ([0f15b5e](https://github.com/skbkontur/retail-ui/commit/0f15b5eb041337eda552d096a34914ed86aad79b))
+
+
+
+
+
 # [4.0.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.0...@skbkontur/react-ui@4.0.0) (2022-03-01)
 
 

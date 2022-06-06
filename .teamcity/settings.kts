@@ -5,10 +5,10 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.sshAgent
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.MSBuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetTest
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.msBuild
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetMsBuild
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.DotnetMsBuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetInstaller
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nunit
@@ -310,7 +310,7 @@ object ReactUI_LintTest : BuildType({
     }
 
     failureConditions {
-        executionTimeoutMin = 10
+        executionTimeoutMin = 15
     }
 })
 
@@ -614,12 +614,11 @@ object Validations_LintTest : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.3%"
             projects = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
         }
-        msBuild {
+        dotnetMsBuild {
             name = "Build tests"
-            id = "RUNNER_6"
-            path = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
-            version = MSBuildStep.MSBuildVersion.V15_0
-            toolsVersion = MSBuildStep.MSBuildToolsVersion.V15_0
+            projects = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
+            version = DotnetMsBuildStep.MSBuildVersion.CrossPlatform
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
         nunit {
             name = "Run tests"

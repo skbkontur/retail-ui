@@ -2,6 +2,22 @@ import { Selection } from './SelectionHelper';
 
 export type CursorMap = number[];
 
+const calculateExtendedSelection = (map: CursorMap, selection: Selection, step: number): Selection => {
+  if (selection.direction === 'backward') {
+    return {
+      start: CursorHelper.calculatePosition(map, selection.start, step),
+      end: selection.end,
+      direction: 'backward',
+    };
+  }
+
+  return {
+    start: selection.start,
+    end: CursorHelper.calculatePosition(map, selection.end, step),
+    direction: 'forward',
+  };
+};
+
 export class CursorHelper {
   public static normalizePosition(map: CursorMap, position: number): number {
     return map[Math.min(Math.max(0, position), map.length - 1)];
@@ -16,22 +32,9 @@ export class CursorHelper {
   }
 
   public static extendSelection(map: CursorMap, selection: Selection, step: number) {
-    selection = CursorHelper.normalizeSelection(map, selection);
+    const normalizedSelection = CursorHelper.normalizeSelection(map, selection);
 
-    selection =
-      selection.direction === 'backward'
-        ? {
-            start: CursorHelper.calculatePosition(map, selection.start, step),
-            end: selection.end,
-            direction: 'backward',
-          }
-        : {
-            start: selection.start,
-            end: CursorHelper.calculatePosition(map, selection.end, step),
-            direction: 'forward',
-          };
-
-    return CursorHelper.normalizeSelection(map, selection);
+    return CursorHelper.normalizeSelection(map, calculateExtendedSelection(map, normalizedSelection, step));
   }
 
   public static normalizeSelection(map: CursorMap, selection: Selection): Selection {

@@ -7,6 +7,21 @@ import {
   InternalDateComponentType,
 } from './types';
 
+const calculateStartDate = (startDate: number | null) => {
+  if (startDate) {
+    return startDate;
+  }
+
+  return -Infinity;
+};
+
+const calculateEndDate = (endDate: number | null) => {
+  if (endDate) {
+    return endDate;
+  }
+
+  return Infinity;
+};
 export class InternalDateValidator {
   public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
     if (type !== undefined) {
@@ -27,8 +42,17 @@ export class InternalDateValidator {
     type?: InternalDateComponentType,
   ): boolean {
     if (type !== undefined) {
-      const value =
-        type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
+      const getValue = () => {
+        if (type === InternalDateComponentType.Year) {
+          return year;
+        } else if (type === InternalDateComponentType.Month) {
+          return month;
+        }
+
+        return date;
+      };
+
+      const value = getValue();
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);
     }
@@ -53,9 +77,10 @@ export class InternalDateValidator {
     if (startDate === null && endDate === null) {
       return true;
     }
-    startDate = startDate || -Infinity;
-    endDate = endDate || Infinity;
-    return date >= startDate && date <= endDate;
+
+    const calculatedEndDate = calculateEndDate(endDate);
+    const calculatedStartDate = calculateStartDate(startDate);
+    return date >= calculatedStartDate && date <= calculatedEndDate;
   }
 
   public static checkRangePiecemeal(
@@ -67,11 +92,8 @@ export class InternalDateValidator {
     if (startComponents === null && endComponents === null) {
       return true;
     }
-    const {
-      year: startYear = -Infinity,
-      month: startMonth = -Infinity,
-      date: startDate = -Infinity,
-    } = startComponents || {};
+    const { year: startYear = -Infinity, month: startMonth = -Infinity, date: startDate = -Infinity } =
+      startComponents || {};
     const { year: endYear = Infinity, month: endMonth = Infinity, date: endDate = Infinity } = endComponents || {};
 
     if (type === InternalDateComponentType.Year) {

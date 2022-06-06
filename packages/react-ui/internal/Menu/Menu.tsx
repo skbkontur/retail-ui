@@ -2,13 +2,13 @@ import React, { CSSProperties } from 'react';
 
 import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
-import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
-import { isMenuHeader, MenuHeaderProps } from '../../components/MenuHeader';
+import { MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
@@ -143,32 +143,31 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       if (!child) {
         return child;
       }
+
       if (typeof child === 'string' || typeof child === 'number') {
         return child;
       }
 
-      if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-        child = React.cloneElement<MenuItemProps | MenuHeaderProps>(child, {
-          _enableIconPadding: true,
-        });
-      }
-      if (isActiveElement(child)) {
+      const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
+
+      if (isActiveElement(modifiedChild)) {
         const highlight = this.state.highlightedIndex === index;
 
-        let ref = child.ref;
-        if (highlight && typeof child.ref !== 'string') {
-          ref = this.refHighlighted.bind(this, child.ref);
+        let ref = modifiedChild.ref;
+        if (highlight && typeof modifiedChild.ref !== 'string') {
+          ref = this.refHighlighted.bind(this, modifiedChild.ref);
         }
 
-        return React.cloneElement<MenuItemProps, MenuItem>(child, {
+        return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
           ref,
-          state: highlight ? 'hover' : child.props.state,
+          state: highlight ? 'hover' : modifiedChild.props.state,
           onClick: this.select.bind(this, index, false),
           onMouseEnter: this.highlight.bind(this, index),
           onMouseLeave: this.unhighlight,
         });
       }
-      return child;
+
+      return modifiedChild;
     });
   };
 

@@ -1,11 +1,14 @@
 import React from 'react';
 
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { Toggle } from '../../../components/Toggle';
+import { Toggle, ToggleProps } from '../../../components/Toggle';
 import { Gapped } from '../../../components/Gapped';
 
+interface ExampleState {
+  lockScroll: ToggleProps['checked'];
+}
 class Example extends React.Component {
-  public state = {
+  public state: ExampleState = {
     lockScroll: false,
   };
 
@@ -62,8 +65,12 @@ class Example extends React.Component {
   };
 }
 
+interface Example2State {
+  lockScroll: ToggleProps['checked'];
+  oversizeContent: ToggleProps['checked'];
+}
 class Example2 extends React.Component {
-  public state = {
+  public state: Example2State = {
     lockScroll: false,
     oversizeContent: false,
   };

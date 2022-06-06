@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
@@ -48,6 +50,8 @@ SimpleExample.parameters = {
   creevey: {
     tests: {
       async plain() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
       async clickAfterClickedOnCaption() {
@@ -63,6 +67,8 @@ SimpleExample.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
       },
       async clicked() {
@@ -72,7 +78,8 @@ SimpleExample.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
-        await delay(500);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
       async tabPress() {
@@ -82,6 +89,8 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
       async enterPress() {
@@ -97,6 +106,8 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.ENTER)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
       },
       async escapePress() {
@@ -118,6 +129,8 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.ESCAPE)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
       },
     },
@@ -168,7 +181,7 @@ const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
 
 const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
   return {
-    async ['out of viewport']() {
+    async 'out of viewport'() {
       if (side === 'left') {
         await this.browser.executeScript(function () {
           const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
@@ -182,10 +195,11 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
         })
         .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
         .perform();
-      await delay(500);
+      await delay(1000);
+
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
     },
-    async ['out of edge with min menu width']() {
+    async 'out of edge with min menu width'() {
       if (side === 'left') {
         await this.browser.executeScript(function () {
           const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
@@ -199,7 +213,8 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
         })
         .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
         .perform();
-      await delay(500);
+      await delay(1000);
+
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
     },
   };
@@ -251,6 +266,8 @@ CaptionWidth.parameters = {
   creevey: {
     tests: {
       async plain() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
     },
@@ -371,10 +388,11 @@ WithHeaderAndFooter.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
           .perform();
-        await delay(500);
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
       },
-      async ['scrolled by 100']() {
+      async 'scrolled by 100'() {
         await this.browser
           .actions({
             bridge: true,
@@ -385,9 +403,11 @@ WithHeaderAndFooter.parameters = {
           const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
           scrollContainer.scrollTop += 100;
         });
+        await delay(2000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
       },
-      async ['scrolled down to bottom']() {
+      async 'scrolled down to bottom'() {
         await this.browser
           .actions({
             bridge: true,
@@ -398,14 +418,20 @@ WithHeaderAndFooter.parameters = {
           const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
           scrollContainer.scrollTop += scrollContainer.scrollHeight;
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled down to bottom');
       },
     },
   },
 };
 
-class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, { value: string; hasHeader: boolean }> {
-  public state = {
+interface DropdownWithScrollStateChangeState {
+  hasHeader: boolean;
+  value: string;
+}
+class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
+  public state: DropdownWithScrollStateChangeState = {
     value: '',
     hasHeader: true,
   };
@@ -454,7 +480,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, {
   };
 
   private switchHeaderState = () => {
-    this.setState((state) => ({
+    this.setState((state: DropdownWithScrollStateChangeState) => ({
       hasHeader: !state.hasHeader,
     }));
   };

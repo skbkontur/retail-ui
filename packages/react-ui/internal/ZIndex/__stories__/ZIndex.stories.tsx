@@ -8,8 +8,8 @@ import { Select } from '../../../components/Select';
 import { Kebab } from '../../../components/Kebab';
 import { MenuItem } from '../../../components/MenuItem';
 import { Center } from '../../../components/Center';
-import { Hint } from '../../../components/Hint';
-import { Tooltip } from '../../../components/Tooltip';
+import { Hint, HintProps } from '../../../components/Hint';
+import { Tooltip, TooltipTrigger } from '../../../components/Tooltip';
 import { ZIndex } from '../ZIndex';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
@@ -60,7 +60,10 @@ class ZSelect extends React.Component {
   }
 }
 
-class ZLoader extends React.Component<{ size: number }> {
+interface ZLoaderProps {
+  size: number;
+}
+class ZLoader extends React.Component<ZLoaderProps> {
   public render() {
     const size = this.props.size + 'px';
     const style = { height: size, fontSize: '20px', border: 'solid red 1px' };
@@ -84,7 +87,11 @@ class ZLoader extends React.Component<{ size: number }> {
   }
 }
 
-class ZModal extends React.Component<{ size: number; children?: React.ReactNode }> {
+interface ZModalProps {
+  size: number;
+  children?: React.ReactNode;
+}
+class ZModal extends React.Component<ZModalProps> {
   public render() {
     const size = this.props.size + 'px';
     return (
@@ -113,17 +120,7 @@ interface ZSampleProps {
   current?: number;
 }
 
-interface ZSampleState {
-  modal: boolean;
-  popup: boolean;
-}
-
-interface InputWithTooltipProps {
-  text?: string;
-  pos?: PopupPositionsType;
-}
-
-class ZSample extends React.Component<ZSampleProps, ZSampleState> {
+class ZSample extends React.Component<ZSampleProps> {
   public state = {
     modal: false,
     popup: false,
@@ -236,6 +233,11 @@ class Demo extends React.Component {
   }
 }
 
+interface InputWithTooltipProps {
+  text?: string;
+  pos?: PopupPositionsType;
+}
+
 const InputWithTooltip = ({ text = 'Hello', pos = 'top right' }: InputWithTooltipProps) => (
   <Tooltip render={() => text} trigger="opened" pos={pos}>
     <Input />
@@ -246,7 +248,7 @@ const ModalWrapper = ({ caption = 'Title', ...props }: { caption?: string; child
   <Modal>
     <Modal.Header>{caption}</Modal.Header>
     <Modal.Body>{props.children}</Modal.Body>
-    <Modal.Footer panel={true} />
+    <Modal.Footer panel />
   </Modal>
 );
 
@@ -319,8 +321,12 @@ class NestedElementsInLoader extends React.Component {
   }
 }
 
+interface HintAndModalState {
+  modalOpened: boolean;
+  hintOpened: HintProps['opened'];
+}
 class HintAndModal extends React.Component {
-  public state = {
+  public state: HintAndModalState = {
     modalOpened: false,
     hintOpened: false,
   };
@@ -353,7 +359,7 @@ class HintAndModal extends React.Component {
             <Button onClick={() => this.setState({ hintOpened: true })}>Show Hint</Button>
           </div>
         </Modal.Body>
-        <Modal.Footer panel={true}>
+        <Modal.Footer panel>
           <Button onClick={this.close}>Close</Button>
         </Modal.Footer>
       </Modal>
@@ -372,7 +378,7 @@ class HintAndModal extends React.Component {
     return (
       <div style={{ padding: '100px' }}>
         {this.state.modalOpened && this.renderModal()}
-        <Hint text="Text" opened={this.state.hintOpened} manual={true}>
+        <Hint text="Text" opened={this.state.hintOpened} manual>
           <Button onClick={this.open}>Open</Button>
         </Hint>
       </div>
@@ -390,18 +396,17 @@ class LoaderInModal extends React.Component {
             Body
           </Loader>
         </Modal.Body>
-        <Modal.Footer panel={true}>Footer</Modal.Footer>
+        <Modal.Footer panel>Footer</Modal.Footer>
       </Modal>
     );
   }
 }
 interface TooltipAndDropdownMenuState {
-  tooltipTrigger: 'closed' | 'opened';
+  trigger: TooltipTrigger;
 }
-
 class TooltipAndSelect extends React.Component {
   public state: TooltipAndDropdownMenuState = {
-    tooltipTrigger: 'closed',
+    trigger: 'closed',
   };
 
   public render() {
@@ -420,7 +425,7 @@ class TooltipAndSelect extends React.Component {
 
     return (
       <div className="container" style={{ height: '300px', width: '300px' }}>
-        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.tooltipTrigger}>
+        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.trigger}>
           <Select
             onKeyDown={() => this.setState({ tooltipTrigger: 'opened' })}
             width={120}
@@ -440,7 +445,7 @@ class LoaderInSidePage extends React.Component {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <SidePage onClose={close} blockBackground fromLeft={true}>
+            <SidePage onClose={close} blockBackground fromLeft>
               <SidePage.Header>Title</SidePage.Header>
               <SidePage.Body>
                 <div
@@ -478,7 +483,7 @@ class SidePageAndSelect extends React.Component {
       <ThemeContext.Consumer>
         {(theme) => {
           return (
-            <SidePage onClose={close} blockBackground fromLeft={true}>
+            <SidePage onClose={close} blockBackground fromLeft>
               <SidePage.Header>Title</SidePage.Header>
               <SidePage.Body>
                 <div
@@ -731,7 +736,7 @@ HintAndModalStory.storyName = 'Hint and modal';
 HintAndModalStory.parameters = {
   creevey: {
     tests: {
-      async ['Modal covers hint']() {
+      async 'Modal covers hint'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -741,6 +746,7 @@ HintAndModalStory.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '.modalBody button' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Modal covers hint');
       },
@@ -758,7 +764,7 @@ BigModalWithLoaderStory.storyName = 'Big modal with Loader';
 BigModalWithLoaderStory.parameters = {
   creevey: {
     tests: {
-      async ['Header covers Loader']() {
+      async 'Header covers Loader'() {
         await this.browser.executeScript(function () {
           const sidePage = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
 
@@ -767,7 +773,7 @@ BigModalWithLoaderStory.parameters = {
           }
         });
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Header covers Loader');
       },
@@ -781,7 +787,7 @@ TooltipAndSelectStory.storyName = 'Tooltip and Select';
 TooltipAndSelectStory.parameters = {
   creevey: {
     tests: {
-      async ['Menu covers tooltip']() {
+      async 'Menu covers tooltip'() {
         const element = await this.browser.findElement({ css: '.container' });
 
         await this.browser
@@ -789,6 +795,7 @@ TooltipAndSelectStory.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .sendKeys('q')
           .perform();
+        await delay(1000);
 
         await this.expect(await element.takeScreenshot()).to.matchImage('Modal covers hint');
       },
@@ -802,7 +809,7 @@ LoaderInSidePageBody.storyName = 'Loader in SidePage.Body';
 LoaderInSidePageBody.parameters = {
   creevey: {
     tests: {
-      async ['is covered by Header and Footer']() {
+      async 'is covered by Header and Footer'() {
         await this.browser.executeScript(function () {
           const sidePage = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
@@ -811,7 +818,7 @@ LoaderInSidePageBody.parameters = {
           }
         });
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('is covered by Header and Footer');
       },
@@ -825,7 +832,7 @@ SidepageAndSelect.storyName = 'Sidepage and Select';
 SidepageAndSelect.parameters = {
   creevey: {
     tests: {
-      async ['SidePage covers Select and Tooltip']() {
+      async 'SidePage covers Select and Tooltip'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '.select-container button' }))
@@ -844,6 +851,8 @@ SidepageAndSelect.parameters = {
           .perform();
 
         const element = await this.browser.findElement({ css: `[data-tid='SidePage__container']` });
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('SidePage covers Select and Tooltip');
       },
     },
@@ -859,21 +868,22 @@ ElementsInLoaderInModalStory.storyName = 'Elements in Loader in Modal';
 ElementsInLoaderInModalStory.parameters = {
   creevey: {
     tests: {
-      async ['Open Dropdown while Loader is inactive']() {
+      async 'Open Dropdown while Loader is inactive'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Open Dropdown while Loader is inactive');
       },
-      async ['Hide Hint on active Loader']() {
+      async 'Hide Hint on active Loader'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Hide Hint on active Loader');
       },
@@ -887,13 +897,13 @@ LoaderAndSidePageStory.storyName = 'Loader and SidePage';
 LoaderAndSidePageStory.parameters = {
   creevey: {
     tests: {
-      async ['SidePage shadow cover Loader']() {
+      async 'SidePage shadow cover Loader'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Toggle"]' }))
           .perform();
 
-        await delay(500);
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('SidePage shadow cover Loader');
       },
@@ -915,11 +925,12 @@ StickyAndTooltipsStory.storyName = 'Sticky and Tooltips';
 StickyAndTooltipsStory.parameters = {
   creevey: {
     tests: {
-      async ['Sticky covers outside Popup and DropdownContainer']() {
+      async 'Sticky covers outside Popup and DropdownContainer'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage(
           'Sticky covers outside Popup and DropdownContainer',
@@ -981,6 +992,7 @@ ModalAndToast.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-comp-name~="Button"] button' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },
@@ -1050,6 +1062,7 @@ ToastOverEverything.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage();
       },

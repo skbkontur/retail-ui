@@ -10,7 +10,7 @@ export function filterProps<
   Specific extends Filter<keyof Props, True<Allowed>>,
   // If value neither true nor false, it should be optional
   Optional extends Filter<keyof Props, AmbiguousBool<Allowed>>,
-  Result extends { [P in Specific]: Props[P] } & { [Q in Optional]?: Props[Q] },
+  Result extends { [P in Specific]: Props[P] } & { [Q in Optional]?: Props[Q] }
 >(props: Props, allowed: Allowed): Result {
   const filteredProps = {} as Record<string, unknown>;
   for (const key in props) {

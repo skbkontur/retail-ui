@@ -50,9 +50,9 @@ const FormWrapper = styled.div`
   flex-direction: column;
 `;
 
-interface FormProps {
+type FormProps = {
   children?: React.ReactNode;
-}
+};
 
 export class Form extends React.Component<FormProps> {
   public static Line: typeof FormLine = FormLine;

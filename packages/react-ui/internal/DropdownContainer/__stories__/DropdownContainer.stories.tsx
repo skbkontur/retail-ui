@@ -7,51 +7,66 @@ import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer'
 import { Menu } from '../../Menu';
 import { Button } from '../../../components/Button';
 import { getRootNode, rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { delay } from '../../../lib/utils';
 
 export default { title: 'DropdownContainer' };
 
 export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
-VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, items and scrolls';
+VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals items and scrolls';
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
+    delay: 2000,
     tests: {
-      async ['short Items']() {
+      async 'short Items'() {
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
       },
-      async ['short Items scroll']() {
+      async 'short Items scroll'() {
         await this.browser.executeScript(function () {
           const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
       },
-      async ['long Items']() {
+      async 'long Items'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
+        await delay(2000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
       },
-      async ['long Items scroll']() {
+      async 'long Items scroll'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
+        await delay(2000);
         await this.browser.executeScript(function () {
           const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
+        await delay(2000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
       },
     },
   },
 };
 
+interface VariousAlignsPortalsItemsAndScrollsState {
+  shown: { [id: string]: boolean };
+  long: boolean;
+}
+type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
-  public aligns: Array<'left' | 'right'> = ['left', 'right'];
+  public aligns: Align[] = ['left', 'right'];
   public portals = [false, true];
   public rows = ['top', 'middle', 'bottom'];
   public cols = ['left', 'center', 'right'];
@@ -59,10 +74,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
     [id: string]: DropdownWithToggle | null;
   } = {};
 
-  public state: {
-    shown: { [id: string]: boolean };
-    long: boolean;
-  } = {
+  public state: VariousAlignsPortalsItemsAndScrollsState = {
     shown: {},
     long: false,
   };
@@ -78,7 +90,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   }
 
   public toggle = (id: string, value: boolean) => {
-    this.setState((state: { shown: { [id: string]: boolean }; long: boolean }) => ({
+    this.setState((state: VariousAlignsPortalsItemsAndScrollsState) => ({
       shown: {
         ...state.shown,
         [id]: value,
@@ -169,9 +181,10 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   };
 }
 
-class ScrollableContainer extends React.Component<{
+interface ScrollableContainerProps {
   id?: string;
-}> {
+}
+class ScrollableContainer extends React.Component<ScrollableContainerProps> {
   public render() {
     return (
       <div
@@ -189,10 +202,11 @@ class ScrollableContainer extends React.Component<{
   }
 }
 
-class ScrollMaker extends React.Component<{
+interface ScrollMakerProps {
   xScroll: number;
   yScroll: number;
-}> {
+}
+class ScrollMaker extends React.Component<ScrollMakerProps> {
   public static defaultProps = {
     xScroll: 100,
     yScroll: 100,
@@ -216,11 +230,12 @@ class ScrollMaker extends React.Component<{
   }
 }
 
-class Grid extends React.Component<{
+interface GridProps {
   rows: string[];
   cols: string[];
   children: (row: string, col: string) => React.ReactNode;
-}> {
+}
+class Grid extends React.Component<GridProps> {
   public static Row = class Row extends React.Component {
     public render() {
       return (
@@ -266,15 +281,16 @@ class Grid extends React.Component<{
   }
 }
 
-@rootNode
-class DropdownWithToggle extends React.Component<{
+interface DropdownWithToggleProps {
   show: boolean;
   onToggle: (value: boolean) => void;
   dropdownProps: {
     align: DropdownContainerProps['align'];
     disablePortal: DropdownContainerProps['disablePortal'];
   };
-}> {
+}
+@rootNode
+class DropdownWithToggle extends React.Component<DropdownWithToggleProps> {
   private setRootNode!: TSetRootNode;
 
   public render() {

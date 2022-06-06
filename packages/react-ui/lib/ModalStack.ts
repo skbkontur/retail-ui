@@ -20,7 +20,7 @@ export interface ModalStackSubscription {
 export class ModalStack {
   public static add(
     component: React.Component,
-    onChange: (stack: ReadonlyArray<React.Component>) => void,
+    onChange: (stack: readonly React.Component[]) => void,
   ): ModalStackSubscription {
     const { emitter, mounted } = ModalStack.getStackInfo();
     mounted.unshift(component);

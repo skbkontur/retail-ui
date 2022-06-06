@@ -214,7 +214,7 @@ describe('Tooltip', () => {
     const Content = () => <div />;
 
     const wrapper = mount<Tooltip>(
-      <Tooltip trigger="click" disableAnimations={true} render={() => <Content />}>
+      <Tooltip trigger="click" disableAnimations render={() => <Content />}>
         <Button>Click me</Button>
       </Tooltip>,
     );
@@ -241,7 +241,7 @@ describe('Tooltip', () => {
     beforeEach(() => {
       onCloseRequest.mockClear();
       wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-        <Tooltip disableAnimations={true} render={() => <Content />} onCloseRequest={onCloseRequest}>
+        <Tooltip disableAnimations render={() => <Content />} onCloseRequest={onCloseRequest}>
           <Button>Anchor</Button>
         </Tooltip>,
       );
@@ -275,14 +275,15 @@ describe('Tooltip', () => {
     jest.spyOn(window, 'clearTimeout');
 
     const wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-      <Tooltip disableAnimations={true} render={() => <div />}>
+      <Tooltip disableAnimations render={() => <div />}>
         <Button>Anchor</Button>
       </Tooltip>,
     );
     const instance = wrapper.instance();
-    // @ts-expect-error: Use of private property.
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const timer = (instance.hoverTimeout = setTimeout(() => {}));
+    const timer = setTimeout(() => {});
+    // @ts-expect-error: private property
+    instance.hoverTimeout = timer;
 
     wrapper.unmount();
 

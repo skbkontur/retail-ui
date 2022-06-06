@@ -175,14 +175,8 @@ describe('<Autocomplete />', () => {
   });
 });
 
-interface UncontrolledAutocompleteState {
-  value: string;
-}
-
-class UncontrolledAutocomplete extends React.Component<
-  Omit<AutocompleteProps, 'value'>,
-  UncontrolledAutocompleteState
-> {
+type UncontrolledAutocompleteProps = Omit<AutocompleteProps, 'value'>;
+class UncontrolledAutocomplete extends React.Component<UncontrolledAutocompleteProps> {
   public static defaultProps = Autocomplete.defaultProps;
   public state = {
     value: '',

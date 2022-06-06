@@ -1,17 +1,22 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
+import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { ItemComponentProps, Paging } from '../Paging';
 import { delay } from '../../../lib/utils';
+import { PagingProps } from '..';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
 dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
 sunt corrupti deserunt ab eius nobis suscipit praesentium labore.
 Distinctio hic asperiores consequatur?`;
 
+interface GoToAbsensePageState {
+  activePage: number;
+}
 class GoToAbsensePage extends React.Component {
-  public state = {
+  public state: GoToAbsensePageState = {
     activePage: 3,
   };
 
@@ -37,8 +42,14 @@ class GoToAbsensePage extends React.Component {
   };
 }
 
-class PagingWithState extends React.Component<any, any> {
-  public state = {
+interface PagingWithStateProps extends Partial<PagingProps> {
+  pagesCount: number;
+}
+interface PagingWithStateState {
+  activePage: number;
+}
+class PagingWithState extends React.Component<PagingWithStateProps> {
+  public state: PagingWithStateState = {
     activePage: 1,
   };
 
@@ -78,8 +89,14 @@ const CustomComponent = ({ children, pageNumber, active, ...rest }: ItemComponen
   );
 };
 
-class PagingWithCustomComponent extends React.Component<any, any> {
-  public state = {
+interface PagingWithCustomComponentProps {
+  pagesCount: number;
+}
+interface PagingWithCustomComponentState {
+  activePage: number;
+}
+class PagingWithCustomComponent extends React.Component<PagingWithCustomComponentProps> {
+  public state: PagingWithCustomComponentState = {
     activePage: 1,
   };
 
@@ -131,7 +148,11 @@ GoToAbsensePageStory.storyName = 'GoToAbsensePage';
 
 GoToAbsensePageStory.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'Move to page by Ender'] },
+    ],
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -147,7 +168,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('hover');
       },
-      async ['change page by number']() {
+      async 'change page by number'() {
         await this.browser
           .actions({
             bridge: true,
@@ -156,7 +177,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
       },
-      async ['change page by forwardLink']() {
+      async 'change page by forwardLink'() {
         // NOTE Firefox bug if click send right after click from previous test it results as double click
         await delay(500);
         await this.browser
@@ -178,7 +199,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('focused');
       },
-      async ['Move focus right']() {
+      async 'Move focus right'() {
         await this.browser
           .actions({
             bridge: true,
@@ -189,7 +210,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
       },
-      async ['Move to page by Ender']() {
+      async 'Move to page by Ender'() {
         await this.browser
           .actions({
             bridge: true,
@@ -225,12 +246,25 @@ export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener
 PagingWithGlobalListener.storyName = 'Paging with global listener';
 PagingWithGlobalListener.parameters = { creevey: { skip: [true] } };
 
+const Template: ComponentStory<typeof Paging> = (args) => {
+  return <Paging {...args} />;
+};
+
+export const WithLongItems = Template.bind({});
+WithLongItems.args = {
+  activePage: 753000,
+  pagesCount: 7530050,
+};
+
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
 PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
-class Playground extends React.Component<unknown, { useGlobalListener: boolean }> {
-  public state = {
+interface PlaygroundState {
+  useGlobalListener: boolean;
+}
+class Playground extends React.Component {
+  public state: PlaygroundState = {
     useGlobalListener: true,
   };
 

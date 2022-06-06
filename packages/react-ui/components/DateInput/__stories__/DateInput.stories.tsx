@@ -14,7 +14,7 @@ interface DateInputFormattingState {
   separator: keyof typeof InternalDateSeparator;
   value: string;
 }
-class DateInputFormatting extends React.Component<unknown, DateInputFormattingState> {
+class DateInputFormatting extends React.Component {
   public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
     separator: 'Dot',
@@ -71,7 +71,7 @@ class DateInputFormatting extends React.Component<unknown, DateInputFormattingSt
   }
 }
 
-class DateInputDifferentFormatting extends React.Component<any, any> {
+class DateInputDifferentFormatting extends React.Component {
   public render() {
     const value = '21.12.2012';
     return (
@@ -213,12 +213,15 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
   }
 }
 
-interface DateInputSimpleProps extends DateInputProps {
+interface DateInputSimpleProps extends Partial<DateInputProps> {
   defaultValue?: string;
 }
+interface DateInputSimpleState {
+  value: string;
+}
 
-class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
-  public state: { value: string } = {
+class DateInputSimple extends React.Component<DateInputSimpleProps> {
+  public state: DateInputSimpleState = {
     value: this.props.defaultValue || '',
   };
 
@@ -235,7 +238,7 @@ class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
 }
 
 class DateInputLastEvent extends React.Component {
-  public state: { lastEvent: string } = {
+  public state = {
     lastEvent: 'none',
   };
 
@@ -341,7 +344,7 @@ BlurAlwaysAfterChange.storyName = 'blur always after change';
 BlurAlwaysAfterChange.parameters = {
   creevey: {
     tests: {
-      async ['value not changed']() {
+      async 'value not changed'() {
         await this.browser.executeScript(function () {
           const input = window.document.querySelector("[data-comp-name~='DateInput']");
           if (input instanceof HTMLElement) {
@@ -357,7 +360,7 @@ BlurAlwaysAfterChange.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
       },
-      async ['value changed']() {
+      async 'value changed'() {
         await this.browser.executeScript(function () {
           const input = window.document.querySelector("[data-comp-name~='DateInput']");
           if (input instanceof HTMLElement) {
@@ -374,7 +377,7 @@ BlurAlwaysAfterChange.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
       },
-      async ['value restored']() {
+      async 'value restored'() {
         await this.browser.executeScript(function () {
           // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
           window.OldDate = window.Date;

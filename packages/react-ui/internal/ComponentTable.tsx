@@ -28,7 +28,11 @@ const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNo
     ));
 };
 
-export type StatePropsCombinations<P, S> = Array<{ props?: Partial<P>; state?: Partial<S> }>;
+interface StatePropsObject<P, S> {
+  props?: Partial<P>;
+  state?: Partial<S>;
+}
+export type StatePropsCombinations<P, S> = Array<StatePropsObject<P, S>>;
 
 export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
 
@@ -44,7 +48,7 @@ export interface ComponentTableProps<C, P, S> {
 export class ComponentTable<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
-  P extends React.ComponentProps<C>,
+  P extends React.ComponentProps<C>
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {

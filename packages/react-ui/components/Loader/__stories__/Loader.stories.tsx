@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { AnyObject } from '../../../lib/utils';
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
@@ -23,10 +24,11 @@ const darkWrapperStyle = {
   background: '#1f1f1f',
 };
 
-class ContentComponent extends React.Component<{
-  additionalStyle?: Record<string, unknown>;
+interface ContentComponentProps {
+  additionalStyle?: AnyObject;
   loaderProps?: Partial<LoaderProps>;
-}> {
+}
+class ContentComponent extends React.Component<ContentComponentProps> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;
     return (
@@ -51,9 +53,10 @@ class ContentComponent extends React.Component<{
   }
 }
 
-class NumberList extends React.Component<{
+interface NumberListProps {
   itemsCount: number;
-}> {
+}
+class NumberList extends React.Component<NumberListProps> {
   public render() {
     return (
       <>
@@ -221,7 +224,7 @@ ActiveLoader.storyName = 'Active loader';
 ActiveLoader.parameters = {
   creevey: {
     tests: {
-      async ['covers children']() {
+      async 'covers children'() {
         const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
@@ -239,7 +242,7 @@ InactiveLoader.storyName = 'Inactive loader';
 InactiveLoader.parameters = {
   creevey: {
     tests: {
-      async ["doesn't cover children"]() {
+      async "doesn't cover children"() {
         const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
@@ -349,7 +352,7 @@ export const FocusInside: Story = () => {
 FocusInside.parameters = {
   creevey: {
     tests: {
-      async ['focus inside']() {
+      async 'focus inside'() {
         const loader = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const toggle = await this.browser.findElement({ css: '[data-tid~="toggle-loader"]' });
 

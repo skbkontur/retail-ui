@@ -4,7 +4,7 @@ import { emptyHandler } from '../utils';
 
 import { stepper } from './stepper';
 
-export const Animation = () => {
+export const animation = () => {
   let animating = false;
   let currentPosition = 0;
   let currentVelocity = 0;

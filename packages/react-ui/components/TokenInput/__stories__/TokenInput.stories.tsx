@@ -41,15 +41,27 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
   return getGenericItems().filter((s) => s.value.includes(query));
 }
 
-class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
-  constructor(props: any) {
+function getSelectedItems(props: WrapperProps) {
+  if (props.selectedItems) {
+    return props.selectedItems;
+  } else if (props.numberItems) {
+    return new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3));
+  }
+
+  return [];
+}
+
+interface WrapperProps extends Partial<TokenInputProps<string>> {
+  numberItems?: number;
+}
+interface WrapperState {
+  selectedItems: string[];
+}
+class Wrapper extends React.Component<WrapperProps, WrapperState> {
+  constructor(props: WrapperProps) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
-    this.state = { selectedItems };
+
+    this.state = { selectedItems: getSelectedItems(props) };
   }
 
   public render() {
@@ -70,11 +82,11 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
 
 class MyTokenInput extends TokenInput<TokenModel> {}
 
-class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {
-  constructor(props: any) {
-    super(props);
-    this.state = { selectedItems: [] };
-  }
+interface WrapperCustomModelState {
+  selectedItems: TokenModel[];
+}
+class WrapperCustomModel extends React.Component {
+  public state: WrapperCustomModelState = { selectedItems: [] };
 
   public render() {
     return (
@@ -118,15 +130,16 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
   };
 }
 
-class ColoredWrapper extends React.Component<any, any> {
-  constructor(props: any) {
+interface ColoredWrapperProps extends Partial<TokenInputProps<string>> {
+  numberItems?: number;
+}
+interface ColoredWrapperState {
+  selectedItems: string[];
+}
+class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapperState> {
+  constructor(props: ColoredWrapperProps) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
-    this.state = { selectedItems };
+    this.state = { selectedItems: getSelectedItems(props) };
   }
 
   public render() {
@@ -393,7 +406,7 @@ WidthToken.parameters = { creevey: { skip: [true] } };
 export const WithAutofocus = () => {
   return (
     <Gapped vertical gap={10}>
-      <Wrapper getItems={getItems} autoFocus={true} />
+      <Wrapper getItems={getItems} autoFocus />
     </Gapped>
   );
 };
@@ -427,8 +440,8 @@ IdenticalAlignmentWithOtherControls.parameters = { creevey: { skip: [true] } };
 export const Disabled = () => {
   return (
     <Gapped vertical gap={10}>
-      <FilledWrapper getItems={getItems} disabled={true} />
-      <Wrapper getItems={getItems} disabled={true} placeholder="Test text" />
+      <FilledWrapper getItems={getItems} disabled />
+      <Wrapper getItems={getItems} disabled placeholder="Test text" />
     </Gapped>
   );
 };
@@ -520,12 +533,12 @@ OnUnexpectedInputValidation.parameters = {
     skip: [
       {
         in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
-        tests: 'token select',
-        reason: 'flacky "clearedOnNullReturn"',
+        tests: ['token select', 'token edit'],
+        reason: 'flacky',
       },
     ],
     tests: {
-      async ['token select']() {
+      async 'token select'() {
         await this.browser
           .actions({
             bridge: true,
@@ -605,18 +618,21 @@ OnUnexpectedInputValidation.parameters = {
           withSelectedTokens,
         }).to.matchImages();
       },
-      async ['token edit']() {
+      async 'token edit'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .pause(300)
           .sendKeys('aaa')
+          .pause(300)
           .sendKeys(this.keys.ENTER)
-          .pause(1000)
+          .pause(300)
           .sendKeys('bbb')
+          .pause(300)
           .sendKeys(this.keys.ENTER)
-          .pause(1000)
+          .pause(300)
           .perform();
 
         await this.browser
@@ -624,10 +640,12 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys('aaa')
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withSameValue = await this.takeScreenshot();
@@ -637,10 +655,12 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys('zzz')
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withNotEditedToken = await this.takeScreenshot();
@@ -650,15 +670,17 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys(this.keys.BACK_SPACE)
           .sendKeys('clear')
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withRemovedToken = await this.takeScreenshot();
@@ -668,12 +690,15 @@ OnUnexpectedInputValidation.parameters = {
             bridge: true,
           })
           .doubleClick(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
+          .pause(1000)
           .sendKeys('EDITED')
+          .pause(300)
           .sendKeys(this.keys.ARROW_DOWN)
           .sendKeys(this.keys.ENTER)
+          .pause(300)
           .move({ x: 0, y: 0 })
           .click()
-          .pause(1000)
+          .pause(300)
           .perform();
 
         const withEditedToken = await this.takeScreenshot();

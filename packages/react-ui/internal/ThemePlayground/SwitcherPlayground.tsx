@@ -1,14 +1,13 @@
 import React from 'react';
 
-import { Switcher } from '../../components/Switcher';
+import { Switcher, SwitcherProps } from '../../components/Switcher';
 
 const defaultItems = ['Default', 'Error'];
 
-export class SwitcherPlayground extends React.Component<
-  { items?: string[]; disabled?: boolean },
-  { value: string; error: boolean }
-> {
-  public state = {
+type SwitcherPlaygroundProps = Partial<Pick<SwitcherProps, 'items' | 'disabled'>>;
+type SwitcherPlaygroundState = Pick<SwitcherProps, 'value' | 'error'>;
+export class SwitcherPlayground extends React.Component<SwitcherPlaygroundProps, SwitcherPlaygroundState> {
+  public state: SwitcherPlaygroundState = {
     value: '',
     error: false,
   };

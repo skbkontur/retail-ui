@@ -10,19 +10,16 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
-  name: string;
-  lastname: string;
-}
-
-export default class LostfocusDependentDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class LostfocusDependentDemo extends React.Component {
+  public state = {
     name: '',
     lastname: '',
   };
 
   private validate = (value: string): Nullable<ValidationInfo> => {
-    if (!value) return { message: 'Не должно быть пустым', type: 'lostfocus' };
+    if (!value) {
+      return { message: 'Не должно быть пустым', type: 'lostfocus' };
+    }
     return null;
   };
 

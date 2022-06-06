@@ -39,7 +39,7 @@ interface PerformanceMetricsPanelState {
 }
 
 class PerformanceMetricsPanel extends React.Component<PerformanceMetricsPanelProps, PerformanceMetricsPanelState> {
-  public state = {
+  public state: PerformanceMetricsPanelState = {
     mounted: false,
   };
   private container: Nullable<HTMLElement>;

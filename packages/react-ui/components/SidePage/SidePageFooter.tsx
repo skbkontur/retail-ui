@@ -7,6 +7,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -20,6 +21,10 @@ export interface SidePageFooterProps extends CommonProps {
   sticky?: boolean;
 }
 
+interface SidePageFooterState {
+  fixed: boolean;
+}
+
 /**
  * Футер сайдпейджа.
  *
@@ -27,14 +32,14 @@ export interface SidePageFooterProps extends CommonProps {
  */
 @responsiveLayout
 @rootNode
-export class SidePageFooter extends React.Component<SidePageFooterProps> {
+export class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
   private isMobileLayout!: boolean;
 
-  public state = {
+  public state: SidePageFooterState = {
     fixed: false,
   };
 
@@ -131,8 +136,8 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private setProperStyles = () => {
     const wrapper = getRootNode(this);
     if (wrapper && this.content) {
-      const wrapperRect = wrapper.getBoundingClientRect();
-      const contentRect = this.content.getBoundingClientRect();
+      const wrapperRect = getDOMRect(wrapper);
+      const contentRect = getDOMRect(this.content);
       const fixed = wrapperRect.top > contentRect.top;
       this.setState({ fixed });
     }
@@ -142,6 +147,6 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
     if (!this.content) {
       return 'auto';
     }
-    return this.content.getBoundingClientRect().height;
+    return getDOMRect(this.content).height;
   }
 }

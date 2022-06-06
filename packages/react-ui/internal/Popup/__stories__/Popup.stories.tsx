@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Popup, PopupPositionsType } from '../Popup';
+import { DropdownProps } from '../../../components/Dropdown';
+import { Popup, PopupPositionsType, PopupProps } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import { Tooltip } from '../../../components/Tooltip';
 import { ComboBox } from '../../../components/ComboBox';
@@ -25,7 +26,7 @@ PositioningStory.parameters = { creevey: { skip: [true] } };
 export const DisableAnimations = () => (
   <div>
     <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
-    <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
+    <PopupWithPositions disableAnimations placeholder={'disableAnimations: true'} />
   </div>
 );
 DisableAnimations.storyName = 'disableAnimations';
@@ -190,12 +191,10 @@ interface AlwaysOpenedProps {
   small: boolean;
   positions: PopupPositionsType[];
 }
-
 interface AlwaysOpenedState {
   anchor: Nullable<HTMLElement>;
 }
-
-class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState> {
+class AlwaysOpened extends React.Component<AlwaysOpenedProps> {
   public state: AlwaysOpenedState = {
     anchor: null,
   };
@@ -270,9 +269,16 @@ class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState>
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class PopupWithPositions extends React.Component<any> {
-  public state = {
+interface PopupWithPositionsProps {
+  placeholder?: string;
+  disableAnimations?: boolean;
+}
+interface PopupWithPositionsState {
+  opened: boolean;
+  anchor: Nullable<HTMLElement>;
+}
+class PopupWithPositions extends React.Component<PopupWithPositionsProps> {
+  public state: PopupWithPositionsState = {
     opened: false,
     anchor: null,
   };
@@ -346,9 +352,15 @@ class PopupWithPositions extends React.Component<any> {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class FakeHint extends React.Component<any> {
-  public state = {
+interface FakeHintProps {
+  positions: PopupPositionsType[];
+  margin: number;
+}
+interface FakeHintState {
+  anchor: Nullable<HTMLElement>;
+}
+class FakeHint extends React.Component<FakeHintProps> {
+  public state: FakeHintState = {
     anchor: null,
   };
 
@@ -394,9 +406,14 @@ class FakeHint extends React.Component<any> {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-class Toast extends React.Component<any> {
-  public state = {
+interface ToastProps {
+  positions: PopupPositionsType[];
+}
+interface ToastState {
+  anchor: Nullable<HTMLElement>;
+}
+class Toast extends React.Component<ToastProps> {
+  public state: ToastState = {
     anchor: null,
   };
 
@@ -446,16 +463,16 @@ interface DropdownValue {
   value: number;
   label: string;
 }
+
+interface HoverTestProps {
+  dropdownProps?: Pick<DropdownProps, 'disablePortal'>;
+  popupProps?: Pick<PopupProps, 'useWrapper'>;
+  useText?: boolean;
+}
 interface HasDropdownState {
   selected?: DropdownValue;
 }
-
-interface HoverTestProps {
-  dropdownProps?: { disablePortal: boolean };
-  popupProps?: { useWrapper: boolean };
-  useText?: boolean;
-}
-class TooltipWithCombobox extends React.Component<HoverTestProps, HasDropdownState> {
+class TooltipWithCombobox extends React.Component<HoverTestProps> {
   public state: HasDropdownState = {};
 
   public render() {

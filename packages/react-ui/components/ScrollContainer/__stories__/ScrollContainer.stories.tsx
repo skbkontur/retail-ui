@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { CSSProperties } from 'react';
 
 import {
@@ -92,9 +94,12 @@ export const WithHorizontalScroll = () => {
   );
 };
 
+interface WrapperState {
+  scrollState: ScrollContainerScrollState;
+}
 export const WithScrollState = () => {
-  class Wrapper extends React.Component<unknown, { scrollState: ScrollContainerScrollState }> {
-    public state = { scrollState: 'top' as ScrollContainerScrollState };
+  class Wrapper extends React.Component {
+    public state: WrapperState = { scrollState: 'top' as ScrollContainerScrollState };
 
     public render() {
       const commonBlocksStyles: CSSProperties = {

@@ -2,6 +2,7 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
@@ -116,14 +117,12 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
-    this.rootRef.current?.addEventListener('wheel', this.disablePageScroll, { passive: false });
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
-    this.rootRef.current?.removeEventListener('wheel', this.disablePageScroll);
-    if (this.stackSubscription != null) {
+    if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
@@ -149,7 +148,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-
           return this.renderMain();
         }}
       </ThemeContext.Consumer>
@@ -239,17 +237,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private disablePageScroll = (e: WheelEvent) => {
-    const layout = this.layout;
-    if (!layout) return;
-    const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
-    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
-
-    if (!this.props.blockBackground && (reachedTop || reachedBottom)) {
-      e.preventDefault();
-    }
-  };
-
   private getSidePageContextProps = (): SidePageContextType => {
     return {
       hasHeader: this.state.hasHeader,
@@ -301,7 +288,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     };
   }
 
-  private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
+  private handleStackChange = (stack: readonly React.Component[]) => {
     const sidePages = stack.filter((x) => x instanceof SidePage && x.props.fromLeft === this.props.fromLeft);
     const currentSidePagePosition = sidePages.indexOf(this);
 

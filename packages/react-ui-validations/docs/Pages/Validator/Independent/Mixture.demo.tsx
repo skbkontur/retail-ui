@@ -11,7 +11,7 @@ import {
 } from '../../../../src';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface IndependentCompareState {
   dependents: {
     immediate: string;
     lostfocus: string;
@@ -25,7 +25,7 @@ interface State {
   reset: number;
 }
 
-const initialState: State = {
+const initialState: IndependentCompareState = {
   dependents: {
     immediate: '',
     lostfocus: '',
@@ -39,8 +39,8 @@ const initialState: State = {
   reset: 1,
 };
 
-export default class IndependentCompare extends React.Component<{}, State> {
-  public state: State = initialState;
+export default class IndependentCompare extends React.Component {
+  public state = initialState;
 
   private container: Nullable<ValidationContainer> = null;
 
@@ -172,15 +172,21 @@ export default class IndependentCompare extends React.Component<{}, State> {
     type: ValidationBehaviour,
     independent = false,
   ): Nullable<ValidationInfo> => {
-    if (v === '') return { message: 'Не должно быть пустым', type, independent };
+    if (v === '') {
+      return { message: 'Не должно быть пустым', type, independent };
+    }
     return null;
   };
 
-  private handleChangeDependents = (value: Partial<State['dependents']>) => {
+  private handleChangeDependents = (
+    value: Partial<IndependentCompareState['dependents']>,
+  ) => {
     this.setState({ dependents: { ...this.state.dependents, ...value } });
   };
 
-  private handleChangeIndependents = (value: Partial<State['independents']>): void => {
+  private handleChangeIndependents = (
+    value: Partial<IndependentCompareState['independents']>,
+  ): void => {
     this.setState({ independents: { ...this.state.independents, ...value } });
   };
 
