@@ -39,6 +39,9 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
           </Button>
+          <Button onClick={() => this.setState({ value: parseInt('string') })}>
+            Set <b>NaN</b>
+          </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>
           </Button>
@@ -151,6 +154,21 @@ class Sample extends React.Component<
   };
 }
 
+class CurrencyInputWithNaN extends React.Component {
+  public render() {
+    return (
+      <div>
+        <CurrencyInput
+          value={parseInt('string')}
+          onValueChange={() => {
+            return;
+          }}
+        />
+      </div>
+    );
+  }
+}
+
 export default { title: 'CurrencyInput' } as Meta;
 
 export const Demo = () => <CurrencyInputDemo />;
@@ -158,6 +176,8 @@ Demo.parameters = { creevey: { skip: [true] } };
 export const WithBorderless = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
+export const WithNaN = () => <CurrencyInputWithNaN />;
+WithNaN.storyName = 'With NaN';
 
 export const SampleStory: Story = () => <Sample fractionDigits={0} />;
 SampleStory.storyName = 'Sample';
