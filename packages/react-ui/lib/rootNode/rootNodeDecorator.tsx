@@ -1,4 +1,5 @@
-/* eslint-disable react/display-name */
+// A mixin class must have a constructor with a single rest parameter of type 'any[]'.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react';
 import EventEmitter from 'eventemitter3';
 

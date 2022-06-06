@@ -5,7 +5,7 @@ import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '.
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface FocusTrapProps extends CommonProps {
-  children: React.ReactElement<any>;
+  children: React.ReactElement;
   onBlur?: (event: FocusEvent) => void;
 }
 
@@ -29,7 +29,7 @@ export class FocusTrap extends React.PureComponent<FocusTrapProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         {React.cloneElement(React.Children.only(children), {
-          onFocus: (...args: any[]) => {
+          onFocus: (...args: unknown[]) => {
             if (onBlur) {
               this.attachListeners();
             }

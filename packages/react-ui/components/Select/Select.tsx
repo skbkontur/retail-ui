@@ -156,8 +156,8 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
-interface FocusableReactElement extends React.ReactElement<any> {
-  focus: (event?: any) => void;
+interface FocusableReactElement extends React.ReactElement {
+  focus: () => void;
 }
 
 @responsiveLayout
@@ -688,7 +688,7 @@ function areValuesEqual<TValue>(value1: TValue, value2: TValue) {
   return value1 === value2;
 }
 
-function normalizeEntry(entry: any) {
+function normalizeEntry<T>(entry: T) {
   if (Array.isArray(entry)) {
     return entry;
   }

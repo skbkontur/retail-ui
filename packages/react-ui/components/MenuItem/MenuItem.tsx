@@ -30,7 +30,7 @@ export interface MenuItemProps extends CommonProps {
   /**
    * Добавляет элементу меню иконку.
    */
-  icon?: React.ReactElement<any>;
+  icon?: JSX.Element;
   /**
    * Меняет цвет текста на синий.
    */
@@ -73,6 +73,7 @@ export interface MenuItemProps extends CommonProps {
    *
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   component?: React.ComponentType<any>;
 
   isMobile?: boolean;
@@ -229,4 +230,4 @@ export class MenuItem extends React.Component<MenuItemProps> {
   };
 }
 
-export const isMenuItem = isReactUIComponent('MenuItem');
+export const isMenuItem = isReactUIComponent<MenuItemProps>('MenuItem');

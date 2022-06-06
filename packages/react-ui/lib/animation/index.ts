@@ -1,11 +1,8 @@
 import requestAnimationFrame, { cancel as cancelAnimationFrame } from 'raf';
 
-import { stepper } from './stepper';
+import { emptyHandler } from '../utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const noop = (...args: any[]) => {
-  /* do nothing */
-};
+import { stepper } from './stepper';
 
 export const animation = () => {
   let animating = false;
@@ -14,16 +11,16 @@ export const animation = () => {
   let rafId = 0;
   let target = 0;
 
-  let deltaHandler = noop;
-  let animationEndHandler = noop;
+  let deltaHandler = emptyHandler;
+  let animationEndHandler = emptyHandler;
 
   function reset() {
     currentVelocity = 0;
     currentPosition = 0;
     target = 0;
     animating = false;
-    deltaHandler = noop;
-    animationEndHandler = noop;
+    deltaHandler = emptyHandler;
+    animationEndHandler = emptyHandler;
   }
 
   function inProgress() {
@@ -40,7 +37,7 @@ export const animation = () => {
     cancel();
   }
 
-  function animate(amount: number, onDelta: (x0: number) => void, onEnd: () => void = noop) {
+  function animate(amount: number, onDelta: (x0: number) => void, onEnd: () => void = emptyHandler) {
     target += amount;
     deltaHandler = onDelta;
     animationEndHandler = onEnd;

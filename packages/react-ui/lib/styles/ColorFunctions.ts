@@ -9,7 +9,7 @@ const DEFAULT_DARK = ColorFactory.create('#333333');
 const DEFAULT_LIGHT = ColorFactory.create('#fff');
 const ColorFunctionsCache: { [key: string]: string } = Object.create(null);
 
-const buildCacheKey = (name: string, ...args: any[]) => `${name}(${args.join()})`;
+const buildCacheKey = (name: string, ...args: unknown[]) => `${name}(${args.join()})`;
 
 const shiftColor = (colorString: string, a: number | string, sign: SignType, method?: MethodType) => {
   if (!colorString) {

@@ -10,7 +10,7 @@ import { styles } from './icon.styles';
 export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   color?: string;
   size?: string | number;
-  ref?: any;
+  ref?: React.Ref<HTMLElement> | React.MutableRefObject<HTMLElement>;
 }
 
 const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(

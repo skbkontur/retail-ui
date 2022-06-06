@@ -8,8 +8,8 @@ import { Spinner } from '../../components/Spinner';
 const PANEL_WRAPPER_STYLES = { width: '45%', display: 'inline-block', verticalAlign: 'top' };
 
 interface PerformanceMetricsProps {
-  componentsA: React.ReactElement<any>;
-  componentsB: React.ReactElement<any>;
+  componentsA: React.ReactElement;
+  componentsB: React.ReactElement;
 }
 
 export function PerformanceMetrics(props: PerformanceMetricsProps) {
@@ -32,7 +32,7 @@ export function PerformanceMetrics(props: PerformanceMetricsProps) {
 
 interface PerformanceMetricsPanelProps {
   title: string;
-  component: React.ReactElement<any>;
+  component: React.ReactElement;
 }
 interface PerformanceMetricsPanelState {
   mounted: boolean;

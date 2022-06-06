@@ -38,11 +38,11 @@ export interface DropdownProps extends CommonProps {
   /**
    * Иконка слева от текста кнопки
    */
-  icon?: React.ReactElement<any>;
+  icon?: JSX.Element;
   width?: React.CSSProperties['width'];
 
   /** @ignore */
-  _renderButton?: (params: any) => JSX.Element;
+  _renderButton?: React.ReactNode;
 
   /**
    * Отключает использование портала
@@ -211,6 +211,6 @@ export class Dropdown extends React.Component<DropdownProps> {
   };
 }
 
-function renderValue(value: any) {
+function renderValue<T>(value: T) {
   return value;
 }

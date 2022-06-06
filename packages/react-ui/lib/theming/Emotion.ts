@@ -10,22 +10,12 @@ const REACT_UI_PREFIX = Upgrade.getSpecificityClassName();
 
 const scope = new Array(Upgrade.getSpecificityLevel()).fill(`.${REACT_UI_PREFIX}`).join('');
 
-export const {
-  flush,
-  hydrate,
-  cx,
-  merge,
-  getRegisteredStyles,
-  injectGlobal,
-  keyframes,
-  css,
-  sheet,
-  cache,
-} = createEmotion({
-  key: REACT_UI_PREFIX,
-  prepend: true,
-  stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
-});
+export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, keyframes, css, sheet, cache } =
+  createEmotion({
+    key: REACT_UI_PREFIX,
+    prepend: true,
+    stylisPlugins: scope ? [extraScopePlugin(scope)] : undefined,
+  });
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
   return fn.length === 0;
@@ -61,7 +51,9 @@ export const memoizeStyle = <S extends { [className: string]: (() => string) | (
   return styles;
 };
 
-export const prefix = (component: string, app = REACT_UI_PREFIX) => <T extends Record<string, string>>(classes: T): T =>
-  Object.keys(classes).reduce((acc, key) => {
-    return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
-  }, {} as T);
+export const prefix =
+  (component: string, app = REACT_UI_PREFIX) =>
+  <T extends Record<string, string>>(classes: T): T =>
+    Object.keys(classes).reduce((acc, key) => {
+      return { ...acc, [key]: `${app}-${component}-${classes[key]}` };
+    }, {} as T);
