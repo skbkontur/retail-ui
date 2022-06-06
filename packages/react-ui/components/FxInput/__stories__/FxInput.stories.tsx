@@ -1,4 +1,5 @@
 import React from 'react';
+import { InputSize } from 'react-ui/components/Input';
 
 import { Meta, Story } from '../../../typings/stories';
 import { BGRuler } from '../../../internal/BGRuler';
@@ -59,8 +60,16 @@ WithWidthStory.parameters = {
   },
 };
 
-type TestFxInputProps = Pick<FxInputProps, 'type' | 'borderless' | 'fractionDigits' | 'size'>;
-type TestFxInputState = Pick<FxInputProps, 'auto' | 'value'>;
+interface TestFxInputProps {
+  type: FxInputProps['type'];
+  borderless?: boolean;
+  size?: InputSize;
+  fractionDigits?: number;
+}
+interface TestFxInputState {
+  auto: boolean;
+  value: React.ReactText;
+}
 class TestFxInput extends React.Component<TestFxInputProps, TestFxInputState> {
   public static defaultProps: { type: TestFxInputProps['type'] } = {
     type: 'text',

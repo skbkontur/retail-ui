@@ -168,10 +168,14 @@ export const KebabWithoutAnimations = () => <SomethingWithKebab disableAnimation
 KebabWithoutAnimations.storyName = 'Kebab without animations';
 KebabWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
-type SomethingWithKebabProps = {
+interface SomethingWithKebabProps {
   items?: KebabItem[];
-} & Pick<KebabProps, 'size' | 'disabled' | 'menuMaxHeight' | 'icon'> &
-  Partial<Pick<KebabProps, 'disableAnimations'>>;
+  disableAnimations?: boolean;
+  size: KebabProps['size'];
+  disabled?: boolean;
+  menuMaxHeight?: number | string;
+  icon?: React.ReactNode;
+}
 class SomethingWithKebab extends React.Component<SomethingWithKebabProps> {
   public render() {
     const itemsList = this.props.items || defaultItemsList;

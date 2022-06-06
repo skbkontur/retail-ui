@@ -9,10 +9,11 @@ import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 import { RadioGroupProps } from '..';
 
-type ComponentProps = RadioGroupProps<string>;
-type ComponentState = Pick<RadioGroupProps<string>, 'value'>;
-class Component extends React.Component<ComponentProps, ComponentState> {
-  public state = {
+interface ComponentState {
+  value: string;
+}
+class Component extends React.Component<RadioGroupProps<string>> {
+  public state: ComponentState = {
     value: '',
   };
 

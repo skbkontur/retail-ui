@@ -11,7 +11,6 @@ import { Gapped } from '../../Gapped';
 import { Shape } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
-import { SidePageProps } from '..';
 
 const textSample = (
   <p>
@@ -42,7 +41,7 @@ const linearDarkGradient = `repeating-linear-gradient(
                                 #444 40px
                               )`;
 
-type SampleProps = {
+interface SampleProps {
   children?: React.ReactNode;
   total?: number;
   current?: number;
@@ -50,15 +49,17 @@ type SampleProps = {
   withLongBody?: boolean;
   withoutFooter?: boolean;
   withoutHeader?: boolean;
-} & Pick<SidePageProps, 'ignoreBackgroundClick' | 'blockBackground'>;
+  ignoreBackgroundClick?: boolean;
+  blockBackground?: boolean;
+}
 
 interface SampleState {
   open: boolean;
   panel: boolean;
 }
 
-class Sample extends React.Component<SampleProps, SampleState> {
-  public state = {
+class Sample extends React.Component<SampleProps> {
+  public state: SampleState = {
     open: false,
     panel: false,
   };
@@ -96,7 +97,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
                 <div>
                   <Toggle
                     checked={this.state.panel}
-                    onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+                    onValueChange={() => this.setState(({ panel }: SampleState) => ({ panel: !panel }))}
                   />{' '}
                   Panel {this.state.panel ? 'enabled' : 'disabled'}
                 </div>
@@ -233,10 +234,11 @@ class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
   }
 }
 
-type SidePageWithCloseConfigurationState = Pick<
-  SampleProps,
-  'ignoreBackgroundClick' | 'blockBackground' | 'withContent'
->;
+interface SidePageWithCloseConfigurationState {
+  ignoreBackgroundClick: boolean;
+  blockBackground: boolean;
+  withContent: boolean;
+}
 
 class SidePageWithCloseConfiguration extends React.Component {
   public state: SidePageWithCloseConfigurationState = {
@@ -272,9 +274,12 @@ class SidePageWithCloseConfiguration extends React.Component {
   }
 }
 
-type SidePageWithModalInsideState = {
+interface SidePageWithModalInsideState {
   isModalOpened: boolean;
-} & Pick<SampleProps, 'ignoreBackgroundClick' | 'blockBackground' | 'withContent'>;
+  ignoreBackgroundClick: boolean;
+  blockBackground: boolean;
+  withContent: boolean;
+}
 
 class SidePageWithModalInside extends React.Component {
   public state: SidePageWithModalInsideState = {
@@ -308,9 +313,10 @@ class SidePageWithModalInside extends React.Component {
   );
 }
 
-type SidePageWithLeftPositionProps = {
+interface SidePageWithLeftPositionProps {
   close: () => void;
-} & Pick<SidePageProps, 'disableAnimations'>;
+  disableAnimations: boolean;
+}
 class SidePageWithLeftPosition extends React.Component<SidePageWithLeftPositionProps> {
   public render() {
     return (
@@ -333,7 +339,9 @@ class SidePageWithLeftPosition extends React.Component<SidePageWithLeftPositionP
   }
 }
 
-type LeftSidePageWithRightSidePageProps = Pick<SidePageProps, 'disableAnimations'>;
+interface LeftSidePageWithRightSidePageProps {
+  disableAnimations: boolean;
+}
 class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRightSidePageProps> {
   public render() {
     return (

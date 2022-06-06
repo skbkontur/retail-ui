@@ -19,7 +19,9 @@ interface SelectWrapperValue {
   label: string;
   value: number;
 }
-type SelectWrapperState = Pick<SelectProps<SelectWrapperValue, any>, 'value'>;
+interface SelectWrapperState {
+  value: SelectWrapperValue;
+}
 class SelectWrapper extends React.Component {
   public state: SelectWrapperState = {
     value: { label: 'One', value: 1 },
@@ -78,7 +80,9 @@ class ItemsWithComments extends React.Component {
 }
 
 type SelectWithNullStateValue = number | null;
-type SelectWithNullState = Pick<SelectProps<SelectWithNullStateValue, any>, 'value'>;
+interface SelectWithNullState {
+  value: SelectWithNullStateValue;
+}
 class SelectWithNull extends React.Component {
   public state: SelectWithNullState = {
     value: null,

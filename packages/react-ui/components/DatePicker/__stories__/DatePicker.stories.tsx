@@ -1,8 +1,9 @@
 import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
+import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
-import { InternalDateLocaleSet, InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
+import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
@@ -10,12 +11,17 @@ import { DatePicker, DatePickerProps } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
 
-type DatePickerWithErrorProps = Pick<DatePickerProps<any>, 'disabled' | 'size'>;
-type DatePickerWithErrorState = {
+interface DatePickerWithErrorProps {
+  disabled?: boolean;
+  size?: DatePickerProps<unknown>['size'];
+}
+interface DatePickerWithErrorState {
   tooltip: boolean;
-} & Pick<DatePickerProps<any>, 'value' | 'error'>;
-class DatePickerWithError extends React.Component<DatePickerWithErrorProps, DatePickerWithErrorState> {
-  public state = {
+  value: Nullable<string>;
+  error?: boolean;
+}
+class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
+  public state: DatePickerWithErrorState = {
     value: '15.08.2014',
     error: false,
     tooltip: false,
@@ -85,8 +91,13 @@ class DatePickerWithError extends React.Component<DatePickerWithErrorProps, Date
   };
 }
 
-type DatePickerWithMinMaxState = Pick<DatePickerProps<any>, 'value' | 'minDate' | 'maxDate'> &
-  Pick<InternalDateLocaleSet, 'order' | 'separator'>;
+interface DatePickerWithMinMaxState {
+  value: Nullable<string>;
+  minDate: string;
+  maxDate: string;
+  order: InternalDateOrder;
+  separator: InternalDateSeparator;
+}
 class DatePickerWithMinMax extends React.Component {
   public state: DatePickerWithMinMaxState = {
     minDate: '02.07.2017',
@@ -184,8 +195,7 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css:
-                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -206,8 +216,7 @@ WithMouseeventHandlers.parameters = {
           .actions({ bridge: true })
           .click(
             this.browser.findElement({
-              css:
-                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .perform();
@@ -291,8 +300,7 @@ DatePickerWithMinMaxDate.parameters = {
           })
           .click(
             this.browser.findElement({
-              css:
-                '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
+              css: '[data-tid="MonthView__month"]:first-child [data-tid="MonthView__headerMonth"] [data-tid="DateSelect__caption"]',
             }),
           )
           .pause(1000)
@@ -316,8 +324,7 @@ DatePickerWithMinMaxDate.parameters = {
           })
           .click(
             this.browser.findElement({
-              css:
-                '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
+              css: '[data-comp-name~="MonthView"]:first-child [data-tid="MonthView__headerYear"] [data-tid="DateSelect__caption"]',
             }),
           )
           .pause(1000)

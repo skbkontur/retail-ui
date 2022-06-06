@@ -4,12 +4,11 @@ import { SidePage } from '../../../components/SidePage';
 import { IgnoreLayerClick } from '../IgnoreLayerClick';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
-import { IgnoreLayerClickProps } from '..';
 
-type SampleState = {
+interface SampleState {
   open: boolean;
-} & Pick<IgnoreLayerClickProps, 'active'>;
-
+  active: boolean;
+}
 class Sample extends React.Component {
   public state: SampleState = {
     active: false,

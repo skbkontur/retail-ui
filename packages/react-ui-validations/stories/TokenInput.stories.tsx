@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Token } from '@skbkontur/react-ui/components/Token';
-import { TokenInput, TokenInputProps } from '@skbkontur/react-ui/components/TokenInput';
+import { TokenInput } from '@skbkontur/react-ui/components/TokenInput';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper, tooltip } from '../src';
 import { Nullable } from '../typings/Types';
@@ -12,9 +12,10 @@ async function getItems(query: string) {
   return ['aaa', 'bbb'].filter((s) => s.includes(query));
 }
 
-type TokenInputStoryState = {
+interface TokenInputStoryState {
   checked: boolean;
-} & Pick<TokenInputProps<string>, 'selectedItems'>;
+  selectedItems: string[];
+}
 class TokenInputStory extends React.Component {
   public state: TokenInputStoryState = {
     checked: false,

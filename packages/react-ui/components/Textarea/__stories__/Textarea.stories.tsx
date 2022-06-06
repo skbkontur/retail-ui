@@ -4,13 +4,15 @@ import { Story } from '../../../typings/stories';
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
-import { TextareaProps } from '..';
 import { delay } from '../../../lib/utils';
 
 const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
 
-type AutoresizableTextareaState = Pick<TextareaProps, 'value' | 'maxRows'>;
+interface AutoresizableTextareaState {
+  value: string;
+  maxRows: number;
+}
 class AutoresizableTextarea extends React.Component {
   public state: AutoresizableTextareaState = {
     value: '',

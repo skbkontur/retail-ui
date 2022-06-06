@@ -10,11 +10,18 @@ import { Button } from '../../Button';
 import { Toggle } from '../../Toggle';
 import { Nullable } from '../../../typings/utility-types';
 
-type CurrencyInputDemoProps = Pick<CurrencyInputProps, 'borderless'>;
-type CurrencyInputDemoState = Pick<CurrencyInputProps, 'value' | 'signed' | 'hideTrailingZeros' | 'fractionDigits'>;
+interface CurrencyInputDemoProps {
+  borderless?: boolean;
+}
+interface CurrencyInputDemoState {
+  value: Nullable<number>;
+  hideTrailingZeros: boolean;
+  fractionDigits: number;
+  signed: boolean;
+}
 
-class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
-  public state = {
+class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps> {
+  public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
     hideTrailingZeros: false,
@@ -100,10 +107,11 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 }
 
-type SampleProps = Partial<CurrencyInputProps>;
-type SampleState = Pick<CurrencyInputProps, 'value'>;
-class Sample extends React.Component<SampleProps, SampleState> {
-  public state = {
+interface SampleState {
+  value: Nullable<number>;
+}
+class Sample extends React.Component<Partial<CurrencyInputProps>> {
+  public state: SampleState = {
     value: this.props.value,
   };
 

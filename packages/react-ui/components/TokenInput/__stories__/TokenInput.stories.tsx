@@ -41,7 +41,7 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
   return getGenericItems().filter((s) => s.value.includes(query));
 }
 
-function getSelectedItems<T>(props: WrapperProps<T>) {
+function getSelectedItems(props: WrapperProps) {
   if (props.selectedItems) {
     return props.selectedItems;
   } else if (props.numberItems) {
@@ -51,8 +51,12 @@ function getSelectedItems<T>(props: WrapperProps<T>) {
   return [];
 }
 
-type WrapperProps<T = any> = { numberItems?: number } & Partial<TokenInputProps<T>>;
-type WrapperState = Pick<TokenInputProps<any>, 'selectedItems'>;
+interface WrapperProps extends Partial<TokenInputProps<string>> {
+  numberItems?: number;
+}
+interface WrapperState {
+  selectedItems: string[];
+}
 class Wrapper extends React.Component<WrapperProps, WrapperState> {
   constructor(props: WrapperProps) {
     super(props);
@@ -126,8 +130,12 @@ class WrapperCustomModel extends React.Component {
   };
 }
 
-type ColoredWrapperProps = { numberItems?: number } & Partial<TokenInputProps<any>>;
-type ColoredWrapperState = Pick<TokenInputProps<any>, 'selectedItems'>;
+interface ColoredWrapperProps extends Partial<TokenInputProps<string>> {
+  numberItems?: number;
+}
+interface ColoredWrapperState {
+  selectedItems: string[];
+}
 class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapperState> {
   constructor(props: ColoredWrapperProps) {
     super(props);

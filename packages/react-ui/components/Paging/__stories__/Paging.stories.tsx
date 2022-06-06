@@ -12,7 +12,9 @@ dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
 sunt corrupti deserunt ab eius nobis suscipit praesentium labore.
 Distinctio hic asperiores consequatur?`;
 
-type GoToAbsensePageState = Pick<PagingProps, 'activePage'>;
+interface GoToAbsensePageState {
+  activePage: number;
+}
 class GoToAbsensePage extends React.Component {
   public state: GoToAbsensePageState = {
     activePage: 3,
@@ -40,10 +42,14 @@ class GoToAbsensePage extends React.Component {
   };
 }
 
-type PagingWithStateProps = Partial<PagingProps> & Pick<PagingProps, 'pagesCount'>;
-type PagingWithStateState = Pick<PagingProps, 'activePage'>;
-class PagingWithState extends React.Component<PagingWithStateProps, PagingWithStateState> {
-  public state = {
+interface PagingWithStateProps extends Partial<PagingProps> {
+  pagesCount: number;
+}
+interface PagingWithStateState {
+  activePage: number;
+}
+class PagingWithState extends React.Component<PagingWithStateProps> {
+  public state: PagingWithStateState = {
     activePage: 1,
   };
 
@@ -83,13 +89,14 @@ const CustomComponent = ({ children, pageNumber, active, ...rest }: ItemComponen
   );
 };
 
-type PagingWithCustomComponentProps = Pick<PagingProps, 'pagesCount'>;
-type PagingWithCustomComponentState = Pick<PagingProps, 'activePage'>;
-class PagingWithCustomComponent extends React.Component<
-  PagingWithCustomComponentProps,
-  PagingWithCustomComponentState
-> {
-  public state = {
+interface PagingWithCustomComponentProps {
+  pagesCount: number;
+}
+interface PagingWithCustomComponentState {
+  activePage: number;
+}
+class PagingWithCustomComponent extends React.Component<PagingWithCustomComponentProps> {
+  public state: PagingWithCustomComponentState = {
     activePage: 1,
   };
 
@@ -253,7 +260,9 @@ export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
 PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
-type PlaygroundState = Pick<PagingProps, 'useGlobalListener'>;
+interface PlaygroundState {
+  useGlobalListener: boolean;
+}
 class Playground extends React.Component {
   public state: PlaygroundState = {
     useGlobalListener: true,

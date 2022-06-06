@@ -119,10 +119,11 @@ WithOnBlurOnFocusHandlers.parameters = {
   },
 };
 
-type UncontrolledAutocompleteProps = Partial<AutocompleteProps>;
-type UncontrolledAutocompleteState = Pick<AutocompleteProps, 'value'>;
-class UncontrolledAutocomplete extends React.Component<UncontrolledAutocompleteProps, UncontrolledAutocompleteState> {
-  public state = {
+interface UncontrolledAutocompleteState {
+  value: string;
+}
+class UncontrolledAutocomplete extends React.Component<Partial<AutocompleteProps>> {
+  public state: UncontrolledAutocompleteState = {
     value: '',
   };
 

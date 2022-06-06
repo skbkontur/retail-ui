@@ -1,7 +1,7 @@
 import React from 'react';
 import { DropdownProps } from 'react-ui';
 
-import { Popup, PopupProps } from '../Popup';
+import { Popup, PopupPositionsType, PopupProps } from '../Popup';
 import { Nullable } from '../../../typings/utility-types';
 import { Tooltip } from '../../../components/Tooltip';
 import { ComboBox } from '../../../components/ComboBox';
@@ -187,14 +187,15 @@ class MinWidth extends React.Component {
   }
 }
 
-type AlwaysOpenedProps = {
+interface AlwaysOpenedProps {
   small: boolean;
-} & Pick<PopupProps, 'positions'>;
+  positions: PopupPositionsType[];
+}
 interface AlwaysOpenedState {
   anchor: Nullable<HTMLElement>;
 }
-class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState> {
-  public state = {
+class AlwaysOpened extends React.Component<AlwaysOpenedProps> {
+  public state: AlwaysOpenedState = {
     anchor: null,
   };
 
@@ -268,15 +269,16 @@ class AlwaysOpened extends React.Component<AlwaysOpenedProps, AlwaysOpenedState>
   };
 }
 
-type PopupWithPositionsProps = {
+interface PopupWithPositionsProps {
   placeholder?: string;
-} & Partial<Pick<PopupProps, 'disableAnimations'>>;
+  disableAnimations?: boolean;
+}
 interface PopupWithPositionsState {
   opened: boolean;
   anchor: Nullable<HTMLElement>;
 }
-class PopupWithPositions extends React.Component<PopupWithPositionsProps, PopupWithPositionsState> {
-  public state = {
+class PopupWithPositions extends React.Component<PopupWithPositionsProps> {
+  public state: PopupWithPositionsState = {
     opened: false,
     anchor: null,
   };
@@ -350,12 +352,15 @@ class PopupWithPositions extends React.Component<PopupWithPositionsProps, PopupW
   };
 }
 
-type FakeHintProps = Pick<PopupProps, 'positions' | 'margin'>;
+interface FakeHintProps {
+  positions: PopupPositionsType[];
+  margin: number;
+}
 interface FakeHintState {
   anchor: Nullable<HTMLElement>;
 }
-class FakeHint extends React.Component<FakeHintProps, FakeHintState> {
-  public state = {
+class FakeHint extends React.Component<FakeHintProps> {
+  public state: FakeHintState = {
     anchor: null,
   };
 
@@ -401,12 +406,14 @@ class FakeHint extends React.Component<FakeHintProps, FakeHintState> {
   }
 }
 
-type ToastProps = Pick<PopupProps, 'positions'>;
+interface ToastProps {
+  positions: PopupPositionsType[];
+}
 interface ToastState {
   anchor: Nullable<HTMLElement>;
 }
-class Toast extends React.Component<ToastProps, ToastState> {
-  public state = {
+class Toast extends React.Component<ToastProps> {
+  public state: ToastState = {
     anchor: null,
   };
 
@@ -465,7 +472,7 @@ interface HoverTestProps {
 interface HasDropdownState {
   selected?: DropdownValue;
 }
-class TooltipWithCombobox extends React.Component<HoverTestProps, HasDropdownState> {
+class TooltipWithCombobox extends React.Component<HoverTestProps> {
   public state: HasDropdownState = {};
 
   public render() {

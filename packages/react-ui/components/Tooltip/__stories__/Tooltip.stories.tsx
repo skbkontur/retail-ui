@@ -15,7 +15,12 @@ import { Gapped } from '../../Gapped';
 import { Input } from '../../Input';
 import { delay } from '../../../lib/utils';
 
-type TestTooltipProps = Partial<Pick<TooltipProps, 'pos' | 'trigger' | 'useWrapper' | 'disableAnimations'>>;
+interface TestTooltipProps {
+  pos?: PopupPositionsType;
+  trigger?: TooltipTrigger;
+  useWrapper?: boolean;
+  disableAnimations?: boolean;
+}
 
 class TestTooltip extends React.Component<TestTooltipProps> {
   public static defaultProps: TestTooltipProps = {
@@ -922,12 +927,14 @@ const LARGE_CONTENT = (
   </span>
 );
 
-type HasPopupPositionProps = Pick<TooltipProps, 'pos'>;
+interface HasPopupPositionProps {
+  pos: PopupPositionsType;
+}
 interface HasDynamicContentState {
   content: React.ReactNode;
 }
-class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProps, HasDynamicContentState> {
-  public state = {
+class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProps> {
+  public state: HasDynamicContentState = {
     content: SMALL_CONTENT,
   };
 

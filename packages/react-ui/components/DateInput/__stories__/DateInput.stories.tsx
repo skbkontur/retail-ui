@@ -9,10 +9,11 @@ import { DateInput, DateInputProps } from '../DateInput';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 
-type DateInputFormattingState = {
+interface DateInputFormattingState {
   order: InternalDateOrder;
   separator: keyof typeof InternalDateSeparator;
-} & Pick<DateInputProps, 'value'>;
+  value: string;
+}
 class DateInputFormatting extends React.Component {
   public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
@@ -212,11 +213,15 @@ class DateInputDifferentFormatting extends React.Component {
   }
 }
 
-type DateInputSimpleProps = { defaultValue?: string } & Partial<DateInputProps>;
-type DateInputSimpleState = Pick<DateInputProps, 'value'>;
+interface DateInputSimpleProps extends Partial<DateInputProps> {
+  defaultValue?: string;
+}
+interface DateInputSimpleState {
+  value: string;
+}
 
-class DateInputSimple extends React.Component<DateInputSimpleProps, DateInputSimpleState> {
-  public state = {
+class DateInputSimple extends React.Component<DateInputSimpleProps> {
+  public state: DateInputSimpleState = {
     value: this.props.defaultValue || '',
   };
 

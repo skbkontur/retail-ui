@@ -9,11 +9,11 @@ import { Kebab } from '../../../components/Kebab';
 import { MenuItem } from '../../../components/MenuItem';
 import { Center } from '../../../components/Center';
 import { Hint, HintProps } from '../../../components/Hint';
-import { Tooltip, TooltipProps } from '../../../components/Tooltip';
+import { Tooltip, TooltipTrigger } from '../../../components/Tooltip';
 import { ZIndex } from '../ZIndex';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
-import { Popup } from '../../Popup';
+import { Popup, PopupPositionsType } from '../../Popup';
 import { Toast } from '../../../components/Toast';
 import { Input } from '../../../components/Input';
 import { SidePage } from '../../../components/SidePage';
@@ -233,9 +233,10 @@ class Demo extends React.Component {
   }
 }
 
-type InputWithTooltipProps = {
+interface InputWithTooltipProps {
   text?: string;
-} & Partial<Pick<TooltipProps, 'pos'>>;
+  pos?: PopupPositionsType;
+}
 
 const InputWithTooltip = ({ text = 'Hello', pos = 'top right' }: InputWithTooltipProps) => (
   <Tooltip render={() => text} trigger="opened" pos={pos}>
@@ -400,7 +401,9 @@ class LoaderInModal extends React.Component {
     );
   }
 }
-type TooltipAndDropdownMenuState = Pick<TooltipProps, 'trigger'>;
+interface TooltipAndDropdownMenuState {
+  trigger: TooltipTrigger;
+}
 class TooltipAndSelect extends React.Component {
   public state: TooltipAndDropdownMenuState = {
     trigger: 'closed',

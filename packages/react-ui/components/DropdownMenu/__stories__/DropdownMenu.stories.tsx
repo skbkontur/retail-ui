@@ -14,7 +14,7 @@ import { MenuSeparator } from '../../MenuSeparator';
 import { DropdownMenu, DropdownMenuProps } from '../DropdownMenu';
 import { Button } from '../../Button';
 import { Toast } from '../../Toast';
-import { Input, InputProps } from '../../Input';
+import { Input } from '../../Input';
 import { Gapped } from '../../Gapped';
 import { delay } from '../../../lib/utils';
 
@@ -426,9 +426,12 @@ WithHeaderAndFooter.parameters = {
   },
 };
 
-type DropdownWithScrollStateChangeState = { hasHeader: boolean } & Pick<InputProps, 'value'>;
-class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, DropdownWithScrollStateChangeState> {
-  public state = {
+interface DropdownWithScrollStateChangeState {
+  hasHeader: boolean;
+  value: string;
+}
+class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
+  public state: DropdownWithScrollStateChangeState = {
     value: '',
     hasHeader: true,
   };
@@ -477,7 +480,7 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, D
   };
 
   private switchHeaderState = () => {
-    this.setState((state) => ({
+    this.setState((state: DropdownWithScrollStateChangeState) => ({
       hasHeader: !state.hasHeader,
     }));
   };

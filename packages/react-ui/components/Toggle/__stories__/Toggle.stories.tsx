@@ -8,11 +8,12 @@ import { Button } from '../../Button';
 import { Checkbox, CheckboxProps } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
 import { delay } from '../../../lib/utils';
-import { ToggleProps } from '..';
 
-type PlaygroundState = {
+interface PlaygroundState {
   loadingActive: CheckboxProps['checked'];
-} & Pick<ToggleProps, 'checked' | 'loading'>;
+  checked: boolean;
+  loading: boolean;
+}
 class Playground extends React.Component {
   public state: PlaygroundState = {
     checked: false,

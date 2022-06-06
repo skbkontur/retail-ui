@@ -374,7 +374,9 @@ AlwaysReject.parameters = {
   },
 };
 
-type SampleState = Pick<SimpleComboboxProps, 'delay'>;
+interface SampleState {
+  delay: number;
+}
 export const SimpleComboboxWithDelay = () => {
   class Sample extends React.Component {
     public state: SampleState = {
@@ -692,9 +694,10 @@ export const WithAddButton = () => (
 WithAddButton.storyName = 'with add button';
 WithAddButton.parameters = { creevey: { skip: [true] } };
 
-type ComboBoxWithErrorTogglerState = {
+interface ComboBoxWithErrorTogglerState {
   value: { label: number };
-} & Pick<ComboBoxProps<number>, 'error'>;
+  error: boolean;
+}
 class ComboBoxWithErrorToggler extends React.Component {
   public state: ComboBoxWithErrorTogglerState = {
     error: false,
@@ -851,6 +854,10 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
+interface ComplexComboboxItem {
+  value: number;
+  label: string;
+}
 interface City {
   Id: number;
   City: string;
@@ -859,14 +866,16 @@ interface ComboboxSearchResult {
   foundItems: City[];
   totalCount: number;
 }
-type ComplexComboboxProps = Omit<ComboBoxProps<any>, 'getItems'>;
-type ComplexComboboxState = Pick<ComboBoxProps<any>, 'value'>;
-class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexComboboxState> {
+type ComplexComboboxProps = Omit<ComboBoxProps<unknown>, 'getItems'>;
+interface ComplexComboboxState {
+  value: Nullable<ComplexComboboxItem>;
+}
+class ComplexCombobox extends React.Component<ComplexComboboxProps> {
   public static defaultProps = ComboBox.defaultProps;
-  public state = {
+  public state: ComplexComboboxState = {
     value: null,
   };
-  private popularItems = [
+  private popularItems: ComplexComboboxItem[] = [
     { value: 956, label: 'Махачкала' },
     { value: 4974, label: 'Верхняя-Пышма' },
     { value: 4980, label: 'Екатеринбург' },
@@ -884,7 +893,7 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexCombo
     );
   }
 
-  private handleChange = (value: any) => this.setState({ value });
+  private handleChange = (value: ComplexComboboxItem) => this.setState({ value });
 
   private getItems = (query: string) => {
     return getCities(query)
@@ -892,22 +901,31 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexCombo
         foundItems: foundItems.map(this.mapCity),
         totalCount,
       }))
-      .then(({ foundItems, totalCount }: { foundItems: any[]; totalCount: number }) => ({
+      .then(({ foundItems, totalCount }: { foundItems: ComplexComboboxItem[]; totalCount: number }) => ({
         popularItems: query.length === 0 ? this.popularItems : [],
         itemsToShow: foundItems,
         totalCount,
       }))
-      .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
-        [].concat(
+      .then(
+        ({
           popularItems,
-          popularItems.length ? ((<MenuSeparator />) as any) : [],
           itemsToShow,
-          this.renderTotalCount(itemsToShow.length, totalCount),
-        ),
+          totalCount,
+        }: {
+          popularItems: ComplexComboboxItem[];
+          itemsToShow: ComplexComboboxItem[];
+          totalCount: number;
+        }) =>
+          ([] as unknown[]).concat(
+            popularItems,
+            popularItems.length ? ((<MenuSeparator />) as any) : [],
+            itemsToShow,
+            this.renderTotalCount(itemsToShow.length, totalCount),
+          ),
       );
   };
 
-  private renderItem = (item: any) => {
+  private renderItem = (item: ComplexComboboxItem) => {
     return item ? (
       <Gapped>
         <div style={{ width: 40 }}>{item.value}</div>
@@ -921,14 +939,17 @@ class ComplexCombobox extends React.Component<ComplexComboboxProps, ComplexCombo
     label: City,
   });
 
-  private renderTotalCount = (foundCount: number, totalCount: number): any =>
-    foundCount < totalCount ? (
-      <MenuHeader>
-        Показано {foundCount} из {totalCount} найденных городов.
-      </MenuHeader>
-    ) : (
-      []
-    );
+  private renderTotalCount = (foundCount: number, totalCount: number) => {
+    if (foundCount < totalCount) {
+      return (
+        <MenuHeader>
+          Показано {foundCount} из {totalCount} найденных городов.
+        </MenuHeader>
+      );
+    }
+
+    return [];
+  };
 }
 
 function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
@@ -1034,7 +1055,14 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
   );
 }
 
-type ComboBoxWithExternalValueState = Pick<ComboBoxProps<any>, 'value' | 'warning'>;
+interface ComboBoxWithExternalValueItem {
+  value: string;
+  label: string;
+}
+interface ComboBoxWithExternalValueState {
+  value: ComboBoxWithExternalValueItem;
+  warning: boolean;
+}
 class ComboBoxWithExternalValue extends React.Component {
   public state: ComboBoxWithExternalValueState = {
     value: { value: '1', label: 'First' },

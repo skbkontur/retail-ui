@@ -28,10 +28,14 @@ enum Mountain {
   alps = 'Alps',
 }
 
-type UncTabsProps = Partial<Pick<TabsProps<Mountain>, 'vertical'>>;
-type UncTabsState = Pick<TabsProps<Mountain>, 'value'>;
-class UncTabs extends React.Component<UncTabsProps, UncTabsState> {
-  public state = {
+interface UncTabsProps {
+  vertical?: boolean;
+}
+interface UncTabsState {
+  value: Mountain;
+}
+class UncTabs extends React.Component<UncTabsProps> {
+  public state: UncTabsState = {
     value: Mountain.fuji,
   };
 
@@ -56,7 +60,9 @@ const RouteTab = (props: any) => (
   </Tab>
 );
 
-type RouterTabsProps = Pick<TabsProps, 'value'>;
+interface RouterTabsProps {
+  value: string;
+}
 class RouterTabs extends React.Component<RouterTabsProps> {
   public render() {
     return (
@@ -79,10 +85,11 @@ const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
   );
 });
 
-type TabsWithMyLinkProps = Partial<TabsProps>;
-type TabsWithMyLinkState = Pick<TabsProps, 'value'>;
-class TabsWithMyLink extends React.Component<TabsWithMyLinkProps, TabsWithMyLinkState> {
-  public state = {
+interface TabsWithMyLinkState {
+  value: string;
+}
+class TabsWithMyLink extends React.Component<Partial<TabsProps>> {
+  public state: TabsWithMyLinkState = {
     value: 'fuji',
   };
 
@@ -150,9 +157,10 @@ class UnexpectedUpdatedTab extends React.Component<UnexpectedUpdatedTabProps> {
   }
 }
 
-type OhMyTabsProps = Partial<TabsProps>;
-type OhMyTabsState = Pick<TabsProps, 'value'>;
-class OhMyTabs extends React.Component<OhMyTabsProps, OhMyTabsState> {
+interface OhMyTabsState {
+  value: string;
+}
+class OhMyTabs extends React.Component<Partial<TabsProps>, OhMyTabsState> {
   public state = {
     value: 'fuji',
   };
@@ -180,7 +188,9 @@ class OhMyTabs extends React.Component<OhMyTabsProps, OhMyTabsState> {
   }
 }
 
-type DisabledTabState = Pick<TabsProps, 'value'>;
+interface DisabledTabState {
+  value: string;
+}
 class DisabledTab extends React.Component {
   public state: DisabledTabState = {
     value: 'first',
@@ -202,10 +212,14 @@ class DisabledTab extends React.Component {
   }
 }
 
-type TabsInModalState = {
+interface TabsInModalState {
   opened: boolean;
-} & Pick<TabsProps, 'value'> &
-  Pick<TabProps, 'success' | 'error' | 'warning' | 'primary'>;
+  value: string;
+  success: boolean;
+  error: boolean;
+  warning: boolean;
+  primary: boolean;
+}
 class TabsInModal extends React.Component {
   public state: TabsInModalState = {
     value: '1',
