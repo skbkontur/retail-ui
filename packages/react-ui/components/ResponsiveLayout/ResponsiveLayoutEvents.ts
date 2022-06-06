@@ -83,11 +83,10 @@ export function checkMatches(mediaQuery: string) {
 
   if (!eventListenersMap.has(mediaQuery)) {
     return window.matchMedia(mediaQuery).matches;
-  } else {
-    const eventListener = eventListenersMap.get(mediaQuery);
-
-    return eventListener?.mql.matches;
   }
+
+  const eventListener = eventListenersMap.get(mediaQuery);
+  return eventListener?.mql.matches;
 }
 
 function changeCallback(e: MediaQueryListEvent) {

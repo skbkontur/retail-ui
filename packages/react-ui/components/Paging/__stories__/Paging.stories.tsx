@@ -161,7 +161,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('hover');
       },
-      async ['change page by number']() {
+      async 'change page by number'() {
         await this.browser
           .actions({
             bridge: true,
@@ -170,7 +170,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
       },
-      async ['change page by forwardLink']() {
+      async 'change page by forwardLink'() {
         // NOTE Firefox bug if click send right after click from previous test it results as double click
         await delay(500);
         await this.browser
@@ -192,7 +192,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('focused');
       },
-      async ['Move focus right']() {
+      async 'Move focus right'() {
         await this.browser
           .actions({
             bridge: true,
@@ -203,7 +203,7 @@ GoToAbsensePageStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
       },
-      async ['Move to page by Ender']() {
+      async 'Move to page by Ender'() {
         await this.browser
           .actions({
             bridge: true,

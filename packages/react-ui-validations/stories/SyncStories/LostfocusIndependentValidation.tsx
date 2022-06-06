@@ -81,8 +81,12 @@ export class LostfocusIndependentValidation extends React.Component {
   }
 
   private validate = (v: string): Nullable<ValidationInfo> => {
-    if (v === '') return { message: 'Не должно быть пустым', type: 'lostfocus', independent: false };
-    if (!/^\d*$/.test(v)) return { message: 'Только цифры', type: 'lostfocus', independent: false };
+    if (v === '') {
+      return { message: 'Не должно быть пустым', type: 'lostfocus', independent: false };
+    }
+    if (!/^\d*$/.test(v)) {
+      return { message: 'Только цифры', type: 'lostfocus', independent: false };
+    }
     return null;
   };
 

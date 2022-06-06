@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isFunction } from '../../lib/utils';
+import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
 import { isMenuItem, MenuItem, MenuItemState } from '../../components/MenuItem';
@@ -90,15 +90,17 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
       );
     }
 
-    if ((items == null || items.length === 0) && renderNotFound) {
+    if ((isNullable(items) || items.length === 0) && renderNotFound) {
       const notFoundValue = renderNotFound();
-      if (renderAddButton)
+      if (renderAddButton) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
             {renderAddButton}
           </Menu>
         );
-      if (notFoundValue)
+      }
+
+      if (notFoundValue) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
             <MenuItem data-tid="ComboBoxMenu__notFound" disabled isMobile={isMobile}>
@@ -106,6 +108,8 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
             </MenuItem>
           </Menu>
         );
+      }
+
       return null;
     }
 

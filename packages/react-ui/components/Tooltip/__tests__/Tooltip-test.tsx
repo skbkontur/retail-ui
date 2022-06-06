@@ -280,9 +280,10 @@ describe('Tooltip', () => {
       </Tooltip>,
     );
     const instance = wrapper.instance();
-    // @ts-expect-error: Use of private property.
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const timer = (instance.hoverTimeout = setTimeout(() => {}));
+    const timer = setTimeout(() => {});
+    // @ts-expect-error: private property
+    instance.hoverTimeout = timer;
 
     wrapper.unmount();
 

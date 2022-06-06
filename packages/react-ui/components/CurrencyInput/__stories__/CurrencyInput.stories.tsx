@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
+import { isNullable } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
@@ -53,13 +54,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <span>trailing zeros: </span>
           <Toggle checked={this.state.hideTrailingZeros} onValueChange={this.handleHideTrailingZeros} />
         </div>
-        <input
-          type="range"
-          value={this.state.fractionDigits == null ? 15 : this.state.fractionDigits}
-          min={0}
-          max={15}
-          onChange={this.handleDigits}
-        />
+        <input type="range" value={this.state.fractionDigits ?? 15} min={0} max={15} onChange={this.handleDigits} />
         <div>
           digits: <b>{this.formatValue(this.state.fractionDigits)}</b>
         </div>
@@ -72,7 +67,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 
   private handleRand = () => {
-    const fraction = this.state.fractionDigits == null ? 4 : this.state.fractionDigits;
+    const fraction = this.state.fractionDigits ?? 4;
     const length = Math.min(15, 7 + fraction);
     const rand = Math.floor(Math.random() * Math.pow(10, length));
     const value = rand / Math.pow(10, fraction);
@@ -101,7 +96,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 
   private formatValue = (value: Nullable<number>): string => {
-    return value == null ? 'null' : value.toString();
+    return isNullable(value) ? 'null' : value.toString();
   };
 }
 
@@ -178,7 +173,7 @@ SampleStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
       },
-      async ['Input value']() {
+      async 'Input value'() {
         await this.browser
           .actions({
             bridge: true,
@@ -195,7 +190,7 @@ SampleStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
       },
-      async ['External focus and input']() {
+      async 'External focus and input'() {
         await this.browser
           .actions({
             bridge: true,

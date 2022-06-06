@@ -61,7 +61,7 @@ InputLikeText.parameters = {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
-      async ['focused first element']() {
+      async 'focused first element'() {
         await this.browser
           .actions({
             bridge: true,

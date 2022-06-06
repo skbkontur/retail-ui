@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
@@ -44,6 +45,18 @@ export interface DateSelectState {
   topCapped: boolean;
   nodeTop: number;
 }
+
+const calculatePos = (pos: number, minPos: number, maxPos: number) => {
+  if (maxPos <= pos) {
+    return maxPos;
+  }
+
+  if (minPos >= pos) {
+    return minPos;
+  }
+
+  return pos;
+};
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
@@ -210,13 +223,15 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private disableItems(index: number) {
     const value = this.props.value + index;
-    if (this.props.maxValue != null && this.props.minValue != null) {
+    if (isNonNullable(this.props.maxValue) && isNonNullable(this.props.minValue)) {
       return value > this.props.maxValue || value < this.props.minValue;
     }
-    if (this.props.minValue != null) {
+
+    if (isNonNullable(this.props.minValue)) {
       return value < this.props.minValue;
     }
-    if (this.props.maxValue != null) {
+
+    if (isNonNullable(this.props.maxValue)) {
       return value > this.props.maxValue;
     }
   }
@@ -464,16 +479,12 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
     const minPos = this.getMinPos() - top;
     const maxPos = this.getMaxPos() - top - height + itemHeight;
-    if (minPos >= pos) {
-      pos = minPos;
-    }
-    if (maxPos <= pos) {
-      pos = maxPos;
-    }
-    const topCapped = pos <= minPos;
-    const botCapped = pos >= maxPos;
 
-    this.setState({ pos, top, height, topCapped, botCapped });
+    const calculatedPos = calculatePos(pos, minPos, maxPos);
+    const topCapped = calculatedPos <= minPos;
+    const botCapped = calculatedPos >= maxPos;
+
+    this.setState({ pos: calculatedPos, top, height, topCapped, botCapped });
   }
 
   private getMinPos() {

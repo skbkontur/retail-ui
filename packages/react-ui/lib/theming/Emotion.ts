@@ -18,7 +18,7 @@ export const { flush, hydrate, cx, merge, getRegisteredStyles, injectGlobal, key
   });
 
 function isZeroArgs<R, T extends FunctionWithParams<R>>(fn: T | FunctionWithParams<R>): fn is () => R {
-  return fn.length == 0;
+  return fn.length === 0;
 }
 
 const memoize = <A extends AnyObject, R>(fn: (() => R) | ((arg: A) => R)): (() => R) | ((arg: A) => R) => {
@@ -36,7 +36,10 @@ const memoize = <A extends AnyObject, R>(fn: (() => R) | ((arg: A) => R)): (() =
 
   const cache = new WeakMap();
   return (arg: A) => {
-    if (!cache.has(arg)) cache.set(arg, fn(arg));
+    if (!cache.has(arg)) {
+      cache.set(arg, fn(arg));
+    }
+
     return cache.get(arg);
   };
 };

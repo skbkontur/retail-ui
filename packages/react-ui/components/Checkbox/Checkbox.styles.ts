@@ -1,3 +1,4 @@
+import { getLabGrotesqueBaselineCompensation } from '../../lib/styles/getLabGrotesqueBaselineCompensation';
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { isChrome } from '../../lib/client';
@@ -73,12 +74,8 @@ export const styles = memoizeStyle({
   boxWrapper(t: Theme) {
     const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
     const fontSize = parseInt(t.checkboxFontSize);
-    const baselineCompensation =
-      fontSize < 16 && !isChrome
-        ? labGrotesqueCompenstation
-        : fontSize === 16 && isChrome
-        ? -labGrotesqueCompenstation
-        : 0;
+    const baselineCompensation = getLabGrotesqueBaselineCompensation(fontSize, labGrotesqueCompenstation, isChrome);
+
     return css`
       position: absolute;
       width: ${t.checkboxBoxSize};

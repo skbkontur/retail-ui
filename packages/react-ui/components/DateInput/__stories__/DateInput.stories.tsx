@@ -339,7 +339,7 @@ BlurAlwaysAfterChange.storyName = 'blur always after change';
 BlurAlwaysAfterChange.parameters = {
   creevey: {
     tests: {
-      async ['value not changed']() {
+      async 'value not changed'() {
         await this.browser.executeScript(function () {
           const input = window.document.querySelector("[data-comp-name~='DateInput']");
           if (input instanceof HTMLElement) {
@@ -355,7 +355,7 @@ BlurAlwaysAfterChange.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
       },
-      async ['value changed']() {
+      async 'value changed'() {
         await this.browser.executeScript(function () {
           const input = window.document.querySelector("[data-comp-name~='DateInput']");
           if (input instanceof HTMLElement) {
@@ -372,7 +372,7 @@ BlurAlwaysAfterChange.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
       },
-      async ['value restored']() {
+      async 'value restored'() {
         await this.browser.executeScript(function () {
           // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
           window.OldDate = window.Date;

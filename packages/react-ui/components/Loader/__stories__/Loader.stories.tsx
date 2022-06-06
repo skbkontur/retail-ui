@@ -224,7 +224,7 @@ ActiveLoader.storyName = 'Active loader';
 ActiveLoader.parameters = {
   creevey: {
     tests: {
-      async ['covers children']() {
+      async 'covers children'() {
         const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
@@ -242,7 +242,7 @@ InactiveLoader.storyName = 'Inactive loader';
 InactiveLoader.parameters = {
   creevey: {
     tests: {
-      async ["doesn't cover children"]() {
+      async "doesn't cover children"() {
         const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
 
@@ -352,7 +352,7 @@ export const FocusInside: Story = () => {
 FocusInside.parameters = {
   creevey: {
     tests: {
-      async ['focus inside']() {
+      async 'focus inside'() {
         const loader = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
         const toggle = await this.browser.findElement({ css: '[data-tid~="toggle-loader"]' });
 

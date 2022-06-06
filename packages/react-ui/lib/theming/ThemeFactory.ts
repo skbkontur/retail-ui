@@ -1,4 +1,5 @@
 import { DefaultThemeInternal } from '../../internal/themes/DefaultTheme';
+import { isNonNullable } from '../utils';
 
 import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor } from './ThemeHelpers';
@@ -18,14 +19,17 @@ export class ThemeFactory {
 
   public static getKeys<T extends Theme>(theme: T) {
     const keys: Array<keyof T> = [];
-    while (theme != null) {
+    while (isNonNullable(theme)) {
       (Object.keys(theme) as typeof keys).forEach((key) => {
         if (!keys.includes(key)) {
           keys.push(key);
         }
       });
+      // TODO: Enable `no-param-reassign` rule.
+      // eslint-disable-next-line no-param-reassign
       theme = Object.getPrototypeOf(theme);
     }
+
     return keys.sort();
   }
 

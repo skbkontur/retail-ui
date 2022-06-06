@@ -8,10 +8,10 @@ function emulateRealClick(
   mouseUpTarget?: Element | null,
   clickTarget?: Element | null,
 ) {
-  mouseUpTarget = mouseUpTarget || mouseDownTarget;
-  clickTarget = clickTarget || mouseDownTarget;
+  const mouseElementTarget = mouseUpTarget || mouseDownTarget;
+  const clickElementTarget = clickTarget || mouseDownTarget;
 
-  if (mouseDownTarget && mouseUpTarget && clickTarget) {
+  if (mouseDownTarget && mouseElementTarget && clickElementTarget) {
     const mouseDownEvent = document.createEvent('HTMLEvents');
     const mouseUpEvent = document.createEvent('HTMLEvents');
     const clickEvent = document.createEvent('HTMLEvents');
@@ -21,8 +21,8 @@ function emulateRealClick(
     clickEvent.initEvent('click', true, true);
 
     mouseDownTarget.dispatchEvent(mouseDownEvent);
-    mouseUpTarget.dispatchEvent(mouseUpEvent);
-    clickTarget.dispatchEvent(clickEvent);
+    mouseElementTarget.dispatchEvent(mouseUpEvent);
+    clickElementTarget.dispatchEvent(clickEvent);
   }
 }
 

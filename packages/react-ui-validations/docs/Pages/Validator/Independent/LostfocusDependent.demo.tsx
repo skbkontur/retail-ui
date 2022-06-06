@@ -17,7 +17,9 @@ export default class LostfocusDependentDemo extends React.Component {
   };
 
   private validate = (value: string): Nullable<ValidationInfo> => {
-    if (!value) return { message: 'Не должно быть пустым', type: 'lostfocus' };
+    if (!value) {
+      return { message: 'Не должно быть пустым', type: 'lostfocus' };
+    }
     return null;
   };
 

@@ -41,17 +41,23 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
   return getGenericItems().filter((s) => s.value.includes(query));
 }
 
-type WrapperProps = { numberItems?: number } & Partial<TokenInputProps<any>>;
+function getSelectedItems<T>(props: WrapperProps<T>) {
+  if (props.selectedItems) {
+    return props.selectedItems;
+  } else if (props.numberItems) {
+    return new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3));
+  }
+
+  return [];
+}
+
+type WrapperProps<T = any> = { numberItems?: number } & Partial<TokenInputProps<T>>;
 type WrapperState = Pick<TokenInputProps<any>, 'selectedItems'>;
 class Wrapper extends React.Component<WrapperProps, WrapperState> {
   constructor(props: WrapperProps) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
-    this.state = { selectedItems };
+
+    this.state = { selectedItems: getSelectedItems(props) };
   }
 
   public render() {
@@ -125,12 +131,7 @@ type ColoredWrapperState = Pick<TokenInputProps<any>, 'selectedItems'>;
 class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapperState> {
   constructor(props: ColoredWrapperProps) {
     super(props);
-    const selectedItems = props.selectedItems
-      ? props.selectedItems
-      : props.numberItems
-      ? new Array(props.numberItems).fill(null).map((_, i) => i.toString().repeat(3))
-      : [];
-    this.state = { selectedItems };
+    this.state = { selectedItems: getSelectedItems(props) };
   }
 
   public render() {
@@ -529,7 +530,7 @@ OnUnexpectedInputValidation.parameters = {
       },
     ],
     tests: {
-      async ['token select']() {
+      async 'token select'() {
         await this.browser
           .actions({
             bridge: true,
@@ -609,7 +610,7 @@ OnUnexpectedInputValidation.parameters = {
           withSelectedTokens,
         }).to.matchImages();
       },
-      async ['token edit']() {
+      async 'token edit'() {
         await this.browser
           .actions({
             bridge: true,

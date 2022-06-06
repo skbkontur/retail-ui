@@ -452,7 +452,7 @@ export const WithIconInput: Story = () => <ModalWithIconInput />;
 WithIconInput.parameters = {
   creevey: {
     tests: {
-      async ['open modal']() {
+      async 'open modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -472,7 +472,7 @@ ModalOverAnotherModalStory.storyName = 'Modal over another modal';
 ModalOverAnotherModalStory.parameters = {
   creevey: {
     tests: {
-      async ['open first modal']() {
+      async 'open first modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -482,7 +482,7 @@ ModalOverAnotherModalStory.parameters = {
         await delay(200);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open first modal');
       },
-      async ['open second modal']() {
+      async 'open second modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -515,7 +515,7 @@ ModalWithFooterPanelStory.storyName = 'Modal with footer panel';
 ModalWithFooterPanelStory.parameters = {
   creevey: {
     tests: {
-      async ['open modal']() {
+      async 'open modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -535,7 +535,7 @@ ModalWithoutFooterPanelStory.storyName = 'Modal without footer panel';
 ModalWithoutFooterPanelStory.parameters = {
   creevey: {
     tests: {
-      async ['open modal']() {
+      async 'open modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -555,7 +555,7 @@ ModalWithoutFooterStory.storyName = 'Modal without footer';
 ModalWithoutFooterStory.parameters = {
   creevey: {
     tests: {
-      async ['open modal']() {
+      async 'open modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -595,7 +595,7 @@ ModalWithVariableHeightOfContent.storyName = 'Modal with variable height of cont
 ModalWithVariableHeightOfContent.parameters = {
   creevey: {
     tests: {
-      async ['open modal']() {
+      async 'open modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -605,7 +605,7 @@ ModalWithVariableHeightOfContent.parameters = {
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
       },
-      async ['toggle content height']() {
+      async 'toggle content height'() {
         await this.browser
           .actions({
             bridge: true,
@@ -680,7 +680,7 @@ SmallModalOnTheTop.storyName = 'Small modal on the Top';
 SmallModalOnTheTop.parameters = {
   creevey: {
     tests: {
-      async ['open modal']() {
+      async 'open modal'() {
         await this.browser
           .actions({
             bridge: true,
@@ -690,7 +690,7 @@ SmallModalOnTheTop.parameters = {
         await delay(100);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
       },
-      async ['close by click on the cross']() {
+      async 'close by click on the cross'() {
         await this.browser
           .actions({
             bridge: true,
@@ -703,7 +703,7 @@ SmallModalOnTheTop.parameters = {
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('close by click on the cross');
       },
-      async ["doesn't close by click on the content"]() {
+      async "doesn't close by click on the content"() {
         await this.browser
           .actions({
             bridge: true,
@@ -716,7 +716,7 @@ SmallModalOnTheTop.parameters = {
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage("doesn't close by click on the content");
       },
-      async ['closes by click on the background']() {
+      async 'closes by click on the background'() {
         await this.browser
           .actions({
             bridge: true,

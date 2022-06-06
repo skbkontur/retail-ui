@@ -18,12 +18,11 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
     delay: 2000,
     tests: {
-      async ['short Items']() {
+      async 'short Items'() {
         await delay(1000);
-
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
       },
-      async ['short Items scroll']() {
+      async 'short Items scroll'() {
         await this.browser.executeScript(function () {
           const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
@@ -33,7 +32,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
       },
-      async ['long Items']() {
+      async 'long Items'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
@@ -42,7 +41,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
       },
-      async ['long Items scroll']() {
+      async 'long Items scroll'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
