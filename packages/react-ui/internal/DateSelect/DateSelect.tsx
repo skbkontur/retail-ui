@@ -61,7 +61,7 @@ const calculatePos = (pos: number, minPos: number, maxPos: number) => {
 export const DateSelectDataTids = {
   caption: 'DateSelect__caption',
   menuItem: 'DateSelect__menuItem',
-};
+} as const;
 
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {

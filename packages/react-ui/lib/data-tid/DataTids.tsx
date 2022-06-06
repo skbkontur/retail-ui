@@ -36,6 +36,7 @@ export class DataTids extends React.Component<{}, { selectedValue: string }> {
           </div>
         );
       }
+      return null;
     });
 
     return (

@@ -4,6 +4,7 @@ const tids = Object.keys(Components).filter((componentName) => {
   if (componentName.match(/datatids/i)) {
     return componentName;
   }
+  return null;
 });
 
 export const componentsDataTids: { [key: string]: { [key: string]: string } } = tids.reduce((accum, currTid) => {
