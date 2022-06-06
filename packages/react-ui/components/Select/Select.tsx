@@ -24,7 +24,6 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { ArrowChevronDownIcon } from '../../internal/icons/16px';
@@ -398,30 +397,23 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const useIsCustom = this.props.use !== 'default';
 
     return (
-      <ThemeContext.Consumer>
-        {(theme) => {
-          this.theme = theme;
-          return (
-            <ThemeContext.Provider value={ThemeFactory.create(getSelectTheme(theme, this.props))}>
-              <Button {...buttonProps}>
-                <div className={styles.selectButtonContainer()}>
-                  {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
-                  <span {...labelProps}>{params.label}</span>
+      <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
+        <Button {...buttonProps}>
+          <div className={styles.selectButtonContainer()}>
+            {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
+            <span {...labelProps}>{params.label}</span>
 
-                  <div
-                    className={cx(styles.arrowWrap(this.theme), {
-                      [styles.arrowDisabled(this.theme)]: this.props.disabled,
-                      [styles.customUseArrow()]: useIsCustom,
-                    })}
-                  >
-                    <ArrowChevronDownIcon />
-                  </div>
-                </div>
-              </Button>
-            </ThemeContext.Provider>
-          );
-        }}
-      </ThemeContext.Consumer>
+            <div
+              className={cx(styles.arrowWrap(this.theme), {
+                [styles.arrowDisabled(this.theme)]: this.props.disabled,
+                [styles.customUseArrow()]: useIsCustom,
+              })}
+            >
+              <ArrowChevronDownIcon />
+            </div>
+          </div>
+        </Button>
+      </ThemeContext.Provider>
     );
   }
 
