@@ -26,8 +26,6 @@ interface Props {
   size: number;
 }
 
-export const PopupPinDataTids = {} as const;
-
 export class PopupPin extends React.Component<Props> {
   public static __KONTUR_REACT_UI__ = 'PopupPin';
 
