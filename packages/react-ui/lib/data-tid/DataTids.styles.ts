@@ -5,12 +5,13 @@ export const styles = memoizeStyle({
     return css`
       display: flex;
       width: 100%;
+      font-size: 16px;
     `;
   },
   headRow() {
     return css`
       margin-top: 20px;
-      font-size: 1.5em;
+      font-size: 1.5rem;
       font-weight: bold;
       border-top: 1px solid #000;
     `;
@@ -29,6 +30,11 @@ export const styles = memoizeStyle({
       padding: 5px;
       border-bottom: 1px solid #000;
       width: 70%;
+    `;
+  },
+  dataTid() {
+    return css`
+      padding-bottom: 2px;
     `;
   },
 });
