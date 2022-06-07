@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { getRandomID } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -37,7 +37,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
    * Если тип `items: Array<Value>`, то он будет приведен к типу
    * `Array<[Value, Value]>`
    */
-  items?: T[] | [T, React.ReactNode][];
+  items?: T[] | Array<[T, React.ReactNode]>;
   /**
    * Аттрибут name для вложенных радиокнопок. Если не указан, то сгенерируется
    * случайное имя
@@ -154,7 +154,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public renderMain() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
     const style = {
-      width: width != null ? width : 'auto',
+      width: width ?? 'auto',
     };
     const handlers = {
       onMouseOver,
@@ -200,7 +200,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private getName = () => this.props.name || this.name;
 
-  private isControlled = () => this.props.value != null;
+  private isControlled = () => isNonNullable(this.props.value);
 
   private handleSelect = (value: T) => {
     if (!this.isControlled()) {
@@ -245,7 +245,7 @@ function renderItem<T>(_value: T, data: React.ReactNode) {
 
 function mapItems<T>(
   fn: (value: T, data: React.ReactNode, index: number) => React.ReactNode,
-  items: T[] | [T, React.ReactNode][],
+  items: T[] | Array<[T, React.ReactNode]>,
 ) {
   const result: React.ReactNode[] = [];
   let index = 0;

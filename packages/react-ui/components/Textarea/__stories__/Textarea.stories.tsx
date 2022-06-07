@@ -4,6 +4,7 @@ import { Story } from '../../../typings/stories';
 import { Textarea } from '../Textarea';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
+import { delay } from '../../../lib/utils';
 
 const TEXT_SAMPLE =
   'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Modi enim voluptatum esse, id libero voluptas similique beatae, molestiae, impedit corrupti corporis asperiores odit ullam provident officia alias aperiam eum quas.';
@@ -140,6 +141,8 @@ DifferentStates.parameters = {
   creevey: {
     tests: {
       async Plain() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
       },
       async Focus() {
@@ -149,6 +152,8 @@ DifferentStates.parameters = {
           })
           .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
       },
       async FocusedByTab() {
@@ -161,6 +166,8 @@ DifferentStates.parameters = {
           .sendKeys(this.keys.TAB)
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Focused by tab');
       },
       async Typed() {
@@ -171,6 +178,8 @@ DifferentStates.parameters = {
           .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
           .sendKeys('Test...')
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Typed');
       },
     },
@@ -253,6 +262,8 @@ SelectAllByProp.parameters = {
   creevey: {
     tests: {
       async Plain() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
       },
       async Focused() {
@@ -263,6 +274,8 @@ SelectAllByProp.parameters = {
           .click(this.browser.findElement({ css: 'label' }))
           .pause(500)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
       },
     },
@@ -298,6 +311,8 @@ SelectAllByButton.parameters = {
   creevey: {
     tests: {
       async Plain() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
       },
       async Selected() {
@@ -308,6 +323,8 @@ SelectAllByButton.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .pause(500)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
       },
     },
@@ -332,33 +349,19 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE.split('').join(' ')}
           width={400}
           lengthCounter={700}
-          showLengthCounter={true}
+          showLengthCounter
           spellCheck={false}
         />
       </div>
 
       <div style={headingStyle}>Autoresize</div>
       <div id="CounterAutoresizeTextarea" style={blockStyle}>
-        <Textarea
-          value={TEXT_SAMPLE}
-          width={400}
-          lengthCounter={50}
-          autoResize={true}
-          showLengthCounter={true}
-          spellCheck={false}
-        />
+        <Textarea value={TEXT_SAMPLE} width={400} lengthCounter={50} autoResize showLengthCounter spellCheck={false} />
       </div>
 
       <div style={headingStyle}>Disabled</div>
       <div id="CounterDisabled" style={blockStyle}>
-        <Textarea
-          value={TEXT_SAMPLE}
-          width={400}
-          maxLength={50}
-          disabled={true}
-          showLengthCounter={true}
-          spellCheck={false}
-        />
+        <Textarea value={TEXT_SAMPLE} width={400} maxLength={50} disabled showLengthCounter spellCheck={false} />
       </div>
 
       <div style={headingStyle}>With help</div>
@@ -367,7 +370,7 @@ export const TextareaWithCounters: Story = () => {
           value={TEXT_SAMPLE}
           width={400}
           maxLength={50}
-          showLengthCounter={true}
+          showLengthCounter
           counterHelp={'test'}
           spellCheck={false}
         />
@@ -387,6 +390,8 @@ TextareaWithCounters.parameters = {
     ],
     tests: {
       async Plain() {
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
       },
       async Focus() {
@@ -396,6 +401,8 @@ TextareaWithCounters.parameters = {
           })
           .click(this.browser.findElement({ css: '#CounterPlain textarea' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
       },
       async FocusAutoresize() {
@@ -405,6 +412,8 @@ TextareaWithCounters.parameters = {
           })
           .click(this.browser.findElement({ css: '#CounterAutoresizeTextarea textarea' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('FocusAutoresize');
       },
       async FocusWithHelpClosed() {
@@ -414,6 +423,8 @@ TextareaWithCounters.parameters = {
           })
           .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelp');
       },
       async FocusWithHelpOpened() {
@@ -429,6 +440,8 @@ TextareaWithCounters.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Tooltip"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelpOpened');
       },
     },

@@ -7,53 +7,64 @@ import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer'
 import { Menu } from '../../Menu';
 import { Button } from '../../../components/Button';
 import { getRootNode, rootNode, TSetRootNode } from '../../../lib/rootNode';
+import { delay } from '../../../lib/utils';
 
 export default { title: 'DropdownContainer' };
 
 export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
-VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns, portals, items and scrolls';
+VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals items and scrolls';
 
 VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   creevey: {
+    delay: 2000,
     tests: {
-      async ['short Items']() {
+      async 'short Items'() {
+        await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
       },
-      async ['short Items scroll']() {
+      async 'short Items scroll'() {
         await this.browser.executeScript(function () {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
+        await delay(1000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
       },
-      async ['long Items']() {
+      async 'long Items'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
+        await delay(2000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
       },
-      async ['long Items scroll']() {
+      async 'long Items scroll'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '#buttons button' }))
           .perform();
+        await delay(2000);
         await this.browser.executeScript(function () {
           // @ts-ignore
           const innerScroll: Element = window.document.querySelector('#inner-scroll');
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
+        await delay(2000);
+
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
       },
     },
   },
 };
 
+type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
-  public aligns: Array<'left' | 'right'> = ['left', 'right'];
+  public aligns: Align[] = ['left', 'right'];
   public portals = [false, true];
   public rows = ['top', 'middle', 'bottom'];
   public cols = ['left', 'center', 'right'];

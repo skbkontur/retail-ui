@@ -152,7 +152,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const { getItems } = this.props;
 
     const cancelPromise: Promise<never> = new Promise((_, reject) => (this.cancelationToken = reject));
-    const expectingId = (this.requestId += 1);
+    this.requestId += 1;
+    const expectingId = this.requestId;
 
     if (!this.loaderShowDelay) {
       this.loaderShowDelay = new Promise<void>((resolve) => {
@@ -347,7 +348,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: this.isMobileLayout ? false : true,
+      keepFocus: !this.isMobileLayout,
     });
   };
 

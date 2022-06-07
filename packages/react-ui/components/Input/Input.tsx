@@ -4,7 +4,7 @@ import raf from 'raf';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
+import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -104,7 +104,7 @@ export interface InputProps
 export interface InputState {
   blinking: boolean;
   focused: boolean;
-  polyfillPlaceholder: boolean;
+  needsPolyfillPlaceholder: boolean;
 }
 
 /**
@@ -122,7 +122,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   public state: InputState = {
-    polyfillPlaceholder: false,
+    needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
   };
@@ -133,24 +133,11 @@ export class Input extends React.Component<InputProps, InputState> {
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
 
-  public componentDidMount() {
-    if (polyfillPlaceholder) {
-      this.setState({ polyfillPlaceholder: true });
-    }
-  }
-
   public componentWillUnmount() {
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
     }
     this.cancelDelayedSelectAll();
-  }
-
-  public static getDerivedStateFromProps(props: InputProps, state: InputState) {
-    if (polyfillPlaceholder && !props.value) {
-      return { polyfillPlaceholder: true };
-    }
-    return state;
   }
 
   /**
@@ -330,7 +317,7 @@ export class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
+      placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
     };
 
@@ -421,7 +408,13 @@ export class Input extends React.Component<InputProps, InputState> {
     const { focused } = this.state;
     let placeholder = null;
 
-    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
+    if (
+      this.state.needsPolyfillPlaceholder &&
+      this.props.placeholder &&
+      !this.isMaskVisible &&
+      !this.props.value &&
+      !this.props.defaultValue
+    ) {
       placeholder = (
         <div
           className={cx(styles.placeholder(this.theme), {
@@ -468,10 +461,10 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (polyfillPlaceholder) {
+    if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
-      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });
       }
     }
 

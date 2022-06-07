@@ -1,3 +1,5 @@
+import { isNonNullable } from '../utils';
+
 import { Theme, ThemeIn } from './Theme';
 
 export const exposeGetters = <T extends object>(theme: T): T => {
@@ -29,3 +31,15 @@ export const markAsDarkTheme = <T extends object>(theme: T): T => {
     },
   });
 };
+
+export function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
+  // TODO: Rewrite for loop.
+  // TODO: Enable `no-param-reassign` rule.
+  // eslint-disable-next-line no-param-reassign
+  for (; isNonNullable(theme); theme = Object.getPrototypeOf(theme)) {
+    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
+      return Object.getOwnPropertyDescriptor(theme, propName) || {};
+    }
+  }
+  return {};
+}

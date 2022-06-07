@@ -12,11 +12,13 @@ export interface DecimalOptions {
 
 export class CurrencyInputHelper {
   public static moveCursor(value: string, selection: Selection, step: number): number {
-    return selection.start === selection.end
-      ? CursorHelper.calculatePosition(CurrencyHelper.getInfo(value).cursorMap, selection.start, step)
-      : step < 0
-      ? selection.start
-      : selection.end;
+    if (selection.start === selection.end) {
+      return CursorHelper.calculatePosition(CurrencyHelper.getInfo(value).cursorMap, selection.start, step);
+    } else if (step < 0) {
+      return selection.start;
+    }
+
+    return selection.end;
   }
 
   public static extendSelection(value: string, selection: Selection, step: number) {

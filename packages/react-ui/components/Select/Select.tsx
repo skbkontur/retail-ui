@@ -22,7 +22,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction, isReactUINode } from '../../lib/utils';
+import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -57,6 +57,12 @@ const PASS_BUTTON_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
 };
+
+type SelectItem<TValue, TItem> =
+  | [TValue, TItem, React.ReactNode?]
+  | TItem
+  | React.ReactElement
+  | (() => React.ReactElement);
 
 export interface SelectProps<TValue, TItem> extends CommonProps {
   /** @ignore */
@@ -98,7 +104,7 @@ export interface SelectProps<TValue, TItem> extends CommonProps {
    * <Select.Item>My Element</Select.Item>
    * ```
    */
-  items?: Array<[TValue, TItem, React.ReactNode?] | TItem | React.ReactElement | (() => React.ReactElement)>;
+  items?: Array<SelectItem<TValue, TItem>>;
   maxMenuHeight?: number;
   maxWidth?: React.CSSProperties['maxWidth'];
   menuAlign?: 'left' | 'right';
@@ -338,7 +344,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const item = this.getItemByValue(value);
 
-    if (item != null || value != null) {
+    if (isNonNullable(value)) {
       return {
         label: this.getProps().renderValue(value, item),
         isPlaceholder: false,
@@ -483,7 +489,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSearch = (noMargin?: boolean) => {
     return (
-      <div className={cx({ [styles.search()]: noMargin ? false : true })}>
+      <div className={cx({ [styles.search()]: !noMargin })}>
         <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );
@@ -514,12 +520,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
         return (
           <MenuItem
             key={i}
-            state={this.getProps().areValuesEqual(iValue, value) ? 'selected' : null}
+            state={this.areValuesEqual(iValue, value) ? 'selected' : null}
             onClick={this.select.bind(this, iValue)}
             comment={comment}
             isMobile={isMobile}
           >
-            {this.getProps().renderItem(iValue, item)}
+            {this.getProps().renderItem<TValue, TItem>(iValue, item)}
           </MenuItem>
         );
       },
@@ -593,8 +599,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.focus();
     this.setState({ opened: false, value });
 
-    if (this.props.onValueChange && !this.getProps().areValuesEqual(this.getValue(), value)) {
-      this.props.onValueChange(value);
+    if (!this.areValuesEqual(this.getValue(), value)) {
+      this.props.onValueChange?.(value);
     }
   }
 
@@ -617,7 +623,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem<TValue>(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -636,11 +642,15 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [itemValue, item] = normalizeEntry(entry);
 
-      if (this.getProps().areValuesEqual(itemValue, value)) {
+      if (this.areValuesEqual(itemValue, value)) {
         return item;
       }
     }
     return null;
+  }
+
+  private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
+    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual<TValue>(value1, value2);
   }
 
   private buttonRef = (element: FocusableReactElement | null) => {
@@ -664,38 +674,56 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 }
 
-function renderValue(value: any, item: any) {
+function renderValue<TValue, TItem>(value: TValue, item: Nullable<TItem>) {
   return item;
 }
 
-function renderItem(value: any, item: any) {
+function renderItem<TValue, TItem>(value: TValue, item?: TItem) {
   return item;
 }
 
-function areValuesEqual(value1: any, value2: any) {
+function areValuesEqual<TValue>(value1: TValue, value2: TValue) {
   return value1 === value2;
 }
 
 function normalizeEntry(entry: any) {
   if (Array.isArray(entry)) {
     return entry;
-  } else {
-    return [entry, entry, undefined];
   }
+
+  return [entry, entry, undefined];
 }
 
-function filterItem(value: any, item: any, pattern: string) {
+const getTextFromItem = (item: any): string => {
+  if (typeof item === 'string') {
+    return item;
+  }
+
+  if (isFunction(item)) {
+    return getTextFromItem(item());
+  }
+
+  if (React.isValidElement(item)) {
+    return reactGetTextContent(item);
+  }
+
+  if (typeof item === 'number') {
+    return item.toString(10);
+  }
+
+  return '';
+};
+
+function filterItem<TValue>(value: TValue, item: any, pattern: string) {
   if (item === Select.SEP) {
     return false;
   }
-  if (React.isValidElement(item) || (isFunction(item) && React.isValidElement((item = item())))) {
-    item = reactGetTextContent(item);
-  }
-  if (typeof item === 'number') {
-    item = item.toString(10);
-  }
-  if (typeof item !== 'string') {
+
+  const itemText = getTextFromItem(item);
+
+  if (!itemText) {
     return false;
   }
-  return item.toLowerCase().indexOf(pattern) !== -1;
+
+  return itemText.toLowerCase().indexOf(pattern) !== -1;
 }

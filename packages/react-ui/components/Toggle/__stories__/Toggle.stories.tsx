@@ -35,7 +35,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled />
+                <Toggle checked disabled />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -55,7 +55,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled warning />
+                <Toggle checked disabled warning />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -75,7 +75,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled error />
+                <Toggle checked disabled error />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -94,7 +94,7 @@ class Playground extends Component<any, any> {
                 {' Off disabled'}
               </div>
               <div>
-                <Toggle checked={true} disabled color="#28bf4f" />
+                <Toggle checked disabled color="#28bf4f" />
                 {' On disabled'}
               </div>
             </Gapped>
@@ -218,6 +218,8 @@ Plain.parameters = {
           })
           .press()
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
         await this.browser
           .actions({
@@ -233,6 +235,8 @@ Plain.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
@@ -272,7 +276,8 @@ DisabledWithTooltip.parameters = {
           })
           .press()
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
 
         await this.browser
@@ -315,6 +320,8 @@ WithLongDescription.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },

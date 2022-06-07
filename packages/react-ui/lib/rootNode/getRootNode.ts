@@ -1,27 +1,34 @@
+/* eslint-disable react/no-find-dom-node */
 import { findDOMNode } from 'react-dom';
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { isHTMLElement } from '../SSRSafe';
+import { isHTMLElement, isNode } from '../SSRSafe';
 import { canUseDOM } from '../client';
-import { isFunction } from '../utils';
+
+import { isInstanceWithRootNode } from './rootNodeDecorator';
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
-  if (!canUseDOM) return null;
+  if (!canUseDOM) {
+    return null;
+  }
+
   if (isHTMLElement(instance) || instance === null) {
     return instance;
   }
 
-  const instanceAsAny = instance as any;
-  let node;
-  if (instanceAsAny && isFunction(instanceAsAny.getRootNode)) {
-    node = instanceAsAny.getRootNode();
+  let rootNode;
+
+  // it happened to be that native Node interface also has
+  // the "getRootNode" method, but we dont expect it here
+  if (isInstanceWithRootNode(instance) && !isNode(instance)) {
+    rootNode = instance.getRootNode();
   }
 
-  if (node !== undefined) {
-    return node;
+  if (rootNode !== undefined) {
+    return rootNode;
   }
 
-  node = findDOMNode(instance);
-  return node instanceof HTMLElement ? node : null;
+  rootNode = findDOMNode(instance);
+  return isHTMLElement(rootNode) ? rootNode : null;
 };
