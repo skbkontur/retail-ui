@@ -12,10 +12,8 @@ export const componentsDataTids: { [key: string]: { [key: string]: string } } = 
   return {
     ...accum,
     [componentName]: {
-      // @ts-ignore
-      // @ts-expect-error: impossible to add type to Components variable
       // eslint-disable-next-line import/namespace
-      [currTid]: Object.entries(Components[currTid])
+      [currTid]: Object.entries(Components[currTid as keyof typeof Components])
         .map((x) => `${x[0]}: '${x[1]}'`)
         .join(', \n'),
     },
