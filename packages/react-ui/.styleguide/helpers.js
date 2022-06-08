@@ -82,7 +82,7 @@ const getCommonSections = () => {
     { name: 'Roadmap', content: path.join(__dirname, '../ROADMAP.md') },
     { name: 'Migration', content: path.join(__dirname, '../MIGRATION.md'), exampleMode: 'expand' },
     { name: 'LocaleContext', content: path.join(__dirname, '../lib/locale/LOCALECONTEXT.md') },
-    { name: 'DataTids', content: path.join(__dirname, '../DATATIDS.md') },
+    { name: 'DataTids', content: path.join(__dirname, '../internal/DataTids/DATATIDS.md') },
     { name: 'SSR', content: path.join(__dirname, '../SSR.md') },
     { name: 'Mobiles', content: path.join(__dirname, '../MOBILES.md') },
     { name: 'Accessibility', content: path.join(__dirname, '../../../accessibility.md') },

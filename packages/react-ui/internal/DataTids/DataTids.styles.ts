@@ -1,4 +1,4 @@
-import { css, memoizeStyle } from '../theming/Emotion';
+import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 export const styles = memoizeStyle({
   row() {

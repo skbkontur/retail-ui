@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Select } from '../../components/Select';
-import { cx } from '../theming/Emotion';
+import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './DataTids.styles';
 import { componentsDataTids } from './componentsDataTids';

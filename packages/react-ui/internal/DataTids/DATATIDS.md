@@ -6,7 +6,7 @@
 Список экспортируемых data-tid:
 
 ```jsx harmony
-import {DataTids} from '../react-ui/lib/data-tid/DataTids';
+import {DataTids} from './DataTids';
 
 <DataTids/>
 ```
