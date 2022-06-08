@@ -16,7 +16,7 @@ function createConfig(publicPath, output) {
     entry: ['core-js/stable', './docs/index.tsx'],
     output: {
       path: output,
-      publicPath: publicPath,
+      publicPath,
       filename: '[name].js',
     },
     mode: isProd ? 'production' : 'development',
