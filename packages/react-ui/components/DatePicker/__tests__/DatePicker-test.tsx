@@ -25,7 +25,7 @@ const renderDatePickerLocale = ({
   locale?: LocaleControls;
 } = {}) =>
   mount(
-    <LocaleContext.Provider value={{ langCode: langCode, locale: locale }}>
+    <LocaleContext.Provider value={{ langCode, locale }}>
       <DatePicker onValueChange={handleChange} value="02.07.2017" {...props} />
     </LocaleContext.Provider>,
   );

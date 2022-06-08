@@ -9,7 +9,7 @@ import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface DropdownMenuProps extends CommonProps {
+export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -46,9 +46,6 @@ export interface DropdownMenuProps extends CommonProps {
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
   positions?: PopupPositionsType[];
-
-  onOpen?: () => void;
-  onClose?: () => void;
 
   /**
    * Не показывать анимацию
@@ -111,13 +108,14 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           caption={this.props.caption}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
-          onChangeMenuState={this.handleChangeMenuState}
           popupHasPin={false}
           positions={this.props.positions}
           disableAnimations={this.props.disableAnimations}
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}
+          onClose={this.props.onClose}
+          onOpen={this.props.onOpen}
         >
           {this.props.children}
         </PopupMenu>
@@ -138,16 +136,4 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   };
 
   private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
-
-  private handleChangeMenuState = (menuVisible: boolean) => {
-    if (menuVisible && this.props.onOpen) {
-      this.props.onOpen();
-      return;
-    }
-
-    if (!menuVisible && this.props.onClose) {
-      this.props.onClose();
-      return;
-    }
-  };
 }

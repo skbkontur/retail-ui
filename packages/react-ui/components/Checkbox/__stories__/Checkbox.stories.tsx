@@ -4,6 +4,7 @@ import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
 import { Gapped } from '../../Gapped';
 import { Nullable } from '../../../typings/utility-types';
+import { delay } from '../../../lib/utils';
 
 class PlainCheckbox extends Component<any, any> {
   public state = {
@@ -95,6 +96,8 @@ const checkboxTests: CreeveyTests = {
         origin: this.browser.findElement({ css: 'span' }),
       })
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
   },
   async pressed() {
@@ -107,6 +110,8 @@ const checkboxTests: CreeveyTests = {
       })
       .press()
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
     await this.browser
       .actions({
@@ -122,6 +127,8 @@ const checkboxTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: 'span' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
   async tabPress() {
@@ -140,6 +147,8 @@ const checkboxTests: CreeveyTests = {
       .release()
       .sendKeys(this.keys.TAB)
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
   },
   async spacePress() {
@@ -157,8 +166,11 @@ const checkboxTests: CreeveyTests = {
       .press()
       .release()
       .sendKeys(this.keys.TAB)
+      .pause(1000)
+      .sendKeys(this.keys.SPACE)
+      .pause(1000)
       .perform();
-    await this.browser.actions({ bridge: true }).sendKeys(this.keys.SPACE).perform();
+
     await this.expect(await this.takeScreenshot()).to.matchImage('spacePress');
   },
 };
@@ -170,7 +182,11 @@ Plain.storyName = 'plain';
 
 Plain.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
+    ],
     tests: checkboxTests,
   },
 };
@@ -184,7 +200,11 @@ Checked.storyName = 'checked';
 
 Checked.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
+    ],
     tests: {
       idle: checkboxTests['idle'],
       hovered: checkboxTests['hovered'],
@@ -280,10 +300,16 @@ Indeterminate.storyName = 'indeterminate';
 
 Indeterminate.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
+    ],
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '#screenshot-capture' });
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('plain');
       },
       async hovered() {
@@ -296,6 +322,8 @@ Indeterminate.parameters = {
             origin: this.browser.findElement({ css: 'label' }),
           })
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
       },
       async tabPress() {
@@ -306,6 +334,8 @@ Indeterminate.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('tabPress');
       },
       async clicked() {
@@ -316,6 +346,8 @@ Indeterminate.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
       },
     },
@@ -352,6 +384,8 @@ Highlighted.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
     },

@@ -6,7 +6,7 @@ const noop = (...args: any[]) => {
   /* do nothing */
 };
 
-export const Animation = () => {
+export const animation = () => {
   let animating = false;
   let currentPosition = 0;
   let currentVelocity = 0;

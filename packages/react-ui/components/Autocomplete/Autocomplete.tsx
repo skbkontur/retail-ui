@@ -25,9 +25,12 @@ function match(pattern: string, items: string[]) {
     return Promise.resolve([]);
   }
 
-  pattern = pattern.toLowerCase();
-  const filteredItems = items.filter((item) => item.toLowerCase().includes(pattern));
-  return Promise.resolve(filteredItems);
+  const lowerCasedPattern = pattern.toLowerCase();
+  const itemsMatchingPattern = items.filter((item) => {
+    return item.toLowerCase().includes(lowerCasedPattern);
+  });
+
+  return Promise.resolve(itemsMatchingPattern);
 }
 
 function renderItem(item: any) {
@@ -418,7 +421,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     let promise;
-    const expectingId = (this.requestId += 1);
+    this.requestId += 1;
+    const expectingId = this.requestId;
     if (typeof source === 'function') {
       promise = source(pattern);
     } else {

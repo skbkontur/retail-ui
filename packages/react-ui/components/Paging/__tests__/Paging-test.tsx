@@ -259,7 +259,7 @@ describe('Paging Locale', () => {
         <>
           <button onClick={() => setLangCode(LangCodes.ru_RU)}>{buttonText}</button>
 
-          <LocaleContext.Provider value={{ langCode: langCode }}>
+          <LocaleContext.Provider value={{ langCode }}>
             <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />
           </LocaleContext.Provider>
         </>
