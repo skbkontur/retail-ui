@@ -72,11 +72,6 @@ interface DefaultProps {
 }
 export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
-/**
- * @deprecated
- * В следующей мажорной версии будет изменено на
- * root: 'GlobalLoader__root',
- */
 export const GlobalLoaderDataTids = {
   root: 'GlobalLoader',
 } as const;

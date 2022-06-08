@@ -36,14 +36,6 @@ export interface CalendarState {
   touchStart: number;
 }
 
-/**
- * @deprecated
- * В следующей мажорной версии будет изменено на
- * root: 'Calendar__root',
- * month: 'MonthView__month',
- * headerMonth: 'MonthView__headerMonth',
- * headerYear: 'MonthView__headerYear',
- */
 export const CalendarDataTids = {
   root: 'Calendar',
   month: 'MonthView__month',

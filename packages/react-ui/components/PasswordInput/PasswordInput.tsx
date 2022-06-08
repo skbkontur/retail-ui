@@ -25,13 +25,6 @@ export interface PasswordInputState {
   capsLockEnabled?: boolean | null;
 }
 
-/**
- * @deprecated
- * В следующей мажорной версии будет изменено на
- * root: 'PasswordInput__root',
- * capsLockDetector: 'PasswordInput__capsLockDetector',
- * eyeIcon: 'PasswordInput__eyeIcon',
- */
 export const PasswordInputDataTids = {
   root: 'PasswordInput',
   capsLockDetector: 'PasswordInputCapsLockDetector',
