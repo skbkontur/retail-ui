@@ -12,22 +12,19 @@ export class DataTids extends React.Component {
         {this.components.map((componentName: string, index: number) => {
           const dataTidList = componentsDataTids[componentName];
           return (
-            <div key={index} className={styles.row()}>
-              <div className={styles.leftCell()}>{Object.keys(dataTidList)}:</div>
-              <div className={styles.rightCell()}>
-                {Object.values(dataTidList)[0]
-                  .split(',')
-                  .map((el: string, i: number, array) => {
-                    const dataTid = el.split(':');
-                    return (
-                      <div key={i} className={styles.dataTid()}>
-                        {<b>{dataTid[0]}: </b>}
-                        {dataTid[1]}
-                        {i < array.length - 1 ? ',' : ''}
-                      </div>
-                    );
-                  })}
-              </div>
+            <div key={index} className={styles.wrapper()}>
+              <div className={styles.componentName()}>{Object.keys(dataTidList)}</div>
+              {Object.values(dataTidList)[0]
+                .split(',')
+                .map((el: string, i: number) => {
+                  const dataTid = el.split(':');
+                  return (
+                    <div key={i} className={styles.row()}>
+                      <div className={styles.leftCell()}>{dataTid[0]}</div>
+                      <div className={styles.rightCell()}>{dataTid[1]}</div>
+                    </div>
+                  );
+                })}
             </div>
           );
         })}

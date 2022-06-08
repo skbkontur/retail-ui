@@ -1,6 +1,20 @@
 import { css, memoizeStyle } from '../../lib/theming/Emotion';
 
 export const styles = memoizeStyle({
+  wrapper() {
+    return css`
+      &:not(:first-child) {
+        margin-top: 20px;
+      }
+    `;
+  },
+  componentName() {
+    return css`
+      font-weight: 700;
+      font-size: 1.25em;
+      margin: 0 5px 5px;
+    `;
+  },
   row() {
     return css`
       display: flex;
@@ -8,19 +22,12 @@ export const styles = memoizeStyle({
       font-size: 16px;
     `;
   },
-  headRow() {
-    return css`
-      margin-top: 20px;
-      font-size: 1.5rem;
-      font-weight: bold;
-      border-top: 1px solid #000;
-    `;
-  },
+
   leftCell() {
     return css`
       padding: 5px;
-      border-right: 1px solid #000;
-      border-bottom: 1px solid #000;
+      border-right: 1px solid #dadada;
+      border-bottom: 1px solid #dadada;
       width: 30%;
       overflow-wrap: anywhere;
     `;
@@ -28,13 +35,8 @@ export const styles = memoizeStyle({
   rightCell() {
     return css`
       padding: 5px;
-      border-bottom: 1px solid #000;
+      border-bottom: 1px solid #dadada;
       width: 70%;
-    `;
-  },
-  dataTid() {
-    return css`
-      padding-bottom: 2px;
     `;
   },
 });
