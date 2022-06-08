@@ -13,14 +13,14 @@ export class DataTids extends React.Component {
           const dataTidList = componentsDataTids[componentName];
           return (
             <div key={index} className={styles.wrapper()}>
-              <div className={styles.componentName()}>{Object.keys(dataTidList)}</div>
+              <div className={styles.componentName()}>{componentName}</div>
               {Object.values(dataTidList)[0]
                 .split(',')
                 .map((el: string, i: number) => {
                   const dataTid = el.split(':');
                   return (
                     <div key={i} className={styles.row()}>
-                      <div className={styles.leftCell()}>{dataTid[0]}</div>
+                      <div className={styles.leftCell()}>{`${Object.keys(dataTidList)}.${dataTid[0]}`}</div>
                       <div className={styles.rightCell()}>{dataTid[1]}</div>
                     </div>
                   );
