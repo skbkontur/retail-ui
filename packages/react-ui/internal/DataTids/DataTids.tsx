@@ -1,60 +1,36 @@
 import React from 'react';
 
-import { Select } from '../../components/Select';
-import { cx } from '../../lib/theming/Emotion';
-
 import { styles } from './DataTids.styles';
 import { componentsDataTids } from './componentsDataTids';
 
-export class DataTids extends React.Component<{}, { selectedValue: string }> {
-  public state = {
-    selectedValue: 'все',
-  };
-
+export class DataTids extends React.Component {
   private components = Object.keys(componentsDataTids);
 
-  private items = ['все', ...this.components];
-
-  private setValue = (value: string) => {
-    this.setState({ selectedValue: value });
-  };
-
   public render() {
-    const list = this.components.map((componentName: string, index: number) => {
-      if (componentName === this.state.selectedValue || this.state.selectedValue === 'все') {
-        const dataTidList = componentsDataTids[componentName];
-        return (
-          <div key={index} className={styles.row()}>
-            <div className={styles.leftCell()}>{Object.keys(dataTidList)}:</div>
-            <div className={styles.rightCell()}>
-              {Object.values(dataTidList)[0]
-                .split(',')
-                .map((el: string, i: number, array) => {
-                  const dataTid = el.split(':');
-                  return (
-                    <div key={i} className={styles.dataTid()}>
-                      {<b>{dataTid[0]}: </b>}
-                      {dataTid[1]}
-                      {i < array.length - 1 ? ',' : ''}
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        );
-      }
-      return null;
-    });
-
     return (
       <div>
-        Выбрать компонент:
-        <Select<string> items={this.items} value={this.state.selectedValue} onValueChange={this.setValue} search />
-        <div className={cx(styles.row(), styles.headRow())}>
-          <div className={styles.leftCell()}>VariableName</div>
-          <div className={styles.rightCell()}>Value</div>
-        </div>
-        {list}
+        {this.components.map((componentName: string, index: number) => {
+          const dataTidList = componentsDataTids[componentName];
+          return (
+            <div key={index} className={styles.row()}>
+              <div className={styles.leftCell()}>{Object.keys(dataTidList)}:</div>
+              <div className={styles.rightCell()}>
+                {Object.values(dataTidList)[0]
+                  .split(',')
+                  .map((el: string, i: number, array) => {
+                    const dataTid = el.split(':');
+                    return (
+                      <div key={i} className={styles.dataTid()}>
+                        {<b>{dataTid[0]}: </b>}
+                        {dataTid[1]}
+                        {i < array.length - 1 ? ',' : ''}
+                      </div>
+                    );
+                  })}
+              </div>
+            </div>
+          );
+        })}
       </div>
     );
   }
