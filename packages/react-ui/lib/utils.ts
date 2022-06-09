@@ -3,6 +3,7 @@ import React from 'react';
 import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
+import { memo } from './memo';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -161,7 +162,7 @@ export type Ref<T> = React.MutableRefObject<T> | React.LegacyRef<T> | undefined;
  *  return <div ref={mergeRefs([localRef, ref])} />;
  * });
  */
-export function mergeRefs<T = any>(...refs: Array<Ref<T>>): React.RefCallback<T> {
+function mergeRefs<T = any>(...refs: Array<Ref<T>>): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
       if (typeof ref === 'function') {
@@ -172,6 +173,8 @@ export function mergeRefs<T = any>(...refs: Array<Ref<T>>): React.RefCallback<T>
     });
   };
 }
+
+export const memoizedMergeRefs = memo(mergeRefs);
 
 /**
  * Extracts all data attributes from props and returns them as well as props.

@@ -6,8 +6,7 @@ import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { memo } from '../../lib/memo';
-import { mergeRefs } from '../../lib/utils';
+import { memoizedMergeRefs } from '../../lib/utils';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -248,8 +247,6 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={this.memoizedMergeRefs(this.setRootNode, this.comboboxElement)} />;
+    return <CustomComboBox {...this.props} ref={memoizedMergeRefs(this.setRootNode, this.comboboxElement)} />;
   }
-
-  private memoizedMergeRefs = memo(mergeRefs);
 }

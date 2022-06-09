@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { isFunction, isRefableElement, mergeRefs } from '../../lib/utils';
+import { isFunction, isRefableElement, memoizedMergeRefs } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
 import { Nullable } from '../../typings/utility-types';
 import { getRootNode, rootNode, TSetRootNode, TRootNodeSubscription, isInstanceWithRootNode } from '../../lib/rootNode';
-import { memo } from '../../lib/memo';
 
 export interface CommonProps {
   /**
@@ -46,7 +45,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
       ? React.cloneElement(this.child, {
           ref: isRefableElement(this.child)
-            ? this.memoizedMergeRefs(this.rootNodeRef, (this.child as any)?.ref, this.setRootNode, this.ref)
+            ? memoizedMergeRefs(this.rootNodeRef, (this.child as any)?.ref, this.setRootNode, this.ref)
             : null,
           className: cx(this.child.props.className, className),
           style: {
@@ -75,8 +74,6 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
       });
     }
   };
-
-  private memoizedMergeRefs = memo(mergeRefs);
 }
 
 const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
