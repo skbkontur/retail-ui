@@ -25,8 +25,10 @@ export default class LostfocusDependentErrorValidationDemo extends React.Compone
   };
 
   private validate = (value: string): Nullable<ValidationInfo> => {
-    if (!value)
+    if (!value) {
       return { message: 'Не должно быть пустым', type: 'lostfocus', independent: true };
+    }
+
     return null;
   };
 

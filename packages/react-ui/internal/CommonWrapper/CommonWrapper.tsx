@@ -100,9 +100,9 @@ const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
 
 const isCommonProp = (name: string) => {
   switch (true) {
-    case name == 'className':
-    case name == 'style':
-    case name == 'rootNodeRef':
+    case name === 'className':
+    case name === 'style':
+    case name === 'rootNodeRef':
     case name.indexOf('data-') === 0: // все data-атрибуты
       return true;
     default:
