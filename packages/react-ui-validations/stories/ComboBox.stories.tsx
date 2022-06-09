@@ -7,9 +7,9 @@ import { Nullable } from '../typings/Types';
 
 storiesOf('ComboBox', module).add('required', () => <ComboBoxStory />);
 
-type ComboBoxStoryState = {
+interface ComboBoxStoryState {
   selected: { value: string; label: string };
-};
+}
 class ComboBoxStory extends React.Component {
   public state: ComboBoxStoryState = {
     selected: { value: 'one', label: 'one' },

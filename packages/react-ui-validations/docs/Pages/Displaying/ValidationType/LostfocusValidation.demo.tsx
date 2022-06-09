@@ -5,9 +5,9 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../..
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-type LostfocusValidationDemoState = {
+interface LostfocusValidationDemoState {
   value: string;
-};
+}
 export default class LostfocusValidationDemo extends React.Component {
   public state: LostfocusValidationDemoState = {
     value: '',

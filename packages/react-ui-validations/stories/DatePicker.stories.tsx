@@ -9,9 +9,9 @@ import { Nullable } from '../typings/Types';
 
 storiesOf('DatePicker', module).add('Example1', () => <DatePickerStory />);
 
-type DatePickerStoryState = {
+interface DatePickerStoryState {
   value: Date | string | null;
-};
+}
 class DatePickerStory extends React.Component {
   public state: DatePickerStoryState = {
     value: null,

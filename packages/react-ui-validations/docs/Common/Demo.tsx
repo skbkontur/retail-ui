@@ -16,10 +16,10 @@ const DemoContainer = styled.div`
   font-size: 14px;
 `;
 
-type DemoProps = {
+interface DemoProps {
   demo: React.ComponentClass<any>;
   source?: string;
-};
+}
 export default class Demo extends React.Component<DemoProps> {
   public state = {
     isVisible: false,

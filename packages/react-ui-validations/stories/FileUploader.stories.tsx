@@ -8,9 +8,9 @@ import { Nullable } from '../typings/Types';
 
 storiesOf('FileUploader', module).add('required', () => <FileUploaderStory />);
 
-type FileUploaderStoryState = {
+interface FileUploaderStoryState {
   value: FileUploaderAttachedFile[];
-};
+}
 class FileUploaderStory extends React.Component {
   public state: FileUploaderStoryState = {
     value: [],

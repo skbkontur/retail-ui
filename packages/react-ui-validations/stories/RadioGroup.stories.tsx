@@ -14,9 +14,9 @@ storiesOf('RadioGroup', module)
 
 type Sex = 'male' | 'female';
 
-type RadioGroupStoryState = {
+interface RadioGroupStoryState {
   sex: Nullable<Sex>;
-};
+}
 class RadioGroupStory extends React.Component {
   public state: RadioGroupStoryState = {
     sex: null,

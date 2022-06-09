@@ -181,10 +181,10 @@ class Example8 extends React.Component {
 
 type Sex = 'male' | 'female';
 
-type Example4State = {
+interface Example4State {
   type: Nullable<Sex>;
   value: string;
-};
+}
 class Example4 extends React.Component {
   public state: Example4State = {
     type: null,
