@@ -7,25 +7,22 @@ export function memo<T>(fn: T): T {
   return (...args) => {
     try {
       let currentLevelOfCache = cache;
-      for (let i = 0; i < args.length - 1; i++) {
-        if (!currentLevelOfCache.get(args[i])) {
-          const newLevelOfCache = new Map();
-          newLevelOfCache.set(args[i + 1], undefined);
-          currentLevelOfCache.set(args[i], newLevelOfCache);
-          keysCount++;
+      args.forEach((currentArg) => {
+        const temp = currentLevelOfCache.get(currentArg);
+        if (!temp?.size) {
+          currentLevelOfCache.set(currentArg, new Map());
         }
-        currentLevelOfCache = currentLevelOfCache.get(args[i]);
-      }
-      const resultFromCache = currentLevelOfCache.get(args[args.length - 1]);
+        currentLevelOfCache = currentLevelOfCache.get(currentArg);
+      });
 
+      const resultFromCache = currentLevelOfCache.get('result');
       if (resultFromCache) {
         return resultFromCache;
       }
 
       // @ts-ignore
       const result = fn(...args);
-      currentLevelOfCache.set(args[args.length - 1], result);
-      keysCount++;
+      currentLevelOfCache.set('result', result);
       return result;
     } finally {
       if (keysCount > limit) {
