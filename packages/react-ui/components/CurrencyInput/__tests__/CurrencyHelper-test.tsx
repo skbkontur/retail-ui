@@ -295,4 +295,21 @@ describe('CurrencyHelper', () => {
       });
     });
   });
+  describe('isNumber', () => {
+    [
+      { value: 'abcd', expected: false },
+      { value: '123a', expected: false },
+      { value: 1, expected: true },
+      { value: 1234567890, expected: true },
+      { value: undefined, expected: false },
+      { value: null, expected: false },
+      { value: ' ', expected: false },
+    ].forEach((x) => {
+      it(`isNumber('${x.value}') === ${x.expected}`, () => {
+        const actual = CurrencyHelper.isNumber(x.value);
+        const expected = x.expected;
+        expect(actual).toBe(expected);
+      });
+    });
+  });
 });
