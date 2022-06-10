@@ -26,18 +26,18 @@ export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
   if (pos === 'right') {
     return (control, hasError, validation) => {
       return (
-        <span style={{ display: 'inline-block' }}>
+        <>
           {control}
           <span data-validation-message="text" style={{ marginLeft: '10px', color: '#d43517' }}>
             {(validation && validation.message) || ''}
           </span>
-        </span>
+        </>
       );
     };
   }
   return (control, hasError, validation) => {
     return (
-      <span style={{ position: 'relative', display: 'inline-block' }}>
+      <>
         {control}
         <span style={{ position: 'absolute', bottom: 0, left: 0, height: 0 }}>
           <span
@@ -54,7 +54,7 @@ export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
             {(validation && validation.message) || ''}
           </span>
         </span>
-      </span>
+      </>
     );
   };
 }

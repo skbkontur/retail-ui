@@ -16,6 +16,7 @@ const Title = styled.span`
 
 const Content = styled.span`
   display: inline-flex;
+  position: relative;
 `;
 
 interface FormLineProps {
