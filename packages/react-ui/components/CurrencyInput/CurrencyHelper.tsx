@@ -64,7 +64,7 @@ export class CurrencyHelper {
     return cursorMap;
   }
 
-  public static format(value: Nullable<number>, options?: Nullable<DecimalFormattingOptions>): string {
+  public static format(value: Nullable<number | string>, options?: Nullable<DecimalFormattingOptions>): string {
     if (value == null) {
       return '';
     }
@@ -203,4 +203,8 @@ export class CurrencyHelper {
     const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
     return { sign, integer, delimiter, fraction };
   }
+
+  static isNumber = (num: unknown): num is number | string => {
+    return !isNaN(parseFloat(num as string)) && !isNaN((num as number) - 0);
+  };
 }

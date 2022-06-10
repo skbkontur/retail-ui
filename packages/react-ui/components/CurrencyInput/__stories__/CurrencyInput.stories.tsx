@@ -14,7 +14,7 @@ interface CurrencyInputDemoProps {
 }
 
 interface CurrencyInputDemoState {
-  value: Nullable<number>;
+  value: Nullable<number | string>;
   signed: boolean;
   hideTrailingZeros: boolean;
   digits: Nullable<number>;
@@ -35,8 +35,14 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: 0 })}>
             Set <b>0</b>
           </Button>
+          <Button onClick={() => this.setState({ value: '4' })}>
+            Set <b>&apos;4&apos;</b>
+          </Button>
           <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
+          </Button>
+          <Button onClick={() => this.setState({ value: parseInt('str') })}>
+            Set <b>NaN</b>
           </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>
@@ -75,7 +81,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     );
   }
 
-  private handleChange = (value: Nullable<number>) => {
+  private handleChange = (value: Nullable<number | string>) => {
     this.setState({ value });
   };
 
@@ -108,7 +114,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     });
   };
 
-  private formatValue = (value: Nullable<number>): string => {
+  private formatValue = (value: Nullable<number | string>): string => {
     return value == null ? 'null' : value.toString();
   };
 }
@@ -116,7 +122,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
 class Sample extends React.Component<
   Partial<CurrencyInputProps>,
   {
-    value: Nullable<number>;
+    value: Nullable<number | string>;
   }
 > {
   public state = {
@@ -141,7 +147,7 @@ class Sample extends React.Component<
     );
   }
 
-  private handleChange = (value: Nullable<number>) => {
+  private handleChange = (value: Nullable<number | string>) => {
     this.setState({ value });
   };
 
@@ -270,7 +276,7 @@ ManualMount.storyName = 'Manual mount';
 ManualMount.parameters = { creevey: { skip: [true] } };
 
 export const WithStringValue: Story = () => {
-  const [value, changeValue] = React.useState<any>('');
+  const [value, changeValue] = React.useState<Nullable<string | number>>('');
   return (
     <div className="App">
       <CurrencyInput fractionDigits={0} autoFocus value={value} onValueChange={changeValue} />
