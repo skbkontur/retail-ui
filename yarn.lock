@@ -3104,7 +3104,7 @@
     "@emotion/sheet" "^1.0.3"
     "@emotion/utils" "^1.0.0"
 
-"@emotion/eslint-plugin@^11.7.0":
+"@emotion/eslint-plugin@11.7.0":
   version "11.7.0"
   resolved "https://registry.npmjs.org/@emotion/eslint-plugin/-/eslint-plugin-11.7.0.tgz#253c8ace26f3921695a7aa85ecbf6fac75e74b33"
   integrity sha512-k6H0OxBgkPDVG5M16AWnu3z15OmmKNvGmJiYTcamoOIDhiGE5+no+BiVAiHPOwJf/NOsDei2S9i015cMwlO5sA==
