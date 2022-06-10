@@ -100,6 +100,11 @@
     "jsx-a11y/no-autofocus": 0,
     "jsx-a11y/mouse-events-have-key-events": 0,
     "jsx-a11y/no-noninteractive-element-interactions": 0,
-    "jsx-a11y/anchor-is-valid": 0
+    "jsx-a11y/anchor-is-valid": 0,
+    "@emotion/pkg-renaming": 2,
+    "@emotion/jsx-import": 2,
+    "@emotion/no-vanilla": 2,
+    "@emotion/import-from-emotion": 2,
+    "@emotion/styled-import": 2
   }
 }

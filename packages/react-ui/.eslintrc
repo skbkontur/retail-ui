@@ -1,7 +1,7 @@
 {
   "overrides": [
     {
-      "plugins": ["testing-library", "jest-dom"],
+      "plugins": ["testing-library", "jest-dom", "@emotion"],
       "extends": ["plugin:testing-library/dom", "plugin:jest-dom/recommended", "plugin:storybook/recommended"],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
