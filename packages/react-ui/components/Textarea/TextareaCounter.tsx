@@ -65,8 +65,8 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
 
 TextareaCounter.propTypes = {
   length: propTypes.number.isRequired,
-  value: propTypes.oneOf([propTypes.string, propTypes.number]),
-  help: propTypes.oneOf([propTypes.node, propTypes.func]),
+  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
+  help: propTypes.oneOfType([propTypes.node, propTypes.func]),
   onCloseHelp: propTypes.func.isRequired,
   textarea: propTypes.node.isRequired,
 };
