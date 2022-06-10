@@ -6,7 +6,8 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { memoizedMergeRefs } from '../../lib/utils';
+import { mergeRefs } from '../../lib/utils';
+import { memo } from '../../lib/memo';
 
 import { styles } from './Toast.styles';
 import { ToastView, ToastViewProps } from './ToastView';
@@ -135,7 +136,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
         exit={!isTestEnv}
         nodeRef={this.rootRef}
       >
-        <CommonWrapper rootNodeRef={memoizedMergeRefs(this.setRootNode, this.rootRef)} {...this.props}>
+        <CommonWrapper rootNodeRef={this.memoizedMergeRefs(this.setRootNode, this.rootRef)} {...this.props}>
           <ToastView ref={this._refToast} {...toastProps} />
         </CommonWrapper>
       </CSSTransition>
@@ -160,6 +161,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private _refToast = (element: ToastView) => {
     this._toast = element;
   };
+
+  private memoizedMergeRefs = memo(mergeRefs);
 }
 
 function safelyCall(fn: Nullable<(a?: any) => any>, ...args: any[]) {

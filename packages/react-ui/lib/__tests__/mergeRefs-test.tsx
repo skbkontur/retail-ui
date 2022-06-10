@@ -2,7 +2,7 @@
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { render } from '@testing-library/react';
 
-import { memoizedMergeRefs } from '../utils';
+import { mergeRefs } from '../utils';
 
 describe('mergeRefs', () => {
   it('correctly merges refs', () => {
@@ -16,7 +16,7 @@ describe('mergeRefs', () => {
     const objRef = createRef();
     const Example = ({ visible }: { visible: boolean }) => {
       if (visible) {
-        return <ComponentWithImperativeMethods ref={memoizedMergeRefs(funcRef, objRef)} />;
+        return <ComponentWithImperativeMethods ref={mergeRefs(funcRef, objRef)} />;
       }
 
       return null;

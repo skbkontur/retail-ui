@@ -2,7 +2,8 @@ import React from 'react';
 
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
-import { memoizedMergeRefs } from '../../lib/utils';
+import { mergeRefs } from '../../lib/utils';
+import { memo } from '../../lib/memo';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -100,7 +101,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
             <ZIndexContext.Provider value={zIndexContexValue}>
               <div
                 style={{ ...style, ...wrapperStyle }}
-                ref={memoizedMergeRefs(this.setRootNode, this.props.wrapperRef)}
+                ref={this.memoizedMergeRefs(this.setRootNode, this.props.wrapperRef)}
                 {...props}
               >
                 {children}
@@ -125,4 +126,6 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
     return newZIndex;
   }
+
+  private memoizedMergeRefs = memo(mergeRefs);
 }

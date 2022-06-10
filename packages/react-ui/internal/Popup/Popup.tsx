@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable, isNullable, isRefableElement, memoizedMergeRefs } from '../../lib/utils';
+import { isFunction, isNonNullable, isNullable, isRefableElement, mergeRefs } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -21,6 +21,7 @@ import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { memo } from '../../lib/memo';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -289,7 +290,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorWithRef =
       anchor && React.isValidElement(anchor) && isRefableElement(anchor)
         ? React.cloneElement(anchor, {
-            ref: memoizedMergeRefs(this.updateAnchorElement, (anchor as React.RefAttributes<any>)?.ref),
+            ref: this.memoizedMergeRefs(this.updateAnchorElement, (anchor as React.RefAttributes<any>)?.ref),
           })
         : null;
 
@@ -695,4 +696,6 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         throw new Error(`Unexpected align '${align}'`);
     }
   }
+
+  private memoizedMergeRefs = memo(mergeRefs);
 }
