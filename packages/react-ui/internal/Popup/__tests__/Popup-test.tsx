@@ -137,7 +137,7 @@ describe('Popup', () => {
 
     it('is content container when opened', async () => {
       await openPopup(wrapper);
-      const contentContainer = wrapper.find('[data-tid~="Popup"]').last().getDOMNode();
+      const contentContainer = wrapper.find('[data-tid~="Popup__root"]').last().getDOMNode();
       const rootNode = popupRef.current?.getRootNode();
       expect(popupRef.current).not.toBeNull();
       expect(rootNode).toBeInstanceOf(HTMLElement);
