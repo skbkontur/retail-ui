@@ -24,6 +24,13 @@ jest.mock('lodash.debounce', () =>
     return fn;
   }),
 );
+jest.mock('react-dom', () => {
+  const originalModule = jest.requireActual('react-dom');
+  return {
+    ...originalModule,
+    findDOMNode: jest.fn(originalModule.findDOMNode),
+  };
+});
 window.matchMedia = jest.fn().mockImplementation((query) => {
   return {
     matches: false,
