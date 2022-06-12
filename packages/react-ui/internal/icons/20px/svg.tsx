@@ -1,6 +1,8 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
+import { ComponentType } from '../../../lib/utils';
+
 import { styles } from './icon.styles';
 
 export interface SVGIconProps extends React.HTMLAttributes<HTMLSpanElement> {
@@ -18,7 +20,7 @@ export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color
 );
 
 SvgIcon.propTypes = {
-  children: propTypes.node,
+  children: ComponentType,
   color: propTypes.string,
 };
 

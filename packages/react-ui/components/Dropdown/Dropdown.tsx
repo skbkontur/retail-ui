@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { ComponentType } from '../../lib/utils';
 import { filterProps } from '../../lib/filterProps';
 import { MenuHeader } from '../MenuHeader';
 import { MenuItem } from '../MenuItem';
@@ -103,7 +104,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     /**
      * Подпись на кнопке.
      */
-    caption: PropTypes.node.isRequired,
+    caption: ComponentType.isRequired,
 
     /**
      * Отключает использование портала
@@ -123,7 +124,7 @@ export class Dropdown extends React.Component<DropdownProps> {
     /**
      * Иконка слева от текста кнопки
      */
-    icon: PropTypes.node,
+    icon: ComponentType,
 
     maxMenuHeight: PropTypes.number,
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction, isReactUIComponent } from '../../lib/utils';
+import { ComponentType, isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -88,13 +88,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
   public static __MENU_ITEM__ = true;
 
   public static propTypes = {
-    comment: PropTypes.node,
+    comment: ComponentType,
 
     disabled: PropTypes.bool,
 
     href: PropTypes.string,
 
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    icon: ComponentType,
 
     loose: PropTypes.bool,
 

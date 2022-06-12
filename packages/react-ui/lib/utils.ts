@@ -1,8 +1,9 @@
-import { ReactComponentLike } from 'prop-types';
+import propTypes, { ReactComponentLike } from 'prop-types';
 import React from 'react';
 import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
+import { safePropTypesInstanceOf } from './SSRSafe';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -93,6 +94,13 @@ const calculateDecimals = (decimals: number) => {
 
   return 0;
 };
+
+export const ComponentType = propTypes.oneOfType([
+  propTypes.elementType,
+  propTypes.element,
+  propTypes.node,
+  safePropTypesInstanceOf(() => Element),
+]);
 
 export const formatBytes = (bytes: number, decimals = 2): string | null => {
   if (bytes === 0) {

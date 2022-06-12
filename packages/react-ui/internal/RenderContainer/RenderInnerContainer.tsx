@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
 
+import { ComponentType } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
@@ -64,7 +65,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
 }
 
 Portal.propTypes = {
-  container: propTypes.node.isRequired,
+  container: ComponentType.isRequired,
   rt_rootID: propTypes.string.isRequired,
-  children: propTypes.node.isRequired,
+  children: ComponentType.isRequired,
 };

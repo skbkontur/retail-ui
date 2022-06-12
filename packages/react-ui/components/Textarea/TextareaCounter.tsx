@@ -1,10 +1,11 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 
+import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { isFunction } from '../../lib/utils';
+import { ComponentType, isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 
@@ -66,7 +67,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
 TextareaCounter.propTypes = {
   length: propTypes.number.isRequired,
   value: propTypes.oneOfType([propTypes.string, propTypes.number]),
-  help: propTypes.oneOfType([propTypes.node, propTypes.func]),
+  help: ComponentType,
   onCloseHelp: propTypes.func.isRequired,
-  textarea: propTypes.node.isRequired,
+  textarea: safePropTypesInstanceOf(() => Element).isRequired,
 };
