@@ -83,7 +83,6 @@
     "import/no-duplicates": 2,
     "import/no-default-export": 2,
     "react/no-find-dom-node": 0,
-    "react/display-name": 0,
     "@typescript-eslint/no-unused-vars": [1, { "ignoreRestSiblings": true }],
     "react/jsx-boolean-value": 2,
     "react/prop-types": [2, { "skipUndeclared": true }],
