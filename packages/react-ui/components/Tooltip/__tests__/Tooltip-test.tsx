@@ -1,5 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React from 'react';
+import { findDOMNode } from 'react-dom';
+import { render } from '@testing-library/react';
 
 import { Button } from '../../Button';
 import { Tooltip, TooltipProps, TooltipState } from '../Tooltip';
@@ -15,7 +17,7 @@ function clickOutside() {
 const selectorCross = 'svg[viewBox="0 0 10 10"]';
 
 describe('Tooltip', () => {
-  const render = () => '';
+  const renderTooltip = () => '';
 
   it('keeps child ref', () => {
     interface CompProps {
@@ -23,7 +25,7 @@ describe('Tooltip', () => {
     }
     const Comp = ({ refFn }: CompProps) => {
       return (
-        <Tooltip render={render}>
+        <Tooltip render={renderTooltip}>
           <div ref={refFn} />
         </Tooltip>
       );
@@ -49,7 +51,7 @@ describe('Tooltip', () => {
     const wrapper = mount(
       <div>
         <div id="foo">
-          <Tooltip trigger="opened" render={render}>
+          <Tooltip trigger="opened" render={renderTooltip}>
             foo
           </Tooltip>
         </div>
@@ -68,7 +70,7 @@ describe('Tooltip', () => {
   it('calls `onCloseClick` when click on the cross', () => {
     const onClose = jest.fn();
     const wrapper = mount<TooltipProps>(
-      <Tooltip trigger="opened" render={render} onCloseClick={onClose}>
+      <Tooltip trigger="opened" render={renderTooltip} onCloseClick={onClose}>
         <div />
       </Tooltip>,
     );
@@ -80,7 +82,7 @@ describe('Tooltip', () => {
     it('with "opened" trigger', () => {
       const onOpen = jest.fn();
       mount<TooltipProps>(
-        <Tooltip trigger="opened" render={render} onOpen={onOpen}>
+        <Tooltip trigger="opened" render={renderTooltip} onOpen={onOpen}>
           <div />
         </Tooltip>,
       );
@@ -90,7 +92,7 @@ describe('Tooltip', () => {
     it('with "focus" trigger', () => {
       const onOpen = jest.fn();
       const wrapper = mount<TooltipProps>(
-        <Tooltip trigger="focus" render={render} onOpen={onOpen}>
+        <Tooltip trigger="focus" render={renderTooltip} onOpen={onOpen}>
           <div />
         </Tooltip>,
       );
@@ -109,7 +111,7 @@ describe('Tooltip', () => {
 
     it('with "click" trigger', () => {
       wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-        <Tooltip render={render} onClose={onClose}>
+        <Tooltip render={renderTooltip} onClose={onClose}>
           <div />
         </Tooltip>,
       );
@@ -124,7 +126,7 @@ describe('Tooltip', () => {
 
     it('when trigger changes to "closed"', () => {
       wrapper = mount<Tooltip, TooltipProps, TooltipState>(
-        <Tooltip trigger="opened" onClose={onClose} render={render}>
+        <Tooltip trigger="opened" onClose={onClose} render={renderTooltip}>
           <div />
         </Tooltip>,
       );
@@ -186,7 +188,7 @@ describe('Tooltip', () => {
     }
 
     const wrapper = mount<TooltipProps>(
-      <Tooltip trigger="opened" render={render}>
+      <Tooltip trigger="opened" render={renderTooltip}>
         <PureComponent />
       </Tooltip>,
     );
@@ -202,7 +204,7 @@ describe('Tooltip', () => {
     }
 
     const wrapper = mount<Tooltip>(
-      <Tooltip trigger="opened" render={render}>
+      <Tooltip trigger="opened" render={renderTooltip}>
         <StatefulComponent />
       </Tooltip>,
     );
@@ -290,5 +292,57 @@ describe('Tooltip', () => {
     expect(clearTimeout).toHaveBeenCalledWith(timer);
     // @ts-expect-error: Use of private property.
     expect(instance.hoverTimeout).toBeNull();
+  });
+
+  describe('findDOMNode', () => {
+    beforeEach(() => {
+      (findDOMNode as jest.Mock).mockClear();
+    });
+
+    it('should not be called when opened', () => {
+      render(
+        <Tooltip trigger={'opened'} render={() => <div />}>
+          <Button />
+        </Tooltip>,
+      );
+
+      expect(findDOMNode).not.toBeCalled();
+    });
+
+    it('should not be called when closed', () => {
+      render(
+        <Tooltip trigger={'closed'} render={() => <div />}>
+          <Button />
+        </Tooltip>,
+      );
+      expect(findDOMNode).not.toBeCalled();
+    });
+
+    describe('should be called with not-refable children', () => {
+      it('FC without forwardRef', () => {
+        const FC = () => <div />;
+        render(
+          <Tooltip trigger={'opened'} render={() => <div />}>
+            <FC />
+          </Tooltip>,
+        );
+
+        expect(findDOMNode).toBeCalled();
+      });
+
+      it('class component without getRootNode', () => {
+        class ClassComponent extends React.Component {
+          render = () => <div />;
+        }
+
+        render(
+          <Tooltip trigger={'opened'} render={() => <div />}>
+            <ClassComponent />
+          </Tooltip>,
+        );
+
+        expect(findDOMNode).toBeCalled();
+      });
+    });
   });
 });

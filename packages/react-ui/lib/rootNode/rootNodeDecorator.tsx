@@ -17,9 +17,17 @@ export interface InstanceWithRootNode {
   addRootNodeChangeListener?: (callback: (node: Nullable<HTMLElement>) => void) => TRootNodeSubscription;
 }
 
-export function rootNode<T extends new (...args: any[]) => React.Component>(Component: T) {
+interface ComponentWithDefaultRootNode {
+  defaultRootNode?: HTMLElement | null;
+}
+
+interface DecoratableClassComponent extends ComponentWithDefaultRootNode {
+  new (...args: any[]): React.Component;
+}
+
+export function rootNode<T extends DecoratableClassComponent>(Component: T) {
   const rootNode = class extends Component implements InstanceWithRootNode {
-    public rootNode: Nullable<HTMLElement> = null;
+    public rootNode: Nullable<HTMLElement> = Component.defaultRootNode;
     public rootNodeEmitter = new EventEmitter();
     public constructor(...args: any[]) {
       super(args[0]);

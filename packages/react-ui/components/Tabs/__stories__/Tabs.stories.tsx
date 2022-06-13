@@ -1,6 +1,8 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/accessible-emoji */
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
@@ -85,11 +87,11 @@ const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
   );
 });
 
-interface TabsWithMyLinkState {
+interface TabsWithLinkState {
   value: string;
 }
-class TabsWithMyLink extends React.Component<Partial<TabsProps>> {
-  public state: TabsWithMyLinkState = {
+class TabsWithLink extends React.Component<Partial<TabsProps>> {
+  public state: TabsWithLinkState = {
     value: 'fuji',
   };
 
@@ -138,6 +140,23 @@ class TabsWithMyLink extends React.Component<Partial<TabsProps>> {
     );
   }
 }
+
+const TabsWithCustomComponent = ({ component }: { component: React.ComponentType }) => {
+  const [active, setActive] = useState('fuji');
+  return (
+    <Tabs value={active} onValueChange={setActive}>
+      <Tab id="fuji" component={component}>
+        <span aria-label="fuji">Fuji</span>
+      </Tab>
+      <Tab id="tahat" component={component}>
+        <span aria-label="tahat">Tahat</span>
+      </Tab>
+      <Tab id="alps" component={component}>
+        <span aria-label="alps">Alps</span>
+      </Tab>
+    </Tabs>
+  );
+};
 
 interface UnexpectedUpdatedTabProps {
   id: string;
@@ -552,9 +571,40 @@ Vertical.parameters = {
   },
 };
 
-export const WithComponent = () => <TabsWithMyLink />;
-WithComponent.storyName = 'with component';
-WithComponent.parameters = { creevey: { skip: [true] } };
+export const WithLink = () => <TabsWithLink />;
+WithLink.parameters = { creevey: { skip: [true] } };
+
+export const WithCustomTabComponent = () => {
+  type Props = React.PropsWithChildren<unknown>;
+
+  const FC = function FC(props: Props) {
+    return <span {...props} />;
+  };
+  const FCWithForwardRef = React.forwardRef<HTMLElement, Props>(function FC(props, ref) {
+    return <span {...props} ref={ref} />;
+  });
+  class ClassComponent extends React.Component<Props> {
+    render = () => <span {...this.props} />;
+  }
+  class ClassComponentWithRootNode extends React.Component<Props> {
+    rootRef = React.createRef<HTMLElement>();
+    getRootNode = () => this.rootRef.current;
+    render = () => <span {...this.props} ref={this.rootRef} />;
+  }
+
+  return (
+    <div>
+      <h3>Functional Component</h3>
+      <TabsWithCustomComponent component={FC} />
+      <h3>Functional Component with forwardRef</h3>
+      <TabsWithCustomComponent component={FCWithForwardRef} />
+      <h3>Class Component</h3>
+      <TabsWithCustomComponent component={ClassComponent} />
+      <h3>Calss Component with getRootNode</h3>
+      <TabsWithCustomComponent component={ClassComponentWithRootNode} />
+    </div>
+  );
+};
 
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
