@@ -37,11 +37,8 @@ describe('Global Loader', () => {
     });
 
     it('should be the only one', async () => {
-      const globalLoader2: ReactWrapper<
-        GlobalLoaderComponentProps,
-        GlobalLoaderState,
-        GlobalLoader
-      > = mount<GlobalLoader>(<GlobalLoader expectedResponseTime={2000} />);
+      const globalLoader2: ReactWrapper<GlobalLoaderComponentProps, GlobalLoaderState, GlobalLoader> =
+        mount<GlobalLoader>(<GlobalLoader expectedResponseTime={2000} />);
 
       expect(globalLoader.state().dead).toBe(true);
       expect(globalLoader2.state().dead).toBe(false);

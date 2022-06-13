@@ -72,4 +72,7 @@ export const isModified: ISMod = (is) => (e) =>
 export const isUnmodified: ISMod = (is) => (e) => !isModified()(e) && (is ? is(e) : true);
 export const isModShift: ISMod = (is) => (e) => e.shiftKey && (is ? is(e) : true);
 
-export const someKeys: ISSome = (...iss) => (e) => iss.some((is) => is(e));
+export const someKeys: ISSome =
+  (...iss) =>
+  (e) =>
+    iss.some((is) => is(e));

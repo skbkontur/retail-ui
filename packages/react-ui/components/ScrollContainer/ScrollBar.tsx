@@ -185,9 +185,11 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
       }
 
       if (Object.prototype.hasOwnProperty.call(mouseMoveEvent, 'returnValue')) {
-        (mouseMoveEvent as MouseEvent & {
-          returnValue: boolean;
-        }).returnValue = false;
+        (
+          mouseMoveEvent as MouseEvent & {
+            returnValue: boolean;
+          }
+        ).returnValue = false;
       }
     };
 
