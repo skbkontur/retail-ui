@@ -2,9 +2,8 @@ import React from 'react';
 
 import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
-import { getRandomID, mergeRefs } from '../../lib/utils';
+import { applyRef, getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
-import { memo } from '../../lib/memo';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
@@ -59,7 +58,7 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (this.domContainer && this.domContainer.parentNode !== document.body) {
       document.body.appendChild(this.domContainer);
 
-      this.memoizedMergeRefs(this.props.containerRef)(this.domContainer);
+      applyRef(this.props.containerRef, this.domContainer);
 
       if (window.ReactTesting) {
         window.ReactTesting.addRenderContainer(this.rootId, this);
@@ -78,13 +77,11 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     if (this.domContainer && this.domContainer.parentNode) {
       this.domContainer.parentNode.removeChild(this.domContainer);
 
-      this.memoizedMergeRefs(this.props.containerRef)(null);
+      applyRef(this.props.containerRef, null);
 
       if (window.ReactTesting) {
         window.ReactTesting.removeRenderContainer(this.rootId);
       }
     }
   }
-
-  private memoizedMergeRefs = memo(mergeRefs);
 }

@@ -17,8 +17,6 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
-import { mergeRefs } from '../../lib/utils';
-import { memo } from '../../lib/memo';
 
 import { styles } from './Autocomplete.styles';
 
@@ -214,7 +212,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
-        <span className={styles.root(this.theme)} style={{ width }} ref={this.memoizedMergeRefs(this.rootSpan)}>
+        <span className={styles.root(this.theme)} style={{ width }} ref={this.rootSpan}>
           <Input {...inputProps} />
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
@@ -457,6 +455,4 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private refMobilePopup = (mobilePopup: MobilePopup | null) => {
     this.mobilePopup = mobilePopup;
   };
-
-  private memoizedMergeRefs = memo(mergeRefs);
 }

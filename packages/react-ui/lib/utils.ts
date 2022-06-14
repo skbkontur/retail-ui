@@ -148,6 +148,14 @@ export const isReactUIComponent = <P = any>(name: string) => {
 
 export type Ref<T> = React.MutableRefObject<T> | React.LegacyRef<T> | undefined;
 
+export function applyRef<T = any>(ref: Ref<T>, value: T | null) {
+  if (typeof ref === 'function') {
+    return ref(value);
+  } else if (isNonNullable(ref)) {
+    return ((ref as React.MutableRefObject<T | null>).current = value);
+  }
+}
+
 /**
  * Merges two or more refs into one.
  *
@@ -164,11 +172,7 @@ export type Ref<T> = React.MutableRefObject<T> | React.LegacyRef<T> | undefined;
 export function mergeRefs<T = any>(...refs: Array<Ref<T>>): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
-      if (typeof ref === 'function') {
-        return ref(value);
-      } else if (isNonNullable(ref)) {
-        return ((ref as React.MutableRefObject<T | null>).current = value);
-      }
+      applyRef(ref, value);
     });
   };
 }

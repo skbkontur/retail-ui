@@ -9,7 +9,7 @@ export function memo<T>(fn: T): any {
       let currentLevelOfCache = cache;
       args.forEach((currentArg) => {
         const temp = currentLevelOfCache.get(currentArg);
-        if (!temp.size) {
+        if (!temp?.size) {
           currentLevelOfCache.set(currentArg, new Map());
         }
         currentLevelOfCache = currentLevelOfCache.get(currentArg);
@@ -20,6 +20,7 @@ export function memo<T>(fn: T): any {
         return resultFromCache;
       }
 
+      // @ts-ignore
       const result = fn(...args);
       currentLevelOfCache.set(RESULT_KEY, result);
       return result;
