@@ -34,7 +34,7 @@ export interface CurrencyInputProps
          */
         integerDigits?: Nullable<number>;
         /** Вызывается при изменении `value` */
-        onValueChange: (value: Nullable<number | string>) => void;
+        onValueChange: (value: Nullable<number>) => void;
         /** onSubmit */
         onSubmit?: () => void;
       }
