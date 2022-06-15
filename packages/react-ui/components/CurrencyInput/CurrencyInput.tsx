@@ -20,8 +20,7 @@ export interface CurrencyInputProps
     Override<
       InputProps,
       {
-        /** Значение (под типом `string` мы ожидаем валидное число)*/
-        value: Nullable<number | string>;
+        value: Nullable<number>;
         /** Убрать лишние нули после запятой */
         hideTrailingZeros: boolean;
         /** Кол-во цифр после запятой */
@@ -110,7 +109,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
         `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
     );
-    if (value !== '' && value !== null && !CurrencyHelper.isNumber(value)) {
+    if (value !== null && !CurrencyHelper.isNumber(value)) {
       console.log(new Error('Warning: value is not a valid number'));
       return;
     }
@@ -118,12 +117,12 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== '' && value !== null && !CurrencyHelper.isNumber(value)) {
+    if (value !== null && !CurrencyHelper.isNumber(value)) {
       console.log(new Error('Warning: value is not a valid number'));
       return;
     }
 
-    if (this.getValue() !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    if (this.props.value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
@@ -190,7 +189,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     }
   };
 
-  private getState(value: Nullable<number | string>, fractionDigits: Nullable<number>, hideTrailingZeros: boolean) {
+  private getState(value: Nullable<number>, fractionDigits: Nullable<number>, hideTrailingZeros: boolean) {
     return {
       formatted: CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros }),
       selection: SelectionHelper.fromPosition(0),
@@ -353,7 +352,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       const selection = SelectionHelper.fromPosition(result.position);
       this.setState({ formatted, selection }, () => {
         const parsedValue = CurrencyHelper.parse(formatted);
-        if (this.getValue() !== parsedValue) {
+        if (this.props.value !== parsedValue) {
           this.props.onValueChange(parsedValue);
         }
       });
@@ -448,17 +447,6 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   private refInput = (element: Nullable<Input>) => {
     this.input = element;
-  };
-  private getValue = (): Nullable<number> => {
-    if (CurrencyHelper.isNumber(this.props.value)) {
-      if (typeof this.props.value === 'string') {
-        return parseInt(this.props.value);
-      } else {
-        return this.props.value as number;
-      }
-    } else {
-      return null;
-    }
   };
 }
 

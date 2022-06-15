@@ -14,7 +14,9 @@ interface CurrencyInputDemoProps {
 }
 
 interface CurrencyInputDemoState {
-  value: Nullable<number | string>;
+  // Intended behavior. CurrencyInput technically can't accept strings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
   signed: boolean;
   hideTrailingZeros: boolean;
   digits: Nullable<number>;
@@ -34,9 +36,6 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
         <Gapped gap={10}>
           <Button onClick={() => this.setState({ value: 0 })}>
             Set <b>0</b>
-          </Button>
-          <Button onClick={() => this.setState({ value: '4' })}>
-            Set <b>&apos;4&apos;</b>
           </Button>
           <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
@@ -81,7 +80,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     );
   }
 
-  private handleChange = (value: Nullable<number | string>) => {
+  private handleChange = (value: Nullable<number>) => {
     this.setState({ value });
   };
 
@@ -114,7 +113,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
     });
   };
 
-  private formatValue = (value: Nullable<number | string>): string => {
+  private formatValue = (value: Nullable<number>): string => {
     return value == null ? 'null' : value.toString();
   };
 }
@@ -122,7 +121,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
 class Sample extends React.Component<
   Partial<CurrencyInputProps>,
   {
-    value: Nullable<number | string>;
+    value: Nullable<number>;
   }
 > {
   public state = {
@@ -147,7 +146,7 @@ class Sample extends React.Component<
     );
   }
 
-  private handleChange = (value: Nullable<number | string>) => {
+  private handleChange = (value: Nullable<number>) => {
     this.setState({ value });
   };
 
@@ -276,7 +275,9 @@ ManualMount.storyName = 'Manual mount';
 ManualMount.parameters = { creevey: { skip: [true] } };
 
 export const WithStringValue: Story = () => {
-  const [value, changeValue] = React.useState<Nullable<string | number>>('');
+  // Intended behavior. CurrencyInput technically can't accept strings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [value, changeValue] = React.useState<any>('');
   return (
     <div className="App">
       <CurrencyInput fractionDigits={0} autoFocus value={value} onValueChange={changeValue} />

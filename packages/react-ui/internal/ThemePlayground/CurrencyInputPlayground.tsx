@@ -5,7 +5,7 @@ import { CurrencyInput, CurrencyInputProps } from '../../components/CurrencyInpu
 export class CurrencyInputPlayground extends React.Component<
   Partial<CurrencyInputProps>,
   {
-    value?: number | null | string;
+    value?: number | null;
   }
 > {
   public state = {
@@ -26,7 +26,7 @@ export class CurrencyInputPlayground extends React.Component<
     );
   }
 
-  private handleChange = (value?: number | null | string) => {
+  private handleChange = (value?: number | null) => {
     this.setState({ value });
   };
 }
