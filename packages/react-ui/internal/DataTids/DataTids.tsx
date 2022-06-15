@@ -19,34 +19,28 @@ export class DataTids extends React.Component<{}, { selectedValue: string }> {
   };
 
   public render() {
-    const list = this.components.map((componentName: string, index: number) => {
-      if (componentName === this.state.selectedValue || this.state.selectedValue === 'все') {
-        const dataTidList = componentsDataTids[componentName];
-        return (
-          <div key={index} className={styles.wrapper()}>
-            <div className={styles.componentName()}>{componentName}</div>
-            {Object.values(dataTidList)[0]
-              .split(',')
-              .map((el: string, i: number) => {
-                const dataTid = el.split(':');
-                return (
-                  <div key={i} className={styles.row()}>
-                    <div className={styles.leftCell()}>{`${Object.keys(dataTidList)}.${dataTid[0]}`}</div>
-                    <div className={styles.rightCell()}>{dataTid[1]}</div>
-                  </div>
-                );
-              })}
-          </div>
-        );
-      }
-      return null;
-    });
-
     return (
       <div>
         Выбрать компонент:
         <Select<string> items={this.items} value={this.state.selectedValue} onValueChange={this.setValue} search />
-        {list}
+        {Object.entries(componentsDataTids).map(([componentName, dataTids], index) => {
+          if (componentName === this.state.selectedValue || this.state.selectedValue === 'все') {
+            return (
+              <div key={index} className={styles.wrapper()}>
+                <div className={styles.componentName()}>{componentName}</div>
+                {Object.values(dataTids).map((value, i) => {
+                  return (
+                    <div key={i} className={styles.row()}>
+                      <div className={styles.leftCell()}>{`${componentName}DataTids.${value[0]}`}</div>
+                      <div className={styles.rightCell()}>{`'${value[1]}'`}</div>
+                    </div>
+                  );
+                })}
+              </div>
+            );
+          }
+          return null;
+        })}
       </div>
     );
   }
