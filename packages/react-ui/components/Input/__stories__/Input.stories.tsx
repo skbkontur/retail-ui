@@ -252,6 +252,7 @@ InputsWithDifferentSizes.parameters = {
           })
           .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
           .sendKeys('Test...')
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
       },
@@ -266,6 +267,7 @@ InputsWithDifferentSizes.parameters = {
           .sendKeys(
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           )
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
       },
@@ -291,6 +293,7 @@ InputsWithDifferentSizes.parameters = {
           })
           .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
           .sendKeys('Test...')
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
       },
@@ -331,6 +334,7 @@ InputsWithDifferentSizes.parameters = {
           })
           .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
           .sendKeys('Test...')
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
       },
@@ -345,6 +349,7 @@ InputsWithDifferentSizes.parameters = {
           .sendKeys(
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           )
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
       },
