@@ -11,7 +11,8 @@
       ],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
-        "import/no-default-export": 0
+        "import/no-default-export": 0,
+        "jest/max-nested-describe": 2
       }
     }
   ]
