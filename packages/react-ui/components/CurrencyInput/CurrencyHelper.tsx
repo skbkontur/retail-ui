@@ -64,7 +64,7 @@ export class CurrencyHelper {
     return cursorMap;
   }
 
-  public static format(value: Nullable<number | string>, options?: Nullable<DecimalFormattingOptions>): string {
+  public static format(value: Nullable<number>, options?: Nullable<DecimalFormattingOptions>): string {
     if (value == null) {
       return '';
     }

@@ -123,7 +123,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       return;
     }
 
-    if (this.props.value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
