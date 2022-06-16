@@ -5,10 +5,10 @@ import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.commitStatusPu
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.pullRequests
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.sshAgent
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildFeatures.swabra
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.MSBuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetBuild
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetTest
-import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.msBuild
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetMsBuild
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.DotnetMsBuildStep
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetInstaller
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nuGetPublish
 import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.nunit
@@ -42,7 +42,7 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 'Debug' option is available in the context menu for the task.
 */
 
-version = "2020.1"
+version = "2021.2"
 
 project {
 
@@ -119,7 +119,7 @@ object RunAll : BuildType({
         pullRequests {
             provider = github {
                 authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
                 }
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
@@ -175,8 +175,9 @@ object ReactUI_GitHubFeatures : Template({
             provider = github {
                 serverUrl = ""
                 authType = token {
-                    token = "credentialsJSON:37119025-2749-4abf-8ed8-ff4221b59d50"
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
                 }
+                filterSourceBranch = ""
                 filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER_OR_COLLABORATOR
             }
         }
@@ -185,7 +186,7 @@ object ReactUI_GitHubFeatures : Template({
             publisher = github {
                 githubUrl = "https://api.github.com"
                 authType = personalToken {
-                    token = "credentialsJSON:753f3391-1e06-4223-8a34-70a7c9adb2af"
+                    token = "credentialsJSON:7fd959b6-0b07-4bf1-87d0-1ce9c443528e"
                 }
             }
         }
@@ -306,6 +307,10 @@ object ReactUI_LintTest : BuildType({
                 artifactRules = "skbkontur-react-ui-*.tgz"
             }
         }
+    }
+
+    failureConditions {
+        executionTimeoutMin = 15
     }
 })
 
@@ -451,7 +456,7 @@ object SeleniumTesting_Publish : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.2%"
             packages = "packages/react-ui-testing/Output/*.nupkg"
             serverUrl = "https://api.nuget.org/v3/index.json"
-            apiKey = "credentialsJSON:bd776d48-3dea-45bb-95d2-f28cdfb5e1aa"
+            apiKey = "credentialsJSON:025012f8-2dc9-43bf-9e45-d5dabbcf7258"
         }
     }
 
@@ -609,12 +614,11 @@ object Validations_LintTest : BuildType({
             toolPath = "%teamcity.tool.NuGet.CommandLine.4.9.3%"
             projects = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
         }
-        msBuild {
+        dotnetMsBuild {
             name = "Build tests"
-            id = "RUNNER_6"
-            path = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
-            version = MSBuildStep.MSBuildVersion.V15_0
-            toolsVersion = MSBuildStep.MSBuildToolsVersion.V15_0
+            projects = "packages/react-ui-validations/selenium-tests/SeleniumTests.sln"
+            version = DotnetMsBuildStep.MSBuildVersion.CrossPlatform
+            param("dotNetCoverage.dotCover.home.path", "%teamcity.tool.JetBrains.dotCover.CommandLineTools.DEFAULT%")
         }
         nunit {
             name = "Run tests"
@@ -689,4 +693,14 @@ object Validations_Publish : BuildType({
     }
 
     disableSettings("COMMIT_STATUS_PUBLISHER", "PULL_REQUESTS", "VCS_TRIGGER")
+})
+
+object Validations_ScreenshotTests : BuildType({
+    name = "Screenshot tests"
+
+    vcs {
+        root(DslContext.settingsRoot)
+    }
+
+    disableSettings("VCS_TRIGGER")
 })

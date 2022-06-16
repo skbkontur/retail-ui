@@ -5,6 +5,9 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
+import { isIE11 } from '../../lib/client';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -41,8 +44,13 @@ export interface ScrollContainerProps extends CommonProps {
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  /**
+   * Отключение кастомного скролла
+   */
+  disabled?: boolean;
 }
 
+@rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
 
@@ -64,6 +72,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
   private inner: Nullable<HTMLElement>;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.scrollX?.setInnerElement(this.inner);
@@ -84,6 +93,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public render = () => {
     const props = this.props;
 
+    if (this.props.disabled) {
+      return this.props.children;
+    }
+
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
       maxHeight: props.maxHeight,
@@ -94,14 +107,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     const scrollbarX = this.renderScrollbar('x');
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
           {scrollbarY}
           {scrollbarX}
           <div
             style={innerStyle}
             ref={this.refInner}
-            className={cx(styles.inner(), globalClasses.inner)}
+            className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
             data-tid="ScrollContainer__inner"
             onScroll={this.handleNativeScroll}
           >
@@ -259,8 +272,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const right = event.currentTarget.getBoundingClientRect().right - event.pageX;
-    const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
+    const right = getDOMRect(event.currentTarget).right - event.pageX;
+    const bottom = getDOMRect(event.currentTarget).bottom - event.pageY;
 
     this.scrollY?.setHover(right <= 12);
     this.scrollX?.setHover(right >= 12 && bottom <= 12);

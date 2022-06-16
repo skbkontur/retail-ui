@@ -1,4 +1,6 @@
-import { PopupPosition } from './Popup';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+
+import { PopupPositionsType } from './Popup';
 
 export interface Rect {
   top: number;
@@ -45,7 +47,7 @@ function isAbsoluteRectFullyVisible(coordinates: Offset, popupRect: Rect): boole
 }
 
 // Can become fully visible by scrolling into viewport
-function canBecomeFullyVisible(positionName: PopupPosition, coordinates: Offset) {
+function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Offset) {
   const position = getPositionObject(positionName);
 
   if (position.direction === 'top') {
@@ -63,7 +65,7 @@ function canBecomeFullyVisible(positionName: PopupPosition, coordinates: Offset)
 }
 
 function _getElementRelativeRect(element: HTMLElement) {
-  const rect = element.getBoundingClientRect();
+  const rect = getDOMRect(element);
 
   return {
     top: rect.top,

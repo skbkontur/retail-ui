@@ -45,6 +45,63 @@ Upgrade.setSpecificityLevel(1);
 
 Специфичность должна устанавливаться в коде раньше импорта любых компонентов из библиотеки.
 
+### StrictMode
+
+Начиная с версий `@skbkontur/react-ui@3.10.0` и `@skbkontur/react-ui-validations@1.7.0`, библиотека поддерживает работу в React.StrictMode.
+
+Некоторым компонентам библиотеки необходимо иметь доступ до корневой DOM-ноды своих
+children. Ранее для этого использовался метод findDomNode, который в StrictMode запрещён.
+Теперь получение DOM-ноды реализовано в библиотеке через ref, из-за чего появились некоторые
+требования к компонентам, передаваемым в Hint, Tooltip, Popup или Tab:
+
+- при передаче функциональных компонентов, они должны использовать `React.ForwardRef`;
+
+```js static
+import { Hint } from '@skbkontur/react-ui';
+
+const CustomFunctionComponent = React.forwardRef(
+  (props, ref) => <div ref={ref}>children text</div>
+);
+
+export const withFunctionChildren = () => (
+  <React.StrictMode>
+    <Hint pos="top" text="Something will never be changed" manual opened>
+      <CustomFunctionComponent />
+    </Hint>
+  </React.StrictMode>
+);
+```
+
+- при передаче классовых компонентов, их инстанс должен реализовывать метод `getRootNode`, возвращающий DOM-ноду.
+
+```js static
+import { Hint } from '@skbkontur/react-ui';
+
+class CustomClassComponent extends React.Component {
+  rootNode = React.createRef();
+
+  render() {
+    return <div ref={this.rootNode}>children text</div>;
+  }
+
+  getRootNode() {
+    return this.rootNode.current;
+  }
+}
+
+export const withClassChildren = () => (
+  <React.StrictMode>
+    <Hint pos="top" text="Something will never be changed" manual opened>
+      <CustomClassComponent />
+    </Hint>
+  </React.StrictMode>
+);
+```
+
+В случае несоблюдения требования, будет использоваться старый метод findDomNode, который не совместим с StrictMode.
+
+Подробнее в [пулл-реквесте](https://github.com/skbkontur/retail-ui/pull/2518)
+
 ## FAQ
 
 ### Отключение анимаций во время тестирования
@@ -61,6 +118,10 @@ process.env.STORYBOOK_REACT_UI_TEST
 ### Прокидывание className и style компонентам
 
 Начиная с версии 2.14.0, стало возможным передавать в компоненты свои css-классы для дополнительной стилизации. Однако, не стоит пользоваться этой возможностью для вмешательства во внутренние стили компонентов. Верстка компонентов может быть изменена в любой момент без предупреждения, что приведет к поломке ваших переопределенных стилей.
+
+### Мобильная верстка
+
+С версии 4.0 многие компоненты умеют адаптироваться под мобильные устройства. Подробнее об управлении этим поведением в [MOBILES.md](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/MOBILES.md).
 
 ### Помощь в развитии
 

@@ -14,6 +14,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Loader.styles';
 
@@ -53,6 +55,7 @@ export interface LoaderState {
 /**
  * DRAFT - лоадер-контейнер
  */
+@rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
@@ -104,6 +107,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
   private spinnerContainerNode: Nullable<HTMLDivElement>;
   private childrenContainerNode: Nullable<HTMLDivElement>;
   private spinnerNode: Nullable<HTMLDivElement>;
@@ -213,7 +217,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     const { isLoaderActive } = this.state;
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.loader()} data-tid={isLoaderActive ? 'Loader__Veil' : ''}>
           <ZIndex
             priority={'Loader'}
@@ -279,7 +283,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       left: containerLeft,
       height: containerHeight,
       width: containerWidth,
-    } = this.spinnerContainerNode.getBoundingClientRect();
+    } = getDOMRect(this.spinnerContainerNode);
 
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
@@ -321,12 +325,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
-    if (this.spinnerNode) {
-      const spinnerHeight = this.spinnerNode.getBoundingClientRect().height;
 
-      if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
-        delete spinnerStyle.top;
-      }
+    const spinnerHeight = getDOMRect(this.spinnerNode).height;
+
+    if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
+      delete spinnerStyle.top;
     }
 
     // ПО ГОРИЗОНТАЛИ
@@ -363,7 +366,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   private enableChildrenFocus = () => {
     this.makeUnobservable();
-    document.querySelectorAll('[origin-tabindex]').forEach((el) => {
+    // NOTE: NodeList doesn't support 'forEach' method in IE11 and other older browsers
+    Array.from(document.querySelectorAll('[origin-tabindex]')).forEach((el) => {
       el.setAttribute('tabindex', el.getAttribute('origin-tabindex') ?? '0');
       el.removeAttribute('origin-tabindex');
     });

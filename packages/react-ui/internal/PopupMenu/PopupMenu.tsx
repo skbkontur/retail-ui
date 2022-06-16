@@ -8,12 +8,13 @@ import {
   someKeys,
 } from '../../lib/events/keyboard/identifiers';
 import { InternalMenu } from '../InternalMenu';
-import { Popup, PopupPosition } from '../Popup';
+import { Popup, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-import { PopupMenuPositions } from './PopupMenuPositions';
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
 
@@ -45,7 +46,7 @@ export interface PopupMenuProps extends CommonProps {
   footer?: React.ReactNode;
 
   /**  Массив разрешенных положений меню относительно caption'а. */
-  positions?: PopupPosition[];
+  positions?: PopupPositionsType[];
   /** Колбэк, вызываемый после открытия/закрытия меню */
   onChangeMenuState?: (isOpened: boolean, restoreFocus: boolean) => void;
   /** Пропсы, передающиеся в Popup */
@@ -54,6 +55,10 @@ export interface PopupMenuProps extends CommonProps {
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
+  /** Действие при открытии меню */
+  onOpen?: () => void;
+  /** Действие при закрытии меню */
+  onClose?: () => void;
 }
 
 interface PopupMenuState {
@@ -66,11 +71,30 @@ export const PopupMenuType = {
   Tooltip: 'tooltip',
 };
 
+const Positions: PopupPositionsType[] = [
+  'top left',
+  'top center',
+  'top right',
+  'right top',
+  'right middle',
+  'right bottom',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+  'left top',
+  'left middle',
+  'left bottom',
+];
+
+@rootNode
+@responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
 
+  private isMobileLayout!: boolean;
+
   public static defaultProps = {
-    positions: PopupMenuPositions,
+    positions: Positions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
     disableAnimations: false,
@@ -86,10 +110,11 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private captionWrapper: HTMLSpanElement | null = null;
   private savedFocusableElement: HTMLElement | null = null;
   private menu: Nullable<InternalMenu> = null;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
           onClickOutside={this.hideMenuWithoutFocusing}
           onFocusOutside={this.hideMenuWithoutFocusing}
@@ -108,11 +133,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
-                width={this.props.menuWidth || 'auto'}
+                mobileOnCloseRequest={this.hideMenu}
+                width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
                 <InternalMenu
                   hasShadow={false}
-                  maxHeight={this.props.menuMaxHeight || 'none'}
+                  maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
@@ -177,12 +203,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
-  private getPositions() {
+  private getPositions(): Readonly<PopupPositionsType[]> {
     if (this.props.positions && isValidPositions(this.props.positions)) {
       return this.props.positions;
     }
 
-    return PopupMenuPositions;
+    return Positions;
   }
 
   private showMenu = (firstItemShouldBeSelected?: boolean): void => {
@@ -249,6 +275,15 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     if (focusShouldBeRestored) {
       this.restoreFocus();
     }
+
+    if (this.state.menuVisible && this.props.onOpen) {
+      this.props.onOpen();
+    }
+
+    if (!this.state.menuVisible && this.props.onClose) {
+      this.props.onClose();
+    }
+
     if (typeof this.props.onChangeMenuState === 'function') {
       this.props.onChangeMenuState(this.state.menuVisible, focusShouldBeRestored);
     }

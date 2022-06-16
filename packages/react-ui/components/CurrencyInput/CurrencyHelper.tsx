@@ -1,3 +1,4 @@
+import { isNonNullable, isNullable } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 import { isSafari } from '../../lib/client';
 
@@ -65,7 +66,7 @@ export class CurrencyHelper {
   }
 
   public static format(value: Nullable<number>, options?: Nullable<DecimalFormattingOptions>): string {
-    if (value == null) {
+    if (isNullable(value)) {
       return '';
     }
 
@@ -101,14 +102,19 @@ export class CurrencyHelper {
   }
 
   public static formatString(value: string, formattingOptions?: Nullable<DecimalFormattingOptions>): string {
-    const options = CurrencyHelper.getOptions(formattingOptions);
-    value = CurrencyHelper.unformatString(value);
-    const destructed = CurrencyHelper.destructString(value) || { sign: '', integer: '', delimiter: '', fraction: '' };
+    const unformattedValue = CurrencyHelper.unformatString(value);
+    const destructed = CurrencyHelper.destructString(unformattedValue) || {
+      sign: '',
+      integer: '',
+      delimiter: '',
+      fraction: '',
+    };
 
     const { sign, integer, delimiter } = destructed;
     let fraction = destructed.fraction;
     let fractionDigits = fraction.length;
 
+    const options = CurrencyHelper.getOptions(formattingOptions);
     if (options.hideTrailingZeros) {
       fraction = fraction.replace(/0+$/, '');
       fractionDigits = fraction.length;
@@ -139,8 +145,8 @@ export class CurrencyHelper {
   }
 
   public static isValidString(value: string, options: DecimalOptions) {
-    value = CurrencyHelper.unformatString(value);
-    const destructed = CurrencyHelper.destructString(value);
+    const unformattedValue = CurrencyHelper.unformatString(value);
+    const destructed = CurrencyHelper.destructString(unformattedValue);
 
     if (!destructed) {
       return false;
@@ -159,15 +165,15 @@ export class CurrencyHelper {
     const integerDigits = integer === '0' ? 0 : integer.length;
     const fractionDigits = fraction.length;
 
-    if (options.integerDigits != null && integerDigits > options.integerDigits) {
+    if (isNonNullable(options.integerDigits) && integerDigits > options.integerDigits) {
       return false;
     }
 
-    if (options.integerDigits == null && integerDigits > MAX_SAFE_DIGITS - (options.fractionDigits || 0)) {
+    if (isNullable(options.integerDigits) && integerDigits > MAX_SAFE_DIGITS - (options.fractionDigits || 0)) {
       return false;
     }
 
-    if (options.fractionDigits != null && fractionDigits > options.fractionDigits) {
+    if (isNonNullable(options.fractionDigits) && fractionDigits > options.fractionDigits) {
       return false;
     }
 
@@ -175,9 +181,9 @@ export class CurrencyHelper {
   }
 
   public static extractValid(value: string, options: DecimalOptions): string {
-    value = CurrencyHelper.unformatString(value);
+    const unformattedValue = CurrencyHelper.unformatString(value);
 
-    const match = /[-.\d]+/.exec(value);
+    const match = /[-.\d]+/.exec(unformattedValue);
 
     if (!match) {
       return '';

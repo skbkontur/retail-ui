@@ -3,6 +3,90 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.8.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.3...react-ui-validations@1.8.4) (2022-06-15)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.8.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.2...react-ui-validations@1.8.3) (2022-05-04)
+
+**Note:** Version bump only for package react-ui-validations
+
+
+
+
+
+## [1.8.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.1...react-ui-validations@1.8.2) (2022-04-25)
+
+
+### Bug Fixes
+
+* **validations:** add focus on submit for fields with warning ([#2804](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2804)) ([5b7d468](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/5b7d468989f358ad65e9cb484fe3243c5752d333))
+
+
+
+
+
+## [1.8.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.0...react-ui-validations@1.8.1) (2022-03-18)
+
+
+### Bug Fixes
+
+* **react-ui-validations:** publish source maps ([#2825](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2825)) ([e0466d8](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/e0466d8301cc3a519487648110a1b94a75416eb2))
+
+
+
+
+
+# [1.8.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.7.0...react-ui-validations@1.8.0) (2022-03-01)
+
+
+### Bug Fixes
+
+* **react-ui:** call original refs while replacing them ([#2729](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2729)) ([cd75e9f](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/cd75e9f8fb03b469b783171cb74c099841b5ab6f))
+
+
+### Features
+
+* **FileUploader:** new component FileUploader ([#2542](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2542)) ([18d009a](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/18d009a8ebeafa2379d5fb46a564ead97c3da6a5))
+
+
+
+
+
+# [1.7.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.6.0...react-ui-validations@1.7.0) (2022-01-27)
+
+
+### Bug Fixes
+
+* **react-ui:** [StrictMode] give up findDomNode ([#2518](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2518)) ([8028cdd](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/8028cdd3c2289fd48816bdaf92da6a28892f40a7))
+* **react-ui:** [StrictMode] give up legacy context ([#2694](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2694)) ([d0253cc](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/d0253ccc089764a317ccaa79aa00cc96fbb7aa0a))
+* **react-ui:** [StrictMode] give up unsafe methods ([#2514](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2514)) ([6cc2201](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/6cc2201f0e8f711441e6c63229b703c03d4b6953))
+* **react-ui:** call original refs while replacing them ([#2736](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2736)) ([01ff2ab](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/01ff2ab3243082c9347d20e844368ac775e54449))
+
+
+### Features
+
+* support React.StrictMode ([04a4bc9](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/04a4bc9f2dd35fa98ea4d9526ddd775dd1017b71))
+
+
+
+
+
+# [1.6.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.7...react-ui-validations@1.6.0) (2021-12-27)
+
+
+### Features
+
+* **react-ui-validations:** add independent validation ([#2632](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2632)) ([f1f2a9a](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/f1f2a9adf61e2b9b096f9e1f4dbeb04c4046e582))
+
+
+
+
+
 ## [1.5.7](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.5.6...react-ui-validations@1.5.7) (2021-10-25)
 
 **Note:** Version bump only for package react-ui-validations

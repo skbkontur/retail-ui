@@ -2,8 +2,9 @@ import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
 
+import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { Popup, PopupPosition, PopupProps } from '../../internal/Popup';
+import { DefaultPosition, Popup, PopupProps, PopupPositionsType } from '../../internal/Popup';
 import { RenderLayer, RenderLayerProps } from '../../internal/RenderLayer';
 import { CrossIcon } from '../../internal/icons/CrossIcon';
 import { Nullable } from '../../typings/utility-types';
@@ -13,23 +14,11 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 
 import { styles } from './Tooltip.styles';
-
-const Positions: PopupPosition[] = [
-  'right bottom',
-  'right middle',
-  'right top',
-  'top right',
-  'top center',
-  'top left',
-  'left top',
-  'left middle',
-  'left bottom',
-  'bottom left',
-  'bottom center',
-  'bottom right',
-];
 
 export type TooltipTrigger =
   /** Наведение на children и на тултип */
@@ -76,7 +65,10 @@ export interface TooltipProps extends CommonProps {
    */
   render?: Nullable<() => React.ReactNode>;
 
-  pos: PopupPosition;
+  /**
+   * Значение по умолчанию: `"top left"`.
+   */
+  pos: PopupPositionsType;
 
   /**
    * Триггер открытия тултипа
@@ -121,24 +113,8 @@ export interface TooltipProps extends CommonProps {
    * будет выходить за край экрана, то будет выбрана
    * следующая позиция. Обязательно должен включать
    * позицию указанную в `pos`
-   *
-   * ```ts
-   * type PopupPosition =
-   *   'right bottom',
-   * | 'right middle',
-   * | 'right top',
-   * | 'top right',
-   * | 'top center',
-   * | 'top left',
-   * | 'left top',
-   * | 'left middle',
-   * | 'left bottom',
-   * | 'bottom left',
-   * | 'bottom center',
-   * | 'bottom right'
-   * ```
    */
-  allowedPositions: PopupPosition[];
+  allowedPositions: PopupPositionsType[];
 
   /**
    * Флаг отключения анимации.
@@ -159,8 +135,27 @@ export interface TooltipState {
   focused: boolean;
 }
 
-export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+const Positions: PopupPositionsType[] = [
+  'right bottom',
+  'right middle',
+  'right top',
+  'top right',
+  'top center',
+  'top left',
+  'left top',
+  'left middle',
+  'left bottom',
+  'bottom left',
+  'bottom center',
+  'bottom right',
+];
+
+@rootNode
+@responsiveLayout
+export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
+
+  private isMobileLayout!: boolean;
 
   public static propTypes = {
     children(props: TooltipProps, propName: keyof TooltipProps, componentName: string) {
@@ -177,7 +172,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   public static defaultProps = {
-    pos: 'top left',
+    pos: DefaultPosition,
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
@@ -192,17 +187,19 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private theme!: Theme;
   private hoverTimeout: Nullable<number> = null;
   private contentElement: Nullable<HTMLElement> = null;
-  private positions: Nullable<PopupPosition[]> = null;
+  private positions: Nullable<PopupPositionsType[]> = null;
   private clickedOutside = true;
+  private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: TooltipProps) {
-    if (nextProps.trigger === 'closed') {
+  private popupRef = React.createRef<Popup>();
+  public componentDidUpdate(prevProps: TooltipProps) {
+    if (this.props.trigger === 'closed' && this.state.opened) {
       this.close();
     }
 
     const { allowedPositions, pos } = this.props;
-    const posChanged = nextProps.pos !== pos;
-    const allowedChanged = !isEqual(nextProps.allowedPositions, allowedPositions);
+    const posChanged = prevProps.pos !== pos;
+    const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
     if (posChanged || allowedChanged) {
       this.positions = null;
@@ -243,7 +240,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
 
   public renderContent = () => {
     const content = this.props.render ? this.props.render() : null;
-    if (content == null) {
+    if (isNullable(content)) {
       return null;
     }
 
@@ -261,7 +258,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
         ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger)
         : this.props.closeButton;
 
-    if (!hasCross) {
+    if (!hasCross || this.isMobileLayout) {
       return null;
     }
 
@@ -272,13 +269,19 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     );
   }
 
+  public getAnchorElement = (): Nullable<HTMLElement> => {
+    return this.popupRef.current?.anchorElement;
+  };
+
   /**
    * Программно открывает тултип.
    * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
    * @public
    */
   public show() {
-    if (this.state.opened) return;
+    if (this.state.opened) {
+      return;
+    }
     if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
       warning(true, `Function 'show' is not supported with trigger specified '${this.props.trigger}'`);
       return;
@@ -306,7 +309,15 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
-    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
+    if (this.isMobileLayout) {
+      return popup;
+    }
+
+    return (
+      <RenderLayer {...layerProps} getAnchorElement={this.getAnchorElement}>
+        {popup}
+      </RenderLayer>
+    );
   }
 
   private renderPopup(
@@ -315,7 +326,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     content: JSX.Element | null,
   ) {
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           anchorElement={anchorElement}
           hasPin
@@ -327,7 +338,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           ignoreHover={this.props.trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
+          mobileOnCloseRequest={this.mobileCloseHandler}
           tryPreserveFirstRenderedPosition
+          ref={this.popupRef}
           {...popupProps}
         >
           {content}
@@ -335,6 +348,14 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
       </CommonWrapper>
     );
   }
+
+  private mobileCloseHandler = () => {
+    if (this.props.trigger === 'manual' || this.props.trigger === 'closed' || this.props.trigger === 'opened') {
+      return;
+    }
+
+    this.close();
+  };
 
   private refContent = (node: HTMLElement | null) => {
     this.contentElement = node;
@@ -360,7 +381,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   } {
     const props = this.props;
     const useWrapper = !!props.children && props.useWrapper;
-    switch (props.trigger) {
+
+    switch (this.props.trigger) {
       case 'opened':
         return {
           layerProps: {
@@ -460,6 +482,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   };
 
   private handleMouseLeave = (event: MouseEventType) => {
+    if (this.isMobileLayout) {
+      return;
+    }
+
     if (
       (this.props.trigger === 'hover&focus' && this.state.focused) ||
       (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement)

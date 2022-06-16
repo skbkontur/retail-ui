@@ -1,9 +1,20 @@
 import { globalThat } from '../../lib/SSRSafe';
 
+type Priority = number | LayerComponentName;
+const calculatePriority = (priority: Priority) => {
+  if (typeof priority === 'string') {
+    return componentPriorities[priority];
+  }
+
+  return priority;
+};
+
 export type LayerComponentName = keyof typeof componentPriorities;
 
 const componentPriorities = {
+  MobilePopup: 9000,
   Toast: 10000,
+  GlobalLoader: 10,
   Sidepage: 9,
   Modal: 9,
   Sticky: 7,
@@ -23,12 +34,10 @@ const getMaxAllowedValue = (priority: number): number => (priority + 1) * priori
 
 export const upperBorder = getMaxAllowedValue(Math.max(...Object.values(componentPriorities)));
 
-export function incrementZIndex(priority: number | LayerComponentName, delta: number): number {
-  if (typeof priority === 'string') {
-    priority = componentPriorities[priority];
-  }
+export function incrementZIndex(priority: Priority, delta: number): number {
+  const calculatedPriority = calculatePriority(priority);
 
-  const maxAllowedValue = getMaxAllowedValue(priority);
+  const maxAllowedValue = getMaxAllowedValue(calculatedPriority);
   const zIndexes = getZIndexes();
 
   let prevIndexId = zIndexes.length - 1;
@@ -37,9 +46,9 @@ export function incrementZIndex(priority: number | LayerComponentName, delta: nu
   }
 
   const zIndex =
-    getIndexPriority(zIndexes[prevIndexId]) === priority
+    getIndexPriority(zIndexes[prevIndexId]) === calculatedPriority
       ? Math.min(zIndexes[prevIndexId] + delta, maxAllowedValue)
-      : priority * priorityStep;
+      : calculatedPriority * priorityStep;
 
   zIndexes.push(zIndex);
   zIndexes.sort((a, b) => a - b);

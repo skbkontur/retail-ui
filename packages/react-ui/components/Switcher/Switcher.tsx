@@ -9,23 +9,25 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Switcher.styles';
 import { getSwitcherTheme } from './switcherTheme';
 
 export type SwitcherSize = ButtonSize;
+type SwitcherItems = string | SwitcherItem;
 
 export interface SwitcherProps extends CommonProps {
   /**
    * Список строк или список элементов типа `{ label: string, value: string }`
    */
-  items: Array<string | SwitcherItem>;
+  items: SwitcherItems[];
 
   value?: string;
 
   onValueChange?: (value: string) => void;
 
-  label?: string;
+  caption?: string;
 
   error?: boolean;
 
@@ -44,6 +46,7 @@ interface SwitcherItem {
   value: string;
 }
 
+@rootNode
 export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   public static __KONTUR_REACT_UI__ = 'Switcher';
 
@@ -59,7 +62,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         }),
       ),
     ]).isRequired,
-    label: PropTypes.string,
+    caption: PropTypes.string,
     value: PropTypes.string,
     onValueChange: PropTypes.func,
   };
@@ -69,6 +72,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -94,12 +98,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
       className: styles.input(),
     };
 
-    const lableClassName = cx(styles.label(this.theme), this.getLabelSizeClassName());
+    const captionClassName = cx(styles.caption(this.theme), this.getLabelSizeClassName());
 
     return (
-      <CommonWrapper {...this.props}>
-        <div>
-          {this.props.label ? <div className={lableClassName}>{this.props.label}</div> : null}
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        <div className={styles.root()}>
+          {this.props.caption ? <div className={captionClassName}>{this.props.caption}</div> : null}
           <div className={styles.wrap()}>
             <input {...inputProps} />
             <div className={listClassName}>
@@ -210,12 +214,12 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
       case 'large':
-        return styles.labelLarge(this.theme);
+        return styles.captionLarge(this.theme);
       case 'medium':
-        return styles.labelMedium(this.theme);
+        return styles.captionMedium(this.theme);
       case 'small':
       default:
-        return styles.labelSmall(this.theme);
+        return styles.captionSmall(this.theme);
     }
   };
 }

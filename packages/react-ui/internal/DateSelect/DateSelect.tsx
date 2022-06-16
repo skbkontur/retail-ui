@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { DatePickerLocale, DatePickerLocaleHelper } from '../../components/DatePicker/locale';
 import { locale } from '../../lib/locale/decorators';
@@ -13,6 +14,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } from '../icons/16px';
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './DateSelect.styles';
 
@@ -44,8 +46,20 @@ export interface DateSelectState {
   nodeTop: number;
 }
 
+const calculatePos = (pos: number, minPos: number, maxPos: number) => {
+  if (maxPos <= pos) {
+    return maxPos;
+  }
+
+  if (minPos >= pos) {
+    return minPos;
+  }
+
+  return pos;
+};
+
 @locale('DatePicker', DatePickerLocaleHelper)
-export class DateSelect extends React.Component<DateSelectProps, DateSelectState> {
+export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
 
   public static propTypes = {
@@ -93,7 +107,7 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
   private yearStep = 3;
   private touchStartY: Nullable<number> = null;
 
-  public UNSAFE_componentWillReceiveProps() {
+  public componentDidUpdate() {
     this.setNodeTop();
   }
 
@@ -202,20 +216,22 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
     }
     this.timeout = setTimeout(() =>
       this.setState({
-        nodeTop: root.getBoundingClientRect().top,
+        nodeTop: getDOMRect(root).top,
       }),
     );
   };
 
   private disableItems(index: number) {
     const value = this.props.value + index;
-    if (this.props.maxValue != null && this.props.minValue != null) {
+    if (isNonNullable(this.props.maxValue) && isNonNullable(this.props.minValue)) {
       return value > this.props.maxValue || value < this.props.minValue;
     }
-    if (this.props.minValue != null) {
+
+    if (isNonNullable(this.props.minValue)) {
       return value < this.props.minValue;
     }
-    if (this.props.maxValue != null) {
+
+    if (isNonNullable(this.props.maxValue)) {
       return value > this.props.maxValue;
     }
   }
@@ -463,16 +479,12 @@ export class DateSelect extends React.Component<DateSelectProps, DateSelectState
 
     const minPos = this.getMinPos() - top;
     const maxPos = this.getMaxPos() - top - height + itemHeight;
-    if (minPos >= pos) {
-      pos = minPos;
-    }
-    if (maxPos <= pos) {
-      pos = maxPos;
-    }
-    const topCapped = pos <= minPos;
-    const botCapped = pos >= maxPos;
 
-    this.setState({ pos, top, height, topCapped, botCapped });
+    const calculatedPos = calculatePos(pos, minPos, maxPos);
+    const topCapped = calculatedPos <= minPos;
+    const botCapped = calculatedPos >= maxPos;
+
+    this.setState({ pos: calculatedPos, top, height, topCapped, botCapped });
   }
 
   private getMinPos() {

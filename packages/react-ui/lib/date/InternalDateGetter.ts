@@ -1,5 +1,3 @@
-import { isNonNullable } from '../utils';
-
 import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from './constants';
 import { InternalDate } from './InternalDate';
 import {
@@ -9,24 +7,22 @@ import {
   InternalDateComponents,
 } from './types';
 
-function isLeapYear(year: number | undefined) {
-  if (isNonNullable(year)) {
-    /**
-     * Leap years occur mostly every 4 years,
-     * but every 100 years we skip a leap year
-     * unless the year is divisible by 400.
-     */
-    const isLeapYear = year % 4 === 0;
-    const isNot100ishYear = year % 100 !== 0;
-    const is400ishYear = year % 400 === 0;
-
-    if ((isLeapYear && isNot100ishYear) || is400ishYear) {
-      return true;
-    }
+const calculateMonth = (month: number) => {
+  if (month <= 7) {
+    return month + 1;
   }
 
-  return false;
-}
+  return month;
+};
+
+const getIsLeapYear = (year: number) => {
+  // The year is considered leap if it's either dividable by 4, 100 or 400.
+  const isDividableByFour = year % 4 === 0;
+  const isDividableByOneHundred = year % 100 === 0;
+  const isDividableByFourHundred = year % 400 === 0;
+
+  return isDividableByFour || isDividableByOneHundred || isDividableByFourHundred;
+};
 
 export class InternalDateGetter {
   public static max = (datesCustom: InternalDate[]): InternalDate =>
@@ -37,14 +33,13 @@ export class InternalDateGetter {
 
   public static getMaxDaysInMonth(month: number, year?: number): number {
     if (month === 2) {
-      return isLeapYear(year) ? 29 : 28;
+      const isLeapYear = year ? getIsLeapYear(year) : false;
+
+      return isLeapYear ? 29 : 28;
     }
 
-    if (month <= 7) {
-      month++;
-    }
-
-    return month % 2 === 0 ? 31 : 30;
+    const calculatedMonth = calculateMonth(month);
+    return calculatedMonth % 2 === 0 ? 31 : 30;
   }
 
   public static getValueDateComponent(
@@ -53,9 +48,12 @@ export class InternalDateGetter {
   ): InternalDateComponentRaw {
     if (type === InternalDateComponentType.Year) {
       return components.year;
-    } else if (type === InternalDateComponentType.Month) {
+    }
+
+    if (type === InternalDateComponentType.Month) {
       return components.month;
     }
+
     return components.date;
   }
 

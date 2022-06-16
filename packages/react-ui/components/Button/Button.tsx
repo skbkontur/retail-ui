@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
@@ -7,9 +8,9 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -55,7 +56,7 @@ export interface ButtonProps extends CommonProps {
   children?: React.ReactNode;
 
   /** @ignore */
-  corners?: number;
+  corners?: React.CSSProperties;
 
   /**
    * Отключенное состояние кнопки.
@@ -66,7 +67,7 @@ export interface ButtonProps extends CommonProps {
   disableFocus?: boolean;
 
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -148,7 +149,7 @@ export interface ButtonProps extends CommonProps {
   visuallyFocused?: boolean;
 
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 
@@ -162,13 +163,10 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+@rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
-  public static TOP_LEFT = Corners.TOP_LEFT;
-  public static TOP_RIGHT = Corners.TOP_RIGHT;
-  public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
-  public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
   public static defaultProps = {
     use: 'default' as ButtonUse,
@@ -182,12 +180,20 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private theme!: Theme;
   private node: HTMLButtonElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     if (this.props.autoFocus) {
       keyListener.isTabPressed = true;
       this.focus();
     }
+  }
+
+  public static getDerivedStateFromProps(props: ButtonProps) {
+    if (props.loading || props.disabled) {
+      return { focusedByTab: false };
+    }
+    return null;
   }
 
   /**
@@ -217,7 +223,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private renderMain() {
     const {
-      corners = 0,
+      corners,
       active,
       disabled,
       borderless,
@@ -230,7 +236,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       icon,
       _noPadding,
       _noRightPadding,
-      use = Button.defaultProps.use,
       visuallyFocused,
       align,
       disableFocus,
@@ -242,6 +247,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
+    const use = this.props.use || Button.defaultProps.use;
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -256,8 +262,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused && !checked,
+        [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,
+        [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
@@ -266,34 +273,34 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.noRightPadding()]: _noRightPadding,
       }),
       style: {
-        borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
-        borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
-        borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
-        borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: align,
+        ...corners,
       },
       disabled: disabled || loading,
-      onClick: onClick,
+      onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: onKeyDown,
-      onMouseEnter: onMouseEnter,
-      onMouseLeave: onMouseLeave,
-      onMouseOver: onMouseOver,
+      onKeyDown,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
       tabIndex: disableFocus ? -1 : 0,
       title: this.props.title,
     };
 
     const wrapProps = {
       className: cx({
-        [styles.wrap()]: true,
+        [styles.wrap(this.theme)]: true,
         [styles.wrapArrow()]: arrow === true,
         [styles.wrapArrowLeft()]: arrow === 'left',
+        [this.getSizeWrapClassName()]: true,
       }),
       style: {
-        width: width,
+        width,
       },
     };
+
+    const innerShadowNode = <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
     if (!isFocused || isLink) {
@@ -357,7 +364,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.linkDisabled(this.theme)]: disabled || loading,
       });
       Object.assign(wrapProps, {
-        className: cx(styles.wrap(), styles.wrapLink()),
+        className: cx(styles.wrap(this.theme), styles.wrapLink()),
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
@@ -365,9 +372,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
           <button ref={this._ref} {...rootProps}>
+            {innerShadowNode}
             {outlineNode}
             {loadingNode}
             {arrowNode}
@@ -415,6 +423,18 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
+  private getSizeWrapClassName() {
+    switch (this.props.size) {
+      case 'large':
+        return styles.wrapLarge(this.theme);
+      case 'medium':
+        return styles.wrapMedium(this.theme);
+      case 'small':
+      default:
+        return styles.wrapSmall(this.theme);
+    }
+  }
+
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
     if (!this.props.disabled && !this.props.disableFocus) {
       // focus event fires before keyDown eventlistener
@@ -440,8 +460,4 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   };
 }
 
-export const isButton = (child: React.ReactChild): child is React.ReactElement<ButtonProps> => {
-  return React.isValidElement<ButtonProps>(child)
-    ? Object.prototype.hasOwnProperty.call(child.type, '__BUTTON__')
-    : false;
-};
+export const isButton = isReactUIComponent<ButtonProps>('Button');

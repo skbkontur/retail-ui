@@ -3,12 +3,15 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { Popup, PopupPosition } from '../../internal/Popup';
+import { Popup, PopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 
 import { styles } from './Hint.styles';
 
@@ -19,7 +22,7 @@ export interface HintProps extends CommonProps {
   /**
    * Переводит отображение подсказки в _"ручной режим"_.
    *
-   * В _"ручном режиме"_ подcказку можно активировать только задав значение пропу `opened`.
+   * В _"ручном режиме"_ подсказку можно активировать только задав значение пропу `opened`.
    */
   manual?: boolean;
   /**
@@ -45,23 +48,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos:
-    | 'top'
-    | 'right'
-    | 'bottom'
-    | 'left'
-    | 'top left'
-    | 'top center'
-    | 'top right'
-    | 'bottom left'
-    | 'bottom center'
-    | 'bottom right'
-    | 'left top'
-    | 'left middle'
-    | 'left bottom'
-    | 'right top'
-    | 'right middle'
-    | 'right bottom';
+  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -82,7 +69,7 @@ export interface HintState {
   opened: boolean;
 }
 
-const Positions: PopupPosition[] = [
+const Positions: PopupPositionsType[] = [
   'top center',
   'top left',
   'top right',
@@ -100,8 +87,12 @@ const Positions: PopupPosition[] = [
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
-export class Hint extends React.Component<HintProps, HintState> {
+@responsiveLayout
+@rootNode
+export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Hint';
+
+  private isMobileLayout!: boolean;
 
   public static defaultProps = {
     pos: 'top',
@@ -118,17 +109,20 @@ export class Hint extends React.Component<HintProps, HintState> {
 
   private timer: Nullable<number> = null;
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillReceiveProps(nextProps: HintProps) {
-    if (!nextProps.manual) {
+  private popupRef = React.createRef<Popup>();
+
+  public componentDidUpdate(prevProps: HintProps) {
+    if (!this.props.manual) {
       return;
     }
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    if (nextProps.opened !== this.props.opened) {
-      this.setState({ opened: !!nextProps.opened });
+    if (this.props.opened !== prevProps.opened) {
+      this.setState({ opened: !!this.props.opened });
     }
   }
 
@@ -156,7 +150,7 @@ export class Hint extends React.Component<HintProps, HintState> {
                 this.theme,
               )}
             >
-              {this.renderMain()}
+              {this.isMobileLayout ? this.renderMobile() : this.renderMain()}
             </ThemeContext.Provider>
           );
         }}
@@ -164,9 +158,25 @@ export class Hint extends React.Component<HintProps, HintState> {
     );
   }
 
-  public renderMain() {
+  public renderMobile() {
     return (
       <CommonWrapper {...this.props}>
+        <Popup
+          opened={this.state.opened}
+          anchorElement={this.props.children}
+          positions={[]}
+          onClick={!this.props.manual ? this.open : undefined}
+          mobileOnCloseRequest={!this.props.manual ? this.close : undefined}
+        >
+          {this.renderContent()}
+        </Popup>
+      </CommonWrapper>
+    );
+  }
+
+  public renderMain() {
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
           hasPin
           opened={this.state.opened}
@@ -178,12 +188,17 @@ export class Hint extends React.Component<HintProps, HintState> {
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
           useWrapper={this.props.useWrapper}
+          ref={this.popupRef}
         >
           {this.renderContent()}
         </Popup>
       </CommonWrapper>
     );
   }
+
+  public getAnchorElement = (): Nullable<HTMLElement> => {
+    return this.popupRef.current?.anchorElement;
+  };
 
   private renderContent() {
     if (!this.props.text) {
@@ -194,15 +209,16 @@ export class Hint extends React.Component<HintProps, HintState> {
     const className = cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
+      [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (
-      <div className={className} style={{ maxWidth }}>
+      <div className={className} style={{ maxWidth: this.isMobileLayout ? '100%' : maxWidth }}>
         {this.props.text}
       </div>
     );
   }
 
-  private getPositions = (): PopupPosition[] => {
+  private getPositions = (): PopupPositionsType[] => {
     return Positions.filter((x) => x.startsWith(this.props.pos));
   };
 
@@ -226,6 +242,10 @@ export class Hint extends React.Component<HintProps, HintState> {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
     }
+  };
+
+  private close = () => {
+    this.setState({ opened: false });
   };
 
   private open = () => {

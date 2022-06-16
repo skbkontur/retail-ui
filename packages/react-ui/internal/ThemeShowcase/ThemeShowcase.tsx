@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { DEFAULT_THEME_OLD as defaultVariables } from '../../lib/theming/themes/DefaultThemeOld';
-import { FLAT_THEME_OLD as flatVariables } from '../../lib/theming/themes/FlatThemeOld';
+import { isColor } from '../../lib/styles/ColorHelpers';
+import { DEFAULT_THEME as defaultVariables } from '../../lib/theming/themes/DefaultTheme';
+import { DARK_THEME as darkVariables } from '../../lib/theming/themes/DarkTheme';
 import { ComboBox, ComboBoxItem } from '../../components/ComboBox';
 import { Gapped } from '../../components/Gapped';
 import { Link } from '../../components/Link';
@@ -11,6 +12,7 @@ import { Tooltip } from '../../components/Tooltip';
 import { IS_PROXY_SUPPORTED } from '../../lib/Supports';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import {
   ALL_USED_VARIABLES,
@@ -40,8 +42,9 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
   private isUnmounting = false;
   private variablesDiff: string[] = [];
 
-  public UNSAFE_componentWillMount(): void {
-    if (this.props.isDebugMode) {
+  constructor(props: ShowcaseProps) {
+    super(props);
+    if (props.isDebugMode) {
       ALL_VARIABLES.forEach((variable) => {
         const found = ALL_USED_VARIABLES.includes(variable);
         if (!found) {
@@ -74,36 +77,42 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
     const executionTime = isDebugMode ? `Сгенерировано за ${EXECUTION_TIME.toFixed(3)}ms` : '';
 
     return (
-      <Gapped wrap gap={30} verticalAlign={'top'}>
-        <div>
-          <Sticky side={'top'}>
-            <div className={styles.searchBar()} data-perf-info={`${executionTime} ${callsCount}`}>
-              <Gapped gap={15}>
-                <ComboBox
-                  getItems={this.getItems}
-                  value={selectedVariable}
-                  onValueChange={this.handleVariableChange}
-                  onUnexpectedInput={this.handleUnexpectedVariableInput}
-                  placeholder={'поиск по названию переменной'}
-                />
-                {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
-              </Gapped>
-            </div>
-          </Sticky>
-          {Object.keys(descriptionsToRender)
-            .sort()
-            .map((componentName) => (
-              <ComponentShowcase
-                key={componentName}
-                name={componentName}
-                description={descriptionsToRender[componentName]}
-                isDebugMode={isDebugMode}
-                onVariableSelect={this.handleVariableChange}
-              />
-            ))}
-        </div>
-        <ShowUnusedVariables diff={this.variablesDiff} />
-      </Gapped>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <Gapped wrap gap={30} verticalAlign={'top'}>
+              <div>
+                <Sticky side={'top'}>
+                  <div className={styles.searchBar(theme)} data-perf-info={`${executionTime} ${callsCount}`}>
+                    <Gapped gap={15}>
+                      <ComboBox
+                        getItems={this.getItems}
+                        value={selectedVariable}
+                        onValueChange={this.handleVariableChange}
+                        onUnexpectedInput={this.handleUnexpectedVariableInput}
+                        placeholder={'поиск по названию переменной'}
+                      />
+                      {!!selectedVariable && <Link onClick={this.resetVariable}>сбросить</Link>}
+                    </Gapped>
+                  </div>
+                </Sticky>
+                {Object.keys(descriptionsToRender)
+                  .sort()
+                  .map((componentName) => (
+                    <ComponentShowcase
+                      key={componentName}
+                      name={componentName}
+                      description={descriptionsToRender[componentName]}
+                      isDebugMode={isDebugMode}
+                      onVariableSelect={this.handleVariableChange}
+                    />
+                  ))}
+              </div>
+              <ShowUnusedVariables diff={this.variablesDiff} />
+            </Gapped>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
   public componentWillUnmount(): void {
@@ -133,9 +142,9 @@ export class ThemeShowcase extends React.Component<ShowcaseProps, ShowcaseState>
     const values = this.getValues(query);
     if (values.length > 0) {
       return values[0];
-    } else {
-      return this.resetVariable();
     }
+
+    return this.resetVariable();
   };
   private resetVariable = () => {
     if (!this.isUnmounting) {
@@ -155,51 +164,57 @@ class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
     const { name, description, onVariableSelect, isDebugMode } = this.props;
     const elements = Object.keys(description);
 
-    return (
-      <React.Fragment>
-        <Sticky side={'top'} offset={40}>
-          {(isSticky) => (
-            <h2
-              className={cx({
-                [styles.heading()]: true,
-                [styles.headingSticky()]: isSticky,
-              })}
-            >
-              {this.props.name}
-            </h2>
-          )}
-        </Sticky>
-        <table className={styles.table()}>
-          <thead>
-            <tr>
-              <th className={styles.headerCell()} style={{ width: 170 }}>
-                ClassName
-              </th>
-              <th className={styles.headerCell()} style={{ width: 210 }}>
-                Variable Name
-              </th>
-              <th className={styles.headerCell()} style={{ width: 250 }}>
-                Default Value
-              </th>
-              <th className={styles.headerCell()} style={{ width: 250 }}>
-                Flat Value
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {elements.map((el) => (
-              <ComponentShowcaseRow
-                key={`${name}_${el}`}
-                element={el}
-                row={description[el]}
-                onVariableSelect={onVariableSelect}
-                isDebugMode={isDebugMode}
-              />
-            ))}
-          </tbody>
-        </table>
-      </React.Fragment>
-    );
+    return elements.length ? (
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <React.Fragment>
+              <Sticky side={'top'} offset={40}>
+                {(isSticky) => (
+                  <h2
+                    className={cx({
+                      [styles.heading(theme)]: true,
+                      [styles.headingSticky()]: isSticky,
+                    })}
+                  >
+                    {this.props.name}
+                  </h2>
+                )}
+              </Sticky>
+              <table className={styles.table()}>
+                <thead>
+                  <tr>
+                    <th className={styles.headerCell()} style={{ width: 170 }}>
+                      ClassName
+                    </th>
+                    <th className={styles.headerCell()} style={{ width: 210 }}>
+                      Variable Name
+                    </th>
+                    <th className={styles.headerCell()} style={{ width: 250 }}>
+                      Default Value
+                    </th>
+                    <th className={styles.headerCell()} style={{ width: 250 }}>
+                      Dark Value
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {elements.map((el) => (
+                    <ComponentShowcaseRow
+                      key={`${name}_${el}`}
+                      element={el}
+                      row={description[el]}
+                      onVariableSelect={onVariableSelect}
+                      isDebugMode={isDebugMode}
+                    />
+                  ))}
+                </tbody>
+              </table>
+            </React.Fragment>
+          );
+        }}
+      </ThemeContext.Consumer>
+    ) : null;
   }
 }
 
@@ -216,40 +231,51 @@ class ComponentShowcaseRow extends React.Component<ComponentShowcaseRowProps> {
     const rowSpan = row.variables.length + 1;
 
     return (
-      <React.Fragment>
-        <tr className={styles.invisibleRow()}>
-          <td className={cx(styles.cell(), styles.majorCell())} rowSpan={rowSpan}>
-            <span className={styles.elementName()}>.{el}</span>
-          </td>
-          <td className={styles.invisibleCell()} />
-          <td className={styles.invisibleCell()} />
-          <td className={styles.invisibleCell()} />
-        </tr>
-        {row.variables.map((varName) => {
-          const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
-          const variableDefault = defaultVariables[varName] as string;
-          const variableFlat = flatVariables[varName] as string;
-          const hasNoVariables = isDebugMode && !variableDefault && !variableFlat;
-
+      <ThemeContext.Consumer>
+        {(theme) => {
           return (
-            <tr key={`${el}_${varName}`} className={cx(styles.row(), { [styles.suspiciousRow()]: hasNoVariables })}>
-              <td className={styles.cell()}>
-                <VariableName
-                  variableName={varName as string}
-                  dependencies={dependencies}
-                  onVariableSelect={this.props.onVariableSelect}
-                />
-              </td>
-              <td className={styles.cell()}>
-                <VariableValue value={variableDefault} />
-              </td>
-              <td className={styles.cell()}>
-                <VariableValue value={variableFlat} />
-              </td>
-            </tr>
+            <React.Fragment>
+              <tr className={cx(styles.invisibleRow(), { [styles.invisibleDarkRow()]: theme === darkVariables })}>
+                <td className={cx(styles.cell(), styles.majorCell())} rowSpan={rowSpan}>
+                  <span className={styles.elementName()}>.{el}</span>
+                </td>
+                <td className={styles.invisibleCell()} />
+                <td className={styles.invisibleCell()} />
+                <td className={styles.invisibleCell()} />
+              </tr>
+              {row.variables.map((varName) => {
+                const dependencies = row.dependencies[varName] || EMPTY_ARRAY;
+                const variableDefault = defaultVariables[varName] as string;
+                const variableDark = darkVariables[varName] as string;
+                const hasNoVariables = isDebugMode && !variableDefault;
+                return (
+                  <tr
+                    key={`${el}_${varName}`}
+                    className={cx(styles.row(), {
+                      [styles.suspiciousRow()]: hasNoVariables,
+                      [styles.darkRow()]: theme === darkVariables,
+                    })}
+                  >
+                    <td className={styles.cell()}>
+                      <VariableName
+                        variableName={varName as string}
+                        dependencies={dependencies}
+                        onVariableSelect={this.props.onVariableSelect}
+                      />
+                    </td>
+                    <td className={styles.cell()}>
+                      <VariableValue value={variableDefault} />
+                    </td>
+                    <td className={styles.cell()}>
+                      <VariableValue value={variableDark} />
+                    </td>
+                  </tr>
+                );
+              })}
+            </React.Fragment>
           );
-        })}
-      </React.Fragment>
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }
@@ -320,12 +346,11 @@ class DependencyName extends React.Component<DependencyNameProps> {
   private getValues = () => {
     const dependencyName = this.props.dependencyName;
     const dependencyDefault = defaultVariables[dependencyName] as string;
-    const dependencyFlat = flatVariables[dependencyName] as string;
+    const dependencyDark = darkVariables[dependencyName] as string;
     return (
       <React.Fragment>
         <span>Default value: {<VariableValue value={dependencyDefault} />}</span>
-        <br />
-        <span>Flat value: {<VariableValue value={dependencyFlat} />}</span>
+        <span>Dark value: {<VariableValue value={dependencyDark} />}</span>
       </React.Fragment>
     );
   };
@@ -373,10 +398,6 @@ const ShowUnusedVariables = (props: { diff: string[] }) => {
     </div>
   );
 };
-
-function isColor(input: string) {
-  return !!input && (input.startsWith('#') || input.startsWith('rgb') || input.startsWith('hsl'));
-}
 
 function isGradient(input: string) {
   return !!input && input.startsWith('linear-gradient');

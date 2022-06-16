@@ -1,5 +1,6 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { isChrome } from '../../lib/client';
 
 export const globalClasses = prefix('toggle')({
   handle: 'handle',
@@ -17,6 +18,10 @@ export const styles = memoizeStyle({
     return css`
       display: inline-flex;
       cursor: pointer;
+      align-items: baseline;
+      position: relative;
+      line-height: ${t.toggleLineHeight};
+      font-size: ${t.toggleFontSize};
 
       &:hover .${globalClasses.handle} {
         background: ${t.toggleBgHover};
@@ -25,25 +30,33 @@ export const styles = memoizeStyle({
         width: ${handleActiveWidth};
       }
       &:active:not(.${globalClasses.disabled}) input:checked ~ .${globalClasses.handle} {
-        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders})
-          translateX(-${t.toggleHandleActiveWidthIncrement});
+        transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders}) translateX(-4px);
+      }
+
+      &::before {
+        // non-breaking space.
+        // makes a correct space for absolutely positioned button,
+        // and also height and baseline for toggle without caption.
+        content: '\\00A0';
+        display: inline-block;
+        width: ${t.toggleWidth};
+        flex: 0 0 auto;
       }
     `;
   },
 
   handle(t: Theme) {
-    const handleSize = `calc(${t.toggleHeight} - 2 * ${t.toggleBorderWidth})`;
     return css`
-      background: ${t.toggleBg};
+      background: ${t.toggleHandleBg};
       border-radius: ${t.toggleHandleBorderRadius};
       bottom: ${t.toggleBorderWidth};
       box-shadow: 0 ${t.toggleBorderWidth} 0 0 rgba(0, 0, 0, 0.15), 0 0 0 ${t.toggleBorderWidth} rgba(0, 0, 0, 0.15);
-      height: ${handleSize};
-      left: ${t.toggleBorderWidth};
+      height: ${t.toggleHandleSize};
+      left: ${t.toggleHandleLeft};
       position: absolute;
-      top: ${t.toggleBorderWidth};
+      top: ${t.toggleHandleTop};
       transition: 0.2s ease-in;
-      width: ${handleSize};
+      width: ${t.toggleHandleSize};
     `;
   },
 
@@ -88,6 +101,10 @@ export const styles = memoizeStyle({
       }
       &:checked ~ .${globalClasses.handle} {
         transform: translateX(${t.toggleWidth}) translateX(-${handleWidthWithBorders});
+        background: ${t.toggleCheckedBg};
+        &:hover {
+          background: ${t.toggleCheckedBgHover};
+        }
       }
     `;
   },
@@ -155,25 +172,30 @@ export const styles = memoizeStyle({
     `;
   },
 
-  outline(t: Theme) {
+  button(t: Theme) {
+    const labGrotesqueCompenstation = parseInt(t.labGrotesqueBaselineCompensation);
+    const fontSize = parseInt(t.checkboxFontSize);
+    const baselineCompensation = fontSize <= 16 && isChrome ? -labGrotesqueCompenstation : 0;
     return css`
-      background: ${t.toggleBaseBg};
-      border-radius: ${t.toggleBorderRadius};
-    `;
-  },
-
-  wrapper(t: Theme) {
-    return css`
-      display: inline-block;
+      position: absolute;
+      left: 0;
+      top: 0;
       height: ${t.toggleHeight};
-      position: relative;
       width: ${t.toggleWidth};
       flex: 1 0 ${t.toggleWidth};
 
-      &::after {
-        content: '';
-        display: inline-block;
-      }
+      background: ${t.toggleBaseBg};
+      border-radius: ${t.toggleBorderRadius};
+      line-height: ${t.toggleHeight};
+
+      margin-top: calc(${t.toggleButtonOffsetY} + ${baselineCompensation}px);
+    `;
+  },
+
+  buttonRight() {
+    return css`
+      right: 0;
+      left: auto;
     `;
   },
 
@@ -193,6 +215,8 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.toggleTextColor};
       padding: 0 0 0 ${t.toggleCaptionGap};
+      line-height: ${t.toggleLineHeight};
+      font-size: ${t.toggleFontSize};
     `;
   },
 

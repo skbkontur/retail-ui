@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -7,6 +6,10 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
+import { isEdge, isIE11 } from '../../lib/client';
+import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -16,11 +19,11 @@ export interface RadioProps<T>
       React.InputHTMLAttributes<HTMLInputElement>,
       {
         /**
-         *  Cостояние валидации при ошибке.
+         *  Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /**
@@ -57,6 +60,7 @@ export interface RadioState {
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
+@rootNode
 export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
   public static __KONTUR_REACT_UI__ = 'Radio';
 
@@ -64,28 +68,27 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focusedByKeyboard: false,
   };
 
-  public static contextTypes = {
-    activeItem: PropTypes.any,
-    onSelect: PropTypes.func,
-    name: PropTypes.string,
-    disabled: PropTypes.bool,
-    error: PropTypes.bool,
-    warning: PropTypes.bool,
-  };
-
   public static defaultProps = {
     focused: false,
   };
 
-  private theme!: Theme;
+  public static contextType = RadioGroupContext;
+  public context: RadioGroupContextType<T> = this.context;
+
   private inputEl = React.createRef<HTMLInputElement>();
+  private setRootNode!: TSetRootNode;
+  private theme!: Theme;
 
   public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -121,14 +124,14 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
 
     const radioProps = {
       className: cx({
-        [styles.radio(this.theme)]: true,
+        [styles.circle(this.theme)]: true,
         [styles.checked(this.theme)]: this.props.checked,
         [styles.focus(this.theme)]: this.props.focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
         [styles.disabled(this.theme)]: disabled,
         [styles.checkedDisabled(this.theme)]: this.props.checked && disabled,
-        [globalClasses.radio]: true,
+        [globalClasses.circle]: true,
       }),
     };
 
@@ -151,10 +154,14 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     };
 
     const labelProps = {
-      className: cx(styles.root(this.theme), this.props.checked && styles.rootChecked(this.theme)),
+      className: cx(styles.root(this.theme), {
+        [styles.rootChecked(this.theme)]: this.props.checked,
+        [styles.rootIE11()]: isIE11 || isEdge,
+      }),
       onMouseOver: this.handleMouseOver,
       onMouseEnter: this.handleMouseEnter,
       onMouseLeave: this.handleMouseLeave,
+      onClick: fixFirefoxModifiedClickOnLabel(this.inputEl),
     };
 
     if (this._isInRadioGroup()) {
@@ -162,6 +169,10 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       inputProps.checked = checked;
       inputProps.name = this.context.name;
       inputProps.suppressHydrationWarning = true;
+      labelProps.className = cx(styles.root(this.theme), {
+        [styles.rootChecked(this.theme)]: checked,
+        [styles.rootIE11()]: isIE11 || isEdge,
+      });
       radioProps.className = cx(radioProps.className, {
         [styles.checked(this.theme)]: checked,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
@@ -174,20 +185,21 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
         <span {...radioProps}>
           <span className={styles.placeholder()} />
         </span>
-        {this.props.children && this.renderLabel()}
+        {this.props.children && this.renderCaption()}
       </label>
     );
   };
 
   private _isInRadioGroup = () => Boolean(this.context.name);
 
-  private renderLabel() {
-    const labelClassNames = cx({
-      [styles.label(this.theme)]: true,
-      [styles.labelDisabled()]: !!(this.props.disabled || this.context.disabled),
+  private renderCaption() {
+    const captionClassNames = cx({
+      [styles.caption(this.theme)]: true,
+      [styles.captionDisabled(this.theme)]: !!(this.props.disabled || this.context.disabled),
+      [styles.captionIE11()]: isIE11 || isEdge,
     });
 
-    return <div className={labelClassNames}>{this.props.children}</div>;
+    return <div className={captionClassNames}>{this.props.children}</div>;
   }
 
   private handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {

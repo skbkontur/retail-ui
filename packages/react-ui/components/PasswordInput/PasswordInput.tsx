@@ -1,18 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
 import { Input, InputProps } from '../Input';
 import { Nullable } from '../../typings/utility-types';
-import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
 import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './PasswordInput.styles';
+import { PasswordInputIcon } from './PasswordInputIcon';
 
 export interface PasswordInputProps extends CommonProps, InputProps {
   detectCapsLock?: boolean;
@@ -26,7 +28,8 @@ export interface PasswordInputState {
 /**
  * Компонент для ввода пароля
  */
-export class PasswordInput extends React.Component<PasswordInputProps, PasswordInputState> {
+@rootNode
+export class PasswordInput extends React.PureComponent<PasswordInputProps, PasswordInputState> {
   public static __KONTUR_REACT_UI__ = 'PasswordInput';
 
   public static propTypes = {
@@ -48,8 +51,9 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
   private theme!: Theme;
 
   private input: Nullable<Input>;
+  private setRootNode!: TSetRootNode;
 
-  public UNSAFE_componentWillMount() {
+  public componentDidMount() {
     if (this.props.detectCapsLock) {
       this.setState({ capsLockEnabled: null });
     }
@@ -62,12 +66,24 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     }
   }
 
+  public static getDerivedStateFromProps(props: PasswordInputProps, state: PasswordInputState) {
+    if (props.disabled) {
+      return { visible: false };
+    }
+
+    return state;
+  }
+
   public render() {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -119,7 +135,7 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
       return;
     }
 
-    if (isKeyCapsLock(e) && capsLockEnabled != null) {
+    if (isKeyCapsLock(e) && isNonNullable(capsLockEnabled)) {
       this.setState({ capsLockEnabled: !capsLockEnabled });
     }
   };
@@ -138,6 +154,14 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     if (this.input) {
       this.input.blur();
     }
+  };
+
+  private onBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
+    if (this.props.onBlur) {
+      this.props.onBlur(e);
+    }
+
+    this.setState({ visible: false });
   };
 
   private getEyeWrapperClassname(right = false) {
@@ -160,10 +184,10 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
         {capsLockEnabled && <span className={styles.capsLockDetector()} data-tid="PasswordInputCapsLockDetector" />}
         <span
           data-tid="PasswordInputEyeIcon"
-          className={cx(styles.toggleVisibility(), this.getEyeWrapperClassname())}
+          className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
-          {this.state.visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />}
+          {!this.props.disabled && <PasswordInputIcon visible={this.state.visible} />}
         </span>
       </span>
     );
@@ -177,10 +201,12 @@ export class PasswordInput extends React.Component<PasswordInputProps, PasswordI
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
       ...rest,
+      onBlur: this.onBlur,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
+
     return (
       <div className={styles.root()}>
         <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />

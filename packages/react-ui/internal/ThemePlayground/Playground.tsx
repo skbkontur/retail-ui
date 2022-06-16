@@ -1,6 +1,5 @@
 import React from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import CardIcon from '@skbkontur/react-icons/Card';
 import LinkIcon from '@skbkontur/react-icons/Link';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import ErrorIcon from '@skbkontur/react-icons/Error';
@@ -12,13 +11,13 @@ import { Tabs } from '../../components/Tabs';
 import { Gapped } from '../../components/Gapped';
 import { Link, LinkProps } from '../../components/Link';
 import { Input, InputProps } from '../../components/Input';
-import { Toggle } from '../../components/Toggle';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Tooltip } from '../../components/Tooltip';
 import { Sticky } from '../../components/Sticky';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { FileUploader } from '../../components/FileUploader';
 
 import { ThemeType } from './constants';
 import { TokenInputPlayground } from './TokenInputPlayground';
@@ -27,7 +26,6 @@ import { TogglePlayground } from './TogglePlayground';
 import { SwitcherPlayground } from './SwitcherPlayground';
 import { FxInputPlayground } from './FxInputPlayground';
 import { CurrencyInputPlayground } from './CurrencyInputPlayground';
-import { SelectPlayground } from './SelectPlayground';
 import { getComponentsFromPropsList } from './helpers';
 import { CheckboxPlayground } from './CheckboxPlayground';
 import { RadioPlayground } from './RadioPlayground';
@@ -35,6 +33,7 @@ import { PagingPlayground } from './PagingPlayground';
 import { HintPlayground } from './HintPlayground';
 import { ComponentsGroup } from './ComponentsGroup';
 import { styles } from './Playground.styles';
+import { SizesGroup } from './SizesGroup';
 
 const useSticky = !isTestEnv;
 
@@ -78,6 +77,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           {this.renderHintsGroup()}
           {this.renderTooltip()}
           {this.renderPaging()}
+          {this.renderFileUploader()}
         </Gapped>
       </div>
     );
@@ -94,7 +94,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
   };
 
   private renderTabs() {
-    const { currentThemeType, onThemeChange, onEditLinkClick } = this.props;
+    const { onThemeChange, onEditLinkClick } = this.props;
     const tabsOuterWrapperStyle = { background: this.theme.bgDefault };
     const tabsOuterWrapperClass = cx({
       [styles.tabsWrapper(this.theme)]: true,
@@ -107,18 +107,13 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
           <Tabs value={this.getCurrentTab()} onValueChange={onThemeChange} vertical={false}>
             <div className={styles.tabsInnerWrapper(this.theme)}>
               <Tabs.Tab id={ThemeType.Default}>Дефолтная</Tabs.Tab>
-              <Tabs.Tab id={ThemeType.Flat}>Плоская</Tabs.Tab>
               <Tabs.Tab id={ThemeType.Dark}>Темная</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.DefaultOld}>Дефолтная 3.0</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.FlatOld}>Плоская 3.0</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.Theme2022}>Новая 2022</Tabs.Tab>
+              <Tabs.Tab id={ThemeType.Theme2022Dark}>Новая 2022 Тёмная</Tabs.Tab>
             </div>
           </Tabs>
-          <Gapped>
-            <Toggle
-              checked={this.is8pxTheme}
-              onValueChange={this.toggle8pxTheme}
-              disabled={currentThemeType === ThemeType.Dark}
-            />
-            <span>8px</span>
-          </Gapped>
           <Link onClick={onEditLinkClick}>Настроить тему</Link>
         </Gapped>
       </div>
@@ -129,63 +124,25 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     switch (this.props.currentThemeType) {
       case ThemeType.Dark:
         return ThemeType.Dark;
-      case ThemeType.Flat:
       case ThemeType.FlatOld:
-        return ThemeType.Flat;
-      case ThemeType.Default:
+        return ThemeType.FlatOld;
       case ThemeType.DefaultOld:
+        return ThemeType.DefaultOld;
+      case ThemeType.Theme2022:
+        return ThemeType.Theme2022;
+      case ThemeType.Theme2022Dark:
+        return ThemeType.Theme2022Dark;
       default:
         return ThemeType.Default;
     }
   };
 
-  private get is8pxTheme(): boolean {
-    switch (this.props.currentThemeType) {
-      case ThemeType.Default:
-      case ThemeType.Flat:
-        return true;
-      default:
-        return false;
-    }
-  }
-
-  private toggle8pxTheme = (value: boolean) => {
-    const { currentThemeType, onThemeChange } = this.props;
-    switch (currentThemeType) {
-      case ThemeType.Default:
-        onThemeChange(ThemeType.DefaultOld);
-        break;
-      case ThemeType.DefaultOld:
-        onThemeChange(ThemeType.Default);
-        break;
-      case ThemeType.Flat:
-        onThemeChange(ThemeType.FlatOld);
-        break;
-      case ThemeType.FlatOld:
-        onThemeChange(ThemeType.Flat);
-        break;
-    }
-  };
-
   private renderSizesGroup = () => {
-    const Group = ({ size }: { size: 'small' | 'medium' | 'large' }) => (
-      <Gapped wrap verticalAlign="middle" gap={10}>
-        <SelectPlayground width={120} size={size} />
-        <Input rightIcon={<CardIcon />} placeholder={'Text value'} size={size} />
-        <Button width={120} size={size}>
-          Button
-        </Button>
-        <Button icon={<LinkIcon />} use={'link'} size={size}>
-          Button like a link
-        </Button>
-      </Gapped>
-    );
-
     return (
       <ComponentsGroup title={'Размеры'} theme={this.theme}>
-        <Group size={'small'} />
-        <Group size={'medium'} />
-        <Group size={'large'} />
+        <SizesGroup size={'small'} />
+        <SizesGroup size={'medium'} />
+        <SizesGroup size={'large'} />
       </ComponentsGroup>
     );
   };
@@ -299,7 +256,7 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     );
     return (
       <ComponentsGroup title={'Тултип'} theme={this.theme}>
-        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations={true}>
+        <Tooltip render={tooltipContent} pos="right middle" trigger={'opened'} disableAnimations>
           <Link icon={<HelpDotIcon />} />
         </Tooltip>
       </ComponentsGroup>
@@ -310,6 +267,14 @@ export class Playground extends React.Component<PlaygroundProps, {}> {
     return (
       <ComponentsGroup title={'Пейджинг'} theme={this.theme}>
         <PagingPlayground />
+      </ComponentsGroup>
+    );
+  };
+
+  private renderFileUploader = () => {
+    return (
+      <ComponentsGroup title={'FileUploader'} theme={this.theme}>
+        <FileUploader multiple />
       </ComponentsGroup>
     );
   };

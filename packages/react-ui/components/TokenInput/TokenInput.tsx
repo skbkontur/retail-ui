@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FocusEvent, FocusEventHandler, KeyboardEvent, MouseEventHandler, ReactNode } from 'react';
-import { findDOMNode } from 'react-dom';
 import isEqual from 'lodash.isequal';
 
 import {
@@ -26,6 +25,7 @@ import { locale } from '../../lib/locale/decorators';
 import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -83,11 +83,11 @@ export interface TokenInputProps<T> extends CommonProps {
   placeholder?: string;
   delimiters: string[];
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   disabled?: boolean;
@@ -169,6 +169,7 @@ const defaultRenderToken = <T extends {}>(
   </Token>
 );
 
+@rootNode
 @locale('TokenInput', TokenInputLocaleHelper)
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
@@ -199,6 +200,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private tokensInputMenu: TokenInputMenu<T> | null = null;
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -321,7 +323,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     });
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
@@ -498,7 +500,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
 
-    // чекаем автокомплит на совпадение с введеным значением в инпут
+    // чекаем автокомплит на совпадение с введенным значением в инпут
     if (autocompleteItems && autocompleteItems.length === 1) {
       const item = autocompleteItems[0];
 
@@ -509,7 +511,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     }
 
-    if (this.isInputChanged) this.checkForUnexpectedInput();
+    if (this.isInputChanged) {
+      this.checkForUnexpectedInput();
+    }
   };
 
   private get isInputChanged() {
@@ -539,7 +543,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private isBlurToMenu = (event: FocusEvent<HTMLElement>) => {
     if (this.menuRef) {
-      const menu = findDOMNode(this.menuRef) as HTMLElement | null;
+      const menu = getRootNode(this.tokensInputMenu?.getMenuRef());
       const relatedTarget = (event.relatedTarget || document.activeElement) as HTMLElement;
 
       if (menu && menu.contains(relatedTarget)) {
@@ -653,8 +657,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     e.stopPropagation();
 
     if (
-      this.type !== TokenInputType.WithReference &&
-      this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))
+      (this.type !== TokenInputType.WithReference &&
+        this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))) ||
+      (isKeyEnter(e) && this.type === TokenInputType.WithoutReference)
     ) {
       e.preventDefault();
       const newValue = this.state.inputValue;
@@ -690,7 +695,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode) this.moveFocusToLastToken();
+        if (!this.isEditingMode) {
+          this.moveFocusToLastToken();
+        }
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
@@ -804,12 +811,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (this.isEditingMode) {
       this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(item) }, this.finishTokenEdit);
-    } else {
-      if (!this.hasValueInItems(selectedItems, item)) {
-        this.handleValueChange(selectedItems.concat([item]));
-        this.dispatch({ type: 'CLEAR_INPUT' });
-        this.tryGetItems();
-      }
+    } else if (!this.hasValueInItems(selectedItems, item)) {
+      this.handleValueChange(selectedItems.concat([item]));
+      this.dispatch({ type: 'CLEAR_INPUT' });
+      this.tryGetItems();
     }
   };
 
@@ -843,8 +848,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.state.inputValue !== '') {
-      if (this.state.reservedInputValue === undefined)
+      if (this.state.reservedInputValue === undefined) {
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
+      }
     }
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) }, this.selectInputText);
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });

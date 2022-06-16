@@ -2,6 +2,8 @@ import React from 'react';
 
 import { Nullable } from '../../typings/Types';
 import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
+import { ValidationInfo } from '../ValidationWrapper';
+import { isNullable } from '../utils/isNullable';
 
 import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationWriter } from './ValidationWriter';
@@ -13,6 +15,7 @@ interface PathInfo<T> {
 }
 
 export class ValidationBuilder<TRoot, T> {
+  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly writer: ValidationWriter<TRoot>,
     private readonly tokens: PathTokensCache,
@@ -22,7 +25,7 @@ export class ValidationBuilder<TRoot, T> {
 
   public prop<TChild>(lambdaPath: LambdaPath<T, TChild>, rule: ValidationRule<TRoot, TChild>): void {
     const info = this.getPathInfo(lambdaPath);
-    if (info == null) {
+    if (isNullable(info)) {
       return;
     }
 
@@ -32,7 +35,7 @@ export class ValidationBuilder<TRoot, T> {
 
   public array<TChild>(lambdaPath: LambdaPath<T, TChild[]>, rule: ItemValidationRule<TRoot, TChild>): void {
     const info = this.getPathInfo(lambdaPath);
-    if (info == null || !Array.isArray(info.data)) {
+    if (isNullable(info) || !Array.isArray(info.data)) {
       return;
     }
 
@@ -44,12 +47,22 @@ export class ValidationBuilder<TRoot, T> {
     }
   }
 
+  public invalid(isInvalid: (value: T) => boolean, validationInfo: ValidationInfo): void;
   public invalid(
     isInvalid: (value: T) => boolean,
     message: React.ReactNode,
     type?: ValidationBehaviour,
     level?: ValidationLevel,
-  ): void {
+    independent?: boolean,
+  ): void;
+
+  public invalid(
+    isInvalid: (value: T) => boolean,
+    messageOrValidationInfo: React.ReactNode | ValidationInfo,
+    type?: ValidationBehaviour,
+    level?: ValidationLevel,
+    independent?: boolean,
+  ) {
     const validationWriter = this.writer.getNode<T>(this.path);
     if (validationWriter.isValidated()) {
       return;
@@ -60,7 +73,11 @@ export class ValidationBuilder<TRoot, T> {
       return;
     }
 
-    validationWriter.set({ message, type, level });
+    if (isValidationInfo(messageOrValidationInfo)) {
+      validationWriter.set(messageOrValidationInfo);
+    } else {
+      validationWriter.set({ message: messageOrValidationInfo, type, level, independent });
+    }
   }
 
   private getPathInfo<TChild>(lambdaPath: LambdaPath<T, TChild>): Nullable<PathInfo<TChild>> {
@@ -68,7 +85,7 @@ export class ValidationBuilder<TRoot, T> {
 
     let data: any = this.data;
     for (const part of path) {
-      if (data == null) {
+      if (isNullable(data)) {
         return null;
       }
       data = data[part];
@@ -77,3 +94,6 @@ export class ValidationBuilder<TRoot, T> {
     return { data, path: [...this.path, ...path] };
   }
 }
+
+const isValidationInfo = (argument: unknown): argument is ValidationInfo =>
+  typeof argument === 'object' && Object.prototype.hasOwnProperty.call(argument, 'message');

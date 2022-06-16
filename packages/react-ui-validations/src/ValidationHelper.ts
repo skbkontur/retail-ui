@@ -41,9 +41,13 @@ export function getLevel(validation: Nullable<Validation>): Nullable<ValidationL
   return validation ? validation.level : null;
 }
 
+export function getIndependent(validation: Nullable<Validation>): Nullable<boolean> {
+  return validation ? validation.independent : null;
+}
+
 export function isEqual(a: Nullable<Validation>, b: Nullable<Validation>): boolean {
   if (a === b) {
     return true;
   }
-  return !!a && !!b && a.behaviour === b.behaviour && a.level === a.level && a.message === b.message;
+  return !!a && !!b && a.behaviour === b.behaviour && a.message === b.message && a.independent === b.independent;
 }

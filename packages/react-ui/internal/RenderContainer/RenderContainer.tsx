@@ -4,6 +4,7 @@ import { canUseDOM, isBrowser } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { getRandomID } from '../../lib/utils';
 import { Upgrade } from '../../lib/Upgrades';
+import { callChildRef } from '../../lib/callChildRef/callChildRef';
 
 import { RenderInnerContainer } from './RenderInnerContainer';
 import { RenderContainerProps } from './RenderContainerTypes';
@@ -24,13 +25,14 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: Readonly<RenderContainerProps>): void {
+  public shouldComponentUpdate(nextProps: RenderContainerProps) {
     if (!this.props.children && nextProps.children) {
       this.mountContainer();
     }
     if (this.props.children && !nextProps.children) {
       this.unmountContainer();
     }
+    return true;
   }
 
   public componentWillUnmount() {
@@ -56,6 +58,10 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
     }
     if (this.domContainer && this.domContainer.parentNode !== document.body) {
       document.body.appendChild(this.domContainer);
+
+      if (this.props.containerRef) {
+        callChildRef(this.props.containerRef, this.domContainer);
+      }
       if (window.ReactTesting) {
         window.ReactTesting.addRenderContainer(this.rootId, this);
       }
@@ -72,6 +78,10 @@ export class RenderContainer extends React.Component<RenderContainerProps> {
   private unmountContainer() {
     if (this.domContainer && this.domContainer.parentNode) {
       this.domContainer.parentNode.removeChild(this.domContainer);
+
+      if (this.props.containerRef) {
+        callChildRef(this.props.containerRef, null);
+      }
 
       if (window.ReactTesting) {
         window.ReactTesting.removeRenderContainer(this.rootId);

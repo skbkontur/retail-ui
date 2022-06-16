@@ -5,7 +5,7 @@ import raf from 'raf';
 
 import { isNonNullable } from '../../lib/utils';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
+import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -16,6 +16,7 @@ import { isBrowser, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -30,18 +31,18 @@ export interface TextareaProps
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
         /**
-         * Cостояние валидации при ошибке.
+         * Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
 
         /**
-         * Атоматический ресайз
+         * Автоматический ресайз
          * в зависимости от содержимого
          */
         autoResize?: boolean;
@@ -84,7 +85,7 @@ export interface TextareaProps
 
         /** Подсказка к счетчику символов.
          *
-         * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
+         * По умолчанию - тултип с содержимым из пропа, если передан`ReactNode`.
          *
          * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
          *
@@ -107,7 +108,7 @@ export interface TextareaProps
     > {}
 
 export interface TextareaState {
-  polyfillPlaceholder: boolean;
+  needsPolyfillPlaceholder: boolean;
   isCounterVisible: boolean;
 }
 
@@ -118,6 +119,7 @@ export interface TextareaState {
  *
  * ** `className` и `style`  игнорируются**
  */
+@rootNode
 export class Textarea extends React.Component<TextareaProps, TextareaState> {
   public static __KONTUR_REACT_UI__ = 'Textarea';
 
@@ -183,7 +185,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   public state = {
-    polyfillPlaceholder,
+    needsPolyfillPlaceholder,
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -199,6 +201,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private counter: Nullable<TextareaCounterRef>;
   private layoutEvents: Nullable<{ remove: () => void }>;
   private textareaObserver = isBrowser ? new MutationObserver(this.reflowCounter) : null;
+  private setRootNode!: TSetRootNode;
   private getAutoResizeThrottleWait(props: TextareaProps = this.props): number {
     // NOTE: При отключении анимации остается эффект дергания при авто-ресайзе из-за троттлинга расчета высоты
     // Поэтому выставляем таймаут троттла в ноль. Подробности - https://github.com/skbkontur/retail-ui/issues/2120
@@ -249,7 +252,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -353,7 +360,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     let placeholderPolyfill = null;
 
-    if (this.state.polyfillPlaceholder && !textareaProps.value) {
+    if (this.state.needsPolyfillPlaceholder && !textareaProps.value && !textareaProps.defaultValue) {
       placeholderPolyfill = <span className={styles.placeholder()}>{placeholder}</span>;
     }
 
@@ -429,11 +436,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (polyfillPlaceholder) {
+    if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = e.target.value === '';
 
-      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });
       }
     }
 

@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -20,11 +21,11 @@ export interface TokenProps extends CommonProps {
   colors?: TokenColors;
   isActive?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   disabled?: boolean;
@@ -38,10 +39,22 @@ export interface TokenProps extends CommonProps {
   onBlur?: React.FocusEventHandler<HTMLDivElement>;
 }
 
+const getValidation = (error: TokenProps['error'], warning: TokenProps['warning']) => {
+  if (error) {
+    return 'error';
+  } else if (warning) {
+    return 'warning';
+  }
+
+  return null;
+};
+
+@rootNode
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -71,7 +84,9 @@ export class Token extends React.Component<TokenProps> {
     } = this.props;
 
     const theme = this.theme;
-    const validation = error ? 'error' : warning ? 'warning' : null;
+
+    const validation = getValidation(error, warning);
+
     const disableClassNames = cx(colorStyles.defaultDisabled(theme), {
       [colorStyles.defaultDisabledWarning(theme)]: warning,
       [colorStyles.defaultDisabledError(theme)]: error,
@@ -93,7 +108,7 @@ export class Token extends React.Component<TokenProps> {
     });
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
           className={tokenClassNames}
           onClick={onClick}

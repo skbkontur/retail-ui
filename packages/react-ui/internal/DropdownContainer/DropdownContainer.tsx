@@ -1,13 +1,15 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { RenderContainer } from '../RenderContainer';
 import { ZIndex } from '../ZIndex';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
+import { cx } from '../../lib/theming/Emotion';
+import { isIE11 } from '../../lib/client';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
-type DOMNode = Element | Text | null;
+import { styles } from './DropdownContainer.styles';
 
 export interface DropdownContainerPosition {
   top: Nullable<number>;
@@ -18,11 +20,12 @@ export interface DropdownContainerPosition {
 
 export interface DropdownContainerProps {
   align?: 'left' | 'right';
-  getParent: () => DOMNode;
+  getParent: () => Nullable<HTMLElement>;
   children?: React.ReactNode;
   disablePortal?: boolean;
   offsetY?: number;
   offsetX?: number;
+  hasFixedWidth?: boolean;
 }
 
 export interface DropdownContainerState {
@@ -31,7 +34,7 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
-export class DropdownContainer extends React.Component<DropdownContainerProps, DropdownContainerState> {
+export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
   public static defaultProps = {
@@ -41,31 +44,20 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     offsetY: -1,
   };
 
-  public state: DropdownContainerState = {
-    position: null,
-    minWidth: 0,
-    isDocumentElementRoot: true,
-  };
-
   private getProps = createPropsGetter(DropdownContainer.defaultProps);
 
-  private dom: DOMNode = null;
+  private dom: Nullable<HTMLDivElement>;
   private layoutSub: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
+
+  constructor(props: DropdownContainerProps) {
+    super(props);
+
+    this.state = { position: null, minWidth: 0, isDocumentElementRoot: getIsDocumentElementRoot() };
+  }
 
   public componentDidMount() {
     this.position();
     this.layoutSub = LayoutEvents.addListener(this.position);
-  }
-
-  public UNSAFE_componentWillMount() {
-    const { body, documentElement: docEl } = document;
-    const htmlPosition = getComputedStyle(docEl).position;
-    const bodyPosition = getComputedStyle(body).position;
-
-    const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
-    const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
-
-    this.setState({ isDocumentElementRoot: hasLimitedHeightRoot || hasStaticRoot });
   }
 
   public componentWillUnmount() {
@@ -88,11 +80,19 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
         left: left !== null ? left : undefined,
         right: right !== null ? right : undefined,
         minWidth: this.state.minWidth,
+        maxWidth: this.props.hasFixedWidth ? this.state.minWidth : undefined,
       };
     }
 
     const content = (
-      <ZIndex priority={'DropdownContainer'} ref={this.ref} style={style}>
+      <ZIndex
+        priority={'DropdownContainer'}
+        wrapperRef={this.ZIndexRef}
+        style={style}
+        className={cx({
+          [styles.alignRight()]: this.props.align === 'right' && !isIE11,
+        })}
+      >
         {this.props.children}
       </ZIndex>
     );
@@ -100,20 +100,20 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     return this.props.disablePortal ? content : <RenderContainer>{content}</RenderContainer>;
   }
 
-  private ref = (e: ZIndex | null) => {
-    this.dom = e && findDOMNode(e);
+  private ZIndexRef = (element: Nullable<HTMLDivElement>) => {
+    this.dom = element;
   };
 
-  private isElement = (node: DOMNode): node is Element => {
+  private isElement = (node: Nullable<Element>): node is Element => {
     return node instanceof Element;
   };
 
-  private position = () => {
+  public position = () => {
     const target = this.props.getParent();
     const dom = this.dom;
 
-    if (this.isElement(target) && dom) {
-      const targetRect = target.getBoundingClientRect();
+    if (target && this.isElement(target) && dom) {
+      const targetRect = getDOMRect(target);
       const { body, documentElement: docEl } = document;
 
       if (!docEl) {
@@ -166,26 +166,20 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
       return 0;
     }
     const child = this.dom.children.item(0);
-    if (!child) {
-      return 0;
-    }
-    return child.getBoundingClientRect().height;
+    return getDOMRect(child).height;
   };
 
   private getMinWidth = () => {
     const target = this.props.getParent();
-    if (!this.isElement(target)) {
-      return 0;
-    }
-    return target.getBoundingClientRect().width;
+    return getDOMRect(target).width;
   };
 
   private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
     const target = this.props.getParent();
     const { offsetX = 0, offsetY = 0 } = this.props;
     const { top, bottom, left, right } = position;
-    if (this.isElement(target)) {
-      const targetHeight = target.getBoundingClientRect().height;
+    if (target && this.isElement(target)) {
+      const targetHeight = getDOMRect(target).height;
       return {
         top: top !== null ? targetHeight + offsetY : null,
         bottom: bottom !== null ? targetHeight + offsetY : null,
@@ -201,3 +195,13 @@ export class DropdownContainer extends React.Component<DropdownContainerProps, D
     };
   };
 }
+
+const getIsDocumentElementRoot = () => {
+  const { body, documentElement } = document;
+  const htmlPosition = getComputedStyle(documentElement).position;
+  const bodyPosition = getComputedStyle(body).position;
+
+  const hasLimitedHeightRoot = body.scrollHeight > body.clientHeight;
+  const hasStaticRoot = htmlPosition === 'static' && bodyPosition === 'static';
+  return hasLimitedHeightRoot || hasStaticRoot;
+};

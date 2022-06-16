@@ -4,13 +4,14 @@ import raf from 'raf';
 
 import { isIE11, isEdge } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
+import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Input.styles';
 
@@ -37,11 +38,11 @@ export interface InputProps
          */
         rightIcon?: InputIconType;
         /**
-         * Cостояние валидации при ошибке.
+         * Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /** Режим прозрачной рамки */
@@ -103,13 +104,14 @@ export interface InputProps
 export interface InputState {
   blinking: boolean;
   focused: boolean;
-  polyfillPlaceholder: boolean;
+  needsPolyfillPlaceholder: boolean;
 }
 
 /**
- * Интерфес пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
+ * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
+@rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
@@ -120,7 +122,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   public state: InputState = {
-    polyfillPlaceholder: false,
+    needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
   };
@@ -129,24 +131,13 @@ export class Input extends React.Component<InputProps, InputState> {
   private theme!: Theme;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
-
-  public componentDidMount() {
-    if (polyfillPlaceholder) {
-      this.setState({ polyfillPlaceholder: true });
-    }
-  }
+  private setRootNode!: TSetRootNode;
 
   public componentWillUnmount() {
     if (this.blinkTimeout) {
       clearTimeout(this.blinkTimeout);
     }
     this.cancelDelayedSelectAll();
-  }
-
-  public UNSAFE_componentWillReceiveProps(nextProps: InputProps) {
-    if (polyfillPlaceholder && !nextProps.value) {
-      this.setState({ polyfillPlaceholder: true });
-    }
   }
 
   /**
@@ -163,6 +154,13 @@ export class Input extends React.Component<InputProps, InputState> {
   public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
     this.input!.blur();
+  }
+
+  /**
+   * @public
+   */
+  public getNode() {
+    return this.input;
   }
 
   /**
@@ -211,7 +209,11 @@ export class Input extends React.Component<InputProps, InputState> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
@@ -315,7 +317,7 @@ export class Input extends React.Component<InputProps, InputState> {
       style: { textAlign: align },
       ref: this.refInput,
       type: 'text',
-      placeholder: !this.isMaskVisible && !polyfillPlaceholder ? placeholder : undefined,
+      placeholder: !this.isMaskVisible && !needsPolyfillPlaceholder ? placeholder : undefined,
       disabled,
     };
 
@@ -406,7 +408,13 @@ export class Input extends React.Component<InputProps, InputState> {
     const { focused } = this.state;
     let placeholder = null;
 
-    if (this.state.polyfillPlaceholder && this.props.placeholder && !this.isMaskVisible && !this.props.value) {
+    if (
+      this.state.needsPolyfillPlaceholder &&
+      this.props.placeholder &&
+      !this.isMaskVisible &&
+      !this.props.value &&
+      !this.props.defaultValue
+    ) {
       placeholder = (
         <div
           className={cx(styles.placeholder(this.theme), {
@@ -453,10 +461,10 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   private handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (polyfillPlaceholder) {
+    if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = event.target.value === '';
-      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });
       }
     }
 

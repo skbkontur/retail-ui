@@ -1,6 +1,8 @@
 import React from 'react';
 
-export interface CloseProps {
+import { CommonProps } from '../../internal/CommonWrapper';
+
+export interface CloseProps extends CommonProps {
   disableClose?: boolean;
   requestClose: () => void;
 }

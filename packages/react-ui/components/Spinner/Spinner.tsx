@@ -7,6 +7,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -27,12 +28,22 @@ export interface SpinnerProps extends CommonProps {
    * @default normal
    */
   type: SpinnerType;
+  inline?: boolean;
+  /**
+   * Толщина спиннера
+   */
+  width?: number;
+  /**
+   * Цвет спиннера
+   */
+  color?: React.CSSProperties['color'];
 }
 
 /**
  * DRAFT - инлайн-лоадер
  */
 
+@rootNode
 @locale('Spinner', SpinnerLocaleHelper)
 export class Spinner extends React.Component<SpinnerProps> {
   public static __KONTUR_REACT_UI__ = 'Spinner';
@@ -64,10 +75,7 @@ export class Spinner extends React.Component<SpinnerProps> {
   public static Types: typeof types = types;
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
-
-  constructor(props: SpinnerProps) {
-    super(props);
-  }
+  private setRootNode!: TSetRootNode;
 
   public render() {
     return (
@@ -81,22 +89,33 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderMain() {
-    const { type, caption = this.locale.loading, dimmed } = this.props;
+    const { type, caption = this.locale.loading, dimmed, inline } = this.props;
 
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.spinner()}>
-          <span className={styles.inner()}>{this.renderSpinner(type, dimmed)}</span>
+          <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>
       </CommonWrapper>
     );
   }
 
-  private renderSpinner = (type: SpinnerType, dimmed?: boolean) => {
-    const circleClassName = dimmed ? styles.circleDimmed(this.theme) : styles.circle(this.theme);
-
-    return <SpinnerIcon size={type} className={circleClassName} dimmed={dimmed} />;
+  private renderSpinner = (type: SpinnerType, dimmed?: boolean, inline?: boolean) => {
+    return (
+      <SpinnerIcon
+        size={type}
+        className={cx({
+          [styles.circle(this.theme)]: !dimmed && !this.props.color,
+          [styles.circleDimmedColor(this.theme)]: dimmed,
+          [styles.circleWithoutColorAnimation(this.theme)]: dimmed || !!this.props.color,
+        })}
+        dimmed={dimmed}
+        width={this.props.width}
+        color={this.props.color}
+        inline={inline}
+      />
+    );
   };
 
   private renderCaption = (type: SpinnerType, caption: React.ReactNode) => (

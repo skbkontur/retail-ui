@@ -6,6 +6,13 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       position: relative;
+      line-height: normal;
+    `;
+  },
+
+  rootMobile(t: Theme) {
+    return css`
+      width: ${t.selectRootWidthMobile};
     `;
   },
 

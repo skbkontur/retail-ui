@@ -17,10 +17,13 @@ export const styles = memoizeStyle({
         `}
     `;
   },
-  circleDimmed(t: Theme) {
+  circleDimmedColor(t: Theme) {
     return css`
       stroke: ${t.spinnerDimmedColor};
-
+    `;
+  },
+  circleWithoutColorAnimation(t: Theme) {
+    return css`
       ${!isIE11 &&
       `
           animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
@@ -33,6 +36,13 @@ export const styles = memoizeStyle({
   captionColor(t: Theme) {
     return css`
       color: ${t.spinnerCaptionColor};
+    `;
+  },
+
+  inline() {
+    return css`
+      font-size: inherit;
+      line-height: inherit;
     `;
   },
 
@@ -66,6 +76,7 @@ export const styles = memoizeStyle({
     return css`
       display: inline-block;
       text-align: center;
+      line-height: normal;
     `;
   },
 

@@ -5,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -32,7 +33,7 @@ export interface ComboBoxProps<T> extends CommonProps {
 
   disabled?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
 
@@ -69,7 +70,7 @@ export interface ComboBoxProps<T> extends CommonProps {
   /**
    * Вызывается при изменении текста в поле ввода,
    * если результатом функции будет строка,
-   * то она станет следующим состояним полем ввода
+   * то она станет следующим состоянием полем ввода
    */
   onInputValueChange?: (value: string) => Nullable<string> | void;
 
@@ -141,7 +142,7 @@ export interface ComboBoxProps<T> extends CommonProps {
 
   size?: 'small' | 'medium' | 'large';
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
 
@@ -165,6 +166,7 @@ export interface ComboBoxItem {
   label: string;
 }
 
+@rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
@@ -179,6 +181,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   };
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -259,6 +262,11 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={(element) => (this.comboboxElement = element)} />;
+    return <CustomComboBox {...this.props} ref={this.customComboBoxRef} />;
   }
+
+  private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {
+    this.setRootNode(element);
+    this.comboboxElement = element;
+  };
 }

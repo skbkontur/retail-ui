@@ -106,20 +106,26 @@ export const colorStyles = [
   (colors: TokenColors, { name, color }) => ({
     ...colors,
     [name](t: Theme, v: 'error' | 'warning') {
-      const warning = css`
-        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
-      `;
-      const error = css`
-        box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
-      `;
-      const vStyle = v === 'error' ? error : v === 'warning' ? warning : '';
+      const getVStyle = () => {
+        if (v === 'error') {
+          return css`
+            box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError}, inset 0 0 0 1px ${color(t)};
+          `;
+        } else if (v === 'warning') {
+          return css`
+            box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning}, inset 0 0 0 1px ${color(t)};
+          `;
+        }
+
+        return '';
+      };
 
       return css`
         background-color: ${color(t)};
         color: ${ColorFunctions.contrast(color(t))};
         box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(color(t), '5%')}, inset 0 0 0 1px ${color(t)};
 
-        ${vStyle}
+        ${getVStyle()}
 
         .${globalClasses.removeIcon}:hover {
           color: ${ColorFunctions.contrast(color(t))};

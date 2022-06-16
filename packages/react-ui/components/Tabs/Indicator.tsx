@@ -1,5 +1,4 @@
 import React from 'react';
-import { findDOMNode } from 'react-dom';
 import throttle from 'lodash.throttle';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -7,6 +6,8 @@ import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
+import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
@@ -24,6 +25,7 @@ export interface IndicatorState {
   styles: React.CSSProperties;
 }
 
+@rootNode
 export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   public static contextType = TabsContext;
   public context: TabsContextType = this.context;
@@ -39,6 +41,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }> = null;
 
   private removeTabUpdatesListener: Nullable<() => void> = null;
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
     this.eventListener = LayoutEvents.addListener(this.reflow);
@@ -93,6 +96,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
           this.props.className,
         )}
         style={this.state.styles}
+        ref={this.setRootNode}
       />
     );
   }
@@ -110,25 +114,23 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
   }, 100);
 
   private getStyles(node: any): React.CSSProperties {
-    if (node instanceof React.Component) {
-      node = findDOMNode(node);
-    }
+    const htmlNode = getRootNode(node);
 
-    if (node instanceof HTMLElement) {
-      const rect = node.getBoundingClientRect();
+    if (htmlNode && htmlNode instanceof HTMLElement) {
+      const rect = getDOMRect(htmlNode);
       if (this.props.vertical) {
         return {
           width: this.theme.tabBorderWidth,
-          left: node.offsetLeft,
-          top: node.offsetTop,
+          left: htmlNode.offsetLeft,
+          top: htmlNode.offsetTop,
           height: rect.bottom - rect.top,
         };
       }
 
       const tabBorderWidth = parseInt(this.theme.tabBorderWidth, 10) || 0;
       return {
-        left: node.offsetLeft,
-        top: node.offsetHeight + node.offsetTop - tabBorderWidth,
+        left: htmlNode.offsetLeft,
+        top: htmlNode.offsetHeight + htmlNode.offsetTop - tabBorderWidth,
         width: rect.right - rect.left,
       };
     }

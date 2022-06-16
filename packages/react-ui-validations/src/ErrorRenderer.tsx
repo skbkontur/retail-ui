@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import React from 'react';
 
 import { TooltipPosition, ValidationTooltip } from './ValidationTooltip';
@@ -24,7 +25,7 @@ export function tooltip(pos: TooltipPosition): RenderErrorMessage {
 
 export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
   if (pos === 'right') {
-    return (control, hasError, validation) => {
+    return (control, _hasError, validation) => {
       return (
         <span style={{ display: 'inline-block' }}>
           {control}
@@ -35,7 +36,7 @@ export function text(pos: 'bottom' | 'right' = 'right'): RenderErrorMessage {
       );
     };
   }
-  return (control, hasError, validation) => {
+  return (control, _hasError, validation) => {
     return (
       <span style={{ position: 'relative', display: 'inline-block' }}>
         {control}

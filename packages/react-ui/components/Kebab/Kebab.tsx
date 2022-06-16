@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { keyListener } from '../../lib/events/keyListener';
-import { PopupMenu, PopupMenuCaptionProps } from '../../internal/PopupMenu';
+import { PopupMenu, PopupMenuCaptionProps, PopupMenuProps } from '../../internal/PopupMenu';
 import { Nullable } from '../../typings/utility-types';
-import { PopupPosition } from '../../internal/Popup';
+import { PopupPositionsType } from '../../internal/Popup';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MenuKebabIcon } from '../../internal/icons/16px';
@@ -14,21 +14,12 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { styles } from './Kebab.styles';
 
-export interface KebabProps extends CommonProps {
+export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   disabled?: boolean;
-  /**
-   * Функция вызываемая при закрытии выпадашки
-   * @default () => undefined
-   */
-  onClose: () => void;
-  /**
-   * Функция вызываемая при открытии выпадашки
-   * @default () => undefined
-   */
-  onOpen: () => void;
   size: 'small' | 'medium' | 'large';
   /**
    * Список позиций доступных для расположения выпадашки.
@@ -38,7 +29,7 @@ export interface KebabProps extends CommonProps {
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
-  positions: PopupPosition[];
+  positions: PopupPositionsType[];
   menuMaxHeight?: number | string;
   /**
    * Не показывать анимацию
@@ -53,9 +44,9 @@ export interface KebabProps extends CommonProps {
 export interface KebabState {
   anchor: Nullable<HTMLElement>;
   focusedByTab: boolean;
-  opened: boolean;
 }
 
+@rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
@@ -71,12 +62,12 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   public state = {
-    opened: false,
     focusedByTab: false,
     anchor: null,
   };
 
   private theme!: Theme;
+  private setRootNode!: TSetRootNode;
 
   private listener: {
     remove: () => void;
@@ -120,7 +111,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   private renderMain() {
     const { disabled, positions } = this.props;
     return (
-      <CommonWrapper {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
           positions={positions}
@@ -128,6 +119,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           caption={this.renderCaption}
           disableAnimations={this.props.disableAnimations}
           menuMaxHeight={this.props.menuMaxHeight}
+          onOpen={this.props.onOpen}
+          onClose={this.props.onClose}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -179,23 +172,9 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private handleChangeMenuState = (isOpened: boolean, restoreFocus: boolean): void => {
-    this.setState(
-      {
-        opened: isOpened,
-        focusedByTab: !isOpened && restoreFocus,
-      },
-      () => {
-        if (this.props.disabled) {
-          return;
-        }
-
-        if (this.state.opened) {
-          this.props.onOpen();
-        } else {
-          this.props.onClose();
-        }
-      },
-    );
+    this.setState({
+      focusedByTab: !isOpened && restoreFocus,
+    });
   };
 
   private handleFocus = () => {

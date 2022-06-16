@@ -13,6 +13,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
+import { TSetRootNode, rootNode } from '../../lib/rootNode';
 
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -27,8 +28,9 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
   takeContentWidth?: boolean;
 }
 
-export type InputLikeTextState = Omit<InputState, 'polyfillPlaceholder'>;
+export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
 
+@rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
@@ -45,6 +47,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   private dragging = false;
   private focusTimeout: Nullable<number>;
   private blinkTimeout: Nullable<number>;
+  private setRootNode!: TSetRootNode;
 
   /**
    * @public
@@ -121,7 +124,11 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );

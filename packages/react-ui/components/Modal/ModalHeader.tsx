@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { useResponsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './Modal.styles';
 import { ModalClose } from './ModalClose';
@@ -20,9 +21,11 @@ export interface ModalHeaderProps extends CommonProps {
  * @visibleName Modal.Header
  */
 function ModalHeader(props: ModalHeaderProps) {
-  const { sticky = true, children } = props;
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
+  const layout = useResponsiveLayout();
+
+  const { sticky = !layout.isMobile, children } = props;
 
   useEffect(() => {
     modal.setHasHeader?.();
@@ -35,9 +38,12 @@ function ModalHeader(props: ModalHeaderProps) {
       <div
         className={cx({
           [styles.header(theme)]: true,
+          [styles.mobileHeader(theme)]: layout.isMobile,
           [styles.headerAddPadding()]: Boolean(modal.additionalPadding),
           [styles.fixedHeader(theme)]: fixed,
+          [styles.mobileFixedHeader(theme)]: fixed && layout.isMobile,
           [styles.headerWithClose(theme)]: Boolean(modal.close),
+          [styles.mobileHeaderWithClose(theme)]: layout.isMobile,
         })}
       >
         {modal.close && <ModalClose requestClose={modal.close.requestClose} disableClose={modal.close.disableClose} />}

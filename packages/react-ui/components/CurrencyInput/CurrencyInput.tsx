@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 
+import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { TSetRootNode, rootNode } from '../../lib/rootNode';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -23,7 +25,7 @@ export interface CurrencyInputProps
         value: Nullable<number>;
         /** Убрать лишние нули после запятой */
         hideTrailingZeros: boolean;
-        /** Кол-во цифр после зяпятой */
+        /** Кол-во цифр после запятой */
         fractionDigits?: Nullable<number>;
         /** Отрицательные значения */
         signed?: boolean;
@@ -53,7 +55,8 @@ export interface CurrencyInputState {
  * <br/>
  * Если `fractionDigits=15`, то в целой части допускается **0**.
  */
-export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyInputState> {
+@rootNode
+export class CurrencyInput extends React.PureComponent<CurrencyInputProps, CurrencyInputState> {
   public static __KONTUR_REACT_UI__ = 'CurrencyInput';
 
   public static propTypes = {
@@ -95,6 +98,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
 
   private input: Nullable<Input>;
   private tempSelectionForOnChange: Selection = SelectionHelper.fromPosition(0);
+  private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
     const { maxLength, integerDigits, fractionDigits } = this.props;
@@ -109,32 +113,31 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     );
   }
 
-  public UNSAFE_componentWillReceiveProps(nextProps: CurrencyInputProps) {
-    const { value, fractionDigits, hideTrailingZeros } = nextProps;
-    if (value !== CurrencyHelper.parse(this.state.formatted) || fractionDigits !== this.props.fractionDigits) {
-      const state = this.getState(value, fractionDigits, hideTrailingZeros);
-      this.setState(state);
+  public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
+    const { value, fractionDigits, hideTrailingZeros } = this.props;
+    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+      this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
-  }
-
-  public componentDidUpdate() {
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
 
       this.input.setSelectionRange(start, end);
     }
+    if (prevState.selection !== this.state.selection) {
+      this.scrollInput();
+    }
   }
 
   public render() {
-    return <CommonWrapper {...this.props}>{this.renderMain}</CommonWrapper>;
+    return (
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+        {this.renderMain}
+      </CommonWrapper>
+    );
   }
 
   public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
-    const placeholder =
-      this.props.placeholder == null
-        ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
-        : this.props.placeholder;
 
     return (
       <Input
@@ -152,7 +155,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
         ref={this.refInput}
-        placeholder={this.state.focused ? '' : placeholder}
+        placeholder={this.state.focused ? '' : getPlaceholder(props)}
       />
     );
   };
@@ -283,6 +286,31 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
     }
   };
 
+  private scrollInput = () => {
+    const node = this.input?.getNode();
+    if (!node || node.scrollWidth === node.clientWidth) {
+      return;
+    }
+    const PAD = 1;
+    const SHIFT = 3;
+
+    const selection = this.state.selection;
+    const selected = selection.start !== selection.end;
+    const position = selected && selection.direction === 'forward' ? selection.end : selection.start;
+    const charsCount = this.state.formatted.length;
+    const charWidth = node.scrollWidth / charsCount;
+    const frame = Math.ceil(node.clientWidth / charWidth);
+    const frameStart = Math.ceil(node.scrollLeft / charWidth);
+    const frameEnd = frameStart + frame;
+
+    if (position < frameStart + PAD) {
+      node.scrollLeft = (position - SHIFT) * charWidth;
+    }
+    if (position > frameEnd - PAD) {
+      node.scrollLeft = (position - frame + SHIFT) * charWidth;
+    }
+  };
+
   private getSelection = (input: EventTarget): Selection => {
     const selection = getInputSelectionFromEvent(input);
     return {
@@ -340,7 +368,7 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
   private handleValueChange = (value: string): void => {
     const selection = this.tempSelectionForOnChange;
     const delta = this.getOnChangeDelta(value);
-    if (delta != null && !this.inputValue(selection.start, selection.end, delta)) {
+    if (isNonNullable(delta) && !this.inputValue(selection.start, selection.end, delta)) {
       this.setState({ selection });
     }
   };
@@ -375,11 +403,11 @@ export class CurrencyInput extends React.Component<CurrencyInputProps, CurrencyI
 
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
     const { selectionStart, selectionEnd, selectionDirection } = event.target;
-    const valueLenght = event.target.value.length;
+    const valueLength = event.target.value.length;
 
     const selection = {
-      start: selectionStart !== selectionEnd ? selectionStart || 0 : selectionStart || valueLenght,
-      end: selectionEnd !== selectionStart ? selectionEnd || 0 : selectionEnd || valueLenght,
+      start: selectionStart !== selectionEnd ? selectionStart || 0 : selectionStart || valueLength,
+      end: selectionEnd !== selectionStart ? selectionEnd || 0 : selectionEnd || valueLength,
       direction: (selectionDirection as SelectionDirection) || 'none',
     };
 
@@ -422,3 +450,14 @@ function getInputSelectionFromEvent(input: EventTarget): Selection {
     direction: input.selectionDirection as SelectionDirection,
   };
 }
+
+const getPlaceholder = (props: CurrencyInputProps) => {
+  if (isNullable(props.placeholder)) {
+    return CurrencyHelper.format(0, {
+      fractionDigits: props.fractionDigits,
+      hideTrailingZeros: props.hideTrailingZeros,
+    });
+  }
+
+  return props.placeholder;
+};

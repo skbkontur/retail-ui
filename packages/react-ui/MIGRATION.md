@@ -1,5 +1,10 @@
 # Migration
 
+- [3.x - 4.0](#3x---40)
+  - [Новые темы](#новые-темы)
+  - [Адаптация под Lab Grotesque](#адаптация-под-lab-grotesque)
+  - [Мобильные версии компонентов](#мобильные-версии-компонентов)
+  - [Переименование label в caption](#переименование-label-в-caption)
 - [2.x - 3.0](#2x---30)
   - [8px-тема по умолчанию](#8px-тема-по-умолчанию)
   - [Удаление старых компонентов, переменных и пропов](#удаление-старых-компонентов-переменных-и-пропов)
@@ -21,6 +26,66 @@
   - [Переход с кастомизации с помощью `less`](#переход-с-кастомизации-с-помощью-less)
   - [Подключение плоской темы](#подключение-плоской-темы)
 
+## 3.x - 4.0
+
+### Новые темы
+
+В версии 4.0 обновлён список доступных тем. Вместо двух отдельных (дефолтной и плоской) теперь осталась одна тема по умолчанию, которая базируется на плоской теме и использует обновлённую цветовую палитру. Также, добавилась официальная тёмная тема, и были удалены темы со старыми размерами (`DEFAULT_THEME_OLD` и `FLAT_THEME_OLD`). Предыдущие 8px-темы пока остаются в пакете, но планируются к удалению в 5.0. Они получили суффикс `_8PX_OLD` к своему имени.
+
+Текущий список тем:
+
+| Имя                     | Описание           |
+| ----------------------- | ------------------ |
+| `DEFAULT_THEME`         | Новая по умолчанию |
+| `DARK_THEME`            | Темная             |
+| `DEFAULT_THEME_8PX_OLD` | Старая дефолтная   |
+| `FLAT_THEME_8PX_OLD`    | Старая плоская     |
+
+Чтобы продолжить использовать предыдущую тему, просто включите ее вручную.
+
+```jsx static
+import { ThemeContext, DEFAULT_THEME_8PX } from '@skbkontur/react-ui';
+
+<ThemeContext.Provider value={DEFAULT_THEME_8PX}>...</ThemeContext.Provider>;
+```
+
+### Адаптация под Lab Grotesque
+
+Библиотека по умолчанию теперь ориентирована на использование шрифта `Lab Grotesque` вместо `Segoe UI`. В стили компонентов `Checkbox`, `Radio` и `Toggle` была добавлена компенсация базовой линии. Ее можно отключить переменной темы `labGrotesqueBaselineCompensation`, передав значение `"0"`. Старая компенсация для Segoe, которая присутствовала в компоненте `Button`, теперь отключена. Однако, прежнюю компенсацию в случае необходимости можно вернуть, передав переменной `fontFamilyCompensationBaseline` значение `"1"`.
+
+### Мобильные версии компонентов
+
+У таких компонентов, как `Select`, `Autocomplete`, `ComboBox`, `Modal`, `SidePage`, `Hint`, `Tooltip`, `TooltipMenu`, `Dropdown`, `DropdownMenu`, `Kebab` появились мобильные версии, которые активируются автоматически на мобильных устройствах. Подробнее об этом в [соответствующем разделе](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui/MOBILES.md) документации.
+
+### Переименование label в caption
+
+Для большей консистентности имен среди всех компонентов были произведены следующие переименования:
+
+1. проп в Switcher
+
+   | Было    | Стало     |
+   | ------- | --------- |
+   | `label` | `caption` |
+
+2. переменные темы
+
+   | Было                            | Стало                             |
+   | ------------------------------- | --------------------------------- |
+   | `checkboxLabelGap`              | `checkboxCaptionGap`              |
+   | `radioLabelGap`                 | `radioCaptionGap`                 |
+   | `radioLabelDisplay`             | `radioCaptionDisplay`             |
+   | `switcherLabelFontSizeSmall`    | `switcherCaptionFontSizeSmall`    |
+   | `switcherLabelFontSizeMedium`   | `switcherCaptionFontSizeMedium`   |
+   | `switcherLabelFontSizeLarge`    | `switcherCaptionFontSizeLarge`    |
+   | `switcherLabelLineHeightSmall`  | `switcherCaptionLineHeightSmall`  |
+   | `switcherLabelLineHeightMedium` | `switcherCaptionLineHeightMedium` |
+   | `switcherLabelLineHeightLarge`  | `switcherCaptionLineHeightLarge`  |
+   | `switcherLabelGapSmall`         | `switcherCaptionGapSmall`         |
+   | `switcherLabelGapMedium`        | `switcherCaptionGapMedium`        |
+   | `switcherLabelGapLarge`         | `switcherCaptionGapLarge`         |
+
+Для автоматической адаптации этих изменений доступны кодмоды: [react-ui-4.0/transformLabelToCaption](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui-codemod/README.md#react-ui-40transformlabeltocaption) и [react-ui-4.0/renameThemeVars](https://github.com/skbkontur/retail-ui/blob/next/packages/react-ui-codemod/README.md#react-ui-40renamethemevars).
+
 ## 2.x - 3.0
 
 ### 8px-тема по умолчанию
@@ -36,7 +101,7 @@
 | `DEFAULT_THEME_OLD` | Старая дефолтная |
 | `FLAT_THEME_OLD`    | Старая плоская   |
 
-Чтобы продожить использовать старую тему, просто включите ее вручную.
+Чтобы продолжить использовать старую тему, просто включите ее вручную.
 
 ```jsx static
 import { ThemeContext, DEFAULT_THEME_OLD } from '@skbkontur/react-ui';
@@ -48,7 +113,7 @@ import { ThemeContext, DEFAULT_THEME_OLD } from '@skbkontur/react-ui';
 
 ### Удаление старых компонентов, переменных и пропов
 
-В [2.0](#отдельный-пакет-для-контур-специфичных-компонентов) была начата работа по переносу Контур-специфичных компонетов в отдельный пакет `@skbkontur/react-ui-addons`. Начиная с 3.0 компоненты `TopBar`, `Logotype` и `Fias` полностью переехали из `react-ui`. Их кастомизация и локализация продолжат работать через соответсвующие контексты `react-ui`.
+В [2.0](#отдельный-пакет-для-контур-специфичных-компонентов) была начата работа по переносу Контур-специфичных компонентов в отдельный пакет `@skbkontur/react-ui-addons`. Начиная с 3.0 компоненты `TopBar`, `Logotype` и `Fias` полностью переехали из `react-ui`. Их кастомизация и локализация продолжат работать через соответсвующие контексты `react-ui`.
 
 Также, были удалены [ранее помеченные](#нативный-reactcontext-для-themelocale-provider) как устаревшие компоненты:
 
@@ -122,7 +187,7 @@ import Input from '@skbkontur/react-ui/Input';
 import { Button, Input } from '@skbkontur/react-ui;
 ```
 
-В случае использования typescript вам потребуется влючить опцию `compilerOptions.esModuleInterop` в своем `tsconfgi.json` для корректной работы типизации.
+В случае использования typescript вам потребуется включить опцию `compilerOptions.esModuleInterop` в своем `tsconfgi.json` для корректной работы типизации.
 
 Если вы загружаете компоненты библиотеки в nodejs, например, в unit тестах, вам необходимо настроить трансформацию в CommonJS модулей из `@skbkontur/react-ui`, чтобы избежать ошибки `Error [ERR_REQUIRE_ESM]: Must use import to load ES Module`. Для сборки бандла в webpack конфиге ничего дополнительно настраивать не нужно. В скором времени появится нативная поддержка [ES Modules в Jest](https://jestjs.io/blog/2020/01/21/jest-25.html#ecmascript-modules-support)
 
@@ -247,7 +312,7 @@ const MyTheme = ThemeFactory.create({ /* ... */ })
 Для перехода с кастомизации посредством переопределения less-переменных, необходимо превратить less-переменные в объект темы.
 Это можно сделать с помощью <a target="_blank" href="https://raw.githubusercontent.com/skbkontur/retail-ui/master/packages/react-ui-codemod/customization/variablesConverter.js">скрипта</a>
 
-Скрипту необходимо передать два параметра: `variables` - путь до файла с перменными и `output` - путь до файла, в который нужно записать объект темы. Если по пути, переданному в `output`, файла не существует, файл будет создан. В противном случае, он будет перезаписан.
+Скрипту необходимо передать два параметра: `variables` - путь до файла с переменными и `output` - путь до файла, в который нужно записать объект темы. Если по пути, переданному в `output`, файла не существует, файл будет создан. В противном случае, он будет перезаписан.
 
 Перед запуском скрипт необходимо скачать и положить в папку с проектом. В процессе конвертации используется пакет [less.js](https://www.npmjs.com/package/less), который скрипт возьмет из зависимостей проекта.
 

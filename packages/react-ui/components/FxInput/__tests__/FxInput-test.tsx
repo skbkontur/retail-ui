@@ -2,6 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { FxInput, FxInputProps } from '../FxInput';
+import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 const render = (
   props: FxInputProps = {
@@ -9,9 +10,11 @@ const render = (
       /**/
     },
   },
-) => mount<FxInput, FxInputProps>(<FxInput {...props} />);
+) => mount<FxInput, FxInputProps>(<FxInput {...props} />, { attachTo: getAttachedTarget() });
 
 describe('FxInput', () => {
+  buildMountAttachTarget();
+
   it('render without crash', () => {
     render();
   });
@@ -22,10 +25,10 @@ describe('FxInput', () => {
 
     wrapper.instance().focus();
 
-    expect(document.activeElement).toBe(input.instance());
+    expect(input.instance()).toHaveFocus();
 
     wrapper.instance().blur();
 
-    expect(document.activeElement).toBe(document.body);
+    expect(document.body).toHaveFocus();
   });
 });

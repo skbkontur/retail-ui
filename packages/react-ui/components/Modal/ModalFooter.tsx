@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
+import { useResponsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -25,9 +26,11 @@ export interface ModalFooterProps extends CommonProps {
  * @visibleName Modal.Footer
  */
 function ModalFooter(props: ModalFooterProps) {
-  const { sticky = true, panel, children } = props;
   const theme = useContext(ThemeContext);
   const modal = useContext(ModalContext);
+  const layout = useResponsiveLayout();
+
+  const { sticky = !layout.isMobile, panel, children } = props;
 
   useEffect(() => {
     modal.setHasFooter?.();
@@ -39,17 +42,21 @@ function ModalFooter(props: ModalFooterProps) {
     };
   }, [panel]);
 
-  const renderContent = (fixed = false) => (
-    <div
-      className={cx({
-        [styles.footer(theme)]: true,
-        [styles.fixedFooter(theme)]: fixed,
-        [styles.panel(theme)]: Boolean(panel),
-      })}
-    >
-      {children}
-    </div>
-  );
+  const renderContent = (fixed = false) => {
+    return (
+      <div
+        className={cx({
+          [styles.footer(theme)]: true,
+          [styles.fixedFooter(theme)]: fixed,
+          [styles.panel(theme)]: Boolean(panel),
+          [styles.fixedPanel(theme)]: fixed && Boolean(panel),
+          [styles.mobileFooter(theme)]: layout.isMobile,
+        })}
+      >
+        {children}
+      </div>
+    );
+  };
 
   return (
     <CommonWrapper {...props}>

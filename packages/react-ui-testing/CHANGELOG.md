@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.5.3](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.5.2...react-ui-testing@3.5.3) (2022-05-04)
+
+
+### Bug Fixes
+
+* **Paging:** add prop shouldBeVisibleWithLessThanTwoPages, true by default ([#2778](https://github.com/skbkontur/retail-ui/issues/2778)) ([d19c839](https://github.com/skbkontur/retail-ui/commit/d19c839e4a430ba6ef07ef87242b4a82a37a2dbc))
+
+
+
+
+
+## [3.5.2](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.5.1...react-ui-testing@3.5.2) (2022-03-01)
+
+**Note:** Version bump only for package react-ui-testing
+
+
+
+
+
 ## [3.5.1](https://github.com/skbkontur/retail-ui/compare/react-ui-testing@3.5.0...react-ui-testing@3.5.1) (2021-10-25)
 
 **Note:** Version bump only for package react-ui-testing

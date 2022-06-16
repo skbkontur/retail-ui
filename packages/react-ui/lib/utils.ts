@@ -1,5 +1,6 @@
 import { ReactComponentLike } from 'prop-types';
 import React from 'react';
+import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
 
@@ -41,8 +42,20 @@ export function isFunction<T>(x: T | Function): x is Function {
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: ReactComponentLike) {
-  return typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent);
+export function isFunctionalComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
+}
+
+export function isClassComponent(Component: ReactComponentLike): boolean {
+  return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
+}
+
+export function isIntrinsicElement(element: React.ReactElement): boolean {
+  return typeof element.type === 'string';
+}
+
+export function isRefableElement(element: React.ReactElement): boolean {
+  return Boolean(isIntrinsicElement(element) || isClassComponent(element.type) || isForwardRef(element));
 }
 
 export function escapeRegExpSpecChars(s: string): string {
@@ -70,6 +83,34 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
   return false;
 };
 
+const KB = 1024;
+const UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+const calculateDecimals = (decimals: number) => {
+  if (decimals < 0) {
+    return 0;
+  }
+
+  return 0;
+};
+
+export const formatBytes = (bytes: number, decimals = 2): string | null => {
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
+
+  if (!bytes) {
+    return null;
+  }
+
+  const calculatedDecimals = calculateDecimals(decimals);
+
+  const i = Math.floor(Math.log2(bytes) / Math.log2(KB));
+  const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(calculatedDecimals));
+
+  return `${formattedBytes} ${UNITS[i]}`;
+};
+
 /**
  * Проверяет, не является ли переданный аргумент null или undefined и исключает типы null и undefined из типа аргумента
  *
@@ -78,4 +119,90 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
  */
 export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
   return value !== null && value !== undefined;
+};
+
+/**
+ * Checks if the value `null` or `undefined`.
+ *
+ * @param value Value to check for `null` and `undefined`.
+ * @returns Returns `true` if `value` is `null` or `undefined`, else `false`.
+ */
+// @ts-expect-error: TypeScript doesn't consider the check inside of the function.
+export const isNullable = <T>(value: T): value is null | undefined => {
+  return value === null || value === undefined;
+};
+
+/**
+ * Creates a function that checks if the given `child`
+ * is an instance of some component specified by `name`.
+ *
+ * @param name Component name for which function will be created.
+ * @returns A function that checks if the given `child` is an instance of the component specified by `name`.
+ */
+export const isReactUIComponent = <P = any>(name: string) => {
+  return (child: React.ReactNode): child is React.ReactElement<P> => {
+    // @ts-ignore
+    return child?.type?.__KONTUR_REACT_UI__ === name;
+  };
+};
+
+/**
+ * Merges two or more refs into one.
+ *
+ * @param refs Array of refs.
+ * @returns A single ref composing all the refs passed.
+ *
+ * @example
+ * const SomeComponent = forwardRef((props, ref) => {
+ *  const localRef = useRef();
+ *
+ *  return <div ref={mergeRefs([localRef, ref])} />;
+ * });
+ */
+export function mergeRefs<T = any>(refs: Array<React.MutableRefObject<T> | React.LegacyRef<T>>): React.RefCallback<T> {
+  return (value) => {
+    refs.forEach((ref) => {
+      if (typeof ref === 'function') {
+        return ref(value);
+      } else if (isNonNullable(ref)) {
+        return ((ref as React.MutableRefObject<T | null>).current = value);
+      }
+    });
+  };
+}
+
+/**
+ * Extracts all data attributes from props and returns them as well as props.
+ *
+ * @param props Props object to extract data attributes from.
+ * @returns Separated data attributes and all other props.
+ */
+export const extractDataProps = <T>(props: T) => {
+  const dataProps: Record<string, any> = {};
+  const restWithoutDataProps: Record<string, any> = {};
+
+  Object.entries(props).map(([name, value]) => {
+    if (name.startsWith('data-')) {
+      return (dataProps[name] = value);
+    }
+
+    return (restWithoutDataProps[name] = value);
+  });
+
+  return { dataProps, restWithoutDataProps };
+};
+
+/**
+ * Basically `.startsWith` for arrays.
+ *
+ * @param searchKeys Array of strings to test against `inputString`.
+ * @param inputString String on which search will be performed.
+ * @returns `true` if `inputString` starts with one of keys, else `false`.
+ */
+export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
+  const keyIndex = searchKeys.findIndex((key) => {
+    return inputString.startsWith(key);
+  });
+
+  return keyIndex >= 0;
 };
