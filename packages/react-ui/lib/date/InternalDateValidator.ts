@@ -24,18 +24,37 @@ const calculateEndDate = (endDate: number | null) => {
 
   return Infinity;
 };
+
+const getValue = (type: InternalDateComponentType, { year, month, date }: InternalDateComponentsNumber) => {
+  if (type === InternalDateComponentType.Year) {
+    return year;
+  }
+
+  if (type === InternalDateComponentType.Month) {
+    return month;
+  }
+
+  return date;
+};
+
 export class InternalDateValidator {
   public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
     if (isNonNullable(type)) {
       if (type === InternalDateComponentType.Year) {
         return year !== null;
-      } else if (type === InternalDateComponentType.Month) {
+      }
+
+      if (type === InternalDateComponentType.Month) {
         return month !== null;
-      } else if (type === InternalDateComponentType.All) {
+      }
+
+      if (type === InternalDateComponentType.All) {
         return year !== null && month !== null && date !== null;
       }
+
       return date !== null;
     }
+
     return !(year === null || month === null || date === null);
   }
 
@@ -44,20 +63,11 @@ export class InternalDateValidator {
     type?: InternalDateComponentType,
   ): boolean {
     if (isNonNullable(type)) {
-      const getValue = () => {
-        if (type === InternalDateComponentType.Year) {
-          return year;
-        } else if (type === InternalDateComponentType.Month) {
-          return month;
-        }
-
-        return date;
-      };
-
-      const value = getValue();
+      const value = getValue(type, { date, month, year });
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);
     }
+
     return (
       year >= InternalDateGetter.getDefaultMin(InternalDateComponentType.Year) &&
       year <= InternalDateGetter.getDefaultMax(InternalDateComponentType.Year) &&
