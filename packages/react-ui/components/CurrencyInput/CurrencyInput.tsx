@@ -20,6 +20,7 @@ export interface CurrencyInputProps
     Override<
       InputProps,
       {
+        /** Значение */
         value: Nullable<number>;
         /** Убрать лишние нули после запятой */
         hideTrailingZeros: boolean;
