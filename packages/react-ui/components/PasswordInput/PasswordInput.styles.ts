@@ -46,12 +46,6 @@ export const styles = memoizeStyle({
       }
     `;
   },
-  // Allows to register repeat click on the eye icon
-  repeatIconClickFix() {
-    return css`
-      pointer-events: none;
-    `;
-  },
   iconWrapper() {
     return css`
       display: flex;
