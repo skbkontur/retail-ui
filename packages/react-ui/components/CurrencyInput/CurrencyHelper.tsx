@@ -203,8 +203,4 @@ export class CurrencyHelper {
     const [, sign = '', integer = '', delimiter = '', fraction = ''] = match;
     return { sign, integer, delimiter, fraction };
   }
-
-  static isNumber = (num: unknown): num is number | string => {
-    return !isNaN(parseFloat(num as string)) && !isNaN((num as number) - 0);
-  };
 }

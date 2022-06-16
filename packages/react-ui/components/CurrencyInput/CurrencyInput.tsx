@@ -8,6 +8,7 @@ import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { isNonNullable } from '../../lib/utils';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -110,7 +111,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
         `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
     );
-    if (value !== null && !CurrencyHelper.isNumber(value)) {
+    if (isNonNullable(value) && (isNaN(value) || typeof value === 'string')) {
       console.log(new Error('Warning: value is not a valid number'));
       return;
     }
@@ -118,11 +119,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== null && !CurrencyHelper.isNumber(value)) {
+    if (isNonNullable(value) && (isNaN(value) || typeof value === 'string')) {
       console.log(new Error('Warning: value is not a valid number'));
       return;
     }
-
     if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
