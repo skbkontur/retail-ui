@@ -5,7 +5,11 @@
       "extends": ["plugin:testing-library/dom", "plugin:jest-dom/recommended", "plugin:storybook/recommended"],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
-        "import/no-default-export": 0
+        "import/no-default-export": 0,
+        "@emotion/jsx-import": 2,
+        "@emotion/no-vanilla": 2,
+        "@emotion/import-from-emotion": 2,
+        "@emotion/styled-import": 2
       }
     }
   ]
