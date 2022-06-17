@@ -169,7 +169,7 @@ export function applyRef<T = any>(ref: Ref<T>, value: T | null) {
  *  return <div ref={mergeRefs([localRef, ref])} />;
  * });
  */
-export function mergeRefs<T = any>(...refs: Array<Ref<T>>): React.RefCallback<T> {
+export function mergeRefs<T = unknown>(...refs: Array<Ref<T>>): React.RefCallback<T> {
   return (value) => {
     refs.forEach((ref) => {
       applyRef(ref, value);
