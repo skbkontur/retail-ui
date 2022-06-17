@@ -92,7 +92,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ModalProps> = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
   };

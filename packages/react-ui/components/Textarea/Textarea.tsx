@@ -48,12 +48,12 @@ export interface TextareaProps
         /**
          * Число строк
          */
-        rows: number;
+        rows?: number;
         /**
          * Максимальное число строк при
          * автоматическом ресайзе
          */
-        maxRows: string | number;
+        maxRows?: string | number;
 
         /**
          * Стандартный ресайз
@@ -97,12 +97,12 @@ export interface TextareaProps
         /** Добавлять дополнительную свободную строку при авто-ресайзе.
          * @see https://guides.kontur.ru/components/textarea/#04
          * */
-        extraRow: boolean;
+        extraRow?: boolean;
 
         /** Отключать анимацию при авто-ресайзе.
          * Автоматически отключается когда в `extraRow` передан `false`.
          */
-        disableAnimations: boolean;
+        disableAnimations?: boolean;
       }
     > {}
 
@@ -176,7 +176,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     onCopy: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<TextareaProps> = {
     rows: 3,
     maxRows: 15,
     extraRow: true,
@@ -491,7 +491,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       node: fakeNode,
       minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
       maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-      extraRow,
+      extraRow: extraRow!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

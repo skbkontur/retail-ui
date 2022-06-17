@@ -189,7 +189,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<SelectProps<any, any>> = {
     renderValue,
     renderItem,
     areValuesEqual,
@@ -346,7 +346,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (isNonNullable(value)) {
       return {
-        label: this.getProps().renderValue(value, item),
+        label: this.getProps().renderValue!(value, item), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         isPlaceholder: false,
       };
     }
@@ -525,7 +525,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             comment={comment}
             isMobile={isMobile}
           >
-            {this.getProps().renderItem<TValue, TItem>(iValue, item)}
+            {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+            {this.getProps().renderItem!(iValue, item)}
           </MenuItem>
         );
       },
@@ -623,7 +624,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem<TValue>(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem!(value, item, pattern)) {
+        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -650,7 +652,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
-    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual<TValue>(value1, value2);
+    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual!(value1, value2); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   }
 
   private buttonRef = (element: FocusableReactElement | null) => {

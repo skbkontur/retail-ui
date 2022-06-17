@@ -108,7 +108,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<RadioGroupProps<any>> = {
     renderItem,
   };
 
@@ -229,7 +229,8 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
+        {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+        <Radio value={itemValue}>{this.getProps().renderItem!(itemValue, data)}</Radio>
       </span>
     );
   };

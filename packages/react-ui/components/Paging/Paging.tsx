@@ -37,7 +37,7 @@ export interface PagingProps extends CommonProps {
    * Компонент обертки по умолчанию
    * @default <span />
    */
-  component: React.ComponentType<ItemComponentProps>;
+  component?: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
@@ -54,7 +54,7 @@ export interface PagingProps extends CommonProps {
    * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
-  useGlobalListener: boolean;
+  useGlobalListener?: boolean;
   /**
    * Определяет, нужно ли показывать `Paging` когда страница всего одна.
    *
@@ -63,7 +63,7 @@ export interface PagingProps extends CommonProps {
    *
    * @default false
    */
-  shouldBeVisibleWithLessThanTwoPages: boolean;
+  shouldBeVisibleWithLessThanTwoPages?: boolean;
 }
 
 export interface PagingState {
@@ -79,7 +79,7 @@ export type ItemType = number | '.' | 'forward';
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<PagingProps> = {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
@@ -96,7 +96,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keyboardControl: this.props.useGlobalListener,
+    keyboardControl: this.props.useGlobalListener!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 
   private theme!: Theme;
@@ -122,7 +122,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     if (prevProps.useGlobalListener !== this.props.useGlobalListener) {
       this.setState({
-        keyboardControl: this.props.useGlobalListener,
+        keyboardControl: this.props.useGlobalListener!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       });
     }
   }
@@ -197,7 +197,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.forwardLinkFocused()]: focused,
       [styles.disabled(this.theme)]: disabled,
     });
-    const { component: Component, caption } = this.props;
+    const { caption } = this.props;
+    const Component = this.props.component!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     const { forward } = this.locale;
 
     return (
@@ -224,7 +225,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.pageLinkFocused(this.theme)]: focused,
       [styles.active(this.theme)]: active,
     });
-    const Component = this.props.component;
+    const Component = this.props.component!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     const handleClick = () => this.goToPage(pageNumber);
 
     return (

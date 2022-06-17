@@ -138,13 +138,13 @@ interface MonthDayGridProps {
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
-  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
 
-  public static defaultProps = {
+  public static defaultProps: Partial<MonthProps> = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
   };
 
@@ -185,7 +185,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
           }}
         />
         {this.props.days.map((day) => {
-          const isWeekend = this.props.isHoliday(day);
+          const isWeekend = this.props.isHoliday!(day); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
 
           return (
             <DayCellView

@@ -33,7 +33,7 @@ export interface ComboBoxMenuProps<T> {
 export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ComboBoxMenuProps<any>> = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
   };

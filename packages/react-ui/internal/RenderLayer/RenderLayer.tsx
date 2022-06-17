@@ -28,7 +28,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<RenderLayerProps> = {
     active: true,
   };
 

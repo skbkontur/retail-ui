@@ -23,7 +23,7 @@ export interface VariableValueProps {
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
-  deprecated: boolean;
+  deprecated?: boolean;
 }
 
 export interface VariableValueState {
@@ -32,7 +32,7 @@ export interface VariableValueState {
 }
 
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
-  public static defaultProps = {
+  public static defaultProps: Partial<VariableValueProps> = {
     deprecated: false,
   };
   public state = {

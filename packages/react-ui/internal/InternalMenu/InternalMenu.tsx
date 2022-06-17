@@ -48,7 +48,7 @@ interface MenuState {
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<MenuProps> = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -252,7 +252,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private setInitialSelection = () => {
-    for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
+    for (let i = this.getProps().initialSelectedItemIndex!; i > -1; i--) {
+      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       this.moveDown();
     }
   };

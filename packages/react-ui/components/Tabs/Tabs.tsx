@@ -45,7 +45,7 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
    * Vertical indicator
    * @default false
    */
-  vertical: boolean;
+  vertical?: boolean;
 
   /**
    * Width of tabs container
@@ -69,7 +69,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
-  public static defaultProps = {
+  public static defaultProps: Partial<TabsProps> = {
     vertical: false,
   };
 
@@ -103,7 +103,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
               <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
                 <TabsContext.Provider
                   value={{
-                    vertical,
+                    vertical: vertical!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
                     activeTab: value,
                     getTab: this.getTab,
                     addTab: this.addTab,
@@ -114,7 +114,8 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   }}
                 >
                   {children}
-                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+                  {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical!} />
                 </TabsContext.Provider>
               </div>
             </CommonWrapper>

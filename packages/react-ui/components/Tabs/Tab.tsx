@@ -120,7 +120,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<TabProps> = {
     component: 'a',
     href: '',
   };
@@ -189,7 +189,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       warning,
       success,
       primary,
-      component: Component = Tab.defaultProps.component,
+      component: Component = Tab.defaultProps.component!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       href,
     } = this.props;
 

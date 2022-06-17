@@ -7,8 +7,8 @@ import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTa
 export interface ComponentCombinatorProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
-  presetProps: DefaultizeProps<C, P>;
-  presetState: Partial<S>;
+  presetProps?: DefaultizeProps<C, P>;
+  presetState?: Partial<S>;
 }
 
 export class ComponentCombinator<
@@ -19,9 +19,7 @@ export class ComponentCombinator<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
 > {
-  public static defaultProps = {
-    props: [],
-    states: [],
+  public static defaultProps: Partial<ComponentCombinatorProps<any, any, any>> = {
     presetProps: {},
     presetState: {},
   };

@@ -19,7 +19,7 @@ export interface ToggleProps extends CommonProps {
    * Положение `children` относительно переключателя.
    * @default 'right'
    */
-  captionPosition: 'left' | 'right';
+  captionPosition?: 'left' | 'right';
   /**
    * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
    * @default false
@@ -105,7 +105,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ToggleProps> = {
     disabled: false,
     loading: false,
     captionPosition: 'right',

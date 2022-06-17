@@ -43,7 +43,7 @@ export class FxInput extends React.Component<FxInputProps> {
     type: PropTypes.string,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<FxInputProps> = {
     width: 250,
     type: 'text',
     value: '',

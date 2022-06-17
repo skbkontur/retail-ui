@@ -54,7 +54,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Необходим для сравнения полученных результатов с `value`
    * @default item => item.label
    */
-  itemToValue: (item: T) => string | number;
+  itemToValue?: (item: T) => string | number;
 
   maxLength?: number;
 
@@ -96,7 +96,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Не применяется если элемент является функцией или React-элементом
    * @default item => item.label
    */
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
@@ -114,7 +114,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Функция отрисовки выбранного значения
    * @default item => item.label
    */
-  renderValue: (item: T) => React.ReactNode;
+  renderValue?: (item: T) => React.ReactNode;
 
   /**
    * Функция отрисовки кнопки добавления в выпадающем списке
@@ -138,7 +138,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Необходим для преобразования `value` в строку при фокусировке
    * @default item => item.label
    */
-  valueToString: (item: T) => string;
+  valueToString?: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
   /**
@@ -170,7 +170,7 @@ export interface ComboBoxItem {
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ComboBoxProps<ComboBoxItem>> = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,
@@ -262,7 +262,16 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={this.customComboBoxRef} />;
+    return (
+      <CustomComboBox
+        {...this.props}
+        itemToValue={this.props.itemToValue!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        valueToString={this.props.valueToString!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        renderValue={this.props.renderValue!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        renderItem={this.props.renderItem!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        ref={this.customComboBoxRef}
+      />
+    );
   }
 
   private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {

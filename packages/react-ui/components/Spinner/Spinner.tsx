@@ -27,7 +27,7 @@ export interface SpinnerProps extends CommonProps {
    * Тип спиннера
    * @default normal
    */
-  type: SpinnerType;
+  type?: SpinnerType;
   inline?: boolean;
   /**
    * Толщина спиннера
@@ -68,7 +68,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps: SpinnerProps = {
+  public static defaultProps: Partial<SpinnerProps> = {
     type: 'normal',
   };
 
@@ -94,8 +94,10 @@ export class Spinner extends React.Component<SpinnerProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.spinner()}>
-          <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
-          {caption && this.renderCaption(type, caption)}
+          {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+          <span className={styles.inner()}>{this.renderSpinner(type!, dimmed, inline)}</span>
+          {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+          {caption && this.renderCaption(type!, caption)}
         </div>
       </CommonWrapper>
     );

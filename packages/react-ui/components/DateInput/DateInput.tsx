@@ -28,7 +28,7 @@ export interface DateInputState {
 
 export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
-  value: string;
+  value?: string;
   /**
    * Состояние валидации при ошибке.
    */
@@ -42,12 +42,12 @@ export interface DateInputProps extends CommonProps {
    * Минимальная дата.
    * @default '01.01.1900'
    */
-  minDate: string;
+  minDate?: string;
   /**
    * Максимальная дата
    * @default '31.12.2099'
    */
-  maxDate: string;
+  maxDate?: string;
   /**
    * Ширина поля
    * @default 125
@@ -58,7 +58,7 @@ export interface DateInputProps extends CommonProps {
    * Размер поля
    * @default 'small'
    */
-  size: 'small' | 'large' | 'medium';
+  size?: 'small' | 'large' | 'medium';
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
@@ -76,7 +76,7 @@ export interface DateInputProps extends CommonProps {
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<DateInputProps> = {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,

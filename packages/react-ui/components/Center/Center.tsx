@@ -30,7 +30,7 @@ export interface CenterProps
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<CenterProps> = {
     align: 'center',
   };
   private setRootNode!: TSetRootNode;

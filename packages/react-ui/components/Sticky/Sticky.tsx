@@ -21,7 +21,7 @@ export interface StickyProps extends CommonProps {
    * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
    * @default 0
    */
-  offset: number;
+  offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
@@ -56,7 +56,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
 
-  public static defaultProps = { offset: 0 };
+  public static defaultProps: Partial<StickyProps> = { offset: 0 };
 
   public state: StickyState = {
     fixed: false,
@@ -160,7 +160,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     const { width, height } = getDOMRect(this.inner);
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? top < offset : Math.floor(bottom) > windowHeight - offset;
+    const fixed = side === 'top' ? top < offset! : Math.floor(bottom) > windowHeight - offset!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
 
     this.setState({ fixed, left });
 
@@ -173,7 +173,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       if (stop) {
         const deltaHeight = prevHeight - height;
         const stopRect = getDOMRect(stop);
-        const outerHeight = height + offset;
+        const outerHeight = height + offset!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         let stopped = false;
         let relativeTop = 0;
 

@@ -42,12 +42,12 @@ export enum TokenInputType {
 export type TokenInputMenuAlign = 'left' | 'cursor';
 
 export interface TokenInputProps<T> extends CommonProps {
-  selectedItems: T[];
-  onValueChange: (items: T[]) => void;
-  onMouseEnter: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave: MouseEventHandler<HTMLDivElement>;
-  onFocus: FocusEventHandler<HTMLTextAreaElement>;
-  onBlur: FocusEventHandler<HTMLTextAreaElement>;
+  selectedItems?: T[];
+  onValueChange?: (items: T[]) => void;
+  onMouseEnter?: MouseEventHandler<HTMLDivElement>;
+  onMouseLeave?: MouseEventHandler<HTMLDivElement>;
+  onFocus?: FocusEventHandler<HTMLTextAreaElement>;
+  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   autoFocus?: boolean;
   type?: TokenInputType;
   /**
@@ -58,8 +58,8 @@ export interface TokenInputProps<T> extends CommonProps {
    * Если menuAlign = 'cursor', то ширина выпадающего меню всегда будет равна 'auto'
    * (по ширине текста)
    */
-  menuWidth: React.CSSProperties['width'];
-  menuAlign: TokenInputMenuAlign;
+  menuWidth?: React.CSSProperties['width'];
+  menuAlign?: TokenInputMenuAlign;
 
   /**
    * Функция поиска элементов, должна возвращать Promise с массивом элементов.
@@ -70,18 +70,18 @@ export interface TokenInputProps<T> extends CommonProps {
    */
   getItems?: (query: string) => Promise<T[]>;
   hideMenuIfEmptyInputValue?: boolean;
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue: (item: T) => React.ReactNode;
+  renderItem?: (item: T, state: MenuItemState) => React.ReactNode | null;
+  renderValue?: (item: T) => React.ReactNode;
   /**
    * Функция должна возвращать строковое представление токена
    * @default item => item
    */
-  valueToString: (item: T) => string;
+  valueToString?: (item: T) => string;
   renderNotFound?: () => React.ReactNode;
-  valueToItem: (item: string) => T;
-  toKey: (item: T) => string | number | undefined;
+  valueToItem?: (item: string) => T;
+  toKey?: (item: T) => string | number | undefined;
   placeholder?: string;
-  delimiters: string[];
+  delimiters?: string[];
   /**
    * Состояние валидации при ошибке.
    */
@@ -220,7 +220,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         payload: undefined,
       });
     }
-    if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
+    if (prevProps.selectedItems!.length !== this.props.selectedItems!.length) {
+      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       LayoutEvents.emit();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
@@ -348,7 +349,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
               spellCheck={false}
               disabled={disabled}
               className={inputClassName}
-              placeholder={selectedItems.length > 0 ? undefined : placeholder}
+              placeholder={selectedItems!.length > 0 ? undefined : placeholder} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
               onFocus={this.handleInputFocus}
               onBlur={this.handleInputBlur}
               onChange={this.handleChangeInputValue}
@@ -365,11 +366,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 maxMenuHeight={maxMenuHeight}
                 anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
                 renderNotFound={renderNotFound}
-                renderItem={renderItem}
+                renderItem={renderItem!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
                 menuWidth={menuWidth}
-                menuAlign={menuAlign}
+                menuAlign={menuAlign!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
               />
             )}
             {this.renderTokensEnd()}
@@ -398,7 +399,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private get showAddItemHint() {
     const items = this.state.autocompleteItems;
-    const value = this.props.valueToItem(this.state.inputValue);
+    const value = this.props.valueToItem!(this.state.inputValue); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
 
     if (items && this.hasValueInItems(items, value)) {
       return false;
@@ -504,7 +505,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (autocompleteItems && autocompleteItems.length === 1) {
       const item = autocompleteItems[0];
 
-      if (valueToString(item) === inputValue) {
+      if (valueToString!(item) === inputValue) {
+        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         this.isEditingMode ? this.finishTokenEdit() : this.selectItem(item);
 
         return;
@@ -535,7 +537,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { selectedItems, valueToString } = this.props;
 
     if (this.isEditingMode) {
-      return valueToString(selectedItems[editingTokenIndex]) !== inputValue;
+      return valueToString!(selectedItems![editingTokenIndex]) !== inputValue; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     }
 
     return false;
@@ -575,11 +577,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     // упорядочивание токенов по индексу
     const tokens = this.state.activeTokens
-      .map((token) => this.props.selectedItems.indexOf(token))
+      .map((token) => this.props.selectedItems!.indexOf(token)) //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       .sort()
-      .map((index) => this.props.selectedItems[index])
-      .map((item) => this.props.valueToString(item));
-    event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters[0]));
+      .map((index) => this.props.selectedItems![index]) //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      .map((item) => this.props.valueToString!(item)); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    event.clipboardData.setData('text/plain', tokens.join(this.props.delimiters![0])); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
@@ -588,18 +590,20 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     let paste = event.clipboardData.getData('text');
     const { delimiters } = this.props;
-    if (delimiters.some((delimiter) => paste.includes(delimiter))) {
+    if (delimiters!.some((delimiter) => paste.includes(delimiter))) {
+      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       event.preventDefault();
       event.stopPropagation();
-      for (const delimiter of delimiters) {
-        paste = paste.split(delimiter).join(delimiters[0]);
+      for (const delimiter of delimiters!) {
+        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        paste = paste.split(delimiter).join(delimiters![0]); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       }
-      const tokens = paste.split(delimiters[0]);
+      const tokens = paste.split(delimiters![0]); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       const items = tokens
-        .map((token) => this.props.valueToItem(token))
-        .filter((item) => !this.hasValueInItems(this.props.selectedItems, item));
-      const newItems = this.props.selectedItems.concat(items);
-      this.props.onValueChange(newItems);
+        .map((token) => this.props.valueToItem!(token)) //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        .filter((item) => !this.hasValueInItems(this.props.selectedItems!, item!)); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      const newItems = this.props.selectedItems!.concat(items); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      this.props.onValueChange!(newItems); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
 
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
       this.tryGetItems();
@@ -612,18 +616,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const autocompleteItems = await this.props.getItems(query);
       this.dispatch({ type: 'SET_LOADING', payload: false });
 
-      const isSelectedItem = (item: T) => this.hasValueInItems(this.props.selectedItems, item);
+      const isSelectedItem = (item: T) => this.hasValueInItems(this.props.selectedItems!, item); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       const isEditingItem = (item: T) => {
-        const editingItem = this.props.selectedItems[this.state.editingTokenIndex];
+        const editingItem = this.props.selectedItems![this.state.editingTokenIndex]; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         return !!editingItem && isEqual(item, editingItem);
       };
 
       const autocompleteItemsUnique = autocompleteItems.filter((item) => !isSelectedItem(item) || isEditingItem(item));
 
       if (this.isEditingMode) {
-        const editingItem = this.props.selectedItems[this.state.editingTokenIndex];
+        const editingItem = this.props.selectedItems![this.state.editingTokenIndex]; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         if (
-          isEqual(editingItem, this.props.valueToItem(this.state.inputValue)) &&
+          isEqual(editingItem, this.props.valueToItem!(this.state.inputValue)) && //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
           !this.hasValueInItems(autocompleteItemsUnique, editingItem)
         ) {
           autocompleteItemsUnique.unshift(editingItem);
@@ -637,7 +641,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         });
       }
       const selectItemIndex = autocompleteItemsUnique.findIndex(
-        (item) => this.props.valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
+        (item) => this.props.valueToString!(item).toLowerCase() === this.state.inputValue.toLowerCase(), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       );
       if (this.menuRef) {
         this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
@@ -658,7 +662,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (
       (this.type !== TokenInputType.WithReference &&
-        this.props.delimiters.some((key) => key === e.key || (key === ',' && isKeyComma(e)))) ||
+        this.props.delimiters!.some((key) => key === e.key || (key === ',' && isKeyComma(e)))) || //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       (isKeyEnter(e) && this.type === TokenInputType.WithoutReference)
     ) {
       e.preventDefault();
@@ -729,10 +733,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       case isKeyBackspace(e):
       case isKeyDelete(e): {
         if (!this.isEditingMode) {
-          const itemsNew = this.props.selectedItems.filter(
+          const itemsNew = this.props.selectedItems!.filter(
+            //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
             (item) => !this.hasValueInItems(this.state.activeTokens, item),
           );
-          this.props.onValueChange(itemsNew);
+          this.props.onValueChange!(itemsNew); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
           this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
             LayoutEvents.emit();
             this.input?.focus();
@@ -765,10 +770,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperArrows = (e: KeyboardEvent<HTMLElement>) => {
     e.preventDefault();
     const activeTokens = this.state.activeTokens;
-    const activeItemIndex = this.props.selectedItems.indexOf(activeTokens[0]);
+    const activeItemIndex = this.props.selectedItems!.indexOf(activeTokens[0]); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     const newItemIndex = activeItemIndex + (isKeyArrowLeft(e) ? -1 : +1);
     const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
-    const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && isKeyArrowRight(e);
+    const isRightEdge = activeItemIndex === this.props.selectedItems!.length - 1 && isKeyArrowRight(e); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {
@@ -782,25 +787,25 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     } else if (!isLeftEdge) {
       this.dispatch({
         type: 'SET_ACTIVE_TOKENS',
-        payload: [this.props.selectedItems[newItemIndex]],
+        payload: [this.props.selectedItems![newItemIndex]], //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       });
     }
   };
 
   private handleWrapperArrowsWithShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (!isLeftEdge && !isRightEdge) {
-      const itemNew = this.props.selectedItems[newItemIndex];
+      const itemNew = this.props.selectedItems![newItemIndex]; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
     }
   };
 
   private handleValueChange = (items: T[]) => {
-    this.props.onValueChange(items);
+    this.props.onValueChange!(items); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 
   private handleAddItem = () => {
-    const item = this.props.valueToItem(this.state.inputValue);
+    const item = this.props.valueToItem!(this.state.inputValue); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     if (item) {
       this.selectItem(item);
     }
@@ -810,16 +815,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const { selectedItems } = this.props;
 
     if (this.isEditingMode) {
-      this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(item) }, this.finishTokenEdit);
-    } else if (!this.hasValueInItems(selectedItems, item)) {
-      this.handleValueChange(selectedItems.concat([item]));
+      this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString!(item) }, this.finishTokenEdit); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    } else if (!this.hasValueInItems(selectedItems!, item)) {
+      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      this.handleValueChange(selectedItems!.concat([item])); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       this.dispatch({ type: 'CLEAR_INPUT' });
       this.tryGetItems();
     }
   };
 
   private handleRemoveToken = (item: T) => {
-    this.props.onValueChange(this.props.selectedItems.filter((_) => !isEqual(_, item)));
+    this.props.onValueChange?.(this.props.selectedItems!.filter((_) => !isEqual(_, item))); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     const filteredActiveTokens = this.state.activeTokens.filter((_) => !isEqual(_, item));
 
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: filteredActiveTokens });
@@ -844,7 +850,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleTokenEdit = (itemNew: T) => {
-    const editingTokenIndex = this.props.selectedItems.findIndex((item) => item === itemNew);
+    const editingTokenIndex = this.props.selectedItems!.findIndex((item) => item === itemNew); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.state.inputValue !== '') {
@@ -852,7 +858,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
       }
     }
-    this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) }, this.selectInputText);
+    this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString!(itemNew) }, this.selectInputText); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
 
     this.tryGetItems();
@@ -861,10 +867,11 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private finishTokenEdit = () => {
     const { editingTokenIndex, inputValue, reservedInputValue } = this.state;
     const { selectedItems, valueToItem } = this.props;
-    const editedItem = valueToItem(inputValue);
-    const newItems = selectedItems.concat([]);
+    const editedItem = valueToItem!(inputValue); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    const newItems = selectedItems!.concat([]); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
 
-    if (!this.hasValueInItems(selectedItems, editedItem)) {
+    if (!this.hasValueInItems(selectedItems!, editedItem!)) {
+      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       newItems.splice(editingTokenIndex, 1, ...(inputValue !== '' ? [editedItem] : []));
       this.handleValueChange(newItems);
     }
@@ -878,7 +885,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       this.dispatch({ type: 'CLEAR_INPUT' });
     }
 
-    if (newItems.length === selectedItems.length) {
+    if (newItems.length === selectedItems!.length) {
+      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [newItems[editingTokenIndex]] });
     }
   };
@@ -943,13 +951,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private renderTokensStart = () => {
     const { editingTokenIndex } = this.state;
     const { selectedItems } = this.props;
-    const delimiter = editingTokenIndex >= 0 ? editingTokenIndex : selectedItems.length;
-    return selectedItems.slice(0, delimiter).map(this.renderToken);
+    const delimiter = editingTokenIndex >= 0 ? editingTokenIndex : selectedItems!.length; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    return selectedItems!.slice(0, delimiter).map(this.renderToken); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 
   private renderTokensEnd = () => {
     if (this.state.editingTokenIndex >= 0) {
-      return this.props.selectedItems.slice(this.state.editingTokenIndex + 1).map(this.renderToken);
+      return this.props.selectedItems!.slice(this.state.editingTokenIndex + 1).map(this.renderToken); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     }
   };
 

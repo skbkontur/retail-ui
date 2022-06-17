@@ -38,8 +38,8 @@ export interface DatePickerProps<T> extends CommonProps {
    * Состояние валидации при ошибке.
    */
   error?: boolean;
-  minDate: T;
-  maxDate: T;
+  minDate?: T;
+  maxDate?: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
@@ -75,7 +75,7 @@ export interface DatePickerProps<T> extends CommonProps {
    *
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
-  isHoliday: (day: T, isWeekend: boolean) => boolean;
+  isHoliday?: (day: T, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
@@ -139,7 +139,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     isHoliday: PropTypes.func.isRequired,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<DatePickerProps<string>> = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
@@ -363,6 +363,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
-    return this.props.isHoliday(dateString, isWeekend);
+    return this.props.isHoliday!(dateString, isWeekend); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 }

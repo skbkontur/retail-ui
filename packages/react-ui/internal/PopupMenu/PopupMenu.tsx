@@ -54,7 +54,7 @@ export interface PopupMenuProps extends CommonProps {
   popupMargin?: number;
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /** Действие при открытии меню */
   onOpen?: () => void;
   /** Действие при закрытии меню */
@@ -93,9 +93,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private isMobileLayout!: boolean;
 
-  public static defaultProps = {
+  public static defaultProps: Partial<PopupMenuProps> = {
     positions: Positions,
-    type: PopupMenuType.Tooltip,
+    type: PopupMenuType.Tooltip as 'tooltip',
     popupHasPin: true,
     disableAnimations: false,
   };

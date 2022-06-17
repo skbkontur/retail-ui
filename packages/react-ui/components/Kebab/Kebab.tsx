@@ -20,7 +20,7 @@ import { styles } from './Kebab.styles';
 
 export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   disabled?: boolean;
-  size: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
   /**
    * Список позиций доступных для расположения выпадашки.
    *
@@ -29,12 +29,12 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
-  positions: PopupPositionsType[];
+  positions?: PopupPositionsType[];
   menuMaxHeight?: number | string;
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Кастомная иконка
    */
@@ -52,7 +52,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   public static propTypes = {};
 
-  public static defaultProps = {
+  public static defaultProps: Partial<KebabProps> = {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],

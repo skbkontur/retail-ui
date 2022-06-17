@@ -67,7 +67,7 @@ export interface SidePageProps extends CommonProps {
   /**
    * Работает только при заблокированном фоне: `blockBackground = true`
    */
-  disableFocusLock: boolean;
+  disableFocusLock?: boolean;
 
   /**
    * задает отступ от края экрана
@@ -137,7 +137,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.footer?.update();
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<SidePageProps> = {
     disableAnimations: isTestEnv,
     disableFocusLock: true,
     offset: 0,

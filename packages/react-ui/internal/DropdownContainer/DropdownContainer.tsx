@@ -37,7 +37,7 @@ export interface DropdownContainerState {
 export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<DropdownContainerProps> = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
@@ -128,9 +128,9 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
+        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       } else {
-        left = targetRect.left + scrollX + this.getProps().offsetX;
+        left = targetRect.left + scrollX + this.getProps().offsetX!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       }
 
       const { offsetY = 0 } = this.props;

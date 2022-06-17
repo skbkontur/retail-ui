@@ -35,7 +35,7 @@ export interface MenuState {
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<MenuProps> = {
     align: 'left',
     width: 'auto',
     maxHeight: 300,

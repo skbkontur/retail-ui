@@ -78,7 +78,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<LinkProps> = {
     href: '',
     use: 'default',
   };

@@ -115,9 +115,7 @@ export interface InputState {
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
-  public static defaultProps: {
-    size: InputSize;
-  } = {
+  public static defaultProps: Partial<InputProps> = {
     size: 'small',
   };
 

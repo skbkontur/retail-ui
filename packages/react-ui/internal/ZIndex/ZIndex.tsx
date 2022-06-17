@@ -14,9 +14,9 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Приращение к z-index
    */
-  delta: number;
-  priority: number | LayerComponentName;
-  style: React.CSSProperties;
+  delta?: number;
+  priority?: number | LayerComponentName;
+  style?: React.CSSProperties;
   createStackingContext?: boolean;
   coverChildren?: boolean;
   applyZIndex?: boolean;
@@ -28,7 +28,7 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 export class ZIndex extends React.Component<ZIndexProps> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ZIndexProps> = {
     delta: 10,
     priority: 0,
     style: {},
@@ -39,10 +39,12 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
   public static propTypes = {
     delta(props: ZIndexProps) {
-      if (props.delta <= 0) {
+      if (props.delta! <= 0) {
+        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
       }
-      if (Math.trunc(props.delta) !== props.delta) {
+      if (Math.trunc(props.delta!) !== props.delta) {
+        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
       }
     },
@@ -54,7 +56,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = incrementZIndex(props.priority, props.delta);
+    this.zIndex = incrementZIndex(props.priority!, props.delta!); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   }
 
   public componentWillUnmount() {

@@ -14,13 +14,13 @@ export interface ValidationContainerProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
   scrollOffset?: number | ScrollOffset;
-  disableSmoothScroll: boolean;
+  disableSmoothScroll?: boolean;
 }
 
 export class ValidationContainer extends React.Component<ValidationContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ValidationContainerProps> = {
     disableSmoothScroll: isTestEnv,
   };
 
@@ -56,7 +56,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       <ValidationContextWrapper
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
-        disableSmoothScroll={this.props.disableSmoothScroll}
+        disableSmoothScroll={this.props.disableSmoothScroll!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}

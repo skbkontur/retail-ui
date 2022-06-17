@@ -50,7 +50,7 @@ export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'on
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 }
 
 /**
@@ -60,7 +60,7 @@ export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'on
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<DropdownMenuProps> = {
     disableAnimations: isTestEnv,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };

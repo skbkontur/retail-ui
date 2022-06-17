@@ -8,7 +8,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
-export interface GlobalLoaderProps extends Partial<DefaultProps> {
+export interface GlobalLoaderProps {
   /**
    * Время(ms) до появления лоадера
    */
@@ -20,7 +20,7 @@ export interface GlobalLoaderProps extends Partial<DefaultProps> {
   /**
    * Ожидаемое время(ms) ответа сервера
    */
-  expectedResponseTime: number;
+  expectedResponseTime?: number;
   /**
    * Анимация лоадера в виде спиннера
    */
@@ -32,7 +32,7 @@ export interface GlobalLoaderProps extends Partial<DefaultProps> {
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Коллбек, вызывающийся после появления лоадера
    */
@@ -62,20 +62,11 @@ export interface GlobalLoaderState {
   expectedResponseTime: number;
   started: boolean;
 }
-interface DefaultProps {
-  expectedResponseTime: number;
-  delayBeforeShow: number;
-  delayBeforeHide: number;
-  rejected: boolean;
-  active: boolean;
-  disableAnimations: boolean;
-}
-export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
 let currentGlobalLoader: GlobalLoader;
 
 @rootNode
-export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, GlobalLoaderState> {
+export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
   private setRootNode!: TSetRootNode;
 
@@ -89,7 +80,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
     this.props.onDone?.();
   }, this.props.delayBeforeHide);
 
-  public static defaultProps: DefaultProps = {
+  public static defaultProps: Partial<GlobalLoaderProps> = {
     expectedResponseTime: 1000,
     delayBeforeShow: 1000,
     delayBeforeHide: 1000,
@@ -98,7 +89,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
     disableAnimations: isTestEnv,
   };
 
-  constructor(props: GlobalLoaderComponentProps) {
+  constructor(props: GlobalLoaderProps) {
     super(props);
     this.state = {
       started: false,
@@ -108,7 +99,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
       accept: false,
       dead: false,
       successAnimationInProgress: false,
-      expectedResponseTime: this.props.expectedResponseTime,
+      expectedResponseTime: this.props.expectedResponseTime!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     };
     this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
@@ -125,7 +116,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
     if (this.props.expectedResponseTime !== prevProps.expectedResponseTime) {
-      this.setState({ expectedResponseTime: this.props.expectedResponseTime });
+      this.setState({ expectedResponseTime: this.props.expectedResponseTime! }); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     }
     if (this.props.rejected !== prevProps.rejected) {
       this.setReject(!!this.props.rejected);
@@ -158,10 +149,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
         <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <GlobalLoaderView
             expectedResponseTime={this.state.expectedResponseTime}
-            delayBeforeHide={this.props.delayBeforeHide}
+            delayBeforeHide={this.props.delayBeforeHide!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
             status={status}
             data-tid="GlobalLoader"
-            disableAnimations={this.props.disableAnimations}
+            disableAnimations={this.props.disableAnimations!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
           />
         </CommonWrapper>
       )

@@ -67,7 +67,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
-  renderAddButton: (query?: string) => React.ReactNode;
+  renderAddButton?: (query?: string) => React.ReactNode;
   repeatRequest?: () => void;
   requestStatus?: ComboBoxRequestStatus;
   refInput?: (input: Nullable<Input>) => void;
@@ -84,7 +84,7 @@ interface ComboBoxViewState {
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ComboBoxViewProps<any>> = {
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
     renderAddButton: () => null,
@@ -249,7 +249,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderAddButton = (): React.ReactNode => {
-    return this.props.renderAddButton(this.props.textValue);
+    return this.props.renderAddButton!(this.props.textValue); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 
   private renderInput(): React.ReactNode {

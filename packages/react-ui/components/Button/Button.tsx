@@ -168,10 +168,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
 
-  public static defaultProps = {
-    use: 'default' as ButtonUse,
-    size: 'small' as ButtonSize,
-    type: 'button' as ButtonType,
+  public static defaultProps: Partial<ButtonProps> = {
+    use: 'default',
+    size: 'small',
+    type: 'button',
   };
 
   public state = {
@@ -259,8 +259,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: cx({
         [styles.root(this.theme)]: true,
-        [styles[use](this.theme)]: true,
-        [activeStyles[use](this.theme)]: active,
+        [styles[use!](this.theme)]: true, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        [activeStyles[use!](this.theme)]: active, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,

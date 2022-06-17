@@ -78,10 +78,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     maxValue: PropTypes.number,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<DateSelectProps> = {
     type: 'year',
-    minMonth: 0,
-    maxMonth: 11,
     width: 'auto',
   };
 

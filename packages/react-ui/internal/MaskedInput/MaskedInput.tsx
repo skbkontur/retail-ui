@@ -11,7 +11,7 @@ import { styles } from './MaskedInput.styles';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
-  maskChar: string | null;
+  maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;

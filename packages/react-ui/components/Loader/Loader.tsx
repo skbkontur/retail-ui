@@ -24,7 +24,7 @@ export interface LoaderProps extends CommonProps {
    * Флаг переключения состояния лоадера
    * @default false
    */
-  active: boolean;
+  active?: boolean;
   caption?: SpinnerProps['caption'];
   /**
    * Компонент заменяющий спиннер.
@@ -36,12 +36,12 @@ export interface LoaderProps extends CommonProps {
    * Время в миллисекундах для показа вуали без спиннера.
    * @default 300
    */
-  delayBeforeSpinnerShow: number;
+  delayBeforeSpinnerShow?: number;
   /**
    * Минимальное время в миллисекундах для показа спиннера
    * @default 1000
    */
-  minimalDelayBeforeSpinnerHide: number;
+  minimalDelayBeforeSpinnerHide?: number;
 }
 
 export interface LoaderState {
@@ -129,8 +129,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     };
 
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
-      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow,
-      durationOfTask: this.props.minimalDelayBeforeSpinnerHide,
+      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      durationOfTask: this.props.minimalDelayBeforeSpinnerHide!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
       taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
     });

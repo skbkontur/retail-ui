@@ -14,17 +14,17 @@ export interface GappedProps extends CommonProps {
    * Вертикальное выравнивание
    * @default "baseline"
    */
-  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
+  verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
   /**
    * Расположение элементов по вертикали
    * @default false
    */
-  vertical: boolean;
+  vertical?: boolean;
   /**
    * Перенос элементов на новую строку при горизонтальном расположении
    * @default false
    */
-  wrap: boolean;
+  wrap?: boolean;
   children: React.ReactNode;
 }
 
@@ -54,7 +54,7 @@ export class Gapped extends React.Component<GappedProps> {
 
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
+  public static defaultProps: Partial<GappedProps> = {
     wrap: false,
     vertical: false,
     verticalAlign: 'baseline',

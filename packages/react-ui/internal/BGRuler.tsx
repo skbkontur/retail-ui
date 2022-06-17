@@ -2,13 +2,7 @@ import React from 'react';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
 
-/**
- * Компонент рисует пиксельную линейку на заднем фоне.
- * Помогает контролировать размеры элементов при скриншотном тестировании.
- *
- * @see FxInput/__stories__/FxInput.stories.tsx
- */
-export class BGRuler extends React.Component<{
+interface BGRulerProps {
   width?: string | number;
   height?: string | number;
   top?: string | number;
@@ -16,8 +10,16 @@ export class BGRuler extends React.Component<{
   right?: string | number;
   left?: string | number;
   color?: string;
-}> {
-  public static defaultProps = {
+}
+
+/**
+ * Компонент рисует пиксельную линейку на заднем фоне.
+ * Помогает контролировать размеры элементов при скриншотном тестировании.
+ *
+ * @see FxInput/__stories__/FxInput.stories.tsx
+ */
+export class BGRuler extends React.Component<BGRulerProps> {
+  public static defaultProps: Partial<BGRulerProps> = {
     height: 20,
     top: 0,
     left: 0,

@@ -68,7 +68,7 @@ export interface TooltipProps extends CommonProps {
   /**
    * Значение по умолчанию: `"top left"`.
    */
-  pos: PopupPositionsType;
+  pos?: PopupPositionsType;
 
   /**
    * Триггер открытия тултипа
@@ -84,7 +84,7 @@ export interface TooltipProps extends CommonProps {
    * | 'manual';
    * ```
    */
-  trigger: TooltipTrigger;
+  trigger?: TooltipTrigger;
 
   /**
    * Хэндлер, вызываемый при клике по крестику
@@ -114,20 +114,20 @@ export interface TooltipProps extends CommonProps {
    * следующая позиция. Обязательно должен включать
    * позицию указанную в `pos`
    */
-  allowedPositions: PopupPositionsType[];
+  allowedPositions?: PopupPositionsType[];
 
   /**
    * Флаг отключения анимации.
    * @default false
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
+  useWrapper?: boolean;
 }
 
 export interface TooltipState {
@@ -171,13 +171,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<TooltipProps> = {
     pos: DefaultPosition,
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
-    closeOnChildrenMouseLeave: false,
   };
 
   public static delay = 100;
@@ -255,7 +254,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger)
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger!) //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         : this.props.closeButton;
 
     if (!hasCross || this.isMobileLayout) {
@@ -364,12 +363,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private getPositions() {
     if (!this.positions) {
       const allowedPositions = this.props.allowedPositions;
-      const index = allowedPositions.indexOf(this.props.pos);
+      const index = allowedPositions!.indexOf(this.props.pos!); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       if (index === -1) {
-        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
+        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions!.join(', ')); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       }
 
-      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
+      this.positions = [...allowedPositions!.slice(index), ...allowedPositions!.slice(0, index)]; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     }
 
     return this.positions;

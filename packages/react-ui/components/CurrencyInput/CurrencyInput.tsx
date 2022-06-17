@@ -22,9 +22,9 @@ export interface CurrencyInputProps
       InputProps,
       {
         /** Значение */
-        value: Nullable<number>;
+        value?: Nullable<number>;
         /** Убрать лишние нули после запятой */
-        hideTrailingZeros: boolean;
+        hideTrailingZeros?: boolean;
         /** Кол-во цифр после запятой */
         fractionDigits?: Nullable<number>;
         /** Отрицательные значения */
@@ -83,16 +83,15 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     onSubmit: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<CurrencyInputProps> = {
     align: 'right',
     fractionDigits: 2,
     hideTrailingZeros: false,
     value: null,
-    inputMode: 'decimal',
   };
 
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros),
+    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros!), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     focused: false,
   };
 
@@ -116,7 +115,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
     if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
-      this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
+      this.setState(this.getState(value, fractionDigits, hideTrailingZeros!)); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
     }
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
@@ -425,7 +424,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros),
+      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros!), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       focused: false,
     });
 

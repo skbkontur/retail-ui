@@ -48,7 +48,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  pos?: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -56,13 +56,13 @@ export interface HintProps extends CommonProps {
   /**
    * Отключает анимацию.
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
+  useWrapper?: boolean;
 }
 
 export interface HintState {
@@ -94,7 +94,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private isMobileLayout!: boolean;
 
-  public static defaultProps = {
+  public static defaultProps: Partial<HintProps> = {
     pos: 'top',
     manual: false,
     opened: false,
@@ -219,7 +219,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   private getPositions = (): PopupPositionsType[] => {
-    return Positions.filter((x) => x.startsWith(this.props.pos));
+    return Positions.filter((x) => x.startsWith(this.props.pos!)); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

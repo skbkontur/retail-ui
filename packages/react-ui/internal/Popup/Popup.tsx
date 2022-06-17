@@ -71,24 +71,24 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
-  hasPin: boolean;
-  hasShadow: boolean;
-  disableAnimations: boolean;
+  hasPin?: boolean;
+  hasShadow?: boolean;
+  disableAnimations?: boolean;
   margin?: number;
   maxWidth?: number | string;
   opened: boolean;
   pinOffset?: number;
   pinSize?: number;
-  popupOffset: number;
+  popupOffset?: number;
   positions: Readonly<PopupPositionsType[]>;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
-  ignoreHover: boolean;
-  width: React.CSSProperties['width'];
+  useWrapper?: boolean;
+  ignoreHover?: boolean;
+  width?: React.CSSProperties['width'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
    * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
@@ -180,7 +180,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<PopupProps> = {
     popupOffset: 0,
     hasPin: false,
     hasShadow: false,
@@ -628,7 +628,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
-    const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
+    const popupOffset = this.props.popupOffset! + this.getPinnedPopupOffset(anchorRect, position); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
 
     switch (position.direction) {
       case 'top':

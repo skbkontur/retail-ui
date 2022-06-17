@@ -43,27 +43,27 @@ export interface AutocompleteProps
       InputProps,
       {
         /** Функция отрисовки элемента меню */
-        renderItem: (item: string) => React.ReactNode;
+        renderItem?: (item: string) => React.ReactNode;
         /** Промис, резолвящий элементы меню */
         source?: string[] | ((patter: string) => Promise<string[]>);
         /** Отключает использование портала */
-        disablePortal: boolean;
+        disablePortal?: boolean;
         /** Отрисовка тени у выпадающего меню */
-        hasShadow: boolean;
+        hasShadow?: boolean;
         /** Выравнивание выпадающего меню */
-        menuAlign: 'left' | 'right';
+        menuAlign?: 'left' | 'right';
         /** Максимальная высота меню */
-        menuMaxHeight: number | string;
+        menuMaxHeight?: number | string;
         /** Ширина меню */
         menuWidth?: number | string;
         /** Отключить скролл окна, когда меню открыто */
-        preventWindowScroll: boolean;
+        preventWindowScroll?: boolean;
         /** Вызывается при изменении `value` */
         onValueChange: (value: string) => void;
         /** onBlur */
         onBlur?: () => void;
         /** Размер инпута */
-        size: InputProps['size'];
+        size?: InputProps['size'];
         /** value */
         value: string;
         /**
@@ -113,7 +113,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<AutocompleteProps> = {
     renderItem,
     size: 'small',
     disablePortal: false,
@@ -281,7 +281,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ? items.map((item, i) => {
           return (
             <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile}>
-              {this.getProps().renderItem(item)}
+              {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+              {this.getProps().renderItem!(item)}
             </MenuItem>
           );
         })

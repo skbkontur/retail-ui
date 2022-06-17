@@ -47,7 +47,7 @@ export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onO
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 }
 
 /**
@@ -66,7 +66,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
+  public static defaultProps: Partial<TooltipMenuProps> = {
     disableAnimations: isTestEnv,
   };
   constructor(props: TooltipMenuProps) {

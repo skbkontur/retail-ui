@@ -36,8 +36,8 @@ export type StateType<C> = C extends React.Component<any, infer S> | React.Compo
 export interface ComponentTableProps<C, P, S> {
   rows?: StatePropsCombinations<P, S>;
   cols?: StatePropsCombinations<P, S>;
-  presetProps: DefaultizeProps<C, P>;
-  presetState: Partial<S>;
+  presetProps?: DefaultizeProps<C, P>;
+  presetState?: Partial<S>;
   Component: C;
 }
 
@@ -49,13 +49,14 @@ export class ComponentTable<
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
-  public static defaultProps = { presetProps: {}, presetState: {} };
+  public static defaultProps: Partial<ComponentTableProps<any, any, any>> = { presetProps: {}, presetState: {} };
 
   public render() {
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
-        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps)}</caption>
+        {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
+        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps!)}</caption>
         <thead>
           <tr>
             <th />

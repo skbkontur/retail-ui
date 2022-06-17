@@ -39,7 +39,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<PasswordInputProps> = {
     size: 'small',
   };
 

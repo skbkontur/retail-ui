@@ -28,13 +28,13 @@ export interface ScrollContainerProps extends CommonProps {
    * Инвертировать цвет скроллбара
    * @default false
    */
-  invert: boolean;
+  invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   maxWidth?: React.CSSProperties['maxWidth'];
   /**
    * @default false
    */
-  preventWindowScroll: boolean;
+  preventWindowScroll?: boolean;
   /**
    * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
    * @default 'auto'
@@ -63,7 +63,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     onScrollStateChange: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: Partial<ScrollContainerProps> = {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
@@ -196,7 +196,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       <ScrollBar
         axis={axis}
         ref={refScrollBar}
-        invert={this.props.invert}
+        invert={this.props.invert!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         onScrollStateChange={this.handleScrollStateChange}
       />
     );
