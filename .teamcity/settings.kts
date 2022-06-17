@@ -363,7 +363,7 @@ object ReactUI_Publish : BuildType({
     features {
         sshAgent {
             id = "BUILD_EXT_1"
-            teamcitySshKey = "GitHub"
+            teamcitySshKey = "GitHub_ skbkontur-bot"
         }
     }
 
@@ -688,7 +688,7 @@ object Validations_Publish : BuildType({
     features {
         sshAgent {
             id = "BUILD_EXT_1"
-            teamcitySshKey = "GitHub"
+            teamcitySshKey = "GitHub_ skbkontur-bot"
         }
     }
 
