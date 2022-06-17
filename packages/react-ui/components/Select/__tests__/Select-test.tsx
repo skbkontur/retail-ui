@@ -48,7 +48,7 @@ describe('Select', () => {
 
     const defaultValueText = wrapper.prop('renderItem')!(currentValue, currentValue);
 
-    const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
+    const menu = mount(dropdownContainer.get(0).props.children).find('InternalMenu');
     const selectedMenuItem = menu.findWhere((node) => node.is('MenuItem') && node.prop('state') === 'selected');
     expect(selectedMenuItem.length).toBe(1);
     expect(selectedMenuItem.text()).toBe(defaultValueText);

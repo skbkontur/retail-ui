@@ -36,6 +36,9 @@ interface MenuProps {
   // Циклический перебор айтемов меню (по-дефолтну включен)
   cyclicSelection?: boolean;
   initialSelectedItemIndex?: number;
+  disableScrollContainer?: boolean;
+
+  align?: 'left' | 'right';
 }
 
 interface MenuState {
@@ -70,6 +73,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private getProps = createPropsGetter(InternalMenu.defaultProps);
+  private unmounted = false;
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -88,8 +92,20 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     }
   }
 
+  public componentWillUnmount() {
+    this.unmounted = true;
+  }
+
+  public reset() {
+    this.setState({ highlightedIndex: -1 });
+  }
+
   public focus() {
     this.focusOnRootElement();
+  }
+
+  public hasHighlightedItem() {
+    return this.state.highlightedIndex !== -1;
   }
 
   public render() {
@@ -132,6 +148,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
+          disabled={this.props.disableScrollContainer}
         >
           {React.Children.map(this.props.children, (child, index) => {
             if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
@@ -307,7 +324,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     return false;
   }
 
-  private highlightItem = (index: number): void => {
+  public highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
     getRootNode(this)?.focus();
   };
@@ -317,6 +334,10 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private move(step: number) {
+    if (this.unmounted) {
+      // NOTE workaround, because `ComboBox` call `process.nextTick` in reducer
+      return;
+    }
     this.setState((state, props) => {
       const children = childrenToArray(props.children);
       if (!children.some(isActiveElement)) {
@@ -348,9 +369,21 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     this.move(-1);
   };
 
+  public up = () => {
+    this.move(-1);
+  };
+
   private moveDown = () => {
     this.move(1);
   };
+
+  public down = () => {
+    this.move(1);
+  };
+
+  public enter(event: React.SyntheticEvent<HTMLElement>) {
+    return this.select(this.state.highlightedIndex, true, event);
+  }
 
   private isEmpty() {
     const { children } = this.props;

@@ -20,7 +20,7 @@ describe('<DropdownMenu />', () => {
     expect(() => shallow(<DropdownMenu caption={undefined} />)).toThrow();
   });
 
-  test('Contains <Menu /> after clicking on caption', () => {
+  test('Contains <InternalMenu /> after clicking on caption', () => {
     const component = (
       <DropdownMenu caption={<button id="captionForTest">Test</button>}>
         <MenuItem>Test</MenuItem>

@@ -15,7 +15,6 @@ import {
   isShortcutSelectAll,
 } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
-import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
 import { emptyHandler } from '../../lib/utils';
@@ -26,6 +25,7 @@ import { MenuItem } from '../MenuItem/MenuItem';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InternalMenu } from '../../internal/InternalMenu';
 
 import { TokenInputLocale, TokenInputLocaleHelper } from './locale';
 import { styles } from './TokenInput.styles';
@@ -418,7 +418,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return this.props.type ? this.props.type : TokenInputType.WithReference;
   }
 
-  private get menuRef(): Menu | null {
+  private get menuRef(): InternalMenu | null {
     return this.tokensInputMenu && this.tokensInputMenu.getMenuRef();
   }
 

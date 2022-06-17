@@ -6,7 +6,6 @@ import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import { Input, InputProps } from '../Input';
 import { DropdownContainer } from '../../internal/DropdownContainer';
-import { Menu } from '../../internal/Menu';
 import { MenuItem } from '../MenuItem';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -17,6 +16,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { InternalMenu } from '../../internal/InternalMenu';
 
 import { styles } from './Autocomplete.styles';
 
@@ -134,7 +134,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private isMobileLayout!: boolean;
   private opened = false;
   private input: Nullable<Input> = null;
-  private menu: Nullable<Menu>;
+  private menu: Nullable<InternalMenu>;
   private rootSpan: Nullable<HTMLSpanElement>;
   private mobilePopup: Nullable<MobilePopup>;
 
@@ -240,7 +240,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
-        <Menu {...menuProps}>{this.getItems()}</Menu>
+        <InternalMenu {...menuProps}>{this.getItems()}</InternalMenu>
       </DropdownContainer>
     );
   }
@@ -266,9 +266,14 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         onCloseRequest={this.handleCloseMobile}
         ref={this.refMobilePopup}
       >
-        <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
+        <InternalMenu
+          ref={this.refMenu}
+          onItemClick={this.mobilePopup?.close}
+          disableScrollContainer
+          maxHeight={'auto'}
+        >
           {items && items.length > 0 && this.getItems()}
-        </Menu>
+        </InternalMenu>
       </MobilePopup>
     );
   };
@@ -448,7 +453,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     this.input = el;
   };
 
-  private refMenu = (menu: Menu | null) => {
+  private refMenu = (menu: InternalMenu | null) => {
     this.menu = menu;
   };
 

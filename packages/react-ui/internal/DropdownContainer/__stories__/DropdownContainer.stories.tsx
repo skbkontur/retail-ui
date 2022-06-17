@@ -4,10 +4,10 @@ import { Story } from '../../../typings/stories';
 import { MenuItem } from '../../../components/MenuItem';
 import { Toggle } from '../../../components/Toggle';
 import { DropdownContainer, DropdownContainerProps } from '../DropdownContainer';
-import { Menu } from '../../Menu';
 import { Button } from '../../../components/Button';
 import { getRootNode, rootNode, TSetRootNode } from '../../../lib/rootNode';
 import { delay } from '../../../lib/utils';
+import { InternalMenu } from '../../InternalMenu';
 
 export default { title: 'DropdownContainer' };
 
@@ -158,11 +158,11 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
                     onToggle={(value) => this.toggle(dropdownId, value)}
                     dropdownProps={{ align, disablePortal }}
                   >
-                    <Menu align={align}>
+                    <InternalMenu align={align}>
                       <MenuItem style={{ pointerEvents: 'none' }}>
                         {`${row}/${col}/align-${align}/portal-${!disablePortal}; `.repeat(long ? 3 : 1)}
                       </MenuItem>
-                    </Menu>
+                    </InternalMenu>
                   </DropdownWithToggle>
                   &nbsp;
                   {`${align}, portal: ${!disablePortal}`}
