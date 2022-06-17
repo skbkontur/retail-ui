@@ -43,6 +43,9 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: parseInt('str') })}>
             Set <b>NaN</b>
           </Button>
+          <Button onClick={() => this.setState({ value: 'str' })}>
+            Set <b>str</b>
+          </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>
           </Button>

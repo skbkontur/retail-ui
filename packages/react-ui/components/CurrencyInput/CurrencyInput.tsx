@@ -8,7 +8,6 @@ import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
-import { isNonNullable } from '../../lib/utils';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -101,7 +100,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
-    const { maxLength, integerDigits, fractionDigits, value } = this.props;
+    const { maxLength, integerDigits, fractionDigits } = this.props;
     warning(
       maxLength === undefined,
       `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
@@ -111,19 +110,17 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       `[CurrencyInput]: Sum of 'integerDigits' and 'fractionDigits' exceeds ${MAX_SAFE_DIGITS}.` +
         `\nSee https://tech.skbkontur.ru/react-ui/#/CurrencyInput?id=why15`,
     );
-    if (isNonNullable(value) && (isNaN(value) || typeof value === 'string')) {
-      console.log(new Error('Warning: value is not a valid number'));
-      return;
-    }
   }
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (isNonNullable(value) && (isNaN(value) || typeof value === 'string')) {
-      console.log(new Error('Warning: value is not a valid number'));
-      return;
-    }
-    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    // @ts-expect-error: Intended behavior. CurrencyInput technically can't accept strings
+    const isValidNumber = !isNaN(Number(value)) && value !== '';
+    warning(!isNaN(Number(value)), `[CurrencyInput]: Prop value is not a valid number`);
+    if (
+      isValidNumber &&
+      (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits)
+    ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
