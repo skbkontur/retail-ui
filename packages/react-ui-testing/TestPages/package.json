@@ -12,6 +12,7 @@
     "@babel/core": "^7.16.5",
     "@babel/preset-env": "^7.16.5",
     "@babel/preset-react": "^7.16.5",
+    "@skbkontur/react-selenium-testing": "^0.1.2",
     "@types/react": "^17.0.37",
     "babel-loader": "^8.2.3",
     "babel-polyfill": "^6.26.0",

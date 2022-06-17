@@ -3,7 +3,6 @@
   "private": true,
   "version": "3.5.3",
   "description": "React selenium testing",
-  "main": "react-selenium-testing.js",
   "scripts": {
     "postinstall": "yarn --cwd ./TestPages install",
     "build": "dotnet build --configuration Release",

@@ -1,6 +1,4 @@
 import React from 'react';
-import { setFilter } from '@skbkontur/react-props2attrs';
-import { findAmongParents } from '@skbkontur/react-sorge/lib';
 import { MINIMAL_VIEWPORTS } from '@storybook/addon-viewport';
 import { Meta } from '@storybook/react';
 import { isTestEnv } from '../lib/currentEnvironment';
@@ -42,19 +40,6 @@ const themes = {
   THEME_2022,
   THEME_2022_DARK,
 };
-
-setFilter((fiber) => {
-  // Транслируем все пропы только для контролов
-  const isControlComponent = !!findAmongParents(
-    fiber,
-    (fiberParent) => fiberParent.type && typeof fiberParent.type.__KONTUR_REACT_UI__ === 'string',
-  );
-  if (isTestEnv && isControlComponent) {
-    return null;
-  }
-  // Для остальных компонентов ограничиваемся тестовыми идентификаторами
-  return ['data-tid', 'data-testid'];
-});
 
 export const decorators: Meta['decorators'] = [
   (Story, context) => {
