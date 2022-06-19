@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.0...@skbkontur/react-ui@4.1.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* **MaskedInput:** accept null as value ([#2902](https://github.com/skbkontur/retail-ui/issues/2902)) ([e3414eb](https://github.com/skbkontur/retail-ui/commit/e3414ebfd3934995c415c68df44bb5afd9ecd8c2))
+* **rootNode:** enable findDOMNode fallback again ([1421484](https://github.com/skbkontur/retail-ui/commit/1421484076c389a16ae9d92199b0c2f60434e67f)), closes [#2873](https://github.com/skbkontur/retail-ui/issues/2873) [#2895](https://github.com/skbkontur/retail-ui/issues/2895)
+* **storybook:** StoryFn.story deprecated annotation ([#2798](https://github.com/skbkontur/retail-ui/issues/2798)) ([4c2bd8a](https://github.com/skbkontur/retail-ui/commit/4c2bd8ae93dc8e4a79f25de5baefe7a7c85b0b41))
+* **Tabs:** active tab underline ([839043d](https://github.com/skbkontur/retail-ui/commit/839043d5a78eda18ddba9610134fb4955a91dd43))
+* **TooltipMenu:** add onClose/onOpen props ([#2890](https://github.com/skbkontur/retail-ui/issues/2890)) ([92d4888](https://github.com/skbkontur/retail-ui/commit/92d48880c8feec11a00c8641c59e839a84e31fd2))
+
+
+
+
+
+# [4.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.6...@skbkontur/react-ui@4.1.0) (2022-05-04)
+
+
+### Bug Fixes
+
+* **Paging:** add prop shouldBeVisibleWithLessThanTwoPages, true by default ([#2778](https://github.com/skbkontur/retail-ui/issues/2778)) ([d19c839](https://github.com/skbkontur/retail-ui/commit/d19c839e4a430ba6ef07ef87242b4a82a37a2dbc))
+* **Paging:** fix border-radius of long links ([#2765](https://github.com/skbkontur/retail-ui/issues/2765)) ([576dcb9](https://github.com/skbkontur/retail-ui/commit/576dcb9de546eebd7309309fb8144d0a57cb778c))
+* **PasswordInput:** disable eye along with Input & hide password on blur ([#2766](https://github.com/skbkontur/retail-ui/issues/2766)) ([b280ea4](https://github.com/skbkontur/retail-ui/commit/b280ea4a870c6d786700635d37efb92933ff79f5))
+* **Select:** add menuBorderRadius theme var ([#2864](https://github.com/skbkontur/retail-ui/issues/2864)) ([d7d7827](https://github.com/skbkontur/retail-ui/commit/d7d78271b7945bd22ccbf6a4ff78a3ad61d5041a))
+
+
+### Features
+
+* new themes (THEME_2022, THEME_2022_DARK) ([#2880](https://github.com/skbkontur/retail-ui/issues/2880)) ([c4b4615](https://github.com/skbkontur/retail-ui/commit/c4b4615db11b4dfe13efdbaba31e6a29a0305ab1))
+
+
+
+
+
 ## [4.0.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.5...@skbkontur/react-ui@4.0.6) (2022-04-25)
 
 

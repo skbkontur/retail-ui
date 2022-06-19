@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.0.6",
+  "version": "4.1.1",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -41,6 +41,7 @@
     "test": "cross-env BABEL_ENV=cjs jest --detectOpenHandles",
     "test:watch": "yarn test --watch",
     "creevey": "wait-on -t 300000 http-get://localhost:6060/ && cross-env BABEL_ENV=cjs creevey -c .creevey/config.js",
+    "creevey:update": "cross-env BABEL_ENV=cjs creevey -c .creevey/config.js --update",
     "creevey:ui": "yarn creevey --ui",
     "report:eslint": "yarn eslint -f eslint-html-reporter/reporter.js -o reports/eslint/index.html"
   },
@@ -108,7 +109,7 @@
     "chalk": "4.1.0",
     "copyfiles": "^2.4.1",
     "core-js": "^3.20.1",
-    "creevey": "0.7.31",
+    "creevey": "0.7.35",
     "cross-env": "^7.0.3",
     "css-loader": "5.2.0",
     "dotenv": "^10.0.0",

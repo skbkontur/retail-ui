@@ -122,7 +122,7 @@ export class Input extends React.Component<InputProps, InputState> {
   };
 
   public state: InputState = {
-    needsPolyfillPlaceholder: needsPolyfillPlaceholder,
+    needsPolyfillPlaceholder,
     blinking: false,
     focused: false,
   };

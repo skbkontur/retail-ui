@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import propTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
+import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 
 import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 
@@ -30,7 +32,7 @@ interface RenderInnerContainerProps extends RenderContainerProps {
 
 const SSRPlaceholder = () => <script data-id="ssr-placeholder" />;
 
-export const Portal: React.FunctionComponent<PortalProps> = ({ container, rt_rootID, children }) => {
+export const Portal = ({ container, rt_rootID, children }: PortalProps) => {
   // container exists only in browser
   return (
     <React.Fragment>
@@ -61,3 +63,9 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
     return inner;
   }
 }
+
+Portal.propTypes = {
+  container: safePropTypesInstanceOf(() => HTMLElement),
+  rt_rootID: propTypes.string.isRequired,
+  children: propTypes.node.isRequired,
+};

@@ -1,4 +1,8 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable jsx-a11y/accessible-emoji */
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
+import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
 
 import { Story, CreeveyTests } from '../../../typings/stories';
@@ -81,7 +85,7 @@ const MyLink = React.forwardRef<any, any>(function MyLink(props: any, ref) {
   );
 });
 
-class TabsWithMyLink extends React.Component<any, any> {
+class TabsWithLink extends React.Component<any, any> {
   public state = {
     active: 'fuji',
   };
@@ -131,6 +135,23 @@ class TabsWithMyLink extends React.Component<any, any> {
     );
   }
 }
+
+const TabsWithCustomComponent = ({ component }: { component: React.ComponentType }) => {
+  const [active, setActive] = useState('fuji');
+  return (
+    <Tabs value={active} onValueChange={setActive}>
+      <Tab id="fuji" component={component}>
+        <span aria-label="fuji">Fuji</span>
+      </Tab>
+      <Tab id="tahat" component={component}>
+        <span aria-label="tahat">Tahat</span>
+      </Tab>
+      <Tab id="alps" component={component}>
+        <span aria-label="alps">Alps</span>
+      </Tab>
+    </Tabs>
+  );
+};
 
 class UnexpectedUpdatedTab extends React.Component<{ id: string }, any> {
   public state = {
@@ -386,6 +407,7 @@ const tabsTests: CreeveyTests = {
       })
       .sendKeys(this.keys.TAB)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
   },
   async enterPress() {
@@ -409,6 +431,7 @@ const tabsTests: CreeveyTests = {
       })
       .sendKeys(this.keys.ENTER)
       .perform();
+    await delay(1000);
     await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
   },
 };
@@ -418,10 +441,14 @@ Simple.storyName = 'simple';
 
 Simple.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
+    ],
     tests: {
       ...tabsTests,
-      async ['move focus forward']() {
+      async 'move focus forward'() {
         await this.browser
           .actions({
             bridge: true,
@@ -438,7 +465,7 @@ Simple.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
       },
-      async ['move focus backward']() {
+      async 'move focus backward'() {
         await this.browser
           .actions({
             bridge: true,
@@ -461,7 +488,7 @@ Simple.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
       },
-      async ['reset focus after click']() {
+      async 'reset focus after click'() {
         await this.browser
           .actions({
             bridge: true,
@@ -511,12 +538,53 @@ HrefsSecond.parameters = { creevey: { skip: [true] } };
 export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
 Vertical.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
+      },
+    ],
+    tests: tabsTests,
+  },
 };
 
-export const WithComponent = () => <TabsWithMyLink />;
-WithComponent.storyName = 'with component';
-WithComponent.parameters = { creevey: { skip: [true] } };
+export const WithLink = () => <TabsWithLink />;
+WithLink.parameters = { creevey: { skip: [true] } };
+
+export const WithCustomTabComponent = () => {
+  type Props = React.PropsWithChildren<unknown>;
+
+  const FC = function FC(props: Props) {
+    return <span {...props} />;
+  };
+  const FCWithForwardRef = React.forwardRef<HTMLElement, Props>(function FC(props, ref) {
+    return <span {...props} ref={ref} />;
+  });
+  class ClassComponent extends React.Component<Props> {
+    render = () => <span {...this.props} />;
+  }
+  class ClassComponentWithRootNode extends React.Component<Props> {
+    rootRef = React.createRef<HTMLElement>();
+    getRootNode = () => this.rootRef.current;
+    render = () => <span {...this.props} ref={this.rootRef} />;
+  }
+
+  return (
+    <div>
+      <h3>Functional Component</h3>
+      <TabsWithCustomComponent component={FC} />
+      <h3>Functional Component with forwardRef</h3>
+      <TabsWithCustomComponent component={FCWithForwardRef} />
+      <h3>Class Component</h3>
+      <TabsWithCustomComponent component={ClassComponent} />
+      <h3>Calss Component with getRootNode</h3>
+      <TabsWithCustomComponent component={ClassComponentWithRootNode} />
+    </div>
+  );
+};
 
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
@@ -525,7 +593,14 @@ WithUnexpectedTabSizeChange.parameters = { creevey: { skip: [true] } };
 export const WithDisabledTab: Story = () => <DisabledTab />;
 WithDisabledTab.storyName = 'with disabled tab';
 WithDisabledTab.parameters = {
-  creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' }], tests: tabsTests },
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
+    ],
+    tests: tabsTests,
+  },
 };
 
 export const TabsInModalStory = () => <TabsInModal />;

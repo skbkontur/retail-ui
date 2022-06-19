@@ -2,6 +2,7 @@ import React from 'react';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
+import { isNullable } from './utils/isNullable';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -47,7 +48,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     if (typeof this.props.scrollOffset === 'number') {
       scrollOffset = { top: this.props.scrollOffset };
     } else {
-      scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
+      scrollOffset = isNullable(this.props.scrollOffset) ? {} : this.props.scrollOffset;
     }
 
     const { top = 50, bottom = 0 } = scrollOffset;
@@ -108,13 +109,14 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     wrappersWithPosition.sort((x, y) => {
       const xPosition = x.position;
       const yPosition = y.position;
-      if (xPosition == null && yPosition == null) {
+      if (isNullable(xPosition) && isNullable(yPosition)) {
         return 0;
       }
-      if (xPosition == null) {
+
+      if (isNullable(xPosition)) {
         return 1;
       }
-      if (yPosition == null) {
+      if (isNullable(yPosition)) {
         return -1;
       }
       if (Math.sign(xPosition.x - yPosition.x) !== 0) {

@@ -64,7 +64,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           onExited={this.props.onClose}
           mountOnEnter
           unmountOnExit
-          appear={true}
+          appear
           timeout={{ appear: 0, exit: 250 }}
         >
           {(state) => (
