@@ -1,20 +1,31 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { CurrencyInput } from '../CurrencyInput';
+import { Nullable } from '../../../typings/utility-types';
+
+const Component = () => {
+  const [value, setValue] = useState<Nullable<number>>(12);
+  return <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />;
+};
 
 describe('CurrencyInput', () => {
-  it('correct  number input', () => {
-    const value = 12;
-    const handleValueChange = jest.fn();
-    render(<CurrencyInput value={value} onValueChange={handleValueChange} />);
-    const input = screen.getByTestId('Input__root');
-    expect(input).toContainHTML('12,00');
+  it('should set a correct number value', async () => {
+    render(<Component />);
+    const input = screen.getByRole('textbox');
+    await userEvent.clear(input);
+    await userEvent.type(input, '123');
+    await input.blur();
+    expect(input).toHaveValue('123,00');
   });
 
-  it('should not throw an error on string', () => {
-    const handleValueChange = jest.fn();
-    // @ts-expect-error: Intended behavior. CurrencyInput technically can't accept strings
-    expect(() => render(<CurrencyInput value={'str'} onValueChange={handleValueChange} />)).not.toThrow();
+  it('should not set a string value', async () => {
+    render(<Component />);
+    const input = screen.getByRole('textbox');
+    await userEvent.clear(input);
+    await userEvent.type(input, 'str');
+    await input.blur();
+    expect(input).toHaveValue('');
   });
 });
