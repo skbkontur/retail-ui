@@ -1,0 +1,9 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+yarn workspace @skbkontur/react-ui build
+yarn workspace @skbkontur/react-ui fix:eslint
+yarn workspace @skbkontur/react-ui test
+
+yarn workspace react-ui-validations test
+yarn workspace react-ui-validations fix:eslint
