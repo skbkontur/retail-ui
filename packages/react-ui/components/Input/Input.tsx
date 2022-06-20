@@ -328,7 +328,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
-      <label {...labelProps} data-tid={'Input__root'}>
+      <label {...labelProps}>
         <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
