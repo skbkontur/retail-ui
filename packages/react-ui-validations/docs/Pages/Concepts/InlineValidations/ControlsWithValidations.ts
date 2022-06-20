@@ -9,7 +9,7 @@ type ValidationFunc<T> = (value: Nullable<T>) => Nullable<ValidationInfo>;
 interface ValidationProps<TValue> {
   required?: boolean;
   email?: boolean;
-  validations?: Array<ValidationFunc<TValue>>;
+  validations?: ValidationFunc<TValue>[];
   renderErrorMessage?: RenderErrorMessage;
 }
 
@@ -68,8 +68,8 @@ function prepareProps<TValue, TProps extends { value?: any }>(
 
 type ExtractProps<TComponentOrTProps> = TComponentOrTProps extends React.ComponentType<infer P>
   ? P extends { value?: any }
-    ? P
-    : never
+  ? P
+  : never
   : never;
 
 type ExtractValue<TComponent> = ExtractProps<TComponent> extends { value?: null | infer TValue } ? TValue : never;
