@@ -1,5 +1,7 @@
 export const truncate = (truncateString: string, maxLength: number, separator = '...') => {
-  if (truncateString.length <= maxLength) return truncateString;
+  if (truncateString.length <= maxLength) {
+    return truncateString;
+  }
 
   const separatorLength = separator.length;
   const charsCountToShow = maxLength - separatorLength;

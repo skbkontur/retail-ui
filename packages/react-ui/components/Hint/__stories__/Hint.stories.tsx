@@ -156,7 +156,7 @@ export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 SetManualAndOpenedPropOnClick.parameters = {
   creevey: {
     tests: {
-      async ['click on hint']() {
+      async 'click on hint'() {
         await this.browser
           .actions()
           .click(this.browser.findElement({ css: '#main' }))

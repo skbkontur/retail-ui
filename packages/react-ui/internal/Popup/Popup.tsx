@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { isFunction, isNonNullable, isRefableElement } from '../../lib/utils';
+import { isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -190,6 +190,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     width: 'auto',
   };
 
+  // see #2873 and #2895
+  public static readonly defaultRootNode = null;
+
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
@@ -307,12 +310,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
 
     return (
-      <RenderContainer
-        anchor={anchorWithRef || anchor}
-        // rootNode for Popup is its content container, see #2873
-        containerRef={this.setRootNode}
-        ref={canGetAnchorNode ? null : this.updateAnchorElement}
-      >
+      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
         {this.isMobileLayout && !this.props.withoutMobile
           ? this.renderMobile()
           : location && this.renderContent(location)}
@@ -426,8 +424,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         nodeRef={this.refForTransition}
       >
         {(state: string) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
+              data-tid={'Popup__root'}
               wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
@@ -534,7 +533,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
       return true;
     }
 
-    if (x == null || y == null) {
+    if (isNullable(x) || isNullable(y)) {
       return false;
     }
 
