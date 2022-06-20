@@ -34,5 +34,5 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
 
 ResponsiveLayout.propTypes = {
   onLayoutChange: propTypes.func,
-  children: propTypes.node,
+  children: propTypes.oneOfType([propTypes.node, propTypes.func]),
 };
