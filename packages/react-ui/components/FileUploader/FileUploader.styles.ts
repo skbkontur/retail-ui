@@ -57,17 +57,17 @@ const styles = {
     `;
   },
 
-  dragOver() {
+  dragOver(t: Theme) {
     return css`
       border: 1px solid #2da4f9;
-      border-radius: 2px;
+      border-radius: ${t.fileUploaderBorderRadius};
       box-shadow: 0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35);
     `;
   },
 
-  windowDragOver() {
+  windowDragOver(t: Theme) {
     return css`
-      border-radius: 2px;
+      border-radius: ${t.fileUploaderBorderRadius};
       animation: ${styles.pulse()} 1.5s infinite;
     `;
   },
@@ -110,6 +110,12 @@ const styles = {
     `;
   },
 
+  hovered(t: Theme) {
+    return css`
+      background: ${t.fileUploaderHoveredBg};
+    `;
+  },
+
   disabled(t: Theme) {
     return css`
       cursor: default;
@@ -144,7 +150,7 @@ const styles = {
 
   linkHovered(t: Theme) {
     return css`
-      text-decoration: ${t.linkHoverTextDecoration};
+      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
     `;
   },
 

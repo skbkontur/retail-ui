@@ -97,7 +97,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     loading: PropTypes.bool,
     warning: PropTypes.bool,
     onValueChange: PropTypes.func,
-    color(props: ToggleProps) {
+    color: (props: ToggleProps) => {
       if (props.color && !colorWarningShown) {
         warning(false, `[Toggle]: prop 'color' is deprecated. Please, use theme variable 'toggleBgChecked' instead. `);
         colorWarningShown = true;

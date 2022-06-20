@@ -6,6 +6,7 @@ import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'Autocomplete',
@@ -23,11 +24,12 @@ export default {
 } as Meta;
 
 const commonTests: CreeveyTests = {
-  async ['focus and type text']() {
+  async 'focus and type text'() {
     const screenshotElement = this.browser.findElement({ css: '#test-element' });
     const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
 
     await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
+    await delay(1000);
 
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   },
@@ -46,6 +48,7 @@ Simple.parameters = {
         const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
 
         await this.browser.actions({ bridge: true }).click(autocompleteElement).perform();
+        await delay(1000);
 
         await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
       },
