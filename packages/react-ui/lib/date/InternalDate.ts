@@ -1,5 +1,4 @@
 import { defaultLangCode } from '../locale/constants';
-import { isNonNullable } from '../utils';
 
 import { defaultDateComponentsOrder, defaultDateComponentsSeparator, emptyDateComponents } from './constants';
 import { InternalDateCalculator } from './InternalDateCalculator';
@@ -236,7 +235,7 @@ export class InternalDate {
       return false;
     }
     if (checks.includes(InternalDateValidateCheck.Range)) {
-      return isNonNullable(type)
+      return type !== undefined
         ? InternalDateValidator.checkRangePiecemeal(
             type,
             self.getComponentsLikeNumber(),

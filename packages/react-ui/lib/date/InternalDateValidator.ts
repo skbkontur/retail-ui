@@ -1,5 +1,3 @@
-import { isNonNullable } from '../utils';
-
 import { InternalDate } from './InternalDate';
 import { InternalDateGetter } from './InternalDateGetter';
 import {
@@ -39,7 +37,7 @@ const getValue = (type: InternalDateComponentType, { year, month, date }: Intern
 
 export class InternalDateValidator {
   public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
-    if (isNonNullable(type)) {
+    if (type !== undefined) {
       if (type === InternalDateComponentType.Year) {
         return year !== null;
       }
@@ -62,7 +60,7 @@ export class InternalDateValidator {
     { year, month, date }: InternalDateComponentsNumber,
     type?: InternalDateComponentType,
   ): boolean {
-    if (isNonNullable(type)) {
+    if (type !== undefined) {
       const value = getValue(type, { date, month, year });
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);

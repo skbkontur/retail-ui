@@ -1,5 +1,4 @@
 import { canUseDOM } from '../client';
-import { isNonNullable } from '../utils';
 
 enum MouseDragEventType {
   Start = 'mousedragstart',
@@ -150,7 +149,7 @@ export class MouseDrag {
   };
 
   private getLength = (x2: number, y2: number): number => {
-    if (isNonNullable(this.x1) && isNonNullable(this.y1)) {
+    if (this.x1 !== undefined && this.y1 !== undefined) {
       return Math.sqrt((x2 - this.x1) ** 2 + (y2 - this.y1) ** 2);
     }
 

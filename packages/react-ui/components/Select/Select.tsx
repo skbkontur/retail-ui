@@ -605,7 +605,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getValue() {
-    if (isNonNullable(this.props.value)) {
+    if (this.props.value !== undefined) {
       return this.props.value;
     }
     return this.state.value;

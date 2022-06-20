@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
 import raf from 'raf';
 
-import { isNonNullable } from '../../lib/utils';
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -423,7 +422,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   private handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     // Edge bug: textarea maxlength doesn't work after new line
     // https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/18833616/
-    const value = isNonNullable(this.props.value) ? this.props.value.toString() : null;
+    const value = this.props.value !== undefined ? this.props.value.toString() : null;
     const isBlockEnter = isKeyEnter(e) && value !== null && value.length === this.props.maxLength;
 
     if (isBlockEnter) {
