@@ -33,7 +33,7 @@ changeTemplate(RelativeId("ReactUI_GitHubFeatures")) {
                 }
                 filterSourceBranch = ""
                 filterTargetBranch = ""
-                filterAuthorRole = PullRequests.GitHubRoleFilter.MEMBER
+                filterAuthorRole = PullRequests.GitHubRoleFilter.EVERYBODY
             }
         }
     }
