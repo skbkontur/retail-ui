@@ -154,6 +154,7 @@ export interface SelectState<TValue> {
   opened: boolean;
   searchPattern: string;
   value: Nullable<TValue>;
+  isUncontrolled: boolean;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -212,6 +213,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     opened: false,
     value: this.props.defaultValue,
     searchPattern: '',
+    isUncontrolled: false,
   };
 
   private theme!: Theme;
@@ -221,6 +223,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   private buttonElement: FocusableReactElement | null = null;
   private getProps = createPropsGetter(Select.defaultProps);
   private setRootNode!: TSetRootNode;
+
+  public componentDidMount() {
+    // TODO: Replace appealing to `_reactInternals` with `forwardRef` in process of functional refactoring
+    // @ts-expect-error: accesing internal value of React
+    this.setState({ isUncontrolled: !!this._reactInternals?.ref && this.props.value === undefined });
+  }
 
   public componentDidUpdate(_prevProps: SelectProps<TValue, TItem>, prevState: SelectState<TValue>) {
     if (!prevState.opened && this.state.opened) {
@@ -605,10 +613,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getValue() {
-    if (this.props.value !== undefined) {
-      return this.props.value;
+    if (this.state.isUncontrolled) {
+      return this.state.value;
     }
-    return this.state.value;
+    return this.props.value;
   }
 
   private mapItems(fn: (value: TValue, item: TItem, index: number, comment?: string) => React.ReactNode) {
