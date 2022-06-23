@@ -18,6 +18,7 @@ export interface ModalBodyProps extends CommonProps {
    * убирает отступы
    */
   noPadding?: boolean;
+  children?: React.ReactNode;
 }
 
 /**

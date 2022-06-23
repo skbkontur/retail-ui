@@ -39,6 +39,7 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    * Кастомная иконка
    */
   icon?: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export interface KebabState {

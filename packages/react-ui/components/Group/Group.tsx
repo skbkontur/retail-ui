@@ -11,6 +11,7 @@ import { styles } from './Group.styles';
 
 export interface GroupProps extends CommonProps {
   width?: React.CSSProperties['width'];
+  children?: React.ReactNode;
 }
 
 interface GroupChildProps {

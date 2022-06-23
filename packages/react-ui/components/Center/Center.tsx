@@ -21,7 +21,9 @@ export interface CenterProps
          */
         align?: HorizontalAlign;
       }
-    > {}
+    > {
+  children?: React.ReactNode;
+}
 
 /**
  * Контейнер, который центрирует элементы внутри себя.

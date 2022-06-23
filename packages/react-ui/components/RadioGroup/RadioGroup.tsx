@@ -63,6 +63,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
    * Ширина радиогруппы. Не работает с `children`
    */
   width?: React.CSSProperties['width'];
+  children?: React.ReactNode;
   /**
    * Метод отрисовки контента радиокнопки. Не работает с `children`.
    *

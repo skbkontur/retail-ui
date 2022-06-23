@@ -71,6 +71,7 @@ export interface DropdownProps extends CommonProps {
    * Смотри Button.
    */
   use?: ButtonUse;
+  children?: React.ReactNode;
 
   /**
    * Вызывается при закрытии меню.

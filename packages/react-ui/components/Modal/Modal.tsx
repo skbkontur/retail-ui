@@ -60,6 +60,7 @@ export interface ModalProps extends CommonProps {
    * По умолчанию true для IE11.
    */
   disableFocusLock?: boolean;
+  children?: React.ReactNode;
 }
 
 export interface ModalState {

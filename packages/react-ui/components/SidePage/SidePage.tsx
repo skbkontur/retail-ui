@@ -73,6 +73,7 @@ export interface SidePageProps extends CommonProps {
    * задает отступ от края экрана
    */
   offset?: number | string;
+  children?: React.ReactNode;
 }
 
 export interface SidePageState {

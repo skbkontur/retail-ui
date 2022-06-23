@@ -29,6 +29,7 @@ export interface TokenProps extends CommonProps {
    */
   warning?: boolean;
   disabled?: boolean;
+  children?: React.ReactNode;
 
   onClick?: React.MouseEventHandler<HTMLDivElement>;
   onDoubleClick?: React.MouseEventHandler<HTMLDivElement>;

@@ -51,6 +51,7 @@ export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'on
    * Не показывать анимацию
    */
   disableAnimations: boolean;
+  children?: React.ReactNode;
 }
 
 /**

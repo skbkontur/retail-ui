@@ -51,7 +51,9 @@ export interface RadioProps<T>
          */
         value: T;
       }
-    > {}
+    > {
+  children?: React.ReactNode;
+}
 
 export interface RadioState {
   focusedByKeyboard: boolean;

@@ -22,6 +22,7 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   applyZIndex?: boolean;
   className?: string;
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
+  children?: React.ReactNode;
 }
 
 @rootNode
