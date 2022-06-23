@@ -13,7 +13,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
-import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { InstanceWithAnchorElement } from '../../lib/instanceWithAnchorElement';
 
 import { styles } from './Tooltip.styles';
 
@@ -148,7 +149,7 @@ const Positions: PopupPositionsType[] = [
 ];
 
 @rootNode
-export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
+export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Tooltip';
 
   public static propTypes = {
@@ -185,6 +186,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
   private clickedOutside = true;
   private setRootNode!: TSetRootNode;
 
+  private popupRef = React.createRef<Popup>();
   public componentDidUpdate(prevProps: TooltipProps) {
     if (this.props.trigger === 'closed' && this.state.opened) {
       this.close();
@@ -262,6 +264,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     );
   }
 
+  public getAnchorElement = (): Nullable<HTMLElement> => {
+    return this.popupRef.current?.anchorElement;
+  };
+
   /**
    * Программно открывает тултип.
    * <p>Не действует если проп *trigger* `'opened'` или `'closed'`.</p>
@@ -297,15 +303,11 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
     return (
-      <RenderLayer {...layerProps} getAnchorElement={this.getRenderLayerAnchorElement}>
+      <RenderLayer {...layerProps} getAnchorElement={this.getAnchorElement}>
         {popup}
       </RenderLayer>
     );
   }
-
-  private getRenderLayerAnchorElement = () => {
-    return getRootNode(this);
-  };
 
   private renderPopup(
     anchorElement: React.ReactNode | HTMLElement,
@@ -326,6 +328,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> {
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
           tryPreserveFirstRenderedPosition
+          ref={this.popupRef}
           {...popupProps}
         >
           {content}

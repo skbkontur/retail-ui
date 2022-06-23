@@ -14,6 +14,13 @@ jest.mock('lodash.debounce', () =>
     return fn;
   }),
 );
+jest.mock('react-dom', () => {
+  const originalModule = jest.requireActual('react-dom');
+  return {
+    ...originalModule,
+    findDOMNode: jest.fn(originalModule.findDOMNode),
+  };
+});
 
 /**
  * Mock MutationObserver for `jsdom` < 13.2

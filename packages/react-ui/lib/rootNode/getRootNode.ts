@@ -2,26 +2,33 @@ import { findDOMNode } from 'react-dom';
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { isHTMLElement } from '../SSRSafe';
+import { isHTMLElement, isNode } from '../SSRSafe';
 import { canUseDOM } from '../client';
-import { isFunction } from '../utils';
+
+import { isInstanceWithRootNode } from './rootNodeDecorator';
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
-  if (!canUseDOM) return null;
-  if (isHTMLElement(instance) || instance === null) {
+  if (!canUseDOM || !instance) {
+    return null;
+  }
+
+  if (isHTMLElement(instance)) {
     return instance;
   }
 
-  const instanceAsAny = instance as any;
-  let node;
-  if (instanceAsAny && isFunction(instanceAsAny.getRootNode)) {
-    node = instanceAsAny.getRootNode();
+  let rootNode;
+
+  if (isInstanceWithRootNode(instance)) {
+    if (!isNode(instance)) {
+      rootNode = instance.getRootNode();
+    }
   }
 
-  if (node !== undefined) {
-    return node;
+  if (rootNode !== undefined) {
+    return rootNode;
   }
 
-  node = findDOMNode(instance);
-  return node instanceof HTMLElement ? node : null;
+  rootNode = findDOMNode(instance);
+
+  return isHTMLElement(rootNode) ? rootNode : null;
 };
