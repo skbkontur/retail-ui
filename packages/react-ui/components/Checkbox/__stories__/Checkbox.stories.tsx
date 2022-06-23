@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
@@ -392,7 +392,15 @@ Highlighted.parameters = {
   },
 };
 
-export const CheckboxLabelSelectionWithPressedShift: Story = () => <Checkbox>caption</Checkbox>;
+export const CheckboxLabelSelectionWithPressedShift: Story = () => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Checkbox checked={checked} onValueChange={setChecked}>
+      caption
+    </Checkbox>
+  );
+};
 CheckboxLabelSelectionWithPressedShift.storyName = 'checkbox label selection with pressed shift';
 
 CheckboxLabelSelectionWithPressedShift.parameters = {
@@ -401,19 +409,12 @@ CheckboxLabelSelectionWithPressedShift.parameters = {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
-      async selected() {
+      async 'selected with pressed shift'() {
         const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
 
-        await this.browser.actions({ bridge: true }).click(checkbox).click(checkbox).perform();
+        await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
 
-        await this.expect(await this.takeScreenshot()).to.matchImage('selected');
-      },
-      async selectedWithShiftPressed() {
-        const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
-
-        await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).click(checkbox).perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('selectedWithShiftPressed');
+        await this.expect(await this.takeScreenshot()).to.matchImage('selected with pressed shift');
       },
     },
   },
