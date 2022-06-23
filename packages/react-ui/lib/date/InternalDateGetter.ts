@@ -7,6 +7,23 @@ import {
   InternalDateComponents,
 } from './types';
 
+const calculateMonth = (month: number) => {
+  if (month <= 7) {
+    return month + 1;
+  }
+
+  return month;
+};
+
+const getIsLeapYear = (year: number) => {
+  // The year is considered leap if it's either dividable by 4, 100 or 400.
+  const isDividableByFour = year % 4 === 0;
+  const isDividableByOneHundred = year % 100 === 0;
+  const isDividableByFourHundred = year % 400 === 0;
+
+  return isDividableByFour || isDividableByOneHundred || isDividableByFourHundred;
+};
+
 export class InternalDateGetter {
   public static max = (datesCustom: InternalDate[]): InternalDate =>
     datesCustom.sort((a, b) => b.toNumber() - a.toNumber())[0];
@@ -16,13 +33,13 @@ export class InternalDateGetter {
 
   public static getMaxDaysInMonth(month: number, year?: number): number {
     if (month === 2) {
-      const isLeapYear = (year !== undefined && ((year % 4 === 0 && year % 100 !== 0) || year % 400 === 0)) || false;
+      const isLeapYear = year ? getIsLeapYear(year) : false;
+
       return isLeapYear ? 29 : 28;
     }
-    if (month <= 7) {
-      month++;
-    }
-    return month % 2 === 0 ? 31 : 30;
+
+    const calculatedMonth = calculateMonth(month);
+    return calculatedMonth % 2 === 0 ? 31 : 30;
   }
 
   public static getValueDateComponent(
@@ -48,7 +65,7 @@ export class InternalDateGetter {
     return MIN_DATE;
   }
 
-  public static getDefaultMax(type: InternalDateComponentType, components?: InternalDateComponents): number {
+  public static getDefaultMax(type: InternalDateComponentType | null, components?: InternalDateComponents): number {
     if (type === InternalDateComponentType.Year) {
       return MAX_YEAR;
     } else if (type === InternalDateComponentType.Month) {

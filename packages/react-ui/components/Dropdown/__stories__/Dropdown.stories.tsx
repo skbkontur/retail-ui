@@ -2,6 +2,9 @@ import React from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 
+import { Button } from '../../Button';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { Meta, Story } from '../../../typings/stories';
 import { Dropdown } from '../Dropdown';
 import { MenuItem } from '../../MenuItem';
@@ -50,7 +53,7 @@ SimpleDropdown.parameters = {
 
         await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
       },
-      async ['MenuItem hover']() {
+      async 'MenuItem hover'() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions({
@@ -70,7 +73,7 @@ SimpleDropdown.parameters = {
 
         await this.expect(await element.takeScreenshot()).to.matchImage('MenuItem hover');
       },
-      async ['selected item']() {
+      async 'selected item'() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions({
@@ -175,6 +178,41 @@ InsideScrollableContainer.parameters = {
         });
         const scrolled = await this.takeScreenshot();
         await this.expect({ opened, scrolled }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const WithCustomSelectTheme: Story = () => {
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider
+            value={ThemeFactory.create({ selectBorderRadiusSmall: '12px', btnBorderRadiusSmall: '3px' }, theme)}
+          >
+            <Dropdown caption="Открыть">
+              <Button>Кнопка</Button>
+            </Dropdown>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+WithCustomSelectTheme.storyName = 'with custom select theme';
+
+WithCustomSelectTheme.parameters = {
+  creevey: {
+    tests: {
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
   },

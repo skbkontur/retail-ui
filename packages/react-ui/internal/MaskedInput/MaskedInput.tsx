@@ -5,6 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
+import { isNonNullable } from '../../lib/utils';
 
 import { styles } from './MaskedInput.styles';
 
@@ -123,9 +124,13 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   }
 
   private getValue = (props: MaskedInputProps): string => {
-    const { value, defaultValue } = props;
+    if (isNonNullable(props.value)) {
+      return props.value.toString();
+    } else if (isNonNullable(props.defaultValue)) {
+      return props.defaultValue.toString();
+    }
 
-    return value !== undefined ? value.toString() : defaultValue !== undefined ? defaultValue.toString() : '';
+    return '';
   };
 
   private refInput = (input: HTMLInputElement | null) => {
