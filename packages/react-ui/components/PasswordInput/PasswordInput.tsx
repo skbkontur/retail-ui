@@ -156,12 +156,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  private onBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
-  };
-
   private getEyeWrapperClassname(right = false) {
     switch (this.props.size) {
       case 'large':
@@ -203,7 +197,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
       ...rest,
-      onBlur: this.onBlur,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
