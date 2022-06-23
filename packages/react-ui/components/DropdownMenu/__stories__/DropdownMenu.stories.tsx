@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import MenuIcon from '@skbkontur/react-icons/Menu';
 import ArrowSize2Icon from '@skbkontur/react-icons/ArrowSize2';
 import SearchIcon from '@skbkontur/react-icons/Search';
@@ -493,3 +493,55 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps, {
     this.setState({ value: '' });
   };
 }
+
+export const WithNestedMenuItems: Story = () => {
+  const [caption, setCaption] = useState('not selected');
+  const onClick = () => {
+    setCaption('selected');
+  };
+  return (
+    <DropdownMenu menuWidth="300px" caption={<Button use="primary">{caption}</Button>}>
+      <>
+        <div>
+          <MenuItem>Раз</MenuItem>
+          <MenuItem onClick={onClick}>Два</MenuItem>
+        </div>
+        <MenuItem>Три</MenuItem>
+      </>
+    </DropdownMenu>
+  );
+};
+WithNestedMenuItems.storyName = 'With nested menu items';
+WithNestedMenuItems.parameters = {
+  creevey: {
+    tests: {
+      async arrow_down() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .sendKeys(this.keys.DOWN)
+          .sendKeys(this.keys.DOWN)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('arrow_down');
+      },
+      async enter() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .sendKeys(this.keys.DOWN)
+          .sendKeys(this.keys.DOWN)
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('enter');
+      },
+    },
+  },
+};

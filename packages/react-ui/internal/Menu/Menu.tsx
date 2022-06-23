@@ -1,17 +1,19 @@
 import React, { CSSProperties } from 'react';
 
 import { ScrollContainer } from '../../components/ScrollContainer';
-import { MenuItem, MenuItemProps } from '../../components/MenuItem';
+import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
-import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
+import { MenuContext } from './MenuContext';
+
+const MAX_LEVEL_OF_DEEP_SEARCH = 5;
 
 export interface MenuProps {
   children: React.ReactNode;
@@ -29,6 +31,7 @@ export interface MenuProps {
 
 export interface MenuState {
   highlightedIndex: number;
+  enableIconPadding: boolean;
 }
 
 @rootNode
@@ -45,6 +48,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   public state = {
     highlightedIndex: -1,
+    enableIconPadding: false,
   };
 
   private theme!: Theme;
@@ -52,6 +56,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   private highlighted: Nullable<MenuItem>;
   private unmounted = false;
   private setRootNode!: TSetRootNode;
+  private arrayOfMenuItems: React.ReactNode[] = [];
 
   public componentWillUnmount() {
     this.unmounted = true;
@@ -108,7 +113,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private renderMain() {
-    if (this.isEmpty()) {
+    if (!this.props.children) {
       return null;
     }
 
@@ -127,46 +132,75 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           preventWindowScroll={this.props.preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
-          <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>
+          <div className={styles.scrollContainer(this.theme)}>
+            <MenuContext.Provider value={{ enableIconPadding: this.state.enableIconPadding }}>
+              {this.renderChildren()}
+            </MenuContext.Provider>
+          </div>
         </ScrollContainer>
       </div>
     );
   }
 
-  private getChildList = () => {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
+  private renderChildren = () => {
+    const updatedArrayOfMenuItems: React.ReactNode[] = [];
+    const updatedChildren = this.deepSearch(this.props.children, MAX_LEVEL_OF_DEEP_SEARCH, updatedArrayOfMenuItems);
 
-    return React.Children.map(this.props.children, (child, index) => {
-      if (!child) {
-        return child;
-      }
+    this.arrayOfMenuItems = updatedArrayOfMenuItems;
 
-      if (typeof child === 'string' || typeof child === 'number') {
-        return child;
-      }
+    return updatedChildren;
+  };
 
-      const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
-
-      if (isActiveElement(modifiedChild)) {
-        const highlight = this.state.highlightedIndex === index;
-
-        let ref = modifiedChild.ref;
-        if (highlight && typeof modifiedChild.ref !== 'string') {
-          ref = this.refHighlighted.bind(this, modifiedChild.ref);
+  private deepSearch: any = (currentLevelOfChildren: any, allowedLevelOfDeep: number, arrayOfMenuItems: any) => {
+    if (!allowedLevelOfDeep) {
+      return currentLevelOfChildren;
+    }
+    return React.Children.map(currentLevelOfChildren, (child) => {
+      if (!isMenuItem(child)) {
+        if (child?.props?.children) {
+          return React.cloneElement(child, {
+            children: this.deepSearch(child.props.children, allowedLevelOfDeep - 1, arrayOfMenuItems),
+          });
         }
 
-        return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
-          ref,
-          state: highlight ? 'hover' : modifiedChild.props.state,
-          onClick: this.select.bind(this, index, false),
-          onMouseEnter: this.highlight.bind(this, index),
-          onMouseLeave: this.unhighlight,
-        });
+        return child;
       }
 
-      return modifiedChild;
+      this.updateEnableIconPadding(child);
+
+      if (!isActiveElement(child)) {
+        return child;
+      }
+
+      arrayOfMenuItems.push(child);
+
+      const indexOfCurrentMenuItem = arrayOfMenuItems.indexOf(child);
+
+      const highlight = this.state.highlightedIndex === indexOfCurrentMenuItem;
+
+      return this.addPropsToMenuItem(child, indexOfCurrentMenuItem, highlight);
+    });
+  };
+
+  private updateEnableIconPadding = (child: any) => {
+    if (child.props.icon && this.state.enableIconPadding !== true) {
+      this.setState({ enableIconPadding: true });
+    }
+  };
+
+  private addPropsToMenuItem = (menuItem: any, index: number, highlight: boolean) => {
+    // TODO @Khlutkova rewrite with mergeRefs
+    let ref = menuItem.ref;
+    if (highlight && typeof menuItem.ref !== 'string') {
+      ref = this.refHighlighted.bind(this, menuItem.ref);
+    }
+
+    return React.cloneElement<MenuItemProps, MenuItem>(menuItem, {
+      ref,
+      state: highlight ? 'hover' : menuItem.props.state,
+      onClick: this.select.bind(this, index, false),
+      onMouseEnter: this.highlight.bind(this, index),
+      onMouseLeave: this.unhighlight,
     });
   };
 
@@ -204,24 +238,20 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   };
 
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const item = childrenToArray(this.props.children)[index];
-    if (isActiveElement(item)) {
-      if (shouldHandleHref && item.props.href) {
-        if (item.props.target) {
-          window.open(item.props.href, item.props.target);
-        } else {
-          location.href = item.props.href;
-        }
-      }
-      if (item.props.onClick) {
-        item.props.onClick(event);
-      }
-      if (this.props.onItemClick) {
-        this.props.onItemClick();
-      }
-      return true;
+    const item = this.arrayOfMenuItems[index];
+    if (!isActiveElement(item)) {
+      return false;
     }
-    return false;
+    if (shouldHandleHref && item.props.href) {
+      if (item.props.target) {
+        window.open(item.props.href, item.props.target);
+      } else {
+        location.href = item.props.href;
+      }
+    }
+    item.props.onClick?.(event);
+    this.props.onItemClick?.();
+    return true;
   }
 
   private highlight = (index: number) => {
@@ -238,56 +268,25 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       return;
     }
 
-    const children = childrenToArray(this.props.children);
-    const activeElements = children.filter(isActiveElement);
-    if (!activeElements.length) {
-      return;
+    let index = this.state.highlightedIndex + step;
+    if (index < 0) {
+      index = this.arrayOfMenuItems.length - 1;
+    } else if (index >= this.arrayOfMenuItems.length) {
+      index = 0;
     }
-    let index = this.state.highlightedIndex;
-    do {
-      index += step;
-      if (index < 0) {
-        index = children.length - 1;
-      } else if (index > children.length) {
-        index = 0;
+    this.setState({ highlightedIndex: index }, () => {
+      switch (index) {
+        case 0:
+          this.scrollToTop();
+          break;
+        case this.arrayOfMenuItems.length - 1:
+          this.scrollToBottom();
+          break;
+        default:
+          this.scrollToSelected();
       }
-
-      const child = children[index];
-      if (isActiveElement(child)) {
-        this.setState({ highlightedIndex: index }, () => {
-          switch (activeElements.indexOf(child)) {
-            case 0:
-              this.scrollToTop();
-              break;
-            case activeElements.length - 1:
-              this.scrollToBottom();
-              break;
-            default:
-              this.scrollToSelected();
-          }
-        });
-        return;
-      }
-    } while (index !== this.state.highlightedIndex);
+    });
   }
-
-  private isEmpty() {
-    const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
-  }
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
-}
-
-function childrenToArray(children: React.ReactNode): React.ReactNode[] {
-  const ret: React.ReactNode[] = [];
-  // Use forEach instead of map to avoid cloning for key unifying.
-  React.Children.forEach(children, (child) => {
-    ret.push(child);
-  });
-  return ret;
 }
 
 const getStyle = (props: MenuProps): CSSProperties => {
