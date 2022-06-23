@@ -2,6 +2,7 @@ import { storiesOf } from '@storybook/react';
 import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { DatePicker } from '@skbkontur/react-ui/components/DatePicker';
+import { isNonNullable } from '@skbkontur/react-ui/lib/utils';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
@@ -21,7 +22,7 @@ class DatePickerStory extends React.Component<{}, DatePickerStoryState> {
 
   public validateValue(): Nullable<ValidationInfo> {
     const { value } = this.state;
-    if (value == null) {
+    if (isNonNullable(value)) {
       return { message: 'Должно быть не пусто', type: 'submit' };
     }
     return null;

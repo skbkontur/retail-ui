@@ -9831,10 +9831,10 @@ create-react-context@0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@0.7.31:
-  version "0.7.31"
-  resolved "https://registry.npmjs.org/creevey/-/creevey-0.7.31.tgz#6c240a1ac0fdde0c95b725528f0d64cd40635cfe"
-  integrity sha512-epNEPcVFT2DJfX6I25zIU5gEQ4fK7oAelDERFszW0PTjE2snnFUhr9pbWJN/UyVdr5LoeqbrEiziUVMdVnhJJw==
+creevey@0.7.35:
+  version "0.7.35"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.7.35.tgz#8c0afe7ac4742ae9b5e945545b073703cccf75d0"
+  integrity sha512-2gQjgky4k4OUtnplf3WUPRXBB6vn44kv9urpsj3X7eTsNo0Qai06IKoXB4w4u7YutDcaHk5DjfXQfVAuXZaUbw==
   dependencies:
     "@babel/code-frame" "^7.12.13"
     "@babel/generator" "^7.13.9"
@@ -9867,6 +9867,8 @@ creevey@0.7.31:
     koa-static "^5.0.0"
     loader-utils "^2.0.0"
     lodash "^4.17.21"
+    loglevel "^1.7.1"
+    loglevel-plugin-prefix "^0.8.4"
     micromatch "^4.0.4"
     minimist "^1.2.5"
     mocha "~9.0.1"
@@ -11471,9 +11473,9 @@ events@^3.0.0:
   integrity sha512-mQw+2fkQbALzQ7V0MY0IqdnXNOeTtP4r0lN9z7AAawCXgqea7bDii20AYrIBrFd/Hx0M2Ocz6S111CaFkUcb0Q==
 
 eventsource@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.npmjs.org/eventsource/-/eventsource-1.0.7.tgz#8fbc72c93fcd34088090bc0a4e64f4b5cee6d8d0"
-  integrity sha512-4Ln17+vVT0k8aWq+t/bF5arcS3EpT9gYtW66EPacdj/mAFevznsnyoHLPy2BA8gbIQeIHoPsvwmfBftfcG//BQ==
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/eventsource/-/eventsource-1.1.1.tgz#4544a35a57d7120fba4fa4c86cb4023b2c09df2f"
+  integrity sha512-qV5ZC0h7jYIAOhArFJgSfdyz6rALJyb270714o7ZtNnw2WSJ+eexhKtE0O8LYPRsHZHf2osHKZBxGPvm3kPkCA==
   dependencies:
     original "^1.0.0"
 
@@ -16743,10 +16745,20 @@ log-symbols@^3.0.0:
   dependencies:
     chalk "^2.4.2"
 
+loglevel-plugin-prefix@^0.8.4:
+  version "0.8.4"
+  resolved "https://registry.npmjs.org/loglevel-plugin-prefix/-/loglevel-plugin-prefix-0.8.4.tgz#2fe0e05f1a820317d98d8c123e634c1bd84ff644"
+  integrity sha512-WpG9CcFAOjz/FtNht+QJeGpvVl/cdR6P0z6OcXSkr8wFJOsV2GRj2j10JLfjuA4aYkcKCNIEqRGCyTife9R8/g==
+
 loglevel@^1.6.4, loglevel@^1.6.8:
   version "1.7.1"
   resolved "https://registry.npmjs.org/loglevel/-/loglevel-1.7.1.tgz#005fde2f5e6e47068f935ff28573e125ef72f197"
   integrity sha512-Hesni4s5UkWkwCGJMQGAh71PaLUmKFM60dHvq0zi/vDhhrzuk+4GgNbTXJ12YYQJn6ZKBDNIjYcuQGKudvqrIw==
+
+loglevel@^1.7.1:
+  version "1.8.0"
+  resolved "https://registry.npmjs.org/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
+  integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
 
 lolex@^5.0.0:
   version "5.1.2"

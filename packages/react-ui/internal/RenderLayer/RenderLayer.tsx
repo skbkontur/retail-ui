@@ -68,7 +68,10 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
 
   private attachListeners() {
     const rootNode = getRootNode(this) || this.props.getAnchorElement?.();
-    if (!rootNode) return;
+    if (!rootNode) {
+      return;
+    }
+
     this.focusOutsideListenerToken = listenFocusOutside(() => [rootNode], this.handleFocusOutside);
     window.addEventListener('blur', this.handleFocusOutside);
     document.addEventListener(

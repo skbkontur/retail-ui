@@ -73,9 +73,9 @@ export class Gapped extends React.Component<GappedProps> {
     const { gap: propsGap } = this.props;
     if (propsGap !== undefined && propsGap !== null) {
       return propsGap;
-    } else {
-      return 8;
     }
+
+    return 8;
   }
 
   private renderVertical() {
