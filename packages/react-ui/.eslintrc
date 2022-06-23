@@ -1,8 +1,13 @@
 {
   "overrides": [
     {
-      "plugins": ["testing-library", "jest-dom"],
-      "extends": ["plugin:testing-library/dom", "plugin:jest-dom/recommended", "plugin:storybook/recommended"],
+      "plugins": ["testing-library", "jest-dom", "jsdoc"],
+      "extends": [
+        "plugin:testing-library/dom",
+        "plugin:jest-dom/recommended",
+        "plugin:storybook/recommended",
+        "plugin:jsdoc/recommended"
+      ],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
         "import/no-default-export": 0
