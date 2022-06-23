@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -143,7 +143,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private renderChildren = () => {
-    const updatedArrayOfMenuItems: any[] = [];
+    const updatedArrayOfMenuItems: ReactNode[] = [];
     const updatedChildren = this.deepSearch(this.props.children, MAX_LEVEL_OF_DEEP_SEARCH, updatedArrayOfMenuItems);
 
     this.arrayOfMenuItems = updatedArrayOfMenuItems;
@@ -151,22 +151,28 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     return updatedChildren;
   };
 
-  private deepSearch: any = (currentLevelOfChildren: any, allowedLevelOfDeep: number, arrayOfMenuItems: any) => {
+  private deepSearch: any = (
+    currentLevelOfChildren: ReactNode,
+    allowedLevelOfDeep: number,
+    arrayOfMenuItems: ReactNode[],
+  ) => {
     if (!allowedLevelOfDeep) {
       return currentLevelOfChildren;
     }
     return React.Children.map(currentLevelOfChildren, (child) => {
       if (!isMenuItem(child)) {
-        if (child?.props?.children) {
-          return React.cloneElement(child, {
-            children: this.deepSearch(child.props.children, allowedLevelOfDeep - 1, arrayOfMenuItems),
+        const localChild = child as any;
+        if (localChild?.props?.children) {
+          return React.cloneElement(localChild, {
+            children: this.deepSearch(localChild.props.children, allowedLevelOfDeep - 1, arrayOfMenuItems),
           });
         }
-
-        return child;
+        return localChild;
       }
 
-      this.updateEnableIconPadding(child);
+      if (child.props.icon && this.state.enableIconPadding !== true) {
+        this.setState({ enableIconPadding: true });
+      }
 
       if (!isActiveElement(child)) {
         return child;
@@ -182,22 +188,17 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     });
   };
 
-  private updateEnableIconPadding = (child: any) => {
-    if (child.props.icon && this.state.enableIconPadding !== true) {
-      this.setState({ enableIconPadding: true });
-    }
-  };
-
-  private addPropsToMenuItem = (menuItem: any, index: number, highlight: boolean) => {
+  private addPropsToMenuItem = (menuItem: ReactNode, index: number, highlight: boolean) => {
     // TODO @Khlutkova rewrite with mergeRefs
-    let ref = menuItem.ref;
-    if (highlight && typeof menuItem.ref !== 'string') {
-      ref = this.refHighlighted.bind(this, menuItem.ref);
+    const child = menuItem as any;
+    let ref = child.ref;
+    if (highlight && typeof ref !== 'string') {
+      ref = this.refHighlighted.bind(this, ref);
     }
 
-    return React.cloneElement<MenuItemProps, MenuItem>(menuItem, {
+    return React.cloneElement<MenuItemProps, MenuItem>(child, {
       ref,
-      state: highlight ? 'hover' : menuItem.props.state,
+      state: highlight ? 'hover' : child.props.state,
       onClick: this.select.bind(this, index, false),
       onMouseEnter: (event) => {
         this.highlightItem(index);
