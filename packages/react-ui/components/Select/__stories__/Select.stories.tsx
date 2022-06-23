@@ -13,6 +13,7 @@ import { Gapped } from '../../Gapped';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
+import { delay } from '../../../lib/utils';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -105,6 +106,8 @@ export default {
 
 const selectTests: CreeveyTests = {
   async idle() {
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
   async clicked() {
@@ -114,9 +117,11 @@ const selectTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
-  async ['MenuItem hover']() {
+  async 'MenuItem hover'() {
     await this.browser
       .actions({
         bridge: true,
@@ -131,9 +136,11 @@ const selectTests: CreeveyTests = {
         origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
       })
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('MenuItem hover');
   },
-  async ['selected item']() {
+  async 'selected item'() {
     await this.browser
       .actions({
         bridge: true,
@@ -146,6 +153,8 @@ const selectTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('selected item');
   },
 };
@@ -159,7 +168,11 @@ export const Simple: Story = () => (
 Simple.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -286,7 +299,11 @@ UseLink.storyName = 'use link';
 UseLink.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -297,7 +314,11 @@ UseLinkWithIcon.storyName = 'use link with icon';
 UseLinkWithIcon.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -308,7 +329,11 @@ WithTextOverflow.storyName = 'with text overflow';
 WithTextOverflow.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -394,7 +419,7 @@ UsingOnKeyDown.storyName = 'using onKeyDown';
 UsingOnKeyDown.parameters = {
   creevey: {
     tests: {
-      async ['press Enter']() {
+      async 'press Enter'() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions({
@@ -405,6 +430,8 @@ UsingOnKeyDown.parameters = {
           .sendKeys(this.keys.ARROW_DOWN)
           .sendKeys(this.keys.ENTER)
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
       },
     },
@@ -443,7 +470,7 @@ WithSearchAndVariousWidth.parameters = {
   creevey: {
     captureElement: '#test-element',
     tests: {
-      async ['search']() {
+      async search() {
         const root = await this.browser.findElement({ css: '[data-tid="root"]' });
         const select = await this.browser.findElement({ css: '[data-comp-name~="Select"]' });
 
@@ -452,6 +479,7 @@ WithSearchAndVariousWidth.parameters = {
             bridge: true,
           })
           .click(select)
+          .pause(500)
           .perform();
 
         const plainSearch = await root.takeScreenshot();
@@ -461,6 +489,7 @@ WithSearchAndVariousWidth.parameters = {
             bridge: true,
           })
           .sendKeys(this.keys.ARROW_DOWN)
+          .pause(500)
           .perform();
 
         const pressKeyDown = await root.takeScreenshot();
@@ -471,6 +500,7 @@ WithSearchAndVariousWidth.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('test')
+          .pause(500)
           .perform();
 
         const fullFieldSearch = await root.takeScreenshot();
@@ -481,6 +511,7 @@ WithSearchAndVariousWidth.parameters = {
           })
           .click(select)
           .click(select)
+          .pause(500)
           .perform();
 
         const emptySearch = await root.takeScreenshot();
@@ -488,12 +519,13 @@ WithSearchAndVariousWidth.parameters = {
         await this.expect({ plainSearch, pressKeyDown, fullFieldSearch, emptySearch }).to.matchImages();
       },
 
-      async ['and various width']() {
+      async 'and various width'() {
         const root = await this.browser.findElement({ css: '[data-tid="root"]' });
 
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
+          .pause(500)
           .perform();
 
         const w100px = await root.takeScreenshot();
@@ -501,6 +533,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
+          .pause(500)
           .perform();
 
         const w300px = await root.takeScreenshot();
@@ -508,6 +541,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
+          .pause(500)
           .perform();
 
         const w100prc = await root.takeScreenshot();
@@ -558,8 +592,10 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
 WithMenuAlignAndVariousWidth.parameters = {
   creevey: {
     tests: {
-      async ['open']() {
+      async open() {
         const root = await this.browser.findElement({ css: '#test-element' });
+        await delay(1000);
+
         await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },
