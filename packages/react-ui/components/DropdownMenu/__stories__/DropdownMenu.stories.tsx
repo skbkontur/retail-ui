@@ -181,7 +181,7 @@ const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
 
 const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
   return {
-    async ['out of viewport']() {
+    async 'out of viewport'() {
       if (side === 'left') {
         await this.browser.executeScript(function () {
           // @ts-ignore
@@ -200,7 +200,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
 
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
     },
-    async ['out of edge with min menu width']() {
+    async 'out of edge with min menu width'() {
       if (side === 'left') {
         await this.browser.executeScript(function () {
           // @ts-ignore
@@ -394,7 +394,7 @@ WithHeaderAndFooter.parameters = {
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
       },
-      async ['scrolled by 100']() {
+      async 'scrolled by 100'() {
         await this.browser
           .actions({
             bridge: true,
@@ -410,7 +410,7 @@ WithHeaderAndFooter.parameters = {
 
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
       },
-      async ['scrolled down to bottom']() {
+      async 'scrolled down to bottom'() {
         await this.browser
           .actions({
             bridge: true,

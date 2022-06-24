@@ -65,7 +65,7 @@ describe('Default combobox reducer', () => {
       const mockedGetState = jest.fn();
       const mockedGetInstance = jest.fn();
 
-      Effect.UnexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+      Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
       if (expectedDispatch) {
         expect(mockedDispatch).toBeCalledWith({
@@ -84,7 +84,7 @@ describe('Default combobox reducer', () => {
     const mockedDispatch = jest.fn();
     const mockedGetState = jest.fn();
     const mockedGetInstance = jest.fn();
-    Effect.UnexpectedInput('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+    Effect.unexpectedInput('Hello', ['Hello'])(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
     expect(mockedDispatch).toHaveBeenCalledTimes(1);
   });

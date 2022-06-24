@@ -80,11 +80,11 @@ const combinationTest: CreeveyTests = {
     const page5 = await element().takeScreenshot();
 
     await this.expect({
-      ['page - 1']: page1,
-      ['page - 2']: page2,
-      ['page - 3']: page3,
-      ['page - 4']: page4,
-      ['page - 5']: page5,
+      'page - 1': page1,
+      'page - 2': page2,
+      'page - 3': page3,
+      'page - 4': page4,
+      'page - 5': page5,
     }).to.matchImages();
   },
 };
