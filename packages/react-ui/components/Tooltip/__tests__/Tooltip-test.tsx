@@ -306,7 +306,7 @@ describe('Tooltip', () => {
         </Tooltip>,
       );
 
-      expect(findDOMNode).not.toBeCalled();
+      expect(findDOMNode).not.toHaveBeenCalled();
     });
 
     it('should not be called when closed', () => {
@@ -315,7 +315,7 @@ describe('Tooltip', () => {
           <Button />
         </Tooltip>,
       );
-      expect(findDOMNode).not.toBeCalled();
+      expect(findDOMNode).not.toHaveBeenCalled();
     });
 
     describe('should be called with not-refable children', () => {
@@ -327,7 +327,7 @@ describe('Tooltip', () => {
           </Tooltip>,
         );
 
-        expect(findDOMNode).toBeCalled();
+        expect(findDOMNode).toHaveBeenCalled();
       });
 
       it('class component without getRootNode', () => {
@@ -341,7 +341,7 @@ describe('Tooltip', () => {
           </Tooltip>,
         );
 
-        expect(findDOMNode).toBeCalled();
+        expect(findDOMNode).toHaveBeenCalled();
       });
     });
   });
