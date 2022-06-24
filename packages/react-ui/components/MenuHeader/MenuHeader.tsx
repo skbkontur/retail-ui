@@ -1,15 +1,24 @@
 import React, { ReactNode, useContext } from 'react';
 
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 
 import { styles } from './MenuHeader.styles';
 
-export interface MenuHeaderProps extends CommonProps {
+type MenuHeaderInterface = {
+  /**
+   * @ignore
+   */
   _enableIconPadding?: boolean;
+  /**
+   * @ignore
+   */
   children: ReactNode;
-}
+};
+
+export type MenuHeaderProps = MenuHeaderInterface & CommonProps;
 
 /**
  * `Заголовок меню` используется для того, чтобы разделить `элементы меню` на категории в рамках одного меню.
@@ -18,27 +27,30 @@ export interface MenuHeaderProps extends CommonProps {
  *
  * Сущности в которых может быть использован `MenuHeader`: [`DropdownMenu`](#/Components/DropdownMenu), [`Kebab`](#/Components/Kebab), [`TooltipMenu`](#/Components/TooltipMenu) и [`Select`](#/Components/Select).
  */
-function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeaderProps) {
-  const theme = useContext(ThemeContext);
+export const MenuHeader = forwardRefAndName<HTMLDivElement, MenuHeaderProps>(
+  'MenuHeader',
+  ({ _enableIconPadding = false, children, className, ...rest }, ref) => {
+    const theme = useContext(ThemeContext);
 
-  return (
-    <CommonWrapper {...rest}>
+    return (
       <div
-        className={cx({
-          [styles.root(theme)]: true,
-          [styles.withLeftPadding(theme)]: _enableIconPadding,
-        })}
+        ref={ref}
+        className={cx(
+          {
+            [styles.root(theme)]: true,
+            [styles.withLeftPadding(theme)]: _enableIconPadding,
+          },
+          className,
+        )}
+        {...rest}
       >
         {children}
       </div>
-    </CommonWrapper>
-  );
-}
+    );
+  },
+);
 
-MenuHeader.__KONTUR_REACT_UI__ = 'MenuHeader';
-MenuHeader.__MENU_HEADER__ = true;
-
-export { MenuHeader };
+Object.assign(MenuHeader, { __MENU_HEADER__: true });
 
 export const isMenuHeader = (child: React.ReactNode): child is React.ReactElement<MenuHeaderProps> => {
   return React.isValidElement<MenuHeaderProps>(child)
