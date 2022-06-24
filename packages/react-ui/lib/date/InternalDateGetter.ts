@@ -48,9 +48,12 @@ export class InternalDateGetter {
   ): InternalDateComponentRaw {
     if (type === InternalDateComponentType.Year) {
       return components.year;
-    } else if (type === InternalDateComponentType.Month) {
+    }
+
+    if (type === InternalDateComponentType.Month) {
       return components.month;
     }
+
     return components.date;
   }
 
