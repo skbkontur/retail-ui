@@ -68,7 +68,7 @@ export class InternalDateGetter {
     return MIN_DATE;
   }
 
-  public static getDefaultMax(type: InternalDateComponentType, components?: InternalDateComponents): number {
+  public static getDefaultMax(type: InternalDateComponentType | null, components?: InternalDateComponents): number {
     if (type === InternalDateComponentType.Year) {
       return MAX_YEAR;
     } else if (type === InternalDateComponentType.Month) {
