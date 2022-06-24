@@ -12,7 +12,9 @@
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
         "import/no-default-export": 0,
-        "jest/max-nested-describe": 2
+        "jest/max-nested-describe": 2,
+        // This rule controls that we import configured emotion from lib/theming/Emotion and not the library itself
+        "@emotion/no-vanilla": 2
       }
     }
   ]
