@@ -1,62 +1,59 @@
 import React from 'react';
+import propTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { forwardRefAndName } from '../../lib/forwardRefAndName';
+import { withClassWrapper } from '../../lib/withClassWrapper';
 
 import { styles } from './Center.styles';
 
-export type HorizontalAlign = 'left' | 'center' | 'right';
+type CenterInterface = {
+  /**
+   * Определяет, как контент будет выровнен по горизонтали.
+   *
+   * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
+   */
+  align?: 'left' | 'center' | 'right';
+  /**
+   * @ignore
+   */
+  children: React.ReactNode;
+};
 
-export interface CenterProps
-  extends CommonProps,
-    Override<
-      React.HTMLAttributes<HTMLDivElement>,
-      {
-        /**
-         * Определяет, как контент будет выровнен по горизонтали.
-         *
-         * **Допустимые значения**: `"left"`, `"center"`, `"right"`.
-         */
-        align?: HorizontalAlign;
-      }
-    > {}
+export type CenterProps = CommonProps &
+  Override<React.HTMLAttributes<HTMLDivElement>, CenterInterface> & { instanceRef?: unknown };
+
+const CenterFC = forwardRefAndName<HTMLDivElement, CenterProps>(
+  'CenterFC',
+  ({ instanceRef, align, className, ...rest }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cx(
+          {
+            [styles.root()]: true,
+            [styles.rootAlignLeft()]: align === 'left',
+            [styles.rootAlignRight()]: align === 'right',
+          },
+          className,
+        )}
+        {...rest}
+      >
+        <span className={styles.spring()} />
+        <span className={styles.container()}>{rest.children}</span>
+      </div>
+    );
+  },
+);
+
+CenterFC.propTypes = {
+  align: propTypes.oneOf(['left', 'center', 'right']),
+};
 
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
-@rootNode
-export class Center extends React.Component<CenterProps> {
-  public static __KONTUR_REACT_UI__ = 'Center';
-
-  public static defaultProps = {
-    align: 'center',
-  };
-  private setRootNode!: TSetRootNode;
-
-  public render() {
-    return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {this.renderMain}
-      </CommonWrapper>
-    );
-  }
-  private renderMain = (props: CommonWrapperRestProps<CenterProps>) => {
-    const { align, ...rest } = props;
-
-    return (
-      <div
-        {...rest}
-        className={cx({
-          [styles.root()]: true,
-          [styles.rootAlignLeft()]: align === 'left',
-          [styles.rootAlignRight()]: align === 'right',
-        })}
-      >
-        <span className={styles.spring()} />
-        <span className={styles.container()}>{this.props.children}</span>
-      </div>
-    );
-  };
-}
+export const Center = withClassWrapper(CenterFC);
+export type Center = InstanceType<typeof Center>;
