@@ -415,6 +415,8 @@ CheckboxLabelSelectionWithPressedShift.parameters = {
         await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
 
         await this.expect(await this.takeScreenshot()).to.matchImage('selected with pressed shift');
+
+        await this.browser.actions({ bridge: true }).keyUp(this.keys.SHIFT).perform();
       },
     },
   },
