@@ -10,7 +10,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { InstanceWithAnchorElement } from '../../lib/instanceWithAnchorElement';
 
 import { styles } from './Hint.styles';
 

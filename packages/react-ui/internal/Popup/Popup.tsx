@@ -19,7 +19,7 @@ import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
-import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { isInstanceWithAnchorElement } from '../../lib/instanceWithAnchorElement';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';

@@ -14,7 +14,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { InstanceWithAnchorElement } from '../../lib/instanceWithAnchorElement';
 
 import { styles } from './Tooltip.styles';
 
