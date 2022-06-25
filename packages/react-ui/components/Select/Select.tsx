@@ -154,6 +154,7 @@ export interface SelectState<TValue> {
   opened: boolean;
   searchPattern: string;
   value: Nullable<TValue>;
+  isControlled: boolean;
 }
 
 interface FocusableReactElement extends React.ReactElement<any> {
@@ -212,6 +213,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     opened: false,
     value: this.props.defaultValue,
     searchPattern: '',
+    isControlled: !!this.props.value,
   };
 
   private theme!: Theme;
@@ -228,6 +230,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     }
     if (prevState.opened && !this.state.opened) {
       window.removeEventListener('popstate', this.close);
+    }
+
+    if (this.props.value && !this.state.isControlled) {
+      this.setState({ isControlled: true });
     }
   }
 
@@ -605,7 +611,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getValue() {
-    if (this.props.value !== undefined) {
+    if (this.state.isControlled) {
       return this.props.value;
     }
     return this.state.value;

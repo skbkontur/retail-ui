@@ -5,6 +5,7 @@ import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
 import { CSFStory } from 'creevey';
 
+import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
@@ -597,6 +598,52 @@ WithMenuAlignAndVariousWidth.parameters = {
         await delay(1000);
 
         await this.expect(await root.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};
+
+export const WithButtonsForClearingValue: Story = () => {
+  const [value, setValue] = useState<Nullable<string>>('One');
+
+  return (
+    <div style={{ display: 'flex', width: '500px' }}>
+      <Select<Nullable<string>> value={value} items={['One']} onValueChange={setValue} />
+      <button data-tid="undefined" onClick={() => setValue(undefined)}>
+        clear with undefined
+      </button>
+      <button data-tid="null" onClick={() => setValue(undefined)}>
+        clear with null
+      </button>
+    </div>
+  );
+};
+WithButtonsForClearingValue.parameters = {
+  creevey: {
+    tests: {
+      async 'clear value using undefined'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(await this.browser.findElement({ css: '[data-tid="undefined"]' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('clear value using undefined');
+      },
+      async 'clear value using null'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(await this.browser.findElement({ css: '[data-tid="null"]' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('clear value using null');
       },
     },
   },
