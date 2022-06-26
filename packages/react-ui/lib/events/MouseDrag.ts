@@ -149,7 +149,11 @@ export class MouseDrag {
   };
 
   private getLength = (x2: number, y2: number): number => {
-    return this.x1 !== undefined && this.y1 !== undefined ? Math.sqrt((x2 - this.x1) ** 2 + (y2 - this.y1) ** 2) : 0;
+    if (this.x1 !== undefined && this.y1 !== undefined) {
+      return Math.sqrt((x2 - this.x1) ** 2 + (y2 - this.y1) ** 2);
+    }
+
+    return 0;
   };
 
   private createEvent = (type: MouseDragEventType, e: MouseEvent): MouseDragEvent => {
