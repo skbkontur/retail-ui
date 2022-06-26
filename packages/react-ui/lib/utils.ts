@@ -99,7 +99,7 @@ export const ComponentType = propTypes.oneOfType([
   propTypes.elementType,
   propTypes.element,
   propTypes.node,
-  safePropTypesInstanceOf(() => Element),
+  safePropTypesInstanceOf(() => HTMLElement),
 ]);
 
 export const formatBytes = (bytes: number, decimals = 2): string | null => {

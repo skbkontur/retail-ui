@@ -66,7 +66,7 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
 }
 
 Portal.propTypes = {
-  container: safePropTypesInstanceOf(() => Element),
+  container: safePropTypesInstanceOf(() => HTMLElement),
   rt_rootID: propTypes.string.isRequired,
   children: ComponentType.isRequired,
 };
