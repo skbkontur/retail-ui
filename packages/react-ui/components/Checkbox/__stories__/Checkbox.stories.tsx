@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { Checkbox } from '../Checkbox';
@@ -390,6 +390,36 @@ Highlighted.parameters = {
         await delay(1000);
 
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+      },
+    },
+  },
+};
+
+export const CheckboxLabelSelectionWithPressedShift: Story = () => {
+  const [checked, setChecked] = useState(false);
+
+  return (
+    <Checkbox checked={checked} onValueChange={setChecked}>
+      caption
+    </Checkbox>
+  );
+};
+CheckboxLabelSelectionWithPressedShift.storyName = 'checkbox label selection with pressed shift';
+
+CheckboxLabelSelectionWithPressedShift.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async 'selected with pressed shift'() {
+        const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
+
+        await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('selected with pressed shift');
+
+        await this.browser.actions({ bridge: true }).keyUp(this.keys.SHIFT).perform();
       },
     },
   },
