@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { isNonNullable } from '../../lib/utils';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
@@ -71,7 +72,7 @@ export class Gapped extends React.Component<GappedProps> {
   private getGapValue() {
     // DEPRECATED remove in 4.0
     const { gap: propsGap } = this.props;
-    if (propsGap !== undefined && propsGap !== null) {
+    if (isNonNullable(propsGap)) {
       return propsGap;
     }
 
