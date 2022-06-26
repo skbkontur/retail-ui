@@ -99,6 +99,7 @@ export const ComponentType = propTypes.oneOfType([
   propTypes.elementType,
   propTypes.element,
   propTypes.node,
+  propTypes.bool,
   safePropTypesInstanceOf(() => HTMLElement),
 ]);
 
