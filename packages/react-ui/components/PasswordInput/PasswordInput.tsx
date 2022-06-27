@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { RenderLayer } from '../../internal/RenderLayer';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyCapsLock } from '../../lib/events/keyboard/identifiers';
 import { KeyboardEventCodes as Codes } from '../../lib/events/keyboard/KeyboardEventCodes';
@@ -162,14 +163,6 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  private onBlur = (e: React.FocusEvent<HTMLInputElement, Element>) => {
-    if (this.props.onBlur) {
-      this.props.onBlur(e);
-    }
-
-    this.setState({ visible: false });
-  };
-
   private getEyeWrapperClassname(right = false) {
     switch (this.props.size) {
       case 'large':
@@ -205,20 +198,25 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     this.input = element;
   };
 
+  private hideSymbols = () => {
+    this.setState({ visible: false });
+  };
+
   private renderMain = (props: CommonWrapperRestProps<PasswordInputProps>) => {
     const { detectCapsLock, ...rest } = props;
     const inputProps = {
       ...rest,
-      onBlur: this.onBlur,
       onKeyDown: this.handleKeydown,
       onKeyPress: this.handleKeyPress,
       rightIcon: this.renderEye(),
     };
 
     return (
-      <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
-        <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
-      </div>
+      <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
+        <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
+          <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
+        </div>
+      </RenderLayer>
     );
   };
 }

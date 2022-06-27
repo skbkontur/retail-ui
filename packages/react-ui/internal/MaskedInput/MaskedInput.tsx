@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
+import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
@@ -127,9 +128,11 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   }
 
   private getValue = (props: MaskedInputProps): string => {
-    if (props.value !== undefined) {
+    if (isNonNullable(props.value)) {
       return props.value.toString();
-    } else if (props.defaultValue !== undefined) {
+    }
+
+    if (isNonNullable(props.defaultValue)) {
       return props.defaultValue.toString();
     }
 

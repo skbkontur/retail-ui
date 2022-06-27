@@ -1,14 +1,17 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 
-import { Checkbox, CheckboxProps } from '../Checkbox';
+import { Checkbox } from '../Checkbox';
 
-const render = (props: CheckboxProps) => mount<Checkbox>(<Checkbox {...props} />);
-
-describe('<Checkbox />', () => {
-  it('calls onBlur after radio click', () => {
+describe('Checkbox', () => {
+  it('should call onBlur after radio click', () => {
     const onBlur = jest.fn();
-    render({ onBlur }).find('input').simulate('focus').simulate('blur');
-    expect(onBlur).toHaveBeenCalled();
+
+    render(<Checkbox onBlur={onBlur} />);
+    const checkbox = screen.getByRole('checkbox');
+    checkbox.focus();
+    checkbox.blur();
+
+    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 });

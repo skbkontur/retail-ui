@@ -3,6 +3,40 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.1...@skbkontur/react-ui@4.1.2) (2022-06-27)
+
+
+### Bug Fixes
+
+* **Checkbox:** fix checking with pressed shift ([#2894](https://github.com/skbkontur/retail-ui/issues/2894)) ([2a3ee39](https://github.com/skbkontur/retail-ui/commit/2a3ee395bcc2844abdf992c9e594ea3ec2d0f593))
+* **dateinput:** don`t allow to enter incorrect dates from keyboard ([#2861](https://github.com/skbkontur/retail-ui/issues/2861)) ([d7bc564](https://github.com/skbkontur/retail-ui/commit/d7bc564789cd5a8353d01c5dbab58bfa06132fb2))
+* **PasswordInput:** focus input after clicking on the eye icon ([#2892](https://github.com/skbkontur/retail-ui/issues/2892)) ([350e0df](https://github.com/skbkontur/retail-ui/commit/350e0df18fabd4e42589b111f620bb4d4feee68d))
+* **Select:** button border-radius with custom select theme ([#2896](https://github.com/skbkontur/retail-ui/issues/2896)) ([a0fd12e](https://github.com/skbkontur/retail-ui/commit/a0fd12ed599b9deb8db42c2b3e053601a47a94fa))
+
+
+### Features
+
+* **tokeninput:** add renderTotalCount and totalCount props ([#2887](https://github.com/skbkontur/retail-ui/issues/2887)) ([e745f07](https://github.com/skbkontur/retail-ui/commit/e745f07f6524df4b1810aa1de304363f249d80c7))
+
+
+
+
+
+## [4.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.0...@skbkontur/react-ui@4.1.1) (2022-06-15)
+
+
+### Bug Fixes
+
+* **MaskedInput:** accept null as value ([#2902](https://github.com/skbkontur/retail-ui/issues/2902)) ([e3414eb](https://github.com/skbkontur/retail-ui/commit/e3414ebfd3934995c415c68df44bb5afd9ecd8c2))
+* **rootNode:** enable findDOMNode fallback again ([1421484](https://github.com/skbkontur/retail-ui/commit/1421484076c389a16ae9d92199b0c2f60434e67f)), closes [#2873](https://github.com/skbkontur/retail-ui/issues/2873) [#2895](https://github.com/skbkontur/retail-ui/issues/2895)
+* **storybook:** StoryFn.story deprecated annotation ([#2798](https://github.com/skbkontur/retail-ui/issues/2798)) ([4c2bd8a](https://github.com/skbkontur/retail-ui/commit/4c2bd8ae93dc8e4a79f25de5baefe7a7c85b0b41))
+* **Tabs:** active tab underline ([839043d](https://github.com/skbkontur/retail-ui/commit/839043d5a78eda18ddba9610134fb4955a91dd43))
+* **TooltipMenu:** add onClose/onOpen props ([#2890](https://github.com/skbkontur/retail-ui/issues/2890)) ([92d4888](https://github.com/skbkontur/retail-ui/commit/92d48880c8feec11a00c8641c59e839a84e31fd2))
+
+
+
+
+
 # [4.1.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.0.6...@skbkontur/react-ui@4.1.0) (2022-05-04)
 
 
