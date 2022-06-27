@@ -55,9 +55,7 @@ export interface LinkProps
          */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
       }
-    > {
-  children?: React.ReactNode;
-}
+    > {}
 
 export interface LinkState {
   focusedByTab: boolean;

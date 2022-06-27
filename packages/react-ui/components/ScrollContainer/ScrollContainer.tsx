@@ -48,7 +48,6 @@ export interface ScrollContainerProps extends CommonProps {
    * Отключение кастомного скролла
    */
   disabled?: boolean;
-  children?: React.ReactNode;
 }
 
 @rootNode

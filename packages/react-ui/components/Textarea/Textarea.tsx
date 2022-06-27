@@ -104,9 +104,7 @@ export interface TextareaProps
          */
         disableAnimations: boolean;
       }
-    > {
-  children?: React.ReactNode;
-}
+    > {}
 
 export interface TextareaState {
   needsPolyfillPlaceholder: boolean;

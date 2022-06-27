@@ -29,7 +29,6 @@ interface MobilePopupProps {
    */
   onCloseRequest?: () => void;
   opened: boolean;
-  children?: React.ReactNode;
 }
 
 interface MobilePopupState {

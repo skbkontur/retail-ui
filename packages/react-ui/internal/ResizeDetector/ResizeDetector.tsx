@@ -7,7 +7,6 @@ import { styles } from './ResizeDetector.styles';
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
   fullHeight?: boolean;
-  children?: React.ReactNode;
 }
 
 export class ResizeDetector extends React.Component<ResizeDetectorProps> {

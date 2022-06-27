@@ -10,7 +10,6 @@ import { PortalProps, RenderContainerProps } from './RenderContainerTypes';
 interface RenderInnerContainerProps extends RenderContainerProps {
   domContainer: Nullable<HTMLElement>;
   rootId: string;
-  children?: React.ReactNode;
 }
 
 // Заглушка нужна для корректной гидрации порталов после SSR,

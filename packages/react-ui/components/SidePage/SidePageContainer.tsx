@@ -10,7 +10,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { styles } from './SidePage.styles';
 import { SidePageContext } from './SidePageContext';
 
-export type SidePageContainerProps = { children?: React.ReactNode } & CommonProps;
+export type SidePageContainerProps = CommonProps;
 
 /**
  * Контейнер с отступами
