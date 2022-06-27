@@ -13,6 +13,7 @@ import { DEFAULT_THEME_8PX_OLD } from '../lib/theming/themes/DefaultTheme8pxOld'
 import { FLAT_THEME_8PX_OLD } from '../lib/theming/themes/FlatTheme8pxOld';
 import { THEME_2022 } from '../lib/theming/themes/Theme2022';
 import { THEME_2022_DARK } from '../lib/theming/themes/Theme2022Dark';
+import { THEME_FROM_FIGMA } from '../lib/theming/themes/ThemeFromFigma';
 
 const customViewports = {
   iphone: {
@@ -41,6 +42,7 @@ const themes = {
   DEFAULT_THEME_MOBILE,
   THEME_2022,
   THEME_2022_DARK,
+  THEME_FROM_FIGMA,
 };
 
 setFilter((fiber) => {
