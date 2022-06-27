@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -363,6 +365,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
-    return this.props.isHoliday!(dateString, isWeekend); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    return this.props.isHoliday!(dateString, isWeekend);
   };
 }

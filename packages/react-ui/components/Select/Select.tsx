@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -346,7 +348,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (isNonNullable(value)) {
       return {
-        label: this.getProps().renderValue!(value, item), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        label: this.getProps().renderValue!(value, item),
         isPlaceholder: false,
       };
     }
@@ -525,7 +527,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             comment={comment}
             isMobile={isMobile}
           >
-            {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
             {this.getProps().renderItem!(iValue, item)}
           </MenuItem>
         );
@@ -625,7 +626,6 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
       if (!pattern || this.getProps().filterItem!(value, item, pattern)) {
-        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -652,7 +652,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
-    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual!(value1, value2); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual!(value1, value2);
   }
 
   private buttonRef = (element: FocusableReactElement | null) => {

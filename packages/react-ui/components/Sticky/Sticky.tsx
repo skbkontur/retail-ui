@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
@@ -160,7 +162,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     const { width, height } = getDOMRect(this.inner);
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? top < offset! : Math.floor(bottom) > windowHeight - offset!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    const fixed = side === 'top' ? top < offset! : Math.floor(bottom) > windowHeight - offset!;
 
     this.setState({ fixed, left });
 
@@ -173,7 +175,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       if (stop) {
         const deltaHeight = prevHeight - height;
         const stopRect = getDOMRect(stop);
-        const outerHeight = height + offset!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        const outerHeight = height + offset!;
         let stopped = false;
         let relativeTop = 0;
 

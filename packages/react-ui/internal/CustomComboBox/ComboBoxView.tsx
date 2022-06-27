@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isNonNullable } from '../../lib/utils';
@@ -249,7 +251,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   };
 
   private renderAddButton = (): React.ReactNode => {
-    return this.props.renderAddButton!(this.props.textValue); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    return this.props.renderAddButton!(this.props.textValue);
   };
 
   private renderInput(): React.ReactNode {

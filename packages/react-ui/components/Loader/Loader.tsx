@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
@@ -129,8 +131,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     };
 
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
-      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
-      durationOfTask: this.props.minimalDelayBeforeSpinnerHide!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow!,
+      durationOfTask: this.props.minimalDelayBeforeSpinnerHide!,
       taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
       taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
     });

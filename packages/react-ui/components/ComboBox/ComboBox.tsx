@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { CustomComboBox } from '../../internal/CustomComboBox';
@@ -265,10 +267,10 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     return (
       <CustomComboBox
         {...this.props}
-        itemToValue={this.props.itemToValue!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
-        valueToString={this.props.valueToString!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
-        renderValue={this.props.renderValue!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
-        renderItem={this.props.renderItem!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        itemToValue={this.props.itemToValue!}
+        valueToString={this.props.valueToString!}
+        renderValue={this.props.renderValue!}
+        renderItem={this.props.renderItem!}
         ref={this.customComboBoxRef}
       />
     );

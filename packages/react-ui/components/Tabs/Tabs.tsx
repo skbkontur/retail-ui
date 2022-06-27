@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -103,7 +105,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
               <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
                 <TabsContext.Provider
                   value={{
-                    vertical: vertical!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+                    vertical: vertical!,
                     activeTab: value,
                     getTab: this.getTab,
                     addTab: this.addTab,
@@ -114,7 +116,6 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   }}
                 >
                   {children}
-                  {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
                   <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical!} />
                 </TabsContext.Provider>
               </div>

@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
@@ -91,7 +93,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   };
 
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros!), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros!),
     focused: false,
   };
 
@@ -115,7 +117,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
     if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
-      this.setState(this.getState(value, fractionDigits, hideTrailingZeros!)); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      this.setState(this.getState(value, fractionDigits, hideTrailingZeros!));
     }
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
@@ -424,7 +426,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros!), //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros!),
       focused: false,
     });
 

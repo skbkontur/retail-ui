@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -229,7 +231,6 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
         <Radio value={itemValue}>{this.getProps().renderItem!(itemValue, data)}</Radio>
       </span>
     );

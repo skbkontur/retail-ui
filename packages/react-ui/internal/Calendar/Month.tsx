@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -185,7 +187,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
           }}
         />
         {this.props.days.map((day) => {
-          const isWeekend = this.props.isHoliday!(day); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+          const isWeekend = this.props.isHoliday!(day);
 
           return (
             <DayCellView

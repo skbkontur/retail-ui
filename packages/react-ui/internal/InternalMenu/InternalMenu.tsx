@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isNullable } from '../../lib/utils';
@@ -253,7 +255,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private setInitialSelection = () => {
     for (let i = this.getProps().initialSelectedItemIndex!; i > -1; i--) {
-      //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
       this.moveDown();
     }
   };

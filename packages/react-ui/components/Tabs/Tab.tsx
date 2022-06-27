@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -189,7 +191,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       warning,
       success,
       primary,
-      component: Component = Tab.defaultProps.component!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      component: Component = Tab.defaultProps.component!,
       href,
     } = this.props;
 

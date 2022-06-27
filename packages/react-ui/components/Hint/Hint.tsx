@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -219,7 +221,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   private getPositions = (): PopupPositionsType[] => {
-    return Positions.filter((x) => x.startsWith(this.props.pos!)); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    return Positions.filter((x) => x.startsWith(this.props.pos!));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

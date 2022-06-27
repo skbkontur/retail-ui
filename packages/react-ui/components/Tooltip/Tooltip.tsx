@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
@@ -254,7 +256,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger!) //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger!)
         : this.props.closeButton;
 
     if (!hasCross || this.isMobileLayout) {
@@ -363,12 +365,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private getPositions() {
     if (!this.positions) {
       const allowedPositions = this.props.allowedPositions;
-      const index = allowedPositions!.indexOf(this.props.pos!); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      const index = allowedPositions!.indexOf(this.props.pos!);
       if (index === -1) {
-        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions!.join(', ')); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions!.join(', '));
       }
 
-      this.positions = [...allowedPositions!.slice(index), ...allowedPositions!.slice(0, index)]; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      this.positions = [...allowedPositions!.slice(index), ...allowedPositions!.slice(0, index)];
     }
 
     return this.positions;

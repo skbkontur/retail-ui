@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { Nullable } from '../typings/Types';
@@ -56,7 +58,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       <ValidationContextWrapper
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
-        disableSmoothScroll={this.props.disableSmoothScroll!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        disableSmoothScroll={this.props.disableSmoothScroll!}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}

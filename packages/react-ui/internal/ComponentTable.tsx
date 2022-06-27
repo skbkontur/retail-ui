@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isFunctionalComponent, DefaultizeProps } from '../lib/utils';
@@ -55,7 +57,6 @@ export class ComponentTable<
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
-        {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
         <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps!)}</caption>
         <thead>
           <tr>

@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -94,9 +96,7 @@ export class Spinner extends React.Component<SpinnerProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div className={styles.spinner()}>
-          {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
           <span className={styles.inner()}>{this.renderSpinner(type!, dimmed, inline)}</span>
-          {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
           {caption && this.renderCaption(type!, caption)}
         </div>
       </CommonWrapper>

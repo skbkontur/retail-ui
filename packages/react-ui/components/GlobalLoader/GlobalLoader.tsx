@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import debounce from 'lodash.debounce';
 
@@ -99,7 +101,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       accept: false,
       dead: false,
       successAnimationInProgress: false,
-      expectedResponseTime: this.props.expectedResponseTime!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      expectedResponseTime: this.props.expectedResponseTime!,
     };
     this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
@@ -116,7 +118,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
     if (this.props.expectedResponseTime !== prevProps.expectedResponseTime) {
-      this.setState({ expectedResponseTime: this.props.expectedResponseTime! }); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      this.setState({ expectedResponseTime: this.props.expectedResponseTime! });
     }
     if (this.props.rejected !== prevProps.rejected) {
       this.setReject(!!this.props.rejected);
@@ -149,10 +151,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <GlobalLoaderView
             expectedResponseTime={this.state.expectedResponseTime}
-            delayBeforeHide={this.props.delayBeforeHide!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+            delayBeforeHide={this.props.delayBeforeHide!}
             status={status}
             data-tid="GlobalLoader"
-            disableAnimations={this.props.disableAnimations!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+            disableAnimations={this.props.disableAnimations!}
           />
         </CommonWrapper>
       )

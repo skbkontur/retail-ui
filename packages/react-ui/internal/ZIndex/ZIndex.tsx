@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
@@ -40,11 +42,9 @@ export class ZIndex extends React.Component<ZIndexProps> {
   public static propTypes = {
     delta(props: ZIndexProps) {
       if (props.delta! <= 0) {
-        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
       }
       if (Math.trunc(props.delta!) !== props.delta) {
-        //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
         return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
       }
     },
@@ -56,7 +56,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = incrementZIndex(props.priority!, props.delta!); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    this.zIndex = incrementZIndex(props.priority!, props.delta!);
   }
 
   public componentWillUnmount() {

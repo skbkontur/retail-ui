@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -281,7 +283,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ? items.map((item, i) => {
           return (
             <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile}>
-              {/*TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты*/}
               {this.getProps().renderItem!(item)}
             </MenuItem>
           );

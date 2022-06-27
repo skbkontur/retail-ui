@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -128,9 +130,9 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX!;
       } else {
-        left = targetRect.left + scrollX + this.getProps().offsetX!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        left = targetRect.left + scrollX + this.getProps().offsetX!;
       }
 
       const { offsetY = 0 } = this.props;

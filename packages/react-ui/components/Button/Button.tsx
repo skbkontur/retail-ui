@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
@@ -259,8 +261,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: cx({
         [styles.root(this.theme)]: true,
-        [styles[use!](this.theme)]: true, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
-        [activeStyles[use!](this.theme)]: active, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        [styles[use!](this.theme)]: true,
+        [activeStyles[use!](this.theme)]: active,
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,

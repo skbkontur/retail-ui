@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
@@ -491,7 +493,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       node: fakeNode,
       minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
       maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-      extraRow: extraRow!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+      extraRow: extraRow!,
     });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

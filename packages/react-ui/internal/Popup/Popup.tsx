@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
@@ -628,7 +630,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
-    const popupOffset = this.props.popupOffset! + this.getPinnedPopupOffset(anchorRect, position); //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    const popupOffset = this.props.popupOffset! + this.getPinnedPopupOffset(anchorRect, position);
 
     switch (position.direction) {
       case 'top':

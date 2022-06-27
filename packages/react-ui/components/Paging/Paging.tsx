@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import { func, number } from 'prop-types';
 
@@ -96,7 +98,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keyboardControl: this.props.useGlobalListener!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    keyboardControl: this.props.useGlobalListener!,
   };
 
   private theme!: Theme;
@@ -122,7 +124,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     if (prevProps.useGlobalListener !== this.props.useGlobalListener) {
       this.setState({
-        keyboardControl: this.props.useGlobalListener!, //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        keyboardControl: this.props.useGlobalListener!,
       });
     }
   }
@@ -198,7 +200,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.disabled(this.theme)]: disabled,
     });
     const { caption } = this.props;
-    const Component = this.props.component!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    const Component = this.props.component!;
     const { forward } = this.locale;
 
     return (
@@ -225,7 +227,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.pageLinkFocused(this.theme)]: focused,
       [styles.active(this.theme)]: active,
     });
-    const Component = this.props.component!; //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+    const Component = this.props.component!;
     const handleClick = () => this.goToPage(pageNumber);
 
     return (

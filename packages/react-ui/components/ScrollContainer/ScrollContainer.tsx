@@ -1,3 +1,5 @@
+// TODO: поправить после перехода на функциональные компоненты
+// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -196,7 +198,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       <ScrollBar
         axis={axis}
         ref={refScrollBar}
-        invert={this.props.invert!} //TODO non-null assertion нужно будет удалить после перехода на функциональные компоненты
+        invert={this.props.invert!}
         onScrollStateChange={this.handleScrollStateChange}
       />
     );
