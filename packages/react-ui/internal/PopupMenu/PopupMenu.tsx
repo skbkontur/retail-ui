@@ -69,7 +69,7 @@ interface PopupMenuState {
 export const PopupMenuType = {
   Dropdown: 'dropdown',
   Tooltip: 'tooltip',
-};
+} as const;
 
 const Positions: PopupPositionsType[] = [
   'top left',
@@ -95,7 +95,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   public static defaultProps: Partial<PopupMenuProps> = {
     positions: Positions,
-    type: PopupMenuType.Tooltip as 'tooltip',
+    type: PopupMenuType.Tooltip,
     popupHasPin: true,
     disableAnimations: false,
   };
