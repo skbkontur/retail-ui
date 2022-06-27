@@ -1,35 +1,14 @@
 import { isNonNullable } from '../utils';
 
-describe('isNonNullable', () => {
-  describe('nullish values return false', () => {
-    it('null returns false', () => {
-      expect(isNonNullable(null)).toBe(false);
-    });
+const nullishValues = [null, undefined];
+const falsyValues = [false, 0, -0, '', NaN];
 
-    it('undefined returns false', () => {
-      expect(isNonNullable(undefined)).toBe(false);
-    });
+describe('isNonNullable', () => {
+  it.each(nullishValues)('%j returns false', (value) => {
+    expect(isNonNullable(value)).toBe(false);
   });
 
-  describe('other falsy values return true', () => {
-    it('false returns true', () => {
-      expect(isNonNullable(false)).toBe(true);
-    });
-
-    it('0 returns true', () => {
-      expect(isNonNullable(0)).toBe(true);
-    });
-
-    it('-0 returns true', () => {
-      expect(isNonNullable(-0)).toBe(true);
-    });
-
-    it('empty string returns true', () => {
-      expect(isNonNullable('')).toBe(true);
-    });
-
-    it('NaN returns true', () => {
-      expect(isNonNullable(NaN)).toBe(true);
-    });
+  it.each(falsyValues)('%j returns true', (value) => {
+    expect(isNonNullable(value)).toBe(true);
   });
 });
