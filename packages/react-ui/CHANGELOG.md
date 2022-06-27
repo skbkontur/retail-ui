@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.1...@skbkontur/react-ui@4.1.2) (2022-06-27)
+
+
+### Bug Fixes
+
+* **Checkbox:** fix checking with pressed shift ([#2894](https://github.com/skbkontur/retail-ui/issues/2894)) ([2a3ee39](https://github.com/skbkontur/retail-ui/commit/2a3ee395bcc2844abdf992c9e594ea3ec2d0f593))
+* **dateinput:** don`t allow to enter incorrect dates from keyboard ([#2861](https://github.com/skbkontur/retail-ui/issues/2861)) ([d7bc564](https://github.com/skbkontur/retail-ui/commit/d7bc564789cd5a8353d01c5dbab58bfa06132fb2))
+* **PasswordInput:** focus input after clicking on the eye icon ([#2892](https://github.com/skbkontur/retail-ui/issues/2892)) ([350e0df](https://github.com/skbkontur/retail-ui/commit/350e0df18fabd4e42589b111f620bb4d4feee68d))
+* **Select:** button border-radius with custom select theme ([#2896](https://github.com/skbkontur/retail-ui/issues/2896)) ([a0fd12e](https://github.com/skbkontur/retail-ui/commit/a0fd12ed599b9deb8db42c2b3e053601a47a94fa))
+
+
+### Features
+
+* **tokeninput:** add renderTotalCount and totalCount props ([#2887](https://github.com/skbkontur/retail-ui/issues/2887)) ([e745f07](https://github.com/skbkontur/retail-ui/commit/e745f07f6524df4b1810aa1de304363f249d80c7))
+
+
+
+
+
 ## [4.1.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.0...@skbkontur/react-ui@4.1.1) (2022-06-15)
 
 
