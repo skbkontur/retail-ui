@@ -68,7 +68,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focusedByKeyboard: false,
   };
 
-  public static defaultProps: Partial<RadioProps<any>> = {
+  public static defaultProps: Partial<RadioProps<unknown>> = {
     focused: false,
   };
 

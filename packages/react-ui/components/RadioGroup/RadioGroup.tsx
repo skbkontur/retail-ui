@@ -108,7 +108,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps: Partial<RadioGroupProps<any>> = {
+  public static defaultProps: Partial<RadioGroupProps<unknown>> = {
     renderItem,
   };
 
