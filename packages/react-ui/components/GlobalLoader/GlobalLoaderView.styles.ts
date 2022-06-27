@@ -1,6 +1,4 @@
-import { keyframes } from '@emotion/css';
-
-import { css, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, memoizeStyle, keyframes } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 export const styles = memoizeStyle({
