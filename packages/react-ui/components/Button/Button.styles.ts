@@ -634,7 +634,7 @@ export const styles = memoizeStyle({
 
   iconLink(t: Theme) {
     return css`
-      padding-right: ${t.btnLinkIconMarginRight};
+      margin-right: ${t.btnLinkIconMarginRight};
     `;
   },
 
@@ -665,19 +665,19 @@ export const styles = memoizeStyle({
   iconSmall(t: Theme) {
     return css`
       width: ${t.btnIconSizeSmall};
-      padding-right: ${t.btnIconGapSmall};
+      margin-right: ${t.btnIconGapSmall};
     `;
   },
   iconMedium(t: Theme) {
     return css`
       width: ${t.btnIconSizeMedium};
-      padding-right: ${t.btnIconGapMedium};
+      margin-right: ${t.btnIconGapMedium};
     `;
   },
   iconLarge(t: Theme) {
     return css`
       width: ${t.btnIconSizeLarge};
-      padding-right: ${t.btnIconGapLarge};
+      margin-right: ${t.btnIconGapLarge};
     `;
   },
 
