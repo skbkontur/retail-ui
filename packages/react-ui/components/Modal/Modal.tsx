@@ -71,6 +71,12 @@ export interface ModalState {
   hasPanel: boolean;
 }
 
+export const ModalDataTids = {
+  container: 'modal-container',
+  content: 'modal-content',
+  close: 'modal-close',
+} as const;
+
 /**
  * Модальное окно
  *
@@ -200,7 +206,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
               onClick={this.handleContainerClick}
-              data-tid="modal-container"
+              data-tid={ModalDataTids.container}
             >
               <ResponsiveLayout>
                 {({ isMobile }) => {
@@ -212,7 +218,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         [styles.alignTop()]: Boolean(this.props.alignTop),
                       })}
                       style={isMobile ? undefined : containerStyle}
-                      data-tid="modal-content"
+                      data-tid={ModalDataTids.content}
                     >
                       <div
                         className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}
