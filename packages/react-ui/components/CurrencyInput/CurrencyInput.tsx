@@ -115,12 +115,12 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    // @ts-expect-error: Intended behavior. CurrencyInput technically can't accept strings
-    const isValidNumber = !isNaN(Number(value)) && value !== '';
-    warning(!isNaN(Number(value)), `[CurrencyInput]: Prop value is not a valid number`);
+    const isInvalidNumber = isNaN(Number(value));
+    const isLegalString = !!Number(value) || value === 0;
+    warning(!isInvalidNumber, `[CurrencyInput]: Prop value is not a valid number`);
     if (
-      isValidNumber &&
-      (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits)
+      (!isInvalidNumber && isLegalString && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
+      prevProps.fractionDigits !== fractionDigits
     ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
