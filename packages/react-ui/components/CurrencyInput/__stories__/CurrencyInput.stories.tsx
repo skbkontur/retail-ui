@@ -292,7 +292,7 @@ WithStringValue.parameters = {
       },
     ],
     tests: {
-      async ['Input value']() {
+      async 'Input value'() {
         await this.browser
           .actions({
             bridge: true,
