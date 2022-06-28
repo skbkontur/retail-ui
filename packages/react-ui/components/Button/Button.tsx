@@ -327,7 +327,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       iconNode = (
         <span
           className={cx(styles.icon(), this.getSizeIconClassName(), {
-            [styles.iconNoRightPadding()]: !children,
+            [styles.iconNoRightMargin()]: !children,
             [styles.iconLink(this.theme)]: isLink,
           })}
         >

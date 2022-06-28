@@ -626,9 +626,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconNoRightPadding() {
+  iconNoRightMargin() {
     return css`
-      padding-right: 0;
+      margin-right: 0;
     `;
   },
 
