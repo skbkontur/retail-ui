@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { ReactInstance } from 'react';
 import warning from 'warning';
+import { getRootNode } from '@skbkontur/react-ui/lib/rootNode';
 
 import { Nullable } from '../typings/Types';
 
@@ -101,18 +102,7 @@ export class ValidationWrapperInternal extends React.Component<
 
     let clonedChild: React.ReactElement<any> = children ? (
       React.cloneElement(children, {
-        ref: (x: any) => {
-          const child = children as any; // todo type or maybe React.Children.only
-          if (child && child.ref) {
-            if (typeof child.ref === 'function') {
-              child.ref(x);
-            }
-            if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
-              child.ref.current = x;
-            }
-          }
-          this.child = x;
-        },
+        ref: this.customRef,
         error: !this.isChanging && getLevel(validation) === 'error',
         warning: !this.isChanging && getLevel(validation) === 'warning',
         onBlur: (...args: any[]) => {
@@ -135,10 +125,11 @@ export class ValidationWrapperInternal extends React.Component<
         },
       })
     ) : (
-      <span />
+      <span ref={this.setRootNode} />
     );
     if (ReactUiDetection.isComboBox(clonedChild)) {
       clonedChild = React.cloneElement(clonedChild, {
+        ref: this.customRef,
         onInputValueChange: (...args: any[]) => {
           this.isChanging = true;
           this.forceUpdate();
@@ -148,11 +139,27 @@ export class ValidationWrapperInternal extends React.Component<
         },
       });
     }
-    return this.props.errorMessage(<span ref={this.setRootNode}>{clonedChild}</span>, !!validation, validation);
+    return this.props.errorMessage(<span>{clonedChild}</span>, !!validation, validation);
   }
 
-  private setRootNode = (element: Nullable<HTMLElement>) => {
-    this.rootNode = element;
+  private customRef = (instance: Nullable<ReactInstance>) => {
+    const { children } = this.props;
+
+    this.setRootNode(instance);
+    const child = children as any; // todo type or maybe React.Children.only
+    if (child && child.ref) {
+      if (typeof child.ref === 'function') {
+        child.ref(instance);
+      }
+      if (Object.prototype.hasOwnProperty.call(child.ref, 'current')) {
+        child.ref.current = instance;
+      }
+    }
+    this.child = instance;
+  };
+
+  private setRootNode = (element: Nullable<ReactInstance>) => {
+    this.rootNode = getRootNode(element);
   };
 
   public getRootNode = () => {
