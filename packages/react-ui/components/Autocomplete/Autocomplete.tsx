@@ -135,8 +135,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
-  private rootSpan: Nullable<HTMLSpanElement>;
   private mobilePopup: Nullable<MobilePopup>;
+  private rootSpan = React.createRef<HTMLElement>();
 
   private requestId = 0;
 
@@ -212,7 +212,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
-        <span className={styles.root(this.theme)} style={{ width }} ref={this.refRootSpan}>
+        <span className={styles.root(this.theme)} style={{ width }} ref={this.rootSpan}>
           <Input {...inputProps} />
           {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
@@ -226,7 +226,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan).width),
+      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan.current).width),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -450,10 +450,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refMenu = (menu: Menu | null) => {
     this.menu = menu;
-  };
-
-  private refRootSpan = (span: HTMLSpanElement) => {
-    this.rootSpan = span;
   };
 
   private refMobilePopup = (mobilePopup: MobilePopup | null) => {

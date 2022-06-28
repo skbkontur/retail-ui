@@ -3,17 +3,14 @@ import { findDOMNode } from 'react-dom';
 import { render } from '@testing-library/react';
 
 import { Nullable } from '../../../typings/utility-types';
-import { callChildRef } from '../../../lib/callChildRef/callChildRef';
 import { getRootNode } from '../getRootNode';
 import { InstanceWithRootNode } from '../rootNodeDecorator';
+import { applyRef } from '../../utils';
 
 const getInstance = (element: React.ReactElement): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;
   const refCallback = (instance: React.ReactInstance) => {
-    const originalRef = (element as React.RefAttributes<any>).ref;
-    if (originalRef) {
-      callChildRef(originalRef, instance);
-    }
+    applyRef((element as React.RefAttributes<any>).ref, instance);
     ref = instance;
   };
 
