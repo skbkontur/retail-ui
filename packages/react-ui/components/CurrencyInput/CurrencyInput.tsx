@@ -115,11 +115,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    const isInvalidNumber = isNaN(Number(value));
-    const isLegalString = !!Number(value) || value === 0;
-    warning(!isInvalidNumber, `[CurrencyInput]: Prop value is not a valid number`);
+    const isValidNumber = !isNaN(Number(value));
+    warning(isValidNumber, `[CurrencyInput]: Prop value is not a valid number`);
     if (
-      (!isInvalidNumber && isLegalString && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
+      (isValidNumber && isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
       prevProps.fractionDigits !== fractionDigits
     ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
@@ -455,6 +454,10 @@ function getInputSelectionFromEvent(input: EventTarget): Selection {
     end: input.selectionEnd!,
     direction: input.selectionDirection as SelectionDirection,
   };
+}
+
+function isNumeric(value: unknown): value is number | string {
+  return !isNaN(parseFloat(value as string)) && isFinite(value as number);
 }
 
 const getPlaceholder = (props: CurrencyInputProps) => {
