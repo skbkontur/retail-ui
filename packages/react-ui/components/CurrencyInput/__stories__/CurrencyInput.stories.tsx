@@ -306,6 +306,8 @@ WithStringValue.parameters = {
           .pause(500)
           .sendKeys('4')
           .pause(500)
+          .move({ x: 0, y: 0 })
+          .click()
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
       },
