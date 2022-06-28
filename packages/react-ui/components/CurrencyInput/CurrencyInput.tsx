@@ -71,7 +71,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: PropTypes.number,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onBlur: PropTypes.func,
