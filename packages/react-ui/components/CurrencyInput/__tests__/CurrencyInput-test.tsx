@@ -11,12 +11,11 @@ const PlainCurrencyInput = () => {
   return <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />;
 };
 
-const CurrencyInputAndButtons = () => {
+const CurrencyInputAndButtons = (props: { value: string }): JSX.Element => {
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
-      <Button onClick={() => setValue('str')}>Set invalid string value</Button>
-      <Button onClick={() => setValue('123')}>Set valid string value</Button>
+      <Button onClick={() => setValue(props.value)}>Set value</Button>
       <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />
     </div>
   );
@@ -42,14 +41,14 @@ describe('CurrencyInput', () => {
   });
 
   it('should not throw an error on invalid string', async () => {
-    render(<CurrencyInputAndButtons />);
-    const button = screen.getByText('Set invalid string value');
+    render(<CurrencyInputAndButtons value={'str'} />);
+    const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
   });
 
   it('should not throw an error on valid string', async () => {
-    render(<CurrencyInputAndButtons />);
-    const button = screen.getByText('Set valid string value');
+    render(<CurrencyInputAndButtons value={'123'} />);
+    const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
   });
 });
