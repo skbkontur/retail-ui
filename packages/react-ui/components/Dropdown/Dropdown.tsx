@@ -88,6 +88,10 @@ export interface DropdownProps extends CommonProps {
 
 type DropdownSelectType = Select<React.ReactNode, React.ReactNode>;
 
+export const DropdownDataTids = {
+  root: 'Dropdown__root',
+} as const;
+
 /**
  * Выпадающее меню.
  *
@@ -179,6 +183,7 @@ export class Dropdown extends React.Component<DropdownProps> {
 
     return (
       <Select<React.ReactNode, React.ReactNode>
+        data-tid={DropdownDataTids.root}
         ref={this._refSelect}
         {...filterProps(props, PASS_PROPS)}
         value={caption}

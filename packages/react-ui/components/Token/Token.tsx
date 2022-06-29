@@ -49,6 +49,10 @@ const getValidation = (error: TokenProps['error'], warning: TokenProps['warning'
   return null;
 };
 
+export const TokenDataTids = {
+  root: 'Token__root',
+} as const;
+
 @rootNode
 export class Token extends React.Component<TokenProps> {
   public static __KONTUR_REACT_UI__ = 'Token';
@@ -110,6 +114,7 @@ export class Token extends React.Component<TokenProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div
+          data-tid={TokenDataTids.root}
           className={tokenClassNames}
           onClick={onClick}
           onDoubleClick={onDoubleClick}
