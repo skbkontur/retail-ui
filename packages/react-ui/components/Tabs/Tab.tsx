@@ -6,7 +6,7 @@ import { ResizeDetector } from '../../internal/ResizeDetector';
 import { isKeyArrow, isKeyArrowLeft, isKeyArrowUp } from '../../lib/events/keyboard/identifiers';
 import { keyListener } from '../../lib/events/keyListener';
 import { Nullable } from '../../typings/utility-types';
-import { ComponentType, isFunctionalComponent } from '../../lib/utils';
+import { ReactNodePropTypes, isFunctionalComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -117,7 +117,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   public context: TabsContextType = this.context;
 
   public static propTypes = {
-    children: ComponentType,
+    children: ReactNodePropTypes,
     disabled: PropTypes.bool,
     href: PropTypes.string.isRequired,
     onClick: PropTypes.func,

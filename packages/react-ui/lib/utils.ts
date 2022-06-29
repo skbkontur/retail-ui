@@ -3,7 +3,6 @@ import React from 'react';
 import { isForwardRef } from 'react-is';
 
 import { isBrowser } from './client';
-import { safePropTypesInstanceOf } from './SSRSafe';
 
 // NOTE: Copy-paste from @types/react
 export type Defaultize<P, D> = P extends any
@@ -95,13 +94,10 @@ const calculateDecimals = (decimals: number) => {
   return 0;
 };
 
-export const ComponentType = propTypes.oneOfType([
-  propTypes.elementType,
-  propTypes.element,
-  propTypes.node,
-  propTypes.bool,
-  safePropTypesInstanceOf(() => HTMLElement),
-]);
+/**
+ * Analogue of React.ReactNode but for prop-types
+ */
+export const ReactNodePropTypes = propTypes.oneOfType([propTypes.element, propTypes.node, propTypes.bool]);
 
 export const formatBytes = (bytes: number, decimals = 2): string | null => {
   if (bytes === 0) {

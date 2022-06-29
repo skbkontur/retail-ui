@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import { ComponentType } from '../../../lib/utils';
+import { ReactNodePropTypes } from '../../../lib/utils';
 
 import { styles } from './icon.styles';
 
@@ -20,7 +20,7 @@ export const SvgIcon: React.FunctionComponent<SVGIconProps> = ({ children, color
 );
 
 SvgIcon.propTypes = {
-  children: ComponentType,
+  children: ReactNodePropTypes,
   color: propTypes.string,
 };
 

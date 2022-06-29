@@ -9,7 +9,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { ComponentType, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { ReactNodePropTypes, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -128,14 +128,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: ComponentType.isRequired,
+    anchorElement: ReactNodePropTypes.isRequired,
 
     /**
      * Фон попапа и пина
      */
     backgroundColor: PropTypes.string,
 
-    children: ComponentType,
+    children: ReactNodePropTypes,
 
     /**
      * Показывать ли пин

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ComponentType, emptyHandler } from '../../lib/utils';
+import { ReactNodePropTypes, emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -68,7 +68,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
   public static propTypes = {
-    children: ComponentType,
+    children: ReactNodePropTypes,
     indicatorClassName: PropTypes.string,
     value: PropTypes.string.isRequired,
     vertical: PropTypes.bool,

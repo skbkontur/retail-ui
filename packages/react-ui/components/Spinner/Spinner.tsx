@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ComponentType } from '../../lib/utils';
+import { ReactNodePropTypes } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -59,7 +59,7 @@ export class Spinner extends React.Component<SpinnerProps> {
      *
      * 'Загрузка' - значение по-умолчанию
      */
-    caption: ComponentType,
+    caption: ReactNodePropTypes,
 
     dimmed: PropTypes.bool,
 

@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { ComponentType, getRandomID, isNonNullable } from '../../lib/utils';
+import { ReactNodePropTypes, getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -99,7 +99,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public static __KONTUR_REACT_UI__ = 'RadioGroup';
 
   public static propTypes = {
-    children: ComponentType,
+    children: ReactNodePropTypes,
     disabled: PropTypes.bool,
     error: PropTypes.bool,
     inline: PropTypes.bool,

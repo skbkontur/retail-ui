@@ -5,7 +5,7 @@ import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ComponentType, isExternalLink } from '../../lib/utils';
+import { ReactNodePropTypes, isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -77,7 +77,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     href: PropTypes.string,
 
-    icon: ComponentType,
+    icon: ReactNodePropTypes,
 
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
