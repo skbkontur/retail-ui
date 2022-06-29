@@ -1,6 +1,6 @@
 // TODO: поправить после перехода на функциональные компоненты
 // eslint-disable @typescript-eslint/no-non-null-assertion
-import React from 'react';
+import React, { ReactNode, ReactPortal } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
@@ -162,7 +162,7 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
-interface FocusableReactElement extends React.ReactElement<unknown> {
+interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
@@ -195,7 +195,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps: Partial<SelectProps<any, any>> = {
+  public static defaultProps: Partial<SelectProps<unknown, ReactNode | ReactPortal>> = {
     renderValue,
     renderItem,
     areValuesEqual,

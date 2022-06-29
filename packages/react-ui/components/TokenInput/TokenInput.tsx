@@ -191,7 +191,7 @@ const defaultRenderToken = <T extends {}>(
 export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<T>, TokenInputState<T>> {
   public static __KONTUR_REACT_UI__ = 'TokenInput';
 
-  public static defaultProps: Partial<TokenInputProps<any>> = {
+  public static defaultProps: Partial<TokenInputProps<string>> = {
     selectedItems: [],
     delimiters: [',', ' '],
     renderItem: identity,
