@@ -12,6 +12,8 @@ const PlainCurrencyInput = () => {
 };
 
 const CurrencyInputAndButton = (props: { value: string }): JSX.Element => {
+  // Intended behavior. CurrencyInput technically can't accept strings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
