@@ -162,6 +162,11 @@ export const DefaultState = {
   inputValueHeight: 22,
 };
 
+export const TokenInputDataTids = {
+  root: 'TokenInput__root',
+  tokenInputMenu: 'TokenInputMenu__root',
+} as const;
+
 const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
 const identity = <T extends unknown>(item: T): T => item;
 const defaultRenderToken = <T extends AnyObject>(
@@ -337,7 +342,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
             style={{ width }}
