@@ -158,7 +158,7 @@ export interface SelectState<TValue> {
   value: Nullable<TValue>;
 }
 
-interface FocusableReactElement extends React.ReactElement<any> {
+interface FocusableReactElement extends React.ReactElement<unknown> {
   focus: (event?: any) => void;
 }
 

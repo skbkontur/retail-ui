@@ -19,7 +19,7 @@ export class ComponentCombinator<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
 > {
-  public static defaultProps: Partial<ComponentCombinatorProps<any, any, any>> = {
+  public static defaultProps: Partial<ComponentCombinatorProps<unknown, unknown, unknown>> = {
     presetProps: {},
     presetState: {},
   };

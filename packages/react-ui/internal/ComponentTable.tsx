@@ -51,7 +51,10 @@ export class ComponentTable<
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
-  public static defaultProps: Partial<ComponentTableProps<any, any, any>> = { presetProps: {}, presetState: {} };
+  public static defaultProps: Partial<ComponentTableProps<unknown, unknown, unknown>> = {
+    presetProps: {},
+    presetState: {},
+  };
 
   public render() {
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;

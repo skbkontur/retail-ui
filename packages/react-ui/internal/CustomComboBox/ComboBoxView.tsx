@@ -86,7 +86,7 @@ interface ComboBoxViewState {
 export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, ComboBoxViewState> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxView';
 
-  public static defaultProps: Partial<ComboBoxViewProps<any>> = {
+  public static defaultProps: Partial<ComboBoxViewProps<unknown>> = {
     renderItem: (item: any) => item,
     renderValue: (item: any) => item,
     renderAddButton: () => null,
