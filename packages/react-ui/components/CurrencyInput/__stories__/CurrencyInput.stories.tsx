@@ -38,17 +38,20 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: 0 })}>
             Set <b>0</b>
           </Button>
-          <Button onClick={() => this.setState({ value: null })}>
+          <Button data-tid={'button_null'} onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
           </Button>
-          <Button onClick={() => this.setState({ value: parseInt('str') })}>
+          <Button data-tid={'button_nan'} onClick={() => this.setState({ value: parseInt('str') })}>
             Set <b>NaN</b>
           </Button>
-          <Button onClick={() => this.setState({ value: 'str' })}>
+          <Button data-tid={'button_string'} onClick={() => this.setState({ value: 'str' })}>
             Set <b>str</b>
           </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>
+          </Button>
+          <Button data-tid={'button_number'} onClick={() => this.setState({ value: 3 })}>
+            Set <b>3</b>
           </Button>
         </Gapped>
         <CurrencyInput
@@ -161,8 +164,48 @@ class Sample extends React.Component<
 
 export default { title: 'CurrencyInput' } as Meta;
 
-export const Demo = () => <CurrencyInputDemo />;
-Demo.parameters = { creevey: { skip: [true] } };
+export const Demo: Story = () => <CurrencyInputDemo />;
+Demo.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: ['chromeDark'],
+        tests: ['Set value'],
+        reason: 'flacky visible(?!) cursor',
+      },
+    ],
+    tests: {
+      async 'Set value'() {
+        await this.browser.actions({
+          bridge: true,
+        });
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="button_number"]' }))
+          .perform();
+        const number = await this.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="button_nan"]' }))
+          .perform();
+        const nan = await this.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="button_null"]' }))
+          .perform();
+        const nullValue = await this.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="button_string"]' }))
+          .perform();
+        const string = await this.takeScreenshot();
+
+        await this.expect({ plain, number, nan, nullValue, string }).to.matchImages();
+      },
+    },
+  },
+};
 export const WithBorderless = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
@@ -310,43 +353,6 @@ WithStringValue.parameters = {
           .click()
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
-      },
-    },
-  },
-};
-
-export const SetValue: Story = () => {
-  const [value, changeValue] = React.useState<any>('');
-  return (
-    <div className="App">
-      <CurrencyInput fractionDigits={0} autoFocus value={value} onValueChange={changeValue} />
-      <Button data-tid={'button'} onClick={() => changeValue(3)}>
-        Set number 3
-      </Button>
-    </div>
-  );
-};
-SetValue.parameters = {
-  creevey: {
-    skip: [
-      {
-        in: ['chromeDark'],
-        tests: ['Set value'],
-        reason: 'flacky visible(?!) cursor',
-      },
-    ],
-    tests: {
-      async 'Set value'() {
-        await this.browser.actions({
-          bridge: true,
-        });
-        const plain = await this.takeScreenshot();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="button"]' }))
-          .perform();
-        const clicked = await this.takeScreenshot();
-        await this.expect({ plain, clicked }).to.matchImages();
       },
     },
   },

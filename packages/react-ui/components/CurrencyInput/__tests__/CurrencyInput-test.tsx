@@ -6,7 +6,12 @@ import { CurrencyInput } from '../CurrencyInput';
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
 
-const Component = () => {
+const PlainCurrencyInput = () => {
+  const [value, setValue] = useState<Nullable<any>>(12);
+  return <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />;
+};
+
+const CurrencyInputAndButtons = () => {
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
@@ -19,7 +24,7 @@ const Component = () => {
 
 describe('CurrencyInput', () => {
   it('should set a correct number value', async () => {
-    render(<Component />);
+    render(<PlainCurrencyInput />);
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
     await userEvent.type(input, '123');
@@ -28,7 +33,7 @@ describe('CurrencyInput', () => {
   });
 
   it('should not set a string value', async () => {
-    render(<Component />);
+    render(<PlainCurrencyInput />);
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
     await userEvent.type(input, 'str');
@@ -37,13 +42,13 @@ describe('CurrencyInput', () => {
   });
 
   it('should not throw an error on invalid string', async () => {
-    render(<Component />);
+    render(<CurrencyInputAndButtons />);
     const button = screen.getByText('Set invalid string value');
     expect(() => userEvent.click(button)).not.toThrow();
   });
 
   it('should not throw an error on valid string', async () => {
-    render(<Component />);
+    render(<CurrencyInputAndButtons />);
     const button = screen.getByText('Set valid string value');
     expect(() => userEvent.click(button)).not.toThrow();
   });
