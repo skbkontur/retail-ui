@@ -427,7 +427,7 @@ class TooltipAndSelect extends React.Component {
       <div className="container" style={{ height: '300px', width: '300px' }}>
         <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.trigger}>
           <Select
-            onKeyDown={() => this.setState({ tooltipTrigger: 'opened' })}
+            onKeyDown={() => this.setState({ trigger: 'opened' })}
             width={120}
             value={'small'}
             items={['small', 'medium', 'large']}
