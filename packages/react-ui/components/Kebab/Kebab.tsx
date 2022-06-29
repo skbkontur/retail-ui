@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { ReactNodePropTypes } from '../../lib/utils';
 import { isKeyArrowVertical, isKeyEnter, isKeySpace, someKeys } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { keyListener } from '../../lib/events/keyListener';
@@ -213,7 +212,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 }
 
 Kebab.propTypes = {
-  children: ReactNodePropTypes,
+  children: PropTypes.node,
   disabled: PropTypes.bool,
   menuMaxHeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 

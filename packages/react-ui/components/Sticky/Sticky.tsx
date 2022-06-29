@@ -4,7 +4,7 @@ import shallowEqual from 'shallowequal';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable } from '../../typings/utility-types';
-import { ReactNodePropTypes, isFunction } from '../../lib/utils';
+import { isFunction } from '../../lib/utils';
 import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -45,7 +45,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
 
   public static propTypes = {
-    children: ReactNodePropTypes,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     /**
      * Функция, которая возвращает DOM-элемент, который нельзя пересекать.

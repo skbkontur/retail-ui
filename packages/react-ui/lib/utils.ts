@@ -1,4 +1,4 @@
-import propTypes, { ReactComponentLike } from 'prop-types';
+import { ReactComponentLike } from 'prop-types';
 import React from 'react';
 import { isForwardRef } from 'react-is';
 
@@ -93,11 +93,6 @@ const calculateDecimals = (decimals: number) => {
 
   return 0;
 };
-
-/**
- * Analogue of React.ReactNode but for prop-types
- */
-export const ReactNodePropTypes = propTypes.oneOfType([propTypes.element, propTypes.node, propTypes.bool]);
 
 export const formatBytes = (bytes: number, decimals = 2): string | null => {
   if (bytes === 0) {

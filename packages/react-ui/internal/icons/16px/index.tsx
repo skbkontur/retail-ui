@@ -1,7 +1,6 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-import { ReactNodePropTypes } from '../../../lib/utils';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 
 import { styles } from './icon.styles';
@@ -33,7 +32,7 @@ SvgIcon.propTypes = {
   color: propTypes.string,
   size: propTypes.oneOfType([propTypes.string, propTypes.number]),
   style: propTypes.object,
-  children: ReactNodePropTypes,
+  children: propTypes.node,
 };
 
 export const ArrowChevronDownIcon = forwardRefAndName<HTMLElement, SvgIconProps>(

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import propTypes from 'prop-types';
 
-import { ReactNodePropTypes } from '../../lib/utils';
 import { Nullable } from '../../typings/utility-types';
 import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 
@@ -68,5 +67,5 @@ export class RenderInnerContainer extends React.Component<RenderInnerContainerPr
 Portal.propTypes = {
   container: safePropTypesInstanceOf(() => HTMLElement),
   rt_rootID: propTypes.string.isRequired,
-  children: ReactNodePropTypes.isRequired,
+  children: propTypes.node.isRequired,
 };

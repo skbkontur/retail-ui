@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
 
-import { ReactNodePropTypes } from '../../lib/utils';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Spinner, SpinnerProps } from '../Spinner';
 import { Nullable } from '../../typings/utility-types';
@@ -84,7 +83,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
      */
     caption: Spinner.propTypes.caption,
 
-    component: ReactNodePropTypes,
+    component: PropTypes.node,
 
     /**
      * Класс для обертки

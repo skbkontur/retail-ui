@@ -9,11 +9,11 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
 import { RenderContainer } from '../RenderContainer';
 import { FocusEventType, MouseEventType } from '../../typings/event-types';
-import { ReactNodePropTypes, isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
+import { isFunction, isNonNullable, isNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isHTMLElement } from '../../lib/SSRSafe';
+import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -128,14 +128,14 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     /**
      * Ссылка (ref) на элемент или React компонент, для которого рисуется попап
      */
-    anchorElement: ReactNodePropTypes.isRequired,
+    anchorElement: PropTypes.oneOfType([safePropTypesInstanceOf(() => HTMLElement), PropTypes.node]).isRequired,
 
     /**
      * Фон попапа и пина
      */
     backgroundColor: PropTypes.string,
 
-    children: ReactNodePropTypes,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
 
     /**
      * Показывать ли пин

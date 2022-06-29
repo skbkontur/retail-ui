@@ -22,7 +22,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { ReactNodePropTypes, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
+import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -180,7 +180,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     items: PropTypes.oneOfType([PropTypes.array, PropTypes.object]),
     maxMenuHeight: PropTypes.number,
     maxWidth: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-    placeholder: ReactNodePropTypes,
+    placeholder: PropTypes.node,
     renderItem: PropTypes.func,
     renderValue: PropTypes.func,
     search: PropTypes.bool,
