@@ -7,11 +7,11 @@ import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
 
 const PlainCurrencyInput = () => {
-  const [value, setValue] = useState<Nullable<any>>(12);
+  const [value, setValue] = useState<Nullable<number>>(12);
   return <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />;
 };
 
-const CurrencyInputAndButtons = (props: { value: string }): JSX.Element => {
+const CurrencyInputAndButton = (props: { value: string }): JSX.Element => {
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
@@ -41,13 +41,13 @@ describe('CurrencyInput', () => {
   });
 
   it('should not throw an error on invalid string', async () => {
-    render(<CurrencyInputAndButtons value={'str'} />);
+    render(<CurrencyInputAndButton value={'str'} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
   });
 
   it('should not throw an error on valid string', async () => {
-    render(<CurrencyInputAndButtons value={'123'} />);
+    render(<CurrencyInputAndButton value={'123'} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
   });
