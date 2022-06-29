@@ -76,6 +76,14 @@ export interface PagingState {
 
 export type ItemType = number | '.' | 'forward';
 
+export const PagingDataTids = {
+  root: 'Paging__root',
+  dots: 'Paging__dots',
+  forwardLink: 'Paging__forwardLink',
+  pageLinkWrapper: 'Paging__pageLinkWrapper',
+  pageLink: 'Paging__pageLink',
+} as const;
+
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
@@ -85,7 +93,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
-    'data-tid': 'Paging__root',
+    'data-tid': PagingDataTids.root,
   };
 
   public static propTypes = {};
@@ -187,7 +195,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private renderDots = (key: string) => {
     return (
-      <span data-tid="Paging__dots" key={key} className={styles.dots(this.theme)}>
+      <span data-tid={PagingDataTids.dots} key={key} className={styles.dots(this.theme)}>
         {'...'}
       </span>
     );
@@ -206,7 +214,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     return (
       <Component
         key={'forward'}
-        data-tid="Paging__forwardLink"
+        data-tid={PagingDataTids.forwardLink}
         active={false}
         className={classes}
         onClick={disabled ? emptyHandler : this.goForward}
@@ -232,13 +240,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     return (
       <span
-        data-tid="Paging__pageLinkWrapper"
+        data-tid={PagingDataTids.pageLinkWrapper}
         key={pageNumber}
         className={styles.pageLinkWrapper()}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component
-          data-tid="Paging__pageLink"
+          data-tid={PagingDataTids.pageLink}
           active={active}
           className={classes}
           onClick={handleClick}

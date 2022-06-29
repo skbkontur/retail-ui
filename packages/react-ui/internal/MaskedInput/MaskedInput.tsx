@@ -26,6 +26,10 @@ interface MaskedInputState {
   focused: boolean;
 }
 
+export const MaskedInputDataTids = {
+  root: 'MaskedInput__root',
+} as const;
+
 export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
@@ -99,7 +103,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
 
     return (
-      <span className={styles.container()} x-ms-format-detection="none">
+      <span data-tid={MaskedInputDataTids.root} className={styles.container()} x-ms-format-detection="none">
         <ReactInputMask
           {...inputProps}
           maskChar={null}

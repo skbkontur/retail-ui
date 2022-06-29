@@ -16,6 +16,10 @@ export interface CurrencyLabelProps extends CommonProps {
 
 const FRACTION_DIGITS_DEFAULT = 2;
 
+export const CurrencyLabelDataTids = {
+  root: 'CurrencyLabel__root',
+} as const;
+
 export const CurrencyLabel = ({
   value,
   fractionDigits = FRACTION_DIGITS_DEFAULT,
@@ -24,7 +28,7 @@ export const CurrencyLabel = ({
 }: CurrencyLabelProps): JSX.Element => {
   return (
     <CommonWrapper {...rest}>
-      <span>
+      <span data-tid={CurrencyLabelDataTids.root}>
         {CurrencyHelper.format(value, { fractionDigits })}
         {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
         {currencySymbol}

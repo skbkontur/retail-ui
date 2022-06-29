@@ -20,6 +20,7 @@ import { rootNode, getRootNode, TSetRootNode } from '../../lib/rootNode';
 import { ComboBoxMenu } from './ComboBoxMenu';
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { styles } from './CustomComboBox.styles';
+import { CustomComboBoxDataTids } from './CustomComboBox';
 
 interface ComboBoxViewProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -138,6 +139,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       <CommonWrapper {...this.props}>
         <RenderLayer onClickOutside={onClickOutside} onFocusOutside={onFocusOutside} active={opened}>
           <span
+            data-tid={CustomComboBoxDataTids.comboBoxView}
             style={{ width }}
             className={styles.root()}
             onMouseEnter={onMouseEnter}

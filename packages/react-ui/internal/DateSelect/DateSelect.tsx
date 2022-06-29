@@ -58,6 +58,11 @@ const calculatePos = (pos: number, minPos: number, maxPos: number) => {
   return pos;
 };
 
+export const DateSelectDataTids = {
+  caption: 'DateSelect__caption',
+  menuItem: 'DateSelect__menuItem',
+} as const;
+
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
@@ -184,7 +189,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     };
     return (
       <span {...rootProps}>
-        <div data-tid="DateSelect__caption" className={styles.caption()} onClick={this.open}>
+        <div data-tid={DateSelectDataTids.caption} className={styles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
             className={cx({
@@ -260,7 +265,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       };
       items.push(
         <div
-          data-tid="DateSelect__menuItem"
+          data-tid={DateSelectDataTids.menuItem}
           data-prop-disabled={disableItems}
           key={i}
           className={className}

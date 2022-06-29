@@ -60,6 +60,10 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true,
 };
 
+export const SelectDataTids = {
+  root: 'Select__root',
+} as const;
+
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
@@ -307,7 +311,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const root = (
-      <span className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })} style={style}>
+      <span
+        data-tid={SelectDataTids.root}
+        className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
+        style={style}
+      >
         {button}
         {this.getMenuRenderer()}
       </span>

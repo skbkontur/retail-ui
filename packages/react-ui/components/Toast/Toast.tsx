@@ -27,6 +27,13 @@ export interface ToastProps extends CommonProps {
   onClose?: (notification: string, action?: Action) => void;
 }
 
+export const ToastDataTids = {
+  toastStatic: 'StaticToast',
+  toastView: 'ToastView__root',
+  action: 'ToastView__action',
+  close: 'ToastView__close',
+} as const;
+
 /**
  * Показывает уведомления.
  *

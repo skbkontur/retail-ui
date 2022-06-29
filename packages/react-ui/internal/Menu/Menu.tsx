@@ -32,6 +32,10 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
+export const MenuDataTids = {
+  root: 'Menu__root',
+} as const;
+
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
@@ -115,6 +119,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
+        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
