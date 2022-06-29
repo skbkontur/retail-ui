@@ -287,7 +287,7 @@ WithStringValue.parameters = {
     skip: [
       {
         in: ['chromeDark'],
-        tests: ['Focus', 'Input value', 'External focus and input'],
+        tests: ['Input value'],
         reason: 'flacky visible(?!) cursor',
       },
     ],
@@ -310,6 +310,43 @@ WithStringValue.parameters = {
           .click()
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
+      },
+    },
+  },
+};
+
+export const SetValue: Story = () => {
+  const [value, changeValue] = React.useState<any>('');
+  return (
+    <div className="App">
+      <CurrencyInput fractionDigits={0} autoFocus value={value} onValueChange={changeValue} />
+      <Button data-tid={'button'} onClick={() => changeValue(3)}>
+        Set number 3
+      </Button>
+    </div>
+  );
+};
+SetValue.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: ['chromeDark'],
+        tests: ['Set value'],
+        reason: 'flacky visible(?!) cursor',
+      },
+    ],
+    tests: {
+      async 'Set value'() {
+        await this.browser.actions({
+          bridge: true,
+        });
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '[data-tid="button"]' }))
+          .perform();
+        const clicked = await this.takeScreenshot();
+        await this.expect({ plain, clicked }).to.matchImages();
       },
     },
   },
