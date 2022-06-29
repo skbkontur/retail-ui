@@ -107,6 +107,10 @@ export interface InputState {
   needsPolyfillPlaceholder: boolean;
 }
 
+export const InputDataTids = {
+  root: 'Input__root',
+} as const;
+
 /**
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
@@ -328,7 +332,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
-      <label {...labelProps}>
+      <label data-tid={InputDataTids.root} {...labelProps}>
         <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}
