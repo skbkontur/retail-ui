@@ -36,54 +36,54 @@ const config = {
   }),
   diffOptions: { threshold: 0, includeAA: false },
   browsers: {
-    chrome: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_OLD',
-      },
-      name: 'infrafront/chrome',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    chrome8px: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/chrome8px',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    chromeFlat: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_OLD',
-      },
-      name: 'infrafront/chromeFlat',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    chromeFlat8px: {
-      browserName: 'chrome',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'FLAT_THEME',
-      },
-      name: 'infrafront/chromeFlat8px',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
+    // chrome: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_OLD',
+    //   },
+    //   name: 'infrafront/chrome',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // chrome8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/chrome8px',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // chromeFlat: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_OLD',
+    //   },
+    //   name: 'infrafront/chromeFlat',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // chromeFlat8px: {
+    //   browserName: 'chrome',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME',
+    //   },
+    //   name: 'infrafront/chromeFlat8px',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
@@ -94,90 +94,92 @@ const config = {
       name: 'infrafront/firefox',
       browserVersion: '100.0',
       version: '100.0',
+      enableVNC: true,
+      enableVideo: true,
       ...capabilities,
     },
-    firefox8px: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/firefox8px',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    firefoxFlat: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_OLD',
-      },
-      name: 'infrafront/firefoxFlat',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    firefoxFlat8px: {
-      browserName: 'firefox',
-      viewport: { width: 1024, height: 720 },
-      platformName: 'linux',
-      _storybookGlobals: {
-        theme: 'FLAT_THEME',
-      },
-      name: 'infrafront/firefoxFlat8px',
-      browserVersion: '100.0',
-      version: '100.0',
-      ...capabilities,
-    },
-    ie11: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME_OLD',
-      },
-      name: 'infrafront/ie11',
-      ...capabilities,
-
-      // NOTE Enable after switch new separate pool for IE to allow test hover
-      // 'se:ieOptions': {
-      //   enablePersistentHover: true,
-      //   nativeEvents: true,
-      //   requireWindowFocus: true,
-      //   'ie.usePerProcessProxy': true,
-      //   'ie.browserCommandLineSwitches': '-private',
-      //   'ie.ensureCleanSession': true,
-      // },
-    },
-    ie118px: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'DEFAULT_THEME',
-      },
-      name: 'infrafront/ie118px',
-      ...capabilities,
-    },
-    ie11Flat: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'FLAT_THEME_OLD',
-      },
-      name: 'infrafront/ie11Flat',
-      ...capabilities,
-    },
-    ie11Flat8px: {
-      browserName: 'internet explorer',
-      viewport: { width: 1024, height: 720 },
-      _storybookGlobals: {
-        theme: 'FLAT_THEME',
-      },
-      name: 'infrafront/ie11Flat8px',
-      ...capabilities,
-    },
+    // firefox8px: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/firefox8px',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // firefoxFlat: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_OLD',
+    //   },
+    //   name: 'infrafront/firefoxFlat',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // firefoxFlat8px: {
+    //   browserName: 'firefox',
+    //   viewport: { width: 1024, height: 720 },
+    //   platformName: 'linux',
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME',
+    //   },
+    //   name: 'infrafront/firefoxFlat8px',
+    //   browserVersion: '100.0',
+    //   version: '100.0',
+    //   ...capabilities,
+    // },
+    // ie11: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME_OLD',
+    //   },
+    //   name: 'infrafront/ie11',
+    //   ...capabilities,
+    //
+    //   // NOTE Enable after switch new separate pool for IE to allow test hover
+    //   // 'se:ieOptions': {
+    //   //   enablePersistentHover: true,
+    //   //   nativeEvents: true,
+    //   //   requireWindowFocus: true,
+    //   //   'ie.usePerProcessProxy': true,
+    //   //   'ie.browserCommandLineSwitches': '-private',
+    //   //   'ie.ensureCleanSession': true,
+    //   // },
+    // },
+    // ie118px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'DEFAULT_THEME',
+    //   },
+    //   name: 'infrafront/ie118px',
+    //   ...capabilities,
+    // },
+    // ie11Flat: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME_OLD',
+    //   },
+    //   name: 'infrafront/ie11Flat',
+    //   ...capabilities,
+    // },
+    // ie11Flat8px: {
+    //   browserName: 'internet explorer',
+    //   viewport: { width: 1024, height: 720 },
+    //   _storybookGlobals: {
+    //     theme: 'FLAT_THEME',
+    //   },
+    //   name: 'infrafront/ie11Flat8px',
+    //   ...capabilities,
+    // },
   },
 };
 
