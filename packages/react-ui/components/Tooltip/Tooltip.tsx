@@ -135,6 +135,10 @@ export interface TooltipState {
   focused: boolean;
 }
 
+export const TooltipDataTids = {
+  root: 'Tooltip__root',
+} as const;
+
 const Positions: PopupPositionsType[] = [
   'right bottom',
   'right middle',
@@ -328,6 +332,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
+          data-tid={TooltipDataTids.root}
           anchorElement={anchorElement}
           hasPin
           hasShadow

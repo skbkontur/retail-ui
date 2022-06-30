@@ -30,6 +30,11 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
 
 export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
 
+export const InputLikeTextDataTids = {
+  root: 'InputLikeText__root',
+  input: 'InputLikeText__input',
+} as const;
+
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
@@ -182,6 +187,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     return (
       <span
+        data-tid={InputLikeTextDataTids.root}
         {...rest}
         className={className}
         style={{ width, textAlign: align }}
@@ -196,7 +202,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {leftSide}
         <span className={wrapperClass}>
           <span
-            data-tid="InputLikeText__input"
+            data-tid={InputLikeTextDataTids.input}
             className={cx(jsInputStyles.input(this.theme), {
               [styles.absolute()]: !takeContentWidth,
               [jsInputStyles.inputFocus(this.theme)]: focused,
