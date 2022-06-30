@@ -85,6 +85,11 @@ export interface SidePageState {
   hasPanel: boolean;
 }
 
+export const SidePageDataTids = {
+  root: 'SidePage__root',
+  container: 'SidePage__container',
+} as const;
+
 const TRANSITION_TIMEOUT = 200;
 
 /**
@@ -197,7 +202,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     return (
       <ZIndex
         priority={'Sidepage'}
-        data-tid="SidePage__root"
+        data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
@@ -218,7 +223,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
-              data-tid="SidePage__container"
+              data-tid={SidePageDataTids.container}
               className={cx(styles.wrapper(this.theme), {
                 [styles.wrapperLeft()]: fromLeft,
                 [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,

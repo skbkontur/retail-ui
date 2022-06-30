@@ -111,6 +111,11 @@ export interface TextareaState {
   isCounterVisible: boolean;
 }
 
+export const TextareaDataTids = {
+  root: 'Textarea__root',
+  counter: 'TextareaCounter__root',
+} as const;
+
 /**
  * Компонент для ввода многострочного текста.
  *
@@ -391,7 +396,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label {...rootProps} className={styles.root(this.theme)}>
+        <label data-tid={TextareaDataTids.root} {...rootProps} className={styles.root(this.theme)}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea

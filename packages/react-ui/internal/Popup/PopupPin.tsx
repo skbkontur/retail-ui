@@ -5,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 
 import { PopupHelper, PositionObject, Rect } from './PopupHelper';
 import { styles } from './PopupPin.styles';
+import { PopupDataTids } from './Popup';
 
 const borderStyles = {
   position: 'absolute',
@@ -95,7 +96,7 @@ export class PopupPin extends React.Component<Props> {
     const styleWrapper = this.getWrapperStyle(options.outerLeft, options.outerTop, options.outerSize);
 
     return (
-      <div className={styles.wrapper()} style={styleWrapper}>
+      <div data-tid={PopupDataTids.popupPin} className={styles.wrapper()} style={styleWrapper}>
         <div style={styleOuter}>
           <div style={styleInner} />
         </div>
