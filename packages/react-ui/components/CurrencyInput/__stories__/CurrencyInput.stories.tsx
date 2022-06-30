@@ -54,14 +54,16 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
             Set <b>3</b>
           </Button>
         </Gapped>
-        <CurrencyInput
-          borderless={this.props.borderless}
-          value={this.state.value}
-          fractionDigits={this.state.digits}
-          hideTrailingZeros={this.state.hideTrailingZeros}
-          signed={this.state.signed}
-          onValueChange={this.handleChange}
-        />
+        <div id="test-currencyinput" style={{ padding: 4, display: 'inline-block' }}>
+          <CurrencyInput
+            borderless={this.props.borderless}
+            value={this.state.value}
+            fractionDigits={this.state.digits}
+            hideTrailingZeros={this.state.hideTrailingZeros}
+            signed={this.state.signed}
+            onValueChange={this.handleChange}
+          />
+        </div>
         <div>
           value: <b>{this.formatValue(this.state.value)}</b>
         </div>
@@ -176,6 +178,7 @@ Demo.parameters = {
           'firefox8px',
           'firefoxFlat8px',
           'firefoxDark',
+          'ie11',
           'ie118px',
           'ie11Flat8px',
           'ie11Dark',
@@ -189,27 +192,28 @@ Demo.parameters = {
         await this.browser.actions({
           bridge: true,
         });
-        const plain = await this.takeScreenshot();
+        const currencyInput = this.browser.findElement({ css: '#test-currencyinput' });
+        const plain = await currencyInput.takeScreenshot();
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid="button_number"]' }))
           .perform();
-        const number = await this.takeScreenshot();
+        const number = await currencyInput.takeScreenshot();
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid="button_nan"]' }))
           .perform();
-        const nan = await this.takeScreenshot();
+        const nan = await currencyInput.takeScreenshot();
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid="button_null"]' }))
           .perform();
-        const nullValue = await this.takeScreenshot();
+        const nullValue = await currencyInput.takeScreenshot();
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid="button_string"]' }))
           .perform();
-        const string = await this.takeScreenshot();
+        const string = await currencyInput.takeScreenshot();
 
         await this.expect({ plain, number, nan, nullValue, string }).to.matchImages();
       },
