@@ -8,6 +8,7 @@ import { Modal } from '../../../components/Modal';
 import { MenuItem } from '../../../components/MenuItem';
 import { MenuSeparator } from '../../../components/MenuSeparator';
 import { MenuHeader } from '../../../components/MenuHeader';
+import { delay } from '../../../lib/utils';
 
 export default { title: 'ComboBoxView' };
 
@@ -64,6 +65,7 @@ InputLikeText.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
       },
     },

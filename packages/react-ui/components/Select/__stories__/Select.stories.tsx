@@ -147,7 +147,11 @@ export const Simple: Story = () => <Select items={['one', 'two', 'three']} />;
 Simple.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -179,7 +183,11 @@ UseLink.storyName = 'use link';
 UseLink.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -190,7 +198,11 @@ UseLinkWithIcon.storyName = 'use link with icon';
 UseLinkWithIcon.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -201,7 +213,11 @@ WithTextOverflow.storyName = 'with text overflow';
 WithTextOverflow.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };

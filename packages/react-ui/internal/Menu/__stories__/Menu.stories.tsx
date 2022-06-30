@@ -185,6 +185,10 @@ WithDisabledMenuItem.storyName = 'with disabled MenuItem';
 
 WithDisabledMenuItem.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'], tests: ['mouseenter'] },
+    ],
     tests: {
       async mouseenter() {
         await this.browser

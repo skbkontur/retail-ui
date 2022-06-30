@@ -8,6 +8,7 @@ import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
 import { TooltipMenu } from '../TooltipMenu';
 import { Button } from '../../Button';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'TooltipMenu',
@@ -80,6 +81,7 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
       async enterPress() {
