@@ -169,9 +169,19 @@ Demo.parameters = {
   creevey: {
     skip: [
       {
-        in: ['chromeDark'],
+        in: [
+          'chrome8px',
+          'chromeFlat8px',
+          'chromeDark',
+          'firefox8px',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11Flat8px',
+          'ie11Dark',
+        ],
         tests: ['Set value'],
-        reason: 'flacky visible(?!) cursor',
+        reason: 'check logic only in default browser',
       },
     ],
     tests: {
@@ -329,9 +339,19 @@ WithStringValue.parameters = {
   creevey: {
     skip: [
       {
-        in: ['chromeDark'],
+        in: [
+          'chrome8px',
+          'chromeFlat8px',
+          'chromeDark',
+          'firefox8px',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11Flat8px',
+          'ie11Dark',
+        ],
         tests: ['Input value'],
-        reason: 'flacky visible(?!) cursor',
+        reason: 'check logic only in default browser',
       },
     ],
     tests: {
