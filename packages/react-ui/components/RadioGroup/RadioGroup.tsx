@@ -229,7 +229,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
-      key: this.getKeyByItem(itemValue, index),
+      key: this.getKeyByItem(itemValue),
       className: cx({
         [styles.item(this.theme)]: true,
         [styles.itemFirst()]: index === 0,
@@ -244,11 +244,11 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     );
   };
 
-  private getKeyByItem = (itemValue: T, index: number) => {
+  private getKeyByItem = (itemValue: T) => {
     if (this.props.toKey) {
       return this.props.toKey(itemValue);
     }
-    return typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index;
+    return typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : undefined;
   };
 
   private ref = (element: HTMLSpanElement) => {
