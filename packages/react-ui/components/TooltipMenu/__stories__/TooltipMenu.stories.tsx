@@ -75,6 +75,7 @@ SimpleExample.parameters = {
         await this.expect(await this.takeScreenshot()).to.matchImage('clickedOutside');
       },
       async tabPress() {
+        await delay(3000);
         await this.browser
           .actions({
             bridge: true,
