@@ -176,7 +176,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => ref }), [ref]);
+  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [ref]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,9 +231,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
+  const rootNodeRef = useRef(null);
+
   return (
     <CommonWrapper {...props}>
-      <div data-tid={FileUploaderDataTids.root} className={jsStyles.root(theme)} style={useMemoObject({ width })}>
+      <div
+        data-tid={FileUploaderDataTids.root}
+        className={jsStyles.root(theme)}
+        style={useMemoObject({ width })}
+        ref={rootNodeRef}
+      >
         {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} />}
         <div className={uploadButtonWrapperClassNames}>
           <label
