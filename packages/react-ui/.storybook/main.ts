@@ -10,7 +10,7 @@ module.exports = {
       },
     },
   ],
-  stories: ['../components/TooltipMenu/**/*.stories.tsx'],
+  stories: ['../components/TooltipMenu/**/*.stories.tsx', '../components/TokenInput/**/*.stories.tsx'],
   typescript: {
     reactDocgen: 'none',
   },
