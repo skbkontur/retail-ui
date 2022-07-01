@@ -1,8 +1,7 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isFunctionalComponent, DefaultizeProps } from '../lib/utils';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
 // TODO We should output state too
 const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNode => {
@@ -43,6 +42,11 @@ export interface ComponentTableProps<C, P, S> {
   Component: C;
 }
 
+type DefaultProps<C, P, S> = {
+  presetProps: DefaultizeProps<C, P>;
+  presetState: Partial<S>;
+};
+
 // Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<
   T extends React.Component<any, any, any>,
@@ -51,16 +55,18 @@ export class ComponentTable<
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
-  public static defaultProps: Partial<ComponentTableProps<unknown, unknown, unknown>> = {
+  public static defaultProps: DefaultProps<unknown, Record<string | number | symbol, unknown>, unknown> = {
     presetProps: {},
     presetState: {},
   };
+
+  private getProps = createPropsGetter(ComponentTable.defaultProps);
 
   public render() {
     const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
-        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps!)}</caption>
+        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(this.getProps().presetProps)}</caption>
         <thead>
           <tr>
             <th />

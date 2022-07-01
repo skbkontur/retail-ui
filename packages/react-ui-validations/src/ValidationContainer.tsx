@@ -1,6 +1,5 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
+import { createPropsGetter } from '@skbkontur/react-ui/lib/createPropsGetter';
 
 import { Nullable } from '../typings/Types';
 
@@ -19,12 +18,18 @@ export interface ValidationContainerProps {
   disableSmoothScroll?: boolean;
 }
 
+type DefaultProps = {
+  disableSmoothScroll: boolean;
+};
+
 export class ValidationContainer extends React.Component<ValidationContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
 
-  public static defaultProps: Partial<ValidationContainerProps> = {
+  public static defaultProps: DefaultProps = {
     disableSmoothScroll: isTestEnv,
   };
+
+  private getProps = createPropsGetter(ValidationContainer.defaultProps);
 
   public static propTypes = {
     scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
@@ -58,7 +63,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       <ValidationContextWrapper
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
-        disableSmoothScroll={this.props.disableSmoothScroll!}
+        disableSmoothScroll={this.getProps().disableSmoothScroll}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}

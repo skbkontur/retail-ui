@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import shallowEqual from 'shallowequal';
@@ -12,6 +10,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Sticky.styles';
 
@@ -42,6 +41,10 @@ export const StickyDataTids = {
   root: 'Spinner__root',
 } as const;
 
+type DefaultProps = {
+  offset: number;
+};
+
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
   public static __KONTUR_REACT_UI__ = 'Sticky';
@@ -62,7 +65,9 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
 
-  public static defaultProps: Partial<StickyProps> = { offset: 0 };
+  public static defaultProps: DefaultProps = { offset: 0 };
+
+  private getProps = createPropsGetter(Sticky.defaultProps);
 
   public state: StickyState = {
     fixed: false,
@@ -164,9 +169,10 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
     const { top, bottom, left } = getDOMRect(this.wrapper);
     const { width, height } = getDOMRect(this.inner);
-    const { offset, getStop, side } = this.props;
+    const { getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? top < offset! : Math.floor(bottom) > windowHeight - offset!;
+    const fixed =
+      side === 'top' ? top < this.getProps().offset : Math.floor(bottom) > windowHeight - this.getProps().offset;
 
     this.setState({ fixed, left });
 
@@ -179,7 +185,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       if (stop) {
         const deltaHeight = prevHeight - height;
         const stopRect = getDOMRect(stop);
-        const outerHeight = height + offset!;
+        const outerHeight = height + this.getProps().offset;
         let stopped = false;
         let relativeTop = 0;
 

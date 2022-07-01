@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash.debounce';
@@ -17,6 +15,7 @@ import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinim
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Loader.styles';
 
@@ -58,6 +57,13 @@ export const LoaderDataTids = {
   spinner: 'Loader__Spinner',
 } as const;
 
+type DefaultProps = {
+  type: 'mini' | 'normal' | 'big';
+  active: boolean;
+  delayBeforeSpinnerShow: number;
+  minimalDelayBeforeSpinnerHide: number;
+};
+
 /**
  * DRAFT - лоадер-контейнер
  */
@@ -65,12 +71,14 @@ export const LoaderDataTids = {
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
-  public static defaultProps: Partial<LoaderProps> = {
+  public static defaultProps: DefaultProps = {
     type: Spinner.Types.normal,
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
     minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
   };
+
+  private getProps = createPropsGetter(Loader.defaultProps);
 
   public static propTypes = {
     /**
@@ -136,8 +144,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     };
 
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
-      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow!,
-      durationOfTask: this.props.minimalDelayBeforeSpinnerHide!,
+      delayBeforeTaskStart: this.getProps().delayBeforeSpinnerShow,
+      durationOfTask: this.getProps().minimalDelayBeforeSpinnerHide,
       taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
       taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
     });

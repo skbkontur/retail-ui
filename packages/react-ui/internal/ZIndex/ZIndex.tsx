@@ -1,10 +1,9 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -26,11 +25,20 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 }
 
+type DefaultProps = {
+  delta: number;
+  priority: number | LayerComponentName;
+  style: React.CSSProperties;
+  applyZIndex: boolean;
+  coverChildren: boolean;
+  createStackingContext: boolean;
+};
+
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
-  public static defaultProps: Partial<ZIndexProps> = {
+  public static defaultProps: DefaultProps = {
     delta: 10,
     priority: 0,
     style: {},
@@ -39,12 +47,14 @@ export class ZIndex extends React.Component<ZIndexProps> {
     createStackingContext: false,
   };
 
+  private getProps = createPropsGetter(ZIndex.defaultProps);
+
   public static propTypes = {
     delta(props: ZIndexProps) {
-      if (props.delta! <= 0) {
+      if ((props.delta || ZIndex.defaultProps.delta) <= 0) {
         return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
       }
-      if (Math.trunc(props.delta!) !== props.delta) {
+      if (Math.trunc(props.delta || ZIndex.defaultProps.delta) !== props.delta) {
         return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
       }
     },
@@ -56,7 +66,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = incrementZIndex(props.priority!, props.delta!);
+    this.zIndex = incrementZIndex(this.getProps().priority, this.getProps().delta);
   }
 
   public componentWillUnmount() {

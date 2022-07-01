@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,6 +8,7 @@ import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -45,6 +44,10 @@ export const SpinnerDataTids = {
   root: 'Spinner__root',
 } as const;
 
+type DefaultProps = {
+  type: SpinnerType;
+};
+
 /**
  * DRAFT - инлайн-лоадер
  */
@@ -74,9 +77,11 @@ export class Spinner extends React.Component<SpinnerProps> {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps: Partial<SpinnerProps> = {
+  public static defaultProps: DefaultProps = {
     type: 'normal',
   };
+
+  private getProps = createPropsGetter(Spinner.defaultProps);
 
   public static Types: typeof types = types;
   private theme!: Theme;
@@ -95,13 +100,13 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderMain() {
-    const { type, caption = this.locale.loading, dimmed, inline } = this.props;
+    const { caption = this.locale.loading, dimmed, inline } = this.props;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <div data-tid={SpinnerDataTids.root} className={styles.spinner()}>
-          <span className={styles.inner()}>{this.renderSpinner(type!, dimmed, inline)}</span>
-          {caption && this.renderCaption(type!, caption)}
+          <span className={styles.inner()}>{this.renderSpinner(this.getProps().type, dimmed, inline)}</span>
+          {caption && this.renderCaption(this.getProps().type, caption)}
         </div>
       </CommonWrapper>
     );

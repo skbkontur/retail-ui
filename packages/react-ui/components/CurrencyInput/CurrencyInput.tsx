@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
@@ -7,10 +5,11 @@ import debounce from 'lodash.debounce';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
-import { Input, InputProps } from '../Input';
+import { Input, InputAlign, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -53,6 +52,13 @@ export const CurrencyInputDataTids = {
   root: 'CurrencyInput__root',
 } as const;
 
+type DefaultProps = {
+  align: InputAlign;
+  fractionDigits: Nullable<number>;
+  hideTrailingZeros: boolean;
+  value: Nullable<number>;
+};
+
 /**
  * Поле для денежных сумм (и других числовых значений).
  * Принимает любые свойства `Input`.
@@ -89,15 +95,17 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     onSubmit: PropTypes.func,
   };
 
-  public static defaultProps: Partial<CurrencyInputProps> = {
+  public static defaultProps: DefaultProps = {
     align: 'right',
     fractionDigits: 2,
     hideTrailingZeros: false,
     value: null,
   };
 
+  private getProps = createPropsGetter(CurrencyInput.defaultProps);
+
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros!),
+    ...this.getState(this.props.value, this.props.fractionDigits, this.getProps().hideTrailingZeros),
     focused: false,
   };
 
@@ -119,9 +127,9 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   }
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
-    const { value, fractionDigits, hideTrailingZeros } = this.props;
+    const { value, fractionDigits } = this.props;
     if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
-      this.setState(this.getState(value, fractionDigits, hideTrailingZeros!));
+      this.setState(this.getState(value, fractionDigits, this.getProps().hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
@@ -431,7 +439,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros!),
+      ...this.getState(value, this.props.fractionDigits, this.getProps().hideTrailingZeros),
       focused: false,
     });
 

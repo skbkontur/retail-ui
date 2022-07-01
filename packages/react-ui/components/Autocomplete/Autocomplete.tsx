@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
@@ -86,6 +84,16 @@ export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
 } as const;
 
+type DefaultProps = {
+  renderItem: (item: string) => React.ReactNode;
+  size: InputProps['size'];
+  disablePortal: boolean;
+  hasShadow: boolean;
+  menuMaxHeight: number | string;
+  menuAlign: 'left' | 'right';
+  preventWindowScroll: boolean;
+};
+
 /**
  * Стандартный инпут с подсказками.
  *
@@ -119,7 +127,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     source: PropTypes.oneOfType([PropTypes.array, PropTypes.func]),
   };
 
-  public static defaultProps: Partial<AutocompleteProps> = {
+  public static defaultProps: DefaultProps = {
     renderItem,
     size: 'small',
     disablePortal: false,
@@ -292,7 +300,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ? items.map((item, i) => {
           return (
             <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile}>
-              {this.getProps().renderItem!(item)}
+              {this.getProps().renderItem(item)}
             </MenuItem>
           );
         })

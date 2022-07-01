@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import * as LayoutEvents from '../../lib/LayoutEvents';
@@ -36,10 +34,17 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
+type DefaultProps = {
+  align: 'left' | 'right';
+  disablePortal: boolean;
+  offsetY: number;
+  offsetX: number;
+};
+
 export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
-  public static defaultProps: Partial<DropdownContainerProps> = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
@@ -130,9 +135,9 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
       if (this.props.align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
-        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX!;
+        right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
       } else {
-        left = targetRect.left + scrollX + this.getProps().offsetX!;
+        left = targetRect.left + scrollX + this.getProps().offsetX;
       }
 
       const { offsetY = 0 } = this.props;

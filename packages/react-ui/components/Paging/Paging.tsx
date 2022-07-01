@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import { func, number } from 'prop-types';
 
@@ -15,6 +13,7 @@ import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -84,17 +83,26 @@ export const PagingDataTids = {
   pageLink: 'Paging__pageLink',
 } as const;
 
+type DefaultProps = {
+  component: React.ComponentType<ItemComponentProps>;
+  shouldBeVisibleWithLessThanTwoPages: boolean;
+  useGlobalListener: boolean;
+  'data-tid': string;
+};
+
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
-  public static defaultProps: Partial<PagingProps> = {
+  public static defaultProps: DefaultProps = {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
     'data-tid': PagingDataTids.root,
   };
+
+  private getProps = createPropsGetter(Paging.defaultProps);
 
   public static propTypes = {};
   private setRootNode!: TSetRootNode;
@@ -106,7 +114,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keyboardControl: this.props.useGlobalListener!,
+    keyboardControl: this.getProps().useGlobalListener,
   };
 
   private theme!: Theme;
@@ -132,7 +140,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     if (prevProps.useGlobalListener !== this.props.useGlobalListener) {
       this.setState({
-        keyboardControl: this.props.useGlobalListener!,
+        keyboardControl: this.getProps().useGlobalListener,
       });
     }
   }
@@ -208,7 +216,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.disabled(this.theme)]: disabled,
     });
     const { caption } = this.props;
-    const Component = this.props.component!;
+    const Component = this.getProps().component;
     const { forward } = this.locale;
 
     return (
@@ -235,7 +243,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.pageLinkFocused(this.theme)]: focused,
       [styles.active(this.theme)]: active,
     });
-    const Component = this.props.component!;
+    const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
 
     return (

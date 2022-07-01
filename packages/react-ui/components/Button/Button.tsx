@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isReactUIComponent } from '../../lib/utils';
@@ -169,12 +167,18 @@ export const ButtonDataTids = {
   root: 'Button__root',
 } as const;
 
+type DefaultProps = {
+  use: ButtonUse;
+  size: ButtonSize;
+  type: ButtonType;
+};
+
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
 
-  public static defaultProps: Partial<ButtonProps> = {
+  public static defaultProps: DefaultProps = {
     use: 'default',
     size: 'small',
     type: 'button',
@@ -265,8 +269,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       type: this.props.type,
       className: cx({
         [styles.root(this.theme)]: true,
-        [styles[use!](this.theme)]: true,
-        [activeStyles[use!](this.theme)]: active,
+        [styles[use](this.theme)]: true,
+        [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused,
         [styles.checked(this.theme)]: checked,

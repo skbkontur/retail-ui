@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
@@ -50,11 +48,20 @@ export const InternalMenuDataTids = {
   root: 'InternalMenu__root',
 } as const;
 
+type DefaultProps = {
+  width: number | string;
+  maxHeight: number | string;
+  hasShadow: boolean;
+  preventWindowScroll: boolean;
+  cyclicSelection: boolean;
+  initialSelectedItemIndex: number;
+};
+
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
-  public static defaultProps: Partial<MenuProps> = {
+  public static defaultProps: DefaultProps = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -259,7 +266,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private setInitialSelection = () => {
-    for (let i = this.getProps().initialSelectedItemIndex!; i > -1; i--) {
+    for (let i = this.getProps().initialSelectedItemIndex; i > -1; i--) {
       this.moveDown();
     }
   };

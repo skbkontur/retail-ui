@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React, { ReactNode } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash.throttle';
@@ -18,6 +16,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -118,6 +117,13 @@ export const TextareaDataTids = {
   counter: 'TextareaCounter__root',
 } as const;
 
+type DefaultProps = {
+  rows: number;
+  maxRows: string | number;
+  extraRow: boolean;
+  disableAnimations: boolean;
+};
+
 /**
  * Компонент для ввода многострочного текста.
  *
@@ -183,12 +189,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     onCopy: PropTypes.func,
   };
 
-  public static defaultProps: Partial<TextareaProps> = {
+  public static defaultProps: DefaultProps = {
     rows: 3,
     maxRows: 15,
     extraRow: true,
     disableAnimations: isTestEnv,
   };
+
+  private getProps = createPropsGetter(Textarea.defaultProps);
 
   public state = {
     needsPolyfillPlaceholder,
@@ -490,7 +498,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows, extraRow } = this.props;
+    const { rows, maxRows } = this.props;
     if (rows === undefined || maxRows === undefined) {
       return;
     }
@@ -498,7 +506,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       node: fakeNode,
       minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
       maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-      extraRow: extraRow!,
+      extraRow: this.getProps().extraRow,
     });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

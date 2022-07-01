@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -57,6 +56,12 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
+type DefaultProps = {
+  invert: boolean;
+  scrollBehaviour: ScrollBehaviour;
+  preventWindowScroll: boolean;
+};
+
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -70,11 +75,13 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     onScrollStateChange: PropTypes.func,
   };
 
-  public static defaultProps: Partial<ScrollContainerProps> = {
+  public static defaultProps: DefaultProps = {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
   };
+
+  private getProps = createPropsGetter(ScrollContainer.defaultProps);
 
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
@@ -208,7 +215,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       <ScrollBar
         axis={axis}
         ref={refScrollBar}
-        invert={this.props.invert!}
+        invert={this.getProps().invert}
         onScrollStateChange={this.handleScrollStateChange}
       />
     );

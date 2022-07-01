@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -10,6 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -60,6 +59,10 @@ export const TabsDataTids = {
   indicatorRoot: 'Indicator__root',
 } as const;
 
+type DefaultProps = {
+  vertical: boolean;
+};
+
 /**
  * Tabs wrapper
  *
@@ -76,9 +79,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
-  public static defaultProps: Partial<TabsProps> = {
+  public static defaultProps: DefaultProps = {
     vertical: false,
   };
+
+  private getProps = createPropsGetter(Tabs.defaultProps);
 
   public static Tab = Tab;
 
@@ -114,7 +119,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
               >
                 <TabsContext.Provider
                   value={{
-                    vertical: vertical!,
+                    vertical: this.getProps().vertical,
                     activeTab: value,
                     getTab: this.getTab,
                     addTab: this.addTab,
@@ -125,7 +130,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   }}
                 >
                   {children}
-                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical!} />
+                  <Indicator
+                    className={indicatorClassName}
+                    tabUpdates={this.tabUpdates}
+                    vertical={this.getProps().vertical}
+                  />
                 </TabsContext.Provider>
               </div>
             </CommonWrapper>

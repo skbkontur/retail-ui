@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Transition } from 'react-transition-group';
@@ -24,6 +22,7 @@ import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -121,6 +120,16 @@ export const PopupDataTids = {
   popupPin: 'PopupPin__root',
 } as const;
 
+type DefaultProps = {
+  popupOffset: number;
+  hasPin: boolean;
+  hasShadow: boolean;
+  disableAnimations: boolean;
+  useWrapper: boolean;
+  ignoreHover: boolean;
+  width: React.CSSProperties['width'];
+};
+
 @responsiveLayout
 @rootNode
 export class Popup extends React.Component<PopupProps, PopupState> {
@@ -188,7 +197,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: PropTypes.bool,
   };
 
-  public static defaultProps: Partial<PopupProps> = {
+  public static defaultProps: DefaultProps = {
     popupOffset: 0,
     hasPin: false,
     hasShadow: false,
@@ -197,6 +206,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: false,
     width: 'auto',
   };
+
+  private getProps = createPropsGetter(Popup.defaultProps);
 
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
@@ -636,7 +647,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
-    const popupOffset = this.props.popupOffset! + this.getPinnedPopupOffset(anchorRect, position);
+    const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
     switch (position.direction) {
       case 'top':

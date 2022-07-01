@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { CustomComboBox } from '../../internal/CustomComboBox';
@@ -8,6 +6,7 @@ import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -168,11 +167,21 @@ export interface ComboBoxItem {
   label: string;
 }
 
+type DefaultProps<T> = {
+  itemToValue: (item: T) => string | number;
+  valueToString: (item: T) => string;
+  renderValue: (item: T) => React.ReactNode;
+  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  menuAlign: 'left' | 'right';
+  searchOnFocus: boolean;
+  drawArrow: boolean;
+};
+
 @rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
-  public static defaultProps: Partial<ComboBoxProps<ComboBoxItem>> = {
+  public static defaultProps: DefaultProps<any> = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,
@@ -181,6 +190,8 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     searchOnFocus: true,
     drawArrow: true,
   };
+
+  private getProps = createPropsGetter(ComboBox.defaultProps);
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
   private setRootNode!: TSetRootNode;
@@ -267,10 +278,10 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     return (
       <CustomComboBox
         {...this.props}
-        itemToValue={this.props.itemToValue!}
-        valueToString={this.props.valueToString!}
-        renderValue={this.props.renderValue!}
-        renderItem={this.props.renderItem!}
+        itemToValue={this.getProps().itemToValue}
+        valueToString={this.getProps().valueToString}
+        renderValue={this.getProps().renderValue}
+        renderItem={this.getProps().renderItem}
         ref={this.customComboBoxRef}
       />
     );

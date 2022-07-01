@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -87,6 +85,10 @@ export const RadioGroupDataTids = {
   root: 'RadioGroup__root',
 } as const;
 
+type DefaultProps<T> = {
+  renderItem: (itemValue: T, data: React.ReactNode) => React.ReactNode;
+};
+
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -114,7 +116,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps: Partial<RadioGroupProps<unknown>> = {
+  public static defaultProps: DefaultProps<unknown> = {
     renderItem,
   };
 
@@ -235,7 +237,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem!(itemValue, data)}</Radio>
+        <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
       </span>
     );
   };

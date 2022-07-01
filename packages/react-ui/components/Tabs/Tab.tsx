@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -96,6 +94,11 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
+type DefaultProps = {
+  component: React.ComponentType<any> | string;
+  href: string;
+};
+
 /**
  * Tab element of Tabs component
  *
@@ -126,7 +129,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps: Partial<TabProps> = {
+  public static defaultProps: DefaultProps = {
     component: 'a',
     href: '',
   };
@@ -195,7 +198,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       warning,
       success,
       primary,
-      component: Component = Tab.defaultProps.component!,
+      component: Component = Tab.defaultProps.component,
       href,
     } = this.props;
 

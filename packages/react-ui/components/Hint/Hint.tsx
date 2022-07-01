@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -14,6 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Hint.styles';
 
@@ -86,6 +85,15 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
+type DefaultProps = {
+  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  manual: boolean;
+  opened: boolean;
+  maxWidth: React.CSSProperties['maxWidth'];
+  disableAnimations: boolean;
+  useWrapper: boolean;
+};
+
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
@@ -96,7 +104,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private isMobileLayout!: boolean;
 
-  public static defaultProps: Partial<HintProps> = {
+  public static defaultProps: DefaultProps = {
     pos: 'top',
     manual: false,
     opened: false,
@@ -104,6 +112,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     disableAnimations: isTestEnv,
     useWrapper: false,
   };
+
+  private getProps = createPropsGetter(Hint.defaultProps);
 
   public state: HintState = {
     opened: this.props.manual ? !!this.props.opened : false,
@@ -221,7 +231,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   private getPositions = (): PopupPositionsType[] => {
-    return Positions.filter((x) => x.startsWith(this.props.pos!));
+    return Positions.filter((x) => x.startsWith(this.getProps().pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {

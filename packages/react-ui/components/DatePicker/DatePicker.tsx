@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -17,6 +15,7 @@ import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -93,6 +92,12 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
+type DefaultProps<T> = {
+  minDate: T;
+  maxDate: T;
+  isHoliday: (day: T, isWeekend: boolean) => boolean;
+};
+
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -147,11 +152,13 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     isHoliday: PropTypes.func.isRequired,
   };
 
-  public static defaultProps: Partial<DatePickerProps<string>> = {
+  public static defaultProps: DefaultProps<string> = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
   };
+
+  private getProps = createPropsGetter(DatePicker.defaultProps);
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -376,6 +383,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
-    return this.props.isHoliday!(dateString, isWeekend);
+    return this.getProps().isHoliday(dateString, isWeekend);
   };
 }

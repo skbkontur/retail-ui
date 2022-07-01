@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React, { ReactNode, ReactPortal } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
@@ -166,6 +164,14 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+type DefaultProps<TValue, TItem> = {
+  renderValue: (value: TValue, item?: TItem) => React.ReactNode;
+  renderItem: (value: TValue, item?: TItem) => React.ReactNode;
+  areValuesEqual: (value1: TValue, value2: TValue) => boolean;
+  filterItem: (value: TValue, item: TItem, pattern: string) => boolean;
+  use: ButtonUse;
+};
+
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
@@ -195,7 +201,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps: Partial<SelectProps<unknown, ReactNode | ReactPortal>> = {
+  public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
     renderValue,
     renderItem,
     areValuesEqual,
@@ -354,7 +360,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     if (isNonNullable(value)) {
       return {
-        label: this.getProps().renderValue!(value, item),
+        label: this.getProps().renderValue(value, item),
         isPlaceholder: false,
       };
     }
@@ -535,7 +541,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             comment={comment}
             isMobile={isMobile}
           >
-            {this.getProps().renderItem!(iValue, item)}
+            {this.getProps().renderItem(iValue, item)}
           </MenuItem>
         );
       },
@@ -660,7 +666,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
-    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual!(value1, value2);
+    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual(value1, value2);
   }
 
   private buttonRef = (element: FocusableReactElement | null) => {

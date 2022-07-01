@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import debounce from 'lodash.debounce';
 
@@ -7,6 +5,7 @@ import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
@@ -69,6 +68,15 @@ export const GlobalLoaderDataTids = {
   root: 'GlobalLoader',
 } as const;
 
+type DefaultProps = {
+  expectedResponseTime: number;
+  delayBeforeShow: number;
+  delayBeforeHide: number;
+  rejected: boolean;
+  active: boolean;
+  disableAnimations: boolean;
+};
+
 let currentGlobalLoader: GlobalLoader;
 
 @rootNode
@@ -86,7 +94,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     this.props.onDone?.();
   }, this.props.delayBeforeHide);
 
-  public static defaultProps: Partial<GlobalLoaderProps> = {
+  public static defaultProps: DefaultProps = {
     expectedResponseTime: 1000,
     delayBeforeShow: 1000,
     delayBeforeHide: 1000,
@@ -94,6 +102,8 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     active: false,
     disableAnimations: isTestEnv,
   };
+
+  private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
   constructor(props: GlobalLoaderProps) {
     super(props);
@@ -105,7 +115,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
       accept: false,
       dead: false,
       successAnimationInProgress: false,
-      expectedResponseTime: this.props.expectedResponseTime!,
+      expectedResponseTime: this.getProps().expectedResponseTime,
     };
     this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
@@ -155,10 +165,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
         <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <GlobalLoaderView
             expectedResponseTime={this.state.expectedResponseTime}
-            delayBeforeHide={this.props.delayBeforeHide!}
+            delayBeforeHide={this.getProps().delayBeforeHide}
             status={status}
             data-tid={GlobalLoaderDataTids.root}
-            disableAnimations={this.props.disableAnimations!}
+            disableAnimations={this.getProps().disableAnimations}
           />
         </CommonWrapper>
       )

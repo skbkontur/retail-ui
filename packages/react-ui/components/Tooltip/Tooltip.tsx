@@ -1,5 +1,3 @@
-// TODO: поправить после перехода на функциональные компоненты
-// eslint-disable @typescript-eslint/no-non-null-assertion
 import React from 'react';
 import warning from 'warning';
 import isEqual from 'lodash.isequal';
@@ -19,6 +17,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Tooltip.styles';
 
@@ -156,6 +155,14 @@ const Positions: PopupPositionsType[] = [
   'bottom right',
 ];
 
+type DefaultProps = {
+  pos: PopupPositionsType;
+  trigger: TooltipTrigger;
+  allowedPositions: PopupPositionsType[];
+  disableAnimations: boolean;
+  useWrapper: boolean;
+};
+
 @rootNode
 @responsiveLayout
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
@@ -177,13 +184,15 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     },
   };
 
-  public static defaultProps: Partial<TooltipProps> = {
+  public static defaultProps: DefaultProps = {
     pos: DefaultPosition,
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
   };
+
+  private getPropsWithDefaultValues = createPropsGetter(Tooltip.defaultProps);
 
   public static delay = 100;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
@@ -260,7 +269,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger!)
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.getPropsWithDefaultValues().trigger)
         : this.props.closeButton;
 
     if (!hasCross || this.isMobileLayout) {
@@ -369,13 +378,13 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private getPositions() {
     if (!this.positions) {
-      const allowedPositions = this.props.allowedPositions;
-      const index = allowedPositions!.indexOf(this.props.pos!);
+      const allowedPositions = this.getPropsWithDefaultValues().allowedPositions;
+      const index = allowedPositions.indexOf(this.getPropsWithDefaultValues().pos);
       if (index === -1) {
-        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions!.join(', '));
+        throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
       }
 
-      this.positions = [...allowedPositions!.slice(index), ...allowedPositions!.slice(0, index)];
+      this.positions = [...allowedPositions.slice(index), ...allowedPositions.slice(0, index)];
     }
 
     return this.positions;
