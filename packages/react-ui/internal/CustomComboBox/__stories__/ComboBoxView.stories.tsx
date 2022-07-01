@@ -54,7 +54,6 @@ InputLikeText.storyName = 'input like text';
 
 InputLikeText.parameters = {
   creevey: {
-    skip: [{ tests: ['focused first element'], in: ['firefox', 'firefox8px'] }], // flacky focus
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -66,7 +65,7 @@ InputLikeText.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="InputLikeText"]' }))
           .perform();
-        await delay(1000);
+        await delay(3000);
         await this.expect(await this.takeScreenshot()).to.matchImage('focused first element');
       },
     },

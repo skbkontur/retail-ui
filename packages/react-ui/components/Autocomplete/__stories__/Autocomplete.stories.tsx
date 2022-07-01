@@ -27,7 +27,7 @@ const commonTests: CreeveyTests = {
 
     await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
 
-    await delay(1000);
+    await delay(3000);
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   },
 };
