@@ -3,6 +3,7 @@ import React from 'react';
 import { Gapped } from '../../Gapped';
 import { Autocomplete } from '../Autocomplete';
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'Autocomplete',
@@ -26,6 +27,7 @@ const commonTests: CreeveyTests = {
 
     await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
 
+    await delay(1000);
     await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
   },
 };
