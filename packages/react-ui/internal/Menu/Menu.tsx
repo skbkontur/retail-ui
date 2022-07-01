@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
@@ -30,6 +31,10 @@ export interface MenuProps {
 export interface MenuState {
   highlightedIndex: number;
 }
+
+export const MenuDataTids = {
+  root: 'Menu__root',
+} as const;
 
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
@@ -114,6 +119,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
+        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
@@ -273,12 +279,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

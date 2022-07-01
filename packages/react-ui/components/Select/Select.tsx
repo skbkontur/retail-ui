@@ -58,6 +58,10 @@ const PASS_BUTTON_PROPS = {
   onMouseOver: true,
 };
 
+export const SelectDataTids = {
+  root: 'Select__root',
+} as const;
+
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
@@ -236,9 +240,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
-          );
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
@@ -307,7 +309,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const root = (
-      <span className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })} style={style}>
+      <span
+        data-tid={SelectDataTids.root}
+        className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
+        style={style}
+      >
         {button}
         {this.getMenuRenderer()}
       </span>
@@ -399,21 +405,23 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const useIsCustom = this.props.use !== 'default';
 
     return (
-      <Button {...buttonProps}>
-        <div className={styles.selectButtonContainer()}>
-          {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
-          <span {...labelProps}>{params.label}</span>
+      <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
+        <Button {...buttonProps}>
+          <div className={styles.selectButtonContainer()}>
+            {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
+            <span {...labelProps}>{params.label}</span>
 
-          <div
-            className={cx(styles.arrowWrap(this.theme), {
-              [styles.arrowDisabled(this.theme)]: this.props.disabled,
-              [styles.customUseArrow()]: useIsCustom,
-            })}
-          >
-            <ArrowChevronDownIcon />
+            <div
+              className={cx(styles.arrowWrap(this.theme), {
+                [styles.arrowDisabled(this.theme)]: this.props.disabled,
+                [styles.customUseArrow()]: useIsCustom,
+              })}
+            >
+              <ArrowChevronDownIcon />
+            </div>
           </div>
-        </div>
-      </Button>
+        </Button>
+      </ThemeContext.Provider>
     );
   }
 

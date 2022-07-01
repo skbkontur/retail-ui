@@ -77,6 +77,17 @@ export interface TokenInputProps<T> extends CommonProps {
    * @default item => item
    */
   valueToString: (item: T) => string;
+  /**
+   * Функция отображающая сообщение об общем количестве элементов.
+   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`.
+   */
+  renderTotalCount?: (found: number, total: number) => React.ReactNode;
+  /**
+   * Общее количество элементов.
+   * Необходим для работы `renderTotalCount`
+   */
+  totalCount?: number;
+
   renderNotFound?: () => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
@@ -150,6 +161,11 @@ export const DefaultState = {
   inputValueWidth: 2,
   inputValueHeight: 22,
 };
+
+export const TokenInputDataTids = {
+  root: 'TokenInput__root',
+  tokenInputMenu: 'TokenInputMenu__root',
+} as const;
 
 const defaultToKey = <T extends {}>(item: T): string => item.toString();
 const identity = <T extends {}>(item: T): T => item;
@@ -278,6 +294,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       inputMode,
       menuWidth,
       menuAlign,
+      renderTotalCount,
+      totalCount,
     } = this.props;
 
     const {
@@ -324,7 +342,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
             style={{ width }}
@@ -370,6 +388,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 renderAddButton={this.renderAddButton}
                 menuWidth={menuWidth}
                 menuAlign={menuAlign}
+                renderTotalCount={renderTotalCount}
+                totalCount={totalCount}
               />
             )}
             {this.renderTokensEnd()}
