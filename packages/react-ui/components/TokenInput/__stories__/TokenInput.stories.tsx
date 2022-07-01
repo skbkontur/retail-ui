@@ -282,6 +282,7 @@ CombinedFilled.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
           .perform();
+        await delay(3000);
         const selected = await this.takeScreenshot();
         await this.browser
           .actions({
@@ -289,6 +290,7 @@ CombinedFilled.parameters = {
           })
           .sendKeys('a')
           .perform();
+        await delay(3000);
         const typed = await this.takeScreenshot();
 
         await this.expect({ selected, typed }).to.matchImages();
