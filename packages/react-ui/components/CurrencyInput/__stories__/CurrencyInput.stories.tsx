@@ -38,32 +38,27 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: 0 })}>
             Set <b>0</b>
           </Button>
-          <Button data-tid={'button_null'} onClick={() => this.setState({ value: null })}>
+          <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
           </Button>
-          <Button data-tid={'button_nan'} onClick={() => this.setState({ value: parseInt('str') })}>
+          <Button onClick={() => this.setState({ value: parseInt('str') })}>
             Set <b>NaN</b>
           </Button>
-          <Button data-tid={'button_string'} onClick={() => this.setState({ value: 'str' })}>
+          <Button onClick={() => this.setState({ value: 'str' })}>
             Set <b>str</b>
           </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>
           </Button>
-          <Button data-tid={'button_number'} onClick={() => this.setState({ value: 3 })}>
-            Set <b>3</b>
-          </Button>
         </Gapped>
-        <div id="test-currencyinput" style={{ padding: 4, display: 'inline-block' }}>
-          <CurrencyInput
-            borderless={this.props.borderless}
-            value={this.state.value}
-            fractionDigits={this.state.digits}
-            hideTrailingZeros={this.state.hideTrailingZeros}
-            signed={this.state.signed}
-            onValueChange={this.handleChange}
-          />
-        </div>
+        <CurrencyInput
+          borderless={this.props.borderless}
+          value={this.state.value}
+          fractionDigits={this.state.digits}
+          hideTrailingZeros={this.state.hideTrailingZeros}
+          signed={this.state.signed}
+          onValueChange={this.handleChange}
+        />
         <div>
           value: <b>{this.formatValue(this.state.value)}</b>
         </div>
@@ -166,60 +161,8 @@ class Sample extends React.Component<
 
 export default { title: 'CurrencyInput' } as Meta;
 
-export const Demo: Story = () => <CurrencyInputDemo />;
-Demo.parameters = {
-  creevey: {
-    skip: [
-      {
-        in: [
-          'chrome8px',
-          'chromeFlat8px',
-          'chromeDark',
-          'firefox8px',
-          'firefoxFlat8px',
-          'firefoxDark',
-          'ie11',
-          'ie118px',
-          'ie11Flat8px',
-          'ie11Dark',
-        ],
-        tests: ['Set value'],
-        reason: 'check logic only in default browser',
-      },
-    ],
-    tests: {
-      async 'Set value'() {
-        await this.browser.actions({
-          bridge: true,
-        });
-        const currencyInput = this.browser.findElement({ css: '#test-currencyinput' });
-        const plain = await currencyInput.takeScreenshot();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="button_number"]' }))
-          .perform();
-        const number = await currencyInput.takeScreenshot();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="button_nan"]' }))
-          .perform();
-        const nan = await currencyInput.takeScreenshot();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="button_null"]' }))
-          .perform();
-        const nullValue = await currencyInput.takeScreenshot();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="button_string"]' }))
-          .perform();
-        const string = await currencyInput.takeScreenshot();
-
-        await this.expect({ plain, number, nan, nullValue, string }).to.matchImages();
-      },
-    },
-  },
-};
+export const Demo = () => <CurrencyInputDemo />;
+Demo.parameters = { creevey: { skip: [true] } };
 export const WithBorderless = () => <CurrencyInputDemo borderless />;
 WithBorderless.storyName = 'With borderless';
 WithBorderless.parameters = { creevey: { skip: [true] } };
@@ -328,56 +271,3 @@ export const ManualMount = () => {
 };
 ManualMount.storyName = 'Manual mount';
 ManualMount.parameters = { creevey: { skip: [true] } };
-
-export const WithStringValue: Story = () => {
-  // Intended behavior. CurrencyInput technically can't accept strings
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [value, changeValue] = React.useState<any>('');
-  return (
-    <div className="App">
-      <CurrencyInput fractionDigits={0} autoFocus value={value} onValueChange={changeValue} />
-    </div>
-  );
-};
-WithStringValue.parameters = {
-  creevey: {
-    skip: [
-      {
-        in: [
-          'chrome8px',
-          'chromeFlat8px',
-          'chromeDark',
-          'firefox8px',
-          'firefoxFlat8px',
-          'firefoxDark',
-          'ie118px',
-          'ie11Flat8px',
-          'ie11Dark',
-        ],
-        tests: ['Input value'],
-        reason: 'check logic only in default browser',
-      },
-    ],
-    tests: {
-      async 'Input value'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name*="CurrencyInput"] input' }))
-          .sendKeys('1')
-          .pause(500)
-          .sendKeys('2')
-          .pause(500)
-          .sendKeys('3')
-          .pause(500)
-          .sendKeys('4')
-          .pause(500)
-          .move({ x: 0, y: 0 })
-          .click()
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
-      },
-    },
-  },
-};
