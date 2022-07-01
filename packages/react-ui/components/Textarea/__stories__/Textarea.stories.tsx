@@ -224,6 +224,8 @@ AutoresizableTextareaStory.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
+          // .move({ x: 0, y: 0 })
+          // .pause(2000)
           .perform();
 
         await this.browser
@@ -231,6 +233,8 @@ AutoresizableTextareaStory.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: '[data-tid~="CollapseButton"]' }))
+          // .move({ x: 0, y: 0 })
+          // .pause(2000)
           .perform();
 
         const addText = await textArea().takeScreenshot();

@@ -41,6 +41,7 @@ SimpleExample.storyName = 'Simple example';
 
 SimpleExample.parameters = {
   creevey: {
+    skip: [{ tests: ['tabPress'], in: ['firefox', 'firefox8px'] }], // flacky focus
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -81,7 +82,7 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
-        await delay(3000);
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
       async enterPress() {
