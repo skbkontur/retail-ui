@@ -94,8 +94,6 @@ const config = {
       name: 'infrafront/firefox',
       browserVersion: '100.0',
       version: '100.0',
-      enableVNC: true,
-      enableVideo: true,
       ...capabilities,
     },
     // firefox8px: {
