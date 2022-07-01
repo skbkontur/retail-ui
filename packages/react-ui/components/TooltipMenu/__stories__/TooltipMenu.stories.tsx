@@ -1,6 +1,4 @@
 import React from 'react';
-import MenuIcon from '@skbkontur/react-icons/Menu';
-import LightbulbIcon from '@skbkontur/react-icons/Lightbulb';
 
 import { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
@@ -81,7 +79,7 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
-        await delay(1000);
+        await delay(3000);
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
       // async enterPress() {
