@@ -48,7 +48,7 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
    * Метод получения уникального ключа по элементу
    * @param item
    */
-  toKey?: (item: T) => string | number | undefined;
+  toKey?: (item: T) => string | number;
   /**
    * Дизейблит все радиокнопки
    */
