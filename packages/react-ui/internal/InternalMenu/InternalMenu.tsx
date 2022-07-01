@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
-import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -11,10 +10,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { MenuContext } from '../Menu/MenuContext';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
-import { addIconPaddingIfPartOfMenu } from './addIconPaddingIfPartOfMenu';
+
+const MAX_LEVEL_OF_DEEP_SEARCH = 5;
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -42,6 +43,7 @@ interface MenuState {
   highlightedIndex: number;
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
+  enableIconPadding: boolean;
 }
 
 export const InternalMenuDataTids = {
@@ -65,6 +67,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     highlightedIndex: -1,
     maxHeight: this.props.maxHeight || 'none',
     scrollState: 'top',
+    enableIconPadding: false,
   };
 
   private theme!: Theme;
@@ -74,6 +77,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
   private getProps = createPropsGetter(InternalMenu.defaultProps);
+  private arrayOfMenuItems: React.ReactNode[] = [];
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -108,11 +112,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   }
 
   private renderMain() {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
-
-    if (this.isEmpty()) {
+    if (!this.props.children) {
       return null;
     }
 
@@ -138,51 +138,87 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
           preventWindowScroll={this.props.preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
         >
-          {React.Children.map(this.props.children, (child, index) => {
-            if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
-              return child;
-            }
-            if (React.isValidElement(child) && typeof child.type === 'string') {
-              return child;
-            }
-
-            const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
-
-            if (isActiveElement(modifiedChild)) {
-              const highlight = this.state.highlightedIndex === index;
-
-              let ref = modifiedChild.ref;
-              const originalRef = ref;
-              if (highlight) {
-                ref = (menuItem) => this.refHighlighted(originalRef, menuItem);
-              }
-
-              return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
-                ref,
-                state: highlight ? 'hover' : modifiedChild.props.state,
-                onClick: this.select.bind(this, index, false),
-                onMouseEnter: (event) => {
-                  this.highlightItem(index);
-                  if (isMenuItem(modifiedChild) && modifiedChild.props.onMouseEnter) {
-                    modifiedChild.props.onMouseEnter(event);
-                  }
-                },
-                onMouseLeave: (event) => {
-                  this.unhighlight();
-                  if (isMenuItem(modifiedChild) && modifiedChild.props.onMouseLeave) {
-                    modifiedChild.props.onMouseLeave(event);
-                  }
-                },
-              });
-            }
-
-            return modifiedChild;
-          })}
+          <MenuContext.Provider value={{ enableIconPadding: this.state.enableIconPadding }}>
+            {this.renderChildren()}
+          </MenuContext.Provider>
         </ScrollContainer>
         {this.props.footer ? this.renderFooter() : null}
       </div>
     );
   }
+
+  private renderChildren = () => {
+    const updatedArrayOfMenuItems: ReactNode[] = [];
+    const updatedChildren = this.deepSearch(this.props.children, MAX_LEVEL_OF_DEEP_SEARCH, updatedArrayOfMenuItems);
+
+    this.arrayOfMenuItems = updatedArrayOfMenuItems;
+
+    return updatedChildren;
+  };
+
+  private deepSearch: any = (
+    currentLevelOfChildren: ReactNode,
+    allowedLevelOfDeep: number,
+    arrayOfMenuItems: ReactNode[],
+  ) => {
+    if (!allowedLevelOfDeep) {
+      return currentLevelOfChildren;
+    }
+    return React.Children.map(currentLevelOfChildren, (child) => {
+      if (!isMenuItem(child)) {
+        const localChild = child as any;
+        if (localChild?.props?.children) {
+          return React.cloneElement(localChild, {
+            children: this.deepSearch(localChild.props.children, allowedLevelOfDeep - 1, arrayOfMenuItems),
+          });
+        }
+        return localChild;
+      }
+
+      if (child.props.icon && this.state.enableIconPadding !== true) {
+        this.setState({ enableIconPadding: true });
+      }
+
+      if (!isActiveElement(child)) {
+        return child;
+      }
+
+      arrayOfMenuItems.push(child);
+
+      const indexOfCurrentMenuItem = arrayOfMenuItems.indexOf(child);
+
+      const highlight = this.state.highlightedIndex === indexOfCurrentMenuItem;
+
+      return this.addPropsToMenuItem(child, indexOfCurrentMenuItem, highlight);
+    });
+  };
+
+  private addPropsToMenuItem = (menuItem: ReactNode, index: number, highlight: boolean) => {
+    // TODO @Khlutkova rewrite with mergeRefs
+    const child = menuItem as any;
+    let ref = child.ref;
+    if (highlight && typeof ref !== 'string') {
+      ref = this.refHighlighted.bind(this, ref);
+    }
+
+    return React.cloneElement<MenuItemProps, MenuItem>(child, {
+      ref,
+      state: highlight ? 'hover' : child.props.state,
+      onClick: this.select.bind(this, index, false),
+      onMouseEnter: (event) => {
+        this.highlightItem(index);
+        if (isMenuItem(menuItem) && menuItem.props.onMouseEnter) {
+          menuItem.props.onMouseEnter(event);
+        }
+      },
+      onMouseLeave: (event) => {
+        this.unhighlight();
+        if (isMenuItem(menuItem) && menuItem.props.onMouseLeave) {
+          menuItem.props.onMouseLeave(event);
+        }
+      },
+    });
+  };
 
   private renderHeader = () => {
     return (
@@ -272,6 +308,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   ) {
     this.highlighted = menuItem;
 
+    // TODO @Khlutkova rewrite with mergeRefs
     if (!originalRef || typeof originalRef === 'string') {
       return;
     }
@@ -291,25 +328,21 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private select(index: number, shouldHandleHref: boolean, event: React.SyntheticEvent<HTMLElement>): boolean {
-    const item = childrenToArray(this.props.children)[index];
+    const item = this.arrayOfMenuItems[index];
 
-    if (isActiveElement(item)) {
-      if (shouldHandleHref && item.props.href) {
-        if (item.props.target) {
-          window.open(item.props.href, item.props.target);
-        } else {
-          location.href = item.props.href;
-        }
-      }
-      if (item.props.onClick) {
-        item.props.onClick(event as React.MouseEvent<HTMLElement>);
-      }
-      if (this.props.onItemClick) {
-        this.props.onItemClick(event);
-      }
-      return true;
+    if (!isActiveElement(item)) {
+      return false;
     }
-    return false;
+    if (shouldHandleHref && item.props.href) {
+      if (item.props.target) {
+        window.open(item.props.href, item.props.target);
+      } else {
+        location.href = item.props.href;
+      }
+    }
+    item.props.onClick?.(event as React.MouseEvent<HTMLElement>);
+    this.props.onItemClick?.(event);
+    return true;
   }
 
   private highlightItem = (index: number): void => {
@@ -322,31 +355,15 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private move(step: number) {
-    this.setState((state, props) => {
-      const children = childrenToArray(props.children);
-      if (!children.some(isActiveElement)) {
-        return null;
-      }
-      let index = state.highlightedIndex;
-      do {
-        index += step;
-        if (!props.cyclicSelection && (index < 0 || index > children.length)) {
-          return null;
-        }
-
-        if (index < 0) {
-          index = children.length - 1;
-        } else if (index > children.length) {
-          index = 0;
-        }
-
-        const child = children[index];
-        if (isActiveElement(child)) {
-          return { highlightedIndex: index };
-        }
-      } while (index !== state.highlightedIndex);
-      return null;
-    }, this.scrollToSelected);
+    let index = this.state.highlightedIndex + step;
+    if (index < 0) {
+      index = this.arrayOfMenuItems.length - 1;
+    } else if (index > this.arrayOfMenuItems.length) {
+      index = 0;
+    }
+    this.setState({ highlightedIndex: index }, () => {
+      this.scrollToSelected();
+    });
   }
 
   private moveUp = () => {
@@ -356,11 +373,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private moveDown = () => {
     this.move(1);
   };
-
-  private isEmpty() {
-    const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isNonNullable).length;
-  }
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
     if (typeof this.props.onKeyDown === 'function') {
@@ -389,13 +401,4 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       this.setState({ scrollState });
     }
   };
-}
-
-function childrenToArray(children: React.ReactNode): React.ReactNode[] {
-  const ret: React.ReactNode[] = [];
-  // Use forEach instead of map to avoid cloning for key unifying.
-  React.Children.forEach(children, (child) => {
-    ret.push(child);
-  });
-  return ret;
 }
