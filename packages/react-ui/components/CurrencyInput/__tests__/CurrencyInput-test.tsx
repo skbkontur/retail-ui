@@ -4,7 +4,6 @@ import userEvent from '@testing-library/user-event';
 
 import { CurrencyInput } from '../CurrencyInput';
 import { Nullable } from '../../../typings/utility-types';
-import { Button } from '../../Button';
 
 // Intended behavior. CurrencyInput technically can't accept strings
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -24,7 +23,7 @@ const CurrencyInputAndButton = (props: { value: string }): JSX.Element => {
   const [value, setValue] = useState<Nullable<any>>(12);
   return (
     <div>
-      <Button onClick={() => setValue(props.value)}>Set value</Button>
+      <button onClick={() => setValue(props.value)}>Set value</button>
       <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />
     </div>
   );
