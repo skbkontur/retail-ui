@@ -6,7 +6,14 @@ import { CurrencyInput } from '../CurrencyInput';
 import { Nullable } from '../../../typings/utility-types';
 import { Button } from '../../Button';
 
-const PlainCurrencyInput = () => {
+// Intended behavior. CurrencyInput technically can't accept strings
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const CurrencyInputWithValueProp = (props: { value: any }): JSX.Element => {
+  const handleValueChange = jest.fn();
+  return <CurrencyInput value={props.value} onValueChange={handleValueChange} />;
+};
+
+const CurrencyInputWithState = () => {
   const [value, setValue] = useState<Nullable<number>>(12);
   return <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />;
 };
@@ -24,8 +31,37 @@ const CurrencyInputAndButton = (props: { value: string }): JSX.Element => {
 };
 
 describe('CurrencyInput', () => {
+  it('should mount with a number value', async () => {
+    render(<CurrencyInputWithValueProp value={12} />);
+    expect(screen.getByRole('textbox')).toHaveValue('12,00');
+  });
+
+  it('should mount with a correct string value', async () => {
+    render(<CurrencyInputWithValueProp value={'12'} />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('12,00');
+  });
+
+  it('should mount with incorrect string value', async () => {
+    render(<CurrencyInputWithValueProp value={'str'} />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue(',00');
+  });
+
+  it('should mount with NaN value', async () => {
+    render(<CurrencyInputWithValueProp value={parseInt('str')} />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue(',00');
+  });
+
+  it('should mount with null value', async () => {
+    render(<CurrencyInputWithValueProp value={null} />);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('');
+  });
+
   it('should set a correct number value', async () => {
-    render(<PlainCurrencyInput />);
+    render(<CurrencyInputWithState />);
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
     await userEvent.type(input, '123');
@@ -34,7 +70,7 @@ describe('CurrencyInput', () => {
   });
 
   it('should not set a string value', async () => {
-    render(<PlainCurrencyInput />);
+    render(<CurrencyInputWithState />);
     const input = screen.getByRole('textbox');
     await userEvent.clear(input);
     await userEvent.type(input, 'str');
