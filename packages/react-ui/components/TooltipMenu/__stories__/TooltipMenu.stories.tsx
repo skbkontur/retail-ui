@@ -8,6 +8,7 @@ import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
 import { TooltipMenu } from '../TooltipMenu';
 import { Button } from '../../Button';
+import { delay } from '../../../lib/utils';
 
 export default {
   title: 'TooltipMenu',
@@ -40,6 +41,7 @@ SimpleExample.storyName = 'Simple example';
 
 SimpleExample.parameters = {
   creevey: {
+    skip: [{ tests: ['tabPress'], in: ['firefox', 'firefox8px'] }], // flacky focus
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
@@ -80,6 +82,7 @@ SimpleExample.parameters = {
           })
           .sendKeys(this.keys.TAB)
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
       },
       async enterPress() {

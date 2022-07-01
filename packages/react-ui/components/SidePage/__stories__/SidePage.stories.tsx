@@ -662,6 +662,7 @@ StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '.react-ui:last-child [data-comp-name~="SidePageFooter"] button' }))
+          .move({ x: 0, y: 0 })
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage(
           'sticky header, open and close internal side-page',
@@ -728,6 +729,7 @@ BodyWithoutFooter.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: 'button' }))
+          .move({ x: 0, y: 0 })
           .perform();
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
@@ -845,6 +847,7 @@ WithLongTitleStory.parameters = {
           // @ts-ignore
           sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
         });
+        await this.browser.actions({ bridge: true }).move({ x: 0, y: 0 }).perform();
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
       },
@@ -927,6 +930,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
+        await this.browser.actions({ bridge: true }).move({ x: 0, y: 0 }).perform();
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom without header, footer');
       },
@@ -939,6 +943,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .pause(1000)
+          .move({ x: 0, y: 0 })
           .perform();
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('with header, footer');
@@ -969,6 +974,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
+          .move({ x: 0, y: 0 })
           .perform();
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('with panel');
@@ -979,6 +985,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .pause(1000)
           .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
+          .move({ x: 0, y: 0 })
           .perform();
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
