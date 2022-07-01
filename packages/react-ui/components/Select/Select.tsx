@@ -639,7 +639,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem!(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }

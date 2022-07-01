@@ -523,7 +523,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleOutsideBlur = () => {
     const { inputValue, autocompleteItems } = this.state;
-    const { valueToString } = this.props;
 
     if (inputValue === '') {
       // если стерли содержимое токена в режиме редактирования, то удаляем токен
@@ -543,7 +542,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (autocompleteItems && autocompleteItems.length === 1) {
       const item = autocompleteItems[0];
 
-      if (valueToString!(item) === inputValue) {
+      if (this.getProps().valueToString(item) === inputValue) {
         this.isEditingMode ? this.finishTokenEdit() : this.selectItem(item);
 
         return;
@@ -625,14 +624,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
     let paste = event.clipboardData.getData('text');
-    const { delimiters } = this.props;
-    if (delimiters!.some((delimiter) => paste.includes(delimiter))) {
+    const delimiters = this.getProps().delimiters;
+    if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
-      for (const delimiter of delimiters!) {
-        paste = paste.split(delimiter).join(delimiters![0]);
+      for (const delimiter of delimiters) {
+        paste = paste.split(delimiter).join(delimiters[0]);
       }
-      const tokens = paste.split(delimiters![0]);
+      const tokens = paste.split(delimiters[0]);
       const items = tokens
         .map((token) => this.getProps().valueToItem(token))
         .filter((item) => !this.hasValueInItems(this.getProps().selectedItems, item!));

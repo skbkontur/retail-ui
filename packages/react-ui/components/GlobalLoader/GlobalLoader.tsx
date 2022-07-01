@@ -132,7 +132,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
     if (this.props.expectedResponseTime !== prevProps.expectedResponseTime) {
-      this.setState({ expectedResponseTime: this.props.expectedResponseTime! });
+      this.setState({ expectedResponseTime: this.getProps().expectedResponseTime });
     }
     if (this.props.rejected !== prevProps.rejected) {
       this.setReject(!!this.props.rejected);
