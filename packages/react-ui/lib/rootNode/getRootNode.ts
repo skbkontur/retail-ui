@@ -1,6 +1,7 @@
 /* eslint-disable react/no-find-dom-node */
 import { findDOMNode } from 'react-dom';
 import React from 'react';
+import warning from 'warning';
 
 import { Nullable } from '../../typings/utility-types';
 import { isHTMLElement, isNode } from '../SSRSafe';
@@ -49,10 +50,20 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return rootNode;
   }
 
-  // node is undefined, which means that the instance's root node getter doesn't exists or returns the undefined
-  // anyway, it tell us that the convention is not respected (by the component itself or its children),
-  // so, we have to fall back to the deprecated findDOMNode, which always works but breaks StrictMode
-  rootNode = findDOMNode(instance);
+  // using findDOMNode can throw exception and crash app if use useImperativeHandle hook
+  // workaround https://codesandbox.io/s/getrootnode-useimperativehandle-workaround-qrklrd
+  try {
+    // node is undefined, which means that the instance's root node getter doesn't exists or returns the undefined
+    // anyway, it tell us that the convention is not respected (by the component itself or its children),
+    // so, we have to fall back to the deprecated findDOMNode, which always works but breaks StrictMode
+    rootNode = findDOMNode(instance);
+  } catch (e) {
+    warning(
+      false,
+      e.message + '\nSee workaround https://codesandbox.io/s/getrootnode-useimperativehandle-workaround-qrklrd',
+    );
+    return null;
+  }
 
   // the findDOMNode can also return Text, but we are only intrested in HTMLElements, so just filter it
   return isHTMLElement(rootNode) ? rootNode : null;

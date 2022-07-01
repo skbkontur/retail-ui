@@ -169,4 +169,38 @@ describe('getRootNode', () => {
       });
     });
   });
+
+  describe('useImperativeHandle', () => {
+    const Dude = React.forwardRef<
+      {
+        foo: string;
+        getRootNode?: () => HTMLDivElement | null;
+      },
+      { withWorkaround?: boolean }
+    >(function FN({ withWorkaround }, ref) {
+      const coolRef = React.useRef<HTMLDivElement>(null);
+
+      React.useImperativeHandle(ref, () =>
+        withWorkaround
+          ? {
+              foo: 'bar',
+              getRootNode: () => coolRef.current,
+            }
+          : {
+              foo: 'bar',
+            },
+      );
+      return <div ref={coolRef}>Dude</div>;
+    });
+
+    it('should not throw exception', () => {
+      let rootNode;
+      expect(() => (rootNode = getRootNode(getInstance(<Dude />)))).not.toThrow();
+      expect(rootNode).toBeNull();
+    });
+
+    it('should work with workaround', () => {
+      expect(getRootNode(getInstance(<Dude withWorkaround />))).toBeInTheDocument();
+    });
+  });
 });
