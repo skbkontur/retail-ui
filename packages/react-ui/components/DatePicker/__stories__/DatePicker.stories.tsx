@@ -341,7 +341,6 @@ export const DatePickerInRelativeBody: Story = () => {
 DatePickerInRelativeBody.storyName = 'DatePicker In Relative Body';
 DatePickerInRelativeBody.parameters = {
   creevey: {
-    skip: [{ tests: ['opened'], in: ['firefox', 'firefox8px'] }], // flacky focus
     tests: {
       async opened() {
         await this.browser
@@ -351,7 +350,7 @@ DatePickerInRelativeBody.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
-        await delay(1000);
+        await delay(3000);
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
         await this.browser
           .actions({

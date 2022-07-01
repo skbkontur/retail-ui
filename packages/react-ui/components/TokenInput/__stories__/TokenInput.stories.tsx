@@ -274,7 +274,6 @@ CombinedFilled.storyName = '[combined] filled';
 
 CombinedFilled.parameters = {
   creevey: {
-    skip: [{ tests: ['selectAndType'], in: ['firefox', 'firefox8px'] }], // flacky focus
     tests: {
       async selectAndType() {
         await this.browser
@@ -283,7 +282,7 @@ CombinedFilled.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Token"]' }))
           .perform();
-        await delay(1000);
+        await delay(3000);
 
         const selected = await this.takeScreenshot();
         await this.browser
@@ -292,7 +291,7 @@ CombinedFilled.parameters = {
           })
           .sendKeys('a')
           .perform();
-        await delay(1000);
+        await delay(3000);
 
         const typed = await this.takeScreenshot();
 
