@@ -71,7 +71,9 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    value: (props: CurrencyInputProps) => {
+      warning(!isNaN(Number(props.value)), `[CurrencyInput]: Prop value is not a valid number`);
+    },
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onBlur: PropTypes.func,
@@ -116,7 +118,6 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
     const isValidNumber = !isNaN(Number(value));
-    warning(isValidNumber, `[CurrencyInput]: Prop value is not a valid number`);
     if (
       (isValidNumber && isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
       prevProps.fractionDigits !== fractionDigits
