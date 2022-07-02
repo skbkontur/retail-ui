@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -13,16 +13,24 @@ import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable, Override } from '../../typings/utility-types';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { MobilePopup } from '../../internal/MobilePopup';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+
+import { styles } from './Autocomplete.styles';
 
 function match(pattern: string, items: string[]) {
   if (!pattern || !items) {
     return Promise.resolve([]);
   }
 
-  pattern = pattern.toLowerCase();
-  const filteredItems = items.filter((item) => item.toLowerCase().includes(pattern));
-  return Promise.resolve(filteredItems);
+  const lowerCasedPattern = pattern.toLowerCase();
+  const itemsMatchingPattern = items.filter((item) => {
+    return item.toLowerCase().includes(lowerCasedPattern);
+  });
+
+  return Promise.resolve(itemsMatchingPattern);
 }
 
 function renderItem(item: any) {
@@ -58,6 +66,10 @@ export interface AutocompleteProps
         size: InputProps['size'];
         /** value */
         value: string;
+        /**
+         * Текст заголовка выпадающего меню в мобильной версии
+         */
+        mobileMenuHeaderText?: string;
       }
     > {}
 
@@ -65,13 +77,19 @@ export interface AutocompleteState {
   items: Nullable<string[]>;
   selected: number;
   focused: boolean;
+  isMobileOpened: boolean;
 }
+
+export const AutocompleteDataTids = {
+  root: 'Autocomplete__root',
+} as const;
 
 /**
  * Стандартный инпут с подсказками.
  *
  * Все свойства передаются во внутренний *Input*.
  */
+@responsiveLayout
 @rootNode
 export class Autocomplete extends React.Component<AutocompleteProps, AutocompleteState> {
   public static __KONTUR_REACT_UI__ = 'Autocomplete';
@@ -113,13 +131,16 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     items: null,
     selected: -1,
     focused: false,
+    isMobileOpened: false,
   };
 
   private theme!: Theme;
+  private isMobileLayout!: boolean;
   private opened = false;
   private input: Nullable<Input> = null;
   private menu: Nullable<Menu>;
   private rootSpan: Nullable<HTMLSpanElement>;
+  private mobilePopup: Nullable<MobilePopup>;
 
   private requestId = 0;
 
@@ -165,6 +186,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
   public renderMain = (props: CommonWrapperRestProps<AutocompleteProps>) => {
     const { focused } = this.state;
 
+    const isMobile = this.isMobileLayout;
+
     const {
       onValueChange,
       onKeyDown,
@@ -178,6 +201,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       preventWindowScroll,
       source,
       width = this.theme.inputWidth,
+      mobileMenuHeaderText,
       ...rest
     } = props;
 
@@ -192,9 +216,14 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <RenderLayer onFocusOutside={this.handleBlur} onClickOutside={this.handleClickOutside} active={focused}>
-        <span style={{ display: 'inline-block', width }} ref={this.refRootSpan}>
+        <span
+          data-tid={AutocompleteDataTids.root}
+          className={styles.root(this.theme)}
+          style={{ width }}
+          ref={this.refRootSpan}
+        >
           <Input {...inputProps} />
-          {this.renderMenu()}
+          {isMobile ? this.renderMobileMenu() : this.renderMenu()}
         </span>
       </RenderLayer>
     );
@@ -206,7 +235,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       ref: this.refMenu,
       maxHeight: this.props.menuMaxHeight,
       hasShadow: this.props.hasShadow,
-      width: this.props.menuWidth || (this.props.width && this.getInputWidth(this.rootSpan)),
+      width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan).width),
       preventWindowScroll: this.props.preventWindowScroll,
     };
     if (!items || items.length === 0) {
@@ -220,25 +249,52 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
       >
-        <Menu {...menuProps}>
-          {items.map((item, i) => {
-            return (
-              <MenuItem onClick={this.handleMenuItemClick(i)} key={i}>
-                {this.getProps().renderItem(item)}
-              </MenuItem>
-            );
-          })}
-        </Menu>
+        <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>
     );
   }
 
-  private getInputWidth = (target: Nullable<HTMLSpanElement>) => {
-    if (target instanceof Element) {
-      return target.getBoundingClientRect().width;
-    }
+  private renderMobileMenu = () => {
+    const inputProps: InputProps = {
+      autoFocus: true,
+      width: '100%',
+      onValueChange: this.handleValueChange,
+      onKeyPress: this.handleKeyPressMobile,
+      value: this.props.value,
+      placeholder: 'Начните вводить',
+    };
 
-    return 0;
+    const items = this.state.items;
+
+    return (
+      <MobilePopup
+        headerChildComponent={<Input {...inputProps} />}
+        caption={this.props.mobileMenuHeaderText}
+        useFullHeight
+        opened={this.state.isMobileOpened}
+        onCloseRequest={this.handleCloseMobile}
+        ref={this.refMobilePopup}
+      >
+        <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
+          {items && items.length > 0 && this.getItems()}
+        </Menu>
+      </MobilePopup>
+    );
+  };
+
+  private getItems = () => {
+    const items = this.state.items;
+    const isMobile = this.isMobileLayout;
+
+    return items
+      ? items.map((item, i) => {
+          return (
+            <MenuItem onClick={this.handleMenuItemClick(i)} key={i} isMobile={isMobile}>
+              {this.getProps().renderItem(item)}
+            </MenuItem>
+          );
+        })
+      : null;
   };
 
   private handleValueChange = (value: string) => {
@@ -247,7 +303,25 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     this.fireChange(value);
   };
 
+  private handleCloseMobile = () => {
+    this.setState({
+      isMobileOpened: false,
+    });
+
+    this.handleBlur();
+  };
+
+  private handleKeyPressMobile = (e: KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      this.mobilePopup?.close();
+    }
+  };
+
   private handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    if (this.isMobileLayout) {
+      this.setState({ isMobileOpened: true });
+    }
+
     if (this.state.focused) {
       return;
     }
@@ -356,7 +430,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     }
 
     let promise;
-    const expectingId = (this.requestId += 1);
+    this.requestId += 1;
+    const expectingId = this.requestId;
     if (typeof source === 'function') {
       promise = source(pattern);
     } else {
@@ -388,5 +463,9 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private refRootSpan = (span: HTMLSpanElement) => {
     this.rootSpan = span;
+  };
+
+  private refMobilePopup = (mobilePopup: MobilePopup | null) => {
+    this.mobilePopup = mobilePopup;
   };
 }

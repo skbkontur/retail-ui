@@ -3,21 +3,23 @@ import React, { ReactNode } from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { FLAT_THEME_OLD } from '../../lib/theming/themes/FlatThemeOld';
-import { DEFAULT_THEME_OLD } from '../../lib/theming/themes/DefaultThemeOld';
+import { FLAT_THEME_8PX_OLD } from '../../lib/theming/themes/FlatTheme8pxOld';
+import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
 import { DEFAULT_THEME } from '../../lib/theming/themes/DefaultTheme';
-import { FLAT_THEME } from '../../lib/theming/themes/FlatTheme';
+import { DARK_THEME } from '../../lib/theming/themes/DarkTheme';
 import { SidePage } from '../../components/SidePage';
 import { Gapped } from '../../components/Gapped';
 import { ComboBox } from '../../components/ComboBox';
 import { Link } from '../../components/Link';
 import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 import { Writeable } from '../../typings/utility-types';
+import { THEME_2022 } from '../../lib/theming/themes/Theme2022';
+import { findPropertyDescriptor } from '../../lib/theming/ThemeHelpers';
+import { THEME_2022_DARK } from '../../lib/theming/themes/Theme2022Dark';
 
 import { ThemeEditor } from './ThemeEditor';
 import { styles } from './Playground.styles';
 import { Playground } from './Playground';
-import { darkTheme } from './darkTheme';
 import { ThemeType } from './constants';
 
 interface PlaygroundState {
@@ -30,17 +32,19 @@ interface PlaygroundState {
 }
 interface Themes {
   default: Theme;
-  defaultOld: Theme;
   dark: Theme;
-  flat: Theme;
+  defaultOld: Theme;
   flatOld: Theme;
+  theme2022: Theme;
+  theme2022Dark: Theme;
 }
 interface ThemesErrors {
   default: ThemeErrorsType;
-  defaultOld: ThemeErrorsType;
   dark: ThemeErrorsType;
-  flat: ThemeErrorsType;
+  defaultOld: ThemeErrorsType;
   flatOld: ThemeErrorsType;
+  theme2022: ThemeErrorsType;
+  theme2022Dark: ThemeErrorsType;
 }
 interface EditingThemeItem {
   value: ThemeType;
@@ -54,10 +58,11 @@ export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
-    { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
-    { value: ThemeType.Flat, label: 'Плоская' },
-    { value: ThemeType.FlatOld, label: 'Старая Плоская' },
     { value: ThemeType.Dark, label: 'Темная' },
+    { value: ThemeType.DefaultOld, label: 'Старая дефолтная' },
+    { value: ThemeType.FlatOld, label: 'Старая плоская' },
+    { value: ThemeType.Theme2022, label: 'Новая 2022' },
+    { value: ThemeType.Theme2022Dark, label: 'Новая 2022 Тёмная' },
   ];
 
   constructor(props: PlaygroundProps) {
@@ -68,17 +73,19 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
       editorOpened: false,
       themes: {
         default: DEFAULT_THEME,
-        defaultOld: DEFAULT_THEME_OLD,
-        dark: darkTheme,
-        flat: FLAT_THEME,
-        flatOld: FLAT_THEME_OLD,
+        defaultOld: DEFAULT_THEME_8PX_OLD,
+        dark: DARK_THEME,
+        flatOld: FLAT_THEME_8PX_OLD,
+        theme2022: THEME_2022,
+        theme2022Dark: THEME_2022_DARK,
       },
       themesErrors: {
         default: {},
         defaultOld: {},
         dark: {},
-        flat: {},
         flatOld: {},
+        theme2022: {},
+        theme2022Dark: {},
       },
     };
   }
@@ -138,7 +145,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
     const themeObject: Writeable<ThemeIn> = {};
     ThemeFactory.getKeys(currentTheme).forEach((key) => {
       const descriptor = Object.getOwnPropertyDescriptor(currentTheme, key);
-      if (descriptor && !descriptor.get && DEFAULT_THEME_OLD[key] && currentTheme[key] !== DEFAULT_THEME_OLD[key]) {
+      if (descriptor && !descriptor.get && DEFAULT_THEME[key] && currentTheme[key] !== DEFAULT_THEME[key]) {
         themeObject[key] = currentTheme[key] as keyof Theme;
       }
     });
@@ -219,13 +226,4 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
     return ThemeFactory.create<ThemeIn>(result);
   };
-}
-
-function findPropertyDescriptor(theme: Theme, propName: keyof Theme) {
-  for (; theme != null; theme = Object.getPrototypeOf(theme)) {
-    if (Object.prototype.hasOwnProperty.call(theme, propName)) {
-      return Object.getOwnPropertyDescriptor(theme, propName) || {};
-    }
-  }
-  return {};
 }

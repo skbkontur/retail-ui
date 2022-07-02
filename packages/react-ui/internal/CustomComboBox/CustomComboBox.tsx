@@ -8,6 +8,7 @@ import { MenuItemState } from '../../components/MenuItem';
 import { CancelationError, taskWithDelay } from '../../lib/utils';
 import { fixClickFocusIE } from '../../lib/events/fixClickFocusIE';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
@@ -87,6 +88,11 @@ export const DefaultState = {
   requestStatus: ComboBoxRequestStatus.Unknown,
 };
 
+export const CustomComboBoxDataTids = {
+  comboBoxView: 'ComboBoxView__root',
+} as const;
+
+@responsiveLayout
 @rootNode
 export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T>, CustomComboBoxState<T>> {
   public static __KONTUR_REACT_UI__ = 'CustomComboBox';
@@ -99,6 +105,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
   public loaderShowDelay: Nullable<Promise<void>>;
   private focused = false;
   private cancelationToken: Nullable<(reason?: Error) => void> = null;
+  private isMobileLayout!: boolean;
 
   private reducer = reducer;
   public cancelLoaderDelay: () => void = () => null;
@@ -149,7 +156,8 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     const { getItems } = this.props;
 
     const cancelPromise: Promise<never> = new Promise((_, reject) => (this.cancelationToken = reject));
-    const expectingId = (this.requestId += 1);
+    this.requestId += 1;
+    const expectingId = this.requestId;
 
     if (!this.loaderShowDelay) {
       this.loaderShowDelay = new Promise<void>((resolve) => {
@@ -344,7 +352,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     this.dispatch({
       type: 'ValueChange',
       value,
-      keepFocus: true,
+      keepFocus: !this.isMobileLayout,
     });
   };
 
@@ -368,6 +376,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       }
       return;
     }
+
     this.focused = false;
     // workaround for the similar bug with focusout
     // in Firefox, Chrome and IE
@@ -381,6 +390,9 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
     // If menu opened, RenderLayer is active and
     // it would call handleFocusOutside
     // In that way handleBlur would be called
+
+    // TODO: add check for mobile layout, to call `handleBlur`
+
     if (this.state.opened) {
       return;
     }

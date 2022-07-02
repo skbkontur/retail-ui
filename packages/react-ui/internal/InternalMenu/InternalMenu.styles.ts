@@ -5,9 +5,9 @@ export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       overflow: auto;
-      padding: 5px 0;
+      padding: 5px ${t.menuPaddingX};
       outline: none;
-      background: ${t.bgDefault};
+      background: ${t.bgSecondary};
     `;
   },
 

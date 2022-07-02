@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { CSSProperties } from 'react';
 
 import {
@@ -8,6 +10,7 @@ import {
 } from '../ScrollContainer';
 import { Story } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 function getItems(count: number) {
   const items = [];
@@ -114,6 +117,12 @@ export const WithScrollState = () => {
         ...commonBlocksStyles,
       };
 
+      const footerDarkStyles: CSSProperties = {
+        boxShadow: this.state.scrollState !== 'bottom' ? 'rgba(0, 0, 0, 0.2) 0px -5px 10px' : 'none',
+        background: '#1f1f1f',
+        ...commonBlocksStyles,
+      };
+
       const scrollContainerWrapperStyles: CSSProperties = {
         ...wrapperStyle,
         border: 'none',
@@ -122,17 +131,25 @@ export const WithScrollState = () => {
       };
 
       return (
-        <div style={{ margin: 20, boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 10px' }}>
-          <div style={headerStyles}>header</div>
-          <div style={scrollContainerWrapperStyles}>
-            <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
-              {getItems(20).map((i) => (
-                <div key={i}>{i}</div>
-              ))}
-            </ScrollContainer>
-          </div>
-          <div style={footerStyles}>footer</div>
-        </div>
+        <ThemeContext.Consumer>
+          {(theme) => {
+            return (
+              <div style={{ margin: 20, boxShadow: 'rgba(0, 0, 0, 0.2) 0px 0px 10px' }}>
+                <div style={headerStyles}>header</div>
+                <div style={scrollContainerWrapperStyles}>
+                  <ScrollContainer onScrollStateChange={this.handleScrollStateChange}>
+                    {getItems(20).map((i) => (
+                      <div key={i}>{i}</div>
+                    ))}
+                  </ScrollContainer>
+                </div>
+                <div style={theme.prototype.constructor.name === 'DarkTheme' ? footerDarkStyles : footerStyles}>
+                  footer
+                </div>
+              </div>
+            );
+          }}
+        </ThemeContext.Consumer>
       );
     }
 

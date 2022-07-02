@@ -1,22 +1,29 @@
 import React from 'react';
 
+import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
-import { isMenuHeader } from '../../components/MenuHeader';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
+import { addIconPaddingIfPartOfMenu } from './addIconPaddingIfPartOfMenu';
 
 interface MenuProps {
   children?: React.ReactNode;
   hasShadow?: boolean;
+  /**
+   * Максимальная высота применяется только для скролл контейнера
+   *
+   * Высота `header` и `footer` в нее не включены
+   */
   maxHeight?: number | string;
   onItemClick?: (event: React.SyntheticEvent<HTMLElement>) => void;
   width?: number | string;
@@ -36,6 +43,10 @@ interface MenuState {
   maxHeight: number | string;
   scrollState: ScrollContainerScrollState;
 }
+
+export const InternalMenuDataTids = {
+  root: 'InternalMenu__root',
+} as const;
 
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
@@ -69,7 +80,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     this.calculateMaxHeight();
   }
 
-  public componentDidUpdate(prevProps: MenuProps, prevState: MenuState) {
+  public componentDidUpdate(prevProps: MenuProps) {
     if (this.shouldRecalculateMaxHeight(prevProps)) {
       this.calculateMaxHeight();
     }
@@ -107,6 +118,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
     return (
       <div
+        data-tid={InternalMenuDataTids.root}
         className={cx({
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
@@ -127,48 +139,44 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
           onScrollStateChange={this.handleScrollStateChange}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (typeof child === 'string' || typeof child === 'number' || child == null) {
+            if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
               return child;
             }
             if (React.isValidElement(child) && typeof child.type === 'string') {
               return child;
             }
 
-            if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-              child = React.cloneElement(child, {
-                _enableIconPadding: true,
-              });
-            }
+            const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
 
-            if (isActiveElement(child)) {
+            if (isActiveElement(modifiedChild)) {
               const highlight = this.state.highlightedIndex === index;
 
-              let ref = child.ref;
+              let ref = modifiedChild.ref;
               const originalRef = ref;
               if (highlight) {
                 ref = (menuItem) => this.refHighlighted(originalRef, menuItem);
               }
 
-              return React.cloneElement<MenuItemProps, MenuItem>(child, {
+              return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
                 ref,
-                state: highlight ? 'hover' : child.props.state,
+                state: highlight ? 'hover' : modifiedChild.props.state,
                 onClick: this.select.bind(this, index, false),
                 onMouseEnter: (event) => {
                   this.highlightItem(index);
-                  if (isMenuItem(child) && child.props.onMouseEnter) {
-                    child.props.onMouseEnter(event);
+                  if (isMenuItem(modifiedChild) && modifiedChild.props.onMouseEnter) {
+                    modifiedChild.props.onMouseEnter(event);
                   }
                 },
                 onMouseLeave: (event) => {
                   this.unhighlight();
-                  if (isMenuItem(child) && child.props.onMouseLeave) {
-                    child.props.onMouseLeave(event);
+                  if (isMenuItem(modifiedChild) && modifiedChild.props.onMouseLeave) {
+                    modifiedChild.props.onMouseLeave(event);
                   }
                 },
               });
             }
 
-            return child;
+            return modifiedChild;
           })}
         </ScrollContainer>
         {this.props.footer ? this.renderFooter() : null}
@@ -239,8 +247,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     const calculatedMaxHeight =
       typeof parsedMaxHeight === 'number'
         ? parsedMaxHeight +
-          ((this.header && this.header.getBoundingClientRect().height) || 0) +
-          ((this.footer && this.footer.getBoundingClientRect().height) || 0)
+          ((this.header && getDOMRect(this.header).height) || 0) +
+          ((this.footer && getDOMRect(this.footer).height) || 0)
         : maxHeight;
 
     this.setState({
@@ -351,7 +359,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -381,10 +389,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       this.setState({ scrollState });
     }
   };
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

@@ -110,7 +110,7 @@ export const HintWithoutAnimations = () => (
     <Hint text="disableAnimations={false}" disableAnimations={false}>
       <button>Hover me (disableAnimations: false)</button>
     </Hint>
-    <Hint text="disableAnimations={true}" disableAnimations={true}>
+    <Hint text="disableAnimations={true}" disableAnimations>
       <button>Hover me (disableAnimations: true)</button>
     </Hint>
   </div>
@@ -156,7 +156,7 @@ export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 SetManualAndOpenedPropOnClick.parameters = {
   creevey: {
     tests: {
-      async ['click on hint']() {
+      async 'click on hint'() {
         await this.browser
           .actions()
           .click(this.browser.findElement({ css: '#main' }))
@@ -173,7 +173,7 @@ class CustomClassComponent extends React.Component<{}, {}> {
   private setRootNode!: TSetRootNode;
 
   render() {
-    return <div ref={this.setRootNode}>children text</div>;
+    return <div ref={this.setRootNode}>Ich Liebe dich</div>;
   }
 }
 export const WithClassChildren = () => (

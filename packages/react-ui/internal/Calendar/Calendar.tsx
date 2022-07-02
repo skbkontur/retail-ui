@@ -6,7 +6,7 @@ import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '..
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Animation } from '../../lib/animation';
+import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
 
 import { themeConfig } from './config';
@@ -35,6 +35,13 @@ export interface CalendarState {
   scrollTarget: number;
   touchStart: number;
 }
+
+export const CalendarDataTids = {
+  root: 'Calendar',
+  month: 'MonthView__month',
+  headerMonth: 'MonthView__headerMonth',
+  headerYear: 'MonthView__headerYear',
+} as const;
 
 const getTodayDate = () => {
   const date = new Date();
@@ -65,7 +72,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   private theme!: Theme;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
-  private animation = Animation();
+  private animation = animation();
   private touchStartY: Nullable<number> = null;
 
   constructor(props: CalendarProps) {
@@ -73,8 +80,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const today = getTodayDate();
 
-    const initialMonth = props.initialMonth == null ? today.month : props.initialMonth;
-    const initialYear = props.initialYear == null ? today.year : props.initialYear;
+    const initialMonth = props.initialMonth ?? today.month;
+    const initialYear = props.initialYear ?? today.year;
 
     this.state = {
       scrollPosition: 0,
@@ -212,7 +219,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
-      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid="Calendar">
+      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid={CalendarDataTids.root}>
         <div style={wrapperStyle} className={styles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])

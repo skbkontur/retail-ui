@@ -2,6 +2,7 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
@@ -15,6 +16,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
+import { ResponsiveLayout } from '../ResponsiveLayout';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -84,6 +86,11 @@ export interface SidePageState {
   shards: Array<React.RefObject<any> | HTMLElement>;
 }
 
+export const SidePageDataTids = {
+  root: 'SidePage__root',
+  container: 'SidePage__container',
+} as const;
+
 const TRANSITION_TIMEOUT = 200;
 
 /**
@@ -110,21 +117,20 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
   private theme!: Theme;
   private stackSubscription: ModalStackSubscription | null = null;
-  private layoutRef: HTMLElement | null = null;
+  private layout: HTMLElement | null = null;
+  private header: SidePageHeader | null = null;
   private footer: SidePageFooter | null = null;
   private rootRef = React.createRef<HTMLDivElement>();
   private shards = new Set<React.RefObject<any> | HTMLElement>();
 
   public componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
-    this.rootRef.current?.addEventListener('wheel', this.disablePageScroll, { passive: false });
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
   }
 
   public componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
-    this.rootRef.current?.removeEventListener('wheel', this.disablePageScroll);
-    if (this.stackSubscription != null) {
+    if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
@@ -135,9 +141,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
    * @public
    */
   public updateLayout = (): void => {
-    if (this.footer) {
-      this.footer.update();
-    }
+    this.header?.update();
+    this.footer?.update();
   };
 
   public static defaultProps = {
@@ -164,21 +169,30 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       <RenderContainer>
         <CommonWrapper {...this.props}>
           <div>
-            {blockBackground && this.renderShadow()}
-            <CSSTransition
-              in
-              classNames={this.getTransitionNames()}
-              appear={!disableAnimations}
-              enter={!disableAnimations}
-              exit={false}
-              timeout={{
-                enter: TRANSITION_TIMEOUT,
-                exit: TRANSITION_TIMEOUT,
+            <ResponsiveLayout>
+              {({ isMobile }) => {
+                return (
+                  <>
+                    {blockBackground && this.renderShadow()}
+                    <CSSTransition
+                      in
+                      classNames={this.getTransitionNames()}
+                      appear={!disableAnimations}
+                      enter={!disableAnimations}
+                      exit={false}
+                      timeout={{
+                        enter: TRANSITION_TIMEOUT,
+                        exit: TRANSITION_TIMEOUT,
+                      }}
+                      nodeRef={this.rootRef}
+                    >
+                      {this.renderContainer(isMobile)}
+                    </CSSTransition>
+                    {isMobile && <HideBodyVerticalScroll />}
+                  </>
+                );
               }}
-              nodeRef={this.rootRef}
-            >
-              {this.renderContainer()}
-            </CSSTransition>
+            </ResponsiveLayout>
           </div>
         </CommonWrapper>
       </RenderContainer>
@@ -214,23 +228,28 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 
-  private renderContainer(): JSX.Element {
+  private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
 
     return (
       <ZIndex
         priority={'Sidepage'}
-        data-tid="SidePage__root"
+        data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
+          [styles.mobileRoot()]: isMobile,
         })}
         onScroll={LayoutEvents.emit}
         createStackingContext
-        style={{
-          width: width || (blockBackground ? 800 : 500),
-          right: fromLeft ? 'auto' : offset,
-          left: fromLeft ? offset : 'auto',
-        }}
+        style={
+          isMobile
+            ? undefined
+            : {
+                width: width || (blockBackground ? 800 : 500),
+                right: fromLeft ? 'auto' : offset,
+                left: fromLeft ? offset : 'auto',
+              }
+        }
         wrapperRef={this.rootRef}
       >
         <FocusLock
@@ -241,14 +260,14 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         >
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
-              data-tid="SidePage__container"
+              data-tid={SidePageDataTids.container}
               className={cx(styles.wrapper(this.theme), {
                 [styles.wrapperLeft()]: fromLeft,
                 [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,
                 [styles.wrapperMarginRight()]: this.state.hasMargin && !fromLeft,
                 [styles.shadow(this.theme)]: this.state.hasShadow,
               })}
-              ref={(_) => (this.layoutRef = _)}
+              ref={this.layoutRef}
             >
               <SidePageContext.Provider value={this.getSidePageContextProps()}>
                 {this.props.children}
@@ -260,17 +279,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     );
   }
 
-  private disablePageScroll = (e: WheelEvent) => {
-    const layout = this.layoutRef;
-    if (!layout) return;
-    const reachedTop = layout.scrollTop <= 0 && e.deltaY < 0;
-    const reachedBottom = layout.scrollTop >= layout.scrollHeight - layout.offsetHeight && e.deltaY > 0;
-
-    if (!this.props.blockBackground && (reachedTop || reachedBottom)) {
-      e.preventDefault();
-    }
-  };
-
   private getSidePageContextProps = (): SidePageContextType => {
     return {
       hasHeader: this.state.hasHeader,
@@ -279,6 +287,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
       requestClose: this.requestClose,
       getWidth: this.getWidth,
       updateLayout: this.updateLayout,
+      headerRef: this.headerRef,
       footerRef: this.footerRef,
       setHasHeader: this.setHasHeader,
       setHasFooter: this.setHasFooter,
@@ -287,10 +296,10 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   };
 
   private getWidth = () => {
-    if (!this.layoutRef) {
+    if (!this.layout) {
       return 'auto';
     }
-    return this.layoutRef.clientWidth;
+    return this.layout.clientWidth;
   };
 
   private renderShadow(): JSX.Element {
@@ -321,7 +330,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     };
   }
 
-  private handleStackChange = (stack: ReadonlyArray<React.Component>) => {
+  private handleStackChange = (stack: readonly React.Component[]) => {
     const sidePages = stack.filter((x) => x instanceof SidePage && x.props.fromLeft === this.props.fromLeft);
     const currentSidePagePosition = sidePages.indexOf(this);
 
@@ -366,8 +375,16 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     }
   };
 
+  private headerRef = (ref: SidePageHeader | null) => {
+    this.header = ref;
+  };
+
   private footerRef = (ref: SidePageFooter | null) => {
     this.footer = ref;
+  };
+
+  private layoutRef = (ref: HTMLDivElement | null) => {
+    this.layout = ref;
   };
 
   private setHasHeader = (hasHeader = true) => {

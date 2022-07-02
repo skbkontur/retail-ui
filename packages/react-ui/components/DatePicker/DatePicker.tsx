@@ -35,7 +35,7 @@ export interface DatePickerProps<T> extends CommonProps {
   disabled?: boolean;
   enableTodayLink?: boolean;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   minDate: T;
@@ -44,7 +44,7 @@ export interface DatePickerProps<T> extends CommonProps {
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   width?: number | string;
@@ -85,6 +85,12 @@ export interface DatePickerState {
 
 type DatePickerValue = string;
 
+export const DatePickerDataTids = {
+  root: 'DatePicker__root',
+  pickerRoot: 'Picker__root',
+  pickerTodayWrapper: 'Picker__todayWrapper',
+} as const;
+
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
@@ -106,7 +112,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
      */
     maxDate: PropTypes.string.isRequired,
 
-    menuAlign: PropTypes.oneOf(['left', 'right'] as Array<'left' | 'right'>),
+    menuAlign: PropTypes.oneOf(['left', 'right']),
 
     /**
      * Минимальная дата в календаре.
@@ -174,9 +180,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private input: DateInput | null = null;
   private focused = false;
-  private internalDate?: InternalDate = this.parseValueToDate(this.props.value);
-  private minDate?: InternalDate = this.parseValueToDate(this.props.minDate);
-  private maxDate?: InternalDate = this.parseValueToDate(this.props.maxDate);
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
@@ -191,14 +194,11 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   }
 
   public componentDidUpdate() {
-    const { disabled, value, minDate, maxDate } = this.props;
+    const { disabled } = this.props;
     const { opened } = this.state;
     if (disabled && opened) {
       this.close();
     }
-    this.internalDate = this.parseValueToDate(value);
-    this.minDate = this.parseValueToDate(minDate);
-    this.maxDate = this.parseValueToDate(maxDate);
   }
 
   /**
@@ -242,14 +242,30 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
-    const date = this.internalDate ? this.internalDate.toNativeFormat() : null;
+
+    const { value, minDate, maxDate } = this.props;
+
+    const internalDate = this.parseValueToDate(value);
+    const date = internalDate ? internalDate.toNativeFormat() : null;
+
+    const parsedMinDate = this.parseValueToDate(minDate);
+    const formattedMinDate = (parsedMinDate && parsedMinDate.toNativeFormat()) || undefined;
+
+    const parsedMaxDate = this.parseValueToDate(maxDate);
+    const formattedMaxDate = (parsedMaxDate && parsedMaxDate.toNativeFormat()) || undefined;
+
     if (this.state.opened) {
       picker = (
-        <DropdownContainer getParent={this.getParent} offsetY={2} align={this.props.menuAlign}>
+        <DropdownContainer
+          data-tid={DatePickerDataTids.root}
+          getParent={this.getParent}
+          offsetY={2}
+          align={this.props.menuAlign}
+        >
           <Picker
             value={date}
-            minDate={(this.minDate && this.minDate.toNativeFormat()) || undefined}
-            maxDate={(this.maxDate && this.maxDate.toNativeFormat()) || undefined}
+            minDate={formattedMinDate}
+            maxDate={formattedMaxDate}
             onPick={this.handlePick}
             onSelect={this.handleSelect}
             enableTodayLink={this.props.enableTodayLink}

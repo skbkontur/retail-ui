@@ -1,11 +1,19 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import AddIcon from '@skbkontur/react-icons/Add';
 import { action } from '@storybook/addon-actions';
+import { CSFStory } from 'creevey';
 
 import { Meta, Story, CreeveyTests } from '../../../typings/stories';
 import { isKeyEnter } from '../../../lib/events/keyboard/identifiers';
 import { Button } from '../../Button';
 import { Select, SelectProps } from '../Select';
+import { Gapped } from '../../Gapped';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
+import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
+import { delay } from '../../../lib/utils';
 
 class SelectWrapper extends React.Component<{}, any> {
   public state = {
@@ -35,8 +43,9 @@ class SelectWrapper extends React.Component<{}, any> {
   }
 }
 
+type ItemWithComments = [number, string, React.ReactNode?];
 class ItemsWithComments extends React.Component<{}, any> {
-  private static items: Array<[number, string, React.ReactNode?]> = [
+  private static items: ItemWithComments[] = [
     [1, 'ООО Эльбрус', '8387666415 - 113445852'],
     [2, 'ИП Иванов Петр', '583662338391'],
     [3, 'ЗАО Текстильщики'],
@@ -97,6 +106,8 @@ export default {
 
 const selectTests: CreeveyTests = {
   async idle() {
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
   },
   async clicked() {
@@ -106,9 +117,11 @@ const selectTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="Select"]' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
-  async ['MenuItem hover']() {
+  async 'MenuItem hover'() {
     await this.browser
       .actions({
         bridge: true,
@@ -123,9 +136,11 @@ const selectTests: CreeveyTests = {
         origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
       })
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('MenuItem hover');
   },
-  async ['selected item']() {
+  async 'selected item'() {
     await this.browser
       .actions({
         bridge: true,
@@ -138,21 +153,126 @@ const selectTests: CreeveyTests = {
       })
       .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
       .perform();
+    await delay(1000);
+
     await this.expect(await this.takeScreenshot()).to.matchImage('selected item');
   },
 };
 
-export const Simple: Story = () => <Select items={['one', 'two', 'three']} />;
+export const Simple: Story = () => (
+  <div style={{ height: '1000px' }}>
+    <Select items={['one', 'two', 'three']} />
+  </div>
+);
 
 Simple.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
 
-export const Disabled: Story = () => (
+export const MobileSimple = () => {
+  const items = [
+    'one',
+    'two',
+    'three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three three',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '16',
+    'seventeen',
+    '18',
+    '19',
+    'откуда мы можем знать что это двадцать?',
+  ];
+
+  const [show, setShow] = useState<{ showFirst: boolean; showSecond: boolean; showThird: boolean }>({
+    showFirst: true,
+    showSecond: true,
+    showThird: true,
+  });
+
+  return (
+    <ThemeContext.Consumer>
+      {(theme) => {
+        return (
+          <ThemeContext.Provider
+            value={ThemeFactory.create(
+              {
+                mobileMediaQuery: '(max-width: 576px)',
+              },
+              theme,
+            )}
+          >
+            <Gapped vertical>
+              <span onClick={() => setShow({ ...show, showFirst: !show.showFirst })}>With small count of items</span>
+              {show.showFirst && (
+                <Select
+                  items={items.slice(-5)}
+                  mobileMenuHeaderText={'This is header This is header This is header This is header This is header'}
+                />
+              )}
+              <span onClick={() => setShow({ ...show, showSecond: !show.showSecond })}>With big count of items</span>
+              {show.showSecond && <Select items={items} mobileMenuHeaderText={'This is header'} />}
+              <span onClick={() => setShow({ ...show, showThird: !show.showThird })}>With search</span>
+              {show.showThird && <Select items={items} mobileMenuHeaderText={'This is header'} search />}
+              <ResponsiveLayout onLayoutChange={(layout) => console.log(layout)} />
+            </Gapped>
+          </ThemeContext.Provider>
+        );
+      }}
+    </ThemeContext.Consumer>
+  );
+};
+MobileSimple.title = 'Mobile stories';
+MobileSimple.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: { skip: [true] },
+};
+MobileSimple.decorators = [
+  (Story: Story) => (
+    <div
+      style={{
+        width: 'calc(100vw - 16px)',
+        height: 'calc(100vh - 16px)',
+        margin: -8,
+        padding: 8,
+        overflow: 'auto',
+      }}
+    >
+      <div
+        style={{
+          width: 'calc(100vw - 16px)',
+          height: 'calc(125vh - 16px)',
+          backgroundColor: 'lightBlue',
+          margin: -8,
+          padding: 8,
+        }}
+      >
+        <Story />
+      </div>
+    </div>
+  ),
+];
+MobileSimple.creevey = { skip: [true] };
+
+export const Disabled: CSFStory<JSX.Element> = () => (
   <>
     <Select disabled items={['value']} value="value" />
     <Select disabled placeholder="placeholder" />
@@ -179,7 +299,11 @@ UseLink.storyName = 'use link';
 UseLink.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -190,7 +314,11 @@ UseLinkWithIcon.storyName = 'use link with icon';
 UseLinkWithIcon.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -201,7 +329,11 @@ WithTextOverflow.storyName = 'with text overflow';
 WithTextOverflow.parameters = {
   creevey: {
     captureElement: '.dropdown-test-container',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'MenuItem hover' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'MenuItem hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
+    ],
     tests: selectTests,
   },
 };
@@ -287,7 +419,7 @@ UsingOnKeyDown.storyName = 'using onKeyDown';
 UsingOnKeyDown.parameters = {
   creevey: {
     tests: {
-      async ['press Enter']() {
+      async 'press Enter'() {
         const element = await this.browser.findElement({ css: '.dropdown-test-container' });
         await this.browser
           .actions({
@@ -298,6 +430,8 @@ UsingOnKeyDown.parameters = {
           .sendKeys(this.keys.ARROW_DOWN)
           .sendKeys(this.keys.ENTER)
           .perform();
+        await delay(1000);
+
         await this.expect(await element.takeScreenshot()).to.matchImage('press Enter');
       },
     },
@@ -336,7 +470,7 @@ WithSearchAndVariousWidth.parameters = {
   creevey: {
     captureElement: '#test-element',
     tests: {
-      async ['search']() {
+      async search() {
         const root = await this.browser.findElement({ css: '[data-tid="root"]' });
         const select = await this.browser.findElement({ css: '[data-comp-name~="Select"]' });
 
@@ -345,6 +479,7 @@ WithSearchAndVariousWidth.parameters = {
             bridge: true,
           })
           .click(select)
+          .pause(500)
           .perform();
 
         const plainSearch = await root.takeScreenshot();
@@ -354,6 +489,7 @@ WithSearchAndVariousWidth.parameters = {
             bridge: true,
           })
           .sendKeys(this.keys.ARROW_DOWN)
+          .pause(500)
           .perform();
 
         const pressKeyDown = await root.takeScreenshot();
@@ -364,6 +500,7 @@ WithSearchAndVariousWidth.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="Input"]' }))
           .sendKeys('test')
+          .pause(500)
           .perform();
 
         const fullFieldSearch = await root.takeScreenshot();
@@ -374,6 +511,7 @@ WithSearchAndVariousWidth.parameters = {
           })
           .click(select)
           .click(select)
+          .pause(500)
           .perform();
 
         const emptySearch = await root.takeScreenshot();
@@ -381,12 +519,13 @@ WithSearchAndVariousWidth.parameters = {
         await this.expect({ plainSearch, pressKeyDown, fullFieldSearch, emptySearch }).to.matchImages();
       },
 
-      async ['and various width']() {
+      async 'and various width'() {
         const root = await this.browser.findElement({ css: '[data-tid="root"]' });
 
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w100px"]' }))
+          .pause(500)
           .perform();
 
         const w100px = await root.takeScreenshot();
@@ -394,6 +533,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w300px"]' }))
+          .pause(500)
           .perform();
 
         const w300px = await root.takeScreenshot();
@@ -401,6 +541,7 @@ WithSearchAndVariousWidth.parameters = {
         await this.browser
           .actions({ bridge: true })
           .click(await this.browser.findElement({ css: '[data-tid="w100prc"]' }))
+          .pause(500)
           .perform();
 
         const w100prc = await root.takeScreenshot();
@@ -412,7 +553,14 @@ WithSearchAndVariousWidth.parameters = {
 };
 
 export const WithMenuAlignAndVariousWidth: Story = () => {
-  const widths: SelectProps<any, any>['width'][] = [undefined, '80px', '120px', '80%', '120%', 'calc(100% + 40px)'];
+  const widths: Array<SelectProps<any, any>['width']> = [
+    undefined,
+    '80px',
+    '120px',
+    '80%',
+    '120%',
+    'calc(100% + 40px)',
+  ];
   const row: Array<Partial<SelectProps<any, any>>> = [
     { menuAlign: 'right' },
     { menuAlign: 'right', disablePortal: true },
@@ -444,8 +592,10 @@ export const WithMenuAlignAndVariousWidth: Story = () => {
 WithMenuAlignAndVariousWidth.parameters = {
   creevey: {
     tests: {
-      async ['open']() {
+      async open() {
         const root = await this.browser.findElement({ css: '#test-element' });
+        await delay(1000);
+
         await this.expect(await root.takeScreenshot()).to.matchImage();
       },
     },

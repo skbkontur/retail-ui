@@ -4,7 +4,7 @@ import throttle from 'lodash.throttle';
 import raf from 'raf';
 
 import { isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { polyfillPlaceholder } from '../../lib/polyfillPlaceholder';
+import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Nullable, Override } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -30,18 +30,18 @@ export interface TextareaProps
       React.TextareaHTMLAttributes<HTMLTextAreaElement>,
       {
         /**
-         * Cостояние валидации при ошибке.
+         * Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /** Не активное состояние */
         disabled?: boolean;
 
         /**
-         * Атоматический ресайз
+         * Автоматический ресайз
          * в зависимости от содержимого
          */
         autoResize?: boolean;
@@ -84,7 +84,7 @@ export interface TextareaProps
 
         /** Подсказка к счетчику символов.
          *
-         * По умолчанию - тултип с содежимым из пропа, если передан`ReactNode`.
+         * По умолчанию - тултип с содержимым из пропа, если передан`ReactNode`.
          *
          * Передав функцию, можно переопределить подсказку целиком, вместе с иконкой. Например,
          *
@@ -107,9 +107,14 @@ export interface TextareaProps
     > {}
 
 export interface TextareaState {
-  polyfillPlaceholder: boolean;
+  needsPolyfillPlaceholder: boolean;
   isCounterVisible: boolean;
 }
+
+export const TextareaDataTids = {
+  root: 'Textarea__root',
+  counter: 'TextareaCounter__root',
+} as const;
 
 /**
  * Компонент для ввода многострочного текста.
@@ -184,7 +189,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   public state = {
-    polyfillPlaceholder,
+    needsPolyfillPlaceholder,
     isCounterVisible: false,
   };
   private reflowCounter = () => {
@@ -359,7 +364,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     let placeholderPolyfill = null;
 
-    if (this.state.polyfillPlaceholder && !textareaProps.value) {
+    if (this.state.needsPolyfillPlaceholder && !textareaProps.value && !textareaProps.defaultValue) {
       placeholderPolyfill = <span className={styles.placeholder()}>{placeholder}</span>;
     }
 
@@ -391,7 +396,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label {...rootProps} className={styles.root(this.theme)}>
+        <label data-tid={TextareaDataTids.root} {...rootProps} className={styles.root(this.theme)}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea
@@ -435,11 +440,11 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
   };
 
   private handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (polyfillPlaceholder) {
+    if (needsPolyfillPlaceholder) {
       const fieldIsEmpty = e.target.value === '';
 
-      if (this.state.polyfillPlaceholder !== fieldIsEmpty) {
-        this.setState({ polyfillPlaceholder: fieldIsEmpty });
+      if (this.state.needsPolyfillPlaceholder !== fieldIsEmpty) {
+        this.setState({ needsPolyfillPlaceholder: fieldIsEmpty });
       }
     }
 

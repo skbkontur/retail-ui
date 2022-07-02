@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
+import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
@@ -24,6 +25,10 @@ interface MaskedInputState {
   emptyValue: string;
   focused: boolean;
 }
+
+export const MaskedInputDataTids = {
+  root: 'MaskedInput__root',
+} as const;
 
 export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
@@ -98,7 +103,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
 
     return (
-      <span className={styles.container()} x-ms-format-detection="none">
+      <span data-tid={MaskedInputDataTids.root} className={styles.container()} x-ms-format-detection="none">
         <ReactInputMask
           {...inputProps}
           maskChar={null}
@@ -123,9 +128,15 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   }
 
   private getValue = (props: MaskedInputProps): string => {
-    const { value, defaultValue } = props;
+    if (isNonNullable(props.value)) {
+      return props.value.toString();
+    }
 
-    return value !== undefined ? value.toString() : defaultValue !== undefined ? defaultValue.toString() : '';
+    if (isNonNullable(props.defaultValue)) {
+      return props.defaultValue.toString();
+    }
+
+    return '';
   };
 
   private refInput = (input: HTMLInputElement | null) => {
@@ -180,7 +191,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       });
     }
 
-    options.mask.split('').forEach((char, index) => {
+    options.mask.split('').forEach((char: string, index: number) => {
       if (options.permanents.includes(index)) {
         visibleMaskChars[index] = char;
       }

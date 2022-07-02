@@ -8,6 +8,7 @@ import { Hint } from '../../../components/Hint';
 import { Select } from '../../../components/Select';
 import { RenderLayer } from '../../RenderLayer';
 import { isTestEnv } from '../../../lib/currentEnvironment';
+import { ThemeContext } from '../../../lib/theming/ThemeContext';
 
 export default { title: 'Popup' };
 
@@ -24,7 +25,7 @@ PositioningStory.parameters = { creevey: { skip: [true] } };
 export const DisableAnimations = () => (
   <div>
     <PopupWithPositions disableAnimations={false} placeholder={'disableAnimations: false'} />
-    <PopupWithPositions disableAnimations={true} placeholder={'disableAnimations: true'} />
+    <PopupWithPositions disableAnimations placeholder={'disableAnimations: true'} />
   </div>
 );
 DisableAnimations.storyName = 'disableAnimations';
@@ -227,34 +228,40 @@ class AlwaysOpened extends Component<AlwaysOpenedProps, AlwaysOpenedState> {
       : defaultStyle;
 
     return (
-      <div>
-        <div ref={this._handleRef} style={style}>
-          x
-        </div>
-        {this.state.anchor && (
-          <Popup
-            opened
-            hasPin
-            hasShadow
-            anchorElement={this.state.anchor}
-            positions={this.props.positions}
-            backgroundColor={'#fff'}
-            pinSize={10}
-            pinOffset={7}
-            disableAnimations={isTestEnv}
-          >
-            <div
-              style={{
-                textAlign: 'center',
-                padding: '10px 20px',
-                fontSize: '20px',
-              }}
-            >
-              Text
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <div>
+              <div ref={this._handleRef} style={style}>
+                x
+              </div>
+              {this.state.anchor && (
+                <Popup
+                  opened
+                  hasPin
+                  hasShadow
+                  anchorElement={this.state.anchor}
+                  positions={this.props.positions}
+                  backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333333' : '#fff'}
+                  pinSize={10}
+                  pinOffset={7}
+                  disableAnimations={isTestEnv}
+                >
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      padding: '10px 20px',
+                      fontSize: '20px',
+                    }}
+                  >
+                    Text
+                  </div>
+                </Popup>
+              )}
             </div>
-          </Popup>
-        )}
-      </div>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 
@@ -279,40 +286,48 @@ class PopupWithPositions extends Component<any, any> {
 
   public render() {
     return (
-      <div>
-        <div
-          onClick={this._handleClick}
-          ref={this._handleRef}
-          style={{
-            width: '34px',
-            height: '34px',
-            borderRadius: '17px',
-            background: 'grey',
-          }}
-        />
-        {this.state.anchor && (
-          <RenderLayer
-            onClickOutside={this._clickHandler}
-            onFocusOutside={this._clickHandler}
-            active={this.state.opened}
-          >
-            <Popup
-              hasPin
-              hasShadow
-              anchorElement={this.state.anchor}
-              opened={this.state.opened}
-              margin={13}
-              positions={['bottom left', 'bottom right', 'top left', 'top right']}
-              backgroundColor={'#fff'}
-              pinSize={10}
-              pinOffset={7}
-              disableAnimations={this.props.disableAnimations}
-            >
-              <div style={{ padding: '10px 20px', fontSize: '30px' }}>{this.props.placeholder || 'Placeholder'}</div>
-            </Popup>
-          </RenderLayer>
-        )}
-      </div>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <div>
+              <div
+                onClick={this._handleClick}
+                ref={this._handleRef}
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '17px',
+                  background: 'grey',
+                }}
+              />
+              {this.state.anchor && (
+                <RenderLayer
+                  onClickOutside={this._clickHandler}
+                  onFocusOutside={this._clickHandler}
+                  active={this.state.opened}
+                >
+                  <Popup
+                    hasPin
+                    hasShadow
+                    anchorElement={this.state.anchor}
+                    opened={this.state.opened}
+                    margin={13}
+                    positions={['bottom left', 'bottom right', 'top left', 'top right']}
+                    backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333' : '#fff'}
+                    pinSize={10}
+                    pinOffset={7}
+                    disableAnimations={this.props.disableAnimations}
+                  >
+                    <div style={{ padding: '10px 20px', fontSize: '30px' }}>
+                      {this.props.placeholder || 'Placeholder'}
+                    </div>
+                  </Popup>
+                </RenderLayer>
+              )}
+            </div>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 
@@ -345,25 +360,34 @@ class FakeHint extends Component<any, any> {
 
   public render() {
     return (
-      <div>
-        <div ref={(e) => (this.anchor = e)} style={{ width: '100px', height: '100px', border: '1px solid black' }}>
-          Hello
-        </div>
-        {this.state.anchor && (
-          <Popup
-            hasPin
-            opened
-            anchorElement={this.state.anchor}
-            positions={this.props.positions}
-            margin={this.props.margin}
-            backgroundColor={'rgba(0, 0, 0, 0.65)'}
-            pinSize={10}
-            pinOffset={7}
-          >
-            <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
-          </Popup>
-        )}
-      </div>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          return (
+            <div>
+              <div
+                ref={(e) => (this.anchor = e)}
+                style={{ width: '100px', height: '100px', border: '1px solid black' }}
+              >
+                Hello
+              </div>
+              {this.state.anchor && (
+                <Popup
+                  hasPin
+                  opened
+                  anchorElement={this.state.anchor}
+                  positions={this.props.positions}
+                  margin={this.props.margin}
+                  backgroundColor={theme.prototype.constructor.name === 'DarkTheme' ? '#333' : 'rgba(0, 0, 0, 0.65)'}
+                  pinSize={10}
+                  pinOffset={7}
+                >
+                  <span style={{ color: '#fefefe' }}>WorldWorldWorldWorldWorld</span>
+                </Popup>
+              )}
+            </div>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 }

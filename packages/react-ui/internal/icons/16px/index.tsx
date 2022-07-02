@@ -1,4 +1,7 @@
 import React from 'react';
+import propTypes from 'prop-types';
+
+import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 
 import { styles } from './icon.styles';
 
@@ -10,39 +13,46 @@ export interface SvgIconProps extends React.HTMLAttributes<HTMLSpanElement> {
   ref?: any;
 }
 
-const SvgIcon = React.forwardRef<HTMLElement, SvgIconProps>(function SvgIcon(
-  { color, size, style, children, ...rest },
-  ref,
-) {
-  return (
-    <span ref={ref} className={styles.root()} style={{ ...style, fontSize: size, color }} {...rest}>
-      {React.cloneElement(children as JSX.Element, {
-        className: styles.icon(),
-        fill: 'currentColor',
-        focusable: 'false',
-      })}
-    </span>
-  );
-});
+const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
+  'SvgIcon',
+  ({ color, size, style, children, ...rest }, ref) => {
+    return (
+      <span ref={ref} className={styles.root()} style={{ ...style, fontSize: size, color }} {...rest}>
+        {React.cloneElement(children as JSX.Element, {
+          className: styles.icon(),
+          fill: 'currentColor',
+          focusable: 'false',
+        })}
+      </span>
+    );
+  },
+);
 
-export const ArrowChevronDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronDownIcon(
-  props,
-  ref,
-) {
-  return (
-    <SvgIcon ref={ref} {...props}>
-      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
-        <path
-          fillRule="evenodd"
-          clipRule="evenodd"
-          d="M8 9.00098L11.001 6C11.3747 6 11.6322 6.10937 11.7734 6.32812C11.9147 6.54688 11.9899 6.73828 11.999 6.90234V6.99805L8 10.9971L4.00098 6.99805V6.88867C4.03744 6.51953 4.20833 6.25977 4.51367 6.10938C4.65039 6.03646 4.81217 6 4.99902 6L8 9.00098Z"
-        />
-      </svg>
-    </SvgIcon>
-  );
-});
+SvgIcon.propTypes = {
+  color: propTypes.string,
+  size: propTypes.oneOf([propTypes.string, propTypes.number]),
+  style: propTypes.object,
+  children: propTypes.node,
+};
 
-export const ArrowChevronUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronUpIcon(props, ref) {
+export const ArrowChevronDownIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
+  'ArrowChevronDownIcon',
+  (props, ref) => {
+    return (
+      <SvgIcon ref={ref} {...props}>
+        <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+          <path
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M8 9.00098L11.001 6C11.3747 6 11.6322 6.10937 11.7734 6.32812C11.9147 6.54688 11.9899 6.73828 11.999 6.90234V6.99805L8 10.9971L4.00098 6.99805V6.88867C4.03744 6.51953 4.20833 6.25977 4.51367 6.10938C4.65039 6.03646 4.81217 6 4.99902 6L8 9.00098Z"
+          />
+        </svg>
+      </SvgIcon>
+    );
+  },
+);
+
+export const ArrowChevronUpIcon = forwardRefAndName<HTMLElement, SvgIconProps>('ArrowChevronUpIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
@@ -56,39 +66,36 @@ export const ArrowChevronUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(fu
   );
 });
 
-export const ArrowChevronRightIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowChevronRightIcon(
-  props,
-  ref,
-) {
-  return (
-    <SvgIcon ref={ref} {...props}>
-      <svg viewBox="0 0 16 16">
-        <path
-          fillRule="evenodd"
-          d="M8.99804688,9.00292969 L5.99707031,6.00195312 C5.99707031,5.62825334 6.10188697,5.37304756 6.31152344,5.23632812 C6.5211599,5.09960869 6.71712148,5.01985688 6.89941406,4.99707031 L7.00195312,4.99707031 L11.0009766,9.00292969 L7.00195312,13.0019531 L6.89941406,13.0019531 C6.53482891,12.9700519 6.27278726,12.7968766 6.11328125,12.4824219 C6.0358069,12.3593744 5.99707031,12.1975921 5.99707031,11.9970703 L8.99804688,9.00292969 Z"
-        />
-      </svg>
-    </SvgIcon>
-  );
-});
+export const ArrowChevronRightIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
+  'ArrowChevronRightIcon',
+  (props, ref) => {
+    return (
+      <SvgIcon ref={ref} {...props}>
+        <svg viewBox="0 0 16 16">
+          <path
+            fillRule="evenodd"
+            d="M8.99804688,9.00292969 L5.99707031,6.00195312 C5.99707031,5.62825334 6.10188697,5.37304756 6.31152344,5.23632812 C6.5211599,5.09960869 6.71712148,5.01985688 6.89941406,4.99707031 L7.00195312,4.99707031 L11.0009766,9.00292969 L7.00195312,13.0019531 L6.89941406,13.0019531 C6.53482891,12.9700519 6.27278726,12.7968766 6.11328125,12.4824219 C6.0358069,12.3593744 5.99707031,12.1975921 5.99707031,11.9970703 L8.99804688,9.00292969 Z"
+          />
+        </svg>
+      </SvgIcon>
+    );
+  },
+);
 
-export const ArrowTriangleDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowTriangleDownIcon(
-  props,
-  ref,
-) {
-  return (
-    <SvgIcon ref={ref} {...props}>
-      <svg viewBox="0 0 16 16">
-        <polygon fillRule="evenodd" points="8 11.5029297 3.59765625 6.99804688 12.4023438 6.99804688" />
-      </svg>
-    </SvgIcon>
-  );
-});
+export const ArrowTriangleDownIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
+  'ArrowTriangleDownIcon',
+  (props, ref) => {
+    return (
+      <SvgIcon ref={ref} {...props}>
+        <svg viewBox="0 0 16 16">
+          <polygon fillRule="evenodd" points="8 11.5029297 3.59765625 6.99804688 12.4023438 6.99804688" />
+        </svg>
+      </SvgIcon>
+    );
+  },
+);
 
-export const ArrowTriangleUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowTriangleUpIcon(
-  props,
-  ref,
-) {
+export const ArrowTriangleUpIcon = forwardRefAndName<HTMLElement, SvgIconProps>('ArrowTriangleUpIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -98,20 +105,20 @@ export const ArrowTriangleUpIcon = React.forwardRef<HTMLElement, SvgIconProps>(f
   );
 });
 
-export const ArrowTriangleUpDownIcon = React.forwardRef<HTMLElement, SvgIconProps>(function ArrowTriangleUpDownIcon(
-  props,
-  ref,
-) {
-  return (
-    <SvgIcon ref={ref} {...props}>
-      <svg viewBox="0 0 16 16">
-        <path fillRule="evenodd" d="M12,8 L4,8 L8,4 L12,8 L12,8 Z M12,10 L4,10 L8,14 L12,10 L12,10 Z" />
-      </svg>
-    </SvgIcon>
-  );
-});
+export const ArrowTriangleUpDownIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
+  'ArrowTriangleUpDownIcon',
+  (props, ref) => {
+    return (
+      <SvgIcon ref={ref} {...props}>
+        <svg viewBox="0 0 16 16">
+          <path fillRule="evenodd" d="M12,8 L4,8 L8,4 L12,8 L12,8 Z M12,10 L4,10 L8,14 L12,10 L12,10 Z" />
+        </svg>
+      </SvgIcon>
+    );
+  },
+);
 
-export const CalendarIcon = React.forwardRef<HTMLElement, SvgIconProps>(function CalendarIcon(props, ref) {
+export const CalendarIcon = forwardRefAndName<HTMLElement, SvgIconProps>('CalendarIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -124,7 +131,7 @@ export const CalendarIcon = React.forwardRef<HTMLElement, SvgIconProps>(function
   );
 });
 
-export const EditIcon = React.forwardRef<HTMLElement, SvgIconProps>(function EditIcon(props, ref) {
+export const EditIcon = forwardRefAndName<HTMLElement, SvgIconProps>('EditIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -137,7 +144,7 @@ export const EditIcon = React.forwardRef<HTMLElement, SvgIconProps>(function Edi
   );
 });
 
-export const EyeClosedIcon = React.forwardRef<HTMLElement, SvgIconProps>(function EyeClosedIcon(props, ref) {
+export const EyeClosedIcon = forwardRefAndName<HTMLElement, SvgIconProps>('EyeClosedIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -150,7 +157,7 @@ export const EyeClosedIcon = React.forwardRef<HTMLElement, SvgIconProps>(functio
   );
 });
 
-export const EyeOpenedIcon = React.forwardRef<HTMLElement, SvgIconProps>(function EyeOpenedIcon(props, ref) {
+export const EyeOpenedIcon = forwardRefAndName<HTMLElement, SvgIconProps>('EyeOpenedIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -163,7 +170,7 @@ export const EyeOpenedIcon = React.forwardRef<HTMLElement, SvgIconProps>(functio
   );
 });
 
-export const FunctionIcon = React.forwardRef<HTMLElement, SvgIconProps>(function FunctionIcon(props, ref) {
+export const FunctionIcon = forwardRefAndName<HTMLElement, SvgIconProps>('FunctionIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -176,7 +183,7 @@ export const FunctionIcon = React.forwardRef<HTMLElement, SvgIconProps>(function
   );
 });
 
-export const MenuKebabIcon = React.forwardRef<HTMLElement, SvgIconProps>(function MenuKebabIcon(props, ref) {
+export const MenuKebabIcon = forwardRefAndName<HTMLElement, SvgIconProps>('MenuKebabIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -189,7 +196,7 @@ export const MenuKebabIcon = React.forwardRef<HTMLElement, SvgIconProps>(functio
   );
 });
 
-export const OkIcon = React.forwardRef<HTMLElement, SvgIconProps>(function OkIcon(props, ref) {
+export const OkIcon = forwardRefAndName<HTMLElement, SvgIconProps>('OkIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -202,7 +209,7 @@ export const OkIcon = React.forwardRef<HTMLElement, SvgIconProps>(function OkIco
   );
 });
 
-export const SquareIcon = React.forwardRef<HTMLElement, SvgIconProps>(function SquareIcon(props, ref) {
+export const SquareIcon = forwardRefAndName<HTMLElement, SvgIconProps>('SquareIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -212,7 +219,7 @@ export const SquareIcon = React.forwardRef<HTMLElement, SvgIconProps>(function S
   );
 });
 
-export const UndoIcon = React.forwardRef<HTMLElement, SvgIconProps>(function UndoIcon(props, ref) {
+export const UndoIcon = forwardRefAndName<HTMLElement, SvgIconProps>('UndoIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
@@ -225,13 +232,55 @@ export const UndoIcon = React.forwardRef<HTMLElement, SvgIconProps>(function Und
   );
 });
 
-export const HelpDotIcon = React.forwardRef<HTMLElement, SvgIconProps>(function HelpDotIcon(props, ref) {
+export const HelpDotIcon = forwardRefAndName<HTMLElement, SvgIconProps>('HelpDotIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
         <path
           fillRule="evenodd"
           d="M8.10253906,11.7988281 L7.00195312,11.7988281 L7.00195312,13.0019531 L8.10253906,13.0019531 L8.10253906,11.7988281 Z M10.0986328,7.99804688 C10.0986328,7.41471063 9.86621326,6.9475929 9.40136719,6.59667969 C8.89550528,6.20019333 8.30989916,6.00195312 7.64453125,6.00195312 C6.97916334,6.00195312 6.40039309,6.20019333 5.90820312,6.59667969 C5.41601316,6.99316604 5.1129563,7.56054318 4.99902344,8.29882812 L6.09960938,8.40136719 C6.14973983,7.97297963 6.32291519,7.64941516 6.61914062,7.43066406 C6.91536606,7.21191297 7.28678162,7.10253906 7.73339844,7.10253906 C8.18001525,7.10253906 8.46940038,7.16861913 8.6015625,7.30078125 C8.80208434,7.50130309 8.90234375,7.76790198 8.90234375,8.10058594 C8.90234375,8.53353081 8.60156551,8.90038912 8,9.20117188 C7.74023308,9.4609388 7.47363418,9.69335835 7.20019531,9.8984375 L7.00195312,10.5 L7.00195312,10.9990234 L8.10253906,10.9990234 L8.10253906,10.6025391 C8.13444026,10.5706379 8.18456997,10.4863288 8.25292969,10.3496094 C8.3212894,10.2128899 8.37141911,10.1285809 8.40332031,10.0966797 C8.9046249,9.79589693 9.23730387,9.56347738 9.40136719,9.39941406 C9.47884153,9.36295555 9.54036436,9.31282584 9.5859375,9.24902344 C9.63151064,9.18977835 9.66568999,9.14648451 9.68847656,9.11914062 C9.79329479,9.00520776 9.88671834,8.82519654 9.96875,8.57910156 C10.055339,8.3375639 10.0986328,8.14388094 10.0986328,7.99804688 L10.0986328,7.99804688 Z M7.59667969,14.9980469 C6.86295206,14.9980469 6.15657892,14.852215 5.47753906,14.5605469 C4.11034473,13.968096 3.13281544,12.9882881 2.54492188,11.6210938 C2.24869644,10.9420539 2.10058594,10.2356808 2.10058594,9.50195312 C2.10058594,8.77278281 2.24869644,8.06640967 2.54492188,7.3828125 C3.14193007,6.00650354 4.11945936,5.02669562 5.47753906,4.44335938 C6.15657892,4.14713394 6.86295206,3.99902344 7.59667969,3.99902344 C8.33040731,3.99902344 9.03905908,4.14713394 9.72265625,4.44335938 C11.0989652,5.04036757 12.0764945,6.01789686 12.6552734,7.37597656 C12.9514989,8.05501642 13.0996094,8.76366818 13.0996094,9.50195312 C13.0996094,10.2402381 12.9514989,10.9466112 12.6552734,11.6210938 C12.0582652,12.9882881 11.080736,13.968096 9.72265625,14.5605469 C9.03905908,14.852215 8.33040731,14.9980469 7.59667969,14.9980469 L7.59667969,14.9980469 Z"
+        />
+      </svg>
+    </SvgIcon>
+  );
+});
+
+export const ErrorIcon = forwardRefAndName<HTMLElement, SvgIconProps>('ErrorIcon', (props, ref) => {
+  return (
+    <SvgIcon ref={ref} {...props}>
+      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+        <path
+          fillRule="evenodd"
+          d="M14 8C14 11.3137 11.3137 14 8 14C4.68629 14 2 11.3137 2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8ZM4.5 6.5C4.22386 6.5 4 6.72386 4 7V9C4 9.27614 4.22386 9.5 4.5 9.5H11.5C11.7761 9.5 12 9.27614 12 9V7C12 6.72386 11.7761 6.5 11.5 6.5H4.5Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </SvgIcon>
+  );
+});
+
+export const DeleteIcon = forwardRefAndName<HTMLElement, SvgIconProps>('DeleteIcon', (props, ref) => {
+  return (
+    <SvgIcon ref={ref} {...props}>
+      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+        <path
+          fillRule="evenodd"
+          d="M11.298 12.6992L7.99628 9.41797L4.70135 12.6992L3.29999 11.2979L6.58124 8.00293L3.29999 4.70117L4.70135 3.2998L7.99628 6.58105L11.298 3.2998L12.6994 4.70117L9.41815 8.00293L12.6994 11.2979L11.298 12.6992Z"
+          clipRule="evenodd"
+        />
+      </svg>
+    </SvgIcon>
+  );
+});
+
+export const UploadIcon = forwardRefAndName<HTMLElement, SvgIconProps>('UploadIcon', (props, ref) => {
+  return (
+    <SvgIcon ref={ref} {...props}>
+      <svg viewBox="0 0 16 16" style={{ marginBottom: '-0.1875em' }}>
+        <path
+          fillRule="evenodd"
+          d="M13.0232 10.9968V12.9997H2.02417V10.9968H13.0232ZM6.02318 5.99969H3.22729L7.52708 1.50165L11.8269 5.99969H9.02414V9.99872H6.02318V5.99969Z"
+          clipRule="evenodd"
         />
       </svg>
     </SvgIcon>

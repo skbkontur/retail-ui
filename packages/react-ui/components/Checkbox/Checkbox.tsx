@@ -6,7 +6,7 @@ import { keyListener } from '../../lib/events/keyListener';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { OkIcon, SquareIcon } from '../../internal/icons/16px';
-import { isEdge, isFirefox, isIE11 } from '../../lib/client';
+import { isEdge, isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
@@ -24,11 +24,11 @@ export interface CheckboxProps
          */
         children?: React.ReactNode;
         /**
-         * Cостояние валидации при ошибке.
+         * Состояние валидации при ошибке.
          */
         error?: boolean;
         /**
-         * Cостояние валидации при предупреждении.
+         * Состояние валидации при предупреждении.
          */
         warning?: boolean;
         /**
@@ -61,7 +61,13 @@ export interface CheckboxProps
 export interface CheckboxState {
   focusedByTab: boolean;
   indeterminate: boolean;
+  isShiftPressed: boolean;
 }
+
+export const CheckboxDataTids = {
+  root: 'Checkbox__root',
+} as const;
+
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
@@ -81,16 +87,42 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   public state = {
     focusedByTab: false,
     indeterminate: this.props.initialIndeterminate || false,
+    isShiftPressed: false,
   };
 
   private theme!: Theme;
   private input = React.createRef<HTMLInputElement>();
 
+  private handleShiftPress = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') {
+      this.setState(() => ({
+        isShiftPressed: true,
+      }));
+    }
+  };
+
+  private handleShiftRelease = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') {
+      this.setState({
+        isShiftPressed: false,
+      });
+    }
+  };
+
   public componentDidMount = () => {
     if (this.state.indeterminate && this.input.current) {
       this.input.current.indeterminate = true;
     }
+
+    document.addEventListener('keydown', this.handleShiftPress);
+    document.addEventListener('keyup', this.handleShiftRelease);
   };
+
+  public componentWillUnmount = () => {
+    document.removeEventListener('keydown', this.handleShiftPress);
+    document.removeEventListener('keyup', this.handleShiftRelease);
+  };
+
   private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(prevProps: CheckboxProps) {
@@ -175,6 +207,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
       [styles.disabled(this.theme)]: Boolean(props.disabled),
     });
 
@@ -200,26 +233,29 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const iconClass = cx({
+      [styles.icon(this.theme)]: true,
       [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
-      [styles.iconFixBaseline()]: isFirefox || isIE11 || isEdge,
     });
 
     const box = (
-      <span
-        className={cx(styles.box(this.theme), globalClasses.box, {
-          [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
-          [styles.boxDisabled(this.theme)]: props.disabled,
-          [styles.boxFocus(this.theme)]: this.state.focusedByTab,
-          [styles.boxError(this.theme)]: props.error,
-          [styles.boxWarning(this.theme)]: props.warning,
-        })}
-      >
-        {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
-      </span>
+      <div className={cx(styles.boxWrapper(this.theme))}>
+        <div
+          className={cx(styles.box(this.theme), globalClasses.box, {
+            [styles.boxChecked(this.theme)]: props.checked || isIndeterminate,
+            [styles.boxFocus(this.theme)]: this.state.focusedByTab,
+            [styles.boxError(this.theme)]: props.error,
+            [styles.boxWarning(this.theme)]: props.warning,
+            [styles.boxDisabled(this.theme)]: props.disabled,
+          })}
+        >
+          {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
+        </div>
+      </div>
     );
 
     return (
       <label
+        data-tid={CheckboxDataTids.root}
         className={rootClass}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}

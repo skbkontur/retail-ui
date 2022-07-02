@@ -3,7 +3,7 @@ import { API, FileInfo, JSXAttribute, JSXSpreadAttribute } from 'jscodeshift';
 
 interface CustomJSXElement {
   name: string;
-  attributes: Array<CustomAttributes>;
+  attributes: CustomAttributes[];
 }
 
 interface CustomAttributes {

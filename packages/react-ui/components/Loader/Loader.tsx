@@ -14,6 +14,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinimalDuration';
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Loader.styles';
 
@@ -49,6 +50,11 @@ export interface LoaderState {
   isLoaderActive: boolean;
   spinnerStyle?: object;
 }
+
+export const LoaderDataTids = {
+  veil: 'Loader__Veil',
+  spinner: 'Loader__Spinner',
+} as const;
 
 /**
  * DRAFT - лоадер-контейнер
@@ -216,7 +222,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.loader()} data-tid={isLoaderActive ? 'Loader__Veil' : ''}>
+        <div className={styles.loader()} data-tid={isLoaderActive ? LoaderDataTids.veil : ''}>
           <ZIndex
             priority={'Loader'}
             applyZIndex={isLoaderActive}
@@ -253,7 +259,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   private renderSpinner(type?: 'mini' | 'normal' | 'big', caption?: React.ReactNode, component?: React.ReactNode) {
     return (
       <span
-        data-tid={'Loader__Spinner'}
+        data-tid={LoaderDataTids.spinner}
         className={cx(styles.spinnerContainer(), { [styles.spinnerContainerSticky()]: this.state.isStickySpinner })}
         style={this.state.spinnerStyle}
       >
@@ -281,7 +287,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
       left: containerLeft,
       height: containerHeight,
       width: containerWidth,
-    } = this.spinnerContainerNode.getBoundingClientRect();
+    } = getDOMRect(this.spinnerContainerNode);
 
     const windowHeight = window.innerHeight;
     const windowWidth = window.innerWidth;
@@ -323,12 +329,11 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
     // Если знаем высоту спиннера и нижний край контейнера поднимается
     // выше отступа на высоту спиннера, то убираем верхнюю позицию лоадера
-    if (this.spinnerNode) {
-      const spinnerHeight = this.spinnerNode.getBoundingClientRect().height;
 
-      if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
-        delete spinnerStyle.top;
-      }
+    const spinnerHeight = getDOMRect(this.spinnerNode).height;
+
+    if (spinnerHeight && spinnerStyle.bottom >= windowHeight - spinnerHeight) {
+      delete spinnerStyle.top;
     }
 
     // ПО ГОРИЗОНТАЛИ

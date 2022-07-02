@@ -3,11 +3,13 @@ import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
 
+import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
 import { ZIndex } from '../../ZIndex';
 import { CommonWrapper } from '../../CommonWrapper';
+import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { RenderInnerContainer, Portal } from '../../RenderContainer/RenderInnerContainer';
 import { Nullable } from '../../../typings/utility-types';
 
@@ -27,7 +29,10 @@ const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) 
     });
   });
 
-const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, PopupState, Popup> => {
+const renderWrapper = (
+  props?: Partial<PopupProps>,
+  ref?: React.Ref<Popup>,
+): ReactWrapper<PopupProps, PopupState, Popup> => {
   const anchor = document.createElement('button');
 
   anchor.id = 'test-id';
@@ -38,8 +43,9 @@ const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, Po
       positions={['bottom left', 'bottom right', 'top left', 'top right']}
       opened={false}
       anchorElement={anchor}
-      disableAnimations={true}
+      disableAnimations
       {...props}
+      ref={ref}
     >
       Test content
     </Popup>,
@@ -113,11 +119,50 @@ describe('Popup', () => {
 
     await checkLocation();
   });
+
+  describe('rootNode', () => {
+    const popupRef = React.createRef<Popup & InstanceWithRootNode>();
+
+    const wrapper = renderWrapper({ opened: false }, popupRef);
+
+    it('getRootNode is defined', () => {
+      expect(popupRef.current?.getRootNode).toBeDefined();
+    });
+
+    it('is null by default when closed', () => {
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+
+    it('is content container when opened', async () => {
+      await openPopup(wrapper);
+      const contentContainer = wrapper.find('[data-tid~="Popup__root"]').last().getDOMNode();
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeInstanceOf(HTMLElement);
+      expect(rootNode).toBe(contentContainer);
+    });
+
+    it('is null when closed', async () => {
+      await closePopup(wrapper);
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+  });
 });
 
 describe('properly renders opened/closed states ', () => {
-  const closedPopupTree: ReactComponentLike[] = [RenderContainer, RenderInnerContainer];
+  const closedPopupTree: ReactComponentLike[] = [
+    ResponsiveLayout,
+    CommonWrapper,
+    RenderContainer,
+    RenderInnerContainer,
+  ];
   const openedPopupTree: ReactComponentLike[] = [
+    ResponsiveLayout,
+    CommonWrapper,
     RenderContainer,
     RenderInnerContainer,
     Portal,

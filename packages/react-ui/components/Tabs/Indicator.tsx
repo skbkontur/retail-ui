@@ -7,10 +7,12 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Indicator.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { TabIndicators } from './Tab';
+import { TabsDataTids } from './Tabs';
 
 export interface IndicatorProps {
   className?: string;
@@ -86,6 +88,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     };
     return (
       <div
+        data-tid={TabsDataTids.indicatorRoot}
         className={cx(
           styles.root(this.theme),
           indicators.primary && styles.primary(this.theme),
@@ -116,7 +119,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     const htmlNode = getRootNode(node);
 
     if (htmlNode && htmlNode instanceof HTMLElement) {
-      const rect = htmlNode.getBoundingClientRect();
+      const rect = getDOMRect(htmlNode);
       if (this.props.vertical) {
         return {
           width: this.theme.tabBorderWidth,

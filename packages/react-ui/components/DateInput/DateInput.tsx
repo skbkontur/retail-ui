@@ -30,11 +30,11 @@ export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
   value: string;
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   disabled?: boolean;
@@ -432,7 +432,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
       this.iDateMediator.clear(InternalDateComponentType.All);
       this.setState({ selected });
     }
-    const inputMode = this.iDateMediator.inputKey(event.key, selected, this.state.inputMode);
+    const { inputMode, changed } = this.iDateMediator.inputKey(event.key, selected, this.state.inputMode);
+    if (!changed) {
+      this.blink();
+      return;
+    }
 
     if (!inputMode) {
       this.ignoringDelimiter = true;

@@ -1,3 +1,5 @@
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
@@ -21,7 +23,9 @@ export const RadioWithDifferentStates = () => (
   </div>
 );
 RadioWithDifferentStates.storyName = 'Radio with different states';
-RadioWithDifferentStates.parameters = { creevey: { skip: [{ in: ['chromeFlat', 'chromeFlat8px'] }] } };
+RadioWithDifferentStates.parameters = {
+  creevey: { skip: [{ in: ['chromeFlat8px'] }] },
+};
 
 export const Playground = () => {
   class Comp extends React.Component<{}, any> {

@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -13,7 +14,13 @@ import { styles } from './Tabs.styles';
 import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
-export interface TabsProps<T extends string = string> extends CommonProps {
+type ValueBaseType = string;
+type TabType<T extends ValueBaseType> = {
+  getNode: () => Tab<T> | null;
+  id: T;
+};
+
+export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
   /**
    * Tab component should be child of Tabs component
    */
@@ -46,6 +53,11 @@ export interface TabsProps<T extends string = string> extends CommonProps {
   width?: number | string;
 }
 
+export const TabsDataTids = {
+  root: 'Tabs__root',
+  indicatorRoot: 'Indicator__root',
+} as const;
+
 /**
  * Tabs wrapper
  *
@@ -70,10 +82,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
 
   private theme!: Theme;
 
-  private tabs: Array<{
-    getNode: () => Tab<T> | null;
-    id: T;
-  }> = [];
+  private tabs: Array<TabType<T>> = [];
 
   private tabUpdates = {
     on: (cb: () => void) => {
@@ -84,7 +93,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     },
   };
 
-  private listeners: Array<() => void> = [];
+  private listeners: Array<typeof emptyHandler> = [];
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
@@ -96,7 +105,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
+              <div
+                data-tid={TabsDataTids.root}
+                className={cx(styles.root(this.theme), vertical && styles.vertical())}
+                style={{ width }}
+              >
                 <TabsContext.Provider
                   value={{
                     vertical,

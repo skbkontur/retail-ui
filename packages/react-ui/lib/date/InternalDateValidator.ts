@@ -7,18 +7,52 @@ import {
   InternalDateComponentType,
 } from './types';
 
+const calculateStartDate = (startDate: number | null) => {
+  if (startDate) {
+    return startDate;
+  }
+
+  return -Infinity;
+};
+
+const calculateEndDate = (endDate: number | null) => {
+  if (endDate) {
+    return endDate;
+  }
+
+  return Infinity;
+};
+
+const getValue = (type: InternalDateComponentType, { year, month, date }: InternalDateComponentsNumber) => {
+  if (type === InternalDateComponentType.Year) {
+    return year;
+  }
+
+  if (type === InternalDateComponentType.Month) {
+    return month;
+  }
+
+  return date;
+};
+
 export class InternalDateValidator {
   public static checkForNull({ year, month, date }: InternalDateComponentsRaw, type?: InternalDateComponentType) {
     if (type !== undefined) {
       if (type === InternalDateComponentType.Year) {
         return year !== null;
-      } else if (type === InternalDateComponentType.Month) {
+      }
+
+      if (type === InternalDateComponentType.Month) {
         return month !== null;
-      } else if (type === InternalDateComponentType.All) {
+      }
+
+      if (type === InternalDateComponentType.All) {
         return year !== null && month !== null && date !== null;
       }
+
       return date !== null;
     }
+
     return !(year === null || month === null || date === null);
   }
 
@@ -27,11 +61,11 @@ export class InternalDateValidator {
     type?: InternalDateComponentType,
   ): boolean {
     if (type !== undefined) {
-      const value =
-        type === InternalDateComponentType.Year ? year : type === InternalDateComponentType.Month ? month : date;
+      const value = getValue(type, { date, month, year });
 
       return value >= InternalDateGetter.getDefaultMin(type) && value <= InternalDateGetter.getDefaultMax(type);
     }
+
     return (
       year >= InternalDateGetter.getDefaultMin(InternalDateComponentType.Year) &&
       year <= InternalDateGetter.getDefaultMax(InternalDateComponentType.Year) &&
@@ -53,9 +87,10 @@ export class InternalDateValidator {
     if (startDate === null && endDate === null) {
       return true;
     }
-    startDate = startDate || -Infinity;
-    endDate = endDate || Infinity;
-    return date >= startDate && date <= endDate;
+
+    const calculatedEndDate = calculateEndDate(endDate);
+    const calculatedStartDate = calculateStartDate(startDate);
+    return date >= calculatedStartDate && date <= calculatedEndDate;
   }
 
   public static checkRangePiecemeal(

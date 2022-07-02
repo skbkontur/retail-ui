@@ -12,7 +12,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
 
-export interface TooltipMenuProps extends CommonProps {
+export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   children?: TooltipMenuChildType | TooltipMenuChildType[];
   /** Максимальная высота меню */
   menuMaxHeight?: number | string;
@@ -49,6 +49,10 @@ export interface TooltipMenuProps extends CommonProps {
    */
   disableAnimations: boolean;
 }
+
+export const TooltipMenuDataTids = {
+  root: 'TooltipMenu__root',
+} as const;
 
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент.
@@ -108,13 +112,16 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
+          data-tid={TooltipMenuDataTids.root}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
           caption={this.props.caption}
           header={this.props.header}
           footer={this.props.footer}
           positions={this.props.positions}
-          popupHasPin={true}
+          onOpen={this.props.onOpen}
+          onClose={this.props.onClose}
+          popupHasPin
           disableAnimations={this.props.disableAnimations}
         >
           {this.props.children}

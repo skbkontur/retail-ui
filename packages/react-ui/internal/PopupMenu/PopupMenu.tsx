@@ -12,6 +12,7 @@ import { Popup, PopupPositionsType } from '../Popup';
 import { RenderLayer } from '../RenderLayer';
 import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 import { isValidPositions } from './validatePositions';
@@ -54,6 +55,10 @@ export interface PopupMenuProps extends CommonProps {
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
   disableAnimations: boolean;
+  /** Действие при открытии меню */
+  onOpen?: () => void;
+  /** Действие при закрытии меню */
+  onClose?: () => void;
 }
 
 interface PopupMenuState {
@@ -65,6 +70,11 @@ export const PopupMenuType = {
   Dropdown: 'dropdown',
   Tooltip: 'tooltip',
 };
+
+export const PopupMenuDataTids = {
+  root: 'PopupMenu__root',
+  caption: 'PopupMenu__caption',
+} as const;
 
 const Positions: PopupPositionsType[] = [
   'top left',
@@ -82,8 +92,11 @@ const Positions: PopupPositionsType[] = [
 ];
 
 @rootNode
+@responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   public static __KONTUR_REACT_UI__ = 'PopupMenu';
+
+  private isMobileLayout!: boolean;
 
   public static defaultProps = {
     positions: Positions,
@@ -112,7 +125,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div className={styles.container()} style={{ width: this.props.width }}>
+          <div data-tid={PopupMenuDataTids.root} className={styles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -125,11 +138,12 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 positions={this.getPositions()}
                 disableAnimations={this.props.disableAnimations}
                 onOpen={this.handleOpen}
-                width={this.props.menuWidth || 'auto'}
+                mobileOnCloseRequest={this.hideMenu}
+                width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
               >
                 <InternalMenu
                   hasShadow={false}
-                  maxHeight={this.props.menuMaxHeight || 'none'}
+                  maxHeight={this.isMobileLayout ? 'none' : this.props.menuMaxHeight || 'none'}
                   onKeyDown={this.handleKeyDown}
                   onItemClick={this.handleItemSelection}
                   cyclicSelection={false}
@@ -170,7 +184,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
       return (
         <span
-          data-tid="PopupMenu__caption"
+          data-tid={PopupMenuDataTids.caption}
           className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
@@ -181,7 +195,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
     return (
       <span
-        data-tid="PopupMenu__caption"
+        data-tid={PopupMenuDataTids.caption}
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
         ref={(element) => (this.captionWrapper = element)}
@@ -266,6 +280,15 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     if (focusShouldBeRestored) {
       this.restoreFocus();
     }
+
+    if (this.state.menuVisible && this.props.onOpen) {
+      this.props.onOpen();
+    }
+
+    if (!this.state.menuVisible && this.props.onClose) {
+      this.props.onClose();
+    }
+
     if (typeof this.props.onChangeMenuState === 'function') {
       this.props.onChangeMenuState(this.state.menuVisible, focusShouldBeRestored);
     }

@@ -1,13 +1,14 @@
 import React, { CSSProperties } from 'react';
 
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
-import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
-import { isMenuHeader } from '../../components/MenuHeader';
+import { MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
 
 import { styles } from './Menu.styles';
@@ -20,12 +21,20 @@ export interface MenuProps {
   onItemClick?: () => void;
   width?: number | string;
   preventWindowScroll?: boolean;
+  /**
+   * Отключение кастомного скролла контейнера
+   */
+  disableScrollContainer?: boolean;
   align?: 'left' | 'right';
 }
 
 export interface MenuState {
   highlightedIndex: number;
 }
+
+export const MenuDataTids = {
+  root: 'Menu__root',
+} as const;
 
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
@@ -104,16 +113,13 @@ export class Menu extends React.Component<MenuProps, MenuState> {
   }
 
   private renderMain() {
-    const enableIconPadding = React.Children.toArray(this.props.children).some(
-      (x) => React.isValidElement(x) && x.props.icon,
-    );
-
     if (this.isEmpty()) {
       return null;
     }
 
     return (
       <div
+        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: this.props.hasShadow,
@@ -125,44 +131,50 @@ export class Menu extends React.Component<MenuProps, MenuState> {
           ref={this.refScrollContainer}
           maxHeight={this.props.maxHeight}
           preventWindowScroll={this.props.preventWindowScroll}
+          disabled={this.props.disableScrollContainer}
         >
-          <div className={styles.scrollContainer(this.theme)}>
-            {React.Children.map(this.props.children, (child, index) => {
-              if (!child) {
-                return child;
-              }
-              if (typeof child === 'string' || typeof child === 'number') {
-                return child;
-              }
-
-              if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-                child = React.cloneElement(child, {
-                  _enableIconPadding: true,
-                });
-              }
-              if (isActiveElement(child)) {
-                const highlight = this.state.highlightedIndex === index;
-
-                let ref = child.ref;
-                if (highlight && typeof child.ref !== 'string') {
-                  ref = this.refHighlighted.bind(this, child.ref);
-                }
-
-                return React.cloneElement<MenuItemProps, MenuItem>(child, {
-                  ref,
-                  state: highlight ? 'hover' : child.props.state,
-                  onClick: this.select.bind(this, index, false),
-                  onMouseEnter: this.highlight.bind(this, index),
-                  onMouseLeave: this.unhighlight,
-                });
-              }
-              return child;
-            })}
-          </div>
+          <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>
         </ScrollContainer>
       </div>
     );
   }
+
+  private getChildList = () => {
+    const enableIconPadding = React.Children.toArray(this.props.children).some(
+      (x) => React.isValidElement(x) && x.props.icon,
+    );
+
+    return React.Children.map(this.props.children, (child, index) => {
+      if (!child) {
+        return child;
+      }
+
+      if (typeof child === 'string' || typeof child === 'number') {
+        return child;
+      }
+
+      const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
+
+      if (isActiveElement(modifiedChild)) {
+        const highlight = this.state.highlightedIndex === index;
+
+        let ref = modifiedChild.ref;
+        if (highlight && typeof modifiedChild.ref !== 'string') {
+          ref = this.refHighlighted.bind(this, modifiedChild.ref);
+        }
+
+        return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
+          ref,
+          state: highlight ? 'hover' : modifiedChild.props.state,
+          onClick: this.select.bind(this, index, false),
+          onMouseEnter: this.highlight.bind(this, index),
+          onMouseLeave: this.unhighlight,
+        });
+      }
+
+      return modifiedChild;
+    });
+  };
 
   private refScrollContainer = (scrollContainer: Nullable<ScrollContainer>) => {
     this.scrollContainer = scrollContainer;
@@ -267,12 +279,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

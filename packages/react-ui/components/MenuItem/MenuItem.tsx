@@ -72,7 +72,14 @@ export interface MenuItemProps extends CommonProps {
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
    */
   component?: React.ComponentType<any>;
+
+  isMobile?: boolean;
 }
+
+export const MenuItemDataTids = {
+  root: 'MenuItem__root',
+  comment: 'MenuItem__comment',
+} as const;
 
 /**
  *
@@ -123,8 +130,19 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const { link, comment, icon, loose, state, _enableIconPadding, component, onMouseEnter, onMouseLeave, ...rest } =
-      props;
+    const {
+      link,
+      comment,
+      icon,
+      loose,
+      state,
+      _enableIconPadding,
+      component,
+      onMouseEnter,
+      onMouseLeave,
+      isMobile,
+      ...rest
+    } = props;
 
     const hover = state === 'hover' && !this.props.disabled;
 
@@ -135,6 +153,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     const className = cx({
       [styles.root(this.theme)]: true,
+      [styles.rootMobile(this.theme)]: isMobile,
       [styles.loose()]: !!loose,
       [styles.hover(this.theme)]: hover,
       [styles.selected(this.theme)]: state === 'selected',
@@ -154,6 +173,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
+        data-tid={MenuItemDataTids.root}
         {...rest}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
@@ -165,7 +185,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {content}
         {this.props.comment && (
           <div
-            data-tid="MenuItem__comment"
+            data-tid={MenuItemDataTids.comment}
             className={cx({
               [styles.comment(this.theme)]: true,
               [styles.commentHover(this.theme)]: hover,

@@ -7,6 +7,11 @@ import { InternalDateOrder } from '../../../lib/date/types';
 import { DateInput, DateInputProps } from '../DateInput';
 import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
+type InitialDate = string;
+type PressedKeys = string[];
+type ChangedDate = string | boolean;
+type KeyDownCase = [InitialDate, PressedKeys, ChangedDate];
+
 interface LocaleDateInputProps {
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>;
   propsLocale: LocaleContextProps;
@@ -59,19 +64,21 @@ describe('DateInput as InputlikeText', () => {
       expect(getValue(getInput(root))).toBe(`99.09.${MASK_CHAR_EXEMPLAR.repeat(4)}`);
     });
 
-    const KeyDownCases: Array<[string, string[], string]> = [
+    const KeyDownCases: KeyDownCase[] = [
       // [initial date, [...keys], expected date]
 
       // Date
       ['10.02.2017', ['ArrowUp'], '11.02.2017'],
       ['31.02.2017', ['ArrowUp'], '01.02.2017'],
       ['10.02.2017', ['ArrowDown'], '09.02.2017'],
-      ['01.02.2017', ['ArrowDown'], '31.02.2017'],
+      ['01.02.2017', ['ArrowDown'], '28.02.2017'],
       ['01.02.2017', ['1', '1'], '11.02.2017'],
       ['01.02.2017', ['1', '2'], '12.02.2017'],
       ['01.02.2017', ['4'], '04.02.2017'],
       ['01.02.2017', ['0'], '00.02.2017'],
       ['01.02.2017', ['0', '2'], '02.02.2017'],
+      ['01.02.2017', ['3', '3'], '03.03.2017'],
+      ['30.04.2017', ['ArrowUp'], '01.04.2017'],
 
       // Month
       ['10.02.2017', ['ArrowRight', 'ArrowUp'], '10.03.2017'],
@@ -162,7 +169,7 @@ describe('DateInput as InputlikeText', () => {
 
     const maxDate = '12.09.2019';
 
-    const KeyDownCases: Array<[string, string[], string | boolean]> = [
+    const KeyDownCases: KeyDownCase[] = [
       // Date
       ['31.03.2017', ['ArrowUp'], '01.03.2017'],
       ['12.09.2019', ['ArrowUp'], false],

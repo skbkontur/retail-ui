@@ -7,6 +7,7 @@ import { Nullable } from '../../typings/utility-types';
 import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -43,7 +44,16 @@ export interface ScrollContainerProps extends CommonProps {
   onScrollStateChangeY?: (scrollState: ScrollContainerScrollStateY) => void;
   onScrollStateChange?: (scrollYState: ScrollContainerScrollState) => void; // deprecated
   onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  /**
+   * Отключение кастомного скролла
+   */
+  disabled?: boolean;
 }
+
+export const ScrollContainerDataTids = {
+  root: 'ScrollContainer__root',
+  inner: 'ScrollContainer__inner',
+} as const;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
@@ -88,6 +98,10 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public render = () => {
     const props = this.props;
 
+    if (this.props.disabled) {
+      return this.props.children;
+    }
+
     const innerStyle: React.CSSProperties = {
       scrollBehavior: props.scrollBehaviour,
       maxHeight: props.maxHeight,
@@ -99,14 +113,19 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.root()} onMouseMove={this.handleMouseMove} onMouseLeave={this.handleMouseLeave}>
+        <div
+          data-tid={ScrollContainerDataTids.root}
+          className={styles.root()}
+          onMouseMove={this.handleMouseMove}
+          onMouseLeave={this.handleMouseLeave}
+        >
           {scrollbarY}
           {scrollbarX}
           <div
             style={innerStyle}
             ref={this.refInner}
             className={cx(styles.inner(), globalClasses.inner, isIE11 && styles.innerIE11())}
-            data-tid="ScrollContainer__inner"
+            data-tid={ScrollContainerDataTids.inner}
             onScroll={this.handleNativeScroll}
           >
             {props.children}
@@ -263,8 +282,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private handleMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
-    const right = event.currentTarget.getBoundingClientRect().right - event.pageX;
-    const bottom = event.currentTarget.getBoundingClientRect().bottom - event.pageY;
+    const right = getDOMRect(event.currentTarget).right - event.pageX;
+    const bottom = getDOMRect(event.currentTarget).bottom - event.pageY;
 
     this.scrollY?.setHover(right <= 12);
     this.scrollX?.setHover(right >= 12 && bottom <= 12);

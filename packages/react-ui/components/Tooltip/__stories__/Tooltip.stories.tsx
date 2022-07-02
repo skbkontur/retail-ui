@@ -1,4 +1,6 @@
-import React from 'react';
+// TODO: Rewrite stories and enable rule (in process of functional refactoring).
+/* eslint-disable react/no-unstable-nested-components */
+import React, { CSSProperties } from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
 import { Story } from '../../../typings/stories';
@@ -79,12 +81,16 @@ FocusTooltip.storyName = 'focus tooltip';
 
 FocusTooltip.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
+    ],
     tests: {
-      async ['01 - plain']() {
-        await delay(100);
+      async '01 - plain'() {
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
       },
-      async ['02 - focus']() {
+      async '02 - focus'() {
         await this.browser
           .actions({
             bridge: true,
@@ -92,9 +98,11 @@ FocusTooltip.parameters = {
           .sendKeys(this.keys.TAB)
           .pause(500)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - focus');
       },
-      async ['03 - blur']() {
+      async '03 - blur'() {
         await this.browser
           .actions({
             bridge: true,
@@ -109,6 +117,8 @@ FocusTooltip.parameters = {
           })
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('03 - blur');
       },
     },
@@ -124,20 +134,27 @@ FocusTooltipNativeInput.storyName = 'focus tooltip (native input)';
 
 FocusTooltipNativeInput.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['02 - focus'] },
+    ],
     tests: {
-      async ['01 - plain']() {
+      async '01 - plain'() {
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
       },
-      async ['02 - focus']() {
+      async '02 - focus'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: 'input' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - focus');
       },
-      async ['03 - blur']() {
+      async '03 - blur'() {
         await this.browser
           .actions({
             bridge: true,
@@ -150,6 +167,8 @@ FocusTooltipNativeInput.parameters = {
           })
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('03 - blur');
       },
     },
@@ -272,7 +291,7 @@ TooltipsWithoutWrapperAroundInlineBlockWith50Width.storyName =
 
 TooltipsWithoutWrapperAroundInlineBlockWith50Width.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px'] }],
+    skip: [{ in: ['ie11', 'ie118px', 'ie11Dark'] }],
     tests: {
       async hover() {
         await this.browser
@@ -305,19 +324,22 @@ TooltipWithExternalDynamicContent.storyName = 'Tooltip with external dynamic con
 TooltipWithExternalDynamicContent.parameters = {
   creevey: {
     tests: {
-      async ['01 - plain']() {
+      async '01 - plain'() {
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('01 - plain');
       },
-      async ['02 - changes top position if does not fit']() {
+      async '02 - changes top position if does not fit'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '#Container-0 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('02 - changes top position if does not fit');
       },
-      async ['03 - does not change position back on shrink']() {
+      async '03 - does not change position back on shrink'() {
         await this.browser
           .actions({
             bridge: true,
@@ -326,18 +348,22 @@ TooltipWithExternalDynamicContent.parameters = {
           .pause(100)
           .click(this.browser.findElement({ css: '#Container-0 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('03 - does not change position back on shrink');
       },
-      async ['04 - does not change top position if fits']() {
+      async '04 - does not change top position if fits'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '#Container-1 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('04 - does not change top position if fits');
       },
-      async ['05 - does not change position on shrink']() {
+      async '05 - does not change position on shrink'() {
         await this.browser
           .actions({
             bridge: true,
@@ -350,18 +376,22 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-1 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('05 - does not change position on shrink');
       },
-      async ['06 - changes left position if does not fit']() {
+      async '06 - changes left position if does not fit'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '#Container-2 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('06 - changes left position if does not fit');
       },
-      async ['07 - does not change position back on shrink']() {
+      async '07 - does not change position back on shrink'() {
         await this.browser
           .actions({
             bridge: true,
@@ -374,18 +404,22 @@ TooltipWithExternalDynamicContent.parameters = {
           })
           .click(this.browser.findElement({ css: '#Container-2 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('07 - does not change position back on shrink');
       },
-      async ['08 - does not change bottom position if fits']() {
+      async '08 - does not change bottom position if fits'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '#Container-3 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('08 - does not change bottom position if fits');
       },
-      async ['09 - does not change position on shrink']() {
+      async '09 - does not change position on shrink'() {
         await this.browser
           .actions({
             bridge: true,
@@ -394,20 +428,24 @@ TooltipWithExternalDynamicContent.parameters = {
           .pause(100)
           .click(this.browser.findElement({ css: '#Container-3 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('09 - does not change position on shrink');
       },
-      async ['10 - does not change bottom position if does not fit']() {
+      async '10 - does not change bottom position if does not fit'() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '#Container-4 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage(
           '10 - does not change bottom position if does not fit',
         );
       },
-      async ['11 - does not change position on shrink']() {
+      async '11 - does not change position on shrink'() {
         await this.browser
           .actions({
             bridge: true,
@@ -416,6 +454,8 @@ TooltipWithExternalDynamicContent.parameters = {
           .pause(100)
           .click(this.browser.findElement({ css: '#Container-4 button' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('11 - does not change position on shrink');
       },
     },
@@ -445,8 +485,12 @@ TooltipWithInputAndSwitchableContent.storyName = 'Tooltip with Input and switcha
 
 TooltipWithInputAndSwitchableContent.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['focus and types', 'clear input'] },
+    ],
     tests: {
-      async ['focus and types']() {
+      async 'focus and types'() {
         await this.browser
           .actions({
             bridge: true,
@@ -454,9 +498,11 @@ TooltipWithInputAndSwitchableContent.parameters = {
           .click(this.browser.findElement({ css: 'input' }))
           .sendKeys('Hi')
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('focus and types');
       },
-      async ['clear input']() {
+      async 'clear input'() {
         await this.browser
           .actions({
             bridge: true,
@@ -465,6 +511,8 @@ TooltipWithInputAndSwitchableContent.parameters = {
           .sendKeys('Hi')
           .sendKeys(this.keys.BACK_SPACE, this.keys.BACK_SPACE)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clear input');
       },
     },
@@ -477,13 +525,26 @@ DynamicTriggersStory.storyName = 'dynamic triggers';
 DynamicTriggersStory.parameters = {
   creevey: {
     captureElement: '[data-comp-name~="TestTooltip"]',
-    skip: [{ in: ['ie11', 'ie118px'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: ['hover - mouseEnter', 'hover&focus - mouseEnter'] },
+      // TODO @Khlutkova fix after update browsers
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: [
+          'hover - mouseEnter',
+          'click - click anchor',
+          'focus - focus',
+          'hover&focus - mouseEnter',
+          'hover&focus - focus',
+        ],
+      },
+    ],
     tests: {
-      async ['without trigger']() {
-        await delay(100);
+      async 'without trigger'() {
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('without trigger');
       },
-      async ['hover - mouseEnter']() {
+      async 'hover - mouseEnter'() {
         await this.browser
           .actions({
             bridge: true,
@@ -493,10 +554,11 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: '[type="button"]' }),
           })
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover - mouseEnter');
       },
-      async ['hover - mouseLeave']() {
+      async 'hover - mouseLeave'() {
         await this.browser
           .actions({
             bridge: true,
@@ -516,9 +578,11 @@ DynamicTriggersStory.parameters = {
           })
           .pause(500)
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover - mouseLeave');
       },
-      async ['click - click anchor']() {
+      async 'click - click anchor'() {
         await this.browser
           .actions({
             bridge: true,
@@ -526,9 +590,11 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '#click' }))
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('click - click anchor');
       },
-      async ['click - click outside']() {
+      async 'click - click outside'() {
         await this.browser
           .actions({
             bridge: true,
@@ -537,9 +603,11 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('click - click outside');
       },
-      async ['focus - focus']() {
+      async 'focus - focus'() {
         await this.browser
           .actions({
             bridge: true,
@@ -552,9 +620,11 @@ DynamicTriggersStory.parameters = {
           })
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('focus - focus');
       },
-      async ['focus - blur']() {
+      async 'focus - blur'() {
         await this.browser
           .actions({
             bridge: true,
@@ -563,18 +633,22 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('focus - blur');
       },
-      async ['opened']() {
+      async opened() {
         await this.browser
           .actions({
             bridge: true,
           })
           .click(this.browser.findElement({ css: '#opened' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
-      async ['closed']() {
+      async closed() {
         await this.browser
           .actions({
             bridge: true,
@@ -582,9 +656,11 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '#opened' }))
           .click(this.browser.findElement({ css: '#closed' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('closed');
       },
-      async ['hover&focus - mouseEnter']() {
+      async 'hover&focus - mouseEnter'() {
         await this.browser
           .actions({
             bridge: true,
@@ -594,10 +670,11 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: '[type="button"]' }),
           })
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - mouseEnter');
       },
-      async ['hover&focus - mouseLeave']() {
+      async 'hover&focus - mouseLeave'() {
         await this.browser
           .actions({
             bridge: true,
@@ -610,9 +687,11 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: 'body' }),
           })
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - mouseLeave');
       },
-      async ['hover&focus - focus']() {
+      async 'hover&focus - focus'() {
         await this.browser
           .actions({
             bridge: true,
@@ -620,9 +699,11 @@ DynamicTriggersStory.parameters = {
           .click(this.browser.findElement({ css: '#hover_focus' }))
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - focus');
       },
-      async ['hover&focus - focus - mouseLeave']() {
+      async 'hover&focus - focus - mouseLeave'() {
         await this.browser
           .actions({
             bridge: true,
@@ -633,9 +714,11 @@ DynamicTriggersStory.parameters = {
             origin: this.browser.findElement({ css: 'body' }),
           })
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - focus - mouseLeave');
       },
-      async ['hover&focus - blur']() {
+      async 'hover&focus - blur'() {
         await this.browser
           .actions({
             bridge: true,
@@ -646,6 +729,8 @@ DynamicTriggersStory.parameters = {
           .sendKeys(this.keys.TAB)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('hover&focus - blur');
       },
     },
@@ -661,15 +746,24 @@ RenderInFirstAvailablePosition.storyName = 'Render in first available position';
 
 RenderInFirstAvailablePosition.parameters = {
   creevey: {
+    skip: [
+      // TODO @Khlutkova fix after update browsers
+      {
+        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
+        tests: ['render in available position', 'relocate on new available position'],
+      },
+    ],
     tests: {
-      async ['render in available position']() {
+      async 'render in available position'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('render in available position');
       },
-      async ['relocate on new available position']() {
+      async 'relocate on new available position'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[type="button"]' }))
@@ -682,13 +776,17 @@ RenderInFirstAvailablePosition.parameters = {
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[type="button"]' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('relocate on new available position');
       },
     },
   },
 };
 
-class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNode; opened: boolean }> {
+type DynamicContentTooltipState = { content: React.ReactNode; opened: boolean };
+
+class DynamicContentTooltip extends React.Component<{}, DynamicContentTooltipState> {
   public state = {
     content: SMALL_CONTENT,
     opened: false,
@@ -711,8 +809,18 @@ class DynamicContentTooltip extends React.Component<{}, { content: React.ReactNo
   }
 
   private buttonClickHandler = () => {
+    const getContent = (state: DynamicContentTooltipState) => {
+      if (state.opened) {
+        return state.content;
+      } else if (state.content === SMALL_CONTENT) {
+        return LARGE_CONTENT;
+      }
+
+      return SMALL_CONTENT;
+    };
+
     this.setState((state) => ({
-      content: state.opened ? state.content : state.content === SMALL_CONTENT ? LARGE_CONTENT : SMALL_CONTENT,
+      content: getContent(state),
       opened: !state.opened,
     }));
   };
@@ -970,7 +1078,7 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
   private outerTooltipContentGetter = () => {
     return (
       <Gapped vertical gap={5}>
-        <Checkbox checked={true}>Item 1</Checkbox>
+        <Checkbox checked>Item 1</Checkbox>
         <Checkbox checked={false}>Item 2</Checkbox>
         <Tooltip pos={'bottom left'} render={this.innerTooltipContentGetter} trigger={'click'}>
           <span>Click me for more...</span>
@@ -982,7 +1090,7 @@ class TooltipWithClickTrigger extends React.Component<{}, {}> {
     return (
       <Gapped vertical gap={5}>
         More:
-        <Checkbox checked={true}>Item 3</Checkbox>
+        <Checkbox checked>Item 3</Checkbox>
         <Checkbox checked={false}>Item 4</Checkbox>
       </Gapped>
     );
@@ -1041,13 +1149,22 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     });
   };
 }
-
-class TestTooltipForManual extends React.Component {
+interface TestTooltipForManualState {
+  onOpenCalledTimes: number;
+  onCloseCalledTimes: number;
+}
+class TestTooltipForManual extends React.Component<{}, TestTooltipForManualState> {
   private tooltip: Tooltip | null = null;
+  public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
   render() {
     return (
       <div style={{ padding: '100px' }}>
+        <Gapped vertical gap={10}>
+          <div>onOpen called {this.state.onOpenCalledTimes} times</div>
+          <div>onClose called {this.state.onCloseCalledTimes} times</div>
+          <div />
+        </Gapped>
         <Gapped>
           <Button key={'Show'} onClick={this.handleClickOnShow.bind(this)}>
             Show()
@@ -1062,6 +1179,12 @@ class TestTooltipForManual extends React.Component {
           pos="bottom left"
           ref={(element) => {
             this.tooltip = element;
+          }}
+          onOpen={() => {
+            this.setState({ onOpenCalledTimes: this.state.onOpenCalledTimes + 1 });
+          }}
+          onClose={() => {
+            this.setState({ onCloseCalledTimes: this.state.onCloseCalledTimes + 1 });
           }}
         >
           <Button disabled>Anchor</Button>
@@ -1088,7 +1211,7 @@ TooltipWithManualControl.storyName = 'manual control';
 TooltipWithManualControl.parameters = {
   creevey: {
     tests: {
-      async ['call show']() {
+      async 'call show'() {
         const btns = await this.browser.findElements({ css: '[type="button"]' });
         await this.browser
           .actions({
@@ -1096,9 +1219,11 @@ TooltipWithManualControl.parameters = {
           })
           .click(btns[0])
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('call show');
       },
-      async ['call hide after show']() {
+      async 'call hide after show'() {
         const btns = await this.browser.findElements({ css: '[type="button"]' });
         await this.browser
           .actions({
@@ -1107,6 +1232,8 @@ TooltipWithManualControl.parameters = {
           .click(btns[0])
           .click(btns[1])
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('call hide after show');
       },
     },
@@ -1129,3 +1256,78 @@ export const TooltipWithFunctionalChild = () => (
   </TestTooltip>
 );
 TooltipWithFunctionalChild.storyName = 'tooltip with functional child';
+
+const anchorStyle: CSSProperties = {
+  left: 60,
+  position: 'absolute',
+  height: 55,
+  width: 55,
+  border: '1px solid #dfdede',
+};
+
+interface AnchorTooltipExampleState {
+  anchor: HTMLElement | null;
+}
+class AnchorTooltipExample extends React.Component<{}, AnchorTooltipExampleState> {
+  public state: AnchorTooltipExampleState = {
+    anchor: null,
+  };
+
+  render() {
+    return (
+      <>
+        {this.state.anchor ? (
+          <Tooltip anchorElement={this.state.anchor} render={() => 'Hello React'} trigger="hover" />
+        ) : null}
+        <div style={{ width: 180, height: 180, position: 'relative' }}>
+          <div
+            data-tid={`tooltip_anchor_0`}
+            style={{
+              ...anchorStyle,
+              top: 60,
+            }}
+            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
+            onMouseLeave={() => this.setState({ anchor: null })}
+          />
+          <div
+            data-tid={`tooltip_anchor_1`}
+            style={{
+              ...anchorStyle,
+              top: 120,
+            }}
+            onMouseEnter={(event) => this.setState({ anchor: event.target as HTMLElement })}
+            onMouseLeave={() => this.setState({ anchor: null })}
+          />
+        </div>
+      </>
+    );
+  }
+}
+
+export const TooltipWithAnchor: Story = () => <AnchorTooltipExample />;
+
+TooltipWithAnchor.parameters = {
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie11Dark', 'ie11Flat', 'ie118px', 'ie11Flat8px'] },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover by dynamic anchor'] },
+    ],
+    tests: {
+      async 'hover by dynamic anchor'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ x: 0, y: 0 })
+          .move({ origin: this.browser.findElement({ css: '[data-tid~="tooltip_anchor_1"]' }) })
+          .perform();
+
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover by dynamic anchor');
+      },
+    },
+  },
+};
+TooltipWithAnchor.storyName = 'Tooltip with anchor';

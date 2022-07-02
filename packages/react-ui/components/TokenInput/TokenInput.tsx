@@ -77,17 +77,28 @@ export interface TokenInputProps<T> extends CommonProps {
    * @default item => item
    */
   valueToString: (item: T) => string;
+  /**
+   * Функция отображающая сообщение об общем количестве элементов.
+   * `found` учитывает только компонент `MenuItem`. Им "оборачиваются" элементы, возвращаемые `getItems()`.
+   */
+  renderTotalCount?: (found: number, total: number) => React.ReactNode;
+  /**
+   * Общее количество элементов.
+   * Необходим для работы `renderTotalCount`
+   */
+  totalCount?: number;
+
   renderNotFound?: () => React.ReactNode;
   valueToItem: (item: string) => T;
   toKey: (item: T) => string | number | undefined;
   placeholder?: string;
   delimiters: string[];
   /**
-   * Cостояние валидации при ошибке.
+   * Состояние валидации при ошибке.
    */
   error?: boolean;
   /**
-   * Cостояние валидации при предупреждении.
+   * Состояние валидации при предупреждении.
    */
   warning?: boolean;
   disabled?: boolean;
@@ -150,6 +161,11 @@ export const DefaultState = {
   inputValueWidth: 2,
   inputValueHeight: 22,
 };
+
+export const TokenInputDataTids = {
+  root: 'TokenInput__root',
+  tokenInputMenu: 'TokenInputMenu__root',
+} as const;
 
 const defaultToKey = <T extends {}>(item: T): string => item.toString();
 const identity = <T extends {}>(item: T): T => item;
@@ -278,6 +294,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       inputMode,
       menuWidth,
       menuAlign,
+      renderTotalCount,
+      totalCount,
     } = this.props;
 
     const {
@@ -324,7 +342,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+        <div data-tid={TokenInputDataTids.root} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
           <label
             ref={this.wrapperRef}
             style={{ width }}
@@ -370,6 +388,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 renderAddButton={this.renderAddButton}
                 menuWidth={menuWidth}
                 menuAlign={menuAlign}
+                renderTotalCount={renderTotalCount}
+                totalCount={totalCount}
               />
             )}
             {this.renderTokensEnd()}
@@ -500,7 +520,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
 
-    // чекаем автокомплит на совпадение с введеным значением в инпут
+    // чекаем автокомплит на совпадение с введенным значением в инпут
     if (autocompleteItems && autocompleteItems.length === 1) {
       const item = autocompleteItems[0];
 
@@ -511,7 +531,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     }
 
-    if (this.isInputChanged) this.checkForUnexpectedInput();
+    if (this.isInputChanged) {
+      this.checkForUnexpectedInput();
+    }
   };
 
   private get isInputChanged() {
@@ -693,7 +715,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode) this.moveFocusToLastToken();
+        if (!this.isEditingMode) {
+          this.moveFocusToLastToken();
+        }
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
@@ -807,12 +831,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     if (this.isEditingMode) {
       this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(item) }, this.finishTokenEdit);
-    } else {
-      if (!this.hasValueInItems(selectedItems, item)) {
-        this.handleValueChange(selectedItems.concat([item]));
-        this.dispatch({ type: 'CLEAR_INPUT' });
-        this.tryGetItems();
-      }
+    } else if (!this.hasValueInItems(selectedItems, item)) {
+      this.handleValueChange(selectedItems.concat([item]));
+      this.dispatch({ type: 'CLEAR_INPUT' });
+      this.tryGetItems();
     }
   };
 
@@ -846,8 +868,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.state.inputValue !== '') {
-      if (this.state.reservedInputValue === undefined)
+      if (this.state.reservedInputValue === undefined) {
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
+      }
     }
     this.dispatch({ type: 'UPDATE_QUERY', payload: this.props.valueToString(itemNew) }, this.selectInputText);
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });

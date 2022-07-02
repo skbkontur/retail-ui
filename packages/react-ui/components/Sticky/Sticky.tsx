@@ -9,6 +9,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { styles } from './Sticky.styles';
 
@@ -34,6 +35,10 @@ export interface StickyState {
   stopped: boolean;
   relativeTop: number;
 }
+
+export const StickyDataTids = {
+  root: 'Spinner__root',
+} as const;
 
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
@@ -116,7 +121,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div ref={this.refWrapper} className={styles.wrapper()}>
+        <div data-tid={StickyDataTids.root} ref={this.refWrapper} className={styles.wrapper()}>
           <ZIndex
             priority="Sticky"
             applyZIndex={fixed}
@@ -139,7 +144,12 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   private refInner = (ref: Nullable<HTMLElement>) => (this.inner = ref);
 
-  private reflow = () => {
+  /**
+   * Пересчитать габариты и позицию залипшего элемента
+   *
+   * @public
+   */
+  public reflow = () => {
     const { documentElement } = document;
 
     if (!documentElement) {
@@ -150,11 +160,11 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     if (!this.wrapper || !this.inner) {
       return;
     }
-    const { top, bottom, left } = this.wrapper.getBoundingClientRect();
-    const { width, height } = this.inner.getBoundingClientRect();
+    const { top, bottom, left } = getDOMRect(this.wrapper);
+    const { width, height } = getDOMRect(this.inner);
     const { offset, getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed = side === 'top' ? top < offset : bottom > windowHeight - offset;
+    const fixed = side === 'top' ? top < offset : Math.floor(bottom) > windowHeight - offset;
 
     this.setState({ fixed, left });
 
@@ -166,7 +176,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       const stop = getStop && getStop();
       if (stop) {
         const deltaHeight = prevHeight - height;
-        const stopRect = stop.getBoundingClientRect();
+        const stopRect = getDOMRect(stop);
         const outerHeight = height + offset;
         let stopped = false;
         let relativeTop = 0;

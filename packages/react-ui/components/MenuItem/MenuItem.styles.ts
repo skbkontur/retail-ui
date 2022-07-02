@@ -21,10 +21,19 @@ export const styles = memoizeStyle({
       position: relative;
       text-decoration: none;
       color: ${t.menuItemTextColor};
+      border-radius: ${t.menuItemBorderRadius};
 
       button& {
         min-width: 100%;
       }
+    `;
+  },
+
+  rootMobile(t: Theme) {
+    return css`
+      font-size: ${t.fontSizeMobile};
+      line-height: ${t.lineHeightMobile};
+      padding: ${t.menuItemPaddingMobile};
     `;
   },
 

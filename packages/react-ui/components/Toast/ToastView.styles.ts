@@ -26,7 +26,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  wrapper() {
+  wrapper(t: Theme) {
     return css`
       position: fixed;
       top: 0;
@@ -34,6 +34,7 @@ export const styles = memoizeStyle({
       right: 0;
       height: 0;
       text-align: center;
+      border-radius: ${t.toastBorderRadius};
     `;
   },
 

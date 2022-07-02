@@ -3,7 +3,7 @@ import { API, FileInfo } from 'jscodeshift';
 
 interface CustomJSXElement {
   name: string;
-  changes: Array<CustomChange>;
+  changes: CustomChange[];
 }
 
 interface CustomChange {
@@ -17,7 +17,7 @@ enum ChangeCondition {
   'Nothing',
 }
 
-const listOfComponents: Array<CustomJSXElement> = [
+const listOfComponents: CustomJSXElement[] = [
   {
     name: 'ComboBox',
     changes: [

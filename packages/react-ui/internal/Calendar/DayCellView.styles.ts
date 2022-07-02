@@ -18,7 +18,7 @@ export const styles = memoizeStyle({
 
       width: ${t.calendarCellSize};
       height: ${t.calendarCellSize};
-      line-height: ${parseInt(t.calendarCellSize) - 2}px;
+      line-height: ${t.calendarCellLineHeight};
       border-radius: 50%;
 
       &:hover {
