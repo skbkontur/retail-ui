@@ -4,18 +4,37 @@ import EventEmitter from 'eventemitter3';
 import { SidePageProps } from '../components/SidePage';
 import { ModalProps } from '../components/Modal';
 
-interface StackInfo {
+export interface StackInfo {
   emitter: EventEmitter;
   mounted: React.Component[];
 }
 
-interface GlobalWithStackInfo {
+export interface GlobalWithStackInfo {
   __ReactUIStackInfo?: StackInfo;
 }
 
 export interface ModalStackSubscription {
   remove: () => void;
 }
+
+// there are cases when users use several versions of `@skbkontur/react-ui` in one app.
+// later versions use the `fbemitter` package, which does not have a `removeListener()` method
+// meanwhile, `eventemitter3` does not have a `remove()` method.
+// we didn't take this into account when we replaced `eventemitter3` with `fbemitter`.
+
+// when this problem was found, we released fixes for more popular versions.
+// but not all teams can move to fixed versions, that may cause app crashing.
+// see all details https://github.com/skbkontur/retail-ui/issues/2197
+
+// this code almost eliminates this risk because it adds compatibility with all later versions.
+EventEmitter.prototype.addListener = function (this: { remove(): void } & EventEmitter, ...args) {
+  // declare the `remove()` method as package `fbemitter`
+  this.remove = () => this.removeListener(...args);
+
+  // call an alias of `addListener()`
+  // see https://github.com/primus/eventemitter3/blob/master/index.js#L319
+  return this.on(...args);
+};
 
 export class ModalStack {
   public static add(
@@ -29,7 +48,7 @@ export class ModalStack {
     emitter.emit('change');
     return {
       remove: () => {
-        // Backwards compatible with versions 0.x and 1.w which using the fbemitter package
+        // Backward compatible with versions using the `fbemitter` package.
         if ('remove' in _token) {
           // @ts-ignore
           _token.remove();
@@ -65,7 +84,7 @@ export class ModalStack {
     return false;
   }
 
-  private static getStackInfo(): StackInfo {
+  public static getStackInfo(): StackInfo {
     const globalWithStack = global as GlobalWithStackInfo;
     return (
       globalWithStack.__ReactUIStackInfo ||
