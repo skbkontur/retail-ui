@@ -182,6 +182,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
+        .move({ x: 0, y: 0 })
         .perform();
       await delay(500);
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
@@ -200,6 +201,7 @@ const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
           bridge: true,
         })
         .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
+        .move({ x: 0, y: 0 })
         .perform();
       await delay(500);
       await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');

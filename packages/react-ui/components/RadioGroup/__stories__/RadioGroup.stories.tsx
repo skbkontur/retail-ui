@@ -55,7 +55,11 @@ Vertical.storyName = 'vertical';
 Vertical.parameters = {
   creevey: {
     captureElement: '#RadioGroup-wrap',
-    skip: [{ in: ['ie11', 'ie118px'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome', 'chrome8px', 'chromeFlat', 'chromeFlat8px'], tests: ['hovered', 'clicked'] },
+    ],
     tests: {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
