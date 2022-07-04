@@ -17,7 +17,7 @@ const CurrencyInputWithState = () => {
   return <CurrencyInput value={value} onValueChange={(v: Nullable<number>) => setValue(v)} />;
 };
 
-const CurrencyInputAndButton = (props: { value: string }): JSX.Element => {
+const CurrencyInputAndButton = (props: { value: unknown }): JSX.Element => {
   // Intended behavior. CurrencyInput technically can't accept strings
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [value, setValue] = useState<Nullable<any>>(12);
@@ -77,15 +77,35 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('');
   });
 
-  it('should not throw an error on invalid string', async () => {
-    render(<CurrencyInputAndButton value={'str'} />);
+  it('should change value with a valid number', async () => {
+    render(<CurrencyInputAndButton value={123} />);
     const button = screen.getByRole('button');
-    expect(() => userEvent.click(button)).not.toThrow();
+    await userEvent.click(button);
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('123,00');
   });
 
-  it('should not throw an error on valid string', async () => {
+  it('should change value and not throw an error with a valid string', async () => {
     render(<CurrencyInputAndButton value={'123'} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('123,00');
+  });
+
+  it('should not change value and not throw an error with an invalid string', async () => {
+    render(<CurrencyInputAndButton value={'str'} />);
+    const button = screen.getByRole('button');
+    expect(() => userEvent.click(button)).not.toThrow();
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('12,00');
+  });
+
+  it('should not change value and should not throw an error with NaN ', async () => {
+    render(<CurrencyInputAndButton value={parseInt('str')} />);
+    const button = screen.getByRole('button');
+    expect(() => userEvent.click(button)).not.toThrow();
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('12,00');
   });
 });
