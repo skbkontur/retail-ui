@@ -17,6 +17,24 @@ export interface ModalStackSubscription {
   remove: () => void;
 }
 
+// there are cases when users use several versions of `@skbkontur/react-ui` in one app.
+// later versions use the `fbemitter` package, which does not have a `removeListener()` method.
+// we didn't take this into account when we replaced `eventemitter3` with `fbemitter`.
+
+// when this problem was found, we released fixes for more popular versions:
+// see https://github.com/skbkontur/retail-ui/issues/2197#issuecomment-725395272
+// but not all teams can move to fixed versions, that may cause app crashing
+
+// this code almost eliminates this risk because it adds compatibility with all later versions.
+EventEmitter.prototype.addListener = function (this: { remove(): void } & EventEmitter, ...args) {
+  // declare the `remove()` method as package `fbemitter`
+  this.remove = () => this.removeListener(...args);
+
+  // call an alias of `addListener()`
+  // see https://github.com/primus/eventemitter3/blob/master/index.js#L319
+  return this.on(...args);
+};
+
 export class ModalStack {
   public static add(
     component: React.Component,
@@ -29,7 +47,7 @@ export class ModalStack {
     emitter.emit('change');
     return {
       remove: () => {
-        // Backwards compatible with versions 0.x and 1.w which using the fbemitter package
+        // Backward compatible with versions using the `fbemitter` package.
         if ('remove' in _token) {
           // @ts-ignore
           _token.remove();
