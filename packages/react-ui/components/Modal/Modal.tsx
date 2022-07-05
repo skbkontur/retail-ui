@@ -69,6 +69,7 @@ export interface ModalState {
   hasHeader: boolean;
   hasFooter: boolean;
   hasPanel: boolean;
+  shards: Array<React.RefObject<any> | HTMLElement>;
 }
 
 export const ModalDataTids = {
@@ -110,6 +111,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
     hasHeader: false,
     hasFooter: false,
     hasPanel: false,
+    shards: [],
   };
 
   private theme!: Theme;
@@ -117,6 +119,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   private containerNode: HTMLDivElement | null = null;
   private mouseDownTarget: EventTarget | null = null;
   private mouseUpTarget: EventTarget | null = null;
+  private shards = new Set<React.RefObject<any> | HTMLElement>();
 
   public componentDidMount() {
     this.stackSubscription = ModalStack.add(this, this.handleStackChange);
@@ -226,6 +229,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       >
                         <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
                           <FocusLock
+                            shards={this.state.shards}
                             disabled={this.props.disableFocusLock}
                             autoFocus={false}
                             className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
@@ -263,6 +267,35 @@ export class Modal extends React.Component<ModalProps, ModalState> {
       </RenderContainer>
     );
   }
+
+  /**
+   * Добавить элемент, который будет учитываться при блокировке фокуса
+   *
+   * @public
+   * @param shard RefObject | HTMLElement
+   *
+   * @link https://github.com/theKashey/react-focus-lock#api shards
+   */
+  public addFocusLockShard = (shard: React.RefObject<any> | HTMLElement) => {
+    if (!this.shards.has(shard)) {
+      this.shards.add(shard);
+      this.setState({ shards: [...Array.from(this.shards.values())] });
+    }
+  };
+
+  /**
+   * Удалить элемент, чтобы он не учитывался при блокировке фокуса
+   *
+   * @public
+   * @param shard RefObject | HTMLElement
+   *
+   * @link https://github.com/theKashey/react-focus-lock#api shards
+   */
+  public deleteFocusLockShard = (shard: React.RefObject<any> | HTMLElement) => {
+    if (this.shards.delete(shard)) {
+      this.setState({ shards: [...Array.from(this.shards.values())] });
+    }
+  };
 
   private requestClose = () => {
     if (this.props.disableClose) {
