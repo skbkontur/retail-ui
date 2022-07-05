@@ -137,6 +137,7 @@ export interface TooltipState {
 
 export const TooltipDataTids = {
   root: 'Tooltip__root',
+  content: 'Tooltip__content',
 } as const;
 
 const Positions: PopupPositionsType[] = [
@@ -249,7 +250,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     return (
-      <div ref={this.refContent} className={styles.tooltipContent(this.theme)}>
+      <div ref={this.refContent} className={styles.tooltipContent(this.theme)} data-tid={TooltipDataTids.content}>
         {content}
         {this.renderCloseButton()}
       </div>
