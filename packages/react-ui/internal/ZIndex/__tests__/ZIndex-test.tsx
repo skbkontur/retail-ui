@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { mount } from 'enzyme';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { ZIndex } from '../ZIndex';
@@ -90,5 +90,13 @@ describe('ZIndex', () => {
     userEvent.click(delta);
 
     expect(global.__RetailUiZIndexes).not.toContainEqual(3000);
+  });
+
+  it('should not add wrapper if `contextOnly` is set to `true`', async () => {
+    render(<ZIndex data-tid="z-index" contextOnly />);
+
+    await waitFor(() => {
+      expect(screen.queryByTestId('z-index')).not.toBeInTheDocument();
+    });
   });
 });

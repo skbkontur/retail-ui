@@ -22,6 +22,13 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   applyZIndex?: boolean;
   className?: string;
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
+
+  /**
+   * Не оборачивать children в див со стилями.
+   *
+   * Для случаев когда необходимо принудительно задать контекст индексов для области.
+   */
+  contextOnly?: boolean;
 }
 
 @rootNode
@@ -35,6 +42,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
     applyZIndex: true,
     coverChildren: false,
     createStackingContext: false,
+    contextOnly: false,
   };
 
   public static propTypes = {
@@ -82,6 +90,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
       coverChildren,
       createStackingContext,
       wrapperRef,
+      contextOnly,
       ...props
     } = this.props;
 
@@ -90,13 +99,13 @@ export class ZIndex extends React.Component<ZIndexProps> {
     return (
       <ZIndexContext.Consumer>
         {({ parentLayerZIndex, maxZIndex }) => {
-          let zIndexContexValue = { parentLayerZIndex, maxZIndex };
+          let zIndexContextValue = { parentLayerZIndex, maxZIndex };
 
           if (applyZIndex) {
             const newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
             wrapperStyle.zIndex = newZIndex;
 
-            zIndexContexValue = coverChildren
+            zIndexContextValue = coverChildren
               ? { parentLayerZIndex, maxZIndex: newZIndex }
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
@@ -107,13 +116,15 @@ export class ZIndex extends React.Component<ZIndexProps> {
             }
           }
 
-          return (
-            <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
-                {children}
-              </div>
-            </ZIndexContext.Provider>
+          const child = contextOnly ? (
+            children
+          ) : (
+            <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+              {children}
+            </div>
           );
+
+          return <ZIndexContext.Provider value={zIndexContextValue}>{child}</ZIndexContext.Provider>;
         }}
       </ZIndexContext.Consumer>
     );
