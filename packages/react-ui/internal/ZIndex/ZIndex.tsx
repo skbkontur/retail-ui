@@ -57,6 +57,17 @@ export class ZIndex extends React.Component<ZIndexProps> {
     this.zIndex = incrementZIndex(props.priority, props.delta);
   }
 
+  public componentDidUpdate(prevProps: Readonly<ZIndexProps>) {
+    if (prevProps.priority !== this.props.priority || prevProps.delta !== this.props.delta) {
+      const newZIndex = incrementZIndex(this.props.priority, this.props.delta);
+      if (this.zIndex !== newZIndex) {
+        removeZIndex(this.zIndex);
+        this.zIndex = newZIndex;
+        this.forceUpdate();
+      }
+    }
+  }
+
   public componentWillUnmount() {
     removeZIndex(this.zIndex);
   }
