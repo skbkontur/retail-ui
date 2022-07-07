@@ -74,6 +74,24 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
   }
 }
 
+export const TokenInputWithDisabledToken: Story = () => {
+  const [selectedItems, setSelectedItems] = useState(['aaa', 'bbb', 'ccc']);
+
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      renderToken={(item, tokenProps) => (
+        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === 'bbb'}>
+          {item}
+        </Token>
+      )}
+    />
+  );
+};
+
 class MyTokenInput extends TokenInput<TokenModel> {}
 
 class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {
@@ -692,6 +710,61 @@ OnUnexpectedInputValidation.parameters = {
         const withEditedToken = await this.takeScreenshot();
 
         await this.expect({ withSameValue, withNotEditedToken, withRemovedToken, withEditedToken }).to.matchImages();
+      },
+    },
+  },
+};
+
+TokenInputWithDisabledToken.storyName = 'TokenInput with disabled Token';
+TokenInputWithDisabledToken.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: [
+          'chrome8px',
+          'chromeFlat8px',
+          'chromeDark',
+          'firefox8px',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11Flat8px',
+          'ie11Dark',
+        ],
+        tests: ['delete Item with backspace'],
+        reason: 'test logic only in default browsers',
+      },
+    ],
+    tests: {
+      async 'delete Item with backspace'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="TokenInput"]' }))
+          .sendKeys(this.keys.BACK_SPACE)
+          .sendKeys(this.keys.BACK_SPACE)
+          .perform();
+        const deleteLastToken = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.BACK_SPACE)
+          .sendKeys(this.keys.BACK_SPACE)
+          .perform();
+        const dontDeleteDisabledToken = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ARROW_LEFT)
+          .sendKeys(this.keys.ARROW_LEFT)
+          .sendKeys(this.keys.BACK_SPACE)
+          .sendKeys(this.keys.BACK_SPACE)
+          .perform();
+        const deleteFirstToken = await this.takeScreenshot();
+        await this.expect({ deleteLastToken, dontDeleteDisabledToken, deleteFirstToken }).to.matchImages();
       },
     },
   },
