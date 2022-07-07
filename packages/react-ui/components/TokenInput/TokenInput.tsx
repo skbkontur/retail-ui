@@ -1037,9 +1037,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private getArrayOfDisabledTokens = () => {
     return this.props.selectedItems.map((item) => {
       if (this.props.renderToken) {
-        const obj = this.props.renderToken(item, {});
-        if (typeof obj === 'object' && obj && 'props' in obj) {
-          return obj.props.disabled;
+        const renderedToken = this.props.renderToken(item, {});
+        if (typeof renderedToken === 'object' && renderedToken && 'props' in renderedToken) {
+          return renderedToken.props.disabled;
         }
       }
       return null;
