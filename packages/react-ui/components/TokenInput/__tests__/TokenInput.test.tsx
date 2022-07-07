@@ -1,5 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
+import React, { useState } from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -7,6 +9,7 @@ import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
 import { TokenInputMenu } from '../TokenInputMenu';
+import { Token } from '../../Token';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -163,4 +166,41 @@ describe('<TokenInput />', () => {
 
     expect(onValueChange).toHaveBeenCalledWith([value]);
   });
+
+  it('should delete Token with Backspace', async () => {
+    render(<TokenInputWithState />);
+    const input = screen.getByRole('textbox');
+    await userEvent.click(input);
+    await userEvent.keyboard('[Backspace]');
+    await userEvent.keyboard('[Backspace]');
+    expect(screen.queryByText('zzz')).not.toBeInTheDocument();
+  });
+
+  it('should not delete disabled Token with Backspace', async () => {
+    render(<TokenInputWithState />);
+    const input = screen.getByRole('textbox');
+    await userEvent.click(input);
+    await userEvent.keyboard('[Backspace]');
+    await userEvent.keyboard('[Backspace]');
+    await userEvent.keyboard('[Backspace]');
+    await userEvent.keyboard('[Backspace]');
+    expect(screen.getByText('yyy')).toBeInTheDocument();
+  });
 });
+
+export function TokenInputWithState() {
+  const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      renderToken={(item, tokenProps) => (
+        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === 'yyy'}>
+          {item}
+        </Token>
+      )}
+    />
+  );
+}
