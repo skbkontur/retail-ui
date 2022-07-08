@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { styles } from './MonthView.styles';
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
+import { CalendarDataTids } from './Calendar';
 
 interface MonthViewProps {
   children: React.ReactNode;
@@ -78,7 +79,7 @@ export function MonthView(props: MonthViewProps) {
   };
 
   return (
-    <div data-tid="MonthView__month" className={styles.month(theme)} style={{ top }} key={month + '-' + year}>
+    <div data-tid={CalendarDataTids.month} className={styles.month(theme)} style={{ top }} key={month + '-' + year}>
       <div
         style={{ top: headerTop }}
         className={cx({
@@ -87,7 +88,7 @@ export function MonthView(props: MonthViewProps) {
         })}
       >
         <div style={{ borderBottomColor }} className={styles.monthTitle(theme)}>
-          <div data-tid="MonthView__headerMonth" className={styles.headerMonth(theme)}>
+          <div data-tid={CalendarDataTids.headerMonth} className={styles.headerMonth(theme)}>
             <DateSelect
               disabled={monthSelectDisabled}
               width={85}
@@ -100,7 +101,7 @@ export function MonthView(props: MonthViewProps) {
             />
           </div>
           {isYearVisible && (
-            <div data-tid="MonthView__headerYear" className={styles.headerYear(theme)} style={{ top: yearTop }}>
+            <div data-tid={CalendarDataTids.headerYear} className={styles.headerYear(theme)} style={{ top: yearTop }}>
               <DateSelect
                 disabled={yearSelectDisabled}
                 width={50}
