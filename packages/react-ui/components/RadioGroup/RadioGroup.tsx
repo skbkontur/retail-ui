@@ -43,6 +43,12 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
    * случайное имя
    */
   name?: string;
+
+  /**
+   * Метод получения уникального ключа по элементу
+   * @param item
+   */
+  toKey?: (item: T) => string | number;
   /**
    * Дизейблит все радиокнопки
    */
@@ -223,7 +229,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
-      key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
+      key: this.getKeyByItem(itemValue),
       className: cx({
         [styles.item(this.theme)]: true,
         [styles.itemFirst()]: index === 0,
@@ -236,6 +242,13 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
         <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
       </span>
     );
+  };
+
+  private getKeyByItem = (itemValue: T) => {
+    if (this.props.toKey) {
+      return this.props.toKey(itemValue);
+    }
+    return typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : undefined;
   };
 
   private ref = (element: HTMLSpanElement) => {
