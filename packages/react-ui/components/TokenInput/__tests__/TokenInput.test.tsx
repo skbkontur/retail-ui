@@ -171,8 +171,7 @@ describe('<TokenInput />', () => {
     render(<TokenInputWithState />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
-    await userEvent.keyboard('[Backspace]');
-    await userEvent.keyboard('[Backspace]');
+    await userEvent.keyboard('[Backspace>2]');
     expect(screen.queryByText('zzz')).not.toBeInTheDocument();
   });
 
@@ -180,10 +179,7 @@ describe('<TokenInput />', () => {
     render(<TokenInputWithState />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
-    await userEvent.keyboard('[Backspace]');
-    await userEvent.keyboard('[Backspace]');
-    await userEvent.keyboard('[Backspace]');
-    await userEvent.keyboard('[Backspace]');
+    await userEvent.keyboard('[Backspace>4]');
     expect(screen.getByText('yyy')).toBeInTheDocument();
   });
 });
