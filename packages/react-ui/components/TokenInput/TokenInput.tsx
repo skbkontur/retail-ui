@@ -217,7 +217,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
   private setRootNode!: TSetRootNode;
-  private arrayOfDisabledTokens: Boolean[] = [];
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -225,7 +224,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     if (this.props.autoFocus) {
       this.focusInput();
     }
-    this.arrayOfDisabledTokens = this.getArrayOfDisabledTokens();
   }
 
   public componentDidUpdate(prevProps: TokenInputProps<T>, prevState: TokenInputState<T>) {
@@ -240,7 +238,6 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     if (prevProps.selectedItems.length !== this.props.selectedItems.length) {
       LayoutEvents.emit();
-      this.arrayOfDisabledTokens = this.getArrayOfDisabledTokens();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
       this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
@@ -751,10 +748,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        const activeIndex = this.props.selectedItems.indexOf(
-          this.state.activeTokens[this.state.activeTokens.length - 1],
-        );
-        if (!this.isEditingMode && !this.arrayOfDisabledTokens[activeIndex]) {
+        if (!this.isEditingMode && !this.isCurrentItemDisabled()) {
           const itemsNew = this.props.selectedItems.filter(
             (item) => !this.hasValueInItems(this.state.activeTokens, item),
           );
@@ -1034,15 +1028,15 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
   };
 
-  private getArrayOfDisabledTokens = () => {
-    return this.props.selectedItems.map((item) => {
-      if (this.props.renderToken) {
-        const renderedToken = this.props.renderToken(item, {});
-        if (typeof renderedToken === 'object' && renderedToken && 'props' in renderedToken) {
-          return renderedToken.props.disabled;
-        }
-      }
-      return null;
-    });
+  private isCurrentItemDisabled = () => {
+    if (this.props.renderToken) {
+      const currentItem = this.props.selectedItems.indexOf(this.state.activeTokens[this.state.activeTokens.length - 1]);
+      const renderedToken = this.props.renderToken(this.props.selectedItems[currentItem], {}) as React.ReactElement<
+        TokenInputProps<unknown>
+      >;
+      return renderedToken.props.disabled;
+    }
+
+    return false;
   };
 }
