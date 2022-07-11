@@ -9,7 +9,7 @@ import { RenderContainer } from '../../internal/RenderContainer';
 import { ZIndex } from '../../internal/ZIndex';
 import { stopPropagation } from '../../lib/events/stopPropagation';
 import { HideBodyVerticalScroll } from '../../internal/HideBodyVerticalScroll';
-import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack';
+import { ModalStack, ModalStackSubscription } from '../../lib/ModalStack/ModalStack';
 import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
