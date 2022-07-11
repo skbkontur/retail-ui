@@ -56,11 +56,7 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
-type DefaultProps = {
-  invert: boolean;
-  scrollBehaviour: ScrollBehaviour;
-  preventWindowScroll: boolean;
-};
+type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {

@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
-import { Input, InputAlign, InputProps } from '../Input';
+import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
@@ -52,12 +52,7 @@ export const CurrencyInputDataTids = {
   root: 'CurrencyInput__root',
 } as const;
 
-type DefaultProps = {
-  align: InputAlign;
-  fractionDigits: Nullable<number>;
-  hideTrailingZeros: boolean;
-  value: Nullable<number>;
-};
+type DefaultProps = Required<Pick<CurrencyInputProps, 'align' | 'fractionDigits' | 'hideTrailingZeros' | 'value'>>;
 
 /**
  * Поле для денежных сумм (и других числовых значений).

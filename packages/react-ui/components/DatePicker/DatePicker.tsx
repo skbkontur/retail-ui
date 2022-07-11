@@ -92,11 +92,7 @@ export const DatePickerDataTids = {
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps<T> = {
-  minDate: T;
-  maxDate: T;
-  isHoliday: (day: T, isWeekend: boolean) => boolean;
-};
+type DefaultProps<T> = Required<Pick<DatePickerProps<T>, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {

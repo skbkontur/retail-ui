@@ -48,14 +48,12 @@ export const InternalMenuDataTids = {
   root: 'InternalMenu__root',
 } as const;
 
-type DefaultProps = {
-  width: number | string;
-  maxHeight: number | string;
-  hasShadow: boolean;
-  preventWindowScroll: boolean;
-  cyclicSelection: boolean;
-  initialSelectedItemIndex: number;
-};
+type DefaultProps = Required<
+  Pick<
+    MenuProps,
+    'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'cyclicSelection' | 'initialSelectedItemIndex'
+  >
+>;
 
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {

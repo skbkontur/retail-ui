@@ -41,9 +41,7 @@ export const StickyDataTids = {
   root: 'Spinner__root',
 } as const;
 
-type DefaultProps = {
-  offset: number;
-};
+type DefaultProps = Required<Pick<StickyProps, 'offset'>>;
 
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {

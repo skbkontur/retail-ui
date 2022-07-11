@@ -59,9 +59,7 @@ export const TabsDataTids = {
   indicatorRoot: 'Indicator__root',
 } as const;
 
-type DefaultProps = {
-  vertical: boolean;
-};
+type DefaultProps = Required<Pick<TabsProps, 'vertical'>>;
 
 /**
  * Tabs wrapper

@@ -120,15 +120,12 @@ export const PopupDataTids = {
   popupPin: 'PopupPin__root',
 } as const;
 
-type DefaultProps = {
-  popupOffset: number;
-  hasPin: boolean;
-  hasShadow: boolean;
-  disableAnimations: boolean;
-  useWrapper: boolean;
-  ignoreHover: boolean;
-  width: React.CSSProperties['width'];
-};
+type DefaultProps = Required<
+  Pick<
+    PopupProps,
+    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width'
+  >
+>;
 
 @responsiveLayout
 @rootNode

@@ -85,14 +85,9 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
-type DefaultProps = {
-  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
-  manual: boolean;
-  opened: boolean;
-  maxWidth: React.CSSProperties['maxWidth'];
-  disableAnimations: boolean;
-  useWrapper: boolean;
-};
+type DefaultProps = Required<
+  Pick<HintProps, 'pos' | 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>
+>;
 
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.

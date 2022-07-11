@@ -81,17 +81,20 @@ interface ComboBoxViewState {
   isMobileOpened: boolean;
 }
 
-type DefaultProps<T> = {
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode;
-  renderValue: (item: T) => React.ReactNode;
-  renderAddButton: (query?: string) => React.ReactNode;
-  repeatRequest: () => void;
-  requestStatus: ComboBoxRequestStatus;
-  onClickOutside: (e: Event) => void;
-  onFocusOutside: () => void;
-  size: 'small' | 'medium' | 'large';
-  width: string | number;
-};
+type DefaultProps<T> = Required<
+  Pick<
+    ComboBoxViewProps<T>,
+    | 'renderItem'
+    | 'renderValue'
+    | 'renderAddButton'
+    | 'repeatRequest'
+    | 'requestStatus'
+    | 'onClickOutside'
+    | 'onFocusOutside'
+    | 'size'
+    | 'width'
+  >
+>;
 
 @responsiveLayout
 @rootNode

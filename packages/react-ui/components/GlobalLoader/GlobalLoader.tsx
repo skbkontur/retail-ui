@@ -68,14 +68,12 @@ export const GlobalLoaderDataTids = {
   root: 'GlobalLoader',
 } as const;
 
-type DefaultProps = {
-  expectedResponseTime: number;
-  delayBeforeShow: number;
-  delayBeforeHide: number;
-  rejected: boolean;
-  active: boolean;
-  disableAnimations: boolean;
-};
+type DefaultProps = Required<
+  Pick<
+    GlobalLoaderProps,
+    'expectedResponseTime' | 'delayBeforeShow' | 'delayBeforeHide' | 'rejected' | 'active' | 'disableAnimations'
+  >
+>;
 
 let currentGlobalLoader: GlobalLoader;
 

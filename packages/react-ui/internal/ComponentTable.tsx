@@ -42,10 +42,7 @@ export interface ComponentTableProps<C, P, S> {
   Component: C;
 }
 
-type DefaultProps<C, P, S> = {
-  presetProps: DefaultizeProps<C, P>;
-  presetState: Partial<S>;
-};
+type DefaultProps<C, P, S> = Required<Pick<ComponentTableProps<C, P, S>, 'presetProps' | 'presetState'>>;
 
 // Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<

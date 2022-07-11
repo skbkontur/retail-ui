@@ -27,9 +27,7 @@ interface MonthProps {
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
-type DefaultProps = {
-  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
-};
+type DefaultProps = Required<Pick<MonthProps, 'isHoliday'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;

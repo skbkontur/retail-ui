@@ -167,11 +167,7 @@ export const ButtonDataTids = {
   root: 'Button__root',
 } as const;
 
-type DefaultProps = {
-  use: ButtonUse;
-  size: ButtonSize;
-  type: ButtonType;
-};
+type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {

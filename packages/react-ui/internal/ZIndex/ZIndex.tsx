@@ -25,14 +25,9 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 }
 
-type DefaultProps = {
-  delta: number;
-  priority: number | LayerComponentName;
-  style: React.CSSProperties;
-  applyZIndex: boolean;
-  coverChildren: boolean;
-  createStackingContext: boolean;
-};
+type DefaultProps = Required<
+  Pick<ZIndexProps, 'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext'>
+>;
 
 @rootNode
 export class ZIndex extends React.Component<ZIndexProps> {

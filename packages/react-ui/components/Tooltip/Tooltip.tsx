@@ -155,13 +155,9 @@ const Positions: PopupPositionsType[] = [
   'bottom right',
 ];
 
-type DefaultProps = {
-  pos: PopupPositionsType;
-  trigger: TooltipTrigger;
-  allowedPositions: PopupPositionsType[];
-  disableAnimations: boolean;
-  useWrapper: boolean;
-};
+type DefaultProps = Required<
+  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper'>
+>;
 
 @rootNode
 @responsiveLayout

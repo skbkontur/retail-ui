@@ -94,10 +94,7 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
-type DefaultProps = {
-  component: React.ComponentType<any> | string;
-  href: string;
-};
+type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
 
 /**
  * Tab element of Tabs component

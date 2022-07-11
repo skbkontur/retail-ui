@@ -85,9 +85,7 @@ export const RadioGroupDataTids = {
   root: 'RadioGroup__root',
 } as const;
 
-type DefaultProps<T> = {
-  renderItem: (itemValue: T, data: React.ReactNode) => React.ReactNode;
-};
+type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
 
 /**
  *
@@ -116,7 +114,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps: DefaultProps<unknown> = {
+  public static defaultProps: DefaultProps = {
     renderItem,
   };
 

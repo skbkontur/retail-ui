@@ -83,12 +83,9 @@ export const PagingDataTids = {
   pageLink: 'Paging__pageLink',
 } as const;
 
-type DefaultProps = {
-  component: React.ComponentType<ItemComponentProps>;
-  shouldBeVisibleWithLessThanTwoPages: boolean;
-  useGlobalListener: boolean;
-  'data-tid': string;
-};
+type DefaultProps = Required<
+  Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
+>;
 
 @rootNode
 @locale('Paging', PagingLocaleHelper)

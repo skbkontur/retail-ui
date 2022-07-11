@@ -117,12 +117,7 @@ export const TextareaDataTids = {
   counter: 'TextareaCounter__root',
 } as const;
 
-type DefaultProps = {
-  rows: number;
-  maxRows: string | number;
-  extraRow: boolean;
-  disableAnimations: boolean;
-};
+type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
 
 /**
  * Компонент для ввода многострочного текста.

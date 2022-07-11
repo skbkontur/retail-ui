@@ -84,15 +84,12 @@ export const AutocompleteDataTids = {
   root: 'Autocomplete__root',
 } as const;
 
-type DefaultProps = {
-  renderItem: (item: string) => React.ReactNode;
-  size: InputProps['size'];
-  disablePortal: boolean;
-  hasShadow: boolean;
-  menuMaxHeight: number | string;
-  menuAlign: 'left' | 'right';
-  preventWindowScroll: boolean;
-};
+type DefaultProps = Required<
+  Pick<
+    AutocompleteProps,
+    'renderItem' | 'size' | 'disablePortal' | 'hasShadow' | 'menuMaxHeight' | 'menuAlign' | 'preventWindowScroll'
+  >
+>;
 
 /**
  * Стандартный инпут с подсказками.

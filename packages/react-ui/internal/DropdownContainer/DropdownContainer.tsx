@@ -34,12 +34,7 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
-type DefaultProps = {
-  align: 'left' | 'right';
-  disablePortal: boolean;
-  offsetY: number;
-  offsetX: number;
-};
+type DefaultProps = Required<Pick<DropdownContainerProps, 'align' | 'disablePortal' | 'offsetY' | 'offsetX'>>;
 
 export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';

@@ -57,12 +57,9 @@ export const LoaderDataTids = {
   spinner: 'Loader__Spinner',
 } as const;
 
-type DefaultProps = {
-  type: 'mini' | 'normal' | 'big';
-  active: boolean;
-  delayBeforeSpinnerShow: number;
-  minimalDelayBeforeSpinnerHide: number;
-};
+type DefaultProps = Required<
+  Pick<LoaderProps, 'type' | 'active' | 'delayBeforeSpinnerShow' | 'minimalDelayBeforeSpinnerHide'>
+>;
 
 /**
  * DRAFT - лоадер-контейнер

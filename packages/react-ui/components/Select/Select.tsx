@@ -164,13 +164,9 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
-type DefaultProps<TValue, TItem> = {
-  renderValue: (value: TValue, item?: TItem) => React.ReactNode;
-  renderItem: (value: TValue, item?: TItem) => React.ReactNode;
-  areValuesEqual: (value1: TValue, value2: TValue) => boolean;
-  filterItem: (value: TValue, item: TItem, pattern: string) => boolean;
-  use: ButtonUse;
-};
+type DefaultProps<TValue, TItem> = Required<
+  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use'>
+>;
 
 @responsiveLayout
 @rootNode

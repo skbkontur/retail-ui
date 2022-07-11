@@ -167,15 +167,12 @@ export interface ComboBoxItem {
   label: string;
 }
 
-type DefaultProps<T> = {
-  itemToValue: (item: T) => string | number;
-  valueToString: (item: T) => string;
-  renderValue: (item: T) => React.ReactNode;
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
-  menuAlign: 'left' | 'right';
-  searchOnFocus: boolean;
-  drawArrow: boolean;
-};
+type DefaultProps<T> = Required<
+  Pick<
+    ComboBoxProps<T>,
+    'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'menuAlign' | 'searchOnFocus' | 'drawArrow'
+  >
+>;
 
 @rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {

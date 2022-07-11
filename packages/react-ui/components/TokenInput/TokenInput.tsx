@@ -167,23 +167,26 @@ export const TokenInputDataTids = {
   tokenInputMenu: 'TokenInputMenu__root',
 } as const;
 
-type DefaultProps<T> = {
-  selectedItems: T[];
-  delimiters: string[];
-  renderItem: (item: T, state: MenuItemState) => React.ReactNode | null;
-  renderValue: (item: T) => React.ReactNode;
-  valueToString: (item: T) => string;
-  valueToItem: (item: string) => T;
-  toKey: (item: T) => string | number | undefined;
-  onValueChange: (items: T[]) => void;
-  width: string | number;
-  onBlur: FocusEventHandler<HTMLTextAreaElement>;
-  onFocus: FocusEventHandler<HTMLTextAreaElement>;
-  onMouseEnter: MouseEventHandler<HTMLDivElement>;
-  onMouseLeave: MouseEventHandler<HTMLDivElement>;
-  menuWidth: React.CSSProperties['width'];
-  menuAlign: TokenInputMenuAlign;
-};
+type DefaultProps<T> = Required<
+  Pick<
+    TokenInputProps<T>,
+    | 'selectedItems'
+    | 'delimiters'
+    | 'renderItem'
+    | 'renderValue'
+    | 'valueToString'
+    | 'valueToItem'
+    | 'toKey'
+    | 'onValueChange'
+    | 'width'
+    | 'onBlur'
+    | 'onFocus'
+    | 'onMouseEnter'
+    | 'onMouseLeave'
+    | 'menuWidth'
+    | 'menuAlign'
+  >
+>;
 
 const defaultToKey = <T extends {}>(item: T): string => item.toString();
 const identity = <T extends {}>(item: T): T => item;

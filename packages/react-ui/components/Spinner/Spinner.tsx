@@ -44,9 +44,7 @@ export const SpinnerDataTids = {
   root: 'Spinner__root',
 } as const;
 
-type DefaultProps = {
-  type: SpinnerType;
-};
+type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
  * DRAFT - инлайн-лоадер
