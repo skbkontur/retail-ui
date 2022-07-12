@@ -27,13 +27,13 @@
 - [ ] Добавлены тесты на все изменения
   - [ ] unit-тесты для логики ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#unit-тесты))
   - [ ] скриншоты для верстки и кросс-браузерности ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#скриншотные-тесты))
-  - [ ] тесты не требуются
+  - [ ] нерелевантно
 - [ ] Добавлена (обновлена) документация
-  - [ ] styleguidist для пропов и примеров использования компонентов ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#styleguidist))
+  - [ ] пропы, публичные методы и примеры использования в styleguidist ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#styleguidist))
   - [ ] jsdoc для утилит и хелперов ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#jsdoc))
   - [ ] комментарии для неочевидных мест в коде ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#комментарии-в-коде))
-  - [ ] гайд для контрибьютеров ([contributing.md](https://github.com/skbkontur/retail-ui/blob/master/contributing.md))
-  - [ ] документация не требуется
+  - [ ] прочие инструкции ([README.md](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md)), ([contributing.md](https://github.com/skbkontur/retail-ui/blob/master/contributing.md))
+  - [ ] нерелевантно
 - [ ] Все тесты и линтеры на CI проходят
 - [ ] В коде нет лишних изменений
 - [ ] Заголовок PR кратко и доступно отражает суть изменений (он попадет в changelog)
