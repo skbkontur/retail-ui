@@ -34,6 +34,9 @@
   - [ ] комментарии для неочевидных мест в коде ([гайд](https://github.com/skbkontur/retail-ui/blob/master/contributing.md#комментарии-в-коде))
   - [ ] прочие инструкции ([README.md](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md)), ([contributing.md](https://github.com/skbkontur/retail-ui/blob/master/contributing.md))
   - [ ] нерелевантно
+- [ ] Изменения корректно типизированы
+  - [ ] без использования `any` ([#2856](https://github.com/skbkontur/retail-ui/pull/2856))
+  - [ ] нерелевантно
 - [ ] Все тесты и линтеры на CI проходят
 - [ ] В коде нет лишних изменений
 - [ ] Заголовок PR кратко и доступно отражает суть изменений (он попадет в changelog)
