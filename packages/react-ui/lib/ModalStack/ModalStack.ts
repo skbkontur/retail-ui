@@ -2,11 +2,19 @@ import React from 'react';
 
 import { SidePageProps } from '../../components/SidePage';
 import { ModalProps } from '../../components/Modal';
+import { globalThat } from '../SSRSafe';
 
 import { Emitter } from './Emitter';
 
+type Handler = () => void;
+type Event = Handler | Handler[] | undefined;
+
+interface Events {
+  _events?: { [name: string]: Event };
+}
+
 export interface StackInfo {
-  emitter: Emitter;
+  emitter: Events & Emitter;
   mounted: React.Component[];
 }
 
@@ -67,10 +75,9 @@ export class ModalStack {
   }
 
   public static getStackInfo(): StackInfo {
-    const globalWithStack = global as GlobalWithStackInfo;
     return (
-      globalWithStack.__ReactUIStackInfo ||
-      (globalWithStack.__ReactUIStackInfo = {
+      globalThat.__ReactUIStackInfo ||
+      (globalThat.__ReactUIStackInfo = {
         emitter: new Emitter(),
         mounted: [],
       })

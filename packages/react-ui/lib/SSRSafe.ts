@@ -28,7 +28,7 @@ export function isNode(node: unknown): node is Node {
   return false;
 }
 
-export const globalThat: typeof globalThis =
+export const globalThat: typeof globalThis & Window =
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
   (typeof window === 'object' && window) ||
