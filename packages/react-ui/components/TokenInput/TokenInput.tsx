@@ -996,7 +996,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
-      if (!this.isEditingMode) {
+      if (!this.isEditingMode && !disabled) {
         this.handleTokenEdit(item);
       }
     };
