@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useImperativeHandle, useRef, useState }
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
+import { InstanceWithRootNode } from '../../lib/rootNode';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
@@ -54,7 +55,7 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
-export interface FileUploaderRef {
+export interface FileUploaderRef extends InstanceWithRootNode {
   focus: () => void;
   blur: () => void;
   /** Сбрасывает выбранные файлы */
