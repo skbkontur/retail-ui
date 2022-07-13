@@ -44,6 +44,8 @@ const config = {
         theme: 'DEFAULT_THEME_OLD',
       },
       name: 'infrafront/chrome',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chrome8px: {
@@ -54,6 +56,8 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/chrome8px',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chromeFlat: {
@@ -64,6 +68,8 @@ const config = {
         theme: 'FLAT_THEME_OLD',
       },
       name: 'infrafront/chromeFlat',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     chromeFlat8px: {
@@ -74,42 +80,56 @@ const config = {
         theme: 'FLAT_THEME',
       },
       name: 'infrafront/chromeFlat8px',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefox: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
       _storybookGlobals: {
         theme: 'DEFAULT_THEME_OLD',
       },
       name: 'infrafront/firefox',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefox8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
       _storybookGlobals: {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/firefox8px',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefoxFlat: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
       _storybookGlobals: {
         theme: 'FLAT_THEME_OLD',
       },
       name: 'infrafront/firefoxFlat',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     firefoxFlat8px: {
       browserName: 'firefox',
       viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
       _storybookGlobals: {
         theme: 'FLAT_THEME',
       },
       name: 'infrafront/firefoxFlat8px',
+      browserVersion: '100.0',
+      version: '100.0',
       ...capabilities,
     },
     ie11: {
