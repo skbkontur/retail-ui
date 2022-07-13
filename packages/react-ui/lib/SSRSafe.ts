@@ -12,9 +12,9 @@ export function safePropTypesInstanceOf<T>(
   return PropTypes.any;
 }
 
-export function isHTMLElement(el: any): el is HTMLElement {
+export function isHTMLElement(el: unknown): el is HTMLElement {
   if (isBrowser) {
-    return el instanceof HTMLElement;
+    return el instanceof HTMLElement || el instanceof SVGElement;
   }
 
   return false;

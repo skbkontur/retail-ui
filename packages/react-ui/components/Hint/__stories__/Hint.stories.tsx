@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Hint } from '../Hint';
@@ -163,6 +163,49 @@ SetManualAndOpenedPropOnClick.parameters = {
           .perform();
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
+      },
+    },
+  },
+};
+
+export const WithSVGIcon: Story = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <>
+      {/* Manual opening used here as a safer way of performing logic. Opening hint manually does not alter the results of behavior that being tested */}
+      <Hint opened={isOpen} manual text="hint">
+        <svg width="16" height="16" viewBox="0 0 16 16">
+          <path d="M9 3H7V7H3V9H7V13H9V9H13V7H9V3Z" />
+        </svg>
+      </Hint>
+      <button data-tid="button" onClick={() => setIsOpen(true)}>
+        open manually
+      </button>
+    </>
+  );
+};
+
+WithSVGIcon.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: ['chromeDark', 'chrome8px', 'firefox8px', 'firefoxFlat8px', 'firefoxDark', 'ie118px', 'ie11Dark'],
+        reason: 'internal logic being tested and not something UI related',
+      },
+    ],
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async open() {
+        await this.browser
+          .actions()
+          .click(this.browser.findElement({ css: '[data-tid="button"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open');
       },
     },
   },
