@@ -1,11 +1,12 @@
 import { mount, ReactWrapper } from 'enzyme';
 import React, { RefAttributes } from 'react';
 import { act } from 'react-dom/test-utils';
+import { render, screen } from '@testing-library/react';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { FileUploaderLocaleHelper } from '../locale';
-import { FileUploader, FileUploaderProps, FileUploaderRef } from '../FileUploader';
+import { FileUploader, FileUploaderDataTids, FileUploaderProps, FileUploaderRef } from '../FileUploader';
 import { delay } from '../../../lib/utils';
 import { FileUploaderAttachedFile } from '../../../internal/FileUploaderControl/fileUtils';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
@@ -438,6 +439,24 @@ describe('FileUploader', () => {
       await addFiles(wrapper, [getFile()]);
 
       expect(getFilesList(wrapper).text()).toBe('Custom file item');
+    });
+  });
+
+  describe('rootNode', () => {
+    it('getRootNode is defined', () => {
+      const ref = React.createRef<FileUploaderRef>();
+      render(<FileUploader ref={ref} />);
+
+      expect(ref.current?.getRootNode).toBeDefined();
+    });
+
+    it('getRootNode returns correct node', () => {
+      const ref = React.createRef<FileUploaderRef>();
+      render(<FileUploader ref={ref} />);
+
+      const rootNode = ref.current?.getRootNode?.();
+      expect(rootNode).toBeInTheDocument();
+      expect(rootNode).toBe(screen.getByTestId(FileUploaderDataTids.root));
     });
   });
 });
