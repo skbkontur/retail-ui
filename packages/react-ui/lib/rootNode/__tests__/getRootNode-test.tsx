@@ -171,36 +171,30 @@ describe('getRootNode', () => {
   });
 
   describe('useImperativeHandle', () => {
-    const Dude = React.forwardRef<
-      {
-        foo: string;
-        getRootNode?: () => HTMLDivElement | null;
-      },
-      { withWorkaround?: boolean }
-    >(function FN({ withWorkaround }, ref) {
-      const coolRef = React.useRef<HTMLDivElement>(null);
-
-      React.useImperativeHandle(ref, () =>
-        withWorkaround
-          ? {
-              foo: 'bar',
-              getRootNode: () => coolRef.current,
-            }
-          : {
-              foo: 'bar',
-            },
-      );
-      return <div ref={coolRef}>Dude</div>;
-    });
-
-    it('should not throw exception', () => {
+    it('should not throw exception without workaround', () => {
+      const WithoutWorkaround = React.forwardRef(function FN(_, ref) {
+        React.useImperativeHandle(ref, () => ({
+          foo: 'bar',
+        }));
+        return <div>Without Workaround</div>;
+      });
       let rootNode;
-      expect(() => (rootNode = getRootNode(getInstance(<Dude />)))).not.toThrow();
+
+      expect(() => (rootNode = getRootNode(getInstance(<WithoutWorkaround />)))).not.toThrow();
       expect(rootNode).toBeNull();
     });
 
     it('should work with workaround', () => {
-      expect(getRootNode(getInstance(<Dude withWorkaround />))).toBeInTheDocument();
+      const WithWorkaround = React.forwardRef(function FN(_, ref) {
+        const divRef = React.useRef<HTMLDivElement>(null);
+        React.useImperativeHandle(ref, () => ({
+          foo: 'bar',
+          getRootNode: () => divRef.current,
+        }));
+        return <div ref={divRef}>With Workaround</div>;
+      });
+
+      expect(getRootNode(getInstance(<WithWorkaround />))).toBeInTheDocument();
     });
   });
 });
