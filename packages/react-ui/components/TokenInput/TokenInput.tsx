@@ -728,10 +728,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private moveFocusToLastToken() {
-    const items = this.props.selectedItems;
-    if (this.state.inputValue === '' && items && items.length > 0) {
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) });
+    this.addTokenToActiveTokensByIndex(this.props.selectedItems.length - 1);
+  }
+
+  private addTokenToActiveTokensByIndex(newIndex: number) {
+    let index = newIndex;
+    while (this.props.selectedItems[index - 1] && this.isItemDisabled(this.props.selectedItems[index])) {
+      index = index - 1;
     }
+    const itemNew = this.props.selectedItems[index];
+    const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
+    this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
   }
 
   private focusInput = () => {
@@ -748,7 +755,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        if (!this.isEditingMode && !this.isCurrentItemDisabled()) {
+        if (!this.isEditingMode && !this.isItemDisabled(this.state.activeTokens[this.state.activeTokens.length - 1])) {
           const itemsNew = this.props.selectedItems.filter(
             (item) => !this.hasValueInItems(this.state.activeTokens, item),
           );
@@ -809,9 +816,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleWrapperArrowsWithShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (!isLeftEdge && !isRightEdge) {
-      const itemNew = this.props.selectedItems[newItemIndex];
-      const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
-      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
+      this.addTokenToActiveTokensByIndex(newItemIndex);
     }
   };
 
@@ -1028,9 +1033,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
   };
 
-  private isCurrentItemDisabled = () => {
+  private isItemDisabled = (item: T) => {
     if (this.props.renderToken) {
-      const currentItem = this.props.selectedItems.indexOf(this.state.activeTokens[this.state.activeTokens.length - 1]);
+      const currentItem = this.props.selectedItems.indexOf(item);
       const renderedToken = this.props.renderToken(this.props.selectedItems[currentItem], {}) as React.ReactElement<
         TokenInputProps<unknown>
       >;
