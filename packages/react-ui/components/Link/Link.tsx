@@ -77,7 +77,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     href: PropTypes.string,
 
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    icon: PropTypes.node,
 
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
