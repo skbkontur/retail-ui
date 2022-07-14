@@ -1034,14 +1034,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private isItemDisabled = (item: T) => {
-    if (this.props.renderToken) {
-      const currentItem = this.props.selectedItems.indexOf(item);
-      const renderedToken = this.props.renderToken(this.props.selectedItems[currentItem], {}) as React.ReactElement<
-        TokenInputProps<unknown>
-      >;
-      return renderedToken.props.disabled;
-    }
-
-    return false;
+    const currentItem = this.props.selectedItems.indexOf(item);
+    const renderedToken = this.renderToken(this.props.selectedItems[currentItem]) as React.ReactElement<
+      TokenInputProps<unknown>
+    >;
+    return renderedToken.props.disabled;
   };
 }
