@@ -182,6 +182,13 @@ describe('<TokenInput />', () => {
     await userEvent.keyboard('[Backspace>4]');
     expect(screen.getByText('yyy')).toBeInTheDocument();
   });
+
+  it('should not delete undisabled Token in disabled TokenInput', async () => {
+    render(<DisabledTokenInputWithState />);
+    const crossIcon = screen.getByTestId('Token__crossIcon');
+    await userEvent.click(crossIcon);
+    expect(screen.getByText('ddd')).toBeInTheDocument();
+  });
 });
 
 export function TokenInputWithState() {
@@ -194,6 +201,23 @@ export function TokenInputWithState() {
       onValueChange={setSelectedItems}
       renderToken={(item, tokenProps) => (
         <Token key={item.toString()} {...tokenProps} disabled={item.toString() === 'yyy'}>
+          {item}
+        </Token>
+      )}
+    />
+  );
+}
+export function DisabledTokenInputWithState() {
+  const [selectedItems, setSelectedItems] = useState(['ddd']);
+  return (
+    <TokenInput
+      disabled
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      renderToken={(item, tokenProps) => (
+        <Token key={item.toString()} {...tokenProps} disabled={false}>
           {item}
         </Token>
       )}
