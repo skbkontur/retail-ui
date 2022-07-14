@@ -60,7 +60,11 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   } catch (e) {
     warning(
       false,
-      e.message + '\nSee workaround https://codesandbox.io/s/getrootnode-useimperativehandle-workaround-qrklrd',
+      '[getRootNode]: using findDOMNode threw an exception' +
+        '\n' +
+        'See https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md#strictmode' +
+        '\n\n' +
+        e.message,
     );
     return null;
   }
