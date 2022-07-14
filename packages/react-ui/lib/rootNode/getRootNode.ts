@@ -50,8 +50,6 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return rootNode;
   }
 
-  // using findDOMNode can throw exception and crash app if use useImperativeHandle hook
-  // workaround https://codesandbox.io/s/getrootnode-useimperativehandle-workaround-qrklrd
   try {
     // node is undefined, which means that the instance's root node getter doesn't exists or returns the undefined
     // anyway, it tell us that the convention is not respected (by the component itself or its children),
