@@ -1,9 +1,9 @@
 import React, { ReactInstance } from 'react';
 import warning from 'warning';
-import { getRootNode } from '@skbkontur/react-ui/lib/rootNode';
 
 import { Nullable } from '../typings/Types';
 
+import { getRootNode } from './utils/getRootNode';
 import { isBrowser } from './utils/utils';
 import { smoothScrollIntoView } from './smoothScrollIntoView';
 import { getIndependent, getLevel, getType, getVisibleValidation, isEqual } from './ValidationHelper';
