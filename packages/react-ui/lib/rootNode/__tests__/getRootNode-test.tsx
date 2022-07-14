@@ -7,7 +7,7 @@ import { callChildRef } from '../../../lib/callChildRef/callChildRef';
 import { getRootNode } from '../getRootNode';
 import { InstanceWithRootNode } from '../rootNodeDecorator';
 
-const getInstance = (element: React.ReactElement): React.ReactInstance | null => {
+const getInstance = (element: React.ReactElement, { noRender = false } = {}): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;
   const refCallback = (instance: React.ReactInstance) => {
     const originalRef = (element as React.RefAttributes<any>).ref;
@@ -17,7 +17,9 @@ const getInstance = (element: React.ReactElement): React.ReactInstance | null =>
     ref = instance;
   };
 
-  render(React.cloneElement(element, { ref: refCallback }));
+  if (!noRender) {
+    render(React.cloneElement(element, { ref: refCallback }));
+  }
 
   return ref;
 };
@@ -32,9 +34,67 @@ describe('getRootNode', () => {
       expect(getRootNode(undefined)).toBeNull();
     });
 
+    it('null for Object instance', () => {
+      expect(getRootNode(Object.create(null))).toBeNull();
+    });
+
+    it('null for Text instance', () => {
+      // @ts-ignore
+      expect(getRootNode(document.createTextNode('text'))).toBeNull();
+    });
+
+    it('null for Comment instance', () => {
+      // @ts-ignore
+      expect(getRootNode(document.createComment('comment'))).toBeNull();
+    });
+
+    it('null for intrinsic element that has not been mounted', () => {
+      const rootRef = React.createRef<HTMLDivElement>();
+      const instance = getInstance(<div ref={rootRef} />, { noRender: true });
+      expect(rootRef.current).toBeNull();
+      expect(getRootNode(instance)).toBeNull();
+    });
+
+    it('null for functional component with forwardRef that has not been mounted', () => {
+      const rootRef = React.createRef<HTMLDivElement>();
+      const FC = React.forwardRef<HTMLDivElement>(function FC(_, ref) {
+        return <div ref={ref} />;
+      });
+      const instance = getInstance(<FC />, { noRender: true });
+      expect(rootRef.current).toBeNull();
+      expect(getRootNode(instance)).toBeNull();
+    });
+
+    it('null for class component with rootNode that has not been mounted', () => {
+      let rootNode: Nullable<HTMLDivElement> = null;
+      class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
+        rootNode: Nullable<HTMLDivElement>;
+        rootRef = (instance: HTMLDivElement | null) => {
+          this.rootNode = instance;
+          rootNode = instance;
+        };
+        getRootNode = () => this.rootNode;
+        render = () => <div ref={this.rootRef} />;
+      }
+      const instance = getInstance(<ClassComponentWithRootNode />, { noRender: true });
+      expect(rootNode).toBeNull();
+      expect(getRootNode(instance)).toBeNull();
+    });
+
+    it('SVGElement for SVGElement instance', () => {
+      const instance = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      expect(getRootNode(instance)).toBeInstanceOf(SVGElement);
+    });
+
+    it('SVGElement for intrinsic element', () => {
+      const rootRef = React.createRef<SVGSVGElement>();
+      const instance = getInstance(<svg ref={rootRef} />);
+      expect(getRootNode(instance)).toBe(rootRef.current);
+    });
+
     it('HTMLElement for HTMLElement instance', () => {
       const instance = document.createElement('div');
-      expect(getRootNode(instance)).toBeInstanceOf(HTMLDivElement);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
     it('HTMLElement for intrinsic element', () => {
@@ -50,6 +110,19 @@ describe('getRootNode', () => {
       });
       const instance = getInstance(<FC ref={rootRef} />);
       expect(getRootNode(instance)).toBe(rootRef.current);
+    });
+
+    it('HTMLElement for functional component with useImperativeHandle', () => {
+      const FC = React.forwardRef(function FN(_, ref) {
+        const divRef = React.useRef<HTMLDivElement>(null);
+        React.useImperativeHandle(ref, () => ({
+          foo: 'bar',
+          getRootNode: () => divRef.current,
+        }));
+        return <div ref={divRef} />;
+      });
+      const instance = getInstance(<FC />);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
     it('HTMLElement for class component without rootNode', () => {
@@ -167,34 +240,6 @@ describe('getRootNode', () => {
         getRootNode(getInstance(<ClassComponentWithRootNode />));
         expect(findDOMNode).toBeCalled();
       });
-    });
-  });
-
-  describe('useImperativeHandle', () => {
-    it('should not throw exception without workaround', () => {
-      const WithoutWorkaround = React.forwardRef(function FN(_, ref) {
-        React.useImperativeHandle(ref, () => ({
-          foo: 'bar',
-        }));
-        return <div>Without Workaround</div>;
-      });
-      let rootNode;
-
-      expect(() => (rootNode = getRootNode(getInstance(<WithoutWorkaround />)))).not.toThrow();
-      expect(rootNode).toBeNull();
-    });
-
-    it('should work with workaround', () => {
-      const WithWorkaround = React.forwardRef(function FN(_, ref) {
-        const divRef = React.useRef<HTMLDivElement>(null);
-        React.useImperativeHandle(ref, () => ({
-          foo: 'bar',
-          getRootNode: () => divRef.current,
-        }));
-        return <div ref={divRef}>With Workaround</div>;
-      });
-
-      expect(getRootNode(getInstance(<WithWorkaround />))).toBeInTheDocument();
     });
   });
 });
