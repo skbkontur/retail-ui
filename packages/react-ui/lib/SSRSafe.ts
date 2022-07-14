@@ -28,6 +28,15 @@ export function isNode(node: unknown): node is Node {
   return false;
 }
 
+// HTMLElement and SVGElement
+export function isElement(node: unknown): node is Element {
+  if (isBrowser) {
+    return node instanceof Element;
+  }
+
+  return false;
+}
+
 export const globalThat: typeof globalThis =
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
