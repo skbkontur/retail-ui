@@ -129,7 +129,6 @@ export class ValidationWrapperInternal extends React.Component<
     );
     if (ReactUiDetection.isComboBox(clonedChild)) {
       clonedChild = React.cloneElement(clonedChild, {
-        ref: this.customRef,
         onInputValueChange: (...args: any[]) => {
           this.isChanging = true;
           this.forceUpdate();
