@@ -85,7 +85,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     const nextNode = document.querySelector(`[data-render-container-id~="${newContainerId}"]`);
 
     if (!nextNode) {
-      throw Error(`Origin node for container with id ${newContainerId} was not found`);
+      throw Error(`Origin node for render container was not found`);
     }
 
     return findRenderContainer(nextNode, rootNode, nextNode);
