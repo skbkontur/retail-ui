@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.2...@skbkontur/react-ui@4.2.0) (2022-07-12)
+
+
+### Bug Fixes
+
+* allow CurrencyInput work with string value (master) ([#2885](https://github.com/skbkontur/retail-ui/issues/2885)) ([227023a](https://github.com/skbkontur/retail-ui/commit/227023aa5dcecc7cab386d8f323ce390fda97e57))
+* warnings and mistakes in propTypes ([#2911](https://github.com/skbkontur/retail-ui/issues/2911)) ([74b1071](https://github.com/skbkontur/retail-ui/commit/74b1071d320998081b8ad0d30155867072d003a0))
+* **Button:** preserve icon gap with box-sizing: border-box ([#2928](https://github.com/skbkontur/retail-ui/issues/2928)) ([a244b39](https://github.com/skbkontur/retail-ui/commit/a244b39d19dde125a061cf9c4a73ae9ef2b0e494))
+
+
+### Features
+
+* add export data-tids ([#2900](https://github.com/skbkontur/retail-ui/issues/2900)) ([627e841](https://github.com/skbkontur/retail-ui/commit/627e84104cf0b289fcb05d6f73afae4baf38856c))
+* add toKey into RadioGroup ([#2929](https://github.com/skbkontur/retail-ui/issues/2929)) ([45a2697](https://github.com/skbkontur/retail-ui/commit/45a2697139de96233c0c8570b378178b6d59d11e))
+
+
+
+
+
 ## [4.1.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.1...@skbkontur/react-ui@4.1.2) (2022-06-27)
 
 
