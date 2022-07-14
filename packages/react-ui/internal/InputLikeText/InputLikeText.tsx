@@ -35,11 +35,13 @@ export const InputLikeTextDataTids = {
   input: 'InputLikeText__input',
 } as const;
 
+type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
+
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps: Partial<InputLikeTextProps> = { size: 'small' };
+  public static defaultProps: DefaultProps = { size: 'small' };
 
   public state = { blinking: false, focused: false };
 

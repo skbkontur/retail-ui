@@ -54,6 +54,8 @@ export const TooltipMenuDataTids = {
   root: 'TooltipMenu__root',
 } as const;
 
+type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
+
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент.
  *
@@ -70,7 +72,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps: Partial<TooltipMenuProps> = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
   };
   constructor(props: TooltipMenuProps) {

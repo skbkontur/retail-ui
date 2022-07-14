@@ -65,6 +65,8 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
+type DefaultProps = Required<Pick<LinkProps, 'href' | 'use'>>;
+
 /**
  * Элемент ссылки из HTML.
  */
@@ -82,7 +84,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
-  public static defaultProps: Partial<LinkProps> = {
+  public static defaultProps: DefaultProps = {
     href: '',
     use: 'default',
   };

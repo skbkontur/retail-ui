@@ -31,8 +31,10 @@ export interface VariableValueState {
   editing: boolean;
 }
 
+type DefaultProps = Required<Pick<VariableValueProps, 'deprecated'>>;
+
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
-  public static defaultProps: Partial<VariableValueProps> = {
+  public static defaultProps: DefaultProps = {
     deprecated: false,
   };
   public state = {

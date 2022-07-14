@@ -71,12 +71,14 @@ export interface DateInputProps extends CommonProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
+
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
 
-  public static defaultProps: Partial<DateInputProps> = {
+  public static defaultProps: DefaultProps = {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,

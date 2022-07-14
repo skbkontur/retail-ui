@@ -52,10 +52,12 @@ const getTodayDate = () => {
   };
 };
 
+type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate'>>;
+
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
-  public static defaultProps: Partial<CalendarProps> = {
+  public static defaultProps: DefaultProps = {
     minDate: {
       year: MIN_YEAR,
       month: MIN_MONTH,

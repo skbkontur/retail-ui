@@ -11,6 +11,8 @@ export interface ComponentCombinatorProps<C, P, S> {
   presetState?: Partial<S>;
 }
 
+type DefaultProps<T, C, P> = Required<Pick<ComponentCombinatorProps<T, C, P>, 'presetProps' | 'presetState'>>;
+
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
@@ -19,7 +21,7 @@ export class ComponentCombinator<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
 > {
-  public static defaultProps: Partial<ComponentCombinatorProps<unknown, unknown, unknown>> = {
+  public static defaultProps: DefaultProps<unknown, unknown, unknown> = {
     presetProps: {},
     presetState: {},
   };

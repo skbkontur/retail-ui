@@ -90,6 +90,8 @@ export const SidePageDataTids = {
   container: 'SidePage__container',
 } as const;
 
+type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'disableFocusLock' | 'offset'>>;
+
 const TRANSITION_TIMEOUT = 200;
 
 /**
@@ -142,7 +144,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.footer?.update();
   };
 
-  public static defaultProps: Partial<SidePageProps> = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
     disableFocusLock: true,
     offset: 0,

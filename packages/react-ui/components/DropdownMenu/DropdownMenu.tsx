@@ -53,6 +53,8 @@ export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'on
   disableAnimations?: boolean;
 }
 
+type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
+
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент
  */
@@ -60,7 +62,7 @@ export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'on
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
 
-  public static defaultProps: Partial<DropdownMenuProps> = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };

@@ -37,6 +37,8 @@ export const FxInputDataTids = {
   root: 'FxInput__root',
 } as const;
 
+type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value'>>;
+
 /** Принимает все свойства `Input`'a */
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
@@ -47,7 +49,7 @@ export class FxInput extends React.Component<FxInputProps> {
     type: PropTypes.string,
   };
 
-  public static defaultProps: Partial<FxInputProps> = {
+  public static defaultProps: DefaultProps = {
     width: 250,
     type: 'text',
     value: '',

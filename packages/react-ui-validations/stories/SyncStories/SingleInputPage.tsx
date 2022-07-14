@@ -19,6 +19,8 @@ interface SingleInputPageState {
   focused: boolean;
 }
 
+type DefaultProps = Required<Pick<SingleInputPageProps, 'validationLevel'>>;
+
 export class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
   public state: SingleInputPageState = {
     sending: false,
@@ -28,7 +30,7 @@ export class SingleInputPage extends React.Component<SingleInputPageProps, Singl
     focused: false,
   };
 
-  public static defaultProps: Partial<SingleInputPageProps> = {
+  public static defaultProps: DefaultProps = {
     validationLevel: 'error',
   };
 

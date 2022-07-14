@@ -91,6 +91,8 @@ const Positions: PopupPositionsType[] = [
   'left bottom',
 ];
 
+type DefaultProps = Required<Pick<PopupMenuProps, 'positions' | 'type' | 'popupHasPin' | 'disableAnimations'>>;
+
 @rootNode
 @responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
@@ -98,7 +100,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private isMobileLayout!: boolean;
 
-  public static defaultProps: Partial<PopupMenuProps> = {
+  public static defaultProps: DefaultProps = {
     positions: Positions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,

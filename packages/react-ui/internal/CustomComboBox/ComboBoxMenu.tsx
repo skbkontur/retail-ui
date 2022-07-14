@@ -37,11 +37,13 @@ export const ComboBoxMenuDataTids = {
   item: 'ComboBoxMenu__item',
 } as const;
 
+type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus'>>;
+
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
 
-  public static defaultProps: Partial<ComboBoxMenuProps<unknown>> = {
+  public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
   };

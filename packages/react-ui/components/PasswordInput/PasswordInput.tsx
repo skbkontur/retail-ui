@@ -32,6 +32,8 @@ export const PasswordInputDataTids = {
   eyeIcon: 'PasswordInputEyeIcon',
 } as const;
 
+type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
+
 /**
  * Компонент для ввода пароля
  */
@@ -46,7 +48,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps: Partial<PasswordInputProps> = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
 

@@ -63,6 +63,8 @@ export const DateSelectDataTids = {
   menuItem: 'DateSelect__menuItem',
 } as const;
 
+type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
+
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
@@ -83,7 +85,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     maxValue: PropTypes.number,
   };
 
-  public static defaultProps: Partial<DateSelectProps> = {
+  public static defaultProps: DefaultProps = {
     type: 'year',
     width: 'auto',
   };

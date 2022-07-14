@@ -61,6 +61,8 @@ export const RadioDataTids = {
   root: 'Radio__root',
 } as const;
 
+type DefaultProps = Required<Pick<RadioProps<any>, 'focused'>>;
+
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
@@ -72,7 +74,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focusedByKeyboard: false,
   };
 
-  public static defaultProps: Partial<RadioProps<unknown>> = {
+  public static defaultProps: DefaultProps = {
     focused: false,
   };
 

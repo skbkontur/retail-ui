@@ -86,6 +86,8 @@ export const ToggleDataTids = {
   root: 'Toggle__root',
 } as const;
 
+type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition'>>;
+
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
@@ -109,7 +111,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     },
   };
 
-  public static defaultProps: Partial<ToggleProps> = {
+  public static defaultProps: DefaultProps = {
     disabled: false,
     loading: false,
     captionPosition: 'right',

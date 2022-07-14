@@ -111,6 +111,8 @@ export const InputDataTids = {
   root: 'Input__root',
 } as const;
 
+type DefaultProps = Required<Pick<InputProps, 'size'>>;
+
 /**
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
@@ -119,7 +121,7 @@ export const InputDataTids = {
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
-  public static defaultProps: Partial<InputProps> = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
 

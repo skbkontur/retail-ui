@@ -36,11 +36,13 @@ export const MenuDataTids = {
   root: 'Menu__root',
 } as const;
 
+type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
+
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
-  public static defaultProps: Partial<MenuProps> = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     width: 'auto',
     maxHeight: 300,

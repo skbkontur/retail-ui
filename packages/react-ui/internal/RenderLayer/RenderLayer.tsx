@@ -13,6 +13,8 @@ export interface RenderLayerProps extends CommonProps {
   getAnchorElement?: () => Nullable<HTMLElement>;
 }
 
+type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
+
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
   public static __KONTUR_REACT_UI__ = 'RenderLayer';
@@ -28,7 +30,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     },
   };
 
-  public static defaultProps: Partial<RenderLayerProps> = {
+  public static defaultProps: DefaultProps = {
     active: true,
   };
 

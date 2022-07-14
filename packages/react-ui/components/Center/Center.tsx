@@ -27,6 +27,8 @@ export const CenterDataTids = {
   root: 'Center__root',
 } as const;
 
+type DefaultProps = Required<Pick<CenterProps, 'align'>>;
+
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
@@ -34,7 +36,7 @@ export const CenterDataTids = {
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
-  public static defaultProps: Partial<CenterProps> = {
+  public static defaultProps: DefaultProps = {
     align: 'center',
   };
   private setRootNode!: TSetRootNode;

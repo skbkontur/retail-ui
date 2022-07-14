@@ -12,6 +12,8 @@ interface BGRulerProps {
   color?: string;
 }
 
+type DefaultProps = Required<Pick<BGRulerProps, 'height' | 'top' | 'left' | 'right' | 'color'>>;
+
 /**
  * Компонент рисует пиксельную линейку на заднем фоне.
  * Помогает контролировать размеры элементов при скриншотном тестировании.
@@ -19,7 +21,7 @@ interface BGRulerProps {
  * @see FxInput/__stories__/FxInput.stories.tsx
  */
 export class BGRuler extends React.Component<BGRulerProps> {
-  public static defaultProps: Partial<BGRulerProps> = {
+  public static defaultProps: DefaultProps = {
     height: 20,
     top: 0,
     left: 0,

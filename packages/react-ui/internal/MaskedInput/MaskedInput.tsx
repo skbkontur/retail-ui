@@ -26,6 +26,8 @@ interface MaskedInputState {
   focused: boolean;
 }
 
+type DefaultProps = Required<Pick<MaskedInputProps, 'maskChar'>>;
+
 export const MaskedInputDataTids = {
   root: 'MaskedInput__root',
 } as const;
@@ -33,7 +35,7 @@ export const MaskedInputDataTids = {
 export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
-  public static defaultProps: Partial<MaskedInputProps> = {
+  public static defaultProps: DefaultProps = {
     maskChar: '_',
   };
 

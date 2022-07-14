@@ -77,6 +77,8 @@ export const ModalDataTids = {
   close: 'modal-close',
 } as const;
 
+type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock'>>;
+
 /**
  * Модальное окно
  *
@@ -98,7 +100,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static defaultProps: Partial<ModalProps> = {
+  public static defaultProps: DefaultProps = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
   };

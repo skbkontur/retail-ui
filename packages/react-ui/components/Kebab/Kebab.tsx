@@ -46,13 +46,17 @@ export interface KebabState {
   focusedByTab: boolean;
 }
 
+type DefaultProps = Required<
+  Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations' | 'icon'>
+>;
+
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
   public static propTypes = {};
 
-  public static defaultProps: Partial<KebabProps> = {
+  public static defaultProps: DefaultProps = {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
