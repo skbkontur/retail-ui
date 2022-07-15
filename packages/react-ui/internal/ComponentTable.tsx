@@ -60,10 +60,12 @@ export class ComponentTable<
   private getProps = createPropsGetter(ComponentTable.defaultProps);
 
   public render() {
-    const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
+    const { rows = [], cols = [], Component } = this.props;
+    const presetProps = this.getProps().presetProps;
+    const presetState = this.getProps().presetState;
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
-        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(this.getProps().presetProps)}</caption>
+        <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps)}</caption>
         <thead>
           <tr>
             <th />

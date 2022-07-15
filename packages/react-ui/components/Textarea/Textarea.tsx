@@ -248,8 +248,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     }
     if (
       this.props.autoResize &&
-      (this.props.rows !== prevProps.rows ||
-        this.props.maxRows !== prevProps.maxRows ||
+      (this.getProps().rows !== prevProps.rows ||
+        this.getProps().maxRows !== prevProps.maxRows ||
         this.props.value !== prevProps.value)
     ) {
       this.autoResize();
@@ -493,7 +493,8 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows } = this.props;
+    const rows = this.getProps().rows;
+    const maxRows = this.getProps().maxRows;
     if (rows === undefined || maxRows === undefined) {
       return;
     }

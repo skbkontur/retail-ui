@@ -88,15 +88,15 @@ export class ZIndex extends React.Component<ZIndexProps> {
         {({ parentLayerZIndex, maxZIndex }) => {
           let zIndexContexValue = { parentLayerZIndex, maxZIndex };
 
-          if (applyZIndex) {
+          if (this.getProps().applyZIndex) {
             const newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
             wrapperStyle.zIndex = newZIndex;
 
-            zIndexContexValue = coverChildren
+            zIndexContexValue = this.getProps().coverChildren
               ? { parentLayerZIndex, maxZIndex: newZIndex }
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
-            if (createStackingContext) {
+            if (this.getProps().createStackingContext) {
               isBrowser && 'isolation' in document.body.style
                 ? (wrapperStyle.isolation = 'isolate')
                 : (wrapperStyle.transform = 'rotate(0)');
@@ -105,7 +105,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
           return (
             <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+              <div style={{ ...this.getProps().style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
                 {children}
               </div>
             </ZIndexContext.Provider>

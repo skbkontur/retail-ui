@@ -8,6 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -70,6 +71,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     },
   };
 
+  private getProps = createPropsGetter(Calendar.defaultProps);
+
   private theme!: Theme;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
@@ -122,7 +125,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       await new Promise((r) => setTimeout(r));
     }
 
-    const { minDate, maxDate } = this.props;
+    const minDate = this.getProps().minDate;
+    const maxDate = this.getProps().maxDate;
 
     if (minDate && isGreater(minDate, create(32, month, year))) {
       this.scrollToMonth(minDate.month, minDate.year);
@@ -257,8 +261,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
         key={month.month + '-' + month.year}
         top={top}
         month={month}
-        maxDate={this.props.maxDate}
-        minDate={this.props.minDate}
+        maxDate={this.getProps().maxDate}
+        minDate={this.getProps().minDate}
         today={this.state.today}
         value={this.props.value}
         onDateClick={this.props.onSelect}

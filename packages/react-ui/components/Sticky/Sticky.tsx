@@ -105,7 +105,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   public render() {
     let { children } = this.props;
-    const { side, offset } = this.props;
+    const { side } = this.props;
+    const offset = this.getProps().offset;
     const { fixed, stopped, relativeTop, deltaHeight, width, height, left } = this.state;
     const innerStyle: React.CSSProperties = {};
 
@@ -169,8 +170,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     const { width, height } = getDOMRect(this.inner);
     const { getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
-    const fixed =
-      side === 'top' ? top < this.getProps().offset : Math.floor(bottom) > windowHeight - this.getProps().offset;
+    const offset = this.getProps().offset;
+    const fixed = side === 'top' ? top < offset : Math.floor(bottom) > windowHeight - offset;
 
     this.setState({ fixed, left });
 
@@ -183,7 +184,7 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
       if (stop) {
         const deltaHeight = prevHeight - height;
         const stopRect = getDOMRect(stop);
-        const outerHeight = height + this.getProps().offset;
+        const outerHeight = height + offset;
         let stopped = false;
         let relativeTop = 0;
 

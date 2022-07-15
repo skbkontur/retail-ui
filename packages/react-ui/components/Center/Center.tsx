@@ -4,6 +4,7 @@ import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Center.styles';
 
@@ -39,6 +40,8 @@ export class Center extends React.Component<CenterProps> {
   public static defaultProps: DefaultProps = {
     align: 'center',
   };
+  private getProps = createPropsGetter(Center.defaultProps);
+
   private setRootNode!: TSetRootNode;
 
   public render() {
@@ -50,6 +53,7 @@ export class Center extends React.Component<CenterProps> {
   }
   private renderMain = (props: CommonWrapperRestProps<CenterProps>) => {
     const { align, ...rest } = props;
+    const alignWithDefaultValue = this.getProps().align;
 
     return (
       <div
@@ -57,8 +61,8 @@ export class Center extends React.Component<CenterProps> {
         {...rest}
         className={cx({
           [styles.root()]: true,
-          [styles.rootAlignLeft()]: align === 'left',
-          [styles.rootAlignRight()]: align === 'right',
+          [styles.rootAlignLeft()]: alignWithDefaultValue === 'left',
+          [styles.rootAlignRight()]: alignWithDefaultValue === 'right',
         })}
       >
         <span className={styles.spring()} />

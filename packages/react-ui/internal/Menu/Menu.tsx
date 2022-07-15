@@ -10,6 +10,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -49,6 +50,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     hasShadow: true,
     preventWindowScroll: true,
   };
+
+  private getProps = createPropsGetter(Menu.defaultProps);
 
   public state = {
     highlightedIndex: -1,
@@ -124,15 +127,15 @@ export class Menu extends React.Component<MenuProps, MenuState> {
         data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.shadow(this.theme)]: this.getProps().hasShadow,
         })}
         style={getStyle(this.props)}
         ref={this.setRootNode}
       >
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.props.maxHeight}
-          preventWindowScroll={this.props.preventWindowScroll}
+          maxHeight={this.getProps().maxHeight}
+          preventWindowScroll={this.getProps().preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
           <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>

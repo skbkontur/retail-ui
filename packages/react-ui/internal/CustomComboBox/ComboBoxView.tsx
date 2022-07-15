@@ -145,7 +145,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   public render() {
-    const { onClickOutside, onFocusOutside, onMouseEnter, onMouseLeave, onMouseOver, opened, width } = this.props;
+    const { onMouseEnter, onMouseLeave, onMouseOver, opened } = this.props;
+    const onClickOutside = this.getProps().onClickOutside;
+    const onFocusOutside = this.getProps().onFocusOutside;
+    const width = this.getProps().width;
 
     const isMobile = this.isMobileLayout;
 
@@ -172,20 +175,10 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   }
 
   private getComboBoxMenu = () => {
-    const {
-      items,
-      loading,
-      opened,
-      refMenu,
-      maxMenuHeight,
-      renderTotalCount,
-      renderItem,
-      renderNotFound,
-      repeatRequest,
-      requestStatus,
-      totalCount,
-    } = this.props;
+    const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount } = this.props;
 
+    const repeatRequest = this.getProps().repeatRequest;
+    const requestStatus = this.getProps().requestStatus;
     return (
       <ComboBoxMenu
         items={items}
@@ -195,7 +188,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         opened={opened}
         refMenu={refMenu}
         renderTotalCount={renderTotalCount}
-        renderItem={renderItem}
+        renderItem={this.getProps().renderItem}
         renderNotFound={renderNotFound}
         renderAddButton={this.renderAddButton}
         repeatRequest={repeatRequest}
@@ -288,8 +281,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       onInputClick,
       onInputKeyDown,
       placeholder,
-      renderValue,
-      size,
       textValue,
       value,
       warning,
@@ -297,6 +288,9 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       leftIcon,
       inputMode,
     } = this.props;
+
+    const renderValue = this.getProps().renderValue;
+    const size = this.getProps().size;
 
     const rightIcon = this.getRightIcon();
 

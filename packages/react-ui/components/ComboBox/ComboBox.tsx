@@ -275,6 +275,9 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     return (
       <CustomComboBox
         {...this.props}
+        menuAlign={this.getProps().menuAlign}
+        searchOnFocus={this.getProps().searchOnFocus}
+        drawArrow={this.getProps().drawArrow}
         itemToValue={this.getProps().itemToValue}
         valueToString={this.getProps().valueToString}
         renderValue={this.getProps().renderValue}

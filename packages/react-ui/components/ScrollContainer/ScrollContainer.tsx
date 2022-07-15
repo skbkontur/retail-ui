@@ -90,11 +90,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   public componentDidUpdate(prevProps: ScrollContainerProps) {
+    const preventWindowScroll = this.getProps().preventWindowScroll;
     if (this.inner) {
-      if (prevProps.preventWindowScroll && !this.props.preventWindowScroll) {
+      if (prevProps.preventWindowScroll && !preventWindowScroll) {
         this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
       }
-      if (!prevProps.preventWindowScroll && this.props.preventWindowScroll) {
+      if (!prevProps.preventWindowScroll && preventWindowScroll) {
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
     }
@@ -108,7 +109,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     }
 
     const innerStyle: React.CSSProperties = {
-      scrollBehavior: props.scrollBehaviour,
+      scrollBehavior: this.getProps().scrollBehaviour,
       maxHeight: props.maxHeight,
       maxWidth: props.maxWidth,
     };
@@ -244,7 +245,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private refInner = (element: HTMLElement | null) => {
-    if (!this.inner && element && this.props.preventWindowScroll) {
+    if (!this.inner && element && this.getProps().preventWindowScroll) {
       element.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
     }
     if (this.inner && !element) {
@@ -258,7 +259,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.scrollY?.reflow();
 
     this.props.onScroll?.(event);
-    if (this.props.preventWindowScroll) {
+    if (this.getProps().preventWindowScroll) {
       event.preventDefault();
       return;
     }

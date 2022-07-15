@@ -7,6 +7,7 @@ import { MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -48,6 +49,8 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     requestStatus: ComboBoxRequestStatus.Unknown,
   };
 
+  private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
+
   private readonly locale!: ComboBoxLocale;
 
   public render() {
@@ -60,9 +63,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       renderNotFound = () => notFound,
       renderTotalCount,
       maxMenuHeight,
-      requestStatus,
       isMobile,
     } = this.props;
+
+    const requestStatus = this.getProps().requestStatus;
 
     const { notFound, errorNetworkButton, errorNetworkMessage } = this.locale;
 
@@ -103,7 +107,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
           <MenuItem disabled key="message" isMobile={isMobile}>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
-          <MenuItem link onClick={this.props.repeatRequest} key="retry" isMobile={isMobile}>
+          <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
         </Menu>

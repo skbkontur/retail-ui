@@ -14,6 +14,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWra
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -42,6 +43,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
   public static defaultProps: DefaultProps = { size: 'small' };
+
+  private getProps = createPropsGetter(InputLikeText.defaultProps);
 
   public state = { blinking: false, focused: false };
 
@@ -222,7 +225,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getIconClassname(right = false) {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
       case 'medium':
@@ -472,7 +475,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getSizeClassName = () => {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,

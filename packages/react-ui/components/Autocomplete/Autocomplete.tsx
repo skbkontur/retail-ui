@@ -240,10 +240,10 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     const items = this.state.items;
     const menuProps = {
       ref: this.refMenu,
-      maxHeight: this.props.menuMaxHeight,
-      hasShadow: this.props.hasShadow,
+      maxHeight: this.getProps().menuMaxHeight,
+      hasShadow: this.getProps().hasShadow,
       width: this.props.menuWidth || (this.props.width && getDOMRect(this.rootSpan).width),
-      preventWindowScroll: this.props.preventWindowScroll,
+      preventWindowScroll: this.getProps().preventWindowScroll,
     };
     if (!items || items.length === 0) {
       return null;
@@ -253,8 +253,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <DropdownContainer
         offsetY={1}
         getParent={this.getAnchor}
-        align={this.props.menuAlign}
-        disablePortal={this.props.disablePortal}
+        align={this.getProps().menuAlign}
+        disablePortal={this.getProps().disablePortal}
       >
         <Menu {...menuProps}>{this.getItems()}</Menu>
       </DropdownContainer>

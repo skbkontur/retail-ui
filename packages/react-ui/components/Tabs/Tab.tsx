@@ -12,6 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -131,6 +132,8 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     href: '',
   };
 
+  private getProps = createPropsGetter(Tab.defaultProps);
+
   public state: TabState = {
     focusedByKeyboard: false,
   };
@@ -188,16 +191,9 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   public getUnderlyingNode = () => this.tabComponent;
 
   private renderMain() {
-    const {
-      children,
-      disabled,
-      error,
-      warning,
-      success,
-      primary,
-      component: Component = Tab.defaultProps.component,
-      href,
-    } = this.props;
+    const { children, disabled, error, warning, success, primary } = this.props;
+    const Component = this.getProps().component;
+    const href = this.getProps().href;
 
     let isActive = false;
     let isVertical = false;
@@ -240,7 +236,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     );
   }
 
-  private getId = () => this.props.id || this.props.href;
+  private getId = () => this.props.id || this.getProps().href;
 
   private refTabComponent = (instance: React.ReactElement<any>) => {
     this.tabComponent = instance;
@@ -253,8 +249,9 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       event.preventDefault();
       return;
     }
+    const href = this.getProps().href;
 
-    const id = this.props.id || this.props.href;
+    const id = this.props.id || href;
     if (this.props.onClick) {
       this.props.onClick(event);
       if (event.defaultPrevented) {
@@ -264,7 +261,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     if (typeof id === 'string') {
       this.context.switchTab(id);
     }
-    if (this.props.component === 'a' && !this.props.href) {
+    if (this.getProps().component === 'a' && !href) {
       event.preventDefault();
     }
   };

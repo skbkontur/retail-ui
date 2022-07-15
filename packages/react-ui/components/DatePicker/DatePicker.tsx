@@ -248,7 +248,9 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
 
-    const { value, minDate, maxDate } = this.props;
+    const { value } = this.props;
+    const minDate = this.getProps().minDate;
+    const maxDate = this.getProps().maxDate;
 
     const internalDate = this.parseValueToDate(value);
     const date = internalDate ? internalDate.toNativeFormat() : null;
@@ -294,8 +296,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
           value={this.props.value || ''}
           width="100%"
           withIcon
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
+          minDate={minDate}
+          maxDate={maxDate}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
@@ -304,8 +306,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
           <NativeDateInput
             onValueChange={this.props.onValueChange}
             value={this.props.value || ''}
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
+            minDate={minDate}
+            maxDate={maxDate}
             disabled={this.props.disabled}
           />
         )}

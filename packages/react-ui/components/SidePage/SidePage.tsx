@@ -17,6 +17,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -150,6 +151,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     offset: 0,
   };
 
+  private getProps = createPropsGetter(SidePage.defaultProps);
+
   public render(): JSX.Element {
     return (
       <ThemeContext.Consumer>
@@ -162,7 +165,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { blockBackground, disableAnimations } = this.props;
+    const { blockBackground } = this.props;
+    const disableAnimations = this.getProps().disableAnimations;
 
     return (
       <RenderContainer>
@@ -199,7 +203,9 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
+    const { width, blockBackground, fromLeft } = this.props;
+    const disableFocusLock = this.getProps().disableFocusLock;
+    const offset = this.getProps().offset;
 
     return (
       <ZIndex

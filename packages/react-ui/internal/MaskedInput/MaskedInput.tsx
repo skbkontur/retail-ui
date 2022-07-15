@@ -6,6 +6,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './MaskedInput.styles';
 
@@ -38,6 +39,8 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   public static defaultProps: DefaultProps = {
     maskChar: '_',
   };
+
+  private getProps = createPropsGetter(MaskedInput.defaultProps);
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
@@ -185,7 +188,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     userInput: string,
     options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
   ) => {
-    const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
+    const visibleMaskChars = new Array(options.mask.length).fill(this.getProps().maskChar);
 
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({

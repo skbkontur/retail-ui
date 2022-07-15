@@ -12,6 +12,7 @@ import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
@@ -86,6 +87,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     width: 125,
   };
 
+  private getProps = createPropsGetter(DateInput.defaultProps);
+
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;
   private dateFragmentsView: DateFragmentsView | null = null;
@@ -125,9 +128,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
 
   public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
     if (
-      prevProps.value !== this.props.value ||
-      prevProps.minDate !== this.props.minDate ||
-      prevProps.maxDate !== this.props.maxDate ||
+      prevProps.value !== this.getProps().value ||
+      prevProps.minDate !== this.getProps().minDate ||
+      prevProps.maxDate !== this.getProps().maxDate ||
       this.iDateMediator.isChangedLocale(this.locale)
     ) {
       this.updateFromProps();
@@ -194,9 +197,9 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <InputLikeText
-          width={this.props.width}
+          width={this.getProps().width}
           ref={this.inputLikeTextRef}
-          size={this.props.size}
+          size={this.getProps().size}
           disabled={this.props.disabled}
           error={this.props.error}
           warning={this.props.warning}
@@ -229,7 +232,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private renderIcon = () => {
-    const { withIcon, size, disabled = false } = this.props;
+    const { withIcon, disabled = false } = this.props;
+    const size = this.getProps().size;
 
     if (withIcon) {
       const theme = this.theme;

@@ -10,6 +10,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Link.styles';
 
@@ -89,6 +90,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     use: 'default',
   };
 
+  private getProps = createPropsGetter(Link.defaultProps);
+
   public state = {
     focusedByTab: false,
   };
@@ -127,26 +130,29 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     let rel = relOrigin;
-    if (typeof rel === 'undefined' && href) {
-      rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
+    const refWithDefaultProp = this.getProps().href;
+    if (typeof rel === 'undefined' && refWithDefaultProp) {
+      rel = `noopener${isExternalLink(refWithDefaultProp) ? ' noreferrer' : ''}`;
     }
 
     const focused = !disabled && this.state.focusedByTab;
+
+    const useWithDefaultValue = this.getProps().use;
 
     const linkProps = {
       className: cx({
         [styles.root(this.theme)]: true,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
-        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
+        [styles.useDefault(this.theme)]: useWithDefaultValue === 'default',
+        [styles.useSuccess(this.theme)]: useWithDefaultValue === 'success',
+        [styles.useDanger(this.theme)]: useWithDefaultValue === 'danger',
+        [styles.useGrayed(this.theme)]: useWithDefaultValue === 'grayed',
+        [styles.useGrayedFocus(this.theme)]: useWithDefaultValue === 'grayed' && focused,
         [styles.focus(this.theme)]: focused,
         [styles.disabled(this.theme)]: !!disabled || !!loading,
       }),
-      href,
+      href: refWithDefaultProp,
       rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
@@ -180,7 +186,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { href, onClick, disabled, loading } = this.props;
+    const { onClick, disabled, loading } = this.props;
+    const href = this.getProps().href;
     if (!href) {
       event.preventDefault();
     }

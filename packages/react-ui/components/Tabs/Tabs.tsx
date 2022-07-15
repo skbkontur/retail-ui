@@ -102,7 +102,8 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
-    const { vertical, value, width, children, indicatorClassName } = this.props;
+    const { value, width, children, indicatorClassName } = this.props;
+    const vertical = this.getProps().vertical;
 
     return (
       <ThemeContext.Consumer>
@@ -117,7 +118,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
               >
                 <TabsContext.Provider
                   value={{
-                    vertical: this.getProps().vertical,
+                    vertical,
                     activeTab: value,
                     getTab: this.getTab,
                     addTab: this.addTab,
@@ -128,11 +129,7 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   }}
                 >
                   {children}
-                  <Indicator
-                    className={indicatorClassName}
-                    tabUpdates={this.tabUpdates}
-                    vertical={this.getProps().vertical}
-                  />
+                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical />
                 </TabsContext.Provider>
               </div>
             </CommonWrapper>

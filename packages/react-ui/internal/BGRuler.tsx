@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
 interface BGRulerProps {
   width?: string | number;
@@ -29,6 +30,8 @@ export class BGRuler extends React.Component<BGRulerProps> {
     color: '#333',
   };
 
+  private getProps = createPropsGetter(BGRuler.defaultProps);
+
   private iframe: HTMLIFrameElement | null = null;
 
   public componentDidMount = () => {
@@ -49,7 +52,12 @@ export class BGRuler extends React.Component<BGRulerProps> {
   };
 
   public render() {
-    const { width, height, color, top, bottom, left, right } = this.props;
+    const { width, bottom } = this.props;
+    const height = this.getProps().height;
+    const top = this.getProps().top;
+    const left = this.getProps().left;
+    const right = this.getProps().right;
+    const color = this.getProps().color;
     const wrapper: React.CSSProperties = {
       position: 'absolute',
       width,

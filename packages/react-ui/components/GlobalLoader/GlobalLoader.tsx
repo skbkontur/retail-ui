@@ -81,16 +81,17 @@ let currentGlobalLoader: GlobalLoader;
 export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
   private setRootNode!: TSetRootNode;
+  private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
   private readonly startTask = debounce(() => {
     this.setState({ visible: true });
     this.props.onStart?.();
-  }, this.props.delayBeforeShow);
+  }, this.getProps().delayBeforeShow);
 
   private readonly stopTask = debounce(() => {
     this.setState({ visible: false, successAnimationInProgress: false, started: false });
     this.props.onDone?.();
-  }, this.props.delayBeforeHide);
+  }, this.getProps().delayBeforeHide);
 
   public static defaultProps: DefaultProps = {
     expectedResponseTime: 1000,
@@ -100,8 +101,6 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     active: false,
     disableAnimations: isTestEnv,
   };
-
-  private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
   constructor(props: GlobalLoaderProps) {
     super(props);
@@ -120,23 +119,26 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader = this;
   }
   componentDidMount() {
-    if (this.props.active) {
+    if (this.getProps().active) {
       this.setActive();
     }
-    if (this.props.rejected) {
+    if (this.getProps().rejected) {
       this.setReject(true);
     }
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
-    if (this.props.expectedResponseTime !== prevProps.expectedResponseTime) {
-      this.setState({ expectedResponseTime: this.getProps().expectedResponseTime });
+    const expectedResponseTime = this.getProps().expectedResponseTime;
+    const rejected = this.getProps().rejected;
+    const active = this.getProps().active;
+    if (expectedResponseTime !== prevProps.expectedResponseTime) {
+      this.setState({ expectedResponseTime });
     }
-    if (this.props.rejected !== prevProps.rejected) {
-      this.setReject(!!this.props.rejected);
+    if (rejected !== prevProps.rejected) {
+      this.setReject(!!rejected);
     }
-    if (this.props.active !== prevProps.active) {
-      if (this.props.active) {
+    if (active !== prevProps.active) {
+      if (active) {
         this.setActive();
       } else {
         this.setDone();
@@ -221,10 +223,10 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     if (this.state.successAnimationInProgress) {
       this.successAnimationInProgressTimeout = setTimeout(() => {
         this.setActive();
-      }, this.props.delayBeforeHide);
+      }, this.getProps().delayBeforeHide);
     } else {
       this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
-      if (this.props.rejected) {
+      if (this.getProps().rejected) {
         this.setReject(true);
       } else {
         this.stopTask.cancel();
@@ -240,7 +242,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.visible && (this.state.started || this.props.active)) {
+    if (!this.state.visible && (this.state.started || this.getProps().active)) {
       this.setState({ visible: true });
     }
     this.startTask.cancel();

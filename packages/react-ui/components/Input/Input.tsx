@@ -12,6 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Input.styles';
 
@@ -124,6 +125,8 @@ export class Input extends React.Component<InputProps, InputState> {
   public static defaultProps: DefaultProps = {
     size: 'small',
   };
+
+  private getProps = createPropsGetter(Input.defaultProps);
 
   public state: InputState = {
     needsPolyfillPlaceholder,
@@ -370,7 +373,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getIconSizeClassname(right = false) {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
       case 'medium':
@@ -436,7 +439,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return cx({
           [styles.sizeLarge(this.theme)]: true,

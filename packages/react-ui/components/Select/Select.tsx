@@ -368,7 +368,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getLeftIconClass(size: ButtonSize | undefined) {
-    if (this.props.use === 'link') {
+    if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
 
@@ -393,12 +393,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onKeyDown: params.onKeyDown,
       active: params.opened,
     };
+    const use = this.getProps().use;
 
     const labelProps = {
       className: cx({
-        [styles.label()]: this.props.use !== 'link',
+        [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,
-        [styles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+        [styles.customUsePlaceholder()]: params.isPlaceholder && use !== 'default',
         [styles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
@@ -406,7 +407,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       },
     };
 
-    const useIsCustom = this.props.use !== 'default';
+    const useIsCustom = use !== 'default';
 
     return (
       <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>

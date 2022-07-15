@@ -9,6 +9,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 
@@ -180,6 +181,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     type: 'button',
   };
 
+  private getProps = createPropsGetter(Button.defaultProps);
+
   public state = {
     focusedByTab: false,
   };
@@ -253,7 +256,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
-    const use = this.props.use || Button.defaultProps.use;
+    const use = this.getProps().use;
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -262,7 +265,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
-      type: this.props.type,
+      type: this.getProps().type,
       className: cx({
         [styles.root(this.theme)]: true,
         [styles[use](this.theme)]: true,
@@ -406,7 +409,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return cx(styles.sizeLarge(this.theme), { [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
       case 'medium':
@@ -418,7 +421,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeIconClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return styles.iconLarge(this.theme);
       case 'medium':
@@ -430,7 +433,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeWrapClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return styles.wrapLarge(this.theme);
       case 'medium':

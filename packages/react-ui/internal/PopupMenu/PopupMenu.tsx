@@ -14,6 +14,7 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
@@ -107,6 +108,8 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
     disableAnimations: false,
   };
 
+  private getProps = createPropsGetter(PopupMenu.defaultProps);
+
   public static Type = PopupMenuType;
 
   public state = {
@@ -135,10 +138,10 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 opened={this.state.menuVisible}
                 hasShadow
                 margin={this.props.popupMargin}
-                hasPin={this.props.popupHasPin}
+                hasPin={this.getProps().popupHasPin}
                 pinOffset={this.props.popupPinOffset}
                 positions={this.getPositions()}
-                disableAnimations={this.props.disableAnimations}
+                disableAnimations={this.getProps().disableAnimations}
                 onOpen={this.handleOpen}
                 mobileOnCloseRequest={this.hideMenu}
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
@@ -211,8 +214,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
   private getPositions(): Readonly<PopupPositionsType[]> {
-    if (this.props.positions && isValidPositions(this.props.positions)) {
-      return this.props.positions;
+    const positions = this.getProps().positions;
+    if (positions && isValidPositions(positions)) {
+      return positions;
     }
 
     return Positions;

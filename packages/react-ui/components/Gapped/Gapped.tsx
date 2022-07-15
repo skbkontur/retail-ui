@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { isNonNullable } from '../../lib/utils';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -68,10 +69,12 @@ export class Gapped extends React.Component<GappedProps> {
     verticalAlign: 'baseline',
   };
 
+  private getProps = createPropsGetter(Gapped.defaultProps);
+
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+        {this.getProps().vertical ? this.renderVertical() : this.renderHorizontal()}
       </CommonWrapper>
     );
   }
@@ -105,7 +108,8 @@ export class Gapped extends React.Component<GappedProps> {
   }
 
   private renderHorizontal() {
-    const { children, verticalAlign, wrap } = this.props;
+    const { children, verticalAlign } = this.props;
+    const wrap = this.getProps().wrap;
     const gap = this.getGapValue();
     const itemStyle: React.CSSProperties = {
       display: 'inline-block',

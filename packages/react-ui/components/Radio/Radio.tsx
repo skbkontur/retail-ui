@@ -10,6 +10,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -78,6 +79,8 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focused: false,
   };
 
+  private getProps = createPropsGetter(Radio.defaultProps);
+
   public static contextType = RadioGroupContext;
   public context: RadioGroupContextType<T> = this.context;
 
@@ -132,7 +135,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       className: cx({
         [styles.circle(this.theme)]: true,
         [styles.checked(this.theme)]: this.props.checked,
-        [styles.focus(this.theme)]: this.props.focused || this.state.focusedByKeyboard,
+        [styles.focus(this.theme)]: this.getProps().focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
         [styles.disabled(this.theme)]: disabled,

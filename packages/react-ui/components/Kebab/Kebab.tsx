@@ -15,6 +15,7 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Kebab.styles';
 
@@ -65,6 +66,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     icon: <MenuKebabIcon />,
   };
 
+  private getProps = createPropsGetter(Kebab.defaultProps);
+
   public state = {
     focusedByTab: false,
     anchor: null,
@@ -113,18 +116,18 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderMain() {
-    const { disabled, positions } = this.props;
+    const { disabled } = this.props;
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
-          positions={positions}
+          positions={this.getProps().positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
-          disableAnimations={this.props.disableAnimations}
+          disableAnimations={this.getProps().disableAnimations}
           menuMaxHeight={this.props.menuMaxHeight}
-          onOpen={this.props.onOpen}
-          onClose={this.props.onClose}
+          onOpen={this.getProps().onOpen}
+          onClose={this.getProps().onClose}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -200,16 +203,17 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
+    const size = this.getProps().size;
     return (
       <div
         className={cx({
           [styles.icon()]: true,
-          [styles.iconsmall()]: this.props.size === 'small',
-          [styles.iconmedium()]: this.props.size === 'medium',
-          [styles.iconlarge()]: this.props.size === 'large',
+          [styles.iconsmall()]: size === 'small',
+          [styles.iconmedium()]: size === 'medium',
+          [styles.iconlarge()]: size === 'large',
         })}
       >
-        {this.props.icon}
+        {this.getProps().icon}
       </div>
     );
   }

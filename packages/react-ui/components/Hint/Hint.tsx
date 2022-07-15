@@ -111,7 +111,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private getProps = createPropsGetter(Hint.defaultProps);
 
   public state: HintState = {
-    opened: this.props.manual ? !!this.props.opened : false,
+    opened: this.getProps().manual ? !!this.getProps().opened : false,
   };
 
   private timer: Nullable<number> = null;
@@ -121,15 +121,16 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private popupRef = React.createRef<Popup>();
 
   public componentDidUpdate(prevProps: HintProps) {
-    if (!this.props.manual) {
+    const opened = this.getProps().opened;
+    if (!this.getProps().manual) {
       return;
     }
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    if (this.props.opened !== prevProps.opened) {
-      this.setState({ opened: !!this.props.opened });
+    if (opened !== prevProps.opened) {
+      this.setState({ opened: !!opened });
     }
   }
 
@@ -166,14 +167,15 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   public renderMobile() {
+    const manual = this.getProps().manual;
     return (
       <CommonWrapper {...this.props}>
         <Popup
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={[]}
-          onClick={!this.props.manual ? this.open : undefined}
-          mobileOnCloseRequest={!this.props.manual ? this.close : undefined}
+          onClick={!manual ? this.open : undefined}
+          mobileOnCloseRequest={!manual ? this.close : undefined}
         >
           {this.renderContent()}
         </Popup>
@@ -191,10 +193,10 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
-          disableAnimations={this.props.disableAnimations}
+          disableAnimations={this.getProps().disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          useWrapper={this.props.useWrapper}
+          useWrapper={this.getProps().useWrapper}
           ref={this.popupRef}
         >
           {this.renderContent()}
@@ -212,7 +214,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return null;
     }
 
-    const { pos, maxWidth } = this.props;
+    const maxWidth = this.getProps().maxWidth;
+    const pos = this.getProps().pos;
     const className = cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
@@ -230,7 +233,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   };
 
   private handleMouseEnter = (e: MouseEventType) => {
-    if (!this.props.manual && !this.timer) {
+    if (!this.getProps().manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
 
@@ -240,7 +243,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   };
 
   private handleMouseLeave = (e: MouseEventType) => {
-    if (!this.props.manual && this.timer) {
+    if (!this.getProps().manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
       this.setState({ opened: false });

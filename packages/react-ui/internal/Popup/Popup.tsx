@@ -295,7 +295,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderMain() {
     const { location } = this.state;
-    const { anchorElement, useWrapper } = this.props;
+    const { anchorElement } = this.props;
+    const useWrapper = this.getProps().useWrapper;
 
     let anchor: Nullable<React.ReactNode> = null;
     if (isHTMLElement(anchorElement)) {
@@ -403,7 +404,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private content = (children: React.ReactNode) => {
-    const { backgroundColor, width } = this.props;
+    const { backgroundColor } = this.props;
+    const width = this.getProps().width;
 
     return (
       <div className={styles.content(this.theme)} data-tid={PopupDataTids.content} ref={this.refForTransition}>
@@ -419,7 +421,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent(location: PopupLocation) {
-    const { disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
+    const { maxWidth, opened } = this.props;
+    const hasShadow = this.getProps().hasShadow;
+    const disableAnimations = this.getProps().disableAnimations;
+    const ignoreHover = this.getProps().ignoreHover;
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -494,11 +499,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
-    const { pinSize, hasShadow, backgroundColor, borderColor } = this.props;
+    const { pinSize, backgroundColor, borderColor } = this.props;
+    const hasShadow = this.getProps().hasShadow;
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
-      this.props.hasPin && (
+      this.getProps().hasPin && (
         <PopupPin
           popupElement={this.lastPopupElement}
           popupPosition={positionName}
@@ -623,7 +629,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
-    if (!this.props.hasPin || /center|middle/.test(position.align)) {
+    if (!this.getProps().hasPin || /center|middle/.test(position.align)) {
       return 0;
     }
 

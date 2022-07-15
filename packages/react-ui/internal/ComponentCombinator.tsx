@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { DefaultizeProps } from '../lib/utils';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
 import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
@@ -26,13 +27,17 @@ export class ComponentCombinator<
     presetState: {},
   };
 
+  private getProps = createPropsGetter(ComponentCombinator.defaultProps);
+
   public state = {
     page: 0,
   };
 
   public render() {
     const { page } = this.state;
-    const { combinations, Component, presetProps, presetState } = this.props;
+    const { combinations, Component } = this.props;
+    const presetProps = this.getProps().presetProps;
+    const presetState = this.getProps().presetState;
     const pages = [];
     let row = 0;
     const sizes = combinations.map((c) => c.length);
@@ -62,7 +67,7 @@ export class ComponentCombinator<
             <ComponentTable
               key={page}
               Component={Component}
-              presetProps={presetProps}
+              presetProps={presetProps as DefaultizeProps<C, P>}
               presetState={presetState}
               rows={flatCombinations.slice(pageOffsets.offsetY, flatCombinations.length)}
               cols={flatCombinations.slice(pageOffsets.offsetX, pageOffsets.offsetY)}

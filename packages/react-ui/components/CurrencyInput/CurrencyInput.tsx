@@ -102,7 +102,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private getProps = createPropsGetter(CurrencyInput.defaultProps);
 
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits, this.getProps().hideTrailingZeros),
+    ...this.getState(this.getProps().value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
     focused: false,
   };
 
@@ -111,7 +111,8 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
-    const { maxLength, integerDigits, fractionDigits } = this.props;
+    const { maxLength, integerDigits } = this.props;
+    const fractionDigits = this.getProps().fractionDigits;
     warning(
       maxLength === undefined,
       `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
@@ -124,7 +125,8 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   }
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
-    const { value, fractionDigits } = this.props;
+    const value = this.getProps().value;
+    const fractionDigits = this.getProps().fractionDigits;
     if (
       (isValidNumber(value) && isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
       prevProps.fractionDigits !== fractionDigits
@@ -156,6 +158,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       <Input
         data-tid={CurrencyInputDataTids.root}
         {...rest}
+        align={this.getProps().align}
         value={this.state.formatted}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
@@ -347,7 +350,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private inputValue = (start: number, end: number, value: string) => {
     const result = CurrencyInputHelper.safeInsert(this.state.formatted, start, end, value, {
       integerDigits: this.props.integerDigits,
-      fractionDigits: this.props.fractionDigits,
+      fractionDigits: this.getProps().fractionDigits,
       unsigned: !this.props.signed,
     });
     if (result) {
@@ -439,7 +442,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits, this.getProps().hideTrailingZeros),
+      ...this.getState(value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
       focused: false,
     });
 

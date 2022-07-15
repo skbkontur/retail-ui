@@ -70,6 +70,8 @@ export class FxInput extends React.Component<FxInputProps> {
 
   public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
     const { type, onRestore, auto, refInput, ...rest } = props;
+    const typeWithDefaultValue = this.getProps().type;
+    const value = this.getProps().value;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };
@@ -93,15 +95,16 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group data-tid={FxInputDataTids.root} width={this.props.width}>
+      <Group data-tid={FxInputDataTids.root} width={this.getProps().width}>
         {button}
-        {this.getProps().type === 'currency' ? (
+        {typeWithDefaultValue === 'currency' ? (
           <CurrencyInput
             {...inputProps}
             {...rest}
+            type={typeWithDefaultValue as InputType}
             width={'100%'}
             ref={this.refInput}
-            value={this.props.value as CurrencyInputProps['value']}
+            value={value as CurrencyInputProps['value']}
             onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
           />
         ) : (
@@ -110,8 +113,8 @@ export class FxInput extends React.Component<FxInputProps> {
             {...rest}
             width={'100%'}
             ref={this.refInput}
-            type={this.props.type as InputType}
-            value={this.props.value as InputProps['value']}
+            type={typeWithDefaultValue as InputType}
+            value={value as InputProps['value']}
             onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />
         )}

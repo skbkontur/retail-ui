@@ -149,17 +149,21 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   public componentDidMount() {
+    const active = this.getProps().active;
     this.checkSpinnerPosition();
-    this.props.active && this.spinnerTask.start();
+    active && this.spinnerTask.start();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
 
-    if (this.props.active) {
+    if (active) {
       this.disableChildrenFocus();
     }
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>, prevState: Readonly<LoaderState>) {
-    const { component, active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.props;
+    const { component } = this.props;
+    const active = this.getProps().active;
+    const delayBeforeSpinnerShow = this.getProps().delayBeforeSpinnerShow;
+    const minimalDelayBeforeSpinnerHide = this.getProps().minimalDelayBeforeSpinnerHide;
     const { isLoaderActive } = this.state;
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
@@ -224,7 +228,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { type, caption, component } = this.props;
+    const { caption, component } = this.props;
+    const type = this.getProps().type;
     const { isLoaderActive } = this.state;
 
     return (

@@ -8,6 +8,7 @@ import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   /** Максимальная высота меню */
@@ -67,6 +68,8 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
 
+  private getProps = createPropsGetter(DropdownMenu.defaultProps);
+
   private popupMenu: Nullable<PopupMenu> = null;
   private setRootNode!: TSetRootNode;
 
@@ -111,8 +114,8 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
           popupHasPin={false}
-          positions={this.props.positions}
-          disableAnimations={this.props.disableAnimations}
+          positions={this.getProps().positions}
+          disableAnimations={this.getProps().disableAnimations}
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}

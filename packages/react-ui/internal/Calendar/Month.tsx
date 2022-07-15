@@ -27,7 +27,7 @@ interface MonthProps {
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
-type DefaultProps = Required<Pick<MonthProps, 'isHoliday'>>;
+type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;

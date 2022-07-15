@@ -120,24 +120,25 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    const { useGlobalListener } = this.props;
+    const useGlobalListener = this.getProps().useGlobalListener;
     if (useGlobalListener) {
       this.addGlobalListener();
     }
   }
 
   public componentDidUpdate(prevProps: PagingProps) {
-    if (!prevProps.useGlobalListener && this.props.useGlobalListener) {
+    const useGlobalListener = this.getProps().useGlobalListener;
+    if (!prevProps.useGlobalListener && useGlobalListener) {
       this.addGlobalListener();
     }
 
-    if (prevProps.useGlobalListener && !this.props.useGlobalListener) {
+    if (prevProps.useGlobalListener && !useGlobalListener) {
       this.removeGlobalListener();
     }
 
-    if (prevProps.useGlobalListener !== this.props.useGlobalListener) {
+    if (prevProps.useGlobalListener !== useGlobalListener) {
       this.setState({
-        keyboardControl: this.getProps().useGlobalListener,
+        keyboardControl: useGlobalListener,
       });
     }
   }
@@ -147,7 +148,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
-    if (this.props.pagesCount < 2 && !this.props.shouldBeVisibleWithLessThanTwoPages) {
+    if (this.props.pagesCount < 2 && !this.getProps().shouldBeVisibleWithLessThanTwoPages) {
       return null;
     }
 
@@ -166,9 +167,9 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span
           tabIndex={0}
-          data-tid={this.props['data-tid']}
+          data-tid={this.getProps()['data-tid']}
           className={styles.paging(this.theme)}
-          onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
+          onKeyDown={this.getProps().useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onMouseDown={this.handleMouseDown}
@@ -360,7 +361,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keyboardControl: this.props.useGlobalListener || false,
+      keyboardControl: this.getProps().useGlobalListener || false,
     });
   };
 
