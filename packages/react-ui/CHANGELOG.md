@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.4...@skbkontur/react-ui@3.12.5) (2022-07-15)
+
+
+### Bug Fixes
+
+* allow CurrencyInput work with string value ([#2886](https://github.com/skbkontur/retail-ui/issues/2886)) ([7b600eb](https://github.com/skbkontur/retail-ui/commit/7b600ebd91ac21dc3df8a35b0746edb242762e9d))
+
+
+
+
+
 ## [3.12.4](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.3...@skbkontur/react-ui@3.12.4) (2022-04-25)
 
 
