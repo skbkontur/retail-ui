@@ -13,7 +13,7 @@ import { isFunction, isNonNullable, isNullable, isRefableElement } from '../../l
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { isHTMLOrSVGElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -288,7 +288,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { anchorElement, useWrapper } = this.props;
 
     let anchor: Nullable<React.ReactNode> = null;
-    if (isHTMLElement(anchorElement)) {
+    if (isHTMLOrSVGElement(anchorElement)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -313,7 +313,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
-    const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
+    const canGetAnchorNode = !!anchorWithRef || isHTMLOrSVGElement(anchorElement);
 
     return (
       <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
@@ -336,7 +336,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private addEventListeners(element: Nullable<HTMLElement>) {
-    if (element && isHTMLElement(element)) {
+    if (element && isHTMLOrSVGElement(element)) {
       element.addEventListener('mouseenter', this.handleMouseEnter);
       element.addEventListener('mouseleave', this.handleMouseLeave);
       element.addEventListener('click', this.handleClick);
@@ -346,7 +346,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private removeEventListeners(element: Nullable<HTMLElement>) {
-    if (element && isHTMLElement(element)) {
+    if (element && isHTMLOrSVGElement(element)) {
       element.removeEventListener('mouseenter', this.handleMouseEnter);
       element.removeEventListener('mouseleave', this.handleMouseLeave);
       element.removeEventListener('click', this.handleClick);
@@ -566,11 +566,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const anchorElement = this.anchorElement;
 
     warning(
-      anchorElement && isHTMLElement(anchorElement),
+      anchorElement && isHTMLOrSVGElement(anchorElement),
       'Anchor element is not defined or not instance of HTMLElement',
     );
 
-    if (!(anchorElement && isHTMLElement(anchorElement))) {
+    if (!(anchorElement && isHTMLOrSVGElement(anchorElement))) {
       return location;
     }
 

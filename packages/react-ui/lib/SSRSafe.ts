@@ -19,7 +19,7 @@ export function safePropTypesInstanceOf<T>(
  * @param el DOM node
  * @returns true if passed HTML or SVG element, else false
  */
-export function isHTMLElement(el: unknown): el is HTMLElement {
+export function isHTMLOrSVGElement(el: unknown): el is HTMLElement {
   if (isBrowser) {
     return el instanceof HTMLElement || el instanceof SVGElement;
   }

@@ -3,7 +3,7 @@ import { findDOMNode } from 'react-dom';
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { isHTMLElement, isNode } from '../SSRSafe';
+import { isHTMLOrSVGElement, isNode } from '../SSRSafe';
 import { canUseDOM } from '../client';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
@@ -25,7 +25,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
     return null;
   }
 
-  if (isHTMLElement(instance)) {
+  if (isHTMLOrSVGElement(instance)) {
     // instance can be a HTMLElement already if comming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
@@ -55,5 +55,5 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   rootNode = findDOMNode(instance);
 
   // the findDOMNode can also return Text, but we are only intrested in HTMLElements, so just filter it
-  return isHTMLElement(rootNode) ? rootNode : null;
+  return isHTMLOrSVGElement(rootNode) ? rootNode : null;
 };
