@@ -14,7 +14,9 @@ interface CurrencyInputDemoProps {
   borderless?: boolean;
 }
 interface CurrencyInputDemoState {
-  value: Nullable<number>;
+  // Intended behavior. CurrencyInput technically can't accept strings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
   hideTrailingZeros: boolean;
   fractionDigits: number;
   signed: boolean;
@@ -37,6 +39,12 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps> {
           </Button>
           <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
+          </Button>
+          <Button onClick={() => this.setState({ value: parseInt('str') })}>
+            Set <b>NaN</b>
+          </Button>
+          <Button onClick={() => this.setState({ value: 'str' })}>
+            Set <b>str</b>
           </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>

@@ -77,7 +77,9 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: PropTypes.number,
+    value: (props: CurrencyInputProps) => {
+      warning(isValidNumber(props.value), `[CurrencyInput]: Prop value is not a valid number`);
+    },
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onBlur: PropTypes.func,
@@ -121,7 +123,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
     const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    if (
+      (isValidNumber(value) && isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
+      prevProps.fractionDigits !== fractionDigits
+    ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
     if (this.state.focused && this.input) {
@@ -456,6 +461,14 @@ function getInputSelectionFromEvent(input: EventTarget): Selection {
     end: input.selectionEnd ?? 0,
     direction: input.selectionDirection as SelectionDirection,
   };
+}
+
+function isNumeric(value: unknown): value is number | string {
+  return !isNaN(parseFloat(value as string)) && isFinite(value as number);
+}
+
+function isValidNumber(value: unknown): boolean {
+  return !isNaN(Number(value));
 }
 
 const getPlaceholder = (props: CurrencyInputProps) => {
