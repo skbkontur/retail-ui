@@ -731,12 +731,12 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     this.addTokenToActiveTokensByIndex(this.props.selectedItems.length - 1);
   }
 
-  private addTokenToActiveTokensByIndex(newIndex: number) {
-    let index = newIndex;
-    while (this.props.selectedItems[index - 1] && this.isItemDisabled(this.props.selectedItems[index])) {
-      index = index - 1;
+  private addTokenToActiveTokensByIndex(index: number) {
+    let newIndex = index;
+    while (this.props.selectedItems[newIndex - 1] && this.isItemByIndexDisabled(newIndex)) {
+      newIndex = newIndex - 1;
     }
-    const itemNew = this.props.selectedItems[index];
+    const itemNew = this.props.selectedItems[newIndex];
     const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
     this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
   }
@@ -755,7 +755,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        if (!this.isEditingMode && !this.isItemDisabled(this.state.activeTokens[this.state.activeTokens.length - 1])) {
+        if (!this.isEditingMode && !this.isItemByIndexDisabled(this.state.activeTokens.length - 1)) {
           const itemsNew = this.props.selectedItems.filter(
             (item) => !this.hasValueInItems(this.state.activeTokens, item),
           );
@@ -1033,9 +1033,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
   };
 
-  private isItemDisabled = (item: T) => {
-    const currentItem = this.props.selectedItems.indexOf(item);
-    const renderedToken = this.renderToken(this.props.selectedItems[currentItem]) as React.ReactElement<
+  private isItemByIndexDisabled = (itemIndex: number) => {
+    const renderedToken = this.renderToken(this.props.selectedItems[itemIndex]) as React.ReactElement<
       TokenInputProps<unknown>
     >;
     return renderedToken.props.disabled;
