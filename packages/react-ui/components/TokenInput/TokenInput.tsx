@@ -1034,9 +1034,24 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private isItemByIndexDisabled = (itemIndex: number) => {
-    const renderedToken = this.renderToken(this.props.selectedItems[itemIndex]) as React.ReactElement<
-      TokenInputProps<unknown>
-    >;
-    return renderedToken.props.disabled;
+    return this.memoize((itemIndex: number) => {
+      const renderedToken = this.renderToken(this.props.selectedItems[itemIndex]) as React.ReactElement<
+        TokenInputProps<unknown>
+      >;
+      return renderedToken.props.disabled;
+    })(itemIndex);
+  };
+
+  private disabledTokens: { [k: string]: boolean | undefined } = {};
+
+  private memoize = (fn: (itemIndex: number) => boolean | undefined) => {
+    return (itemIndex: number) => {
+      if (itemIndex in this.disabledTokens) {
+        return this.disabledTokens[itemIndex];
+      }
+      const result = fn(itemIndex);
+      this.disabledTokens[itemIndex] = result;
+      return result;
+    };
   };
 }
