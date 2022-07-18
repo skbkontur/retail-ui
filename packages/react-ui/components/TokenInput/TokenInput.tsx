@@ -1042,16 +1042,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     })(itemIndex);
   };
 
-  private disabledTokens: { [k: string]: boolean | undefined } = {};
+  private disabledTokens = new Map();
 
   private memoize = (fn: (itemIndex: number) => boolean | undefined) => {
     return (itemIndex: number) => {
       const item = this.props.selectedItems[itemIndex];
-      if (item in this.disabledTokens) {
-        return this.disabledTokens[itemIndex];
+      if (this.disabledTokens.has(item)) {
+        return this.disabledTokens.get(item);
       }
       const result = fn(itemIndex);
-      this.disabledTokens[itemIndex] = result;
+      this.disabledTokens.set(item, result);
       return result;
     };
   };
