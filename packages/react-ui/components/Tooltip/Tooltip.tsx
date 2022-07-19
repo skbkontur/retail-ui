@@ -138,6 +138,7 @@ export interface TooltipState {
 
 export const TooltipDataTids = {
   root: 'Tooltip__root',
+  content: 'Tooltip__content',
 } as const;
 
 const Positions: PopupPositionsType[] = [
@@ -256,7 +257,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     return (
-      <div ref={this.refContent} className={styles.tooltipContent(this.theme)}>
+      <div ref={this.refContent} className={styles.tooltipContent(this.theme)} data-tid={TooltipDataTids.content}>
         {content}
         {this.renderCloseButton()}
       </div>
@@ -403,7 +404,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         return {
           layerProps: {
             active: true,
-            onClickOutside: this.handleClickOutsideAnchor,
+            onClickOutside: this.handleClickOutside,
           },
           popupProps: {
             opened: true,
@@ -438,7 +439,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutsideAnchor,
+            onClickOutside: this.handleClickOutside,
           },
           popupProps: {
             onClick: this.handleClick,
@@ -459,7 +460,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutsideAnchor,
+            onClickOutside: this.handleClickOutside,
           },
           popupProps: {
             onFocus: this.handleFocus,
@@ -522,8 +523,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     this.open();
   };
 
-  private handleClickOutsideAnchor = (event: Event) => {
-    this.clickedOutside = this.isClickOutsideContent(event);
+  private handleClickOutside = (event: Event) => {
+    this.clickedOutside = this.isClickOutsideContent(event) && this.isClickOutsideAnchor(event);
     if (this.clickedOutside) {
       if (this.props.onCloseRequest) {
         this.props.onCloseRequest();
@@ -533,8 +534,16 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    if (this.contentElement && event.target instanceof Element) {
-      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
+    return this.isClickOutside(event, this.contentElement);
+  }
+
+  private isClickOutsideAnchor(event: Event) {
+    return this.isClickOutside(event, this.getAnchorElement());
+  }
+
+  private isClickOutside(event: Event, target: Nullable<HTMLElement>) {
+    if (target && event.target instanceof Element) {
+      return !containsTargetOrRenderContainer(event.target)(target);
     }
 
     return true;
