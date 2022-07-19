@@ -245,13 +245,17 @@ export const styles = memoizeStyle({
 
   disabled(t: Theme) {
     return css`
-      cursor: default;
-      pointer-events: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
+      &,
+      &:active,
+      &:active:hover {
+        cursor: default;
+        pointer-events: none;
+        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDisabledBorderColor};
 
-      background-image: none;
-      background-color: ${t.btnDisabledBg};
-      color: ${t.btnDisabledTextColor};
+        background-image: none;
+        background-color: ${t.btnDisabledBg};
+        color: ${t.btnDisabledTextColor};
+      }
 
       .${globalClasses.arrowHelper} {
         box-shadow: ${t.btnBorderWidth} 0 0 0 ${t.btnDisabledBorderColor};
