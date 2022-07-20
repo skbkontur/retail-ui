@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.0...@skbkontur/react-ui@4.2.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* **ResponsiveLayout:** fix memory leak ([#2948](https://github.com/skbkontur/retail-ui/issues/2948)) ([29e3243](https://github.com/skbkontur/retail-ui/commit/29e3243f388588e9945da3b1079f4aa2f8a2b0fc))
+* **Tooltip:** fix click outside detection ([#2941](https://github.com/skbkontur/retail-ui/issues/2941)) ([3a560bb](https://github.com/skbkontur/retail-ui/commit/3a560bb9021b796cf72c5c2a54f09f71b339e029))
+
+
+
+
+
 # [4.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.2...@skbkontur/react-ui@4.2.0) (2022-07-12)
 
 
