@@ -11,12 +11,14 @@ import {
   arrowOutlineMixin,
   buttonSizeMixinIE11,
 } from './Button.mixins';
+import { hover, active, focus } from '../../lib/theming/ManualAction';
 
 export const globalClasses = prefix('button')({
   arrowHelper: 'arrow-helper',
   arrowHelperTop: 'arrow-helper-top',
   arrowHelperBottom: 'arrow-helper-bottom',
   caption: 'caption',
+  text: 'text',
   innerShadow: 'inner-shadow',
 });
 
@@ -58,7 +60,7 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:active .${globalClasses.caption} {
+      ${active` .${globalClasses.caption}`} {
         transform: translateY(1px);
       }
     `;
@@ -184,6 +186,24 @@ export const styles = memoizeStyle({
     `;
   },
 
+  sizeSmallWithIcon(t: Theme) {
+    return css`
+      padding-left: ${t.btnSmallWithIconPaddingLeft};
+    `;
+  },
+
+  sizeMediumWithIcon(t: Theme) {
+    return css`
+      padding-left: ${t.btnMediumWithIconPaddingLeft};
+    `;
+  },
+
+  sizeLargeWithIcon(t: Theme) {
+    return css`
+      padding-left: ${t.btnLargeWithIconPaddingLeft};
+    `;
+  },
+
   link(t: Theme) {
     return css`
       background: none;
@@ -198,11 +218,12 @@ export const styles = memoizeStyle({
       padding: 0 !important; // override size mixin
       height: auto !important; // override size mixin
 
-      &:hover {
+      ${hover``},
+      ${active``} {
         color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
-      &:active {
+      ${active``} {
         ${activeStyles.link(t)}
       }
     `;
@@ -228,17 +249,66 @@ export const styles = memoizeStyle({
     `;
   },
 
+  linkLine(t: Theme) {
+    return css`
+      & .${globalClasses.text} {
+        position: relative;
+      }
+
+      & .${globalClasses.text}:before {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 100%;
+        bottom: ${t.btnLinkLineBottom};
+        border-bottom-color: ${t.btnLinkLineBorderBottomColor};
+        border-bottom-style: ${t.btnLinkLineBorderBottomStyle};
+        border-bottom-width: ${t.btnLinkLineBorderBottomWidth};
+      }
+
+      ${hover` .${globalClasses.text}:before`},
+      ${focus` .${globalClasses.text}:before`} {
+        border-bottom-color: ${t.btnLinkHoverLineBorderBottomColor};
+      }
+
+      ${active` .${globalClasses.text}:before`} {
+        border-bottom-color: ${t.btnLinkActiveLineBorderBottomColor};
+      }
+    `;
+  },
+
+  linkLineFocus(t: Theme) {
+    return css`
+      & .${globalClasses.text}:before {
+        border-bottom-color: ${t.btnLinkHoverLineBorderBottomColor};
+      }
+    `;
+  },
+
+  linkLineDisabled(t: Theme) {
+    return css`
+      cursor: default;
+      pointer-events: none;
+      color: ${t.btnLinkDisabledColor};
+
+      & .${globalClasses.text}:before {
+        border-bottom-color: ${t.btnLinkDisabledColor};
+      }
+    `;
+  },
+
   focus(t: Theme) {
     return css`
       position: relative;
       z-index: 2;
 
-      &,
-      &:hover,
-      &:active,
-      &:active:hover {
+      &:not(:disabled),
+      &:hover:not(:disabled),
+      &:active:not(:disabled),
+      &:active:hover:not(:disabled),
+      ${focus``} {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
+          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
       }
     `;
   },
@@ -366,17 +436,19 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnDefaultHoverBg,
-        t.btnDefaultHoverBgStart,
-        t.btnDefaultHoverBgEnd,
-        t.btnDefaultHoverBorderColor,
-        t.btnDefaultHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      ${hover``} {
+        ${buttonHoverMixin(
+          t.btnDefaultHoverBg,
+          t.btnDefaultHoverBgStart,
+          t.btnDefaultHoverBgEnd,
+          t.btnDefaultHoverBorderColor,
+          t.btnDefaultHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
-      &:active {
-        ${activeStyles.default(t)}
+      ${active``} {
+        ${activeStyles.default(t)};
       }
     `;
   },
@@ -393,16 +465,18 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnPrimaryHoverBg,
-        t.btnPrimaryHoverBgStart,
-        t.btnPrimaryHoverBgEnd,
-        t.btnPrimaryHoverBorderColor,
-        t.btnPrimaryHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      ${hover``} {
+        ${buttonHoverMixin(
+          t.btnPrimaryHoverBg,
+          t.btnPrimaryHoverBgStart,
+          t.btnPrimaryHoverBgEnd,
+          t.btnPrimaryHoverBorderColor,
+          t.btnPrimaryHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
-      &:active {
+      ${active``} {
         ${activeStyles.primary(t)}
       }
     `;
@@ -420,16 +494,18 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnSuccessHoverBg,
-        t.btnSuccessHoverBgStart,
-        t.btnSuccessHoverBgEnd,
-        t.btnSuccessHoverBorderColor,
-        t.btnSuccessHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      ${hover``} {
+        ${buttonHoverMixin(
+          t.btnSuccessHoverBg,
+          t.btnSuccessHoverBgStart,
+          t.btnSuccessHoverBgEnd,
+          t.btnSuccessHoverBorderColor,
+          t.btnSuccessHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
-      &:active {
+      ${active``} {
         ${activeStyles.success(t)}
       }
     `;
@@ -447,16 +523,18 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnDangerHoverBg,
-        t.btnDangerHoverBgStart,
-        t.btnDangerHoverBgEnd,
-        t.btnDangerHoverBorderColor,
-        t.btnDangerHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      ${hover``} {
+        ${buttonHoverMixin(
+          t.btnDangerHoverBg,
+          t.btnDangerHoverBgStart,
+          t.btnDangerHoverBgEnd,
+          t.btnDangerHoverBorderColor,
+          t.btnDangerHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
-      &:active {
+      ${active``} {
         ${activeStyles.danger(t)}
       }
     `;
@@ -474,17 +552,43 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnPayHoverBg,
-        t.btnPayHoverBgStart,
-        t.btnPayHoverBgEnd,
-        t.btnPayHoverBorderColor,
-        t.btnPayHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      ${hover``} {
+        ${buttonHoverMixin(
+          t.btnPayHoverBg,
+          t.btnPayHoverBgStart,
+          t.btnPayHoverBgEnd,
+          t.btnPayHoverBorderColor,
+          t.btnPayHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
-      &:active {
+      ${active``} {
         ${activeStyles.pay(t)}
+      }
+    `;
+  },
+
+  text(t: Theme) {
+    return css`
+      ${styles.borderless(t)}
+      ${styles.backless(t)}
+    `;
+  },
+
+  backless(t: Theme) {
+    return css`
+      ${styles.default(t)}
+
+      color: ${t.btnDefaultTextColor};
+      background: transparent;
+
+      ${hover``} {
+        background: ${t.btnBacklessHoverBg};
+      }
+
+      ${active``} {
+        ${activeStyles.backless(t)}
       }
     `;
   },
@@ -512,9 +616,9 @@ export const styles = memoizeStyle({
     return css`
       ${checkedStyles}
 
-      &:hover,
-      &:active,
-      &:hover:active {
+      &:hover:active,
+      ${hover``},
+      ${active``} {
         ${checkedStyles}
       }
     `;
@@ -686,9 +790,9 @@ export const styles = memoizeStyle({
       &,
       &:hover,
       &:active {
-        box-shadow: none;
+        box-shadow: none !important;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none;
+          box-shadow: none !important;
         }
       }
     `;
@@ -719,8 +823,7 @@ export const styles = memoizeStyle({
 export const activeStyles = memoizeStyle({
   default(t: Theme) {
     return css`
-      &,
-      &:hover {
+      & {
         ${buttonActiveMixin(
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
@@ -735,8 +838,7 @@ export const activeStyles = memoizeStyle({
 
   primary(t: Theme) {
     return css`
-      &,
-      &:hover {
+      & {
         ${buttonActiveMixin(
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
@@ -751,8 +853,7 @@ export const activeStyles = memoizeStyle({
 
   success(t: Theme) {
     return css`
-      &,
-      &:hover {
+      & {
         ${buttonActiveMixin(
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
@@ -767,8 +868,7 @@ export const activeStyles = memoizeStyle({
 
   danger(t: Theme) {
     return css`
-      &,
-      &:hover {
+      & {
         ${buttonActiveMixin(
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
@@ -783,8 +883,7 @@ export const activeStyles = memoizeStyle({
 
   pay(t: Theme) {
     return css`
-      &,
-      &:hover {
+      & {
         ${buttonActiveMixin(
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
@@ -799,9 +898,24 @@ export const activeStyles = memoizeStyle({
 
   link(t: Theme) {
     return css`
-      &,
-      &:hover {
+      & {
         color: ${t.btnLinkActiveColor};
+      }
+    `;
+  },
+
+  text(t: Theme) {
+    return css`
+      & {
+        color: red;
+      }
+    `;
+  },
+
+  backless(t: Theme) {
+    return css`
+      & {
+        background: ${t.btnBacklessActiveBg};
       }
     `;
   },

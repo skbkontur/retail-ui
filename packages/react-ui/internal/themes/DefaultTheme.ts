@@ -453,6 +453,13 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
+  public static btnLinkLineBottom = '';
+  public static btnLinkLineBorderBottomColor = '';
+  public static btnLinkHoverLineBorderBottomColor = '';
+  public static btnLinkActiveLineBorderBottomColor = '';
+  public static btnLinkLineBorderBottomStyle = '';
+  public static btnLinkLineBorderBottomWidth = '0';
+
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
   }
@@ -475,6 +482,12 @@ export class DefaultTheme {
   public static get btnDisabledTextColor() {
     return this.textColorDisabledContrast;
   }
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04)';
+  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.08)';
+
+  public static btnSmallWithIconPaddingLeft = '';
+  public static btnMediumWithIconPaddingLeft = '';
+  public static btnLargeWithIconPaddingLeft = '';
   //#endregion
   //#region Select
   public static selectPlaceholderColor = '#adadad';
@@ -609,6 +622,7 @@ export class DefaultTheme {
   public static kebabBorder = '2px solid transparent';
   //#endregion
   //#region Modal
+  public static modalWindowShadow = '0 5px 10px rgba(0, 0, 0, 0.2);';
   public static modalBackBg = '#222';
   public static get modalBg() {
     return this.bgSecondary;
@@ -643,15 +657,21 @@ export class DefaultTheme {
   public static modalPaddingLeft = '32px';
   public static modalPaddingRight = '36px';
   public static modalHeaderFontSize = '24px';
+  public static modalHeaderFontWeight = '400';
   public static get modalHeaderTextColor() {
     return this.textColorDefault;
   }
   public static modalHeaderLineHeight = '32px';
   public static modalHeaderPaddingBottom = '16px';
   public static modalHeaderPaddingTop = '24px';
+  public static modalFixedHeaderMarginBottom = '10px';
   public static get modalFixedHeaderPaddingBottom() {
     return `${Math.round(parseInt(this.modalHeaderPaddingBottom) / 2)}px`;
   }
+  public static modalFixedFooterPaddingTop = '20px';
+  public static modalFixedFooterMarginTop = '10px';
+
+  public static modalSeparatorBorderBottom = 'none';
   public static modalBodyTextColor = 'inherit';
   public static modalFooterTextColor = 'inherit';
   public static modalBodyPaddingBottom = '24px';
@@ -977,6 +997,7 @@ export class DefaultTheme {
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
+  public static menuSeparatorMarginX = '0px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
@@ -1221,6 +1242,10 @@ export class DefaultTheme {
   public static get checkboxBorderWidth() {
     return this.controlBorderWidth;
   }
+  public static checkboxIconHeight = 'auto';
+  public static checkboxIconWidth = 'auto';
+  public static checkboxIconTop = '0px';
+  public static checkboxIconLeft = '0px';
   public static get checkboxShadow() {
     return `0 0 0 ${this.checkboxBorderWidth} rgba(0, 0, 0, 0.15)`;
   }

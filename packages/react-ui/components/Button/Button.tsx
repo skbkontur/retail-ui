@@ -14,9 +14,12 @@ import { styles, activeStyles, globalClasses } from './Button.styles';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
-export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link';
+export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
+
+export type ButtonStyle = 'hover' | 'active' | 'focus';
 
 export interface ButtonProps extends CommonProps {
+  manual?: ButtonStyle[];
   /** @ignore */
   _noPadding?: boolean;
 
@@ -47,6 +50,11 @@ export interface ButtonProps extends CommonProps {
    * Убирает обводку у кнопки.
    */
   borderless?: boolean;
+
+  /**
+   * Убирает фон у кнопки.
+   */
+  backless?: boolean;
 
   /**
    * @ignore
@@ -250,6 +258,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onClick,
       width,
       children,
+      manual = [],
     } = this.props;
     const use = this.props.use || Button.defaultProps.use;
     const sizeClass = this.getSizeClassName();
@@ -266,7 +275,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused,
+        [styles.focus(this.theme)]: isFocused || manual.includes('focus'),
         [styles.checked(this.theme)]: checked,
         [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
@@ -295,8 +304,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: cx({
         [styles.wrap(this.theme)]: true,
-        [styles.wrapArrow()]: arrow === true,
-        [styles.wrapArrowLeft()]: arrow === 'left',
+        [styles.wrapArrow()]: arrow === true && use !== 'text' && use !== 'backless',
+        [styles.wrapArrowLeft()]: arrow === 'left' && use !== 'text' && use !== 'backless',
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
@@ -341,14 +350,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     let arrowNode = null;
-    if (arrow) {
+    if (arrow && use !== 'text' && use !== 'backless') {
       arrowNode = (
         <div
           className={cx({
             [styles.arrow()]: true,
             [styles.arrowWarning(this.theme)]: !checked && warning,
             [styles.arrowError(this.theme)]: !checked && error,
-            [styles.arrowFocus(this.theme)]: !checked && isFocused,
+            [styles.arrowFocus(this.theme)]: !checked && (isFocused || manual.includes('focus')),
             [styles.arrowLeft()]: arrow === 'left',
           })}
         >
@@ -363,9 +372,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.className = cx({
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
-        [styles.link(this.theme)]: true,
-        [styles.linkFocus(this.theme)]: isFocused,
-        [styles.linkDisabled(this.theme)]: disabled || loading,
+        [this.getLinkClassName(isFocused || manual.includes('focus'), Boolean(disabled || loading))]: true,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
@@ -374,6 +381,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.style.textAlign = undefined;
       arrowNode = null;
     }
+
+    // TODO: test only
+    manual.forEach((state) => {
+      // @ts-ignore
+      rootProps[`data-style-${state}`] = 'true';
+    });
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -391,7 +404,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               })}
             >
               {iconNode}
-              <span className={cx({ [styles.visibilityHidden()]: !!loadingNode })}>{children}</span>
+              <span
+                className={cx(globalClasses.text, {
+                  [styles.visibilityHidden()]: !!loadingNode,
+                })}
+              >
+                {children}
+              </span>
             </div>
           </button>
         </span>
@@ -406,12 +425,21 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   private getSizeClassName() {
     switch (this.props.size) {
       case 'large':
-        return cx(styles.sizeLarge(this.theme), { [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeLarge(this.theme), {
+          [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
+        });
       case 'medium':
-        return cx(styles.sizeMedium(this.theme), { [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeMedium(this.theme), {
+          [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
+        });
       case 'small':
       default:
-        return cx(styles.sizeSmall(this.theme), { [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge });
+        return cx(styles.sizeSmall(this.theme), {
+          [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
+          [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
+        });
     }
   }
 
@@ -437,6 +465,20 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       default:
         return styles.wrapSmall(this.theme);
     }
+  }
+
+  private getLinkClassName(focused: boolean, disabled: boolean): string {
+    const isBorderBottom = parseInt(this.theme.btnLinkLineBorderBottomWidth) > 0;
+
+    return !isBorderBottom
+      ? cx(styles.link(this.theme), {
+          [styles.linkFocus(this.theme)]: focused,
+          [styles.linkDisabled(this.theme)]: disabled,
+        })
+      : cx(styles.link(this.theme), styles.linkLine(this.theme), {
+          [styles.linkLineFocus(this.theme)]: focused,
+          [styles.linkLineDisabled(this.theme)]: disabled,
+        });
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
