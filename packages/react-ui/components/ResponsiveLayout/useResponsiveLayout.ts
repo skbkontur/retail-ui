@@ -37,7 +37,12 @@ export function useResponsiveLayout() {
     // Checking for SSR use case
     const globalLayout = getLayoutFromGlobal();
 
-    if (globalLayout.isMobile !== state.isMobile || globalLayout.isTabletV !== state.isTabletV || globalLayout.isTabletH !== state.isTabletH || globalLayout.isDesktop !== state.isDesktop) {
+    if (
+      globalLayout.isMobile !== state.isMobile ||
+      globalLayout.isTabletV !== state.isTabletV ||
+      globalLayout.isTabletH !== state.isTabletH ||
+      globalLayout.isDesktop !== state.isDesktop
+    ) {
       setState(globalLayout);
     }
   }, [theme]);
