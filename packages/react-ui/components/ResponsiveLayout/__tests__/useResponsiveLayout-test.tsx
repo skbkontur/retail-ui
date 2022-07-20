@@ -13,7 +13,7 @@ describe('useResponsiveLayout', () => {
     eventListenersMap.clear();
 
     const { unmount } = render(<WithResponsiveLayoutListener />);
-    expect(eventListenersMap.size).toBe(1);
+    expect(eventListenersMap.size).toBe(4);
 
     unmount();
     expect(eventListenersMap.size).toBe(0);
