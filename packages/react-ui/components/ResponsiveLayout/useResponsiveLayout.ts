@@ -53,7 +53,7 @@ export function useResponsiveLayout() {
     prepareMediaQueries();
 
     return () => {
-      mobileListener.current?.remove;
+      mobileListener.current?.remove();
     };
   }, []);
 
