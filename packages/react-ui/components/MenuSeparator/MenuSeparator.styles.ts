@@ -4,7 +4,7 @@ import { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      margin: ${t.menuSeparatorMarginY} 0;
+      margin: ${t.menuSeparatorMarginY} ${t.menuSeparatorMarginX};
       border-top: ${t.menuSeparatorBorderWidth} solid ${t.menuSeparatorBorderColor};
     `;
   },

@@ -48,7 +48,7 @@ export const styles = memoizeStyle({
       position: relative;
       white-space: normal;
       margin: auto;
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      box-shadow: ${t.modalWindowShadow};
       background: ${t.modalBg};
       border-radius: ${t.modalBorderRadius};
     `;
@@ -200,6 +200,7 @@ export const styles = memoizeStyle({
       overflow-wrap: break-word;
       word-wrap: break-word;
       color: ${t.modalHeaderTextColor};
+      font-weight: ${t.modalHeaderFontWeight};
     `;
   },
 
@@ -274,7 +275,7 @@ export const styles = memoizeStyle({
 
   fixedHeader(t: Theme) {
     return css`
-      margin-bottom: 10px;
+      margin-bottom: ${t.modalFixedHeaderMarginBottom};
       padding-bottom: ${t.modalFixedHeaderPaddingBottom};
       background: ${t.modalFixedHeaderBg};
       border-bottom: ${t.modalFixedHeaderBorder};
@@ -300,8 +301,8 @@ export const styles = memoizeStyle({
 
   fixedFooter(t: Theme) {
     return css`
-      padding-top: 20px;
-      margin-top: 10px;
+      padding-top: ${t.modalFixedFooterPaddingTop};
+      margin-top: ${t.modalFixedFooterMarginTop};
       background: ${t.modalFixedHeaderBg};
       border-top: ${t.modalFixedFooterBorder};
 
@@ -368,6 +369,27 @@ export const styles = memoizeStyle({
       display: flex;
       flex-flow: column;
       overflow-y: scroll;
+    `;
+  },
+
+  modalSeparatorWrapper() {
+    return css`
+      position: absolute;
+      width: 100%;
+    `;
+  },
+
+  modalSeparator(t: Theme) {
+    return css`
+      border-bottom: ${t.modalSeparatorBorderBottom};
+      margin: 0 32px;
+      transition: margin 0.3s;
+    `;
+  },
+
+  modalSeparatorFixed() {
+    return css`
+      margin: 0 16px;
     `;
   },
 });

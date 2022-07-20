@@ -10,6 +10,7 @@ import { useResponsiveLayout } from '../ResponsiveLayout';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
+import { ModalSeparator } from './ModalSeparator';
 
 export interface ModalFooterProps extends CommonProps {
   /**
@@ -48,18 +49,21 @@ function ModalFooter(props: ModalFooterProps) {
 
   const renderContent = (fixed = false) => {
     return (
-      <div
-        data-tid={ModalFooterDataTids.root}
-        className={cx({
-          [styles.footer(theme)]: true,
-          [styles.fixedFooter(theme)]: fixed,
-          [styles.panel(theme)]: Boolean(panel),
-          [styles.fixedPanel(theme)]: fixed && Boolean(panel),
-          [styles.mobileFooter(theme)]: layout.isMobile,
-        })}
-      >
-        {children}
-      </div>
+      <>
+        <ModalSeparator fixed={fixed} />
+        <div
+          data-tid={ModalFooterDataTids.root}
+          className={cx({
+            [styles.footer(theme)]: true,
+            [styles.fixedFooter(theme)]: fixed,
+            [styles.panel(theme)]: Boolean(panel),
+            [styles.fixedPanel(theme)]: fixed && Boolean(panel),
+            [styles.mobileFooter(theme)]: layout.isMobile,
+          })}
+        >
+          {children}
+        </div>
+      </>
     );
   };
 

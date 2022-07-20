@@ -5,7 +5,6 @@ export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
       background: ${t.menuBgDefault};
-      border-radius: ${t.menuBorderRadius};
       box-sizing: content-box;
       overflow: auto;
       padding: 0 ${t.menuPaddingX};
