@@ -6,7 +6,7 @@ const TAGS: Record<Act, string> = {
   focus: '[data-style-focus]',
 };
 
-const selector = (act: Act, extra: string = '') => `
+const selector = (act: Act, extra = '') => `
 &:${act}${extra},
 &${TAGS[act]}:not(:disabled)${extra}
 `;

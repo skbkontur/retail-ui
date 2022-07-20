@@ -93,6 +93,10 @@ export const parameters: Meta['parameters'] = {
       },
       { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
       { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
+      {
+        in: /2022$/,
+        kinds: /^((?!Button\/Static).)*$/,
+      },
     ],
   },
   options: {

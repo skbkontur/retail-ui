@@ -72,12 +72,37 @@ const config = {
       version: '100.0',
       ...capabilities,
     },
+    chrome2022: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/chrome',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
     chromeDark: {
       browserName: 'chrome',
       viewport: { width: 1024, height: 720 },
       platformName: 'linux',
       _storybookGlobals: {
         theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/chromeDark',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    chromeDark2022: {
+      browserName: 'chrome',
+      viewport: { width: 1024, height: 720 },
+      platformName: 'linux',
+      _storybookGlobals: {
+        theme: 'THEME_2022_DARK',
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/chromeDark',
@@ -121,12 +146,37 @@ const config = {
       version: '100.0',
       ...capabilities,
     },
+    firefox2022: {
+      browserName: 'firefox',
+      platformName: 'linux',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/firefox',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
     firefoxDark: {
       browserName: 'firefox',
       platformName: 'linux',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/firefoxDark',
+      browserVersion: '100.0',
+      version: '100.0',
+      ...capabilities,
+    },
+    firefoxDark2022: {
+      browserName: 'firefox',
+      platformName: 'linux',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022_DARK',
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/firefoxDark',
@@ -170,11 +220,30 @@ const config = {
       name: 'infrafront/ie11',
       ...capabilities,
     },
+    ie112022: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022',
+      },
+      name: 'infrafront/ie11',
+      ...capabilities,
+    },
     ie11Dark: {
       browserName: 'internet explorer',
       viewport: { width: 1024, height: 720 },
       _storybookGlobals: {
         theme: 'DARK_THEME',
+      },
+      backgrounds: { default: 'dark' },
+      name: 'infrafront/ie11Dark',
+      ...capabilities,
+    },
+    ie11Dark2022: {
+      browserName: 'internet explorer',
+      viewport: { width: 1024, height: 720 },
+      _storybookGlobals: {
+        theme: 'THEME_2022_DARK',
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/ie11Dark',

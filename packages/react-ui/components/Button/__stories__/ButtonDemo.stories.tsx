@@ -7,8 +7,6 @@ import { css } from '../../../lib/theming/Emotion';
 export default { title: 'Button/Static' } as Meta;
 
 const tableClass = css`
-  background: #ff000010;
-
   tr td:not(:first-child) {
     padding: 10px;
     vertical-align: middle;
@@ -31,8 +29,8 @@ const Manual: React.FunctionComponent<{ use: ButtonUse; children: React.ReactEle
   return (
     <tr>
       <td>{use}</td>
-      {manualSets.map((manual) => (
-        <td>{React.cloneElement<ButtonProps>(children, { use, manual, children: 'Текст' })}</td>
+      {manualSets.map((manual, i) => (
+        <td key={i}>{React.cloneElement<ButtonProps>(children, { use, manual, children: 'Текст' })}</td>
       ))}
     </tr>
   );
@@ -55,14 +53,16 @@ const Table: React.FunctionComponent<{ children: React.ReactElement }> = ({ chil
         <Title>{JSON.stringify(props)}</Title>
         <tr>
           <td>name</td>
-          {manualSets.map((states) => (
-            <td>{states.join('\n + \n')}</td>
+          {manualSets.map((states, i) => (
+            <td key={i}>{states.join('\n + \n')}</td>
           ))}
         </tr>
       </thead>
       <tbody>
         {uses.map((use) => (
-          <Manual use={use}>{children}</Manual>
+          <Manual key={use} use={use}>
+            {children}
+          </Manual>
         ))}
       </tbody>
     </table>

@@ -2,6 +2,7 @@ import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 import { resetButton, resetText } from '../../lib/styles/Mixins';
 import { isFirefox } from '../../lib/client';
+import { hover, active, focus } from '../../lib/theming/ManualAction';
 
 import {
   buttonUseMixin,
@@ -11,7 +12,6 @@ import {
   arrowOutlineMixin,
   buttonSizeMixinIE11,
 } from './Button.mixins';
-import { hover, active, focus } from '../../lib/theming/ManualAction';
 
 export const globalClasses = prefix('button')({
   arrowHelper: 'arrow-helper',
@@ -22,6 +22,7 @@ export const globalClasses = prefix('button')({
   innerShadow: 'inner-shadow',
 });
 
+// @ts-ignore
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
