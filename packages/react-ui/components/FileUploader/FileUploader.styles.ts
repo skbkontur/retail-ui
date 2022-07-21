@@ -215,6 +215,7 @@ const styles = {
         t.btnPaddingYSmall,
         t.fontFamilyCompensationBaseline,
       )};
+      line-height: ${t.fileUploaderLineHeightSmall};
     `;
   },
 
@@ -238,6 +239,7 @@ const styles = {
         t.btnPaddingYMedium,
         t.fontFamilyCompensationBaseline,
       )};
+      line-height: ${t.fileUploaderLineHeightMedium};
     `;
   },
 
@@ -261,6 +263,7 @@ const styles = {
         t.btnPaddingYLarge,
         t.fontFamilyCompensationBaseline,
       )};
+      line-height: ${t.fileUploaderLineHeightLarge};
     `;
   },
 
