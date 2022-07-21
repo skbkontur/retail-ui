@@ -1648,20 +1648,44 @@ export class DefaultTheme {
   //#region FileUploader
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '#fff';
-  public static get fileUploaderFontSize() {
+  public static fileUploaderPaddingXSmall = '8px';
+  public static fileUploaderPaddingXMedium = '12px';
+  public static fileUploaderPaddingXLarge = '16px';
+  public static get fileUploaderFontSizeSmall() {
     return this.fontSizeSmall;
   }
-  public static get fileUploaderLineHeight() {
+  public static get fileUploaderFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get fileUploaderFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
+  public static get fileUploaderLineHeightSmall() {
     return this.controlLineHeightSmall;
   }
+  public static get fileUploaderLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get fileUploaderLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get fileUploaderPaddingYSmall() {
+    return this.controlPaddingYSmall;
+  }
+  public static get fileUploaderPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get fileUploaderPaddingYLarge() {
+    return this.controlPaddingYLarge;
+  }
   public static get fileUploaderTextColorDefault() {
-    return this.textColorDefault;
+    return this.gray;
   }
   public static fileUploaderPaddingX = '7px';
   public static get fileUploaderPaddingY() {
     return this.controlPaddingYSmall;
   }
-  public static fileUploaderBorderRadius = '2px';
+  public static fileUploaderBorderRadius = '8px';
   public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';
   public static get fileUploaderBorderWidth() {
     return this.controlBorderWidth;
@@ -1671,7 +1695,7 @@ export class DefaultTheme {
     return this.borderColorFocus;
   }
   public static get fileUploaderLinkColor() {
-    return this.linkColor;
+    return this.textColorDefault;
   }
   public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#808080';
@@ -1690,7 +1714,7 @@ export class DefaultTheme {
   public static get fileUploaderLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static fileUploaderHoveredBg = 'none';
+  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
   //#endregion
 }
 

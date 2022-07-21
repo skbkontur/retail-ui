@@ -15,12 +15,15 @@ import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
+import { FileUploaderSize } from '../../../components/FileUploader';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
+  multiple?: boolean;
+  size: FileUploaderSize;
   /** Состояние ошибки контрола файла */
   error?: boolean;
 }
@@ -49,9 +52,9 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
-  const { file, showSize, error } = props;
+  const { file, showSize, error, multiple, size } = props;
   const { id, originalFile, status, validationResult } = file;
-  const { name, size } = originalFile;
+  const { name, size: fileSize } = originalFile;
 
   const [hovered, setHovered] = useState<boolean>(false);
   const [focusedByTab, setFocusedByTab] = useState(false);
@@ -63,7 +66,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const { removeFile } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
-  const formattedSize = useMemo(() => formatBytes(size, 1), [size]);
+  const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
 
   // важно запустить после рендера, чтобы успели проставиться рефы
   useEffect(() => {
@@ -112,12 +115,38 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     }
   }, [hovered, status, isInvalid, theme, focusedByTab]);
 
+  const sizeIconClass = useMemo(() => {
+    switch (size) {
+      case 'large':
+        return jsStyles.iconLarge(theme);
+      case 'medium':
+        return jsStyles.iconMedium(theme);
+      case 'small':
+      default:
+        return jsStyles.iconSmall(theme);
+    }
+  }, [size]);
+
   const renderTooltipContent = useCallback((): ReactNode => {
     return !isValid && !error && message ? message : null;
   }, [isValid, error, message]);
 
-  const contentClassNames = cx(jsStyles.content(), {
+  const sizeContentClass = useMemo(() => {
+    switch (size) {
+      case 'large':
+        return jsStyles.contentLarge(theme);
+      case 'medium':
+        return jsStyles.contentMedium(theme);
+      case 'small':
+      default:
+        return jsStyles.contentSmall(theme);
+    }
+  }, [size]);
+
+  const contentClassNames = cx(jsStyles.content(theme), {
     [jsStyles.error(theme)]: isInvalid,
+    [sizeContentClass]: true,
+    [jsStyles.contentError(theme)]: !!multiple,
   });
 
   const handleMouseEnter = useCallback(() => {
@@ -153,6 +182,8 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   const iconClassNames = cx(jsStyles.icon(theme), {
     [jsStyles.focusedIcon(theme)]: focusedByTab,
+    [sizeIconClass]: true,
+    [multiple ? jsStyles.iconMultiple(theme) : jsStyles.iconSingle(theme)]: true,
   });
 
   const isTruncated = truncatedFileName !== name;

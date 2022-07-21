@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useImperativeHandle, useRef, useState } from 'react';
+import React, { useCallback, useContext, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -14,7 +14,7 @@ import { withFileUploaderControlProvider } from '../../internal/FileUploaderCont
 import { keyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
-import { isBrowser } from '../../lib/client';
+import { isBrowser, isEdge, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
@@ -23,13 +23,25 @@ import { jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
-interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTMLInputElement> {
+export type FileUploaderSize = 'small' | 'medium' | 'large';
+
+type FileUploaderOverriddenProps = 'size';
+
+interface _FileUploaderProps
+  extends CommonProps,
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, FileUploaderOverriddenProps> {
   /** Состояние ошибки всего контрола */
   error?: boolean;
   /** Состояние предупреждения всего контрола */
   warning?: boolean;
   /** Свойство ширины. */
   width?: React.CSSProperties['width'];
+  /**
+   * Задаёт размер контрола.
+   *
+   * **Допустимые значения**: `"small"`, `"medium"`, `"large"`.
+   */
+  size?: FileUploaderSize;
   /** Свойство, скрывающее отображение файлов.  */
   hideFiles?: boolean;
 
@@ -86,6 +98,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     validateBeforeUpload,
     onRequestSuccess,
     onRequestError,
+    size = 'small',
     renderFile = defaultRenderFile,
     ...inputProps
   } = props;
@@ -115,6 +128,30 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     },
     [upload, validateBeforeUpload, isAsync],
   );
+
+  const sizeClassName = useMemo(() => {
+    switch (size) {
+      case 'large':
+        return cx(jsStyles.sizeLarge(theme), { [jsStyles.sizeLargeIE11(theme)]: isIE11 || isEdge });
+      case 'medium':
+        return cx(jsStyles.sizeMedium(theme), { [jsStyles.sizeMediumIE11(theme)]: isIE11 || isEdge });
+      case 'small':
+      default:
+        return cx(jsStyles.sizeSmall(theme), { [jsStyles.sizeSmallIE11(theme)]: isIE11 || isEdge });
+    }
+  }, [size]);
+
+  const sizeIconClass = useMemo(() => {
+    switch (size) {
+      case 'large':
+        return jsStyles.iconLarge(theme);
+      case 'medium':
+        return jsStyles.iconMedium(theme);
+      case 'small':
+      default:
+        return jsStyles.iconSmall(theme);
+    }
+  }, [size]);
 
   /** common part **/
   const handleChange = useCallback(
@@ -213,6 +250,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [jsStyles.warning(theme)]: !!warning,
     [jsStyles.error(theme)]: !!error,
     [jsStyles.dragOver(theme)]: isDraggable && !disabled,
+    [sizeClassName]: true,
   });
 
   const uploadButtonWrapperClassNames = cx({
@@ -221,20 +259,20 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), {
     [jsStyles.iconDisabled(theme)]: disabled,
+    [sizeIconClass]: true,
   });
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
 
   const linkClassNames = cx(jsStyles.link(theme), {
-    [jsStyles.linkHovered(theme)]: !disabled && hovered,
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
   return (
     <CommonWrapper {...props}>
       <div data-tid={FileUploaderDataTids.root} className={jsStyles.root(theme)} style={useMemoObject({ width })}>
-        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} />}
+        {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} size={size} />}
         <div className={uploadButtonWrapperClassNames}>
           <label
             onMouseEnter={() => setHovered(true)}
@@ -242,24 +280,29 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div data-tid={FileUploaderDataTids.content} className={jsStyles.content()}>
-              <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
-                {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-              </span>
-              &nbsp;
-              <div className={jsStyles.afterLinkText()}>
-                {hasOneFileForSingle ? (
-                  <div className={jsStyles.singleFile()}>
-                    {renderFile(files[0], <FileUploaderFile file={files[0]} />)}
-                  </div>
-                ) : (
-                  <>
-                    {locale.orDragHere}&nbsp;
-                    <div className={uploadButtonIconClassNames}>
-                      <UploadIcon />
+            <div className={jsStyles.contentInner(theme)}>
+              <div
+                data-tid={FileUploaderDataTids.content}
+                className={hasOneFileForSingle ? jsStyles.contentWithFiles() : jsStyles.content()}
+              >
+                <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
+                  {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+                </span>
+                &nbsp;
+                <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
+                  {hasOneFileForSingle ? (
+                    <div className={jsStyles.singleFile()}>
+                      {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
                     </div>
-                  </>
-                )}
+                  ) : (
+                    <>
+                      {locale.orDragHere}&nbsp;
+                      <div className={uploadButtonIconClassNames}>
+                        <UploadIcon size={size} />
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
             <input

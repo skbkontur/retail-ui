@@ -1,5 +1,6 @@
 import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import { buttonSizeMixin, buttonSizeMixinIE11 } from '../Button/Button.mixins';
 
 const styles = {
   pulse() {
@@ -25,12 +26,12 @@ const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
-      min-width: 285px;
       position: relative;
       background-color: ${t.fileUploaderBg};
-      line-height: ${t.fileUploaderLineHeight};
-      font-size: ${t.fileUploaderFontSize};
+      line-height: ${t.fileUploaderLineHeightSmall};
+      font-size: ${t.fileUploaderFontSizeSmall};
       color: ${t.fileUploaderTextColorDefault};
+      position: relative;
     `;
   },
 
@@ -74,10 +75,31 @@ const styles = {
 
   content() {
     return css`
-      display: flex;
+      display: block;
       width: 100%;
-      align-items: center;
       height: 100%;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    `;
+  },
+
+  contentWithFiles() {
+    return css`
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    `;
+  },
+
+  contentInner(t: Theme) {
+    return css`
+      padding-right: 30px;
+      width: calc(100% - ${t.btnIconSizeLarge} - 4px);
     `;
   },
 
@@ -89,6 +111,12 @@ const styles = {
   },
 
   afterLinkText() {
+    return css`
+      display: inline;
+    `;
+  },
+
+  afterLinkText_HasFiles() {
     return css`
       display: flex;
       justify-content: space-between;
@@ -113,6 +141,7 @@ const styles = {
   hovered(t: Theme) {
     return css`
       background: ${t.fileUploaderHoveredBg};
+      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderHoveredBg};
     `;
   },
 
@@ -130,7 +159,10 @@ const styles = {
     return css`
       display: inline-block;
       font-size: ${t.fileUploaderIconSize};
-      color: ${t.fileUploaderIconColor};
+      position: absolute;
+      right: ${t.fileUploaderPaddingX};
+      bottom: 10px;
+      color: ${t.fileUploaderLinkColor};
     `;
   },
 
@@ -148,12 +180,6 @@ const styles = {
     `;
   },
 
-  linkHovered(t: Theme) {
-    return css`
-      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
-    `;
-  },
-
   linkDisabled(t: Theme) {
     return css`
       color: ${t.fileUploaderDisabledLinkColor};
@@ -166,6 +192,106 @@ const styles = {
   singleFile() {
     return css`
       width: 100%;
+    `;
+  },
+
+  sizeSmall(t: Theme) {
+    return css`
+      ${buttonSizeMixin(
+        t.fileUploaderFontSizeSmall,
+        t.fileUploaderLineHeightSmall,
+        t.fileUploaderPaddingXSmall,
+        t.btnPaddingYSmall,
+        t.fontFamilyCompensationBaseline,
+      )};
+    `;
+  },
+
+  sizeSmallIE11(t: Theme) {
+    return css`
+      ${buttonSizeMixinIE11(
+        t.fileUploaderFontSizeSmall,
+        t.fileUploaderPaddingXSmall,
+        t.btnPaddingYSmall,
+        t.fontFamilyCompensationBaseline,
+      )};
+    `;
+  },
+
+  sizeMedium(t: Theme) {
+    return css`
+      ${buttonSizeMixin(
+        t.fileUploaderFontSizeMedium,
+        t.fileUploaderLineHeightMedium,
+        t.fileUploaderPaddingXMedium,
+        t.btnPaddingYMedium,
+        t.fontFamilyCompensationBaseline,
+      )};
+    `;
+  },
+
+  sizeMediumIE11(t: Theme) {
+    return css`
+      ${buttonSizeMixinIE11(
+        t.fileUploaderFontSizeMedium,
+        t.fileUploaderPaddingXMedium,
+        t.btnPaddingYMedium,
+        t.fontFamilyCompensationBaseline,
+      )};
+    `;
+  },
+
+  sizeLarge(t: Theme) {
+    return css`
+      ${buttonSizeMixin(
+        t.fileUploaderFontSizeLarge,
+        t.fileUploaderLineHeightLarge,
+        t.fileUploaderPaddingXLarge,
+        t.btnPaddingYLarge,
+        t.fontFamilyCompensationBaseline,
+      )};
+    `;
+  },
+
+  sizeLargeIE11(t: Theme) {
+    return css`
+      ${buttonSizeMixinIE11(
+        t.fileUploaderFontSizeLarge,
+        t.fileUploaderPaddingXLarge,
+        t.btnPaddingYLarge,
+        t.fontFamilyCompensationBaseline,
+      )};
+    `;
+  },
+
+  iconSmall(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeSmall};
+      line-height: ${t.fileUploaderLineHeightSmall};
+      width: ${t.btnIconSizeSmall};
+      margin-right: ${t.btnIconGapSmall};
+      bottom: ${t.fileUploaderPaddingYSmall};
+      right: ${t.fileUploaderPaddingXSmall};
+    `;
+  },
+  iconMedium(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeMedium};
+      line-height: ${t.fileUploaderLineHeightMedium};
+      width: ${t.btnIconSizeMedium};
+      margin-right: ${t.btnIconGapMedium};
+      bottom: ${t.fileUploaderPaddingYMedium};
+      right: ${t.fileUploaderPaddingXMedium};
+    `;
+  },
+  iconLarge(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeLarge};
+      line-height: ${t.fileUploaderLineHeightLarge};
+      width: ${t.btnIconSizeLarge};
+      margin-right: ${t.btnIconGapLarge};
+      bottom: ${t.fileUploaderPaddingYLarge};
+      right: ${t.fileUploaderPaddingXLarge};
     `;
   },
 };

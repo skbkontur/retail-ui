@@ -96,5 +96,42 @@ export const FileUploaderRefFocusAndBlur = () => {
 };
 FileUploaderRefFocusAndBlur.parameters = { creevey: { skip: [true] } };
 
+export const DifferentSizes = () => (
+  <Gapped vertical>
+    Single
+    <Gapped>
+      <FileUploader /> default
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'small'} /> small
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'medium'} /> medium
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'large'} /> large
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'large'} width={300} /> large
+    </Gapped>
+    Multiple
+    <Gapped>
+      <FileUploader /> default
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'small'} multiple /> small
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'medium'} multiple /> medium
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'large'} multiple /> large
+    </Gapped>
+    <Gapped>
+      <FileUploader size={'large'} width={300} multiple /> large
+    </Gapped>
+  </Gapped>
+);
+
 export const MultipleFileUploaderWithHideFiles = () => <FileUploader multiple request={successRequest} hideFiles />;
 MultipleFileUploaderWithHideFiles.parameters = { creevey: { skip: [true] } };
