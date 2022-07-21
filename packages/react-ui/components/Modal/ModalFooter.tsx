@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
@@ -37,7 +37,7 @@ function ModalFooter(props: ModalFooterProps) {
 
   const { sticky = !layout.isMobile, panel, children } = props;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     modal.setHasFooter?.();
     modal.setHasPanel?.(panel);
 
