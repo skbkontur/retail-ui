@@ -617,7 +617,6 @@ export const styles = memoizeStyle({
     return css`
       ${checkedStyles}
 
-      &:hover:active,
       ${hover``},
       ${active``} {
         ${checkedStyles}
@@ -915,7 +914,8 @@ export const activeStyles = memoizeStyle({
 
   backless(t: Theme) {
     return css`
-      & {
+      &,
+      &:hover {
         background: ${t.btnBacklessActiveBg};
       }
     `;

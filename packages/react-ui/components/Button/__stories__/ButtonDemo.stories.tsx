@@ -40,7 +40,7 @@ const Title: React.FunctionComponent = ({ children }) => {
   return (
     <tr>
       <td />
-      <td colSpan={6}>{children}</td>
+      <td colSpan={manualSets.length}>{children}</td>
     </tr>
   );
 };

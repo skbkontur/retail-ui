@@ -79,19 +79,22 @@ export const buttonActiveMixin = (
   arrowBgImage: string,
 ) => {
   return css`
-    background-image: none;
-    background-color: ${btnBackground};
-    box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``};
+    &,
+    &:hover {
+      background-image: none;
+      background-color: ${btnBackground};
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``};
 
-    .${globalClasses.innerShadow} {
-      box-shadow: ${btnShadow};
-    }
+      .${globalClasses.innerShadow} {
+        box-shadow: ${btnShadow};
+      }
 
-    .${globalClasses.arrowHelper} {
-      box-shadow: ${borderWidth} 0 0 ${borderColor};
+      .${globalClasses.arrowHelper} {
+        box-shadow: ${borderWidth} 0 0 ${borderColor};
 
-      &.${globalClasses.arrowHelperTop} {
-        background-image: ${arrowBgImage};
+        &.${globalClasses.arrowHelperTop} {
+          background-image: ${arrowBgImage};
+        }
       }
     }
   `;
