@@ -212,7 +212,7 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('keeps open after click on anchor', async () => {
+        it('openes by hover and keeps open after click on anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           userEvent.hover(anchor);
@@ -227,10 +227,40 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('keeps open after click on content', async () => {
+        it('openes by hover and keeps open after click on content', async () => {
           const { anchor } = renderTooltip({ trigger: 'hover&focus' });
 
           userEvent.hover(anchor);
+          await delay(Tooltip.delay);
+          const content = screen.getByTestId(TooltipDataTids.content);
+
+          expect(content).toBeInTheDocument();
+
+          userEvent.click(content);
+          expect(content).toBeInTheDocument();
+        });
+      });
+
+      withVariousAnchors((renderTooltip) => {
+        it('openes by focus and keeps open after click on anchor', async () => {
+          const { anchor } = renderTooltip({ trigger: 'hover&focus' });
+
+          anchor.focus();
+          await delay(Tooltip.delay);
+          const content = screen.getByTestId(TooltipDataTids.content);
+
+          expect(content).toBeInTheDocument();
+
+          userEvent.click(anchor);
+          expect(content).toBeInTheDocument();
+        });
+      });
+
+      withVariousAnchors((renderTooltip) => {
+        it('openes by focus and keeps open after click on content', async () => {
+          const { anchor } = renderTooltip({ trigger: 'hover&focus' });
+
+          anchor.focus();
           await delay(Tooltip.delay);
           const content = screen.getByTestId(TooltipDataTids.content);
 
