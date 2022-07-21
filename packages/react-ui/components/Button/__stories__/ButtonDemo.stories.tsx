@@ -1,8 +1,10 @@
 import React from 'react';
+import { Ok } from '@skbkontur/react-icons';
 
 import { Meta, Story } from '../../../typings/stories';
 import { Button, ButtonProps, ButtonStyle, ButtonUse } from '../Button';
 import { css } from '../../../lib/theming/Emotion';
+import { Entries } from '../../../typings/utility-types';
 
 export default { title: 'Button/Static' } as Meta;
 
@@ -19,11 +21,32 @@ const tableClass = css`
     line-height: 10px;
     font-family: monospace;
   }
+
+  td[colspan] {
+    text-align: left !important;
+    white-space: pre-wrap;
+    font-family: monospace;
+    font-size: 12px;
+  }
 `;
 
 const manualSets: ButtonStyle[][] = [[], ['hover'], ['active'], ['focus'], ['hover', 'focus'], ['active', 'focus']];
 
 const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay', 'link', 'text', 'backless'];
+
+const safer = function <S extends Record<keyof ButtonProps, string>>(props: ButtonProps): Partial<S> {
+  const safeProps: Partial<S> = {};
+  (Object.entries as Entries<keyof ButtonProps, ButtonProps[keyof ButtonProps]>)(props).forEach(([key, value]) => {
+    if (value === null || typeof value === 'number' || typeof value === 'string' || typeof value === 'boolean') {
+      safeProps[key] = String(value);
+    } else if (React.isValidElement(value)) {
+      safeProps[key] = (value.type as { name: string }).name;
+    } else if (typeof value === 'object' && 'toString' in value) {
+      safeProps[key] = value.toString();
+    }
+  });
+  return safeProps;
+};
 
 const Manual: React.FunctionComponent<{ use: ButtonUse; children: React.ReactElement }> = ({ use, children }) => {
   return (
@@ -45,14 +68,15 @@ const Title: React.FunctionComponent = ({ children }) => {
   );
 };
 
-const Table: React.FunctionComponent<{ children: React.ReactElement }> = ({ children }) => {
+const ManualActs: React.FunctionComponent<{ children: React.ReactElement }> = ({ children }) => {
   const { props } = React.Children.only(children);
   return (
     <table className={tableClass}>
       <thead>
-        <Title>{JSON.stringify(props)}</Title>
         <tr>
-          <td>name</td>
+          <td>
+            <sub>use</sub>\<sup>acts</sup>
+          </td>
           {manualSets.map((states, i) => (
             <td key={i}>{states.join('\n + \n')}</td>
           ))}
@@ -64,55 +88,104 @@ const Table: React.FunctionComponent<{ children: React.ReactElement }> = ({ chil
             {children}
           </Manual>
         ))}
+        <Title>Props + DefaultProps: {JSON.stringify(safer(props), null, '  ')}</Title>
       </tbody>
     </table>
   );
 };
 
 export const Default: Story = () => (
-  <Table>
+  <ManualActs>
     <Button />
-  </Table>
+  </ManualActs>
 );
 
 export const Borderless: Story = () => (
-  <Table>
+  <ManualActs>
     <Button borderless />
-  </Table>
+  </ManualActs>
 );
 
 export const Checked: Story = () => (
-  <Table>
+  <ManualActs>
     <Button checked />
-  </Table>
+  </ManualActs>
 );
 
 export const Disabled: Story = () => (
-  <Table>
+  <ManualActs>
     <Button disabled />
-  </Table>
+  </ManualActs>
 );
 
 export const Arrow: Story = () => (
-  <Table>
+  <ManualActs>
     <Button arrow />
-  </Table>
+  </ManualActs>
 );
 
 export const ArrowLeft: Story = () => (
-  <Table>
+  <ManualActs>
     <Button arrow="left" />
-  </Table>
+  </ManualActs>
 );
 
 export const BorderlessAndArrow: Story = () => (
-  <Table>
+  <ManualActs>
     <Button borderless arrow />
-  </Table>
+  </ManualActs>
 );
 
 export const BorderlessAndArrowLeft: Story = () => (
-  <Table>
+  <ManualActs>
     <Button borderless arrow="left" />
-  </Table>
+  </ManualActs>
+);
+
+export const Icon: Story = () => (
+  <ManualActs>
+    <Button icon={<Ok />} />
+  </ManualActs>
+);
+
+export const IconAndDisabled: Story = () => (
+  <ManualActs>
+    <Button icon={<Ok />} disabled />
+  </ManualActs>
+);
+
+export const Medium: Story = () => (
+  <ManualActs>
+    <Button size="medium" />
+  </ManualActs>
+);
+
+export const MediumAndArrow: Story = () => (
+  <ManualActs>
+    <Button size="medium" arrow />
+  </ManualActs>
+);
+
+export const MediumAndArrowLeft: Story = () => (
+  <ManualActs>
+    <Button size="medium" arrow="left" />
+  </ManualActs>
+);
+
+export const Large: Story = () => (
+  <ManualActs>
+    <Button size="large" />
+  </ManualActs>
+);
+
+export const LargeAndArrow: Story = () => (
+  <ManualActs>
+    <Button size="large" arrow />
+  </ManualActs>
+);
+
+export const LargeAndArrowLeft: Story = () => (
+  <ManualActs>
+    <Button size="large" arrow="left" />
+  </ManualActs>
 );

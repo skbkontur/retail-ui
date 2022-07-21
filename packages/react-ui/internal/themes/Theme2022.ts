@@ -37,13 +37,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
 
-  public static get btnDisabledBg() {
-    return this.bgDisabled;
-  }
+  public static btnDisabledBg = 'rgba(0, 0, 0, 0.04)';
   public static get btnDisabledTextColor() {
     return this.textColorDisabledContrast;
   }
-  public static btnDisabledBorderColor = '#dddddd !important';
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.08)';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
