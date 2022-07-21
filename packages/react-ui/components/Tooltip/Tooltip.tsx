@@ -318,11 +318,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       return popup;
     }
 
-    return (
-      <RenderLayer {...layerProps} getAnchorElement={this.getAnchorElement}>
-        {popup}
-      </RenderLayer>
-    );
+    return <RenderLayer {...layerProps}>{popup}</RenderLayer>;
   }
 
   private renderPopup(
