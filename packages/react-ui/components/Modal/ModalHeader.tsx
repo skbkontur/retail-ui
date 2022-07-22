@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -32,7 +32,7 @@ function ModalHeader(props: ModalHeaderProps) {
 
   const { sticky = !layout.isMobile, children } = props;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     modal.setHasHeader?.();
 
     return () => modal.setHasHeader?.(false);
