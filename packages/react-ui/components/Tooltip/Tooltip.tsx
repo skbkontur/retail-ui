@@ -465,7 +465,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
   }
 
-  private open = () => this.setState({ opened: true });
+  private open = () => this.setState({ opened: false });
 
   private close = () => this.setState({ opened: false });
 
