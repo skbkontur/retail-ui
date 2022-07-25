@@ -10,7 +10,7 @@ export interface RenderLayerProps extends CommonProps {
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;
-  getAnchorElement?: () => Nullable<HTMLElement>;
+  getAnchorElement?: () => Nullable<Element>;
 }
 
 @rootNode

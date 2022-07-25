@@ -137,14 +137,14 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   /**
    * @public
-   * @param {HTMLElement} element
+   * @param {Element} element
    */
-  public scrollTo(element: Nullable<HTMLElement>) {
+  public scrollTo(element: Nullable<Element>) {
     if (!element || !this.inner) {
       return;
     }
 
-    this.inner.scrollLeft = element.offsetLeft;
+    this.inner.scrollLeft = Math.floor(getDOMRect(element).left);
     this.inner.scrollTop = getScrollYOffset(element, this.inner);
   }
 

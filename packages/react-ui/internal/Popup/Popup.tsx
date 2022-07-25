@@ -4,6 +4,7 @@ import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
 
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
@@ -13,7 +14,7 @@ import { isFunction, isNonNullable, isNullable, isRefableElement } from '../../l
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isHTMLOrSVGElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { isElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
@@ -203,12 +204,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
-  private lastPopupElement: Nullable<HTMLElement>;
+  private lastPopupElement: Nullable<Element>;
   private isMobileLayout!: boolean;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
 
-  public anchorElement: Nullable<HTMLElement> = null;
+  public anchorElement: Nullable<Element> = null;
 
   public componentDidMount() {
     this.updateLocation();
@@ -288,7 +289,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { anchorElement, useWrapper } = this.props;
 
     let anchor: Nullable<React.ReactNode> = null;
-    if (isHTMLOrSVGElement(anchorElement)) {
+    if (isElement(anchorElement)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -313,7 +314,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
-    const canGetAnchorNode = !!anchorWithRef || isHTMLOrSVGElement(anchorElement);
+    const canGetAnchorNode = !!anchorWithRef || isElement(anchorElement);
 
     return (
       <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
@@ -335,8 +336,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   };
 
-  private addEventListeners(element: Nullable<HTMLElement>) {
-    if (element && isHTMLOrSVGElement(element)) {
+  private addEventListeners(element: Nullable<Element>) {
+    if (element && isElement(element)) {
       element.addEventListener('mouseenter', this.handleMouseEnter);
       element.addEventListener('mouseleave', this.handleMouseLeave);
       element.addEventListener('click', this.handleClick);
@@ -345,8 +346,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
   }
 
-  private removeEventListeners(element: Nullable<HTMLElement>) {
-    if (element && isHTMLOrSVGElement(element)) {
+  private removeEventListeners(element: Nullable<Element>) {
+    if (element && isElement(element)) {
       element.removeEventListener('mouseenter', this.handleMouseEnter);
       element.removeEventListener('mouseleave', this.handleMouseLeave);
       element.removeEventListener('click', this.handleClick);
@@ -387,7 +388,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private calculateWidth = (width: PopupProps['width']) => {
     if (typeof width === 'string' && width.includes('%')) {
-      return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(width)) / 100 : 0;
+      const anchorWidth = Math.floor(getDOMRect(this.anchorElement).width);
+      return this.anchorElement ? (anchorWidth * parseFloat(width)) / 100 : 0;
     }
     return width;
   };
@@ -471,7 +473,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     return isFunction(this.props.children) ? this.props.children() : this.props.children;
   }
 
-  private refPopupElement = (element: Nullable<HTMLElement>) => {
+  private refPopupElement = (element: Nullable<Element>) => {
     this.lastPopupElement = element;
   };
 
@@ -561,16 +563,13 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
+  private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { positions, tryPreserveFirstRenderedPosition } = this.props;
     const anchorElement = this.anchorElement;
 
-    warning(
-      anchorElement && isHTMLOrSVGElement(anchorElement),
-      'Anchor element is not defined or not instance of HTMLElement',
-    );
+    warning(anchorElement && isElement(anchorElement), 'Anchor element is not defined or not instance of Element');
 
-    if (!(anchorElement && isHTMLOrSVGElement(anchorElement))) {
+    if (!(anchorElement && isElement(anchorElement))) {
       return location;
     }
 

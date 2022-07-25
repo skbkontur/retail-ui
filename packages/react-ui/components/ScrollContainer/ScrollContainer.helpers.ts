@@ -1,3 +1,5 @@
+import { getDOMRect } from '../../lib/dom/getDOMRect';
+
 import { MIN_SCROLL_SIZE, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { ScrollBarScrollState } from './ScrollBar';
 import { ScrollContainerScrollStateX, ScrollContainerScrollStateY } from './ScrollContainer';
@@ -26,14 +28,14 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   };
 };
 
-export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) => {
-  const elementOffset = element.offsetTop;
+export const getScrollYOffset = (element: Element, container: Element) => {
+  const elementTopOffset = Math.floor(getDOMRect(element).top);
 
-  if (container.scrollTop > elementOffset) {
-    return elementOffset;
+  if (container.scrollTop > elementTopOffset) {
+    return elementTopOffset;
   }
 
-  const offset = elementOffset + element.scrollHeight - container.offsetHeight;
+  const offset = elementTopOffset + element.scrollHeight - Math.floor(getDOMRect(container).height);
   if (container.scrollTop < offset) {
     return offset;
   }

@@ -274,7 +274,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  public getAnchorElement = (): Nullable<HTMLElement> => {
+  public getAnchorElement = (): Nullable<Element> => {
     return this.popupRef.current?.anchorElement;
   };
 
@@ -494,7 +494,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
     if (
       (this.props.trigger === 'hover&focus' && this.state.focused) ||
-      (this.props.trigger === 'hover' && event.relatedTarget === this.contentElement)
+      (this.props.trigger === 'hover' && event instanceof MouseEvent && event.relatedTarget === this.contentElement)
     ) {
       return;
     }
@@ -530,7 +530,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return this.isClickOutside(event, this.getAnchorElement());
   }
 
-  private isClickOutside(event: Event, target: Nullable<HTMLElement>) {
+  private isClickOutside(event: Event, target: Nullable<Element>) {
     if (target && event.target instanceof Element) {
       return !containsTargetOrRenderContainer(event.target)(target);
     }

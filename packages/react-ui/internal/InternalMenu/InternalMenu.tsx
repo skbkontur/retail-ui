@@ -213,7 +213,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private focusOnRootElement = (): void => {
-    getRootNode(this)?.focus();
+    ((getRootNode(this) as HTMLElement) || SVGElement)?.focus();
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
@@ -314,7 +314,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    getRootNode(this)?.focus();
+    ((getRootNode(this) as HTMLElement) || SVGElement)?.focus();
   };
 
   private unhighlight = () => {

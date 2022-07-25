@@ -12,16 +12,9 @@ export function safePropTypesInstanceOf<T>(
   return PropTypes.any;
 }
 
-/**
- * TODO: Change return type to `el is HTMLElement | SVGElement` in 5.0.0
- * Current return type is incorrect but changing it to the correct type causes breaking changes
- *
- * @param el DOM node
- * @returns true if passed HTML or SVG element, else false
- */
-export function isHTMLOrSVGElement(el: unknown): el is HTMLElement {
+export function isElement(el: unknown): el is Element {
   if (isBrowser) {
-    return el instanceof HTMLElement || el instanceof SVGElement;
+    return el instanceof Element;
   }
 
   return false;
