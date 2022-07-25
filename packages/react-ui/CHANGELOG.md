@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.2.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.1...@skbkontur/react-ui@4.2.2) (2022-07-25)
+
+
+### Bug Fixes
+
+* **Modal:** fix paddings flickering ([#2949](https://github.com/skbkontur/retail-ui/issues/2949)) ([d81d152](https://github.com/skbkontur/retail-ui/commit/d81d152e409b3af8cccd9e0f9af9105c8336a2ec))
+* **Tooltip:** correct focus&hover trigger behavior ([#2960](https://github.com/skbkontur/retail-ui/issues/2960)) ([9e3ddaa](https://github.com/skbkontur/retail-ui/commit/9e3ddaa6dab1fd4e2ba052be253c117982b74a2c)), closes [#2941](https://github.com/skbkontur/retail-ui/issues/2941)
+* **TooltipMenu:** prevent double scroll ([#2950](https://github.com/skbkontur/retail-ui/issues/2950)) ([42b3f2f](https://github.com/skbkontur/retail-ui/commit/42b3f2f363141ccc1e3b5526cbeab1bc8b5073be))
+
+
+
+
+
 ## [4.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.0...@skbkontur/react-ui@4.2.1) (2022-07-18)
 
 
