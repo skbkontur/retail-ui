@@ -66,7 +66,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     );
   }
 
-  private getAnchorNode(): Nullable<HTMLElement> {
+  private getAnchorNode(): Nullable<Element> {
     const { getAnchorElement } = this.props;
     return getAnchorElement ? getAnchorElement() : getRootNode(this);
   }
