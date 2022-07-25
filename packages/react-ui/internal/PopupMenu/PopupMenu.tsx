@@ -123,6 +123,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private setRootNode!: TSetRootNode;
 
   public render() {
+    const { popupHasPin, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
@@ -138,10 +139,10 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 opened={this.state.menuVisible}
                 hasShadow
                 margin={this.props.popupMargin}
-                hasPin={this.getProps().popupHasPin}
+                hasPin={popupHasPin}
                 pinOffset={this.props.popupPinOffset}
                 positions={this.getPositions()}
-                disableAnimations={this.getProps().disableAnimations}
+                disableAnimations={disableAnimations}
                 onOpen={this.handleOpen}
                 mobileOnCloseRequest={this.hideMenu}
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}

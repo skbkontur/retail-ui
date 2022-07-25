@@ -163,9 +163,8 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
   private renderMain() {
     const { children, warning, error, color, id } = this.props;
-    const loading = this.getProps().loading;
+    const { loading, captionPosition } = this.getProps();
     const disabled = this.getProps().disabled || loading;
-    const captionPosition = this.getProps().captionPosition;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
     const containerClassNames = cx(styles.container(this.theme), {

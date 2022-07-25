@@ -53,11 +53,7 @@ export class BGRuler extends React.Component<BGRulerProps> {
 
   public render() {
     const { width, bottom } = this.props;
-    const height = this.getProps().height;
-    const top = this.getProps().top;
-    const left = this.getProps().left;
-    const right = this.getProps().right;
-    const color = this.getProps().color;
+    const { height, top, left, right, color } = this.getProps();
     const wrapper: React.CSSProperties = {
       position: 'absolute',
       width,

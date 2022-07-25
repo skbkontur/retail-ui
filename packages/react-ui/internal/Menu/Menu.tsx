@@ -121,21 +121,22 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
+    const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
       <div
         data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.getProps().hasShadow,
+          [styles.shadow(this.theme)]: hasShadow,
         })}
         style={getStyle(this.props)}
         ref={this.setRootNode}
       >
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.getProps().maxHeight}
-          preventWindowScroll={this.getProps().preventWindowScroll}
+          maxHeight={maxHeight}
+          preventWindowScroll={preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
           <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>

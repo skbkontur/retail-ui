@@ -36,8 +36,7 @@ export class ComponentCombinator<
   public render() {
     const { page } = this.state;
     const { combinations, Component } = this.props;
-    const presetProps = this.getProps().presetProps;
-    const presetState = this.getProps().presetState;
+    const { presetProps, presetState } = this.getProps();
     const pages = [];
     let row = 0;
     const sizes = combinations.map((c) => c.length);

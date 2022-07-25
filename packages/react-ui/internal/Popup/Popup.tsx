@@ -422,9 +422,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderContent(location: PopupLocation) {
     const { maxWidth, opened } = this.props;
-    const hasShadow = this.getProps().hasShadow;
-    const disableAnimations = this.getProps().disableAnimations;
-    const ignoreHover = this.getProps().ignoreHover;
+    const { hasShadow, disableAnimations, ignoreHover } = this.getProps();
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -500,11 +498,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
     const { pinSize, backgroundColor, borderColor } = this.props;
-    const hasShadow = this.getProps().hasShadow;
+    const { hasShadow, hasPin } = this.getProps();
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
-      this.getProps().hasPin && (
+      hasPin && (
         <PopupPin
           popupElement={this.lastPopupElement}
           popupPosition={positionName}

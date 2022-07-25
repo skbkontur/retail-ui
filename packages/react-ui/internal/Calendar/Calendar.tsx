@@ -125,8 +125,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       await new Promise((r) => setTimeout(r));
     }
 
-    const minDate = this.getProps().minDate;
-    const maxDate = this.getProps().maxDate;
+    const { minDate, maxDate } = this.getProps();
 
     if (minDate && isGreater(minDate, create(32, month, year))) {
       this.scrollToMonth(minDate.month, minDate.year);
@@ -256,13 +255,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMonth([top, month]: [number, MonthViewModel]) {
+    const { minDate, maxDate } = this.getProps();
     return (
       <Month
         key={month.month + '-' + month.year}
         top={top}
         month={month}
-        maxDate={this.getProps().maxDate}
-        minDate={this.getProps().minDate}
+        maxDate={maxDate}
+        minDate={minDate}
         today={this.state.today}
         value={this.props.value}
         onDateClick={this.props.onSelect}

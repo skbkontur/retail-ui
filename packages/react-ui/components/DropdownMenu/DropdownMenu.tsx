@@ -106,6 +106,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     if (!this.props.caption) {
       return null;
     }
+    const { positions, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
@@ -114,8 +115,8 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
           popupHasPin={false}
-          positions={this.getProps().positions}
-          disableAnimations={this.getProps().disableAnimations}
+          positions={positions}
+          disableAnimations={disableAnimations}
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}

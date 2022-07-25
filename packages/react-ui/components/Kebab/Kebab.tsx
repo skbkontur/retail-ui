@@ -117,17 +117,18 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private renderMain() {
     const { disabled } = this.props;
+    const { positions, disableAnimations, onOpen, onClose } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
           popupHasPin
-          positions={this.getProps().positions}
+          positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
-          disableAnimations={this.getProps().disableAnimations}
+          disableAnimations={disableAnimations}
           menuMaxHeight={this.props.menuMaxHeight}
-          onOpen={this.getProps().onOpen}
-          onClose={this.getProps().onClose}
+          onOpen={onOpen}
+          onClose={onClose}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -203,7 +204,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
-    const size = this.getProps().size;
+    const { size, icon } = this.getProps();
     return (
       <div
         className={cx({
@@ -213,7 +214,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           [styles.iconlarge()]: size === 'large',
         })}
       >
-        {this.getProps().icon}
+        {icon}
       </div>
     );
   }

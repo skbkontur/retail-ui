@@ -146,9 +146,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
   public render() {
     const { onMouseEnter, onMouseLeave, onMouseOver, opened } = this.props;
-    const onClickOutside = this.getProps().onClickOutside;
-    const onFocusOutside = this.getProps().onFocusOutside;
-    const width = this.getProps().width;
+    const { onClickOutside, onFocusOutside, width } = this.getProps();
 
     const isMobile = this.isMobileLayout;
 
@@ -177,8 +175,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private getComboBoxMenu = () => {
     const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount } = this.props;
 
-    const repeatRequest = this.getProps().repeatRequest;
-    const requestStatus = this.getProps().requestStatus;
+    const { repeatRequest, requestStatus, renderItem } = this.getProps();
     return (
       <ComboBoxMenu
         items={items}
@@ -188,7 +185,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         opened={opened}
         refMenu={refMenu}
         renderTotalCount={renderTotalCount}
-        renderItem={this.getProps().renderItem}
+        renderItem={renderItem}
         renderNotFound={renderNotFound}
         renderAddButton={this.renderAddButton}
         repeatRequest={repeatRequest}
@@ -289,8 +286,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       inputMode,
     } = this.props;
 
-    const renderValue = this.getProps().renderValue;
-    const size = this.getProps().size;
+    const { renderValue, size } = this.getProps();
 
     const rightIcon = this.getRightIcon();
 

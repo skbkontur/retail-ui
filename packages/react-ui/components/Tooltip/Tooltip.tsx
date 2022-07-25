@@ -203,12 +203,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private popupRef = React.createRef<Popup>();
   public componentDidUpdate(prevProps: TooltipProps) {
-    if (this.getPropsWithDefaultValues().trigger === 'closed' && this.state.opened) {
+    const { trigger, allowedPositions, pos } = this.getPropsWithDefaultValues();
+    if (trigger === 'closed' && this.state.opened) {
       this.close();
     }
-
-    const allowedPositions = this.getPropsWithDefaultValues().allowedPositions;
-    const pos = this.getPropsWithDefaultValues().pos;
     const posChanged = prevProps.pos !== pos;
     const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
@@ -338,6 +336,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     popupProps: Partial<PopupProps>,
     content: JSX.Element | null,
   ) {
+    const { disableAnimations, trigger } = this.getPropsWithDefaultValues();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
@@ -347,9 +346,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           hasShadow
           maxWidth="none"
           opened={this.state.opened}
-          disableAnimations={this.getPropsWithDefaultValues().disableAnimations}
+          disableAnimations={disableAnimations}
           positions={this.getPositions()}
-          ignoreHover={this.getPropsWithDefaultValues().trigger === 'hoverAnchor'}
+          ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
           mobileOnCloseRequest={this.mobileCloseHandler}
@@ -378,8 +377,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private getPositions() {
     if (!this.positions) {
-      const allowedPositions = this.getPropsWithDefaultValues().allowedPositions;
-      const index = allowedPositions.indexOf(this.getPropsWithDefaultValues().pos);
+      const { allowedPositions, pos } = this.getPropsWithDefaultValues();
+      const index = allowedPositions.indexOf(pos);
       if (index === -1) {
         throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
       }

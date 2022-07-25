@@ -121,8 +121,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private popupRef = React.createRef<Popup>();
 
   public componentDidUpdate(prevProps: HintProps) {
-    const opened = this.getProps().opened;
-    if (!this.getProps().manual) {
+    const { opened, manual } = this.getProps();
+    if (!manual) {
       return;
     }
     if (this.timer) {
@@ -184,6 +184,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   public renderMain() {
+    const { disableAnimations, useWrapper } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
@@ -193,10 +194,10 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
-          disableAnimations={this.getProps().disableAnimations}
+          disableAnimations={disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          useWrapper={this.getProps().useWrapper}
+          useWrapper={useWrapper}
           ref={this.popupRef}
         >
           {this.renderContent()}
@@ -214,8 +215,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return null;
     }
 
-    const maxWidth = this.getProps().maxWidth;
-    const pos = this.getProps().pos;
+    const { maxWidth, pos } = this.getProps();
     const className = cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',

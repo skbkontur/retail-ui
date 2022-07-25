@@ -204,8 +204,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   private renderContainer(isMobile: boolean): JSX.Element {
     const { width, blockBackground, fromLeft } = this.props;
-    const disableFocusLock = this.getProps().disableFocusLock;
-    const offset = this.getProps().offset;
+    const { disableFocusLock, offset } = this.getProps();
 
     return (
       <ZIndex

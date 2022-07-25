@@ -130,14 +130,12 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     let rel = relOrigin;
-    const refWithDefaultProp = this.getProps().href;
-    if (typeof rel === 'undefined' && refWithDefaultProp) {
-      rel = `noopener${isExternalLink(refWithDefaultProp) ? ' noreferrer' : ''}`;
+    const { href: hrefWithDefaultProp, use: useWithDefaultValue } = this.getProps();
+    if (typeof rel === 'undefined' && hrefWithDefaultProp) {
+      rel = `noopener${isExternalLink(hrefWithDefaultProp) ? ' noreferrer' : ''}`;
     }
 
     const focused = !disabled && this.state.focusedByTab;
-
-    const useWithDefaultValue = this.getProps().use;
 
     const linkProps = {
       className: cx({
@@ -152,7 +150,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [styles.focus(this.theme)]: focused,
         [styles.disabled(this.theme)]: !!disabled || !!loading,
       }),
-      href: refWithDefaultProp,
+      href: hrefWithDefaultProp,
       rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,

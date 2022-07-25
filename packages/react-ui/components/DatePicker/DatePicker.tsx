@@ -249,8 +249,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     let picker = null;
 
     const { value } = this.props;
-    const minDate = this.getProps().minDate;
-    const maxDate = this.getProps().maxDate;
+    const { minDate, maxDate } = this.getProps();
 
     const internalDate = this.parseValueToDate(value);
     const date = internalDate ? internalDate.toNativeFormat() : null;

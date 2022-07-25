@@ -192,8 +192,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
 
   private renderMain() {
     const { children, disabled, error, warning, success, primary } = this.props;
-    const Component = this.getProps().component;
-    const href = this.getProps().href;
+    const { component: Component, href } = this.getProps();
 
     let isActive = false;
     let isVertical = false;
@@ -249,7 +248,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       event.preventDefault();
       return;
     }
-    const href = this.getProps().href;
+    const { href, component } = this.getProps();
 
     const id = this.props.id || href;
     if (this.props.onClick) {
@@ -261,7 +260,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     if (typeof id === 'string') {
       this.context.switchTab(id);
     }
-    if (this.getProps().component === 'a' && !href) {
+    if (component === 'a' && !href) {
       event.preventDefault();
     }
   };

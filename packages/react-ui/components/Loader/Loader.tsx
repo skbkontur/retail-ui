@@ -161,9 +161,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>, prevState: Readonly<LoaderState>) {
     const { component } = this.props;
-    const active = this.getProps().active;
-    const delayBeforeSpinnerShow = this.getProps().delayBeforeSpinnerShow;
-    const minimalDelayBeforeSpinnerHide = this.getProps().minimalDelayBeforeSpinnerHide;
+    const { active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.getProps();
     const { isLoaderActive } = this.state;
 
     if ((active && !prevProps.active) || prevProps.component !== component) {

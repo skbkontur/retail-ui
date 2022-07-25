@@ -123,16 +123,17 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
+    const { hasShadow, width, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
       <div
         data-tid={InternalMenuDataTids.root}
         className={cx({
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.getProps().hasShadow,
+          [styles.shadow(this.theme)]: hasShadow,
         })}
         style={{
-          width: this.getProps().width,
+          width,
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
@@ -142,8 +143,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
         {this.props.header ? this.renderHeader() : null}
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.getProps().maxHeight}
-          preventWindowScroll={this.getProps().preventWindowScroll}
+          maxHeight={maxHeight}
+          preventWindowScroll={preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
         >
           {React.Children.map(this.props.children, (child, index) => {

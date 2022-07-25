@@ -314,12 +314,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       totalCount,
     } = this.props;
 
-    const selectedItems = this.getProps().selectedItems;
-    const width = this.getProps().width;
-    const onMouseEnter = this.getProps().onMouseEnter;
-    const onMouseLeave = this.getProps().onMouseLeave;
-    const menuWidth = this.getProps().menuWidth;
-    const menuAlign = this.getProps().menuAlign;
+    const { selectedItems, width, onMouseEnter, onMouseLeave, menuWidth, menuAlign, renderItem } = this.getProps();
 
     const {
       activeTokens,
@@ -406,7 +401,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 maxMenuHeight={maxMenuHeight}
                 anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
                 renderNotFound={renderNotFound}
-                renderItem={this.getProps().renderItem}
+                renderItem={renderItem}
                 onValueChange={this.selectItem}
                 renderAddButton={this.renderAddButton}
                 menuWidth={menuWidth}
@@ -572,9 +567,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private get isTokenValueChanged() {
     const { inputValue, editingTokenIndex } = this.state;
+    const { valueToString, selectedItems } = this.getProps();
 
     if (this.isEditingMode) {
-      return this.getProps().valueToString(this.getProps().selectedItems[editingTokenIndex]) !== inputValue;
+      return valueToString(selectedItems[editingTokenIndex]) !== inputValue;
     }
 
     return false;
@@ -611,14 +607,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
     event.preventDefault();
-    const selectedItems = this.getProps().selectedItems;
+    const { selectedItems, valueToString, delimiters } = this.getProps();
     // упорядочивание токенов по индексу
     const tokens = this.state.activeTokens
       .map((token) => selectedItems.indexOf(token))
       .sort()
       .map((index) => selectedItems[index])
-      .map((item) => this.getProps().valueToString(item));
-    event.clipboardData.setData('text/plain', tokens.join(this.getProps().delimiters[0]));
+      .map((item) => valueToString(item));
+    event.clipboardData.setData('text/plain', tokens.join(delimiters[0]));
   };
 
   private handleInputPaste = (event: React.ClipboardEvent<HTMLElement>) => {
@@ -626,8 +622,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       return;
     }
     let paste = event.clipboardData.getData('text');
-    const delimiters = this.getProps().delimiters;
-    const selectedItems = this.getProps().selectedItems;
+    const { delimiters, selectedItems, valueToItem, onValueChange } = this.getProps();
     if (delimiters.some((delimiter) => paste.includes(delimiter))) {
       event.preventDefault();
       event.stopPropagation();
@@ -636,10 +631,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
       const tokens = paste.split(delimiters[0]);
       const items = tokens
-        .map((token) => this.getProps().valueToItem(token))
+        .map((token) => valueToItem(token))
         .filter((item) => !this.hasValueInItems(selectedItems, item!));
       const newItems = selectedItems.concat(items);
-      this.getProps().onValueChange(newItems);
+      onValueChange(newItems);
 
       this.dispatch({ type: 'SET_AUTOCOMPLETE_ITEMS', payload: undefined });
       this.tryGetItems();
@@ -652,7 +647,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const autocompleteItems = await this.props.getItems(query);
       this.dispatch({ type: 'SET_LOADING', payload: false });
 
-      const selectedItems = this.getProps().selectedItems;
+      const { selectedItems, valueToItem, valueToString } = this.getProps();
       const isSelectedItem = (item: T) => this.hasValueInItems(selectedItems, item);
       const isEditingItem = (item: T) => {
         const editingItem = selectedItems[this.state.editingTokenIndex];
@@ -664,7 +659,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       if (this.isEditingMode) {
         const editingItem = selectedItems[this.state.editingTokenIndex];
         if (
-          isEqual(editingItem, this.getProps().valueToItem(this.state.inputValue)) &&
+          isEqual(editingItem, valueToItem(this.state.inputValue)) &&
           !this.hasValueInItems(autocompleteItemsUnique, editingItem)
         ) {
           autocompleteItemsUnique.unshift(editingItem);
@@ -678,7 +673,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         });
       }
       const selectItemIndex = autocompleteItemsUnique.findIndex(
-        (item) => this.getProps().valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
+        (item) => valueToString(item).toLowerCase() === this.state.inputValue.toLowerCase(),
       );
       if (this.menuRef) {
         this.menuRef.highlightItem(selectItemIndex < 0 ? 0 : selectItemIndex);
@@ -766,13 +761,13 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleWrapperKeyDown = (e: KeyboardEvent<HTMLElement>) => {
-    const selectedItems = this.getProps().selectedItems;
+    const { selectedItems, onValueChange } = this.getProps();
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
         if (!this.isEditingMode) {
           const itemsNew = selectedItems.filter((item) => !this.hasValueInItems(this.state.activeTokens, item));
-          this.getProps().onValueChange(itemsNew);
+          onValueChange(itemsNew);
           this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
             LayoutEvents.emit();
             this.input?.focus();
@@ -848,9 +843,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private selectItem = (item: T) => {
-    const selectedItems = this.getProps().selectedItems;
+    const { selectedItems, valueToString } = this.getProps();
     if (this.isEditingMode) {
-      this.dispatch({ type: 'UPDATE_QUERY', payload: this.getProps().valueToString(item) }, this.finishTokenEdit);
+      this.dispatch({ type: 'UPDATE_QUERY', payload: valueToString(item) }, this.finishTokenEdit);
     } else if (!this.hasValueInItems(selectedItems, item)) {
       this.handleValueChange(selectedItems.concat([item]));
       this.dispatch({ type: 'CLEAR_INPUT' });
@@ -884,7 +879,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private handleTokenEdit = (itemNew: T) => {
-    const editingTokenIndex = this.getProps().selectedItems.findIndex((item) => item === itemNew);
+    const { selectedItems, valueToString } = this.getProps();
+    const editingTokenIndex = selectedItems.findIndex((item) => item === itemNew);
     this.dispatch({ type: 'SET_EDITING_TOKEN_INDEX', payload: editingTokenIndex });
 
     if (this.state.inputValue !== '') {
@@ -892,7 +888,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.dispatch({ type: 'SET_TEMPORARY_QUERY', payload: this.state.inputValue });
       }
     }
-    this.dispatch({ type: 'UPDATE_QUERY', payload: this.getProps().valueToString(itemNew) }, this.selectInputText);
+    this.dispatch({ type: 'UPDATE_QUERY', payload: valueToString(itemNew) }, this.selectInputText);
     this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
 
     this.tryGetItems();

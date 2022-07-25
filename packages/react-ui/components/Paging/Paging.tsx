@@ -163,13 +163,14 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   private renderMain() {
+    const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span
           tabIndex={0}
-          data-tid={this.getProps()['data-tid']}
+          data-tid={dataTid}
           className={styles.paging(this.theme)}
-          onKeyDown={this.getProps().useGlobalListener ? undefined : this.handleKeyDown}
+          onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onMouseDown={this.handleMouseDown}

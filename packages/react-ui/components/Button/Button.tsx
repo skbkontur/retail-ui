@@ -256,7 +256,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
-    const use = this.getProps().use;
+    const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -265,7 +265,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
-      type: this.getProps().type,
+      type,
       className: cx({
         [styles.root(this.theme)]: true,
         [styles[use](this.theme)]: true,

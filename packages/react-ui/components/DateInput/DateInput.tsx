@@ -127,10 +127,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public componentDidUpdate(prevProps: DateInputProps, prevState: DateInputState) {
+    const { value, minDate, maxDate } = this.getProps();
     if (
-      prevProps.value !== this.getProps().value ||
-      prevProps.minDate !== this.getProps().minDate ||
-      prevProps.maxDate !== this.getProps().maxDate ||
+      prevProps.value !== value ||
+      prevProps.minDate !== minDate ||
+      prevProps.maxDate !== maxDate ||
       this.iDateMediator.isChangedLocale(this.locale)
     ) {
       this.updateFromProps();
@@ -193,13 +194,14 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const showValue = Boolean(focused || valueFormatted);
+    const { width, size } = this.getProps();
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <InputLikeText
-          width={this.getProps().width}
+          width={width}
           ref={this.inputLikeTextRef}
-          size={this.getProps().size}
+          size={size}
           disabled={this.props.disabled}
           error={this.props.error}
           warning={this.props.warning}

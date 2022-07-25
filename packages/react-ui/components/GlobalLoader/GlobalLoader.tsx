@@ -119,18 +119,17 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     currentGlobalLoader = this;
   }
   componentDidMount() {
-    if (this.getProps().active) {
+    const { active, rejected } = this.getProps();
+    if (active) {
       this.setActive();
     }
-    if (this.getProps().rejected) {
+    if (rejected) {
       this.setReject(true);
     }
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
-    const expectedResponseTime = this.getProps().expectedResponseTime;
-    const rejected = this.getProps().rejected;
-    const active = this.getProps().active;
+    const { expectedResponseTime, rejected, active } = this.getProps();
     if (expectedResponseTime !== prevProps.expectedResponseTime) {
       this.setState({ expectedResponseTime });
     }
@@ -159,16 +158,17 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
     } else if (this.state.accept) {
       status = 'accept';
     }
+    const { delayBeforeHide, disableAnimations } = this.getProps();
     return (
       !this.state.dead &&
       this.state.visible && (
         <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <GlobalLoaderView
             expectedResponseTime={this.state.expectedResponseTime}
-            delayBeforeHide={this.getProps().delayBeforeHide}
+            delayBeforeHide={delayBeforeHide}
             status={status}
             data-tid={GlobalLoaderDataTids.root}
-            disableAnimations={this.getProps().disableAnimations}
+            disableAnimations={disableAnimations}
           />
         </CommonWrapper>
       )
@@ -219,14 +219,15 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
   };
 
   public setActive = () => {
+    const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
       this.successAnimationInProgressTimeout = setTimeout(() => {
         this.setActive();
-      }, this.getProps().delayBeforeHide);
+      }, delayBeforeHide);
     } else {
       this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
-      if (this.getProps().rejected) {
+      if (rejected) {
         this.setReject(true);
       } else {
         this.stopTask.cancel();

@@ -61,8 +61,7 @@ export class ComponentTable<
 
   public render() {
     const { rows = [], cols = [], Component } = this.props;
-    const presetProps = this.getProps().presetProps;
-    const presetState = this.getProps().presetState;
+    const { presetProps, presetState } = this.getProps();
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
         <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps)}</caption>
