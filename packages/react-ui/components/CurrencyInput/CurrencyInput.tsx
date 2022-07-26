@@ -52,7 +52,9 @@ export const CurrencyInputDataTids = {
   root: 'CurrencyInput__root',
 } as const;
 
-type DefaultProps = Required<Pick<CurrencyInputProps, 'align' | 'fractionDigits' | 'hideTrailingZeros' | 'value'>>;
+type DefaultProps = Required<
+  Pick<CurrencyInputProps, 'align' | 'fractionDigits' | 'hideTrailingZeros' | 'value' | 'inputMode'>
+>;
 
 /**
  * Поле для денежных сумм (и других числовых значений).
@@ -97,6 +99,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     fractionDigits: 2,
     hideTrailingZeros: false,
     value: null,
+    inputMode: 'decimal',
   };
 
   private getProps = createPropsGetter(CurrencyInput.defaultProps);
