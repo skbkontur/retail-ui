@@ -144,7 +144,8 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       return;
     }
 
-    this.inner.scrollLeft = Math.floor(getDOMRect(element).left);
+    // @ts-expect-error: needs to be replaced with getDOMRect. See IF-647
+    this.inner.scrollLeft = element.offsetLeft;
     this.inner.scrollTop = getScrollYOffset(element, this.inner);
   }
 
