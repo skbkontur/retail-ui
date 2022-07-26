@@ -189,7 +189,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     useWrapper: false,
   };
 
-  private getPropsWithDefaultValues = createPropsGetter(Tooltip.defaultProps);
+  private getProps = createPropsGetter(Tooltip.defaultProps);
 
   public static delay = 100;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
@@ -204,7 +204,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private popupRef = React.createRef<Popup>();
   public componentDidUpdate(prevProps: TooltipProps) {
-    const { trigger, allowedPositions, pos } = this.getPropsWithDefaultValues();
+    const { trigger, allowedPositions, pos } = this.getProps();
     if (trigger === 'closed' && this.state.opened) {
       this.close();
     }
@@ -265,7 +265,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.getPropsWithDefaultValues().trigger)
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.getProps().trigger)
         : this.props.closeButton;
 
     if (!hasCross || this.isMobileLayout) {
@@ -292,7 +292,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (this.state.opened) {
       return;
     }
-    const trigger = this.getPropsWithDefaultValues().trigger;
+    const trigger = this.getProps().trigger;
     if (trigger === 'opened' || trigger === 'closed') {
       warning(true, `Function 'show' is not supported with trigger specified '${trigger}'`);
       return;
@@ -306,7 +306,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
    * @public
    */
   public hide() {
-    const trigger = this.getPropsWithDefaultValues().trigger;
+    const trigger = this.getProps().trigger;
     if (trigger === 'opened' || trigger === 'closed') {
       warning(true, `Function 'hide' is not supported with trigger specified '${trigger}'`);
       return;
@@ -317,7 +317,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private renderMain() {
     const props = this.props;
     const content = this.renderContent();
-    const { popupProps, layerProps = { active: false } } = this.getProps();
+    const { popupProps, layerProps = { active: false } } = this.getPopupAndLayerProps();
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
@@ -337,7 +337,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     popupProps: Partial<PopupProps>,
     content: JSX.Element | null,
   ) {
-    const { disableAnimations, trigger } = this.getPropsWithDefaultValues();
+    const { disableAnimations, trigger } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
@@ -364,7 +364,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   private mobileCloseHandler = () => {
-    const trigger = this.getPropsWithDefaultValues().trigger;
+    const trigger = this.getProps().trigger;
     if (trigger === 'manual' || trigger === 'closed' || trigger === 'opened') {
       return;
     }
@@ -378,7 +378,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private getPositions() {
     if (!this.positions) {
-      const { allowedPositions, pos } = this.getPropsWithDefaultValues();
+      const { allowedPositions, pos } = this.getProps();
       const index = allowedPositions.indexOf(pos);
       if (index === -1) {
         throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
@@ -390,13 +390,13 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return this.positions;
   }
 
-  private getProps(): {
+  private getPopupAndLayerProps(): {
     layerProps?: Partial<RenderLayerProps>;
     popupProps: Partial<PopupProps>;
   } {
     const props = this.props;
-    const useWrapper = !!props.children && this.getPropsWithDefaultValues().useWrapper;
-    const trigger = this.getPropsWithDefaultValues().trigger;
+    const useWrapper = !!props.children && this.getProps().useWrapper;
+    const trigger = this.getProps().trigger;
 
     switch (trigger) {
       case 'opened':
@@ -487,7 +487,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   private handleMouseEnter = (event: MouseEventType) => {
-    const isHoverAnchor = this.getPropsWithDefaultValues().trigger === 'hoverAnchor';
+    const isHoverAnchor = this.getProps().trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
     }
@@ -501,7 +501,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (this.isMobileLayout) {
       return;
     }
-    const trigger = this.getPropsWithDefaultValues().trigger;
+    const trigger = this.getProps().trigger;
     if (
       (trigger === 'hover&focus' && this.state.focused) ||
       (trigger === 'hover' && event.relatedTarget === this.contentElement)
@@ -554,7 +554,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleBlur = () => {
-    const trigger = this.getPropsWithDefaultValues().trigger;
+    const trigger = this.getProps().trigger;
     if (trigger === 'hover&focus' && this.clickedOutside) {
       this.close();
     }
