@@ -8,7 +8,7 @@ import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface FxInputProps
@@ -68,9 +68,9 @@ export class FxInput extends React.Component<FxInputProps> {
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
-    const { type, onRestore, auto, refInput, ...rest } = props;
-    const { type: typeWithDefaultValue, value } = this.getProps();
+  public renderMain = () => {
+    const { type, onRestore, auto, refInput, ...rest } = this.getProps();
+    const value = this.getProps().value;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };
@@ -96,11 +96,11 @@ export class FxInput extends React.Component<FxInputProps> {
     return (
       <Group data-tid={FxInputDataTids.root} width={this.getProps().width}>
         {button}
-        {typeWithDefaultValue === 'currency' ? (
+        {type === 'currency' ? (
           <CurrencyInput
             {...inputProps}
             {...rest}
-            type={typeWithDefaultValue as InputType}
+            type={type as InputType}
             width={'100%'}
             ref={this.refInput}
             value={value as CurrencyInputProps['value']}
@@ -112,7 +112,7 @@ export class FxInput extends React.Component<FxInputProps> {
             {...rest}
             width={'100%'}
             ref={this.refInput}
-            type={typeWithDefaultValue as InputType}
+            type={type as InputType}
             value={value as InputProps['value']}
             onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />

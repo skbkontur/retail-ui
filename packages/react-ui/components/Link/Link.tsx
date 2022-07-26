@@ -7,7 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -114,8 +114,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<LinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
+  private renderMain = () => {
+    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = this.getProps();
 
     let iconElement = null;
     if (icon) {
@@ -130,9 +130,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
 
     let rel = relOrigin;
-    const { href: hrefWithDefaultProp, use: useWithDefaultValue } = this.getProps();
-    if (typeof rel === 'undefined' && hrefWithDefaultProp) {
-      rel = `noopener${isExternalLink(hrefWithDefaultProp) ? ' noreferrer' : ''}`;
+    if (typeof rel === 'undefined' && href) {
+      rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
     const focused = !disabled && this.state.focusedByTab;
@@ -142,15 +141,15 @@ export class Link extends React.Component<LinkProps, LinkState> {
         [styles.root(this.theme)]: true,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
-        [styles.useDefault(this.theme)]: useWithDefaultValue === 'default',
-        [styles.useSuccess(this.theme)]: useWithDefaultValue === 'success',
-        [styles.useDanger(this.theme)]: useWithDefaultValue === 'danger',
-        [styles.useGrayed(this.theme)]: useWithDefaultValue === 'grayed',
-        [styles.useGrayedFocus(this.theme)]: useWithDefaultValue === 'grayed' && focused,
+        [styles.useDefault(this.theme)]: use === 'default',
+        [styles.useSuccess(this.theme)]: use === 'success',
+        [styles.useDanger(this.theme)]: use === 'danger',
+        [styles.useGrayed(this.theme)]: use === 'grayed',
+        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
         [styles.focus(this.theme)]: focused,
         [styles.disabled(this.theme)]: !!disabled || !!loading,
       }),
-      href: hrefWithDefaultProp,
+      href,
       rel,
       onClick: this._handleClick,
       onFocus: this._handleFocus,
