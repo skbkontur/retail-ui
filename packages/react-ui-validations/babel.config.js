@@ -4,7 +4,7 @@
 // @see https://stackoverflow.com/a/67235617
 
 module.exports = {
-  presets: [['@babel/preset-env', { modules: 'auto' }], '@babel/typescript', '@babel/preset-react'],
+  presets: ['@babel/preset-env', '@babel/typescript', '@babel/preset-react'],
   plugins: [
     '@babel/plugin-transform-runtime',
     'react-hot-loader/babel',

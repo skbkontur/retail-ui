@@ -11,6 +11,6 @@ describe('ValidationContainer', () => {
       </ValidationContainer>,
     );
 
-    expect(screen.getByTestId('passed-div')).toBeInTheDocument;
+    expect(screen.getByTestId('passed-div')).toBeInTheDocument();
   });
 });
