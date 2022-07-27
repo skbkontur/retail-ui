@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { Override } from '../../typings/utility-types';
-import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 
 import { styles } from './Center.styles';
 
@@ -29,6 +29,7 @@ export const CenterDataTids = {
 } as const;
 
 type DefaultProps = Required<Pick<CenterProps, 'align'>>;
+type DefaultizedCenterProps = DefaultizedProps<CenterProps, DefaultProps>;
 
 /**
  * Контейнер, который центрирует элементы внутри себя.
@@ -46,13 +47,13 @@ export class Center extends React.Component<CenterProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
         {this.renderMain}
       </CommonWrapper>
     );
   }
-  private renderMain = () => {
-    const { align, ...rest } = this.getProps();
+  private renderMain = (props: CommonWrapperRestProps<DefaultizedCenterProps>) => {
+    const { align, ...rest } = props;
 
     return (
       <div

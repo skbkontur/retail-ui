@@ -7,10 +7,10 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 
 import { styles } from './Link.styles';
 
@@ -67,6 +67,7 @@ export const LinkDataTids = {
 } as const;
 
 type DefaultProps = Required<Pick<LinkProps, 'href' | 'use'>>;
+type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 
 /**
  * Элемент ссылки из HTML.
@@ -105,7 +106,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -114,8 +115,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   }
 
-  private renderMain = () => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = this.getProps();
+  private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
+    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
 
     let iconElement = null;
     if (icon) {

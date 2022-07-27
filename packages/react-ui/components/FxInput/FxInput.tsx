@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 
 import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps, InputType } from '../Input';
+import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
-import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
+import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
 export interface FxInputProps
@@ -38,6 +38,7 @@ export const FxInputDataTids = {
 } as const;
 
 type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value'>>;
+type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 
 /** Принимает все свойства `Input`'a */
 @rootNode
@@ -62,15 +63,14 @@ export class FxInput extends React.Component<FxInputProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
         {this.renderMain}
       </CommonWrapper>
     );
   }
 
-  public renderMain = () => {
-    const { type, onRestore, auto, refInput, ...rest } = this.getProps();
-    const value = this.getProps().value;
+  public renderMain = (props: CommonWrapperRestProps<DefaultizedFxInputProps>) => {
+    const { type, onRestore, auto, refInput, value, width, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };
@@ -94,7 +94,7 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group data-tid={FxInputDataTids.root} width={this.getProps().width}>
+      <Group data-tid={FxInputDataTids.root} width={width}>
         {button}
         {type === 'currency' ? (
           <CurrencyInput
@@ -111,7 +111,7 @@ export class FxInput extends React.Component<FxInputProps> {
             {...rest}
             width={'100%'}
             ref={this.refInput}
-            type={type as InputType}
+            type={type}
             value={value as InputProps['value']}
             onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />
