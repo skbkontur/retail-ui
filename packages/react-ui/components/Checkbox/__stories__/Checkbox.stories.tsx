@@ -21,12 +21,47 @@ class PlainCheckbox extends Component<any, any> {
   }
 }
 
-interface IndeterminatePlaygroundState {
+type IndeterminatePlaygroundProps = {
+  children: React.ReactNode;
+};
+
+const IndeterminatePlayground = ({ children }: IndeterminatePlaygroundProps) => {
+  const [isChecked, setIsChecked] = useState(false);
+  const [isIndeterminate, setIsIndeterminate] = useState(true);
+
+  return (
+    <div>
+      <span style={{ display: 'inline-block', padding: 4 }} id="screenshot-capture">
+        <Checkbox
+          onValueChange={(checked) => setIsChecked(checked)}
+          checked={isChecked}
+          isIndeterminate={isIndeterminate}
+          setIsIndeterminate={setIsIndeterminate}
+        >
+          {children}
+        </Checkbox>
+      </span>
+      <div>
+        <button tabIndex={-1} onClick={() => setIsIndeterminate(true)}>
+          setIndeterminate
+        </button>
+        <button tabIndex={-1} onClick={() => setIsIndeterminate(false)}>
+          resetIndeterminate
+        </button>
+        <button tabIndex={-1} onClick={() => setIsChecked((prev) => !prev)}>
+          changeValue
+        </button>
+      </div>
+    </div>
+  );
+};
+
+interface LEGACY_IndeterminatePlaygroundState {
   checked: boolean;
 }
 
-class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState> {
-  public state: IndeterminatePlaygroundState = {
+class LEGACY_IndeterminatePlayground extends Component<{}, LEGACY_IndeterminatePlaygroundState> {
+  public state: LEGACY_IndeterminatePlaygroundState = {
     checked: false,
   };
 
@@ -77,7 +112,7 @@ class IndeterminatePlayground extends Component<{}, IndeterminatePlaygroundState
   };
 
   private changeValue = () => {
-    this.setState((state: IndeterminatePlaygroundState) => ({
+    this.setState((state: LEGACY_IndeterminatePlaygroundState) => ({
       checked: !state.checked,
     }));
   };
@@ -298,59 +333,82 @@ ProgrammaticFocus.parameters = { creevey: { skip: [true] } };
 export const Indeterminate: Story = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
 Indeterminate.storyName = 'indeterminate';
 
+export const LEGACY_Indeterminate: Story = () => <LEGACY_IndeterminatePlayground>Label</LEGACY_IndeterminatePlayground>;
+LEGACY_Indeterminate.storyName = 'indeterminate LEGACY';
+
+const indeterminateTests: CreeveyTests = {
+  async idle() {
+    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  },
+  async 'reset indeterminate'() {
+    const buttons = await this.browser.findElements({ css: 'button' });
+
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(buttons[1])
+      .perform();
+    await delay(1000);
+
+    await this.expect(await this.takeScreenshot()).to.matchImage('reset indeterminate');
+  },
+  async 'set indeterminate'() {
+    const buttons = await this.browser.findElements({ css: 'button' });
+
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(buttons[1])
+      .pause(1000)
+      .click(buttons[0])
+      .perform();
+    await delay(1000);
+
+    await this.expect(await this.takeScreenshot()).to.matchImage('set indeterminate');
+  },
+  async 'change value and set indeterminate'() {
+    const buttons = await this.browser.findElements({ css: 'button' });
+
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(buttons[2])
+      .pause(1000)
+      .click(buttons[0])
+      .perform();
+    await delay(1000);
+
+    await this.expect(await this.takeScreenshot()).to.matchImage('change value and set indeterminate');
+  },
+  async 'change value and reset indeterminate'() {
+    const buttons = await this.browser.findElements({ css: 'button' });
+
+    await this.browser
+      .actions({
+        bridge: true,
+      })
+      .click(buttons[1])
+      .pause(1000)
+      .click(buttons[2])
+      .perform();
+    await delay(1000);
+
+    await this.expect(await this.takeScreenshot()).to.matchImage('change value and reset indeterminate');
+  },
+};
+
 Indeterminate.parameters = {
   creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
-    ],
-    tests: {
-      async plain() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await delay(1000);
+    tests: indeterminateTests,
+  },
+};
 
-        await this.expect(await element.takeScreenshot()).to.matchImage('plain');
-      },
-      async hovered() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'label' }),
-          })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
-      },
-      async tabPress() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async clicked() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
+LEGACY_Indeterminate.parameters = {
+  creevey: {
+    tests: indeterminateTests,
   },
 };
 

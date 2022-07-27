@@ -52,15 +52,29 @@ export interface CheckboxProps
          */
         onBlur?: (event: React.FocusEvent<HTMLInputElement>) => void;
         /**
-         * [Неопределённое состояние](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+         * @deprecated Это API будет удалено в 5-ой версии библиотеки. Используйте пропы `isIndeterminate` и `setIsIndeterminate`.
          */
         initialIndeterminate?: boolean;
+        /**
+         * Неопределённое состояние(https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#attr-indeterminate) чекбокса из HTML.
+         *
+         * Переменная для хранения `indeterminate` состояния
+         *
+         * Для корректной работы проп должен быть использован в паре с пропом `setIsIndeterminate`
+         */
+        isIndeterminate?: boolean;
+        /**
+         * Функция для обновления `indeterminate` состояния
+         *
+         * Для корректной работы проп должен быть использован в паре с пропом `isIndeterminate`
+         */
+        setIsIndeterminate?: React.Dispatch<React.SetStateAction<NonNullable<CheckboxProps['isIndeterminate']>>>;
       }
     > {}
 
 export interface CheckboxState {
   focusedByTab: boolean;
-  indeterminate: boolean;
+  LEGACY_INDETERMINATE: boolean;
   isShiftPressed: boolean;
 }
 
@@ -84,9 +98,9 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     onMouseOver: PropTypes.func,
   };
 
-  public state = {
+  public state: CheckboxState = {
     focusedByTab: false,
-    indeterminate: this.props.initialIndeterminate || false,
+    LEGACY_INDETERMINATE: this.props.initialIndeterminate || false,
     isShiftPressed: false,
   };
 
@@ -110,7 +124,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   };
 
   public componentDidMount = () => {
-    if (this.state.indeterminate && this.input.current) {
+    if ((this.state.LEGACY_INDETERMINATE || this.props.isIndeterminate) && this.input.current) {
       this.input.current.indeterminate = true;
     }
 
@@ -166,10 +180,11 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   /**
    * Устанавливает чекбокс в HTML-состояние `indeterminate`.
    * @public
+   * @deprecated Это API будет удалено в 5-ой версии библиотеки. Используйте пропы `isIndeterminate` и `setIsIndeterminate`.
    */
   public setIndeterminate = () => {
     this.setState({
-      indeterminate: true,
+      LEGACY_INDETERMINATE: true,
     });
     if (this.input.current) {
       this.input.current.indeterminate = true;
@@ -179,11 +194,15 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   /**
    * Снимает с чекбокса HTML-состояние `indeterminate`.
    * @public
+   * @deprecated Это API будет удалено в 5-ой версии библиотеки. Используйте пропы `isIndeterminate` и `setIsIndeterminate`.
    */
   public resetIndeterminate = () => {
     this.setState({
-      indeterminate: false,
+      LEGACY_INDETERMINATE: false,
     });
+    if (this.props.setIsIndeterminate) {
+      this.props.setIsIndeterminate(false);
+    }
     if (this.input.current) {
       this.input.current.indeterminate = false;
     }
@@ -201,7 +220,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       initialIndeterminate,
       ...rest
     } = props;
-    const isIndeterminate = this.state.indeterminate;
+    const isIndeterminate = this.state.LEGACY_INDETERMINATE || this.props.isIndeterminate;
 
     const rootClass = cx({
       [styles.root(this.theme)]: true,
@@ -303,7 +322,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     this.props.onClick?.(e);
     // support IE11's and old Edge's special behavior
     // https://github.com/jquery/jquery/issues/1698
-    if (this.state.indeterminate && (isIE11 || isEdge)) {
+    if ((this.state.LEGACY_INDETERMINATE || this.props.isIndeterminate) && (isIE11 || isEdge)) {
       this.resetIndeterminate();
       // simulate correct behavior only if onValueChange is used
       // because we cant simulate real native onChange event

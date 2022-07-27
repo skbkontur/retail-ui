@@ -80,23 +80,23 @@ let checkboxInstance = React.useRef(null);
 import { Button, Checkbox, Gapped } from '@skbkontur/react-ui';
 
 const [checked, setChecked] = React.useState(false);
+const [isIndeterminate, setIsIndeterminate] = React.useState(true);
 
-let checkboxInstance = React.useRef(null);
 
 <Gapped vertical>
   <Checkbox
-    initialIndeterminate
     checked={checked}
     onValueChange={setChecked}
-    ref={el => checkboxInstance = el}
+    isIndeterminate={isIndeterminate}
+    setIsIndeterminate={setIsIndeterminate}
   >
     Неопределённый чекбокс
   </Checkbox>
   <Gapped>
-    <Button onClick={() => checkboxInstance.setIndeterminate()}>
+    <Button onClick={() => setIsIndeterminate(true)}>
       Перевести в неопределённое состояние
     </Button>
-    <Button onClick={() => checkboxInstance.resetIndeterminate()}>
+    <Button onClick={() => setIsIndeterminate(false)}>
       Сбросить неопределённое состояние
     </Button>
   </Gapped>
