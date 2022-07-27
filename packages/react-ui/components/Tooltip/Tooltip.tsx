@@ -403,7 +403,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         return {
           layerProps: {
             active: true,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             opened: true,
@@ -438,7 +438,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             onClick: this.handleClick,
@@ -459,7 +459,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         return {
           layerProps: {
             active: this.state.opened,
-            onClickOutside: this.handleClickOutside,
+            onClickOutside: this.handleClickOutsideAnchor,
           },
           popupProps: {
             onFocus: this.handleFocus,
@@ -522,8 +522,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     this.open();
   };
 
-  private handleClickOutside = (event: Event) => {
-    this.clickedOutside = this.isClickOutsideContent(event) && this.isClickOutsideAnchor(event);
+  private handleClickOutsideAnchor = (event: Event) => {
+    this.clickedOutside = this.isClickOutsideContent(event);
     if (this.clickedOutside) {
       if (this.props.onCloseRequest) {
         this.props.onCloseRequest();
@@ -533,16 +533,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private isClickOutsideContent(event: Event) {
-    return this.isClickOutside(event, this.contentElement);
-  }
-
-  private isClickOutsideAnchor(event: Event) {
-    return this.isClickOutside(event, this.getAnchorElement());
-  }
-
-  private isClickOutside(event: Event, target: Nullable<HTMLElement>) {
-    if (target && event.target instanceof Element) {
-      return !containsTargetOrRenderContainer(event.target)(target);
+    if (this.contentElement && event.target instanceof Element) {
+      return !containsTargetOrRenderContainer(event.target)(this.contentElement);
     }
 
     return true;
