@@ -715,30 +715,28 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode) {
+        if (!this.isEditingMode && !this.isItemByIndexDisabled(this.props.selectedItems.length - 1)) {
           this.moveFocusToLastToken();
         }
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
-          this.moveFocusToLastToken();
+          let index = this.props.selectedItems.length - 1;
+          while (this.props.selectedItems[index - 1] && this.isItemByIndexDisabled(index)) {
+            index = index - 1;
+          }
+          const itemNew = this.props.selectedItems[index];
+          this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
         }
         break;
     }
   };
 
   private moveFocusToLastToken() {
-    this.addTokenToActiveTokensByIndex(this.props.selectedItems.length - 1);
-  }
-
-  private addTokenToActiveTokensByIndex(index: number) {
-    let newIndex = index;
-    while (this.props.selectedItems[newIndex - 1] && this.isItemByIndexDisabled(newIndex)) {
-      newIndex = newIndex - 1;
+    const items = this.props.selectedItems;
+    if (this.state.inputValue === '' && items && items.length > 0) {
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: items.slice(-1) });
     }
-    const itemNew = this.props.selectedItems[newIndex];
-    const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
-    this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
   }
 
   private focusInput = () => {
@@ -755,7 +753,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        if (!this.isEditingMode && !this.isItemByIndexDisabled(this.state.activeTokens.length - 1)) {
+        const indexOfActiveToken = this.props.selectedItems.indexOf(
+          this.state.activeTokens[this.state.activeTokens.length - 1],
+        );
+        if (!this.isEditingMode && !this.isItemByIndexDisabled(indexOfActiveToken)) {
           const itemsNew = this.props.selectedItems.filter(
             (item) => !this.hasValueInItems(this.state.activeTokens, item),
           );
@@ -793,7 +794,21 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     e.preventDefault();
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = this.props.selectedItems.indexOf(activeTokens[0]);
-    const newItemIndex = activeItemIndex + (isKeyArrowLeft(e) ? -1 : +1);
+
+    let newItemIndex = activeItemIndex;
+    if (isKeyArrowLeft(e)) {
+      newItemIndex = newItemIndex - 1;
+      while (this.props.selectedItems[newItemIndex - 1] && this.isItemByIndexDisabled(newItemIndex)) {
+        newItemIndex = newItemIndex - 1;
+      }
+    }
+    if (isKeyArrowRight(e)) {
+      newItemIndex = newItemIndex + 1;
+      while (this.props.selectedItems[newItemIndex + 1] && this.isItemByIndexDisabled(newItemIndex)) {
+        newItemIndex = newItemIndex + 1;
+      }
+    }
+
     const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
     const isRightEdge = activeItemIndex === this.props.selectedItems.length - 1 && isKeyArrowRight(e);
     if (!e.shiftKey && activeTokens.length === 1) {
@@ -816,7 +831,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private handleWrapperArrowsWithShift = (isLeftEdge: boolean, isRightEdge: boolean, newItemIndex: number) => {
     if (!isLeftEdge && !isRightEdge) {
-      this.addTokenToActiveTokensByIndex(newItemIndex);
+      const itemNew = this.props.selectedItems[newItemIndex];
+      const itemsNew = [itemNew, ...this.state.activeTokens.filter((item) => !isEqual(item, itemNew))];
+      this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: itemsNew });
     }
   };
 
