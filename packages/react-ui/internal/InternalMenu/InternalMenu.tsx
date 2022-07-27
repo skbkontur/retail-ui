@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isSVGOrHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -213,7 +214,10 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private focusOnRootElement = (): void => {
-    ((getRootNode(this) as HTMLElement) || SVGElement)?.focus();
+    const rootNode = getRootNode(this);
+    if (isSVGOrHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
@@ -314,7 +318,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    ((getRootNode(this) as HTMLElement) || SVGElement)?.focus();
+
+    const rootNode = getRootNode(this);
+    if (isSVGOrHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private unhighlight = () => {

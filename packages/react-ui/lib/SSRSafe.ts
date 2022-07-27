@@ -20,6 +20,14 @@ export function isElement(el: unknown): el is Element {
   return false;
 }
 
+export function isSVGOrHTMLElement(el: unknown): el is HTMLElement | SVGElement {
+  if (isBrowser) {
+    return el instanceof HTMLElement || el instanceof SVGElement;
+  }
+
+  return false;
+}
+
 export function isNode(node: unknown): node is Node {
   if (isBrowser) {
     return node instanceof Node;
