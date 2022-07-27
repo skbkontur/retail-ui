@@ -13,6 +13,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -32,6 +33,8 @@ export const PasswordInputDataTids = {
   eyeIcon: 'PasswordInputEyeIcon',
 } as const;
 
+type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
+
 /**
  * Компонент для ввода пароля
  */
@@ -46,9 +49,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
+
+  private getProps = createPropsGetter(PasswordInput.defaultProps);
 
   public state: PasswordInputState = {
     visible: false,
@@ -164,7 +169,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private getEyeWrapperClassname(right = false) {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);
       case 'medium':

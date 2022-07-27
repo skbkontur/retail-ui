@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { isIE11 } from '../../lib/client';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { scrollSizeParametersNames } from './ScrollContainer.constants';
@@ -28,13 +29,13 @@ export interface ScrollContainerProps extends CommonProps {
    * Инвертировать цвет скроллбара
    * @default false
    */
-  invert: boolean;
+  invert?: boolean;
   maxHeight?: React.CSSProperties['maxHeight'];
   maxWidth?: React.CSSProperties['maxWidth'];
   /**
    * @default false
    */
-  preventWindowScroll: boolean;
+  preventWindowScroll?: boolean;
   /**
    * Поведение скролла (https://developer.mozilla.org/en-US/docs/Web/CSS/scroll-behavior)
    * @default 'auto'
@@ -55,6 +56,8 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
+type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
+
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ScrollContainer';
@@ -68,11 +71,13 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     onScrollStateChange: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
   };
+
+  private getProps = createPropsGetter(ScrollContainer.defaultProps);
 
   private scrollX: Nullable<ScrollBar>;
   private scrollY: Nullable<ScrollBar>;
@@ -85,11 +90,12 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   }
 
   public componentDidUpdate(prevProps: ScrollContainerProps) {
+    const preventWindowScroll = this.getProps().preventWindowScroll;
     if (this.inner) {
-      if (prevProps.preventWindowScroll && !this.props.preventWindowScroll) {
+      if (prevProps.preventWindowScroll && !preventWindowScroll) {
         this.inner.removeEventListener('wheel', this.handleInnerScrollWheel);
       }
-      if (!prevProps.preventWindowScroll && this.props.preventWindowScroll) {
+      if (!prevProps.preventWindowScroll && preventWindowScroll) {
         this.inner.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
       }
     }
@@ -103,7 +109,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     }
 
     const innerStyle: React.CSSProperties = {
-      scrollBehavior: props.scrollBehaviour,
+      scrollBehavior: this.getProps().scrollBehaviour,
       maxHeight: props.maxHeight,
       maxWidth: props.maxWidth,
     };
@@ -207,7 +213,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
       <ScrollBar
         axis={axis}
         ref={refScrollBar}
-        invert={this.props.invert}
+        invert={this.getProps().invert}
         onScrollStateChange={this.handleScrollStateChange}
       />
     );
@@ -240,7 +246,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
   };
 
   private refInner = (element: HTMLElement | null) => {
-    if (!this.inner && element && this.props.preventWindowScroll) {
+    if (!this.inner && element && this.getProps().preventWindowScroll) {
       element.addEventListener('wheel', this.handleInnerScrollWheel, { passive: false });
     }
     if (this.inner && !element) {
@@ -254,7 +260,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     this.scrollY?.reflow();
 
     this.props.onScroll?.(event);
-    if (this.props.preventWindowScroll) {
+    if (this.getProps().preventWindowScroll) {
       event.preventDefault();
       return;
     }

@@ -34,10 +34,12 @@ export interface DropdownContainerState {
   isDocumentElementRoot?: boolean;
 }
 
+type DefaultProps = Required<Pick<DropdownContainerProps, 'align' | 'disablePortal' | 'offsetY' | 'offsetX'>>;
+
 export class DropdownContainer extends React.PureComponent<DropdownContainerProps, DropdownContainerState> {
   public static __KONTUR_REACT_UI__ = 'DropdownContainer';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     disablePortal: false,
     offsetX: 0,
@@ -90,7 +92,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
         wrapperRef={this.ZIndexRef}
         style={style}
         className={cx({
-          [styles.alignRight()]: this.props.align === 'right' && !isIE11,
+          [styles.alignRight()]: this.getProps().align === 'right' && !isIE11,
         })}
       >
         {this.props.children}
@@ -126,14 +128,14 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
       let left = null;
       let right = null;
 
-      if (this.props.align === 'right') {
+      if (this.getProps().align === 'right') {
         const docWidth = docEl.offsetWidth || 0;
         right = docWidth - (targetRect.right + scrollX) + this.getProps().offsetX;
       } else {
         left = targetRect.left + scrollX + this.getProps().offsetX;
       }
 
-      const { offsetY = 0 } = this.props;
+      const offsetY = this.getProps().offsetY || 0;
       let bottom = null;
       let top: number | null = targetRect.bottom + scrollY + offsetY;
 
@@ -156,7 +158,7 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
       this.setState({
         minWidth: this.getMinWidth(),
-        position: this.props.disablePortal ? this.convertToRelativePosition(position) : position,
+        position: this.getProps().disablePortal ? this.convertToRelativePosition(position) : position,
       });
     }
   };
@@ -176,7 +178,8 @@ export class DropdownContainer extends React.PureComponent<DropdownContainerProp
 
   private convertToRelativePosition = (position: DropdownContainerPosition): DropdownContainerPosition => {
     const target = this.props.getParent();
-    const { offsetX = 0, offsetY = 0 } = this.props;
+    const offsetX = this.getProps().offsetX || 0;
+    const offsetY = this.getProps().offsetY || 0;
     const { top, bottom, left, right } = position;
     if (target && this.isElement(target)) {
       const targetHeight = getDOMRect(target).height;

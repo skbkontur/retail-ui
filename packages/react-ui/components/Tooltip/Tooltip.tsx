@@ -17,6 +17,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Tooltip.styles';
 
@@ -68,7 +69,7 @@ export interface TooltipProps extends CommonProps {
   /**
    * Значение по умолчанию: `"top left"`.
    */
-  pos: PopupPositionsType;
+  pos?: PopupPositionsType;
 
   /**
    * Триггер открытия тултипа
@@ -84,7 +85,7 @@ export interface TooltipProps extends CommonProps {
    * | 'manual';
    * ```
    */
-  trigger: TooltipTrigger;
+  trigger?: TooltipTrigger;
 
   /**
    * Хэндлер, вызываемый при клике по крестику
@@ -114,20 +115,20 @@ export interface TooltipProps extends CommonProps {
    * следующая позиция. Обязательно должен включать
    * позицию указанную в `pos`
    */
-  allowedPositions: PopupPositionsType[];
+  allowedPositions?: PopupPositionsType[];
 
   /**
    * Флаг отключения анимации.
    * @default false
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
+  useWrapper?: boolean;
 }
 
 export interface TooltipState {
@@ -155,6 +156,10 @@ const Positions: PopupPositionsType[] = [
   'bottom right',
 ];
 
+type DefaultProps = Required<
+  Pick<TooltipProps, 'pos' | 'trigger' | 'allowedPositions' | 'disableAnimations' | 'useWrapper'>
+>;
+
 @rootNode
 @responsiveLayout
 export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> implements InstanceWithAnchorElement {
@@ -176,14 +181,15 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     pos: DefaultPosition,
     trigger: 'hover',
     allowedPositions: Positions,
     disableAnimations: isTestEnv,
     useWrapper: false,
-    closeOnChildrenMouseLeave: false,
   };
+
+  private getProps = createPropsGetter(Tooltip.defaultProps);
 
   public static delay = 100;
   private static triggersWithoutCloseButton: TooltipTrigger[] = ['hover', 'hoverAnchor', 'focus', 'hover&focus'];
@@ -198,11 +204,10 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private popupRef = React.createRef<Popup>();
   public componentDidUpdate(prevProps: TooltipProps) {
-    if (this.props.trigger === 'closed' && this.state.opened) {
+    const { trigger, allowedPositions, pos } = this.getProps();
+    if (trigger === 'closed' && this.state.opened) {
       this.close();
     }
-
-    const { allowedPositions, pos } = this.props;
     const posChanged = prevProps.pos !== pos;
     const allowedChanged = !isEqual(prevProps.allowedPositions, allowedPositions);
 
@@ -260,7 +265,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   public renderCloseButton() {
     const hasCross =
       this.props.closeButton === undefined
-        ? !Tooltip.triggersWithoutCloseButton.includes(this.props.trigger)
+        ? !Tooltip.triggersWithoutCloseButton.includes(this.getProps().trigger)
         : this.props.closeButton;
 
     if (!hasCross || this.isMobileLayout) {
@@ -287,8 +292,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (this.state.opened) {
       return;
     }
-    if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
-      warning(true, `Function 'show' is not supported with trigger specified '${this.props.trigger}'`);
+    const trigger = this.getProps().trigger;
+    if (trigger === 'opened' || trigger === 'closed') {
+      warning(true, `Function 'show' is not supported with trigger specified '${trigger}'`);
       return;
     }
     this.open();
@@ -300,8 +306,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
    * @public
    */
   public hide() {
-    if (this.props.trigger === 'opened' || this.props.trigger === 'closed') {
-      warning(true, `Function 'hide' is not supported with trigger specified '${this.props.trigger}'`);
+    const trigger = this.getProps().trigger;
+    if (trigger === 'opened' || trigger === 'closed') {
+      warning(true, `Function 'hide' is not supported with trigger specified '${trigger}'`);
       return;
     }
     this.close();
@@ -310,7 +317,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   private renderMain() {
     const props = this.props;
     const content = this.renderContent();
-    const { popupProps, layerProps = { active: false } } = this.getProps();
+    const { popupProps, layerProps = { active: false } } = this.getPopupAndLayerProps();
     const anchorElement = props.children || props.anchorElement;
     const popup = this.renderPopup(anchorElement, popupProps, content);
 
@@ -330,6 +337,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     popupProps: Partial<PopupProps>,
     content: JSX.Element | null,
   ) {
+    const { disableAnimations, trigger } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
@@ -339,9 +347,9 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
           hasShadow
           maxWidth="none"
           opened={this.state.opened}
-          disableAnimations={this.props.disableAnimations}
+          disableAnimations={disableAnimations}
           positions={this.getPositions()}
-          ignoreHover={this.props.trigger === 'hoverAnchor'}
+          ignoreHover={trigger === 'hoverAnchor'}
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
           mobileOnCloseRequest={this.mobileCloseHandler}
@@ -356,7 +364,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   private mobileCloseHandler = () => {
-    if (this.props.trigger === 'manual' || this.props.trigger === 'closed' || this.props.trigger === 'opened') {
+    const trigger = this.getProps().trigger;
+    if (trigger === 'manual' || trigger === 'closed' || trigger === 'opened') {
       return;
     }
 
@@ -369,8 +378,8 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
 
   private getPositions() {
     if (!this.positions) {
-      const allowedPositions = this.props.allowedPositions;
-      const index = allowedPositions.indexOf(this.props.pos);
+      const { allowedPositions, pos } = this.getProps();
+      const index = allowedPositions.indexOf(pos);
       if (index === -1) {
         throw new Error('Unexpected position passed to Tooltip. Expected one of: ' + allowedPositions.join(', '));
       }
@@ -381,14 +390,15 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     return this.positions;
   }
 
-  private getProps(): {
+  private getPopupAndLayerProps(): {
     layerProps?: Partial<RenderLayerProps>;
     popupProps: Partial<PopupProps>;
   } {
     const props = this.props;
-    const useWrapper = !!props.children && props.useWrapper;
+    const useWrapper = !!props.children && this.getProps().useWrapper;
+    const trigger = this.getProps().trigger;
 
-    switch (this.props.trigger) {
+    switch (trigger) {
       case 'opened':
         return {
           layerProps: {
@@ -461,7 +471,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
         };
 
       default:
-        throw new Error('Unknown trigger specified: ' + props.trigger);
+        throw new Error('Unknown trigger specified: ' + trigger);
     }
   }
 
@@ -477,7 +487,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   }
 
   private handleMouseEnter = (event: MouseEventType) => {
-    const isHoverAnchor = this.props.trigger === 'hoverAnchor';
+    const isHoverAnchor = this.getProps().trigger === 'hoverAnchor';
     if (isHoverAnchor && event.target === this.contentElement) {
       return;
     }
@@ -491,17 +501,17 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     if (this.isMobileLayout) {
       return;
     }
-
+    const trigger = this.getProps().trigger;
     if (
-      (this.props.trigger === 'hover&focus' && this.state.focused) ||
-      (this.props.trigger === 'hover' && event instanceof MouseEvent && event.relatedTarget === this.contentElement)
+      (trigger === 'hover&focus' && this.state.focused) ||
+      (trigger === 'hover' && event instanceof MouseEvent && event.relatedTarget === this.contentElement)
     ) {
       return;
     }
 
     this.clearHoverTimeout();
 
-    if (this.props.trigger === 'hoverAnchor') {
+    if (trigger === 'hoverAnchor') {
       this.close();
     } else {
       this.hoverTimeout = window.setTimeout(this.close, Tooltip.delay);
@@ -536,11 +546,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
   };
 
   private handleBlur = () => {
-    if (this.props.trigger === 'hover&focus' && this.clickedOutside) {
+    const trigger = this.getProps().trigger;
+    if (trigger === 'hover&focus' && this.clickedOutside) {
       this.close();
     }
 
-    if (this.props.trigger === 'focus') {
+    if (trigger === 'focus') {
       this.close();
     }
 
