@@ -217,6 +217,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
   private setRootNode!: TSetRootNode;
+  private memoizedTokens = new Map();
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -1006,13 +1007,18 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    return renderToken(item, {
+    if (this.memoizedTokens.has(item)) {
+      return this.memoizedTokens.get(item);
+    }
+    const renderedToken = renderToken(item, {
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,
       onRemove: handleIconClick,
       disabled,
     });
+    this.memoizedTokens.set(item, renderedToken);
+    return renderedToken;
   };
 
   private renderAddButton = (value = this.state.inputValue): React.ReactNode | undefined => {
