@@ -1046,8 +1046,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
   private memoize = (fn: (itemIndex: number) => boolean | undefined) => {
     return (itemIndex: number) => {
-      const item = this.props.selectedItems[itemIndex];
-      if (item in this.disabledTokens) {
+      if (itemIndex in this.disabledTokens) {
         return this.disabledTokens[itemIndex];
       }
       const result = fn(itemIndex);
