@@ -6,7 +6,7 @@ module.exports = async ({ config, mode }) => {
   config.resolve.extensions.unshift('.ts', '.tsx');
 
   if (isTestEnv) {
-    config.entry.unshift('@skbkontur/react-props2attrs');
+    config.entry.unshift('@skbkontur/react-selenium-testing');
   }
 
   config.module.rules = [

@@ -7,7 +7,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const reactUiPath = path.resolve(__dirname, '../../react-ui/build');
 const { versions, reactUiLocalVersionStub } = require('./versions');
 
-const versionsDependencies = versions.map(x => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
+const versionsDependencies = versions.map((x) => Object.keys(x.dependencies)).reduce((a, c) => a.concat(c), []);
 
 const dependencies = ['react', '@skbkontur/react-ui', ...new Set(versionsDependencies)];
 
@@ -25,7 +25,7 @@ function createConfig(reactVersion, reactUIVersion) {
       [`index_${reactVersion}_${reactUIVersion}`]: [
         'babel-polyfill',
         './react-selenium-testing-custom-props.js',
-        '../react-selenium-testing.js',
+        '@skbkontur/react-selenium-testing',
         `./${targetDir}/index.js`,
       ],
     },
@@ -87,7 +87,7 @@ function createConfig(reactVersion, reactUIVersion) {
       host: '0.0.0.0',
       port: 8083,
       historyApiFallback: {
-        rewrites: versions.map(version => ({
+        rewrites: versions.map((version) => ({
           from: new RegExp(`^/${version['react']}/${version['@skbkontur/react-ui']}/.*`),
           to: `/${version['react']}/${version['@skbkontur/react-ui']}/index.html`,
         })),
@@ -96,4 +96,4 @@ function createConfig(reactVersion, reactUIVersion) {
   };
 }
 
-module.exports = versions.map(version => createConfig(version['react'], version['@skbkontur/react-ui']));
+module.exports = versions.map((version) => createConfig(version['react'], version['@skbkontur/react-ui']));

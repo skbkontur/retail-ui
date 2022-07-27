@@ -33,7 +33,7 @@ namespace SKBKontur.SeleniumTesting.Tests
             for(var i = 0; i < 60; i++)
             {
                 var httpResponse = WebRequest.CreateHttp(url);
-                httpResponse.Timeout = (int)TimeSpan.FromSeconds(2).TotalMilliseconds;
+                httpResponse.Timeout = (int)TimeSpan.FromSeconds(3).TotalMilliseconds;
                 try
                 {
                     using(var response = httpResponse.GetResponse())
