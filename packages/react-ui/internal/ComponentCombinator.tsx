@@ -1,15 +1,18 @@
 import React from 'react';
 
 import { DefaultizeProps } from '../lib/utils';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
 import { ComponentTable, StatePropsCombinations, StateType } from './ComponentTable';
 
 export interface ComponentCombinatorProps<C, P, S> {
   combinations: Array<StatePropsCombinations<P, S>>;
   Component: C;
-  presetProps: DefaultizeProps<C, P>;
-  presetState: Partial<S>;
+  presetProps?: DefaultizeProps<C, P>;
+  presetState?: Partial<S>;
 }
+
+type DefaultProps<T, C, P> = Required<Pick<ComponentCombinatorProps<T, C, P>, 'presetProps' | 'presetState'>>;
 
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
@@ -19,12 +22,12 @@ export class ComponentCombinator<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }
 > {
-  public static defaultProps = {
-    props: [],
-    states: [],
+  public static defaultProps: DefaultProps<unknown, unknown, unknown> = {
     presetProps: {},
     presetState: {},
   };
+
+  private getProps = createPropsGetter(ComponentCombinator.defaultProps);
 
   public state = {
     page: 0,
@@ -32,7 +35,8 @@ export class ComponentCombinator<
 
   public render() {
     const { page } = this.state;
-    const { combinations, Component, presetProps, presetState } = this.props;
+    const { combinations, Component } = this.props;
+    const { presetProps, presetState } = this.getProps();
     const pages = [];
     let row = 0;
     const sizes = combinations.map((c) => c.length);
@@ -62,7 +66,7 @@ export class ComponentCombinator<
             <ComponentTable
               key={page}
               Component={Component}
-              presetProps={presetProps}
+              presetProps={presetProps as DefaultizeProps<C, P>}
               presetState={presetState}
               rows={flatCombinations.slice(pageOffsets.offsetY, flatCombinations.length)}
               cols={flatCombinations.slice(pageOffsets.offsetX, pageOffsets.offsetY)}

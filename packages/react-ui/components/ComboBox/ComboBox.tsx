@@ -6,6 +6,7 @@ import { MenuItemState } from '../MenuItem';
 import { InputIconType } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface ComboBoxProps<T> extends CommonProps {
   align?: 'left' | 'center' | 'right';
@@ -54,7 +55,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Необходим для сравнения полученных результатов с `value`
    * @default item => item.label
    */
-  itemToValue: (item: T) => string | number;
+  itemToValue?: (item: T) => string | number;
 
   maxLength?: number;
 
@@ -96,7 +97,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Не применяется если элемент является функцией или React-элементом
    * @default item => item.label
    */
-  renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
 
   /**
    * Функция для отрисовки сообщения о пустом результате поиска
@@ -114,7 +115,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Функция отрисовки выбранного значения
    * @default item => item.label
    */
-  renderValue: (item: T) => React.ReactNode;
+  renderValue?: (item: T) => React.ReactNode;
 
   /**
    * Функция отрисовки кнопки добавления в выпадающем списке
@@ -138,7 +139,7 @@ export interface ComboBoxProps<T> extends CommonProps {
    * Необходим для преобразования `value` в строку при фокусировке
    * @default item => item.label
    */
-  valueToString: (item: T) => string;
+  valueToString?: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
   /**
@@ -166,11 +167,18 @@ export interface ComboBoxItem {
   label: string;
 }
 
+type DefaultProps<T> = Required<
+  Pick<
+    ComboBoxProps<T>,
+    'itemToValue' | 'valueToString' | 'renderValue' | 'renderItem' | 'menuAlign' | 'searchOnFocus' | 'drawArrow'
+  >
+>;
+
 @rootNode
 export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBox';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<any> = {
     itemToValue: (item: ComboBoxItem) => item.value,
     valueToString: (item: ComboBoxItem) => item.label,
     renderValue: (item: ComboBoxItem) => item.label,
@@ -179,6 +187,8 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
     searchOnFocus: true,
     drawArrow: true,
   };
+
+  private getProps = createPropsGetter(ComboBox.defaultProps);
 
   private comboboxElement: Nullable<CustomComboBox<T>> = null;
   private setRootNode!: TSetRootNode;
@@ -262,7 +272,7 @@ export class ComboBox<T = ComboBoxItem> extends React.Component<ComboBoxProps<T>
   }
 
   public render() {
-    return <CustomComboBox {...this.props} ref={this.customComboBoxRef} />;
+    return <CustomComboBox {...this.getProps()} ref={this.customComboBoxRef} />;
   }
 
   private customComboBoxRef = (element: Nullable<CustomComboBox<T>>) => {
