@@ -6,9 +6,7 @@ import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsi
 import { ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
-function getUseResponsiveLayoutResult<T extends Record<string, string>>(
-  options: ResponsiveLayoutOptions,
-) {
+function getUseResponsiveLayoutResult<T extends Record<string, string>>(options: ResponsiveLayoutOptions) {
   const useResponsiveLayout = () => {
     return useResponsiveLayoutOrigin<T>(options);
   };
