@@ -4,6 +4,7 @@ import { listen as listenFocusOutside, containsTargetOrRenderContainer } from '.
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { Nullable } from '../../typings/utility-types';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface RenderLayerProps extends CommonProps {
   children: JSX.Element;
@@ -12,6 +13,8 @@ export interface RenderLayerProps extends CommonProps {
   active?: boolean;
   getAnchorElement?: () => Nullable<HTMLElement>;
 }
+
+type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
 
 @rootNode
 export class RenderLayer extends React.Component<RenderLayerProps> {
@@ -28,9 +31,11 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     active: true,
   };
+
+  private getProps = createPropsGetter(RenderLayer.defaultProps);
 
   private focusOutsideListenerToken: {
     remove: () => void;
@@ -38,22 +43,23 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
   private setRootNode!: TSetRootNode;
 
   public componentDidMount() {
-    if (this.props.active) {
+    if (this.getProps().active) {
       this.attachListeners();
     }
   }
 
   public componentDidUpdate(prevProps: RenderLayerProps) {
-    if (!prevProps.active && this.props.active) {
+    const active = this.getProps().active;
+    if (!prevProps.active && active) {
       this.attachListeners();
     }
-    if (prevProps.active && !this.props.active) {
+    if (prevProps.active && !active) {
       this.detachListeners();
     }
   }
 
   public componentWillUnmount() {
-    if (this.props.active) {
+    if (this.getProps().active) {
       this.detachListeners();
     }
   }

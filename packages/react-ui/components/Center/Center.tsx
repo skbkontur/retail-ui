@@ -4,6 +4,7 @@ import { Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 
 import { styles } from './Center.styles';
 
@@ -27,6 +28,9 @@ export const CenterDataTids = {
   root: 'Center__root',
 } as const;
 
+type DefaultProps = Required<Pick<CenterProps, 'align'>>;
+type DefaultizedCenterProps = DefaultizedProps<CenterProps, DefaultProps>;
+
 /**
  * Контейнер, который центрирует элементы внутри себя.
  */
@@ -34,19 +38,21 @@ export const CenterDataTids = {
 export class Center extends React.Component<CenterProps> {
   public static __KONTUR_REACT_UI__ = 'Center';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'center',
   };
+  private getProps = createPropsGetter(Center.defaultProps);
+
   private setRootNode!: TSetRootNode;
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
         {this.renderMain}
       </CommonWrapper>
     );
   }
-  private renderMain = (props: CommonWrapperRestProps<CenterProps>) => {
+  private renderMain = (props: CommonWrapperRestProps<DefaultizedCenterProps>) => {
     const { align, ...rest } = props;
 
     return (

@@ -15,6 +15,7 @@ import { isMobile } from '../../lib/client';
 import { NativeDateInput } from '../../internal/NativeDateInput';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isNonNullable } from '../../lib/utils';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { Picker } from './Picker';
 import { styles } from './DatePicker.styles';
@@ -38,8 +39,8 @@ export interface DatePickerProps<T> extends CommonProps {
    * Состояние валидации при ошибке.
    */
   error?: boolean;
-  minDate: T;
-  maxDate: T;
+  minDate?: T;
+  maxDate?: T;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
   value?: T | null;
@@ -75,7 +76,7 @@ export interface DatePickerProps<T> extends CommonProps {
    *
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
-  isHoliday: (day: T, isWeekend: boolean) => boolean;
+  isHoliday?: (day: T, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
@@ -90,6 +91,8 @@ export const DatePickerDataTids = {
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
+
+type DefaultProps<T> = Required<Pick<DatePickerProps<T>, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
@@ -145,11 +148,13 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     isHoliday: PropTypes.func.isRequired,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<string> = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
   };
+
+  private getProps = createPropsGetter(DatePicker.defaultProps);
 
   public static validate = (value: Nullable<string>, range: { minDate?: string; maxDate?: string } = {}) => {
     if (!value) {
@@ -243,7 +248,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
   public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
     let picker = null;
 
-    const { value, minDate, maxDate } = this.props;
+    const { value } = this.props;
+    const { minDate, maxDate } = this.getProps();
 
     const internalDate = this.parseValueToDate(value);
     const date = internalDate ? internalDate.toNativeFormat() : null;
@@ -289,8 +295,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
           value={this.props.value || ''}
           width="100%"
           withIcon
-          minDate={this.props.minDate}
-          maxDate={this.props.maxDate}
+          minDate={minDate}
+          maxDate={maxDate}
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
@@ -299,8 +305,8 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
           <NativeDateInput
             onValueChange={this.props.onValueChange}
             value={this.props.value || ''}
-            minDate={this.props.minDate}
-            maxDate={this.props.maxDate}
+            minDate={minDate}
+            maxDate={maxDate}
             disabled={this.props.disabled}
           />
         )}
@@ -374,6 +380,6 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
 
   private isHoliday = ({ date, month, year, isWeekend }: CalendarDateShape & { isWeekend: boolean }) => {
     const dateString = InternalDateTransformer.dateToInternalString({ date, month: month + 1, year });
-    return this.props.isHoliday(dateString, isWeekend);
+    return this.getProps().isHoliday(dateString, isWeekend);
   };
 }
