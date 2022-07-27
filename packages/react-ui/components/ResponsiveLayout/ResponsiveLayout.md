@@ -24,6 +24,17 @@ class SomeComponent {
 }
 ```
 
+В компонент можно передать проп `options: ResponsiveLayoutOptions`, который позволяет кастомизировать возвращаемые флаги:
+```ts static
+export interface ResponsiveLayoutOptions {
+  customMediaQueries: Record<string, string>;
+}
+
+```
+1. Без кастомизации есть только флаг isMobile
+2. Поля из `ResponsiveLayoutOptions` дополняют список возвращаемых флагов в `ResponsiveLayoutFlags`
+3. При добавлении кастомного флага isMobile, значение дефолтного флага перезаписывается в пользу кастомного
+
 Также существует проп `onLayoutChange`, который вызывает переданный в него коллбэк при изменении лэйаута. Аргументом передается объект с флагом.
 
 ```jsx static

@@ -3,15 +3,18 @@ import React from 'react';
 import { ResponsiveLayout } from './ResponsiveLayout';
 import { ResponsiveLayoutFlags } from './types';
 
-export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
+export function responsiveLayout<
+  T extends new (...args: any[]) => React.Component,
+  O extends Record<string, string> = {},
+>(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
-    public layout!: ResponsiveLayoutFlags;
+    public layout!: ResponsiveLayoutFlags<O>;
 
-    public get currentLayout(): ResponsiveLayoutFlags {
+    public get currentLayout(): ResponsiveLayoutFlags<O> {
       return this.layout;
     }
 
-    public set currentLayout(value: ResponsiveLayoutFlags) {
+    public set currentLayout(value: ResponsiveLayoutFlags<O>) {
       //
     }
 
@@ -23,7 +26,7 @@ export function responsiveLayout<T extends new (...args: any[]) => React.Compone
       //
     }
 
-    public renderWithLayout = (currentLayout: ResponsiveLayoutFlags) => {
+    public renderWithLayout = (currentLayout: ResponsiveLayoutFlags<O>) => {
       this.layout = currentLayout;
 
       return super.render();

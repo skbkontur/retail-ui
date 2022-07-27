@@ -87,9 +87,6 @@ export class DefaultTheme {
   public static controlHeightMedium = '40px';
   public static controlHeightLarge = '48px';
   public static mobileMediaQuery = '(max-width: 576px) and (hover: none) and (pointer: coarse)';
-  public static tabletVMediaQuery = '(min-width: 577px) and (max-width: 1023px)';
-  public static tabletHMediaQuery = '(min-width: 1024px) and (max-width: 1279px)';
-  public static desktopMediaQuery = '(min-width: 1280px)';
 
   //#endregion
   //#region Link

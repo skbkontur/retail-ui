@@ -4,20 +4,21 @@ import propTypes from 'prop-types';
 import { isFunction } from '../../lib/utils';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 
-import { ResponsiveLayoutFlags } from './types';
+import { ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
-interface ResponsiveLayoutProps {
-  onLayoutChange?: (layout: ResponsiveLayoutFlags) => void;
-  children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags) => React.ReactNode);
+interface ResponsiveLayoutProps<T extends Record<string, string>> {
+  onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
+  children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
+  options?: ResponsiveLayoutOptions;
 }
 
 /**
  * Компонент для определения текущего лэйаута.
  */
 
-export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
-  const layoutFlags = useResponsiveLayout();
+export function ResponsiveLayout<T extends Record<string, string>>(props: ResponsiveLayoutProps<T>) {
+  const layoutFlags = useResponsiveLayout<T>();
 
   useEffect(() => {
     if (props.onLayoutChange) {
@@ -30,7 +31,7 @@ export const ResponsiveLayout: React.FC<ResponsiveLayoutProps> = (props) => {
       {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
     </CommonWrapper>
   );
-};
+}
 
 ResponsiveLayout.propTypes = {
   onLayoutChange: propTypes.func,

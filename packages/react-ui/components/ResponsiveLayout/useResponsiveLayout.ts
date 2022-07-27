@@ -1,28 +1,34 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { createRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { ResponsiveLayoutFlags } from './types';
+import { ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
-export function useResponsiveLayout() {
+export function useResponsiveLayout<T extends Record<string, string>>(options?: ResponsiveLayoutOptions) {
   const theme = useContext(ThemeContext);
 
-  const getLayoutFromGlobal = (): ResponsiveLayoutFlags => {
+  const getLayoutFromGlobal = (): ResponsiveLayoutFlags<T> => {
     const isMobile = checkMatches(theme.mobileMediaQuery);
-    const isTabletV = checkMatches(theme.tabletVMediaQuery);
-    const isTabletH = checkMatches(theme.tabletHMediaQuery);
-    const isDesktop = checkMatches(theme.desktopMediaQuery);
+    const defaultResult = { isMobile: !!isMobile };
+    if (!options) {
+      return defaultResult as ResponsiveLayoutFlags<T>;
+    }
+    const customQueries: Record<string, boolean> = Object.entries(options.customMediaQueries).reduce(
+      (result, [name, query]) => Object.assign(result, { [name]: checkMatches(query) }),
+      {},
+    );
 
-    return { isMobile: !!isMobile, isTabletV: !!isTabletV, isTabletH: !!isTabletH, isDesktop: !!isDesktop };
+    return Object.assign(defaultResult, customQueries) as ResponsiveLayoutFlags<T>;
   };
 
   const [state, setState] = useState(getLayoutFromGlobal());
 
   const mobileListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
-  const tabletVListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
-  const tabletHListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
-  const desktopListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
+  const customListeners: React.MutableRefObject<{ remove: () => void } | null>[] = [];
+  if (options) {
+    Object.entries(options.customMediaQueries).forEach((_) => customListeners.push(createRef()));
+  }
 
   const prepareMediaQueries = useCallback(() => {
     if (!theme) {
@@ -30,19 +36,20 @@ export function useResponsiveLayout() {
     }
 
     mobileListener.current = addResponsiveLayoutListener(theme.mobileMediaQuery, checkLayoutsMediaQueries);
-    tabletVListener.current = addResponsiveLayoutListener(theme.tabletVMediaQuery, checkLayoutsMediaQueries);
-    tabletHListener.current = addResponsiveLayoutListener(theme.tabletHMediaQuery, checkLayoutsMediaQueries);
-    desktopListener.current = addResponsiveLayoutListener(theme.desktopMediaQuery, checkLayoutsMediaQueries);
-
+    if (options) {
+      Object.entries(options.customMediaQueries).forEach(
+        ([name, query], i) =>
+          (customListeners[i].current = addResponsiveLayoutListener(query, checkLayoutsMediaQueries)),
+      );
+    }
     // Checking for SSR use case
     const globalLayout = getLayoutFromGlobal();
+    const hasChangedCustomQuery = Object.entries(globalLayout).reduce(
+      (hasChanges, [key, value]) => state[key] !== value,
+      false,
+    );
 
-    if (
-      globalLayout.isMobile !== state.isMobile ||
-      globalLayout.isTabletV !== state.isTabletV ||
-      globalLayout.isTabletH !== state.isTabletH ||
-      globalLayout.isDesktop !== state.isDesktop
-    ) {
+    if (hasChangedCustomQuery) {
       setState(globalLayout);
     }
   }, [theme]);
@@ -54,27 +61,18 @@ export function useResponsiveLayout() {
       }
 
       if (e.media === theme.mobileMediaQuery) {
-        setState((prevState: ResponsiveLayoutFlags) => ({
+        setState((prevState: ResponsiveLayoutFlags<T>) => ({
           ...prevState,
           isMobile: e.matches,
         }));
       }
-      if (e.media === theme.tabletVMediaQuery) {
-        setState((prevState: ResponsiveLayoutFlags) => ({
+      const customQuery = options
+        ? Object.entries(options.customMediaQueries).find(([name, query]) => query === e.media)
+        : undefined;
+      if (customQuery) {
+        setState((prevState: ResponsiveLayoutFlags<T>) => ({
           ...prevState,
-          isTabletV: e.matches,
-        }));
-      }
-      if (e.media === theme.tabletHMediaQuery) {
-        setState((prevState: ResponsiveLayoutFlags) => ({
-          ...prevState,
-          isTabletH: e.matches,
-        }));
-      }
-      if (e.media === theme.desktopMediaQuery) {
-        setState((prevState: ResponsiveLayoutFlags) => ({
-          ...prevState,
-          isDesktop: e.matches,
+          customFlags: Object.assign(prevState.customFlags, customQuery),
         }));
       }
     },
@@ -86,9 +84,7 @@ export function useResponsiveLayout() {
 
     return () => {
       mobileListener.current?.remove();
-      tabletVListener.current?.remove();
-      tabletHListener.current?.remove();
-      desktopListener.current?.remove();
+      customListeners.forEach((listener) => listener.current?.remove());
     };
   }, []);
 
