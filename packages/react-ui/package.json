@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.1.1",
+  "version": "4.3.0",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -63,7 +63,7 @@
     "react-transition-group": "^4.4.2",
     "shallowequal": "^1.1.0",
     "stylis-plugin-extra-scope": "^0.3.0",
-    "tabbable": "^5.2.1",
+    "tabbable": "5.2.1",
     "warning": "^4.0.3"
   },
   "devDependencies": {
@@ -75,6 +75,7 @@
     "@babel/preset-react": "^7.16.5",
     "@babel/preset-typescript": "7.16.5",
     "@babel/register": "^7.16.5",
+    "@emotion/eslint-plugin": "11.7.0",
     "@skbkontur/react-icons": "5.2.0",
     "@skbkontur/react-props2attrs": "0.1.2",
     "@skbkontur/react-sorge": "0.1.0",

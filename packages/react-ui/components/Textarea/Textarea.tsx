@@ -16,6 +16,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../intern
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -48,12 +49,12 @@ export interface TextareaProps
         /**
          * Число строк
          */
-        rows: number;
+        rows?: number;
         /**
          * Максимальное число строк при
          * автоматическом ресайзе
          */
-        maxRows: string | number;
+        maxRows?: string | number;
 
         /**
          * Стандартный ресайз
@@ -97,12 +98,12 @@ export interface TextareaProps
         /** Добавлять дополнительную свободную строку при авто-ресайзе.
          * @see https://guides.kontur.ru/components/textarea/#04
          * */
-        extraRow: boolean;
+        extraRow?: boolean;
 
         /** Отключать анимацию при авто-ресайзе.
          * Автоматически отключается когда в `extraRow` передан `false`.
          */
-        disableAnimations: boolean;
+        disableAnimations?: boolean;
       }
     > {}
 
@@ -110,6 +111,13 @@ export interface TextareaState {
   needsPolyfillPlaceholder: boolean;
   isCounterVisible: boolean;
 }
+
+export const TextareaDataTids = {
+  root: 'Textarea__root',
+  counter: 'TextareaCounter__root',
+} as const;
+
+type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
 
 /**
  * Компонент для ввода многострочного текста.
@@ -176,12 +184,14 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
     onCopy: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     rows: 3,
     maxRows: 15,
     extraRow: true,
     disableAnimations: isTestEnv,
   };
+
+  private getProps = createPropsGetter(Textarea.defaultProps);
 
   public state = {
     needsPolyfillPlaceholder,
@@ -236,11 +246,10 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       this.autoResize.cancel();
       this.autoResize = throttle(this.autoResizeHandler, this.getAutoResizeThrottleWait());
     }
+    const { rows, maxRows } = this.getProps();
     if (
       this.props.autoResize &&
-      (this.props.rows !== prevProps.rows ||
-        this.props.maxRows !== prevProps.maxRows ||
-        this.props.value !== prevProps.value)
+      (rows !== prevProps.rows || maxRows !== prevProps.maxRows || this.props.value !== prevProps.value)
     ) {
       this.autoResize();
     }
@@ -391,7 +400,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label {...rootProps} className={styles.root(this.theme)}>
+        <label data-tid={TextareaDataTids.root} {...rootProps} className={styles.root(this.theme)}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea
@@ -483,7 +492,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       fakeNode.value = node.value;
     }
 
-    const { rows, maxRows, extraRow } = this.props;
+    const { rows, maxRows } = this.getProps();
     if (rows === undefined || maxRows === undefined) {
       return;
     }
@@ -491,7 +500,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
       node: fakeNode,
       minRows: typeof rows === 'number' ? rows : parseInt(rows, 10),
       maxRows: typeof maxRows === 'number' ? maxRows : parseInt(maxRows, 10),
-      extraRow,
+      extraRow: this.getProps().extraRow,
     });
     node.style.height = height + 'px';
     node.style.overflowY = exceededMaxHeight ? 'scroll' : 'hidden';

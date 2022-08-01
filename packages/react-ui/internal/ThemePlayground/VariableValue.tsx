@@ -11,6 +11,7 @@ import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Playground.styles';
 
@@ -23,7 +24,7 @@ export interface VariableValueProps {
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
-  deprecated: boolean;
+  deprecated?: boolean;
 }
 
 export interface VariableValueState {
@@ -31,10 +32,13 @@ export interface VariableValueState {
   editing: boolean;
 }
 
+type DefaultProps = Required<Pick<VariableValueProps, 'deprecated'>>;
+
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     deprecated: false,
   };
+  private getProps = createPropsGetter(VariableValue.defaultProps);
   public state = {
     value: this.props.value,
     editing: false,
@@ -45,7 +49,8 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private debounceInterval: number | undefined = undefined;
 
   public render() {
-    const { variable, theme, baseVariables, deprecated } = this.props;
+    const { variable, theme, baseVariables } = this.props;
+    const deprecated = this.getProps().deprecated;
     return (
       <div className={styles.variable(theme)} ref={this.rootRef} tabIndex={0}>
         <div

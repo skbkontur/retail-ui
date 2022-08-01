@@ -15,6 +15,7 @@ import { ArrowTriangleUpDownIcon, ArrowChevronDownIcon, ArrowChevronUpIcon } fro
 import { isMobile } from '../../lib/client';
 import { cx } from '../../lib/theming/Emotion';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './DateSelect.styles';
 
@@ -58,6 +59,13 @@ const calculatePos = (pos: number, minPos: number, maxPos: number) => {
   return pos;
 };
 
+export const DateSelectDataTids = {
+  caption: 'DateSelect__caption',
+  menuItem: 'DateSelect__menuItem',
+} as const;
+
+type DefaultProps = Required<Pick<DateSelectProps, 'type' | 'width'>>;
+
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectState> {
   public static __KONTUR_REACT_UI__ = 'DateSelect';
@@ -78,12 +86,12 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     maxValue: PropTypes.number,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     type: 'year',
-    minMonth: 0,
-    maxMonth: 11,
     width: 'auto',
   };
+
+  private getProps = createPropsGetter(DateSelect.defaultProps);
 
   public state = {
     botCapped: false,
@@ -175,7 +183,8 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   }
 
   private renderMain() {
-    const { width, disabled } = this.props;
+    const { disabled } = this.props;
+    const width = this.getProps().width;
     const rootProps = {
       className: cx({
         [styles.root(this.theme)]: true,
@@ -186,7 +195,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
     };
     return (
       <span {...rootProps}>
-        <div data-tid="DateSelect__caption" className={styles.caption()} onClick={this.open}>
+        <div data-tid={DateSelectDataTids.caption} className={styles.caption()} onClick={this.open}>
           {this.getItem(0)}
           <div
             className={cx({
@@ -262,7 +271,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
       };
       items.push(
         <div
-          data-tid="DateSelect__menuItem"
+          data-tid={DateSelectDataTids.menuItem}
           data-prop-disabled={disableItems}
           key={i}
           className={className}
@@ -463,7 +472,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
 
   private getItem(index: number) {
     const value = this.props.value + index;
-    if (this.props.type === 'month') {
+    if (this.getProps().type === 'month') {
       return this.locale.months[value];
     }
     return value;
@@ -472,7 +481,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   private setPosition(pos: number) {
     let top = itemsToMoveCount * itemHeight;
     let height = visibleYearsCount * itemHeight;
-    if (this.props.type === 'month') {
+    if (this.getProps().type === 'month') {
       top = -this.props.value * itemHeight;
       height = monthsCount * itemHeight;
     }
@@ -488,18 +497,20 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   }
 
   private getMinPos() {
-    if (this.props.type === 'month') {
+    const type = this.getProps().type;
+    if (type === 'month') {
       return -this.props.value * itemHeight;
-    } else if (this.props.type === 'year') {
+    } else if (type === 'year') {
       return ((this.props.minValue || defaultMinYear) - this.props.value) * itemHeight;
     }
     return -Infinity; // Be defensive.
   }
 
   private getMaxPos() {
-    if (this.props.type === 'month') {
+    const type = this.getProps().type;
+    if (type === 'month') {
       return (visibleYearsCount - this.props.value) * itemHeight;
-    } else if (this.props.type === 'year') {
+    } else if (type === 'year') {
       return ((this.props.maxValue || defaultMaxYear) - this.props.value) * itemHeight;
     }
     return Infinity; // Be defensive.

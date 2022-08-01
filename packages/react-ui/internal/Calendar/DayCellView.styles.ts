@@ -30,7 +30,7 @@ export const styles = memoizeStyle({
         opacity: 0.5;
         pointer-events: none;
       }
-      &:active:hover {
+      &:active:hover:enabled {
         color: ${t.calendarCellActiveHoverColor};
       }
     `;

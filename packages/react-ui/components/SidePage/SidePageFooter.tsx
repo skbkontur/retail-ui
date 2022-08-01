@@ -21,6 +21,10 @@ export interface SidePageFooterProps extends CommonProps {
   sticky?: boolean;
 }
 
+export const SidePageFooterDataTids = {
+  root: 'SidePageFooter__root',
+} as const;
+
 /**
  * Футер сайдпейджа.
  *
@@ -95,7 +99,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private renderMain() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div style={{ height: this.getContentHeight() }} className={styles.footerWrapper()}>
+        <div
+          data-tid={SidePageFooterDataTids.root}
+          style={{ height: this.getContentHeight() }}
+          className={styles.footerWrapper()}
+        >
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div

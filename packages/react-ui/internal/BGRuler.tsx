@@ -1,14 +1,9 @@
 import React from 'react';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
-/**
- * Компонент рисует пиксельную линейку на заднем фоне.
- * Помогает контролировать размеры элементов при скриншотном тестировании.
- *
- * @see FxInput/__stories__/FxInput.stories.tsx
- */
-export class BGRuler extends React.Component<{
+interface BGRulerProps {
   width?: string | number;
   height?: string | number;
   top?: string | number;
@@ -16,14 +11,26 @@ export class BGRuler extends React.Component<{
   right?: string | number;
   left?: string | number;
   color?: string;
-}> {
-  public static defaultProps = {
+}
+
+type DefaultProps = Required<Pick<BGRulerProps, 'height' | 'top' | 'left' | 'right' | 'color'>>;
+
+/**
+ * Компонент рисует пиксельную линейку на заднем фоне.
+ * Помогает контролировать размеры элементов при скриншотном тестировании.
+ *
+ * @see FxInput/__stories__/FxInput.stories.tsx
+ */
+export class BGRuler extends React.Component<BGRulerProps> {
+  public static defaultProps: DefaultProps = {
     height: 20,
     top: 0,
     left: 0,
     right: 0,
     color: '#333',
   };
+
+  private getProps = createPropsGetter(BGRuler.defaultProps);
 
   private iframe: HTMLIFrameElement | null = null;
 
@@ -45,7 +52,8 @@ export class BGRuler extends React.Component<{
   };
 
   public render() {
-    const { width, height, color, top, bottom, left, right } = this.props;
+    const { width, bottom } = this.props;
+    const { height, top, left, right, color } = this.getProps();
     const wrapper: React.CSSProperties = {
       position: 'absolute',
       width,

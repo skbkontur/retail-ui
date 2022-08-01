@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
@@ -9,6 +10,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -31,17 +33,25 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
+export const MenuDataTids = {
+  root: 'Menu__root',
+} as const;
+
+type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
+
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
   };
+
+  private getProps = createPropsGetter(Menu.defaultProps);
 
   public state = {
     highlightedIndex: -1,
@@ -111,20 +121,22 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
+    const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
       <div
+        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.shadow(this.theme)]: hasShadow,
         })}
         style={getStyle(this.props)}
         ref={this.setRootNode}
       >
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.props.maxHeight}
-          preventWindowScroll={this.props.preventWindowScroll}
+          maxHeight={maxHeight}
+          preventWindowScroll={preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
           <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>
@@ -273,12 +285,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

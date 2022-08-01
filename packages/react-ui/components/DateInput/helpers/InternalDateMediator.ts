@@ -1,7 +1,12 @@
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import { InternalDateComponentType, InternalDateTypesOrder, InternalDateValidateCheck } from '../../../lib/date/types';
+import {
+  InputKeyResult,
+  InternalDateComponentType,
+  InternalDateTypesOrder,
+  InternalDateValidateCheck,
+} from '../../../lib/date/types';
 import { DatePickerLocale } from '../../DatePicker/locale';
 import { DateInputProps } from '../DateInput';
 
@@ -45,7 +50,7 @@ export class InternalDateMediator {
     return this;
   };
 
-  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): boolean {
+  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): InputKeyResult {
     const prevValue = this.iDate.get(type);
     if (type === null) {
       const leftMostType = this.getLeftmostType();
@@ -57,11 +62,10 @@ export class InternalDateMediator {
     } else {
       this.iDate.restore(type);
     }
-
-    const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode);
+    const maxValue = InternalDateGetter.getDefaultMax(type, this.iDate.getComponentsLikeNumber());
+    const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode, maxValue);
     this.iDate.set(type, nextValue);
-
-    return nextInputMode;
+    return { inputMode: nextInputMode, changed: nextValue !== prevValue };
   }
 
   public paste = (pasted: string): InternalDateMediator => {
@@ -96,7 +100,7 @@ export class InternalDateMediator {
         iDate.duplicateOf(end);
       }
     } else {
-      const clone = iDate.clone().shift(calculatedType, step, { isRange: false, isLoop: true });
+      const clone = iDate.clone().shift(calculatedType, step, { isRange: false, isLoop: true, isCutFeb: true });
       if (clone.validate({ checks: [InternalDateValidateCheck.Range] })) {
         iDate.duplicateOf(clone);
       }

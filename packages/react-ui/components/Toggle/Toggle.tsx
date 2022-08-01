@@ -8,6 +8,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './Toggle.styles';
 
@@ -19,7 +20,7 @@ export interface ToggleProps extends CommonProps {
    * Положение `children` относительно переключателя.
    * @default 'right'
    */
-  captionPosition: 'left' | 'right';
+  captionPosition?: 'left' | 'right';
   /**
    * Состояние `тогла`, если `true` - `тогл` будет включён, иначе выключен.
    * @default false
@@ -82,6 +83,12 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
+export const ToggleDataTids = {
+  root: 'Toggle__root',
+} as const;
+
+type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition'>>;
+
 /**
  * _Примечание:_ под тоглом понимается полный компонент т.е. надпись + переключатель, а не просто переключатель.
  */
@@ -105,11 +112,13 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
     },
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disabled: false,
     loading: false,
     captionPosition: 'right',
   };
+
+  private getProps = createPropsGetter(Toggle.defaultProps);
 
   private theme!: Theme;
   private input: HTMLInputElement | null = null;
@@ -153,8 +162,9 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 
   private renderMain() {
-    const { children, captionPosition, warning, error, loading, color, id } = this.props;
-    const disabled = this.props.disabled || loading;
+    const { children, warning, error, color, id } = this.props;
+    const { loading, captionPosition } = this.getProps();
+    const disabled = this.getProps().disabled || loading;
     const checked = this.isUncontrolled() ? this.state.checked : this.props.checked;
 
     const containerClassNames = cx(styles.container(this.theme), {
@@ -181,7 +191,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <label className={labelClassNames}>
+        <label data-tid={ToggleDataTids.root} className={labelClassNames}>
           <div
             className={cx(styles.button(this.theme), {
               [styles.buttonRight()]: captionPosition === 'left',

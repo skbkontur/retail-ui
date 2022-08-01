@@ -7,6 +7,7 @@ import { MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -29,14 +30,26 @@ export interface ComboBoxMenuProps<T> {
   isMobile?: boolean;
 }
 
+export const ComboBoxMenuDataTids = {
+  loading: 'ComboBoxMenu__loading',
+  failed: 'ComboBoxMenu__failed',
+  notFound: 'ComboBoxMenu__notFound',
+  items: 'ComboBoxMenu__items',
+  item: 'ComboBoxMenu__item',
+} as const;
+
+type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus'>>;
+
 @locale('ComboBox', CustomComboBoxLocaleHelper)
 export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
   };
+
+  private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
 
   private readonly locale!: ComboBoxLocale;
 
@@ -50,9 +63,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       renderNotFound = () => notFound,
       renderTotalCount,
       maxMenuHeight,
-      requestStatus,
       isMobile,
     } = this.props;
+
+    const requestStatus = this.getProps().requestStatus;
 
     const { notFound, errorNetworkButton, errorNetworkMessage } = this.locale;
 
@@ -69,7 +83,12 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if (loading && (!items || !items.length)) {
       return (
-        <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile} data-tid="ComboBoxMenu__loading">
+        <Menu
+          maxHeight={maxHeight}
+          ref={refMenu}
+          disableScrollContainer={isMobile}
+          data-tid={ComboBoxMenuDataTids.loading}
+        >
           <MenuItem disabled isMobile={isMobile}>
             <Spinner type="mini" dimmed />
           </MenuItem>
@@ -79,11 +98,16 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     if (items === null && requestStatus === ComboBoxRequestStatus.Failed) {
       return (
-        <Menu ref={refMenu} maxHeight={maxHeight} disableScrollContainer={isMobile} data-tid="ComboBoxMenu__failed">
+        <Menu
+          ref={refMenu}
+          maxHeight={maxHeight}
+          disableScrollContainer={isMobile}
+          data-tid={ComboBoxMenuDataTids.failed}
+        >
           <MenuItem disabled key="message" isMobile={isMobile}>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
-          <MenuItem link onClick={this.props.repeatRequest} key="retry" isMobile={isMobile}>
+          <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
         </Menu>
@@ -103,7 +127,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       if (notFoundValue) {
         return (
           <Menu maxHeight={maxHeight} ref={refMenu} disableScrollContainer={isMobile}>
-            <MenuItem data-tid="ComboBoxMenu__notFound" disabled isMobile={isMobile}>
+            <MenuItem data-tid={ComboBoxMenuDataTids.notFound} disabled isMobile={isMobile}>
               {notFoundValue}
             </MenuItem>
           </Menu>
@@ -127,7 +151,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     }
 
     return (
-      <Menu data-tid="ComboBoxMenu__items" ref={refMenu} maxHeight={maxHeight} disableScrollContainer={isMobile}>
+      <Menu data-tid={ComboBoxMenuDataTids.items} ref={refMenu} maxHeight={maxHeight} disableScrollContainer={isMobile}>
         {renderedItems}
         {total}
         {renderAddButton && [<MenuSeparator key="separator" />, renderAddButton]}
@@ -154,7 +178,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     return (
       <MenuItem
-        data-tid="ComboBoxMenu__item"
+        data-tid={ComboBoxMenuDataTids.item}
         onClick={() => onValueChange(item)}
         key={index}
         isMobile={this.props.isMobile}
