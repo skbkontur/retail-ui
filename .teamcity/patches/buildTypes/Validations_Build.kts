@@ -41,7 +41,7 @@ changeBuildType(RelativeId("Validations_Build")) {
             step {
                 name = "Check pack files"
                 type = "jonnyzzz.yarn"
-                param("yarn_commands", """test:pack --testResultsProcessor="jest-teamcity-reporter"""")
+                param("yarn_commands", """workspace react-ui-validations test:pack --testResultsProcessor="jest-teamcity-reporter"""")
             }
         }
     }
