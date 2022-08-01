@@ -1,5 +1,6 @@
 export const isBrowser = typeof window !== 'undefined';
 export const canUseDOM = isBrowser && window.document && window.document.createElement;
+export const canUseMatchMedia = isBrowser && typeof window.matchMedia !== 'undefined';
 
 // NOTE Some checks are used from https://github.com/arasatasaygin/is.js
 const platform = ((isBrowser && navigator && navigator.platform) || '').toLowerCase();

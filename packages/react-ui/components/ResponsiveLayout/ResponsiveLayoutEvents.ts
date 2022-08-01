@@ -1,4 +1,4 @@
-import { canUseDOM } from '../../lib/client';
+import { canUseDOM, canUseMatchMedia } from '../../lib/client';
 
 interface mediaQueryData {
   mql: MediaQueryList;
@@ -40,6 +40,10 @@ function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryLis
 }
 
 function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
+  if (!canUseMatchMedia) {
+    return;
+  }
+
   const mql = window.matchMedia(mediaQuery);
   const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
@@ -77,7 +81,7 @@ function removeCallbackFromMQListener(mediaQuery: string, callback: (e: MediaQue
 }
 
 export function checkMatches(mediaQuery: string) {
-  if (!canUseDOM) {
+  if (!canUseDOM || !canUseMatchMedia) {
     return false;
   }
 

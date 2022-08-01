@@ -31,17 +31,6 @@ jest.mock('react-dom', () => {
     findDOMNode: jest.fn(originalModule.findDOMNode),
   };
 });
-window.matchMedia = jest.fn().mockImplementation((query) => {
-  return {
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
-    addEventListener: jest.fn(),
-    removeEventListener: jest.fn(),
-  };
-});
 
 /**
  * Mock MutationObserver for `jsdom` < 13.2
