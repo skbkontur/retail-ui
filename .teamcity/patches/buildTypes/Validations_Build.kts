@@ -37,7 +37,7 @@ changeBuildType(RelativeId("Validations_Build")) {
         }
     }
     steps {
-        insert(5) {
+        insert(3) {
             step {
                 name = "Check pack files"
                 type = "jonnyzzz.yarn"
