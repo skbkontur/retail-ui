@@ -39,6 +39,7 @@ changeBuildType(RelativeId("Validations_Build")) {
     steps {
         insert(5) {
             step {
+                name = "Check pack files"
                 type = "jonnyzzz.yarn"
                 param("yarn_commands", """test:pack --testResultsProcessor="jest-teamcity-reporter"""")
             }
