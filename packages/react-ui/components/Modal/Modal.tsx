@@ -17,6 +17,7 @@ import { isIE11 } from '../../lib/client';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { ModalContext, ModalContextProps } from './ModalContext';
 import { ModalFooter } from './ModalFooter';
@@ -77,6 +78,8 @@ export const ModalDataTids = {
   close: 'modal-close',
 } as const;
 
+type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock'>>;
+
 /**
  * Модальное окно
  *
@@ -98,10 +101,12 @@ export class Modal extends React.Component<ModalProps, ModalState> {
   public static Body = ModalBody;
   public static Footer = ModalFooter;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     // NOTE: в ie нормально не работает
     disableFocusLock: isIE11,
   };
+
+  private getProps = createPropsGetter(Modal.defaultProps);
 
   public state: ModalState = {
     stackPosition: 0,
@@ -226,7 +231,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                       >
                         <ResizeDetector onResize={this.handleResize} fullHeight={isMobile}>
                           <FocusLock
-                            disabled={this.props.disableFocusLock}
+                            disabled={this.getProps().disableFocusLock}
                             autoFocus={false}
                             className={cx({ [styles.columnFlexContainer()]: isMobile }, 'focus-lock-container')}
                           >

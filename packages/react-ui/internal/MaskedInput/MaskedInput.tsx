@@ -6,12 +6,13 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './MaskedInput.styles';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
-  maskChar: string | null;
+  maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;
@@ -26,6 +27,8 @@ interface MaskedInputState {
   focused: boolean;
 }
 
+type DefaultProps = Required<Pick<MaskedInputProps, 'maskChar'>>;
+
 export const MaskedInputDataTids = {
   root: 'MaskedInput__root',
 } as const;
@@ -33,9 +36,11 @@ export const MaskedInputDataTids = {
 export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
-  public static defaultProps: Partial<MaskedInputProps> = {
+  public static defaultProps: DefaultProps = {
     maskChar: '_',
   };
+
+  private getProps = createPropsGetter(MaskedInput.defaultProps);
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
@@ -183,7 +188,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     userInput: string,
     options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
   ) => {
-    const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
+    const visibleMaskChars = new Array(options.mask.length).fill(this.getProps().maskChar);
 
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({

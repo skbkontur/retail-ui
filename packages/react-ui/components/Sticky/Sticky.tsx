@@ -10,6 +10,7 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Sticky.styles';
 
@@ -21,7 +22,7 @@ export interface StickyProps extends CommonProps {
    * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии
    * @default 0
    */
-  offset: number;
+  offset?: number;
   getStop?: () => Nullable<HTMLElement>;
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
 }
@@ -39,6 +40,8 @@ export interface StickyState {
 export const StickyDataTids = {
   root: 'Spinner__root',
 } as const;
+
+type DefaultProps = Required<Pick<StickyProps, 'offset'>>;
 
 @rootNode
 export class Sticky extends React.Component<StickyProps, StickyState> {
@@ -60,7 +63,9 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     side: PropTypes.oneOf(['top', 'bottom']).isRequired,
   };
 
-  public static defaultProps = { offset: 0 };
+  public static defaultProps: DefaultProps = { offset: 0 };
+
+  private getProps = createPropsGetter(Sticky.defaultProps);
 
   public state: StickyState = {
     fixed: false,
@@ -100,7 +105,8 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
 
   public render() {
     let { children } = this.props;
-    const { side, offset } = this.props;
+    const { side } = this.props;
+    const offset = this.getProps().offset;
     const { fixed, stopped, relativeTop, deltaHeight, width, height, left } = this.state;
     const innerStyle: React.CSSProperties = {};
 
@@ -162,8 +168,9 @@ export class Sticky extends React.Component<StickyProps, StickyState> {
     }
     const { top, bottom, left } = getDOMRect(this.wrapper);
     const { width, height } = getDOMRect(this.inner);
-    const { offset, getStop, side } = this.props;
+    const { getStop, side } = this.props;
     const { fixed: prevFixed, height: prevHeight = height } = this.state;
+    const offset = this.getProps().offset;
     const fixed = side === 'top' ? top < offset : Math.floor(bottom) > windowHeight - offset;
 
     this.setState({ fixed, left });
