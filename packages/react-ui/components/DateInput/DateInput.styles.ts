@@ -36,13 +36,13 @@ export const styles = {
 
   value() {
     return css`
-      visibility: hidden;
+      opacity: 0;
     `;
   },
 
   valueVisible() {
     return css`
-      visibility: visible;
+      opacity: 1;
     `;
   },
 };
