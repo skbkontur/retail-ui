@@ -731,14 +731,14 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode && !this.isItemByIndexDisabled(this.props.selectedItems.length - 1)) {
+        if (!this.isEditingMode && !this.isItemByIndexDisabled(this.getProps().selectedItems.length - 1)) {
           this.moveFocusToLastToken();
         }
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
-          const index = this.getAvailableTokenIndex(true, this.props.selectedItems.length);
-          const itemNew = this.props.selectedItems[index];
+          const index = this.getAvailableTokenIndex(true, this.getProps().selectedItems.length);
+          const itemNew = this.getProps().selectedItems[index];
           this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
         }
         break;
@@ -767,7 +767,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        const indexOfActiveToken = this.props.selectedItems.indexOf(
+        const indexOfActiveToken = this.getProps().selectedItems.indexOf(
           this.state.activeTokens[this.state.activeTokens.length - 1],
         );
         if (!this.isEditingMode && !this.isItemByIndexDisabled(indexOfActiveToken)) {
@@ -1052,7 +1052,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   };
 
   private isItemByIndexDisabled = (itemIndex: number) => {
-    const renderedToken = this.renderToken(this.props.selectedItems[itemIndex]) as React.ReactElement<
+    const renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
       TokenInputProps<unknown>
     >;
     return renderedToken.props.disabled;
@@ -1061,7 +1061,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private getAvailableTokenIndex = (isDirectionLeft: boolean, oldIndex: number) => {
     const diff = +(isDirectionLeft ? -1 : +1);
     let index = oldIndex + diff;
-    while (this.props.selectedItems[index + diff] && this.isItemByIndexDisabled(index)) {
+    while (this.getProps().selectedItems[index + diff] && this.isItemByIndexDisabled(index)) {
       index = index + diff;
     }
     return index;
