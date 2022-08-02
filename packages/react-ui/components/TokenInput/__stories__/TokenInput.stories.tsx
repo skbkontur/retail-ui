@@ -73,6 +73,7 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
     );
   }
 }
+
 class MyTokenInput extends TokenInput<TokenModel> {}
 
 class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {

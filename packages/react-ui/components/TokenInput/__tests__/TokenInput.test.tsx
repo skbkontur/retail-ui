@@ -200,20 +200,3 @@ export function TokenInputWithState() {
     />
   );
 }
-export function DisabledTokenInputWithState() {
-  const [selectedItems, setSelectedItems] = useState(['ddd']);
-  return (
-    <TokenInput
-      disabled
-      type={TokenInputType.Combined}
-      getItems={getItems}
-      selectedItems={selectedItems}
-      onValueChange={setSelectedItems}
-      renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={false}>
-          {item}
-        </Token>
-      )}
-    />
-  );
-}
