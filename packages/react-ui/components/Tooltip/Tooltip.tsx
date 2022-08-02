@@ -95,7 +95,7 @@ export interface TooltipProps extends CommonProps {
    * Хэндлер, вызываемый при клике по крестику или
    * снаружи тултипа
    */
-  onCloseRequest?: (event?: Event | React.MouseEvent<HTMLElement>) => void;
+  onCloseRequest?: (event?: Event | React.MouseEvent) => void;
 
   /**
    * Хэндлер, вызываемый при закрытии тултипа
