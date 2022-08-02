@@ -986,7 +986,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     // TODO useCallback
     const handleIconClick: React.MouseEventHandler<HTMLElement> = (event) => {
       event.stopPropagation();
-      if (!this.isEditingMode && !disabled) {
+      if (!this.isEditingMode) {
         this.handleRemoveToken(item);
       }
     };
