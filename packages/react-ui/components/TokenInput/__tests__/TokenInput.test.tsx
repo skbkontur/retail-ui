@@ -9,7 +9,7 @@ import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
 import { TokenInputMenu } from '../TokenInputMenu';
-import { Token, TokenDataTids } from '../../Token';
+import { Token } from '../../Token';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -181,13 +181,6 @@ describe('<TokenInput />', () => {
     await userEvent.click(input);
     await userEvent.keyboard('[Backspace>4]');
     expect(screen.getByText('yyy')).toBeInTheDocument();
-  });
-
-  it('should not delete undisabled Token in disabled TokenInput', async () => {
-    render(<DisabledTokenInputWithState />);
-    const crossIcon = screen.getByTestId(TokenDataTids.crossIcon);
-    await userEvent.click(crossIcon);
-    expect(screen.getByText('ddd')).toBeInTheDocument();
   });
 });
 
