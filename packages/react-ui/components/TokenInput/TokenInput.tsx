@@ -240,6 +240,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
   private setRootNode!: TSetRootNode;
+  private memoizedTokens = new Map();
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -261,6 +262,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     if (prevProps.selectedItems.length !== this.getProps().selectedItems.length) {
       LayoutEvents.emit();
+      this.memoizedTokens.clear();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
       this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
@@ -731,7 +733,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode && !this.isItemByIndexDisabled(this.getProps().selectedItems.length - 1)) {
+        if (!this.isEditingMode && !this.isTokenDisabled(this.getProps().selectedItems.length - 1)) {
           this.moveFocusToLastToken();
         }
         break;
@@ -770,7 +772,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         const indexOfActiveToken = this.getProps().selectedItems.indexOf(
           this.state.activeTokens[this.state.activeTokens.length - 1],
         );
-        if (!this.isEditingMode && !this.isItemByIndexDisabled(indexOfActiveToken)) {
+        if (!this.isEditingMode && !this.isTokenDisabled(indexOfActiveToken)) {
           const itemsNew = selectedItems.filter((item) => !this.hasValueInItems(this.state.activeTokens, item));
           onValueChange(itemsNew);
           this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -1024,13 +1026,16 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    return renderToken(item, {
+    const renderedToken = renderToken(item, {
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,
       onRemove: handleIconClick,
       disabled,
     });
+
+    this.memoizedTokens.set(this.props.selectedItems?.indexOf(item), renderedToken);
+    return renderedToken;
   };
 
   private renderAddButton = (value = this.state.inputValue): React.ReactNode | undefined => {
@@ -1051,17 +1056,22 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     );
   };
 
-  private isItemByIndexDisabled = (itemIndex: number) => {
-    const renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
-      TokenInputProps<unknown>
-    >;
+  private isTokenDisabled = (itemIndex: number) => {
+    let renderedToken;
+    if (this.memoizedTokens.has(itemIndex)) {
+      renderedToken = this.memoizedTokens.get(itemIndex);
+    } else {
+      renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
+        TokenInputProps<unknown>
+      >;
+    }
     return renderedToken.props.disabled;
   };
 
   private getAvailableTokenIndex = (isDirectionLeft: boolean, oldIndex: number) => {
     const diff = +(isDirectionLeft ? -1 : +1);
     let index = oldIndex + diff;
-    while (this.getProps().selectedItems[index + diff] && this.isItemByIndexDisabled(index)) {
+    while (this.getProps().selectedItems[index + diff] && this.isTokenDisabled(index)) {
       index = index + diff;
     }
     return index;
