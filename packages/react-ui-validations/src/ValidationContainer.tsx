@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Nullable } from '../typings/Types';
 
+import { createPropsGetter } from './utils/createPropsGetter';
 import { isTestEnv } from './utils/utils';
 import { ValidationContextWrapper } from './ValidationContextWrapper';
 
@@ -14,15 +15,19 @@ export interface ValidationContainerProps {
   children?: React.ReactNode;
   onValidationUpdated?: (isValid?: Nullable<boolean>) => void;
   scrollOffset?: number | ScrollOffset;
-  disableSmoothScroll: boolean;
+  disableSmoothScroll?: boolean;
 }
+
+type DefaultProps = Required<Pick<ValidationContainerProps, 'disableSmoothScroll'>>;
 
 export class ValidationContainer extends React.Component<ValidationContainerProps> {
   public static __KONTUR_REACT_UI__ = 'ValidationContainer';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableSmoothScroll: isTestEnv,
   };
+
+  private getProps = createPropsGetter(ValidationContainer.defaultProps);
 
   public static propTypes = {
     scrollOffset(props: ValidationContainerProps, propName: keyof ValidationContainerProps, componentName: string) {
@@ -56,7 +61,7 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
       <ValidationContextWrapper
         ref={this.refChildContext}
         scrollOffset={this.props.scrollOffset}
-        disableSmoothScroll={this.props.disableSmoothScroll}
+        disableSmoothScroll={this.getProps().disableSmoothScroll}
         onValidationUpdated={this.props.onValidationUpdated}
       >
         {this.props.children}

@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.9.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.9.0...react-ui-validations@1.9.1) (2022-08-02)
+
+
+### Bug Fixes
+
+* **validations:** bring back missing typings to package ([#2969](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2969)) ([d3ef8ea](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/d3ef8ea8648d35ebe835de1dd897495d04c5cadb))
+
+
+
+
+
+# [1.9.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.4...react-ui-validations@1.9.0) (2022-08-01)
+
+
+### Features
+
+* make props with default values truly optional in types ([72d02d5](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/72d02d511a6ca0ea1a3569942f8cbde2f4c07d25))
+
+
+
+
+
 ## [1.8.4](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.8.3...react-ui-validations@1.8.4) (2022-06-15)
 
 **Note:** Version bump only for package react-ui-validations

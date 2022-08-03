@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.2...@skbkontur/react-ui@4.3.0) (2022-08-01)
+
+
+### Bug Fixes
+
+* apply hover/active styles only with enabled element ([#2955](https://github.com/skbkontur/retail-ui/issues/2955)) ([60c6bb1](https://github.com/skbkontur/retail-ui/commit/60c6bb14511d882c1b7e739cdae501d45f41438b))
+* **Select:** preserve icon gap with box-sizing: border-box ([#2962](https://github.com/skbkontur/retail-ui/issues/2962)) ([699bf97](https://github.com/skbkontur/retail-ui/commit/699bf97b8ce210d8ae9b9985807000b13d0d373b))
+
+
+### Features
+
+* make props with default values truly optional in types ([72d02d5](https://github.com/skbkontur/retail-ui/commit/72d02d511a6ca0ea1a3569942f8cbde2f4c07d25))
+
+
+
+
+
 ## [4.2.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.1...@skbkontur/react-ui@4.2.2) (2022-07-25)
 
 

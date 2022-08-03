@@ -17,6 +17,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -67,7 +68,7 @@ export interface SidePageProps extends CommonProps {
   /**
    * Работает только при заблокированном фоне: `blockBackground = true`
    */
-  disableFocusLock: boolean;
+  disableFocusLock?: boolean;
 
   /**
    * задает отступ от края экрана
@@ -89,6 +90,8 @@ export const SidePageDataTids = {
   root: 'SidePage__root',
   container: 'SidePage__container',
 } as const;
+
+type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'disableFocusLock' | 'offset'>>;
 
 const TRANSITION_TIMEOUT = 200;
 
@@ -142,11 +145,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.footer?.update();
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
     disableFocusLock: true,
     offset: 0,
   };
+
+  private getProps = createPropsGetter(SidePage.defaultProps);
 
   public render(): JSX.Element {
     return (
@@ -160,7 +165,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { blockBackground, disableAnimations } = this.props;
+    const { blockBackground } = this.props;
+    const disableAnimations = this.getProps().disableAnimations;
 
     return (
       <RenderContainer>
@@ -197,7 +203,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
+    const { width, blockBackground, fromLeft } = this.props;
+    const { disableFocusLock, offset } = this.getProps();
 
     return (
       <ZIndex

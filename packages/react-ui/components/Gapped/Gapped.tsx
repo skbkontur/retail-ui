@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { isNonNullable } from '../../lib/utils';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export interface GappedProps extends CommonProps {
   /**
@@ -15,17 +16,17 @@ export interface GappedProps extends CommonProps {
    * Вертикальное выравнивание
    * @default "baseline"
    */
-  verticalAlign: 'top' | 'middle' | 'baseline' | 'bottom';
+  verticalAlign?: 'top' | 'middle' | 'baseline' | 'bottom';
   /**
    * Расположение элементов по вертикали
    * @default false
    */
-  vertical: boolean;
+  vertical?: boolean;
   /**
    * Перенос элементов на новую строку при горизонтальном расположении
    * @default false
    */
-  wrap: boolean;
+  wrap?: boolean;
   children: React.ReactNode;
 }
 
@@ -33,6 +34,8 @@ export const GappedDataTids = {
   vertical: 'Gapped__vertical',
   horizontal: 'Gapped__horizontal',
 } as const;
+
+type DefaultProps = Required<Pick<GappedProps, 'wrap' | 'vertical' | 'verticalAlign'>>;
 
 /**
  * Контейнер, расстояние между элементами в котором равно `gap`.
@@ -60,16 +63,18 @@ export class Gapped extends React.Component<GappedProps> {
 
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     wrap: false,
     vertical: false,
     verticalAlign: 'baseline',
   };
 
+  private getProps = createPropsGetter(Gapped.defaultProps);
+
   public render() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        {this.props.vertical ? this.renderVertical() : this.renderHorizontal()}
+        {this.getProps().vertical ? this.renderVertical() : this.renderHorizontal()}
       </CommonWrapper>
     );
   }
@@ -103,7 +108,8 @@ export class Gapped extends React.Component<GappedProps> {
   }
 
   private renderHorizontal() {
-    const { children, verticalAlign, wrap } = this.props;
+    const { children, verticalAlign } = this.props;
+    const wrap = this.getProps().wrap;
     const gap = this.getGapValue();
     const itemStyle: React.CSSProperties = {
       display: 'inline-block',
