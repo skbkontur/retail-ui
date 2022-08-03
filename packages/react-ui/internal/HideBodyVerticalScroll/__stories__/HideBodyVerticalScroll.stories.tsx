@@ -11,7 +11,7 @@ export default {
   },
 } as Meta;
 
-const tests: CreeveyTests = {
+const testScrollLockUnlock: CreeveyTests = {
   async 'scroll, lock, unlock'() {
     const toggle = async () => {
       await this.browser
@@ -25,7 +25,6 @@ const tests: CreeveyTests = {
 
     await this.browser.executeScript(function () {
       const scrollContainer = window.document.documentElement;
-      // @ts-ignore
       scrollContainer.scrollTop = scrollContainer.scrollHeight;
     });
     const scrolled = await this.browser.takeScreenshot();
@@ -62,7 +61,7 @@ export const Sample: Story = () => (
     <div>{'s c r o l l . '.repeat(100)}</div>
   </div>
 );
-Sample.parameters = { creevey: { tests } };
+Sample.parameters = { creevey: { tests: testScrollLockUnlock } };
 
 export const WithScrollableContent: Story = () => (
   <div>
@@ -70,7 +69,7 @@ export const WithScrollableContent: Story = () => (
     <div>{'s c r o l l . '.repeat(1000)}</div>
   </div>
 );
-WithScrollableContent.parameters = { creevey: { tests } };
+WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };
 
 export const WithHTMLOverflowYScroll: Story = () => {
   document.documentElement.style.overflowY = 'scroll';
@@ -89,7 +88,7 @@ export const WithHTMLOverflowYScroll: Story = () => {
   );
 };
 WithHTMLOverflowYScroll.storyName = 'With html.overflowY=scroll';
-WithHTMLOverflowYScroll.parameters = { creevey: { tests } };
+WithHTMLOverflowYScroll.parameters = { creevey: { tests: testScrollLockUnlock } };
 
 export const Multiple_WithScrollableContent: Story = () => (
   <>
@@ -97,4 +96,4 @@ export const Multiple_WithScrollableContent: Story = () => (
     <WithScrollableContent />
   </>
 );
-Multiple_WithScrollableContent.parameters = { creevey: { tests } };
+Multiple_WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };
