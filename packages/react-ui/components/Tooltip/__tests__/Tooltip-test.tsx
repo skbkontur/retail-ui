@@ -267,6 +267,18 @@ describe('Tooltip', () => {
 
       expect(onCloseRequest).toHaveBeenCalledTimes(1);
     });
+
+    it('should be called with event', () => {
+      wrapper.setProps({ trigger: 'click' });
+      wrapper.setState({ opened: true });
+      wrapper.update();
+      expect(wrapper.find(Content).length).toBe(1);
+
+      clickOutside();
+
+      const event = document.createEvent('HTMLEvents');
+      expect(onCloseRequest).toHaveBeenCalledWith(event);
+    });
   });
 
   it('clears hoverTimeout timer after unmount', () => {
