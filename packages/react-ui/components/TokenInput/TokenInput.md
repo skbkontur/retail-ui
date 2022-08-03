@@ -68,10 +68,7 @@ import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
 const [selectedItems, setSelectedItems] = React.useState(['aaa', 'bbb', 'ccc']);
 
 async function getItems(query) {
-  if (!isTestEnv) {
-    await delay(400);
-  }
-  return ['aaa', 'bbb'].filter((s) => s.includes(query));
+  return ['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query));
 };
 
 <TokenInput
