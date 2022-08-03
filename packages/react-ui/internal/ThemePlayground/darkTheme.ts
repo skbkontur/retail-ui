@@ -1,7 +1,9 @@
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { DEFAULT_THEME_8PX_OLD } from '../../lib/theming/themes/DefaultTheme8pxOld';
 
-export const darkTheme = ThemeFactory.create(
+type AddonsTheme = 'tdDividerBg' | 'tbBg' | 'tbShadow' | 'logoColor' | 'logoHoverColor';
+
+export const darkTheme = ThemeFactory.create<{ [key in AddonsTheme]: string }>(
   {
     brandXLight: '#cae5f5',
     brandLight: '#3094d0',
@@ -236,7 +238,6 @@ export const darkTheme = ThemeFactory.create(
     toastLinkColor: '#80caff',
     toastCloseColor: '#a0a0a0',
     toastCloseHoverColor: 'white',
-    tdDividerBg: '#808080',
     menuItemPaddingForIcon: '36px',
     menuBorder: 'rgba(0, 0, 0, 0)',
     menuShadow: '0 0 0 1px #404040, 0 5px 20px 0 rgba(0, 0, 0, 0.4)',
@@ -287,6 +288,7 @@ export const darkTheme = ThemeFactory.create(
     // live here because
     // dark theme is unofficial
     tbBg: '#262626',
+    tdDividerBg: '#808080',
     tbShadow: '0 1px 1px 0 rgba(0, 0, 0, 0.1), 0 1px 8px 0 rgba(0, 0, 0, 0.1)',
     logoColor: 'white',
     logoHoverColor: '#000',

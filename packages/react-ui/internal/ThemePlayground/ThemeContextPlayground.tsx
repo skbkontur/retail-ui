@@ -224,6 +224,6 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
       Object.defineProperty(result, key, descriptor);
     });
 
-    return ThemeFactory.create<ThemeIn>(result);
+    return ThemeFactory.create(result);
   };
 }
