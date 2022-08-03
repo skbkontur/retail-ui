@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.5...@skbkontur/react-ui@3.12.6) (2022-08-03)
+
+
+### Bug Fixes
+
+* **DatePicker:** fix focus and fragments selection ([#2970](https://github.com/skbkontur/retail-ui/issues/2970)) ([f3594bf](https://github.com/skbkontur/retail-ui/commit/f3594bfb76e0e8926808f47bcf90bcb2ca7ba225)), closes [#2614](https://github.com/skbkontur/retail-ui/issues/2614)
+
+
+
+
+
 ## [3.12.5](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.4...@skbkontur/react-ui@3.12.5) (2022-07-15)
 
 
