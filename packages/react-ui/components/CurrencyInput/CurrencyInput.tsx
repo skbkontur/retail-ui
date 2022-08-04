@@ -302,6 +302,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
         });
         return;
       }
+      case CURRENCY_INPUT_ACTIONS.Comma: {
+        this.inputValue(selection.start, selection.end, ',');
+        return;
+      }
     }
   };
 
