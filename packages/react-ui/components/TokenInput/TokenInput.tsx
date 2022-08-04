@@ -741,7 +741,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         if (this.input?.selectionStart === 0) {
           const index = this.getAvailableTokenIndex(true, this.getProps().selectedItems.length);
           const itemNew = this.getProps().selectedItems[index];
-          this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
+          if (itemNew) {
+            this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
+          }
         }
         break;
     }
@@ -1073,6 +1075,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     let index = oldIndex + diff;
     while (this.getProps().selectedItems[index + diff] && this.isTokenDisabled(index)) {
       index = index + diff;
+    }
+    if (this.isTokenDisabled(index)) {
+      return oldIndex;
     }
     return index;
   };
