@@ -17,6 +17,24 @@ const styles = {
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
     `;
   },
+
+  fileWrapperSmall(t: Theme) {
+    return css`
+      padding: ${t.fileUploaderPaddingYSmall} ${t.fileUploaderPaddingXSmall};
+    `;
+  },
+
+  fileWrapperMedium(t: Theme) {
+    return css`
+      padding: ${t.fileUploaderPaddingYMedium} ${t.fileUploaderPaddingXMedium};
+    `;
+  },
+
+  fileWrapperLarge(t: Theme) {
+    return css`
+      padding: ${t.fileUploaderPaddingYLarge} ${t.fileUploaderPaddingXLarge};
+    `;
+  },
 };
 
 export const jsStyles = memoizeStyle(styles);

@@ -1648,9 +1648,12 @@ export class DefaultTheme {
   //#region FileUploader
   public static fileUploaderWidth = '362px';
   public static fileUploaderBg = '#fff';
-  public static fileUploaderPaddingXSmall = '8px';
-  public static fileUploaderPaddingXMedium = '12px';
-  public static fileUploaderPaddingXLarge = '16px';
+  public static get fileUploaderFontSize() {
+    return this.fontSizeSmall;
+  }
+  public static fileUploaderPaddingXSmall = '7px';
+  public static fileUploaderPaddingXMedium = '11px';
+  public static fileUploaderPaddingXLarge = '15px';
   public static get fileUploaderFontSizeSmall() {
     return this.fontSizeSmall;
   }
@@ -1659,6 +1662,9 @@ export class DefaultTheme {
   }
   public static get fileUploaderFontSizeLarge() {
     return this.fontSizeLarge;
+  }
+  public static get fileUploaderLineHeight() {
+    return this.controlLineHeightSmall;
   }
   public static get fileUploaderLineHeightSmall() {
     return this.controlLineHeightSmall;
@@ -1714,7 +1720,10 @@ export class DefaultTheme {
   public static get fileUploaderLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
-  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
+  public static fileUploaderHoveredBg = 'none';
+  public static fileUploaderIconGapSmall = '4px';
+  public static fileUploaderIconGapMedium = '6px';
+  public static fileUploaderIconGapLarge = '8px';
   //#endregion
 }
 

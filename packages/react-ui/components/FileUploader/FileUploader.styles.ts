@@ -28,8 +28,8 @@ const styles = {
       display: inline-block;
       position: relative;
       background-color: ${t.fileUploaderBg};
-      line-height: ${t.fileUploaderLineHeightSmall};
-      font-size: ${t.fileUploaderFontSizeSmall};
+      line-height: ${t.fileUploaderLineHeight};
+      font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
       position: relative;
     `;
@@ -96,10 +96,21 @@ const styles = {
     `;
   },
 
-  contentInner(t: Theme) {
+  contentInnerSmall(t: Theme) {
     return css`
-      padding-right: 30px;
-      width: calc(100% - ${t.btnIconSizeLarge} - 4px);
+      width: calc(100% - ${t.btnIconSizeSmall} - ${t.fileUploaderIconGapSmall});
+    `;
+  },
+
+  contentInnerMedium(t: Theme) {
+    return css`
+      width: calc(100% - ${t.btnIconSizeMedium} - ${t.fileUploaderIconGapMedium});
+    `;
+  },
+
+  contentInnerLarge(t: Theme) {
+    return css`
+      width: calc(100% - ${t.btnIconSizeLarge} - ${t.fileUploaderIconGapLarge});
     `;
   },
 
@@ -141,7 +152,6 @@ const styles = {
   hovered(t: Theme) {
     return css`
       background: ${t.fileUploaderHoveredBg};
-      border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderHoveredBg};
     `;
   },
 
@@ -163,6 +173,7 @@ const styles = {
       right: ${t.fileUploaderPaddingX};
       bottom: 10px;
       color: ${t.fileUploaderLinkColor};
+      text-align: right;
     `;
   },
 
@@ -272,7 +283,7 @@ const styles = {
       font-size: ${t.fileUploaderFontSizeSmall};
       line-height: ${t.fileUploaderLineHeightSmall};
       width: ${t.btnIconSizeSmall};
-      margin-right: ${t.btnIconGapSmall};
+      margin-right: 0;
       bottom: ${t.fileUploaderPaddingYSmall};
       right: ${t.fileUploaderPaddingXSmall};
     `;
@@ -282,7 +293,7 @@ const styles = {
       font-size: ${t.fileUploaderFontSizeMedium};
       line-height: ${t.fileUploaderLineHeightMedium};
       width: ${t.btnIconSizeMedium};
-      margin-right: ${t.btnIconGapMedium};
+      margin-right: 0;
       bottom: ${t.fileUploaderPaddingYMedium};
       right: ${t.fileUploaderPaddingXMedium};
     `;
@@ -292,7 +303,7 @@ const styles = {
       font-size: ${t.fileUploaderFontSizeLarge};
       line-height: ${t.fileUploaderLineHeightLarge};
       width: ${t.btnIconSizeLarge};
-      margin-right: ${t.btnIconGapLarge};
+      margin-right: 0;
       bottom: ${t.fileUploaderPaddingYLarge};
       right: ${t.fileUploaderPaddingXLarge};
     `;

@@ -153,6 +153,18 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     }
   }, [size]);
 
+  const contentInnerClass = useMemo(() => {
+    switch (size) {
+      case 'large':
+        return jsStyles.contentInnerLarge(theme);
+      case 'medium':
+        return jsStyles.contentInnerMedium(theme);
+      case 'small':
+      default:
+        return jsStyles.contentInnerSmall(theme);
+    }
+  }, [size]);
+
   /** common part **/
   const handleChange = useCallback(
     (newFiles: FileList | null) => {
@@ -280,7 +292,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             ref={labelRef}
             className={uploadButtonClassNames}
           >
-            <div className={jsStyles.contentInner(theme)}>
+            <div className={contentInnerClass}>
               <div
                 data-tid={FileUploaderDataTids.content}
                 className={hasOneFileForSingle ? jsStyles.contentWithFiles() : jsStyles.content()}

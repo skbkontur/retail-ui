@@ -143,7 +143,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     }
   }, [size]);
 
-  const contentClassNames = cx(jsStyles.content(theme), {
+  const contentClassNames = cx(jsStyles.content(), {
     [jsStyles.error(theme)]: isInvalid,
     [sizeContentClass]: true,
     [jsStyles.contentError(theme)]: !!multiple,
@@ -183,7 +183,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const iconClassNames = cx(jsStyles.icon(theme), {
     [jsStyles.focusedIcon(theme)]: focusedByTab,
     [sizeIconClass]: true,
-    [multiple ? jsStyles.iconMultiple(theme) : jsStyles.iconSingle(theme)]: true,
+    [multiple ? jsStyles.iconMultiple() : jsStyles.iconSingle()]: true,
   });
 
   const isTruncated = truncatedFileName !== name;

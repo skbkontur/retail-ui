@@ -8,7 +8,7 @@ const styles = {
     `;
   },
 
-  content(t: Theme) {
+  content() {
     return css`
       display: flex;
       width: 100%;
@@ -61,33 +61,35 @@ const styles = {
   iconSmall(t: Theme) {
     return css`
       right: ${t.fileUploaderPaddingXSmall};
-      margin-right: ${t.fileUploaderPaddingXSmall};
+      margin-right: 0;
     `;
   },
 
   iconMedium(t: Theme) {
     return css`
       right: ${t.fileUploaderPaddingXMedium};
-      margin-right: ${t.fileUploaderPaddingXMedium};
+      margin-right: 0;
+      width: 18px;
     `;
   },
 
   iconLarge(t: Theme) {
     return css`
       right: ${t.fileUploaderPaddingXLarge};
-      margin-right: ${t.fileUploaderPaddingXLarge};
+      margin-right: 0;
+      width: 20px;
     `;
   },
 
-  iconMultiple(t: Theme) {
+  iconMultiple() {
     return css`
       position: static;
     `;
   },
 
-  iconSingle(t: Theme) {
+  iconSingle() {
     return css`
-      margin-right: ${t.btnIconGapMedium};
+      margin-right: 0;
     `;
   },
 
