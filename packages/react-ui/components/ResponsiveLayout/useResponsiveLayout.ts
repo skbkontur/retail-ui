@@ -33,7 +33,7 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
   const [state, setState] = useState(getLayoutFromGlobal());
 
   const allMediaQueries = getAllMediaQueries();
-  const allMediaListeners: React.MutableRefObject<{ remove: () => void } | null>[] = [];
+  const allMediaListeners: Array<React.MutableRefObject<{ remove: () => void } | null>> = [];
   Object.values(allMediaQueries).forEach((_) => allMediaListeners.push(createRef()));
 
   const prepareMediaQueries = useCallback(() => {

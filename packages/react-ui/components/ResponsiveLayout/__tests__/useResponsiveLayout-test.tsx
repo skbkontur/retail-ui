@@ -19,7 +19,7 @@ function getUseResponsiveLayoutResult<T extends Record<string, string>>(options:
   return result as ResponsiveLayoutFlags<T>;
 }
 describe('useResponsiveLayoutCustomization', () => {
-  const calcMatches = (query: string) => (query === DEFAULT_THEME.mobileMediaQuery ? true : false);
+  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
 
   beforeEach(() => {
     Object.defineProperty(window, 'matchMedia', {

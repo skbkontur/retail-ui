@@ -31,7 +31,7 @@ export function ResponsiveLayout<T extends Record<string, string>>(props: Respon
       {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
     </CommonWrapper>
   );
-};
+}
 
 ResponsiveLayout.propTypes = {
   onLayoutChange: propTypes.func,
