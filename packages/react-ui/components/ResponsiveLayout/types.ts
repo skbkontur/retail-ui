@@ -1,5 +1,7 @@
+export type CustomMediaQueries = Record<string, string>;
+
 export interface ResponsiveLayoutOptions {
-  customMediaQueries: Record<string, string>;
+  customMediaQueries?: CustomMediaQueries;
 }
 
 export type ResponsiveLayoutFlags<T extends Record<string, string>> = {

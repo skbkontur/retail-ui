@@ -1,4 +1,4 @@
-import React, { createRef, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { createRef, useCallback, useContext, useEffect, useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
@@ -11,7 +11,7 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
   const getLayoutFromGlobal = (): ResponsiveLayoutFlags<T> => {
     const isMobile = checkMatches(theme.mobileMediaQuery);
     const defaultResult = { isMobile: !!isMobile };
-    if (!options) {
+    if (!options?.customMediaQueries) {
       return defaultResult as ResponsiveLayoutFlags<T>;
     }
     const customQueries: Record<string, boolean> = Object.entries(options.customMediaQueries).reduce(
@@ -22,34 +22,35 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
     return Object.assign(defaultResult, customQueries) as ResponsiveLayoutFlags<T>;
   };
 
+  const getAllMediaQueries = (): Record<string, string> => {
+    const defaultMediaQueries = { isMobile: theme.mobileMediaQuery };
+    if (options?.customMediaQueries) {
+      return Object.assign(defaultMediaQueries, options.customMediaQueries);
+    }
+    return defaultMediaQueries;
+  };
+
   const [state, setState] = useState(getLayoutFromGlobal());
 
-  const mobileListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
-  const customListeners: React.MutableRefObject<{ remove: () => void } | null>[] = [];
-  if (options) {
-    Object.entries(options.customMediaQueries).forEach((_) => customListeners.push(createRef()));
-  }
+  const allMediaQueries = getAllMediaQueries();
+  const allMediaListeners: React.MutableRefObject<{ remove: () => void } | null>[] = [];
+  Object.values(allMediaQueries).forEach((_) => allMediaListeners.push(createRef()));
 
   const prepareMediaQueries = useCallback(() => {
     if (!theme) {
       return;
     }
 
-    mobileListener.current = addResponsiveLayoutListener(theme.mobileMediaQuery, checkLayoutsMediaQueries);
-    if (options) {
-      Object.entries(options.customMediaQueries).forEach(
-        ([name, query], i) =>
-          (customListeners[i].current = addResponsiveLayoutListener(query, checkLayoutsMediaQueries)),
-      );
-    }
-    // Checking for SSR use case
-    const globalLayout = getLayoutFromGlobal();
-    const hasChangedCustomQuery = Object.entries(globalLayout).reduce(
-      (hasChanges, [key, value]) => state[key] !== value,
-      false,
+    Object.entries(allMediaQueries).forEach(
+      ([name, query], i) =>
+        (allMediaListeners[i].current = addResponsiveLayoutListener(query, checkLayoutsMediaQueries)),
     );
 
-    if (hasChangedCustomQuery) {
+    // Checking for SSR use case
+    const globalLayout = getLayoutFromGlobal();
+    const hasChangedQuery = Object.entries(globalLayout).find(([key, value]) => state[key] !== value);
+
+    if (hasChangedQuery) {
       setState(globalLayout);
     }
   }, [theme]);
@@ -60,21 +61,14 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
         return;
       }
 
-      if (e.media === theme.mobileMediaQuery) {
-        setState((prevState: ResponsiveLayoutFlags<T>) => ({
-          ...prevState,
-          isMobile: e.matches,
-        }));
-      }
-      const customQuery = options
-        ? Object.entries(options.customMediaQueries).find(([name, query]) => query === e.media)
-        : undefined;
-      if (customQuery) {
-        setState((prevState: ResponsiveLayoutFlags<T>) => ({
-          ...prevState,
-          customFlags: Object.assign(prevState.customFlags, customQuery),
-        }));
-      }
+      Object.entries(allMediaQueries).forEach(([name, query]) => {
+        if (e.media === query) {
+          setState((prevState: ResponsiveLayoutFlags<T>) => ({
+            ...prevState,
+            [name]: e.matches,
+          }));
+        }
+      });
     },
     [theme],
   );
@@ -83,8 +77,7 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
     prepareMediaQueries();
 
     return () => {
-      mobileListener.current?.remove();
-      customListeners.forEach((listener) => listener.current?.remove());
+      allMediaListeners.forEach((listener) => listener.current?.remove());
     };
   }, []);
 

@@ -4,13 +4,13 @@ import propTypes from 'prop-types';
 import { isFunction } from '../../lib/utils';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 
-import { ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
+import { CustomMediaQueries, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
 interface ResponsiveLayoutProps<T extends Record<string, string>> {
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
-  options?: ResponsiveLayoutOptions;
+  customMediaQueries?: CustomMediaQueries;
 }
 
 /**
@@ -18,7 +18,7 @@ interface ResponsiveLayoutProps<T extends Record<string, string>> {
  */
 
 export function ResponsiveLayout<T extends Record<string, string>>(props: ResponsiveLayoutProps<T>) {
-  const layoutFlags = useResponsiveLayout<T>();
+  const layoutFlags = useResponsiveLayout<T>({ customMediaQueries: props.customMediaQueries });
 
   useEffect(() => {
     if (props.onLayoutChange) {
@@ -31,7 +31,7 @@ export function ResponsiveLayout<T extends Record<string, string>>(props: Respon
       {isFunction(props.children) ? props.children(layoutFlags) ?? null : props.children ?? null}
     </CommonWrapper>
   );
-}
+};
 
 ResponsiveLayout.propTypes = {
   onLayoutChange: propTypes.func,
