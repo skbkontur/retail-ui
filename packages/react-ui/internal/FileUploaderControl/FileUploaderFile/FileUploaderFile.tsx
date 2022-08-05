@@ -146,7 +146,6 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const contentClassNames = cx(jsStyles.content(), {
     [jsStyles.error(theme)]: isInvalid,
     [sizeContentClass]: true,
-    [jsStyles.contentError(theme)]: !!multiple,
   });
 
   const handleMouseEnter = useCallback(() => {

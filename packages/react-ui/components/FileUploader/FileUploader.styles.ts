@@ -98,19 +98,19 @@ const styles = {
 
   contentInnerSmall(t: Theme) {
     return css`
-      width: calc(100% - ${t.btnIconSizeSmall} - ${t.fileUploaderIconGapSmall});
+      width: calc(100% - ${t.inputIconSizeSmall} - ${t.fileUploaderIconGapSmall});
     `;
   },
 
   contentInnerMedium(t: Theme) {
     return css`
-      width: calc(100% - ${t.btnIconSizeMedium} - ${t.fileUploaderIconGapMedium});
+      width: calc(100% - ${t.inputIconSizeMedium} - ${t.fileUploaderIconGapMedium});
     `;
   },
 
   contentInnerLarge(t: Theme) {
     return css`
-      width: calc(100% - ${t.btnIconSizeLarge} - ${t.fileUploaderIconGapLarge});
+      width: calc(100% - ${t.inputIconSizeLarge} - ${t.fileUploaderIconGapLarge});
     `;
   },
 
@@ -212,7 +212,7 @@ const styles = {
         t.fileUploaderFontSizeSmall,
         t.fileUploaderLineHeightSmall,
         t.fileUploaderPaddingXSmall,
-        t.btnPaddingYSmall,
+        t.fileUploaderPaddingYSmall,
         t.fontFamilyCompensationBaseline,
       )};
     `;
@@ -223,7 +223,7 @@ const styles = {
       ${buttonSizeMixinIE11(
         t.fileUploaderFontSizeSmall,
         t.fileUploaderPaddingXSmall,
-        t.btnPaddingYSmall,
+        t.fileUploaderPaddingYSmall,
         t.fontFamilyCompensationBaseline,
       )};
       line-height: ${t.fileUploaderLineHeightSmall};
@@ -236,7 +236,7 @@ const styles = {
         t.fileUploaderFontSizeMedium,
         t.fileUploaderLineHeightMedium,
         t.fileUploaderPaddingXMedium,
-        t.btnPaddingYMedium,
+        t.fileUploaderPaddingYMedium,
         t.fontFamilyCompensationBaseline,
       )};
     `;
@@ -247,7 +247,7 @@ const styles = {
       ${buttonSizeMixinIE11(
         t.fileUploaderFontSizeMedium,
         t.fileUploaderPaddingXMedium,
-        t.btnPaddingYMedium,
+        t.fileUploaderPaddingYMedium,
         t.fontFamilyCompensationBaseline,
       )};
       line-height: ${t.fileUploaderLineHeightMedium};
@@ -260,7 +260,7 @@ const styles = {
         t.fileUploaderFontSizeLarge,
         t.fileUploaderLineHeightLarge,
         t.fileUploaderPaddingXLarge,
-        t.btnPaddingYLarge,
+        t.fileUploaderPaddingYLarge,
         t.fontFamilyCompensationBaseline,
       )};
     `;
@@ -271,7 +271,7 @@ const styles = {
       ${buttonSizeMixinIE11(
         t.fileUploaderFontSizeLarge,
         t.fileUploaderPaddingXLarge,
-        t.btnPaddingYLarge,
+        t.fileUploaderPaddingYLarge,
         t.fontFamilyCompensationBaseline,
       )};
       line-height: ${t.fileUploaderLineHeightLarge};
@@ -282,7 +282,7 @@ const styles = {
     return css`
       font-size: ${t.fileUploaderFontSizeSmall};
       line-height: ${t.fileUploaderLineHeightSmall};
-      width: ${t.btnIconSizeSmall};
+      width: ${t.inputIconSizeSmall};
       margin-right: 0;
       bottom: ${t.fileUploaderPaddingYSmall};
       right: ${t.fileUploaderPaddingXSmall};
@@ -292,7 +292,7 @@ const styles = {
     return css`
       font-size: ${t.fileUploaderFontSizeMedium};
       line-height: ${t.fileUploaderLineHeightMedium};
-      width: ${t.btnIconSizeMedium};
+      width: ${t.inputIconSizeMedium};
       margin-right: 0;
       bottom: ${t.fileUploaderPaddingYMedium};
       right: ${t.fileUploaderPaddingXMedium};
@@ -302,7 +302,7 @@ const styles = {
     return css`
       font-size: ${t.fileUploaderFontSizeLarge};
       line-height: ${t.fileUploaderLineHeightLarge};
-      width: ${t.btnIconSizeLarge};
+      width: ${t.inputIconSizeLarge};
       margin-right: 0;
       bottom: ${t.fileUploaderPaddingYLarge};
       right: ${t.fileUploaderPaddingXLarge};

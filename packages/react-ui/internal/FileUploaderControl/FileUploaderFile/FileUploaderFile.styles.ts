@@ -16,12 +16,6 @@ const styles = {
     `;
   },
 
-  contentError(t: Theme) {
-    return css`
-      color: ${t.fileUploaderLinkColor};
-    `;
-  },
-
   error(t: Theme) {
     return css`
       color: ${t.fileUploaderBorderColorError};
