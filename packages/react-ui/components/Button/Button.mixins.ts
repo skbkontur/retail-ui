@@ -60,7 +60,7 @@ export const buttonHoverMixin = (
 ) => {
   const hasGradient = btnBackgroundStart !== btnBackgroundEnd;
   return css`
-    &:hover {
+    &:hover:enabled {
       background-color: ${hasGradient ? `initial` : btnBackground};
       background-image: ${hasGradient ? `linear-gradient(${btnBackgroundStart}, ${btnBackgroundEnd})` : `none`};
       box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderBottomColor ? `, 0 ${borderWidth} 0 0 ${borderBottomColor}` : ``};

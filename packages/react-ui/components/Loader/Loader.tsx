@@ -15,6 +15,7 @@ import { TaskWithDelayAndMinimalDuration } from '../../lib/taskWithDelayAndMinim
 import { getTabbableElements } from '../../lib/dom/tabbableHelpers';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Loader.styles';
 
@@ -24,7 +25,7 @@ export interface LoaderProps extends CommonProps {
    * Флаг переключения состояния лоадера
    * @default false
    */
-  active: boolean;
+  active?: boolean;
   caption?: SpinnerProps['caption'];
   /**
    * Компонент заменяющий спиннер.
@@ -36,12 +37,12 @@ export interface LoaderProps extends CommonProps {
    * Время в миллисекундах для показа вуали без спиннера.
    * @default 300
    */
-  delayBeforeSpinnerShow: number;
+  delayBeforeSpinnerShow?: number;
   /**
    * Минимальное время в миллисекундах для показа спиннера
    * @default 1000
    */
-  minimalDelayBeforeSpinnerHide: number;
+  minimalDelayBeforeSpinnerHide?: number;
 }
 
 export interface LoaderState {
@@ -56,6 +57,10 @@ export const LoaderDataTids = {
   spinner: 'Loader__Spinner',
 } as const;
 
+type DefaultProps = Required<
+  Pick<LoaderProps, 'type' | 'active' | 'delayBeforeSpinnerShow' | 'minimalDelayBeforeSpinnerHide'>
+>;
+
 /**
  * DRAFT - лоадер-контейнер
  */
@@ -63,12 +68,14 @@ export const LoaderDataTids = {
 export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
-  public static defaultProps: Partial<LoaderProps> = {
+  public static defaultProps: DefaultProps = {
     type: Spinner.Types.normal,
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
     minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
   };
+
+  private getProps = createPropsGetter(Loader.defaultProps);
 
   public static propTypes = {
     /**
@@ -134,25 +141,27 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
     };
 
     this.spinnerTask = new TaskWithDelayAndMinimalDuration({
-      delayBeforeTaskStart: this.props.delayBeforeSpinnerShow,
-      durationOfTask: this.props.minimalDelayBeforeSpinnerHide,
+      delayBeforeTaskStart: this.getProps().delayBeforeSpinnerShow,
+      durationOfTask: this.getProps().minimalDelayBeforeSpinnerHide,
       taskStartCallback: () => this.setState({ isSpinnerVisible: true }),
       taskStopCallback: () => this.setState({ isSpinnerVisible: false }),
     });
   }
 
   public componentDidMount() {
+    const active = this.getProps().active;
     this.checkSpinnerPosition();
-    this.props.active && this.spinnerTask.start();
+    active && this.spinnerTask.start();
     this.layoutEvents = LayoutEvents.addListener(debounce(this.checkSpinnerPosition, 10));
 
-    if (this.props.active) {
+    if (active) {
       this.disableChildrenFocus();
     }
   }
 
   public componentDidUpdate(prevProps: Readonly<LoaderProps>, prevState: Readonly<LoaderState>) {
-    const { component, active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.props;
+    const { component } = this.props;
+    const { active, delayBeforeSpinnerShow, minimalDelayBeforeSpinnerHide } = this.getProps();
     const { isLoaderActive } = this.state;
 
     if ((active && !prevProps.active) || prevProps.component !== component) {
@@ -217,7 +226,8 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   }
 
   private renderMain() {
-    const { type, caption, component } = this.props;
+    const { caption, component } = this.props;
+    const type = this.getProps().type;
     const { isLoaderActive } = this.state;
 
     return (

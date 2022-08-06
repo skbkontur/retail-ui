@@ -99,7 +99,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     href: PropTypes.string,
 
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    icon: PropTypes.node,
 
     loose: PropTypes.bool,
 

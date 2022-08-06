@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.1.2",
+  "version": "4.3.0",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -63,7 +63,7 @@
     "react-transition-group": "^4.4.2",
     "shallowequal": "^1.1.0",
     "stylis-plugin-extra-scope": "^0.3.0",
-    "tabbable": "^5.2.1",
+    "tabbable": "5.2.1",
     "warning": "^4.0.3"
   },
   "devDependencies": {

@@ -5,10 +5,11 @@ import { Nullable } from '../../typings/utility-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { GlobalLoaderView, GlobalLoaderViewProps } from './GlobalLoaderView';
 
-export interface GlobalLoaderProps extends Partial<DefaultProps> {
+export interface GlobalLoaderProps {
   /**
    * Время(ms) до появления лоадера
    */
@@ -20,7 +21,7 @@ export interface GlobalLoaderProps extends Partial<DefaultProps> {
   /**
    * Ожидаемое время(ms) ответа сервера
    */
-  expectedResponseTime: number;
+  expectedResponseTime?: number;
   /**
    * Анимация лоадера в виде спиннера
    */
@@ -32,7 +33,7 @@ export interface GlobalLoaderProps extends Partial<DefaultProps> {
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Коллбек, вызывающийся после появления лоадера
    */
@@ -62,36 +63,35 @@ export interface GlobalLoaderState {
   expectedResponseTime: number;
   started: boolean;
 }
-interface DefaultProps {
-  expectedResponseTime: number;
-  delayBeforeShow: number;
-  delayBeforeHide: number;
-  rejected: boolean;
-  active: boolean;
-  disableAnimations: boolean;
-}
-export type GlobalLoaderComponentProps = GlobalLoaderProps & DefaultProps;
 
 export const GlobalLoaderDataTids = {
   root: 'GlobalLoader',
 } as const;
 
+type DefaultProps = Required<
+  Pick<
+    GlobalLoaderProps,
+    'expectedResponseTime' | 'delayBeforeShow' | 'delayBeforeHide' | 'rejected' | 'active' | 'disableAnimations'
+  >
+>;
+
 let currentGlobalLoader: GlobalLoader;
 
 @rootNode
-export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, GlobalLoaderState> {
+export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoaderState> {
   private successAnimationInProgressTimeout: Nullable<NodeJS.Timeout>;
   private setRootNode!: TSetRootNode;
+  private getProps = createPropsGetter(GlobalLoader.defaultProps);
 
   private readonly startTask = debounce(() => {
     this.setState({ visible: true });
     this.props.onStart?.();
-  }, this.props.delayBeforeShow);
+  }, this.getProps().delayBeforeShow);
 
   private readonly stopTask = debounce(() => {
     this.setState({ visible: false, successAnimationInProgress: false, started: false });
     this.props.onDone?.();
-  }, this.props.delayBeforeHide);
+  }, this.getProps().delayBeforeHide);
 
   public static defaultProps: DefaultProps = {
     expectedResponseTime: 1000,
@@ -102,7 +102,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
     disableAnimations: isTestEnv,
   };
 
-  constructor(props: GlobalLoaderComponentProps) {
+  constructor(props: GlobalLoaderProps) {
     super(props);
     this.state = {
       started: false,
@@ -112,30 +112,32 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
       accept: false,
       dead: false,
       successAnimationInProgress: false,
-      expectedResponseTime: this.props.expectedResponseTime,
+      expectedResponseTime: this.getProps().expectedResponseTime,
     };
     this.successAnimationInProgressTimeout = null;
     currentGlobalLoader?.kill();
     currentGlobalLoader = this;
   }
   componentDidMount() {
-    if (this.props.active) {
+    const { active, rejected } = this.getProps();
+    if (active) {
       this.setActive();
     }
-    if (this.props.rejected) {
+    if (rejected) {
       this.setReject(true);
     }
   }
 
   componentDidUpdate(prevProps: Readonly<GlobalLoaderProps>) {
-    if (this.props.expectedResponseTime !== prevProps.expectedResponseTime) {
-      this.setState({ expectedResponseTime: this.props.expectedResponseTime });
+    const { expectedResponseTime, rejected, active } = this.getProps();
+    if (expectedResponseTime !== prevProps.expectedResponseTime) {
+      this.setState({ expectedResponseTime });
     }
-    if (this.props.rejected !== prevProps.rejected) {
-      this.setReject(!!this.props.rejected);
+    if (rejected !== prevProps.rejected) {
+      this.setReject(!!rejected);
     }
-    if (this.props.active !== prevProps.active) {
-      if (this.props.active) {
+    if (active !== prevProps.active) {
+      if (active) {
         this.setActive();
       } else {
         this.setDone();
@@ -156,16 +158,17 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
     } else if (this.state.accept) {
       status = 'accept';
     }
+    const { delayBeforeHide, disableAnimations } = this.getProps();
     return (
       !this.state.dead &&
       this.state.visible && (
         <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
           <GlobalLoaderView
             expectedResponseTime={this.state.expectedResponseTime}
-            delayBeforeHide={this.props.delayBeforeHide}
+            delayBeforeHide={delayBeforeHide}
             status={status}
             data-tid={GlobalLoaderDataTids.root}
-            disableAnimations={this.props.disableAnimations}
+            disableAnimations={disableAnimations}
           />
         </CommonWrapper>
       )
@@ -216,14 +219,15 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
   };
 
   public setActive = () => {
+    const { delayBeforeHide, rejected } = this.getProps();
     this.startTask.cancel();
     if (this.state.successAnimationInProgress) {
       this.successAnimationInProgressTimeout = setTimeout(() => {
         this.setActive();
-      }, this.props.delayBeforeHide);
+      }, delayBeforeHide);
     } else {
       this.setState({ visible: false, done: false, rejected: false, accept: false, started: true });
-      if (this.props.rejected) {
+      if (rejected) {
         this.setReject(true);
       } else {
         this.stopTask.cancel();
@@ -239,7 +243,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderComponentProps, Gl
   };
 
   public setReject = (reject: boolean) => {
-    if (!this.state.visible && (this.state.started || this.props.active)) {
+    if (!this.state.visible && (this.state.started || this.getProps().active)) {
       this.setState({ visible: true });
     }
     this.startTask.cancel();
