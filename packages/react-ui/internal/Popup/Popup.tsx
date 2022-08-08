@@ -349,8 +349,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private addEventListeners(element: Nullable<Element>) {
     if (element && isElement(element)) {
+      // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.addEventListener('mouseenter', this.handleMouseEnter);
+      // @ts-expect-error: See the comment above
       element.addEventListener('mouseleave', this.handleMouseLeave);
+      // @ts-expect-error: See the comment above
       element.addEventListener('click', this.handleClick);
       element.addEventListener('focusin', this.handleFocus as EventListener);
       element.addEventListener('focusout', this.handleBlur as EventListener);
@@ -359,8 +362,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private removeEventListeners(element: Nullable<Element>) {
     if (element && isElement(element)) {
+      // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.removeEventListener('mouseenter', this.handleMouseEnter);
+      // @ts-expect-error: See the comment above
       element.removeEventListener('mouseleave', this.handleMouseLeave);
+      // @ts-expect-error: See the comment above
       element.removeEventListener('click', this.handleClick);
       element.removeEventListener('focusin', this.handleFocus as EventListener);
       element.removeEventListener('focusout', this.handleBlur as EventListener);
