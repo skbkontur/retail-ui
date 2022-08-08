@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { isSVGOrHTMLElement } from '../../lib/SSRSafe';
+import { isHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -224,7 +224,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private focusOnRootElement = (): void => {
     const rootNode = getRootNode(this);
-    if (isSVGOrHTMLElement(rootNode)) {
+    if (isHTMLElement(rootNode)) {
       rootNode?.focus();
     }
   };
@@ -330,7 +330,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     this.setState({ highlightedIndex: index });
 
     const rootNode = getRootNode(this);
-    if (isSVGOrHTMLElement(rootNode)) {
+    if (isHTMLElement(rootNode)) {
       rootNode?.focus();
     }
   };

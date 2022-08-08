@@ -20,9 +20,9 @@ export function isElement(el: unknown): el is Element {
   return false;
 }
 
-export function isSVGOrHTMLElement(el: unknown): el is HTMLElement | SVGElement {
+export function isHTMLElement(el: unknown): el is HTMLElement {
   if (isBrowser) {
-    return el instanceof HTMLElement || el instanceof SVGElement;
+    return el instanceof HTMLElement;
   }
 
   return false;
