@@ -23,6 +23,10 @@ export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputEle
 
 interface MaskedInputState {
   value: string;
+
+  // Users can unmask value themselves. In these cases we take origin value length
+  originValue: string;
+
   emptyValue: string;
   focused: boolean;
 }
@@ -51,6 +55,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
     this.state = {
       value: this.getValue(props),
+      originValue: this.getValue(props),
       emptyValue: '',
       focused: false,
     };
@@ -95,15 +100,15 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       style,
       ...inputProps
     } = this.props;
-    const { emptyValue, value } = this.state;
+    const { emptyValue, value, originValue } = this.state;
 
     const leftHelper = style?.textAlign !== 'right' && (
-      <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
+      <span style={{ color: 'transparent' }}>{emptyValue.slice(0, originValue.length)}</span>
     );
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
 
     const rightHelper = emptyValue
-      .slice(value.length)
+      .slice(originValue.length)
       .split('')
       .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
 
@@ -156,7 +161,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     if (event.target.value === this.state.value) {
       this.handleUnexpectedInput();
     } else {
-      this.setState({ value: event.target.value });
+      this.setState({ value: event.target.value, originValue: event.target.value });
       if (this.props.onValueChange) {
         this.props.onValueChange(event.target.value);
       }
@@ -193,6 +198,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({
         value: newState.value,
+        originValue: newState.value,
       });
     }
 
