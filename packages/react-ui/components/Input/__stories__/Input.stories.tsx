@@ -1,9 +1,9 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Story } from '../../../typings/stories';
+import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input, InputSize } from '../Input';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -15,7 +15,14 @@ const styles = {
   padding: '5px',
 };
 
-export default { title: 'Input' };
+export default {
+  title: 'Input',
+  parameters: {
+    creevey: {
+      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    },
+  },
+} as Meta;
 
 export const InputsWithDifferentStates: Story = () => (
   <div>
@@ -449,53 +456,59 @@ export const PlaceholderAndMask = () => (
 );
 PlaceholderAndMask.storyName = 'Placeholder and Mask';
 
-export const InputWithPhoneMask: Story = () => (
+const testMaskedInput: CreeveyTests = {
+  async 'idle, focus, edit, blur'() {
+    const click = (css: string) => {
+      return this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css }));
+    };
+
+    const idle = await this.takeScreenshot();
+
+    await click('input').perform();
+    const focused = await this.takeScreenshot();
+
+    await click('input').sendKeys('953').perform();
+    const edited = await this.takeScreenshot();
+
+    await click('body').perform();
+    const blured = await this.takeScreenshot();
+
+    await this.expect({ idle, focused, edited, blured }).to.matchImages();
+  },
+};
+
+export const InputWithMask: Story = () => (
   <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
 );
-InputWithPhoneMask.storyName = 'Input with phone mask';
-
-InputWithPhoneMask.parameters = {
+InputWithMask.parameters = {
   creevey: {
-    tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async Focused() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
-      async Editing() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('9')
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Editing');
-      },
-      async Blured() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('9')
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Blured');
-      },
-    },
+    tests: testMaskedInput,
+  },
+};
+
+export const InputWithMaskAndCustomUnmaskedValue: Story = () => {
+  const [value, setValue] = useState('+795');
+
+  return (
+    <Input
+      width="150"
+      mask="+7 999 999-99-99"
+      maskChar={'_'}
+      placeholder="+7"
+      alwaysShowMask
+      value={value}
+      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
+    />
+  );
+};
+
+InputWithMaskAndCustomUnmaskedValue.parameters = {
+  creevey: {
+    tests: testMaskedInput,
   },
 };
 

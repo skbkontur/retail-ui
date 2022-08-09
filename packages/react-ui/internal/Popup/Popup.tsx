@@ -22,6 +22,7 @@ import { MobilePopup } from '../MobilePopup';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { isInstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -71,24 +72,24 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
   children: React.ReactNode | (() => React.ReactNode);
-  hasPin: boolean;
-  hasShadow: boolean;
-  disableAnimations: boolean;
+  hasPin?: boolean;
+  hasShadow?: boolean;
+  disableAnimations?: boolean;
   margin?: number;
   maxWidth?: number | string;
   opened: boolean;
   pinOffset?: number;
   pinSize?: number;
-  popupOffset: number;
+  popupOffset?: number;
   positions: Readonly<PopupPositionsType[]>;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
-  ignoreHover: boolean;
-  width: React.CSSProperties['width'];
+  useWrapper?: boolean;
+  ignoreHover?: boolean;
+  width?: React.CSSProperties['width'];
   /**
    * При очередном рендере пытаться сохранить первоначальную позицию попапа
    * (в числе числе, когда он выходит за пределы экрана, но может быть проскролен в него).
@@ -118,6 +119,13 @@ export const PopupDataTids = {
   contentInner: 'PopupContentInner',
   popupPin: 'PopupPin__root',
 } as const;
+
+type DefaultProps = Required<
+  Pick<
+    PopupProps,
+    'popupOffset' | 'hasPin' | 'hasShadow' | 'disableAnimations' | 'useWrapper' | 'ignoreHover' | 'width'
+  >
+>;
 
 @responsiveLayout
 @rootNode
@@ -186,7 +194,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     popupOffset: 0,
     hasPin: false,
     hasShadow: false,
@@ -195,6 +203,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     ignoreHover: false,
     width: 'auto',
   };
+
+  private getProps = createPropsGetter(Popup.defaultProps);
 
   // see #2873 and #2895
   public static readonly defaultRootNode = null;
@@ -285,7 +295,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private renderMain() {
     const { location } = this.state;
-    const { anchorElement, useWrapper } = this.props;
+    const { anchorElement } = this.props;
+    const useWrapper = this.getProps().useWrapper;
 
     let anchor: Nullable<React.ReactNode> = null;
     if (isHTMLElement(anchorElement)) {
@@ -393,7 +404,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private content = (children: React.ReactNode) => {
-    const { backgroundColor, width } = this.props;
+    const { backgroundColor } = this.props;
+    const width = this.getProps().width;
 
     return (
       <div className={styles.content(this.theme)} data-tid={PopupDataTids.content} ref={this.refForTransition}>
@@ -409,7 +421,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   };
 
   private renderContent(location: PopupLocation) {
-    const { disableAnimations, maxWidth, hasShadow, ignoreHover, opened } = this.props;
+    const { maxWidth, opened } = this.props;
+    const { hasShadow, disableAnimations, ignoreHover } = this.getProps();
     const children = this.renderChildren();
 
     const { direction } = PopupHelper.getPositionObject(location.position);
@@ -484,11 +497,12 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const isDefaultBorderColor = this.theme.popupBorderColor === POPUP_BORDER_DEFAULT_COLOR;
     const pinBorder = isIE11 && isDefaultBorderColor ? 'rgba(0, 0, 0, 0.09)' : this.theme.popupBorderColor;
 
-    const { pinSize, hasShadow, backgroundColor, borderColor } = this.props;
+    const { pinSize, backgroundColor, borderColor } = this.props;
+    const { hasShadow, hasPin } = this.getProps();
     const position = PopupHelper.getPositionObject(positionName);
 
     return (
-      this.props.hasPin && (
+      hasPin && (
         <PopupPin
           popupElement={this.lastPopupElement}
           popupPosition={positionName}
@@ -613,7 +627,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
   }
 
   private getPinnedPopupOffset(anchorRect: Rect, position: PositionObject) {
-    if (!this.props.hasPin || /center|middle/.test(position.align)) {
+    if (!this.getProps().hasPin || /center|middle/.test(position.align)) {
       return 0;
     }
 
@@ -634,7 +648,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         ? marginFromProps
         : parseInt(this.theme.popupMargin) || 0;
     const position = PopupHelper.getPositionObject(positionName);
-    const popupOffset = this.props.popupOffset + this.getPinnedPopupOffset(anchorRect, position);
+    const popupOffset = this.getProps().popupOffset + this.getPinnedPopupOffset(anchorRect, position);
 
     switch (position.direction) {
       case 'top':
