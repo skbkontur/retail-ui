@@ -504,7 +504,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     const trigger = this.getProps().trigger;
     if (
       (trigger === 'hover&focus' && this.state.focused) ||
-      (trigger === 'hover' && event instanceof MouseEvent && event.relatedTarget === this.contentElement)
+      (trigger === 'hover' && event.relatedTarget === this.contentElement)
     ) {
       return;
     }
