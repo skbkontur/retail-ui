@@ -26,15 +26,13 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   };
 };
 
-export const getScrollYOffset = (element: Element, container: Element) => {
-  // @ts-expect-error: needs to be replaced with getDOMRect. See IF-647
+export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) => {
   const elementTopOffset = element.offsetTop;
 
   if (container.scrollTop > elementTopOffset) {
     return elementTopOffset;
   }
 
-  // @ts-expect-error: needs to be replaced with getDOMRect. See IF-647
   const offset = elementTopOffset + element.scrollHeight - container.offsetHeight;
   if (container.scrollTop < offset) {
     return offset;
