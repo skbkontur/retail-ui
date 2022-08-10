@@ -800,7 +800,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         e.preventDefault();
         this.dispatch({
           type: 'SET_ACTIVE_TOKENS',
-          payload: selectedItems,
+          payload: selectedItems.filter((item) => !this.isTokenDisabled(selectedItems.indexOf(item))),
         });
         break;
     }
