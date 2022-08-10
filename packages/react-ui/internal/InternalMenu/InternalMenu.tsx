@@ -300,8 +300,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      // @ts-expect-error: `scrollTo` is unable to work with `Element` type. See IF-647
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+      const rootNode = getRootNode(this.highlighted);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
     }
   };
 
