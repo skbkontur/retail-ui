@@ -1070,15 +1070,19 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return renderedToken.props.disabled;
   };
 
-  private getAvailableTokenIndex = (isDirectionLeft: boolean, oldIndex: number) => {
-    const diff = +(isDirectionLeft ? -1 : +1);
-    let index = oldIndex + diff;
-    while (this.getProps().selectedItems[index + diff] && this.isTokenDisabled(index)) {
-      index = index + diff;
+  private getAvailableTokenIndex = (isDirectionLeft: boolean, startIndex: number) => {
+    const { selectedItems } = this.getProps();
+    const step = isDirectionLeft ? -1 : +1;
+    let availableIndex = startIndex + step;
+
+    while (this.isTokenDisabled(availableIndex)) {
+      availableIndex += step;
+
+      if (typeof selectedItems[availableIndex] === 'undefined') {
+        return startIndex;
+      }
     }
-    if (this.isTokenDisabled(index)) {
-      return oldIndex;
-    }
-    return index;
+
+    return availableIndex;
   };
 }
