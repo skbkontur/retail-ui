@@ -108,4 +108,22 @@ describe('CurrencyInput', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,00');
   });
+
+  describe.each([
+    ['Comma', '1,23'],
+    ['Period', '1,23'],
+    ['Slash', '1,23'],
+    ['Backslash', '1,23'],
+    ['IntlBackslash', '1,23'],
+    ['NumpadDivide', '1,23'],
+  ])('should applied [%s] as comma', (delimiter, expected) => {
+    test(`return: ${expected}`, async () => {
+      render(<CurrencyInputWithState />);
+      const input = screen.getByRole('textbox');
+      await userEvent.clear(input);
+      await userEvent.keyboard(`1[${delimiter}]23`, {});
+      await input.blur();
+      expect(input).toHaveValue(expected);
+    });
+  });
 });
