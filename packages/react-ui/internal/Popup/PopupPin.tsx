@@ -21,7 +21,7 @@ interface Props {
   borderColor: string;
   borderWidth: number;
   offset: number;
-  popupElement: Nullable<HTMLElement>;
+  popupElement: Nullable<Element>;
   popupPosition: string;
   size: number;
 }

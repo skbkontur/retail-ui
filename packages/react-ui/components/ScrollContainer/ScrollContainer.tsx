@@ -143,7 +143,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   /**
    * @public
-   * @param {HTMLElement} element
+   * @param {Element} element
    */
   public scrollTo(element: Nullable<HTMLElement>) {
     if (!element || !this.inner) {
