@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -44,11 +45,22 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
+export const InternalMenuDataTids = {
+  root: 'InternalMenu__root',
+} as const;
+
+type DefaultProps = Required<
+  Pick<
+    MenuProps,
+    'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'cyclicSelection' | 'initialSelectedItemIndex'
+  >
+>;
+
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -57,9 +69,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     initialSelectedItemIndex: -1,
   };
 
+  private getProps = createPropsGetter(InternalMenu.defaultProps);
+
   public state: MenuState = {
     highlightedIndex: -1,
-    maxHeight: this.props.maxHeight || 'none',
+    maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
   };
 
@@ -69,7 +83,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
-  private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -81,7 +94,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       this.calculateMaxHeight();
     }
 
-    if (prevProps.maxHeight !== this.props.maxHeight) {
+    if (prevProps.maxHeight !== this.getProps().maxHeight) {
       this.setState({
         maxHeight: this.props.maxHeight || 'none',
       });
@@ -111,15 +124,17 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
+    const { hasShadow, width, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
       <div
+        data-tid={InternalMenuDataTids.root}
         className={cx({
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.shadow(this.theme)]: hasShadow,
         })}
         style={{
-          width: this.props.width,
+          width,
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
@@ -129,8 +144,8 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
         {this.props.header ? this.renderHeader() : null}
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.props.maxHeight}
-          preventWindowScroll={this.props.preventWindowScroll}
+          maxHeight={maxHeight}
+          preventWindowScroll={preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
         >
           {React.Children.map(this.props.children, (child, index) => {
@@ -208,11 +223,15 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private focusOnRootElement = (): void => {
-    getRootNode(this)?.focus();
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
-    const { maxHeight, header, footer, children } = this.props;
+    const { header, footer, children } = this.props;
+    const maxHeight = this.getProps().maxHeight;
     const prevMaxHeight = prevProps.maxHeight;
     const prevHeader = prevProps.header;
     const prevFooter = prevProps.footer;
@@ -227,7 +246,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private calculateMaxHeight = () => {
-    const { maxHeight } = this.props;
+    const maxHeight = this.getProps().maxHeight;
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
@@ -281,7 +300,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+      const rootNode = getRootNode(this.highlighted);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
     }
   };
 
@@ -309,7 +332,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    getRootNode(this)?.focus();
+
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private unhighlight = () => {
@@ -325,7 +352,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       let index = state.highlightedIndex;
       do {
         index += step;
-        if (!props.cyclicSelection && (index < 0 || index > children.length)) {
+        if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
           return null;
         }
 

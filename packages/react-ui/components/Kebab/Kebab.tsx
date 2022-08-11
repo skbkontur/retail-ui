@@ -15,12 +15,13 @@ import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Kebab.styles';
 
 export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   disabled?: boolean;
-  size: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
   /**
    * Список позиций доступных для расположения выпадашки.
    *
@@ -29,12 +30,12 @@ export interface KebabProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' |
    * **Возможные значения**: `top left`, `top center`, `top right`, `right top`, `right middle`, `right bottom`, `bottom left`, `bottom center`, `bottom right`, `left top`, `left middle`, `left bottom`
    * @default ['bottom left', 'bottom right', 'top left', 'top right']
    */
-  positions: PopupPositionsType[];
+  positions?: PopupPositionsType[];
   menuMaxHeight?: number | string;
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Кастомная иконка
    */
@@ -46,13 +47,17 @@ export interface KebabState {
   focusedByTab: boolean;
 }
 
+type DefaultProps = Required<
+  Pick<KebabProps, 'onOpen' | 'onClose' | 'positions' | 'size' | 'disableAnimations' | 'icon'>
+>;
+
 @rootNode
 export class Kebab extends React.Component<KebabProps, KebabState> {
   public static __KONTUR_REACT_UI__ = 'Kebab';
 
   public static propTypes = {};
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     onOpen: () => undefined,
     onClose: () => undefined,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
@@ -60,6 +65,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
     disableAnimations: isTestEnv,
     icon: <MenuKebabIcon />,
   };
+
+  private getProps = createPropsGetter(Kebab.defaultProps);
 
   public state = {
     focusedByTab: false,
@@ -109,7 +116,8 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   }
 
   private renderMain() {
-    const { disabled, positions } = this.props;
+    const { disabled } = this.props;
+    const { positions, disableAnimations, onOpen, onClose } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
@@ -117,10 +125,10 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
           positions={positions}
           onChangeMenuState={this.handleChangeMenuState}
           caption={this.renderCaption}
-          disableAnimations={this.props.disableAnimations}
+          disableAnimations={disableAnimations}
           menuMaxHeight={this.props.menuMaxHeight}
-          onOpen={this.props.onOpen}
-          onClose={this.props.onClose}
+          onOpen={onOpen}
+          onClose={onClose}
         >
           {!disabled && this.props.children}
         </PopupMenu>
@@ -196,16 +204,17 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
   };
 
   private renderIcon() {
+    const { size, icon } = this.getProps();
     return (
       <div
         className={cx({
           [styles.icon()]: true,
-          [styles.iconsmall()]: this.props.size === 'small',
-          [styles.iconmedium()]: this.props.size === 'medium',
-          [styles.iconlarge()]: this.props.size === 'large',
+          [styles.iconsmall()]: size === 'small',
+          [styles.iconmedium()]: size === 'medium',
+          [styles.iconlarge()]: size === 'large',
         })}
       >
-        {this.props.icon}
+        {icon}
       </div>
     );
   }

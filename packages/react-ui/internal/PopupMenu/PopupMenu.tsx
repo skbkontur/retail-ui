@@ -14,6 +14,7 @@ import { Nullable } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { isValidPositions } from './validatePositions';
 import { styles } from './PopupMenu.styles';
@@ -54,7 +55,7 @@ export interface PopupMenuProps extends CommonProps {
   popupMargin?: number;
   popupPinOffset?: number;
   type?: 'dropdown' | 'tooltip';
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /** Действие при открытии меню */
   onOpen?: () => void;
   /** Действие при закрытии меню */
@@ -69,7 +70,12 @@ interface PopupMenuState {
 export const PopupMenuType = {
   Dropdown: 'dropdown',
   Tooltip: 'tooltip',
-};
+} as const;
+
+export const PopupMenuDataTids = {
+  root: 'PopupMenu__root',
+  caption: 'PopupMenu__caption',
+} as const;
 
 const Positions: PopupPositionsType[] = [
   'top left',
@@ -86,6 +92,8 @@ const Positions: PopupPositionsType[] = [
   'left bottom',
 ];
 
+type DefaultProps = Required<Pick<PopupMenuProps, 'positions' | 'type' | 'popupHasPin' | 'disableAnimations'>>;
+
 @rootNode
 @responsiveLayout
 export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
@@ -93,12 +101,14 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
   private isMobileLayout!: boolean;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     positions: Positions,
     type: PopupMenuType.Tooltip,
     popupHasPin: true,
     disableAnimations: false,
   };
+
+  private getProps = createPropsGetter(PopupMenu.defaultProps);
 
   public static Type = PopupMenuType;
 
@@ -113,6 +123,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private setRootNode!: TSetRootNode;
 
   public render() {
+    const { popupHasPin, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <RenderLayer
@@ -120,7 +131,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
           onFocusOutside={this.hideMenuWithoutFocusing}
           active={this.state.menuVisible}
         >
-          <div className={styles.container()} style={{ width: this.props.width }}>
+          <div data-tid={PopupMenuDataTids.root} className={styles.container()} style={{ width: this.props.width }}>
             {this.renderCaption()}
             {this.captionWrapper && this.props.children && (
               <Popup
@@ -128,10 +139,10 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
                 opened={this.state.menuVisible}
                 hasShadow
                 margin={this.props.popupMargin}
-                hasPin={this.props.popupHasPin}
+                hasPin={popupHasPin}
                 pinOffset={this.props.popupPinOffset}
                 positions={this.getPositions()}
-                disableAnimations={this.props.disableAnimations}
+                disableAnimations={disableAnimations}
                 onOpen={this.handleOpen}
                 mobileOnCloseRequest={this.hideMenu}
                 width={this.isMobileLayout ? 'auto' : this.props.menuWidth || 'auto'}
@@ -179,7 +190,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
       return (
         <span
-          data-tid="PopupMenu__caption"
+          data-tid={PopupMenuDataTids.caption}
           className={styles.caption()}
           ref={(element) => (this.captionWrapper = element)}
         >
@@ -190,7 +201,7 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
 
     return (
       <span
-        data-tid="PopupMenu__caption"
+        data-tid={PopupMenuDataTids.caption}
         onClick={this.handleCaptionClick}
         onKeyDown={this.handleCaptionKeyDown}
         ref={(element) => (this.captionWrapper = element)}
@@ -204,8 +215,9 @@ export class PopupMenu extends React.Component<PopupMenuProps, PopupMenuState> {
   private hideMenuWithoutFocusing = () => this.hideMenu();
 
   private getPositions(): Readonly<PopupPositionsType[]> {
-    if (this.props.positions && isValidPositions(this.props.positions)) {
-      return this.props.positions;
+    const positions = this.getProps().positions;
+    if (positions && isValidPositions(positions)) {
+      return positions;
     }
 
     return Positions;

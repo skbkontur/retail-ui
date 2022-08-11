@@ -1,6 +1,7 @@
 import React, { SyntheticEvent, useContext, useCallback, useImperativeHandle, useState } from 'react';
 import propTypes from 'prop-types';
 
+import { safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { HelpDotIcon } from '../../internal/icons/16px';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -8,7 +9,7 @@ import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 
-import { TextareaProps } from './Textarea';
+import { TextareaDataTids, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
 
 export type TextareaCounterProps = {
@@ -49,7 +50,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     );
 
     return (
-      <div className={styles.counterContainer(theme)} style={{ width, height }}>
+      <div data-tid={TextareaDataTids.counter} className={styles.counterContainer(theme)} style={{ width, height }}>
         <span
           className={cx(styles.counter(theme), {
             [styles.counterError(theme)]: counterValue < 0,
@@ -65,8 +66,8 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
 
 TextareaCounter.propTypes = {
   length: propTypes.number.isRequired,
-  value: propTypes.oneOf([propTypes.string, propTypes.number]),
-  help: propTypes.oneOf([propTypes.node, propTypes.func]),
+  value: propTypes.oneOfType([propTypes.string, propTypes.number]),
+  help: propTypes.oneOfType([propTypes.node, propTypes.func]),
   onCloseHelp: propTypes.func.isRequired,
-  textarea: propTypes.node.isRequired,
+  textarea: safePropTypesInstanceOf(() => HTMLElement).isRequired,
 };

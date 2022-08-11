@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { Sticky } from '../Sticky';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -15,6 +15,11 @@ export interface ModalHeaderProps extends CommonProps {
   sticky?: boolean;
   children?: ReactNode;
 }
+
+export const ModalHeaderDataTids = {
+  root: 'ModalHeader__root',
+} as const;
+
 /**
  * Шапка модального окна
  *
@@ -27,7 +32,7 @@ function ModalHeader(props: ModalHeaderProps) {
 
   const { sticky = !layout.isMobile, children } = props;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     modal.setHasHeader?.();
 
     return () => modal.setHasHeader?.(false);
@@ -36,6 +41,7 @@ function ModalHeader(props: ModalHeaderProps) {
   const renderContent = (fixed = false) => {
     return (
       <div
+        data-tid={ModalHeaderDataTids.root}
         className={cx({
           [styles.header(theme)]: true,
           [styles.mobileHeader(theme)]: layout.isMobile,

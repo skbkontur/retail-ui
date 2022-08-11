@@ -13,6 +13,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -25,6 +26,14 @@ export interface PasswordInputState {
   visible: boolean;
   capsLockEnabled?: boolean | null;
 }
+
+export const PasswordInputDataTids = {
+  root: 'PasswordInput',
+  capsLockDetector: 'PasswordInputCapsLockDetector',
+  eyeIcon: 'PasswordInputEyeIcon',
+} as const;
+
+type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
 
 /**
  * Компонент для ввода пароля
@@ -40,9 +49,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
+
+  private getProps = createPropsGetter(PasswordInput.defaultProps);
 
   public state: PasswordInputState = {
     visible: false,
@@ -158,7 +169,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
   };
 
   private getEyeWrapperClassname(right = false) {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);
       case 'medium':
@@ -174,9 +185,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
     return (
       <span className={styles.iconWrapper()}>
-        {capsLockEnabled && <span className={styles.capsLockDetector()} data-tid="PasswordInputCapsLockDetector" />}
+        {capsLockEnabled && (
+          <span className={styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
+        )}
         <span
-          data-tid="PasswordInputEyeIcon"
+          data-tid={PasswordInputDataTids.eyeIcon}
           className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
@@ -205,7 +218,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
     return (
       <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
-        <div className={styles.root()}>
+        <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>
       </RenderLayer>

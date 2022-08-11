@@ -8,6 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -45,13 +46,20 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
    * Vertical indicator
    * @default false
    */
-  vertical: boolean;
+  vertical?: boolean;
 
   /**
    * Width of tabs container
    */
   width?: number | string;
 }
+
+export const TabsDataTids = {
+  root: 'Tabs__root',
+  indicatorRoot: 'Indicator__root',
+} as const;
+
+type DefaultProps = Required<Pick<TabsProps, 'vertical'>>;
 
 /**
  * Tabs wrapper
@@ -69,9 +77,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     vertical: false,
   };
+
+  private getProps = createPropsGetter(Tabs.defaultProps);
 
   public static Tab = Tab;
 
@@ -92,15 +102,19 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
-    const { vertical, value, width, children, indicatorClassName } = this.props;
-
+    const { value, width, children, indicatorClassName } = this.props;
+    const vertical = this.getProps().vertical;
     return (
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-              <div className={cx(styles.root(this.theme), vertical && styles.vertical())} style={{ width }}>
+              <div
+                data-tid={TabsDataTids.root}
+                className={cx(styles.root(this.theme), vertical && styles.vertical())}
+                style={{ width }}
+              >
                 <TabsContext.Provider
                   value={{
                     vertical,
@@ -114,7 +128,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   }}
                 >
                   {children}
-                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+                  <Indicator
+                    className={indicatorClassName}
+                    tabUpdates={this.tabUpdates}
+                    vertical={this.getProps().vertical}
+                  />
                 </TabsContext.Provider>
               </div>
             </CommonWrapper>

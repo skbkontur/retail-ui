@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { isFunctionalComponent, DefaultizeProps } from '../lib/utils';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
 // TODO We should output state too
 const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNode => {
@@ -36,10 +37,12 @@ export type StateType<C> = C extends React.Component<any, infer S> | React.Compo
 export interface ComponentTableProps<C, P, S> {
   rows?: StatePropsCombinations<P, S>;
   cols?: StatePropsCombinations<P, S>;
-  presetProps: DefaultizeProps<C, P>;
-  presetState: Partial<S>;
+  presetProps?: DefaultizeProps<C, P>;
+  presetState?: Partial<S>;
   Component: C;
 }
+
+type DefaultProps<C, P, S> = Required<Pick<ComponentTableProps<C, P, S>, 'presetProps' | 'presetState'>>;
 
 // Known limitation: Don't work when component have `propTypes` static field
 export class ComponentTable<
@@ -49,10 +52,16 @@ export class ComponentTable<
 > extends React.Component<
   ComponentTableProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>
 > {
-  public static defaultProps = { presetProps: {}, presetState: {} };
+  public static defaultProps: DefaultProps<unknown, Record<string | number | symbol, unknown>, unknown> = {
+    presetProps: {},
+    presetState: {},
+  };
+
+  private getProps = createPropsGetter(ComponentTable.defaultProps);
 
   public render() {
-    const { rows = [], cols = [], presetProps, presetState, Component } = this.props;
+    const { rows = [], cols = [], Component } = this.props;
+    const { presetProps, presetState } = this.getProps();
     return (
       <table style={{ borderSpacing: 10, marginBottom: 20 }}>
         <caption style={{ captionSide: 'bottom' }}>{renderPropsDesc(presetProps)}</caption>

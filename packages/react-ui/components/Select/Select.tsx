@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, ReactPortal } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
@@ -57,6 +57,10 @@ const PASS_BUTTON_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
 };
+
+export const SelectDataTids = {
+  root: 'Select__root',
+} as const;
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
@@ -160,6 +164,10 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+type DefaultProps<TValue, TItem> = Required<
+  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use'>
+>;
+
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
@@ -189,7 +197,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
     renderValue,
     renderItem,
     areValuesEqual,
@@ -305,7 +313,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const root = (
-      <span className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })} style={style}>
+      <span
+        data-tid={SelectDataTids.root}
+        className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
+        style={style}
+      >
         {button}
         {this.getMenuRenderer()}
       </span>
@@ -356,7 +368,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getLeftIconClass(size: ButtonSize | undefined) {
-    if (this.props.use === 'link') {
+    if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
 
@@ -381,12 +393,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onKeyDown: params.onKeyDown,
       active: params.opened,
     };
+    const use = this.getProps().use;
 
     const labelProps = {
       className: cx({
-        [styles.label()]: this.props.use !== 'link',
+        [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,
-        [styles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+        [styles.customUsePlaceholder()]: params.isPlaceholder && use !== 'default',
         [styles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
@@ -394,7 +407,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       },
     };
 
-    const useIsCustom = this.props.use !== 'default';
+    const useIsCustom = use !== 'default';
 
     return (
       <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
@@ -525,7 +538,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             comment={comment}
             isMobile={isMobile}
           >
-            {this.getProps().renderItem<TValue, TItem>(iValue, item)}
+            {this.getProps().renderItem(iValue, item)}
           </MenuItem>
         );
       },
@@ -623,7 +636,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem<TValue>(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -650,7 +663,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
-    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual<TValue>(value1, value2);
+    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual(value1, value2);
   }
 
   private buttonRef = (element: FocusableReactElement | null) => {

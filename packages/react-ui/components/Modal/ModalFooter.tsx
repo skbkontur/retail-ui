@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect } from 'react';
+import React, { ReactNode, useContext, useLayoutEffect } from 'react';
 
 import { getScrollWidth } from '../../lib/dom/getScrollWidth';
 import { Sticky } from '../Sticky';
@@ -20,6 +20,10 @@ export interface ModalFooterProps extends CommonProps {
   children?: ReactNode;
 }
 
+export const ModalFooterDataTids = {
+  root: 'ModalFooter__root',
+} as const;
+
 /**
  * Футер модального окна.
  *
@@ -32,7 +36,7 @@ function ModalFooter(props: ModalFooterProps) {
 
   const { sticky = !layout.isMobile, panel, children } = props;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     modal.setHasFooter?.();
     modal.setHasPanel?.(panel);
 
@@ -45,6 +49,7 @@ function ModalFooter(props: ModalFooterProps) {
   const renderContent = (fixed = false) => {
     return (
       <div
+        data-tid={ModalFooterDataTids.root}
         className={cx({
           [styles.footer(theme)]: true,
           [styles.fixedFooter(theme)]: fixed,

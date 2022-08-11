@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 
 import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps, InputType } from '../Input';
+import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
-import { createPropsGetter } from '../../lib/createPropsGetter';
+import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -33,6 +33,13 @@ export interface FxInputProps
       }
     > {}
 
+export const FxInputDataTids = {
+  root: 'FxInput__root',
+} as const;
+
+type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value'>>;
+type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
+
 /** Принимает все свойства `Input`'a */
 @rootNode
 export class FxInput extends React.Component<FxInputProps> {
@@ -43,7 +50,7 @@ export class FxInput extends React.Component<FxInputProps> {
     type: PropTypes.string,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     width: 250,
     type: 'text',
     value: '',
@@ -56,14 +63,14 @@ export class FxInput extends React.Component<FxInputProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+      <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
         {this.renderMain}
       </CommonWrapper>
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<FxInputProps>) => {
-    const { type, onRestore, auto, refInput, ...rest } = props;
+  public renderMain = (props: CommonWrapperRestProps<DefaultizedFxInputProps>) => {
+    const { type, onRestore, auto, refInput, value, width, ...rest } = props;
     const inputProps: Partial<CurrencyInputProps> = {
       align: 'right',
     };
@@ -87,15 +94,15 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group width={this.props.width}>
+      <Group data-tid={FxInputDataTids.root} width={width}>
         {button}
-        {this.getProps().type === 'currency' ? (
+        {type === 'currency' ? (
           <CurrencyInput
             {...inputProps}
             {...rest}
             width={'100%'}
             ref={this.refInput}
-            value={this.props.value as CurrencyInputProps['value']}
+            value={value as CurrencyInputProps['value']}
             onValueChange={this.props.onValueChange as CurrencyInputProps['onValueChange']}
           />
         ) : (
@@ -104,8 +111,8 @@ export class FxInput extends React.Component<FxInputProps> {
             {...rest}
             width={'100%'}
             ref={this.refInput}
-            type={this.props.type as InputType}
-            value={this.props.value as InputProps['value']}
+            type={type}
+            value={value as InputProps['value']}
             onValueChange={this.props.onValueChange as InputProps['onValueChange']}
           />
         )}

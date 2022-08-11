@@ -27,6 +27,13 @@ export interface ToastProps extends CommonProps {
   onClose?: (notification: string, action?: Action) => void;
 }
 
+export const ToastDataTids = {
+  toastStatic: 'StaticToast',
+  toastView: 'ToastView__root',
+  action: 'ToastView__action',
+  close: 'ToastView__close',
+} as const;
+
 /**
  * Показывает уведомления.
  *
@@ -141,7 +148,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
-  private setRootRef = (element: Nullable<HTMLElement>) => {
+  private setRootRef = (element: Nullable<Element>) => {
     this.setRootNode(element);
     // @ts-ignore
     this.rootRef.current = element;

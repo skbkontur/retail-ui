@@ -30,7 +30,7 @@ const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
 
 SvgIcon.propTypes = {
   color: propTypes.string,
-  size: propTypes.oneOf([propTypes.string, propTypes.number]),
+  size: propTypes.oneOfType([propTypes.string, propTypes.number]),
   style: propTypes.object,
   children: propTypes.node,
 };
