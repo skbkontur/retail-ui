@@ -71,17 +71,6 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('opens after click by anchor', async () => {
-          const { anchor } = renderTooltip({ trigger: 'click' });
-
-          userEvent.click(anchor);
-          const content = screen.getByTestId(TooltipDataTids.content);
-
-          expect(content).toBeInTheDocument();
-        });
-      });
-
-      withVariousAnchors((renderTooltip) => {
         it('keeps open after second click by anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
@@ -604,7 +593,7 @@ describe('Tooltip', () => {
       wrapper.setProps({ trigger: 'click' });
       wrapper.setState({ opened: true });
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(1);
+      expect(wrapper.find(Content)).toHaveLength(1);
 
       clickOutside();
 
