@@ -23,7 +23,7 @@ export interface CommonProps {
 }
 
 interface CommonPropsRootNodeRef {
-  rootNodeRef?: (instance: Nullable<HTMLElement>) => void;
+  rootNodeRef?: (instance: Nullable<Element>) => void;
 }
 
 export type NotCommonProps<P> = Omit<P, keyof CommonProps>;
