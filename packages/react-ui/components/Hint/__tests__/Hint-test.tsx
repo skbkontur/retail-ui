@@ -1,36 +1,54 @@
-import { mount } from 'enzyme';
-import React from 'react';
+import React, { useState } from 'react';
+import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 
 import { Hint } from '../Hint';
 
 describe('Hint', () => {
-  it('render without crash', () => {
-    const wrapper = mount<Hint>(<Hint text="world">Hello</Hint>);
+  it('should render without crash', () => {
+    const hintChildrenText = 'Hello';
+    render(<Hint text="world">{hintChildrenText}</Hint>);
 
-    expect(wrapper).toHaveLength(1);
+    const hintChildren = screen.getByText(hintChildrenText);
+    expect(hintChildren).toBeInTheDocument();
   });
 
-  it('controlled opening only if manual prop passed', () => {
-    const wrapper = mount<Hint>(
-      <Hint opened text="world">
+  it('should not open be controlled manually without `manual` prop passed', () => {
+    const hintText = 'world';
+    render(
+      <Hint opened text={hintText}>
         Hello
       </Hint>,
     );
 
-    expect(wrapper.state('opened')).toBe(false);
+    const hintContent = screen.queryByText(hintText);
+    expect(hintContent).not.toBeInTheDocument();
   });
 
-  it('manual opening', () => {
-    const wrapper = mount<Hint>(
-      <Hint manual text="world">
-        Hello
-      </Hint>,
-    );
+  it('should open hint manually', () => {
+    const hintText = 'world';
+    const Component = () => {
+      const [isOpen, setIsOpen] = useState(false);
 
-    expect(wrapper.state('opened')).toBe(false);
+      return (
+        <>
+          <Hint opened={isOpen} manual text="world">
+            Hello
+          </Hint>
+          <button onClick={() => setIsOpen(true)}>open manually</button>
+        </>
+      );
+    };
 
-    wrapper.setProps({ opened: true });
+    render(<Component />);
 
-    expect(wrapper.state('opened')).toBe(true);
+    const hintContent = screen.queryByText(hintText);
+    expect(hintContent).not.toBeInTheDocument();
+
+    const openButton = screen.getByRole('button');
+    userEvent.click(openButton);
+
+    const hintContentUpdated = screen.getByText(hintText);
+    expect(hintContentUpdated).toBeInTheDocument();
   });
 });
