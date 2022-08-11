@@ -46,6 +46,35 @@ describe('<Input />', () => {
     expect(wrapper.find('input').prop('type')).toBe('password');
   });
 
+  it('passes props to input', () => {
+    const props = {
+      autoFocus: true,
+      disabled: true,
+      id: 'someId',
+      maxLength: 10,
+      placeholder: 'somePlaceholder',
+      title: 'someTitle',
+
+      onCopy: () => undefined,
+      onClick: () => undefined,
+      onMouseUp: () => undefined,
+      onMouseDown: () => undefined,
+      onCut: () => undefined,
+      onInput: () => undefined,
+      onKeyUp: () => undefined,
+      onPaste: () => undefined,
+    };
+    const inputProps = render({ ...props, value: 'hello' })
+      .find('input')
+      .props();
+
+    for (const prop in props) {
+      if (props[prop as keyof typeof props]) {
+        expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
+      }
+    }
+  });
+
   it('passes onMouse* props to label', () => {
     const props: Partial<InputProps> = {
       onMouseEnter: () => undefined,
