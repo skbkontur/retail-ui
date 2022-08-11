@@ -41,7 +41,7 @@ const unexpectedInputCases = [
 ];
 
 describe('Default combobox reducer', () => {
-  unexpectedInputCases.forEach(({ inputValue, items, valueToString }, index) => {
+  unexpectedInputCases.forEach(({ inputValue, items, valueToString }) => {
     it(`should call 'dispatch' after 'ValueChange' in 'Effect.unexpectedInput' with ${JSON.stringify(
       items[0],
     )}`, () => {
