@@ -9,7 +9,7 @@ type ValidationFunc<T> = (value: Nullable<T>) => Nullable<ValidationInfo>;
 interface ValidationProps<TValue> {
   required?: boolean;
   email?: boolean;
-  validations?: ValidationFunc<TValue>[];
+  validations?: Array<ValidationFunc<TValue>>;
   renderErrorMessage?: RenderErrorMessage;
 }
 

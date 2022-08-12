@@ -57,7 +57,7 @@ export class ValidationWrapperInternal extends React.Component<
 
   public isChanging = false;
   private child: any; // todo type
-  private rootNode: Nullable<HTMLElement>;
+  private rootNode: Nullable<Element>;
 
   public static contextType = ValidationContext;
   public context: ValidationContextType = this.context;
