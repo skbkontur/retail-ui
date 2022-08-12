@@ -10,6 +10,9 @@ import { Nullable } from '../../typings/utility-types';
 import { ButtonSize, ButtonUse } from '../Button';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { Theme } from '../../lib/theming/Theme';
 
 const PASS_PROPS = {
   _renderButton: true,
@@ -168,6 +171,7 @@ export class Dropdown extends React.Component<DropdownProps> {
 
   private _select: Nullable<DropdownSelectType>;
   private setRootNode!: TSetRootNode;
+  private theme!: Theme;
 
   public render() {
     return (
@@ -181,15 +185,31 @@ export class Dropdown extends React.Component<DropdownProps> {
     const items = React.Children.map(this.props.children, (item) => item) || [];
 
     return (
-      <Select<React.ReactNode, React.ReactNode>
-        data-tid={DropdownDataTids.root}
-        ref={this._refSelect}
-        {...filterProps(props, PASS_PROPS)}
-        value={caption}
-        items={items}
-        _icon={icon}
-        renderValue={renderValue}
-      />
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return (
+            <ThemeContext.Provider
+              value={ThemeFactory.create(
+                {
+                  btnDefaultBg: this.theme.dropdownDefaultBg,
+                },
+                this.theme,
+              )}
+            >
+              <Select<React.ReactNode, React.ReactNode>
+                data-tid={DropdownDataTids.root}
+                ref={this._refSelect}
+                {...filterProps(props, PASS_PROPS)}
+                value={caption}
+                items={items}
+                _icon={icon}
+                renderValue={renderValue}
+              />
+            </ThemeContext.Provider>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   };
 
