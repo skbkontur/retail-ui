@@ -1,10 +1,10 @@
-export type CustomMediaQueries = Record<string, string>;
+export type MediaQueriesType = Record<string, string>;
 
 export interface ResponsiveLayoutOptions {
-  customMediaQueries?: CustomMediaQueries;
+  customMediaQueries?: MediaQueriesType;
 }
 
-export type ResponsiveLayoutFlags<T extends Record<string, string>> = {
+export type ResponsiveLayoutFlags<T extends MediaQueriesType> = {
   [K in keyof T]: boolean;
 } &
   ResponsiveLayoutFlagsInternal;

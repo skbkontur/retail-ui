@@ -4,13 +4,13 @@ import propTypes from 'prop-types';
 import { isFunction } from '../../lib/utils';
 import { CommonWrapper } from '../../internal/CommonWrapper';
 
-import { CustomMediaQueries, ResponsiveLayoutFlags } from './types';
+import { MediaQueriesType, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
 interface ResponsiveLayoutProps<T extends Record<string, string>> {
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
-  customMediaQueries?: CustomMediaQueries;
+  customMediaQueries?: MediaQueriesType;
 }
 
 /**

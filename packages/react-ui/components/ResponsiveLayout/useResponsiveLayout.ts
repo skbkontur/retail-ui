@@ -41,9 +41,8 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
       return;
     }
 
-    Object.entries(allMediaQueries).forEach(
-      ([name, query], i) =>
-        (allMediaListeners[i].current = addResponsiveLayoutListener(query, checkLayoutsMediaQueries)),
+    Object.values(allMediaQueries).forEach(
+      (query, i) => (allMediaListeners[i].current = addResponsiveLayoutListener(query, checkLayoutsMediaQueries)),
     );
 
     // Checking for SSR use case
