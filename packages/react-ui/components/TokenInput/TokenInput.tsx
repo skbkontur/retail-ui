@@ -631,7 +631,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const tokens = paste.split(delimiters[0]);
       const items = tokens
         .map((token) => valueToItem(token))
-        .filter((item) => !this.hasValueInItems(selectedItems, item!));
+        .filter((item) => !this.hasValueInItems(selectedItems, item));
       const newItems = selectedItems.concat(items);
       onValueChange(newItems);
 
