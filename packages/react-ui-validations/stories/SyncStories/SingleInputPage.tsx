@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Gapped, Input, Select } from '@skbkontur/react-ui';
+import { createPropsGetter } from '@skbkontur/react-ui/lib/createPropsGetter';
 
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
@@ -17,16 +18,21 @@ interface SingleInputPageState {
   validation: ValidationState;
   focused: boolean;
 }
+
+type DefaultProps = Required<Pick<SingleInputPageProps, 'validationLevel'>>;
+
 export class SingleInputPage extends React.Component<SingleInputPageProps, SingleInputPageState> {
+  private getProps = createPropsGetter(SingleInputPage.defaultProps);
+
   public state: SingleInputPageState = {
     sending: false,
     value: this.props.initialValue || '',
-    level: this.props.validationLevel,
+    level: this.getProps().validationLevel,
     validation: 'none',
     focused: false,
   };
 
-  public static defaultProps: Partial<SingleInputPageProps> = {
+  public static defaultProps: DefaultProps = {
     validationLevel: 'error',
   };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import { delay } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
@@ -443,3 +444,23 @@ export const WithError = () => (
     </Gapped>
   </Gapped>
 );
+
+export const ShouldSetFocusOnPlaceholderClick: Story = () => {
+  return <DateInput />;
+};
+ShouldSetFocusOnPlaceholderClick.storyName = 'should set focus on placeholder click';
+ShouldSetFocusOnPlaceholderClick.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/ },
+    tests: {
+      async focused() {
+        const DateInputPlaceholder = this.browser.findElement({ css: '[data-tid~="DateFragmentsView__placeholder"]' });
+
+        await this.browser.actions({ bridge: true }).click(DateInputPlaceholder).perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { getDOMRect } from '../lib/dom/getDOMRect';
+import { createPropsGetter } from '../lib/createPropsGetter';
 
 export interface BGRulerProps {
   width?: string | number;
@@ -12,6 +13,8 @@ export interface BGRulerProps {
   color?: string;
 }
 
+type DefaultProps = Required<Pick<BGRulerProps, 'height' | 'top' | 'left' | 'right' | 'color'>>;
+
 /**
  * Компонент рисует пиксельную линейку на заднем фоне.
  * Помогает контролировать размеры элементов при скриншотном тестировании.
@@ -19,13 +22,15 @@ export interface BGRulerProps {
  * @see FxInput/__stories__/FxInput.stories.tsx
  */
 export class BGRuler extends React.Component<BGRulerProps> {
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     height: 20,
     top: 0,
     left: 0,
     right: 0,
     color: '#333',
   };
+
+  private getProps = createPropsGetter(BGRuler.defaultProps);
 
   private iframe: HTMLIFrameElement | null = null;
 
@@ -47,7 +52,8 @@ export class BGRuler extends React.Component<BGRulerProps> {
   };
 
   public render() {
-    const { width, height, color, top, bottom, left, right } = this.props;
+    const { width, bottom } = this.props;
+    const { height, top, left, right, color } = this.getProps();
     const wrapper: React.CSSProperties = {
       position: 'absolute',
       width,

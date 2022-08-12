@@ -94,7 +94,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
     return (
       <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
         {valueMask}
-        <span className={styles.mask(this.theme)}>
+        <span data-tid="DateFragmentsView__placeholder" className={styles.mask(this.theme)}>
           {Array(lengthMask)
             .fill('')
             .map((_, i) => (

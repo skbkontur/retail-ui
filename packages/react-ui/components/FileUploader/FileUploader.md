@@ -27,11 +27,18 @@ const request = () => Promise.reject();
 <FileUploader request={request} multiple />
 ```
 
+Использование `accept`
+```jsx harmony
+import { FileUploader } from '@skbkontur/react-ui';
+
+<FileUploader multiple accept="image/*" />
+```
+
 Валидация файла в списке
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
-<FileUploader multiple getFileValidationText={({originalFile}) => `У файла ${originalFile.name} неверный формат`} />
+<FileUploader multiple validateBeforeUpload={({originalFile}) => `У файла ${originalFile.name} неверный формат`} />
 ```
 
 Валидация контрола

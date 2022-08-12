@@ -5,7 +5,7 @@ import { CommonProps } from '../../internal/CommonWrapper';
 
 interface PagingDefaultComponentInterface {
   onClick: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 export type PagingDefaultComponentProps = PagingDefaultComponentInterface & Pick<CommonProps, 'className'>;

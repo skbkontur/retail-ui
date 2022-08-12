@@ -9,6 +9,7 @@ import { MenuHeaderProps } from '../MenuHeader';
 import { PopupPositionsType } from '../../internal/Popup';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
@@ -47,12 +48,14 @@ export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onO
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 }
 
 export const TooltipMenuDataTids = {
   root: 'TooltipMenu__root',
 } as const;
+
+type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
 
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент.
@@ -70,9 +73,12 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
   public static __KONTUR_REACT_UI__ = 'TooltipMenu';
   private setRootNode!: TSetRootNode;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
   };
+
+  private getProps = createPropsGetter(TooltipMenu.defaultProps);
+
   constructor(props: TooltipMenuProps) {
     super(props);
 
@@ -122,7 +128,7 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
           onOpen={this.props.onOpen}
           onClose={this.props.onClose}
           popupHasPin
-          disableAnimations={this.props.disableAnimations}
+          disableAnimations={this.getProps().disableAnimations}
         >
           {this.props.children}
         </PopupMenu>

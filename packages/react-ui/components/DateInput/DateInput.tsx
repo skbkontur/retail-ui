@@ -12,6 +12,7 @@ import { CalendarIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { DateFragmentsView } from './DateFragmentsView';
 import { styles } from './DateInput.styles';
@@ -28,7 +29,7 @@ export interface DateInputState {
 
 export interface DateInputProps extends CommonProps {
   autoFocus?: boolean;
-  value: string;
+  value?: string;
   /**
    * Состояние валидации при ошибке.
    */
@@ -42,12 +43,12 @@ export interface DateInputProps extends CommonProps {
    * Минимальная дата.
    * @default '01.01.1900'
    */
-  minDate: string;
+  minDate?: string;
   /**
    * Максимальная дата
    * @default '31.12.2099'
    */
-  maxDate: string;
+  maxDate?: string;
   /**
    * Ширина поля
    * @default 125
@@ -58,7 +59,7 @@ export interface DateInputProps extends CommonProps {
    * Размер поля
    * @default 'small'
    */
-  size: 'small' | 'large' | 'medium';
+  size?: 'small' | 'large' | 'medium';
   onBlur?: (x0: React.FocusEvent<HTMLElement>) => void;
   onClick?: (x0: React.MouseEvent<HTMLElement>) => void;
   onFocus?: (x0: React.FocusEvent<HTMLElement>) => void;
@@ -71,18 +72,22 @@ export interface DateInputProps extends CommonProps {
   onKeyDown?: (x0: React.KeyboardEvent<HTMLElement>) => void;
 }
 
+type DefaultProps = Required<Pick<DateInputProps, 'value' | 'minDate' | 'maxDate' | 'size' | 'width'>>;
+
 @rootNode
 @locale('DatePicker', DatePickerLocaleHelper)
 export class DateInput extends React.Component<DateInputProps, DateInputState> {
   public static __KONTUR_REACT_UI__ = 'DateInput';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     value: '',
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
     size: 'small',
     width: 125,
   };
+
+  private getProps = createPropsGetter(DateInput.defaultProps);
 
   private iDateMediator: InternalDateMediator = new InternalDateMediator();
   private inputLikeText: InputLikeText | null = null;
@@ -122,10 +127,11 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   public componentDidUpdate(prevProps: DateInputProps) {
+    const { value, minDate, maxDate } = this.getProps();
     if (
-      prevProps.value !== this.props.value ||
-      prevProps.minDate !== this.props.minDate ||
-      prevProps.maxDate !== this.props.maxDate ||
+      prevProps.value !== value ||
+      prevProps.minDate !== minDate ||
+      prevProps.maxDate !== maxDate ||
       this.iDateMediator.isChangedLocale(this.locale)
     ) {
       this.updateFromProps();
@@ -188,13 +194,14 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   private renderMain() {
     const { focused, selected, inputMode, valueFormatted } = this.state;
     const showValue = Boolean(focused || valueFormatted);
+    const { width, size } = this.getProps();
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <InputLikeText
-          width={this.props.width}
+          width={width}
           ref={this.inputLikeTextRef}
-          size={this.props.size}
+          size={size}
           disabled={this.props.disabled}
           error={this.props.error}
           warning={this.props.warning}
@@ -227,7 +234,8 @@ export class DateInput extends React.Component<DateInputProps, DateInputState> {
   }
 
   private renderIcon = () => {
-    const { withIcon, size, disabled = false } = this.props;
+    const { withIcon, disabled = false } = this.props;
+    const size = this.getProps().size;
 
     if (withIcon) {
       const theme = this.theme;
