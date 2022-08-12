@@ -1,6 +1,6 @@
 {
   "name": "react-ui-validations",
-  "version": "1.8.4",
+  "version": "1.9.1",
   "description": "Validations for @skbkontur/react-ui",
   "scripts": {
     "prebuild": "yarn clean",
@@ -9,7 +9,7 @@
     "build:retail-ui": "rollup --config rollup.retail-ui.config.js",
     "build:react-ui": "rollup --config rollup.react-ui.config.js",
     "build:docs": "cross-env NODE_ENV=production webpack --config webpack.docs.config.js",
-    "predeploy": "yarn bundle-dts && yarn prepare-packages",
+    "predeploy": "yarn bundle-dts && yarn prepare-packages && yarn test:pack",
     "bundle-dts": "node scripts/bundle-dts.js",
     "prepare-packages": "node scripts/prepare-packages.js",
     "deploy": "npm-run-all --continue-on-error deploy:*",
@@ -26,7 +26,8 @@
     "fix:eslint": "yarn lint:eslint --fix",
     "fix:prettier": "yarn prettier --write .",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:pack": "jest --testMatch ** --testPathPattern=\"scripts/check-pack-files.js\""
   },
   "main": "./index.js",
   "types": "./index.d.ts",

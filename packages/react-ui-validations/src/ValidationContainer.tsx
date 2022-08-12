@@ -1,8 +1,8 @@
 import React from 'react';
-import { createPropsGetter } from '@skbkontur/react-ui/lib/createPropsGetter';
 
 import { Nullable } from '../typings/Types';
 
+import { createPropsGetter } from './utils/createPropsGetter';
 import { isTestEnv } from './utils/utils';
 import { ValidationContextWrapper } from './ValidationContextWrapper';
 

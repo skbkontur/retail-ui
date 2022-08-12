@@ -1,6 +1,15 @@
 import * as Keyboard from '../../lib/events/keyboard/identifiers';
 import { KeyboardActionExctracterBuilder } from '../../lib/extractKeyboardAction';
 
+export const commaAliases = [
+  Keyboard.isCodeComma,
+  Keyboard.isCodePeriod,
+  Keyboard.isCodeSlash,
+  Keyboard.isCodeBackslash,
+  Keyboard.isCodeIntlBackslash,
+  Keyboard.isCodeNumpadDivide,
+];
+
 export const CURRENCY_INPUT_ACTIONS = {
   Unknown: 0,
   Ignore: 1,
@@ -19,6 +28,8 @@ export const CURRENCY_INPUT_ACTIONS = {
   Backspace: 31,
   Delete: 32,
   Submit: 33,
+
+  Comma: 34,
 };
 
 export const extractAction = new KeyboardActionExctracterBuilder()
@@ -35,4 +46,5 @@ export const extractAction = new KeyboardActionExctracterBuilder()
   .add(CURRENCY_INPUT_ACTIONS.Backspace, Keyboard.isKeyBackspace)
   .add(CURRENCY_INPUT_ACTIONS.Delete, Keyboard.isKeyDelete)
   .add(CURRENCY_INPUT_ACTIONS.Ignore, (e) => Keyboard.isModified()(e) || Keyboard.isKeyTab(e))
+  .add(CURRENCY_INPUT_ACTIONS.Comma, Keyboard.someKeys(...commaAliases))
   .build(CURRENCY_INPUT_ACTIONS.Unknown);
