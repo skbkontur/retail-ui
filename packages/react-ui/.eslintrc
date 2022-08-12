@@ -11,8 +11,6 @@
       ],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
-        // This rule controls that we import configured emotion from lib/theming/Emotion and not the library itself
-        "@emotion/no-vanilla": 2,
         "import/no-default-export": 0
       }
     }
