@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.6...@skbkontur/react-ui@3.12.7) (2022-08-12)
+
+
+### Bug Fixes
+
+* **Tooltip:** add event arg to onCloseRequest prop ([#2973](https://github.com/skbkontur/retail-ui/issues/2973)) ([591eb23](https://github.com/skbkontur/retail-ui/commit/591eb238b8db3763e7237a9624b5d477da3180c4)), closes [#2966](https://github.com/skbkontur/retail-ui/issues/2966)
+
+
+
+
+
 ## [3.12.6](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.5...@skbkontur/react-ui@3.12.6) (2022-08-03)
 
 
