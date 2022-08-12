@@ -13,9 +13,9 @@ export const isBrowser = typeof window !== 'undefined';
 
 export const canUseDOM = isBrowser && window.document && window.document.createElement;
 
-export function isHTMLElement(el: unknown): el is HTMLElement {
+export function isElement(el: unknown): el is Element {
   if (isBrowser) {
-    return el instanceof HTMLElement;
+    return el instanceof Element;
   }
 
   return false;
