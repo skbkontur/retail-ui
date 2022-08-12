@@ -42,9 +42,9 @@ const unexpectedInputCases = [
 
 describe('Default combobox reducer', () => {
   unexpectedInputCases.forEach(({ inputValue, items, valueToString }) => {
-    it(`should call 'dispatch' after 'ValueChange' in 'Effect.unexpectedInput' with ${JSON.stringify(
+    it(`should call 'dispatch' after 'ValueChange' in 'Effect.unexpectedInput' with value=${JSON.stringify(
       items[0],
-    )}`, () => {
+    )} and inputValue="${inputValue}"`, () => {
       const mockedGetProps = createGetPropsMock({ valueToString });
       const mockedDispatch = jest.fn();
       const mockedGetState = jest.fn();
