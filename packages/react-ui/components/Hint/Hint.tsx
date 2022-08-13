@@ -206,7 +206,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  public getAnchorElement = (): Nullable<HTMLElement> => {
+  public getAnchorElement = (): Nullable<Element> => {
     return this.popupRef.current?.anchorElement;
   };
 

@@ -3,7 +3,7 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
 export class DefaultTheme {
   //#region Common variables
-  public static fontFamilyCompensationBaseline = '0'; // deprecated
+  public static fontFamilyCompensationBaseline = '0px'; // deprecated
   public static labGrotesqueBaselineCompensation = '1';
   public static brandXLight = '#cae5f5';
   public static brandLight = '#3094d0';
@@ -831,7 +831,7 @@ export class DefaultTheme {
   public static pagingForwardIconMarginTop = '1px';
   public static pagingPageLinkPaddingX = '0.625em';
   public static pagingPageLinkPaddingY = '0.3125em';
-  public static pagingPageLinkLegacyPaddingY = '0';
+  public static pagingPageLinkLegacyPaddingY = '0px';
   public static pagingPageLinkMinWidth = '0.75em';
   public static pagingPageForwardLinkMarginTop = '0.35em';
   public static pagingPageForwardLinkMarginLeft = '10px';
@@ -918,7 +918,7 @@ export class DefaultTheme {
   public static menuBorder = 'none';
   public static menuShadow = '0 4px 12px rgba(0, 0, 0, 0.16)';
   public static menuPaddingY = '4px';
-  public static menuPaddingX = '0';
+  public static menuPaddingX = '0px';
   // menuItem
   public static get menuItemTextColor() {
     return this.textColorDefault;
@@ -1072,7 +1072,7 @@ export class DefaultTheme {
   public static get popupBackground() {
     return this.bgSecondary;
   }
-  public static popupPinOffset = '0'; // deprecated
+  public static popupPinOffset = '0px'; // deprecated
   public static popupPinOffsetX = '16px';
   public static popupPinOffsetY = '16px';
   public static popupMargin = '10px';
@@ -1635,8 +1635,8 @@ export class DefaultTheme {
   public static globalLoaderHeight = '4px';
   public static globalLoaderWidth = '100%';
   public static globalLoaderPosition = 'fixed';
-  public static globalLoaderTop = '0';
-  public static globalLoaderLeft = '0';
+  public static globalLoaderTop = '0px';
+  public static globalLoaderLeft = '0px';
   public static globalLoaderBottom = 'auto';
   public static globalLoaderRight = 'auto';
   public static globalLoaderBackgroundColor = 'transparent';

@@ -20,7 +20,7 @@ export interface DropdownContainerPosition {
 
 export interface DropdownContainerProps {
   align?: 'left' | 'right';
-  getParent: () => Nullable<HTMLElement>;
+  getParent: () => Nullable<Element>;
   children?: React.ReactNode;
   disablePortal?: boolean;
   offsetY?: number;
