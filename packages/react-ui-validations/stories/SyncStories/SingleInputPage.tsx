@@ -11,7 +11,6 @@ interface SingleInputPageProps {
   validationType: ValidationInfo['type'];
   validationLevel?: ValidationInfo['level'];
 }
-
 interface SingleInputPageState {
   sending: boolean;
   value: string;

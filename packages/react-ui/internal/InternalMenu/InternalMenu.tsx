@@ -293,7 +293,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (typeof originalRef === 'function') {
       originalRef(menuItem);
     } else if (typeof originalRef === 'object') {
-      // @ts-ignore see issue https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
+      // @ts-expect-error: See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065.
       originalRef.current = menuItem;
     }
   }

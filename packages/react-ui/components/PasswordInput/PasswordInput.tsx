@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -70,10 +72,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       this.setState({ capsLockEnabled: null });
     }
 
-    // @ts-ignore
+    // @ts-expect-error: IE-specific API.
     if (isIE11 && !window.document.msCapsLockWarningOff) {
+      // @ts-expect-error: Read the comment above.
       // turns off default ie capslock warning
-      // @ts-ignore
       window.document.msCapsLockWarningOff = true;
     }
   }
@@ -168,7 +170,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  private getEyeWrapperClassname(right = false) {
+  private getEyeWrapperClassname() {
     switch (this.getProps().size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);

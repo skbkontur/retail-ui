@@ -416,15 +416,17 @@ describe('FileUploader', () => {
 
       await addFiles(wrapper, [getFile(), getFile()]);
 
-      expect(getFilesList(wrapper).length).toBe(0);
+      expect(getFilesList(wrapper)).toHaveLength(0);
       expect(getBaseButtonContent(wrapper)).toBe(expectedText);
     };
 
+    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render files for multiple control', async () => {
       const wrapper = mount(<FileUploader multiple hideFiles />);
       await expectation(wrapper);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('shouldn"t render file for single control', async () => {
       const wrapper = mount(<FileUploader hideFiles />);
       await expectation(wrapper);

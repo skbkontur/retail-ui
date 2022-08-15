@@ -31,12 +31,12 @@ describe('<TokenInput />', () => {
     wrapper.find('textarea').simulate('focus');
     wrapper.find('textarea').simulate('change', { target: { value: inputValue } });
     wrapper.update();
-    expect(wrapper.find(TokenInputMenu).length).toBe(1);
+    expect(wrapper.find(TokenInputMenu)).toHaveLength(1);
     expect(wrapper.find('textarea').props().value).toBe(inputValue);
 
     wrapper.instance().reset();
     wrapper.update();
-    expect(wrapper.find(TokenInputMenu).length).toBe(0);
+    expect(wrapper.find(TokenInputMenu)).toHaveLength(0);
     expect(wrapper.find('textarea').props().value).toBe('');
   });
 
