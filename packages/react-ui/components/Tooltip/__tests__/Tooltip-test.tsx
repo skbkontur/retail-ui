@@ -71,17 +71,6 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('opens after click by anchor', async () => {
-          const { anchor } = renderTooltip({ trigger: 'click' });
-
-          userEvent.click(anchor);
-          const content = screen.getByTestId(TooltipDataTids.content);
-
-          expect(content).toBeInTheDocument();
-        });
-      });
-
-      withVariousAnchors((renderTooltip) => {
         it('keeps open after second click by anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
@@ -369,11 +358,11 @@ describe('Tooltip', () => {
     wrapper.update();
     wrapper.setProps({ refFn: refFn2 });
 
-    expect(refFn1.mock.calls.length).toBe(2);
+    expect(refFn1.mock.calls).toHaveLength(2);
     expect(refFn1.mock.calls[0][0]).toBeTruthy();
-    expect(refFn1.mock.calls[1][0]).toBe(null);
+    expect(refFn1.mock.calls[1][0]).toBeNull();
 
-    expect(refFn2.mock.calls.length).toBe(1);
+    expect(refFn2.mock.calls).toHaveLength(1);
     expect(refFn2.mock.calls[0][0]).toBe(wrapper.find('div').instance());
   });
 
@@ -393,8 +382,8 @@ describe('Tooltip', () => {
       </div>,
     );
 
-    expect(wrapper.find('#foo').find(selectorCross).length).toBe(1);
-    expect(wrapper.find('#bar').find(selectorCross).length).toBe(0);
+    expect(wrapper.find('#foo').find(selectorCross)).toHaveLength(1);
+    expect(wrapper.find('#bar').find(selectorCross)).toHaveLength(0);
   });
 
   it('calls `onCloseClick` when click on the cross', () => {
@@ -405,7 +394,7 @@ describe('Tooltip', () => {
       </Tooltip>,
     );
     wrapper.find(selectorCross).simulate('click');
-    expect(onClose.mock.calls.length).toBe(1);
+    expect(onClose.mock.calls).toHaveLength(1);
   });
 
   describe('calls `onOpen`', () => {
@@ -416,7 +405,7 @@ describe('Tooltip', () => {
           <div />
         </Tooltip>,
       );
-      expect(onOpen).toBeCalledTimes(1);
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
 
     it('with "focus" trigger', () => {
@@ -427,7 +416,7 @@ describe('Tooltip', () => {
         </Tooltip>,
       );
       wrapper.find(Popup).invoke('onOpen')?.();
-      expect(onOpen).toBeCalledTimes(1);
+      expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -451,7 +440,7 @@ describe('Tooltip', () => {
 
       clickOutside();
 
-      expect(onClose).toBeCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
 
     it('when trigger changes to "closed"', () => {
@@ -464,7 +453,7 @@ describe('Tooltip', () => {
       wrapper.setProps({ trigger: 'closed' });
       wrapper.update();
 
-      expect(onClose).toBeCalledTimes(1);
+      expect(onClose).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -488,11 +477,11 @@ describe('Tooltip', () => {
 
       tooltip.show();
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(1);
+      expect(wrapper.find(Content)).toHaveLength(1);
 
       tooltip.hide();
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(0);
+      expect(wrapper.find(Content)).toHaveLength(0);
     });
 
     it('when trigger is "opened"', () => {
@@ -500,7 +489,7 @@ describe('Tooltip', () => {
       wrapper.update();
       tooltip.hide();
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(1);
+      expect(wrapper.find(Content)).toHaveLength(1);
     });
 
     it('when trigger is "closed"', () => {
@@ -508,7 +497,7 @@ describe('Tooltip', () => {
       wrapper.update();
       tooltip.show();
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(0);
+      expect(wrapper.find(Content)).toHaveLength(0);
     });
   });
 
@@ -523,7 +512,7 @@ describe('Tooltip', () => {
       </Tooltip>,
     );
 
-    expect(wrapper.find(PureComponent).length).toBe(1);
+    expect(wrapper.find(PureComponent)).toHaveLength(1);
   });
 
   it('renders stateful children component without errors', () => {
@@ -539,7 +528,7 @@ describe('Tooltip', () => {
       </Tooltip>,
     );
 
-    expect(wrapper.find(StatefulComponent).length).toBe(1);
+    expect(wrapper.find(StatefulComponent)).toHaveLength(1);
   });
 
   it('reset opened state by `tigger="closed"` prop', () => {
@@ -551,18 +540,18 @@ describe('Tooltip', () => {
       </Tooltip>,
     );
 
-    expect(wrapper.find(Content).length).toBe(0);
+    expect(wrapper.find(Content)).toHaveLength(0);
 
     wrapper.setState({ opened: true });
     wrapper.update();
-    expect(wrapper.find(Content).length).toBe(1);
+    expect(wrapper.find(Content)).toHaveLength(1);
 
     wrapper.setProps({ trigger: 'closed' });
     wrapper.update();
-    expect(wrapper.find(Content).length).toBe(0);
+    expect(wrapper.find(Content)).toHaveLength(0);
 
     wrapper.setProps({ trigger: 'hover' });
-    expect(wrapper.find(Content).length).toBe(0);
+    expect(wrapper.find(Content)).toHaveLength(0);
   });
 
   describe('calls onCloseRequest on clickOutside when tooltip is opened', () => {
@@ -583,7 +572,7 @@ describe('Tooltip', () => {
       wrapper.setProps({ trigger: 'click' });
       wrapper.setState({ opened: true });
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(1);
+      expect(wrapper.find(Content)).toHaveLength(1);
 
       clickOutside();
 
@@ -593,7 +582,7 @@ describe('Tooltip', () => {
     it('with "opened" trigger', () => {
       wrapper.setProps({ trigger: 'opened' });
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(1);
+      expect(wrapper.find(Content)).toHaveLength(1);
 
       clickOutside();
 
@@ -604,7 +593,7 @@ describe('Tooltip', () => {
       wrapper.setProps({ trigger: 'click' });
       wrapper.setState({ opened: true });
       wrapper.update();
-      expect(wrapper.find(Content).length).toBe(1);
+      expect(wrapper.find(Content)).toHaveLength(1);
 
       clickOutside();
 
@@ -648,7 +637,7 @@ describe('Tooltip', () => {
         </Tooltip>,
       );
 
-      expect(findDOMNode).not.toBeCalled();
+      expect(findDOMNode).not.toHaveBeenCalled();
     });
 
     it('should not be called when closed', () => {
@@ -657,7 +646,7 @@ describe('Tooltip', () => {
           <Button />
         </Tooltip>,
       );
-      expect(findDOMNode).not.toBeCalled();
+      expect(findDOMNode).not.toHaveBeenCalled();
     });
 
     describe('should be called with not-refable children', () => {
@@ -669,7 +658,7 @@ describe('Tooltip', () => {
           </Tooltip>,
         );
 
-        expect(findDOMNode).toBeCalled();
+        expect(findDOMNode).toHaveBeenCalled();
       });
 
       it('class component without getRootNode', () => {
@@ -683,7 +672,7 @@ describe('Tooltip', () => {
           </Tooltip>,
         );
 
-        expect(findDOMNode).toBeCalled();
+        expect(findDOMNode).toHaveBeenCalled();
       });
     });
   });

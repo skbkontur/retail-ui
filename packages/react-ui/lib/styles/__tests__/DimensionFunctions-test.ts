@@ -55,6 +55,6 @@ describe('DimensionFunctions.shift helper', () => {
     expect(NaNValue).toBeNaN();
 
     const actual = shift('', '5');
-    expect(actual).toEqual('');
+    expect(actual).toBe('');
   });
 });

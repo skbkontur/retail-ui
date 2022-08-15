@@ -16,7 +16,7 @@ describe('MaskedInput', () => {
   ])('Mask %s - emptyValue %s', (mask, emptyValue) => {
     const wrapper = mount(<MaskedInput alwaysShowMask maskChar="_" mask={mask} />);
 
-    expect(wrapper.prop('value')).toBe(undefined);
+    expect(wrapper.prop('value')).toBeUndefined();
     expect(wrapper.state('emptyValue')).toBe(emptyValue);
   });
 

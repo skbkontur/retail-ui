@@ -1,13 +1,17 @@
 {
   "overrides": [
     {
-      "plugins": ["testing-library", "jest-dom", "@emotion"],
-      "extends": ["plugin:testing-library/dom", "plugin:jest-dom/recommended", "plugin:storybook/recommended"],
+      "plugins": ["testing-library", "jest-dom", "jest"],
+      "extends": [
+        "plugin:testing-library/dom",
+        "plugin:jest-dom/recommended",
+        "plugin:storybook/recommended",
+        "plugin:jest/recommended",
+        "plugin:jest/style"
+      ],
       "files": ["**/*.ts", "**/*.tsx"],
       "rules": {
-        "import/no-default-export": 0,
-        // This rule controls that we import configured emotion from lib/theming/Emotion and not the library itself
-        "@emotion/no-vanilla": 2
+        "import/no-default-export": 0
       }
     }
   ]
