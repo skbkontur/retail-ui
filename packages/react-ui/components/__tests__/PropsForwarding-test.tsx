@@ -179,7 +179,7 @@ describe('Props Forwarding', () => {
   });
 });
 
-export function isPublicComponent(component: any) {
+function isPublicComponent(component: any) {
   // it's either ClassComponent or FunctionalComponent with Kontur's mark
   return (
     typeof component === 'function' &&

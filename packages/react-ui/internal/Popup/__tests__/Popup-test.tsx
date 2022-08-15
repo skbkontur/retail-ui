@@ -153,7 +153,7 @@ describe('Popup', () => {
   });
 });
 
-describe('properly renders opened/closed states ', () => {
+describe('properly renders opened/closed states', () => {
   const closedPopupTree: ReactComponentLike[] = [
     ResponsiveLayout,
     CommonWrapper,

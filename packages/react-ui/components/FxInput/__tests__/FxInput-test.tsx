@@ -16,7 +16,7 @@ describe('FxInput', () => {
   buildMountAttachTarget();
 
   it('render without crash', () => {
-    render();
+    expect(render).not.toThrow();
   });
 
   it('programmatically set focus and blur', () => {
