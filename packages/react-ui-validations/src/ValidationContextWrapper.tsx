@@ -5,6 +5,7 @@ import { Nullable } from '../typings/Types';
 import { Validation, ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
+import { isEqual } from './ValidationHelper';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -132,12 +133,14 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
 
   public async validate(withoutFocus: boolean): Promise<boolean> {
     const currentValidation = this.childWrappers.map((x) => x.props.validation);
+    const validationHasNotChanged = this.validationsArraysEqual(this.previousValidation, currentValidation);
+
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
 
     const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => {
       const hasWarning = x.hasWarning();
       const hasError = x.hasError();
-      if (this.arraysEqual(this.previousValidation, currentValidation) && hasWarning && !hasError) {
+      if (validationHasNotChanged && hasWarning && !hasError) {
         return false;
       }
       return hasError || hasWarning;
@@ -164,21 +167,6 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     );
   }
 
-  private arraysEqual = (a1: Array<Nullable<Validation>>, a2: Array<Nullable<Validation>>): boolean =>
-    a1.length === a2.length && a1.every((o, idx) => this.objectsEqual(o, a2[idx]));
-
-  private objectsEqual = (object1: Nullable<Validation>, object2: Nullable<Validation>): boolean => {
-    if ((!object1 && object2) || (object1 && !object2)) {
-      return false;
-    }
-
-    if (object1 && object2) {
-      for (const key of Object.keys(object1)) {
-        if (object1[key as keyof Validation] !== object2[key as keyof Validation]) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
+  private validationsArraysEqual = (a1: Array<Nullable<Validation>>, a2: Array<Nullable<Validation>>): boolean =>
+    a1.length === a2.length && a1.every((o, idx) => isEqual(o, a2[idx]));
 }
