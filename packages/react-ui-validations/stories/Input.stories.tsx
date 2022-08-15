@@ -402,7 +402,7 @@ interface Example10State {
   isValid: boolean | null;
 }
 
-class Example10 extends React.Component<{}, Example10State> {
+class Example10 extends React.Component<Record<string, never>, Example10State> {
   container: ValidationContainer | null = null;
 
   state: Example10State = {
