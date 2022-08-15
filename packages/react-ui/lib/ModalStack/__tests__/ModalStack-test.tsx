@@ -2,6 +2,7 @@ import React from 'react';
 import { render, cleanup } from '@testing-library/react';
 
 import { Modal } from '../../../components/Modal';
+import { SidePage } from '../../../components/SidePage';
 import { globalThat } from '../../SSRSafe';
 
 const getStackInfo = () => globalThat.__ReactUIStackInfo;
@@ -24,35 +25,20 @@ describe('ModalStack', () => {
     render(
       <>
         <Modal />
-        <Modal />
-        <Modal />
+        <SidePage />
       </>,
     );
-    expect(getCountListener()).toBe(3);
+    expect(getCountListener()).toBe(2);
   });
 
   test('should clean listeners after unmount', () => {
     const { unmount } = render(
       <>
         <Modal />
-        <Modal />
-        <Modal />
+        <SidePage />
       </>,
     );
     unmount();
     expect(getCountListener()).toBe(0);
-  });
-
-  test('should clean listeners after unmount 1', () => {
-    class Modal_1 extends Modal {}
-    class Modal_2 extends Modal {}
-    render(
-      <>
-        <Modal_1 />
-        <Modal_2 />
-      </>,
-    );
-    const names = getStackInfo().mounted.map(({ constructor: { name } }) => name);
-    expect(names).toEqual(expect.arrayContaining(['Modal_1', 'Modal_2']));
   });
 });
