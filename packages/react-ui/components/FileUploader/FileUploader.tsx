@@ -114,7 +114,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
         }
       });
     },
-    [upload, validateBeforeUpload, isAsync],
+    [validateBeforeUpload, isAsync, upload, setFileValidationResult],
   );
 
   /** common part **/
@@ -177,7 +177,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [ref]);
+  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [
+    ref,
+    blur,
+    focus,
+    reset,
+  ]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

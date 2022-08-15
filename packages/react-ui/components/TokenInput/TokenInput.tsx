@@ -18,7 +18,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import { emptyHandler } from '../../lib/utils';
+import { AnyObject, emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
@@ -188,9 +188,9 @@ type DefaultProps<T> = Required<
   >
 >;
 
-const defaultToKey = <T extends {}>(item: T): string => item.toString();
-const identity = <T extends {}>(item: T): T => item;
-const defaultRenderToken = <T extends {}>(
+const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
+const identity = <T extends unknown>(item: T): T => item;
+const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
 ) => (
@@ -399,7 +399,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
+                anchorElement={menuAlign === 'cursor' ? this.input : this.wrapper}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
@@ -591,8 +591,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     this.dispatch({ type: 'SET_PREVENT_BLUR', payload: true });
     const target = event.target as HTMLElement;
-    const isClickOnToken =
-      target && this.wrapper?.contains(target) && target !== this.wrapper! && target !== this.input!;
+    const isClickOnToken = target && this.wrapper?.contains(target) && target !== this.wrapper && target !== this.input;
     if (!isClickOnToken) {
       this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     }
@@ -632,7 +631,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const tokens = paste.split(delimiters[0]);
       const items = tokens
         .map((token) => valueToItem(token))
-        .filter((item) => !this.hasValueInItems(selectedItems, item!));
+        .filter((item) => !this.hasValueInItems(selectedItems, item));
       const newItems = selectedItems.concat(items);
       onValueChange(newItems);
 
@@ -1019,7 +1018,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       }
     };
 
-    return renderToken(item, {
+    return renderToken(item as T & AnyObject, {
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 
+import { AnyObject } from '../../lib/utils';
 import * as ReactUI from '../../index';
 
 // all components that are available for import from the react-ui
@@ -47,10 +48,10 @@ jest.mock('invariant', () => (...args: any[]) => {
   }
 });
 
-const createWrapper = <T extends React.Component>(compName: string, initProps: object = {}) => {
+const createWrapper = <T extends React.Component>(compName: string, initProps: AnyObject = {}) => {
   const component = (ReactUI as any)[compName];
   const props = { ...(DEFAULT_PROPS as any)[compName], ...initProps };
-  return mount<T, {}, {}>(React.createElement(component, props));
+  return mount<T>(React.createElement(component, props));
 };
 
 describe('Props Forwarding', () => {
@@ -63,15 +64,15 @@ describe('Props Forwarding', () => {
         case 'Tooltip':
           return wrapper.find('Portal').last().getDOMNode();
         case 'Paging':
-          (wrapper as ReactWrapper<{}, {}, ReactUI.Paging>).setProps({ pagesCount: 3 });
+          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Paging>).setProps({ pagesCount: 3 });
           wrapper.update();
           return wrapper.getDOMNode();
         case 'Toast':
-          (wrapper as ReactWrapper<{}, {}, ReactUI.Toast>).instance().push('Tast');
+          (wrapper as ReactWrapper<unknown, unknown, ReactUI.Toast>).instance().push('Tast');
           wrapper.update();
           return wrapper.find('ToastView').getDOMNode();
         case 'GlobalLoader':
-          (wrapper as ReactWrapper<{}, {}, ReactUI.GlobalLoader>).setProps({ active: true });
+          (wrapper as ReactWrapper<unknown, unknown, ReactUI.GlobalLoader>).setProps({ active: true });
           wrapper.update();
           return wrapper.getDOMNode();
         default:

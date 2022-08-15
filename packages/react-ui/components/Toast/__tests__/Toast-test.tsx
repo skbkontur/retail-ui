@@ -31,7 +31,7 @@ describe('Toast', () => {
     expect(toast).toBeTruthy();
     const domNode = getRootNode(wrapper.instance() as Toast);
     expect(domNode).toBeInstanceOf(HTMLElement);
-    expect(domNode!).toHaveTextContent('message');
+    expect(domNode).toHaveTextContent('message');
   });
 
   it('hides message after interval', () => {
@@ -83,6 +83,6 @@ describe('Toast', () => {
 
     const toast = (wrapper.instance() as Toast)._toast;
 
-    expect(toast!.props.action).toEqual({ label: 'action', handler });
+    expect(toast?.props.action).toEqual({ label: 'action', handler });
   });
 });

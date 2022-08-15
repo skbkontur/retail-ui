@@ -29,7 +29,10 @@ const renderPropsDesc = <P extends Record<string, any>>(props: P): React.ReactNo
     ));
 };
 
-type StatePropsObject<P, S> = { props?: Partial<P>; state?: Partial<S> };
+interface StatePropsObject<P, S> {
+  props?: Partial<P>;
+  state?: Partial<S>;
+}
 export type StatePropsCombinations<P, S> = Array<StatePropsObject<P, S>>;
 
 export type StateType<C> = C extends React.Component<any, infer S> | React.ComponentClass<any, infer S> ? S : never;
@@ -81,8 +84,7 @@ export class ComponentTable<
               <td style={{ whiteSpace: 'nowrap' }}>{renderPropsDesc(rowProps)}</td>
               {cols.map(({ props: colProps = {}, state: colState = {} }, colIndex) => (
                 <td key={colIndex}>
-                  {/* Defaultized props incompatible with JSX.LibraryManagedAttributes so just ignore it
-                  // @ts-ignore */}
+                  {/* @ts-expect-error: Defaultized props incompatible with JSX.LibraryManagedAttributes so just ignore it */}
                   <Component
                     {...presetProps}
                     {...rowProps}

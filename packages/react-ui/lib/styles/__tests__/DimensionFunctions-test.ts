@@ -38,29 +38,23 @@ describe('DimensionFunctions.shift helper', () => {
   });
 
   test('does not shift falsy values', () => {
-    // @ts-ignore
+    // @ts-expect-error: wrong type of value used for testing purposes.
     const emptyString = shift(0, '5');
     expect(emptyString).toBe(0);
 
-    // @ts-ignore
+    // @ts-expect-error: wrong type of value used for testing purposes.
     const nullValue = shift(null, '5');
     expect(nullValue).toBeNull();
 
-    // @ts-ignore
+    // @ts-expect-error: wrong type of value used for testing purposes.
     const undefinedValue = shift(undefined, '5');
     expect(undefinedValue).toBeUndefined();
 
-    // @ts-ignore
+    // @ts-expect-error: wrong type of value used for testing purposes.
     const NaNValue = shift(NaN, '5');
     expect(NaNValue).toBeNaN();
 
     const actual = shift('', '5');
     expect(actual).toBe('');
-  });
-
-  test('does not shift if no shift passed', () => {
-    // @ts-ignore
-    const actual = shift('50px');
-    expect(actual).toBe('50px');
   });
 });

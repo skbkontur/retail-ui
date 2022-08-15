@@ -39,7 +39,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
     deprecated: false,
   };
   private getProps = createPropsGetter(VariableValue.defaultProps);
-  public state = {
+  public state: VariableValueState = {
     value: this.props.value,
     editing: false,
   };
