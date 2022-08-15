@@ -9,8 +9,8 @@ import { LocaleContext, LocaleContextProps } from '../../../lib/locale';
 
 type InitialDate = string;
 type PressedKeys = string[];
-type ChangedDate = string | boolean;
-type KeyDownCase = [InitialDate, PressedKeys, ChangedDate];
+type ChangedDate = string;
+type KeyDownCase = [InitialDate, PressedKeys, ChangedDate?];
 
 interface LocaleDateInputProps {
   propsDateInput: DefaultizeProps<typeof DateInput, DateInputProps>;
@@ -39,7 +39,7 @@ const getValue = (input: ReactWrapper) => input.text();
 describe('DateInput as InputlikeText', () => {
   describe('without min/max date', () => {
     it('renders', () => {
-      render({ value: '10.02.2017' });
+      expect(() => render({ value: '10.02.2017' })).not.toThrow();
     });
 
     it('renders with given valid value', () => {
@@ -171,43 +171,60 @@ describe('DateInput as InputlikeText', () => {
 
     const KeyDownCases: KeyDownCase[] = [
       // Date
+      ['12.09.2019', ['ArrowUp']],
+      ['31.02.2017', ['ArrowUp']],
+      ['05.02.2017', ['ArrowDown']],
+
+      // Month
+      ['07.12.2017', ['ArrowRight', 'ArrowUp']],
+      ['07.09.2019', ['ArrowRight', 'ArrowUp']],
+      ['22.08.2019', ['ArrowRight', 'ArrowUp']],
+      ['04.03.2017', ['ArrowRight', 'ArrowDown']],
+
+      // Year
+      ['10.09.2019', ['ArrowRight', 'ArrowRight', 'ArrowUp']],
+      ['10.12.2017', ['ArrowRight', 'ArrowRight', 'ArrowDown']],
+      ['10.12.2018', ['ArrowRight', 'ArrowRight', 'ArrowUp']],
+    ];
+
+    KeyDownCases.forEach(([initDate, keys]) => {
+      const keyString = keys.join(' > ');
+
+      it(`does not call onValueChange if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
+        const onValueChange = jest.fn();
+        const input = getInput(render({ value: initDate, onValueChange, minDate, maxDate }));
+        input.simulate('focus');
+        keys.forEach((key) => input.simulate('keydown', { key }));
+
+        expect(onValueChange).not.toHaveBeenCalled();
+      });
+    });
+
+    const KeyDownCasesWithExpected: KeyDownCase[] = [
+      // Date
       ['31.03.2017', ['ArrowUp'], '01.03.2017'],
-      ['12.09.2019', ['ArrowUp'], false],
-      ['31.02.2017', ['ArrowUp'], false],
-      ['05.02.2017', ['ArrowDown'], false],
       ['01.03.2017', ['ArrowDown'], '31.03.2017'],
 
       // Month
       ['07.12.2018', ['ArrowRight', 'ArrowUp'], '07.01.2018'],
-      ['07.12.2017', ['ArrowRight', 'ArrowUp'], false],
-      ['07.09.2019', ['ArrowRight', 'ArrowUp'], false],
-      ['22.08.2019', ['ArrowRight', 'ArrowUp'], false],
       ['07.01.2018', ['ArrowRight', 'ArrowDown'], '07.12.2018'],
-      ['04.03.2017', ['ArrowRight', 'ArrowDown'], false],
 
       // Year
-      ['10.09.2019', ['ArrowRight', 'ArrowRight', 'ArrowUp'], false],
-      ['10.12.2017', ['ArrowRight', 'ArrowRight', 'ArrowDown'], false],
       ['10.12.2018', ['ArrowRight', 'ArrowRight', 'ArrowDown'], '10.12.2017'],
-      ['10.12.2018', ['ArrowRight', 'ArrowRight', 'ArrowUp'], false],
     ];
 
-    KeyDownCases.forEach(([initDate, keys, expected]) => {
+    KeyDownCasesWithExpected.forEach(([initDate, keys, expected]) => {
       const keyString = keys.join(' > ');
-      const expectedDateStr = expected
-        ? 'calls onValueChange with ' + `"${expected}"`.padEnd(12, ' ')
-        : 'does not call onValueChange          ';
+      const expectedDateStr = 'calls onValueChange with ' + `"${expected}"`.padEnd(12, ' ');
+
       it(`${expectedDateStr} if value is "${initDate}", minDate is "${minDate}", maxDate is "${maxDate}" and pressed "${keyString}"`, () => {
         const onValueChange = jest.fn();
         const input = getInput(render({ value: initDate, onValueChange, minDate, maxDate }));
         input.simulate('focus');
         keys.forEach((key) => input.simulate('keydown', { key }));
-        if (expected) {
-          const [value] = onValueChange.mock.calls[0];
-          expect(value).toBe(expected);
-        } else {
-          expect(onValueChange).not.toHaveBeenCalled();
-        }
+        const [value] = onValueChange.mock.calls[0];
+
+        expect(value).toBe(expected);
       });
     });
   });

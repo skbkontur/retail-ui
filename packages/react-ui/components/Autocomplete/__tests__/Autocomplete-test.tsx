@@ -170,7 +170,7 @@ describe('<Autocomplete />', () => {
 
     clickOutside();
 
-    expect(handleBlur).not.toBeCalled();
+    expect(handleBlur).not.toHaveBeenCalled();
   });
 });
 

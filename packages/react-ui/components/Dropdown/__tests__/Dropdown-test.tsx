@@ -6,17 +6,17 @@ import { MenuItem } from '../../MenuItem';
 import { Select, SelectState } from '../../Select';
 
 describe('Dropdown', () => {
-  it('It renders', () => {
+  it('renders', () => {
     const wrapper = mount(
       <Dropdown caption="button">
         <MenuItem>Menu item</MenuItem>
       </Dropdown>,
     );
 
-    expect(wrapper.exists());
+    expect(wrapper.exists()).toBe(true);
   });
 
-  it('It opens and closes', () => {
+  it('opens and closes', () => {
     const caption = <span id="test-caption">Open</span>;
     const menuItem = <MenuItem>Menu item</MenuItem>;
     const wrapper = mount(<Dropdown caption={caption}>{menuItem}</Dropdown>);
