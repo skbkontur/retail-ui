@@ -42,7 +42,8 @@ describe('ValidationContainer', () => {
       );
       return containerRef;
     };
-    it('doesn`t get called if disabled', async () => {
+
+    it('doesn`t get called if it is disabled', async () => {
       const containerRef = renderValidationContainer(<Input />, { disableSmoothScroll: true });
 
       await containerRef.current?.submit();
@@ -50,7 +51,7 @@ describe('ValidationContainer', () => {
       expect(smoothScrollIntoView).not.toBeCalled();
     });
 
-    describe('gets called if not disabled for', () => {
+    describe('gets called if itsn`t disabled', () => {
       it.each([
         ['Input', <Input key="Input" />],
         ['TokenInput', <TokenInput type={TokenInputType.WithoutReference} key="TokenInput" />],
