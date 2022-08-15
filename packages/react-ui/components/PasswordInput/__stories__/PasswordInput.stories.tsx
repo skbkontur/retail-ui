@@ -7,9 +7,11 @@ import { Nullable } from '../../../typings/utility-types';
 interface ComponentProps {
   capsLockEnabled?: boolean;
 }
-
+interface ComponentState {
+  value: string;
+}
 class Component extends React.Component<ComponentProps> {
-  public state = {
+  public state: ComponentState = {
     value: '',
   };
 

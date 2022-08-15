@@ -28,7 +28,7 @@ RadioWithDifferentStates.parameters = {
 };
 
 export const Playground = () => {
-  class Comp extends React.Component<{}, any> {
+  class Comp extends React.Component {
     public state = {
       hovered: false,
       checked: false,

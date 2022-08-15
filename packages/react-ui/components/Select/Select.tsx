@@ -171,6 +171,8 @@ type DefaultProps<TValue, TItem> = Required<
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
+// Suggested solutions break current behavior
+// eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
 

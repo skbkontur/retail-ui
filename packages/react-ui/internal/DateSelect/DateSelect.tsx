@@ -443,7 +443,7 @@ export class DateSelect extends React.PureComponent<DateSelectProps, DateSelectS
   };
 
   private handleItemClick = (shift: number) => {
-    return (e: React.MouseEvent<HTMLElement>) => {
+    return () => {
       const value = this.props.value + shift;
       if (this.props.onValueChange) {
         this.props.onValueChange(value);

@@ -18,8 +18,7 @@ interface LostfocusIndependentValidationState {
   isValid: boolean | null;
   validation: ValidationState;
 }
-
-export class LostfocusIndependentValidation extends React.Component<{}, LostfocusIndependentValidationState> {
+export class LostfocusIndependentValidation extends React.Component {
   public state: LostfocusIndependentValidationState = {
     value1: '',
     value2: '',
@@ -94,7 +93,7 @@ export class LostfocusIndependentValidation extends React.Component<{}, Lostfocu
   private validateObject = createValidator<LostfocusIndependentValidationState['object']>((b) => {
     b.prop(
       (x) => x.value3,
-      (b, s) => {
+      (b) => {
         b.invalid((x) => !x, 'Не должно быть пустым', { independent: true });
         b.invalid((x) => !/^\d*$/.test(x), 'Только цифры', { independent: true });
       },
