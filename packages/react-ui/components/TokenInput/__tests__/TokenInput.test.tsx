@@ -184,7 +184,7 @@ describe('<TokenInput />', () => {
   });
 });
 
-export function TokenInputWithState() {
+function TokenInputWithState() {
   const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
   return (
     <TokenInput
