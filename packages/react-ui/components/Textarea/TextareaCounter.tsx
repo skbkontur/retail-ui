@@ -12,13 +12,13 @@ import { cx } from '../../lib/theming/Emotion';
 import { TextareaDataTids, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
 
-export type TextareaCounterProps = {
+export interface TextareaCounterProps {
   value: TextareaProps['value'];
   length: number;
   help: TextareaProps['counterHelp'];
   onCloseHelp: () => void;
   textarea: HTMLTextAreaElement;
-};
+}
 
 export interface TextareaCounterRef {
   reflow: () => void;

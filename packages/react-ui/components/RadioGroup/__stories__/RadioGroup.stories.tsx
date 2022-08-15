@@ -7,9 +7,13 @@ import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Nullable } from '../../../typings/utility-types';
 import { delay } from '../../../lib/utils';
+import { RadioGroupProps } from '..';
 
-class Component extends React.Component<any, any> {
-  public state = {
+interface ComponentState {
+  value: string;
+}
+class Component extends React.Component<RadioGroupProps<string>> {
+  public state: ComponentState = {
     value: '',
   };
 

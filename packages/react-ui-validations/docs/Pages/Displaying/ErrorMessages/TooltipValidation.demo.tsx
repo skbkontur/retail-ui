@@ -10,12 +10,12 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface TooltipValidationDemoState {
   value: string;
 }
 
-export default class TooltipValidationDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class TooltipValidationDemo extends React.Component {
+  public state: TooltipValidationDemoState = {
     value: '',
   };
 

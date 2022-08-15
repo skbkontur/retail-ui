@@ -1,7 +1,7 @@
 import React from 'react';
 import Argument from 'react-styleguidist/lib/client/rsg-components/Argument/ArgumentRenderer';
 
-class ErrorBoundary extends React.Component<any, { hasError: boolean }> {
+class ErrorBoundary extends React.Component {
   state = { hasError: false };
 
   static getDerivedStateFromError = () => ({ hasError: true });

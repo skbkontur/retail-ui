@@ -5,7 +5,7 @@ import { Button } from '../../components/Button';
 import { Hint } from '../../components/Hint';
 import { Toast } from '../../components/Toast';
 
-export class HintPlayground extends React.Component<{}, {}> {
+export class HintPlayground extends React.Component {
   public render() {
     return (
       <Gapped gap={10}>

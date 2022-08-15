@@ -40,7 +40,7 @@ export class ModalStack {
       remove: () => {
         // Backward compatible with versions using the `fbemitter` package.
         if ('remove' in fallbackFBEmitter) {
-          // @ts-ignore
+          // @ts-expect-error: `remove` is method of `ModalStack`.
           fallbackFBEmitter.remove();
           return;
         }
@@ -108,7 +108,7 @@ const isReactUIInstance = <T>(componentName: string) => {
 
     return (
       Object.prototype.hasOwnProperty.call(constructor, '__KONTUR_REACT_UI__') &&
-      // @ts-ignore
+      // @ts-expect-error: React doesn't know about existence of __KONTUR_REACT_UI__.
       constructor.__KONTUR_REACT_UI__ === componentName
     );
   };
