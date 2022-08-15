@@ -18,10 +18,6 @@ export interface StackInfo {
   mounted: React.Component[];
 }
 
-export interface GlobalWithStackInfo {
-  __ReactUIStackInfo?: StackInfo;
-}
-
 export interface ModalStackSubscription {
   remove: () => void;
 }
@@ -38,9 +34,7 @@ export class ModalStack {
     emitter.emit('change');
     return {
       remove: () => {
-        // Backward compatible with versions using the `fbemitter` package.
         if ('remove' in fallbackFBEmitter) {
-          // @ts-expect-error: `remove` is method of `ModalStack`.
           fallbackFBEmitter.remove();
           return;
         }

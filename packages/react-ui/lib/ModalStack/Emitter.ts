@@ -11,19 +11,36 @@ import EventEmitter from 'eventemitter3';
 
 // this code almost eliminates this risk because it adds compatibility with all later versions.
 
-export class Emitter extends EventEmitter {
-  // @ts-ignore
+export class Emitter {
+  public _emitter: EventEmitter;
+  constructor() {
+    this._emitter = new EventEmitter();
+  }
+
   public addListener = <T extends EventEmitter.EventNames<string | symbol>>(
     event: T,
     fn: EventEmitter.EventListener<string | symbol, T>,
-  ): FBEmitter => {
-    this.on(event, fn);
-    return new FBEmitter(() => this.removeListener(event, fn));
+  ): FallbackFBEmitter => {
+    this._emitter.addListener(event, fn);
+
+    return new FallbackFBEmitter(() => this.removeListener(event, fn));
+  };
+
+  public emit = <T extends EventEmitter.EventNames<string | symbol>>(event: T, ...args: unknown[]): boolean => {
+    return this._emitter.emit(event, ...args);
+  };
+
+  public removeListener = <T extends EventEmitter.EventNames<string | symbol>>(
+    event: T,
+    fn?: EventEmitter.EventListener<string | symbol, T>,
+  ): this => {
+    this._emitter.removeListener(event, fn);
+    return this;
   };
 }
 
 // Backward compatible with versions using the `fbemitter` package.
-export class FBEmitter extends Emitter {
+export class FallbackFBEmitter extends Emitter {
   constructor(public readonly remove: () => void) {
     super();
   }
