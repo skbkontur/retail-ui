@@ -429,7 +429,7 @@ describe('ComboBox', () => {
       { value: 1, label: 'one' },
       { value: 2, label: 'two' },
     ];
-    const check = async (wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>) => {
+    const check = async (wrapper: ReactWrapper<ComboBoxProps<any>, unknown, ComboBox<any>>) => {
       wrapper.find(ComboBoxView).prop('onFocus')?.();
       wrapper.update();
       expect(wrapper.find('input').prop('value')).toBe(VALUES[0].label);
@@ -577,7 +577,7 @@ describe('ComboBox', () => {
   });
 
   describe('open/close methods', () => {
-    let wrapper: ReactWrapper<ComboBoxProps<any>, {}, ComboBox<any>>;
+    let wrapper: ReactWrapper<ComboBoxProps<any>, unknown, ComboBox<any>>;
 
     beforeEach(() => {
       wrapper = mount<ComboBox<any>>(<ComboBox getItems={() => Promise.resolve([])} />);
@@ -606,7 +606,7 @@ describe('ComboBox', () => {
     const VALUE = { value: 1, label: 'one' };
     let getItems: jest.Mock<Promise<Array<typeof VALUE>>>;
     let promise: Promise<void>;
-    let wrapper: ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
+    let wrapper: ReactWrapper<ComboBoxProps<typeof VALUE>, unknown, ComboBox<typeof VALUE>>;
 
     beforeEach(() => {
       [getItems, promise] = searchFactory(Promise.resolve([VALUE]));
@@ -638,7 +638,7 @@ describe('ComboBox', () => {
     const ITEMS = ['one', 'two', 'three'];
     let search: jest.Mock<Promise<string[]>>;
     let promise: Promise<void>;
-    let wrapper: ReactWrapper<ComboBoxProps<string>, {}, ComboBox<string>>;
+    let wrapper: ReactWrapper<ComboBoxProps<string>, unknown, ComboBox<string>>;
     const onFocus = jest.fn();
     const onBlur = jest.fn();
 
@@ -696,7 +696,7 @@ describe('ComboBox', () => {
 
   describe('click on input', () => {
     const VALUE = { value: 1, label: 'one' };
-    type TComboBoxWrapper = ReactWrapper<ComboBoxProps<typeof VALUE>, {}, ComboBox<typeof VALUE>>;
+    type TComboBoxWrapper = ReactWrapper<ComboBoxProps<typeof VALUE>, unknown, ComboBox<typeof VALUE>>;
     const clickOnInput = (comboboxWrapper: TComboBoxWrapper) => {
       comboboxWrapper.update();
       comboboxWrapper.find('input').simulate('click');

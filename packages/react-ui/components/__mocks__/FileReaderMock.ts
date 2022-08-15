@@ -4,11 +4,13 @@ export class FileReaderMock {
   static errorMock() {
     const dummyFileReader = {
       readAsDataURL: () => {
-        // @ts-ignore
-        dummyFileReader?.onerror();
+        dummyFileReader.onerror();
+      },
+      onerror: () => {
+        return;
       },
     };
-    // @ts-ignore
+    // @ts-expect-error: Made for testing purposes.
     window.FileReader = jest.fn(() => dummyFileReader);
   }
 

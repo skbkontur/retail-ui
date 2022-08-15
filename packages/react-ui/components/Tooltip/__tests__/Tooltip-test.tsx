@@ -415,7 +415,7 @@ describe('Tooltip', () => {
           <div />
         </Tooltip>,
       );
-      wrapper.find(Popup).invoke('onOpen')!();
+      wrapper.find(Popup).invoke('onOpen')?.();
       expect(onOpen).toHaveBeenCalledTimes(1);
     });
   });
@@ -615,13 +615,13 @@ describe('Tooltip', () => {
     const instance = wrapper.instance();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const timer = setTimeout(() => {});
-    // @ts-ignore: private property
+    // @ts-expect-error: private property
     instance.hoverTimeout = timer;
 
     wrapper.unmount();
 
     expect(clearTimeout).toHaveBeenCalledWith(timer);
-    // @ts-ignore: private property
+    // @ts-expect-error: Use of private property.
     expect(instance.hoverTimeout).toBeNull();
   });
 

@@ -10,13 +10,8 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
-  name: string;
-  lastname: string;
-}
-
-export default class LostfocusDependentDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class LostfocusDependentDemo extends React.Component {
+  public state = {
     name: '',
     lastname: '',
   };

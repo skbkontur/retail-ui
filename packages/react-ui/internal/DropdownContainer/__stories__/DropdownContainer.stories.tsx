@@ -24,8 +24,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
       },
       async 'short Items scroll'() {
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const innerScroll: Element = window.document.querySelector('#inner-scroll');
+          const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
@@ -49,8 +48,7 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
           .perform();
         await delay(2000);
         await this.browser.executeScript(function () {
-          // @ts-ignore
-          const innerScroll: Element = window.document.querySelector('#inner-scroll');
+          const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
           innerScroll.scrollTop = innerScroll.scrollHeight;
           innerScroll.scrollLeft = innerScroll.scrollWidth;
         });
@@ -62,6 +60,10 @@ VariousAlignsPortalsItemsAndScrollsStory.parameters = {
   },
 };
 
+interface VariousAlignsPortalsItemsAndScrollsState {
+  shown: { [id: string]: boolean };
+  long: boolean;
+}
 type Align = 'left' | 'right';
 class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   public aligns: Align[] = ['left', 'right'];
@@ -72,10 +74,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
     [id: string]: DropdownWithToggle | null;
   } = {};
 
-  public state: {
-    shown: { [id: string]: boolean };
-    long: boolean;
-  } = {
+  public state: VariousAlignsPortalsItemsAndScrollsState = {
     shown: {},
     long: false,
   };
@@ -91,7 +90,7 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   }
 
   public toggle = (id: string, value: boolean) => {
-    this.setState((state: { shown: { [id: string]: boolean }; long: boolean }) => ({
+    this.setState((state: VariousAlignsPortalsItemsAndScrollsState) => ({
       shown: {
         ...state.shown,
         [id]: value,
@@ -182,9 +181,10 @@ class VariousAlignsPortalsItemsAndScrolls extends React.Component {
   };
 }
 
-class ScrollableContainer extends React.Component<{
+interface ScrollableContainerProps {
   id?: string;
-}> {
+}
+class ScrollableContainer extends React.Component<ScrollableContainerProps> {
   public render() {
     return (
       <div
@@ -202,10 +202,11 @@ class ScrollableContainer extends React.Component<{
   }
 }
 
-class ScrollMaker extends React.Component<{
+interface ScrollMakerProps {
   xScroll: number;
   yScroll: number;
-}> {
+}
+class ScrollMaker extends React.Component<ScrollMakerProps> {
   public static defaultProps = {
     xScroll: 100,
     yScroll: 100,
@@ -229,11 +230,12 @@ class ScrollMaker extends React.Component<{
   }
 }
 
-class Grid extends React.Component<{
+interface GridProps {
   rows: string[];
   cols: string[];
   children: (row: string, col: string) => React.ReactNode;
-}> {
+}
+class Grid extends React.Component<GridProps> {
   public static Row = class Row extends React.Component {
     public render() {
       return (
@@ -279,15 +281,16 @@ class Grid extends React.Component<{
   }
 }
 
-@rootNode
-class DropdownWithToggle extends React.Component<{
+interface DropdownWithToggleProps {
   show: boolean;
   onToggle: (value: boolean) => void;
   dropdownProps: {
     align: DropdownContainerProps['align'];
     disablePortal: DropdownContainerProps['disablePortal'];
   };
-}> {
+}
+@rootNode
+class DropdownWithToggle extends React.Component<DropdownWithToggleProps> {
   private setRootNode!: TSetRootNode;
 
   public render() {

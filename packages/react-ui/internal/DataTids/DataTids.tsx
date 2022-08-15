@@ -5,8 +5,12 @@ import { Select } from '../../components/Select';
 import { styles } from './DataTids.styles';
 import { componentsDataTids } from './componentsDataTids';
 
-export class DataTids extends React.Component<{}, { selectedValue: string }> {
-  public state = {
+interface DataTidsState {
+  selectedValue: string;
+}
+
+export class DataTids extends React.Component {
+  public state: DataTidsState = {
     selectedValue: 'все',
   };
 

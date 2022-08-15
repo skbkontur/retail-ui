@@ -8,9 +8,9 @@ import { getRootNode } from './getRootNode';
 
 export type TSetRootNode = (e: Nullable<React.ReactNode>) => void;
 
-export type TRootNodeSubscription = {
+export interface TRootNodeSubscription {
   remove: () => void;
-};
+}
 
 export interface InstanceWithRootNode {
   getRootNode: () => Nullable<Element>;

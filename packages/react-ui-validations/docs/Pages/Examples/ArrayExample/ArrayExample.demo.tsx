@@ -13,7 +13,7 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface ArrayExampleDemoState {
   values: string[];
 }
 
@@ -30,12 +30,12 @@ const validate = createValidator<string[]>((b, a) => {
       b.invalid((x) => !x, 'Укажите значение', 'submit');
       b.invalid((x) => !/^\d+$/.test(x), 'Только цифры');
       const d = getDuplicatesFor(a, i);
-      b.invalid((x) => !!d.length, 'Дубль со строками ' + d.map((x) => x + 1).join(', '));
+      b.invalid(() => !!d.length, 'Дубль со строками ' + d.map((x) => x + 1).join(', '));
     },
   );
 });
-export default class ArrayExampleDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class ArrayExampleDemo extends React.Component {
+  public state: ArrayExampleDemoState = {
     values: [''],
   };
 

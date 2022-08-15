@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
 import { isNonNullable } from '../../lib/utils';
@@ -355,7 +357,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
-  private handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+  private handleMouseDown = () => {
     this.frozen = true;
   };
 

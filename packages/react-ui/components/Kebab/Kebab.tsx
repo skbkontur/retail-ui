@@ -68,7 +68,7 @@ export class Kebab extends React.Component<KebabProps, KebabState> {
 
   private getProps = createPropsGetter(Kebab.defaultProps);
 
-  public state = {
+  public state: KebabState = {
     focusedByTab: false,
     anchor: null,
   };

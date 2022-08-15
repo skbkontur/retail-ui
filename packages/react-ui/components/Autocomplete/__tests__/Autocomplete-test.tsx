@@ -165,7 +165,8 @@ describe('<Autocomplete />', () => {
     const handleBlur = jest.fn();
     const props = { value: '', source: [], onValueChange: () => '' };
     const wrapper = mount<Autocomplete>(<Autocomplete {...props} />);
-    // @ts-ignore
+
+    // @ts-expect-error: Use of private property.
     wrapper.instance().handleBlur = handleBlur;
 
     clickOutside();
@@ -174,14 +175,8 @@ describe('<Autocomplete />', () => {
   });
 });
 
-interface UncontrolledAutocompleteState {
-  value: string;
-}
-
-class UncontrolledAutocomplete extends React.Component<
-  Omit<AutocompleteProps, 'value'>,
-  UncontrolledAutocompleteState
-> {
+type UncontrolledAutocompleteProps = Omit<AutocompleteProps, 'value'>;
+class UncontrolledAutocomplete extends React.Component<UncontrolledAutocompleteProps> {
   public static defaultProps = Autocomplete.defaultProps;
   public state = {
     value: '',

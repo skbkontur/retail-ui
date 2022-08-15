@@ -17,8 +17,7 @@ type Sex = 'male' | 'female';
 interface RadioGroupStoryState {
   sex: Nullable<Sex>;
 }
-
-class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
+class RadioGroupStory extends React.Component {
   public state: RadioGroupStoryState = {
     sex: null,
   };
@@ -56,7 +55,7 @@ class RadioGroupStory extends React.Component<{}, RadioGroupStoryState> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-class RadioGroupChildrenStory extends React.Component<{}, RadioGroupStoryState> {
+class RadioGroupChildrenStory extends React.Component {
   public state: RadioGroupStoryState = {
     sex: null,
   };

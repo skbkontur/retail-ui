@@ -1,18 +1,22 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
-import { Paging } from '../Paging';
+import { ItemComponentProps, Paging } from '../Paging';
 import { delay } from '../../../lib/utils';
+import { PagingProps } from '..';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
 dignissimos labore expedita. Sapiente beatae eveniet sit, similique,
 sunt corrupti deserunt ab eius nobis suscipit praesentium labore.
 Distinctio hic asperiores consequatur?`;
 
-class GoToAbsensePage extends Component<{}, any> {
-  public state = {
+interface GoToAbsensePageState {
+  activePage: number;
+}
+class GoToAbsensePage extends React.Component {
+  public state: GoToAbsensePageState = {
     activePage: 3,
   };
 
@@ -38,8 +42,14 @@ class GoToAbsensePage extends Component<{}, any> {
   };
 }
 
-class PagingWithState extends Component<any, any> {
-  public state = {
+interface PagingWithStateProps extends Partial<PagingProps> {
+  pagesCount: number;
+}
+interface PagingWithStateState {
+  activePage: number;
+}
+class PagingWithState extends React.Component<PagingWithStateProps> {
+  public state: PagingWithStateState = {
     activePage: 1,
   };
 
@@ -63,19 +73,30 @@ class PagingWithState extends Component<any, any> {
 
 const getPageFromHash = () => +document.location.hash.slice(1);
 
-const CustomComponent: React.SFC<any> = ({ active, pageNumber, ...props }) =>
-  Paging.isForward(pageNumber) ? (
-    <a href={'#' + (getPageFromHash() + 1)} {...props}>
-      {props.children}
-    </a>
-  ) : (
-    <a href={'#' + pageNumber} {...props}>
-      {props.children}
+const CustomComponent = ({ children, pageNumber, active, ...rest }: ItemComponentProps) => {
+  if (Paging.isForward(pageNumber)) {
+    return (
+      <a href={'#' + (getPageFromHash() + 1)} {...rest}>
+        {children}
+      </a>
+    );
+  }
+
+  return (
+    <a href={'#' + pageNumber} {...rest}>
+      {children}
     </a>
   );
+};
 
-class PagingWithCustomComponent extends Component<any, any> {
-  public state = {
+interface PagingWithCustomComponentProps {
+  pagesCount: number;
+}
+interface PagingWithCustomComponentState {
+  activePage: number;
+}
+class PagingWithCustomComponent extends React.Component<PagingWithCustomComponentProps> {
+  public state: PagingWithCustomComponentState = {
     activePage: 1,
   };
 
@@ -239,8 +260,11 @@ export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
 PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
-class Playground extends React.Component<{}, { useGlobalListener: boolean }> {
-  public state = {
+interface PlaygroundState {
+  useGlobalListener: boolean;
+}
+class Playground extends React.Component {
+  public state: PlaygroundState = {
     useGlobalListener: true,
   };
 

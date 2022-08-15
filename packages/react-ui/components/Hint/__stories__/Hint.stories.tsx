@@ -216,7 +216,7 @@ WithSVGIcon.parameters = {
 };
 
 @rootNode
-class CustomClassComponent extends React.Component<{}, {}> {
+class CustomClassComponent extends React.Component {
   private setRootNode!: TSetRootNode;
 
   render() {
