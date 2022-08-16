@@ -5,7 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [4.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.1...@skbkontur/react-ui@4.4.0) (2022-08-16)
 
-**Note:** Version bump only for package @skbkontur/react-ui
+**Note:** Version bump due significan refactoring
 
 
 

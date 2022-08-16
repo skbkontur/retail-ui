@@ -5,7 +5,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # [1.10.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.9.1...react-ui-validations@1.10.0) (2022-08-16)
 
-**Note:** Version bump only for package react-ui-validations
+**Note:** Version bump due significan refactoring
 
 
 
