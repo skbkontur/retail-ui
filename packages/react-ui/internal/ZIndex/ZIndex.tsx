@@ -31,8 +31,12 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   contextOnly?: boolean;
 }
 
+interface ZIndexState {
+  zIndex: number;
+}
+
 @rootNode
-export class ZIndex extends React.Component<ZIndexProps> {
+export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
   public static defaultProps = {
@@ -43,6 +47,10 @@ export class ZIndex extends React.Component<ZIndexProps> {
     coverChildren: false,
     createStackingContext: false,
     contextOnly: false,
+  };
+
+  public state = {
+    zIndex: 0,
   };
 
   public static propTypes = {
@@ -56,28 +64,22 @@ export class ZIndex extends React.Component<ZIndexProps> {
     },
   };
 
-  private zIndex = 0;
-
   private setRootNode!: TSetRootNode;
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = incrementZIndex(props.priority, props.delta);
+    this.state.zIndex = incrementZIndex(props.priority, props.delta);
   }
 
   public componentDidUpdate(prevProps: Readonly<ZIndexProps>) {
     if (prevProps.priority !== this.props.priority || prevProps.delta !== this.props.delta) {
-      const newZIndex = incrementZIndex(this.props.priority, this.props.delta);
-      if (this.zIndex !== newZIndex) {
-        removeZIndex(this.zIndex);
-        this.zIndex = newZIndex;
-        this.forceUpdate();
-      }
+      removeZIndex(this.state.zIndex);
+      this.setState({ zIndex: incrementZIndex(this.props.priority, this.props.delta) });
     }
   }
 
   public componentWillUnmount() {
-    removeZIndex(this.zIndex);
+    removeZIndex(this.state.zIndex);
   }
 
   public render() {
@@ -137,7 +139,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
   };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
-    let newZIndex = this.zIndex;
+    let newZIndex = this.state.zIndex;
 
     if (Number.isFinite(maxZIndex)) {
       const allowedValuesIntervalLength = maxZIndex - parentLayerZIndex;
