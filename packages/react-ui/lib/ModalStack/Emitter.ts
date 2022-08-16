@@ -23,14 +23,15 @@ export class Emitter {
   ): FallbackFBEmitter => {
     this._emitter.addListener(event, fn);
 
-    return new FallbackFBEmitter(() => this.removeListener(event, fn));
+    return new FallbackFBEmitter(() => this.removeListener?.(event, fn));
   };
 
   public emit = <T extends EventEmitter.EventNames<string | symbol>>(event: T, ...args: unknown[]): boolean => {
     return this._emitter.emit(event, ...args);
   };
 
-  public removeListener = <T extends EventEmitter.EventNames<string | symbol>>(
+  // Method is optional because it is not present in `fbemitter`
+  public removeListener? = <T extends EventEmitter.EventNames<string | symbol>>(
     event: T,
     fn?: EventEmitter.EventListener<string | symbol, T>,
   ): this => {
@@ -41,7 +42,8 @@ export class Emitter {
 
 // Backward compatible with versions using the `fbemitter` package.
 export class FallbackFBEmitter extends Emitter {
-  constructor(public readonly remove: () => void) {
+  // Method is optional because it is not present in `eventemitter3`
+  constructor(public readonly remove?: () => void) {
     super();
   }
 }

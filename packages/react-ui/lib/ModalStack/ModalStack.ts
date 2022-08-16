@@ -4,17 +4,10 @@ import { SidePageProps } from '../../components/SidePage';
 import { ModalProps } from '../../components/Modal';
 import { globalThat } from '../SSRSafe';
 
-import { Emitter } from './Emitter';
-
-type Handler = () => void;
-type Event = Handler | Handler[] | undefined;
-
-interface Events {
-  _events?: { [name: string]: Event };
-}
+import { Emitter, FallbackFBEmitter } from './Emitter';
 
 export interface StackInfo {
-  emitter: Events & Emitter;
+  emitter: Emitter | FallbackFBEmitter;
   mounted: React.Component[];
 }
 
@@ -34,12 +27,15 @@ export class ModalStack {
     emitter.emit('change');
     return {
       remove: () => {
-        if ('remove' in fallbackFBEmitter) {
-          fallbackFBEmitter.remove();
+        // First, try calling `eventemitter3` method
+        if (typeof emitter.removeListener === 'function') {
+          emitter.removeListener('change', changeHandler);
           return;
         }
-
-        emitter.removeListener('change', changeHandler);
+        // Second, try calling `fbemitter` fallback method
+        if (typeof fallbackFBEmitter.remove === 'function') {
+          fallbackFBEmitter.remove();
+        }
       },
     };
   }
