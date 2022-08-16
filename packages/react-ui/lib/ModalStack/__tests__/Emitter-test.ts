@@ -32,14 +32,14 @@ describe('Emitter', () => {
     const emitter = new Emitter();
     const fn = () => null;
     emitter.addListener('change', fn);
-    emitter.removeListener('change', fn);
+    emitter.removeListener?.('change', fn);
     expect(getCountListeners(emitter)).toBe(0);
   });
 
   test('should clean listener by `remove()`', () => {
     const emitter = new Emitter();
     const fallbackFBEmitter = emitter.addListener('change', () => null);
-    fallbackFBEmitter.remove();
+    fallbackFBEmitter.remove?.();
     expect(getCountListeners(emitter)).toBe(0);
   });
 });
