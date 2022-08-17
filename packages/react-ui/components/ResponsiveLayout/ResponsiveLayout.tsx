@@ -7,7 +7,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { MediaQueriesType, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
-interface ResponsiveLayoutProps<T extends Record<string, string>> {
+interface ResponsiveLayoutProps<T extends MediaQueriesType> {
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
   customMediaQueries?: MediaQueriesType;
@@ -17,7 +17,7 @@ interface ResponsiveLayoutProps<T extends Record<string, string>> {
  * Компонент для определения текущего лэйаута.
  */
 
-export function ResponsiveLayout<T extends Record<string, string>>(props: ResponsiveLayoutProps<T>) {
+export function ResponsiveLayout<T extends MediaQueriesType>(props: ResponsiveLayoutProps<T>) {
   const layoutFlags = useResponsiveLayout<T>({ customMediaQueries: props.customMediaQueries });
 
   useEffect(() => {

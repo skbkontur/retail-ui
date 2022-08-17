@@ -5,7 +5,7 @@ export interface ResponsiveLayoutOptions {
 }
 
 export type ResponsiveLayoutFlags<T extends MediaQueriesType> = {
-  [K in keyof T]: boolean;
+  [K in keyof T]?: boolean;
 } &
   ResponsiveLayoutFlagsInternal;
 

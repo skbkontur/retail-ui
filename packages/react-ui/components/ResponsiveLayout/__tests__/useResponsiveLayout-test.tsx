@@ -3,10 +3,10 @@ import { render } from '@testing-library/react';
 
 import { eventListenersMap } from '../ResponsiveLayoutEvents';
 import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsiveLayout';
-import { ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
+import {MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions} from '../types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
-function getUseResponsiveLayoutResult<T extends Record<string, string>>(options: ResponsiveLayoutOptions) {
+function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: ResponsiveLayoutOptions) {
   const useResponsiveLayout = () => {
     return useResponsiveLayoutOrigin<T>(options);
   };

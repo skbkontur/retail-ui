@@ -2,47 +2,38 @@ import React, { createRef, useCallback, useContext, useEffect, useState } from '
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
+import { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
-export function useResponsiveLayout<T extends Record<string, string>>(options?: ResponsiveLayoutOptions) {
+export function useResponsiveLayout<T extends MediaQueriesType>({ customMediaQueries }: ResponsiveLayoutOptions = {}) {
   const theme = useContext(ThemeContext);
 
+  const allMediaQueries = Object.entries({
+    isMobile: theme.mobileMediaQuery,
+    ...customMediaQueries,
+  }).map(([key, value]) => ({
+    flag: key,
+    query: value,
+    ref: createRef() as React.MutableRefObject<{ remove: () => void } | null>,
+  }));
+
   const getLayoutFromGlobal = (): ResponsiveLayoutFlags<T> => {
-    const isMobile = checkMatches(theme.mobileMediaQuery);
-    const defaultResult = { isMobile: !!isMobile };
-    if (!options?.customMediaQueries) {
-      return defaultResult as ResponsiveLayoutFlags<T>;
-    }
-    const customQueries: Record<string, boolean> = Object.entries(options.customMediaQueries).reduce(
-      (result, [name, query]) => Object.assign(result, { [name]: checkMatches(query) }),
+    return allMediaQueries.reduce(
+      (result, mediaQuery) => Object.assign(result, { [mediaQuery.flag]: checkMatches(mediaQuery.query) }),
       {},
-    );
-
-    return Object.assign(defaultResult, customQueries) as ResponsiveLayoutFlags<T>;
-  };
-
-  const getAllMediaQueries = (): Record<string, string> => {
-    const defaultMediaQueries = { isMobile: theme.mobileMediaQuery };
-    if (options?.customMediaQueries) {
-      return Object.assign(defaultMediaQueries, options.customMediaQueries);
-    }
-    return defaultMediaQueries;
+    ) as ResponsiveLayoutFlags<T>;
   };
 
   const [state, setState] = useState(getLayoutFromGlobal());
-
-  const allMediaQueries = getAllMediaQueries();
-  const allMediaListeners: Array<React.MutableRefObject<{ remove: () => void } | null>> = [];
-  Object.values(allMediaQueries).forEach((_) => allMediaListeners.push(createRef()));
 
   const prepareMediaQueries = useCallback(() => {
     if (!theme) {
       return;
     }
 
-    Object.values(allMediaQueries).forEach(
-      (query, i) => (allMediaListeners[i].current = addResponsiveLayoutListener(query, checkLayoutsMediaQueries)),
+    allMediaQueries.forEach(
+      (mediaQuery, i) =>
+        (mediaQuery.ref.current = addResponsiveLayoutListener(mediaQuery.query, checkLayoutsMediaQueries)),
     );
 
     // Checking for SSR use case
@@ -60,11 +51,11 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
         return;
       }
 
-      Object.entries(allMediaQueries).forEach(([name, query]) => {
-        if (e.media === query) {
+      allMediaQueries.forEach((mediaQuery) => {
+        if (e.media === mediaQuery.query) {
           setState((prevState: ResponsiveLayoutFlags<T>) => ({
             ...prevState,
-            [name]: e.matches,
+            [mediaQuery.flag]: e.matches,
           }));
         }
       });
@@ -76,7 +67,7 @@ export function useResponsiveLayout<T extends Record<string, string>>(options?: 
     prepareMediaQueries();
 
     return () => {
-      allMediaListeners.forEach((listener) => listener.current?.remove());
+      allMediaQueries.forEach((mediaQuery) => mediaQuery.ref.current?.remove());
     };
   }, []);
 

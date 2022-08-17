@@ -1,11 +1,11 @@
 import React from 'react';
 
 import { ResponsiveLayout } from './ResponsiveLayout';
-import { ResponsiveLayoutFlags } from './types';
+import {MediaQueriesType, ResponsiveLayoutFlags} from './types';
 
 export function responsiveLayout<
   T extends new (...args: any[]) => React.Component,
-  O extends Record<string, string> = {},
+  O extends MediaQueriesType = {},
 >(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
     public layout!: ResponsiveLayoutFlags<O>;
