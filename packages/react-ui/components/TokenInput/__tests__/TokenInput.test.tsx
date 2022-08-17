@@ -184,12 +184,13 @@ describe('<TokenInput />', () => {
   });
 
   it('should not throw an error on getting out of bounds', async () => {
-    render(<TokenInputWithState disabledToken={'xxx'} />);
+    render(<TokenInputWithState disabledToken={'zzz'} />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
+    await userEvent.keyboard('[ArrowLeft>3]');
     expect(async () => {
-      await userEvent.keyboard('[ArrowLeft>4]');
-    }).not.toThrow();
+      await userEvent.keyboard('[ArrowRight>4]');
+    }).not.toThrow(TypeError);
   });
 });
 
