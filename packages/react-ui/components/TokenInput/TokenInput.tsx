@@ -738,7 +738,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
-          const index = this.getAvailableTokenIndex(true, this.getProps().selectedItems.length);
+          const index = this.getAvailableTokenIndex(this.getProps().selectedItems.length);
           const itemNew = this.getProps().selectedItems[index];
           if (itemNew) {
             this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
@@ -810,7 +810,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const selectedItems = this.getProps().selectedItems;
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = selectedItems.indexOf(activeTokens[0]);
-    const newItemIndex = this.getAvailableTokenIndex(isKeyArrowLeft(e), activeItemIndex);
+    const newItemIndex = this.getAvailableTokenIndex(activeItemIndex, isKeyArrowLeft(e));
     const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
     const isRightEdge = newItemIndex === selectedItems.length && isKeyArrowRight(e);
     if (!e.shiftKey && activeTokens.length === 1) {
@@ -1071,7 +1071,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     return renderedToken.props.disabled;
   };
 
-  private getAvailableTokenIndex = (isDirectionLeft: boolean, startIndex: number) => {
+  private getAvailableTokenIndex = (startIndex: number, isDirectionLeft = true) => {
     const { selectedItems } = this.getProps();
     const step = isDirectionLeft ? -1 : +1;
     let availableIndex = startIndex + step;
