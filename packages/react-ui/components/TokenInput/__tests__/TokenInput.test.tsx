@@ -168,7 +168,7 @@ describe('<TokenInput />', () => {
   });
 
   it('should delete Token with Backspace', async () => {
-    render(<TokenInputWithState />);
+    render(<TokenInputWithState disabledToken={'yyy'} />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
     await userEvent.keyboard('[Backspace>2]');
@@ -176,15 +176,24 @@ describe('<TokenInput />', () => {
   });
 
   it('should not delete disabled Token with Backspace', async () => {
-    render(<TokenInputWithState />);
+    render(<TokenInputWithState disabledToken={'yyy'} />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
     await userEvent.keyboard('[Backspace>4]');
     expect(screen.getByText('yyy')).toBeInTheDocument();
   });
+
+  it('should not throw an error on getting out of bounds', async () => {
+    render(<TokenInputWithState disabledToken={'xxx'} />);
+    const input = screen.getByRole('textbox');
+    await userEvent.click(input);
+    expect(async () => {
+      await userEvent.keyboard('[ArrowLeft>4]');
+    }).not.toThrow();
+  });
 });
 
-function TokenInputWithState() {
+function TokenInputWithState(props: { disabledToken: string }) {
   const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
   return (
     <TokenInput
@@ -193,7 +202,7 @@ function TokenInputWithState() {
       selectedItems={selectedItems}
       onValueChange={setSelectedItems}
       renderToken={(item, tokenProps) => (
-        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === 'yyy'}>
+        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === props.disabledToken}>
           {item}
         </Token>
       )}
