@@ -812,7 +812,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const activeItemIndex = selectedItems.indexOf(activeTokens[0]);
     const newItemIndex = this.getAvailableTokenIndex(isKeyArrowLeft(e), activeItemIndex);
     const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
-    const isRightEdge = activeItemIndex === selectedItems.length - 1 && isKeyArrowRight(e);
+    const isRightEdge = newItemIndex === selectedItems.length && isKeyArrowRight(e);
     if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {
@@ -1061,6 +1061,8 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     let renderedToken;
     if (this.memoizedTokens.has(itemIndex)) {
       renderedToken = this.memoizedTokens.get(itemIndex);
+    } else if (itemIndex < 0 || itemIndex > this.getProps().selectedItems.length - 1) {
+      return false;
     } else {
       renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
         TokenInputProps<unknown>
@@ -1076,8 +1078,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     while (this.isTokenDisabled(availableIndex)) {
       availableIndex += step;
-
-      if (typeof selectedItems[availableIndex] === 'undefined') {
+      if (availableIndex === selectedItems.length) {
+        return availableIndex;
+      } else if (availableIndex === -1) {
         return startIndex;
       }
     }
