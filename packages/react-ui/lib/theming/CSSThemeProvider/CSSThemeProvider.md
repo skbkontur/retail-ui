@@ -8,7 +8,7 @@ const myTheme = ThemeFactory.create({
   bgDefault: 'red',
 }, DEFAULT_THEME);
 
-<CSSThemeProvider>
+<CSSThemeProvider value={myTheme}>
   <div style={{
     width: 100,
     height: 100,
@@ -24,7 +24,7 @@ const myTheme = ThemeFactory.create({
   bgDefault: 'red',
 }, DEFAULT_THEME);
 
-<CSSThemeProvider.Global />
+<CSSThemeProvider.Global value={myTheme} />
 <div style={{
   width: 100,
   height: 100,
