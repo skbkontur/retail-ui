@@ -3,10 +3,10 @@ import { render } from '@testing-library/react';
 
 import { eventListenersMap } from '../ResponsiveLayoutEvents';
 import { useResponsiveLayout as useResponsiveLayoutOrigin } from '../useResponsiveLayout';
-import {MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions} from '../types';
+import { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from '../types';
 import { DEFAULT_THEME } from '../../../lib/theming/themes/DefaultTheme';
 
-function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: ResponsiveLayoutOptions) {
+function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: ResponsiveLayoutOptions<T>) {
   const useResponsiveLayout = () => {
     return useResponsiveLayoutOrigin<T>(options);
   };
@@ -19,34 +19,40 @@ function getUseResponsiveLayoutResult<T extends MediaQueriesType>(options: Respo
   return result as ResponsiveLayoutFlags<T>;
 }
 describe('useResponsiveLayoutCustomization', () => {
-  const calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  let calcMatches = (query: string) => query === DEFAULT_THEME.mobileMediaQuery;
+  const oldMatchMedia = window.matchMedia;
+  const matchMediaMock = jest.fn().mockImplementation((query) => {
+    return {
+      matches: calcMatches(query),
+      media: query,
+      onchange: null,
+      addListener: jest.fn(),
+      removeListener: jest.fn(),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    };
+  });
 
   beforeEach(() => {
-    Object.defineProperty(window, 'matchMedia', {
-      writable: true,
-      value: jest.fn().mockImplementation((query) => ({
-        matches: calcMatches(query),
-        media: query,
-        onchange: null,
-        addListener: jest.fn(),
-        removeListener: jest.fn(),
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      })),
-    });
+    window.matchMedia = matchMediaMock;
+  });
+
+  afterEach(() => {
+    window.matchMedia = oldMatchMedia;
   });
 
   it('has added custom media queries', () => {
     const customMediaQueries = {
       isTablet: '(min-width: 577px)',
-      isDesktop: '(min-width: 1280px)',
     };
+
+    calcMatches = (query: string) => query === customMediaQueries.isTablet;
     const result = getUseResponsiveLayoutResult<typeof customMediaQueries>({ customMediaQueries });
 
-    expect(result.isMobile).toBeTruthy();
-    expect(result.isTablet).toBeFalsy();
-    expect(result.isDesktop).toBeFalsy();
+    expect(result.isMobile).toBeFalsy();
+    expect(result.isTablet).toBeTruthy();
+    expect(matchMediaMock).toBeCalledWith(customMediaQueries.isTablet);
+    expect(matchMediaMock).toBeCalledWith(DEFAULT_THEME.mobileMediaQuery);
   });
 
   it('rewrite result custom media queries', () => {
@@ -56,6 +62,7 @@ describe('useResponsiveLayoutCustomization', () => {
     const result = getUseResponsiveLayoutResult<typeof customMediaQueries>({ customMediaQueries });
 
     expect(result.isMobile).toBeFalsy();
+    expect(matchMediaMock).toBeCalledWith(customMediaQueries.isMobile);
   });
 });
 

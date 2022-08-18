@@ -2,10 +2,12 @@ import React, { createRef, useCallback, useContext, useEffect, useState } from '
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
+import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
-export function useResponsiveLayout<T extends MediaQueriesType>({ customMediaQueries }: ResponsiveLayoutOptions = {}) {
+export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
+  customMediaQueries,
+}: ResponsiveLayoutOptions<T> = {}) {
   const theme = useContext(ThemeContext);
 
   const allMediaQueries = Object.entries({

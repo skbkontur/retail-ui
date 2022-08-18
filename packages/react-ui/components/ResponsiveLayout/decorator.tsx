@@ -1,20 +1,17 @@
 import React from 'react';
 
 import { ResponsiveLayout } from './ResponsiveLayout';
-import {MediaQueriesType, ResponsiveLayoutFlags} from './types';
+import { ResponsiveLayoutFlags } from './types';
 
-export function responsiveLayout<
-  T extends new (...args: any[]) => React.Component,
-  O extends MediaQueriesType = {},
->(WrappedComp: T) {
+export function responsiveLayout<T extends new (...args: any[]) => React.Component>(WrappedComp: T) {
   const ComponentWithLayout = class extends WrappedComp {
-    public layout!: ResponsiveLayoutFlags<O>;
+    public layout!: ResponsiveLayoutFlags;
 
-    public get currentLayout(): ResponsiveLayoutFlags<O> {
+    public get currentLayout(): ResponsiveLayoutFlags {
       return this.layout;
     }
 
-    public set currentLayout(value: ResponsiveLayoutFlags<O>) {
+    public set currentLayout(value: ResponsiveLayoutFlags) {
       //
     }
 
@@ -26,7 +23,7 @@ export function responsiveLayout<
       //
     }
 
-    public renderWithLayout = (currentLayout: ResponsiveLayoutFlags<O>) => {
+    public renderWithLayout = (currentLayout: ResponsiveLayoutFlags) => {
       this.layout = currentLayout;
 
       return super.render();
