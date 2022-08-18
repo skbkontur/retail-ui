@@ -34,6 +34,7 @@ export const styles = memoizeStyle({
       padding-bottom: ${t.radioPaddingY};
       display: inline-flex;
       align-items: baseline;
+      border-collapse: separate;
       line-height: ${t.radioLineHeight};
       font-size: ${t.radioFontSize};
 
