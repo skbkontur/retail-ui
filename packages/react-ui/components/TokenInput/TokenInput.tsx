@@ -708,7 +708,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         }
       }
     }
-
+    const isRightmostTokenNotDisabled = !this.isTokenDisabled(this.getProps().selectedItems.length - 1);
     switch (true) {
       case isKeyEnter(e):
         if (this.menuRef) {
@@ -732,7 +732,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode && !this.isTokenDisabled(this.getProps().selectedItems.length - 1)) {
+        if (!this.isEditingMode && isRightmostTokenNotDisabled) {
           this.moveFocusToLastToken();
         }
         break;
