@@ -198,7 +198,7 @@ export class Dropdown extends React.Component<DropdownProps> {
               )}
             >
               <Select<React.ReactNode, React.ReactNode>
-                data-tid={this.props['data-tid'] || DropdownDataTids.root}
+                data-tid={DropdownDataTids.root}
                 ref={this._refSelect}
                 {...filterProps(props, PASS_PROPS)}
                 value={caption}
