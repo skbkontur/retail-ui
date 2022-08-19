@@ -6,6 +6,8 @@ import { SelectProps } from './Select';
 export const getSelectTheme = (theme: Theme, props: SelectProps<any, any>): Theme => {
   return ThemeFactory.create(
     {
+      btnDefaultBg: theme.selectDefaultBg,
+
       btnBorderWidth: theme.selectBorderWidth,
       btnOutlineWidth: theme.selectOutlineWidth,
 
