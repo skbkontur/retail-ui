@@ -114,30 +114,5 @@
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "3.9.0"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "testResultsProcessor": "jest-teamcity-reporter",
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "testMatch": [
-      "<rootDir>/tests/**/*test.(ts|tsx)"
-    ],
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/__fixtures__/"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/tests/test-setup.js"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }
