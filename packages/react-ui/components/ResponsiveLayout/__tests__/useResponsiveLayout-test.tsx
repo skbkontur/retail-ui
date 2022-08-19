@@ -47,10 +47,10 @@ describe('useResponsiveLayoutCustomization', () => {
     };
 
     calcMatches = (query: string) => query === customMediaQueries.isTablet;
-    const result = getUseResponsiveLayoutResult<typeof customMediaQueries>({ customMediaQueries });
+    const result = getUseResponsiveLayoutResult({ customMediaQueries });
 
-    expect(result.isMobile).toBeFalsy();
-    expect(result.isTablet).toBeTruthy();
+    expect(result.isMobile).toBe(false);
+    expect(result.isTablet).toBe(true);
     expect(matchMediaMock).toBeCalledWith(customMediaQueries.isTablet);
     expect(matchMediaMock).toBeCalledWith(DEFAULT_THEME.mobileMediaQuery);
   });
@@ -59,7 +59,7 @@ describe('useResponsiveLayoutCustomization', () => {
     const customMediaQueries = {
       isMobile: '(min-width: 360px)',
     };
-    const result = getUseResponsiveLayoutResult<typeof customMediaQueries>({ customMediaQueries });
+    const result = getUseResponsiveLayoutResult({ customMediaQueries });
 
     expect(result.isMobile).toBeFalsy();
     expect(matchMediaMock).toBeCalledWith(customMediaQueries.isMobile);

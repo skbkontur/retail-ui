@@ -24,6 +24,22 @@ class SomeComponent {
 }
 ```
 
+Также существует проп `onLayoutChange`, который вызывает переданный в него коллбэк при изменении лэйаута. Аргументом передается объект с флагом.
+
+```jsx static
+import { ResponsiveLayout } from '@skbkontur/react-ui';
+
+class SomeComponent {
+  public render() {
+    return (
+      <div>
+        <ResponsiveLayout onLayoutChange={({ isMobile }) => console.log(isMobile)} />
+      </div>
+    )
+  }
+}
+```
+
 В компонент можно передать проп `customMediaQueries: MediaQueriesType`, который позволяет кастомизировать возвращаемые флаги:
 ```ts static
 type MediaQueriesType = Record<string, string>;
@@ -43,25 +59,13 @@ const customMediaQueries = {
 class SomeComponent {
   public render() {
     return (
-      <div>
-        <ResponsiveLayout customMediaQueries={customMediaQueries} />
-      </div>
-    )
-  }
-}
-```
-
-Также существует проп `onLayoutChange`, который вызывает переданный в него коллбэк при изменении лэйаута. Аргументом передается объект с флагом.
-
-```jsx static
-import { ResponsiveLayout } from '@skbkontur/react-ui';
-
-class SomeComponent {
-  public render() {
-    return (
-      <div>
-        <ResponsiveLayout onLayoutChange={({ isMobile }) => console.log(isMobile)} />
-      </div>
+      <ResponsiveLayout<typeof customMediaQueries> customMediaQueries={customMediaQueries}>
+        {
+          ({ isMobile, isTablet, isDesktop }) => {
+            /* ... */
+          }
+        }
+      </ResponsiveLayout>
     )
   }
 }

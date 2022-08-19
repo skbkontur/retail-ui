@@ -24,14 +24,7 @@ import { ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 ## Определение текущего режима
 
 Для определения текущего режима предусмотрен хук `useResponsiveLayout`.
-Он возвращает объект с флагами активности текущих режимов, по умолчанию пока реализован только мобильный флаг, но так же можно
-передать в него параметр `options: ResponsiveLayoutOptions`, значения из которого дополнят список флагов в `ResponsiveLayoutFlags`:
-
-```ts static
-export interface ResponsiveLayoutOptions {
-  customMediaQueries: Record<string, string>;
-}
-```
+Он возвращает объект с флагами активности текущих режимов, по умолчанию пока реализован только мобильный флаг.
 
 ```ts static
 interface ResponsiveLayoutFlags {
@@ -39,7 +32,32 @@ interface ResponsiveLayoutFlags {
 }
 ```
 
-На его основе можно создать свой специфичный хук:
+```jsx static
+import { useResponsiveLayout } from '@skbkontur/react-ui';
+
+function SomeComponent(props) {
+  const { isMobile } = useResponsiveLayout();
+
+  if (isMobile) {
+    return /* ... */
+  } else {
+    return /* ... */
+  }
+}
+```
+
+Так же можно передать в него параметр `options: ResponsiveLayoutOptions`,
+значения из которого дополнят список флагов в `ResponsiveLayoutFlags`:
+
+```ts static
+export type MediaQueriesType = Record<string, string>;
+
+export interface ResponsiveLayoutOptions<MQ extends MediaQueriesType> {
+  customMediaQueries?: MQ;
+}
+```
+
+На основе `useResponsiveLayout` можно создать свой специфичный хук:
 ```jsx static
 import { useResponsiveLayout as useResponsiveLayoutOrigin } from '@skbkontur/react-ui';
 
@@ -49,7 +67,7 @@ const customMediaQueries = {
 };
 
 const useResponsiveLayout = () => {
-	return useResponsiveLayoutOrigin<typeof customMediaQueries>({ customMediaQueries })
+	return useResponsiveLayoutOrigin({ customMediaQueries })
 };
 
 function SomeComponent(props) {

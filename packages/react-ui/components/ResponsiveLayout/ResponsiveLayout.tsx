@@ -7,7 +7,7 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags } from './types';
 import { useResponsiveLayout } from './useResponsiveLayout';
 
-interface ResponsiveLayoutProps<T extends MediaQueriesType> {
+interface ResponsiveLayoutProps<T extends MediaQueriesType = EmptyObject> {
   onLayoutChange?: (layout: ResponsiveLayoutFlags<T>) => void;
   children?: React.ReactNode | ((currentLayout: ResponsiveLayoutFlags<T>) => React.ReactNode);
   customMediaQueries?: T;
