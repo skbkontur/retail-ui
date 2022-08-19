@@ -183,14 +183,14 @@ describe('<TokenInput />', () => {
     expect(screen.getByText('yyy')).toBeInTheDocument();
   });
 
-  it('should not throw an error on getting out of bounds', async () => {
+  it('should add new Token after navigations with arrows', async () => {
     render(<TokenInputWithState disabledToken={'zzz'} />);
     const input = screen.getByRole('textbox');
     await userEvent.click(input);
     await userEvent.keyboard('[ArrowLeft>3]');
-    expect(async () => {
-      await userEvent.keyboard('[ArrowRight>4]');
-    }).not.toThrow(TypeError);
+    await userEvent.keyboard('[ArrowRight>4]');
+    await userEvent.click(screen.getAllByRole('button')[0]);
+    expect(screen.getByText('aaa')).toBeInTheDocument();
   });
 });
 
