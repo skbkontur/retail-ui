@@ -907,9 +907,6 @@ export class DefaultTheme {
     //deprecated
     return this.bgActive;
   }
-  public static get dropdownDefaultBg() {
-    return this.btnDefaultBg;
-  }
   //#endregion
   //#region Menu
   public static get menuBgDefault() {
