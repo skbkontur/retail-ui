@@ -12,15 +12,15 @@ import {
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface FormValidityDemoState {
   immediate: string;
   lostfocus: string;
   submit: string;
   isValid: boolean | null;
 }
 
-export default class FormValidityDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class FormValidityDemo extends React.Component {
+  public state: FormValidityDemoState = {
     immediate: '',
     lostfocus: '',
     submit: '',
@@ -94,7 +94,7 @@ export default class FormValidityDemo extends React.Component<{}, State> {
     return !/^\d*$/.test(v) ? { message: 'Только цифры', type } : null;
   };
 
-  private handleChange = (value: Partial<State>) => {
+  private handleChange = (value: Partial<FormValidityDemoState>) => {
     this.setState({ ...value, isValid: null } as any);
   };
 

@@ -47,11 +47,11 @@ export const HorizontalNoWrap = () => (
   </Gapped>
 );
 
+interface WithFalsyChildsProps extends Partial<Omit<GappedProps, 'children'>> {
+  falsyChild?: React.ReactNode;
+}
 export const WithFalsyChilds = () => {
-  const GappedWithFalsyChilds = ({
-    falsyChild = null,
-    ...props
-  }: Partial<Omit<GappedProps, 'children'>> & { falsyChild?: React.ReactNode }) => (
+  const GappedWithFalsyChilds = ({ falsyChild = null, ...props }: WithFalsyChildsProps) => (
     <Gapped gap={10} {...props}>
       {falsyChild}
       <Button>Button</Button>

@@ -49,14 +49,14 @@ describe('DatePicker', () => {
   });
   it('renders', () => {
     const datePicker = renderDatePicker();
-    expect(datePicker.exists());
+    expect(datePicker.exists()).toBe(true);
   });
 
   it('renders date select when open', () => {
     const datePicker = renderDatePicker();
     datePicker.setState({ opened: true });
     const dateSelect = datePicker.find('DateSelect');
-    expect(dateSelect.exists());
+    expect(dateSelect.exists()).toBe(true);
   });
 
   it('correctly passes max and min date to year select', () => {
@@ -66,8 +66,8 @@ describe('DatePicker', () => {
     });
     datePicker.setState({ opened: true });
     const yearSelect = datePicker.find(DateSelect).findWhere((node) => node.props().type === 'year');
-    expect(yearSelect.prop('minValue')).toEqual(2017);
-    expect(yearSelect.prop('maxValue')).toEqual(2020);
+    expect(yearSelect.prop('minValue')).toBe(2017);
+    expect(yearSelect.prop('maxValue')).toBe(2020);
   });
 
   it('correctly initial month/year with min date', () => {

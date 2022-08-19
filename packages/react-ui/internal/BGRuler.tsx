@@ -3,7 +3,7 @@ import React from 'react';
 import { getDOMRect } from '../lib/dom/getDOMRect';
 import { createPropsGetter } from '../lib/createPropsGetter';
 
-interface BGRulerProps {
+export interface BGRulerProps {
   width?: string | number;
   height?: string | number;
   top?: string | number;

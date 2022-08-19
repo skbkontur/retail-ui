@@ -3,10 +3,10 @@ import React from 'react';
 import { extractDataProps } from '../../lib/utils';
 import { CommonProps } from '../../internal/CommonWrapper';
 
-type PagingDefaultComponentInterface = {
+interface PagingDefaultComponentInterface {
   onClick: () => void;
   children?: React.ReactNode;
-};
+}
 
 export type PagingDefaultComponentProps = PagingDefaultComponentInterface & Pick<CommonProps, 'className'>;
 

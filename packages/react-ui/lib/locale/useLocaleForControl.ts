@@ -4,7 +4,7 @@ import { LocaleControls } from './types';
 import { LocaleHelper } from './LocaleHelper';
 import { LocaleContext } from './LocaleContext';
 
-export const useLocaleForControl = <TTranslationByLangCode extends object>(
+export const useLocaleForControl = <TTranslationByLangCode extends Record<string, any>>(
   controlName: keyof LocaleControls,
   localeHelper: LocaleHelper<TTranslationByLangCode>,
 ): TTranslationByLangCode => {

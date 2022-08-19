@@ -101,7 +101,7 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('12,00');
   });
 
-  it('should not change value and should not throw an error with NaN ', async () => {
+  it('should not change value and should not throw an error with NaN', async () => {
     render(<CurrencyInputAndButton value={parseInt('str')} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();

@@ -2,6 +2,7 @@ import React, { useCallback, useContext, useImperativeHandle, useRef, useState }
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
+import { InstanceWithRootNode } from '../../lib/rootNode';
 import { useMemoObject } from '../../hooks/useMemoObject';
 import { FileUploaderControlContext } from '../../internal/FileUploaderControl/FileUploaderControlContext';
 import { useControlLocale } from '../../internal/FileUploaderControl/hooks/useControlLocale';
@@ -54,7 +55,7 @@ interface _FileUploaderProps extends CommonProps, React.InputHTMLAttributes<HTML
   renderFile?: (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => React.ReactNode;
 }
 
-export interface FileUploaderRef {
+export interface FileUploaderRef extends InstanceWithRootNode {
   focus: () => void;
   blur: () => void;
   /** Сбрасывает выбранные файлы */
@@ -113,7 +114,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
         }
       });
     },
-    [upload, validateBeforeUpload, isAsync],
+    [validateBeforeUpload, isAsync, upload, setFileValidationResult],
   );
 
   /** common part **/
@@ -176,7 +177,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     inputRef.current?.blur();
   }, []);
 
-  useImperativeHandle(ref, () => ({ focus, blur, reset }), [ref]);
+  useImperativeHandle(ref, () => ({ focus, blur, reset, getRootNode: () => rootNodeRef.current }), [
+    ref,
+    blur,
+    focus,
+    reset,
+  ]);
 
   const [focusedByTab, setFocusedByTab] = useState(false);
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -231,9 +237,16 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
+  const rootNodeRef = useRef(null);
+
   return (
     <CommonWrapper {...props}>
-      <div data-tid={FileUploaderDataTids.root} className={jsStyles.root(theme)} style={useMemoObject({ width })}>
+      <div
+        data-tid={FileUploaderDataTids.root}
+        className={jsStyles.root(theme)}
+        style={useMemoObject({ width })}
+        ref={rootNodeRef}
+      >
         {!hideFiles && !isSingleMode && !!files.length && <FileUploaderFileList renderFile={renderFile} />}
         <div className={uploadButtonWrapperClassNames}>
           <label

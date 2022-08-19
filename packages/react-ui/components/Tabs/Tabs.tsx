@@ -16,10 +16,10 @@ import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
 type ValueBaseType = string;
-type TabType<T extends ValueBaseType> = {
+interface TabType<T extends ValueBaseType> {
   getNode: () => Tab<T> | null;
   id: T;
-};
+}
 
 export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
   /**

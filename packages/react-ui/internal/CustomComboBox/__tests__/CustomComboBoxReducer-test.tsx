@@ -17,7 +17,7 @@ const createGetPropsMock = (props: Partial<CustomComboBoxProps<ItemType>>) => {
   }));
 };
 
-const testCase = [
+const unexpectedInputCases = [
   {
     inputValue: 'One',
     items: [
@@ -27,22 +27,6 @@ const testCase = [
       },
     ],
     valueToString: (item: ItemType) => item.label,
-    expectedDispatch: true,
-  },
-  {
-    inputValue: 'One',
-    items: [
-      {
-        value: 1,
-        label: 'One',
-      },
-      {
-        value: 2,
-        label: 'Two',
-      },
-    ],
-    valueToString: (item: ItemType) => item.label,
-    expectedDispatch: false,
   },
   {
     inputValue: 'One Plus',
@@ -53,13 +37,14 @@ const testCase = [
       },
     ],
     valueToString: (item: ItemType) => `${item.label} Plus`,
-    expectedDispatch: true,
   },
 ];
 
 describe('Default combobox reducer', () => {
-  testCase.forEach(({ inputValue, items, valueToString, expectedDispatch }, index) => {
-    it(`ValueChange after UnexpectedInput (test ${index + 1})`, () => {
+  unexpectedInputCases.forEach(({ inputValue, items, valueToString }) => {
+    it(`should call 'dispatch' after 'ValueChange' in 'Effect.unexpectedInput' with value=${JSON.stringify(
+      items[0],
+    )} and inputValue="${inputValue}"`, () => {
       const mockedGetProps = createGetPropsMock({ valueToString });
       const mockedDispatch = jest.fn();
       const mockedGetState = jest.fn();
@@ -67,16 +52,38 @@ describe('Default combobox reducer', () => {
 
       Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
 
-      if (expectedDispatch) {
-        expect(mockedDispatch).toBeCalledWith({
-          type: 'ValueChange',
-          keepFocus: false,
-          value: items[0],
-        });
-      } else {
-        expect(mockedDispatch).not.toBeCalled();
-      }
+      expect(mockedDispatch).toHaveBeenCalledWith({
+        type: 'ValueChange',
+        keepFocus: false,
+        value: items[0],
+      });
     });
+  });
+
+  it('should not call `dispatch` after `ValueChange` in `Effect.unexpectedInput`', () => {
+    const { valueToString, inputValue, items } = {
+      inputValue: 'One',
+      items: [
+        {
+          value: 1,
+          label: 'One',
+        },
+        {
+          value: 2,
+          label: 'Two',
+        },
+      ],
+      valueToString: (item: ItemType) => item.label,
+    };
+
+    const mockedGetProps = createGetPropsMock({ valueToString });
+    const mockedDispatch = jest.fn();
+    const mockedGetState = jest.fn();
+    const mockedGetInstance = jest.fn();
+
+    Effect.unexpectedInput(inputValue, items)(mockedDispatch, mockedGetState, mockedGetProps, mockedGetInstance);
+
+    expect(mockedDispatch).not.toHaveBeenCalled();
   });
 
   it('UnexpectedInput with single item should call `ValueChange` action once', () => {

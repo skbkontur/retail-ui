@@ -16,7 +16,7 @@ describe('<TooltipMenu />', () => {
   });
 
   test('Throw, if caption is not passed', () => {
-    // @ts-ignore
+    // @ts-expect-error: `caption` prop is purposefully not provided.
     expect(() => shallow(<TooltipMenu />)).toThrow();
   });
 

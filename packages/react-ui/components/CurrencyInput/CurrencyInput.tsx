@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
@@ -468,8 +470,8 @@ function getInputSelectionFromEvent(input: EventTarget): Selection {
   }
 
   return {
-    start: input.selectionStart!,
-    end: input.selectionEnd!,
+    start: input.selectionStart ?? 0,
+    end: input.selectionEnd ?? 0,
     direction: input.selectionDirection as SelectionDirection,
   };
 }

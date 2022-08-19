@@ -22,6 +22,6 @@ describe('ZIndex', () => {
 
     wrapper.setProps({ applyZIndex: false });
 
-    expect(unmountFn).not.toBeCalled();
+    expect(unmountFn).not.toHaveBeenCalled();
   });
 });

@@ -34,7 +34,7 @@ describe('MenuItem', () => {
       </MenuItem>,
     );
 
-    expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);
+    expect(wrapper.contains(<span>http:test.href</span>)).toBe(true);
   });
 
   describe('onMouseEnter', () => {
@@ -51,7 +51,7 @@ describe('MenuItem', () => {
       wrapper.find('span').simulate('mouseover');
       button.simulate('mouseover');
 
-      expect(onMouseEnter.mock.calls.length).toBe(1);
+      expect(onMouseEnter.mock.calls).toHaveLength(1);
     });
 
     it('calls again after onMouseLeave', () => {
@@ -60,7 +60,7 @@ describe('MenuItem', () => {
 
       wrapper.find('button').simulate('mouseover').simulate('mouseleave').simulate('mouseover');
 
-      expect(onMouseEnter.mock.calls.length).toBe(2);
+      expect(onMouseEnter.mock.calls).toHaveLength(2);
     });
   });
 });
