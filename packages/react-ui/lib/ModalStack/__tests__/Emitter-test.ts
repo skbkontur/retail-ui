@@ -28,7 +28,7 @@ describe('Emitter', () => {
     expect(fn).toHaveBeenCalledTimes(1);
   });
 
-  test('should clean listener by `removeListener()`', () => {
+  test('should clear listener by `removeListener()`', () => {
     const emitter = new Emitter();
     const fn = () => null;
     emitter.addListener('change', fn);

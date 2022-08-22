@@ -9,8 +9,9 @@ import EventEmitter from 'eventemitter3';
 // but not all teams can move to fixed versions, that may cause app crashing.
 // see all details https://github.com/skbkontur/retail-ui/issues/2197
 
-// this code almost eliminates this risk because it adds compatibility with all later versions.
-
+/**
+ * EventEmitter wrapper with compatibility with all later versions of `@skbkontur/react-ui`.
+ */
 export class Emitter {
   public _emitter: EventEmitter;
   constructor() {

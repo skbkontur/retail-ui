@@ -6,7 +6,7 @@ import { SidePage } from '../../../components/SidePage';
 import { globalThat } from '../../SSRSafe';
 
 describe('ModalStack', () => {
-  test('should add once listener', () => {
+  test('should add listener once', () => {
     render(
       <>
         <Modal />
@@ -16,7 +16,7 @@ describe('ModalStack', () => {
     expect(globalThat.__ReactUIStackInfo.mounted).toHaveLength(2);
   });
 
-  test('should clean listeners after unmount', () => {
+  test('should clear listeners after unmount', () => {
     const { unmount } = render(
       <>
         <Modal />
