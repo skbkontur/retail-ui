@@ -3,8 +3,9 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import { Gapped } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import { text, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
 class Example1 extends React.Component {
@@ -394,6 +395,93 @@ class Example9 extends React.Component {
   }
 }
 
+interface Example10State {
+  immediate: string;
+  lostfocus: string;
+  submit: string;
+  isValid: boolean | null;
+}
+
+class Example10 extends React.Component<Record<string, never>, Example10State> {
+  container: ValidationContainer | null = null;
+
+  state: Example10State = {
+    immediate: '',
+    lostfocus: '',
+    submit: '',
+    isValid: null,
+  };
+
+  render() {
+    const { immediate, lostfocus, submit } = this.state;
+    return (
+      <ValidationContainer ref={this.refContainer}>
+        <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
+          <Input
+            placeholder={'Только цифры'}
+            value={immediate}
+            onValueChange={(value) => this.handleChange({ immediate: value })}
+          />
+        </ValidationWrapper>
+
+        <ValidationWrapper validationInfo={this.validate(lostfocus, 'lostfocus')}>
+          <Input
+            placeholder={'Только цифры'}
+            value={lostfocus}
+            onValueChange={(value) => this.handleChange({ lostfocus: value })}
+          />
+        </ValidationWrapper>
+
+        <ValidationWrapper validationInfo={this.validate(submit, 'submit')}>
+          <Input
+            placeholder={'Только цифры'}
+            value={submit}
+            onValueChange={(value) => this.handleChange({ submit: value })}
+          />
+        </ValidationWrapper>
+
+        <Gapped wrap verticalAlign="middle">
+          <Button use={'primary'} onClick={this.handleSubmit}>
+            Submit
+          </Button>
+          {this.renderFormState()}
+        </Gapped>
+      </ValidationContainer>
+    );
+  }
+
+  renderFormState = () => {
+    switch (this.state.isValid) {
+      case null:
+        return <b>Отправьте форму</b>;
+      case false:
+        return <b style={{ color: '#d70c17' }}>Форма невалидна</b>;
+      case true:
+        return <b style={{ color: '#5199db' }}>Форма валидна</b>;
+      default:
+        throw new Error('Invalid state');
+    }
+  };
+
+  validate = (v: string, type: ValidationBehaviour): ValidationInfo | null => {
+    return !/^\d*$/.test(v) ? { message: 'Только цифры', level: 'warning', type } : null;
+  };
+
+  handleChange = (value: any) => {
+    this.setState({ ...value, isValid: null });
+  };
+
+  handleSubmit = async (): Promise<void> => {
+    if (!this.container) {
+      throw new Error('invalid state');
+    }
+    const isValid = await this.container.validate();
+    this.setState({ isValid });
+  };
+
+  refContainer = (el: ValidationContainer | null) => (this.container = el);
+}
+
 storiesOf('Input', module)
   .add('#1', () => {
     return <Example1 />;
@@ -421,4 +509,7 @@ storiesOf('Input', module)
   })
   .add('#9 lostfocus не срабатывает после первого рендера', () => {
     return <Example9 />;
+  })
+  .add('#10 валидация формы с level = warning', () => {
+    return <Example10 />;
   });
