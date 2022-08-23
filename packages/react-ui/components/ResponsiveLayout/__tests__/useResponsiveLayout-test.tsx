@@ -51,8 +51,8 @@ describe('useResponsiveLayoutCustomization', () => {
 
     expect(result.isMobile).toBe(false);
     expect(result.isTablet).toBe(true);
-    expect(matchMediaMock).toBeCalledWith(customMediaQueries.isTablet);
-    expect(matchMediaMock).toBeCalledWith(DEFAULT_THEME.mobileMediaQuery);
+    expect(matchMediaMock).toHaveBeenCalledWith(customMediaQueries.isTablet);
+    expect(matchMediaMock).toHaveBeenCalledWith(DEFAULT_THEME.mobileMediaQuery);
   });
 
   it('rewrite result custom media queries', () => {
@@ -62,7 +62,7 @@ describe('useResponsiveLayoutCustomization', () => {
     const result = getUseResponsiveLayoutResult({ customMediaQueries });
 
     expect(result.isMobile).toBeFalsy();
-    expect(matchMediaMock).toBeCalledWith(customMediaQueries.isMobile);
+    expect(matchMediaMock).toHaveBeenCalledWith(customMediaQueries.isMobile);
   });
 });
 
