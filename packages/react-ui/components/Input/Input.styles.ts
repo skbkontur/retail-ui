@@ -66,7 +66,7 @@ export const styles = memoizeStyle({
 
   focus(t: Theme) {
     return css`
-      background: ${t.inputFocusedBg};
+      background-color: ${t.inputFocusedBg};
       border-color: ${t.inputBorderColorFocus};
       box-shadow: ${t.inputFocusShadow};
       outline: none;
