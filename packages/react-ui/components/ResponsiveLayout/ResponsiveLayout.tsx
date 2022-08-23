@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import propTypes from 'prop-types';
 
 import { isFunction } from '../../lib/utils';
 import { CommonWrapper } from '../../internal/CommonWrapper';
@@ -32,8 +31,3 @@ export function ResponsiveLayout<T extends MediaQueriesType = EmptyObject>(props
     </CommonWrapper>
   );
 }
-
-ResponsiveLayout.propTypes = {
-  onLayoutChange: propTypes.func,
-  children: propTypes.oneOfType([propTypes.node, propTypes.func]),
-};
