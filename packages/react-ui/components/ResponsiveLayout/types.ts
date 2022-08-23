@@ -10,6 +10,6 @@ export type ResponsiveLayoutFlags<T extends MediaQueriesType = EmptyObject> = {
 } &
   ResponsiveLayoutFlagsInternal;
 
-export type ResponsiveLayoutFlagsInternal = {
+export interface ResponsiveLayoutFlagsInternal {
   isMobile: boolean;
-};
+}
