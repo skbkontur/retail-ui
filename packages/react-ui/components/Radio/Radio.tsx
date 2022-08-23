@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
 import { Override } from '../../typings/utility-types';
@@ -10,6 +12,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isEdge, isIE11 } from '../../lib/client';
 import { RadioGroupContext, RadioGroupContextType } from '../RadioGroup/RadioGroupContext';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, globalClasses } from './Radio.styles';
 
@@ -61,6 +64,8 @@ export const RadioDataTids = {
   root: 'Radio__root',
 } as const;
 
+type DefaultProps = Required<Pick<RadioProps<any>, 'focused'>>;
+
 /**
  * Радио-кнопки используются, когда может быть выбран только один вариант из нескольких.
  */
@@ -72,9 +77,11 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     focusedByKeyboard: false,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     focused: false,
   };
+
+  private getProps = createPropsGetter(Radio.defaultProps);
 
   public static contextType = RadioGroupContext;
   public context: RadioGroupContextType<T> = this.context;
@@ -130,7 +137,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
       className: cx({
         [styles.circle(this.theme)]: true,
         [styles.checked(this.theme)]: this.props.checked,
-        [styles.focus(this.theme)]: this.props.focused || this.state.focusedByKeyboard,
+        [styles.focus(this.theme)]: this.getProps().focused || this.state.focusedByKeyboard,
         [styles.error(this.theme)]: error,
         [styles.warning(this.theme)]: warning,
         [styles.disabled(this.theme)]: disabled,

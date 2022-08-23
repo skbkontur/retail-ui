@@ -159,7 +159,7 @@ interface ComponentShowcaseProps {
   isDebugMode?: boolean;
   onVariableSelect: (item: ComboBoxItem) => void;
 }
-class ComponentShowcase extends React.Component<ComponentShowcaseProps, {}> {
+class ComponentShowcase extends React.Component<ComponentShowcaseProps> {
   public render() {
     const { name, description, onVariableSelect, isDebugMode } = this.props;
     const elements = Object.keys(description);

@@ -1,6 +1,6 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { Component, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import BorderAllIcon from '@skbkontur/react-icons/BorderAll';
 
 import { CreeveyTests, Story } from '../../../typings/stories';
@@ -20,8 +20,12 @@ const basicFontStyle = {
   margin: '0',
 };
 
-class ModalWithScrollableContent extends Component<{}, { opened: boolean; panel: boolean }> {
-  public state = {
+interface ModalWithScrollableContentState {
+  opened: boolean;
+  panel: boolean;
+}
+class ModalWithScrollableContent extends React.Component {
+  public state: ModalWithScrollableContentState = {
     opened: false,
     panel: false,
   };
@@ -69,7 +73,7 @@ class ModalWithScrollableContent extends Component<{}, { opened: boolean; panel:
           <div>
             <Toggle
               checked={this.state.panel}
-              onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+              onValueChange={() => this.setState(({ panel }: ModalWithScrollableContentState) => ({ panel: !panel }))}
             />{' '}
             Panel {this.state.panel ? 'enabled' : 'disabled'}
           </div>
@@ -90,8 +94,11 @@ class ModalWithScrollableContent extends Component<{}, { opened: boolean; panel:
   };
 }
 
-class ModalWithIconInput extends Component<{}, { opened: boolean }> {
-  public state = {
+interface ModalWithIconInputState {
+  opened: boolean;
+}
+class ModalWithIconInput extends React.Component {
+  public state: ModalWithIconInputState = {
     opened: false,
   };
 
@@ -135,7 +142,7 @@ class ModalWithIconInput extends Component<{}, { opened: boolean }> {
   };
 }
 
-class ModalOverAnotherModal extends Component<{}, any> {
+class ModalOverAnotherModal extends React.Component {
   public state = {
     firstModalOpened: false,
     secondModalOpened: false,
@@ -171,8 +178,12 @@ class ModalOverAnotherModal extends Component<{}, any> {
   }
 }
 
-class ModalWithFooterPanel extends Component<{}, { opened: boolean; panel: boolean }> {
-  public state = {
+interface ModalWithFooterPanelState {
+  opened: boolean;
+  panel: boolean;
+}
+class ModalWithFooterPanel extends React.Component {
+  public state: ModalWithFooterPanelState = {
     opened: false,
     panel: true,
   };
@@ -209,8 +220,11 @@ class ModalWithFooterPanel extends Component<{}, { opened: boolean; panel: boole
   };
 }
 
-class ModalWithoutFooterPanel extends Component<{}, { opened: boolean }> {
-  public state = {
+interface ModalWithoutFooterPanelState {
+  opened: boolean;
+}
+class ModalWithoutFooterPanel extends React.Component {
+  public state: ModalWithoutFooterPanelState = {
     opened: false,
   };
 
@@ -249,8 +263,11 @@ class ModalWithoutFooterPanel extends Component<{}, { opened: boolean }> {
   };
 }
 
-class ModalWithoutFooter extends Component<{}, { opened: boolean }> {
-  public state = {
+interface ModalWithoutFooterState {
+  opened: boolean;
+}
+class ModalWithoutFooter extends React.Component {
+  public state: ModalWithoutFooterState = {
     opened: false,
   };
 
@@ -286,8 +303,11 @@ class ModalWithoutFooter extends Component<{}, { opened: boolean }> {
   };
 }
 
-class ModalMobileView extends Component<{}, { opened: boolean }> {
-  public state = {
+interface ModalMobileViewState {
+  opened: boolean;
+}
+class ModalMobileView extends React.Component {
+  public state: ModalMobileViewState = {
     opened: true,
   };
 
@@ -309,14 +329,13 @@ class ModalMobileView extends Component<{}, { opened: boolean }> {
   }
 }
 
-class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      bigHeight: false,
-    };
-  }
+interface ModalInnerState {
+  bigHeight: boolean;
+}
+class ModalInner extends React.Component {
+  public state: ModalInnerState = {
+    bigHeight: false,
+  };
 
   public render() {
     return (
@@ -340,8 +359,12 @@ class ModalInner extends React.Component<{}, { bigHeight: boolean }> {
   }
 }
 
-class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: boolean }> {
-  public state = {
+interface ModalWithVariableHeightState {
+  opened: boolean;
+  panel: boolean;
+}
+class ModalWithVariableHeight extends React.Component {
+  public state: ModalWithVariableHeightState = {
     opened: false,
     panel: false,
   };
@@ -360,7 +383,7 @@ class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: bo
               <div>
                 <Toggle
                   checked={this.state.panel}
-                  onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+                  onValueChange={() => this.setState(({ panel }: ModalWithVariableHeightState) => ({ panel: !panel }))}
                 />{' '}
                 Panel {this.state.panel ? 'enabled' : 'disabled'}
               </div>
@@ -384,7 +407,7 @@ class ModalWithVariableHeight extends Component<{}, { opened: boolean; panel: bo
   };
 }
 
-class SmallModalOnTop extends Component<{}, {}> {
+class SmallModalOnTop extends React.Component {
   public state = {
     opened: false,
   };
@@ -606,10 +629,9 @@ const TopMiddleBottomModalTests: CreeveyTests = {
   },
   async middle() {
     await this.browser.executeScript(function () {
-      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
 
-      // @ts-ignore
       modalContainer.scrollTop = modalContent.offsetHeight / 2;
     });
     await delay(100);
@@ -617,10 +639,9 @@ const TopMiddleBottomModalTests: CreeveyTests = {
   },
   async bottom() {
     await this.browser.executeScript(function () {
-      const modalContainer = window.document.querySelector('[data-tid="modal-container"]');
-      const modalContent = window.document.querySelector('[data-tid="modal-content"]');
+      const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
+      const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
 
-      // @ts-ignore
       modalContainer.scrollTop = modalContent.offsetHeight;
     });
     await delay(100);
@@ -896,10 +917,9 @@ MobileModal.parameters = {
         await delay(200);
 
         await this.browser.executeScript(function () {
-          const modalContent = window.document.querySelector('.focus-lock-container');
-          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+          const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ') as HTMLElement;
 
-          // @ts-ignore
           modalContent.scrollTop = modalBody.offsetHeight / 2;
         });
         await delay(100);
@@ -915,10 +935,9 @@ MobileModal.parameters = {
         await delay(200);
 
         await this.browser.executeScript(function () {
-          const modalContent = window.document.querySelector('.focus-lock-container');
-          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ');
+          const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
+          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ') as HTMLElement;
 
-          // @ts-ignore
           modalContent.scrollTop = modalBody.offsetHeight;
         });
 

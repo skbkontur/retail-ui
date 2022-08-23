@@ -3,16 +3,13 @@ import React from 'react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Input } from '@skbkontur/react-ui/components/Input';
 import { Select } from '@skbkontur/react-ui/components/Select';
+import { Gapped } from '@skbkontur/react-ui';
 
-import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
+import { text, ValidationBehaviour, ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
 import { Nullable } from '../typings/Types';
 
-interface Example1State {
-  value: string;
-}
-
-class Example1 extends React.Component<{}, Example1State> {
-  public state: Example1State = {
+class Example1 extends React.Component {
+  public state = {
     value: '',
   };
 
@@ -40,12 +37,8 @@ class Example1 extends React.Component<{}, Example1State> {
   }
 }
 
-interface Example2State {
-  value: string;
-}
-
-class Example2 extends React.Component<{}, Example2State> {
-  public state: Example2State = {
+class Example2 extends React.Component {
+  public state = {
     value: '',
   };
 
@@ -73,12 +66,8 @@ class Example2 extends React.Component<{}, Example2State> {
   }
 }
 
-interface Example3State {
-  value: string;
-}
-
-class Example3 extends React.Component<{}, Example3State> {
-  public state: Example3State = {
+class Example3 extends React.Component {
+  public state = {
     value: '',
   };
 
@@ -121,8 +110,8 @@ class Example3 extends React.Component<{}, Example3State> {
   }
 }
 
-class Example8 extends React.Component<{}, Example3State> {
-  public state: Example3State = {
+class Example8 extends React.Component {
+  public state = {
     value: '',
   };
 
@@ -197,8 +186,7 @@ interface Example4State {
   type: Nullable<Sex>;
   value: string;
 }
-
-class Example4 extends React.Component<{}, Example4State> {
+class Example4 extends React.Component {
   public state: Example4State = {
     type: null,
     value: '',
@@ -239,12 +227,8 @@ class Example4 extends React.Component<{}, Example4State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example5State {
-  value: string;
-}
-
-class Example5 extends React.Component<{}, Example5State> {
-  public state: Example5State = {
+class Example5 extends React.Component {
+  public state = {
     value: '',
   };
 
@@ -287,13 +271,8 @@ class Example5 extends React.Component<{}, Example5State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example6State {
-  value1: string;
-  value2: string;
-}
-
-class Example6 extends React.Component<{}, Example6State> {
-  public state: Example6State = {
+class Example6 extends React.Component {
+  public state = {
     value1: '',
     value2: '',
   };
@@ -345,14 +324,8 @@ class Example6 extends React.Component<{}, Example6State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example7State {
-  value1: string;
-  value2: string;
-  value3: string;
-}
-
-class Example7 extends React.Component<{}, Example7State> {
-  public state: Example7State = {
+class Example7 extends React.Component {
+  public state = {
     value1: '',
     value2: '',
     value3: '',
@@ -399,12 +372,8 @@ class Example7 extends React.Component<{}, Example7State> {
   private refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
-interface Example9State {
-  value: string;
-}
-
-class Example9 extends React.Component<{}, Example9State> {
-  public state: Example9State = {
+class Example9 extends React.Component {
+  public state = {
     value: '',
   };
 
@@ -424,6 +393,93 @@ class Example9 extends React.Component<{}, Example9State> {
       </ValidationContainer>
     );
   }
+}
+
+interface Example10State {
+  immediate: string;
+  lostfocus: string;
+  submit: string;
+  isValid: boolean | null;
+}
+
+class Example10 extends React.Component<Record<string, never>, Example10State> {
+  container: ValidationContainer | null = null;
+
+  state: Example10State = {
+    immediate: '',
+    lostfocus: '',
+    submit: '',
+    isValid: null,
+  };
+
+  render() {
+    const { immediate, lostfocus, submit } = this.state;
+    return (
+      <ValidationContainer ref={this.refContainer}>
+        <ValidationWrapper validationInfo={this.validate(immediate, 'immediate')}>
+          <Input
+            placeholder={'Только цифры'}
+            value={immediate}
+            onValueChange={(value) => this.handleChange({ immediate: value })}
+          />
+        </ValidationWrapper>
+
+        <ValidationWrapper validationInfo={this.validate(lostfocus, 'lostfocus')}>
+          <Input
+            placeholder={'Только цифры'}
+            value={lostfocus}
+            onValueChange={(value) => this.handleChange({ lostfocus: value })}
+          />
+        </ValidationWrapper>
+
+        <ValidationWrapper validationInfo={this.validate(submit, 'submit')}>
+          <Input
+            placeholder={'Только цифры'}
+            value={submit}
+            onValueChange={(value) => this.handleChange({ submit: value })}
+          />
+        </ValidationWrapper>
+
+        <Gapped wrap verticalAlign="middle">
+          <Button use={'primary'} onClick={this.handleSubmit}>
+            Submit
+          </Button>
+          {this.renderFormState()}
+        </Gapped>
+      </ValidationContainer>
+    );
+  }
+
+  renderFormState = () => {
+    switch (this.state.isValid) {
+      case null:
+        return <b>Отправьте форму</b>;
+      case false:
+        return <b style={{ color: '#d70c17' }}>Форма невалидна</b>;
+      case true:
+        return <b style={{ color: '#5199db' }}>Форма валидна</b>;
+      default:
+        throw new Error('Invalid state');
+    }
+  };
+
+  validate = (v: string, type: ValidationBehaviour): ValidationInfo | null => {
+    return !/^\d*$/.test(v) ? { message: 'Только цифры', level: 'warning', type } : null;
+  };
+
+  handleChange = (value: any) => {
+    this.setState({ ...value, isValid: null });
+  };
+
+  handleSubmit = async (): Promise<void> => {
+    if (!this.container) {
+      throw new Error('invalid state');
+    }
+    const isValid = await this.container.validate();
+    this.setState({ isValid });
+  };
+
+  refContainer = (el: ValidationContainer | null) => (this.container = el);
 }
 
 storiesOf('Input', module)
@@ -453,4 +509,7 @@ storiesOf('Input', module)
   })
   .add('#9 lostfocus не срабатывает после первого рендера', () => {
     return <Example9 />;
+  })
+  .add('#10 валидация формы с level = warning', () => {
+    return <Example10 />;
   });

@@ -1,6 +1,6 @@
 {
   "name": "react-ui-smoke-test",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "private": true,
   "scripts": {
     "pretest": "rimraf ./temp",
@@ -18,8 +18,5 @@
     "rimraf": "^3.0.2",
     "serve": "^11.3.0",
     "wait-on": "^4.0.0"
-  },
-  "jest": {
-    "testResultsProcessor": "jest-teamcity-reporter"
   }
 }

@@ -55,6 +55,13 @@ interface PlaygroundProps {
 }
 export type ThemeErrorsType = Writeable<{ [key in keyof Theme]?: boolean }>;
 
+const getEditingThemeType = (editingThemeItem: PlaygroundState['editingThemeItem']) => {
+  if (editingThemeItem) {
+    return editingThemeItem.value;
+  }
+
+  return 'default';
+};
 export class ThemeContextPlayground extends React.Component<PlaygroundProps, PlaygroundState> {
   private readonly editableThemesItems = [
     { value: ThemeType.Default, label: 'Дефолтная' },
@@ -108,7 +115,10 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
   private renderSidePage = () => {
     const { currentTheme, themesErrors, editingThemeItem, themes } = this.state;
-    const themeErrors = themesErrors[editingThemeItem ? editingThemeItem.value : 'default'];
+
+    const editingThemeType = getEditingThemeType(editingThemeItem);
+    const themeErrors = themesErrors[editingThemeType];
+
     return (
       <SidePage disableAnimations ignoreBackgroundClick blockBackground width={600} onClose={this.handleClose}>
         <SidePage.Header>
@@ -129,7 +139,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
         <SidePage.Body>
           <div className={styles.sidePageBody()}>
             <ThemeEditor
-              editingTheme={themes[editingThemeItem!.value]}
+              editingTheme={themes[editingThemeType]}
               currentTheme={currentTheme}
               currentErrors={themeErrors}
               onValueChange={this.handleThemeVariableChange}
@@ -176,7 +186,7 @@ export class ThemeContextPlayground extends React.Component<PlaygroundProps, Pla
 
   private handleThemeVariableChange = (variable: keyof Theme, value: string) => {
     const { editingThemeItem, currentTheme, themes, themesErrors } = this.state;
-    const editingThemeType = editingThemeItem!.value;
+    const editingThemeType = getEditingThemeType(editingThemeItem);
 
     const theme = themes[editingThemeType];
     const currentValue = theme[variable] as string;

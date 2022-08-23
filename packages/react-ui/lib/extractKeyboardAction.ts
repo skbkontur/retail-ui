@@ -14,7 +14,7 @@ export class KeyboardActionExctracterBuilder<T> {
     this._actionMatchers = actionMatchers;
   }
 
-  public add<P = T>(type: T, check: ActionCheck): KeyboardActionExctracterBuilder<T> {
+  public add<T>(type: T, check: ActionCheck): KeyboardActionExctracterBuilder<T> {
     return new KeyboardActionExctracterBuilder(this._actionMatchers.concat({ type, check }));
   }
 

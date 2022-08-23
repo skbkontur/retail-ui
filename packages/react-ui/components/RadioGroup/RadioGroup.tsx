@@ -91,6 +91,8 @@ export const RadioGroupDataTids = {
   root: 'RadioGroup__root',
 } as const;
 
+type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
+
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -118,7 +120,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     renderItem,
   };
 
@@ -239,7 +241,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
+        <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
       </span>
     );
   };
