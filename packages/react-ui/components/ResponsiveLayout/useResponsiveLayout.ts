@@ -34,7 +34,7 @@ export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
     }
 
     allMediaQueries.forEach(
-      (mediaQuery, i) =>
+      (mediaQuery) =>
         (mediaQuery.ref.current = addResponsiveLayoutListener(mediaQuery.query, checkLayoutsMediaQueries)),
     );
 
