@@ -59,7 +59,7 @@ const customMediaQueries = {
 class SomeComponent {
   public render() {
     return (
-      <ResponsiveLayout<typeof customMediaQueries> customMediaQueries={customMediaQueries}>
+      <ResponsiveLayout customMediaQueries={customMediaQueries}>
         {
           ({ isMobile, isTablet, isDesktop }) => {
             /* ... */
