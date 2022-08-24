@@ -6,7 +6,7 @@ const [value, setValue] = React.useState('Kappa');
 <Autocomplete source={items} value={value} onValueChange={setValue} />;
 ```
 
-Очистить значение в `Autocomplete` можно только с помощью строки
+Очистить значение в `Autocomplete` можно только с помощью пустой строки
 ```jsx harmony
 import { Button, Group } from '@skbkontur/react-ui';
 

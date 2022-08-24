@@ -49,7 +49,7 @@ let handleFocus = () => setError(false);
 </Tooltip>;
 ```
 
-Очистить значение в `DatePicker`'е можно с помощью пустой строки, `null` или `undefined`
+Очистить значение в `ComboBox`'е можно с помощью пустой строки, `null` или `undefined`
 ```jsx harmony
 import { Group, ComboBox, Button } from '@skbkontur/react-ui';
 
