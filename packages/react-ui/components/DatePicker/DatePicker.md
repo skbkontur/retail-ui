@@ -59,6 +59,24 @@ let removeTooltip = () => setTooltip(false);
 </Gapped>;
 ```
 
+Очистить значение в `DatePicker`'е можно с помощью пустой строки, `null` или `undefined`
+```jsx harmony
+import { Button, Group } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState('24.08.2022');
+
+<Group>
+  <DatePicker
+    value={value}
+    onValueChange={setValue}
+    enableTodayLink
+  />
+  <Button onClick={() => setValue(null)}>Null</Button>
+  <Button onClick={() => setValue(undefined)}>Undefined</Button>
+  <Button onClick={() => setValue('')}>Пустая строка</Button>
+</Group>;
+```
+
 ### `isHoliday`
 
 В компонент можно передать функцию `isHoliday`, которая будет получать день строкой формата `dd.mm.yyyy` и флаг `isWeekend`, и должна вернуть `true` для выходного и `false` для рабочего дня.

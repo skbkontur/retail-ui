@@ -49,6 +49,44 @@ let handleFocus = () => setError(false);
 </Tooltip>;
 ```
 
+Очистить значение в `DatePicker`'е можно с помощью пустой строки, `null` или `undefined`
+```jsx harmony
+import { Group, ComboBox, Button } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState({ value: 2, label: 'Second' });
+
+const getItems = q => {
+  return Promise.resolve(
+    [
+      { value: 1, label: 'First' },
+      { value: 2, label: 'Second' },
+      { value: 3, label: 'Third' },
+      { value: 4, label: 'Fourth' },
+      { value: 5, label: 'Fifth' },
+      { value: 6, label: 'Sixth' },
+    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+  )
+};
+
+const handleUnexpectedInput = () => {
+  setSelected(null);
+  setError(true);
+};
+
+<Group>
+  <ComboBox
+    getItems={getItems}
+    onValueChange={setValue}
+    onUnexpectedInput={handleUnexpectedInput}
+    placeholder="Введите число"
+    value={value}
+  />
+  <Button onClick={() => setValue(null)}>Null</Button>
+  <Button onClick={() => setValue(undefined)}>Undefined</Button>
+  <Button onClick={() => setValue('')}>Пустая строка</Button>
+</Group>
+```
+
 ComboBox with popular values, complex menu items and total count message
 
 ```jsx harmony
