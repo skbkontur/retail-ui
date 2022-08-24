@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.1...@skbkontur/react-ui@4.4.0) (2022-08-16)
+
+**Note:** Version bump due significan refactoring
+
+
+
+
+
+## [4.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.0...@skbkontur/react-ui@4.3.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** add support comma aliases ([#2974](https://github.com/skbkontur/retail-ui/issues/2974)) ([82bf20b](https://github.com/skbkontur/retail-ui/commit/82bf20b4b5bedc9d24d5f8f8070ee4d598a67287))
+* **HideBodyVerticalScroll:** add support `html.overflow-y=scroll` ([#2971](https://github.com/skbkontur/retail-ui/issues/2971)) ([b97fd42](https://github.com/skbkontur/retail-ui/commit/b97fd4242972ab2794a6127a122419425cce2406))
+* **MaskedInput:** support the case where users unmasked the value ([#2975](https://github.com/skbkontur/retail-ui/issues/2975)) ([8d6bf52](https://github.com/skbkontur/retail-ui/commit/8d6bf52654858d5ab29acdf7ebe1a4944adb0c7a))
+* **Popup:** accept SVG as anchor ([#2946](https://github.com/skbkontur/retail-ui/issues/2946)) ([a5f7283](https://github.com/skbkontur/retail-ui/commit/a5f72836dd0d31d4a109ac2bb0d6d6a4e3109d19))
+* **theme:** add missing units to values ([#2968](https://github.com/skbkontur/retail-ui/issues/2968)) ([b79f626](https://github.com/skbkontur/retail-ui/commit/b79f6264cd9af4ffd21ea3c57d5f849be9504409))
+* **Tooltip:** add event arg to onCloseRequest prop ([#2966](https://github.com/skbkontur/retail-ui/issues/2966)) ([6bc3c81](https://github.com/skbkontur/retail-ui/commit/6bc3c81a61593af7aaef9eedf7332638cc459896))
+
+
+
+
+
 # [4.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.2...@skbkontur/react-ui@4.3.0) (2022-08-01)
 
 

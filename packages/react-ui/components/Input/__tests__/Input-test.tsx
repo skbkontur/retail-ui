@@ -70,6 +70,7 @@ describe('<Input />', () => {
 
     for (const prop in props) {
       if (props[prop as keyof typeof props]) {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
       }
     }

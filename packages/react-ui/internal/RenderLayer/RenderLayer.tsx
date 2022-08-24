@@ -11,7 +11,7 @@ export interface RenderLayerProps extends CommonProps {
   onClickOutside?: (e: Event) => void;
   onFocusOutside?: (e: Event) => void;
   active?: boolean;
-  getAnchorElement?: () => Nullable<HTMLElement>;
+  getAnchorElement?: () => Nullable<Element>;
 }
 
 type DefaultProps = Required<Pick<RenderLayerProps, 'active'>>;
@@ -72,7 +72,7 @@ export class RenderLayer extends React.Component<RenderLayerProps> {
     );
   }
 
-  private getAnchorNode(): Nullable<HTMLElement> {
+  private getAnchorNode(): Nullable<Element> {
     const { getAnchorElement } = this.props;
     return getAnchorElement ? getAnchorElement() : getRootNode(this);
   }

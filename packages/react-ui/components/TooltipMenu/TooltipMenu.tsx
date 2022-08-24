@@ -11,7 +11,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 
-export type TooltipMenuChildType = React.ReactElement<MenuItemProps | {} | MenuHeaderProps>;
+export type TooltipMenuChildType = React.ReactElement<MenuItemProps | unknown | MenuHeaderProps>;
 
 export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   children?: TooltipMenuChildType | TooltipMenuChildType[];

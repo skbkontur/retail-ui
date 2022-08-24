@@ -18,7 +18,7 @@ import * as LayoutEvents from '../../lib/LayoutEvents';
 import { Menu } from '../../internal/Menu';
 import { Token, TokenProps } from '../Token';
 import { MenuItemState } from '../MenuItem';
-import { emptyHandler } from '../../lib/utils';
+import { AnyObject, emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { locale } from '../../lib/locale/decorators';
@@ -188,9 +188,9 @@ type DefaultProps<T> = Required<
   >
 >;
 
-const defaultToKey = <T extends {}>(item: T): string => item.toString();
-const identity = <T extends {}>(item: T): T => item;
-const defaultRenderToken = <T extends {}>(
+const defaultToKey = <T extends AnyObject>(item: T): string => item.toString();
+const identity = <T extends unknown>(item: T): T => item;
+const defaultRenderToken = <T extends AnyObject>(
   item: T,
   { isActive, onClick, onDoubleClick, onRemove, disabled }: Partial<TokenProps>,
 ) => (
@@ -240,6 +240,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private textHelper: TextWidthHelper | null = null;
   private wrapper: HTMLLabelElement | null = null;
   private setRootNode!: TSetRootNode;
+  private memoizedTokens = new Map();
 
   public componentDidMount() {
     this.updateInputTextWidth();
@@ -261,6 +262,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     }
     if (prevProps.selectedItems.length !== this.getProps().selectedItems.length) {
       LayoutEvents.emit();
+      this.memoizedTokens.clear();
     }
     if (!this.isCursorVisibleForState(prevState) && this.isCursorVisible) {
       this.tryGetItems(this.isEditingMode ? '' : this.state.inputValue);
@@ -399,7 +401,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
                 loading={loading}
                 opened={showMenu}
                 maxMenuHeight={maxMenuHeight}
-                anchorElement={menuAlign === 'cursor' ? this.input! : this.wrapper!}
+                anchorElement={menuAlign === 'cursor' ? this.input : this.wrapper}
                 renderNotFound={renderNotFound}
                 renderItem={renderItem}
                 onValueChange={this.selectItem}
@@ -591,8 +593,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
   private handleWrapperMouseDown = (event: React.MouseEvent<HTMLElement>) => {
     this.dispatch({ type: 'SET_PREVENT_BLUR', payload: true });
     const target = event.target as HTMLElement;
-    const isClickOnToken =
-      target && this.wrapper?.contains(target) && target !== this.wrapper! && target !== this.input!;
+    const isClickOnToken = target && this.wrapper?.contains(target) && target !== this.wrapper && target !== this.input;
     if (!isClickOnToken) {
       this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' });
     }
@@ -632,7 +633,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
       const tokens = paste.split(delimiters[0]);
       const items = tokens
         .map((token) => valueToItem(token))
-        .filter((item) => !this.hasValueInItems(selectedItems, item!));
+        .filter((item) => !this.hasValueInItems(selectedItems, item));
       const newItems = selectedItems.concat(items);
       onValueChange(newItems);
 
@@ -707,7 +708,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         }
       }
     }
-
+    const isRightmostTokenNotDisabled = !this.isTokenDisabled(this.getProps().selectedItems.length - 1);
     switch (true) {
       case isKeyEnter(e):
         if (this.menuRef) {
@@ -731,13 +732,17 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         this.input?.blur();
         break;
       case isKeyBackspace(e):
-        if (!this.isEditingMode) {
+        if (!this.isEditingMode && isRightmostTokenNotDisabled) {
           this.moveFocusToLastToken();
         }
         break;
       case isKeyArrowLeft(e):
         if (this.input?.selectionStart === 0) {
-          this.moveFocusToLastToken();
+          const index = this.getAvailableTokenIndex(this.getProps().selectedItems.length);
+          const itemNew = this.getProps().selectedItems[index];
+          if (itemNew) {
+            this.dispatch({ type: 'SET_ACTIVE_TOKENS', payload: [itemNew] });
+          }
         }
         break;
     }
@@ -765,7 +770,10 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     switch (true) {
       case isKeyBackspace(e):
       case isKeyDelete(e): {
-        if (!this.isEditingMode) {
+        const indexOfActiveToken = this.getProps().selectedItems.indexOf(
+          this.state.activeTokens[this.state.activeTokens.length - 1],
+        );
+        if (!this.isEditingMode && !this.isTokenDisabled(indexOfActiveToken)) {
           const itemsNew = selectedItems.filter((item) => !this.hasValueInItems(this.state.activeTokens, item));
           onValueChange(itemsNew);
           this.dispatch({ type: 'REMOVE_ALL_ACTIVE_TOKENS' }, () => {
@@ -791,7 +799,7 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         e.preventDefault();
         this.dispatch({
           type: 'SET_ACTIVE_TOKENS',
-          payload: selectedItems,
+          payload: selectedItems.filter((item) => !this.isTokenDisabled(selectedItems.indexOf(item))),
         });
         break;
     }
@@ -802,9 +810,9 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
     const selectedItems = this.getProps().selectedItems;
     const activeTokens = this.state.activeTokens;
     const activeItemIndex = selectedItems.indexOf(activeTokens[0]);
-    const newItemIndex = activeItemIndex + (isKeyArrowLeft(e) ? -1 : +1);
+    const newItemIndex = this.getAvailableTokenIndex(activeItemIndex, isKeyArrowLeft(e));
     const isLeftEdge = activeItemIndex === 0 && isKeyArrowLeft(e);
-    const isRightEdge = activeItemIndex === selectedItems.length - 1 && isKeyArrowRight(e);
+    const isRightEdge = newItemIndex === selectedItems.length && isKeyArrowRight(e);
     if (!e.shiftKey && activeTokens.length === 1) {
       this.handleWrapperArrowsWithoutShift(isLeftEdge, isRightEdge, newItemIndex);
     } else {
@@ -1014,18 +1022,21 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
 
     const handleTokenDoubleClick: React.MouseEventHandler<HTMLDivElement> = (event) => {
       event.stopPropagation();
-      if (!this.isEditingMode) {
+      if (!this.isEditingMode && !disabled) {
         this.handleTokenEdit(item);
       }
     };
 
-    return renderToken(item, {
+    const renderedToken = renderToken(item as T & AnyObject, {
       isActive,
       onClick: handleTokenClick,
       onDoubleClick: handleTokenDoubleClick,
       onRemove: handleIconClick,
       disabled,
     });
+
+    this.memoizedTokens.set(this.props.selectedItems?.indexOf(item), renderedToken);
+    return renderedToken;
   };
 
   private renderAddButton = (value = this.state.inputValue): React.ReactNode | undefined => {
@@ -1044,5 +1055,36 @@ export class TokenInput<T = string> extends React.PureComponent<TokenInputProps<
         {addButtonTitle} {value}
       </MenuItem>
     );
+  };
+
+  private isTokenDisabled = (itemIndex: number) => {
+    let renderedToken;
+    if (this.memoizedTokens.has(itemIndex)) {
+      renderedToken = this.memoizedTokens.get(itemIndex);
+    } else if (itemIndex < 0 || itemIndex > this.getProps().selectedItems.length - 1) {
+      return false;
+    } else {
+      renderedToken = this.renderToken(this.getProps().selectedItems[itemIndex]) as React.ReactElement<
+        TokenInputProps<unknown>
+      >;
+    }
+    return renderedToken.props.disabled;
+  };
+
+  private getAvailableTokenIndex = (startIndex: number, isDirectionLeft = true) => {
+    const { selectedItems } = this.getProps();
+    const step = isDirectionLeft ? -1 : +1;
+    let availableIndex = startIndex + step;
+
+    while (this.isTokenDisabled(availableIndex)) {
+      availableIndex += step;
+      if (availableIndex === selectedItems.length) {
+        return availableIndex;
+      } else if (availableIndex === -1) {
+        return startIndex;
+      }
+    }
+
+    return availableIndex;
   };
 }

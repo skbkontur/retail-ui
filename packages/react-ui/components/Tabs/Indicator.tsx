@@ -61,7 +61,7 @@ export class Indicator extends React.Component<IndicatorProps, IndicatorState> {
     }
   }
 
-  public componentDidUpdate(_: IndicatorProps, prevState: IndicatorState) {
+  public componentDidUpdate() {
     this.reflow();
   }
 

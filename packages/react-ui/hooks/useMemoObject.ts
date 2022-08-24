@@ -1,5 +1,7 @@
 import { useMemo } from 'react';
 
-export const useMemoObject = <TObject extends object>(objectValue: TObject) => {
+import { AnyObject } from '../lib/utils';
+
+export const useMemoObject = <TObject extends AnyObject>(objectValue: TObject) => {
   return useMemo<TObject>(() => objectValue, Object.values(objectValue));
 };

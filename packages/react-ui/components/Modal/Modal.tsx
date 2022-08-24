@@ -218,7 +218,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                   return (
                     <div
                       className={cx({
-                        [styles.centerContainer(this.theme)]: true,
+                        [styles.centerContainer()]: true,
                         [styles.mobileCenterContainer()]: isMobile,
                         [styles.alignTop()]: Boolean(this.props.alignTop),
                       })}
@@ -330,7 +330,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
 
   private throttledCheckHorizontalScroll = throttle(this.checkHorizontalScrollAppearance, 100);
 
-  private handleResize = (event: UIEvent) => {
+  private handleResize = () => {
     LayoutEvents.emit();
   };
 

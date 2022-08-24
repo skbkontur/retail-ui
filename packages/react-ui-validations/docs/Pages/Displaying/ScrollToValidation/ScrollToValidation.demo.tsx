@@ -7,15 +7,8 @@ import { Form } from '../../../Common/Form';
 import { SpaceFiller } from '../../../Common/SpaceFiller';
 import { Nullable } from '../../../../typings/Types';
 
-interface State {
-  value0: string;
-  value1: string;
-  value2: string;
-  value3: string;
-}
-
-export default class ScrollToValidationDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class ScrollToValidationDemo extends React.Component {
+  public state = {
     value0: '',
     value1: '',
     value2: '',

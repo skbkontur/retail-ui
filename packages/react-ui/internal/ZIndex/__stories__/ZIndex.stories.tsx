@@ -8,8 +8,8 @@ import { Select } from '../../../components/Select';
 import { Kebab } from '../../../components/Kebab';
 import { MenuItem } from '../../../components/MenuItem';
 import { Center } from '../../../components/Center';
-import { Hint } from '../../../components/Hint';
-import { Tooltip } from '../../../components/Tooltip';
+import { Hint, HintProps } from '../../../components/Hint';
+import { Tooltip, TooltipTrigger } from '../../../components/Tooltip';
 import { ZIndex } from '../ZIndex';
 import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
@@ -39,7 +39,7 @@ const linearDarkGradient = `repeating-linear-gradient(
                                 #444 40px
                               )`;
 
-class ZKebab extends React.Component<{}> {
+class ZKebab extends React.Component {
   public render() {
     return (
       <Kebab>
@@ -54,13 +54,16 @@ class ZKebab extends React.Component<{}> {
   }
 }
 
-class ZSelect extends React.Component<{}> {
+class ZSelect extends React.Component {
   public render() {
     return <Select value={1} items={[1, 2, 3, 4, 5, 6]} />;
   }
 }
 
-class ZLoader extends React.Component<{ size: number }> {
+interface ZLoaderProps {
+  size: number;
+}
+class ZLoader extends React.Component<ZLoaderProps> {
   public render() {
     const size = this.props.size + 'px';
     const style = { height: size, fontSize: '20px', border: 'solid red 1px' };
@@ -84,7 +87,11 @@ class ZLoader extends React.Component<{ size: number }> {
   }
 }
 
-class ZModal extends React.Component<{ size: number; children?: React.ReactNode }> {
+interface ZModalProps {
+  size: number;
+  children?: React.ReactNode;
+}
+class ZModal extends React.Component<ZModalProps> {
   public render() {
     const size = this.props.size + 'px';
     return (
@@ -97,7 +104,7 @@ class ZModal extends React.Component<{ size: number; children?: React.ReactNode 
   }
 }
 
-class LightboxUnderLightbox extends React.Component<{}> {
+class LightboxUnderLightbox extends React.Component {
   public render() {
     return (
       <div>
@@ -113,17 +120,7 @@ interface ZSampleProps {
   current?: number;
 }
 
-interface ZSampleState {
-  modal: boolean;
-  popup: boolean;
-}
-
-interface InputWithTooltipProps {
-  text?: string;
-  pos?: PopupPositionsType;
-}
-
-class ZSample extends React.Component<ZSampleProps, ZSampleState> {
+class ZSample extends React.Component<ZSampleProps> {
   public state = {
     modal: false,
     popup: false,
@@ -196,7 +193,7 @@ class ZSample extends React.Component<ZSampleProps, ZSampleState> {
   }
 }
 
-class Demo extends React.Component<{}> {
+class Demo extends React.Component {
   public render() {
     return (
       <div>
@@ -236,6 +233,11 @@ class Demo extends React.Component<{}> {
   }
 }
 
+interface InputWithTooltipProps {
+  text?: string;
+  pos?: PopupPositionsType;
+}
+
 const InputWithTooltip = ({ text = 'Hello', pos = 'top right' }: InputWithTooltipProps) => (
   <Tooltip render={() => text} trigger="opened" pos={pos}>
     <Input />
@@ -250,7 +252,7 @@ const ModalWrapper = ({ caption = 'Title', ...props }: { caption?: string; child
   </Modal>
 );
 
-class LoaderCoversTooltip extends React.Component<{}> {
+class LoaderCoversTooltip extends React.Component {
   public render() {
     return (
       <div style={{ width: '500px' }}>
@@ -263,7 +265,7 @@ class LoaderCoversTooltip extends React.Component<{}> {
   }
 }
 
-class ModalWithTooltipInLoader extends React.Component<{}> {
+class ModalWithTooltipInLoader extends React.Component {
   public render() {
     return (
       <Loader type="big" active>
@@ -277,7 +279,7 @@ class ModalWithTooltipInLoader extends React.Component<{}> {
   }
 }
 
-class TooltipNearLoader extends React.Component<{}> {
+class TooltipNearLoader extends React.Component {
   public render() {
     return (
       <div style={{ display: 'flex', width: 500, paddingBottom: 10 }}>
@@ -293,7 +295,7 @@ class TooltipNearLoader extends React.Component<{}> {
   }
 }
 
-class NestedElementsInLoader extends React.Component<{}> {
+class NestedElementsInLoader extends React.Component {
   public renderNestedModal() {
     return (
       <ModalWrapper caption="Second Modal Title">
@@ -319,8 +321,12 @@ class NestedElementsInLoader extends React.Component<{}> {
   }
 }
 
-class HintAndModal extends React.Component<{}> {
-  public state = {
+interface HintAndModalState {
+  modalOpened: boolean;
+  hintOpened: HintProps['opened'];
+}
+class HintAndModal extends React.Component {
+  public state: HintAndModalState = {
     modalOpened: false,
     hintOpened: false,
   };
@@ -380,7 +386,7 @@ class HintAndModal extends React.Component<{}> {
   }
 }
 
-class LoaderInModal extends React.Component<{}> {
+class LoaderInModal extends React.Component {
   public render() {
     return (
       <Modal>
@@ -396,12 +402,11 @@ class LoaderInModal extends React.Component<{}> {
   }
 }
 interface TooltipAndDropdownMenuState {
-  tooltipTrigger: 'closed' | 'opened';
+  trigger: TooltipTrigger;
 }
-
-class TooltipAndSelect extends React.Component<{}> {
+class TooltipAndSelect extends React.Component {
   public state: TooltipAndDropdownMenuState = {
-    tooltipTrigger: 'closed',
+    trigger: 'closed',
   };
 
   public render() {
@@ -420,9 +425,9 @@ class TooltipAndSelect extends React.Component<{}> {
 
     return (
       <div className="container" style={{ height: '300px', width: '300px' }}>
-        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.tooltipTrigger}>
+        <Tooltip render={tooltipRender} pos="bottom right" trigger={this.state.trigger}>
           <Select
-            onKeyDown={() => this.setState({ tooltipTrigger: 'opened' })}
+            onKeyDown={() => this.setState({ trigger: 'opened' })}
             width={120}
             value={'small'}
             items={['small', 'medium', 'large']}
@@ -434,7 +439,7 @@ class TooltipAndSelect extends React.Component<{}> {
   }
 }
 
-class LoaderInSidePage extends React.Component<{}> {
+class LoaderInSidePage extends React.Component {
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -469,7 +474,7 @@ class LoaderInSidePage extends React.Component<{}> {
   }
 }
 
-class SidePageAndSelect extends React.Component<{}> {
+class SidePageAndSelect extends React.Component {
   public state = {
     opened: false,
   };
@@ -531,7 +536,7 @@ class SidePageAndSelect extends React.Component<{}> {
   }
 }
 
-class BigModalWithLoader extends React.Component<{}> {
+class BigModalWithLoader extends React.Component {
   public render() {
     return (
       <Modal>

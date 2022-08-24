@@ -24,7 +24,7 @@ describe('ZIndex', () => {
 
     wrapper.setProps({ applyZIndex: false });
 
-    expect(unmountFn).not.toBeCalled();
+    expect(unmountFn).not.toHaveBeenCalled();
   });
 
   it('should update `zIndex` style when update `priority` prop', () => {

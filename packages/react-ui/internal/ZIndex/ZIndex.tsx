@@ -33,7 +33,7 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 type DefaultProps = Required<
-  Pick<ZIndexProps, 'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext'>
+  Pick<ZIndexProps, 'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext' | 'contextOnly'>
 >;
 
 @rootNode
@@ -98,7 +98,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
       createStackingContext,
       wrapperRef,
       contextOnly,
-      ...props
+      ...rest
     } = this.getProps();
 
     const wrapperStyle: React.CSSProperties = {};
@@ -126,7 +126,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
           const child = contextOnly ? (
             children
           ) : (
-            <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
+            <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...rest}>
               {children}
             </div>
           );

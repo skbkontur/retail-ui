@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isHTMLElement } from '../../lib/SSRSafe';
 import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
@@ -222,7 +223,10 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private focusOnRootElement = (): void => {
-    getRootNode(this)?.focus();
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
@@ -289,14 +293,18 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (typeof originalRef === 'function') {
       originalRef(menuItem);
     } else if (typeof originalRef === 'object') {
-      // @ts-ignore see issue https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
+      // @ts-expect-error: See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065.
       originalRef.current = menuItem;
     }
   }
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+      const rootNode = getRootNode(this.highlighted);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
     }
   };
 
@@ -324,7 +332,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    getRootNode(this)?.focus();
+
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private unhighlight = () => {

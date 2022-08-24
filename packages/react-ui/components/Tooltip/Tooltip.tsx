@@ -279,7 +279,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     );
   }
 
-  public getAnchorElement = (): Nullable<HTMLElement> => {
+  public getAnchorElement = (): Nullable<Element> => {
     return this.popupRef.current?.anchorElement;
   };
 
