@@ -33,11 +33,18 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 type DefaultProps = Required<
-  Pick<ZIndexProps, 'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext' | 'contextOnly'>
+  Pick<
+    ZIndexProps,
+    'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext' | 'contextOnly'
+  >
 >;
 
+interface ZIndexState {
+  zIndex: number;
+}
+
 @rootNode
-export class ZIndex extends React.Component<ZIndexProps> {
+export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
   public static defaultProps: DefaultProps = {
@@ -48,6 +55,10 @@ export class ZIndex extends React.Component<ZIndexProps> {
     coverChildren: false,
     createStackingContext: false,
     contextOnly: false,
+  };
+
+  public state = {
+    zIndex: 0,
   };
 
   private getProps = createPropsGetter(ZIndex.defaultProps);
@@ -63,28 +74,22 @@ export class ZIndex extends React.Component<ZIndexProps> {
     },
   };
 
-  private zIndex = 0;
-
   private setRootNode!: TSetRootNode;
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = incrementZIndex(this.getProps().priority, this.getProps().delta);
+    this.state.zIndex = this.increment();
   }
 
   public componentDidUpdate(prevProps: Readonly<ZIndexProps>) {
     if (prevProps.priority !== this.props.priority || prevProps.delta !== this.props.delta) {
-      const newZIndex = incrementZIndex(this.props.priority, this.props.delta);
-      if (this.zIndex !== newZIndex) {
-        removeZIndex(this.zIndex);
-        this.zIndex = newZIndex;
-        this.forceUpdate();
-      }
+      removeZIndex(this.state.zIndex);
+      this.setState({ zIndex: this.increment() });
     }
   }
 
   public componentWillUnmount() {
-    removeZIndex(this.zIndex);
+    removeZIndex(this.state.zIndex);
   }
 
   public render() {
@@ -144,7 +149,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
   };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
-    let newZIndex = this.zIndex;
+    let newZIndex = this.state.zIndex;
 
     if (Number.isFinite(maxZIndex)) {
       const allowedValuesIntervalLength = maxZIndex - parentLayerZIndex;
@@ -156,4 +161,10 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
     return newZIndex;
   }
+
+  private increment = () => {
+    const { priority, delta } = this.getProps();
+
+    return incrementZIndex(priority, delta);
+  };
 }
