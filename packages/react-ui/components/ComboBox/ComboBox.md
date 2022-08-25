@@ -68,16 +68,10 @@ const getItems = q => {
   )
 };
 
-const handleUnexpectedInput = () => {
-  setSelected(null);
-  setError(true);
-};
-
 <Group>
   <ComboBox
     getItems={getItems}
     onValueChange={setValue}
-    onUnexpectedInput={handleUnexpectedInput}
     placeholder="Введите число"
     value={value}
   />

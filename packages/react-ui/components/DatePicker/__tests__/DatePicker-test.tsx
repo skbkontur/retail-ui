@@ -1,5 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
+import { render, screen } from '@testing-library/react';
+import React, { useState } from 'react';
+import userEvent from '@testing-library/user-event';
 
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
@@ -194,5 +196,31 @@ describe('DatePicker', () => {
 
       expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
     });
+  });
+
+  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+    const Comp = () => {
+      const [value, setValue] = useState<string | null | undefined>('24.08.2022');
+
+      return (
+        <>
+          <DatePicker value={value} onValueChange={setValue} />
+          <button onClick={() => setValue(testValue)}>Clear</button>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const input = screen.getByTestId('InputLikeText__input');
+    expect(input).toHaveTextContent('24.08.2022');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    // purifying input's value as it has excess symbols
+    const purifiedInput = input.textContent?.replace(/\./g, '').trim();
+    expect(purifiedInput).toBe('');
+
+    userEvent.type(input, '24.08.2022');
+    expect(input).toHaveTextContent('24.08.2022');
   });
 });
