@@ -300,8 +300,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     const hasOneFile = !!files.length && !multiple;
     const enoughSpace = minFileNameWidth < containerWidth;
 
-    setLinkVisibility(hasOneFile ? enoughSpace : true);
-  }, [size, files]);
+    setLinkVisibility(hasOneFile && !hideFiles ? enoughSpace : true);
+  }, [size, files, hideFiles]);
 
   return (
     <CommonWrapper {...props}>
