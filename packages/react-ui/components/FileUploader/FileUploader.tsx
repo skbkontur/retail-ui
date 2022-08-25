@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -81,6 +81,17 @@ export const FileUploaderDataTids = {
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
+const getMinFileNameWidth = (size: FileUploaderSize) => {
+  switch (size) {
+    case 'small':
+      return 20;
+    case 'medium':
+      return 24;
+    case 'large':
+      return 30;
+  }
+};
+
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
   const theme = useContext(ThemeContext);
 
@@ -108,10 +119,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const locale = useControlLocale();
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const fileDivRef = useRef<HTMLDivElement>(null);
 
   const isAsync = !!request;
   const isSingleMode = !multiple;
 
+  const [isLinkVisible, setLinkVisibility] = useState(true);
   const upload = useUpload(request, onRequestSuccess, onRequestError);
 
   const tryValidateAndUpload = useCallback(
@@ -281,6 +294,15 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
+  useEffect(() => {
+    const containerWidth = fileDivRef.current?.offsetWidth ?? 0;
+    const minFileNameWidth = getMinFileNameWidth(size);
+    const hasOneFile = !!files.length && !multiple;
+    const enoughSpace = minFileNameWidth < containerWidth;
+
+    setLinkVisibility(hasOneFile ? enoughSpace : true);
+  }, [size, files]);
+
   return (
     <CommonWrapper {...props}>
       <div data-tid={FileUploaderDataTids.root} className={jsStyles.root(theme)} style={useMemoObject({ width })}>
@@ -297,14 +319,19 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                 data-tid={FileUploaderDataTids.content}
                 className={hasOneFileForSingle ? jsStyles.contentWithFiles() : jsStyles.content()}
               >
-                <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
-                  {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
-                </span>
+                {isLinkVisible && (
+                  <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
+                    {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
+                  </span>
+                )}
                 &nbsp;
                 <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
                   {hasOneFileForSingle ? (
-                    <div className={jsStyles.singleFile()}>
-                      {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
+                    <div ref={fileDivRef} className={jsStyles.singleFile()}>
+                      {renderFile(
+                        files[0],
+                        <FileUploaderFile file={files[0]} size={size} containerChanged={isLinkVisible} />,
+                      )}
                     </div>
                   ) : (
                     <>

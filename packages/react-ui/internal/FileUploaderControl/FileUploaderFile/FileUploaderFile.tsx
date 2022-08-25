@@ -26,6 +26,8 @@ interface FileUploaderFileProps {
   size: FileUploaderSize;
   /** Состояние ошибки контрола файла */
   error?: boolean;
+  /** Пропс для пересчета имени файла после скрытия надписи "Выбран файл" */
+  containerChanged?: boolean;
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
@@ -52,7 +54,7 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
-  const { file, showSize, error, multiple, size } = props;
+  const { file, showSize, error, multiple, size, containerChanged } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size: fileSize } = originalFile;
 
@@ -75,7 +77,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     const truncatedName = getTruncatedName(fileNameWidth, fileNameElementWidth, name);
 
     setTruncatedFileName(truncatedName);
-  }, [name]);
+  }, [name, containerChanged]);
 
   const removeUploadFile = useCallback(() => {
     removeFile(id);

@@ -1667,7 +1667,7 @@ export class DefaultTheme {
     return this.controlLineHeightSmall;
   }
   public static get fileUploaderLineHeightSmall() {
-    return this.controlLineHeightSmall;
+    return this.fileUploaderLineHeight;
   }
   public static get fileUploaderLineHeightMedium() {
     return this.controlLineHeightMedium;
@@ -1676,7 +1676,7 @@ export class DefaultTheme {
     return this.controlLineHeightLarge;
   }
   public static get fileUploaderPaddingYSmall() {
-    return this.controlPaddingYSmall;
+    return this.fileUploaderPaddingY;
   }
   public static get fileUploaderPaddingYMedium() {
     return this.controlPaddingYMedium;
@@ -1691,7 +1691,7 @@ export class DefaultTheme {
   public static get fileUploaderPaddingY() {
     return this.controlPaddingYSmall;
   }
-  public static fileUploaderBorderRadius = '8px';
+  public static fileUploaderBorderRadius = '2px';
   public static fileUploaderBorderColor = 'rgba(0, 0, 0, 0.37)';
   public static get fileUploaderBorderWidth() {
     return this.controlBorderWidth;
