@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 
+import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
@@ -212,7 +213,7 @@ describe('DatePicker', () => {
 
     render(<Comp />);
 
-    const input = screen.getByTestId('InputLikeText__input');
+    const input = screen.getByTestId(InputLikeTextDataTids.input);
     expect(input).toHaveTextContent('24.08.2022');
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
