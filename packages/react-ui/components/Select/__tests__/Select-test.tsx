@@ -107,7 +107,7 @@ describe('Select', () => {
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: 'Ничего не выбрано' });
+    const button = screen.getByRole('button', { name: SelectLocaleHelper.get(defaultLangCode).placeholder as string });
     await userEvent.click(button);
 
     // All items should be presented when `Select` is opened.
@@ -209,7 +209,7 @@ describe('Select', () => {
     expect(input).toHaveTextContent('One');
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    expect(input).toHaveTextContent('Ничего не выбрано');
+    expect(input).toHaveTextContent(SelectLocaleHelper.get(defaultLangCode).placeholder as string);
   });
 
   describe('Locale', () => {
