@@ -1428,7 +1428,7 @@ export class DefaultTheme {
   public static get radioDisabledShadow() {
     return `0 0 0 ${this.radioBorderWidth} ${this.borderColorDisabled}`;
   }
-  public static radioCaptionDisplay = 'inline-table';
+  public static radioCaptionDisplay = 'inline-flex';
   public static radioBorderWidthCompensation = '0px';
   public static radioCircleOffsetY = '1px';
   //#endregion
