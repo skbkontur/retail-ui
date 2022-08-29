@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 
+import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
 import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
@@ -217,9 +218,10 @@ describe('DatePicker', () => {
     expect(input).toHaveTextContent('24.08.2022');
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    // purifying input's value as it has excess symbols
-    const purifiedInput = input.textContent?.replace(/\./g, '').trim();
-    expect(purifiedInput).toBe('');
+    const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
+    // Matcher .toHaveTextContent somehow modifies input and doesn't understand symbol from MASK_CHAR_EXEMPLAR
+    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
+    expect(input.textContent).toBe(expected);
 
     userEvent.type(input, '24.08.2022');
     expect(input).toHaveTextContent('24.08.2022');
