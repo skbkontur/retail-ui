@@ -12,32 +12,30 @@ import EventEmitter from 'eventemitter3';
 /**
  * EventEmitter wrapper with compatibility with all later versions of `@skbkontur/react-ui`.
  */
-export class Emitter {
-  public _emitter: EventEmitter;
-  constructor() {
-    this._emitter = new EventEmitter();
-  }
-
+export class Emitter extends EventEmitter {
+  // @ts-expect-error: Type 'FallbackFBEmitter' is not assignable to type 'this'
   public addListener = <T extends EventEmitter.EventNames<string | symbol>>(
     event: T,
     fn: EventEmitter.EventListener<string | symbol, T>,
+    context?: any,
   ): FallbackFBEmitter => {
-    this._emitter.addListener(event, fn);
+    super.addListener(event, fn, context);
 
     return new FallbackFBEmitter(() => this.removeListener?.(event, fn));
   };
 
   public emit = <T extends EventEmitter.EventNames<string | symbol>>(event: T, ...args: unknown[]): boolean => {
-    return this._emitter.emit(event, ...args);
+    return super.emit(event, ...args);
   };
 
-  // Method is optional because it is not present in `fbemitter`
+  // @ts-expect-error Method is optional because it is not present in `fbemitter`
   public removeListener? = <T extends EventEmitter.EventNames<string | symbol>>(
     event: T,
     fn?: EventEmitter.EventListener<string | symbol, T>,
+    context?: any,
+    once?: boolean,
   ): this => {
-    this._emitter.removeListener(event, fn);
-    return this;
+    return super.removeListener(event, fn, context, once);
   };
 }
 

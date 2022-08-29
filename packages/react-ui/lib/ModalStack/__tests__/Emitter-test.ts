@@ -2,7 +2,7 @@ import { Emitter } from '../Emitter';
 
 const getCountListeners = (emitter: Emitter): number => {
   // @ts-expect-error: internal code is not typing
-  const change = emitter._emitter._events?.change;
+  const change = emitter._events?.change;
   if (typeof change !== 'undefined') {
     if (Array.isArray(change)) {
       return change.length;
