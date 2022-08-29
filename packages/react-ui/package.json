@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.4.0",
+  "version": "4.5.1",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -150,22 +150,5 @@
   "peerDependencies": {
     "react": ">=16.9",
     "react-dom": ">=16.9"
-  },
-  "jest": {
-    "testResultsProcessor": "jest-teamcity-reporter",
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "transform": {
-      "\\.[jt]sx?$": "babel-jest"
-    },
-    "testRegex": "__tests__(\\\\|/).*(\\.|-)test\\.(j|t)sx?$",
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/test-setup.js"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ]
   }
 }

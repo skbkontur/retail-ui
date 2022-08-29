@@ -1,34 +1,48 @@
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import React, { createRef, useCallback, useContext, useEffect, useState } from 'react';
 
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
-import { ResponsiveLayoutFlags } from './types';
+import { EmptyObject, MediaQueriesType, ResponsiveLayoutFlags, ResponsiveLayoutOptions } from './types';
 import { addResponsiveLayoutListener, checkMatches } from './ResponsiveLayoutEvents';
 
-export function useResponsiveLayout() {
+export function useResponsiveLayout<T extends MediaQueriesType = EmptyObject>({
+  customMediaQueries,
+}: ResponsiveLayoutOptions<T> = {}) {
   const theme = useContext(ThemeContext);
 
-  const getLayoutFromGlobal = (): ResponsiveLayoutFlags => {
-    const isMobile = checkMatches(theme.mobileMediaQuery);
+  const allMediaQueries = Object.entries({
+    isMobile: theme.mobileMediaQuery,
+    ...customMediaQueries,
+  }).map(([key, value]) => ({
+    flag: key,
+    query: value,
+    ref: createRef() as React.MutableRefObject<{ remove: () => void } | null>,
+  }));
 
-    return { isMobile: !!isMobile };
+  const getLayoutFromGlobal = (): ResponsiveLayoutFlags<T> => {
+    return allMediaQueries.reduce(
+      (result, mediaQuery) => Object.assign(result, { [mediaQuery.flag]: checkMatches(mediaQuery.query) }),
+      {},
+    ) as ResponsiveLayoutFlags<T>;
   };
 
   const [state, setState] = useState(getLayoutFromGlobal());
-
-  const mobileListener: React.MutableRefObject<{ remove: () => void } | null> = useRef(null);
 
   const prepareMediaQueries = useCallback(() => {
     if (!theme) {
       return;
     }
 
-    mobileListener.current = addResponsiveLayoutListener(theme.mobileMediaQuery, checkLayoutsMediaQueries);
+    allMediaQueries.forEach(
+      (mediaQuery) =>
+        (mediaQuery.ref.current = addResponsiveLayoutListener(mediaQuery.query, checkLayoutsMediaQueries)),
+    );
 
     // Checking for SSR use case
     const globalLayout = getLayoutFromGlobal();
+    const hasChangedQuery = Object.entries(globalLayout).find(([key, value]) => state[key] !== value);
 
-    if (globalLayout.isMobile !== state.isMobile) {
+    if (hasChangedQuery) {
       setState(globalLayout);
     }
   }, [theme]);
@@ -39,12 +53,14 @@ export function useResponsiveLayout() {
         return;
       }
 
-      if (e.media === theme.mobileMediaQuery) {
-        setState((prevState: ResponsiveLayoutFlags) => ({
-          ...prevState,
-          isMobile: e.matches,
-        }));
-      }
+      allMediaQueries.forEach((mediaQuery) => {
+        if (e.media === mediaQuery.query) {
+          setState((prevState: ResponsiveLayoutFlags<T>) => ({
+            ...prevState,
+            [mediaQuery.flag]: e.matches,
+          }));
+        }
+      });
     },
     [theme],
   );
@@ -53,7 +69,7 @@ export function useResponsiveLayout() {
     prepareMediaQueries();
 
     return () => {
-      mobileListener.current?.remove();
+      allMediaQueries.forEach((mediaQuery) => mediaQuery.ref.current?.remove());
     };
   }, []);
 
