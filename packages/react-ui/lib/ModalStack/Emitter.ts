@@ -3,7 +3,7 @@ import EventEmitter from 'eventemitter3';
 // there are cases when users use several versions of `@skbkontur/react-ui` in one app.
 // later versions use the `fbemitter` package, which does not have a `removeListener()` method
 // meanwhile, `eventemitter3` does not have a `remove()` method.
-// we didn't take this into account when we replaced `eventemitter3` with `fbemitter`.
+// we didn't take this into account when we replaced `fbemitter` with `eventemitter3`.
 
 // when this problem was found, we released fixes for more popular versions.
 // but not all teams can move to fixed versions, that may cause app crashing.
