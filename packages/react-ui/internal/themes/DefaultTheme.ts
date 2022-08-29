@@ -1085,6 +1085,9 @@ export class DefaultTheme {
   public static inputShadow = 'none';
   public static inputBg = 'white';
   public static inputIconColor = '#a9a9a9';
+  public static get inputFocusedIconColor() {
+    return this.inputIconColor;
+  }
   public static inputColor = 'inherit';
   public static inputWidth = '200px';
   public static get inputTextColorDisabled() {
@@ -1146,6 +1149,9 @@ export class DefaultTheme {
   public static inputIconSizeLarge = '20px';
   public static get inputFocusShadow() {
     return `0 0 0 ${this.inputOutlineWidth} ${this.borderColorFocus}`;
+  }
+  public static get inputFocusedBg() {
+    return this.inputBg;
   }
   public static get inputDisabledBg() {
     return this.bgDisabled;

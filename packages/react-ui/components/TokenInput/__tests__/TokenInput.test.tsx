@@ -1,5 +1,7 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
+import React, { useState } from 'react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext, LocaleContextProps } from '../../../lib/locale';
@@ -7,6 +9,7 @@ import { delay } from '../../../lib/utils';
 import { TokenInputLocaleHelper } from '../locale';
 import { TokenInput, TokenInputType } from '../TokenInput';
 import { TokenInputMenu } from '../TokenInputMenu';
+import { Token } from '../../Token';
 
 async function getItems(query: string) {
   return Promise.resolve(['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query)));
@@ -163,4 +166,47 @@ describe('<TokenInput />', () => {
 
     expect(onValueChange).toHaveBeenCalledWith([value]);
   });
+
+  it('should delete Token with Backspace', async () => {
+    render(<TokenInputWithState disabledToken={'yyy'} />);
+    const input = screen.getByRole('textbox');
+    await userEvent.click(input);
+    await userEvent.keyboard('[Backspace>2]');
+    expect(screen.queryByText('zzz')).not.toBeInTheDocument();
+  });
+
+  it('should not delete disabled Token with Backspace', async () => {
+    render(<TokenInputWithState disabledToken={'yyy'} />);
+    const input = screen.getByRole('textbox');
+    await userEvent.click(input);
+    await userEvent.keyboard('[Backspace>4]');
+    expect(screen.getByText('yyy')).toBeInTheDocument();
+  });
+
+  it('should add new Token after navigations with arrows', async () => {
+    render(<TokenInputWithState disabledToken={'zzz'} />);
+    const input = screen.getByRole('textbox');
+    await userEvent.click(input);
+    await userEvent.keyboard('[ArrowLeft>3]');
+    await userEvent.keyboard('[ArrowRight>4]');
+    await userEvent.click(screen.getAllByRole('button')[0]);
+    expect(screen.getByText('aaa')).toBeInTheDocument();
+  });
 });
+
+function TokenInputWithState(props: { disabledToken: string }) {
+  const [selectedItems, setSelectedItems] = useState(['xxx', 'yyy', 'zzz']);
+  return (
+    <TokenInput
+      type={TokenInputType.Combined}
+      getItems={getItems}
+      selectedItems={selectedItems}
+      onValueChange={setSelectedItems}
+      renderToken={(item, tokenProps) => (
+        <Token key={item.toString()} {...tokenProps} disabled={item.toString() === props.disabledToken}>
+          {item}
+        </Token>
+      )}
+    />
+  );
+}

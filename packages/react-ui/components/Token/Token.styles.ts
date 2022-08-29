@@ -33,6 +33,7 @@ export const styles = memoizeStyle({
       user-select: text;
       cursor: text;
       color: ${t.tokenTextColorDisabled};
+      pointer-events: none;
 
       .${globalClasses.removeIcon} {
         visibility: hidden;
