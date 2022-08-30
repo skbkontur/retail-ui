@@ -219,9 +219,7 @@ describe('DatePicker', () => {
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
-    // Matcher .toHaveTextContent somehow modifies input and doesn't understand symbol from MASK_CHAR_EXEMPLAR
-    // eslint-disable-next-line jest-dom/prefer-to-have-text-content
-    expect(input.textContent).toBe(expected);
+    expect(input).toHaveTextContent(expected, { normalizeWhitespace: false });
 
     userEvent.type(input, '24.08.2022');
     expect(input).toHaveTextContent('24.08.2022');
