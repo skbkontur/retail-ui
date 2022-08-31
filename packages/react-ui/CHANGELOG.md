@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.0...@skbkontur/react-ui@4.5.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **Radio:** fix text gap when radio is inside table ([#2983](https://github.com/skbkontur/retail-ui/issues/2983)) ([e546e4d](https://github.com/skbkontur/retail-ui/commit/e546e4d69b0896e36319e636310f988ebb854106))
+
+
+
+
+
+# [4.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.4.0...@skbkontur/react-ui@4.5.0) (2022-08-24)
+
+
+### Bug Fixes
+
+* **Input:** restore background-clip in focus state ([#2986](https://github.com/skbkontur/retail-ui/issues/2986)) ([5a10fd8](https://github.com/skbkontur/retail-ui/commit/5a10fd84233fe8edcc6cc42cd4ddc6f754512779))
+* **react-ui:** add inputFocusedBg and inputFocusedIconColor variables ([#2981](https://github.com/skbkontur/retail-ui/issues/2981)) ([9bc3f9c](https://github.com/skbkontur/retail-ui/commit/9bc3f9c6a8b3c5aa7f166008b9b1191537e648d6))
+* **TokenInput:** fix some scenarios with disabled input and tokens ([#2943](https://github.com/skbkontur/retail-ui/issues/2943)) ([64c999c](https://github.com/skbkontur/retail-ui/commit/64c999c942357011c0695701e43911bdfdc52559))
+* **ValidationContainer:** fix scroll to invalid field on submit ([#2930](https://github.com/skbkontur/retail-ui/issues/2930)) ([c2b966b](https://github.com/skbkontur/retail-ui/commit/c2b966bc8f2fcaac63e377e4d98669a14de610c3))
+
+
+### Features
+
+* **ResponsiveLayout,useResponsiveLayout:** custom media queries ([#2957](https://github.com/skbkontur/retail-ui/issues/2957)) ([7befaf9](https://github.com/skbkontur/retail-ui/commit/7befaf9d9222c95d99150aba37988cec9a5b0326))
+
+
+
+
+
 # [4.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.1...@skbkontur/react-ui@4.4.0) (2022-08-16)
 
 **Note:** Version bump due significan refactoring
