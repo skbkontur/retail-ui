@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { mount, ReactWrapper } from 'enzyme';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -1213,5 +1215,30 @@ describe('ComboBox', () => {
 
       expect(wrapper.find(MenuItem).text()).toBe(expected);
     });
+  });
+
+  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+    const Comp = () => {
+      const [value, setValue] = useState<unknown>({ value: 1, label: 'First' });
+
+      const getItems = () => {
+        return Promise.resolve([{ value: 1, label: 'First' }]);
+      };
+
+      return (
+        <>
+          <ComboBox getItems={getItems} onValueChange={setValue} value={value} />
+          <button onClick={() => setValue(testValue)}>Clear</button>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const input = screen.getByTestId('InputLikeText__input');
+    expect(input).toHaveTextContent('First');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    expect(input).toHaveTextContent('');
   });
 });
