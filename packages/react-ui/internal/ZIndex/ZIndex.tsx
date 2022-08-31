@@ -25,17 +25,18 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
 
   /**
-   * Не оборачивать children в див со стилями.
+   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<div/>`.
+   * Для случаев, когда необходимо задать **только** контекст для области.
    *
-   * Для случаев когда необходимо принудительно задать контекст индексов для области.
+   * @default true
    */
-  contextOnly?: boolean;
+  useWrapper?: boolean;
 }
 
 type DefaultProps = Required<
   Pick<
     ZIndexProps,
-    'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext' | 'contextOnly'
+    'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext' | 'useWrapper'
   >
 >;
 
@@ -54,7 +55,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
     applyZIndex: true,
     coverChildren: false,
     createStackingContext: false,
-    contextOnly: false,
+    useWrapper: true,
   };
 
   public state = {
@@ -102,7 +103,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
       coverChildren,
       createStackingContext,
       wrapperRef,
-      contextOnly,
+      useWrapper,
       ...rest
     } = this.getProps();
 
@@ -128,7 +129,7 @@ export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
             }
           }
 
-          const child = contextOnly ? (
+          const child = !useWrapper ? (
             children
           ) : (
             <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...rest}>

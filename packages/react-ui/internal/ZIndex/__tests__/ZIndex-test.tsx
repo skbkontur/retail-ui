@@ -4,6 +4,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { ZIndex } from '../ZIndex';
+import { globalThat } from '../../../lib/SSRSafe';
 
 describe('ZIndex', () => {
   it("shouldn't call unmoun/mount child component while switch `active` prop", () => {
@@ -33,7 +34,7 @@ describe('ZIndex', () => {
       return (
         <>
           <button data-tid="priority" onClick={() => setPriority(2)}>
-            set priority to 3
+            set priority to 2
           </button>
           <ZIndex data-tid="z-index" priority={priority} />,
         </>
@@ -57,22 +58,26 @@ describe('ZIndex', () => {
           <button data-tid="delta" onClick={() => setDelta(11)}>
             set delta to 11
           </button>
-          <ZIndex data-tid="z-index" priority={5} delta={delta} />,
+          <ZIndex data-tid="z-index-1" priority={5} />
+          <ZIndex data-tid="z-index-2" priority={5} delta={delta} />
         </>
       );
     };
 
     render(<DemoUpdatePriority />);
-    const zIndex = screen.getByTestId('z-index');
+    const zIndex1 = screen.getByTestId('z-index-1');
+    const zIndex2 = screen.getByTestId('z-index-2');
     const delta = screen.getByTestId('delta');
 
-    expect(zIndex).toHaveStyle('z-index: 5000');
+    expect(zIndex1).toHaveStyle('z-index: 5000');
+    expect(zIndex2).toHaveStyle('z-index: 5010');
     userEvent.click(delta);
-    expect(zIndex).toHaveStyle('z-index: 5011');
+    expect(zIndex1).toHaveStyle('z-index: 5000');
+    expect(zIndex2).toHaveStyle('z-index: 5011');
   });
 
-  it('should not store old zIndexes in `__RetailUiZIndexes`', () => {
-    global.__RetailUiZIndexes = [];
+  it('should store correct zIndexes in `__RetailUiZIndexes`', () => {
+    globalThat.__RetailUiZIndexes = [];
     const DemoUpdatePriority = () => {
       const [delta, setDelta] = useState<number | undefined>();
       return (
@@ -80,20 +85,22 @@ describe('ZIndex', () => {
           <button data-tid="delta" onClick={() => setDelta(11)}>
             set delta to 11
           </button>
-          <ZIndex data-tid="z-index" priority={3} delta={delta} />,
+          <ZIndex priority={3} />
+          <ZIndex priority={3} delta={delta} />
         </>
       );
     };
 
     render(<DemoUpdatePriority />);
     const delta = screen.getByTestId('delta');
-    userEvent.click(delta);
 
-    expect(global.__RetailUiZIndexes).not.toContainEqual(3000);
+    expect(globalThat.__RetailUiZIndexes).toEqual([3000, 3010]);
+    userEvent.click(delta);
+    expect(globalThat.__RetailUiZIndexes).toEqual([3000, 3011]);
   });
 
-  it('should not add wrapper if `contextOnly` is set to `true`', async () => {
-    render(<ZIndex data-tid="z-index" contextOnly />);
+  it('should not add wrapper if `useWrapper = false`', async () => {
+    render(<ZIndex data-tid="z-index" useWrapper={false} />);
 
     await waitFor(() => {
       expect(screen.queryByTestId('z-index')).not.toBeInTheDocument();
