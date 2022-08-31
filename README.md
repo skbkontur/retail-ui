@@ -16,6 +16,12 @@
 | `react-ui-codemod`                | [![npm](https://img.shields.io/npm/v/react-ui-codemod)](https://www.npmjs.com/package/react-ui-codemod)                               | Коллекция кодмодов                                                | [github.com](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui-codemod/README.md) | [github.com](https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui-codemod/)         |
 | `@skbkontur/react-ui-addons`      | [![npm](https://img.shields.io/npm/v/@skbkontur/react-ui-addons)](https://www.npmjs.com/package/@skbkontur/react-ui-addons)           | Специфичные компоненты                                            | [pages.kontur.host](https://ui.gitlab-pages.kontur.host/docs/#/react-ui-addons)                       | [git.skbkontur.ru](https://git.skbkontur.ru/ui/ui-parking/-/tree/master/packages%2Freact-ui-addons) |
 
+### Подключение шрифта
+
+О том как подключить шрифт можно прочитать в [Гайдах](https://guides.kontur.ru/principles/text-styles/#Shrift)
+
+Для доступа к разделу в гайде нужно авторизоваться на сайте Гайдов (кнопка для входа находится в подвале сайта)
+
 ### Устаревшие пакеты
 
 | Имя                    |                                                                                                                 | Описание                                 | Документация                                                        | Репозиторий                                                                                     |
