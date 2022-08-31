@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.0...@skbkontur/react-ui@4.5.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **Radio:** fix text gap when radio is inside table ([#2983](https://github.com/skbkontur/retail-ui/issues/2983)) ([e546e4d](https://github.com/skbkontur/retail-ui/commit/e546e4d69b0896e36319e636310f988ebb854106))
+
+
+
+
+
 # [4.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.4.0...@skbkontur/react-ui@4.5.0) (2022-08-24)
 
 
