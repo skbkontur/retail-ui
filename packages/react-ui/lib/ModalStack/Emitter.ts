@@ -19,25 +19,13 @@ export class Emitter extends EventEmitter {
     context?: any,
   ): FallbackFBEmitter => {
     super.addListener(event, fn, context);
-
     return new FallbackFBEmitter(() => this.removeListener?.(event, fn));
-  };
-
-  // @ts-expect-error: Method is optional because it is not present in `fbemitter`
-  public removeListener? = <T extends EventEmitter.EventNames<string | symbol>>(
-    event: T,
-    fn?: EventEmitter.EventListener<string | symbol, T>,
-    context?: any,
-    once?: boolean,
-  ): this => {
-    return super.removeListener(event, fn, context, once);
   };
 }
 
 // Backward compatible with older versions which use the `fbemitter` package
 export class FallbackFBEmitter extends Emitter {
-  // Method is optional because it is not present in `eventemitter3`
-  constructor(public readonly remove?: () => void) {
+  constructor(public readonly remove: () => void) {
     super();
   }
 }
