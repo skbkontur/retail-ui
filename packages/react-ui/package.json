@@ -1,6 +1,6 @@
 {
   "name": "@skbkontur/react-ui",
-  "version": "4.2.0",
+  "version": "4.5.1",
   "description": "UI Components",
   "main": "cjs/index.js",
   "module": "index.js",
@@ -75,7 +75,6 @@
     "@babel/preset-react": "^7.16.5",
     "@babel/preset-typescript": "7.16.5",
     "@babel/register": "^7.16.5",
-    "@emotion/eslint-plugin": "11.7.0",
     "@skbkontur/react-icons": "5.2.0",
     "@skbkontur/react-props2attrs": "0.1.2",
     "@skbkontur/react-sorge": "0.1.0",
@@ -116,6 +115,7 @@
     "dotenv": "^10.0.0",
     "dts-css-modules-loader": "1.2.4",
     "enzyme": "^3.11.0",
+    "eslint-plugin-jest": "26.1.1",
     "eslint-plugin-jest-dom": "^4.0.1",
     "eslint-plugin-react-hooks": "^4.3.0",
     "eslint-plugin-storybook": "^0.5.6",
@@ -150,22 +150,5 @@
   "peerDependencies": {
     "react": ">=16.9",
     "react-dom": ">=16.9"
-  },
-  "jest": {
-    "testResultsProcessor": "jest-teamcity-reporter",
-    "moduleNameMapper": {
-      "\\.(css|less)$": "identity-obj-proxy"
-    },
-    "transform": {
-      "\\.[jt]sx?$": "babel-jest"
-    },
-    "testRegex": "__tests__(\\\\|/).*(\\.|-)test\\.(j|t)sx?$",
-    "testEnvironment": "jsdom",
-    "setupFilesAfterEnv": [
-      "<rootDir>/test-setup.js"
-    ],
-    "transformIgnorePatterns": [
-      "<rootDir>/node_modules/"
-    ]
   }
 }

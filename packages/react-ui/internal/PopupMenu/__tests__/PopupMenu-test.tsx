@@ -72,17 +72,17 @@ describe('PopupMenu', () => {
     );
 
     // Before we open menu the `onOpenCallback` should not be called
-    expect(onOpenCallback).toBeCalledTimes(0);
+    expect(onOpenCallback).toHaveBeenCalledTimes(0);
 
     const button = screen.getByRole('button', { name: captionContent });
     userEvent.click(button);
     // After we open menu the `onOpenCallback` should be called once
-    expect(onOpenCallback).toBeCalledTimes(1);
+    expect(onOpenCallback).toHaveBeenCalledTimes(1);
 
     const outsideButton = screen.getByRole('button', { name: outsideButtonContent });
     userEvent.click(outsideButton);
     // After we close menu the `onOpenCallback` should still be called once
-    expect(onOpenCallback).toBeCalledTimes(1);
+    expect(onOpenCallback).toHaveBeenCalledTimes(1);
   });
 
   it('should call `onClose` callback after closing of the menu', () => {
@@ -98,16 +98,16 @@ describe('PopupMenu', () => {
     );
 
     // Before we open menu the `onCloseCallback` should not be called
-    expect(onCloseCallback).toBeCalledTimes(0);
+    expect(onCloseCallback).toHaveBeenCalledTimes(0);
 
     const button = screen.getByRole('button', { name: captionContent });
     userEvent.click(button);
     // After we open menu the `onCloseCallback` should still not be called
-    expect(onCloseCallback).toBeCalledTimes(0);
+    expect(onCloseCallback).toHaveBeenCalledTimes(0);
 
     const outsideButton = screen.getByRole('button', { name: outsideButtonContent });
     userEvent.click(outsideButton);
     // After we close menu the `onCloseCallback` should be called once
-    expect(onCloseCallback).toBeCalledTimes(1);
+    expect(onCloseCallback).toHaveBeenCalledTimes(1);
   });
 });

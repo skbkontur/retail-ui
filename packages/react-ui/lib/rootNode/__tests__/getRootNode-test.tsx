@@ -173,22 +173,22 @@ describe('getRootNode', () => {
     describe('should not be called for', () => {
       it('null instance', () => {
         getRootNode(null);
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
 
       it('undefined instance', () => {
         getRootNode(undefined);
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
 
       it('HTMLElement instance', () => {
         getRootNode(document.createElement('div'));
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
 
       it('intrinsic element', () => {
         getRootNode(getInstance(<div />));
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
 
       it('functional component with forwardRef', () => {
@@ -196,7 +196,7 @@ describe('getRootNode', () => {
           return <div ref={ref} />;
         });
         getRootNode(getInstance(<FC />));
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
 
       it('class component with rootNode that returns HTMLElement', () => {
@@ -209,7 +209,7 @@ describe('getRootNode', () => {
           render = () => <div ref={this.rootRef} />;
         }
         getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
 
       it('class component with rootNode that returns null', () => {
@@ -218,7 +218,7 @@ describe('getRootNode', () => {
           render = () => <div />;
         }
         getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).not.toBeCalled();
+        expect(findDOMNode).not.toHaveBeenCalled();
       });
     });
 
@@ -228,7 +228,7 @@ describe('getRootNode', () => {
           render = () => <div />;
         }
         getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).toBeCalled();
+        expect(findDOMNode).toHaveBeenCalled();
       });
 
       it('class component with rootNode that returns undefined', () => {
@@ -238,7 +238,7 @@ describe('getRootNode', () => {
         }
 
         getRootNode(getInstance(<ClassComponentWithRootNode />));
-        expect(findDOMNode).toBeCalled();
+        expect(findDOMNode).toHaveBeenCalled();
       });
     });
   });

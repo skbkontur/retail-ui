@@ -16,7 +16,7 @@ import { isInstanceWithRootNode } from './rootNodeDecorator';
  * Replaces findDOMNode but falls back to it if "convention" is not respected.
  *
  * @param instance Component's instance provided by React.Ref or `this` inside class-components.
- * @returns Component's root HTMLElement or null
+ * @returns Component's root `Element` or null
  */
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<Element> => {

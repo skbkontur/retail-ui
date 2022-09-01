@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
+import userEvent from '@testing-library/user-event';
 
 import { Textarea } from '../Textarea';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
@@ -57,5 +59,32 @@ describe('Textarea', () => {
     wrapper.instance().focus();
 
     expect(wrapper.find('textarea').instance()).toHaveFocus();
+  });
+
+  it('should clear the value when an empty string passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState('');
+
+      return (
+        <>
+          <Textarea value={value} onValueChange={setValue} />
+          <button onClick={() => setValue('')}>Clear</button>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'abc');
+    expect(input).toHaveValue('abc');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'a');
+    expect(input).toHaveValue('a');
   });
 });

@@ -8,6 +8,20 @@ const items = [Select.static(() => <Select.Item>Not selectable</Select.Item>), '
 <Select items={items} value={value} onValueChange={setValue} />;
 ```
 
+Очистить значение в `Select`'е можно только с помощью `null`
+```jsx harmony
+import { Button, Group } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState();
+
+const items = ['One', 'Two', 'Three', 'Four'];
+
+<Group>
+  <Select items={items} value={value} onValueChange={setValue} />
+  <Button onClick={() => setValue(null)}>Очистить</Button>
+</Group>
+```
+
 Пример с полем поиска.
 
 ```jsx harmony

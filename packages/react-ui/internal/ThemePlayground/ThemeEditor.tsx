@@ -27,7 +27,7 @@ interface Group {
   isCommon?: boolean;
 }
 export class ThemeEditor extends React.Component<ThemeEditorProps, ThemeEditorState> {
-  public state = {
+  public state: ThemeEditorState = {
     groups: [],
     isLoading: true,
   };

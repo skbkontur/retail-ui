@@ -3,6 +3,102 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.0...@skbkontur/react-ui@4.5.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **Radio:** fix text gap when radio is inside table ([#2983](https://github.com/skbkontur/retail-ui/issues/2983)) ([e546e4d](https://github.com/skbkontur/retail-ui/commit/e546e4d69b0896e36319e636310f988ebb854106))
+
+
+
+
+
+# [4.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.4.0...@skbkontur/react-ui@4.5.0) (2022-08-24)
+
+
+### Bug Fixes
+
+* **Input:** restore background-clip in focus state ([#2986](https://github.com/skbkontur/retail-ui/issues/2986)) ([5a10fd8](https://github.com/skbkontur/retail-ui/commit/5a10fd84233fe8edcc6cc42cd4ddc6f754512779))
+* **react-ui:** add inputFocusedBg and inputFocusedIconColor variables ([#2981](https://github.com/skbkontur/retail-ui/issues/2981)) ([9bc3f9c](https://github.com/skbkontur/retail-ui/commit/9bc3f9c6a8b3c5aa7f166008b9b1191537e648d6))
+* **TokenInput:** fix some scenarios with disabled input and tokens ([#2943](https://github.com/skbkontur/retail-ui/issues/2943)) ([64c999c](https://github.com/skbkontur/retail-ui/commit/64c999c942357011c0695701e43911bdfdc52559))
+* **ValidationContainer:** fix scroll to invalid field on submit ([#2930](https://github.com/skbkontur/retail-ui/issues/2930)) ([c2b966b](https://github.com/skbkontur/retail-ui/commit/c2b966bc8f2fcaac63e377e4d98669a14de610c3))
+
+
+### Features
+
+* **ResponsiveLayout,useResponsiveLayout:** custom media queries ([#2957](https://github.com/skbkontur/retail-ui/issues/2957)) ([7befaf9](https://github.com/skbkontur/retail-ui/commit/7befaf9d9222c95d99150aba37988cec9a5b0326))
+
+
+
+
+
+# [4.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.1...@skbkontur/react-ui@4.4.0) (2022-08-16)
+
+**Note:** Version bump due significan refactoring
+
+
+
+
+
+## [4.3.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.0...@skbkontur/react-ui@4.3.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** add support comma aliases ([#2974](https://github.com/skbkontur/retail-ui/issues/2974)) ([82bf20b](https://github.com/skbkontur/retail-ui/commit/82bf20b4b5bedc9d24d5f8f8070ee4d598a67287))
+* **HideBodyVerticalScroll:** add support `html.overflow-y=scroll` ([#2971](https://github.com/skbkontur/retail-ui/issues/2971)) ([b97fd42](https://github.com/skbkontur/retail-ui/commit/b97fd4242972ab2794a6127a122419425cce2406))
+* **MaskedInput:** support the case where users unmasked the value ([#2975](https://github.com/skbkontur/retail-ui/issues/2975)) ([8d6bf52](https://github.com/skbkontur/retail-ui/commit/8d6bf52654858d5ab29acdf7ebe1a4944adb0c7a))
+* **Popup:** accept SVG as anchor ([#2946](https://github.com/skbkontur/retail-ui/issues/2946)) ([a5f7283](https://github.com/skbkontur/retail-ui/commit/a5f72836dd0d31d4a109ac2bb0d6d6a4e3109d19))
+* **theme:** add missing units to values ([#2968](https://github.com/skbkontur/retail-ui/issues/2968)) ([b79f626](https://github.com/skbkontur/retail-ui/commit/b79f6264cd9af4ffd21ea3c57d5f849be9504409))
+* **Tooltip:** add event arg to onCloseRequest prop ([#2966](https://github.com/skbkontur/retail-ui/issues/2966)) ([6bc3c81](https://github.com/skbkontur/retail-ui/commit/6bc3c81a61593af7aaef9eedf7332638cc459896))
+
+
+
+
+
+# [4.3.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.2...@skbkontur/react-ui@4.3.0) (2022-08-01)
+
+
+### Bug Fixes
+
+* apply hover/active styles only with enabled element ([#2955](https://github.com/skbkontur/retail-ui/issues/2955)) ([60c6bb1](https://github.com/skbkontur/retail-ui/commit/60c6bb14511d882c1b7e739cdae501d45f41438b))
+* **Select:** preserve icon gap with box-sizing: border-box ([#2962](https://github.com/skbkontur/retail-ui/issues/2962)) ([699bf97](https://github.com/skbkontur/retail-ui/commit/699bf97b8ce210d8ae9b9985807000b13d0d373b))
+
+
+### Features
+
+* make props with default values truly optional in types ([72d02d5](https://github.com/skbkontur/retail-ui/commit/72d02d511a6ca0ea1a3569942f8cbde2f4c07d25))
+
+
+
+
+
+## [4.2.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.1...@skbkontur/react-ui@4.2.2) (2022-07-25)
+
+
+### Bug Fixes
+
+* **Modal:** fix paddings flickering ([#2949](https://github.com/skbkontur/retail-ui/issues/2949)) ([d81d152](https://github.com/skbkontur/retail-ui/commit/d81d152e409b3af8cccd9e0f9af9105c8336a2ec))
+* **Tooltip:** correct focus&hover trigger behavior ([#2960](https://github.com/skbkontur/retail-ui/issues/2960)) ([9e3ddaa](https://github.com/skbkontur/retail-ui/commit/9e3ddaa6dab1fd4e2ba052be253c117982b74a2c)), closes [#2941](https://github.com/skbkontur/retail-ui/issues/2941)
+* **TooltipMenu:** prevent double scroll ([#2950](https://github.com/skbkontur/retail-ui/issues/2950)) ([42b3f2f](https://github.com/skbkontur/retail-ui/commit/42b3f2f363141ccc1e3b5526cbeab1bc8b5073be))
+
+
+
+
+
+## [4.2.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.2.0...@skbkontur/react-ui@4.2.1) (2022-07-18)
+
+
+### Bug Fixes
+
+* **ResponsiveLayout:** fix memory leak ([#2948](https://github.com/skbkontur/retail-ui/issues/2948)) ([29e3243](https://github.com/skbkontur/retail-ui/commit/29e3243f388588e9945da3b1079f4aa2f8a2b0fc))
+* **Tooltip:** fix click outside detection ([#2941](https://github.com/skbkontur/retail-ui/issues/2941)) ([3a560bb](https://github.com/skbkontur/retail-ui/commit/3a560bb9021b796cf72c5c2a54f09f71b339e029))
+
+
+
+
+
 # [4.2.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.1.2...@skbkontur/react-ui@4.2.0) (2022-07-12)
 
 

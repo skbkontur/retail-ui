@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 import { render, screen } from '@testing-library/react';
@@ -46,11 +46,11 @@ describe('Select', () => {
 
     const dropdownContainer = wrapper.find('DropdownContainer');
 
-    const defaultValueText = wrapper.prop('renderItem')!(currentValue, currentValue);
+    const defaultValueText = wrapper.prop('renderItem')?.(currentValue, currentValue);
 
     const menu = mount(dropdownContainer.get(0).props.children).find('Menu');
     const selectedMenuItem = menu.findWhere((node) => node.is('MenuItem') && node.prop('state') === 'selected');
-    expect(selectedMenuItem.length).toBe(1);
+    expect(selectedMenuItem).toHaveLength(1);
     expect(selectedMenuItem.text()).toBe(defaultValueText);
   });
 
@@ -107,7 +107,7 @@ describe('Select', () => {
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
 
-    const button = screen.getByRole('button', { name: 'Ничего не выбрано' });
+    const button = screen.getByRole('button', { name: SelectLocaleHelper.get(defaultLangCode).placeholder as string });
     await userEvent.click(button);
 
     // All items should be presented when `Select` is opened.
@@ -187,6 +187,29 @@ describe('Select', () => {
     expect(screen.queryByRole('button', { name: seventh })).not.toBeInTheDocument();
     expect(screen.queryByText(eighth)).not.toBeInTheDocument();
     expect(screen.queryByRole('button', { name: ninth })).not.toBeInTheDocument();
+  });
+
+  it('should clear the value when null passed', () => {
+    const Comp = () => {
+      const items = ['One'];
+
+      const [value, setValue] = useState<string | null>('One');
+
+      return (
+        <>
+          <Select<string | null> items={items} value={value} onValueChange={setValue} />
+          <button onClick={() => setValue(null)}>Clear</button>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const input = screen.getByText('One');
+    expect(input).toHaveTextContent('One');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    expect(input).toHaveTextContent(SelectLocaleHelper.get(defaultLangCode).placeholder as string);
   });
 
   describe('Locale', () => {

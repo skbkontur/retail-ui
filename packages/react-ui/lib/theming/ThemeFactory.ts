@@ -5,7 +5,7 @@ import { Theme, ThemeIn } from './Theme';
 import { findPropertyDescriptor } from './ThemeHelpers';
 
 export class ThemeFactory {
-  public static create<T extends {}>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
+  public static create<T extends unknown>(theme: ThemeIn & T, baseTheme?: Theme): Readonly<Theme & T> {
     const base = baseTheme || DefaultThemeInternal;
     return this.constructTheme(base, theme);
   }
@@ -36,8 +36,10 @@ export class ThemeFactory {
   private static constructTheme(base: Theme, theme: ThemeIn) {
     const newTheme = Object.create(base);
     Object.keys(theme).forEach((propName) => {
-      const descriptor = Object.getOwnPropertyDescriptor(theme, propName)!;
-      Object.defineProperty(newTheme, propName, descriptor);
+      const descriptor = Object.getOwnPropertyDescriptor(theme, propName);
+      if (descriptor) {
+        Object.defineProperty(newTheme, propName, descriptor);
+      }
     });
 
     return Object.freeze(newTheme);

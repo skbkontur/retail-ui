@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -13,6 +15,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './PasswordInput.styles';
 import { PasswordInputIcon } from './PasswordInputIcon';
@@ -32,6 +35,8 @@ export const PasswordInputDataTids = {
   eyeIcon: 'PasswordInputEyeIcon',
 } as const;
 
+type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
+
 /**
  * Компонент для ввода пароля
  */
@@ -46,9 +51,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     detectCapsLock: PropTypes.bool,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
+
+  private getProps = createPropsGetter(PasswordInput.defaultProps);
 
   public state: PasswordInputState = {
     visible: false,
@@ -65,10 +72,10 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
       this.setState({ capsLockEnabled: null });
     }
 
-    // @ts-ignore
+    // @ts-expect-error: IE-specific API.
     if (isIE11 && !window.document.msCapsLockWarningOff) {
+      // @ts-expect-error: Read the comment above.
       // turns off default ie capslock warning
-      // @ts-ignore
       window.document.msCapsLockWarningOff = true;
     }
   }
@@ -163,8 +170,8 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
     }
   };
 
-  private getEyeWrapperClassname(right = false) {
-    switch (this.props.size) {
+  private getEyeWrapperClassname() {
+    switch (this.getProps().size) {
       case 'large':
         return styles.eyeWrapperLarge(this.theme);
       case 'medium':

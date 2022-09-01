@@ -46,7 +46,7 @@ describe('Link', () => {
     it("doesn't get filled if there is no href", () => {
       const wrapper = render();
 
-      expect(wrapper.find('a').prop('rel')).toBe(undefined);
+      expect(wrapper.find('a').prop('rel')).toBeUndefined();
     });
 
     describe('external hrefs', () => {

@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
@@ -12,6 +14,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Input.styles';
 
@@ -111,6 +114,8 @@ export const InputDataTids = {
   root: 'Input__root',
 } as const;
 
+type DefaultProps = Required<Pick<InputProps, 'size'>>;
+
 /**
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
@@ -119,11 +124,11 @@ export const InputDataTids = {
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
-  public static defaultProps: {
-    size: InputSize;
-  } = {
+  public static defaultProps: DefaultProps = {
     size: 'small',
   };
+
+  private getProps = createPropsGetter(Input.defaultProps);
 
   public state: InputState = {
     needsPolyfillPlaceholder,
@@ -149,7 +154,7 @@ export class Input extends React.Component<InputProps, InputState> {
    */
   public focus() {
     invariant(this.input, 'Cannot call "focus" because Input is not mounted');
-    this.input!.focus();
+    this.input.focus();
   }
 
   /**
@@ -157,7 +162,7 @@ export class Input extends React.Component<InputProps, InputState> {
    */
   public blur() {
     invariant(this.input, 'Cannot call "blur" because Input is not mounted');
-    this.input!.blur();
+    this.input.blur();
   }
 
   /**
@@ -370,7 +375,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getIconSizeClassname(right = false) {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
       case 'medium':
@@ -399,6 +404,7 @@ export class Input extends React.Component<InputProps, InputState> {
     return (
       <span
         className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
+          [styles.iconFocus(this.theme)]: this.state.focused,
           [styles.iconDisabled()]: disabled,
         })}
       >
@@ -436,7 +442,7 @@ export class Input extends React.Component<InputProps, InputState> {
   }
 
   private getSizeClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return cx({
           [styles.sizeLarge(this.theme)]: true,
