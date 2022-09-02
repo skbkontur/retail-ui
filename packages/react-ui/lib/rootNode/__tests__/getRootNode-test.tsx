@@ -34,51 +34,18 @@ describe('getRootNode', () => {
       expect(getRootNode(undefined)).toBeNull();
     });
 
-    it('null for Object instance', () => {
+    it('null for plain object', () => {
       expect(getRootNode(Object.create(null))).toBeNull();
     });
 
     it('null for Text instance', () => {
-      // @ts-ignore
+      // @ts-expect-error intentionally not acceptable argument type
       expect(getRootNode(document.createTextNode('text'))).toBeNull();
     });
 
     it('null for Comment instance', () => {
-      // @ts-ignore
+      // @ts-expect-error intentionally not acceptable argument type
       expect(getRootNode(document.createComment('comment'))).toBeNull();
-    });
-
-    it('null for intrinsic element that has not been mounted', () => {
-      const rootRef = React.createRef<HTMLDivElement>();
-      const instance = getInstance(<div ref={rootRef} />, { noRender: true });
-      expect(rootRef.current).toBeNull();
-      expect(getRootNode(instance)).toBeNull();
-    });
-
-    it('null for functional component with forwardRef that has not been mounted', () => {
-      const rootRef = React.createRef<HTMLDivElement>();
-      const FC = React.forwardRef<HTMLDivElement>(function FC(_, ref) {
-        return <div ref={ref} />;
-      });
-      const instance = getInstance(<FC />, { noRender: true });
-      expect(rootRef.current).toBeNull();
-      expect(getRootNode(instance)).toBeNull();
-    });
-
-    it('null for class component with rootNode that has not been mounted', () => {
-      let rootNode: Nullable<HTMLDivElement> = null;
-      class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
-        rootNode: Nullable<HTMLDivElement>;
-        rootRef = (instance: HTMLDivElement | null) => {
-          this.rootNode = instance;
-          rootNode = instance;
-        };
-        getRootNode = () => this.rootNode;
-        render = () => <div ref={this.rootRef} />;
-      }
-      const instance = getInstance(<ClassComponentWithRootNode />, { noRender: true });
-      expect(rootNode).toBeNull();
-      expect(getRootNode(instance)).toBeNull();
     });
 
     it('SVGElement for SVGElement instance', () => {
@@ -86,10 +53,9 @@ describe('getRootNode', () => {
       expect(getRootNode(instance)).toBeInstanceOf(SVGElement);
     });
 
-    it('SVGElement for intrinsic element', () => {
-      const rootRef = React.createRef<SVGSVGElement>();
-      const instance = getInstance(<svg ref={rootRef} />);
-      expect(getRootNode(instance)).toBe(rootRef.current);
+    it('SVGElement for intrinsic svg element', () => {
+      const instance = getInstance(<svg />);
+      expect(getRootNode(instance)).toBeInstanceOf(SVGElement);
     });
 
     it('HTMLElement for HTMLElement instance', () => {
@@ -97,22 +63,20 @@ describe('getRootNode', () => {
       expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
-    it('HTMLElement for intrinsic element', () => {
-      const rootRef = React.createRef<HTMLDivElement>();
-      const instance = getInstance(<div ref={rootRef} />);
-      expect(getRootNode(instance)).toBe(rootRef.current);
+    it('HTMLElement for intrinsic div element', () => {
+      const instance = getInstance(<div />);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
     it('HTMLElement for functional component with forwardRef', () => {
-      const rootRef = React.createRef<HTMLDivElement>();
       const FC = React.forwardRef<HTMLDivElement>(function FC(_, ref) {
         return <div ref={ref} />;
       });
-      const instance = getInstance(<FC ref={rootRef} />);
-      expect(getRootNode(instance)).toBe(rootRef.current);
+      const instance = getInstance(<FC />);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
-    it('HTMLElement for functional component with useImperativeHandle', () => {
+    it('HTMLElement for functional component with useImperativeHandle and rootNode', () => {
       const FC = React.forwardRef(function FN(_, ref) {
         const divRef = React.useRef<HTMLDivElement>(null);
         React.useImperativeHandle(ref, () => ({
@@ -126,42 +90,33 @@ describe('getRootNode', () => {
     });
 
     it('HTMLElement for class component without rootNode', () => {
-      let rootNode: Nullable<HTMLDivElement>;
       class ClassComponentWithRootNode extends React.Component {
-        rootRef = (instance: HTMLDivElement | null) => {
-          rootNode = instance;
-        };
-        render = () => <div ref={this.rootRef} />;
+        render = () => <div />;
       }
       const instance = getInstance(<ClassComponentWithRootNode />);
-      expect(getRootNode(instance)).toBe(rootNode);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
     it('HTMLElement for class component with rootNode that returns HTMLElement', () => {
-      let rootNode: Nullable<HTMLDivElement>;
       class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
         rootNode: Nullable<HTMLDivElement>;
         rootRef = (instance: HTMLDivElement | null) => {
           this.rootNode = instance;
-          rootNode = instance;
         };
         getRootNode = () => this.rootNode;
         render = () => <div ref={this.rootRef} />;
       }
       const instance = getInstance(<ClassComponentWithRootNode />);
-      expect(getRootNode(instance)).toBe(rootNode);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
 
     it('HTMLElement for class component with rootNode that returns undefined', () => {
-      const rootRef = React.createRef<HTMLDivElement>();
       class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
         getRootNode = () => undefined;
-        render = () => <div ref={rootRef} />;
+        render = () => <div />;
       }
       const instance = getInstance(<ClassComponentWithRootNode />);
-
-      expect(rootRef.current).toBeInstanceOf(HTMLDivElement);
-      expect(getRootNode(instance)).toBe(rootRef.current);
+      expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
   });
 
