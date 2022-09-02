@@ -1,6 +1,10 @@
 import { mount, ReactWrapper } from 'enzyme';
-import React from 'react';
+import { render, screen } from '@testing-library/react';
+import React, { useState } from 'react';
+import userEvent from '@testing-library/user-event';
 
+import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
+import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
@@ -49,14 +53,14 @@ describe('DatePicker', () => {
   });
   it('renders', () => {
     const datePicker = renderDatePicker();
-    expect(datePicker.exists());
+    expect(datePicker.exists()).toBe(true);
   });
 
   it('renders date select when open', () => {
     const datePicker = renderDatePicker();
     datePicker.setState({ opened: true });
     const dateSelect = datePicker.find('DateSelect');
-    expect(dateSelect.exists());
+    expect(dateSelect.exists()).toBe(true);
   });
 
   it('correctly passes max and min date to year select', () => {
@@ -66,8 +70,8 @@ describe('DatePicker', () => {
     });
     datePicker.setState({ opened: true });
     const yearSelect = datePicker.find(DateSelect).findWhere((node) => node.props().type === 'year');
-    expect(yearSelect.prop('minValue')).toEqual(2017);
-    expect(yearSelect.prop('maxValue')).toEqual(2020);
+    expect(yearSelect.prop('minValue')).toBe(2017);
+    expect(yearSelect.prop('maxValue')).toBe(2020);
   });
 
   it('correctly initial month/year with min date', () => {
@@ -194,5 +198,30 @@ describe('DatePicker', () => {
 
       expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
     });
+  });
+
+  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
+    const Comp = () => {
+      const [value, setValue] = useState<string | null | undefined>('24.08.2022');
+
+      return (
+        <>
+          <DatePicker value={value} onValueChange={setValue} />
+          <button onClick={() => setValue(testValue)}>Clear</button>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const input = screen.getByTestId(InputLikeTextDataTids.input);
+    expect(input).toHaveTextContent('24.08.2022');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
+    expect(input).toHaveTextContent(expected, { normalizeWhitespace: false });
+
+    userEvent.type(input, '24.08.2022');
+    expect(input).toHaveTextContent('24.08.2022');
   });
 });

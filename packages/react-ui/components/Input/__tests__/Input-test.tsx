@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { mount } from 'enzyme';
+import { render as renderRTL, screen } from '@testing-library/react';
 import MaskedInput from 'react-input-mask';
+import userEvent from '@testing-library/user-event';
 
 import { Input, InputProps } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
@@ -70,6 +72,7 @@ describe('<Input />', () => {
 
     for (const prop in props) {
       if (props[prop as keyof typeof props]) {
+        // eslint-disable-next-line jest/no-conditional-expect
         expect(inputProps[prop as keyof typeof props]).toBe(props[prop as keyof typeof props]);
       }
     }
@@ -221,5 +224,32 @@ describe('<Input />', () => {
     typeSymbol();
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('should clear the value when an empty string passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState('');
+
+      return (
+        <>
+          <Input value={value} onValueChange={setValue} />
+          <button onClick={() => setValue('')}>Clear</button>
+        </>
+      );
+    };
+
+    renderRTL(<Comp />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'abc');
+    expect(input).toHaveValue('abc');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'a');
+    expect(input).toHaveValue('a');
   });
 });

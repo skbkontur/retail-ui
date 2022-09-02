@@ -3,30 +3,30 @@ import { findDOMNode } from 'react-dom';
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { isHTMLElement, isNode } from '../SSRSafe';
+import { isElement, isNode } from '../SSRSafe';
 import { canUseDOM } from '../client';
 
 import { isInstanceWithRootNode } from './rootNodeDecorator';
 
 /**
- * Extracts component's root HTMLElement out of it's instance
+ * Extracts component's root `Element` out of it's instance
  * following the "StrictMode support convention" (@see README.md#strictmode, #2518).
  *
  * Replaces findDOMNode but falls back to it if "convention" is not respected.
  *
  * @param instance Component's instance provided by React.Ref or `this` inside class-components.
- * @returns Component's root HTMLElement or null
+ * @returns Component's root `Element` or null
  */
 
-export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<HTMLElement> => {
+export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<Element> => {
   if (!canUseDOM || !instance) {
     // instance can be `null` if component was unmounted
     // also checking undefined for convinient usage
     return null;
   }
 
-  if (isHTMLElement(instance)) {
-    // instance can be a HTMLElement already if comming
+  if (isElement(instance)) {
+    // instance can be a `Element` already if comming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
   }
@@ -36,7 +36,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   if (isInstanceWithRootNode(instance)) {
     // it happened to be that native Node interface also has
     // the "getRootNode" method, but we can ignore it here
-    // because we'd already checked the instance on being an HTMLElement
+    // because we'd already checked the instance on being an `Element`
     // which is a subclass of Node, so, just fixing types here
     if (!isNode(instance)) {
       rootNode = instance.getRootNode();
@@ -44,7 +44,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   }
 
   if (rootNode !== undefined) {
-    // at this point, it is rather HTMLElement (what we are looking for)
+    // at this point, it is rather `Element` (what we are looking for)
     // or null (which is also OK, e.g. Popup/Tooltip/Hint before opening), so, just return it
     return rootNode;
   }
@@ -55,5 +55,5 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<H
   rootNode = findDOMNode(instance);
 
   // the findDOMNode can also return Text, but we are only intrested in HTMLElements, so just filter it
-  return isHTMLElement(rootNode) ? rootNode : null;
+  return isElement(rootNode) ? rootNode : null;
 };

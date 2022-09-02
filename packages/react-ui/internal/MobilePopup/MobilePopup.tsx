@@ -137,7 +137,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
     this.contentDiv = contentDiv;
   };
 
-  private handleScrollMenu = (e: React.UIEvent<HTMLDivElement>) => {
+  private handleScrollMenu = () => {
     if (this.contentDiv) {
       const isScrolled = this.contentDiv.scrollTop > 0;
 

@@ -2,13 +2,16 @@ import React from 'react';
 
 import { Paging } from '../../components/Paging';
 
-export class PagingPlayground extends React.Component<{}, { active: number }> {
-  public state = {
-    active: 1,
+interface PagingPlaygroundState {
+  activePage: number;
+}
+export class PagingPlayground extends React.Component {
+  public state: PagingPlaygroundState = {
+    activePage: 1,
   };
 
   public render() {
-    return <Paging activePage={this.state.active} onPageChange={this.handlePageChange} pagesCount={12} />;
+    return <Paging activePage={this.state.activePage} onPageChange={this.handlePageChange} pagesCount={12} />;
   }
 
   private handlePageChange = (pageNumber: number) => {

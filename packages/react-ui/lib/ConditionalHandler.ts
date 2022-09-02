@@ -3,10 +3,10 @@ import { isFunction } from './utils';
 type ArgsBaseType = any[];
 type Handler<K extends ArgsBaseType> = (...args: K) => void;
 type Condition<T> = T | ((reference: T) => boolean);
-type ActionFunc<T, K extends ArgsBaseType> = {
+interface ActionFunc<T, K extends ArgsBaseType> {
   condition: Condition<T>;
   handler: Handler<K>;
-};
+}
 
 export class ConditionalHandler<T, K extends ArgsBaseType = any[]> {
   private readonly actions: Array<ActionFunc<T, K>> = [];

@@ -1,6 +1,7 @@
 import React from 'react';
 import { action } from '@storybook/addon-actions';
 
+import { delay } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Gapped } from '../../Gapped';
@@ -14,7 +15,7 @@ interface DateInputFormattingState {
   separator: keyof typeof InternalDateSeparator;
   value: string;
 }
-class DateInputFormatting extends React.Component<{}, DateInputFormattingState> {
+class DateInputFormatting extends React.Component {
   public state: DateInputFormattingState = {
     order: InternalDateOrder.YMD,
     separator: 'Dot',
@@ -71,7 +72,7 @@ class DateInputFormatting extends React.Component<{}, DateInputFormattingState> 
   }
 }
 
-class DateInputDifferentFormatting extends React.Component<any, any> {
+class DateInputDifferentFormatting extends React.Component {
   public render() {
     const value = '21.12.2012';
     return (
@@ -213,12 +214,15 @@ class DateInputDifferentFormatting extends React.Component<any, any> {
   }
 }
 
-interface DateInputSimpleProps extends DateInputProps {
+interface DateInputSimpleProps extends Partial<DateInputProps> {
   defaultValue?: string;
 }
+interface DateInputSimpleState {
+  value: string;
+}
 
-class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
-  public state: { value: string } = {
+class DateInputSimple extends React.Component<DateInputSimpleProps> {
+  public state: DateInputSimpleState = {
     value: this.props.defaultValue || '',
   };
 
@@ -235,7 +239,7 @@ class DateInputSimple extends React.Component<Partial<DateInputSimpleProps>> {
 }
 
 class DateInputLastEvent extends React.Component {
-  public state: { lastEvent: string } = {
+  public state = {
     lastEvent: 'none',
   };
 
@@ -376,11 +380,11 @@ BlurAlwaysAfterChange.parameters = {
       },
       async 'value restored'() {
         await this.browser.executeScript(function () {
-          // @ts-ignore
+          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
           window.OldDate = window.Date;
-          // @ts-ignore
+          // @ts-expect-error: Read the comment above.
           window.Date = function () {
-            // @ts-ignore
+            // @ts-expect-error: Read the comment above.
             return new window.OldDate(2000, 0, 1);
           };
         });
@@ -397,11 +401,10 @@ BlurAlwaysAfterChange.parameters = {
           .sendKeys(this.keys.DELETE)
           .click(this.browser.findElement({ css: 'body' }))
           .perform();
-        // @ts-ignore
         await this.browser.executeScript(function () {
-          // @ts-ignore
+          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
           if (window.OldDate) {
-            // @ts-ignore
+            // @ts-expect-error: Read the comment above.
             window.Date = window.OldDate;
           }
         });
@@ -441,3 +444,23 @@ export const WithError = () => (
     </Gapped>
   </Gapped>
 );
+
+export const ShouldSetFocusOnPlaceholderClick: Story = () => {
+  return <DateInput />;
+};
+ShouldSetFocusOnPlaceholderClick.storyName = 'should set focus on placeholder click';
+ShouldSetFocusOnPlaceholderClick.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/ },
+    tests: {
+      async focused() {
+        const DateInputPlaceholder = this.browser.findElement({ css: '[data-tid~="DateFragmentsView__placeholder"]' });
+
+        await this.browser.actions({ bridge: true }).click(DateInputPlaceholder).perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage();
+      },
+    },
+  },
+};

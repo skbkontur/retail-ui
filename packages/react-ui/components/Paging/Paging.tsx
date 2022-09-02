@@ -13,6 +13,7 @@ import { ArrowChevronRightIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Paging.styles';
 import * as NavigationHelper from './NavigationHelper';
@@ -22,7 +23,7 @@ import { PagingDefaultComponent } from './PagingDefaultComponent';
 
 const IGNORE_EVENT_TAGS = ['input', 'textarea'];
 
-interface ItemComponentProps {
+export interface ItemComponentProps {
   active: boolean;
   children?: React.ReactNode;
   className: string;
@@ -37,7 +38,7 @@ export interface PagingProps extends CommonProps {
    * Компонент обертки по умолчанию
    * @default <span />
    */
-  component: React.ComponentType<ItemComponentProps>;
+  component?: React.ComponentType<ItemComponentProps>;
   onPageChange: (pageNumber: number) => void;
   pagesCount: number;
   disabled?: boolean;
@@ -54,7 +55,7 @@ export interface PagingProps extends CommonProps {
    * **Paging** с useGlobalListener === true, то обработчик keyDown будет вызываться
    * на каждом из них. Такие случаи лучше обрабатывать отдельно.
    */
-  useGlobalListener: boolean;
+  useGlobalListener?: boolean;
   /**
    * Определяет, нужно ли показывать `Paging` когда страница всего одна.
    *
@@ -63,7 +64,7 @@ export interface PagingProps extends CommonProps {
    *
    * @default false
    */
-  shouldBeVisibleWithLessThanTwoPages: boolean;
+  shouldBeVisibleWithLessThanTwoPages?: boolean;
 }
 
 export interface PagingState {
@@ -82,17 +83,23 @@ export const PagingDataTids = {
   pageLink: 'Paging__pageLink',
 } as const;
 
+type DefaultProps = Required<
+  Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
+>;
+
 @rootNode
 @locale('Paging', PagingLocaleHelper)
 export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public static __KONTUR_REACT_UI__ = 'Paging';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
     'data-tid': PagingDataTids.root,
   };
+
+  private getProps = createPropsGetter(Paging.defaultProps);
 
   public static propTypes = {};
   private setRootNode!: TSetRootNode;
@@ -104,7 +111,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   public state: PagingState = {
     focusedByTab: false,
     focusedItem: null,
-    keyboardControl: this.props.useGlobalListener,
+    keyboardControl: this.getProps().useGlobalListener,
   };
 
   private theme!: Theme;
@@ -113,24 +120,25 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private container: HTMLSpanElement | null = null;
 
   public componentDidMount() {
-    const { useGlobalListener } = this.props;
+    const useGlobalListener = this.getProps().useGlobalListener;
     if (useGlobalListener) {
       this.addGlobalListener();
     }
   }
 
   public componentDidUpdate(prevProps: PagingProps) {
-    if (!prevProps.useGlobalListener && this.props.useGlobalListener) {
+    const useGlobalListener = this.getProps().useGlobalListener;
+    if (!prevProps.useGlobalListener && useGlobalListener) {
       this.addGlobalListener();
     }
 
-    if (prevProps.useGlobalListener && !this.props.useGlobalListener) {
+    if (prevProps.useGlobalListener && !useGlobalListener) {
       this.removeGlobalListener();
     }
 
-    if (prevProps.useGlobalListener !== this.props.useGlobalListener) {
+    if (prevProps.useGlobalListener !== useGlobalListener) {
       this.setState({
-        keyboardControl: this.props.useGlobalListener,
+        keyboardControl: useGlobalListener,
       });
     }
   }
@@ -140,7 +148,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   public render() {
-    if (this.props.pagesCount < 2 && !this.props.shouldBeVisibleWithLessThanTwoPages) {
+    if (this.props.pagesCount < 2 && !this.getProps().shouldBeVisibleWithLessThanTwoPages) {
       return null;
     }
 
@@ -155,13 +163,14 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   }
 
   private renderMain() {
+    const { 'data-tid': dataTid, useGlobalListener } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span
           tabIndex={0}
-          data-tid={this.props['data-tid']}
+          data-tid={dataTid}
           className={styles.paging(this.theme)}
-          onKeyDown={this.props.useGlobalListener ? undefined : this.handleKeyDown}
+          onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onMouseDown={this.handleMouseDown}
@@ -205,7 +214,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.forwardLinkFocused()]: focused,
       [styles.disabled(this.theme)]: disabled,
     });
-    const { component: Component, caption } = this.props;
+    const { caption } = this.props;
+    const Component = this.getProps().component;
     const { forward } = this.locale;
 
     return (
@@ -232,7 +242,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       [styles.pageLinkFocused(this.theme)]: focused,
       [styles.active(this.theme)]: active,
     });
-    const Component = this.props.component;
+    const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
 
     return (
@@ -333,7 +343,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     }
   };
 
-  private handleFocus = (e: React.FocusEvent<HTMLElement>) => {
+  private handleFocus = () => {
     if (this.props.disabled) {
       return;
     }
@@ -352,7 +362,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private handleBlur = () => {
     this.setState({
       focusedByTab: false,
-      keyboardControl: this.props.useGlobalListener || false,
+      keyboardControl: this.getProps().useGlobalListener || false,
     });
   };
 

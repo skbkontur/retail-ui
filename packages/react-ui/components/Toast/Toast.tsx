@@ -148,9 +148,9 @@ export class Toast extends React.Component<ToastProps, ToastState> {
     );
   }
 
-  private setRootRef = (element: Nullable<HTMLElement>) => {
+  private setRootRef = (element: Nullable<Element>) => {
     this.setRootNode(element);
-    // @ts-ignore
+    // @ts-expect-error: See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065.
     this.rootRef.current = element;
   };
 

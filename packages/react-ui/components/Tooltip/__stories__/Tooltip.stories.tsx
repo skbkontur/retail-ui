@@ -3,6 +3,7 @@
 import React, { CSSProperties } from 'react';
 import HelpDotIcon from '@skbkontur/react-icons/HelpDot';
 
+import { Nullable } from '../../../typings/utility-types';
 import { Story } from '../../../typings/stories';
 import { Tooltip, TooltipProps, TooltipTrigger } from '../Tooltip';
 import { Button } from '../../Button';
@@ -784,10 +785,13 @@ RenderInFirstAvailablePosition.parameters = {
   },
 };
 
-type DynamicContentTooltipState = { content: React.ReactNode; opened: boolean };
+interface DynamicContentTooltipState {
+  content: React.ReactNode;
+  opened: boolean;
+}
 
-class DynamicContentTooltip extends React.Component<{}, DynamicContentTooltipState> {
-  public state = {
+class DynamicContentTooltip extends React.Component {
+  public state: DynamicContentTooltipState = {
     content: SMALL_CONTENT,
     opened: false,
   };
@@ -819,7 +823,7 @@ class DynamicContentTooltip extends React.Component<{}, DynamicContentTooltipSta
       return SMALL_CONTENT;
     };
 
-    this.setState((state) => ({
+    this.setState((state: DynamicContentTooltipState) => ({
       content: getContent(state),
       opened: !state.opened,
     }));
@@ -924,13 +928,12 @@ const LARGE_CONTENT = (
 );
 
 interface HasPopupPositionProps {
-  position?: PopupPositionsType;
+  pos: PopupPositionsType;
 }
 interface HasDynamicContentState {
   content: React.ReactNode;
 }
-
-class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProps, HasDynamicContentState> {
+class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProps> {
   public state: HasDynamicContentState = {
     content: SMALL_CONTENT,
   };
@@ -938,7 +941,7 @@ class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
   public render() {
     return (
       <Tooltip
-        pos={this.props.position}
+        pos={this.props.pos}
         allowedPositions={['top left', 'left middle', 'right middle', 'bottom left']}
         render={this.tooltipContentGetter}
         trigger={'opened'}
@@ -963,7 +966,7 @@ class ExternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
   };
 }
 
-class TooltipWithDynamicContent extends React.Component<{}, HasDynamicContentState> {
+class TooltipWithDynamicContent extends React.Component {
   public state: HasDynamicContentState = {
     content: SMALL_CONTENT,
   };
@@ -987,12 +990,12 @@ class TooltipWithDynamicContent extends React.Component<{}, HasDynamicContentSta
   };
 }
 
-class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProps, {}> {
+class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProps> {
   public render() {
     return (
       <Tooltip
         allowedPositions={['top left', 'left middle', 'right middle', 'bottom left']}
-        pos={this.props.position}
+        pos={this.props.pos}
         render={this.tooltipContentGetter}
         trigger={'opened'}
         closeButton={false}
@@ -1008,11 +1011,8 @@ class InternalDynamicContentTooltip extends React.Component<HasPopupPositionProp
   };
 }
 
-interface DynamicAnchorState {
-  isFirst: boolean;
-}
-class DynamicAnchor extends React.Component<{}, DynamicAnchorState> {
-  public state: DynamicAnchorState = {
+class DynamicAnchor extends React.Component {
+  public state = {
     isFirst: true,
   };
   public render() {
@@ -1047,7 +1047,7 @@ const DynamicContentStory = (props: DynamicContentStoryProps) => {
       {DYNAMIC_TOOLTIP_POSITIONS.map((position, index) => {
         return (
           <div key={index} id={`Container-${index}`} style={{ paddingBottom: 70 }}>
-            <TooltipComponentClass position={position} />
+            <TooltipComponentClass pos={position} />
           </div>
         );
       })}
@@ -1065,7 +1065,7 @@ function DynamicAnchorTooltip() {
   );
 }
 
-class TooltipWithClickTrigger extends React.Component<{}, {}> {
+class TooltipWithClickTrigger extends React.Component {
   public render() {
     return (
       <div style={{ padding: 100 }}>
@@ -1117,7 +1117,7 @@ interface DynamicTriggersState {
   trigger?: TooltipTrigger;
 }
 
-class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
+class DynamicTriggers extends React.Component {
   public state: DynamicTriggersState = {};
 
   public render() {
@@ -1149,13 +1149,10 @@ class DynamicTriggers extends React.Component<{}, DynamicTriggersState> {
     });
   };
 }
-interface TestTooltipForManualState {
-  onOpenCalledTimes: number;
-  onCloseCalledTimes: number;
-}
-class TestTooltipForManual extends React.Component<{}, TestTooltipForManualState> {
+
+class TestTooltipForManual extends React.Component {
   private tooltip: Tooltip | null = null;
-  public state: TestTooltipForManualState = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
+  public state = { onOpenCalledTimes: 0, onCloseCalledTimes: 0 };
 
   render() {
     return (
@@ -1266,9 +1263,9 @@ const anchorStyle: CSSProperties = {
 };
 
 interface AnchorTooltipExampleState {
-  anchor: HTMLElement | null;
+  anchor: Nullable<HTMLElement>;
 }
-class AnchorTooltipExample extends React.Component<{}, AnchorTooltipExampleState> {
+class AnchorTooltipExample extends React.Component {
   public state: AnchorTooltipExampleState = {
     anchor: null,
   };

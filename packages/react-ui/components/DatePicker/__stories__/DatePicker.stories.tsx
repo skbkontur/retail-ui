@@ -1,17 +1,27 @@
 import { action } from '@storybook/addon-actions';
 import React, { useCallback, useState, useEffect } from 'react';
 
+import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder, InternalDateSeparator } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
-import { DatePicker } from '../DatePicker';
+import { DatePicker, DatePickerProps } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
 
-class DatePickerWithError extends React.Component<any, any> {
-  public state = {
+interface DatePickerWithErrorProps {
+  disabled?: boolean;
+  size?: DatePickerProps<unknown>['size'];
+}
+interface DatePickerWithErrorState {
+  tooltip: boolean;
+  value: Nullable<string>;
+  error?: boolean;
+}
+class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
+  public state: DatePickerWithErrorState = {
     value: '15.08.2014',
     error: false,
     tooltip: false,
@@ -45,7 +55,7 @@ class DatePickerWithError extends React.Component<any, any> {
             />
           </LocaleContext.Provider>
         </Tooltip>
-        <Button onClick={() => this.setState({ value: null, error: null, tooltip: false })}>Clear</Button>
+        <Button onClick={() => this.setState({ value: null, error: undefined, tooltip: false })}>Clear</Button>
         <Button onClick={() => this.setState({ value: '99.99.9999' })}>Set &quot;99.99.9999&quot;</Button>
         <Button onClick={() => this.setState({ value: '99.hello' })}>Set &quot;99.hello&quot;</Button>
         <Button onClick={() => this.setState({ value: '10.3' })}>Set &quot;10.3&quot;</Button>
@@ -81,10 +91,17 @@ class DatePickerWithError extends React.Component<any, any> {
   };
 }
 
-class DatePickerWithMinMax extends React.Component<any, any> {
-  public state = {
-    min: '02.07.2017',
-    max: '30.01.2020',
+interface DatePickerWithMinMaxState {
+  value: Nullable<string>;
+  minDate: string;
+  maxDate: string;
+  order: InternalDateOrder;
+  separator: InternalDateSeparator;
+}
+class DatePickerWithMinMax extends React.Component {
+  public state: DatePickerWithMinMaxState = {
+    minDate: '02.07.2017',
+    maxDate: '30.01.2020',
     value: '02.07.2017',
     order: InternalDateOrder.DMY,
     separator: InternalDateSeparator.Dot,
@@ -97,7 +114,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
           Начало периода:{' '}
           <input
             type="text"
-            value={this.state.min}
+            value={this.state.minDate}
             placeholder="min"
             onChange={(e) => this.setState({ min: e.target.value })}
           />
@@ -106,7 +123,7 @@ class DatePickerWithMinMax extends React.Component<any, any> {
           Окончание периода:{' '}
           <input
             type="text"
-            value={this.state.max}
+            value={this.state.maxDate}
             placeholder="max"
             onChange={(e) => this.setState({ max: e.target.value })}
           />
@@ -119,8 +136,8 @@ class DatePickerWithMinMax extends React.Component<any, any> {
           <DatePicker
             width={200}
             value={this.state.value}
-            minDate={this.state.min}
-            maxDate={this.state.max}
+            minDate={this.state.minDate}
+            maxDate={this.state.maxDate}
             onValueChange={action('change')}
             useMobileNativeDatePicker
           />
