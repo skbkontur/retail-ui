@@ -4,6 +4,7 @@ import React from 'react';
 import { action } from '@storybook/addon-actions';
 import BabyIcon from '@skbkontur/react-icons/Baby';
 import SearchIcon from '@skbkontur/react-icons/Search';
+import { SearchLoupeIcon } from '@skbkontur/icons';
 
 import { Meta, Story } from '../../../typings/stories';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
@@ -1090,20 +1091,20 @@ class ComboBoxWithExternalValue extends React.Component {
 
 export const WithLeftIcon = () => (
   <Gapped vertical>
-    <SimpleCombobox leftIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox leftIcon={<SearchIcon />} size="small" drawArrow={false} />
-    <SimpleCombobox leftIcon={<SearchIcon />} size="medium" drawArrow={false} />
-    <SimpleCombobox leftIcon={<SearchIcon />} size="large" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchLoupeIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox leftIcon={<SearchLoupeIcon />} size="small" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchLoupeIcon />} size="medium" drawArrow={false} />
+    <SimpleCombobox leftIcon={<SearchLoupeIcon />} size="large" drawArrow={false} />
   </Gapped>
 );
 WithLeftIcon.storyName = 'with left icon';
 
 export const WithRightIcon = () => (
   <Gapped vertical>
-    <SimpleCombobox rightIcon={<SearchIcon />} searchOnFocus={false} autoFocus />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="small" />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="medium" />
-    <SimpleCombobox rightIcon={<SearchIcon />} size="large" />
+    <SimpleCombobox rightIcon={<SearchLoupeIcon />} searchOnFocus={false} autoFocus />
+    <SimpleCombobox rightIcon={<SearchLoupeIcon />} size="small" />
+    <SimpleCombobox rightIcon={<SearchLoupeIcon />} size="medium" />
+    <SimpleCombobox rightIcon={<SearchLoupeIcon />} size="large" />
   </Gapped>
 );
 WithRightIcon.storyName = 'with right icon';
