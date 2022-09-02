@@ -175,7 +175,7 @@ export const styles = memoizeStyle({
       width: ${t.checkboxIconWidth};
 
       svg {
-        margin: -12.5% 0 0 0;
+        margin: 0 0 0 0;
       }
     `;
   },
