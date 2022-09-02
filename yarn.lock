@@ -5047,6 +5047,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@skbkontur/icons@^0.10.0":
+  version "0.10.0"
+  resolved "https://nexus.kontur.host/repository/kontur-npm-group/@skbkontur/icons/-/icons-0.10.0.tgz#815b0edaa1f4203ec15d151352c1e62079a53956"
+  integrity sha512-zbLKsychal/gqVkju1k1JfLZWPsK4Flb3BUAOimgvPG/BkftyRYkhRrJ1EYFDEqKQgLD3OaGRBuNJhpY6bffaw==
+
 "@skbkontur/react-icons@5.2.0":
   version "5.2.0"
   resolved "https://registry.npmjs.org/@skbkontur/react-icons/-/react-icons-5.2.0.tgz#b6562c7327eb19f71ad6ff48765dcbd7c8cd1212"
