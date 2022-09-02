@@ -125,7 +125,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const isAsync = !!request;
   const isSingleMode = !multiple;
 
-  const [isLinkVisible, setLinkVisibility] = useState(true);
+  const [isLinkVisible, setIsLinkVisible] = useState(true);
   const upload = useUpload(request, onRequestSuccess, onRequestError);
 
   const tryValidateAndUpload = useCallback(
