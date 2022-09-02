@@ -20,6 +20,14 @@ import { isInstanceWithRootNode } from './rootNodeDecorator';
  */
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<Element> => {
+  /**
+   * Options of what instance can be:
+   *  1. null or undefined
+   *  2. DOM Element
+   *  3. class Component instance (object)
+   *  4. literally anything, returned from useImperativeHandle
+   */
+
   if (!canUseDOM || !instance) {
     // instance can be `null` if component was unmounted
     // also checking undefined for convenient usage
@@ -27,7 +35,7 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
   }
 
   if (isElement(instance)) {
-    // instance can be a Element already if coming
+    // instance can be an Element already if its coming
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
   }
@@ -45,20 +53,24 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
   }
 
   if (rootNode !== undefined) {
-    // at this point, it is rather Element (what we are looking for)
-    // or null (which is also OK, e.g. Popup/Tooltip/Hint before opening), so, just return it
+    // the getter exists and has returned something, it should be what we are looking for
+    // probably its an Element or null (which is also OK, e.g. Popup/Tooltip/Hint before opening)
     return rootNode;
   }
 
   try {
-    // node is undefined, which means that the instance's root node getter doesn't exists or returns the undefined
-    // anyway, it tell us that the convention is not respected (by the component itself or its children),
-    // so, we have to fall back to the deprecated findDOMNode, which always works but breaks StrictMode
+    // rootNode is undefined, which means that the getter doesn't exists or returns the undefined
+    // anyway, it tell us that the convention is not respected,
+    // so, we have to fall back to the deprecated findDOMNode, which breaks StrictMode
+    // instance can still be a class component or an imperative handle (i.e., anything, except null/undefined/Element)
     rootNode = findDOMNode(instance);
   } catch (e) {
+    // but findDOMNode doesn`t accept everything that instance can be at this point,
+    // so we have to handle exceptions
+    // see https://github.com/facebook/react/blob/cae63505/packages/react-dom/src/__tests__/findDOMNode-test.js#L66-L86
     warning(
       false,
-      '[getRootNode]: using findDOMNode threw an exception' +
+      '[getRootNode]: can`t fallback to findDOMNode.' +
         '\n' +
         'See https://github.com/skbkontur/retail-ui/blob/master/packages/react-ui/README.md#strictmode' +
         '\n\n' +
