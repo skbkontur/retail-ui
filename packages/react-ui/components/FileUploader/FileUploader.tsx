@@ -18,6 +18,7 @@ import { isBrowser, isEdge, isIE11 } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -294,14 +295,17 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
+  const contentClassNames = cx(jsStyles.content(), {
+    [jsStyles.contentWithFiles()]: hasOneFileForSingle,
+  });
+
   useEffect(() => {
-    const containerWidth = fileDivRef.current?.offsetWidth ?? 0;
+    const containerWidth = getDOMRect(fileDivRef.current).width ?? 0;
     const minFileNameWidth = getMinFileNameWidth(size);
-    const hasOneFile = !!files.length && !multiple;
     const enoughSpace = minFileNameWidth < containerWidth;
 
-    setLinkVisibility(hasOneFile && !hideFiles ? enoughSpace : true);
-  }, [size, files, hideFiles]);
+    setLinkVisibility(hasOneFileForSingle ? enoughSpace : true);
+  }, [size, files, hasOneFileForSingle]);
 
   return (
     <CommonWrapper {...props}>
@@ -317,14 +321,14 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             <div className={contentInnerClass}>
               <div
                 data-tid={FileUploaderDataTids.content}
-                className={hasOneFileForSingle ? jsStyles.contentWithFiles() : jsStyles.content()}
+                className={contentClassNames}
               >
                 {isLinkVisible && (
                   <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
                     {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}
                   </span>
                 )}
-                &nbsp;
+                {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
                 <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
                   {hasOneFileForSingle ? (
                     <div ref={fileDivRef} className={jsStyles.singleFile()}>

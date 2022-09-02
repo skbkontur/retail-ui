@@ -1651,9 +1651,15 @@ export class DefaultTheme {
   public static get fileUploaderFontSize() {
     return this.fontSizeSmall;
   }
-  public static fileUploaderPaddingXSmall = '7px';
-  public static fileUploaderPaddingXMedium = '11px';
-  public static fileUploaderPaddingXLarge = '15px';
+  public static get fileUploaderPaddingXSmall() {
+    return this.inputPaddingXSmall;
+  }
+  public static get fileUploaderPaddingXMedium() {
+    return this.inputPaddingXMedium;
+  }
+  public static get fileUploaderPaddingXLarge() {
+    return this.inputPaddingXLarge;
+  }
   public static get fileUploaderFontSizeSmall() {
     return this.fontSizeSmall;
   }
