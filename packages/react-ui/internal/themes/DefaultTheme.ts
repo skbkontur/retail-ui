@@ -1691,7 +1691,7 @@ export class DefaultTheme {
     return this.controlPaddingYLarge;
   }
   public static get fileUploaderTextColorDefault() {
-    return this.gray;
+    return this.textColorDefault;
   }
   public static fileUploaderPaddingX = '7px';
   public static get fileUploaderPaddingY() {
@@ -1707,7 +1707,7 @@ export class DefaultTheme {
     return this.borderColorFocus;
   }
   public static get fileUploaderLinkColor() {
-    return this.textColorDefault;
+    return this.linkColor;
   }
   public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#808080';

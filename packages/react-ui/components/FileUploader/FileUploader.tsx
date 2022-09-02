@@ -304,7 +304,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     const minFileNameWidth = getMinFileNameWidth(size);
     const enoughSpace = minFileNameWidth < containerWidth;
 
-    setLinkVisibility(hasOneFileForSingle ? enoughSpace : true);
+    setIsLinkVisible(hasOneFileForSingle ? enoughSpace : true);
   }, [size, files, hasOneFileForSingle]);
 
   return (
@@ -319,10 +319,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
             className={uploadButtonClassNames}
           >
             <div className={contentInnerClass}>
-              <div
-                data-tid={FileUploaderDataTids.content}
-                className={contentClassNames}
-              >
+              <div data-tid={FileUploaderDataTids.content} className={contentClassNames}>
                 {isLinkVisible && (
                   <span data-tid={FileUploaderDataTids.link} className={linkClassNames}>
                     {hasOneFileForSingle ? locale.choosedFile : locale.chooseFile}

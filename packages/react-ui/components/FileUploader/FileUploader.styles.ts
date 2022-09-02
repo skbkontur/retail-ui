@@ -167,7 +167,7 @@ const styles = {
       position: absolute;
       right: ${t.fileUploaderPaddingX};
       bottom: 10px;
-      color: ${t.fileUploaderLinkColor};
+      color: ${t.fileUploaderIconColor};
       text-align: right;
     `;
   },
