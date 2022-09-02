@@ -45,7 +45,7 @@ const styles = {
       font-size: ${t.fileUploaderIconSize};
       text-align: right;
       outline: none;
-      color: ${t.fileUploaderLinkColor};
+      color: ${t.fileUploaderIconColor};
 
       position: absolute;
       right: ${t.fileUploaderPaddingX};
@@ -107,7 +107,7 @@ const styles = {
 
   deleteIcon(t: Theme) {
     return css`
-      color: ${t.fileUploaderLinkColor};
+      color: ${t.fileUploaderIconColor};
     `;
   },
 

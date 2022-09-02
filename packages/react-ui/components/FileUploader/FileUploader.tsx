@@ -297,11 +297,15 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
 
+  const contentClassNames = cx(jsStyles.content(), {
+    [jsStyles.contentWithFiles()]: hasOneFileForSingle,
+  });
+
   const linkClassNames = cx(jsStyles.link(theme), {
     [jsStyles.linkDisabled(theme)]: disabled,
   });
-  
-    useEffect(() => {
+
+  useEffect(() => {
     const containerWidth = getDOMRect(fileDivRef.current).width ?? 0;
     const minFileNameWidth = getMinFileNameWidth(size);
     const enoughSpace = minFileNameWidth < containerWidth;
