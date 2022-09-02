@@ -1,7 +1,7 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
-import SearchIcon from '@skbkontur/react-icons/Search';
+import { SearchLoupeIcon } from '@skbkontur/icons';
 
 import { Story } from '../../../typings/stories';
 import { Input, InputSize } from '../Input';
@@ -95,20 +95,20 @@ export const InputsWithDifferentStates: Story = () => (
     <div>
       <div style={styles}>Left icon</div>
       <div id="left-icon-small-input-wrapper" style={styles}>
-        <Input size="small" leftIcon={<SearchIcon />} />
+        <Input size="small" leftIcon={<SearchLoupeIcon />} />
       </div>
       <div id="left-icon-large-input-wrapper" style={styles}>
-        <Input size="large" leftIcon={<SearchIcon />} />
+        <Input size="large" leftIcon={<SearchLoupeIcon />} />
       </div>
     </div>
 
     <div>
       <div style={styles}>Right icon</div>
       <div id="right-icon-small-input-wrapper" style={styles}>
-        <Input size="small" rightIcon={<SearchIcon />} />
+        <Input size="small" rightIcon={<SearchLoupeIcon />} />
       </div>
       <div id="right-icon-large-input-wrapper" style={styles}>
-        <Input size="large" rightIcon={<SearchIcon />} />
+        <Input size="large" rightIcon={<SearchLoupeIcon />} />
       </div>
     </div>
 
@@ -215,13 +215,13 @@ InputsWithDifferentStates.parameters = {
 export const InputsWithDifferentSizes: Story = () => (
   <div>
     <div id="small-input-wrapper" style={styles}>
-      <Input size="small" />
+      <Input rightIcon={<SearchLoupeIcon size="16px" />}  size="small" />
     </div>
     <div id="medium-input-wrapper" style={styles}>
-      <Input size="medium" />
+      <Input rightIcon={<SearchLoupeIcon  size="20px" />}  size="medium" />
     </div>
     <div id="large-input-wrapper" style={styles}>
-      <Input size="large" />
+      <Input rightIcon={<SearchLoupeIcon size="24px" />} leftIcon={<SearchLoupeIcon  size="24px" />} size="large" />
     </div>
   </div>
 );
@@ -686,7 +686,7 @@ export const TextStylesReset = () => (
       <Input defaultValue="Value" />
       <Input defaultValue="Disabled" disabled />
       <Input mask="a9*MASK" alwaysShowMask />
-      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+      <Input leftIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
     </Gapped>
   </div>
 );
@@ -726,19 +726,19 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
         <div style={styles}>
-          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+          <Input size={size} rightIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
         </div>
         <div style={styles}>
-          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+          <Input size={size} rightIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with leftIcon</div>
         <div style={styles}>
-          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+          <Input size={size} leftIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
         </div>
         <div style={styles}>
-          <Input size={size} leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+          <Input size={size} leftIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
         </div>
       </div>
     </div>
