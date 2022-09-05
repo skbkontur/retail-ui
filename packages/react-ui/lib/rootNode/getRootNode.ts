@@ -10,7 +10,7 @@ import { canUseDOM } from '../client';
 import { isInstanceWithRootNode } from './rootNodeDecorator';
 
 /**
- * Extracts component's root Element(HTMLElement/SVGElement) out of it's instance
+ * Extracts component's root Element (HTMLElement/SVGElement) out of it's instance
  * following the "StrictMode support convention" (@see README.md#strictmode, #2518).
  *
  * Replaces findDOMNode but falls back to it if "convention" is not respected.
