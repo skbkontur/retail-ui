@@ -172,11 +172,6 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Dropdown
   public static dropdownMenuSelectedBg = 'rgba(255, 255, 255, 0.08)'; //deprecated
   //#endregion
-  //#region Select
-  public static get selectDefaultBg() {
-    return this.inputBg;
-  }
-  //#endregion
   //#region TextArea
   public static textareaBg = '#1f1f1f';
   public static get textareaBorderTopColor() {

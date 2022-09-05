@@ -478,7 +478,7 @@ export class DefaultTheme {
   //#endregion
   //#region Select
   public static get selectDefaultBg() {
-    return this.btnDefaultBg;
+    return this.inputBg;
   }
   public static selectPlaceholderColor = '#adadad';
   public static get selectBorderWidth() {
