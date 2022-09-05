@@ -116,6 +116,26 @@ describe('getRootNode', () => {
       const instance = getInstance(<ClassComponentWithRootNode />);
       expect(getRootNode(instance)).toBeInstanceOf(HTMLElement);
     });
+
+    it('null for class component with rootNode that has not been mounted', () => {
+      let rootNode: Nullable<Element>;
+
+      class ClassComponentWithRootNode extends React.Component implements InstanceWithRootNode {
+        UNSAFE_componentWillMount() {
+          rootNode = getRootNode(this);
+        }
+        rootNode: Nullable<HTMLDivElement>;
+        rootRef = (instance: HTMLDivElement | null) => {
+          this.rootNode = instance;
+        };
+        getRootNode = () => this.rootNode;
+        render = () => <div ref={this.rootRef} />;
+      }
+
+      render(<ClassComponentWithRootNode />);
+
+      expect(rootNode).toBeNull();
+    });
   });
 
   describe('findDOMNode', () => {
