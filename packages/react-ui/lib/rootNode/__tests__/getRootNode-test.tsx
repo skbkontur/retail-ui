@@ -7,7 +7,7 @@ import { callChildRef } from '../../../lib/callChildRef/callChildRef';
 import { getRootNode } from '../getRootNode';
 import { InstanceWithRootNode } from '../rootNodeDecorator';
 
-const getInstance = (element: React.ReactElement, { noRender = false } = {}): React.ReactInstance | null => {
+const getInstance = (element: React.ReactElement): React.ReactInstance | null => {
   let ref: React.Component | Element | null = null;
   const refCallback = (instance: React.ReactInstance) => {
     const originalRef = (element as React.RefAttributes<any>).ref;
@@ -17,9 +17,7 @@ const getInstance = (element: React.ReactElement, { noRender = false } = {}): Re
     ref = instance;
   };
 
-  if (!noRender) {
-    render(React.cloneElement(element, { ref: refCallback }));
-  }
+  render(React.cloneElement(element, { ref: refCallback }));
 
   return ref;
 };
