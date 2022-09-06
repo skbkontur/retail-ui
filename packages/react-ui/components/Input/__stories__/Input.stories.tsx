@@ -782,3 +782,44 @@ UncontrolledInputWithPlaceholder.parameters = {
     },
   },
 };
+
+export const InputWithMaskSelectAll: Story = () => {
+  const inputRef = React.useRef<any>(null);
+  const [value, setValue] = React.useState('11');
+  const selectAll = React.useCallback(() => {
+    inputRef.current?.selectAll();
+  }, [inputRef.current]);
+  return (
+    <div>
+      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
+    </div>
+  );
+};
+InputWithMaskSelectAll.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: {
+      async PlainAndSelected() {
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        const selectAllHalfFilledInput = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('1111')
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        const selectAllFilledInput = await this.takeScreenshot();
+        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
+      },
+    },
+  },
+};
