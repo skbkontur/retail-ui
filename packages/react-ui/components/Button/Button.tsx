@@ -3,12 +3,13 @@ import React from 'react';
 import { isReactUIComponent } from '../../lib/utils';
 import { isIE11, isEdge } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 
@@ -165,6 +166,7 @@ export interface ButtonProps extends CommonProps {
    * CSS-свойство `width`.
    */
   width?: number | string;
+  theme?: ThemeIn;
 }
 
 export interface ButtonState {
@@ -226,7 +228,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return this.renderMain();
         }}
       </ThemeContext.Consumer>

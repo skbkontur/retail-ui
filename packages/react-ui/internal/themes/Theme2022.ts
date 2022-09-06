@@ -82,7 +82,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnLinkLineBorderBottomStyle = 'solid';
   public static btnLinkLineBorderBottomWidth = '1px';
 
-  public static btnOutlineColorFocus = 'transparent';
   //#endregion
 
   public static inputBorderRadiusSmall = '2px';
