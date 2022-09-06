@@ -806,6 +806,7 @@ InputWithMaskSelectAll.parameters = {
             bridge: true,
           })
           .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
           .perform();
         const selectAllHalfFilledInput = await this.takeScreenshot();
         await this.browser
@@ -816,6 +817,7 @@ InputWithMaskSelectAll.parameters = {
           .sendKeys('1111')
           .click(this.browser.findElement({ css: 'body' }))
           .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
           .perform();
         const selectAllFilledInput = await this.takeScreenshot();
         await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
