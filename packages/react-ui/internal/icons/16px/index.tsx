@@ -199,11 +199,8 @@ export const MenuKebabIcon = forwardRefAndName<HTMLElement, SvgIconProps>('MenuK
 export const OkIcon = forwardRefAndName<HTMLElement, SvgIconProps>('OkIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
-      <svg viewBox="0 0 16 16">
-        <polygon
-          fillRule="nonzero"
-          points="3.85937283 7.81051766 2.02089527 9.64899522 6.21608609 13.844186 13.9650569 6.09521524 12.1265793 4.25673767 6.21608609 10.1672309"
-        />
+      <svg viewBox="0 0 16 16" >
+        <path d="M15.028 3.241a1.25 1.25 0 0 1 0 1.768L8.197 11.84a2.838 2.838 0 0 1-4.013 0L1.646 9.305a1.25 1.25 0 1 1 1.768-1.768l2.537 2.537a.338.338 0 0 0 .477 0l6.833-6.833a1.25 1.25 0 0 1 1.768 0Z"></path>
       </svg>
     </SvgIcon>
   );
@@ -213,7 +210,7 @@ export const SquareIcon = forwardRefAndName<HTMLElement, SvgIconProps>('SquareIc
   return (
     <SvgIcon ref={ref} {...props}>
       <svg viewBox="0 0 16 16">
-        <rect width={8} height={8} x={4} y={5} fillRule="evenodd" rx={1} />
+        <rect width={8} height={8} x={4} y={4} fillRule="evenodd" rx={1} />
       </svg>
     </SvgIcon>
   );
