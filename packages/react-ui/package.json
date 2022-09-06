@@ -75,7 +75,6 @@
     "@babel/preset-react": "^7.16.5",
     "@babel/preset-typescript": "7.16.5",
     "@babel/register": "^7.16.5",
-    "@emotion/eslint-plugin": "11.7.0",
     "@skbkontur/icons": "^0.10.0",
     "@skbkontur/react-icons": "5.2.0",
     "@skbkontur/react-props2attrs": "0.1.2",
