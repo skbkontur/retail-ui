@@ -15,15 +15,22 @@ import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { ResponsiveLayout } from '../../../components/ResponsiveLayout';
 import { delay } from '../../../lib/utils';
 
-class SelectWrapper extends React.Component<{}, any> {
-  public state = {
+interface SelectWrapperValue {
+  label: string;
+  value: number;
+}
+interface SelectWrapperState {
+  value: SelectWrapperValue;
+}
+class SelectWrapper extends React.Component {
+  public state: SelectWrapperState = {
     value: { label: 'One', value: 1 },
   };
 
   public render() {
     return (
       <div>
-        <Select<{ label: string; value: number }>
+        <Select<SelectWrapperValue>
           items={[
             { label: 'One', value: 1 },
             { label: 'Two', value: 2 },
@@ -43,15 +50,18 @@ class SelectWrapper extends React.Component<{}, any> {
   }
 }
 
+interface ItemsWithCommentsState {
+  value: number;
+}
 type ItemWithComments = [number, string, React.ReactNode?];
-class ItemsWithComments extends React.Component<{}, any> {
+class ItemsWithComments extends React.Component {
   private static items: ItemWithComments[] = [
     [1, 'ООО Эльбрус', '8387666415 - 113445852'],
     [2, 'ИП Иванов Петр', '583662338391'],
     [3, 'ЗАО Текстильщики'],
   ];
 
-  public state = {
+  public state: ItemsWithCommentsState = {
     value: ItemsWithComments.items[0][0],
   };
 
@@ -69,8 +79,12 @@ class ItemsWithComments extends React.Component<{}, any> {
   }
 }
 
-class SelectWithNull extends React.Component<any, any> {
-  public state = {
+type SelectWithNullStateValue = number | null;
+interface SelectWithNullState {
+  value: SelectWithNullStateValue;
+}
+class SelectWithNull extends React.Component {
+  public state: SelectWithNullState = {
     value: null,
   };
 
@@ -80,7 +94,7 @@ class SelectWithNull extends React.Component<any, any> {
         <div>
           value: <b>{JSON.stringify(this.state.value)}</b>
         </div>
-        <Select<number | null>
+        <Select<SelectWithNullStateValue>
           items={[[null, 'Any'], Select.SEP, [1, 'First'], [2, 'Second'], [3, 'Third']]}
           value={this.state.value}
           onValueChange={(value) => this.setState({ value })}

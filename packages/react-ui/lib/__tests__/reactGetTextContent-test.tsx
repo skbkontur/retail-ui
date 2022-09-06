@@ -13,10 +13,10 @@ class SimpleComponent extends React.Component {
   }
 }
 
-type TextContent = {
+interface TextContent {
   label: string;
   renderNode: (label: string) => React.ReactNode;
-};
+}
 
 const testCase: TextContent[] = [
   {
@@ -36,7 +36,7 @@ const testCase: TextContent[] = [
 
   {
     label: 'Fourth',
-    renderNode: (label) => label.split('').map((char, index) => <span key={index}>{char}</span>),
+    renderNode: (label) => label?.split('').map((char, index) => <span key={index}>{char}</span>),
   },
 
   {
@@ -50,7 +50,7 @@ const testCase: TextContent[] = [
 
   {
     label: '123',
-    renderNode: (_label) => 123,
+    renderNode: () => 123,
   },
 ];
 

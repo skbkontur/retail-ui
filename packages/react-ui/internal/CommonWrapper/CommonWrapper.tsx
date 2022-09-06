@@ -23,7 +23,7 @@ export interface CommonProps {
 }
 
 interface CommonPropsRootNodeRef {
-  rootNodeRef?: (instance: Nullable<HTMLElement>) => void;
+  rootNodeRef?: (instance: Nullable<Element>) => void;
 }
 
 export type NotCommonProps<P> = Omit<P, keyof CommonProps>;
@@ -42,6 +42,7 @@ export class CommonWrapper<P extends CommonProps & CommonPropsRootNodeRef> exten
   private rootNodeSubscription: Nullable<TRootNodeSubscription> = null;
 
   render() {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [{ className, style, children, rootNodeRef, ...dataProps }, { ...rest }] = extractCommonProps(this.props);
     this.child = isFunction(children) ? children(rest) : children;
     return React.isValidElement<CommonProps & React.RefAttributes<any>>(this.child)
@@ -86,10 +87,10 @@ const extractCommonProps = <P extends CommonProps & CommonPropsRootNodeRef>(
 
   for (const key in props) {
     if (isCommonProp(key)) {
-      // @ts-ignore
+      // @ts-expect-error: See: https://github.com/skbkontur/retail-ui/pull/2257#discussion_r565275843 and https://github.com/skbkontur/retail-ui/pull/2257#discussion_r569542736.
       common[key] = props[key];
     } else {
-      // @ts-ignore
+      // @ts-expect-error: Read the comment above.
       rest[key] = props[key];
     }
   }

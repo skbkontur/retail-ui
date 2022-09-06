@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { AnyObject } from '../../../lib/utils';
 import { Story } from '../../../typings/stories';
 import { Loader, LoaderProps } from '../Loader';
 import { css } from '../../../lib/theming/Emotion';
@@ -23,10 +24,11 @@ const darkWrapperStyle = {
   background: '#1f1f1f',
 };
 
-class ContentComponent extends React.Component<{
-  additionalStyle?: object;
+interface ContentComponentProps {
+  additionalStyle?: AnyObject;
   loaderProps?: Partial<LoaderProps>;
-}> {
+}
+class ContentComponent extends React.Component<ContentComponentProps> {
   public render() {
     const { additionalStyle, loaderProps, children } = this.props;
     return (
@@ -51,9 +53,10 @@ class ContentComponent extends React.Component<{
   }
 }
 
-class NumberList extends React.Component<{
+interface NumberListProps {
   itemsCount: number;
-}> {
+}
+class NumberList extends React.Component<NumberListProps> {
   public render() {
     return (
       <>

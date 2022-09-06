@@ -243,8 +243,8 @@ export const styles = memoizeStyle({
       pointer-events: none;
 
       &,
-      &:hover,
-      &:active {
+      &:hover:enabled,
+      &:active:enabled {
         color: ${t.btnLinkDisabledColor};
       }
     `;
@@ -303,10 +303,10 @@ export const styles = memoizeStyle({
       position: relative;
       z-index: 2;
 
-      &:not(:disabled),
-      &:hover:not(:disabled),
-      &:active:not(:disabled),
-      &:active:hover:not(:disabled),
+      &,
+      &:hover:enabled,
+      &:active:enabled,
+      &:active:hover:enabled,
       ${focus``} {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
@@ -626,7 +626,7 @@ export const styles = memoizeStyle({
 
   checkedFocused(t: Theme) {
     return css`
-      &:hover {
+      &:hover:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
         border-color: ${t.btnBorderColorFocus};
@@ -788,8 +788,8 @@ export const styles = memoizeStyle({
   borderless() {
     return css`
       &,
-      &:hover,
-      &:active {
+      &:hover:enabled,
+      &:active:enabled {
         box-shadow: none !important;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
           box-shadow: none !important;

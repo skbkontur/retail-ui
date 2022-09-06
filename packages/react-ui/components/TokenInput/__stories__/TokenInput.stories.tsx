@@ -41,7 +41,7 @@ async function getModelItems(query: string): Promise<TokenModel[]> {
   return getGenericItems().filter((s) => s.value.includes(query));
 }
 
-function getSelectedItems<T>(props: TokenInputProps<T> & { numberItems: any }) {
+function getSelectedItems(props: WrapperProps) {
   if (props.selectedItems) {
     return props.selectedItems;
   } else if (props.numberItems) {
@@ -51,8 +51,14 @@ function getSelectedItems<T>(props: TokenInputProps<T> & { numberItems: any }) {
   return [];
 }
 
-class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
-  constructor(props: any) {
+interface WrapperProps extends Partial<TokenInputProps<string>> {
+  numberItems?: number;
+}
+interface WrapperState {
+  selectedItems: string[];
+}
+class Wrapper extends React.Component<WrapperProps, WrapperState> {
+  constructor(props: WrapperProps) {
     super(props);
 
     this.state = { selectedItems: getSelectedItems(props) };
@@ -76,11 +82,11 @@ class Wrapper extends React.Component<Partial<TokenInputProps<any>>, any> {
 
 class MyTokenInput extends TokenInput<TokenModel> {}
 
-class WrapperCustomModel extends React.Component<any, { selectedItems: TokenModel[] }> {
-  constructor(props: any) {
-    super(props);
-    this.state = { selectedItems: [] };
-  }
+interface WrapperCustomModelState {
+  selectedItems: TokenModel[];
+}
+class WrapperCustomModel extends React.Component {
+  public state: WrapperCustomModelState = { selectedItems: [] };
 
   public render() {
     return (
@@ -124,8 +130,14 @@ class WrapperCustomModel extends React.Component<any, { selectedItems: TokenMode
   };
 }
 
-class ColoredWrapper extends React.Component<any, any> {
-  constructor(props: any) {
+interface ColoredWrapperProps extends Partial<TokenInputProps<string>> {
+  numberItems?: number;
+}
+interface ColoredWrapperState {
+  selectedItems: string[];
+}
+class ColoredWrapper extends React.Component<ColoredWrapperProps, ColoredWrapperState> {
+  constructor(props: ColoredWrapperProps) {
     super(props);
     this.state = { selectedItems: getSelectedItems(props) };
   }

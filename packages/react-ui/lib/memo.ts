@@ -1,18 +1,18 @@
-export function memo<T>(fn: T): T {
+type MemoFunction<T> = (...args: T[]) => any;
+
+export function memo<T>(fn: MemoFunction<T>) {
   let cache: { [key: string]: any } = {};
   const getHash = (args: any[]) => args.reduce((acc, x) => acc + x, '');
   let keysCount = 0;
   const limit = 1e4;
 
-  // @ts-ignore
-  return (...args) => {
+  return (...args: Parameters<MemoFunction<T>>) => {
     try {
       const hash = getHash(args);
       const fromCache = cache[hash];
       if (fromCache) {
         return fromCache;
       }
-      // @ts-ignore
       const result = fn(...args);
       cache[hash] = result;
       keysCount++;

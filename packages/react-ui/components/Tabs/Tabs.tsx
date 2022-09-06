@@ -8,6 +8,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode } from '../../lib/rootNode/getRootNode';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { Indicator } from './Indicator';
 import { styles } from './Tabs.styles';
@@ -15,10 +16,10 @@ import { TabsContext, TabsContextType } from './TabsContext';
 import { Tab } from './Tab';
 
 type ValueBaseType = string;
-type TabType<T extends ValueBaseType> = {
+interface TabType<T extends ValueBaseType> {
   getNode: () => Tab<T> | null;
   id: T;
-};
+}
 
 export interface TabsProps<T extends ValueBaseType = string> extends CommonProps {
   /**
@@ -45,7 +46,7 @@ export interface TabsProps<T extends ValueBaseType = string> extends CommonProps
    * Vertical indicator
    * @default false
    */
-  vertical: boolean;
+  vertical?: boolean;
 
   /**
    * Width of tabs container
@@ -57,6 +58,8 @@ export const TabsDataTids = {
   root: 'Tabs__root',
   indicatorRoot: 'Indicator__root',
 } as const;
+
+type DefaultProps = Required<Pick<TabsProps, 'vertical'>>;
 
 /**
  * Tabs wrapper
@@ -74,9 +77,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
     vertical: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   };
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     vertical: false,
   };
+
+  private getProps = createPropsGetter(Tabs.defaultProps);
 
   public static Tab = Tab;
 
@@ -97,8 +102,8 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
   private setRootNode!: TSetRootNode;
 
   public render(): JSX.Element {
-    const { vertical, value, width, children, indicatorClassName } = this.props;
-
+    const { value, width, children, indicatorClassName } = this.props;
+    const vertical = this.getProps().vertical;
     return (
       <ThemeContext.Consumer>
         {(theme) => {
@@ -123,7 +128,11 @@ export class Tabs<T extends string = string> extends React.Component<TabsProps<T
                   }}
                 >
                   {children}
-                  <Indicator className={indicatorClassName} tabUpdates={this.tabUpdates} vertical={vertical} />
+                  <Indicator
+                    className={indicatorClassName}
+                    tabUpdates={this.tabUpdates}
+                    vertical={this.getProps().vertical}
+                  />
                 </TabsContext.Provider>
               </div>
             </CommonWrapper>

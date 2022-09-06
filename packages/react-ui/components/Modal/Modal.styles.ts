@@ -62,7 +62,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  centerContainer(t: Theme) {
+  centerContainer() {
     return css`
       position: relative;
       display: inline-block;
@@ -339,7 +339,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  mobileBodyWithoutHeader(t: Theme) {
+  mobileBodyWithoutHeader() {
     return css`
       padding-top: 0px;
     `;

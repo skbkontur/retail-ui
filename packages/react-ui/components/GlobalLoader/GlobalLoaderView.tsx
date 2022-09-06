@@ -15,10 +15,10 @@ export interface GlobalLoaderViewProps extends Pick<CommonProps, 'data-tid'> {
   disableAnimations: boolean;
 }
 
-export type GlobalLoaderViewRef = {
+export interface GlobalLoaderViewRef {
   element: HTMLDivElement;
   refObject: React.RefObject<GlobalLoaderViewRef['element']>;
-};
+}
 
 export const GlobalLoaderView = ({
   expectedResponseTime,

@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-import { isNullable } from '../../lib/utils';
+import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
 import { Menu } from '../Menu';
-import { MenuItem, MenuItemState } from '../../components/MenuItem';
+import { isMenuItem, MenuItem, MenuItemState } from '../../components/MenuItem';
 import { Spinner } from '../../components/Spinner';
 import { Nullable } from '../../typings/utility-types';
 import { MenuSeparator } from '../../components/MenuSeparator';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { ComboBoxRequestStatus } from './CustomComboBoxTypes';
 import { ComboBoxLocale, CustomComboBoxLocaleHelper } from './locale';
@@ -37,14 +38,18 @@ export const ComboBoxMenuDataTids = {
   item: 'ComboBoxMenu__item',
 } as const;
 
+type DefaultProps<T> = Required<Pick<ComboBoxMenuProps<T>, 'repeatRequest' | 'requestStatus'>>;
+
 @locale('ComboBox', CustomComboBoxLocaleHelper)
-export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
+export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
   public static __KONTUR_REACT_UI__ = 'ComboBoxMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<unknown> = {
     repeatRequest: () => undefined,
     requestStatus: ComboBoxRequestStatus.Unknown,
   };
+
+  private getProps = createPropsGetter(ComboBoxMenu.defaultProps);
 
   private readonly locale!: ComboBoxLocale;
 
@@ -58,9 +63,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
       renderNotFound = () => notFound,
       renderTotalCount,
       maxMenuHeight,
-      requestStatus,
       isMobile,
     } = this.props;
+
+    const requestStatus = this.getProps().requestStatus;
 
     const { notFound, errorNetworkButton, errorNetworkMessage } = this.locale;
 
@@ -101,7 +107,7 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
           <MenuItem disabled key="message" isMobile={isMobile}>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
-          <MenuItem link onClick={this.props.repeatRequest} key="retry" isMobile={isMobile}>
+          <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
             {errorNetworkButton}
           </MenuItem>
         </Menu>
@@ -133,8 +139,10 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
 
     let total = null;
     const renderedItems = items && items.map(this.renderItem);
-    // @ts-ignore // todo fix checking
-    const countItems = renderedItems?.filter((item) => item?.type?.__KONTUR_REACT_UI__ === 'MenuItem').length;
+    const menuItems = renderedItems?.filter((item) => {
+      return isMenuItem(item);
+    });
+    const countItems = menuItems?.length;
 
     if (countItems && renderTotalCount && totalCount && countItems < totalCount) {
       total = (
@@ -157,9 +165,8 @@ export class ComboBoxMenu<T> extends Component<ComboBoxMenuProps<T>> {
     // NOTE this is undesireable feature, better
     // to remove it from further versions
     const { renderItem, onValueChange } = this.props;
-    if (typeof item === 'function' || React.isValidElement(item)) {
-      // @ts-ignore
-      const element = typeof item === 'function' ? item() : item;
+    if (isFunction(item) || React.isValidElement(item)) {
+      const element = isFunction(item) ? item() : item;
       const props = Object.assign(
         {
           key: index,

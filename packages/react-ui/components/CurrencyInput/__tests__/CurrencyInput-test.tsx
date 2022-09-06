@@ -101,11 +101,29 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('12,00');
   });
 
-  it('should not change value and should not throw an error with NaN ', async () => {
+  it('should not change value and should not throw an error with NaN', async () => {
     render(<CurrencyInputAndButton value={parseInt('str')} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,00');
+  });
+
+  describe.each([
+    ['Comma', '1,23'],
+    ['Period', '1,23'],
+    ['Slash', '1,23'],
+    ['Backslash', '1,23'],
+    ['IntlBackslash', '1,23'],
+    ['NumpadDivide', '1,23'],
+  ])('should applied [%s] as comma', (delimiter, expected) => {
+    test(`return: ${expected}`, async () => {
+      render(<CurrencyInputWithState />);
+      const input = screen.getByRole('textbox');
+      await userEvent.clear(input);
+      await userEvent.keyboard(`1[${delimiter}]23`, {});
+      await input.blur();
+      expect(input).toHaveValue(expected);
+    });
   });
 });
