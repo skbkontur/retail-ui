@@ -4,7 +4,6 @@ import { Theme } from '../../lib/theming/Theme';
 export const styles = memoizeStyle({
   root(t: Theme) {
     return css`
-      overflow: auto;
       padding: 5px ${t.menuPaddingX};
       outline: none;
       box-sizing: content-box;
@@ -19,13 +18,17 @@ export const styles = memoizeStyle({
     `;
   },
 
-  header() {
+  wrapper() {
     return css`
-      top: -5px;
       position: relative;
       z-index: 1;
       width: 100%;
       overflow: hidden;
+    `;
+  },
+
+  header() {
+    return css`
       line-height: 18px;
       box-sizing: border-box;
       padding: 6px 18px 7px 8px;
@@ -34,26 +37,9 @@ export const styles = memoizeStyle({
 
   footer() {
     return css`
-      bottom: -5px;
-      position: relative;
-      z-index: 1;
-      width: 100%;
-      overflow: hidden;
       line-height: 18px;
       box-sizing: border-box;
       padding: 6px 18px 7px 8px;
-    `;
-  },
-
-  fixedHeader() {
-    return css`
-      box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
-    `;
-  },
-
-  fixedFooter() {
-    return css`
-      box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.1);
     `;
   },
 });

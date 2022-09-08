@@ -12,6 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { MenuSeparator } from '../../components/MenuSeparator';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -196,28 +197,32 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private renderHeader = () => {
     return (
-      <div
-        ref={(el) => (this.header = el)}
-        className={cx({
-          [styles.header()]: true,
-          [styles.fixedHeader()]: this.state.scrollState !== 'top',
-        })}
-      >
-        {this.props.header}
+      <div className={styles.wrapper()} style={{ top: '-5px' }}>
+        <div
+          ref={(el) => (this.header = el)}
+          className={cx({
+            [styles.header()]: true,
+          })}
+        >
+          {this.props.header}
+        </div>
+        {this.state.scrollState !== 'top' && <MenuSeparator />}
       </div>
     );
   };
 
   private renderFooter = () => {
     return (
-      <div
-        ref={(el) => (this.footer = el)}
-        className={cx({
-          [styles.footer()]: true,
-          [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
-        })}
-      >
-        {this.props.footer}
+      <div className={styles.wrapper()}>
+        {this.state.scrollState !== 'bottom' && <MenuSeparator />}
+        <div
+          ref={(el) => (this.footer = el)}
+          className={cx({
+            [styles.footer()]: true,
+          })}
+        >
+          {this.props.footer}
+        </div>
       </div>
     );
   };
