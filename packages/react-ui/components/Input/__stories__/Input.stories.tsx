@@ -784,7 +784,7 @@ UncontrolledInputWithPlaceholder.parameters = {
 };
 
 export const InputWithMaskSelectAll: Story = () => {
-  const inputRef = React.useRef<any>(null);
+  const inputRef = React.useRef<Input>(null);
   const [value, setValue] = React.useState('11');
   const selectAll = React.useCallback(() => {
     inputRef.current?.selectAll();
