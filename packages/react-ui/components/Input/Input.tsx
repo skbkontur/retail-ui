@@ -207,8 +207,9 @@ export class Input extends React.Component<InputProps, InputState> {
       setTimeout(() => {
         this.input?.setSelectionRange(start, end);
       }, 150);
+    } else {
+      this.input?.setSelectionRange(start, end);
     }
-    this.input?.setSelectionRange(start, end);
   }
 
   public get isMaskVisible(): boolean {
