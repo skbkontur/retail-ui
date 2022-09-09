@@ -69,6 +69,10 @@ export interface MenuItemProps extends CommonProps {
    */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
   /**
+   * HTML-атрибут `rel`.
+   */
+  rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
+  /**
    * Заменяет корневой элемент, на компонент переданный в проп.
    *
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
@@ -143,6 +147,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseEnter,
       onMouseLeave,
       isMobile,
+      href,
+      rel,
       ...rest
     } = props;
 
@@ -182,6 +188,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         onMouseLeave={this.handleMouseLeave}
         className={className}
         tabIndex={-1}
+        rel={href ? rel : false}
       >
         {iconElement}
         {content}
