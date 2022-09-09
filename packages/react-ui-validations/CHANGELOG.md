@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.1...react-ui-validations@1.10.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip,Tab:** process children with imperative handles correctly ([#2939](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2939)) ([7958543](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/7958543d80982f5cce9831d19e6feaa9f15c1cc1))
+
+
+
+
+
 ## [1.10.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.0...react-ui-validations@1.10.1) (2022-08-24)
 
 
