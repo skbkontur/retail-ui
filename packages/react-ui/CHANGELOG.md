@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.1...@skbkontur/react-ui@4.5.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip,Tab:** process children with imperative handles correctly ([#2939](https://github.com/skbkontur/retail-ui/issues/2939)) ([7958543](https://github.com/skbkontur/retail-ui/commit/7958543d80982f5cce9831d19e6feaa9f15c1cc1))
+* **ZIndex:** update zIndex style if priority/delta props are updated ([#2942](https://github.com/skbkontur/retail-ui/issues/2942)) ([93a667a](https://github.com/skbkontur/retail-ui/commit/93a667a9619a280b0ab0e050a61a9de7a9f7e0a9))
+
+
+
+
+
 ## [4.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.0...@skbkontur/react-ui@4.5.1) (2022-08-29)
 
 
