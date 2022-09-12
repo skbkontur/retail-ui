@@ -38,7 +38,12 @@ import { FileUploader } from '@skbkontur/react-ui';
 ```jsx harmony
 import { FileUploader } from '@skbkontur/react-ui';
 
-<FileUploader multiple validateBeforeUpload={({originalFile}) => `У файла ${originalFile.name} неверный формат`} />
+<FileUploader
+  multiple
+  validateBeforeUpload={({ originalFile }) => {
+    return Promise.resolve(`У файла ${originalFile.name} неверный формат`);
+  }}
+/>;
 ```
 
 Валидация контрола
