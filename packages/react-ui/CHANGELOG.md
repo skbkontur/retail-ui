@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.5.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.2...@skbkontur/react-ui@4.5.3) (2022-09-12)
+
+
+### Bug Fixes
+
+* **Select:** use input's background color  ([#2978](https://github.com/skbkontur/retail-ui/issues/2978)) ([560ad55](https://github.com/skbkontur/retail-ui/commit/560ad55f7fe1fa8459e875fdf6bec58bb4658930))
+
+
+
+
+
 ## [4.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.1...@skbkontur/react-ui@4.5.2) (2022-09-09)
 
 
