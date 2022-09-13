@@ -546,6 +546,9 @@ export class DefaultTheme {
   public static btnWithIconPaddingLeftLarge = '';
   //#endregion
   //#region Select
+  public static get selectDefaultBg() {
+    return this.inputBg;
+  }
   public static selectPlaceholderColor = '#adadad';
   public static get selectBorderWidth() {
     return this.controlBorderWidth;
