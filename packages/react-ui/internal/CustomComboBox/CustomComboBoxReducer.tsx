@@ -310,8 +310,11 @@ export function reducer<T>(
       return [newState, [Effect.search(''), Effect.focus, Effect.selectInputText]];
     }
     case 'InputClick': {
+      const newState = {
+        inputChanged: false,
+      };
       if (!state.opened && props.searchOnFocus) {
-        return [state, [Effect.search('')]];
+        return [newState, [Effect.search('')]];
       }
       return state;
     }
@@ -334,7 +337,6 @@ export function reducer<T>(
           focused: false,
           opened: false,
           items: null,
-          editing: false,
         },
         [Effect.blur, Effect.cancelRequest, Effect.unexpectedInput(state.textValue, items)],
       ];
