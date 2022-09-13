@@ -148,7 +148,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseLeave,
       isMobile,
       href,
-      rel,
+      rel = this.props.target === '_blank' ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 
