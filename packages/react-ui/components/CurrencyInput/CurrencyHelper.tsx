@@ -21,11 +21,13 @@ export interface FormattingInfo {
   cursorMap: CursorMap;
 }
 
+export const THIN_SPACE = 0x2009;
+
 export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     hideTrailingZeros: false,
-    thousandsDelimiter: String.fromCharCode(isSafari ? 0x0020 : 0x2009),
+    thousandsDelimiter: String.fromCharCode(isSafari ? 0x0020 : THIN_SPACE),
     minusSign: String.fromCharCode(0x2212),
   };
 
