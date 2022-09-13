@@ -54,7 +54,7 @@ children. Ранее для этого использовался метод fin
 Теперь получение DOM-ноды реализовано в библиотеке через ref, из-за чего появились некоторые
 требования к компонентам, передаваемым в Hint, Tooltip, Popup или Tab:
 
-- при передаче функциональных компонентов, они должны использовать `React.ForwardRef`;
+- при передаче функциональных компонентов, они должны использовать `React.ForwardRef`:
 
 ```js static
 import { Hint } from '@skbkontur/react-ui';
@@ -63,7 +63,7 @@ const CustomFunctionComponent = React.forwardRef(
   (props, ref) => <div ref={ref}>children text</div>
 );
 
-export const withFunctionChildren = () => (
+export const WithFunctionChildren = () => (
   <React.StrictMode>
     <Hint pos="top" text="Something will never be changed" manual opened>
       <CustomFunctionComponent />
@@ -72,7 +72,30 @@ export const withFunctionChildren = () => (
 );
 ```
 
-- при передаче классовых компонентов, их инстанс должен реализовывать метод `getRootNode`, возвращающий DOM-ноду.
+- при использовании хука `useImperativeHandle`, возвращаемый объект должен реализовывать метод `getRootNode`, возвращающий DOM-ноду:
+
+```js static
+import { Hint } from '@skbkontur/react-ui';
+
+const ImperativeHandleComponent = React.forwardRef(function FN(_, ref) {
+  const rootNode = React.useRef<HTMLDivElement>(null);
+  React.useImperativeHandle(ref, () => ({
+    foo: 'bar',
+    getRootNode: () => rootNode.current,
+  }));
+  return <div ref={rootNode}>children text</div>;
+});
+
+export const WithImperativeHandleChildren = () => (
+  <React.StrictMode>
+    <Hint pos="top" text="Something will never be changed" manual opened>
+      <ImperativeHandleComponent />
+    </Hint>
+  </React.StrictMode>
+);
+```
+
+- при передаче классовых компонентов, их инстанс должен реализовывать метод `getRootNode`, возвращающий DOM-ноду:
 
 ```js static
 import { Hint } from '@skbkontur/react-ui';
@@ -89,7 +112,7 @@ class CustomClassComponent extends React.Component {
   }
 }
 
-export const withClassChildren = () => (
+export const WithClassChildren = () => (
   <React.StrictMode>
     <Hint pos="top" text="Something will never be changed" manual opened>
       <CustomClassComponent />
