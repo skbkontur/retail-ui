@@ -1,10 +1,15 @@
+import { active, hover, focus } from '../../internal/FakeUserActions/Selectors';
+
 export const linkMixin = (hoverTextDecoration: string) => {
   return `
     border-radius: 1px;
     outline: none;
     text-decoration: none;
 
-    &:hover {
+    &:hover,
+    ${hover`&`},
+    ${focus`&`},
+    ${active`&`} {
       text-decoration: ${hoverTextDecoration};
     }
   `;
@@ -17,9 +22,10 @@ export const linkDisabledMixin = () => {
     pointer-events: none;
     text-decoration: none;
 
-    &:hover {
-      text-decoration: none;
-    }
+      &:hover,
+      ${hover`&`} {
+        text-decoration: none;
+      }
   `;
 };
 
@@ -27,12 +33,44 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
   return `
     color: ${mainColor};
 
-    &:hover {
+    &:hover,
+    ${hover`&`},
+    ${focus`&`} {
       color: ${hoverColor};
     }
 
-    &:active {
+    &:active,
+    ${active`&`} {
       color: ${activeColor};
+    }
+  `;
+};
+
+export const linkUseLineColorsMixin = (
+  mainColor: string,
+  hoverColor: string,
+  activeColor: string,
+  textClassName: string,
+) => {
+  return `
+
+    & .${textClassName}:before {
+      border-bottom-color: ${mainColor};
+    }
+
+    &:hover,
+    &:focus,
+    ${hover`&`}, ${focus`&`} {
+      .${textClassName}:before {
+        border-bottom-color: ${hoverColor};
+      }
+    }
+
+    &:active,
+    ${active`&`} {
+      .${textClassName}:before {
+        border-bottom-color: ${activeColor};
+      }
     }
   `;
 };

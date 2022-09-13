@@ -11,6 +11,9 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { hasFakeUserAction } from '../../internal/FakeUserActions/hasFakeUserAction';
+import { ArrowALeftIcon, ArrowARightIcon } from '../../internal/icons/16px';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 
@@ -18,10 +21,7 @@ export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
 export type ButtonUse = 'default' | 'primary' | 'success' | 'danger' | 'pay' | 'link' | 'text' | 'backless';
 
-export type ButtonStyle = 'hover' | 'active' | 'focus';
-
 export interface ButtonProps extends CommonProps {
-  manual?: ButtonStyle[];
   /** @ignore */
   _noPadding?: boolean;
 
@@ -265,13 +265,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       onClick,
       width,
       children,
-      manual = [],
     } = this.props;
     const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
 
-    const isFocused = this.state.focusedByTab || visuallyFocused;
+    const isFocused = this.state.focusedByTab || visuallyFocused || hasFakeUserAction(this, 'focus');
     const isLink = use === 'link';
+    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
     const rootProps = {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
@@ -279,12 +279,13 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       type,
       className: cx({
         [styles.root(this.theme)]: true,
+        [styles.simulatedPress()]: !isTheme2022,
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
-        [styles.focus(this.theme)]: isFocused || manual.includes('focus'),
-        [styles.checked(this.theme)]: checked,
-        [styles.checkedFocused(this.theme)]: checked && isFocused,
+        [styles.focus(this.theme)]: isFocused,
+        [styles.checked(this.theme)]: checked && !disabled,
+        [styles.checkedFocused(this.theme)]: checked && isFocused && !disabled,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
@@ -362,9 +363,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         <div
           className={cx({
             [styles.arrow()]: true,
-            [styles.arrowWarning(this.theme)]: !checked && warning,
-            [styles.arrowError(this.theme)]: !checked && error,
-            [styles.arrowFocus(this.theme)]: !checked && (isFocused || manual.includes('focus')),
+            [styles.arrowWarning(this.theme)]: !checked && warning && !disabled,
+            [styles.arrowError(this.theme)]: !checked && error && !disabled,
+            [styles.arrowFocus(this.theme)]: !checked && isFocused && !disabled,
             [styles.arrowLeft()]: arrow === 'left',
           })}
         >
@@ -372,6 +373,23 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
         </div>
       );
+
+      if (isTheme2022) {
+        let sizeIcon = this.theme.btnIconSizeSmall;
+        if (this.props.size === 'medium') {
+          sizeIcon = this.theme.btnIconSizeMedium;
+        } else if (this.props.size === 'large') {
+          sizeIcon = this.theme.btnIconSizeLarge;
+        }
+        rootProps.className = cx(rootProps.className, this.getRootWithArrowIconClassName());
+        const arrowIcon =
+          arrow === 'left' ? (
+            <ArrowALeftIcon size={parseInt(sizeIcon)} />
+          ) : (
+            <ArrowARightIcon size={parseInt(sizeIcon)} />
+          );
+        arrowNode = <div className={this.getArrowIconRootClassName()}>{arrowIcon}</div>;
+      }
     }
 
     // Force disable all props and features, that cannot be use with Link
@@ -379,7 +397,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.className = cx({
         [styles.root(this.theme)]: true,
         [sizeClass]: true,
-        [this.getLinkClassName(isFocused || manual.includes('focus'), Boolean(disabled || loading))]: true,
+        [this.getLinkClassName(isFocused, Boolean(disabled || loading))]: true,
       });
       Object.assign(wrapProps, {
         className: cx(styles.wrap(this.theme), styles.wrapLink()),
@@ -388,12 +406,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       rootProps.style.textAlign = undefined;
       arrowNode = null;
     }
-
-    // TODO: test only
-    manual.forEach((state) => {
-      // @ts-ignore
-      rootProps[`data-style-${state}`] = 'true';
-    });
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -486,6 +498,28 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           [styles.linkLineFocus(this.theme)]: focused,
           [styles.linkLineDisabled(this.theme)]: disabled,
         });
+  }
+
+  private getRootWithArrowIconClassName() {
+    const { arrow, size } = this.props;
+    return cx({
+      [styles.withArrowIconRightSmall(this.theme)]: arrow !== 'left' && size === 'small',
+      [styles.withArrowIconRightMedium(this.theme)]: arrow !== 'left' && size === 'medium',
+      [styles.withArrowIconRightLarge(this.theme)]: arrow !== 'left' && size === 'large',
+      [styles.withArrowIconLeftSmall(this.theme)]: arrow === 'left' && size === 'small',
+      [styles.withArrowIconLeftMedium(this.theme)]: arrow === 'left' && size === 'medium',
+      [styles.withArrowIconLeftLarge(this.theme)]: arrow === 'left' && size === 'large',
+    });
+  }
+
+  private getArrowIconRootClassName() {
+    const { arrow, size } = this.props;
+    return cx(styles.arrowIconRoot(), {
+      [styles.arrowIconRootSmall(this.theme)]: size === 'small',
+      [styles.arrowIconRootMedium(this.theme)]: size === 'medium',
+      [styles.arrowIconRootLarge(this.theme)]: size === 'large',
+      [styles.arrowIconLeft()]: arrow === 'left',
+    });
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {

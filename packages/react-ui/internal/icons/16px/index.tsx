@@ -4,6 +4,7 @@ import propTypes from 'prop-types';
 import { forwardRefAndName } from '../../../lib/forwardRefAndName';
 
 import { styles } from './icon.styles';
+import { BaseIcon, IconProps } from './BaseIcon';
 
 // NOTE Icons copy-pasted from @skbkontur/react-icons package, because it's not fully opensource
 
@@ -199,7 +200,7 @@ export const MenuKebabIcon = forwardRefAndName<HTMLElement, SvgIconProps>('MenuK
 export const OkIcon = forwardRefAndName<HTMLElement, SvgIconProps>('OkIcon', (props, ref) => {
   return (
     <SvgIcon ref={ref} {...props}>
-      <svg viewBox="0 0 16 16" >
+      <svg viewBox="0 0 16 16">
         <path d="M15.028 3.241a1.25 1.25 0 0 1 0 1.768L8.197 11.84a2.838 2.838 0 0 1-4.013 0L1.646 9.305a1.25 1.25 0 1 1 1.768-1.768l2.537 2.537a.338.338 0 0 0 .477 0l6.833-6.833a1.25 1.25 0 0 1 1.768 0Z"></path>
       </svg>
     </SvgIcon>
@@ -281,5 +282,21 @@ export const UploadIcon = forwardRefAndName<HTMLElement, SvgIconProps>('UploadIc
         />
       </svg>
     </SvgIcon>
+  );
+});
+
+export const ArrowARightIcon = forwardRefAndName<SVGSVGElement, IconProps>('UploadIcon', (props, ref) => {
+  return (
+    <BaseIcon ref={ref} {...props}>
+      <path d="M8.73 2.854a.5.5 0 1 1 .708-.708l4.006 4.006a1.906 1.906 0 0 1 0 2.696l-4.006 4.006a.5.5 0 0 1-.707-.708l4.005-4.005A.914.914 0 0 0 12.852 8H2.5a.5.5 0 0 1 0-1h10.352a.914.914 0 0 0-.116-.14L8.732 2.853Z" />
+    </BaseIcon>
+  );
+});
+
+export const ArrowALeftIcon = forwardRefAndName<SVGSVGElement, IconProps>('UploadIcon', (props, ref) => {
+  return (
+    <BaseIcon ref={ref} {...props}>
+      <path d="M7.27 12.146a.5.5 0 1 1-.708.707L2.556 8.849a1.906 1.906 0 0 1 0-2.696l4.006-4.006a.5.5 0 1 1 .707.707L3.263 6.86a.91.91 0 0 0-.115.14H13.5a.5.5 0 0 1 0 1H3.148a.91.91 0 0 0 .115.142l4.006 4.005Z" />
+    </BaseIcon>
   );
 });

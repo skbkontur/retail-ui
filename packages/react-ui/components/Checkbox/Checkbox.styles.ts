@@ -161,7 +161,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  icon() {
+  icon(t: Theme) {
     return css`
       position: absolute;
       top: ${t.checkboxIconTop};

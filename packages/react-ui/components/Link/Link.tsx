@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
@@ -11,8 +11,10 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
-import { styles } from './Link.styles';
+import { globalClasses, styles } from './Link.styles';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 export interface LinkProps
   extends CommonProps,
@@ -55,6 +57,7 @@ export interface LinkProps
          * HTML-событие `onclick`.
          */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+        theme?: ThemeIn;
       }
     > {}
 
@@ -104,7 +107,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
@@ -139,16 +142,13 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     const linkProps = {
       className: cx({
-        [styles.root(this.theme)]: true,
+        [this.getLinkClassName(focused, Boolean(disabled || loading))]: true,
         [styles.button(this.theme)]: !!_button,
         [styles.buttonOpened(this.theme)]: !!_buttonOpened,
         [styles.useDefault(this.theme)]: use === 'default',
         [styles.useSuccess(this.theme)]: use === 'success',
         [styles.useDanger(this.theme)]: use === 'danger',
         [styles.useGrayed(this.theme)]: use === 'grayed',
-        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        [styles.focus(this.theme)]: focused,
-        [styles.disabled(this.theme)]: !!disabled || !!loading,
       }),
       href,
       rel,
@@ -158,10 +158,16 @@ export class Link extends React.Component<LinkProps, LinkState> {
       tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
 
+    let child = this.props.children;
+    console.log(getThemeName(this.theme));
+    if (parseInt(this.theme.linkLineBorderBottomWidth) > 0) {
+      child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
+    }
+
     return (
       <a data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {iconElement}
-        {this.props.children}
+        {child}
         {arrow}
       </a>
     );
@@ -193,4 +199,21 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick(event);
     }
   };
+
+  private getLinkClassName(focused: boolean, disabled: boolean): string {
+    const { use } = this.getProps();
+    const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
+    console.log('isBorderBottom', isBorderBottom);
+
+    return !isBorderBottom
+      ? cx(styles.root(this.theme), {
+          [styles.focus(this.theme)]: focused,
+          [styles.disabled(this.theme)]: disabled,
+          [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
+        })
+      : cx(styles.lineRoot(), {
+          [styles.disabled(this.theme)]: disabled,
+          [styles.lineFocus(this.theme)]: focused,
+        });
+  }
 }

@@ -95,7 +95,7 @@ export const parameters: Meta['parameters'] = {
       { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
       {
         in: /2022$/,
-        kinds: /^((?!Button\/Static).)*$/,
+        kinds: /^(.(?!FakeUserActions).)*$/,
       },
     ],
   },
@@ -111,7 +111,7 @@ export const globalTypes = {
   theme: {
     name: 'Theme',
     description: 'React UI Theme',
-    defaultValue: 'THEME_2022',
+    defaultValue: 'THEME_2022', // FIXME: revert DEFAULT_THEME after working
     toolbar: {
       icon: 'paintbrush',
       items: Object.keys(themes),

@@ -1,11 +1,29 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
-import * as ColorFunctions from '../../lib/styles/ColorFunctions';
 
 import { DefaultThemeInternal } from './DefaultTheme';
 
 export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
+  //#region Link
   public static linkColor = '#3D3D3D';
+  public static linkHoverColor = '#292929';
   public static linkActiveColor = '#141414';
+
+  public static linkSuccessColor = '#477916';
+  public static linkSuccessHoverColor = '#3A6710';
+  public static linkSuccessActiveColor = '#325A0C';
+
+  public static linkDangerColor = '#CB3D35';
+  public static linkDangerHoverColor = '#CB3D35';
+  public static linkDangerActiveColor = '#A92A27';
+
+  public static linkGrayedColor = '#858585';
+  public static linkGrayedHoverColor = '#292929';
+  public static linkGrayedActiveColor = '#141414';
+
+  public static linkLineBottom = '0';
+  public static linkLineBorderBottomStyle = 'solid';
+  public static linkLineBorderBottomWidth = '1px';
+  //#endregion Link
 
   public static borderColorFocus = '#141414';
 
@@ -63,22 +81,13 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconGapMedium = '6px';
   public static btnIconGapLarge = '8px';
 
-  public static btnSmallWithIconPaddingLeft = '8px';
-  public static btnMediumWithIconPaddingLeft = '10px';
-  public static btnLargeWithIconPaddingLeft = '12px';
+  public static btnWithIconPaddingLeftSmall = '8px';
+  public static btnWithIconPaddingLeftMedium = '10px';
+  public static btnWithIconPaddingLeftLarge = '12px';
 
   public static btnLinkHoverTextDecoration = 'none';
 
   public static btnLinkLineBottom = '0';
-  public static get btnLinkLineBorderBottomColor() {
-    return ColorFunctions.fade(this.linkColor, 0.5);
-  }
-  public static get btnLinkHoverLineBorderBottomColor() {
-    return this.linkColor;
-  }
-  public static get btnLinkActiveLineBorderBottomColor() {
-    return this.linkColor;
-  }
   public static btnLinkLineBorderBottomStyle = 'solid';
   public static btnLinkLineBorderBottomWidth = '1px';
 

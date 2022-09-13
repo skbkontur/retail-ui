@@ -106,8 +106,58 @@ export class DefaultTheme {
   public static get linkDisabledColor() {
     return this.textColorDisabled;
   }
+  public static get linkGrayedColor() {
+    return this.textColorDisabled;
+  }
+  public static get linkGrayedHoverColor() {
+    return this.textColorDisabled;
+  }
+  public static get linkGrayedActiveColor() {
+    return this.textColorDisabled;
+  }
   public static linkButtonLineHeight = '34px';
   public static linkButtonPaddingX = '10px';
+
+  public static linkLineBottom = '';
+  public static get linkLineBorderBottomColor() {
+    return ColorFunctions.fade(this.linkColor, 0.5);
+  }
+  public static get linkLineHoverBorderBottomColor() {
+    return this.linkHoverColor;
+  }
+  public static get linkLineActiveBorderBottomColor() {
+    return this.linkActiveColor;
+  }
+  public static get linkLineBorderBottomColorSuccess() {
+    return ColorFunctions.fade(this.linkSuccessColor, 0.5);
+  }
+  public static get linkLineHoverBorderBottomColorSuccess() {
+    return this.linkSuccessHoverColor;
+  }
+  public static get linkLineActiveBorderBottomColorSuccess() {
+    return this.linkSuccessActiveColor;
+  }
+  public static get linkLineBorderBottomColorDanger() {
+    return ColorFunctions.fade(this.linkDangerColor, 0.5);
+  }
+  public static get linkLineHoverBorderBottomColorDanger() {
+    return this.linkDangerHoverColor;
+  }
+  public static get linkLineActiveBorderBottomColorDanger() {
+    return this.linkDangerActiveColor;
+  }
+  public static get linkLineBorderBottomColorGrayed() {
+    return ColorFunctions.fade(this.linkGrayedColor, 0.5);
+  }
+  public static get linkLineHoverBorderBottomColorGrayed() {
+    return this.linkGrayedHoverColor;
+  }
+  public static get linkLineActiveBorderBottomColorGrayed() {
+    return this.linkGrayedActiveColor;
+  }
+  public static linkLineBorderBottomStyle = '';
+  public static linkLineBorderBottomWidth = '0';
+
   //#endregion
   //#region Token
   public static tokenDisabledBg = 'rgba(0, 0, 0, 0.05)';
@@ -454,9 +504,15 @@ export class DefaultTheme {
     return this.linkHoverTextDecoration;
   }
   public static btnLinkLineBottom = '';
-  public static btnLinkLineBorderBottomColor = '';
-  public static btnLinkHoverLineBorderBottomColor = '';
-  public static btnLinkActiveLineBorderBottomColor = '';
+  public static get btnLinkLineBorderBottomColor() {
+    return this.linkLineBorderBottomColor;
+  }
+  public static get btnLinkLineHoverBorderBottomColor() {
+    return this.linkLineHoverBorderBottomColor;
+  }
+  public static get btnLinkLineActiveBorderBottomColor() {
+    return this.linkLineActiveBorderBottomColor;
+  }
   public static btnLinkLineBorderBottomStyle = '';
   public static btnLinkLineBorderBottomWidth = '0';
 
@@ -485,9 +541,9 @@ export class DefaultTheme {
   public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04)';
   public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.08)';
 
-  public static btnSmallWithIconPaddingLeft = '';
-  public static btnMediumWithIconPaddingLeft = '';
-  public static btnLargeWithIconPaddingLeft = '';
+  public static btnWithIconPaddingLeftSmall = '';
+  public static btnWithIconPaddingLeftMedium = '';
+  public static btnWithIconPaddingLeftLarge = '';
   //#endregion
   //#region Select
   public static selectPlaceholderColor = '#adadad';
