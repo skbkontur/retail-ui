@@ -147,6 +147,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseEnter,
       onMouseLeave,
       isMobile,
+      href,
+      rel,
       ...rest
     } = props;
 
@@ -185,6 +187,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         className={className}
+        href={href}
+        rel={href ? rel : undefined}
         tabIndex={-1}
       >
         {iconElement}
