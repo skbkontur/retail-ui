@@ -13,6 +13,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { MenuSeparator } from '../../components/MenuSeparator';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -197,33 +198,39 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private renderHeader = () => {
     return (
-      <div className={styles.wrapper()} style={{ top: '-5px' }}>
-        <div
-          ref={(el) => (this.header = el)}
-          className={cx({
-            [styles.header()]: true,
-          })}
-        >
-          {this.props.header}
-        </div>
-        {this.state.scrollState !== 'top' && <MenuSeparator />}
+      <div
+        className={cx({
+          [styles.wrapper()]: true,
+          [styles.headerWrapper()]: true,
+        })}
+        ref={(el) => (this.header = el)}
+      >
+        <div className={styles.contentWrapper()}>{this.props.header}</div>
+        {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
       </div>
     );
   };
 
   private renderFooter = () => {
     return (
-      <div className={styles.wrapper()}>
-        {this.state.scrollState !== 'bottom' && <MenuSeparator />}
-        <div
-          ref={(el) => (this.footer = el)}
-          className={cx({
-            [styles.footer()]: true,
-          })}
-        >
-          {this.props.footer}
-        </div>
+      <div
+        className={cx({
+          [styles.wrapper()]: true,
+          [styles.footerWrapper()]: true,
+        })}
+        ref={(el) => (this.footer = el)}
+      >
+        {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
+        <div className={styles.contentWrapper()}>{this.props.footer}</div>
       </div>
+    );
+  };
+
+  private renderMenuSeparatorWithNoMargin = () => {
+    return (
+      <ThemeContext.Provider value={ThemeFactory.create({ menuSeparatorMarginY: '0' })}>
+        <MenuSeparator />
+      </ThemeContext.Provider>
     );
   };
 

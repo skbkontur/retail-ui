@@ -24,21 +24,25 @@ export const styles = memoizeStyle({
       z-index: 1;
       width: 100%;
       overflow: hidden;
+      line-height: 18px;
+      box-sizing: border-box;
     `;
   },
 
-  header() {
+  headerWrapper() {
     return css`
-      line-height: 18px;
-      box-sizing: border-box;
-      padding: 6px 18px 7px 8px;
+      top: -5px;
     `;
   },
 
-  footer() {
+  footerWrapper() {
     return css`
-      line-height: 18px;
-      box-sizing: border-box;
+      bottom: -5px;
+    `;
+  },
+
+  contentWrapper() {
+    return css`
       padding: 6px 18px 7px 8px;
     `;
   },
