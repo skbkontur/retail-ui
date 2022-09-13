@@ -18,6 +18,7 @@ import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { FileUploaderSize } from '../../../components/FileUploader';
 
 import { jsStyles } from './FileUploaderFile.styles';
+import {useFileUploaderSize} from "../hooks/useFileUploaderSize";
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
@@ -117,33 +118,21 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     }
   }, [hovered, status, isInvalid, theme, focusedByTab]);
 
-  const sizeIconClass = useMemo(() => {
-    switch (size) {
-      case 'large':
-        return jsStyles.iconLarge(theme);
-      case 'medium':
-        return jsStyles.iconMedium(theme);
-      case 'small':
-      default:
-        return jsStyles.iconSmall(theme);
-    }
-  }, [size]);
+  const sizeIconClass = useFileUploaderSize(size, {
+    small: jsStyles.iconSmall(theme),
+    medium: jsStyles.iconMedium(theme),
+    large: jsStyles.iconLarge(theme),
+  })
 
   const renderTooltipContent = useCallback((): ReactNode => {
     return !isValid && !error && message ? message : null;
   }, [isValid, error, message]);
 
-  const sizeContentClass = useMemo(() => {
-    switch (size) {
-      case 'large':
-        return jsStyles.contentLarge(theme);
-      case 'medium':
-        return jsStyles.contentMedium(theme);
-      case 'small':
-      default:
-        return jsStyles.contentSmall(theme);
-    }
-  }, [size]);
+  const sizeContentClass = useFileUploaderSize(size, {
+    small: jsStyles.contentSmall(theme),
+    medium: jsStyles.contentMedium(theme),
+    large: jsStyles.contentLarge(theme),
+  })
 
   const contentClassNames = cx(jsStyles.content(), {
     [jsStyles.error(theme)]: isInvalid,
@@ -184,7 +173,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const iconClassNames = cx(jsStyles.icon(theme), {
     [jsStyles.focusedIcon(theme)]: focusedByTab,
     [sizeIconClass]: true,
-    [multiple ? jsStyles.iconMultiple() : jsStyles.iconSingle()]: true,
+    [jsStyles.iconMultiple()]: multiple,
   });
 
   const isTruncated = truncatedFileName !== name;

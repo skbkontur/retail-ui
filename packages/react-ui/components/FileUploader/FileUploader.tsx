@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 import { FileUploaderAttachedFile, getAttachedFile } from '../../internal/FileUploaderControl/fileUtils';
 import { cx } from '../../lib/theming/Emotion';
@@ -22,6 +22,7 @@ import { FileUploaderFileValidationResult } from '../../internal/FileUploaderCon
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { jsStyles } from './FileUploader.styles';
+import {useFileUploaderSize} from "../../internal/FileUploaderControl/hooks/useFileUploaderSize";
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -144,41 +145,23 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     [validateBeforeUpload, isAsync, upload, setFileValidationResult],
   );
 
-  const sizeClassName = useMemo(() => {
-    switch (size) {
-      case 'large':
-        return cx(jsStyles.sizeLarge(theme), { [jsStyles.sizeLargeIE11(theme)]: isIE11 || isEdge });
-      case 'medium':
-        return cx(jsStyles.sizeMedium(theme), { [jsStyles.sizeMediumIE11(theme)]: isIE11 || isEdge });
-      case 'small':
-      default:
-        return cx(jsStyles.sizeSmall(theme), { [jsStyles.sizeSmallIE11(theme)]: isIE11 || isEdge });
-    }
-  }, [size]);
+  const sizeClassName = useFileUploaderSize(size, {
+    small: cx(jsStyles.sizeSmall(theme), { [jsStyles.sizeSmallIE11(theme)]: isIE11 || isEdge }),
+    medium: cx(jsStyles.sizeMedium(theme), { [jsStyles.sizeMediumIE11(theme)]: isIE11 || isEdge }),
+    large: cx(jsStyles.sizeLarge(theme), { [jsStyles.sizeLargeIE11(theme)]: isIE11 || isEdge }),
+  })
 
-  const sizeIconClass = useMemo(() => {
-    switch (size) {
-      case 'large':
-        return jsStyles.iconLarge(theme);
-      case 'medium':
-        return jsStyles.iconMedium(theme);
-      case 'small':
-      default:
-        return jsStyles.iconSmall(theme);
-    }
-  }, [size]);
+  const sizeIconClass = useFileUploaderSize(size, {
+    small: jsStyles.iconSmall(theme),
+    medium: jsStyles.iconMedium(theme),
+    large: jsStyles.iconLarge(theme),
+  })
 
-  const contentInnerClass = useMemo(() => {
-    switch (size) {
-      case 'large':
-        return jsStyles.contentInnerLarge(theme);
-      case 'medium':
-        return jsStyles.contentInnerMedium(theme);
-      case 'small':
-      default:
-        return jsStyles.contentInnerSmall(theme);
-    }
-  }, [size]);
+  const contentInnerClass = useFileUploaderSize(size, {
+    small: jsStyles.contentInnerSmall(theme),
+    medium: jsStyles.contentInnerMedium(theme),
+    large: jsStyles.contentInnerLarge(theme),
+  })
 
   /** common part **/
   const handleChange = useCallback(

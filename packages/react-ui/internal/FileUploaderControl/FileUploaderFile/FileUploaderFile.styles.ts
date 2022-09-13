@@ -55,22 +55,21 @@ const styles = {
   iconSmall(t: Theme) {
     return css`
       right: ${t.fileUploaderPaddingXSmall};
-      margin-right: 0;
     `;
   },
 
   iconMedium(t: Theme) {
     return css`
+      margin-left: 6px;
       right: ${t.fileUploaderPaddingXMedium};
-      margin-right: 0;
       width: 18px;
     `;
   },
 
   iconLarge(t: Theme) {
     return css`
+      margin-left: 6px;
       right: ${t.fileUploaderPaddingXLarge};
-      margin-right: 0;
       width: 20px;
     `;
   },
@@ -78,12 +77,6 @@ const styles = {
   iconMultiple() {
     return css`
       position: static;
-    `;
-  },
-
-  iconSingle() {
-    return css`
-      margin-right: 0;
     `;
   },
 
@@ -108,6 +101,9 @@ const styles = {
   deleteIcon(t: Theme) {
     return css`
       color: ${t.fileUploaderIconColor};
+      &:hover {
+        color: ${t.fileUploaderIconHoverColor};
+      }
     `;
   },
 
