@@ -15,7 +15,7 @@ describe('MenuItem', () => {
   });
 
   it('without href does not has a rel attribute', () => {
-    render(<MenuItem>Test</MenuItem>);
+    render(<MenuItem rel={'noopener'}>Test</MenuItem>);
     expect(screen.queryByRole('button')).not.toHaveAttribute('rel');
   });
 
@@ -35,6 +35,15 @@ describe('MenuItem', () => {
       </MenuItem>,
     );
     expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('with target="_blank" can rewrite default rel attribute', () => {
+    render(
+      <MenuItem target="_blank" href={'#'} rel={'alternate'}>
+        Test
+      </MenuItem>,
+    );
+    expect(screen.queryByRole('link')).toHaveAttribute('rel', 'alternate');
   });
 
   it('calls children function', () => {

@@ -59,7 +59,7 @@ export interface MenuItemProps extends CommonProps {
   /**
    * HTML-атрибут `target`.
    *
-   * При значении target="_blank" устанавливается аттрибут rel = "noopener noreferrer"
+   * При значении target="_blank" устанавливается дефолтное значение аттрибута rel = "noopener noreferrer"
    */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
   /**
@@ -73,7 +73,7 @@ export interface MenuItemProps extends CommonProps {
   /**
    * HTML-атрибут `rel`.
    *
-   * При значении target="_blank" rel = "noopener noreferrer"
+   * При значении target="_blank" аттрибут rel по дефолту равен "noopener noreferrer"
    */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
   /**
