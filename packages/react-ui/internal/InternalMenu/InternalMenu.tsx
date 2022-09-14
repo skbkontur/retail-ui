@@ -228,7 +228,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private renderMenuSeparatorWithNoMargin = () => {
     return (
-      <ThemeContext.Provider value={ThemeFactory.create({ menuSeparatorMarginY: '0' })}>
+      <ThemeContext.Provider value={ThemeFactory.create({ menuSeparatorMarginY: '0' }, this.theme)}>
         <MenuSeparator />
       </ThemeContext.Provider>
     );
