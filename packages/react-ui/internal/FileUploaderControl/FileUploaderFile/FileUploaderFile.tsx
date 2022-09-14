@@ -18,7 +18,7 @@ import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { FileUploaderSize } from '../../../components/FileUploader';
 
 import { jsStyles } from './FileUploaderFile.styles';
-import {useFileUploaderSize} from "../hooks/useFileUploaderSize";
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
@@ -122,7 +122,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     small: jsStyles.iconSmall(theme),
     medium: jsStyles.iconMedium(theme),
     large: jsStyles.iconLarge(theme),
-  })
+  });
 
   const renderTooltipContent = useCallback((): ReactNode => {
     return !isValid && !error && message ? message : null;
@@ -132,11 +132,11 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     small: jsStyles.contentSmall(theme),
     medium: jsStyles.contentMedium(theme),
     large: jsStyles.contentLarge(theme),
-  })
+  });
 
   const contentClassNames = cx(jsStyles.content(), {
-    [jsStyles.error(theme)]: isInvalid,
     [sizeContentClass]: true,
+    [jsStyles.error(theme)]: isInvalid,
   });
 
   const handleMouseEnter = useCallback(() => {

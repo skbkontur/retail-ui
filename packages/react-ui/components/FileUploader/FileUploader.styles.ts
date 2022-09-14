@@ -150,6 +150,12 @@ const styles = {
     `;
   },
 
+  linkHovered(t: Theme) {
+    return css`
+      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
+    `;
+  },
+
   disabled(t: Theme) {
     return css`
       cursor: default;
@@ -163,10 +169,8 @@ const styles = {
   icon(t: Theme) {
     return css`
       display: inline-block;
-      font-size: ${t.fileUploaderIconSize};
+      // font-size: ${t.fileUploaderIconSize};
       position: absolute;
-      right: ${t.fileUploaderPaddingX};
-      bottom: 10px;
       color: ${t.fileUploaderIconColor};
       text-align: right;
     `;
@@ -278,7 +282,6 @@ const styles = {
       font-size: ${t.fileUploaderFontSizeSmall};
       line-height: ${t.fileUploaderLineHeightSmall};
       width: ${t.inputIconSizeSmall};
-      margin-right: 0;
       bottom: ${t.fileUploaderPaddingYSmall};
       right: ${t.fileUploaderPaddingXSmall};
     `;
@@ -288,7 +291,6 @@ const styles = {
       font-size: ${t.fileUploaderFontSizeMedium};
       line-height: ${t.fileUploaderLineHeightMedium};
       width: ${t.inputIconSizeMedium};
-      margin-right: 0;
       bottom: ${t.fileUploaderPaddingYMedium};
       right: ${t.fileUploaderPaddingXMedium};
     `;
@@ -298,7 +300,6 @@ const styles = {
       font-size: ${t.fileUploaderFontSizeLarge};
       line-height: ${t.fileUploaderLineHeightLarge};
       width: ${t.inputIconSizeLarge};
-      margin-right: 0;
       bottom: ${t.fileUploaderPaddingYLarge};
       right: ${t.fileUploaderPaddingXLarge};
     `;

@@ -45,10 +45,8 @@ const styles = {
       font-size: ${t.fileUploaderIconSize};
       text-align: right;
       outline: none;
-      color: ${t.fileUploaderIconColor};
 
       position: absolute;
-      right: ${t.fileUploaderPaddingX};
     `;
   },
 

@@ -22,7 +22,7 @@ import { FileUploaderFileValidationResult } from '../../internal/FileUploaderCon
 import { getDOMRect } from '../../lib/dom/getDOMRect';
 
 import { jsStyles } from './FileUploader.styles';
-import {useFileUploaderSize} from "../../internal/FileUploaderControl/hooks/useFileUploaderSize";
+import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -149,19 +149,19 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     small: cx(jsStyles.sizeSmall(theme), { [jsStyles.sizeSmallIE11(theme)]: isIE11 || isEdge }),
     medium: cx(jsStyles.sizeMedium(theme), { [jsStyles.sizeMediumIE11(theme)]: isIE11 || isEdge }),
     large: cx(jsStyles.sizeLarge(theme), { [jsStyles.sizeLargeIE11(theme)]: isIE11 || isEdge }),
-  })
+  });
 
   const sizeIconClass = useFileUploaderSize(size, {
     small: jsStyles.iconSmall(theme),
     medium: jsStyles.iconMedium(theme),
     large: jsStyles.iconLarge(theme),
-  })
+  });
 
   const contentInnerClass = useFileUploaderSize(size, {
     small: jsStyles.contentInnerSmall(theme),
     medium: jsStyles.contentInnerMedium(theme),
     large: jsStyles.contentInnerLarge(theme),
-  })
+  });
 
   /** common part **/
   const handleChange = useCallback(
@@ -285,6 +285,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   });
 
   const linkClassNames = cx(jsStyles.link(theme), {
+    [jsStyles.linkHovered(theme)]: !disabled && hovered,
     [jsStyles.linkDisabled(theme)]: disabled,
   });
 
@@ -334,7 +335,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                     <>
                       {locale.orDragHere}&nbsp;
                       <div className={uploadButtonIconClassNames}>
-                        <UploadIcon size={size} />
+                        <UploadIcon />
                       </div>
                     </>
                   )}
