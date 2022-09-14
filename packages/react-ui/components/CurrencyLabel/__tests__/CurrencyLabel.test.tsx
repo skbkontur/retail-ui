@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import { THIN_SPACE } from 'react-ui/components/CurrencyInput/constants';
 
+import { THIN_SPACE } from '../../../components/CurrencyInput/constants';
 import { CurrencyLabel, CurrencyLabelDataTids } from '../CurrencyLabel';
 
 const SPACE_SYMBOL = String.fromCharCode(THIN_SPACE);
