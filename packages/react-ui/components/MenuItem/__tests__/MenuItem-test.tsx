@@ -1,4 +1,5 @@
 import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
 
 import { MenuItem } from '../MenuItem';
@@ -11,6 +12,29 @@ describe('MenuItem', () => {
       </MenuItem>,
     );
     expect(wrapper.text()).toBe('ab');
+  });
+
+  it('without href does not has a rel attribute', () => {
+    render(<MenuItem>Test</MenuItem>);
+    expect(screen.queryByRole('button')).not.toHaveAttribute('rel');
+  });
+
+  it('with href has a rel attribute', () => {
+    render(
+      <MenuItem href={'#'} rel={'noopener'}>
+        Test
+      </MenuItem>,
+    );
+    expect(screen.queryByRole('link')).toHaveAttribute('rel');
+  });
+
+  it('with target="_blank" has "noopener noreferrer" rel attribute', () => {
+    render(
+      <MenuItem target="_blank" href={'#'}>
+        Test
+      </MenuItem>,
+    );
+    expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
   it('calls children function', () => {
