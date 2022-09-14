@@ -58,6 +58,8 @@ export interface MenuItemProps extends CommonProps {
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
   /**
    * HTML-атрибут `target`.
+   *
+   * При значении target="_blank" устанавливается аттрибут rel = "noopener noreferrer"
    */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
   /**
@@ -70,6 +72,8 @@ export interface MenuItemProps extends CommonProps {
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
   /**
    * HTML-атрибут `rel`.
+   *
+   * При значении target="_blank" rel = "noopener noreferrer"
    */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
   /**
