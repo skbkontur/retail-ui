@@ -279,7 +279,7 @@ export const styles = memoizeStyle({
 
   linkFocus(t: Theme) {
     return css`
-      &:enabled {
+      & {
         color: ${t.btnLinkColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
@@ -316,12 +316,7 @@ export const styles = memoizeStyle({
         border-bottom-width: ${t.btnLinkLineBorderBottomWidth};
       }
 
-      &:hover
-        .${globalClasses.text}:before,
-        &:focus
-        .${globalClasses.text}:before,
-        ${`${fakeHover} & .${globalClasses.text}:before`},
-        ${`${fakeFocus} & .${globalClasses.text}:before`} {
+      &:hover .${globalClasses.text}:before, ${`${fakeHover} & .${globalClasses.text}:before`} {
         border-bottom-color: ${t.btnLinkLineHoverBorderBottomColor};
       }
 

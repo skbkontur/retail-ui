@@ -2,156 +2,103 @@ import React from 'react';
 import { Ok } from '@skbkontur/react-icons';
 
 import { Meta, Story } from '../../../typings/stories';
-import { Button, ButtonUse } from '../Button';
+import { Button, ButtonProps, ButtonUse } from '../Button';
 import { FakeUserActionsTable } from '../../../internal/FakeUserActions/FakeUserActionsTable';
 
 export default {
   title: 'Button/FakeUserActions',
   parameters: { creevey: { captureElement: '#FakeUserActionsTable' } },
+  argTypes: {
+    children: {
+      control: { type: 'text' },
+      defaultValue: 'Текст',
+      name: 'children',
+    },
+    size: {
+      control: { type: 'select' },
+      options: ['small', 'medium', 'large'],
+      defaultValue: 'small',
+      name: 'size',
+    },
+    align: {
+      control: { type: 'select' },
+      options: ['left', 'center', 'right'],
+      defaultValue: '',
+      name: 'align',
+    },
+    width: {
+      control: { type: 'text' },
+      defaultValue: 'auto',
+      name: 'width',
+    },
+    arrow: {
+      control: { type: 'select' },
+      options: [false, true, 'left'],
+      defaultValue: false,
+      name: 'arrow',
+    },
+    disabled: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'disabled',
+    },
+    borderless: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'borderless',
+    },
+    error: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'error',
+    },
+    warning: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'warning',
+    },
+    loading: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'loading',
+    },
+    narrow: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'narrow',
+    },
+    checked: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'checked',
+    },
+    icon: {
+      control: { type: 'boolean' },
+      defaultValue: false,
+      name: 'icon',
+    },
+  },
 } as Meta;
 
 const uses: ButtonUse[] = ['default', 'primary', 'success', 'danger', 'pay', 'link', 'text', 'backless'];
 
-const ButtonStatic: React.FunctionComponent<{ children: React.ReactElement }> = ({ children }) => (
+const ButtonFakeUserActions: React.FunctionComponent<Partial<ButtonProps>> = ({ icon, ...props }) => (
   <FakeUserActionsTable propName="use" propValues={uses}>
-    {children}
+    <Button {...props} icon={icon && <Ok />} />
   </FakeUserActionsTable>
 );
 
-export const Default: Story = () => (
-  <ButtonStatic>
-    <Button />
-  </ButtonStatic>
-);
+export const Default = ButtonFakeUserActions.bind({}) as Story;
 
-export const Borderless: Story = () => (
-  <ButtonStatic>
-    <Button borderless />
-  </ButtonStatic>
-);
+export const Customize = ButtonFakeUserActions.bind({}) as Story;
 
-export const Checked: Story = () => (
-  <ButtonStatic>
-    <Button checked />
-  </ButtonStatic>
-);
+export const Borderless = ButtonFakeUserActions.bind({}) as Story;
+Borderless.args = {
+  borderless: true,
+};
 
-export const Disabled: Story = () => (
-  <ButtonStatic>
-    <Button disabled />
-  </ButtonStatic>
-);
-
-export const Arrow: Story = () => (
-  <ButtonStatic>
-    <Button arrow />
-  </ButtonStatic>
-);
-
-export const ArrowMedium: Story = () => (
-  <ButtonStatic>
-    <Button size="medium" arrow />
-  </ButtonStatic>
-);
-
-export const ArrowBorderless: Story = () => (
-  <ButtonStatic>
-    <Button borderless arrow />
-  </ButtonStatic>
-);
-
-export const ArrowLarge: Story = () => (
-  <ButtonStatic>
-    <Button size="large" arrow />
-  </ButtonStatic>
-);
-
-export const ArrowWidth100: Story = () => (
-  <ButtonStatic>
-    <Button arrow width={100} />
-  </ButtonStatic>
-);
-
-export const ArrowLeftWidth100: Story = () => (
-  <ButtonStatic>
-    <Button arrow="left" width={100} />
-  </ButtonStatic>
-);
-
-export const ArrowLeft: Story = () => (
-  <ButtonStatic>
-    <Button arrow="left" />
-  </ButtonStatic>
-);
-
-export const ArrowLeftBorderless: Story = () => (
-  <ButtonStatic>
-    <Button borderless arrow="left" />
-  </ButtonStatic>
-);
-
-export const ArrowLeftMedium: Story = () => (
-  <ButtonStatic>
-    <Button size="medium" arrow="left" />
-  </ButtonStatic>
-);
-
-export const ArrowLeftLarge: Story = () => (
-  <ButtonStatic>
-    <Button size="large" arrow="left" />
-  </ButtonStatic>
-);
-
-export const ArrowDisabled: Story = () => (
-  <ButtonStatic>
-    <Button disabled arrow />
-  </ButtonStatic>
-);
-
-export const ArrowLeftDisabled: Story = () => (
-  <ButtonStatic>
-    <Button disabled arrow="left" />
-  </ButtonStatic>
-);
-
-export const Large: Story = () => (
-  <ButtonStatic>
-    <Button size="large" />
-  </ButtonStatic>
-);
-
-export const Icon: Story = () => (
-  <ButtonStatic>
-    <Button icon={<Ok />} />
-  </ButtonStatic>
-);
-
-export const IconAndDisabled: Story = () => (
-  <ButtonStatic>
-    <Button icon={<Ok />} disabled />
-  </ButtonStatic>
-);
-
-export const Medium: Story = () => (
-  <ButtonStatic>
-    <Button size="medium" />
-  </ButtonStatic>
-);
-
-export const Error: Story = () => (
-  <ButtonStatic>
-    <Button error />
-  </ButtonStatic>
-);
-
-export const Warning: Story = () => (
-  <ButtonStatic>
-    <Button warning />
-  </ButtonStatic>
-);
-
-export const CheckedDisabled: Story = () => (
-  <ButtonStatic>
-    <Button checked disabled />
-  </ButtonStatic>
-);
+export const ArrowDisabled = ButtonFakeUserActions.bind({}) as Story;
+ArrowDisabled.args = {
+  arrow: true,
+  disabled: true,
+};

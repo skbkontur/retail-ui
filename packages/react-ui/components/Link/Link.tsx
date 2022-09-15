@@ -7,14 +7,13 @@ import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { globalClasses, styles } from './Link.styles';
-import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 export interface LinkProps
   extends CommonProps,
@@ -119,7 +118,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
+    const { disabled, href, icon, use, loading, _button, _buttonOpened, theme, rel: relOrigin, ...rest } = props;
 
     let iconElement = null;
     if (icon) {
@@ -141,25 +140,24 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const focused = !disabled && this.state.focusedByTab;
 
     const linkProps = {
-      className: cx({
-        [this.getLinkClassName(focused, Boolean(disabled || loading))]: true,
-        [styles.button(this.theme)]: !!_button,
-        [styles.buttonOpened(this.theme)]: !!_buttonOpened,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
-      }),
+      className: cx(
+        this.getLinkClassName(focused, Boolean(disabled || loading)),
+        use === 'default' && styles.useDefault(this.theme),
+        use === 'success' && styles.useSuccess(this.theme),
+        use === 'danger' && styles.useDanger(this.theme),
+        use === 'grayed' && styles.useGrayed(this.theme),
+        !!_button && styles.button(this.theme),
+        !!_buttonOpened && styles.buttonOpened(this.theme),
+      ),
       href,
       rel,
-      onClick: this._handleClick,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
+      onClick: this.handleClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
       tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
 
     let child = this.props.children;
-    console.log(getThemeName(this.theme));
     if (parseInt(this.theme.linkLineBorderBottomWidth) > 0) {
       child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
     }
@@ -173,7 +171,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -185,11 +183,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading } = this.props;
     const href = this.getProps().href;
     if (!href) {
@@ -203,7 +201,6 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private getLinkClassName(focused: boolean, disabled: boolean): string {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
-    console.log('isBorderBottom', isBorderBottom);
 
     return !isBorderBottom
       ? cx(styles.root(this.theme), {

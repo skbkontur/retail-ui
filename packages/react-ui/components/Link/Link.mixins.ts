@@ -22,10 +22,10 @@ export const linkDisabledMixin = () => {
     pointer-events: none;
     text-decoration: none;
 
-      &:hover,
-      ${hover`&`} {
-        text-decoration: none;
-      }
+    &:hover,
+    ${hover`&`} {
+      text-decoration: none;
+    }
   `;
 };
 
@@ -34,8 +34,7 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
     color: ${mainColor};
 
     &:hover,
-    ${hover`&`},
-    ${focus`&`} {
+    ${hover`&`}, ${focus`&`} {
       color: ${hoverColor};
     }
 
@@ -53,13 +52,11 @@ export const linkUseLineColorsMixin = (
   textClassName: string,
 ) => {
   return `
-
     & .${textClassName}:before {
       border-bottom-color: ${mainColor};
     }
 
     &:hover,
-    &:focus,
     ${hover`&`}, ${focus`&`} {
       .${textClassName}:before {
         border-bottom-color: ${hoverColor};

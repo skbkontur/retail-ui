@@ -54,11 +54,6 @@ export interface ButtonProps extends CommonProps {
   borderless?: boolean;
 
   /**
-   * Убирает фон у кнопки.
-   */
-  backless?: boolean;
-
-  /**
    * @ignore
    */
   checked?: boolean;
@@ -151,7 +146,7 @@ export interface ButtonProps extends CommonProps {
   /**
    * Стиль кнопки.
    *
-   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`.
+   * **Допустимые значения**: `"default"`, `"primary"`, `"success"`, `"danger"`, `"pay"`, `"link"`, `"text"`, `"backless"`.
    */
   use?: ButtonUse;
 
@@ -312,8 +307,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: cx({
         [styles.wrap(this.theme)]: true,
-        [styles.wrapArrow()]: arrow === true && use !== 'text' && use !== 'backless',
-        [styles.wrapArrowLeft()]: arrow === 'left' && use !== 'text' && use !== 'backless',
+        [styles.wrapArrow()]: arrow === true,
+        [styles.wrapArrowLeft()]: arrow === 'left',
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
@@ -358,7 +353,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
 
     let arrowNode = null;
-    if (arrow && use !== 'text' && use !== 'backless') {
+    if (arrow) {
       arrowNode = (
         <div
           className={cx({

@@ -12,7 +12,8 @@ type Helper<V> = [V, (value: V) => void];
 
 interface Helpers {
   background: Helper<string>;
-  content: Helper<string>;
+  textLeft: Helper<string>;
+  textRight: Helper<string>;
   withText: Helper<boolean>;
   hasBaseline: Helper<boolean>;
   baselineShift: Helper<number>;
@@ -78,7 +79,8 @@ const userActsSets: FakeUserAction[][] = [
 
 const HelpersContext = React.createContext<Helpers>({
   background: ['', () => null],
-  content: ['Текст', () => null],
+  textLeft: ['Слева', () => null],
+  textRight: ['Справа', () => null],
   withText: [false, () => null],
   hasBaseline: [false, () => null],
   baselineShift: [0, () => null],
@@ -87,7 +89,8 @@ const HelpersContext = React.createContext<Helpers>({
 const Controls: React.FunctionComponent = () => {
   const {
     background: [background, setBackground],
-    content: [content, setContent],
+    textLeft: [textLeft, setTextLeft],
+    textRight: [textRight, setTextRight],
     withText: [withText, setWithText],
     hasBaseline: [hasBaseline, setHasBaseline],
     baselineShift: [baselineShift, setBaselineShift],
@@ -96,27 +99,44 @@ const Controls: React.FunctionComponent = () => {
   return (
     <Gapped vertical gap={20} style={{ margin: 10, padding: '20px 10px', background: '#eee' }}>
       <Gapped>
-        <Input value={content} onValueChange={setContent} style={{ width: 100 }} />
-        Содержимое
-      </Gapped>
-      <Gapped>
-        <Input value={background} onValueChange={setBackground} style={{ width: 100 }} />
+        <Input
+          value={background}
+          onValueChange={setBackground}
+          style={{ width: 120 }}
+          rightIcon={
+            <input
+              style={{ width: 20, height: 20 }}
+              type="color"
+              value={background}
+              onChange={(e) => setBackground(e.currentTarget.value)}
+            />
+          }
+        />
         Фон
       </Gapped>
-      <Toggle checked={withText} onValueChange={setWithText}>
-        Текст слева и справа
-      </Toggle>
+      <Gapped>
+        <Toggle checked={withText} onValueChange={setWithText}>
+          Текст
+        </Toggle>
+        <Gapped style={{ position: 'absolute', marginTop: -20 }}>
+          <Input value={textLeft} onValueChange={setTextLeft} width={70} disabled={!withText} />
+          <span> и </span>
+          <Input value={textRight} onValueChange={setTextRight} width={70} disabled={!withText} />
+        </Gapped>
+      </Gapped>
       <Gapped>
         <Toggle checked={hasBaseline} onValueChange={setHasBaseline}>
           Базовая линия
         </Toggle>
-        {hasBaseline && (
-          <Gapped style={{ position: 'absolute', marginTop: -20 }}>
-            <Button onClick={() => setBaselineShift(baselineShift - 1)}>⬆</Button>
-            {baselineShift}
-            <Button onClick={() => setBaselineShift(baselineShift + 1)}>⬇</Button>
-          </Gapped>
-        )}
+        <Gapped style={{ position: 'absolute', marginTop: -20 }}>
+          <Button onClick={() => setBaselineShift(baselineShift - 1)} disabled={!hasBaseline}>
+            ⬆
+          </Button>
+          {baselineShift}
+          <Button onClick={() => setBaselineShift(baselineShift + 1)} disabled={!hasBaseline}>
+            ⬇
+          </Button>
+        </Gapped>
       </Gapped>
     </Gapped>
   );
@@ -129,7 +149,8 @@ const ManualRow: React.FunctionComponent<{
 }> = ({ children, propName, propValue }) => {
   const {
     background: [background],
-    content: [content],
+    textLeft: [textLeft],
+    textRight: [textRight],
     withText: [withText],
     hasBaseline: [hasBaseline],
     baselineShift: [baselineShift],
@@ -147,14 +168,14 @@ const ManualRow: React.FunctionComponent<{
       </td>
       {userActsSets.map((_userActs, i) => (
         <td key={i} style={{ background }}>
-          {withText && <span>слева</span>}
+          {withText && <span>{textLeft}</span>}
           <FakeUserActions acts={_userActs}>
             {React.cloneElement(children, {
-              children: content,
+              // children: 'Текст',
               ...(propName ? { [propName]: propValue } : {}),
             })}
           </FakeUserActions>
-          {withText && <span>справа</span>}
+          {withText && <span>{textRight}</span>}
         </td>
       ))}
     </tr>
@@ -197,7 +218,8 @@ export const FakeUserActionsTable: React.FunctionComponent<{
 }> = ({ children, propName, propValues }) => {
   const helpers: Helpers = {
     background: useState<string>('#fff'),
-    content: useState<string>('Текст'),
+    textLeft: useState<string>('Слева'),
+    textRight: useState<string>('Справа'),
     withText: useState<boolean>(false),
     hasBaseline: useState<boolean>(false),
     baselineShift: useState<number>(0),
