@@ -3,21 +3,20 @@ import { findDOMNode } from 'react-dom';
 import React from 'react';
 import warning from 'warning';
 
-import { Nullable } from '../../typings/utility-types';
-import { isElement, isNode } from '../SSRSafe';
-import { canUseDOM } from '../client';
+import { Nullable } from '../../../typings/Types';
+import { isElement, isNode, canUseDOM } from '../utils';
 
-import { isInstanceWithRootNode } from './rootNodeDecorator';
+interface InstanceWithRootNode {
+  getRootNode: () => Nullable<HTMLElement>;
+}
+
+const isInstanceWithRootNode = (instance: unknown): instance is InstanceWithRootNode => {
+  return Boolean(instance) && Object.prototype.hasOwnProperty.call(instance, 'getRootNode');
+};
 
 /**
- * Extracts component's root Element (HTMLElement/SVGElement) out of it's instance
- * following the "StrictMode support convention" (@see README.md#strictmode, #2518).
- *
- * Replaces findDOMNode but falls back to it if "convention" is not respected.
- *
- * @param instance Component's instance provided by React.Ref or `this` inside class-components.
- * @returns Component's root `Element` or null
- */
+ * Temporary duplicates @skbkontur/react-ui/lib/rootNode/getRootNode.ts
+ * */
 
 export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<Element> => {
   /**
@@ -39,7 +38,9 @@ export const getRootNode = (instance: Nullable<React.ReactInstance>): Nullable<E
     // from Refs of intrinsic elements (<div />, <button />, etc.)
     return instance;
   }
+
   let rootNode;
+
   if (isInstanceWithRootNode(instance)) {
     // it happened to be that native Node interface also has
     // the "getRootNode" method, but we can ignore it here
