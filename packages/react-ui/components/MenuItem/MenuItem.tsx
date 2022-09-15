@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction, isReactUIComponent } from '../../lib/utils';
+import { isExternalLink, isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -58,8 +58,6 @@ export interface MenuItemProps extends CommonProps {
   children?: React.ReactNode | ((state: MenuItemState) => React.ReactNode);
   /**
    * HTML-атрибут `target`.
-   *
-   * При значении target="_blank" устанавливается дефолтное значение аттрибута rel = "noopener noreferrer"
    */
   target?: React.AnchorHTMLAttributes<HTMLAnchorElement>['target'];
   /**
@@ -140,6 +138,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
+    const isLinkExternal = (this.props.href && isExternalLink(this.props.href)) || this.props.target === '_blank';
     const {
       link,
       comment,
@@ -152,7 +151,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseLeave,
       isMobile,
       href,
-      rel = this.props.target === '_blank' ? 'noopener noreferrer' : this.props.rel,
+      rel = isLinkExternal ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 

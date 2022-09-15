@@ -37,6 +37,11 @@ describe('MenuItem', () => {
     expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
+  it('with externalLink has rel attribute', () => {
+    render(<MenuItem href={'https://www.google.com/'}>Test</MenuItem>);
+    expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
   it('with target="_blank" can rewrite default rel attribute', () => {
     render(
       <MenuItem target="_blank" href={'#'} rel={'alternate'}>
