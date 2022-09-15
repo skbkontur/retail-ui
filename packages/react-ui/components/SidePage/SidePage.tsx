@@ -54,6 +54,11 @@ export interface SidePageProps extends CommonProps {
   onClose?: () => void;
 
   /**
+   * Вызывается, когда сайдпейдж польностью открылся
+   */
+  onOpened?: () => void;
+
+  /**
    * Показывать сайдпэйдж слева
    *
    */
@@ -165,7 +170,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { blockBackground } = this.props;
+    const { blockBackground, onOpened } = this.props;
     const disableAnimations = this.getProps().disableAnimations;
 
     return (
@@ -188,6 +193,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                         exit: TRANSITION_TIMEOUT,
                       }}
                       nodeRef={this.rootRef}
+                      onEntered={() => onOpened && onOpened()}
                     >
                       {this.renderContainer(isMobile)}
                     </CSSTransition>
