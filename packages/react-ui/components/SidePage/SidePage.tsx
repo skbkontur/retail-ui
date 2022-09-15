@@ -54,7 +54,7 @@ export interface SidePageProps extends CommonProps {
   onClose?: () => void;
 
   /**
-   * Вызывается, когда сайдпейдж польностью открылся
+   * Вызывается, когда сайдпейдж полностью открылся
    */
   onOpened?: () => void;
 
