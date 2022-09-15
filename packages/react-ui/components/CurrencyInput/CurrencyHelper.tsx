@@ -25,8 +25,8 @@ export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     hideTrailingZeros: false,
-    thousandsDelimiter: String.fromCharCode(isSafari ? SPACE : THIN_SPACE),
-    minusSign: String.fromCharCode(MINUS_SIGN),
+    thousandsDelimiter: isSafari ? SPACE : THIN_SPACE,
+    minusSign: MINUS_SIGN,
   };
 
   public static getOptions(options?: Nullable<DecimalFormattingOptions>): DecimalFormattingOptionsInternal {
