@@ -28,23 +28,14 @@ describe('MenuItem', () => {
     expect(screen.queryByRole('link')).toHaveAttribute('rel');
   });
 
-  it('with target="_blank" has "noopener noreferrer" rel attribute', () => {
-    render(
-      <MenuItem target="_blank" href={'#'}>
-        Test
-      </MenuItem>,
-    );
-    expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
-  });
-
-  it('with externalLink has rel attribute', () => {
+  it('with external link has rel attribute', () => {
     render(<MenuItem href={'https://www.google.com/'}>Test</MenuItem>);
     expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
   });
 
-  it('with target="_blank" can rewrite default rel attribute', () => {
+  it('with external link can rewrite default rel attribute', () => {
     render(
-      <MenuItem target="_blank" href={'#'} rel={'alternate'}>
+      <MenuItem href={'https://www.google.com/'} rel={'alternate'}>
         Test
       </MenuItem>,
     );

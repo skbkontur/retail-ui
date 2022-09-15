@@ -71,7 +71,7 @@ export interface MenuItemProps extends CommonProps {
   /**
    * HTML-атрибут `rel`.
    *
-   * При значении target="_blank" аттрибут rel по дефолту равен "noopener noreferrer"
+   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
    */
   rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
   /**
@@ -138,7 +138,6 @@ export class MenuItem extends React.Component<MenuItemProps> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
-    const isLinkExternal = (this.props.href && isExternalLink(this.props.href)) || this.props.target === '_blank';
     const {
       link,
       comment,
@@ -151,7 +150,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseLeave,
       isMobile,
       href,
-      rel = isLinkExternal ? 'noopener noreferrer' : this.props.rel,
+      rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 
