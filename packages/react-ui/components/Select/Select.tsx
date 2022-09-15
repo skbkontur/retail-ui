@@ -22,7 +22,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
+import { isComponentOrElement, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -672,12 +672,21 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     this.buttonElement = element;
   };
 
+  private findButtonElement = (child: React.ReactNode): React.ReactNode => {
+    if (isComponentOrElement(child)) {
+      return child;
+    }
+
+    // @ts-expect-error: accessing internal value
+    return this.findButtonElement(child?.props.children);
+  };
+
   private getButton = (buttonParams: ButtonParams) => {
     const button = this.props._renderButton
       ? this.props._renderButton(buttonParams)
       : this.renderDefaultButton(buttonParams);
 
-    const buttonElement = React.Children.only(button);
+    const buttonElement = this.findButtonElement(React.Children.only(button));
 
     return React.isValidElement(buttonElement)
       ? React.cloneElement(buttonElement as React.ReactElement, {
