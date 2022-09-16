@@ -26,7 +26,7 @@ function getPositionObject(position: string): PositionObject {
   };
 }
 
-function getElementAbsoluteRect(element: HTMLElement): Rect {
+function getElementAbsoluteRect(element: Element): Rect {
   const rect = _getElementRelativeRect(element);
   return convertRectToAbsolute(rect);
 }
@@ -62,7 +62,7 @@ function canBecomeFullyVisible(positionName: PopupPositionsType, coordinates: Of
   return true;
 }
 
-function _getElementRelativeRect(element: HTMLElement) {
+function _getElementRelativeRect(element: Element) {
   const rect = element.getBoundingClientRect();
 
   return {
@@ -118,7 +118,7 @@ function _rectContainsRect(outerRect: Rect, innerRect: Rect): boolean {
   );
 }
 
-function _getViewProperty(getProperty: (e: HTMLElement) => number): number {
+function _getViewProperty(getProperty: (e: Element) => number): number {
   const views = [document.documentElement, document.body];
   return views.map((x) => x && getProperty(x)).find(Boolean) || 0;
 }
