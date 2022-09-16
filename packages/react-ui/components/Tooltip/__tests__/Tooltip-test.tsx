@@ -71,17 +71,6 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
-        it('opens after click by anchor', async () => {
-          const { anchor } = renderTooltip({ trigger: 'click' });
-
-          userEvent.click(anchor);
-          const content = screen.getByTestId('Tooltip__content');
-
-          expect(content).toBeInTheDocument();
-        });
-      });
-
-      withVariousAnchors((renderTooltip) => {
         it('keeps open after second click by anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
