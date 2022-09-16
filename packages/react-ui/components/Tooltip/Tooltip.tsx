@@ -240,7 +240,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     return (
-      <div ref={this.refContent} className={styles.tooltipContent(this.theme)}>
+      <div ref={this.refContent} className={styles.tooltipContent(this.theme)} data-tid={'Tooltip__content'}>
         {content}
         {this.renderCloseButton()}
       </div>
