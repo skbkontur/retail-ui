@@ -1236,7 +1236,7 @@ describe('ComboBox', () => {
     render(<Comp />);
 
     const input = screen.getByTestId('InputLikeText__input');
-    expect(input).toHaveTextContent('First');
+    expect(input).toHaveTextContent(/^First$/);
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveTextContent('');
