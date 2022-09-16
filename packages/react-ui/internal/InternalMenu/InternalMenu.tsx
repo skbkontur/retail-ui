@@ -206,7 +206,9 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
         ref={(el) => (this.header = el)}
       >
         <div className={styles.contentWrapper()}>{this.props.header}</div>
-        {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
       </div>
     );
   };
@@ -220,7 +222,9 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
         })}
         ref={(el) => (this.footer = el)}
       >
-        {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
         <div className={styles.contentWrapper()}>{this.props.footer}</div>
       </div>
     );

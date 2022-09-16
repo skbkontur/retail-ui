@@ -46,4 +46,10 @@ export const styles = memoizeStyle({
       padding: 6px 18px 7px 8px;
     `;
   },
+
+  menuSeparatorWrapper(t: Theme) {
+    return css`
+      height: ${t.menuSeparatorBorderWidth};
+    `;
+  },
 });
