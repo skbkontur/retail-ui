@@ -1262,7 +1262,7 @@ describe('ComboBox', () => {
         );
       };
 
-      const handleValueChange = (value: any) => {
+      const handleValueChange = (value: { value: number; label: string }) => {
         setSelected(value);
         setShouldRenderAddButton(false);
       };
