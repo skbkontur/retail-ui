@@ -1241,4 +1241,93 @@ describe('ComboBox', () => {
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     expect(input).toHaveTextContent('');
   });
+
+  describe('with add button', () => {
+    const Comp = () => {
+      const [selected, setSelected] = useState({ value: 3, label: 'Third' });
+      const [shouldRenderAddButton, setShouldRenderAddButton] = useState(false);
+      const [query, setQuery] = useState('');
+      const [items, setItems] = useState([
+        { value: 1, label: 'First' },
+        { value: 2, label: 'Second' },
+        { value: 3, label: 'Third' },
+        { value: 4, label: 'Fourth' },
+        { value: 5, label: 'Fifth' },
+        { value: 6, label: 'Sixth' },
+      ]);
+
+      const getItems = (q: string) => {
+        return Promise.resolve(
+          items.filter((x) => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+        );
+      };
+
+      const handleValueChange = (value: any) => {
+        setSelected(value);
+        setShouldRenderAddButton(false);
+      };
+
+      const handleInputValueChange = (query: string) => {
+        const isItemExists = items.find((x) => x.label.toLowerCase() === query.toLowerCase());
+        setQuery(query);
+        setShouldRenderAddButton(!isItemExists);
+      };
+
+      const addItem = () => {
+        const newItem = {
+          value: Math.max(...items.map(({ value }) => value)) + 1,
+          label: query,
+        };
+        setItems([...items, newItem]);
+        setSelected(newItem);
+        setShouldRenderAddButton(false);
+      };
+
+      const renderAddButton = () => {
+        if (!shouldRenderAddButton) {
+          return null;
+        }
+        return (
+          <MenuItem link onClick={addItem} data-tid={'addButton'}>
+            + Добавить {query}
+          </MenuItem>
+        );
+      };
+      return (
+        <ComboBox
+          getItems={getItems}
+          onValueChange={handleValueChange}
+          value={selected}
+          onInputValueChange={handleInputValueChange}
+          renderAddButton={renderAddButton}
+        />
+      );
+    };
+
+    const delay = async () => new Promise((r) => setTimeout(r, 0));
+
+    beforeEach(async () => {
+      render(<Comp />);
+      await userEvent.click(screen.getByTestId('InputLikeText__root'));
+      await userEvent.type(screen.getByRole('textbox'), 'newItem');
+      await delay();
+      await userEvent.click(screen.getByTestId('addButton'));
+    });
+
+    it('add new element', async () => {
+      expect(screen.getByRole('textbox')).toHaveValue('newItem');
+    });
+
+    it('show added item after blur', async () => {
+      await userEvent.click(screen.getByRole('textbox'));
+      await delay();
+      expect(screen.getAllByTestId('ComboBoxMenu__item')).toHaveLength(7);
+      clickOutside();
+      await delay();
+      expect(screen.queryByTestId('ComboBoxMenu__item')).not.toBeInTheDocument();
+      await userEvent.click(screen.getByTestId('InputLikeText__root'));
+      await delay();
+      expect(screen.getAllByTestId('ComboBoxMenu__item')).toHaveLength(7);
+    });
+  });
 });
