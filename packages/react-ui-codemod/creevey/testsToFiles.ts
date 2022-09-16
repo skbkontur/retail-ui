@@ -201,10 +201,10 @@ const createTestFile = (
   kind: string,
   stories: Stories,
   vars: any,
-  testsPath = '../__creevey__/',
+  { testsPath = '../__creevey__/', prettier: usePrettier = true }: TransformOptions,
 ): void => {
   const mainTemplate = (kind, stories, vars) => `
-    const { story, kind, test } = require('creevey');
+    import { story, kind, test } from 'creevey';
 
     ${Object.keys(vars).reduce(
       (r, v) => `
@@ -268,9 +268,13 @@ const createTestFile = (
     );
   };
 
-  const file = prettier.format(mainTemplate(kind, stories, vars).replace(/as HTMLElement/g, ''), {
-    parser: 'typescript',
-  });
+  const fileText = mainTemplate(kind, stories, vars);
+
+  const file = usePrettier
+    ? prettier.format(fileText, {
+        parser: 'typescript',
+      })
+    : fileText;
 
   const dir = path.isAbsolute(testsPath)
     ? path.normalize(testsPath + '/')
@@ -295,6 +299,11 @@ interface TransformOptions {
    * По умолчанию `../__creevey__`.
    */
   testsPath: string;
+  /**
+   * Применять ли prettier к созданным файлам.
+   * По умолчанию `true`.
+   */
+  prettier: boolean;
 }
 
 export default function transform(file: FileInfo, api: API, options: TransformOptions) {
@@ -310,7 +319,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     return null;
   }
 
-  createTestFile(file.path, kind, stories, vars, testsPath);
+  createTestFile(file.path, kind, stories, vars, options);
 
   return result.toSource();
 }

@@ -38,6 +38,7 @@ npx react-ui-codemod creevey/testsToFiles STORIES_PATH --testsPath=/home/dev/my-
 | Опции | Описание | По умолчанию |
 | ----- | -------- | ------------ |
 | `testsPath`  | Путь для создания новых файлов с тестами. Абсолютный или относильно файла истории. | `../__creevey__` |
+| `prettier`  | Применять ли prettier к созданным файлам. | `true` |
 
 ### creevey/skipsArrays
 
