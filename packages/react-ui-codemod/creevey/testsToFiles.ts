@@ -83,9 +83,19 @@ const extractTests = (api: API, collection: Collection<any>, vars: any): { kind:
         let testsIndex = -1;
         node.value.properties.forEach((p, i) => {
           if (p.key.name === 'tests') {
-            // console.log(j(p));
             testsIndex = i;
-            kindTests = propertiesToStringsObj(api, p.value.properties, collection);
+
+            if (p.value.type === 'Identifier') {
+              const variableName = p.value.name;
+              kindTests = {
+                [variableName]: variableName,
+              };
+              processVariable(api, collection, variableName);
+            } else if (p.value.type === 'ObjectExpression') {
+              kindTests = propertiesToStringsObj(api, p.value.properties, collection);
+            } else {
+              console.log(kind + ': TESTS IS SOMETHING UNKNOWN: ', p.value.type);
+            }
           }
         });
 
@@ -254,9 +264,11 @@ const createTestFile = (filePath: string, kind: string, stories: Stories, vars: 
     );
   };
 
-  const file = prettier.format(mainTemplate(kind, stories, vars).replace(/as HTMLElement/g, ''), {
-    parser: 'typescript',
-  });
+  const file =
+    prettier.format(
+      mainTemplate(kind, stories, vars).replace(/as HTMLElement/g, ''),
+      { parser: 'typescript' }
+    );
 
   const dir = path.join(path.dirname(filePath), '../__creevey__/');
 
@@ -264,7 +276,7 @@ const createTestFile = (filePath: string, kind: string, stories: Stories, vars: 
     mkdirSync(dir, { recursive: true });
   }
 
-  writeFileSync(path.join(dir + kind + '.creevey.js'), file);
+  writeFileSync(path.join(dir + kind.split('/').pop() + '.creevey.ts'), file);
 };
 
 interface TransformOptions {
@@ -292,18 +304,8 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     return null;
   }
 
-  // const testsToStr = (stories: Stories): string => {
-  //   return Object.keys(stories)
-  //     .map((s) => {
-  //       return `${s}: [${Object.keys(stories[s].tests).join(', ')}]`;
-  //     })
-  //     .join(', ');
-  // };
-
-  // console.dir(stories);
   console.log(`Creating ${kind}.creevey.ts`);
   createTestFile(file.path, kind, stories, vars);
-  // console.log(vars);
 
   return result.toSource();
 }
