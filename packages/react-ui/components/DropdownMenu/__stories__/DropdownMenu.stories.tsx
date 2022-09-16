@@ -7,7 +7,7 @@ import SearchIcon from '@skbkontur/react-icons/Search';
 import AddIcon from '@skbkontur/react-icons/Add';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 
-import { Meta, Story, CreeveyTests } from '../../../typings/stories';
+import { Meta, Story } from '../../../typings/stories';
 import { MenuItem } from '../../MenuItem';
 import { MenuHeader } from '../../MenuHeader';
 import { MenuSeparator } from '../../MenuSeparator';
@@ -179,47 +179,6 @@ const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   );
 };
 
-const outOfViewTests: (side: 'left' | 'right') => CreeveyTests = (side) => {
-  return {
-    async 'out of viewport'() {
-      if (side === 'left') {
-        await this.browser.executeScript(function () {
-          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
-          container.scrollLeft = container.scrollWidth;
-        });
-      }
-
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
-        .perform();
-      await delay(1000);
-
-      await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
-    },
-    async 'out of edge with min menu width'() {
-      if (side === 'left') {
-        await this.browser.executeScript(function () {
-          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
-          container.scrollLeft = container.scrollWidth;
-        });
-      }
-
-      await this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
-        .perform();
-      await delay(1000);
-
-      await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
-    },
-  };
-};
-
 export const MenuOutOfViewPortRight: Story = () => {
   return <MenuOutOfViewPortSample side={'right'} />;
 };
@@ -227,7 +186,30 @@ MenuOutOfViewPortRight.storyName = 'Menu out of viewport right';
 
 MenuOutOfViewPortRight.parameters = {
   creevey: {
-    tests: outOfViewTests('right'),
+    tests: {
+      async 'out of viewport'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
+      },
+      async 'out of edge with min menu width'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
+      },
+    },
   },
 };
 
@@ -238,7 +220,40 @@ MenuOutOfViewPortLeft.storyName = 'Menu out of viewport left';
 
 MenuOutOfViewPortLeft.parameters = {
   creevey: {
-    tests: outOfViewTests('left'),
+    tests: {
+      async 'out of viewport'() {
+        await this.browser.executeScript(function () {
+          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
+          container.scrollLeft = container.scrollWidth;
+        });
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
+      },
+      async 'out of edge with min menu width'() {
+        await this.browser.executeScript(function () {
+          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
+          container.scrollLeft = container.scrollWidth;
+        });
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
+      },
+    },
   },
 };
 
