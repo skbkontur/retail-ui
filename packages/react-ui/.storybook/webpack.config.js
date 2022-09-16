@@ -11,6 +11,7 @@ module.exports = async ({ config, mode }) => {
   }
 
   config.entry.unshift('core-js/stable');
+  config.entry.unshift('whatwg-fetch');
 
   config.resolve.extensions.unshift('.ts', '.tsx');
 
@@ -18,7 +19,7 @@ module.exports = async ({ config, mode }) => {
     {
       test: /\.(j|t)sx?$/,
       loader: 'babel-loader',
-      exclude: /node_modules/,
+      exclude: /node_modules\/(?!(@storybook\/testing-library))\/.*\.js$/,
       options: {
         babelrc: false,
         envName: 'cjs',

@@ -19,6 +19,7 @@ gemini-report
 /lib/**/*.map
 /components/**/*.d.ts
 /components/**/*.js
+!/**/__creevey__/*.js
 /components/**/*.map
 .creevey/report
 
