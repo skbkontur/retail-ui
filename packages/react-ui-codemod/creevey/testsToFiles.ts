@@ -196,11 +196,15 @@ const extractTests = (api: API, collection: Collection<any>, vars: any): { kind:
   return { kind, stories };
 };
 
-const createTestFile = (filePath: string, kind: string, stories: Stories, vars: any): void => {
+const createTestFile = (
+  filePath: string,
+  kind: string,
+  stories: Stories,
+  vars: any,
+  testsPath = '../__creevey__/',
+): void => {
   const mainTemplate = (kind, stories, vars) => `
     const { story, kind, test } = require('creevey');
-
-    const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
     ${Object.keys(vars).reduce(
       (r, v) => `
@@ -264,35 +268,37 @@ const createTestFile = (filePath: string, kind: string, stories: Stories, vars: 
     );
   };
 
-  const file =
-    prettier.format(
-      mainTemplate(kind, stories, vars).replace(/as HTMLElement/g, ''),
-      { parser: 'typescript' }
-    );
+  const file = prettier.format(mainTemplate(kind, stories, vars).replace(/as HTMLElement/g, ''), {
+    parser: 'typescript',
+  });
 
-  const dir = path.join(path.dirname(filePath), '../__creevey__/');
+  const dir = path.isAbsolute(testsPath)
+    ? path.normalize(testsPath + '/')
+    : path.join(path.dirname(filePath), testsPath);
 
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }
 
-  writeFileSync(path.join(dir + kind.split('/').pop() + '.creevey.ts'), file);
+  const ext = path.extname(filePath);
+
+  const testFilePath = path.join(dir + kind.split('/').pop() + '.creevey' + ext);
+
+  console.log('Creating: ' + testFilePath);
+
+  writeFileSync(testFilePath, file);
 };
 
 interface TransformOptions {
   /**
-   * Альтернативный путь до контролов, который может быть настроен в проекте
-   * Например, "ui" вместо "retail-ui/components"
+   * Путь для создания новых файлов с тестами. Абсолютный или относильно файла истории.
+   * По умолчанию `../__creevey__`.
    */
-  alias: string;
-  /**
-   * Объединять ли разные импорты из одинаковых источников в один общий
-   */
-  dedupe: boolean;
+  testsPath: string;
 }
 
 export default function transform(file: FileInfo, api: API, options: TransformOptions) {
-  // const { } = options;
+  const { testsPath } = options;
 
   const j = api.jscodeshift;
   const result = j(file.source);
@@ -304,8 +310,7 @@ export default function transform(file: FileInfo, api: API, options: TransformOp
     return null;
   }
 
-  console.log(`Creating ${kind}.creevey.ts`);
-  createTestFile(file.path, kind, stories, vars);
+  createTestFile(file.path, kind, stories, vars, testsPath);
 
   return result.toSource();
 }

@@ -27,6 +27,26 @@ yarn react-ui-codemod CODEMOD [JSCODESHIFT_OPTIONS] [CODEMOD_OPTIONS]
 
 ## Список кодмодов
 
+### creevey/testsToFiles
+
+Переносит код скриншотных тестов из история в отдельные файлы.
+
+```
+npx react-ui-codemod creevey/testsToFiles STORIES_PATH --testsPath=/home/dev/my-project/tests/
+```
+
+| Опции | Описание | По умолчанию |
+| ----- | -------- | ------------ |
+| `testsPath`  | Путь для создания новых файлов с тестами. Абсолютный или относильно файла истории. | `../__creevey__` |
+
+### creevey/skipsArrays
+
+Обновляет формат creevey-скипов в параметрах историй. [Подробнее](https://github.com/creevey/creevey/pull/206).
+
+```
+npx react-ui-codemod creevey/skipsArrays STORIES_PATH
+```
+
 ### react-ui-4.0/transformLabelToCaption
 
 Для компонента `Switcher` переименовывает проп `label` на `caption`. Подробнее здесь [2121#discussion_r488456100](https://github.com/skbkontur/retail-ui/pull/2121#discussion_r488456100).
