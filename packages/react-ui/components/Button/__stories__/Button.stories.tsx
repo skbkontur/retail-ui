@@ -11,97 +11,8 @@ import { ComponentCombinator } from '../../../internal/ComponentCombinator';
 
 export default { title: 'Button' } as Meta;
 
-const buttonTests: CreeveyTests = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hover() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'button' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-  },
-  async pressed() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'button' }),
-      })
-      .press()
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .release()
-      .perform();
-  },
-  async clicked() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'button' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-  },
-  async tabPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  },
-};
-
-const combinationTest: CreeveyTests = {
-  async simple() {
-    const nextPageButton = () => this.browser.findElement({ css: '#next-page' });
-    const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
-
-    const page1 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page2 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page3 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page4 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page5 = await element().takeScreenshot();
-
-    await this.expect({
-      'page - 1': page1,
-      'page - 2': page2,
-      'page - 3': page3,
-      'page - 4': page4,
-      'page - 5': page5,
-    }).to.matchImages();
-  },
-};
-
 export const Playground: Story = () => <Button>Hello</Button>;
 Playground.storyName = 'playground';
-
-Playground.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
-    tests: buttonTests,
-  },
-};
 
 export const DifferentContent = () => (
   <Gapped vertical>
@@ -123,40 +34,12 @@ DifferentContent.storyName = 'different content';
 export const UseLink: Story = () => <Button use="link">Use Link</Button>;
 UseLink.storyName = 'use link';
 
-UseLink.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'pressed', 'clicked', 'tabPress'],
-      },
-    ],
-    tests: buttonTests,
-  },
-};
-
 export const UseLinkWithIcon: Story = () => (
   <Button use="link" icon={<ArchivePackIcon />}>
     With Icon
   </Button>
 );
 UseLinkWithIcon.storyName = 'use link with icon';
-
-UseLinkWithIcon.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'pressed', 'clicked', 'tabPress'],
-      },
-    ],
-    tests: buttonTests,
-  },
-};
 
 export const MultilineTextWithLinkButton: Story = () => (
   <div>
@@ -168,17 +51,6 @@ export const MultilineTextWithLinkButton: Story = () => (
   </div>
 );
 MultilineTextWithLinkButton.storyName = 'multiline text with link button';
-
-MultilineTextWithLinkButton.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
-    tests: buttonTests,
-  },
-};
 
 export const WithError: Story = () => (
   <Gapped>
@@ -193,36 +65,12 @@ export const WithError: Story = () => (
 );
 WithError.storyName = 'with error';
 
-WithError.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
-    tests: buttonTests,
-  },
-};
-
 export const ArrowWithError: Story = () => (
   <Button arrow error>
     Arrow
   </Button>
 );
 ArrowWithError.storyName = 'arrow with error';
-
-ArrowWithError.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
-    tests: buttonTests,
-  },
-};
 
 export const TextStylesReset = () => (
   <div
@@ -283,12 +131,6 @@ export const DefaultCombinations: Story = () => (
 );
 DefaultCombinations.storyName = 'default combinations';
 
-DefaultCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
 export const CombinationsWithWarning: Story = () => (
   <ComponentCombinator
     Component={Button}
@@ -297,12 +139,6 @@ export const CombinationsWithWarning: Story = () => (
   />
 );
 CombinationsWithWarning.storyName = 'combinations with warning';
-
-CombinationsWithWarning.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
 
 export const CombinationsWithError: Story = () => (
   <ComponentCombinator
@@ -313,12 +149,6 @@ export const CombinationsWithError: Story = () => (
 );
 CombinationsWithError.storyName = 'combinations with error';
 
-CombinationsWithError.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
 export const CombinationsWithFocus: Story = () => (
   <ComponentCombinator
     Component={Button}
@@ -327,12 +157,6 @@ export const CombinationsWithFocus: Story = () => (
   />
 );
 CombinationsWithFocus.storyName = 'combinations with focus';
-
-CombinationsWithFocus.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
 
 export const LoadingCombinations: Story = () => (
   <ComponentCombinator
@@ -343,12 +167,6 @@ export const LoadingCombinations: Story = () => (
 );
 LoadingCombinations.storyName = 'loading combinations';
 
-LoadingCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
 export const DisabledCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
@@ -357,12 +175,6 @@ export const DisabledCombinations: Story = () => (
   />
 );
 DisabledCombinations.storyName = 'disabled combinations';
-
-DisabledCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
 
 export const ActiveCombinations: Story = () => (
   <ComponentCombinator
@@ -373,12 +185,6 @@ export const ActiveCombinations: Story = () => (
 );
 ActiveCombinations.storyName = 'active combinations';
 
-ActiveCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
 export const CheckedCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
@@ -388,12 +194,6 @@ export const CheckedCombinations: Story = () => (
 );
 CheckedCombinations.storyName = 'checked combinations';
 
-CheckedCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
 export const CheckedDisabledCombinations: Story = () => (
   <ComponentCombinator
     Component={Button}
@@ -402,12 +202,6 @@ export const CheckedDisabledCombinations: Story = () => (
   />
 );
 CheckedDisabledCombinations.storyName = 'checked disabled combinations';
-
-CheckedDisabledCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
 
 type ButtonState = Partial<ButtonProps>;
 

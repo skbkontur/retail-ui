@@ -6,92 +6,32 @@ import { Link } from '../Link';
 import { Toast } from '../../Toast';
 import { Gapped } from '../../Gapped';
 
-const linkTests: CreeveyTests = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hover() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'a' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hover');
-  },
-};
-
 export default {
   title: 'Link',
   parameters: {
-    creevey: { skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }] },
+    creevey: { skip: {
+      "kind-skip-0": { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' }
+    } },
   },
 };
 
 export const Simple: Story = () => <Link>Simple Link</Link>;
-Simple.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    ],
-  },
-};
 
 export const WithIcon: Story = () => <Link icon={<OkIcon />}>Simple Link</Link>;
-WithIcon.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    ],
-  },
-};
 
 export const Danger: Story = () => (
   <Link icon={<OkIcon />} use="danger">
     Simple Link
   </Link>
 );
-Danger.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    ],
-  },
-};
 
 export const Grayed: Story = () => <Link use="grayed">Simple link</Link>;
-Grayed.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    ],
-  },
-};
 
 export const Disabled: Story = () => <Link disabled>Simple link</Link>;
-Disabled.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    ],
-  },
-};
 
 export const WithOnClick = () => <Link onClick={() => Toast.push('Clicked!')}>Simple Link</Link>;
 WithOnClick.storyName = 'With onClick';
-WithOnClick.parameters = { creevey: { skip: [true] } };
+WithOnClick.parameters = { creevey: { skip: true } };
 
 export const Loading: Story = () => (
   <Gapped vertical>
@@ -111,12 +51,3 @@ export const Loading: Story = () => (
     </Link>
   </Gapped>
 );
-Loading.parameters = {
-  creevey: {
-    tests: linkTests,
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover'] },
-    ],
-  },
-};

@@ -1,4 +1,5 @@
 const path = require('path');
+const { hybridStoriesProvider } = require('creevey');
 const axios = require('axios');
 require('dotenv').config({ path: '../../.env' });
 
@@ -23,6 +24,8 @@ const resolverStorybookUrl = (port) => ({
 });
 
 const config = {
+  storiesProvider: hybridStoriesProvider,
+  testDir: path.join(__dirname, '../'),
   ...resolverStorybookUrl(6060),
   storybookDir: path.join(__dirname, '../.storybook'),
   reportDir: path.join(__dirname, 'report'),
@@ -150,6 +153,9 @@ const config = {
         theme: 'DEFAULT_THEME_8PX_OLD',
       },
       name: 'infrafront/ie118px',
+      timeouts: {
+        script: 120000,
+      },
       ...capabilities,
     },
     ie11Flat8px: {
@@ -159,6 +165,9 @@ const config = {
         theme: 'FLAT_THEME_8PX_OLD',
       },
       name: 'infrafront/ie11Flat8px',
+      timeouts: {
+        script: 120000,
+      },
       ...capabilities,
     },
     ie11: {
@@ -168,6 +177,9 @@ const config = {
         theme: 'DEFAULT_THEME',
       },
       name: 'infrafront/ie11',
+      timeouts: {
+        script: 120000,
+      },
       ...capabilities,
     },
     ie11Dark: {
@@ -178,6 +190,9 @@ const config = {
       },
       backgrounds: { default: 'dark' },
       name: 'infrafront/ie11Dark',
+      timeouts: {
+        script: 120000,
+      },
       ...capabilities,
     },
     chromeMobile: {

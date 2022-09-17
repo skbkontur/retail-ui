@@ -11,6 +11,7 @@ module.exports = async ({ config, mode }) => {
   }
 
   config.entry.unshift('core-js/stable');
+  config.entry.unshift('whatwg-fetch');
 
   config.resolve.extensions.unshift('.ts', '.tsx');
 
@@ -18,7 +19,7 @@ module.exports = async ({ config, mode }) => {
     {
       test: /\.(j|t)sx?$/,
       loader: 'babel-loader',
-      exclude: /node_modules/,
+      exclude: /node_modules\/(?!(@storybook\/testing-library))\/.*\.js$/,
       options: {
         babelrc: false,
         envName: 'cjs',
@@ -50,13 +51,13 @@ module.exports = async ({ config, mode }) => {
     { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
   ];
 
-  config.plugins.push(
-    new ForkTsCheckerWebpackPlugin({
-      typescript: {
-        configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
-      },
-    }),
-  );
+  // config.plugins.push(
+  //   new ForkTsCheckerWebpackPlugin({
+  //     typescript: {
+  //       configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
+  //     },
+  //   }),
+  // );
 
   // NOTE Need to allow write tests inside stories for Creevey
   config.node = { __filename: true };

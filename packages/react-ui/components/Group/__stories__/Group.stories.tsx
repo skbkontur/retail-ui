@@ -21,25 +21,6 @@ export const SimpleGroupWithInputAndButton: Story = () => (
 );
 SimpleGroupWithInputAndButton.storyName = 'Simple Group with Input and Button';
 
-SimpleGroupWithInputAndButton.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async 'focused input'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('focused input');
-      },
-    },
-  },
-};
-
 export const SimpleGroupWithCustomInputsWidth = () => (
   <Group>
     <Input placeholder="Search" width="300px" />
@@ -58,7 +39,7 @@ export const GroupWithInputAndMultipleButtons = () => (
   </Group>
 );
 GroupWithInputAndMultipleButtons.storyName = 'Group with Input and multiple Buttons';
-GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: [true] } };
+GroupWithInputAndMultipleButtons.parameters = { creevey: { skip: true } };
 
 export const ButtonGroup = () => (
   <Group>
@@ -79,7 +60,7 @@ export const ComplexElements = () => (
   </Group>
 );
 ComplexElements.storyName = 'Complex elements';
-ComplexElements.parameters = { creevey: { skip: [true] } };
+ComplexElements.parameters = { creevey: { skip: true } };
 
 export const WithWidth = () => (
   <ThemeContext.Consumer>

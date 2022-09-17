@@ -445,60 +445,12 @@ export default { title: 'Modal' };
 
 export const WithScrollableParentContent = () => <ModalWithScrollableContent />;
 WithScrollableParentContent.storyName = 'With scrollable parent content';
-WithScrollableParentContent.parameters = { creevey: { skip: [true] } };
+WithScrollableParentContent.parameters = { creevey: { skip: true } };
 
 export const WithIconInput: Story = () => <ModalWithIconInput />;
 
-WithIconInput.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(1000);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-    },
-  },
-};
-
 export const ModalOverAnotherModalStory: Story = () => <ModalOverAnotherModal />;
 ModalOverAnotherModalStory.storyName = 'Modal over another modal';
-
-ModalOverAnotherModalStory.parameters = {
-  creevey: {
-    tests: {
-      async 'open first modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(200);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open first modal');
-      },
-      async 'open second modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-comp-name~="ModalBody"] button' }))
-          .perform();
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open second modal');
-      },
-    },
-  },
-};
 
 export const DisabledModal = () => (
   <Modal disableClose>
@@ -507,66 +459,16 @@ export const DisabledModal = () => (
   </Modal>
 );
 DisabledModal.storyName = 'Disabled modal';
-DisabledModal.parameters = { creevey: { skip: [true] } };
+DisabledModal.parameters = { creevey: { skip: true } };
 
 export const ModalWithFooterPanelStory: Story = () => <ModalWithFooterPanel />;
 ModalWithFooterPanelStory.storyName = 'Modal with footer panel';
 
-ModalWithFooterPanelStory.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-    },
-  },
-};
-
 export const ModalWithoutFooterPanelStory: Story = () => <ModalWithoutFooterPanel />;
 ModalWithoutFooterPanelStory.storyName = 'Modal without footer panel';
 
-ModalWithoutFooterPanelStory.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(200);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-    },
-  },
-};
-
 export const ModalWithoutFooterStory: Story = () => <ModalWithoutFooter />;
 ModalWithoutFooterStory.storyName = 'Modal without footer';
-
-ModalWithoutFooterStory.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-    },
-  },
-};
 
 export const ModalWithoutHeader = () => (
   <Modal>
@@ -583,7 +485,7 @@ ModalWithoutHeader.parameters = { creevey: { captureElement: null } };
 
 export const ModalMobileViewStory = () => <ModalMobileView />;
 ModalMobileViewStory.storyName = 'Modal mobile view';
-ModalMobileViewStory.parameters = { creevey: { skip: [true] } };
+ModalMobileViewStory.parameters = { creevey: { skip: true } };
 
 export const ModalWithVariableHeightOfContent: Story = () => (
   <ModalWithVariableHeight>
@@ -591,63 +493,6 @@ export const ModalWithVariableHeightOfContent: Story = () => (
   </ModalWithVariableHeight>
 );
 ModalWithVariableHeightOfContent.storyName = 'Modal with variable height of content';
-
-ModalWithVariableHeightOfContent.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-      async 'toggle content height'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '#modal-inner [data-comp-name~="Toggle"]' }))
-          .pause(500)
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('toggle content height');
-      },
-    },
-  },
-};
-
-const TopMiddleBottomModalTests: CreeveyTests = {
-  async top() {
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
-  },
-  async middle() {
-    await this.browser.executeScript(function () {
-      const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-      const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
-
-      modalContainer.scrollTop = modalContent.offsetHeight / 2;
-    });
-    await delay(100);
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
-  },
-  async bottom() {
-    await this.browser.executeScript(function () {
-      const modalContainer = window.document.querySelector('[data-tid="modal-container"]') as HTMLElement;
-      const modalContent = window.document.querySelector('[data-tid="modal-content"]') as HTMLElement;
-
-      modalContainer.scrollTop = modalContent.offsetHeight;
-    });
-    await delay(100);
-    await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
-  },
-};
 
 export const ModalWithoutStickyElements: Story = () => (
   <Modal>
@@ -662,8 +507,6 @@ export const ModalWithoutStickyElements: Story = () => (
 );
 ModalWithoutStickyElements.storyName = 'Modal without sticky elements';
 
-ModalWithoutStickyElements.parameters = { creevey: { tests: TopMiddleBottomModalTests } };
-
 export const WithAlignTop = () => (
   <Modal alignTop>
     <Modal.Body>
@@ -676,62 +519,6 @@ WithAlignTop.parameters = { creevey: { captureElement: null } };
 
 export const SmallModalOnTheTop: Story = () => <SmallModalOnTop />;
 SmallModalOnTheTop.storyName = 'Small modal on the Top';
-
-SmallModalOnTheTop.parameters = {
-  creevey: {
-    tests: {
-      async 'open modal'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open modal');
-      },
-      async 'close by click on the cross'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="modal-close"]' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('close by click on the cross');
-      },
-      async "doesn't close by click on the content"() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="modal-content-button"]' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage("doesn't close by click on the content");
-      },
-      async 'closes by click on the background'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await this.browser
-          .actions({ bridge: true })
-          .click(this.browser.findElement({ css: '[data-tid="modal-container"]' }))
-          .perform();
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('closes by click on the background');
-      },
-    },
-  },
-};
 
 export const ModalWithVeryLongHeaderWithoutSpaces = () => (
   <Modal width={350}>
@@ -751,7 +538,7 @@ export const ModalWithHeaderFromOtherComponent = () => {
   );
 };
 ModalWithHeaderFromOtherComponent.storyName = 'Modal with Header from other Component';
-ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: [true] } };
+ModalWithHeaderFromOtherComponent.parameters = { creevey: { skip: true } };
 
 export const ModalBodyWithoutPadding = () => (
   <ThemeContext.Consumer>
@@ -809,13 +596,6 @@ export const ModalWithChildrenFromOtherComponent = () => (
     <Footer />
   </Modal>
 );
-
-ModalWithChildrenFromOtherComponent.parameters = {
-  creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: ['top', 'middle'] }],
-    tests: TopMiddleBottomModalTests,
-  },
-};
 
 export const MobileModal: Story = () => {
   const [isOpen, setOpen] = useState(false);
@@ -893,57 +673,5 @@ MobileModal.storyName = 'Mobile modal';
 MobileModal.parameters = {
   viewport: {
     defaultViewport: 'iphonePlus',
-  },
-  creevey: {
-    tests: {
-      async top() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(200);
-
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('top');
-      },
-      async middle() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(200);
-
-        await this.browser.executeScript(function () {
-          const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
-          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ') as HTMLElement;
-
-          modalContent.scrollTop = modalBody.offsetHeight / 2;
-        });
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('middle');
-      },
-      async bottom() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
-        await delay(200);
-
-        await this.browser.executeScript(function () {
-          const modalContent = window.document.querySelector('.focus-lock-container') as HTMLElement;
-          const modalBody = window.document.querySelector('[data-comp-name~="ModalBody"] ') as HTMLElement;
-
-          modalContent.scrollTop = modalBody.offsetHeight;
-        });
-
-        await delay(100);
-        await this.expect(await this.browser.takeScreenshot()).to.matchImage('bottom');
-      },
-    },
-  },
+  }
 };
