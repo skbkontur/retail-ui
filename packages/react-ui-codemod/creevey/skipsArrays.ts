@@ -16,10 +16,10 @@ const transformSkips = (api: API, collection: Collection<any>): boolean => {
         if (value.type === 'ArrayExpression') {
           const { elements } = value;
 
-          if (elements.length === 1) {
+          if (elements.length === 1 && elements[0].type === 'BooleanLiteral') {
             skip.value = elements[0];
             modified = true;
-          } else if (elements.length > 1) {
+          } else if (elements.length !== 0) {
             const props = [];
             elements.forEach((e, i) => {
               let reason = '';
