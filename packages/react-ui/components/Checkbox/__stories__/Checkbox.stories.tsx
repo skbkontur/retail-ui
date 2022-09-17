@@ -198,7 +198,7 @@ export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
 Unchecked.storyName = 'unchecked';
 Unchecked.parameters = { creevey: { skip: [true] } };
 
-export const Checked = () => <Checkbox checked>Checked</Checkbox>;
+export const Checked: Story = () => <Checkbox checked>Checked</Checkbox>;
 Checked.storyName = 'checked';
 
 Checked.parameters = {
@@ -209,9 +209,42 @@ Checked.parameters = {
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
     ],
     tests: {
-      idle: checkboxTests['idle'],
-      hovered: checkboxTests['hovered'],
-      pressed: checkboxTests['pressed'],
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async hovered() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: 'span' }),
+          })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
+      },
+      async pressed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: 'span' }),
+          })
+          .press()
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .release()
+          .perform();
+      },
     },
   },
 };
