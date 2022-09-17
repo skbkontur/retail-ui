@@ -284,7 +284,7 @@ const createTestFile = (
     mkdirSync(dir, { recursive: true });
   }
 
-  const ext = path.extname(filePath);
+  const ext = path.extname(filePath).startsWith('.ts') ? '.ts' : '.js';
 
   const testFilePath = path.join(dir + kind.split('/').pop() + '.creevey' + ext);
 
