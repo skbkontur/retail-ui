@@ -10506,9 +10506,10 @@ create-react-context@0.3.0:
     gud "^1.0.0"
     warning "^4.0.3"
 
-creevey@./creevey-v0.9.0-beta.13.tgz:
-  version "0.9.0-beta.13"
-  resolved "./creevey-v0.9.0-beta.13.tgz#73af71dd8109a73e1fe2d275b67f1b0f45ebac0c"
+creevey@0.9.0-beta.0:
+  version "0.9.0-beta.0"
+  resolved "https://registry.npmjs.org/creevey/-/creevey-0.9.0-beta.0.tgz#39a30c9d3c2ecc8796353216324816dfbfb65ace"
+  integrity sha512-kVpue6sO8M4H6gCfWzZVYNKu9JtlqN+1zWKekuvBKuoVw7l2+22yh+0WyrJx5gW0+306KF55vHbNBbhPkbf2dw==
   dependencies:
     "@babel/code-frame" "^7.12.13"
     "@babel/generator" "^7.15.0"
@@ -20915,7 +20916,7 @@ select@^1.1.2:
   resolved "https://registry.npmjs.org/select/-/select-1.1.2.tgz#0e7350acdec80b1108528786ec1d4418d11b396d"
   integrity sha1-DnNQrN7ICxEIUoeG7B1EGNEbOW0=
 
-selenium-webdriver@4.0.0-beta.4, selenium-webdriver@^4.0.0-beta.3:
+selenium-webdriver@^4.0.0-beta.3:
   version "4.0.0-beta.4"
   resolved "https://registry.npmjs.org/selenium-webdriver/-/selenium-webdriver-4.0.0-beta.4.tgz#db4fc7505a515ea3b4a95ded031b738a1544eddd"
   integrity sha512-+s/CIYkWzmnC9WASBxxVj7Lm0dcyl6OaFxwIJaFCT5WCuACiimEEr4lUnOOFP/QlKfkDQ56m+aRczaq2EvJEJg==
