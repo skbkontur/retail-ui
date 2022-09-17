@@ -21,7 +21,7 @@ module.exports = {
   },
   managerWebpack: (config) => {
     config.module.rules.push({
-      test: /node_modules\/(creevey)\/.*\.js$/,
+      test: /(creevey)\/.*\.js$/,
       loader: 'babel-loader',
       options: {
         babelrc: false,
