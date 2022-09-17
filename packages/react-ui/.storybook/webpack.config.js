@@ -51,13 +51,13 @@ module.exports = async ({ config, mode }) => {
     { test: /\.(jpe?g|png|gif|svg)$/i, loader: 'url-loader' },
   ];
 
-  config.plugins.push(
-    new ForkTsCheckerWebpackPlugin({
-      typescript: {
-        configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
-      },
-    }),
-  );
+  // config.plugins.push(
+  //   new ForkTsCheckerWebpackPlugin({
+  //     typescript: {
+  //       configFile: path.resolve(__dirname, '../prod.tsconfig.json'),
+  //     },
+  //   }),
+  // );
 
   // NOTE Need to allow write tests inside stories for Creevey
   config.node = { __filename: true };
