@@ -266,31 +266,12 @@ export default { title: 'DateInput' } as Meta;
 export const Simple: Story = () => <DateInputSimple defaultValue="01.02.2017" />;
 Simple.storyName = 'simple';
 
-Simple.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async focus() {
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.expect(await this.takeScreenshot()).to.matchImage('focus');
-      },
-    },
-  },
-};
-
 export const WithAutoFocus: Story = () => <DateInput autoFocus />;
 WithAutoFocus.storyName = 'with autoFocus';
 
 export const Formatting = () => <DateInputFormatting />;
 Formatting.storyName = 'formatting';
-Formatting.parameters = { creevey: { skip: [true] } };
+Formatting.parameters = { creevey: { skip: true } };
 
 export const DifferentFormatting = () => <DateInputDifferentFormatting />;
 DifferentFormatting.storyName = 'different formatting';
@@ -298,141 +279,13 @@ DifferentFormatting.storyName = 'different formatting';
 export const Disabled: Story = () => <DateInputSimple disabled defaultValue="01.02.2017" />;
 Disabled.storyName = 'disabled';
 
-Disabled.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async focus() {
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.expect(await this.takeScreenshot()).to.matchImage('focus');
-      },
-    },
-  },
-};
-
 export const WithWidth: Story = () => <DateInputSimple width="50px" defaultValue="01.02.2017" />;
 WithWidth.storyName = 'with width';
-
-WithWidth.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async focus() {
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.expect(await this.takeScreenshot()).to.matchImage('focus');
-      },
-    },
-  },
-};
 
 export const BlurAlwaysAfterChange: Story = () => <DateInputLastEvent />;
 BlurAlwaysAfterChange.storyName = 'blur always after change';
 
-BlurAlwaysAfterChange.parameters = {
-  creevey: {
-    tests: {
-      async 'value not changed'() {
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'body' }))
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('value not changed');
-      },
-      async 'value changed'() {
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys('12')
-          .click(this.browser.findElement({ css: 'body' }))
-          .pause(500)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('value changed');
-      },
-      async 'value restored'() {
-        await this.browser.executeScript(function () {
-          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
-          window.OldDate = window.Date;
-          // @ts-expect-error: Read the comment above.
-          window.Date = function () {
-            // @ts-expect-error: Read the comment above.
-            return new window.OldDate(2000, 0, 1);
-          };
-        });
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.DELETE)
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-        await this.browser.executeScript(function () {
-          // @ts-expect-error: `window` object doesn't expose types by default. See: https://github.com/microsoft/TypeScript/issues/19816.
-          if (window.OldDate) {
-            // @ts-expect-error: Read the comment above.
-            window.Date = window.OldDate;
-          }
-        });
-        await this.expect(await this.takeScreenshot()).to.matchImage('value restored');
-      },
-    },
-  },
-};
-
 export const WithNoValue: Story = () => <DateInput />;
-WithNoValue.parameters = {
-  creevey: {
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-      async focused() {
-        await this.browser.executeScript(function () {
-          const input = window.document.querySelector("[data-comp-name~='DateInput']");
-          if (input instanceof HTMLElement) {
-            input.focus();
-          }
-        });
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};
 
 export const WithError = () => (
   <Gapped vertical>
@@ -449,18 +302,3 @@ export const ShouldSetFocusOnPlaceholderClick: Story = () => {
   return <DateInput />;
 };
 ShouldSetFocusOnPlaceholderClick.storyName = 'should set focus on placeholder click';
-ShouldSetFocusOnPlaceholderClick.parameters = {
-  creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
-    tests: {
-      async focused() {
-        const DateInputPlaceholder = this.browser.findElement({ css: '[data-tid~="DateFragmentsView__placeholder"]' });
-
-        await this.browser.actions({ bridge: true }).click(DateInputPlaceholder).perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage();
-      },
-    },
-  },
-};

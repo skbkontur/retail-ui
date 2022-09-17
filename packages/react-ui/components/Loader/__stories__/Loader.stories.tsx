@@ -103,7 +103,7 @@ export const Simple = () => {
     </>
   );
 };
-Simple.parameters = { creevey: { skip: [true] } };
+Simple.parameters = { creevey: { skip: true } };
 
 export const TypeBig = () => (
   <ContentComponent>
@@ -111,7 +111,7 @@ export const TypeBig = () => (
   </ContentComponent>
 );
 TypeBig.storyName = 'Type "big"';
-TypeBig.parameters = { creevey: { skip: [true] } };
+TypeBig.parameters = { creevey: { skip: true } };
 
 export const TypeBigWithText = () => (
   <div style={{ width: 400 }}>
@@ -192,7 +192,7 @@ export const TypeBigWithText = () => (
   </div>
 );
 TypeBigWithText.storyName = 'Type "big" with text';
-TypeBigWithText.parameters = { creevey: { skip: [true] } };
+TypeBigWithText.parameters = { creevey: { skip: true } };
 
 export const VerticalScroll = () => (
   <ContentComponent>
@@ -200,7 +200,7 @@ export const VerticalScroll = () => (
   </ContentComponent>
 );
 VerticalScroll.storyName = 'Vertical scroll';
-VerticalScroll.parameters = { creevey: { skip: [true] } };
+VerticalScroll.parameters = { creevey: { skip: true } };
 
 export const HorizontalScroll = () => (
   <ContentComponent additionalStyle={{ width: '2500px' }}>
@@ -208,7 +208,7 @@ export const HorizontalScroll = () => (
   </ContentComponent>
 );
 HorizontalScroll.storyName = 'Horizontal scroll';
-HorizontalScroll.parameters = { creevey: { skip: [true] } };
+HorizontalScroll.parameters = { creevey: { skip: true } };
 
 export const BothDimensionsScrollableContentWithSpacesAround = () => (
   <ContentComponent additionalStyle={{ width: '2500px', margin: '600px 200px' }}>
@@ -216,43 +216,13 @@ export const BothDimensionsScrollableContentWithSpacesAround = () => (
   </ContentComponent>
 );
 BothDimensionsScrollableContentWithSpacesAround.storyName = 'Both dimensions scrollable content with spaces around';
-BothDimensionsScrollableContentWithSpacesAround.parameters = { creevey: { skip: [true] } };
+BothDimensionsScrollableContentWithSpacesAround.parameters = { creevey: { skip: true } };
 
 export const ActiveLoader: Story = () => <LoaderAndButton active />;
 ActiveLoader.storyName = 'Active loader';
 
-ActiveLoader.parameters = {
-  creevey: {
-    tests: {
-      async 'covers children'() {
-        const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
-        const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
-
-        await this.browser.actions({ bridge: true }).click(button).perform();
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('cover children');
-      },
-    },
-  },
-};
-
 export const InactiveLoader: Story = () => <LoaderAndButton active={false} />;
 InactiveLoader.storyName = 'Inactive loader';
-
-InactiveLoader.parameters = {
-  creevey: {
-    tests: {
-      async "doesn't cover children"() {
-        const element = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
-        const button = await this.browser.findElement({ css: '[data-comp-name~="Button"]' });
-
-        await this.browser.actions({ bridge: true }).click(button).perform();
-
-        await this.expect(await element.takeScreenshot()).to.matchImage("doesn't cover children");
-      },
-    },
-  },
-};
 
 export const WrapperWithCustomHeightAndInactiveLoader = () => (
   <ThemeContext.Consumer>
@@ -348,24 +318,4 @@ export const FocusInside: Story = () => {
       </button>
     </div>
   );
-};
-FocusInside.parameters = {
-  creevey: {
-    tests: {
-      async 'focus inside'() {
-        const loader = await this.browser.findElement({ css: '[data-comp-name~="Loader"]' });
-        const toggle = await this.browser.findElement({ css: '[data-tid~="toggle-loader"]' });
-
-        await this.browser.actions().sendKeys(this.keys.TAB).perform();
-        const enabled = await loader.takeScreenshot();
-
-        await this.browser.actions().click(toggle).move({ x: 0, y: 0 }).click().perform();
-
-        await this.browser.actions().sendKeys(this.keys.TAB).perform();
-        const disabled = await loader.takeScreenshot();
-
-        await this.expect({ enabled, disabled }).to.matchImages();
-      },
-    },
-  },
 };

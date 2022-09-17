@@ -27,74 +27,6 @@ export const SimpleDropdown: Story = () => (
   </Dropdown>
 );
 
-SimpleDropdown.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'MenuItem hover' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['MenuItem hover'] },
-    ],
-    tests: {
-      async idle() {
-        const element = await this.browser.findElement({ css: '.dropdown-test-container' });
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('idle');
-      },
-      async clicked() {
-        const element = await this.browser.findElement({ css: '.dropdown-test-container' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
-      },
-      async 'MenuItem hover'() {
-        const element = await this.browser.findElement({ css: '.dropdown-test-container' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }),
-          })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('MenuItem hover');
-      },
-      async 'selected item'() {
-        const element = await this.browser.findElement({ css: '.dropdown-test-container' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="MenuItem"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('selected item');
-      },
-    },
-  },
-};
-
 export const WithFixedWidth: Story = () => (
   <Dropdown caption="Items" width={300}>
     <MenuItem>Menu item</MenuItem>
@@ -127,25 +59,6 @@ export const WithMenuItemIcon: Story = () => (
 );
 WithMenuItemIcon.storyName = 'With MenuItem icon';
 
-WithMenuItemIcon.parameters = {
-  creevey: {
-    captureElement: '.dropdown-test-container',
-    tests: {
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};
-
 export const WithIconAndOverflow = () => (
   <Dropdown icon={<AddIcon />} caption="Lorem ipsum dollar all mubarak ibn ahmed" width="100px">
     <MenuItem>Menu item</MenuItem>
@@ -161,26 +74,6 @@ export const InsideScrollableContainer: Story = () => (
     </Dropdown>
   </div>
 );
-InsideScrollableContainer.parameters = {
-  creevey: {
-    captureElement: '.dropdown-test-container',
-    tests: {
-      async scrolled() {
-        await this.browser
-          .actions()
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
-          .perform();
-        const opened = await this.takeScreenshot();
-        await this.browser.executeScript(function () {
-          const scrollContainer = window.document.querySelector('.dropdown-test-container') as HTMLElement;
-          scrollContainer.scrollTop = scrollContainer.scrollHeight;
-        });
-        const scrolled = await this.takeScreenshot();
-        await this.expect({ opened, scrolled }).to.matchImages();
-      },
-    },
-  },
-};
 
 export const WithCustomSelectTheme: Story = () => {
   return (
@@ -200,19 +93,3 @@ export const WithCustomSelectTheme: Story = () => {
   );
 };
 WithCustomSelectTheme.storyName = 'with custom select theme';
-
-WithCustomSelectTheme.parameters = {
-  creevey: {
-    tests: {
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Dropdown"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};

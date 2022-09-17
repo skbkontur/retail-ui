@@ -84,64 +84,6 @@ export const WithMaxHeight: Story = () => (
 );
 WithMaxHeight.storyName = 'with maxHeight';
 
-WithMaxHeight.parameters = {
-  creevey: {
-    captureElement: '[data-tid="menu-container"',
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async 'moved up from top to the last Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved up from top to the last Item');
-      },
-      async 'moved up from bottom to the first Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved up from bottom to the first Item');
-      },
-      async 'moved down from top to the last Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved down from top to the last Item');
-      },
-      async 'moved down from bottom to the first Item'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-up' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .click(this.browser.findElement({ css: '#move-down' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('moved down from bottom to the first Item');
-      },
-    },
-  },
-};
-
 export const WithWidth = () => (
   <Menu width={300}>
     <MenuHeader>MenuHeader</MenuHeader>
@@ -182,26 +124,6 @@ export const WithDisabledMenuItem: Story = () => (
   </Menu>
 );
 WithDisabledMenuItem.storyName = 'with disabled MenuItem';
-
-WithDisabledMenuItem.parameters = {
-  creevey: {
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['mouseenter'] },
-    ],
-    tests: {
-      async mouseenter() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="menuitem-notdisabled"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('mouseenter');
-      },
-    },
-  },
-};
 
 class MoveControls extends React.Component {
   private menu: Menu | null = null;

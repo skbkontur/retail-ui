@@ -86,168 +86,17 @@ class IndeterminatePlayground extends React.Component {
   };
 }
 
-const checkboxTests: CreeveyTests = {
-  async idle() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
-  async hovered() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'span' }),
-      })
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-  },
-  async pressed() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: 'span' }),
-      })
-      .press()
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .release()
-      .perform();
-  },
-  async clicked() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'span' }))
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-  },
-  async tabPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'span' }))
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: this.browser.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  },
-  async spacePress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: 'span' }))
-      .perform();
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({ origin: this.browser.findElement({ css: 'body' }) })
-      .press()
-      .release()
-      .sendKeys(this.keys.TAB)
-      .pause(1000)
-      .sendKeys(this.keys.SPACE)
-      .pause(1000)
-      .perform();
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('spacePress');
-  },
-};
-
 export default { title: 'Checkbox' } as Meta;
 
 export const Plain: Story = () => <PlainCheckbox>Plain checkbox</PlainCheckbox>;
 Plain.storyName = 'plain';
 
-Plain.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
-    ],
-    tests: checkboxTests,
-  },
-};
-
 export const Unchecked = () => <Checkbox>Unchecked</Checkbox>;
 Unchecked.storyName = 'unchecked';
-Unchecked.parameters = { creevey: { skip: [true] } };
+Unchecked.parameters = { creevey: { skip: true } };
 
 export const Checked: Story = () => <Checkbox checked>Checked</Checkbox>;
 Checked.storyName = 'checked';
-
-Checked.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'pressed', 'clicked'] },
-    ],
-    tests: {
-      async idle() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-      },
-      async hovered() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'span' }),
-          })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-      },
-      async pressed() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'span' }),
-          })
-          .press()
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .release()
-          .perform();
-      },
-    },
-  },
-};
 
 export const Disabled = () => <Checkbox disabled>Disabled</Checkbox>;
 Disabled.storyName = 'disabled';
@@ -275,7 +124,7 @@ export const WithMouseEnterLeaveHandlers = () => (
   </Checkbox>
 );
 WithMouseEnterLeaveHandlers.storyName = 'with mouse enter/leave handlers';
-WithMouseEnterLeaveHandlers.parameters = { creevey: { skip: [true] } };
+WithMouseEnterLeaveHandlers.parameters = { creevey: { skip: true } };
 
 export const WithALongLabel = () => (
   <div>
@@ -329,66 +178,10 @@ export const ProgrammaticFocus = () => {
   );
 };
 ProgrammaticFocus.storyName = 'programmatic focus';
-ProgrammaticFocus.parameters = { creevey: { skip: [true] } };
+ProgrammaticFocus.parameters = { creevey: { skip: true } };
 
 export const Indeterminate: Story = () => <IndeterminatePlayground>Label</IndeterminatePlayground>;
 Indeterminate.storyName = 'indeterminate';
-
-Indeterminate.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
-    ],
-    tests: {
-      async plain() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('plain');
-      },
-      async hovered() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: 'label' }),
-          })
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('hovered');
-      },
-      async tabPress() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async clicked() {
-        const element = await this.browser.findElement({ css: '#screenshot-capture' });
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'label' }))
-          .perform();
-        await delay(1000);
-
-        await this.expect(await element.takeScreenshot()).to.matchImage('clicked');
-      },
-    },
-  },
-};
 
 export const Highlighted: Story = () => {
   return (
@@ -407,27 +200,6 @@ export const Highlighted: Story = () => {
 };
 Highlighted.storyName = 'highlighted';
 
-Highlighted.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await delay(1000);
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-    },
-  },
-};
-
 export const CheckboxLabelSelectionWithPressedShift: Story = () => {
   const [checked, setChecked] = useState(false);
 
@@ -438,22 +210,3 @@ export const CheckboxLabelSelectionWithPressedShift: Story = () => {
   );
 };
 CheckboxLabelSelectionWithPressedShift.storyName = 'checkbox label selection with pressed shift';
-
-CheckboxLabelSelectionWithPressedShift.parameters = {
-  creevey: {
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async 'selected with pressed shift'() {
-        const checkbox = await this.browser.findElement({ css: '[data-comp-name~="Checkbox"]' });
-
-        await this.browser.actions({ bridge: true }).keyDown(this.keys.SHIFT).click(checkbox).perform();
-
-        await this.expect(await this.takeScreenshot()).to.matchImage('selected with pressed shift');
-
-        await this.browser.actions({ bridge: true }).keyUp(this.keys.SHIFT).perform();
-      },
-    },
-  },
-};
