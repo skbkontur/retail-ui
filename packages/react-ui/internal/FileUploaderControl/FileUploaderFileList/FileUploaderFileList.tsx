@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 
 import { FileUploaderControlContext } from '../FileUploaderControlContext';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
@@ -6,6 +6,7 @@ import { FileUploaderFile } from '../FileUploaderFile/FileUploaderFile';
 import { FileUploaderAttachedFile } from '../fileUtils';
 import { FileUploaderSize } from '../../../components/FileUploader';
 import { cx } from '../../../lib/theming/Emotion';
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 
 import { jsStyles } from './FileUploaderFileList.styles';
 
@@ -23,18 +24,11 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   const { files } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
-  const fileWrapperClass = useMemo(() => {
-    switch (size) {
-      case 'large':
-        return jsStyles.fileWrapperLarge(theme);
-      case 'medium':
-        return jsStyles.fileWrapperMedium(theme);
-      case 'small':
-        return jsStyles.fileWrapperSmall(theme);
-      default:
-        return jsStyles.fileWrapperSmall(theme);
-    }
-  }, [size]);
+  const fileWrapperClass = useFileUploaderSize(size, {
+    small: jsStyles.fileWrapperSmall(theme),
+    medium: jsStyles.fileWrapperMedium(theme),
+    large: jsStyles.fileWrapperLarge(theme),
+  });
 
   return (
     <div data-tid={FileUploaderFileDataTids.fileList}>

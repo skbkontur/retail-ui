@@ -15,14 +15,14 @@ import { withFileUploaderControlProvider } from '../../internal/FileUploaderCont
 import { keyListener } from '../../lib/events/keyListener';
 import { FileUploaderFile } from '../../internal/FileUploaderControl/FileUploaderFile/FileUploaderFile';
 import { FileUploaderFileList } from '../../internal/FileUploaderControl/FileUploaderFileList/FileUploaderFileList';
-import { isBrowser, isEdge, isIE11 } from '../../lib/client';
+import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 
 import { jsStyles } from './FileUploader.styles';
-import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -146,9 +146,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   );
 
   const sizeClassName = useFileUploaderSize(size, {
-    small: cx(jsStyles.sizeSmall(theme), { [jsStyles.sizeSmallIE11(theme)]: isIE11 || isEdge }),
-    medium: cx(jsStyles.sizeMedium(theme), { [jsStyles.sizeMediumIE11(theme)]: isIE11 || isEdge }),
-    large: cx(jsStyles.sizeLarge(theme), { [jsStyles.sizeLargeIE11(theme)]: isIE11 || isEdge }),
+    small: cx(jsStyles.sizeSmall(theme)),
+    medium: cx(jsStyles.sizeMedium(theme)),
+    large: cx(jsStyles.sizeLarge(theme)),
   });
 
   const sizeIconClass = useFileUploaderSize(size, {

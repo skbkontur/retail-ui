@@ -16,9 +16,9 @@ import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
 import { FileUploaderSize } from '../../../components/FileUploader';
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 
 import { jsStyles } from './FileUploaderFile.styles';
-import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;

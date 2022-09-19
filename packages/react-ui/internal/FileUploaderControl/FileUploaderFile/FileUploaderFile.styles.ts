@@ -39,7 +39,6 @@ const styles = {
   icon(t: Theme) {
     return css`
       width: 16px;
-      margin-left: 4px;
       flex: 1 0 auto;
       cursor: pointer;
       font-size: ${t.fileUploaderIconSize};
@@ -52,6 +51,7 @@ const styles = {
 
   iconSmall(t: Theme) {
     return css`
+      margin-left: 4px;
       right: ${t.fileUploaderPaddingXSmall};
     `;
   },

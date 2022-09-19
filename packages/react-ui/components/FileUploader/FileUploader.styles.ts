@@ -1,6 +1,7 @@
 import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
-import { buttonSizeMixin, buttonSizeMixinIE11 } from '../Button/Button.mixins';
+
+import { fileUploaderSizeMixin } from './FileUploader.mixins';
 
 const styles = {
   pulse() {
@@ -169,7 +170,6 @@ const styles = {
   icon(t: Theme) {
     return css`
       display: inline-block;
-      // font-size: ${t.fileUploaderIconSize};
       position: absolute;
       color: ${t.fileUploaderIconColor};
       text-align: right;
@@ -207,73 +207,34 @@ const styles = {
 
   sizeSmall(t: Theme) {
     return css`
-      ${buttonSizeMixin(
+      ${fileUploaderSizeMixin(
         t.fileUploaderFontSizeSmall,
         t.fileUploaderLineHeightSmall,
         t.fileUploaderPaddingXSmall,
         t.fileUploaderPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
       )};
-    `;
-  },
-
-  sizeSmallIE11(t: Theme) {
-    return css`
-      ${buttonSizeMixinIE11(
-        t.fileUploaderFontSizeSmall,
-        t.fileUploaderPaddingXSmall,
-        t.fileUploaderPaddingYSmall,
-        t.fontFamilyCompensationBaseline,
-      )};
-      line-height: ${t.fileUploaderLineHeightSmall};
     `;
   },
 
   sizeMedium(t: Theme) {
     return css`
-      ${buttonSizeMixin(
+      ${fileUploaderSizeMixin(
         t.fileUploaderFontSizeMedium,
         t.fileUploaderLineHeightMedium,
         t.fileUploaderPaddingXMedium,
         t.fileUploaderPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
       )};
-    `;
-  },
-
-  sizeMediumIE11(t: Theme) {
-    return css`
-      ${buttonSizeMixinIE11(
-        t.fileUploaderFontSizeMedium,
-        t.fileUploaderPaddingXMedium,
-        t.fileUploaderPaddingYMedium,
-        t.fontFamilyCompensationBaseline,
-      )};
-      line-height: ${t.fileUploaderLineHeightMedium};
     `;
   },
 
   sizeLarge(t: Theme) {
     return css`
-      ${buttonSizeMixin(
+      ${fileUploaderSizeMixin(
         t.fileUploaderFontSizeLarge,
         t.fileUploaderLineHeightLarge,
         t.fileUploaderPaddingXLarge,
         t.fileUploaderPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
       )};
-    `;
-  },
-
-  sizeLargeIE11(t: Theme) {
-    return css`
-      ${buttonSizeMixinIE11(
-        t.fileUploaderFontSizeLarge,
-        t.fileUploaderPaddingXLarge,
-        t.fileUploaderPaddingYLarge,
-        t.fontFamilyCompensationBaseline,
-      )};
-      line-height: ${t.fileUploaderLineHeightLarge};
     `;
   },
 
