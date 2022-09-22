@@ -215,13 +215,14 @@ describe('DatePicker', () => {
     render(<Comp />);
 
     const input = screen.getByTestId(InputLikeTextDataTids.input);
-    expect(input).toHaveTextContent('24.08.2022');
+    expect(input).toHaveTextContent(/^24.08.2022$/);
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
     const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
-    expect(input).toHaveTextContent(expected, { normalizeWhitespace: false });
+    const expectedRegExp = new RegExp(`^${expected}$`);
+    expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
 
     userEvent.type(input, '24.08.2022');
-    expect(input).toHaveTextContent('24.08.2022');
+    expect(input).toHaveTextContent(/^24.08.2022$/);
   });
 });
