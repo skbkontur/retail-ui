@@ -12,6 +12,8 @@ export interface CurrencyLabelProps extends CommonProps {
   fractionDigits?: number;
   value: number;
   currencySymbol?: React.ReactNode;
+  /** Убрать лишние нули после запятой */
+  hideTrailingZeros?: boolean;
 }
 
 const FRACTION_DIGITS_DEFAULT = 2;
@@ -24,12 +26,13 @@ export const CurrencyLabel = ({
   value,
   fractionDigits = FRACTION_DIGITS_DEFAULT,
   currencySymbol,
+  hideTrailingZeros = false,
   ...rest
 }: CurrencyLabelProps): JSX.Element => {
   return (
     <CommonWrapper {...rest}>
       <span data-tid={CurrencyLabelDataTids.root}>
-        {CurrencyHelper.format(value, { fractionDigits })}
+        {CurrencyHelper.format(value, { fractionDigits, hideTrailingZeros })}
         {currencySymbol && String.fromCharCode(0xa0) /* &nbsp; */}
         {currencySymbol}
       </span>
