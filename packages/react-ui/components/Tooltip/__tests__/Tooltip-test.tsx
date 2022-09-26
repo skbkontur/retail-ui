@@ -638,7 +638,7 @@ describe('Tooltip', () => {
     );
     const instance = wrapper.instance();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    const timer = setTimeout(() => { });
+    const timer = setTimeout(() => {});
     // @ts-expect-error: private property
     instance.hoverTimeout = timer;
 
