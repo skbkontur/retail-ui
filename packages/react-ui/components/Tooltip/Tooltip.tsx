@@ -93,7 +93,7 @@ export interface TooltipProps extends CommonProps {
    * Хэндлер, вызываемый при клике по крестику или
    * снаружи тултипа
    */
-  onCloseRequest?: () => void;
+  onCloseRequest?: (event?: Event | React.MouseEvent) => void;
 
   /**
    * Хэндлер, вызываемый при закрытии тултипа
@@ -485,7 +485,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     this.clickedOutside = this.isClickOutsideContent(event);
     if (this.clickedOutside) {
       if (this.props.onCloseRequest) {
-        this.props.onCloseRequest();
+        this.props.onCloseRequest(event);
       }
       this.close();
     }
@@ -529,7 +529,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
     }
 
     if (this.props.onCloseRequest) {
-      this.props.onCloseRequest();
+      this.props.onCloseRequest(event);
     }
 
     this.close();
