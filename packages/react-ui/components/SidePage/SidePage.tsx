@@ -54,7 +54,7 @@ export interface SidePageProps extends CommonProps {
   onClose?: () => void;
 
   /**
-   * Вызывается, когда сайдпейдж полностью открылся
+   * Вызывается, когда анимация открытия сайдпейджа полностью прошла
    */
   onOpened?: () => void;
 
@@ -193,7 +193,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                         exit: TRANSITION_TIMEOUT,
                       }}
                       nodeRef={this.rootRef}
-                      onEntered={() => onOpened && onOpened()}
+                      onEntered={onOpened}
                     >
                       {this.renderContainer(isMobile)}
                     </CSSTransition>
