@@ -457,7 +457,6 @@ class DropdownWithScrollStateChange extends React.Component<DropdownMenuProps> {
     return (
       <div
         style={{
-          backgroundColor: 'rgba(131, 128, 128, 0.15)',
           margin: '-6px -18px -7px -8px',
           padding: '10px 18px 10px 8px',
         }}

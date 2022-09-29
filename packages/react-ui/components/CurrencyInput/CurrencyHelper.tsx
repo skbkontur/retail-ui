@@ -4,7 +4,7 @@ import { isSafari } from '../../lib/client';
 
 import { DecimalOptions } from './CurrencyInputHelper';
 import { CursorMap } from './CursorHelper';
-import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS } from './constants';
+import { MAX_ALLOWED_CHARS, MAX_SAFE_DIGITS, MINUS_SIGN, SPACE, THIN_SPACE } from './constants';
 
 export interface DecimalFormattingOptions {
   fractionDigits?: Nullable<number>;
@@ -25,8 +25,8 @@ export class CurrencyHelper {
   public static defaultOptions: DecimalFormattingOptionsInternal = {
     fractionDigits: null,
     hideTrailingZeros: false,
-    thousandsDelimiter: String.fromCharCode(isSafari ? 0x0020 : 0x2009),
-    minusSign: String.fromCharCode(0x2212),
+    thousandsDelimiter: isSafari ? SPACE : THIN_SPACE,
+    minusSign: MINUS_SIGN,
   };
 
   public static getOptions(options?: Nullable<DecimalFormattingOptions>): DecimalFormattingOptionsInternal {

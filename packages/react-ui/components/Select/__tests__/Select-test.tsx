@@ -225,10 +225,11 @@ describe('Select', () => {
     render(<Comp />);
 
     const input = screen.getByText('One');
-    expect(input).toHaveTextContent('One');
+    expect(input).toHaveTextContent(/^One$/);
 
     userEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    expect(input).toHaveTextContent(SelectLocaleHelper.get(defaultLangCode).placeholder as string);
+    const placeholderRegExp = new RegExp(`^${SelectLocaleHelper.get(defaultLangCode).placeholder}$`);
+    expect(input).toHaveTextContent(placeholderRegExp);
   });
 
   describe('Locale', () => {
