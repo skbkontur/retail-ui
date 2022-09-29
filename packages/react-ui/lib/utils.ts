@@ -52,20 +52,6 @@ export function isClassComponent(Component: React.ReactNode): boolean {
   return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
 }
 
-export function isDOMTypeElement(element: React.ReactNode) {
-  return React.isValidElement(element) && typeof element.type === 'string';
-}
-
-export function isCompositeTypeElement(element: React.ReactNode) {
-  return React.isValidElement(element) && typeof element.type === 'function';
-}
-
-export function isComponentOrElement(node: React.ReactNode) {
-  return (
-    isClassComponent(node) || isFunctionalComponent(node) || isDOMTypeElement(node) || isCompositeTypeElement(node)
-  );
-}
-
 export function isIntrinsicElement(element: React.ReactElement): boolean {
   return typeof element.type === 'string';
 }

@@ -22,7 +22,7 @@ import { MenuSeparator } from '../MenuSeparator';
 import { RenderLayer } from '../../internal/RenderLayer';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
-import { isComponentOrElement, isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
+import { isFunction, isNonNullable, isReactUINode } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
@@ -673,7 +673,8 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   };
 
   private findButtonElement = (child: React.ReactNode): React.ReactNode => {
-    if (isComponentOrElement(child)) {
+    // @ts-expect-error: accessing internal value
+    if (child?.type.__KONTUR_REACT_UI__ === 'Button') {
       return child;
     }
 
@@ -686,7 +687,9 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       ? this.props._renderButton(buttonParams)
       : this.renderDefaultButton(buttonParams);
 
-    const buttonElement = this.findButtonElement(React.Children.only(button));
+    const buttonElement = this.props._renderButton
+      ? React.Children.only(button)
+      : this.findButtonElement(React.Children.only(button));
 
     return React.isValidElement(buttonElement)
       ? React.cloneElement(buttonElement as React.ReactElement, {
