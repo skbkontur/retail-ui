@@ -123,6 +123,44 @@ import { MenuItem } from '@skbkontur/react-ui';
 </DropdownMenu>;
 ```
 
+Пример с чекбоксом внутри MenuItem.
+
+```jsx harmony
+import { MenuItem, Checkbox, Button } from '@skbkontur/react-ui';
+
+const [checked, setChecked] = React.useState(false);
+
+let close;
+
+const renderCaption = ({ openMenu, closeMenu }) => {
+  close = closeMenu;
+  return (
+    <Button onClick={openMenu} use="primary">
+      Открыть меню
+    </Button>
+  );
+};
+
+<DropdownMenu caption={renderCaption}>
+  <MenuItem onClick={(e) => e.preventDefault()}>Просто пункт</MenuItem>
+  <MenuItem
+    onClick={(e) => {
+      e.preventDefault();
+      setChecked(!checked);
+    }}
+  >
+    <Checkbox checked={checked}>с чекбоксом</Checkbox>
+  </MenuItem>
+  <MenuItem
+    onClick={(e) => {
+      e.preventDefault();
+      close();
+    }}
+  >
+    Закрыть
+  </MenuItem>
+</DropdownMenu>
+```
 
 Условный рендер элементов меню (с сохранением поведения [`MenuItem`](#/Components/MenuItem)).
 
