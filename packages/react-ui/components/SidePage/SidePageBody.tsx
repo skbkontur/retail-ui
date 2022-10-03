@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { ResizeDetector } from '../../internal/ResizeDetector';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { cx } from '../../lib/theming/Emotion';
@@ -35,6 +36,10 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
     this.context.updateLayout();
   }
 
+  private handleResize = () => {
+    this.context.updateLayout();
+  };
+
   public render() {
     return (
       <ThemeContext.Consumer>
@@ -45,7 +50,7 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
                 data-tid={SidePageBodyDataTids.root}
                 className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}
               >
-                {this.props.children}
+                <ResizeDetector onResize={this.handleResize}>{this.props.children}</ResizeDetector>
               </div>
             </CommonWrapper>
           );
