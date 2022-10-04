@@ -93,4 +93,9 @@ export const styles = memoizeStyle({
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
+  iconMobile(t: Theme) {
+    return css`
+      top: ${t.menuItemPaddingMobileY};
+    `;
+  },
 });

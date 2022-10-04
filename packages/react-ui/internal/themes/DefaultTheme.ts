@@ -966,7 +966,15 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
+  // Variable `menuItemPaddingMobile` exists only for backwards compatibility
+  // TODO: remove `menuItemPaddingMobile` in a major release
   public static menuItemPaddingMobile = '12px 16px';
+  public static get menuItemPaddingMobileY() {
+    return this.menuItemPaddingMobile.split(' ')[0];
+  }
+  public static get menuItemPaddingMobileX() {
+    return this.menuItemPaddingMobile.split(' ')[1];
+  }
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;

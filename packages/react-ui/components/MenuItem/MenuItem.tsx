@@ -158,7 +158,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={styles.icon(this.theme)}>{icon}</div>;
+      iconElement = (
+        <div className={cx({ [styles.icon(this.theme)]: true, [styles.iconMobile(this.theme)]: isMobile })}>{icon}</div>
+      );
     }
 
     const className = cx({
