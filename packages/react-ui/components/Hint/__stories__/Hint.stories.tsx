@@ -64,6 +64,19 @@ export const Bottom = () => (
 );
 Bottom.storyName = 'bottom';
 
+export const TopBottomCenter = () => (
+  <div style={{ width: '200px', display: 'flex', justifyContent: 'space-between' }}>
+    <Hint pos="top center" text="Something will never be down" manual opened>
+      <span className="hint-content">Top</span>
+    </Hint>
+
+    <Hint pos="bottom center" text="Something will never be up" manual opened>
+      <span className="hint-content">Bottom</span>
+    </Hint>
+  </div>
+);
+TopBottomCenter.storyName = 'top bottom center';
+
 export const WithLargeWord = () => (
   <div style={{ marginTop: -100 }}>
     <Hint

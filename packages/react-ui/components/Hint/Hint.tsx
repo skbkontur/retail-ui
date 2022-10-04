@@ -218,7 +218,8 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     const { maxWidth, pos } = this.getProps();
     const className = cx({
       [styles.content(this.theme)]: true,
-      [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
+      [styles.contentCenter(this.theme)]:
+        pos === 'top' || pos === 'top center' || pos === 'bottom' || pos === 'bottom center',
       [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (
