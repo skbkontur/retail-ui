@@ -7,11 +7,16 @@ import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/loc
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { ComboBox, ComboBoxProps } from '../ComboBox';
-import { InputLikeText } from '../../../internal/InputLikeText';
+import { InputLikeText, InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { MenuItem } from '../../MenuItem';
 import { Menu } from '../../../internal/Menu';
 import { delay } from '../../../lib/utils';
-import { CustomComboBox, DELAY_BEFORE_SHOW_LOADER, LOADER_SHOW_TIME } from '../../../internal/CustomComboBox';
+import {
+  ComboBoxMenuDataTids,
+  CustomComboBox,
+  DELAY_BEFORE_SHOW_LOADER,
+  LOADER_SHOW_TIME,
+} from '../../../internal/CustomComboBox';
 import { ComboBoxView } from '../../../internal/CustomComboBox/ComboBoxView';
 import { ComboBoxRequestStatus } from '../../../internal/CustomComboBox/CustomComboBoxTypes';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
@@ -1301,7 +1306,7 @@ describe('ComboBox', () => {
 
     const addNewElement = async () => {
       render(<Comp />);
-      await userEvent.click(screen.getByTestId('InputLikeText__root'));
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await userEvent.type(screen.getByRole('textbox'), 'newItem');
       await delay(0);
       await userEvent.click(screen.getByTestId('addButton'));
@@ -1316,13 +1321,13 @@ describe('ComboBox', () => {
       await addNewElement();
       await userEvent.click(screen.getByRole('textbox'));
       await delay(0);
-      expect(screen.getAllByTestId('ComboBoxMenu__item')).toHaveLength(4);
+      expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
       clickOutside();
       await delay(0);
-      expect(screen.queryByTestId('ComboBoxMenu__item')).not.toBeInTheDocument();
-      await userEvent.click(screen.getByTestId('InputLikeText__root'));
+      expect(screen.queryByTestId(ComboBoxMenuDataTids.item)).not.toBeInTheDocument();
+      await userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
       await delay(0);
-      expect(screen.getAllByTestId('ComboBoxMenu__item')).toHaveLength(4);
+      expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
   });
 });
