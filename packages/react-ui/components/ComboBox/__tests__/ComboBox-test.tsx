@@ -1299,13 +1299,11 @@ describe('ComboBox', () => {
       );
     };
 
-    const delay = async () => new Promise((r) => setTimeout(r, 0));
-
     const addNewElement = async () => {
       render(<Comp />);
       await userEvent.click(screen.getByTestId('InputLikeText__root'));
       await userEvent.type(screen.getByRole('textbox'), 'newItem');
-      await delay();
+      await delay(0);
       await userEvent.click(screen.getByTestId('addButton'));
     };
 
@@ -1317,13 +1315,13 @@ describe('ComboBox', () => {
     it('show added item after blur', async () => {
       await addNewElement();
       await userEvent.click(screen.getByRole('textbox'));
-      await delay();
+      await delay(0);
       expect(screen.getAllByTestId('ComboBoxMenu__item')).toHaveLength(4);
       clickOutside();
-      await delay();
+      await delay(0);
       expect(screen.queryByTestId('ComboBoxMenu__item')).not.toBeInTheDocument();
       await userEvent.click(screen.getByTestId('InputLikeText__root'));
-      await delay();
+      await delay(0);
       expect(screen.getAllByTestId('ComboBoxMenu__item')).toHaveLength(4);
     });
   });
