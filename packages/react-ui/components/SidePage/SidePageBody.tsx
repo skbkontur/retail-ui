@@ -50,7 +50,9 @@ export class SidePageBody extends React.Component<SidePageBodyProps> {
                 data-tid={SidePageBodyDataTids.root}
                 className={cx(styles.body(theme), { [styles.mobileBody()]: this.isMobileLayout })}
               >
-                <ResizeDetector onResize={this.handleResize}>{this.props.children}</ResizeDetector>
+                <ResizeDetector onResize={this.handleResize} className={this.props.className} style={this.props.style}>
+                  {this.props.children}
+                </ResizeDetector>
               </div>
             </CommonWrapper>
           );
