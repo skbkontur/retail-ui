@@ -966,8 +966,12 @@ export class DefaultTheme {
   }
   public static menuItemCommentColor = '#adadad';
   public static menuItemCommentColorHover = '#fff';
-  // Variable `menuItemPaddingMobile` exists only for backwards compatibility
-  // TODO: remove `menuItemPaddingMobile` in a major release
+  /**
+   * @deprecated
+   * Переменная `menuItemPaddingMobile` существует только для обратной совместимости. Она будет удалена в одном из мажорных релизов.
+   *
+   *  Используйте переменные `menuItemPaddingMobileY` и `menuItemPaddingMobileX` вместо этой переменной.
+   */
   public static menuItemPaddingMobile = '12px 16px';
   public static get menuItemPaddingMobileY() {
     return this.menuItemPaddingMobile.split(' ')[0];
