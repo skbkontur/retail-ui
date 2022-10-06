@@ -33,7 +33,7 @@ export const styles = memoizeStyle({
     return css`
       font-size: ${t.fontSizeMobile};
       line-height: ${t.lineHeightMobile};
-      padding: ${t.menuItemPaddingMobile};
+      padding: ${t.menuItemPaddingMobileY} ${t.menuItemPaddingMobileX};
     `;
   },
 
