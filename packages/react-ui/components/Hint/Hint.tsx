@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { Popup, PopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup, PopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -68,6 +68,7 @@ export interface HintProps extends CommonProps {
 
 export interface HintState {
   opened: boolean;
+  position: PopupPositionsType;
 }
 
 const Positions: PopupPositionsType[] = [
@@ -112,6 +113,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   public state: HintState = {
     opened: this.getProps().manual ? !!this.getProps().opened : false,
+    position: DUMMY_LOCATION.position,
   };
 
   private timer: Nullable<number> = null;
@@ -194,6 +196,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
+          position={(position) => this.setState({ position })}
           disableAnimations={disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
@@ -215,11 +218,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return null;
     }
 
-    const { maxWidth, pos } = this.getProps();
+    const { maxWidth } = this.getProps();
+    const centerAlignPositions = ['top', 'top center', 'bottom', 'bottom center'];
     const className = cx({
       [styles.content(this.theme)]: true,
-      [styles.contentCenter(this.theme)]:
-        pos === 'top' || pos === 'top center' || pos === 'bottom' || pos === 'bottom center',
+      [styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
       [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (

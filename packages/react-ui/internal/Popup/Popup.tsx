@@ -50,7 +50,7 @@ export const DefaultPosition = PopupPositions[0];
 
 export type PopupPositionsType = typeof PopupPositions[number];
 
-const DUMMY_LOCATION: PopupLocation = {
+export const DUMMY_LOCATION: PopupLocation = {
   position: DefaultPosition,
   coordinates: {
     top: -9999,
@@ -101,6 +101,10 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   tryPreserveFirstRenderedPosition?: boolean;
   withoutMobile?: boolean;
   mobileOnCloseRequest?: () => void;
+  /**
+   * Возвращает текущую позицию попапа
+   */
+  position?: (pos: PopupPositionsType) => void;
 }
 
 interface PopupLocation {
@@ -551,6 +555,10 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const location = this.getLocation(popupElement, this.state.location);
+    if (this.props.position) {
+      this.props?.position(location?.position as PopupPositionsType);
+    }
+
     if (!this.locationEquals(this.state.location, location)) {
       this.setState({ location });
     }
