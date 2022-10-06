@@ -310,8 +310,11 @@ export function reducer<T>(
       return [newState, [Effect.search(''), Effect.focus, Effect.selectInputText]];
     }
     case 'InputClick': {
+      const newState = {
+        inputChanged: false,
+      };
       if (!state.opened && props.searchOnFocus) {
-        return [state, [Effect.search('')]];
+        return [newState, [Effect.search('')]];
       }
       return state;
     }
