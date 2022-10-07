@@ -670,11 +670,12 @@ export const styles = memoizeStyle({
 
   text(t: Theme) {
     return css`
+      &,
       &:enabled,
       &:hover:enabled {
-        box-shadow: none !important; // override root:hover style
+        box-shadow: none;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none !important; // override root:hover style
+          box-shadow: none;
         }
       }
 
@@ -731,34 +732,28 @@ export const styles = memoizeStyle({
   },
 
   checked(t: Theme) {
-    const checkedStyles = `
-      background-image: none !important; // override root:hover style
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important; // override root:focus style
-      background-color: ${t.btnCheckedBg} !important; // override root:hover style
-      color: ${t.btnCheckedTextColor};
-
-      .${globalClasses.innerShadow} {
-        box-shadow: ${t.btnCheckedShadow};
-      }
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${t.btnArrowBgImageChecked};
-        }
-      }
-    `;
-
     return css`
-      ${checkedStyles}
-
       &,
       &:hover,
       &:active,
       ${fakeHover} &,
       ${fakeActive} & {
-        ${checkedStyles}
+        background-image: none !important; // override root:hover style
+        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important; // override root:focus style
+        background-color: ${t.btnCheckedBg} !important; // override root:hover style
+        color: ${t.btnCheckedTextColor};
+
+        .${globalClasses.innerShadow} {
+          box-shadow: ${t.btnCheckedShadow};
+        }
+
+        .${globalClasses.arrowHelper} {
+          box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
+
+          &.${globalClasses.arrowHelperTop} {
+            background-image: ${t.btnArrowBgImageChecked};
+          }
+        }
       }
     `;
   },
@@ -1045,7 +1040,14 @@ export const activeStyles = memoizeStyle({
   text(t: Theme) {
     return css`
       & {
-        color: red;
+        ${buttonActiveMixin(
+          t.btnDefaultActiveBg,
+          t.btnDefaultActiveShadow,
+          t.btnDefaultActiveBorderColor,
+          t.btnDefaultActiveBorderTopColor,
+          t.btnBorderWidth,
+          t.btnArrowBgImageActive,
+        )};
       }
     `;
   },

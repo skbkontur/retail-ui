@@ -12,8 +12,8 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkSuccessHoverColor = '#3A6710';
   public static linkSuccessActiveColor = '#325A0C';
 
-  public static linkDangerColor = '#CB3D35';
-  public static linkDangerHoverColor = '#CB3D35';
+  public static linkDangerColor = '#BA342E';
+  public static linkDangerHoverColor = '#BA342E';
   public static linkDangerActiveColor = '#A92A27';
 
   public static linkGrayedColor = '#858585';
@@ -23,13 +23,19 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkLineBottom = '0';
   public static linkLineBorderBottomStyle = 'solid';
   public static linkLineBorderBottomWidth = '1px';
+
+  public static linkDisabledColor = '#858585';
   //#endregion Link
 
-  public static borderColorFocus = '#141414';
+  public static borderColorFocus = '#3d3d3d';
 
   public static bgActive = '#141414';
 
   //#region Button
+  public static btnCheckedBg = '#3D3D3D';
+  public static btnCheckedDisabledBg = '#ADADAD';
+  public static btnCheckedDisabledColor = '#EBEBEB';
+
   public static btnDefaultBg = '#fff';
   public static btnDefaultHoverBg = '#f6f6f6';
   public static btnDefaultHoverBgStart = 'none';
