@@ -1,14 +1,15 @@
 import React from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
+import { HTMLProps } from '../../typings/html-props';
 
 import { styles } from './ResizeDetector.styles';
 
 export interface ResizeDetectorProps {
   onResize?: (event: UIEvent) => void;
   fullHeight?: boolean;
-  className?: React.HTMLAttributes<HTMLElement>['className'];
-  style?: React.HTMLAttributes<HTMLElement>['style'];
+  className?: HTMLProps['div']['className'];
+  style?: HTMLProps['div']['style'];
 }
 
 export class ResizeDetector extends React.Component<ResizeDetectorProps> {
