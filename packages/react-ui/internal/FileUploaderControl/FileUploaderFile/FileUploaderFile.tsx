@@ -27,8 +27,6 @@ interface FileUploaderFileProps {
   size: FileUploaderSize;
   /** Состояние ошибки контрола файла */
   error?: boolean;
-  /** Пропс для пересчета имени файла после скрытия надписи "Выбран файл" */
-  containerChanged?: boolean;
 }
 
 const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, name: string) => {
@@ -46,6 +44,8 @@ const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, n
   return truncate(name, maxCharsCountInSpan);
 };
 
+const MIN_CHARS_LENGTH = 3;
+
 export const FileUploaderFileDataTids = {
   file: 'FileUploader__file',
   fileTooltip: 'FileUploader__fileTooltip',
@@ -55,7 +55,7 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
-  const { file, showSize, error, multiple, size, containerChanged } = props;
+  const { file, showSize, error, multiple, size } = props;
   const { id, originalFile, status, validationResult } = file;
   const { name, size: fileSize } = originalFile;
 
@@ -66,7 +66,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
 
-  const { removeFile } = useContext(FileUploaderControlContext);
+  const { removeFile, isMinLengthReached, setIsMinLengthReached } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
   const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
@@ -76,9 +76,10 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     const fileNameWidth = textHelperRef.current?.getTextWidth() || 0;
     const fileNameElementWidth = getDOMRect(fileNameElementRef.current).width;
     const truncatedName = getTruncatedName(fileNameWidth, fileNameElementWidth, name);
+    setIsMinLengthReached((truncatedName?.length ?? 0) <= MIN_CHARS_LENGTH)
 
     setTruncatedFileName(truncatedName);
-  }, [name, containerChanged]);
+  }, [name, isMinLengthReached]);
 
   const removeUploadFile = useCallback(() => {
     removeFile(id);

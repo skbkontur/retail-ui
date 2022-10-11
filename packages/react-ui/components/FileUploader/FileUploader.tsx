@@ -19,7 +19,6 @@ import { isBrowser } from '../../lib/client';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
-import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 
 import { jsStyles } from './FileUploader.styles';
@@ -84,17 +83,6 @@ export const FileUploaderDataTids = {
 
 const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.ReactElement) => fileNode;
 
-const getMinFileNameWidth = (size: FileUploaderSize) => {
-  switch (size) {
-    case 'small':
-      return 20;
-    case 'medium':
-      return 24;
-    case 'large':
-      return 30;
-  }
-};
-
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
   const theme = useContext(ThemeContext);
 
@@ -117,7 +105,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, reset, setFileValidationResult } = useContext(FileUploaderControlContext);
+  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } = useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
 
@@ -290,12 +278,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   });
 
   useEffect(() => {
-    const containerWidth = getDOMRect(fileDivRef.current).width ?? 0;
-    const minFileNameWidth = getMinFileNameWidth(size);
-    const enoughSpace = minFileNameWidth < containerWidth;
-
-    setIsLinkVisible(hasOneFileForSingle ? enoughSpace : true);
-  }, [size, files, hasOneFileForSingle]);
+    setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);
+  }, [isMinLengthReached, hasOneFileForSingle]);
 
   const rootNodeRef = useRef(null);
 
@@ -328,7 +312,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                     <div ref={fileDivRef} className={jsStyles.singleFile()}>
                       {renderFile(
                         files[0],
-                        <FileUploaderFile file={files[0]} size={size} containerChanged={isLinkVisible} />,
+                        <FileUploaderFile file={files[0]} size={size} />,
                       )}
                     </div>
                   ) : (
