@@ -98,4 +98,9 @@ export const styles = memoizeStyle({
       top: ${t.menuItemPaddingMobileY};
     `;
   },
+  contentMobile() {
+    return css`
+      margin-left: 8px;
+    `;
+  },
 });
