@@ -40,4 +40,35 @@ class SomeComponent {
 }
 ```
 
+В компонент можно передать проп `customMediaQueries: MediaQueriesType`, который позволяет кастомизировать возвращаемые флаги:
+```ts static
+type MediaQueriesType = Record<string, string>;
+```
+1. Без кастомизации есть только флаг isMobile
+2. Поля из `customMediaQueries` дополняют список возвращаемых флагов в `ResponsiveLayoutFlags`
+3. При добавлении кастомного флага isMobile, значение дефолтного флага перезаписывается в пользу кастомного
+
+```jsx static
+import { ResponsiveLayout } from '@skbkontur/react-ui';
+
+const customMediaQueries = {
+  isTablet: '(min-width: 577px)',
+  isDesktop: '(min-width: 1280px)',
+};
+
+class SomeComponent {
+  public render() {
+    return (
+      <ResponsiveLayout customMediaQueries={customMediaQueries}>
+        {
+          ({ isMobile, isTablet, isDesktop }) => {
+            /* ... */
+          }
+        }
+      </ResponsiveLayout>
+    )
+  }
+}
+```
+
 Как альтернативу можно использовать хук [useResponsiveLayout](#/Mobiles).

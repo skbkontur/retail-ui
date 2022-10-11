@@ -203,8 +203,13 @@ export class Input extends React.Component<InputProps, InputState> {
     if (document.activeElement !== this.input) {
       this.focus();
     }
-
-    this.input.setSelectionRange(start, end);
+    if (this.props.mask && this.props.value && this.props.value?.length < this.props.mask.length) {
+      setTimeout(() => {
+        this.input?.setSelectionRange(start, end);
+      }, 150);
+    } else {
+      this.input?.setSelectionRange(start, end);
+    }
   }
 
   public get isMaskVisible(): boolean {
@@ -404,6 +409,7 @@ export class Input extends React.Component<InputProps, InputState> {
     return (
       <span
         className={cx(styles.icon(), sizeClassName, styles.useDefaultColor(this.theme), {
+          [styles.iconFocus(this.theme)]: this.state.focused,
           [styles.iconDisabled()]: disabled,
         })}
       >

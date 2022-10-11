@@ -22,10 +22,19 @@ const types: Record<SpinnerType, SpinnerType> = {
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
 export interface SpinnerProps extends CommonProps {
+  /**
+   * Подпись под спиннером
+   */
   caption?: React.ReactNode;
+  /**
+   * Переводит спиннер в "затемнённый режим"
+   *
+   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`
+   */
   dimmed?: boolean;
   /**
-   * Тип спиннера
+   * Размер спиннера и текста
+   *
    * @default normal
    */
   type?: SpinnerType;
@@ -47,7 +56,7 @@ export const SpinnerDataTids = {
 type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
- * DRAFT - инлайн-лоадер
+ * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](https://tech.skbkontur.ru/react-ui/#/Components/Loader)
  */
 
 @rootNode

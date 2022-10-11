@@ -3,6 +3,97 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.6.0...@skbkontur/react-ui@4.6.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* **Combobox:** fix list display logic when using "add" button ([#2999](https://github.com/skbkontur/retail-ui/issues/2999)) ([a48d69e](https://github.com/skbkontur/retail-ui/commit/a48d69e152f28af6ec82ee43f5f7808f69186710))
+
+
+### Reverts
+
+* Revert "feat(SidePage): update layout on resize SidePageBody (#3007)" (#3011) ([ff11a24](https://github.com/skbkontur/retail-ui/commit/ff11a24d1056c5e818125e4eb2fe871fb59800b2)), closes [#3007](https://github.com/skbkontur/retail-ui/issues/3007) [#3011](https://github.com/skbkontur/retail-ui/issues/3011)
+
+
+
+
+
+# [4.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.3...@skbkontur/react-ui@4.6.0) (2022-10-04)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** apply MenuSeparator instead css ([#2997](https://github.com/skbkontur/retail-ui/issues/2997)) ([a56844f](https://github.com/skbkontur/retail-ui/commit/a56844f2c1b1610f3cc8660ffab8e3a286afe96d))
+* **Input:** repair selectAll if value is less than mask ([#2996](https://github.com/skbkontur/retail-ui/issues/2996)) ([3f28bf1](https://github.com/skbkontur/retail-ui/commit/3f28bf1cc9e8c1a57110c60099762f9338690377))
+* **isNullable:** error in types ([#3005](https://github.com/skbkontur/retail-ui/issues/3005)) ([f6a4411](https://github.com/skbkontur/retail-ui/commit/f6a4411f72aac17a8b887d3ef8287747099f6be8))
+
+
+### Features
+
+* **CurrencyLabel:** new prop 'hideTrailingZeros' ([#2994](https://github.com/skbkontur/retail-ui/issues/2994)) ([57c3e3a](https://github.com/skbkontur/retail-ui/commit/57c3e3af9c52f7ad896b67e45e6a3391cdefbd5c))
+* **MenuItem:** add rel attribute ([#2998](https://github.com/skbkontur/retail-ui/issues/2998)) ([80f022d](https://github.com/skbkontur/retail-ui/commit/80f022d23c999b9bd3c2e1c3c121890a1d35e067))
+* **SidePage:** add callback for tracking completely opened state ([#3003](https://github.com/skbkontur/retail-ui/issues/3003)) ([dab9738](https://github.com/skbkontur/retail-ui/commit/dab97382c700079513ccd739de2dcf87807cb00a))
+* **SidePage:** update layout on resize SidePageBody ([#3004](https://github.com/skbkontur/retail-ui/issues/3004)) ([09445e2](https://github.com/skbkontur/retail-ui/commit/09445e2a6412b1f20f9e44a7ebd780dde15e740c))
+* **SidePage:** update layout on resize SidePageBody ([#3007](https://github.com/skbkontur/retail-ui/issues/3007)) ([1888bf9](https://github.com/skbkontur/retail-ui/commit/1888bf9f214eb5ce58c2ea72a6f4318e28996b78))
+
+
+
+
+
+## [4.5.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.2...@skbkontur/react-ui@4.5.3) (2022-09-12)
+
+
+### Bug Fixes
+
+* **Select:** use input's background color  ([#2978](https://github.com/skbkontur/retail-ui/issues/2978)) ([560ad55](https://github.com/skbkontur/retail-ui/commit/560ad55f7fe1fa8459e875fdf6bec58bb4658930))
+
+
+
+
+
+## [4.5.2](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.1...@skbkontur/react-ui@4.5.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip,Tab:** process children with imperative handles correctly ([#2939](https://github.com/skbkontur/retail-ui/issues/2939)) ([7958543](https://github.com/skbkontur/retail-ui/commit/7958543d80982f5cce9831d19e6feaa9f15c1cc1))
+* **ZIndex:** update zIndex style if priority/delta props are updated ([#2942](https://github.com/skbkontur/retail-ui/issues/2942)) ([93a667a](https://github.com/skbkontur/retail-ui/commit/93a667a9619a280b0ab0e050a61a9de7a9f7e0a9))
+
+
+
+
+
+## [4.5.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.0...@skbkontur/react-ui@4.5.1) (2022-08-29)
+
+
+### Bug Fixes
+
+* **Radio:** fix text gap when radio is inside table ([#2983](https://github.com/skbkontur/retail-ui/issues/2983)) ([e546e4d](https://github.com/skbkontur/retail-ui/commit/e546e4d69b0896e36319e636310f988ebb854106))
+
+
+
+
+
+# [4.5.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.4.0...@skbkontur/react-ui@4.5.0) (2022-08-24)
+
+
+### Bug Fixes
+
+* **Input:** restore background-clip in focus state ([#2986](https://github.com/skbkontur/retail-ui/issues/2986)) ([5a10fd8](https://github.com/skbkontur/retail-ui/commit/5a10fd84233fe8edcc6cc42cd4ddc6f754512779))
+* **react-ui:** add inputFocusedBg and inputFocusedIconColor variables ([#2981](https://github.com/skbkontur/retail-ui/issues/2981)) ([9bc3f9c](https://github.com/skbkontur/retail-ui/commit/9bc3f9c6a8b3c5aa7f166008b9b1191537e648d6))
+* **TokenInput:** fix some scenarios with disabled input and tokens ([#2943](https://github.com/skbkontur/retail-ui/issues/2943)) ([64c999c](https://github.com/skbkontur/retail-ui/commit/64c999c942357011c0695701e43911bdfdc52559))
+* **ValidationContainer:** fix scroll to invalid field on submit ([#2930](https://github.com/skbkontur/retail-ui/issues/2930)) ([c2b966b](https://github.com/skbkontur/retail-ui/commit/c2b966bc8f2fcaac63e377e4d98669a14de610c3))
+
+
+### Features
+
+* **ResponsiveLayout,useResponsiveLayout:** custom media queries ([#2957](https://github.com/skbkontur/retail-ui/issues/2957)) ([7befaf9](https://github.com/skbkontur/retail-ui/commit/7befaf9d9222c95d99150aba37988cec9a5b0326))
+
+
+
+
+
 # [4.4.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.3.1...@skbkontur/react-ui@4.4.0) (2022-08-16)
 
 **Note:** Version bump due significan refactoring

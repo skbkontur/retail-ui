@@ -9,6 +9,25 @@ const [value, setValue] = React.useState('');
 />;
 ```
 
+Очистить значение в `Textarea` можно только с помощью пустой строки
+
+```jsx harmony
+import { Group, Button } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState('Значение');
+
+<Group>
+  <Textarea
+    value={value}
+    onValueChange={setValue}
+    autoResize
+    rows={1}
+    placeholder="Плейсхолдер"
+  />
+  <Button style={{ height: '52px' }} onClick={() => setValue('')}>Очистить значение</Button>
+</Group>
+```
+
 Счетчик введенных символов
 
 ```jsx harmony

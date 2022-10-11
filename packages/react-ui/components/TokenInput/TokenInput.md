@@ -59,6 +59,32 @@ const tokenColors = {
 </div>;
 ```
 
+Заблокированный TokenInput с кастомными Token:
+
+```jsx harmony
+import { Token } from '@skbkontur/react-ui';
+import { TokenInputType } from '@skbkontur/react-ui/components/TokenInput';
+
+const [selectedItems, setSelectedItems] = React.useState(['aaa', 'bbb', 'ccc']);
+
+async function getItems(query) {
+  return ['aaa', 'bbb', 'ccc'].filter((s) => s.includes(query));
+};
+
+<TokenInput
+  disabled
+  type={TokenInputType.Combined}
+  getItems={getItems}
+  selectedItems={selectedItems}
+  onValueChange={setSelectedItems}
+  renderToken={(item, tokenProps) => (
+    <Token key={item.toString()} {...tokenProps} disabled={item === 'bbb' || tokenProps.disabled} >
+      {item}
+    </Token>
+  )}
+/>
+```
+
 #### Локали по умолчанию
 
 ```typescript static

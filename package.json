@@ -22,14 +22,6 @@
     "preinstall": "node scripts/update-package-registry",
     "postinstall": "node scripts/update-package-registry back"
   },
-  "jest": {
-    "projects": [
-      "<rootDir>/packages/*"
-    ],
-    "roots": [
-      "<rootDir>/packages/*"
-    ]
-  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"

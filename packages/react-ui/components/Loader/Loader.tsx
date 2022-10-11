@@ -27,12 +27,19 @@ export interface LoaderProps extends CommonProps {
    * @default false
    */
   active?: boolean;
+  /**
+   * Подпись под спиннером
+   */
   caption?: SpinnerProps['caption'];
   /**
    * Компонент заменяющий спиннер.
    */
   component?: React.ReactNode;
-  className?: string;
+  /**
+   * Размер спиннера и текста
+   *
+   * @default normal
+   */
   type?: 'mini' | 'normal' | 'big';
   /**
    * Время в миллисекундах для показа вуали без спиннера.
@@ -63,7 +70,9 @@ type DefaultProps = Required<
 >;
 
 /**
- * DRAFT - лоадер-контейнер
+ * Компонент `Loader` принимает внутрь себя контент, поверх которого в активном состоянии `Loader`'а будет отрисован спиннер
+ *
+ * Если вам нужен только сам спиннер без дополнительнго функционала - используйте компонент [Spinner](https://tech.skbkontur.ru/react-ui/#/Components/Spinner)
  */
 @rootNode
 export class Loader extends React.Component<LoaderProps, LoaderState> {

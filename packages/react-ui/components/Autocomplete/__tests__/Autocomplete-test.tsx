@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import userEvent from '@testing-library/user-event';
 
 import { Autocomplete, AutocompleteProps } from '../Autocomplete';
 import { delay } from '../../../lib/utils';
@@ -172,6 +174,33 @@ describe('<Autocomplete />', () => {
     clickOutside();
 
     expect(handleBlur).not.toHaveBeenCalled();
+  });
+
+  it('should clear the value when an empty string passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState('');
+
+      return (
+        <>
+          <Autocomplete value={value} onValueChange={setValue} />
+          <button onClick={() => setValue('')}>Clear</button>
+        </>
+      );
+    };
+
+    render(<Comp />);
+
+    const input = screen.getByRole('textbox');
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'abc');
+    expect(input).toHaveValue('abc');
+
+    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
+    expect(input).toHaveValue('');
+
+    userEvent.type(input, 'a');
+    expect(input).toHaveValue('a');
   });
 });
 

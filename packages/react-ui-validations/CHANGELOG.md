@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.1...react-ui-validations@1.10.2) (2022-09-09)
+
+
+### Bug Fixes
+
+* **Hint,Tooltip,Tab:** process children with imperative handles correctly ([#2939](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2939)) ([7958543](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/7958543d80982f5cce9831d19e6feaa9f15c1cc1))
+
+
+
+
+
+## [1.10.1](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.0...react-ui-validations@1.10.1) (2022-08-24)
+
+
+### Bug Fixes
+
+* **ValidationContainer:** fix scroll to invalid field on submit ([#2930](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2930)) ([c2b966b](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/c2b966bc8f2fcaac63e377e4d98669a14de610c3))
+* **ValidationContainer:** submit a form with a warning on the second attempt ([#2977](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/2977)) ([c9a222d](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/c9a222dca93c6869962f55ff119d4f5a219d9a2f))
+
+
+
+
+
 # [1.10.0](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.9.1...react-ui-validations@1.10.0) (2022-08-16)
 
 **Note:** Version bump due significan refactoring
