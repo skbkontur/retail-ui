@@ -265,6 +265,17 @@ export const DifferentAligns = () => (
 );
 DifferentAligns.storyName = 'different aligns';
 
+export const DifferentAlignsLoading = () => (
+  <ComponentTable
+    Component={Button}
+    rows={alignStates.map((x) => ({ props: x }))}
+    cols={layoutStates.map((x) => ({ props: x }))}
+    presetProps={{ width: 200, children: 'Button', loading: true }}
+  />
+);
+DifferentAlignsLoading.storyName = 'different aligns loading';
+
+
 export const DifferentWidths: Story = () => (
   <ComponentCombinator
     Component={Button}
@@ -426,7 +437,7 @@ const sizeStates = getProps('size', ['small', 'medium', 'large']);
 
 const arrowStates = getProps('arrow', [true, 'left']);
 
-const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'success']);
+const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'success', 'text', 'backless']);
 
 const widthStates = getProps('width', [100, 'auto']);
 
