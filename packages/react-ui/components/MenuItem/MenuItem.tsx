@@ -196,7 +196,13 @@ export class MenuItem extends React.Component<MenuItemProps> {
         tabIndex={-1}
       >
         {iconElement}
-        <span className={styles.contentMobile()}>{content}</span>
+        <span
+          className={cx({
+            [styles.contentMobile()]: isMobile,
+          })}
+        >
+          {content}
+        </span>
         {this.props.comment && (
           <div
             data-tid={MenuItemDataTids.comment}
