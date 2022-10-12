@@ -1,7 +1,11 @@
+/* eslint-disable jsx-a11y/anchor-has-content */
+/* eslint-disable react/display-name */
+/* eslint-disable react/no-unstable-nested-components */
 import React, { useState } from 'react';
 import { mount, ReactWrapper } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { HTMLProps } from 'react-ui/typings/html-props';
 
 import { CustomComboBoxLocaleHelper } from '../../../internal/CustomComboBox/locale';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
@@ -1329,5 +1333,33 @@ describe('ComboBox', () => {
       await delay(0);
       expect(screen.getAllByTestId(ComboBoxMenuDataTids.item)).toHaveLength(4);
     });
+  });
+
+  it("should change item's wrapper if itemWrapper prop defined", async () => {
+    const Comp = () => {
+      const items = [
+        { value: 1, label: 'First' },
+        { value: 2, label: 'Second' },
+      ];
+
+      const itemWrapper = (item?: { value: number; label: string }) => {
+        if (item?.value === 2) {
+          return (props: HTMLProps['a']) => <a {...props} href="#" />;
+        }
+
+        return (props: HTMLProps['button']) => <button {...props} />;
+      };
+
+      const getItems = () => Promise.resolve(items);
+
+      return <ComboBox itemWrapper={itemWrapper} getItems={getItems} />;
+    };
+
+    render(<Comp />);
+
+    userEvent.click(screen.getByTestId(InputLikeTextDataTids.root));
+    await delay(0);
+    expect(screen.getByRole('button', { name: 'First' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Second' })).toBeInTheDocument();
   });
 });

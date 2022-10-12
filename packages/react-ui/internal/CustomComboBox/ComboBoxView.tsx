@@ -66,6 +66,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   onMouseOver?: (e: React.MouseEvent) => void;
   onMouseLeave?: (e: React.MouseEvent) => void;
   renderItem?: (item: T, state: MenuItemState) => React.ReactNode;
+  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderValue?: (item: T) => React.ReactNode;
@@ -175,7 +176,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
   private getComboBoxMenu = () => {
     const { items, loading, opened, refMenu, maxMenuHeight, renderTotalCount, renderNotFound, totalCount } = this.props;
 
-    const { repeatRequest, requestStatus, renderItem } = this.getProps();
+    const { repeatRequest, requestStatus, renderItem, itemWrapper } = this.getProps();
     return (
       <ComboBoxMenu
         items={items}
@@ -187,6 +188,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         renderTotalCount={renderTotalCount}
         renderItem={renderItem}
         renderNotFound={renderNotFound}
+        itemWrapper={itemWrapper}
         renderAddButton={this.renderAddButton}
         repeatRequest={repeatRequest}
         requestStatus={requestStatus}
