@@ -275,7 +275,7 @@ export class DefaultTheme {
   public static btnArrowBgImageChecked = 'none';
   public static btnLinkBorderRadius = '2px';
   public static btnFocusShadowWidth = '2px';
-  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.05)';
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static btnCheckedBg = '#7e7e7e';
   public static btnCheckedDisabledBg = '#a0a0a0';
   public static btnCheckedDisabledColor = 'rgba(255, 255, 255, 0.7)';

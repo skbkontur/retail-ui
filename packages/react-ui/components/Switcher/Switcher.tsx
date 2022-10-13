@@ -48,6 +48,7 @@ export interface SwitcherState {
 interface SwitcherItem {
   label: string;
   value: string;
+  disabled?: boolean;
 }
 
 @rootNode
@@ -196,7 +197,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   private _renderItems = () => {
     return this.props.items.map((item, i) => {
-      const { label, value } = this._extractPropsFromItem(item);
+      const { label, value, disabled: isItemDisabled } = this._extractPropsFromItem(item);
       const buttonProps = {
         checked: this.props.value === value,
         visuallyFocused: this.state.focusedIndex === i,
@@ -205,7 +206,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         },
         disableFocus: true,
         size: this.props.size,
-        disabled: this.props.disabled,
+        disabled: this.props.disabled || isItemDisabled,
       };
       return (
         <Button key={value} {...buttonProps}>
