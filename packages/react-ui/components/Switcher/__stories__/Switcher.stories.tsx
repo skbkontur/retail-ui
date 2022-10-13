@@ -1,14 +1,10 @@
 import React from 'react';
 
 import { Story } from '../../../typings/stories';
-import { Switcher } from '../Switcher';
+import { Switcher, SwitcherProps } from '../Switcher';
 import { Gapped } from '../../Gapped';
 
-interface ComponentProps {
-  items: string[];
-  error?: boolean;
-}
-class Component extends React.Component<ComponentProps> {
+class Component extends React.Component<SwitcherProps> {
   public state = {
     value: '',
   };
@@ -74,5 +70,22 @@ export const Disabled = () => {
 
 Disabled.storyName = 'disabled';
 Disabled.parameters = {
+  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
+};
+
+const items = [
+  { label: 'one', value: 'one' },
+  { label: 'two', value: 'two', disabled: true },
+  { label: 'three', value: 'three' },
+  { label: 'four', value: 'four' },
+  { label: 'five', value: 'five', disabled: true },
+];
+
+export const WithDisabledItems = () => {
+  return <Component items={items} />;
+};
+
+WithDisabledItems.storyName = 'with disabled items';
+WithDisabledItems.parameters = {
   creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
 };
