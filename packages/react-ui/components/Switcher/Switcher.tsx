@@ -23,7 +23,7 @@ export const SwitcherDataTids = {
 
 export interface SwitcherProps extends CommonProps {
   /**
-   * Список строк или список элементов типа `{ label: string, value: string }`
+   * Список строк или список элементов типа `{ label: string, value: string, disabled?: boolean }`
    */
   items: SwitcherItems[];
 
