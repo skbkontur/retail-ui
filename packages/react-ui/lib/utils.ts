@@ -129,8 +129,7 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
  * @param value Value to check for `null` and `undefined`.
  * @returns Returns `true` if `value` is `null` or `undefined`, else `false`.
  */
-// @ts-expect-error: TypeScript doesn't consider the check inside of the function.
-export const isNullable = <T>(value: T): value is null | undefined => {
+export const isNullable = (value: unknown): value is null | undefined => {
   return value === null || value === undefined;
 };
 

@@ -3,7 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction, isReactUIComponent } from '../../lib/utils';
+import { isExternalLink, isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -68,6 +68,12 @@ export interface MenuItemProps extends CommonProps {
    * HTML-атрибут `href`.
    */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
+  /**
+   * HTML-атрибут `rel`.
+   *
+   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
+   */
+  rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
   /**
    * Заменяет корневой элемент, на компонент переданный в проп.
    *
@@ -143,6 +149,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseEnter,
       onMouseLeave,
       isMobile,
+      href,
+      rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 
@@ -181,6 +189,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         className={className}
+        href={href}
+        rel={href ? rel : undefined}
         tabIndex={-1}
       >
         {iconElement}
