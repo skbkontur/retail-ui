@@ -105,7 +105,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     ...inputProps
   } = props;
 
-  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } = useContext(FileUploaderControlContext);
+  const { files, setFiles, removeFile, reset, setFileValidationResult, isMinLengthReached } =
+    useContext(FileUploaderControlContext);
 
   const locale = useControlLocale();
 
@@ -310,10 +311,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                 <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
                   {hasOneFileForSingle ? (
                     <div ref={fileDivRef} className={jsStyles.singleFile()}>
-                      {renderFile(
-                        files[0],
-                        <FileUploaderFile file={files[0]} size={size} />,
-                      )}
+                      {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
                     </div>
                   ) : (
                     <>
