@@ -8,7 +8,13 @@
       "createRelease": "github",
       "conventionalCommits": true,
       "message": "chore(release): publish",
-      "ignoreChanges": ["packages/react-ui-testing/TestPages/**"]
+      "ignoreChanges": [
+        "packages/eslint-config/**",
+        "packages/react-ui-testing/**",
+        "packages/react-ui-codemod/**",
+        "packages/react-ui-smoke-test/**",
+        "packages/react-ui-validations/**"
+      ]
     }
   }
 }
