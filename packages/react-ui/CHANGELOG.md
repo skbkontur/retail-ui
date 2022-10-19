@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.7...@skbkontur/react-ui@3.12.8) (2022-10-19)
+
+
+### Bug Fixes
+
+* **Tooltip,Hint,Tabs:** fix various problems with root nodes ([7ae58df](https://github.com/skbkontur/retail-ui/commit/7ae58df85fe708dc5793a5584b3064cc21a01d6b)), closes [#2873](https://github.com/skbkontur/retail-ui/issues/2873) [#2895](https://github.com/skbkontur/retail-ui/issues/2895) [#2941](https://github.com/skbkontur/retail-ui/issues/2941) [#2960](https://github.com/skbkontur/retail-ui/issues/2960) [#2939](https://github.com/skbkontur/retail-ui/issues/2939)
+
+
+
+
+
 ## [3.12.7](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.6...@skbkontur/react-ui@3.12.7) (2022-08-12)
 
 
