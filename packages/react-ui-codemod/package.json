@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "ast-types": "0.13.2",
-    "jest": "^24.9.0",
+    "jest": "26.6.3",
     "jscodeshift": "^0.7.0"
   },
   "scripts": {
@@ -19,6 +19,6 @@
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
     "@types/jscodeshift": "^0.6.3",
-    "babel-jest": "^24.9.0"
+    "babel-jest": "26.6.3"
   }
 }

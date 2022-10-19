@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { isBrowser, isFirefox } from './client';
 
 interface FocusOutsideEventHandler {
-  elements: HTMLElement[] | (() => HTMLElement[]);
+  elements: Element[] | (() => Element[]);
   callback: (event: Event) => void;
 }
 
@@ -94,7 +94,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
   return findRenderContainer(currentNode, rootNode, container);
 }
 
-export function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (event: Event) => void) {
+export function listen(elements: Element[] | (() => Element[]), callback: (event: Event) => void) {
   const handler = {
     elements,
     callback,

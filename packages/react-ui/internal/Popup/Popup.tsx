@@ -4,6 +4,7 @@ import { Transition } from 'react-transition-group';
 import raf from 'raf';
 import warning from 'warning';
 
+import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { Nullable } from '../../typings/utility-types';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { ZIndex } from '../ZIndex';
@@ -13,12 +14,13 @@ import { isFunction, isNonNullable, isRefableElement } from '../../lib/utils';
 import { isIE11, isEdge, isSafari } from '../../lib/client';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
+import { isElement, isHTMLElement, safePropTypesInstanceOf } from '../../lib/SSRSafe';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonProps, CommonWrapper } from '../CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
+import { isInstanceWithAnchorElement } from '../../lib/instanceWithAnchorElement';
 
 import { PopupPin } from './PopupPin';
 import { Offset, PopupHelper, PositionObject, Rect } from './PopupHelper';
@@ -184,15 +186,18 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     width: 'auto',
   };
 
+  // see #2873 and #2895
+  public static readonly defaultRootNode = null;
+
   public state: PopupState = { location: this.props.opened ? DUMMY_LOCATION : null };
   private theme!: Theme;
   private layoutEventsToken: Nullable<ReturnType<typeof LayoutEvents.addListener>>;
   private locationUpdateId: Nullable<number> = null;
-  private lastPopupElement: Nullable<HTMLElement>;
-  private anchorElement: Nullable<HTMLElement> = null;
+  private lastPopupElement: Nullable<Element>;
   private setRootNode!: TSetRootNode;
   private refForTransition = React.createRef<HTMLDivElement>();
 
+  public anchorElement: Nullable<Element> = null;
   public componentDidMount() {
     this.updateLocation();
     this.layoutEventsToken = LayoutEvents.addListener(this.handleLayoutEvent);
@@ -256,7 +261,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const { anchorElement, useWrapper } = this.props;
 
     let anchor: Nullable<React.ReactNode> = null;
-    if (isHTMLElement(anchorElement)) {
+    if (isElement(anchorElement)) {
       this.updateAnchorElement(anchorElement);
     } else if (React.isValidElement(anchorElement)) {
       anchor = useWrapper ? <span>{anchorElement}</span> : anchorElement;
@@ -278,48 +283,49 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     // we need to get anchor's DOM node
     // so we either set our own ref on it via cloning
     // or relay on findDOMNode (inside getRootNode)
-    // which should be called with RenderContainer's ref
+    // which should be called within updateAnchorElement
     // in the case when the anchor is not refable
 
     const canGetAnchorNode = !!anchorWithRef || isHTMLElement(anchorElement);
 
     return (
-      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.renderContainerRef}>
+      <RenderContainer anchor={anchorWithRef || anchor} ref={canGetAnchorNode ? null : this.updateAnchorElement}>
         {location && this.renderContent(location)}
       </RenderContainer>
     );
   }
 
-  private renderContainerRef = (childInstance: Nullable<React.ReactInstance>) => {
-    this.updateAnchorElement(childInstance);
-  };
-
-  private updateAnchorElement(childInstance: Nullable<React.ReactInstance>) {
-    const childDomNode = getRootNode(childInstance);
+  private updateAnchorElement = (instance: Nullable<React.ReactInstance>) => {
+    const childDomNode = isInstanceWithAnchorElement(instance) ? instance.getAnchorElement() : getRootNode(instance);
     const anchorElement = this.anchorElement;
 
     if (childDomNode !== anchorElement) {
       this.removeEventListeners(anchorElement);
       this.anchorElement = childDomNode;
       this.addEventListeners(childDomNode);
-      this.setRootNode(childDomNode);
     }
-  }
+  };
 
-  private addEventListeners(element: Nullable<HTMLElement>) {
-    if (element && isHTMLElement(element)) {
+  private addEventListeners(element: Nullable<Element>) {
+    if (element && isElement(element)) {
+      // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.addEventListener('mouseenter', this.handleMouseEnter);
+      // @ts-expect-error: See the comment above
       element.addEventListener('mouseleave', this.handleMouseLeave);
+      // @ts-expect-error: See the comment above
       element.addEventListener('click', this.handleClick);
       element.addEventListener('focusin', this.handleFocus as EventListener);
       element.addEventListener('focusout', this.handleBlur as EventListener);
     }
   }
 
-  private removeEventListeners(element: Nullable<HTMLElement>) {
-    if (element && isHTMLElement(element)) {
+  private removeEventListeners(element: Nullable<Element>) {
+    if (element && isElement(element)) {
+      // @ts-expect-error: Type ElementEventMap is missing events: https://github.com/skbkontur/retail-ui/pull/2946#discussion_r931072657
       element.removeEventListener('mouseenter', this.handleMouseEnter);
+      // @ts-expect-error: See the comment above
       element.removeEventListener('mouseleave', this.handleMouseLeave);
+      // @ts-expect-error: See the comment above
       element.removeEventListener('click', this.handleClick);
       element.removeEventListener('focusin', this.handleFocus as EventListener);
       element.removeEventListener('focusout', this.handleBlur as EventListener);
@@ -358,7 +364,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
 
   private calculateWidth = (width: PopupProps['width']) => {
     if (typeof width === 'string' && width.includes('%')) {
-      return this.anchorElement ? (this.anchorElement.offsetWidth * parseFloat(width)) / 100 : 0;
+      const anchorWidth = Math.floor(getDOMRect(this.anchorElement).width);
+      return this.anchorElement ? (anchorWidth * parseFloat(width)) / 100 : 0;
     }
     return width;
   };
@@ -385,8 +392,9 @@ export class Popup extends React.Component<PopupProps, PopupState> {
         nodeRef={this.refForTransition}
       >
         {(state: string) => (
-          <CommonWrapper {...this.props}>
+          <CommonWrapper {...this.props} rootNodeRef={this.setRootNode}>
             <ZIndex
+              data-tid={'Popup__root'}
               wrapperRef={this.refPopupElement}
               priority={'Popup'}
               className={cx({
@@ -523,7 +531,7 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     );
   }
 
-  private getLocation(popupElement: HTMLElement, location?: Nullable<PopupLocation>) {
+  private getLocation(popupElement: Element, location?: Nullable<PopupLocation>) {
     const { positions, tryPreserveFirstRenderedPosition } = this.props;
     const anchorElement = this.anchorElement;
 

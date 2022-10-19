@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isHTMLElement } from '../../lib/SSRSafe';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -205,7 +206,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private focusOnRootElement = (): void => {
-    getRootNode(this)?.focus();
+    const rootNode = getRootNode(this);
+    // TODO: Remove this check once IF-647 is resolved
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
@@ -278,7 +283,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+      const rootNode = getRootNode(this.highlighted);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
     }
   };
 
@@ -306,7 +315,12 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    getRootNode(this)?.focus();
+
+    const rootNode = getRootNode(this);
+    // TODO: Remove this check once IF-647 is resolved
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private unhighlight = () => {

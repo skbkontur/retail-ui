@@ -1,11 +1,16 @@
 /* eslint-disable max-len,react/no-deprecated */
 import 'core-js/stable';
 import '@testing-library/jest-dom';
-import { configure } from 'enzyme';
+import { configure } from '@testing-library/dom';
+import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import React from 'react';
 
-configure({ adapter: new Adapter() });
+configure({
+  testIdAttribute: 'data-tid',
+});
+
+Enzyme.configure({ adapter: new Adapter() });
 
 jest.mock('react-focus-lock', () => (props) => <div>{props.children}</div>);
 jest.mock('lodash.debounce', () =>
@@ -14,6 +19,13 @@ jest.mock('lodash.debounce', () =>
     return fn;
   }),
 );
+jest.mock('react-dom', () => {
+  const originalModule = jest.requireActual('react-dom');
+  return {
+    ...originalModule,
+    findDOMNode: jest.fn(originalModule.findDOMNode),
+  };
+});
 
 /**
  * Mock MutationObserver for `jsdom` < 13.2
