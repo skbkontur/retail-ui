@@ -38,12 +38,17 @@ const styles = {
       width: 100%;
       z-index: 100000;
       border-radius: ${t.mobilePopupHeaderBorderRadius};
+    `;
+  },
+
+  containerAnimation() {
+    return css`
       transform: translateY(100%);
       transition: transform 0.25s;
     `;
   },
 
-  containerOpened() {
+  containerOpenedAnimation() {
     return css`
       transform: translateY(0%);
       transition: transform 0.25s;
@@ -60,6 +65,11 @@ const styles = {
       z-index: 9999;
       background: #333333;
       opacity: 0%;
+    `;
+  },
+
+  bgAnimation() {
+    return css`
       transition: opacity 0.25s;
     `;
   },
@@ -67,6 +77,11 @@ const styles = {
   bgShowed() {
     return css`
       opacity: 50%;
+    `;
+  },
+
+  bgShowedAnimation() {
+    return css`
       transition: opacity 0.25s;
     `;
   },

@@ -274,6 +274,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
     return (
       <MobilePopup
+        disableAnimation
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
         useFullHeight

@@ -234,6 +234,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
 
     return (
       <MobilePopup
+        disableAnimation
         headerChildComponent={<Input ref={this.refMobileInput} {...inputProps} />}
         useFullHeight
         onCloseRequest={this.handleCloseMobile}

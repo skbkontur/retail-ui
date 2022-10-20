@@ -29,6 +29,10 @@ interface MobilePopupProps {
    */
   onCloseRequest?: () => void;
   opened: boolean;
+  /**
+   * Отключает анимацию компонента
+   */
+  disableAnimation?: boolean;
 }
 
 interface MobilePopupState {
@@ -70,7 +74,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           mountOnEnter
           unmountOnExit
           appear
-          timeout={{ appear: 0, exit: 250 }}
+          timeout={{ appear: 0, exit: this.props.disableAnimation ? 0 : 250 }}
         >
           {(state) => (
             <>
@@ -78,7 +82,9 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                 data-tid={MobilePopupDataTids.container}
                 className={cx({
                   [jsStyles.container(this.theme)]: true,
-                  [jsStyles.containerOpened()]: state === 'entered',
+                  [jsStyles.containerAnimation()]: !this.props.disableAnimation,
+                  [jsStyles.containerOpenedAnimation()]: !this.props.disableAnimation,
+                  [jsStyles.containerOpenedAnimation()]: state === 'entered' && !this.props.disableAnimation,
                 })}
               >
                 <div
@@ -110,7 +116,9 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                 onClick={this.close}
                 className={cx({
                   [jsStyles.bg()]: true,
+                  [jsStyles.bgAnimation()]: !this.props.disableAnimation,
                   [jsStyles.bgShowed()]: state === 'entered',
+                  [jsStyles.bgShowedAnimation()]: !this.props.disableAnimation,
                 })}
               />
               <HideBodyVerticalScroll />
