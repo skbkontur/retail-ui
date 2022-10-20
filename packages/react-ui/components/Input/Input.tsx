@@ -292,6 +292,7 @@ export class Input extends React.Component<InputProps, InputState> {
       maskChar,
       alwaysShowMask,
       size,
+      mobileSize,
       placeholder,
       selectAllOnFocus,
       disabled,
