@@ -15,6 +15,7 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { responsiveLayout } from '../ResponsiveLayout/decorator';
 
 import { styles } from './Input.styles';
 
@@ -63,8 +64,10 @@ export interface InputProps
         formatChars?: Record<string, string>;
         /** Показывать символы маски */
         alwaysShowMask?: boolean;
-        /** Размер */
+        /** Размер контрола в десктопной версии компонента */
         size?: InputSize;
+        /** Размер контрола в мобильной версии компонента */
+        mobileSize?: InputSize;
         /** onValueChange */
         onValueChange?: (value: string) => void;
         /** Вызывается на label */
@@ -114,18 +117,20 @@ export const InputDataTids = {
   root: 'Input__root',
 } as const;
 
-type DefaultProps = Required<Pick<InputProps, 'size'>>;
+type DefaultProps = Required<Pick<InputProps, 'size' | 'mobileSize'>>;
 
 /**
  * Интерфейс пропсов наследуется от `React.InputHTMLAttributes<HTMLInputElement>`.
  *  Все пропсы кроме перечисленных, `className` и `style` передаются в `<input>`
  */
+@responsiveLayout
 @rootNode
 export class Input extends React.Component<InputProps, InputState> {
   public static __KONTUR_REACT_UI__ = 'Input';
 
   public static defaultProps: DefaultProps = {
     size: 'small',
+    mobileSize: 'medium',
   };
 
   private getProps = createPropsGetter(Input.defaultProps);
@@ -138,6 +143,7 @@ export class Input extends React.Component<InputProps, InputState> {
 
   private selectAllId: number | null = null;
   private theme!: Theme;
+  private isMobileLayout!: boolean;
   private blinkTimeout = 0;
   private input: HTMLInputElement | null = null;
   private setRootNode!: TSetRootNode;
@@ -298,8 +304,10 @@ export class Input extends React.Component<InputProps, InputState> {
 
     const { blinking, focused } = this.state;
 
+    const inputSize = this.isMobileLayout ? this.getProps().mobileSize : this.getProps().size;
+
     const labelProps = {
-      className: cx(styles.root(this.theme), this.getSizeClassName(), {
+      className: cx(styles.root(this.theme), this.getSizeClassName(inputSize), {
         [styles.focus(this.theme)]: focused,
         [styles.blink(this.theme)]: blinking,
         [styles.borderless()]: borderless && !focused,
@@ -344,7 +352,7 @@ export class Input extends React.Component<InputProps, InputState> {
     return (
       <label data-tid={InputDataTids.root} {...labelProps}>
         <span className={styles.sideContainer()}>
-          {this.renderLeftIcon()}
+          {this.renderLeftIcon(inputSize)}
           {this.renderPrefix()}
         </span>
         <span className={styles.wrapper()}>
@@ -353,7 +361,7 @@ export class Input extends React.Component<InputProps, InputState> {
         </span>
         <span className={cx(styles.sideContainer(), styles.rightContainer())}>
           {this.renderSuffix()}
-          {this.renderRightIcon()}
+          {this.renderRightIcon(inputSize)}
         </span>
       </label>
     );
@@ -379,8 +387,8 @@ export class Input extends React.Component<InputProps, InputState> {
     );
   }
 
-  private getIconSizeClassname(right = false) {
-    switch (this.getProps().size) {
+  private getIconSizeClassname(size: InputSize, right = false) {
+    switch (size) {
       case 'large':
         return right ? styles.rightIconLarge(this.theme) : styles.leftIconLarge(this.theme);
       case 'medium':
@@ -391,12 +399,12 @@ export class Input extends React.Component<InputProps, InputState> {
     }
   }
 
-  private renderLeftIcon() {
-    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname());
+  private renderLeftIcon(size: InputSize) {
+    return this.renderIcon(this.props.leftIcon, this.getIconSizeClassname(size));
   }
 
-  private renderRightIcon() {
-    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(true));
+  private renderRightIcon(size: InputSize) {
+    return this.renderIcon(this.props.rightIcon, this.getIconSizeClassname(size, true));
   }
 
   private renderIcon(icon: InputIconType, sizeClassName: string) {
@@ -446,8 +454,8 @@ export class Input extends React.Component<InputProps, InputState> {
     return placeholder;
   }
 
-  private getSizeClassName() {
-    switch (this.getProps().size) {
+  private getSizeClassName(size: InputSize) {
+    switch (size) {
       case 'large':
         return cx({
           [styles.sizeLarge(this.theme)]: true,
