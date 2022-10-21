@@ -1660,8 +1660,44 @@ export class DefaultTheme {
   public static get fileUploaderFontSize() {
     return this.fontSizeSmall;
   }
+  public static get fileUploaderPaddingXSmall() {
+    return this.inputPaddingXSmall;
+  }
+  public static get fileUploaderPaddingXMedium() {
+    return this.inputPaddingXMedium;
+  }
+  public static get fileUploaderPaddingXLarge() {
+    return this.inputPaddingXLarge;
+  }
+  public static get fileUploaderFontSizeSmall() {
+    return this.fontSizeSmall;
+  }
+  public static get fileUploaderFontSizeMedium() {
+    return this.fontSizeMedium;
+  }
+  public static get fileUploaderFontSizeLarge() {
+    return this.fontSizeLarge;
+  }
   public static get fileUploaderLineHeight() {
     return this.controlLineHeightSmall;
+  }
+  public static get fileUploaderLineHeightSmall() {
+    return this.fileUploaderLineHeight;
+  }
+  public static get fileUploaderLineHeightMedium() {
+    return this.controlLineHeightMedium;
+  }
+  public static get fileUploaderLineHeightLarge() {
+    return this.controlLineHeightLarge;
+  }
+  public static get fileUploaderPaddingYSmall() {
+    return this.fileUploaderPaddingY;
+  }
+  public static get fileUploaderPaddingYMedium() {
+    return this.controlPaddingYMedium;
+  }
+  public static get fileUploaderPaddingYLarge() {
+    return this.controlPaddingYLarge;
   }
   public static get fileUploaderTextColorDefault() {
     return this.textColorDefault;
@@ -1700,6 +1736,9 @@ export class DefaultTheme {
     return this.linkHoverTextDecoration;
   }
   public static fileUploaderHoveredBg = 'none';
+  public static fileUploaderIconGapSmall = '4px';
+  public static fileUploaderIconGapMedium = '6px';
+  public static fileUploaderIconGapLarge = '8px';
   //#endregion
 }
 
