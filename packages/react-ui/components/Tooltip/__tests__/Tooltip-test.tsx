@@ -71,6 +71,18 @@ describe('Tooltip', () => {
       });
 
       withVariousAnchors((renderTooltip) => {
+        it('contains close button', async () => {
+          const { anchor } = renderTooltip({ trigger: 'click' });
+
+          userEvent.click(anchor);
+          const content = screen.getByTestId(TooltipDataTids.content);
+
+          expect(content).toContainHTML('viewBox="0 0 10 10"');
+          expect(content).toBeInTheDocument();
+        });
+      });
+
+      withVariousAnchors((renderTooltip) => {
         it('keeps open after second click by anchor', async () => {
           const { anchor } = renderTooltip({ trigger: 'click' });
 
@@ -117,6 +129,18 @@ describe('Tooltip', () => {
           anchor.focus();
           const content = screen.getByTestId(TooltipDataTids.content);
 
+          expect(content).toBeInTheDocument();
+        });
+      });
+
+      withVariousAnchors((renderTooltip) => {
+        it('does not contain close button', async () => {
+          const { anchor } = renderTooltip({ trigger: 'focus' });
+
+          userEvent.click(anchor);
+          const content = screen.getByTestId(TooltipDataTids.content);
+
+          expect(content).not.toContainHTML('viewBox="0 0 10 10"');
           expect(content).toBeInTheDocument();
         });
       });
