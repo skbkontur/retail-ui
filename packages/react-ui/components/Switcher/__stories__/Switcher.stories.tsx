@@ -74,11 +74,11 @@ Disabled.parameters = {
 };
 
 const items = [
-  { label: 'one', value: 'one' },
-  { label: 'two', value: 'two', disabled: true },
-  { label: 'three', value: 'three' },
+  { label: 'one', value: 'one', buttonProps: { disabled: true } },
+  { label: 'two', value: 'two' },
+  { label: 'three', value: 'three', buttonProps: { disabled: true } },
   { label: 'four', value: 'four' },
-  { label: 'five', value: 'five', disabled: true },
+  { label: 'five', value: 'five', buttonProps: { disabled: true } },
 ];
 
 export const WithDisabledItems = () => {
