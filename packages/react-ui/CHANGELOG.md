@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.6.0...@skbkontur/react-ui@4.6.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* **Combobox:** fix list display logic when using "add" button ([#2999](https://github.com/skbkontur/retail-ui/issues/2999)) ([a48d69e](https://github.com/skbkontur/retail-ui/commit/a48d69e152f28af6ec82ee43f5f7808f69186710))
+
+
+### Reverts
+
+* Revert "feat(SidePage): update layout on resize SidePageBody (#3007)" (#3011) ([ff11a24](https://github.com/skbkontur/retail-ui/commit/ff11a24d1056c5e818125e4eb2fe871fb59800b2)), closes [#3007](https://github.com/skbkontur/retail-ui/issues/3007) [#3011](https://github.com/skbkontur/retail-ui/issues/3011)
+
+
+
+
+
 # [4.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.3...@skbkontur/react-ui@4.6.0) (2022-10-04)
 
 

@@ -44,6 +44,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   const { children, onValueChange, onRemove, onAttach } = props;
 
   const [files, setFiles] = useState<FileUploaderAttachedFile[]>([]);
+  const [isMinLengthReached, setIsMinLengthReached] = useState<boolean>(false);
   const locale = useControlLocale();
 
   useEffectWithoutInitCall(() => {
@@ -98,6 +99,8 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
         removeFile,
         setFileValidationResult,
         reset,
+        isMinLengthReached,
+        setIsMinLengthReached,
       })}
     >
       {children}

@@ -53,6 +53,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   renderNotFound?: () => React.ReactNode;
   renderTotalCount?: (found: number, total: number) => React.ReactNode;
   renderItem: (item: T, state?: MenuItemState) => React.ReactNode;
+  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
   renderValue: (value: T) => React.ReactNode;
   renderAddButton?: (query?: string) => React.ReactNode;
   valueToString: (value: T) => string;
@@ -277,6 +278,7 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       onMouseLeave: this.props.onMouseLeave,
       renderItem: this.props.renderItem,
       renderNotFound: this.props.renderNotFound,
+      itemWrapper: this.props.itemWrapper,
       renderValue: this.props.renderValue,
       renderTotalCount: this.props.renderTotalCount,
       renderAddButton: this.props.renderAddButton,

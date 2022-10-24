@@ -143,7 +143,6 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   /**
    * Обновляет разметку компонента.
-   * SidePage следит за изменениям размера SidePage.Body и вызывает этот метод автоматически.
    * @public
    */
   public updateLayout = (): void => {
