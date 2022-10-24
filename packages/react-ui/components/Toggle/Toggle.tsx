@@ -210,6 +210,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
               ref={this.inputRef}
               disabled={disabled}
               id={id}
+              role="switch"
             />
             <div
               className={containerClassNames}

@@ -13,7 +13,6 @@ const styles = {
       display: flex;
       width: 100%;
       align-items: center;
-      position: relative;
     `;
   },
 
@@ -40,12 +39,60 @@ const styles = {
   icon(t: Theme) {
     return css`
       width: 16px;
-      margin-left: 23px;
       flex: 1 0 auto;
       cursor: pointer;
       font-size: ${t.fileUploaderIconSize};
       text-align: right;
       outline: none;
+
+      position: absolute;
+    `;
+  },
+
+  iconSmall(t: Theme) {
+    return css`
+      margin-left: 4px;
+      right: ${t.fileUploaderPaddingXSmall};
+    `;
+  },
+
+  iconMedium(t: Theme) {
+    return css`
+      margin-left: 6px;
+      right: ${t.fileUploaderPaddingXMedium};
+      width: 18px;
+    `;
+  },
+
+  iconLarge(t: Theme) {
+    return css`
+      margin-left: 6px;
+      right: ${t.fileUploaderPaddingXLarge};
+      width: 20px;
+    `;
+  },
+
+  iconMultiple() {
+    return css`
+      position: static;
+    `;
+  },
+
+  contentSmall(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeSmall};
+    `;
+  },
+
+  contentMedium(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeMedium};
+    `;
+  },
+
+  contentLarge(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeLarge};
     `;
   },
 
