@@ -76,6 +76,11 @@ export const TopBottomCenter = () => (
   </div>
 );
 TopBottomCenter.storyName = 'top bottom center';
+TopBottomCenter.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/ },
+  },
+};
 
 export const WithLargeWord = () => (
   <div style={{ marginTop: -100 }}>
