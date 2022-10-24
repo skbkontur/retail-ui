@@ -3,6 +3,8 @@ import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 import { DefaultThemeInternal } from './DefaultTheme';
 
 export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
+  public static borderColorDisabled = 'rgba(0, 0, 0, 0.08)';
+
   //#region Link
   public static linkColor = '#3D3D3D';
   public static linkHoverColor = '#292929';
@@ -12,7 +14,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static linkSuccessHoverColor = '#3A6710';
   public static linkSuccessActiveColor = '#325A0C';
 
-  public static linkDangerColor = '#BA342E';
+  public static linkDangerColor = '#CB3D35';
   public static linkDangerHoverColor = '#BA342E';
   public static linkDangerActiveColor = '#A92A27';
 
@@ -147,6 +149,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static modalSeparatorBorderBottom = '1px solid #EBEBEB';
   public static modalHeaderFontWeight = '700';
   public static modalPaddingRight = '32px';
+  //#endregion
+
+  //#region Modal
+  public static toastCloseSize = '12px';
+  public static toastClosePadding = '14px';
   //#endregion
 
   public static checkboxCheckedBg = '#3D3D3D';

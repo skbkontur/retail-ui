@@ -45,29 +45,18 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
   `;
 };
 
-export const linkUseLineColorsMixin = (
-  mainColor: string,
-  hoverColor: string,
-  activeColor: string,
-  textClassName: string,
-) => {
+export const linkUseLineColorsMixin = (mainColor: string, hoverColor: string, activeColor: string) => {
   return `
-    & .${textClassName}:before {
-      border-bottom-color: ${mainColor};
-    }
+    border-bottom-color: ${mainColor};
 
     &:hover,
-    ${hover`&`}, ${focus`&`} {
-      .${textClassName}:before {
-        border-bottom-color: ${hoverColor};
-      }
+    ${hover`&`}, ${focus`&`}  {
+      border-bottom-color: ${hoverColor};
     }
 
     &:active,
     ${active`&`} {
-      .${textClassName}:before {
-        border-bottom-color: ${activeColor};
-      }
+      border-bottom-color: ${activeColor};
     }
   `;
 };

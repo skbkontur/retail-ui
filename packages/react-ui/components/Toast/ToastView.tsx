@@ -7,6 +7,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { XIcon } from '../../internal/icons/16px';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './ToastView.styles';
 import { ToastDataTids } from './Toast';
@@ -68,10 +70,13 @@ export class ToastView extends React.Component<ToastViewProps> {
       </span>
     ) : null;
 
+    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
+    const icon = isTheme2022 ? <XIcon size={12} /> : <CrossIcon />;
+
     const close = action ? (
       <span className={styles.closeWrapper(this.theme)}>
         <span data-tid={ToastDataTids.close} className={styles.close(this.theme)} onClick={onClose}>
-          <CrossIcon />
+          {icon}
         </span>
       </span>
     ) : null;

@@ -25,29 +25,45 @@ export const styles = memoizeStyle({
 
   lineText(t: Theme) {
     return css`
-      position: relative;
-
-      &:before {
-        content: '';
-        pointer-events: none;
-        position: absolute;
-        height: 0;
-        width: 100%;
-        bottom: ${t.linkLineBottom};
-        border-bottom-color: ${t.linkLineBorderBottomColor};
-        border-bottom-style: ${t.linkLineBorderBottomStyle};
-        border-bottom-width: ${t.linkLineBorderBottomWidth};
-      }
+      //bottom: ${t.linkLineBottom};
+      border-bottom-color: ${t.linkLineBorderBottomColor};
+      border-bottom-style: ${t.linkLineBorderBottomStyle};
+      border-bottom-width: ${t.linkLineBorderBottomWidth};
     `;
   },
 
   lineFocus(t: Theme) {
     return css`
-      & {
-        color: ${t.linkHoverColor};
-        &:before {
-          border-bottom-color: ${t.linkLineHoverBorderBottomColor};
-        }
+      color: ${t.linkHoverColor};
+      .${globalClasses.text} {
+        border-bottom-color: ${t.linkLineHoverBorderBottomColor} !important;
+      }
+    `;
+  },
+
+  lineFocusSuccess(t: Theme) {
+    return css`
+      color: ${t.linkSuccessHoverColor} !important;
+      .${globalClasses.text} {
+        border-bottom-color: ${t.linkLineHoverBorderBottomColorSuccess} !important;
+      }
+    `;
+  },
+
+  lineFocusDanger(t: Theme) {
+    return css`
+      color: ${t.linkDangerHoverColor} !important;
+      .${globalClasses.text} {
+        border-bottom-color: ${t.linkLineHoverBorderBottomColorDanger} !important;
+      }
+    `;
+  },
+
+  lineFocusGrayed(t: Theme) {
+    return css`
+      color: ${t.linkGrayedHoverColor} !important;
+      .${globalClasses.text} {
+        border-bottom-color: ${t.linkLineHoverBorderBottomColorGrayed} !important;
       }
     `;
   },
@@ -82,48 +98,52 @@ export const styles = memoizeStyle({
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
-      ${linkUseLineColorsMixin(
-        t.linkLineBorderBottomColor,
-        t.linkLineHoverBorderBottomColor,
-        t.linkLineActiveBorderBottomColor,
-        globalClasses.text,
-      )};
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(
+          t.linkLineBorderBottomColor,
+          t.linkLineHoverBorderBottomColor,
+          t.linkLineActiveBorderBottomColor,
+        )};
+      }
     `;
   },
 
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
-      ${linkUseLineColorsMixin(
-        t.linkLineBorderBottomColorSuccess,
-        t.linkLineHoverBorderBottomColorSuccess,
-        t.linkLineActiveBorderBottomColorSuccess,
-        globalClasses.text,
-      )};
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(
+          t.linkLineBorderBottomColorSuccess,
+          t.linkLineHoverBorderBottomColorSuccess,
+          t.linkLineActiveBorderBottomColorSuccess,
+        )};
+      }
     `;
   },
 
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
-      ${linkUseLineColorsMixin(
-        t.linkLineBorderBottomColorDanger,
-        t.linkLineHoverBorderBottomColorDanger,
-        t.linkLineActiveBorderBottomColorDanger,
-        globalClasses.text,
-      )};
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(
+          t.linkLineBorderBottomColorDanger,
+          t.linkLineHoverBorderBottomColorDanger,
+          t.linkLineActiveBorderBottomColorDanger,
+        )};
+      }
     `;
   },
 
   useGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
-      ${linkUseLineColorsMixin(
-        t.linkLineBorderBottomColorGrayed,
-        t.linkLineHoverBorderBottomColorGrayed,
-        t.linkLineActiveBorderBottomColorGrayed,
-        globalClasses.text,
-      )};
+      .${globalClasses.text} {
+        ${linkUseLineColorsMixin(
+          t.linkLineBorderBottomColorGrayed,
+          t.linkLineHoverBorderBottomColorGrayed,
+          t.linkLineActiveBorderBottomColorGrayed,
+        )};
+      }
     `;
   },
 

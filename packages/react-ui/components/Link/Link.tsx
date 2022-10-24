@@ -12,6 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -118,7 +119,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, theme, rel: relOrigin, ...rest } = props;
+    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
+    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
 
     let iconElement = null;
     if (icon) {
@@ -158,7 +160,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     };
 
     let child = this.props.children;
-    if (parseInt(this.theme.linkLineBorderBottomWidth) > 0) {
+    if (isTheme2022) {
       child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
     }
 
@@ -203,14 +205,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
 
     return !isBorderBottom
-      ? cx(styles.root(this.theme), {
-          [styles.focus(this.theme)]: focused,
-          [styles.disabled(this.theme)]: disabled,
-          [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        })
-      : cx(styles.lineRoot(), {
-          [styles.disabled(this.theme)]: disabled,
-          [styles.lineFocus(this.theme)]: focused,
-        });
+      ? cx(
+          styles.root(this.theme),
+          focused && styles.focus(this.theme),
+          disabled && styles.disabled(this.theme),
+          use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
+        )
+      : cx(
+          styles.lineRoot(),
+          disabled && styles.disabled(this.theme),
+          focused && use === 'default' && styles.lineFocus(this.theme),
+          focused && use === 'success' && styles.lineFocusSuccess(this.theme),
+          focused && use === 'danger' && styles.lineFocusDanger(this.theme),
+          focused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+        );
   }
 }
