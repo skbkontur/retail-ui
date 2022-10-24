@@ -147,7 +147,7 @@ let renderItem = item => (
 />;
 ```
 
-Переопределение renderValue и renderItem:
+Переопределение `renderValue`, `renderItem` и `itemWrapper`:
 
 ```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
@@ -226,6 +226,14 @@ const customRenderItem = item => (
   </div>
 );
 
+const customItemWrapper = item => {
+  if (item.value === 3) {
+    return (props) => <div {...props} />;
+  }
+
+  return (props) => <button {...props} />
+}
+
 const customRenderValue = item => (
   <div
     style={{
@@ -261,6 +269,7 @@ const customRenderValue = item => (
     placeholder="Enter number"
     value={selected}
     renderItem={customRenderItem}
+    itemWrapper={customItemWrapper}
     renderValue={customRenderValue}
     width="400px"
   />
