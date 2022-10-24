@@ -555,8 +555,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const location = this.getLocation(popupElement, this.state.location);
-    if (this.props.onPositionChange) {
-      this.props?.onPositionChange(location?.position as PopupPositionsType);
+    if (location) {
+      this.props.onPositionChange?.(location?.position);
     }
 
     if (!this.locationEquals(this.state.location, location)) {
