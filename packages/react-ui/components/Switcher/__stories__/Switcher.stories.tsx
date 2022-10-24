@@ -3,6 +3,8 @@ import React from 'react';
 import { Story } from '../../../typings/stories';
 import { Switcher, SwitcherProps } from '../Switcher';
 import { Gapped } from '../../Gapped';
+import { delay } from '../../../lib/utils';
+import { Hint } from '../../Hint';
 
 interface ComponentState {
   value: string;
@@ -97,4 +99,115 @@ export const WithDisabledItems = () => {
 WithDisabledItems.storyName = 'with disabled items';
 WithDisabledItems.parameters = {
   creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
+};
+
+export const WithHint: Story = () => {
+  return <Component items={[{ label: 'One', value: 'One', hintProps: { text: 'Hint 1', pos: 'bottom' } }]} />;
+};
+WithHint.storyName = 'with hint';
+WithHint.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: [
+          'chromeDark',
+          'chrome8px',
+          'firefox8px',
+          'firefox',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11',
+          'ie11Flat8px',
+          'ie11Dark',
+        ],
+        reason: 'internal logic being tested and not something UI related',
+      },
+    ],
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async hover() {
+        await this.browser
+          .actions()
+          .move({
+            origin: this.browser.findElement({ css: '[data-comp-name~="Button"]' }),
+          })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('hover');
+      },
+    },
+  },
+};
+
+interface TestItemType {
+  label: string;
+  value: string;
+  hintProps: { text: string; pos: 'top' | 'right' | 'bottom' | 'left' };
+}
+
+const renderItem = (item: TestItemType) => {
+  return (
+    <Hint text={'Hint'} pos={'bottom'}>
+      <div style={{ margin: -8, padding: 8 }}>
+        <i>{item.label}</i>
+      </div>
+    </Hint>
+  );
+};
+
+export const CustomRenderItemWithHint: Story = () => {
+  return (
+    <Component
+      items={[
+        { label: 'One', value: 'One' },
+        {
+          label: 'Two',
+          value: 'Two',
+        },
+      ]}
+      renderItem={(item) => renderItem(item as TestItemType)}
+    />
+  );
+};
+CustomRenderItemWithHint.storyName = 'with custom item render with Hint';
+CustomRenderItemWithHint.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: [
+          'chromeDark',
+          'chrome8px',
+          'firefox8px',
+          'firefox',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11',
+          'ie11Flat8px',
+          'ie11Dark',
+        ],
+        reason: 'internal logic being tested and not something UI related',
+      },
+    ],
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async hover() {
+        await this.browser
+          .actions()
+          .move({
+            origin: this.browser.findElement({ css: '[data-comp-name~="Button"]' }),
+          })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('hover');
+      },
+    },
+  },
 };

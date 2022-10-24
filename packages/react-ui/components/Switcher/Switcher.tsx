@@ -39,6 +39,12 @@ export interface SwitcherProps extends CommonProps {
   size?: SwitcherSize;
 
   disabled?: boolean;
+
+  /**
+   * Функция для отрисовки элемента Switcher. Аргументы — *value*,
+   * *item*.
+   */
+  renderItem?: (item: SwitcherItems, index?: number) => React.ReactNode;
 }
 
 export interface SwitcherState {
@@ -70,6 +76,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     caption: PropTypes.string,
     value: PropTypes.string,
     onValueChange: PropTypes.func,
+    renderItem: PropTypes.func,
   };
 
   public state: SwitcherState = {
