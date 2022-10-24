@@ -1,6 +1,8 @@
 import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
+import { fileUploaderSizeMixin } from './FileUploader.mixins';
+
 const styles = {
   pulse() {
     return keyframes`
@@ -25,12 +27,12 @@ const styles = {
   root(t: Theme) {
     return css`
       display: inline-block;
-      min-width: 285px;
       position: relative;
       background-color: ${t.fileUploaderBg};
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
+      position: relative;
     `;
   },
 
@@ -74,10 +76,37 @@ const styles = {
 
   content() {
     return css`
-      display: flex;
+      display: block;
       width: 100%;
-      align-items: center;
       height: 100%;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    `;
+  },
+
+  contentWithFiles() {
+    return css`
+      display: flex;
+      align-items: center;
+    `;
+  },
+
+  contentInnerSmall(t: Theme) {
+    return css`
+      width: calc(100% - ${t.inputIconSizeSmall} - ${t.fileUploaderIconGapSmall});
+    `;
+  },
+
+  contentInnerMedium(t: Theme) {
+    return css`
+      width: calc(100% - ${t.inputIconSizeMedium} - ${t.fileUploaderIconGapMedium});
+    `;
+  },
+
+  contentInnerLarge(t: Theme) {
+    return css`
+      width: calc(100% - ${t.inputIconSizeLarge} - ${t.fileUploaderIconGapLarge});
     `;
   },
 
@@ -89,6 +118,12 @@ const styles = {
   },
 
   afterLinkText() {
+    return css`
+      display: inline;
+    `;
+  },
+
+  afterLinkText_HasFiles() {
     return css`
       display: flex;
       justify-content: space-between;
@@ -116,6 +151,12 @@ const styles = {
     `;
   },
 
+  linkHovered(t: Theme) {
+    return css`
+      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
+    `;
+  },
+
   disabled(t: Theme) {
     return css`
       cursor: default;
@@ -129,8 +170,9 @@ const styles = {
   icon(t: Theme) {
     return css`
       display: inline-block;
-      font-size: ${t.fileUploaderIconSize};
+      position: absolute;
       color: ${t.fileUploaderIconColor};
+      text-align: right;
     `;
   },
 
@@ -148,12 +190,6 @@ const styles = {
     `;
   },
 
-  linkHovered(t: Theme) {
-    return css`
-      text-decoration: ${t.fileUploaderLinkHoverTextDecoration};
-    `;
-  },
-
   linkDisabled(t: Theme) {
     return css`
       color: ${t.fileUploaderDisabledLinkColor};
@@ -166,6 +202,67 @@ const styles = {
   singleFile() {
     return css`
       width: 100%;
+    `;
+  },
+
+  sizeSmall(t: Theme) {
+    return css`
+      ${fileUploaderSizeMixin(
+        t.fileUploaderFontSizeSmall,
+        t.fileUploaderLineHeightSmall,
+        t.fileUploaderPaddingXSmall,
+        t.fileUploaderPaddingYSmall,
+      )};
+    `;
+  },
+
+  sizeMedium(t: Theme) {
+    return css`
+      ${fileUploaderSizeMixin(
+        t.fileUploaderFontSizeMedium,
+        t.fileUploaderLineHeightMedium,
+        t.fileUploaderPaddingXMedium,
+        t.fileUploaderPaddingYMedium,
+      )};
+    `;
+  },
+
+  sizeLarge(t: Theme) {
+    return css`
+      ${fileUploaderSizeMixin(
+        t.fileUploaderFontSizeLarge,
+        t.fileUploaderLineHeightLarge,
+        t.fileUploaderPaddingXLarge,
+        t.fileUploaderPaddingYLarge,
+      )};
+    `;
+  },
+
+  iconSmall(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeSmall};
+      line-height: ${t.fileUploaderLineHeightSmall};
+      width: ${t.inputIconSizeSmall};
+      bottom: ${t.fileUploaderPaddingYSmall};
+      right: ${t.fileUploaderPaddingXSmall};
+    `;
+  },
+  iconMedium(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeMedium};
+      line-height: ${t.fileUploaderLineHeightMedium};
+      width: ${t.inputIconSizeMedium};
+      bottom: ${t.fileUploaderPaddingYMedium};
+      right: ${t.fileUploaderPaddingXMedium};
+    `;
+  },
+  iconLarge(t: Theme) {
+    return css`
+      font-size: ${t.fileUploaderFontSizeLarge};
+      line-height: ${t.fileUploaderLineHeightLarge};
+      width: ${t.inputIconSizeLarge};
+      bottom: ${t.fileUploaderPaddingYLarge};
+      right: ${t.fileUploaderPaddingXLarge};
     `;
   },
 };
