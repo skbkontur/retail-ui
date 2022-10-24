@@ -104,7 +104,7 @@ export interface PopupProps extends CommonProps, PopupHandlerProps {
   /**
    * Возвращает текущую позицию попапа
    */
-  position?: (pos: PopupPositionsType) => void;
+  onPositionChange?: (pos: PopupPositionsType) => void;
 }
 
 interface PopupLocation {
@@ -555,8 +555,8 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     }
 
     const location = this.getLocation(popupElement, this.state.location);
-    if (this.props.position) {
-      this.props?.position(location?.position as PopupPositionsType);
+    if (this.props.onPositionChange) {
+      this.props?.onPositionChange(location?.position as PopupPositionsType);
     }
 
     if (!this.locationEquals(this.state.location, location)) {

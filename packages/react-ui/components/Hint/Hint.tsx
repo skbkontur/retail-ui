@@ -196,7 +196,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
-          position={(position) => this.setState({ position })}
+          onPositionChange={(position) => this.setState({ position })}
           disableAnimations={disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
