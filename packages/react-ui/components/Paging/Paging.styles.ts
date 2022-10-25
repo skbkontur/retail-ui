@@ -26,9 +26,9 @@ export const styles = memoizeStyle({
     `;
   },
 
-  dotsDisabled() {
+  dotsDisabled(t: Theme) {
     return css`
-      color: #adadad;
+      color: ${t.textColorDisabled};
     `;
   },
 

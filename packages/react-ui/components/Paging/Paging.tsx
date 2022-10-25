@@ -205,7 +205,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
       <span
         data-tid={PagingDataTids.dots}
         key={key}
-        className={cx({ [styles.dots(this.theme)]: true, [styles.dotsDisabled()]: this.props.disabled })}
+        className={cx({ [styles.dots(this.theme)]: true, [styles.dotsDisabled(this.theme)]: this.props.disabled })}
       >
         {'...'}
       </span>
