@@ -167,7 +167,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span
-          tabIndex={0}
+          tabIndex={this.props.disabled ? -1 : 0}
           data-tid={dataTid}
           className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
