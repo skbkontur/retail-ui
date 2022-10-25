@@ -261,7 +261,7 @@ export const DisabledPaging = () => {
 };
 DisabledPaging.parameters = {
   creevey: {
-    skip: { in: /^(?!\bchrome\b)/ },
+    skip: { in: /^(?!\b(chrome|chromeDark)\b)/ },
   },
 };
 
