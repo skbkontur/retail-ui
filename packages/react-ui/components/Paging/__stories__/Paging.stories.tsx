@@ -256,6 +256,15 @@ WithLongItems.args = {
   pagesCount: 7530050,
 };
 
+export const DisabledPaging = () => {
+  return <Paging onPageChange={() => false} disabled activePage={1} pagesCount={8} />;
+};
+DisabledPaging.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/ },
+  },
+};
+
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
 PlaygroundStory.parameters = { creevey: { skip: [true] } };

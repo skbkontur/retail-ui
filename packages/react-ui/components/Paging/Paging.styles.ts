@@ -12,11 +12,23 @@ export const styles = memoizeStyle({
     `;
   },
 
+  pagingDisabled() {
+    return css`
+      pointer-events: none;
+    `;
+  },
+
   dots(t: Theme) {
     return css`
       color: ${t.pagingDotsColor};
       display: inline-block;
       padding: ${t.pagingDotsPadding};
+    `;
+  },
+
+  dotsDisabled() {
+    return css`
+      color: #adadad;
     `;
   },
 
@@ -51,7 +63,7 @@ export const styles = memoizeStyle({
     `;
   },
 
-  disabled(t: Theme) {
+  forwardLinkDisabled(t: Theme) {
     return css`
       color: ${t.pagingForwardLinkDisabledColor};
       cursor: default;
@@ -86,11 +98,24 @@ export const styles = memoizeStyle({
     `;
   },
 
-  active(t: Theme) {
+  pageLinkDisabled(t: Theme) {
+    return css`
+      color: ${t.linkDisabledColor};
+    `;
+  },
+
+  pageLinkCurrent(t: Theme) {
     return css`
       cursor: default;
       background: ${t.pagingPageLinkActiveBg} !important; // override hover styles
       color: ${t.pagingPageLinkActiveColor};
+    `;
+  },
+
+  pageLinkCurrentDisabled(t: Theme) {
+    return css`
+      background: rgba(0, 0, 0, 0.04) !important;
+      color: ${t.linkDisabledColor};
     `;
   },
 

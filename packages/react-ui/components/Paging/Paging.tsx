@@ -169,7 +169,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         <span
           tabIndex={0}
           data-tid={dataTid}
-          className={styles.paging(this.theme)}
+          className={cx({ [styles.paging(this.theme)]: true, [styles.pagingDisabled()]: this.props.disabled })}
           onKeyDown={useGlobalListener ? undefined : this.handleKeyDown}
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
@@ -202,7 +202,11 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
   private renderDots = (key: string) => {
     return (
-      <span data-tid={PagingDataTids.dots} key={key} className={styles.dots(this.theme)}>
+      <span
+        data-tid={PagingDataTids.dots}
+        key={key}
+        className={cx({ [styles.dots(this.theme)]: true, [styles.dotsDisabled()]: this.props.disabled })}
+      >
         {'...'}
       </span>
     );
@@ -212,9 +216,8 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const classes = cx({
       [styles.forwardLink(this.theme)]: true,
       [styles.forwardLinkFocused()]: focused,
-      [styles.disabled(this.theme)]: disabled,
+      [styles.forwardLinkDisabled(this.theme)]: disabled || this.props.disabled,
     });
-    const { caption } = this.props;
     const Component = this.getProps().component;
     const { forward } = this.locale;
 
@@ -228,7 +231,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
         tabIndex={-1}
         pageNumber={'forward' as const}
       >
-        {caption || forward}
+        {this.props.caption || forward}
         <span className={styles.forwardIcon(this.theme)}>
           <ArrowChevronRightIcon size={this.theme.pagingForwardIconSize} />
         </span>
@@ -240,7 +243,9 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     const classes = cx({
       [styles.pageLink(this.theme)]: true,
       [styles.pageLinkFocused(this.theme)]: focused,
-      [styles.active(this.theme)]: active,
+      [styles.pageLinkDisabled(this.theme)]: this.props.disabled,
+      [styles.pageLinkCurrent(this.theme)]: active,
+      [styles.pageLinkCurrentDisabled(this.theme)]: active && this.props.disabled,
     });
     const Component = this.getProps().component;
     const handleClick = () => this.goToPage(pageNumber);
