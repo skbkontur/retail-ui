@@ -305,7 +305,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
-    const button = this.getButton(buttonParams);
+    const button = (
+      <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
+        {this.getButton(buttonParams)}
+      </ThemeContext.Provider>
+    );
 
     const isMobile = this.isMobileLayout;
 
@@ -412,23 +416,21 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const useIsCustom = use !== 'default';
 
     return (
-      <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
-        <Button {...buttonProps}>
-          <div className={styles.selectButtonContainer()}>
-            {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
-            <span {...labelProps}>{params.label}</span>
+      <Button {...buttonProps}>
+        <div className={styles.selectButtonContainer()}>
+          {this.props._icon && <div className={this.getLeftIconClass(this.props.size)}>{this.props._icon}</div>}
+          <span {...labelProps}>{params.label}</span>
 
-            <div
-              className={cx(styles.arrowWrap(this.theme), {
-                [styles.arrowDisabled(this.theme)]: this.props.disabled,
-                [styles.customUseArrow()]: useIsCustom,
-              })}
-            >
-              <ArrowChevronDownIcon />
-            </div>
+          <div
+            className={cx(styles.arrowWrap(this.theme), {
+              [styles.arrowDisabled(this.theme)]: this.props.disabled,
+              [styles.customUseArrow()]: useIsCustom,
+            })}
+          >
+            <ArrowChevronDownIcon />
           </div>
-        </Button>
-      </ThemeContext.Provider>
+        </div>
+      </Button>
     );
   }
 
