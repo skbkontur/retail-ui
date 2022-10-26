@@ -126,7 +126,7 @@ import { MenuItem } from '@skbkontur/react-ui';
 Пример с чекбоксом внутри MenuItem.
 
 ```jsx harmony
-import { MenuItem, Checkbox, Button } from '@skbkontur/react-ui';
+import { MenuItem, Checkbox, Button, ThemeContext, ThemeFactory } from '@skbkontur/react-ui';
 
 const [checked, setChecked] = React.useState(false);
 
@@ -143,14 +143,16 @@ const renderCaption = ({ openMenu, closeMenu }) => {
 
 <DropdownMenu caption={renderCaption}>
   <MenuItem onClick={(e) => e.preventDefault()}>Просто пункт</MenuItem>
-  <MenuItem
-    onClick={(e) => {
-      e.preventDefault();
-      setChecked(!checked);
-    }}
-  >
-    <Checkbox checked={checked}>с чекбоксом</Checkbox>
-  </MenuItem>
+  <ThemeContext.Provider value={ThemeFactory.create({ menuItemHoverBg: 'initial' })}>
+    <MenuItem
+      onClick={(e) => {
+        e.preventDefault();
+        setChecked(!checked);
+      }}
+    >
+      <Checkbox checked={checked}>с чекбоксом</Checkbox>
+    </MenuItem>
+  </ThemeContext.Provider>
   <MenuItem
     onClick={(e) => {
       e.preventDefault();

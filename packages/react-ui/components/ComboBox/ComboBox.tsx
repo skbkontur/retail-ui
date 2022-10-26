@@ -100,6 +100,22 @@ export interface ComboBoxProps<T> extends CommonProps {
   renderItem?: (item: T, state?: MenuItemState) => React.ReactNode;
 
   /**
+   * Компонент, заменяющий собой обёртку элементов результата поиска.
+   *
+   * По умолчанию все элементы результата поиска оборачиваются в тег `<button />`.
+   *
+   * @example
+   * itemWrapper={(item) => {
+   *    if (item.value === 3) {
+   *      return (props) => {
+   *        return <a {...props} />
+   *      }
+   *    }
+   * }}
+   */
+  itemWrapper?: (item?: T) => React.ComponentType<unknown>;
+
+  /**
    * Функция для отрисовки сообщения о пустом результате поиска
    * Если есть renderAddButton - не работает
    */

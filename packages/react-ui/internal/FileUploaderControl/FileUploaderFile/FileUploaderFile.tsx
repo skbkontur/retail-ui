@@ -15,12 +15,16 @@ import { Nullable } from '../../../typings/utility-types';
 import { Hint } from '../../../components/Hint';
 import { Tooltip } from '../../../components/Tooltip';
 import { getDOMRect } from '../../../lib/dom/getDOMRect';
+import { FileUploaderSize } from '../../../components/FileUploader';
+import { useFileUploaderSize } from '../hooks/useFileUploaderSize';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileProps {
   file: FileUploaderAttachedFile;
   showSize?: boolean;
+  multiple?: boolean;
+  size: FileUploaderSize;
   /** Состояние ошибки контрола файла */
   error?: boolean;
 }
@@ -40,6 +44,19 @@ const getTruncatedName = (fileNameWidth: number, fileNameElementWidth: number, n
   return truncate(name, maxCharsCountInSpan);
 };
 
+const calcTruncatedName = (
+  textHelperRef: React.RefObject<TextWidthHelper>,
+  fileNameElementRef: React.RefObject<HTMLSpanElement>,
+  name: string,
+) => {
+  const fileNameWidth = textHelperRef.current?.getTextWidth() || 0;
+  const fileNameElementWidth = getDOMRect(fileNameElementRef.current).width;
+
+  return getTruncatedName(fileNameWidth, fileNameElementWidth, name);
+};
+
+const MIN_CHARS_LENGTH = 3;
+
 export const FileUploaderFileDataTids = {
   file: 'FileUploader__file',
   fileTooltip: 'FileUploader__fileTooltip',
@@ -49,9 +66,9 @@ export const FileUploaderFileDataTids = {
 } as const;
 
 export const FileUploaderFile = (props: FileUploaderFileProps) => {
-  const { file, showSize, error } = props;
+  const { file, showSize, error, multiple, size } = props;
   const { id, originalFile, status, validationResult } = file;
-  const { name, size } = originalFile;
+  const { name, size: fileSize } = originalFile;
 
   const [hovered, setHovered] = useState<boolean>(false);
   const [focusedByTab, setFocusedByTab] = useState(false);
@@ -60,19 +77,22 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const textHelperRef = useRef<TextWidthHelper>(null);
   const fileNameElementRef = useRef<HTMLSpanElement>(null);
 
-  const { removeFile } = useContext(FileUploaderControlContext);
+  const { removeFile, setIsMinLengthReached, isMinLengthReached } = useContext(FileUploaderControlContext);
   const theme = useContext(ThemeContext);
 
-  const formattedSize = useMemo(() => formatBytes(size, 1), [size]);
+  const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
 
-  // важно запустить после рендера, чтобы успели проставиться рефы
   useEffect(() => {
-    const fileNameWidth = textHelperRef.current?.getTextWidth() || 0;
-    const fileNameElementWidth = getDOMRect(fileNameElementRef.current).width;
-    const truncatedName = getTruncatedName(fileNameWidth, fileNameElementWidth, name);
+    const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name);
+
+    setIsMinLengthReached((truncatedName?.length ?? 0) <= MIN_CHARS_LENGTH);
+  }, [name, isMinLengthReached]);
+
+  useEffect(() => {
+    const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name);
 
     setTruncatedFileName(truncatedName);
-  }, [name]);
+  });
 
   const removeUploadFile = useCallback(() => {
     removeFile(id);
@@ -112,11 +132,24 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
     }
   }, [hovered, status, isInvalid, theme, focusedByTab]);
 
+  const sizeIconClass = useFileUploaderSize(size, {
+    small: jsStyles.iconSmall(theme),
+    medium: jsStyles.iconMedium(theme),
+    large: jsStyles.iconLarge(theme),
+  });
+
   const renderTooltipContent = useCallback((): ReactNode => {
     return !isValid && !error && message ? message : null;
   }, [isValid, error, message]);
 
+  const sizeContentClass = useFileUploaderSize(size, {
+    small: jsStyles.contentSmall(theme),
+    medium: jsStyles.contentMedium(theme),
+    large: jsStyles.contentLarge(theme),
+  });
+
   const contentClassNames = cx(jsStyles.content(), {
+    [sizeContentClass]: true,
     [jsStyles.error(theme)]: isInvalid,
   });
 
@@ -153,6 +186,8 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
 
   const iconClassNames = cx(jsStyles.icon(theme), {
     [jsStyles.focusedIcon(theme)]: focusedByTab,
+    [sizeIconClass]: true,
+    [jsStyles.iconMultiple()]: multiple,
   });
 
   const isTruncated = truncatedFileName !== name;
