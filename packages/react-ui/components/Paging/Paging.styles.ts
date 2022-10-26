@@ -114,7 +114,7 @@ export const styles = memoizeStyle({
 
   pageLinkCurrentDisabled(t: Theme) {
     return css`
-      background: rgba(0, 0, 0, 0.04) !important;
+      background: ${t.pagingPageLinkDisabledActiveBg} !important;
       color: ${t.linkDisabledColor};
     `;
   },
