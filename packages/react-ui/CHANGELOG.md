@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.6.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.6.0...@skbkontur/react-ui@4.6.1) (2022-10-06)
+
+
+### Bug Fixes
+
+* **Combobox:** fix list display logic when using "add" button ([#2999](https://github.com/skbkontur/retail-ui/issues/2999)) ([a48d69e](https://github.com/skbkontur/retail-ui/commit/a48d69e152f28af6ec82ee43f5f7808f69186710))
+
+
+### Reverts
+
+* Revert "feat(SidePage): update layout on resize SidePageBody (#3007)" (#3011) ([ff11a24](https://github.com/skbkontur/retail-ui/commit/ff11a24d1056c5e818125e4eb2fe871fb59800b2)), closes [#3007](https://github.com/skbkontur/retail-ui/issues/3007) [#3011](https://github.com/skbkontur/retail-ui/issues/3011)
+
+
+
+
+
+# [4.6.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.3...@skbkontur/react-ui@4.6.0) (2022-10-04)
+
+
+### Bug Fixes
+
+* **DropdownMenu:** apply MenuSeparator instead css ([#2997](https://github.com/skbkontur/retail-ui/issues/2997)) ([a56844f](https://github.com/skbkontur/retail-ui/commit/a56844f2c1b1610f3cc8660ffab8e3a286afe96d))
+* **Input:** repair selectAll if value is less than mask ([#2996](https://github.com/skbkontur/retail-ui/issues/2996)) ([3f28bf1](https://github.com/skbkontur/retail-ui/commit/3f28bf1cc9e8c1a57110c60099762f9338690377))
+* **isNullable:** error in types ([#3005](https://github.com/skbkontur/retail-ui/issues/3005)) ([f6a4411](https://github.com/skbkontur/retail-ui/commit/f6a4411f72aac17a8b887d3ef8287747099f6be8))
+
+
+### Features
+
+* **CurrencyLabel:** new prop 'hideTrailingZeros' ([#2994](https://github.com/skbkontur/retail-ui/issues/2994)) ([57c3e3a](https://github.com/skbkontur/retail-ui/commit/57c3e3af9c52f7ad896b67e45e6a3391cdefbd5c))
+* **MenuItem:** add rel attribute ([#2998](https://github.com/skbkontur/retail-ui/issues/2998)) ([80f022d](https://github.com/skbkontur/retail-ui/commit/80f022d23c999b9bd3c2e1c3c121890a1d35e067))
+* **SidePage:** add callback for tracking completely opened state ([#3003](https://github.com/skbkontur/retail-ui/issues/3003)) ([dab9738](https://github.com/skbkontur/retail-ui/commit/dab97382c700079513ccd739de2dcf87807cb00a))
+* **SidePage:** update layout on resize SidePageBody ([#3004](https://github.com/skbkontur/retail-ui/issues/3004)) ([09445e2](https://github.com/skbkontur/retail-ui/commit/09445e2a6412b1f20f9e44a7ebd780dde15e740c))
+* **SidePage:** update layout on resize SidePageBody ([#3007](https://github.com/skbkontur/retail-ui/issues/3007)) ([1888bf9](https://github.com/skbkontur/retail-ui/commit/1888bf9f214eb5ce58c2ea72a6f4318e28996b78))
+
+
+
+
+
 ## [4.5.3](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.5.2...@skbkontur/react-ui@4.5.3) (2022-09-12)
 
 

@@ -1,4 +1,3 @@
-import { ReactComponentLike } from 'prop-types';
 import React from 'react';
 import { isForwardRef } from 'react-is';
 
@@ -45,11 +44,11 @@ export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParam
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: ReactComponentLike): boolean {
+export function isFunctionalComponent(Component: unknown): Component is React.ComponentType {
   return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
 }
 
-export function isClassComponent(Component: ReactComponentLike): boolean {
+export function isClassComponent(Component: unknown): Component is React.ComponentType {
   return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
 }
 
@@ -130,8 +129,7 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
  * @param value Value to check for `null` and `undefined`.
  * @returns Returns `true` if `value` is `null` or `undefined`, else `false`.
  */
-// @ts-expect-error: TypeScript doesn't consider the check inside of the function.
-export const isNullable = <T>(value: T): value is null | undefined => {
+export const isNullable = (value: unknown): value is null | undefined => {
   return value === null || value === undefined;
 };
 

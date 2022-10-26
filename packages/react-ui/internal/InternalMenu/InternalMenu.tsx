@@ -12,6 +12,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { MenuSeparator } from '../../components/MenuSeparator';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -197,13 +199,16 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={(el) => (this.header = el)}
         className={cx({
-          [styles.header()]: true,
-          [styles.fixedHeader()]: this.state.scrollState !== 'top',
+          [styles.wrapper()]: true,
+          [styles.headerWrapper()]: true,
         })}
+        ref={(el) => (this.header = el)}
       >
-        {this.props.header}
+        <div className={styles.contentWrapper()}>{this.props.header}</div>
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
       </div>
     );
   };
@@ -211,14 +216,25 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={(el) => (this.footer = el)}
         className={cx({
-          [styles.footer()]: true,
-          [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
+          [styles.wrapper()]: true,
+          [styles.footerWrapper()]: true,
         })}
+        ref={(el) => (this.footer = el)}
       >
-        {this.props.footer}
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
+        <div className={styles.contentWrapper()}>{this.props.footer}</div>
       </div>
+    );
+  };
+
+  private renderMenuSeparatorWithNoMargin = () => {
+    return (
+      <ThemeContext.Provider value={ThemeFactory.create({ menuSeparatorMarginY: '0' }, this.theme)}>
+        <MenuSeparator />
+      </ThemeContext.Provider>
     );
   };
 

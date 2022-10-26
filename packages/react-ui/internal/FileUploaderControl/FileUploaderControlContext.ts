@@ -9,6 +9,8 @@ export interface FileUploaderControlContextProps {
   setFiles: (files: FileUploaderAttachedFile[]) => void;
   removeFile: (fileId: string) => void;
   reset: () => void;
+  isMinLengthReached: boolean;
+  setIsMinLengthReached: (value: boolean) => void;
 
   setFileValidationResult: (fileId: string, validationResult: FileUploaderFileValidationResult) => void;
 }

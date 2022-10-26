@@ -21,3 +21,9 @@ Count of fraction digits can be changed
 ```jsx
 <CurrencyLabel value={3562001.1} fractionDigits={3} currencySymbol={'₽'} />
 ```
+
+Can hide trailing zeros
+
+```jsx
+<CurrencyLabel value={356.167} fractionDigits={5} hideTrailingZeros />
+```
