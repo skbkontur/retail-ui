@@ -285,7 +285,7 @@ export const UploadIcon = forwardRefAndName<HTMLElement, SvgIconProps>('UploadIc
   );
 });
 
-export const ArrowARightIcon = forwardRefAndName<SVGSVGElement, IconProps>('UploadIcon', (props, ref) => {
+export const ArrowARightIcon = forwardRefAndName<SVGSVGElement, IconProps>('ArrowARightIcon', (props, ref) => {
   return (
     <BaseIcon ref={ref} {...props}>
       <path d="M8.73 2.854a.5.5 0 1 1 .708-.708l4.006 4.006a1.906 1.906 0 0 1 0 2.696l-4.006 4.006a.5.5 0 0 1-.707-.708l4.005-4.005A.914.914 0 0 0 12.852 8H2.5a.5.5 0 0 1 0-1h10.352a.914.914 0 0 0-.116-.14L8.732 2.853Z" />
@@ -293,7 +293,7 @@ export const ArrowARightIcon = forwardRefAndName<SVGSVGElement, IconProps>('Uplo
   );
 });
 
-export const ArrowALeftIcon = forwardRefAndName<SVGSVGElement, IconProps>('UploadIcon', (props, ref) => {
+export const ArrowALeftIcon = forwardRefAndName<SVGSVGElement, IconProps>('ArrowALeftIcon', (props, ref) => {
   return (
     <BaseIcon ref={ref} {...props}>
       <path d="M7.27 12.146a.5.5 0 1 1-.708.707L2.556 8.849a1.906 1.906 0 0 1 0-2.696l4.006-4.006a.5.5 0 1 1 .707.707L3.263 6.86a.91.91 0 0 0-.115.14H13.5a.5.5 0 0 1 0 1H3.148a.91.91 0 0 0 .115.142l4.006 4.005Z" />
@@ -301,10 +301,22 @@ export const ArrowALeftIcon = forwardRefAndName<SVGSVGElement, IconProps>('Uploa
   );
 });
 
-export const XIcon = forwardRefAndName<SVGSVGElement, IconProps>('UploadIcon', (props, ref) => {
+export const XIcon = forwardRefAndName<SVGSVGElement, IconProps>('XIcon', (props, ref) => {
   return (
     <BaseIcon ref={ref} {...props}>
       <path d="M3.47 3.47a.75.75 0 0 1 1.06 0L8 6.94l3.47-3.47a.75.75 0 1 1 1.06 1.06L9.06 8l3.47 3.47a.75.75 0 1 1-1.06 1.06L8 9.06l-3.47 3.47a.75.75 0 0 1-1.06-1.06L6.94 8 3.47 4.53a.75.75 0 0 1 0-1.06Z" />
+    </BaseIcon>
+  );
+});
+
+export const SearchLoupeIcon = forwardRefAndName<SVGSVGElement, IconProps>('SearchLoupeIcon', (props, ref) => {
+  return (
+    <BaseIcon ref={ref} {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10.853 11.914a6.25 6.25 0 1 1 1.06-1.06l2.854 2.853a.75.75 0 1 1-1.06 1.06l-2.854-2.853ZM2.246 6.996a4.75 4.75 0 1 1 8.153 3.313.784.784 0 0 0-.09.09 4.75 4.75 0 0 1-8.064-3.403Z"
+      />
     </BaseIcon>
   );
 });

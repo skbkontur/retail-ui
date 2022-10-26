@@ -631,6 +631,7 @@ export class DefaultTheme {
   public static tooltipPaddingY = '16px';
   public static tooltipPaddingX = '16px';
   public static tooltipCloseBtnPadding = '8px';
+  public static tooltipCloseBtnSide = '8px';
   public static tooltipCloseBtnColor = 'rgba(0, 0, 0, 0.32)';
   public static tooltipCloseBtnHoverColor = 'rgba(0, 0, 0, 0.5)';
   public static get tooltipTextColor() {

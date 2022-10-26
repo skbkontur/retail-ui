@@ -18,6 +18,8 @@ import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { XIcon } from '../../internal/icons/16px';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Tooltip.styles';
 
@@ -272,9 +274,12 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       return null;
     }
 
+    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
+    const icon = isTheme2022 ? <XIcon size={16} /> : <CrossIcon />;
+
     return (
       <div className={styles.cross(this.theme)} onClick={this.handleCloseButtonClick}>
-        <CrossIcon />
+        {icon}
       </div>
     );
   }

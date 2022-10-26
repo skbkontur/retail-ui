@@ -101,9 +101,21 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#endregion
 
+  //#region Input
   public static inputBorderRadiusSmall = '2px';
   public static inputBorderRadiusMedium = '2px';
   public static inputBorderRadiusLarge = '2px';
+
+  public static inputIconGapSmall = '4px';
+  public static inputIconGapMedium = '6px';
+  public static inputIconGapLarge = '8px';
+
+  public static inputIconSizeSmall = '16px';
+  public static inputIconSizeMedium = '20px';
+  public static inputIconSizeLarge = '24px';
+
+  public static inputBlinkColor = 'rgba(61, 61, 61, 0.2)';
+  //#endregion
 
   public static textareaBorderRadius = '2px';
 
@@ -149,11 +161,21 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static modalSeparatorBorderBottom = '1px solid #EBEBEB';
   public static modalHeaderFontWeight = '700';
   public static modalPaddingRight = '32px';
+  public static modalCloseButtonPadding = '32px';
+  public static modalCloseIconSize = '20px';
+  public static mobileModalCloseIconSize = '20px';
+  public static mobileModalCloseButtonRightPadding = '12px';
+  public static mobileModalCloseButtonTopPadding = '8px';
   //#endregion
 
-  //#region Modal
+  //#region Toast
   public static toastCloseSize = '12px';
   public static toastClosePadding = '14px';
+  //#endregion
+
+  //#region Tooltip
+  public static tooltipCloseBtnPadding = '4px';
+  public static tooltipCloseBtnSide = '16px';
   //#endregion
 
   public static checkboxCheckedBg = '#3D3D3D';

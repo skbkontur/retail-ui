@@ -1,12 +1,13 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useState } from 'react';
-import { SearchLoupeIcon } from '@skbkontur/icons';
+import React from 'react';
+import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { CreeveyTests, Meta, Story } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { Input, InputSize } from '../Input';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
+import { SearchLoupeIcon } from '../../../internal/icons/16px';
 
 const styles = {
   display: 'inline-block',
@@ -15,14 +16,7 @@ const styles = {
   padding: '5px',
 };
 
-export default {
-  title: 'Input',
-  parameters: {
-    creevey: {
-      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
-    },
-  },
-} as Meta;
+export default { title: 'Input' };
 
 export const InputsWithDifferentStates: Story = () => (
   <div>
@@ -102,20 +96,23 @@ export const InputsWithDifferentStates: Story = () => (
     <div>
       <div style={styles}>Left icon</div>
       <div id="left-icon-small-input-wrapper" style={styles}>
+        <Input size="small" leftIcon={<SearchIcon />} />
+      </div>
+      <div id="left-icon-small-input-wrapper" style={styles}>
         <Input size="small" leftIcon={<SearchLoupeIcon />} />
       </div>
       <div id="left-icon-large-input-wrapper" style={styles}>
-        <Input size="large" leftIcon={<SearchLoupeIcon />} />
+        <Input size="large" leftIcon={<SearchIcon />} />
       </div>
     </div>
 
     <div>
       <div style={styles}>Right icon</div>
       <div id="right-icon-small-input-wrapper" style={styles}>
-        <Input size="small" rightIcon={<SearchLoupeIcon />} />
+        <Input size="small" rightIcon={<SearchIcon />} />
       </div>
       <div id="right-icon-large-input-wrapper" style={styles}>
-        <Input size="large" rightIcon={<SearchLoupeIcon />} />
+        <Input size="large" rightIcon={<SearchIcon />} />
       </div>
     </div>
 
@@ -222,13 +219,13 @@ InputsWithDifferentStates.parameters = {
 export const InputsWithDifferentSizes: Story = () => (
   <div>
     <div id="small-input-wrapper" style={styles}>
-      <Input rightIcon={<SearchLoupeIcon size="16px" />}  size="small" />
+      <Input size="small" />
     </div>
     <div id="medium-input-wrapper" style={styles}>
-      <Input rightIcon={<SearchLoupeIcon  size="20px" />}  size="medium" />
+      <Input size="medium" />
     </div>
     <div id="large-input-wrapper" style={styles}>
-      <Input rightIcon={<SearchLoupeIcon size="24px" />} leftIcon={<SearchLoupeIcon  size="24px" />} size="large" />
+      <Input size="large" />
     </div>
   </div>
 );
@@ -456,59 +453,53 @@ export const PlaceholderAndMask = () => (
 );
 PlaceholderAndMask.storyName = 'Placeholder and Mask';
 
-const testMaskedInput: CreeveyTests = {
-  async 'idle, focus, edit, blur'() {
-    const click = (css: string) => {
-      return this.browser
-        .actions({
-          bridge: true,
-        })
-        .click(this.browser.findElement({ css }));
-    };
-
-    const idle = await this.takeScreenshot();
-
-    await click('input').perform();
-    const focused = await this.takeScreenshot();
-
-    await click('input').sendKeys('953').perform();
-    const edited = await this.takeScreenshot();
-
-    await click('body').perform();
-    const blured = await this.takeScreenshot();
-
-    await this.expect({ idle, focused, edited, blured }).to.matchImages();
-  },
-};
-
-export const InputWithMask: Story = () => (
+export const InputWithPhoneMask: Story = () => (
   <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
 );
-InputWithMask.parameters = {
+InputWithPhoneMask.storyName = 'Input with phone mask';
+
+InputWithPhoneMask.parameters = {
   creevey: {
-    tests: testMaskedInput,
-  },
-};
-
-export const InputWithMaskAndCustomUnmaskedValue: Story = () => {
-  const [value, setValue] = useState('+795');
-
-  return (
-    <Input
-      width="150"
-      mask="+7 999 999-99-99"
-      maskChar={'_'}
-      placeholder="+7"
-      alwaysShowMask
-      value={value}
-      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
-    />
-  );
-};
-
-InputWithMaskAndCustomUnmaskedValue.parameters = {
-  creevey: {
-    tests: testMaskedInput,
+    tests: {
+      async Plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+      },
+      async Editing() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('9')
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Editing');
+      },
+      async Blured() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('9')
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'body' }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Blured');
+      },
+    },
   },
 };
 
@@ -699,7 +690,7 @@ export const TextStylesReset = () => (
       <Input defaultValue="Value" />
       <Input defaultValue="Disabled" disabled />
       <Input mask="a9*MASK" alwaysShowMask />
-      <Input leftIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+      <Input leftIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
     </Gapped>
   </div>
 );
@@ -739,10 +730,10 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
         <div style={{ ...styles, width: 100 }}>Both preffix and suffix with rightIcon</div>
         <div style={styles}>
-          <Input size={size} rightIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
+          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" placeholder="Placeholder" />
         </div>
         <div style={styles}>
-          <Input size={size} rightIcon={<SearchLoupeIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
+          <Input size={size} rightIcon={<SearchIcon />} prefix="Prefix" suffix="suffix" defaultValue="Value" />
         </div>
       </div>
       <div style={{ display: 'flex', alignItems: 'baseline' }}>
@@ -759,8 +750,7 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
 }
 
 export const UncontrolledInputWithPlaceholder: Story = () => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_value, setValue] = React.useState<string>();
+  const [_, setValue] = React.useState<string>();
   return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
 };
 UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';

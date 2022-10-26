@@ -4,19 +4,23 @@ import invariant from 'invariant';
 import React from 'react';
 import raf from 'raf';
 
-import { isIE11, isEdge } from '../../lib/client';
+import { isEdge, isIE11 } from '../../lib/client';
 import { isKeyBackspace, isKeyDelete, someKeys } from '../../lib/events/keyboard/identifiers';
 import { needsPolyfillPlaceholder } from '../../lib/needsPolyfillPlaceholder';
 import { Nullable, Override } from '../../typings/utility-types';
 import { MaskedInput } from '../../internal/MaskedInput';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
 import { styles } from './Input.styles';
+import { InputLayout } from './InputLayout/InputLayout';
+import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
+import { InputLayoutContext } from './InputLayout/InputLayoutContext';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -335,6 +339,31 @@ export class Input extends React.Component<InputProps, InputState> {
     }
 
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
+
+    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
+    if (isTheme2022) {
+      return (
+        <InputLayoutContext.Provider value={{ disabled: Boolean(disabled), focused, size }}>
+          <InputLayout
+            leftIcon={leftIcon}
+            rightIcon={rightIcon}
+            prefix={prefix}
+            suffix={suffix}
+            labelProps={labelProps}
+          >
+            {input}
+            <PolyfillPlaceholder
+              isMaskVisible={this.isMaskVisible}
+              value={value}
+              defaultValue={this.props.defaultValue}
+              align={align}
+            >
+              {placeholder}
+            </PolyfillPlaceholder>
+          </InputLayout>
+        </InputLayoutContext.Provider>
+      );
+    }
 
     return (
       <label data-tid={InputDataTids.root} {...labelProps}>

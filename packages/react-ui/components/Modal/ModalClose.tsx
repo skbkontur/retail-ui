@@ -6,6 +6,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
 import { ResponsiveLayout } from '../ResponsiveLayout';
 import { CommonWrapper } from '../../internal/CommonWrapper';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
+import { XIcon } from '../../internal/icons/16px';
 
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
@@ -29,6 +31,9 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
     setFocusedByTab(false);
   };
 
+  const isTheme2022 = getThemeName(theme) === 'THEME_2022';
+  const icon = isTheme2022 ? <XIcon /> : <CrossIcon />;
+
   return (
     <CommonWrapper {...otherProps}>
       <ResponsiveLayout>
@@ -46,7 +51,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
             data-tid={ModalDataTids.close}
             tabIndex={disableClose ? -1 : 0}
           >
-            <CrossIcon />
+            {icon}
           </button>
         )}
       </ResponsiveLayout>
