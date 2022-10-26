@@ -2,7 +2,6 @@ import React from 'react';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
 
-
 // 	  Use	    Active	Checked (в будущем hover)
 // 1	Default	True	  True
 // 2	Default	True	  False
@@ -34,19 +33,9 @@ export default {
   title: 'NewButtonTests',
 };
 
-export const mainBtnTable = () => (
-  <ComponentTable
-    Component={Button}
-    rows={useNStates.map((x) => ({ props: x }))}
-    cols={activeCheckedStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button' }}
-  />
-);
-mainBtnTable.storyName = 'Main Button table';
-
 type ButtonState = Partial<ButtonProps>;
 
-const useNStates: ButtonState[] = [
+const useStates: ButtonState[] = [
   { use: 'default' },
   { use: 'primary' },
   { use: 'danger' },
@@ -54,10 +43,89 @@ const useNStates: ButtonState[] = [
   { use: 'success' },
   { use: 'link' }
 ];
+const testingButtonUseStates: ButtonState[] = [
+  { use: 'primary' },
+  { use: 'link' },
+]
+
+// Use - checked (hover) - active
+export const mainBtnTable = () => (
+  <ComponentTable
+    Component={Button}
+    rows={useStates.map((x) => ({ props: x }))}
+    cols={activeCheckedStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+mainBtnTable.storyName = 'Main Button table';
 
 const activeCheckedStates: ButtonState[] = [
   { active: true, checked: true },
   { active: true, checked: false },
   { active: false, checked: true },
   { active: false, checked: false }
+]
+
+// Warning - use - arrow, size
+export const warningStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={warningArrowSizeStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', warning: true }}
+  />
+);
+warningStates.storyName = 'Warning button table';
+
+const warningArrowSizeStates: ButtonState[] = [
+  {},
+  { size: 'medium' },
+  { size: 'large' },
+  { arrow: true },
+  { arrow: true, size: 'medium' },
+  { arrow: true, size: 'large' },
+  { arrow: 'left' },
+  { arrow: 'left', size: 'large' },
+]
+
+// Error - use - arrow, size
+export const errorStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={errorArrowSizeStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', error: true }}
+  />
+);
+errorStates.storyName = 'Error button table';
+
+const errorArrowSizeStates: ButtonState[] = [
+  {},
+  { arrow: true },
+  { arrow: true, size: 'medium' },
+  { arrow: true, size: 'large' },
+  { arrow: 'left' },
+  { arrow: 'left', size: 'medium' },
+  { arrow: 'left', size: 'large' },
+]
+
+//visuallyFocused - use - arrow, size
+export const focusedStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={focusedArrowSizeStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', visuallyFocused: true }}
+  />
+);
+focusedStates.storyName = 'Focused button table';
+
+const focusedArrowSizeStates: ButtonState[] = [
+  {},
+  { arrow: true },
+  { arrow: true, size: 'medium' },
+  { arrow: true, size: 'large' },
+  { arrow: 'left' },
+  { arrow: 'left', size: 'medium' },
+  { arrow: 'left', size: 'large' },
 ]
