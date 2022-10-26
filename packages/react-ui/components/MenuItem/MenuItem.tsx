@@ -3,6 +3,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Nullable } from '../../typings/utility-types';
 import { isExternalLink, isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -118,9 +119,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
+  public state = {
+    iconOffsetTop: 0,
+  };
+
   private theme!: Theme;
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
+  private rootRef: Nullable<HTMLElement> = null;
 
   public render() {
     return (
@@ -135,6 +141,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
         }}
       </ThemeContext.Consumer>
     );
+  }
+
+  public componentDidMount() {
+    if (this.rootRef) {
+      this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
+    }
   }
 
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
@@ -159,7 +171,9 @@ export class MenuItem extends React.Component<MenuItemProps> {
     let iconElement = null;
     if (icon) {
       iconElement = (
-        <div className={cx({ [styles.icon(this.theme)]: true, [styles.iconMobile(this.theme)]: isMobile })}>{icon}</div>
+        <div style={{ top: this.state.iconOffsetTop }} className={cx({ [styles.icon(this.theme)]: true })}>
+          {icon}
+        </div>
       );
     }
 
@@ -185,6 +199,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
+        ref={this.setRootRef}
         data-tid={MenuItemDataTids.root}
         {...rest}
         state={state}
@@ -232,6 +247,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
     }
+  };
+
+  private setRootRef = (element: HTMLElement) => {
+    this.rootRef = element;
   };
 
   private getComponent = () => {

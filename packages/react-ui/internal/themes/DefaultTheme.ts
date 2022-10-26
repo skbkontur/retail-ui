@@ -973,12 +973,6 @@ export class DefaultTheme {
    *  Используйте переменные `menuItemPaddingMobileY` и `menuItemPaddingMobileX` вместо этой переменной.
    */
   public static menuItemPaddingMobile = '12px 16px';
-  public static get menuItemPaddingMobileY() {
-    return this.menuItemPaddingMobile.split(' ')[0];
-  }
-  public static get menuItemPaddingMobileX() {
-    return this.menuItemPaddingMobile.split(' ')[1];
-  }
   //menuHeader
   public static get menuHeaderColor() {
     return this.gray;

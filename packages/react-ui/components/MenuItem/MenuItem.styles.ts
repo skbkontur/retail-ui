@@ -33,7 +33,7 @@ export const styles = memoizeStyle({
     return css`
       font-size: ${t.fontSizeMobile};
       line-height: ${t.lineHeightMobile};
-      padding: ${t.menuItemPaddingMobileY} ${t.menuItemPaddingMobileX};
+      padding: ${t.menuItemPaddingMobile};
     `;
   },
 
@@ -89,13 +89,7 @@ export const styles = memoizeStyle({
       display: inline-block;
       position: absolute;
       left: ${parseInt(t.menuItemPaddingX) + parseInt(t.menuItemIconLegacyMargin)}px;
-      top: ${t.menuItemPaddingY};
       transform: translateY(${t.menuItemIconLegacyShift});
-    `;
-  },
-  iconMobile(t: Theme) {
-    return css`
-      top: ${t.menuItemPaddingMobileY};
     `;
   },
   contentMobile() {
