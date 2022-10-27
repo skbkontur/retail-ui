@@ -4,19 +4,22 @@ import { Story } from '../../../typings/stories';
 import { Switcher, SwitcherProps } from '../Switcher';
 import { Gapped } from '../../Gapped';
 
-class Component extends React.Component<SwitcherProps> {
-  public state = {
-    value: '',
-  };
+interface ComponentState {
+  value: string;
+}
+
+class Component extends React.Component<SwitcherProps, ComponentState> {
+  constructor(props: SwitcherProps) {
+    super(props);
+    this.state = {
+      value: props.value || '',
+    };
+  }
 
   public render() {
+    const { value, ...rest } = this.props;
     return (
-      <Switcher
-        value={this.state.value}
-        onValueChange={this.handleChange}
-        caption={'Label for Switcher'}
-        {...this.props}
-      />
+      <Switcher value={this.state.value} onValueChange={this.handleChange} caption={'Label for Switcher'} {...rest} />
     );
   }
 
@@ -82,7 +85,13 @@ const items = [
 ];
 
 export const WithDisabledItems = () => {
-  return <Component items={items} />;
+  return (
+    <Gapped vertical>
+      <Component items={items} />
+      <Component items={items} value={'one'} />
+      <Component items={items} value={'two'} />
+    </Gapped>
+  );
 };
 
 WithDisabledItems.storyName = 'with disabled items';
