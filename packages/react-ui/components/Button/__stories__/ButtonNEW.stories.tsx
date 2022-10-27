@@ -44,6 +44,7 @@ const useStates: ButtonState[] = [
   { use: 'link' }
 ];
 const testingButtonUseStates: ButtonState[] = [
+  { use: 'default' },
   { use: 'primary' },
   { use: 'link' },
 ]
@@ -129,3 +130,78 @@ const focusedArrowSizeStates: ButtonState[] = [
   { arrow: 'left', size: 'medium' },
   { arrow: 'left', size: 'large' },
 ]
+
+// Arrow - default - warning - error - checked - !default  - focus - size
+export const arrowSmallStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: true }}
+  />
+);
+focusedStates.storyName = 'Arrow small(default) button table';
+
+const arrowDifferentStates: ButtonState[] = [
+  { warning: true },
+  { error: true },
+  { checked: true },
+  { visuallyFocused: true },
+  { warning: true, error: true },
+  { warning: true, checked: true },
+  { warning: true, visuallyFocused: true },
+  { error: true, checked: true },
+  { error: true, visuallyFocused: true },
+  { checked: true, visuallyFocused: true },
+]
+
+export const arrowMediumStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: true, size: 'medium' }}
+  />
+);
+focusedStates.storyName = 'Arrow medium button table';
+
+export const arrowLargeStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: true, size: 'large' }}
+  />
+);
+focusedStates.storyName = 'Arrow large button table';
+
+// Arrow left - default - warning - error - checked - !default  - focus - size
+export const arrowLeftSmallStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: 'left' }}
+  />
+);
+focusedStates.storyName = 'Arrow left small(default) button table';
+
+export const arrowLeftMediumStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: 'left', size: 'medium' }}
+  />
+);
+focusedStates.storyName = 'Arrow left medium button table';
+
+export const arrowLeftLargeStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: 'left', size: 'large' }}
+  />
+);
+focusedStates.storyName = 'Arrow left large button table';
