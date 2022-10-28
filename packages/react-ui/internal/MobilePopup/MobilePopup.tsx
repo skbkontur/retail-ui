@@ -9,6 +9,7 @@ import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ZIndex } from '../ZIndex';
 import { cx } from '../../lib/theming/Emotion';
+import { RenderLayer } from '../RenderLayer';
 
 import { jsStyles } from './MobilePopup.styles';
 import { MobilePopupHeader } from './MobilePopupHeader';
@@ -79,40 +80,41 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
         >
           {(state) => (
             <div className={jsStyles.wrapper()}>
-              <div
-                data-tid={MobilePopupDataTids.container}
-                className={cx({
-                  [jsStyles.container(this.theme)]: true,
-                  [jsStyles.containerAnimation()]: !this.props.disableAnimation,
-                  [jsStyles.containerOpenedAnimation()]: !this.props.disableAnimation,
-                  [jsStyles.containerOpenedAnimation()]: state === 'entered' && !this.props.disableAnimation,
-                })}
-              >
+              <RenderLayer onClickOutside={this.close}>
                 <div
-                  data-tid={MobilePopupDataTids.root}
+                  data-tid={MobilePopupDataTids.container}
                   className={cx({
-                    [jsStyles.root(this.theme)]: true,
-                    [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
-                    [jsStyles.rootWithChildren()]: isNullable(this.props.children),
+                    [jsStyles.container(this.theme)]: true,
+                    [jsStyles.containerAnimation()]: !this.props.disableAnimation,
+                    [jsStyles.containerOpenedAnimation()]: !this.props.disableAnimation,
+                    [jsStyles.containerOpenedAnimation()]: state === 'entered' && !this.props.disableAnimation,
                   })}
-                  onClick={this.props.useFullHeight ? undefined : this.close}
                 >
-                  <MobilePopupHeader caption={this.props.caption} onClose={this.close}>
-                    {this.props.headerChildComponent}
-                  </MobilePopupHeader>
                   <div
-                    onClick={(e) => e.stopPropagation()}
-                    className={jsStyles.content(this.theme)}
-                    onScroll={this.handleScrollMenu}
-                    ref={this.refContent}
+                    data-tid={MobilePopupDataTids.root}
+                    className={cx({
+                      [jsStyles.root(this.theme)]: true,
+                      [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
+                      [jsStyles.rootWithChildren()]: isNullable(this.props.children),
+                    })}
+                    onClick={this.props.useFullHeight ? undefined : this.close}
                   >
-                    {this.props.children}
+                    <MobilePopupHeader caption={this.props.caption} onClose={this.close}>
+                      {this.props.headerChildComponent}
+                    </MobilePopupHeader>
+                    <div
+                      onClick={(e) => e.stopPropagation()}
+                      className={jsStyles.content(this.theme)}
+                      onScroll={this.handleScrollMenu}
+                      ref={this.refContent}
+                    >
+                      {this.props.children}
+                    </div>
                   </div>
+                  <div onClick={this.close} className={jsStyles.bottomIndent()} />
                 </div>
-                <div onClick={this.close} className={jsStyles.bottomIndent()} />
-              </div>
+              </RenderLayer>
               <div
-                onClick={this.close}
                 className={cx({
                   [jsStyles.bg()]: true,
                   [jsStyles.bgAnimation()]: !this.props.disableAnimation,
