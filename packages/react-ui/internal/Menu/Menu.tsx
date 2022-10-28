@@ -132,6 +132,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
               data-tid={MenuDataTids.root}
               className={cx(getAlignRightClass(this.props), {
                 [styles.root(this.theme)]: true,
+                [styles.rootMobile()]: isMobile,
                 [styles.shadow(this.theme)]: hasShadow && !isMobile,
               })}
               style={getStyle(this.props)}

@@ -6,7 +6,6 @@ const styles = {
     return css`
       position: relative;
       padding: ${t.mobilePopupHeaderPadding};
-      border-radius: ${t.mobilePopupHeaderBorderRadius};
     `;
   },
 

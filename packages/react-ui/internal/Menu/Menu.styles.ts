@@ -9,7 +9,12 @@ export const styles = memoizeStyle({
       box-sizing: content-box;
       overflow: auto;
       padding: 0 ${t.menuPaddingX};
-      border-radius: ${t.menuBorderRadius};
+    `;
+  },
+
+  rootMobile() {
+    return css`
+      border-radius: 0;
     `;
   },
 
