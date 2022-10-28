@@ -10,7 +10,6 @@ import { jsStyles } from './MobilePopupHeader.styles';
 interface MobilePopupHeaderProps {
   caption?: string;
   onClose: () => void;
-  withShadow?: boolean;
 }
 
 export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
@@ -30,13 +29,12 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
   }
 
   private renderMain() {
-    const { caption, children, withShadow } = this.props;
+    const { caption, children } = this.props;
 
     return (
       <div
         className={cx({
           [jsStyles.root(this.theme)]: true,
-          [jsStyles.withShadow(this.theme)]: withShadow,
           [jsStyles.rootNoCaption()]: !caption && !children,
         })}
         onClick={this.rootClickHandler}
