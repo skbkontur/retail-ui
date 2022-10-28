@@ -30,23 +30,32 @@ const styles = {
     `;
   },
 
+  wrapper() {
+    return css`
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      height: 100%;
+      overflow: scroll;
+    `;
+  },
+
   content(t: Theme) {
     return css`
-      overflow: auto;
       background-color: ${t.bgDefault};
     `;
   },
 
   container(t: Theme) {
+    const indentY = '24px';
     return css`
-      position: fixed;
+      position: absolute;
       top: ${t.mobilePopupTopPadding};
-      right: 0;
-      left: 0;
-      bottom: 0;
-      width: 100%;
+      left: ${indentY};
+      width: calc(100% - ${indentY} * 2);
       z-index: 100000;
-      border-radius: ${t.mobilePopupHeaderBorderRadius};
     `;
   },
 
@@ -74,6 +83,7 @@ const styles = {
       z-index: 9999;
       background: #333333;
       opacity: 0%;
+      pointer-events: none;
     `;
   },
 
@@ -92,6 +102,12 @@ const styles = {
   bgShowedAnimation() {
     return css`
       transition: opacity 0.25s;
+    `;
+  },
+
+  bottomIndent() {
+    return css`
+      height: 80px;
     `;
   },
 };

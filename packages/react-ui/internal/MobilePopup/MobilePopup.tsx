@@ -78,7 +78,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
           timeout={{ appear: 0, exit: this.props.disableAnimation ? 0 : 250 }}
         >
           {(state) => (
-            <>
+            <div className={jsStyles.wrapper()}>
               <div
                 data-tid={MobilePopupDataTids.container}
                 className={cx({
@@ -109,6 +109,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                     {this.props.children}
                   </div>
                 </div>
+                <div onClick={this.close} className={jsStyles.bottomIndent()} />
               </div>
               <div
                 onClick={this.close}
@@ -120,7 +121,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                 })}
               />
               <HideBodyVerticalScroll />
-            </>
+            </div>
           )}
         </Transition>
       </ZIndex>
