@@ -5,9 +5,14 @@ const styles = {
   root(t: Theme) {
     return css`
       position: relative;
-      background: ${t.menuBgDefault};
       padding: ${t.mobilePopupHeaderPadding};
       border-radius: ${t.mobilePopupHeaderBorderRadius};
+    `;
+  },
+
+  rootNoCaption() {
+    return css`
+      padding: 8px 0 0;
     `;
   },
 
@@ -26,10 +31,6 @@ const styles = {
 
   caption(t: Theme) {
     return css`
-      display: flex;
-      justify-content: center;
-      padding-top: 12px;
-      padding-bottom: 12px;
       font-size: ${t.mobilePopupHeaderFontSize};
       line-height: ${t.mobilePopupHeaderLineHeight};
       font-weight: ${t.mobilePopupHeaderFontWeight};
@@ -37,7 +38,7 @@ const styles = {
     `;
   },
 
-  childrenWithoutCaption() {
+  captionWithChildren() {
     return css`
       padding-bottom: 8px;
     `;

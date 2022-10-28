@@ -1,5 +1,6 @@
 import React, { CSSProperties } from 'react';
 
+import { ResponsiveLayout } from '../../components/ResponsiveLayout';
 import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
 import { MenuItem, MenuItemProps } from '../../components/MenuItem';
@@ -124,24 +125,37 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
-      <div
-        data-tid={MenuDataTids.root}
-        className={cx(getAlignRightClass(this.props), {
-          [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: hasShadow,
-        })}
-        style={getStyle(this.props)}
-        ref={this.setRootNode}
-      >
-        <ScrollContainer
-          ref={this.refScrollContainer}
-          maxHeight={maxHeight}
-          preventWindowScroll={preventWindowScroll}
-          disabled={this.props.disableScrollContainer}
-        >
-          <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>
-        </ScrollContainer>
-      </div>
+      <ResponsiveLayout>
+        {({ isMobile }) => {
+          return (
+            <div
+              data-tid={MenuDataTids.root}
+              className={cx(getAlignRightClass(this.props), {
+                [styles.root(this.theme)]: true,
+                [styles.shadow(this.theme)]: hasShadow,
+              })}
+              style={getStyle(this.props)}
+              ref={this.setRootNode}
+            >
+              <ScrollContainer
+                ref={this.refScrollContainer}
+                maxHeight={maxHeight}
+                preventWindowScroll={preventWindowScroll}
+                disabled={this.props.disableScrollContainer}
+              >
+                <div
+                  className={cx({
+                    [styles.scrollContainer(this.theme)]: true,
+                    [styles.scrollContainerMobile()]: isMobile,
+                  })}
+                >
+                  {this.getChildList()}
+                </div>
+              </ScrollContainer>
+            </div>
+          );
+        }}
+      </ResponsiveLayout>
     );
   }
 

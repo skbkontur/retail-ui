@@ -10,6 +10,9 @@ const styles = {
       display: flex;
       justify-content: flex-end;
       border-radius: ${t.mobilePopupHeaderBorderRadius};
+      overflow: hidden;
+      padding-bottom: 8px;
+      background: ${t.menuBgDefault};
     `;
   },
 
@@ -18,6 +21,12 @@ const styles = {
       background-color: ${t.bgDefault};
       justify-content: flex-start;
       flex-grow: 1;
+    `;
+  },
+
+  rootWithChildren() {
+    return css`
+      padding-bottom: 8px;
     `;
   },
 

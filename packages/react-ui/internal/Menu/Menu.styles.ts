@@ -39,6 +39,12 @@ export const styles = memoizeStyle({
     `;
   },
 
+  scrollContainerMobile() {
+    return css`
+      padding: 0;
+    `;
+  },
+
   shadow(t: Theme) {
     return css`
       border: ${t.menuBorder};

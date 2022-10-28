@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { isNonNullable } from '../../../lib/utils';
 import { Theme } from '../../../lib/theming/Theme';
 import { cx } from '../../../lib/theming/Emotion';
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
@@ -36,25 +37,22 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
         className={cx({
           [jsStyles.root(this.theme)]: true,
           [jsStyles.withShadow(this.theme)]: withShadow,
+          [jsStyles.rootNoCaption()]: !caption && !children,
         })}
         onClick={this.rootClickHandler}
       >
         <div className={jsStyles.container()}>
-          <div className={jsStyles.closeWrapper()} onClick={this.wrapperClickHandler}>
-            <div className={jsStyles.closeHolder()} />
-          </div>
-          {React.isValidElement(children) && (
-            <div className={cx({ [jsStyles.childrenWithoutCaption()]: !caption })}>{children}</div>
-          )}
           {caption && (
             <div
               className={cx({
                 [jsStyles.caption(this.theme)]: true,
+                [jsStyles.captionWithChildren()]: isNonNullable(children),
               })}
             >
               {caption}
             </div>
           )}
+          {React.isValidElement(children) && <div>{children}</div>}
         </div>
       </div>
     );
@@ -62,9 +60,5 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
 
   private rootClickHandler = (e: React.MouseEvent) => {
     e.stopPropagation();
-  };
-
-  private wrapperClickHandler = () => {
-    this.props.onClose();
   };
 }
