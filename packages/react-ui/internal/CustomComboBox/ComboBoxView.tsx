@@ -2,7 +2,7 @@ import React from 'react';
 
 import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
-import { Input, InputIconType, InputProps } from '../../components/Input';
+import { Input, InputIconType, InputProps, InputSize } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -38,7 +38,8 @@ interface ComboBoxViewProps<T> extends CommonProps {
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
-  size?: 'small' | 'medium' | 'large';
+  size?: InputSize;
+  mobileSize?: InputSize;
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
@@ -92,7 +93,6 @@ type DefaultProps<T> = Required<
     | 'requestStatus'
     | 'onClickOutside'
     | 'onFocusOutside'
-    | 'size'
     | 'width'
   >
 >;
@@ -114,7 +114,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     onFocusOutside: () => {
       /**/
     },
-    size: 'small',
     width: 250,
   };
 
@@ -289,7 +288,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       inputMode,
     } = this.props;
 
-    const { renderValue, size } = this.getProps();
+    const { renderValue, size, mobileSize } = this.getProps();
 
     const rightIcon = this.getRightIcon();
 
@@ -312,6 +311,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           placeholder={placeholder}
           width="100%"
           size={size}
+          mobileSize={mobileSize}
           ref={this.refInput}
           warning={warning}
           inputMode={inputMode}
@@ -331,6 +331,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         warning={warning}
         placeholder={placeholder}
         size={size}
+        mobileSize={mobileSize}
         width="100%"
         ref={refInputLikeText}
       >

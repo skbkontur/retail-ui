@@ -2,13 +2,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
+import { responsiveLayout } from '../../components/ResponsiveLayout/decorator';
 import { isNonNullable } from '../../lib/utils';
 import { isKeyTab, isShortcutPaste } from '../../lib/events/keyboard/identifiers';
 import { MouseDrag, MouseDragEventHandler } from '../../lib/events/MouseDrag';
 import { isEdge, isIE11, isMobile } from '../../lib/client';
 import { Nullable } from '../../typings/utility-types';
 import { removeAllSelections, selectNodeContents } from '../../components/DateInput/helpers/SelectionHelpers';
-import { InputProps, InputIconType, InputState } from '../../components/Input';
+import { InputProps, InputIconType, InputState, InputSize } from '../../components/Input';
 import { styles as jsInputStyles } from '../../components/Input/Input.styles';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -38,13 +39,14 @@ export const InputLikeTextDataTids = {
   input: 'InputLikeText__input',
 } as const;
 
-type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
+type DefaultProps = Required<Pick<InputLikeTextProps, 'size' | 'mobileSize'>>;
 
+@responsiveLayout
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps: DefaultProps = { size: 'small' };
+  public static defaultProps: DefaultProps = { size: 'small', mobileSize: 'medium' };
 
   private getProps = createPropsGetter(InputLikeText.defaultProps);
 
@@ -52,6 +54,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
   private theme!: Theme;
   private node: HTMLElement | null = null;
+  private isMobileLayout!: boolean;
   private hiddenInput: HTMLInputElement | null = null;
   private lastSelectedInnerNode: [HTMLElement, number, number] | null = null;
   private frozen = false;
@@ -172,10 +175,12 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     const { focused, blinking } = this.state;
 
-    const leftSide = this.renderLeftSide();
-    const rightSide = this.renderRightSide();
+    const inputSize = this.isMobileLayout ? this.getProps().mobileSize : this.getProps().size;
 
-    const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(), {
+    const leftSide = this.renderLeftSide(inputSize);
+    const rightSide = this.renderRightSide(inputSize);
+
+    const className = cx(styles.root(), jsInputStyles.root(this.theme), this.getSizeClassName(inputSize), {
       [jsInputStyles.disabled(this.theme)]: !!disabled,
       [jsInputStyles.borderless()]: !!borderless,
       [jsInputStyles.focus(this.theme)]: focused,
@@ -226,8 +231,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private getIconClassname(right = false) {
-    switch (this.getProps().size) {
+  private getIconClassname(size: InputSize, right = false) {
+    switch (size) {
       case 'large':
         return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
       case 'medium':
@@ -238,12 +243,12 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   }
 
-  private renderLeftIcon = () => {
-    return this.renderIcon(this.props.leftIcon, this.getIconClassname());
+  private renderLeftIcon = (size: InputSize) => {
+    return this.renderIcon(this.props.leftIcon, this.getIconClassname(size));
   };
 
-  private renderRightIcon = () => {
-    return this.renderIcon(this.props.rightIcon, this.getIconClassname(true));
+  private renderRightIcon = (size: InputSize) => {
+    return this.renderIcon(this.props.rightIcon, this.getIconClassname(size, true));
   };
 
   private renderIcon = (icon: InputIconType, className: string): JSX.Element | null => {
@@ -293,8 +298,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderLeftSide = (): JSX.Element | null => {
-    const leftIcon = this.renderLeftIcon();
+  private renderLeftSide = (size: InputSize): JSX.Element | null => {
+    const leftIcon = this.renderLeftIcon(size);
     const prefix = this.renderPrefix();
 
     if (!leftIcon && !prefix) {
@@ -309,8 +314,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     );
   };
 
-  private renderRightSide = (): JSX.Element | null => {
-    const rightIcon = this.renderRightIcon();
+  private renderRightSide = (size: InputSize): JSX.Element | null => {
+    const rightIcon = this.renderRightIcon(size);
     const suffix = this.renderSuffix();
 
     if (!rightIcon && !suffix) {
@@ -476,8 +481,8 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     this.frozenBlur = false;
   };
 
-  private getSizeClassName = () => {
-    switch (this.getProps().size) {
+  private getSizeClassName = (size: InputSize) => {
+    switch (size) {
       case 'large':
         return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,

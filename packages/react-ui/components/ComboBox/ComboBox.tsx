@@ -3,7 +3,7 @@ import React from 'react';
 import { CustomComboBox } from '../../internal/CustomComboBox';
 import { Nullable } from '../../typings/utility-types';
 import { MenuItemState } from '../MenuItem';
-import { InputIconType } from '../Input';
+import { InputIconType, InputSize } from '../Input';
 import { CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -157,7 +157,16 @@ export interface ComboBoxProps<T> extends CommonProps {
    */
   valueToString?: (item: T) => string;
 
-  size?: 'small' | 'medium' | 'large';
+  /**
+   * Размер контрола в десктопной версии компонента
+   */
+  size?: InputSize;
+
+  /**
+   * Размер контрола в мобильной версии компонента
+   */
+  mobileSize?: InputSize;
+
   /**
    * Состояние валидации при предупреждении.
    */
