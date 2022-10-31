@@ -26,7 +26,7 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2020.1.0" />
     <PackageReference Include="Kontur.RetryableAssertions" Version="0.0.2-alpha" />
-    <PackageReference Include="Kontur.Selone" Version="1.0.0-alpha" />
+    <PackageReference Include="Kontur.Selone" Version="1.0.0" />
     <PackageReference Include="Selenium.WebDriver" Version="4.3.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
