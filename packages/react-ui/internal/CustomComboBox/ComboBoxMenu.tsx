@@ -105,7 +105,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuItem disabled key="message" isMobile={isMobile}>
+          <MenuItem component={(props) => <p {...props} />} disabled key="message" isMobile={isMobile}>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
           <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>
