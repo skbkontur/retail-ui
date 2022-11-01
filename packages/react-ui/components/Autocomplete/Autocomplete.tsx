@@ -3,6 +3,7 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter, isKeyEscape } from '../../lib/events/keyboard/identifiers';
@@ -260,6 +261,22 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
+  private renderInfoItem = (title: string) => {
+    return (
+      <ThemeContext.Consumer>
+        {(theme) => (
+          <ThemeContext.Provider
+            value={ThemeFactory.create({ menuItemDisabledColor: theme.textColorDisabledContrast }, theme)}
+          >
+            <MenuItem component={(props) => <p {...props} />} disabled isMobile>
+              {title}
+            </MenuItem>
+          </ThemeContext.Provider>
+        )}
+      </ThemeContext.Consumer>
+    );
+  };
+
   private renderMobileMenu = () => {
     const inputProps: InputProps = {
       autoFocus: true,
@@ -284,6 +301,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
+          {!this.props.value && this.renderInfoItem('Начните вводить название')}
+          {items?.length === 0 && this.props.value && this.renderInfoItem('Ничего не найдено')}
         </Menu>
       </MobilePopup>
     );

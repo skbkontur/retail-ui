@@ -229,7 +229,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private getComponent = () => {
     const { disabled, component, href } = this.props;
 
-    if (disabled) {
+    if (disabled && !component) {
       return 'button';
     }
 
