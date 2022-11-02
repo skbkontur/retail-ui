@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { Gapped, GappedProps } from '../Gapped';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
@@ -18,7 +19,14 @@ export interface SidePageFooterProps extends CommonProps {
    * Включает серый цвет в футере
    */
   panel?: boolean;
+  /**
+   * Закрепляет футер снизу сайдпейджа
+   */
   sticky?: boolean;
+  /**
+   * Задаёт отступ между элементами футера
+   */
+  gap?: GappedProps['gap'];
 }
 
 interface SidePageFooterState {
@@ -28,6 +36,8 @@ interface SidePageFooterState {
 export const SidePageFooterDataTids = {
   root: 'SidePageFooter__root',
 } as const;
+
+type DefaultProps = Required<Pick<GappedProps, 'gap'>>;
 
 /**
  * Футер сайдпейджа.
@@ -45,6 +55,10 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
 
   public state: SidePageFooterState = {
     fixed: false,
+  };
+
+  public static defaultProps: DefaultProps = {
+    gap: 0,
   };
 
   private theme!: Theme;
@@ -127,7 +141,9 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
                   })}
                   ref={this.refContent}
                 >
-                  {this.props.children}
+                  <Gapped vertical={this.isMobileLayout} gap={this.props.gap}>
+                    {this.props.children}
+                  </Gapped>
                 </div>
               </div>
             )}

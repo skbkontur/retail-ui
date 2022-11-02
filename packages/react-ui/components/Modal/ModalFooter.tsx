@@ -7,6 +7,7 @@ import { ZIndex } from '../../internal/ZIndex';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
+import { Gapped, GappedProps } from '../Gapped';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
@@ -16,8 +17,21 @@ export interface ModalFooterProps extends CommonProps {
    * Включает серый цвет в футере
    */
   panel?: boolean;
+  /**
+   * Закрепляет футер снизу модального окна
+   *
+   * На десктопе по умолчанию равен `true`
+   * На мобильных по умолчанию равен `false`
+   */
   sticky?: boolean;
+  /**
+   * Контент футера
+   */
   children?: ReactNode;
+  /**
+   * Задаёт отступ между элементами футера
+   */
+  gap?: GappedProps['gap'];
 }
 
 export const ModalFooterDataTids = {
@@ -34,7 +48,7 @@ function ModalFooter(props: ModalFooterProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, panel, children } = props;
+  const { sticky = !layout.isMobile, gap = 0, panel, children } = props;
 
   useLayoutEffect(() => {
     modal.setHasFooter?.();
@@ -58,7 +72,9 @@ function ModalFooter(props: ModalFooterProps) {
           [styles.mobileFooter(theme)]: layout.isMobile,
         })}
       >
-        {children}
+        <Gapped vertical={layout.isMobile} gap={gap}>
+          {children}
+        </Gapped>
       </div>
     );
   };
