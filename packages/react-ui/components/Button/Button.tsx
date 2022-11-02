@@ -164,10 +164,6 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
-export const ButtonDataTids = {
-  root: 'Button__root',
-} as const;
-
 type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
 
 @rootNode
@@ -383,7 +379,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
+          <button ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}

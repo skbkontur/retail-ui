@@ -35,10 +35,6 @@ export interface FxInputProps
       }
     > {}
 
-export const FxInputDataTids = {
-  root: 'FxInput__root',
-} as const;
-
 type DefaultProps = Required<Pick<FxInputProps, 'width' | 'type' | 'value'>>;
 type DefaultizedFxInputProps = DefaultizedProps<FxInputProps, DefaultProps>;
 
@@ -96,7 +92,7 @@ export class FxInput extends React.Component<FxInputProps> {
     }
 
     return (
-      <Group data-tid={FxInputDataTids.root} width={width}>
+      <Group width={width}>
         {button}
         {type === 'currency' ? (
           <CurrencyInput

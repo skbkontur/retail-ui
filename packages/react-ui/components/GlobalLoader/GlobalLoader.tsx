@@ -64,10 +64,6 @@ export interface GlobalLoaderState {
   started: boolean;
 }
 
-export const GlobalLoaderDataTids = {
-  root: 'GlobalLoader',
-} as const;
-
 type DefaultProps = Required<
   Pick<
     GlobalLoaderProps,
@@ -167,7 +163,7 @@ export class GlobalLoader extends React.Component<GlobalLoaderProps, GlobalLoade
             expectedResponseTime={this.state.expectedResponseTime}
             delayBeforeHide={delayBeforeHide}
             status={status}
-            data-tid={GlobalLoaderDataTids.root}
+            data-tid="GlobalLoader"
             disableAnimations={disableAnimations}
           />
         </CommonWrapper>

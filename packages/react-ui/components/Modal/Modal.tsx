@@ -72,12 +72,6 @@ export interface ModalState {
   hasPanel: boolean;
 }
 
-export const ModalDataTids = {
-  container: 'modal-container',
-  content: 'modal-content',
-  close: 'modal-close',
-} as const;
-
 type DefaultProps = Required<Pick<ModalProps, 'disableFocusLock'>>;
 
 /**
@@ -211,7 +205,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
               onMouseDown={this.handleContainerMouseDown}
               onMouseUp={this.handleContainerMouseUp}
               onClick={this.handleContainerClick}
-              data-tid={ModalDataTids.container}
+              data-tid="modal-container"
             >
               <ResponsiveLayout>
                 {({ isMobile }) => {
@@ -223,7 +217,7 @@ export class Modal extends React.Component<ModalProps, ModalState> {
                         [styles.alignTop()]: Boolean(this.props.alignTop),
                       })}
                       style={isMobile ? undefined : containerStyle}
-                      data-tid={ModalDataTids.content}
+                      data-tid="modal-content"
                     >
                       <div
                         className={cx({ [styles.window(this.theme)]: true, [styles.mobileWindow()]: isMobile })}

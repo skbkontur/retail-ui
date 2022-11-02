@@ -30,11 +30,6 @@ export interface GappedProps extends CommonProps {
   children: React.ReactNode;
 }
 
-export const GappedDataTids = {
-  vertical: 'Gapped__vertical',
-  horizontal: 'Gapped__horizontal',
-} as const;
-
 type DefaultProps = Required<Pick<GappedProps, 'wrap' | 'vertical' | 'verticalAlign'>>;
 
 /**
@@ -104,7 +99,7 @@ export class Gapped extends React.Component<GappedProps> {
         );
       });
 
-    return <div data-tid={GappedDataTids.vertical}>{children}</div>;
+    return <div>{children}</div>;
   }
 
   private renderHorizontal() {
@@ -120,7 +115,7 @@ export class Gapped extends React.Component<GappedProps> {
     const contStyle: React.CSSProperties = wrap ? { marginTop: -gap - 1, marginLeft: -gap } : { whiteSpace: 'nowrap' };
 
     return (
-      <div data-tid={GappedDataTids.horizontal} style={rootStyle}>
+      <div style={rootStyle}>
         <div style={contStyle}>
           {React.Children.toArray(children)
             .filter(this.filterChildren)

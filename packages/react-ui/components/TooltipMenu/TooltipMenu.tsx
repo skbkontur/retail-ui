@@ -51,10 +51,6 @@ export interface TooltipMenuProps extends CommonProps, Pick<PopupMenuProps, 'onO
   disableAnimations?: boolean;
 }
 
-export const TooltipMenuDataTids = {
-  root: 'TooltipMenu__root',
-} as const;
-
 type DefaultProps = Required<Pick<TooltipMenuProps, 'disableAnimations'>>;
 
 /**
@@ -118,7 +114,6 @@ export class TooltipMenu extends React.Component<TooltipMenuProps> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
-          data-tid={TooltipMenuDataTids.root}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
           caption={this.props.caption}

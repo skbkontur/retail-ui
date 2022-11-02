@@ -60,10 +60,6 @@ export interface RadioState {
   focusedByKeyboard: boolean;
 }
 
-export const RadioDataTids = {
-  root: 'Radio__root',
-} as const;
-
 type DefaultProps = Required<Pick<RadioProps<any>, 'focused'>>;
 
 /**
@@ -191,7 +187,7 @@ export class Radio<T> extends React.Component<RadioProps<T>, RadioState> {
     }
 
     return (
-      <label data-tid={RadioDataTids.root} {...labelProps}>
+      <label {...labelProps}>
         <input {...inputProps} />
         <span {...radioProps}>
           <span className={styles.placeholder()} />

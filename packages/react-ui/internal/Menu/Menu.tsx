@@ -33,10 +33,6 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
-export const MenuDataTids = {
-  root: 'Menu__root',
-} as const;
-
 type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
 
 @rootNode
@@ -125,7 +121,6 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
     return (
       <div
-        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
           [styles.shadow(this.theme)]: hasShadow,

@@ -87,10 +87,6 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
-export const RadioGroupDataTids = {
-  root: 'RadioGroup__root',
-} as const;
-
 type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
 
 /**
@@ -177,7 +173,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
-          <span data-tid={RadioGroupDataTids.root} ref={this.ref} style={style} className={styles.root()} {...handlers}>
+          <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
             <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
               {this.renderChildren()}
             </RadioGroupContext.Provider>

@@ -24,10 +24,6 @@ export interface CenterProps
       }
     > {}
 
-export const CenterDataTids = {
-  root: 'Center__root',
-} as const;
-
 type DefaultProps = Required<Pick<CenterProps, 'align'>>;
 type DefaultizedCenterProps = DefaultizedProps<CenterProps, DefaultProps>;
 
@@ -57,7 +53,6 @@ export class Center extends React.Component<CenterProps> {
 
     return (
       <div
-        data-tid={CenterDataTids.root}
         {...rest}
         className={cx({
           [styles.root()]: true,

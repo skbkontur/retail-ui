@@ -3,7 +3,6 @@ import userEvent from '@testing-library/user-event';
 import { mount } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 
-import { ButtonDataTids } from '../../Button';
 import { defaultLangCode } from '../../../lib/locale/constants';
 import { LangCodes, LocaleContext } from '../../../lib/locale';
 import { SelectLocaleHelper } from '../locale';
@@ -64,24 +63,6 @@ describe('Select', () => {
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
     expect(event.key).toBe('k');
-  });
-
-  it('should execute `onFocus` with default button', () => {
-    const onFocus = jest.fn();
-    render(<Select onFocus={onFocus} />);
-
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
-
-    expect(onFocus).toHaveBeenCalledTimes(1);
-  });
-
-  it('should execute `onBlur` with default button', () => {
-    const onBlur = jest.fn();
-    render(<Select onFocus={onBlur} />);
-
-    userEvent.click(screen.getByTestId(ButtonDataTids.root));
-
-    expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
   it('should search item of any type', async () => {

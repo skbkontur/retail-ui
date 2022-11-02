@@ -110,10 +110,6 @@ export interface InputState {
   needsPolyfillPlaceholder: boolean;
 }
 
-export const InputDataTids = {
-  root: 'Input__root',
-} as const;
-
 type DefaultProps = Required<Pick<InputProps, 'size'>>;
 
 /**
@@ -342,7 +338,7 @@ export class Input extends React.Component<InputProps, InputState> {
     const input = mask ? this.renderMaskedInput(inputProps, mask) : React.createElement('input', inputProps);
 
     return (
-      <label data-tid={InputDataTids.root} {...labelProps}>
+      <label {...labelProps}>
         <span className={styles.sideContainer()}>
           {this.renderLeftIcon()}
           {this.renderPrefix()}

@@ -75,14 +75,6 @@ export interface PagingState {
 
 export type ItemType = number | '.' | 'forward';
 
-export const PagingDataTids = {
-  root: 'Paging__root',
-  dots: 'Paging__dots',
-  forwardLink: 'Paging__forwardLink',
-  pageLinkWrapper: 'Paging__pageLinkWrapper',
-  pageLink: 'Paging__pageLink',
-} as const;
-
 type DefaultProps = Required<
   Pick<PagingProps, 'component' | 'shouldBeVisibleWithLessThanTwoPages' | 'useGlobalListener' | 'data-tid'>
 >;
@@ -96,7 +88,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     component: PagingDefaultComponent,
     shouldBeVisibleWithLessThanTwoPages: true,
     useGlobalListener: false,
-    'data-tid': PagingDataTids.root,
+    'data-tid': 'Paging__root',
   };
 
   private getProps = createPropsGetter(Paging.defaultProps);
@@ -203,7 +195,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
   private renderDots = (key: string) => {
     return (
       <span
-        data-tid={PagingDataTids.dots}
+        data-tid="Paging__dots"
         key={key}
         className={cx({ [styles.dots(this.theme)]: true, [styles.dotsDisabled(this.theme)]: this.props.disabled })}
       >
@@ -224,7 +216,7 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
     return (
       <Component
         key={'forward'}
-        data-tid={PagingDataTids.forwardLink}
+        data-tid="Paging__forwardLink"
         active={false}
         className={classes}
         onClick={disabled ? emptyHandler : this.goForward}
@@ -252,13 +244,13 @@ export class Paging extends React.PureComponent<PagingProps, PagingState> {
 
     return (
       <span
-        data-tid={PagingDataTids.pageLinkWrapper}
+        data-tid="Paging__pageLinkWrapper"
         key={pageNumber}
         className={styles.pageLinkWrapper()}
         onMouseDown={this.handleMouseDownPageLink}
       >
         <Component
-          data-tid={PagingDataTids.pageLink}
+          data-tid="Paging__pageLink"
           active={active}
           className={classes}
           onClick={handleClick}

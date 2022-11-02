@@ -49,10 +49,6 @@ export interface SpinnerProps extends CommonProps {
   color?: React.CSSProperties['color'];
 }
 
-export const SpinnerDataTids = {
-  root: 'Spinner__root',
-} as const;
-
 type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
 
 /**
@@ -112,7 +108,7 @@ export class Spinner extends React.Component<SpinnerProps> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div data-tid={SpinnerDataTids.root} className={styles.spinner()}>
+        <div className={styles.spinner()}>
           <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>

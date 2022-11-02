@@ -1,10 +1,6 @@
 import { mount, ReactWrapper } from 'enzyme';
-import { render, screen } from '@testing-library/react';
-import React, { useState } from 'react';
-import userEvent from '@testing-library/user-event';
+import React from 'react';
 
-import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
-import { InputLikeTextDataTids } from '../../../internal/InputLikeText';
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
@@ -198,31 +194,5 @@ describe('DatePicker', () => {
 
       expect(getTextLoading(wrapper)).toBe(`${expectedText} ${today}`);
     });
-  });
-
-  it.each(['', null, undefined])('should clear the value when %s passed', (testValue) => {
-    const Comp = () => {
-      const [value, setValue] = useState<string | null | undefined>('24.08.2022');
-
-      return (
-        <>
-          <DatePicker value={value} onValueChange={setValue} />
-          <button onClick={() => setValue(testValue)}>Clear</button>
-        </>
-      );
-    };
-
-    render(<Comp />);
-
-    const input = screen.getByTestId(InputLikeTextDataTids.input);
-    expect(input).toHaveTextContent(/^24.08.2022$/);
-
-    userEvent.click(screen.getByRole('button', { name: 'Clear' }));
-    const expected = 'ss.ss.ssss'.replace(/s/g, MASK_CHAR_EXEMPLAR);
-    const expectedRegExp = new RegExp(`^${expected}$`);
-    expect(input).toHaveTextContent(expectedRegExp, { normalizeWhitespace: false });
-
-    userEvent.type(input, '24.08.2022');
-    expect(input).toHaveTextContent(/^24.08.2022$/);
   });
 });

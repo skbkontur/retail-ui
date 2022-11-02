@@ -74,10 +74,6 @@ const passCornersIfButton = (child: React.ReactNode, firstChild: React.ReactNode
   return child;
 };
 
-export const GroupDataTids = {
-  root: 'Group__root',
-} as const;
-
 @rootNode
 export class Group extends React.Component<GroupProps> {
   public static __KONTUR_REACT_UI__ = 'Group';
@@ -98,7 +94,7 @@ export class Group extends React.Component<GroupProps> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <span data-tid={GroupDataTids.root} className={styles.root()} style={style}>
+        <span className={styles.root()} style={style}>
           {React.Children.map(childrenArray, (child) => {
             if (!child || !React.isValidElement<GroupChildProps>(child)) {
               return null;

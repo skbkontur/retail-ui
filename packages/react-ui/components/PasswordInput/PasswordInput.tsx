@@ -29,12 +29,6 @@ export interface PasswordInputState {
   capsLockEnabled?: boolean | null;
 }
 
-export const PasswordInputDataTids = {
-  root: 'PasswordInput',
-  capsLockDetector: 'PasswordInputCapsLockDetector',
-  eyeIcon: 'PasswordInputEyeIcon',
-} as const;
-
 type DefaultProps = Required<Pick<PasswordInputProps, 'size'>>;
 
 /**
@@ -187,11 +181,9 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
     return (
       <span className={styles.iconWrapper()}>
-        {capsLockEnabled && (
-          <span className={styles.capsLockDetector()} data-tid={PasswordInputDataTids.capsLockDetector} />
-        )}
+        {capsLockEnabled && <span className={styles.capsLockDetector()} data-tid="PasswordInputCapsLockDetector" />}
         <span
-          data-tid={PasswordInputDataTids.eyeIcon}
+          data-tid="PasswordInputEyeIcon"
           className={cx(styles.toggleVisibility(this.theme), this.getEyeWrapperClassname())}
           onClick={this.handleToggleVisibility}
         >
@@ -220,7 +212,7 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
 
     return (
       <RenderLayer onFocusOutside={this.hideSymbols} onClickOutside={this.hideSymbols}>
-        <div data-tid={PasswordInputDataTids.root} className={styles.root()}>
+        <div className={styles.root()}>
           <Input ref={this.refInput} type={this.state.visible ? 'text' : 'password'} {...inputProps} />
         </div>
       </RenderLayer>

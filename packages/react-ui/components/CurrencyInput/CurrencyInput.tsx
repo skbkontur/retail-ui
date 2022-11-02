@@ -50,10 +50,6 @@ export interface CurrencyInputState {
   focused: boolean;
 }
 
-export const CurrencyInputDataTids = {
-  root: 'CurrencyInput__root',
-} as const;
-
 type DefaultProps = Required<
   Pick<CurrencyInputProps, 'align' | 'fractionDigits' | 'hideTrailingZeros' | 'value' | 'inputMode'>
 >;
@@ -160,7 +156,6 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
     return (
       <Input
-        data-tid={CurrencyInputDataTids.root}
         {...rest}
         align={this.getProps().align}
         value={this.state.formatted}

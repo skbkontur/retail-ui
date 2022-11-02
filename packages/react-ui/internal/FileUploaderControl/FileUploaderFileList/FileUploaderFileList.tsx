@@ -15,10 +15,6 @@ interface FileUploaderFileListProps {
   size: FileUploaderSize;
 }
 
-export const FileUploaderFileDataTids = {
-  fileList: 'FileUploader__fileList',
-} as const;
-
 export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   const { renderFile, size } = props;
   const { files } = useContext(FileUploaderControlContext);
@@ -31,7 +27,7 @@ export const FileUploaderFileList = (props: FileUploaderFileListProps) => {
   });
 
   return (
-    <div data-tid={FileUploaderFileDataTids.fileList}>
+    <div data-tid="FileUploader__fileList">
       {files.map((file) => (
         <div key={file.id} className={cx(jsStyles.fileWrapper(theme), fileWrapperClass)}>
           <div className={jsStyles.file()}>

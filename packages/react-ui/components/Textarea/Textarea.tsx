@@ -114,11 +114,6 @@ export interface TextareaState {
   isCounterVisible: boolean;
 }
 
-export const TextareaDataTids = {
-  root: 'Textarea__root',
-  counter: 'TextareaCounter__root',
-} as const;
-
 type DefaultProps = Required<Pick<TextareaProps, 'rows' | 'maxRows' | 'extraRow' | 'disableAnimations'>>;
 
 /**
@@ -402,7 +397,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
         onClickOutside={this.handleCloseCounterHelp}
         active={this.state.isCounterVisible}
       >
-        <label data-tid={TextareaDataTids.root} {...rootProps} className={styles.root(this.theme)}>
+        <label {...rootProps} className={styles.root(this.theme)}>
           {placeholderPolyfill}
           <ResizeDetector onResize={this.reflowCounter}>
             <textarea

@@ -9,7 +9,6 @@ import { CommonWrapper } from '../../internal/CommonWrapper';
 
 import { CloseProps } from './ModalContext';
 import { styles } from './Modal.styles';
-import { ModalDataTids } from './Modal';
 
 export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseProps) {
   const theme = useContext(ThemeContext);
@@ -43,7 +42,7 @@ export function ModalClose({ disableClose, requestClose, ...otherProps }: CloseP
             onClick={requestClose}
             onFocus={handleFocus}
             onBlur={handleBlur}
-            data-tid={ModalDataTids.close}
+            data-tid="modal-close"
             tabIndex={disableClose ? -1 : 0}
           >
             <CrossIcon />

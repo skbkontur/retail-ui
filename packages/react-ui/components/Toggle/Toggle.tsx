@@ -83,10 +83,6 @@ export interface ToggleState {
   focusByTab?: boolean;
 }
 
-export const ToggleDataTids = {
-  root: 'Toggle__root',
-} as const;
-
 type DefaultProps = Required<Pick<ToggleProps, 'disabled' | 'loading' | 'captionPosition'>>;
 
 /**
@@ -191,7 +187,7 @@ export class Toggle extends React.Component<ToggleProps, ToggleState> {
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <label data-tid={ToggleDataTids.root} className={labelClassNames}>
+        <label className={labelClassNames}>
           <div
             className={cx(styles.button(this.theme), {
               [styles.buttonRight()]: captionPosition === 'left',

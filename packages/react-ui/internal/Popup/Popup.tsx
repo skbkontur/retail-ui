@@ -119,12 +119,6 @@ export interface PopupState {
   location: Nullable<PopupLocation>;
 }
 
-export const PopupDataTids = {
-  content: 'PopupContent',
-  contentInner: 'PopupContentInner',
-  popupPin: 'PopupPin__root',
-} as const;
-
 type DefaultProps = Required<
   Pick<
     PopupProps,
@@ -420,11 +414,11 @@ export class Popup extends React.Component<PopupProps, PopupState> {
     const width = this.getProps().width;
 
     return (
-      <div className={styles.content(this.theme)} data-tid={PopupDataTids.content} ref={this.refForTransition}>
+      <div className={styles.content(this.theme)} data-tid={'PopupContent'} ref={this.refForTransition}>
         <div
           className={styles.contentInner(this.theme)}
           style={{ backgroundColor, width: this.calculateWidth(width) }}
-          data-tid={PopupDataTids.contentInner}
+          data-tid={'PopupContentInner'}
         >
           {children}
         </div>
