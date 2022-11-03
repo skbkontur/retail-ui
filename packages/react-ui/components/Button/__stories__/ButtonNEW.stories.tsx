@@ -1,6 +1,8 @@
 import React from 'react';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
+import OkIcon from '@skbkontur/react-icons/Ok';
+import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 
 // 	  Use	    Active	Checked (в будущем hover)
 // 1	Default	True	  True
@@ -72,13 +74,13 @@ export const warningStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={warningArrowSizeStates.map((x) => ({ props: x }))}
+    rows={warningDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', warning: true }}
   />
 );
 warningStates.storyName = 'Warning button table';
 
-const warningArrowSizeStates: ButtonState[] = [
+const warningDifferentStates: ButtonState[] = [
   {},
   { size: 'medium' },
   { size: 'large' },
@@ -94,13 +96,13 @@ export const errorStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={errorArrowSizeStates.map((x) => ({ props: x }))}
+    rows={errorDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', error: true }}
   />
 );
 errorStates.storyName = 'Error button table';
 
-const errorArrowSizeStates: ButtonState[] = [
+const errorDifferentStates: ButtonState[] = [
   {},
   { arrow: true },
   { arrow: true, size: 'medium' },
@@ -115,13 +117,13 @@ export const focusedStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={focusedArrowSizeStates.map((x) => ({ props: x }))}
+    rows={focusedDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', visuallyFocused: true }}
   />
 );
 focusedStates.storyName = 'Focused button table';
 
-const focusedArrowSizeStates: ButtonState[] = [
+const focusedDifferentStates: ButtonState[] = [
   {},
   { arrow: true },
   { arrow: true, size: 'medium' },
@@ -129,6 +131,44 @@ const focusedArrowSizeStates: ButtonState[] = [
   { arrow: 'left' },
   { arrow: 'left', size: 'medium' },
   { arrow: 'left', size: 'large' },
+]
+
+//Borderless - disabled  - loading - checked - visuallyFocused, error, warning -active,
+export const borderlessStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={borderlessDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', borderless: true }}
+  />
+);
+borderlessStates.storyName = 'Borderless button table';
+
+const borderlessDifferentStates: ButtonState[] = [
+  {},
+  { disabled: true },
+  { loading: true },
+  { checked: true },
+  { visuallyFocused: true },
+  { error: true },
+  { warning: true },
+  { active: true },
+]
+
+export const sizeStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={sizeDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+sizeStates.storyName = 'Size button table';
+
+const sizeDifferentStates: ButtonState[] = [
+  { size: 'small' },
+  { size: 'medium' },
+  { size: 'large' },
 ]
 
 // Arrow - default - warning - error - checked - !default  - focus - size
@@ -141,19 +181,6 @@ export const arrowSmallStates = () => (
   />
 );
 arrowSmallStates.storyName = 'Arrow small(default) button table';
-
-const arrowDifferentStates: ButtonState[] = [
-  { warning: true },
-  { error: true },
-  { checked: true },
-  { visuallyFocused: true },
-  { warning: true, error: true },
-  { warning: true, checked: true },
-  { warning: true, visuallyFocused: true },
-  { error: true, checked: true },
-  { error: true, visuallyFocused: true },
-  { checked: true, visuallyFocused: true },
-]
 
 export const arrowMediumStates = () => (
   <ComponentTable
@@ -174,6 +201,19 @@ export const arrowLargeStates = () => (
   />
 );
 arrowLargeStates.storyName = 'Arrow large button table';
+
+const arrowDifferentStates: ButtonState[] = [
+  { warning: true },
+  { error: true },
+  { checked: true },
+  { visuallyFocused: true },
+  { warning: true, error: true },
+  { warning: true, checked: true },
+  { warning: true, visuallyFocused: true },
+  { error: true, checked: true },
+  { error: true, visuallyFocused: true },
+  { checked: true, visuallyFocused: true },
+]
 
 // Arrow left - default - warning - error - checked - !default  - focus - size
 export const arrowLeftSmallStates = () => (
@@ -206,7 +246,7 @@ export const arrowLeftLargeStates = () => (
 );
 arrowLeftLargeStates.storyName = 'Arrow left large button table';
 
-// Loading - checked - focused -  active - hover(checked)
+// Loading - checked - focused -  active
 export const loadingStates = () => (
   <ComponentTable
     Component={Button}
@@ -243,8 +283,7 @@ const narrowtates: ButtonState[] = [
   { size: 'large' },
 ]
 
-// Widht - align - use: link
-// align - widht
+// Widht - align
 export const widthStates = () => (
   <ComponentTable
     Component={Button}
@@ -268,22 +307,112 @@ width200pxStates.storyName = 'Width 200px button table';
 const widthAlignStates: ButtonState[] = [
   { align: 'center' },
   { align: 'end' },
-  { align: 'inherit' }, //???
-  { align: 'initial' },
   { align: 'justify' },
   { align: 'left' },
   { align: 'right' },
   { align: 'start' },
-  { align: 'match-parent' },//???
-  { align: 'revert' },
-  { align: 'unset' },
-
 ]
 
-// Link - wight - align - warning - error - focused - disabled - и подумать с чем еще  - loading
-// Icon - size - notext - child - contect
+// Link - wight - align - warning - error - focused - disabled - loading
+export const linkStates = () => (
+  <table>
+    <tr>
+      <td>Width</td>
+      <td><Button use='link' >Default</Button></td>
+      <td><Button use='link' width={'auto'}>Auto width</Button></td>
+      <td><Button use='link' width={200}>Width 200</Button></td>
+    </tr>
+    <tr>
+      <td>Align</td>
+      <td><Button use='link' align='center'>Center</Button></td>
+      <td><Button use='link' align='left'>Left</Button></td>
+      <td><Button use='link' align='right'>Right</Button></td>
+      <td><Button use='link' align='end'>End</Button></td>
+      <td><Button use='link' align='start'>Start</Button></td>
+      <td><Button use='link' align='justify'>Justify</Button></td>
+    </tr>
+    <tr>
+      <td>Warning</td>
+      <td><Button use='link' warning >Default</Button></td>
+      <td><Button use='link' warning size='medium'>Medium size</Button></td>
+      <td><Button use='link' warning size='large'>Large size</Button></td>
+    </tr>
+    <tr>
+      <td>Error</td>
+      <td><Button use='link' error >Default</Button></td>
+      <td><Button use='link' error size='medium'>Medium size</Button></td>
+      <td><Button use='link' error size='large'>Large size</Button></td>
+    </tr>
+    <tr>
+      <td>Focused</td>
+      <td><Button use='link' visuallyFocused >Default</Button></td>
+      <td><Button use='link' visuallyFocused size='medium'>Medium size</Button></td>
+      <td><Button use='link' visuallyFocused size='large'>Large size</Button></td>
+    </tr>
+    <tr>
+      <td>Disabled</td>
+      <td><Button use='link' disabled >Default</Button></td>
+      <td><Button use='link' disabled size='medium'>Medium size</Button></td>
+      <td><Button use='link' disabled size='large'>Large size</Button></td>
+    </tr>
+    <tr>
+      <td>Loading</td>
+      <td><Button use='link' loading >Default</Button></td>
+      <td><Button use='link' loading size='medium'>Medium size</Button></td>
+      <td><Button use='link' loading size='large'>Large size</Button></td>
+    </tr>
+  </table>
+);
+linkStates.storyName = 'Link states';
 
-// Disabled - active - hover(checked)
+// Icon - size - notext - child - content
+export const IconStates = () => (
+  <table>
+    <tr>
+      <th></th>
+      <th>Size: default</th>
+      <th>Size: medium</th>
+      <th>Size: large</th>
+    </tr>
+    <tr>
+      <td>Icon</td>
+      <td><Button icon={<OkIcon />} >Button</Button></td>
+      <td><Button icon={<OkIcon />} size='medium'>Button</Button></td>
+      <td><Button icon={<OkIcon />} size='large'>Button</Button></td>
+    </tr>
+    <tr>
+      <td>Icon no text</td>
+      <td><Button icon={<OkIcon />} /></td>
+      <td><Button icon={<OkIcon />} size='medium' /></td>
+      <td><Button icon={<OkIcon />} size='large' /></td>
+    </tr>
+    <tr>
+      <td>Icon as children</td>
+      <td><Button>{<OkIcon />}Button</Button></td>
+      <td><Button size='medium' >{<OkIcon />}Button</Button></td>
+      <td><Button size='large' >{<OkIcon />}Button</Button></td>
+    </tr>
+    <tr>
+      <td>Different use</td>
+      <td><Button icon={<OkIcon />} use='danger'>Button</Button></td>
+      <td><Button icon={<OkIcon />} use='primary' size='medium'>Button</Button></td>
+      <td><Button icon={<OkIcon />} use='success' size='large'>Button</Button></td>
+    </tr>
+    <tr>
+      <td>Link</td>
+      <td><Button icon={<OkIcon />} use='link'>Button</Button></td>
+      <td><Button icon={<ArchivePack />} use='link' size='medium'>Button</Button></td>
+      <td><Button icon={<ArchivePack />} use='link' size='large'>Button</Button></td>
+    </tr>
+    <tr>
+      <td>Long text</td>
+      <td><Button icon={<OkIcon />} width="200px">With icon, fixed width and long-lon-long text</Button></td>
+    </tr>
+  </table>
+);
+IconStates.storyName = 'Icon states table';
+
+// Disabled - active - checked (hover)- focused - loading
 export const disabledStates = () => (
   <ComponentTable
     Component={Button}
@@ -298,7 +427,14 @@ const disabledDifferentStates: ButtonState[] = [
   {},
   { active: true },
   { checked: true },
+  { visuallyFocused: true },
+  { loading: true },
   { active: true, checked: true },
+  { active: true, visuallyFocused: true },
+  { active: true, loading: true },
+  { checked: true, visuallyFocused: true },
+  { checked: true, loading: true },
+  { visuallyFocused: true, loading: true }
 ]
 
 // Checked - disabled - focused
@@ -317,4 +453,49 @@ const checkedDifferentStates: ButtonState[] = [
   { disabled: true },
   { visuallyFocused: true },
   { disabled: true, visuallyFocused: true },
+]
+
+//Different logic states
+// warning - error - focused - disabled - checked  - loading
+export const differentPrioritizationStates = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={differentPriorityStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+differentPrioritizationStates.storyName = 'Different prioritization states';
+
+const differentPriorityStates: ButtonState[] = [
+  { warning: true, error: true },
+  { warning: true, visuallyFocused: true },
+  { warning: true, disabled: true },
+  { warning: true, checked: true },
+  { warning: true, loading: true },
+  { error: true, visuallyFocused: true },
+  { error: true, disabled: true },
+  { error: true, checked: true },
+  { error: true, loading: true },
+  { visuallyFocused: true, disabled: true },
+  { visuallyFocused: true, checked: true },
+  { visuallyFocused: true, loading: true },
+  { disabled: true, checked: true },
+  { disabled: true, loading: true },
+  { warning: true, error: true, visuallyFocused: true },
+  { warning: true, error: true, disabled: true },
+  { warning: true, error: true, checked: true },
+  { warning: true, error: true, loading: true },
+  { warning: true, visuallyFocused: true, disabled: true },
+  { warning: true, visuallyFocused: true, checked: true },
+  { warning: true, visuallyFocused: true, loading: true },
+  { warning: true, disabled: true, checked: true },
+  { warning: true, disabled: true, loading: true },
+  { warning: true, checked: true, loading: true },
+  { error: true, visuallyFocused: true, disabled: true },
+  { error: true, visuallyFocused: true, checked: true },
+  { error: true, visuallyFocused: true, loading: true },
+  { visuallyFocused: true, disabled: true, checked: true },
+  { visuallyFocused: true, disabled: true, loading: true },
+  { disabled: true, checked: true, loading: true },
 ]
