@@ -843,6 +843,7 @@ export class DefaultTheme {
   public static pagingDotsColor = 'gray';
   public static pagingDotsPadding = '0.375em 0.625em 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
+  public static pagingPageLinkDisabledActiveBg = 'rgba(0, 0, 0, 0.04)';
   public static get pagingPageLinkActiveColor() {
     return this.textColorDefault;
   }
