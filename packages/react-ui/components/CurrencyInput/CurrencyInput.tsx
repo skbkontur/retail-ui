@@ -137,7 +137,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
     }
-    if (prevProps.value !== null && value === null) {
+    if (isNonNullable(prevProps.value) && isNullable(value)) {
       this.setState({ formatted: '' });
     }
     if (this.state.focused && this.input) {
