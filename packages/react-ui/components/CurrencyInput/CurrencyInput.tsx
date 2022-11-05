@@ -83,7 +83,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
     value: (props: CurrencyInputProps) => {
-      warning(isValidNumber(props.value), `[CurrencyInput]: Prop value is not a valid number`);
+      warning(isValidNumber(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
     },
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
@@ -136,6 +136,9 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
       prevProps.fractionDigits !== fractionDigits
     ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
+    }
+    if (prevProps.value !== null && value === null) {
+      this.setState({ formatted: '' });
     }
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
