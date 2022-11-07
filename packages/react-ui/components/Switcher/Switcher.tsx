@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { Group } from '../Group';
-import { Button, ButtonSize } from '../Button';
+import { Button, ButtonProps, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -39,6 +39,12 @@ export interface SwitcherProps extends CommonProps {
   size?: SwitcherSize;
 
   disabled?: boolean;
+  renderItem?: (
+    abel: string,
+    value: string,
+    buttonProps: ButtonProps,
+    renderDefault: () => React.ReactNode,
+  ) => React.ReactNode;
 }
 
 export interface SwitcherState {
@@ -48,6 +54,7 @@ export interface SwitcherState {
 interface SwitcherItem {
   label: string;
   value: string;
+  buttonProps?: Partial<ButtonProps>;
 }
 
 @rootNode
@@ -196,8 +203,8 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
   private _renderItems = () => {
     return this.props.items.map((item, i) => {
-      const { label, value } = this._extractPropsFromItem(item);
-      const buttonProps = {
+      const { label, value, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
+      const commonButtonProps = {
         checked: this.props.value === value,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
@@ -207,12 +214,35 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         size: this.props.size,
         disabled: this.props.disabled,
       };
-      return (
-        <Button key={value} {...buttonProps}>
-          {label}
-        </Button>
-      );
+
+      const buttonProps = {
+        ...commonButtonProps,
+        ...customButtonProps,
+      }
+
+      let _button;
+
+      if (this.props.renderItem) {
+        _button = this.props.renderItem?.(
+          label,
+          value,
+          buttonProps,
+          () => this.renderItem(label, value, buttonProps),
+        );
+      } else {
+        _button = this.renderItem(label, value, buttonProps);
+      }
+
+      return _button;
     });
+  };
+
+  private renderItem = (label: string, value: string, buttonProps: ButtonProps) => {
+    return (
+      <Button key={value} {...buttonProps}>
+        {label}
+      </Button>
+    );
   };
 
   private getLabelSizeClassName = (): string => {
