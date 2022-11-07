@@ -12,7 +12,7 @@
     "@types/puppeteer": "^2.0.0",
     "@types/wait-on": "^4.0.0",
     "cross-env": "^7.0.0",
-    "jest": "^25.1.0",
+    "jest": "27.4.5",
     "jest-teamcity-reporter": "^0.9.0",
     "puppeteer": "^2.1.1",
     "rimraf": "^3.0.2",

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "ast-types": "0.13.2",
-    "jscodeshift": "^0.7.0",
+    "jscodeshift": "^0.11.0",
     "prettier": "^2"
   },
   "scripts": {
