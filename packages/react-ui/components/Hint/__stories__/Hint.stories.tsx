@@ -22,7 +22,7 @@ export default {
 
 export const Playground = () => <Hint text="Hello!">Plain hint with knobs</Hint>;
 Playground.storyName = 'playground';
-Playground.parameters = { creevey: { skip: true } };
+Playground.parameters = { creevey: { skip: [true] } };
 
 export const TooMuchHints = () => (
   <Gapped gap={5}>
@@ -34,7 +34,7 @@ export const TooMuchHints = () => (
   </Gapped>
 );
 TooMuchHints.storyName = 'too much hints';
-TooMuchHints.parameters = { creevey: { skip: true } };
+TooMuchHints.parameters = { creevey: { skip: [true] } };
 
 export const Default = () => (
   <Hint text="Something will never be changed" manual opened>
@@ -116,7 +116,7 @@ export const HintWithoutAnimations = () => (
   </div>
 );
 HintWithoutAnimations.storyName = 'hint without animations';
-HintWithoutAnimations.parameters = { creevey: { skip: true } };
+HintWithoutAnimations.parameters = { creevey: { skip: [true] } };
 
 export const HintsWithoutWrapperAroundInlineBlockWith50Width: Story = () => (
   <div style={{ margin: '0 -150px', padding: '50px 0', width: '500px' }}>
@@ -153,6 +153,21 @@ const HandleClickHint = () => {
 
 export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 
+SetManualAndOpenedPropOnClick.parameters = {
+  creevey: {
+    tests: {
+      async 'click on hint'() {
+        await this.browser
+          .actions()
+          .click(this.browser.findElement({ css: '#main' }))
+          .perform();
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('click on hint');
+      },
+    },
+  },
+};
+
 export const WithSVGIcon: Story = () => {
   return (
     <Hint text="hint">
@@ -161,6 +176,43 @@ export const WithSVGIcon: Story = () => {
       </svg>
     </Hint>
   );
+};
+
+WithSVGIcon.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: [
+          'chromeDark',
+          'chrome8px',
+          'firefox8px',
+          'firefox',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11',
+          'ie11Dark',
+        ],
+        reason: 'internal logic being tested and not something UI related',
+      },
+    ],
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async hover() {
+        await this.browser
+          .actions()
+          .move({
+            origin: this.browser.findElement({ css: '[data-tid="icon"]' }),
+          })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open');
+      },
+    },
+  },
 };
 
 @rootNode

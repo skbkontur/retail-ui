@@ -207,9 +207,50 @@ export default { title: 'Toggle' };
 export const Plain: Story = () => <Simple />;
 Plain.storyName = 'plain';
 
+Plain.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async pressed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: 'label' }),
+          })
+          .press()
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .release()
+          .perform();
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+    },
+  },
+};
+
 export const Uncontrolled = () => <Toggle onValueChange={action('toggle')} />;
 Uncontrolled.storyName = 'uncontrolled';
-Uncontrolled.parameters = { creevey: { skip: true } };
+Uncontrolled.parameters = { creevey: { skip: [true] } };
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'playground';
@@ -227,10 +268,69 @@ export const DisabledWithTooltip: Story = () => (
 );
 DisabledWithTooltip.storyName = 'disabled with Tooltip';
 
+DisabledWithTooltip.parameters = {
+  creevey: {
+    tests: {
+      async pressed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: 'label' }),
+          })
+          .press()
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .release()
+          .perform();
+      },
+    },
+  },
+};
+
 export const WithChildren: Story = () => <SimpleChildren />;
 WithChildren.storyName = 'with children';
 
+WithChildren.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+    },
+  },
+};
+
 export const WithLongDescription: Story = () => <SimpleChildrenLines />;
 WithLongDescription.storyName = 'with long description';
+
+WithLongDescription.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+    },
+  },
+};
 
 export const WithLeftCaption: Story = () => <Toggle captionPosition="left">left caption</Toggle>;

@@ -46,6 +46,97 @@ export const SimpleExample: Story = () => (
 );
 SimpleExample.storyName = 'Simple example';
 
+SimpleExample.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async clickAfterClickedOnCaption() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
+      },
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
+      },
+      async tabPress() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.TAB)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
+      },
+      async enterPress() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.TAB)
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
+      },
+      async escapePress() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.TAB)
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .sendKeys(this.keys.ESCAPE)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
+      },
+    },
+  },
+};
+
 const MenuOutOfViewPortSample = ({ side }: { side: 'left' | 'right' }) => {
   return (
     <div
@@ -93,10 +184,78 @@ export const MenuOutOfViewPortRight: Story = () => {
 };
 MenuOutOfViewPortRight.storyName = 'Menu out of viewport right';
 
+MenuOutOfViewPortRight.parameters = {
+  creevey: {
+    tests: {
+      async 'out of viewport'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
+      },
+      async 'out of edge with min menu width'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
+      },
+    },
+  },
+};
+
 export const MenuOutOfViewPortLeft: Story = () => {
   return <MenuOutOfViewPortSample side={'left'} />;
 };
 MenuOutOfViewPortLeft.storyName = 'Menu out of viewport left';
+
+MenuOutOfViewPortLeft.parameters = {
+  creevey: {
+    tests: {
+      async 'out of viewport'() {
+        await this.browser.executeScript(function () {
+          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
+          container.scrollLeft = container.scrollWidth;
+        });
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="firstMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport');
+      },
+      async 'out of edge with min menu width'() {
+        await this.browser.executeScript(function () {
+          const container = window.document.querySelector('[data-tid="container"]') as HTMLElement;
+          container.scrollLeft = container.scrollWidth;
+        });
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid="secondMenu"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('out of viewport with min menu width');
+      },
+    },
+  },
+};
 
 export const CaptionWidth: Story = () => (
   <div style={{ width: '300px' }}>
@@ -118,6 +277,18 @@ export const CaptionWidth: Story = () => (
 );
 CaptionWidth.storyName = 'Caption width 100%';
 
+CaptionWidth.parameters = {
+  creevey: {
+    tests: {
+      async plain() {
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+    },
+  },
+};
+
 export const ExampleWithWidthOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={350}>
     <MenuHeader>Заголовок меню</MenuHeader>
@@ -128,7 +299,7 @@ export const ExampleWithWidthOfMenu = () => (
   </DropdownMenu>
 );
 ExampleWithWidthOfMenu.storyName = 'Example with width of menu';
-ExampleWithWidthOfMenu.parameters = { creevey: { skip: true } };
+ExampleWithWidthOfMenu.parameters = { creevey: { skip: [true] } };
 
 export const ExampleWithMaximumHeightOfMenu = () => (
   <DropdownMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
@@ -140,7 +311,7 @@ export const ExampleWithMaximumHeightOfMenu = () => (
   </DropdownMenu>
 );
 ExampleWithMaximumHeightOfMenu.storyName = 'Example with maximum height of menu';
-ExampleWithMaximumHeightOfMenu.parameters = { creevey: { skip: true } };
+ExampleWithMaximumHeightOfMenu.parameters = { creevey: { skip: [true] } };
 
 export const CaptionAcceptsAnArbitraryElement = () => (
   <DropdownMenu
@@ -157,7 +328,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
   </DropdownMenu>
 );
 CaptionAcceptsAnArbitraryElement.storyName = 'Caption accepts an arbitrary element';
-CaptionAcceptsAnArbitraryElement.parameters = { creevey: { skip: true } };
+CaptionAcceptsAnArbitraryElement.parameters = { creevey: { skip: [true] } };
 
 export const OnlyStaticElements = () => (
   <DropdownMenu
@@ -174,7 +345,7 @@ export const OnlyStaticElements = () => (
   </DropdownMenu>
 );
 OnlyStaticElements.storyName = 'Only static elements';
-OnlyStaticElements.parameters = { creevey: { skip: true } };
+OnlyStaticElements.parameters = { creevey: { skip: [true] } };
 
 export const CaptionAcceptsAFunction = () => (
   <DropdownMenu
@@ -199,7 +370,7 @@ export const CaptionAcceptsAFunction = () => (
   </DropdownMenu>
 );
 CaptionAcceptsAFunction.storyName = 'Caption accepts a function';
-CaptionAcceptsAFunction.parameters = { creevey: { skip: true } };
+CaptionAcceptsAFunction.parameters = { creevey: { skip: [true] } };
 
 export const WithoutAnimations = () => (
   <DropdownMenu disableAnimations caption={<Button use="primary">Открыть меню</Button>}>
@@ -211,7 +382,7 @@ export const WithoutAnimations = () => (
   </DropdownMenu>
 );
 WithoutAnimations.storyName = 'Without animations';
-WithoutAnimations.parameters = { creevey: { skip: true } };
+WithoutAnimations.parameters = { creevey: { skip: [true] } };
 
 export const WithHeaderAndFooter: Story = () => (
   <DropdownWithScrollStateChange
@@ -221,6 +392,54 @@ export const WithHeaderAndFooter: Story = () => (
   />
 );
 WithHeaderAndFooter.storyName = 'With header and footer';
+
+WithHeaderAndFooter.parameters = {
+  creevey: {
+    tests: {
+      async clicked() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('clicked');
+      },
+      async 'scrolled by 100'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
+          scrollContainer.scrollTop += 100;
+        });
+        await delay(2000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled by 100');
+      },
+      async 'scrolled down to bottom'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="PopupMenu__caption"]' }))
+          .perform();
+        await this.browser.executeScript(function () {
+          const scrollContainer = window.document.querySelector('[data-tid~="ScrollContainer__inner"]') as HTMLElement;
+          scrollContainer.scrollTop += scrollContainer.scrollHeight;
+        });
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('scrolled down to bottom');
+      },
+    },
+  },
+};
 
 interface DropdownWithScrollStateChangeState {
   hasHeader: boolean;

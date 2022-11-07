@@ -146,6 +146,87 @@ export default {
 export const GoToAbsensePageStory: Story = () => <GoToAbsensePage />;
 GoToAbsensePageStory.storyName = 'GoToAbsensePage';
 
+GoToAbsensePageStory.parameters = {
+  creevey: {
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hover' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'Move to page by Ender'] },
+    ],
+    tests: {
+      async plain() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
+      },
+      async hover() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({
+            origin: this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }),
+          })
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('hover');
+      },
+      async 'change page by number'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('change page by number');
+      },
+      async 'change page by forwardLink'() {
+        // NOTE Firefox bug if click send right after click from previous test it results as double click
+        await delay(500);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__forwardLink']` }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('change page by forwardLink');
+      },
+      async focused() {
+        // NOTE Firefox bug if click send right after click from previous test it results as double click
+        await delay(500);
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('focused');
+      },
+      async 'Move focus right'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .pause(100)
+          .sendKeys(this.keys.ARROW_RIGHT)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Move focus right');
+      },
+      async 'Move to page by Ender'() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: `[data-tid='Paging__pageLinkWrapper']` }))
+          .pause(100)
+          .sendKeys(this.keys.ARROW_RIGHT)
+          .pause(100)
+          .sendKeys(this.keys.ENTER)
+          .perform();
+        await this.expect(await this.takeScreenshot()).to.matchImage('Move to page by Ender');
+      },
+    },
+  },
+};
+
 export const SimpleSamples = () => (
   <>
     <PagingWithState pagesCount={1} />
@@ -155,15 +236,15 @@ export const SimpleSamples = () => (
   </>
 );
 SimpleSamples.storyName = 'SimpleSamples';
-SimpleSamples.parameters = { creevey: { skip: true } };
+SimpleSamples.parameters = { creevey: { skip: [true] } };
 
 export const PagingWithCustomComponentStory = () => <PagingWithCustomComponent pagesCount={12} />;
 PagingWithCustomComponentStory.storyName = 'PagingWithCustomComponent';
-PagingWithCustomComponentStory.parameters = { creevey: { skip: true } };
+PagingWithCustomComponentStory.parameters = { creevey: { skip: [true] } };
 
 export const PagingWithGlobalListener = () => <PagingWithState useGlobalListener pagesCount={12} />;
 PagingWithGlobalListener.storyName = 'Paging with global listener';
-PagingWithGlobalListener.parameters = { creevey: { skip: true } };
+PagingWithGlobalListener.parameters = { creevey: { skip: [true] } };
 
 const Template: ComponentStory<typeof Paging> = (args) => {
   return <Paging {...args} />;
@@ -177,7 +258,7 @@ WithLongItems.args = {
 
 export const PlaygroundStory = () => <Playground />;
 PlaygroundStory.storyName = 'Playground';
-PlaygroundStory.parameters = { creevey: { skip: true } };
+PlaygroundStory.parameters = { creevey: { skip: [true] } };
 
 interface PlaygroundState {
   useGlobalListener: boolean;

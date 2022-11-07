@@ -14,6 +14,52 @@ export default { title: 'DropdownContainer' };
 export const VariousAlignsPortalsItemsAndScrollsStory: Story = () => <VariousAlignsPortalsItemsAndScrolls />;
 VariousAlignsPortalsItemsAndScrollsStory.storyName = 'various aligns portals items and scrolls';
 
+VariousAlignsPortalsItemsAndScrollsStory.parameters = {
+  creevey: {
+    delay: 2000,
+    tests: {
+      async 'short Items'() {
+        await delay(1000);
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items');
+      },
+      async 'short Items scroll'() {
+        await this.browser.executeScript(function () {
+          const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
+          innerScroll.scrollTop = innerScroll.scrollHeight;
+          innerScroll.scrollLeft = innerScroll.scrollWidth;
+        });
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('short Items scroll');
+      },
+      async 'long Items'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '#buttons button' }))
+          .perform();
+        await delay(2000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items');
+      },
+      async 'long Items scroll'() {
+        await this.browser
+          .actions({ bridge: true })
+          .click(this.browser.findElement({ css: '#buttons button' }))
+          .perform();
+        await delay(2000);
+        await this.browser.executeScript(function () {
+          const innerScroll = window.document.querySelector('#inner-scroll') as HTMLElement;
+          innerScroll.scrollTop = innerScroll.scrollHeight;
+          innerScroll.scrollLeft = innerScroll.scrollWidth;
+        });
+        await delay(2000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('long Items scroll');
+      },
+    },
+  },
+};
+
 interface VariousAlignsPortalsItemsAndScrollsState {
   shown: { [id: string]: boolean };
   long: boolean;

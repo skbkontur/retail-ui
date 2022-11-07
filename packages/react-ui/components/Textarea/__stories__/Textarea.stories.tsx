@@ -136,6 +136,55 @@ export const DifferentStates: Story = () => {
 };
 DifferentStates.storyName = 'Different states';
 
+DifferentStates.parameters = {
+  creevey: {
+    tests: {
+      async Plain() {
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async Focus() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+      },
+      async FocusedByTab() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .move({ x: 0, y: 0 })
+          .click()
+          .sendKeys(this.keys.TAB)
+          .sendKeys(this.keys.TAB)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused by tab');
+      },
+      async Typed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#TextareaPlain textarea' }))
+          .sendKeys('Test...')
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Typed');
+      },
+    },
+  },
+};
+
 export const TextareaWithPlaceholder = () => (
   <div>
     <div id="TextareaWithPlaceholder" style={{ padding: 5 }}>
@@ -157,10 +206,43 @@ export const TextareaInInlineFlexAndText = () => (
   </div>
 );
 TextareaInInlineFlexAndText.storyName = 'Textarea in inline-flex and text';
-TextareaInInlineFlexAndText.parameters = { creevey: { skip: true } };
+TextareaInInlineFlexAndText.parameters = { creevey: { skip: [true] } };
 
 export const AutoresizableTextareaStory: Story = () => <AutoresizableTextarea />;
 AutoresizableTextareaStory.storyName = 'Autoresizable textarea';
+AutoresizableTextareaStory.parameters = {
+  creevey: {
+    tests: {
+      async autoresize() {
+        const textArea = () => this.browser.findElement({ css: '[data-tid~="TextArea"]' });
+
+        const before = await textArea().takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="AddButton"]' }))
+          .pause(500)
+          .perform();
+
+        const addText = await textArea().takeScreenshot();
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-tid~="CollapseButton"]' }))
+          .pause(500)
+          .perform();
+
+        const collapse = await textArea().takeScreenshot();
+
+        await this.expect({ before, addText, collapse }).to.matchImages();
+      },
+    },
+  },
+};
 
 export const TextareaWithCustomWidth = () => <Textarea spellCheck={false} width={400} value={TEXT_SAMPLE} />;
 TextareaWithCustomWidth.storyName = 'Textarea with custom width';
@@ -174,6 +256,30 @@ TextareaInsideGapped.storyName = 'Textarea inside Gapped';
 
 export const SelectAllByProp: Story = () => <Textarea spellCheck={false} defaultValue={TEXT_SAMPLE} selectAllOnFocus />;
 SelectAllByProp.storyName = 'Select all by prop';
+
+SelectAllByProp.parameters = {
+  creevey: {
+    tests: {
+      async Plain() {
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async Focused() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'label' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
+      },
+    },
+  },
+};
 
 export const SelectAllByButton: Story = () => {
   let textarea: Textarea | null = null;
@@ -199,6 +305,30 @@ export const SelectAllByButton: Story = () => {
   );
 };
 SelectAllByButton.storyName = 'Select all by button';
+
+SelectAllByButton.parameters = {
+  creevey: {
+    tests: {
+      async Plain() {
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async Selected() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .pause(500)
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Selected');
+      },
+    },
+  },
+};
 
 export const TextareaWithCounters: Story = () => {
   const blockStyle = {
@@ -248,6 +378,74 @@ export const TextareaWithCounters: Story = () => {
   );
 };
 TextareaWithCounters.storyName = 'Textarea with length counter';
+
+TextareaWithCounters.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: ['firefox', 'firefox8px', 'firefoxFlat8px', 'firefoxDark'],
+        reason: 'flacky scrollbars height',
+      },
+    ],
+    tests: {
+      async Plain() {
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
+      },
+      async Focus() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#CounterPlain textarea' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
+      },
+      async FocusAutoresize() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#CounterAutoresizeTextarea textarea' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('FocusAutoresize');
+      },
+      async FocusWithHelpClosed() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelp');
+      },
+      async FocusWithHelpOpened() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '#CounterWithHelp textarea' }))
+          .perform();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: '[data-comp-name~="Tooltip"]' }))
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('CounterWithHelpOpened');
+      },
+    },
+  },
+};
 
 export const TextareaWithSingleRow: Story = () => {
   return <Textarea width={400} autoResize spellCheck={false} rows={1} extraRow={false} />;

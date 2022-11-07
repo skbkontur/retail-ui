@@ -24,8 +24,39 @@ export default {
   ],
 } as Meta;
 
+const commonTests: CreeveyTests = {
+  async 'focus and type text'() {
+    const screenshotElement = this.browser.findElement({ css: '#test-element' });
+    const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
+
+    await this.browser.actions({ bridge: true }).click(autocompleteElement).sendKeys('o').perform();
+    await delay(1000);
+
+    await this.expect(await screenshotElement.takeScreenshot()).to.matchImage();
+  },
+};
+
 export const Simple: Story = () => <UncontrolledAutocomplete source={['One', 'Two', 'Three']} />;
 Simple.storyName = 'simple';
+
+Simple.parameters = {
+  creevey: {
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async focused() {
+        const autocompleteElement = this.browser.findElement({ css: '[data-comp-name~="Autocomplete"]' });
+
+        await this.browser.actions({ bridge: true }).click(autocompleteElement).perform();
+        await delay(1000);
+
+        await this.expect(await autocompleteElement.takeScreenshot()).to.matchImage();
+      },
+      ...commonTests,
+    },
+  },
+};
 
 export const WithRenderItem = () => (
   <UncontrolledAutocomplete
@@ -35,6 +66,12 @@ export const WithRenderItem = () => (
 );
 WithRenderItem.storyName = 'with renderItem';
 
+WithRenderItem.parameters = {
+  creevey: {
+    tests: commonTests,
+  },
+};
+
 export const WithBigRenderItemWidth = () => (
   <UncontrolledAutocomplete
     source={['One', 'Two', 'Three']}
@@ -42,6 +79,12 @@ export const WithBigRenderItemWidth = () => (
   />
 );
 WithBigRenderItemWidth.storyName = 'with big renderItem width';
+
+WithBigRenderItemWidth.parameters = {
+  creevey: {
+    tests: commonTests,
+  },
+};
 
 export const WithFixedMenuSize = () => (
   <UncontrolledAutocomplete
@@ -61,12 +104,18 @@ export const WithFixedMenuSize = () => (
 );
 WithFixedMenuSize.storyName = 'with fixed menu size';
 
+WithFixedMenuSize.parameters = {
+  creevey: {
+    tests: commonTests,
+  },
+};
+
 export const WithOnBlurOnFocusHandlers = () => <WithBlurFocusHandlersExample />;
 WithOnBlurOnFocusHandlers.storyName = 'with onBlur/onFocus handlers';
 
 WithOnBlurOnFocusHandlers.parameters = {
   creevey: {
-    skip: true,
+    skip: [true],
   },
 };
 
@@ -131,6 +180,12 @@ export const WithPercentageWidth = () => (
 );
 WithPercentageWidth.storyName = 'with percentage width';
 
+WithPercentageWidth.parameters = {
+  creevey: {
+    tests: commonTests,
+  },
+};
+
 export const WithFixedWidth = () => (
   <UncontrolledAutocomplete
     width="200px"
@@ -140,6 +195,12 @@ export const WithFixedWidth = () => (
 );
 WithFixedWidth.storyName = 'with fixed width';
 
+WithFixedWidth.parameters = {
+  creevey: {
+    tests: commonTests,
+  },
+};
+
 export const WithZeroWidth = () => (
   <UncontrolledAutocomplete
     width={0}
@@ -148,6 +209,12 @@ export const WithZeroWidth = () => (
   />
 );
 WithZeroWidth.storyName = 'with zero width';
+
+WithZeroWidth.parameters = {
+  creevey: {
+    tests: commonTests,
+  },
+};
 
 export const MobileSimple = () => (
   <ThemeContext.Consumer>
@@ -180,5 +247,5 @@ MobileSimple.parameters = {
   viewport: {
     defaultViewport: 'iphone',
   },
-  creevey: { skip: true },
+  creevey: { skip: [true] },
 };

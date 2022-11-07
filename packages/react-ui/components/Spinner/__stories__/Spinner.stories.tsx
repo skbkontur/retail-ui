@@ -22,9 +22,7 @@ const SpinnerLikeIcon = () => (
 
 export default {
   title: 'Spinner',
-  parameters: { creevey: { skip: {
-    "kind-skip-0": { stories: ['Big', 'Mini', 'Mini dimmed'] }
-  } } },
+  parameters: { creevey: { skip: [{ stories: ['Big', 'Mini', 'Mini dimmed'] }] } },
   decorators: [
     (Story) => (
       <div style={{ height: 150, width: 200, padding: 4 }}>

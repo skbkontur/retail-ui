@@ -42,6 +42,6 @@ class Sample extends React.Component {
   }
 }
 
-export default { title: 'IgnoreLayerClick', parameters: { creevey: { skip: true } } };
+export default { title: 'IgnoreLayerClick', parameters: { creevey: { skip: [true] } } };
 
 export const Common = () => <Sample />;
