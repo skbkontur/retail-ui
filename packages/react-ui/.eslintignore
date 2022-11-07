@@ -10,3 +10,4 @@ build
 lib/**/*.js
 components/**/*.js
 *.d.ts
+**/*.creevey.ts
