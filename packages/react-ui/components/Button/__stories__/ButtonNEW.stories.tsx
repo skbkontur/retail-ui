@@ -50,19 +50,22 @@ const testingButtonUseStates: ButtonState[] = [
   { use: 'primary' },
   { use: 'link' },
 ]
+const testingLinkState: ButtonState[] = [
+  { use: 'link' },
+]
 
 // Use - checked (hover) - active
 export const mainBtnTable = () => (
   <ComponentTable
     Component={Button}
     rows={useStates.map((x) => ({ props: x }))}
-    cols={activeCheckedStates.map((x) => ({ props: x }))}
+    cols={activeDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button' }}
   />
 );
 mainBtnTable.storyName = 'Main Button table';
 
-const activeCheckedStates: ButtonState[] = [
+const activeDifferentStates: ButtonState[] = [
   { active: true, checked: true },
   { active: true, checked: false },
   { active: false, checked: true },
@@ -251,13 +254,13 @@ export const loadingStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={loadingCheckedFocusedActiveStates.map((x) => ({ props: x }))}
+    rows={loadingDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', loading: true }}
   />
 );
 loadingStates.storyName = 'Loading button table';
 
-const loadingCheckedFocusedActiveStates: ButtonState[] = [
+const loadingDifferentStates: ButtonState[] = [
   { checked: true },
   { visuallyFocused: true },
   { active: true },
@@ -271,13 +274,13 @@ export const narrowStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={narrowtates.map((x) => ({ props: x }))}
+    rows={narrowDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', narrow: true }}
   />
 );
 narrowStates.storyName = 'Narrow button table';
 
-const narrowtates: ButtonState[] = [
+const narrowDifferentStates: ButtonState[] = [
   { size: 'small' },
   { size: 'medium' },
   { size: 'large' },
@@ -288,7 +291,7 @@ export const widthStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={widthAlignStates.map((x) => ({ props: x }))}
+    rows={widthDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', width: 'auto' }}
   />
 );
@@ -298,13 +301,13 @@ export const width200pxStates = () => (
   <ComponentTable
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
-    rows={widthAlignStates.map((x) => ({ props: x }))}
+    rows={widthDifferentStates.map((x) => ({ props: x }))}
     presetProps={{ children: 'Button', width: '200px' }}
   />
 );
 width200pxStates.storyName = 'Width 200px button table';
 
-const widthAlignStates: ButtonState[] = [
+const widthDifferentStates: ButtonState[] = [
   { align: 'center' },
   { align: 'end' },
   { align: 'justify' },
@@ -315,55 +318,41 @@ const widthAlignStates: ButtonState[] = [
 
 // Link - wight - align - warning - error - focused - disabled - loading
 export const linkStates = () => (
-  <table>
-    <tr>
-      <td>Width</td>
-      <td><Button use='link' >Default</Button></td>
-      <td><Button use='link' width={'auto'}>Auto width</Button></td>
-      <td><Button use='link' width={200}>Width 200</Button></td>
-    </tr>
-    <tr>
-      <td>Align</td>
-      <td><Button use='link' align='center'>Center</Button></td>
-      <td><Button use='link' align='left'>Left</Button></td>
-      <td><Button use='link' align='right'>Right</Button></td>
-      <td><Button use='link' align='end'>End</Button></td>
-      <td><Button use='link' align='start'>Start</Button></td>
-      <td><Button use='link' align='justify'>Justify</Button></td>
-    </tr>
-    <tr>
-      <td>Warning</td>
-      <td><Button use='link' warning >Default</Button></td>
-      <td><Button use='link' warning size='medium'>Medium size</Button></td>
-      <td><Button use='link' warning size='large'>Large size</Button></td>
-    </tr>
-    <tr>
-      <td>Error</td>
-      <td><Button use='link' error >Default</Button></td>
-      <td><Button use='link' error size='medium'>Medium size</Button></td>
-      <td><Button use='link' error size='large'>Large size</Button></td>
-    </tr>
-    <tr>
-      <td>Focused</td>
-      <td><Button use='link' visuallyFocused >Default</Button></td>
-      <td><Button use='link' visuallyFocused size='medium'>Medium size</Button></td>
-      <td><Button use='link' visuallyFocused size='large'>Large size</Button></td>
-    </tr>
-    <tr>
-      <td>Disabled</td>
-      <td><Button use='link' disabled >Default</Button></td>
-      <td><Button use='link' disabled size='medium'>Medium size</Button></td>
-      <td><Button use='link' disabled size='large'>Large size</Button></td>
-    </tr>
-    <tr>
-      <td>Loading</td>
-      <td><Button use='link' loading >Default</Button></td>
-      <td><Button use='link' loading size='medium'>Medium size</Button></td>
-      <td><Button use='link' loading size='large'>Large size</Button></td>
-    </tr>
-  </table>
+  <ComponentTable
+    Component={Button}
+    cols={testingLinkState.map((x) => ({ props: x }))}
+    rows={linkDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', use: 'link' }}
+  />
 );
-linkStates.storyName = 'Link states';
+linkStates.storyName = 'Link statess';
+
+const linkDifferentStates: ButtonState[] = [
+  { children: 'Default width' },
+  { width: 'auto' },
+  { width: 200 },
+  { align: 'center' },
+  { align: 'left' },
+  { align: 'right' },
+  { align: 'end' },
+  { align: 'start' },
+  { align: 'justify' },
+  { warning: true },
+  { warning: true, size: 'medium' },
+  { warning: true, size: 'large' },
+  { error: true },
+  { error: true, size: 'medium' },
+  { error: true, size: 'large' },
+  { visuallyFocused: true },
+  { visuallyFocused: true, size: 'medium' },
+  { visuallyFocused: true, size: 'large' },
+  { disabled: true },
+  { disabled: true, size: 'medium' },
+  { disabled: true, size: 'large' },
+  { loading: true },
+  { loading: true, size: 'medium' },
+  { loading: true, size: 'large' },
+]
 
 // Icon - size - notext - child - content
 export const IconStates = () => (

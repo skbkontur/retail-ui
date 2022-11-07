@@ -89,7 +89,7 @@ export const parameters: Meta['parameters'] = {
     skip: [
       {
         in: ['chromeFlat8px', 'firefoxFlat8px', 'ie11Flat8px'],
-        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b)/,
+        kinds: /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b|\bNewButtonTests\b)/,
       },
       { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
       { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
