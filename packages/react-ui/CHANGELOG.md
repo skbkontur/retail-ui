@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.6.1...@skbkontur/react-ui@4.7.0) (2022-10-31)
+
+
+### Bug Fixes
+
+* **FileUploader:** new prop size, remove min-width ([#2961](https://github.com/skbkontur/retail-ui/issues/2961)) ([841aa48](https://github.com/skbkontur/retail-ui/commit/841aa48d70258844986b862ac6aba9f32cee3042))
+* **Hint:** text alignment at bottom center and top center positions ([#3009](https://github.com/skbkontur/retail-ui/issues/3009)) ([7c26321](https://github.com/skbkontur/retail-ui/commit/7c263214ee6cc88ff370da33d50e9ca44a6523f2))
+* **Paging:** visual appearance of disabled state ([#3020](https://github.com/skbkontur/retail-ui/issues/3020)) ([801d630](https://github.com/skbkontur/retail-ui/commit/801d630883f2d3f7723a3ddd32cd9270f96a185f))
+* **Select:** restore work of onFocus, onBlur and ref props ([#3000](https://github.com/skbkontur/retail-ui/issues/3000)) ([72600b6](https://github.com/skbkontur/retail-ui/commit/72600b61c59417f3f170d4c319e843759071df42))
+* **toggle:** improve a11y of toggle component ([#3014](https://github.com/skbkontur/retail-ui/issues/3014)) ([e7d97df](https://github.com/skbkontur/retail-ui/commit/e7d97dfa419051bb542e2538bfa6cc85d69826e9))
+
+
+### Features
+
+* **ComboBox:** add prop `itemWrapper` ([#3016](https://github.com/skbkontur/retail-ui/issues/3016)) ([bdb48bb](https://github.com/skbkontur/retail-ui/commit/bdb48bbfa425e743ebbafb4f0d079b0979ccdee7))
+
+
+
+
+
 ## [4.6.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.6.0...@skbkontur/react-ui@4.6.1) (2022-10-06)
 
 
