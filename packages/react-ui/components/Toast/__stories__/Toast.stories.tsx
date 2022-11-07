@@ -3,7 +3,6 @@ import { action } from '@storybook/addon-actions';
 
 import { Meta } from '../../../typings/stories';
 import { Toast } from '../Toast';
-import { delay } from '../../../lib/utils';
 
 const TestNotifier = ({ complex }: { complex?: boolean }) => {
   const toastRef = React.useRef<Toast>(null);
@@ -46,16 +45,6 @@ export default {
   parameters: {
     creevey: {
       captureElement: 'body',
-      tests: {
-        async toastShown() {
-          const showToast = this.browser.findElement({ css: '[data-tid~="show-toast"]' });
-
-          await this.browser.actions({ bridge: true }).click(showToast).move({ x: 0, y: 0 }).click().perform();
-          await delay(1000);
-
-          await this.expect(await this.takeScreenshot()).to.matchImage();
-        },
-      },
     },
   },
 } as Meta;

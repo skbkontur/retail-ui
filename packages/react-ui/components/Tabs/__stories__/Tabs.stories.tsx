@@ -5,13 +5,12 @@
 import React, { useState } from 'react';
 import { linkTo } from '@storybook/addon-links';
 
-import { Story, CreeveyTests } from '../../../typings/stories';
+import { Story } from '../../../typings/stories';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Tabs } from '../Tabs';
 import { TabProps } from '../Tab';
 import { Modal } from '../../Modal';
 import { Button } from '../../Button';
-import { delay } from '../../../lib/utils';
 import { TabsProps } from '..';
 const { Tab } = Tabs;
 
@@ -364,178 +363,16 @@ class TabsTable extends React.Component {
 
 export default { title: 'Tabs' };
 
-const tabsTests: CreeveyTests = {
-  async plain() {
-    await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-  },
-  async hovered() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .move({
-        origin: this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-  },
-  async clicked() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-  },
-  async mouseLeave() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
-      .move({
-        origin: this.browser.findElement({ css: 'body' }),
-      })
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('mouseLeave');
-  },
-  async focused() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
-      .move({
-        origin: this.browser.findElement({ css: 'body' }),
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
-      .perform();
-    await this.expect(await this.takeScreenshot()).to.matchImage('focused');
-  },
-  async tabPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
-      .perform();
-    await delay(1000);
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-  },
-  async enterPress() {
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(2)' }))
-      .perform();
-    await delay(1000);
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.TAB)
-      .perform();
-    await delay(1000);
-    await this.browser
-      .actions({
-        bridge: true,
-      })
-      .sendKeys(this.keys.ENTER)
-      .perform();
-    await delay(1000);
-    await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
-  },
-};
-
 export const Simple: Story = () => <UncTabs />;
 Simple.storyName = 'simple';
 
-Simple.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
-    ],
-    tests: {
-      ...tabsTests,
-      async 'move focus forward'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_RIGHT)
-          .pause(500)
-          .sendKeys(this.keys.ARROW_DOWN)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('move focus forward');
-      },
-      async 'move focus backward'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_LEFT)
-          .perform();
-        await delay(1000);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_UP)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('move focus backward');
-      },
-      async 'reset focus after click'() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(1)' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.ARROW_RIGHT)
-          .pause(500)
-          .click(this.browser.findElement({ css: '[data-comp-name~="Tab"]:nth-child(3)' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('reset focus after click');
-      },
-    },
-  },
-};
-
 export const First = () => <RouterTabs value="first" />;
 First.storyName = 'first';
-First.parameters = { creevey: { skip: [true] } };
+First.parameters = { creevey: { skip: true } };
 
 export const Another = () => <RouterTabs value="another" />;
 Another.storyName = 'another';
-Another.parameters = { creevey: { skip: [true] } };
+Another.parameters = { creevey: { skip: true } };
 
 export const HrefsFirst = () => (
   <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs first">
@@ -544,7 +381,7 @@ export const HrefsFirst = () => (
   </Tabs>
 );
 HrefsFirst.storyName = 'hrefs first';
-HrefsFirst.parameters = { creevey: { skip: [true] } };
+HrefsFirst.parameters = { creevey: { skip: true } };
 
 export const HrefsSecond = () => (
   <Tabs value="/iframe.html?selectedKind=Tabs&selectedStory=hrefs second">
@@ -553,26 +390,13 @@ export const HrefsSecond = () => (
   </Tabs>
 );
 HrefsSecond.storyName = 'hrefs second';
-HrefsSecond.parameters = { creevey: { skip: [true] } };
+HrefsSecond.parameters = { creevey: { skip: true } };
 
 export const Vertical: Story = () => <UncTabs vertical />;
 Vertical.storyName = 'vertical';
-Vertical.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hovered', 'focused', 'tabPress', 'enterPress'],
-      },
-    ],
-    tests: tabsTests,
-  },
-};
 
 export const WithLink = () => <TabsWithLink />;
-WithLink.parameters = { creevey: { skip: [true] } };
+WithLink.parameters = { creevey: { skip: true } };
 
 export const WithCustomTabComponent = () => {
   type Props = React.PropsWithChildren<unknown>;
@@ -608,28 +432,18 @@ export const WithCustomTabComponent = () => {
 
 export const WithUnexpectedTabSizeChange = () => <OhMyTabs />;
 WithUnexpectedTabSizeChange.storyName = 'with unexpected tab size change';
-WithUnexpectedTabSizeChange.parameters = { creevey: { skip: [true] } };
+WithUnexpectedTabSizeChange.parameters = { creevey: { skip: true } };
 
 export const WithDisabledTab: Story = () => <DisabledTab />;
 WithDisabledTab.storyName = 'with disabled tab';
-WithDisabledTab.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'focused', 'tabPress'] },
-    ],
-    tests: tabsTests,
-  },
-};
 
 export const TabsInModalStory = () => <TabsInModal />;
 TabsInModalStory.storyName = 'tabs in modal';
-TabsInModalStory.parameters = { creevey: { skip: [true] } };
+TabsInModalStory.parameters = { creevey: { skip: true } };
 
 export const HoverTable = () => <TabsTable />;
 HoverTable.storyName = 'hover table';
-HoverTable.parameters = { creevey: { skip: [true] } };
+HoverTable.parameters = { creevey: { skip: true } };
 
 export const TabsWithImage: Story = () => {
   const [activeTab, setActiveTab] = React.useState('search4');

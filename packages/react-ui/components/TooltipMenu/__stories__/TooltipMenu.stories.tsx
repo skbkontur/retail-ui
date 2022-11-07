@@ -38,80 +38,6 @@ export const SimpleExample: Story = () => (
 );
 SimpleExample.storyName = 'Simple example';
 
-SimpleExample.parameters = {
-  creevey: {
-    skip: [
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['clickAfterClickedOnCaption', 'clicked'] },
-      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['tabPress'] },
-    ],
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async clickAfterClickedOnCaption() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clickAfterClickedOnCaption');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async clickedOutside() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="PopupMenu"]' }))
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clickedOutside');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async enterPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .sendKeys(this.keys.ENTER)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('enterPress');
-      },
-      async escapePress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .sendKeys(this.keys.TAB)
-          .sendKeys(this.keys.ENTER)
-          .sendKeys(this.keys.ESCAPE)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('escapePress');
-      },
-    },
-  },
-};
-
 export const ExampleWithWidthOfMenu = () => (
   <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuWidth={300}>
     <MenuHeader>Заголовок меню</MenuHeader>
@@ -122,7 +48,7 @@ export const ExampleWithWidthOfMenu = () => (
   </TooltipMenu>
 );
 ExampleWithWidthOfMenu.storyName = 'Example with width of menu';
-ExampleWithWidthOfMenu.parameters = { creevey: { skip: [true] } };
+ExampleWithWidthOfMenu.parameters = { creevey: { skip: true } };
 
 export const ExampleWithMaximumHeightOfMenu = () => (
   <TooltipMenu caption={<Button use="primary">Открыть меню</Button>} menuMaxHeight={150}>
@@ -134,7 +60,7 @@ export const ExampleWithMaximumHeightOfMenu = () => (
   </TooltipMenu>
 );
 ExampleWithMaximumHeightOfMenu.storyName = 'Example with maximum height of menu';
-ExampleWithMaximumHeightOfMenu.parameters = { creevey: { skip: [true] } };
+ExampleWithMaximumHeightOfMenu.parameters = { creevey: { skip: true } };
 
 export const CaptionAcceptsAnArbitraryElement = () => (
   <TooltipMenu
@@ -151,7 +77,7 @@ export const CaptionAcceptsAnArbitraryElement = () => (
   </TooltipMenu>
 );
 CaptionAcceptsAnArbitraryElement.storyName = 'Caption accepts an arbitrary element';
-CaptionAcceptsAnArbitraryElement.parameters = { creevey: { skip: [true] } };
+CaptionAcceptsAnArbitraryElement.parameters = { creevey: { skip: true } };
 
 export const MenuInRightPositionOnly = () => (
   <TooltipMenu
@@ -169,7 +95,7 @@ export const MenuInRightPositionOnly = () => (
   </TooltipMenu>
 );
 MenuInRightPositionOnly.storyName = 'Menu in right position only';
-MenuInRightPositionOnly.parameters = { creevey: { skip: [true] } };
+MenuInRightPositionOnly.parameters = { creevey: { skip: true } };
 
 export const MenuInTopPositionOnlyAlignRight = () => (
   <TooltipMenu
@@ -187,7 +113,7 @@ export const MenuInTopPositionOnlyAlignRight = () => (
   </TooltipMenu>
 );
 MenuInTopPositionOnlyAlignRight.storyName = 'Menu in top position only, align right';
-MenuInTopPositionOnlyAlignRight.parameters = { creevey: { skip: [true] } };
+MenuInTopPositionOnlyAlignRight.parameters = { creevey: { skip: true } };
 
 export const MenuWithoutAnimations = () => (
   <TooltipMenu disableAnimations caption={<Button use="primary">Нет анимации</Button>}>
@@ -197,4 +123,4 @@ export const MenuWithoutAnimations = () => (
   </TooltipMenu>
 );
 MenuWithoutAnimations.storyName = 'Menu without animations';
-MenuWithoutAnimations.parameters = { creevey: { skip: [true] } };
+MenuWithoutAnimations.parameters = { creevey: { skip: true } };

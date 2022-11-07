@@ -6,7 +6,6 @@ import { Radio } from '../../Radio';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
 import { Nullable } from '../../../typings/utility-types';
-import { delay } from '../../../lib/utils';
 import { RadioGroupProps } from '..';
 
 interface ComponentState {
@@ -56,81 +55,6 @@ export const Vertical: Story = () => {
 };
 Vertical.storyName = 'vertical';
 
-Vertical.parameters = {
-  creevey: {
-    captureElement: '#RadioGroup-wrap',
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Dark'], tests: 'hovered' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered', 'clicked'] },
-    ],
-    tests: {
-      async plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('plain');
-      },
-      async hovered() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .move({
-            origin: this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }),
-          })
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('hovered');
-      },
-      async clicked() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
-      },
-      async mouseLeave() {
-        // NOTE Firefox bug if click send right after click from previous test it results as double click
-        await delay(500);
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-comp-name~="RadioGroup"] > span > label' }))
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('mouseLeave');
-      },
-      async tabPress() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
-          .sendKeys(this.keys.TAB)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
-      },
-      async arrow_down() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: '[data-tid="JustButton"]' }))
-          .sendKeys(this.keys.TAB)
-          .pause(100)
-          .sendKeys(this.keys.DOWN)
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('arrow_down');
-      },
-    },
-  },
-};
-
 export const Inline = () => <Component inline items={['One', 'Two', 'Three']} />;
 Inline.storyName = 'inline';
 
@@ -144,7 +68,7 @@ export const WithRenderItem = () => (
   <RadioGroup<string> items={['One', 'Two']} renderItem={(x) => <div>Value: {x}</div>} />
 );
 WithRenderItem.storyName = 'with renderItem';
-WithRenderItem.parameters = { creevey: { skip: [true] } };
+WithRenderItem.parameters = { creevey: { skip: true } };
 
 export const MultipleGroups = () => (
   <div>
@@ -156,11 +80,11 @@ export const MultipleGroups = () => (
   </div>
 );
 MultipleGroups.storyName = 'multiple groups';
-MultipleGroups.parameters = { creevey: { skip: [true] } };
+MultipleGroups.parameters = { creevey: { skip: true } };
 
 export const UncontrolledWithDefaultValue = () => <RadioGroup items={['One', 'Two', 'Three']} defaultValue="One" />;
 UncontrolledWithDefaultValue.storyName = 'uncontrolled with defaultValue';
-UncontrolledWithDefaultValue.parameters = { creevey: { skip: [true] } };
+UncontrolledWithDefaultValue.parameters = { creevey: { skip: true } };
 
 export const UncontrolledWithChildrenAndDefaultValue = () => (
   <RadioGroup defaultValue="One">
@@ -172,7 +96,7 @@ export const UncontrolledWithChildrenAndDefaultValue = () => (
   </RadioGroup>
 );
 UncontrolledWithChildrenAndDefaultValue.storyName = 'uncontrolled with children and default value';
-UncontrolledWithChildrenAndDefaultValue.parameters = { creevey: { skip: [true] } };
+UncontrolledWithChildrenAndDefaultValue.parameters = { creevey: { skip: true } };
 
 export const UncontrolledWithChildrenAndDifferentItemStates = () => (
   <RadioGroup defaultValue="One">
@@ -191,7 +115,7 @@ export const UncontrolledWithChildrenAndDifferentItemStates = () => (
   </RadioGroup>
 );
 UncontrolledWithChildrenAndDifferentItemStates.storyName = 'uncontrolled with children and different item states';
-UncontrolledWithChildrenAndDifferentItemStates.parameters = { creevey: { skip: [true] } };
+UncontrolledWithChildrenAndDifferentItemStates.parameters = { creevey: { skip: true } };
 
 export const DisabledUncontrolledWithChildren = () => (
   <RadioGroup defaultValue="One" disabled>
@@ -203,7 +127,7 @@ export const DisabledUncontrolledWithChildren = () => (
   </RadioGroup>
 );
 DisabledUncontrolledWithChildren.storyName = 'disabled uncontrolled with children';
-DisabledUncontrolledWithChildren.parameters = { creevey: { skip: [true] } };
+DisabledUncontrolledWithChildren.parameters = { creevey: { skip: true } };
 
 export const ErrorUncontrolledWithChildren = () => (
   <RadioGroup defaultValue="One" error>
@@ -215,7 +139,7 @@ export const ErrorUncontrolledWithChildren = () => (
   </RadioGroup>
 );
 ErrorUncontrolledWithChildren.storyName = 'error uncontrolled with children';
-ErrorUncontrolledWithChildren.parameters = { creevey: { skip: [true] } };
+ErrorUncontrolledWithChildren.parameters = { creevey: { skip: true } };
 
 export const WarningUncontrolledWithChildren = () => (
   <RadioGroup defaultValue="One" warning>
@@ -227,7 +151,7 @@ export const WarningUncontrolledWithChildren = () => (
   </RadioGroup>
 );
 WarningUncontrolledWithChildren.storyName = 'warning uncontrolled with children';
-WarningUncontrolledWithChildren.parameters = { creevey: { skip: [true] } };
+WarningUncontrolledWithChildren.parameters = { creevey: { skip: true } };
 
 export const NestedUncontrolledGroupsWithChildren = () => (
   <RadioGroup defaultValue="One">
@@ -259,7 +183,7 @@ export const NestedUncontrolledGroupsWithChildren = () => (
   </RadioGroup>
 );
 NestedUncontrolledGroupsWithChildren.storyName = 'nested uncontrolled groups with children';
-NestedUncontrolledGroupsWithChildren.parameters = { creevey: { skip: [true] } };
+NestedUncontrolledGroupsWithChildren.parameters = { creevey: { skip: true } };
 
 export const Disabled = () => (
   <RadioGroup defaultValue="One" disabled>
