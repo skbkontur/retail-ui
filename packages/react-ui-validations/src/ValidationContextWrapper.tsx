@@ -131,12 +131,17 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
 
     const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => x.hasError());
+    const firstWarning = this.getChildWrappersSortedByPosition().find((x) => x.hasWarning());
     if (firstInvalid) {
       if (!withoutFocus) {
         firstInvalid.focus();
       }
     }
-
+    if (firstWarning) {
+      if (!withoutFocus) {
+        firstWarning.focus();
+      }
+    }
     if (this.props.onValidationUpdated) {
       this.props.onValidationUpdated(!firstInvalid);
     }
