@@ -11,8 +11,12 @@ import {
   TokenInputType,
 } from '@skbkontur/react-ui';
 
-import { ValidationContainer, ValidationContainerProps, ValidationWrapper } from '../src';
+import { ValidationContainer, ValidationContainerProps, ValidationInfo, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
+
+const validate = (v: string): ValidationInfo | null => {
+  return !/^\d*$/.test(v) ? { message: 'Только цифры', level: 'warning' } : null;
+};
 
 describe('ValidationContainer', () => {
   it('renders passed children', () => {
@@ -67,6 +71,29 @@ describe('ValidationContainer', () => {
 
         expect(smoothScrollIntoView).toBeCalled();
       });
+    });
+  });
+
+  describe('on warning level', () => {
+    const renderValidationContainer = (
+      input: React.ReactElement,
+      props?: ValidationContainerProps,
+    ): React.RefObject<ValidationContainer> => {
+      const containerRef = React.createRef<ValidationContainer>();
+      render(
+        <ValidationContainer ref={containerRef} {...props}>
+          <ValidationWrapper validationInfo={validate('text')}>{input}</ValidationWrapper>
+        </ValidationContainer>,
+      );
+      return containerRef;
+    };
+
+    it('validate form', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      const result = await containerRef.current?.validate();
+
+      expect(result).toEqual(true);
     });
   });
 });
