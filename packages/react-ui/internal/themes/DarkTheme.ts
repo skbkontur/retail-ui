@@ -130,6 +130,7 @@ export class DarkTheme extends (class {} as typeof DefaultThemeInternal) {
   //#region Paging
   public static pagingPageLinkHoverBg = 'rgba(255, 255, 255, 0.8)';
   public static pagingPageLinkActiveBg = 'rgba(255, 255, 255, 0.16)';
+  public static pagingPageLinkDisabledActiveBg = 'rgba(255, 255, 255, 0.08)';
   //#endregion
   //#region Toast
   public static toastLinkColor = '#51adff';

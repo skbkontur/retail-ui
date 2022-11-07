@@ -5,7 +5,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
-using SKBKontur.SeleniumTesting.Internals.Commons;
 
 namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
 {
@@ -69,10 +68,10 @@ namespace SKBKontur.SeleniumTesting.Tests.TestEnvironment
                 var wdHub = "https://frontinfra:frontinfra@grid.testkontur.ru/wd/hub";
                 ChromeOptions options = new ChromeOptions();
 
-                options.AddAdditionalCapability(CapabilityType.Platform, "windows", true);
-                options.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name, true);
-                options.AddAdditionalCapability("tunnel-identifier", this.tunnelIdentifier, true);
-                options.AddAdditionalCapability("maxDuration", 10800, true);
+                options.AddAdditionalOption(CapabilityType.Platform, "windows");
+                options.AddAdditionalOption("name", TestContext.CurrentContext.Test.Name);
+                options.AddAdditionalOption("tunnel-identifier", this.tunnelIdentifier);
+                options.AddAdditionalOption("maxDuration", 10800);
 
                 webDriver = new RemoteWebDriver(new Uri(wdHub),
                     options.ToCapabilities(),

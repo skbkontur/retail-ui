@@ -4,7 +4,7 @@ import { ComponentStory } from '@storybook/react';
 
 import { Meta, Story } from '../../../typings/stories';
 import { ItemComponentProps, Paging } from '../Paging';
-import { delay } from '../../../lib/utils';
+import { delay, emptyHandler } from '../../../lib/utils';
 import { PagingProps } from '..';
 
 const lorem = `Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores
@@ -254,6 +254,15 @@ export const WithLongItems = Template.bind({});
 WithLongItems.args = {
   activePage: 753000,
   pagesCount: 7530050,
+};
+
+export const DisabledPaging = () => {
+  return <Paging onPageChange={emptyHandler} disabled activePage={1} pagesCount={8} />;
+};
+DisabledPaging.parameters = {
+  creevey: {
+    skip: { in: /^(?!\b(chrome|chromeDark)\b)/ },
+  },
 };
 
 export const PlaygroundStory = () => <Playground />;
