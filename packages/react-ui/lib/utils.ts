@@ -94,6 +94,16 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
 };
 
 /**
+ * Checks if the value `null` or `undefined`.
+ *
+ * @param value Value to check for `null` and `undefined`.
+ * @returns Returns `true` if `value` is `null` or `undefined`, else `false`.
+ */
+export const isNullable = (value: unknown): value is null | undefined => {
+  return value === null || value === undefined;
+};
+
+/**
  * Creates a function that checks if the given `child`
  * is an instance of some component specified by `name`.
  *
