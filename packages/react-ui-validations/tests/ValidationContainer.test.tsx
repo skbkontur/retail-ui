@@ -11,12 +11,8 @@ import {
   TokenInputType,
 } from '@skbkontur/react-ui';
 
-import { ValidationContainer, ValidationContainerProps, ValidationInfo, ValidationWrapper } from '../src';
+import { ValidationContainer, ValidationContainerProps, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
-
-const validate = (v: string): ValidationInfo | null => {
-  return !/^\d*$/.test(v) ? { message: 'Только цифры', level: 'warning' } : null;
-};
 
 describe('ValidationContainer', () => {
   it('renders passed children', () => {
@@ -82,7 +78,9 @@ describe('ValidationContainer', () => {
       const containerRef = React.createRef<ValidationContainer>();
       render(
         <ValidationContainer ref={containerRef} {...props}>
-          <ValidationWrapper validationInfo={validate('text')}>{input}</ValidationWrapper>
+          <ValidationWrapper validationInfo={{ message: 'warning message', level: 'warning' }}>
+            {input}
+          </ValidationWrapper>
         </ValidationContainer>,
       );
       return containerRef;
