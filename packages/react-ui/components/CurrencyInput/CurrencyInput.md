@@ -4,6 +4,19 @@ const [value, setValue] = React.useState();
 <CurrencyInput value={value} fractionDigits={3} onValueChange={setValue} />
 ```
 
+Очистить значение в `CurrencyInput` можно с помощью `null` или `undefined`
+```jsx harmony
+import { Button, Group } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState();
+
+<Group>
+  <CurrencyInput value={value} onValueChange={setValue} />
+  <Button onClick={() => setValue(null)}>Null</Button>
+  <Button onClick={() => setValue(undefined)}>Undefined</Button>
+</Group>
+```
+
 `fractionDigits={15}`
 
 ```jsx harmony
