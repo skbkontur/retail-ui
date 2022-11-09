@@ -1,6 +1,7 @@
 import { mount } from 'enzyme';
 import { render, screen } from '@testing-library/react';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 import { MenuItem } from '../MenuItem';
 
@@ -69,18 +70,17 @@ describe('MenuItem', () => {
   describe('onMouseEnter', () => {
     it('calls once', () => {
       const onMouseEnter = jest.fn();
-      const wrapper = mount(
+      render(
         <MenuItem onMouseEnter={onMouseEnter}>
           <span>MenuItem</span>
         </MenuItem>,
       );
-      const button = wrapper.find('button');
 
-      button.simulate('mouseover');
-      wrapper.find('span').simulate('mouseover');
-      button.simulate('mouseover');
+      userEvent.hover(screen.getByRole('button'));
+      userEvent.hover(screen.getByText('MenuItem'));
+      userEvent.hover(screen.getByRole('button'));
 
-      expect(onMouseEnter.mock.calls).toHaveLength(1);
+      expect(onMouseEnter).toHaveBeenCalledTimes(1);
     });
 
     it('calls again after onMouseLeave', () => {
