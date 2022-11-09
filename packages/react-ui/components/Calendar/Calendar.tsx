@@ -8,6 +8,7 @@ import { locale } from '../../lib/locale/decorators';
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { DatePickerDataTids } from '../DatePicker';
 
 import { styles } from './Calendar.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './../DatePicker/locale';
@@ -102,7 +103,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
     const today = new InternalDate({ order, separator }).setComponents(InternalDateGetter.getTodayComponents());
     return (
       <button
-        data-tid="Picker__todayWrapper"
+        data-tid={DatePickerDataTids.pickerTodayWrapper}
         className={styles.todayWrapper(this.theme)}
         onClick={this.handleSelectToday(today)}
         tabIndex={-1}
@@ -114,7 +115,10 @@ export class Calendar extends React.Component<CalendarProps, State> {
 
   private handleSelectToday = (today: InternalDate) => () => {
     if (this.props.onSelect) {
-      this.props.onSelect(today.toNativeFormat()!);
+      const todayInNativeFormat = today.toNativeFormat();
+      if (todayInNativeFormat) {
+        this.props.onSelect(todayInNativeFormat);
+      }
     }
     if (this.calendar) {
       const { month, year } = this.state.today;
