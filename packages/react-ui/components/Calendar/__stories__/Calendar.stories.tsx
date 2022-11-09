@@ -14,13 +14,13 @@ import { Story } from '../../../typings/stories';
 export default { title: 'Calendar' };
 
 export const Simple = () => (
-  <Calendar value={{ year: 2022, month: 5, date: 12 }} onPick={action('pick')} enableTodayLink />
+  <Calendar value={{ year: 2022, month: 5, date: 12 }} onValueChange={action('pick')} enableTodayLink />
 );
 Simple.storyName = 'simple';
 
 export const LocaleContextProvider = () => (
   <LocaleContext.Provider value={{ langCode: LangCodes.en_GB }}>
-    <Calendar value={null} onPick={action('pick')} enableTodayLink />
+    <Calendar value={null} onValueChange={action('pick')} enableTodayLink />
   </LocaleContext.Provider>
 );
 LocaleContextProvider.storyName = 'LocaleContext.Provider';
@@ -51,7 +51,7 @@ export const CalendarWithHolidays = () => {
           >
             <Calendar
               value={null}
-              onPick={action('pick')}
+              onValueChange={action('pick')}
               isHoliday={(date) => {
                 return date.isWeekend || holidays.includes(InternalDateTransformer.dateToInternalString(date));
               }}
@@ -73,7 +73,7 @@ CalendarWithMinMaxDate.storyName = 'Calendar with min max date';
 CalendarWithMinMaxDate.parameters = {
   creevey: {
     tests: {
-      async ['DateSelect months']() {
+      async 'DateSelect months'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -92,7 +92,7 @@ CalendarWithMinMaxDate.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect months');
       },
-      async ['DateSelect years']() {
+      async 'DateSelect years'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -154,7 +154,7 @@ class CalendarWithMinMax extends React.Component<any, any> {
             value={this.state.value}
             minDate={new InternalDate({}).parseValue(this.state.min).getComponentsLikeNumber()}
             maxDate={new InternalDate({}).parseValue(this.state.max).getComponentsLikeNumber()}
-            onPick={action('pick')}
+            onValueChange={action('pick')}
           />
         </LocaleContext.Provider>
       </Gapped>

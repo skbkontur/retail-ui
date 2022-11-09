@@ -2,7 +2,7 @@
 
 ```jsx harmony
 const [value, setValue] = React.useState({ year: 2021, month: 11, date: 1 });
-<Calendar value={value} onPick={setValue} enableTodayLink />;
+<Calendar value={value} onValueChange={setValue} enableTodayLink />;
 ```
 
 #### Локали по умолчанию

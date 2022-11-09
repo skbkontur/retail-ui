@@ -6,7 +6,7 @@ import { LangCodes } from '../../../lib/locale';
 import { DatePickerLocaleHelper } from '../../DatePicker/locale';
 
 const handleChange = () => undefined;
-const defaultProps = { value: { year: 2017, month: 6, date: 2 }, onPick: handleChange };
+const defaultProps = { value: { year: 2017, month: 6, date: 2 }, onValueChange: handleChange };
 
 const renderCalendar = (props: Partial<CalendarProps> = {}) => render(<Calendar {...defaultProps} {...props} />);
 

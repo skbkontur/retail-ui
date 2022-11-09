@@ -13,7 +13,7 @@ interface Props {
   maxDate?: CalendarDateShape;
   minDate?: CalendarDateShape;
   value: Nullable<CalendarDateShape>;
-  onPick: (date: CalendarDateShape) => void;
+  onValueChange: (date: CalendarDateShape) => void;
   onSelect?: (date: CalendarDateShape) => void;
   enableTodayLink?: boolean;
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;

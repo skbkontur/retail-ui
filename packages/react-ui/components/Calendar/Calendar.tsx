@@ -23,7 +23,7 @@ export interface CalendarProps {
   /**
    * Вызывается при изменении `value`
    */
-  onPick: (date: CalendarDateShape) => void;
+  onValueChange: (date: CalendarDateShape) => void;
   onSelect?: (date: CalendarDateShape) => void;
   /**
    * Задаёт максимальную возможную дату
@@ -107,7 +107,7 @@ export class Calendar extends React.Component<CalendarProps, State> {
           value={this.props.value}
           initialMonth={date.month}
           initialYear={date.year}
-          onSelect={this.props.onPick}
+          onSelect={this.props.onValueChange}
           minDate={this.props.minDate}
           maxDate={this.props.maxDate}
           isHoliday={this.props.isHoliday}
