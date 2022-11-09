@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.7.0...@skbkontur/react-ui@4.8.0) (2022-11-09)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** clearing value ([#3025](https://github.com/skbkontur/retail-ui/issues/3025)) ([b30a14f](https://github.com/skbkontur/retail-ui/commit/b30a14f844af0cee0bc8837ff5468a6cede88531))
+* **MenuItem:** icon offset in mobile version ([#3010](https://github.com/skbkontur/retail-ui/issues/3010)) ([6494538](https://github.com/skbkontur/retail-ui/commit/649453816fd86b937590722deadafb9533446bd4))
+
+
+### Features
+
+* **Switcher:** add buttonProps field to items ([#3017](https://github.com/skbkontur/retail-ui/issues/3017)) ([25c330e](https://github.com/skbkontur/retail-ui/commit/25c330e7020dcd6f58f3e083ddc73bff97ad178c))
+
+
+
+
+
 # [4.7.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.6.1...@skbkontur/react-ui@4.7.0) (2022-10-31)
 
 
