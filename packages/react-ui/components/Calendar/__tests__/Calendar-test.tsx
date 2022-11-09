@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { Calendar, CalendarProps } from '../Calendar';
 import { LangCodes } from '../../../lib/locale';
@@ -21,7 +22,7 @@ describe('Calendar', () => {
       minDate: { year: 2017, month: 2, date: 21 },
       maxDate: { year: 2020, month: 7, date: 15 },
     });
-    screen.getAllByTestId('DateSelect__caption')[1].click();
+    userEvent.click(screen.getAllByTestId('DateSelect__caption')[1]);
     expect(screen.getByText('2015')).toHaveAttribute('data-prop-disabled', 'true');
     expect(screen.getByText('2018')).toHaveAttribute('data-prop-disabled', 'false');
     expect(screen.queryByText('2021')).not.toBeInTheDocument();

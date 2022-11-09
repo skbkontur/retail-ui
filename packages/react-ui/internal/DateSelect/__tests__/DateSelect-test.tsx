@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 
 import { DatePickerLocaleHelper } from '../../../components/DatePicker/locale';
 import { DateSelect, DateSelectProps } from '../DateSelect';
@@ -18,7 +19,7 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    screen.getByTestId('DateSelect__caption').click();
+    userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths.forEach((month) => {
       expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
     });
@@ -35,7 +36,7 @@ describe('DateSelect', () => {
         /**/
       },
     });
-    screen.getByTestId('DateSelect__caption').click();
+    userEvent.click(screen.getByTestId('DateSelect__caption'));
     expectedDisabledMonths.forEach((month) => {
       expect(screen.getByText(month)).toHaveAttribute('data-prop-disabled', 'true');
     });
