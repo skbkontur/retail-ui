@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.10.3](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.2...react-ui-validations@1.10.3) (2022-11-09)
+
+
+### Bug Fixes
+
+* **ValidationContainer:** level warning is valid ([#3026](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/issues/3026)) ([1253735](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/commit/1253735c72d788e3c439ac2dbeb5ebc2f1417c1e))
+
+
+
+
+
 ## [1.10.2](https://github.com/skbkontur/retail-ui/tree/master/packages/react-ui-validations/compare/react-ui-validations@1.10.1...react-ui-validations@1.10.2) (2022-09-09)
 
 
