@@ -72,9 +72,13 @@ function ModalFooter(props: ModalFooterProps) {
           [styles.mobileFooter(theme)]: layout.isMobile,
         })}
       >
-        <Gapped vertical={layout.isMobile} gap={gap}>
-          {children}
-        </Gapped>
+        {gap ? (
+          <Gapped vertical={layout.isMobile} gap={gap}>
+            {children}
+          </Gapped>
+        ) : (
+          children
+        )}
       </div>
     );
   };

@@ -141,9 +141,13 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
                   })}
                   ref={this.refContent}
                 >
-                  <Gapped vertical={this.isMobileLayout} gap={this.props.gap}>
-                    {this.props.children}
-                  </Gapped>
+                  {this.props.gap ? (
+                    <Gapped vertical={this.isMobileLayout} gap={this.props.gap}>
+                      {this.props.children}
+                    </Gapped>
+                  ) : (
+                    this.props.children
+                  )}
                 </div>
               </div>
             )}
