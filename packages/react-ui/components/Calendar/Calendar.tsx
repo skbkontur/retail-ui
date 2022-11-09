@@ -14,12 +14,37 @@ import { styles } from './Calendar.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './../DatePicker/locale';
 
 export interface CalendarProps {
+  /**
+   * Задаёт текущую дату
+   *
+   * Дата задаётся в формате: `{ year, month, date }`
+   */
   value: Nullable<CalendarDateShape>;
+  /**
+   * Вызывается при изменении `value`
+   */
   onPick: (date: CalendarDateShape) => void;
   onSelect?: (date: CalendarDateShape) => void;
+  /**
+   * Задаёт максимальную возможную дату
+   */
   maxDate?: CalendarDateShape;
+  /**
+   * Задаёт минимальную возможную дату
+   */
   minDate?: CalendarDateShape;
+  /**
+   * Добавляет в календарь кнопку для задания текущей даты
+   */
   enableTodayLink?: boolean;
+  /**
+   * Функция для определения праздничных дней
+   * @default (_day, isWeekend) => isWeekend
+   * @param {T} day - строка в формате `dd.mm.yyyy`
+   * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
+   *
+   * @returns {boolean} `true` для выходного или `false` для рабочего дня
+   */
   isHoliday?: (day: CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
