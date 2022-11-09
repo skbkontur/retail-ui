@@ -1605,8 +1605,9 @@ export class DefaultTheme {
   public static get switcherButtonBorderWidth() {
     return this.btnBorderWidth;
   }
+  public static switcherBtnDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get switcherButtonDisabledBorderColor() {
-    return this.btnDisabledBorderColor;
+    return this.switcherBtnDisabledBorderColor;
   }
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;
