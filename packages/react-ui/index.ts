@@ -1,5 +1,6 @@
 export * from './components/Autocomplete';
 export * from './components/Button';
+export * from './components/Calendar';
 export * from './components/Center';
 export * from './components/Checkbox';
 export * from './components/ComboBox';
