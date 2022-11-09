@@ -404,6 +404,7 @@ PlaygroundDefault.parameters = {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
+      { in: ['firefox8px', 'firefoxFlat8px', 'firefox', 'firefoxDark'], tests: ['tabPress'] },
     ],
     tests: buttonTests,
   },
