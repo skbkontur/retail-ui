@@ -8,6 +8,7 @@ import { SpinnerIcon } from '../../internal/icons/SpinnerIcon';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Spinner.styles';
 import { SpinnerLocale, SpinnerLocaleHelper } from './locale';
@@ -21,13 +22,22 @@ const types: Record<SpinnerType, SpinnerType> = {
 export type SpinnerType = 'mini' | 'normal' | 'big';
 
 export interface SpinnerProps extends CommonProps {
+  /**
+   * Подпись под спиннером
+   */
   caption?: React.ReactNode;
+  /**
+   * Переводит спиннер в "затемнённый режим"
+   *
+   * Цвет спиннера в "затемнённом режиме" определяется переменной `spinnerDimmedColor`
+   */
   dimmed?: boolean;
   /**
-   * Тип спиннера
+   * Размер спиннера и текста
+   *
    * @default normal
    */
-  type: SpinnerType;
+  type?: SpinnerType;
   inline?: boolean;
   /**
    * Толщина спиннера
@@ -39,8 +49,14 @@ export interface SpinnerProps extends CommonProps {
   color?: React.CSSProperties['color'];
 }
 
+export const SpinnerDataTids = {
+  root: 'Spinner__root',
+} as const;
+
+type DefaultProps = Required<Pick<SpinnerProps, 'type'>>;
+
 /**
- * DRAFT - инлайн-лоадер
+ * Используйте компонент `Spinner`, если вам нужен спиннер, без дополнительного функционала, который предоставляет компонент [Loader](https://tech.skbkontur.ru/react-ui/#/Components/Loader)
  */
 
 @rootNode
@@ -68,18 +84,16 @@ export class Spinner extends React.Component<SpinnerProps> {
     type: PropTypes.oneOf(Object.keys(types)),
   };
 
-  public static defaultProps: SpinnerProps = {
+  public static defaultProps: DefaultProps = {
     type: 'normal',
   };
+
+  private getProps = createPropsGetter(Spinner.defaultProps);
 
   public static Types: typeof types = types;
   private theme!: Theme;
   private readonly locale!: SpinnerLocale;
   private setRootNode!: TSetRootNode;
-
-  constructor(props: SpinnerProps) {
-    super(props);
-  }
 
   public render() {
     return (
@@ -93,11 +107,12 @@ export class Spinner extends React.Component<SpinnerProps> {
   }
 
   private renderMain() {
-    const { type, caption = this.locale.loading, dimmed, inline } = this.props;
+    const { caption = this.locale.loading, dimmed, inline } = this.props;
+    const type = this.getProps().type;
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div className={styles.spinner()}>
+        <div data-tid={SpinnerDataTids.root} className={styles.spinner()}>
           <span className={styles.inner()}>{this.renderSpinner(type, dimmed, inline)}</span>
           {caption && this.renderCaption(type, caption)}
         </div>
@@ -112,7 +127,7 @@ export class Spinner extends React.Component<SpinnerProps> {
         className={cx({
           [styles.circle(this.theme)]: !dimmed && !this.props.color,
           [styles.circleDimmedColor(this.theme)]: dimmed,
-          [styles.circleWithoutColorAnimation(this.theme)]: dimmed || !!this.props.color,
+          [styles.circleWithoutColorAnimation()]: dimmed || !!this.props.color,
         })}
         dimmed={dimmed}
         width={this.props.width}

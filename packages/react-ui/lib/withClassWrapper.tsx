@@ -44,10 +44,7 @@ export function withClassWrapper<T, P>(RFC: ReactUIComponentWithRef<T, P>) {
 
     render() {
       return (
-        // TypeScript is not able to understand
-        // that both types (class one and functional one)
-        // have ref at the build stage.
-        // @ts-ignore
+        // @ts-expect-error: TypeScript is not able to understand that both types (class one and functional one) have ref.
         <ClassWrapper.FC
           // Returns methods defined in useImperativeHandle.
           instanceRef={this.instancePropertiesRef}

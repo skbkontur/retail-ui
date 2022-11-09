@@ -88,11 +88,11 @@ describe('<DropdownMenu />', () => {
 
     // open
     wrapper.find('#captionForTest').simulate('click');
-    expect(onOpen.mock.calls.length).toBe(1);
+    expect(onOpen.mock.calls).toHaveLength(1);
 
     // close
     wrapper.find('MenuItem').simulate('click');
-    expect(onClose.mock.calls.length).toBe(1);
+    expect(onClose.mock.calls).toHaveLength(1);
   });
 
   test('Renders header', () => {

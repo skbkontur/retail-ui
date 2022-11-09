@@ -5,12 +5,8 @@ import { ValidationContainer, ValidationWrapper, ValidationInfo } from '../../..
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
-  value: string;
-}
-
-export default class ImmediateValidationDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class ImmediateValidationDemo extends React.Component {
+  public state = {
     value: '',
   };
 

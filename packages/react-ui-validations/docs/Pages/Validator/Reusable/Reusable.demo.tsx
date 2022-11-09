@@ -12,7 +12,7 @@ import {
   ValidationRule,
 } from '../../../../src';
 
-interface State {
+interface ReusableDemoState {
   email: string;
 }
 
@@ -35,8 +35,8 @@ const validateEmail: ValidationRule<unknown, string> = (b) => {
 
 const validate = createValidator<string>(validateEmail);
 
-export default class ReusableDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class ReusableDemo extends React.Component {
+  public state: ReusableDemoState = {
     email: '',
   };
 

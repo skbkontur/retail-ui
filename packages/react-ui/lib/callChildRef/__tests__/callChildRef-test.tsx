@@ -14,7 +14,7 @@ describe('Setting ref to child', () => {
 
     expect(wrapper).toHaveLength(1);
 
-    expect(refItem.mock.calls.length).toBe(1);
+    expect(refItem.mock.calls).toHaveLength(1);
   });
 
   it('should call object ref', () => {

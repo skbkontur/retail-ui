@@ -1,146 +1,99 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
-import { Toggle } from '../../../components/Toggle';
-import { Gapped } from '../../../components/Gapped';
+import { CreeveyTests, Meta, Story } from '../../../typings/stories';
+import { delay } from '../../../lib/utils';
 
-class Example extends React.Component {
-  public state = {
-    lockScroll: false,
-  };
+export default {
+  title: 'HideBodyVerticalScroll',
+  parameters: {
+    creevey: { skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` } },
+  },
+} as Meta;
 
-  public render() {
-    return (
+const testScrollLockUnlock: CreeveyTests = {
+  async 'scroll, lock, unlock'() {
+    const toggle = async () => {
+      await this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css: 'button' }))
+        .perform();
+      await delay(1000);
+    };
+
+    await this.browser.executeScript(function () {
+      const scrollContainer = window.document.documentElement;
+      scrollContainer.scrollTop = scrollContainer.scrollHeight;
+    });
+    const scrolled = await this.browser.takeScreenshot();
+
+    await toggle();
+    const locked = await this.browser.takeScreenshot();
+
+    await toggle();
+    const unlocked = await this.browser.takeScreenshot();
+
+    await this.expect({ scrolled, locked, unlocked }).to.matchImages();
+  },
+};
+
+const SampleLockScroll = () => {
+  const [locked, setLocked] = useState(false);
+  const toggle = () => setLocked((prev) => !prev);
+  const status = locked ? 'on page' : 'not mounted';
+
+  return (
+    <div style={{ position: 'fixed', margin: 10, padding: 10, background: '#eee' }}>
       <div>
-        <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
-          <p>
-            <strong>lockScroll</strong>
-            <Toggle onValueChange={this.handleChangeLock} checked={this.state.lockScroll} />
-          </p>
-        </div>
-        {this.state.lockScroll && <HideBodyVerticalScroll />}
-        <div
-          style={{
-            height: 400,
-            width: 100,
-            margin: 20,
-            border: '3px solid',
-          }}
-        />
-        <div
-          style={{
-            height: 400,
-            width: 100,
-            margin: 20,
-            border: '3px solid',
-          }}
-        />
-        <div
-          style={{
-            height: 400,
-            width: 100,
-            margin: 20,
-            border: '3px solid',
-          }}
-        />
-        <div
-          style={{
-            height: 400,
-            width: 100,
-            margin: 20,
-            border: '3px solid',
-          }}
-        />
+        <button onClick={toggle}>toggle</button>
+        <span> HideBodyVerticalScroll: {status}</span>
+        {locked && <HideBodyVerticalScroll />}
       </div>
-    );
-  }
+    </div>
+  );
+};
 
-  private handleChangeLock = (checked: boolean) => {
-    this.setState({
-      lockScroll: checked,
-    });
-  };
-}
+export const Sample: Story = () => (
+  <div>
+    <SampleLockScroll />
+    <div>{'s c r o l l . '.repeat(100)}</div>
+  </div>
+);
+Sample.parameters = { creevey: { tests: testScrollLockUnlock } };
 
-class Example2 extends React.Component {
-  public state = {
-    lockScroll: false,
-    oversizeContent: false,
-  };
+export const WithScrollableContent: Story = () => (
+  <div>
+    <SampleLockScroll />
+    <div>{'s c r o l l . '.repeat(1000)}</div>
+  </div>
+);
+WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };
 
-  public render() {
-    return (
-      <div>
-        <div style={{ position: 'fixed', top: '50%', left: '50%' }}>
-          <p>
-            <Gapped vertical>
-              <div>
-                <strong>lockScroll</strong>
-                <Toggle onValueChange={this.handleChangeLock} checked={this.state.lockScroll} />
-              </div>
-              <div>
-                <strong>oversizeContent</strong>
-                <Toggle onValueChange={this.handleChangeContent} checked={this.state.oversizeContent} />
-              </div>
-            </Gapped>
-          </p>
-        </div>
-        {this.state.lockScroll && <HideBodyVerticalScroll />}
-        <div
-          style={{
-            height: 400,
-            width: 100,
-            margin: 20,
-            border: '3px solid',
-          }}
-        />
-        {this.state.oversizeContent && (
-          <div>
-            <div
-              style={{
-                height: 400,
-                width: 100,
-                margin: 20,
-                border: '3px solid',
-              }}
-            />
-            <div
-              style={{
-                height: 400,
-                width: 100,
-                margin: 20,
-                border: '3px solid',
-              }}
-            />
-            <div
-              style={{
-                height: 400,
-                width: 100,
-                margin: 20,
-                border: '3px solid',
-              }}
-            />
-          </div>
-        )}
-      </div>
-    );
-  }
+export const WithHTMLOverflowYScroll: Story = () => {
+  document.documentElement.style.overflowY = 'scroll';
 
-  private handleChangeLock = (checked: boolean) => {
-    this.setState({
-      lockScroll: checked,
-    });
-  };
+  useEffect(() => {
+    return () => {
+      document.documentElement.style.overflowY = '';
+    };
+  }, []);
 
-  private handleChangeContent = (checked: boolean) => {
-    this.setState({
-      oversizeContent: checked,
-    });
-  };
-}
+  return (
+    <div>
+      <SampleLockScroll />
+      <div>{'s c r o l l . '.repeat(100)}</div>
+    </div>
+  );
+};
+WithHTMLOverflowYScroll.storyName = 'With html.overflowY=scroll';
+WithHTMLOverflowYScroll.parameters = { creevey: { tests: testScrollLockUnlock } };
 
-export default { title: 'HideBodyVerticalScroll', parameters: { creevey: { skip: [true] } } };
-
-export const Simple = () => <Example />;
-export const WithPageResize = () => <Example2 />;
-WithPageResize.storyName = 'With page resize';
+export const Multiple_WithScrollableContent: Story = () => (
+  <>
+    <HideBodyVerticalScroll />
+    <WithScrollableContent />
+  </>
+);
+Multiple_WithScrollableContent.parameters = { creevey: { tests: testScrollLockUnlock } };

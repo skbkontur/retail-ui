@@ -64,6 +64,24 @@ export const Bottom = () => (
 );
 Bottom.storyName = 'bottom';
 
+export const TopBottomCenter = () => (
+  <div style={{ width: '200px', display: 'flex', justifyContent: 'space-between' }}>
+    <Hint pos="top center" text="Something will never be down" manual opened>
+      <span className="hint-content">Top</span>
+    </Hint>
+
+    <Hint pos="bottom center" text="Something will never be up" manual opened>
+      <span className="hint-content">Bottom</span>
+    </Hint>
+  </div>
+);
+TopBottomCenter.storyName = 'top bottom center';
+TopBottomCenter.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/ },
+  },
+};
+
 export const WithLargeWord = () => (
   <div style={{ marginTop: -100 }}>
     <Hint
@@ -156,7 +174,7 @@ export const SetManualAndOpenedPropOnClick: Story = () => <HandleClickHint />;
 SetManualAndOpenedPropOnClick.parameters = {
   creevey: {
     tests: {
-      async ['click on hint']() {
+      async 'click on hint'() {
         await this.browser
           .actions()
           .click(this.browser.findElement({ css: '#main' }))
@@ -168,8 +186,55 @@ SetManualAndOpenedPropOnClick.parameters = {
   },
 };
 
+export const WithSVGIcon: Story = () => {
+  return (
+    <Hint text="hint">
+      <svg data-tid="icon" width="16" height="16" viewBox="0 0 16 16">
+        <path d="M9 3H7V7H3V9H7V13H9V9H13V7H9V3Z" />
+      </svg>
+    </Hint>
+  );
+};
+
+WithSVGIcon.parameters = {
+  creevey: {
+    skip: [
+      {
+        in: [
+          'chromeDark',
+          'chrome8px',
+          'firefox8px',
+          'firefox',
+          'firefoxFlat8px',
+          'firefoxDark',
+          'ie118px',
+          'ie11',
+          'ie11Dark',
+        ],
+        reason: 'internal logic being tested and not something UI related',
+      },
+    ],
+    tests: {
+      async idle() {
+        await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+      },
+      async hover() {
+        await this.browser
+          .actions()
+          .move({
+            origin: this.browser.findElement({ css: '[data-tid="icon"]' }),
+          })
+          .perform();
+        await delay(1000);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('open');
+      },
+    },
+  },
+};
+
 @rootNode
-class CustomClassComponent extends React.Component<{}, {}> {
+class CustomClassComponent extends React.Component {
   private setRootNode!: TSetRootNode;
 
   render() {

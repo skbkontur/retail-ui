@@ -1,4 +1,3 @@
-import { ReactComponentLike } from 'prop-types';
 import React from 'react';
 import { isForwardRef } from 'react-is';
 
@@ -14,6 +13,8 @@ export type Defaultize<P, D> = P extends any
   : never;
 
 export type DefaultizeProps<C, P> = C extends { defaultProps: infer D } ? Defaultize<P, D> : P;
+
+export type AnyObject = Record<string, unknown>;
 
 export const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -38,15 +39,16 @@ export function taskWithDelay(task: () => void, ms: number) {
   return cancelationToken;
 }
 
-export function isFunction<T>(x: T | Function): x is Function {
+export type FunctionWithParams<R = any> = (...args: any[]) => R;
+export function isFunction<T>(x: T | FunctionWithParams): x is FunctionWithParams {
   return typeof x === 'function';
 }
 
-export function isFunctionalComponent(Component: ReactComponentLike): boolean {
+export function isFunctionalComponent(Component: unknown): Component is React.ComponentType {
   return Boolean(typeof Component === 'function' && !(Component.prototype && Component.prototype.isReactComponent));
 }
 
-export function isClassComponent(Component: ReactComponentLike): boolean {
+export function isClassComponent(Component: unknown): Component is React.ComponentType {
   return Boolean(typeof Component === 'function' && Component.prototype && Component.prototype.isReactComponent);
 }
 
@@ -75,7 +77,7 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
   if (React.isValidElement(node)) {
     return (
       Object.prototype.hasOwnProperty.call(node.type, '__KONTUR_REACT_UI__') &&
-      // @ts-ignore
+      // @ts-expect-error: React doesn't know about existence of __KONTUR_REACT_UI__.
       node.type.__KONTUR_REACT_UI__ === componentName
     );
   }
@@ -86,17 +88,27 @@ export const isReactUINode = (componentName: string, node: React.ReactNode): boo
 const KB = 1024;
 const UNITS = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
+const calculateDecimals = (decimals: number) => {
+  if (decimals < 0) {
+    return 0;
+  }
+
+  return 0;
+};
+
 export const formatBytes = (bytes: number, decimals = 2): string | null => {
-  if (bytes === 0) return '0 Bytes';
+  if (bytes === 0) {
+    return '0 Bytes';
+  }
 
   if (!bytes) {
     return null;
   }
 
-  decimals = decimals < 0 ? 0 : decimals;
+  const calculatedDecimals = calculateDecimals(decimals);
 
   const i = Math.floor(Math.log2(bytes) / Math.log2(KB));
-  const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(decimals));
+  const formattedBytes = parseFloat((bytes / Math.pow(KB, i)).toFixed(calculatedDecimals));
 
   return `${formattedBytes} ${UNITS[i]}`;
 };
@@ -112,6 +124,16 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
 };
 
 /**
+ * Checks if the value `null` or `undefined`.
+ *
+ * @param value Value to check for `null` and `undefined`.
+ * @returns Returns `true` if `value` is `null` or `undefined`, else `false`.
+ */
+export const isNullable = (value: unknown): value is null | undefined => {
+  return value === null || value === undefined;
+};
+
+/**
  * Creates a function that checks if the given `child`
  * is an instance of some component specified by `name`.
  *
@@ -120,7 +142,7 @@ export const isNonNullable = <T>(value: T): value is NonNullable<T> => {
  */
 export const isReactUIComponent = <P = any>(name: string) => {
   return (child: React.ReactNode): child is React.ReactElement<P> => {
-    // @ts-ignore
+    // @ts-expect-error: Property `type` doesn't exist on type `React.ReactNode`, but exists on type `React.ReactElement` meanwhile `React.ReactElement` is not compatible with `React` `children` type.
     return child?.type?.__KONTUR_REACT_UI__ === name;
   };
 };
@@ -162,11 +184,26 @@ export const extractDataProps = <T>(props: T) => {
 
   Object.entries(props).map(([name, value]) => {
     if (name.startsWith('data-')) {
-      dataProps[name] = value;
-    } else {
-      restWithoutDataProps[name] = value;
+      return (dataProps[name] = value);
     }
+
+    return (restWithoutDataProps[name] = value);
   });
 
   return { dataProps, restWithoutDataProps };
+};
+
+/**
+ * Basically `.startsWith` for arrays.
+ *
+ * @param searchKeys Array of strings to test against `inputString`.
+ * @param inputString String on which search will be performed.
+ * @returns `true` if `inputString` starts with one of keys, else `false`.
+ */
+export const startsWithOneOf = (searchKeys: string[], inputString: string) => {
+  const keyIndex = searchKeys.findIndex((key) => {
+    return inputString.startsWith(key);
+  });
+
+  return keyIndex >= 0;
 };

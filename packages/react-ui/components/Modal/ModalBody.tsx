@@ -46,7 +46,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
     );
   }
 
-  private handleResize = (event: UIEvent) => {
+  private handleResize = () => {
     LayoutEvents.emit();
   };
 
@@ -63,7 +63,7 @@ export class ModalBody extends React.Component<ModalBodyProps> {
                 [styles.body(this.theme)]: true,
                 [styles.mobileBody(this.theme)]: this.isMobileLayout,
                 [styles.bodyWithoutHeader(this.theme)]: !hasHeader,
-                [styles.mobileBodyWithoutHeader(this.theme)]: !hasHeader && this.isMobileLayout,
+                [styles.mobileBodyWithoutHeader()]: !hasHeader && this.isMobileLayout,
                 [styles.bodyAddPaddingForPanel(this.theme)]: additionalPadding,
                 [styles.mobileBodyAddPaddingForPanel(this.theme)]: additionalPadding && this.isMobileLayout,
                 [styles.bodyWithoutPadding()]: noPadding,

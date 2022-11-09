@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import PlaygroundError from 'react-styleguidist/lib/client/rsg-components/PlaygroundError';
@@ -31,7 +31,7 @@ const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewPro
  * @see https://github.com/styleguidist/react-styleguidist/blob/master/src/client/rsg-components/Preview/Preview.tsx
  */
 const Preview = withContext(
-  class extends Component<PreviewProps, PreviewState> {
+  class extends React.Component<PreviewProps, PreviewState> {
     public static propTypes = {
       code: PropTypes.string.isRequired,
       evalInContext: PropTypes.func.isRequired,

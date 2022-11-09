@@ -45,12 +45,12 @@ interface SampleProps {
   children?: React.ReactNode;
   total?: number;
   current?: number;
-  ignoreBackgroundClick?: boolean;
-  blockBackground?: boolean;
   withContent?: boolean;
   withLongBody?: boolean;
   withoutFooter?: boolean;
   withoutHeader?: boolean;
+  ignoreBackgroundClick?: boolean;
+  blockBackground?: boolean;
 }
 
 interface SampleState {
@@ -58,7 +58,7 @@ interface SampleState {
   panel: boolean;
 }
 
-class Sample extends React.Component<SampleProps, SampleState> {
+class Sample extends React.Component<SampleProps> {
   public state: SampleState = {
     open: false,
     panel: false,
@@ -97,7 +97,7 @@ class Sample extends React.Component<SampleProps, SampleState> {
                 <div>
                   <Toggle
                     checked={this.state.panel}
-                    onValueChange={() => this.setState(({ panel }) => ({ panel: !panel }))}
+                    onValueChange={() => this.setState(({ panel }: SampleState) => ({ panel: !panel }))}
                   />{' '}
                   Panel {this.state.panel ? 'enabled' : 'disabled'}
                 </div>
@@ -145,12 +145,9 @@ class Sample extends React.Component<SampleProps, SampleState> {
   }
 }
 
-interface SampleConfiguratorProps {
-  ignoreBackgroundClick: boolean;
-  blockBackground: boolean;
-  withContent: boolean;
+type SampleConfiguratorProps = {
   onChange: (name: string) => void;
-}
+} & SampleProps;
 
 class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
   public render() {
@@ -176,7 +173,7 @@ class SampleConfigurator extends React.Component<SampleConfiguratorProps> {
   }
 }
 
-class SidePageWithScrollableContent extends React.Component<{}, {}> {
+class SidePageWithScrollableContent extends React.Component {
   public render() {
     return (
       <div style={{ width: '300px' }}>
@@ -188,12 +185,8 @@ class SidePageWithScrollableContent extends React.Component<{}, {}> {
   }
 }
 
-interface SidePageWithInputInHeaderState {
-  opened: boolean;
-}
-
-class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInHeaderState> {
-  public state: SidePageWithInputInHeaderState = {
+class SidePageWithInputInHeader extends React.Component {
+  public state = {
     opened: false,
   };
 
@@ -229,13 +222,13 @@ class SidePageWithInputInHeader extends React.Component<{}, SidePageWithInputInH
   };
 }
 
-class SidePageOverAnotherSidePage extends React.Component<{}> {
+class SidePageOverAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={5} ignoreBackgroundClick blockBackground withContent />;
   }
 }
 
-class StickySidePageHeaderWhenAnotherSidePage extends React.Component<{}> {
+class StickySidePageHeaderWhenAnotherSidePage extends React.Component {
   public render() {
     return <Sample current={1} total={2} ignoreBackgroundClick blockBackground withContent withLongBody />;
   }
@@ -247,7 +240,7 @@ interface SidePageWithCloseConfigurationState {
   withContent: boolean;
 }
 
-class SidePageWithCloseConfiguration extends React.Component<{}, SidePageWithCloseConfigurationState> {
+class SidePageWithCloseConfiguration extends React.Component {
   public state: SidePageWithCloseConfigurationState = {
     ignoreBackgroundClick: false,
     blockBackground: false,
@@ -288,7 +281,7 @@ interface SidePageWithModalInsideState {
   withContent: boolean;
 }
 
-class SidePageWithModalInside extends React.Component<{}, SidePageWithModalInsideState> {
+class SidePageWithModalInside extends React.Component {
   public state: SidePageWithModalInsideState = {
     isModalOpened: false,
     ignoreBackgroundClick: true,
@@ -320,10 +313,11 @@ class SidePageWithModalInside extends React.Component<{}, SidePageWithModalInsid
   );
 }
 
-class SidePageWithLeftPosition extends React.Component<{
-  disableAnimations?: boolean;
+interface SidePageWithLeftPositionProps {
   close: () => void;
-}> {
+  disableAnimations: boolean;
+}
+class SidePageWithLeftPosition extends React.Component<SidePageWithLeftPositionProps> {
   public render() {
     return (
       <SidePage disableAnimations={this.props.disableAnimations} fromLeft onClose={this.props.close}>
@@ -345,9 +339,10 @@ class SidePageWithLeftPosition extends React.Component<{
   }
 }
 
-class LeftSidePageWithRightSidePage extends React.Component<{
-  disableAnimations?: boolean;
-}> {
+interface LeftSidePageWithRightSidePageProps {
+  disableAnimations: boolean;
+}
+class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRightSidePageProps> {
   public render() {
     return (
       <>
@@ -386,7 +381,7 @@ class LeftSidePageWithRightSidePage extends React.Component<{
   }
 }
 
-class SimpleSidePage extends React.Component<{}, {}> {
+class SimpleSidePage extends React.Component {
   public render() {
     return (
       <div style={{ width: '300px' }}>
@@ -401,7 +396,7 @@ interface WithVariableContentState {
   sidePageText: string[];
   pageText: string[];
 }
-class WithVariableContent extends React.Component<{}, WithVariableContentState> {
+class WithVariableContent extends React.Component {
   public state: WithVariableContentState = {
     opened: false,
     sidePageText: [],
@@ -460,11 +455,11 @@ class WithVariableContent extends React.Component<{}, WithVariableContentState> 
   );
 
   private hendleAddSidePageClick = () => {
-    this.setState((state) => ({ sidePageText: [...state.sidePageText, 'text'] }));
+    this.setState((state: WithVariableContentState) => ({ sidePageText: [...state.sidePageText, 'text'] }));
   };
 
   private handleAddPageClick = () => {
-    this.setState((state) => ({ pageText: [...state.pageText, 'text'] }));
+    this.setState((state: WithVariableContentState) => ({ pageText: [...state.pageText, 'text'] }));
   };
 
   private open = () => {
@@ -514,7 +509,7 @@ class TestUpdateLayoutMethod extends React.Component {
   };
 
   private sidePage: SidePage | null = null;
-  // @ts-ignore: only refers to a type, but is being used as a namespace here
+  // @ts-expect-error: Only refers to a type, but is being used as a namespace here.
   private childComp: TestUpdateLayoutMethod.ChildComp | null = null;
 
   public updateLayout = () => {
@@ -636,7 +631,7 @@ SidePageOverAnotherSidePageStory.storyName = 'SidePage over another SidePage';
 SidePageOverAnotherSidePageStory.parameters = {
   creevey: {
     tests: {
-      async ['open internal side-page']() {
+      async 'open internal side-page'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -647,7 +642,7 @@ SidePageOverAnotherSidePageStory.parameters = {
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('open internal side-page');
       },
-      async ['close internal side-page']() {
+      async 'close internal side-page'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -672,7 +667,7 @@ StickySidePageHeaderWhenAnotherSidePageStory.storyName = 'Sticky SidePageHeader 
 StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
   creevey: {
     tests: {
-      async ['sticky header, open and close internal side-page']() {
+      async 'sticky header, open and close internal side-page'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: 'button' }))
@@ -684,8 +679,9 @@ StickySidePageHeaderWhenAnotherSidePageStory.parameters = {
         await this.browser.executeScript(function () {
           const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
 
-          // @ts-ignore
-          sidepageContainer.scrollTop = 3000;
+          if (sidepageContainer) {
+            sidepageContainer.scrollTop = 3000;
+          }
         });
         await this.browser
           .actions({ bridge: true })
@@ -731,7 +727,7 @@ export const Simple: Story = () => <SimpleSidePage />;
 Simple.parameters = {
   creevey: {
     tests: {
-      async ['open side-page']() {
+      async 'open side-page'() {
         await this.browser
           .actions({
             bridge: true,
@@ -750,7 +746,7 @@ BodyWithoutFooter.storyName = 'Body without Footer';
 BodyWithoutFooter.parameters = {
   creevey: {
     tests: {
-      async ['scroll to bottom']() {
+      async 'scroll to bottom'() {
         await this.browser
           .actions({
             bridge: true,
@@ -758,8 +754,8 @@ BodyWithoutFooter.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-          // @ts-ignore
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);
@@ -775,7 +771,7 @@ BodyWithoutHeader.storyName = 'Body without Header';
 BodyWithoutHeader.parameters = {
   creevey: {
     tests: {
-      async ['open side-page without header']() {
+      async 'open side-page without header'() {
         await this.browser
           .actions({
             bridge: true,
@@ -802,7 +798,7 @@ TestUpdateLayoutMethodStory.parameters = {
       async idle() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('idle');
       },
-      async ['Body content has been changed']() {
+      async 'Body content has been changed'() {
         await this.browser
           .actions({
             bridge: true,
@@ -811,7 +807,7 @@ TestUpdateLayoutMethodStory.parameters = {
           .perform();
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('Body content has been changed');
       },
-      async ['child component content has been changed']() {
+      async 'child component content has been changed'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -823,7 +819,7 @@ TestUpdateLayoutMethodStory.parameters = {
           'child component content has been changed',
         );
       },
-      async ['update layout']() {
+      async 'update layout'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -861,28 +857,26 @@ WithLongTitleStory.storyName = 'With long title';
 WithLongTitleStory.parameters = {
   creevey: {
     tests: {
-      async ['not fixed']() {
+      async 'not fixed'() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('not fixed');
       },
-      async ['fixed close element']() {
+      async 'fixed close element'() {
         await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]') as HTMLElement;
           const fixedHeaderHeight = 50;
 
-          // @ts-ignore
           sidePageContainer.scrollTop = (sidePageHeader.offsetHeight - fixedHeaderHeight) / 2;
         });
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('fixed close element');
       },
-      async ['fixed header']() {
+      async 'fixed header'() {
         await this.browser.executeScript(function () {
-          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
-          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]');
+          const sidePageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
+          const sidePageHeader = window.document.querySelector('[data-comp-name~="SidePageHeader"]') as HTMLElement;
           const fixedHeaderHeight = 50;
 
-          // @ts-ignore
           sidePageContainer.scrollTop = sidePageHeader.offsetHeight - fixedHeaderHeight;
         });
         await delay(1000);
@@ -945,20 +939,19 @@ SidePageWithChildrenFromOtherComponent.storyName = 'SidePage with Custom Childre
 SidePageWithChildrenFromOtherComponent.parameters = {
   creevey: {
     tests: {
-      async ['without header, footer']() {
+      async 'without header, footer'() {
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('without header, footer');
       },
-      async ['scroll to bottom without header, footer']() {
+      async 'scroll to bottom without header, footer'() {
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom without header, footer');
       },
-      async ['with header, footer']() {
+      async 'with header, footer'() {
         await this.browser
           .actions({
             bridge: true,
@@ -971,7 +964,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('with header, footer');
       },
-      async ['scroll to bottom with header, footer']() {
+      async 'scroll to bottom with header, footer'() {
         await this.browser
           .actions({
             bridge: true,
@@ -981,15 +974,14 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('scroll to bottom with header, footer');
       },
-      async ['with panel']() {
+      async 'with panel'() {
         await this.browser
           .actions({
             bridge: true,
@@ -1001,7 +993,7 @@ SidePageWithChildrenFromOtherComponent.parameters = {
         await delay(1000);
         await this.expect(await this.browser.takeScreenshot()).to.matchImage('with panel');
       },
-      async ['scroll to bottom with panel']() {
+      async 'scroll to bottom with panel'() {
         await this.browser
           .actions({ bridge: true })
           .click(this.browser.findElement({ css: '[data-tid="SidePage__footer-toggle"]' }))
@@ -1009,9 +1001,8 @@ SidePageWithChildrenFromOtherComponent.parameters = {
           .click(this.browser.findElement({ css: '[data-tid="SidePage__panel-toggle"]' }))
           .perform();
         await this.browser.executeScript(function () {
-          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]');
+          const sidepageContainer = window.document.querySelector('[data-tid="SidePage__container"]') as HTMLElement;
 
-          // @ts-ignore
           sidepageContainer.scrollTop = 3000;
         });
         await delay(1000);

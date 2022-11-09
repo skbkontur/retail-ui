@@ -61,7 +61,9 @@ export class TaskWithDelayAndMinimalDuration {
   };
 
   public stop = () => {
-    if (!this.isTaskActive) return;
+    if (!this.isTaskActive) {
+      return;
+    }
 
     this.isTaskActive = false;
 

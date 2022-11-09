@@ -1,14 +1,16 @@
 import React, { CSSProperties } from 'react';
 
+import { isNonNullable } from '../../lib/utils';
 import { ScrollContainer } from '../../components/ScrollContainer';
-import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
-import { isMenuHeader } from '../../components/MenuHeader';
+import { MenuItem, MenuItemProps } from '../../components/MenuItem';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { addIconPaddingIfPartOfMenu } from '../InternalMenu/addIconPaddingIfPartOfMenu';
 import { isIE11 } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Menu.styles';
 import { isActiveElement } from './isActiveElement';
@@ -31,17 +33,25 @@ export interface MenuState {
   highlightedIndex: number;
 }
 
+export const MenuDataTids = {
+  root: 'Menu__root',
+} as const;
+
+type DefaultProps = Required<Pick<MenuProps, 'align' | 'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll'>>;
+
 @rootNode
 export class Menu extends React.Component<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'Menu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'left',
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
     preventWindowScroll: true,
   };
+
+  private getProps = createPropsGetter(Menu.defaultProps);
 
   public state = {
     highlightedIndex: -1,
@@ -111,20 +121,22 @@ export class Menu extends React.Component<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
+    const { hasShadow, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
       <div
+        data-tid={MenuDataTids.root}
         className={cx(getAlignRightClass(this.props), {
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.shadow(this.theme)]: hasShadow,
         })}
         style={getStyle(this.props)}
         ref={this.setRootNode}
       >
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.props.maxHeight}
-          preventWindowScroll={this.props.preventWindowScroll}
+          maxHeight={maxHeight}
+          preventWindowScroll={preventWindowScroll}
           disabled={this.props.disableScrollContainer}
         >
           <div className={styles.scrollContainer(this.theme)}>{this.getChildList()}</div>
@@ -142,32 +154,31 @@ export class Menu extends React.Component<MenuProps, MenuState> {
       if (!child) {
         return child;
       }
+
       if (typeof child === 'string' || typeof child === 'number') {
         return child;
       }
 
-      if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-        child = React.cloneElement(child, {
-          _enableIconPadding: true,
-        });
-      }
-      if (isActiveElement(child)) {
+      const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
+
+      if (isActiveElement(modifiedChild)) {
         const highlight = this.state.highlightedIndex === index;
 
-        let ref = child.ref;
-        if (highlight && typeof child.ref !== 'string') {
-          ref = this.refHighlighted.bind(this, child.ref);
+        let ref = modifiedChild.ref;
+        if (highlight && typeof modifiedChild.ref !== 'string') {
+          ref = this.refHighlighted.bind(this, modifiedChild.ref);
         }
 
-        return React.cloneElement<MenuItemProps, MenuItem>(child, {
+        return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
           ref,
-          state: highlight ? 'hover' : child.props.state,
+          state: highlight ? 'hover' : modifiedChild.props.state,
           onClick: this.select.bind(this, index, false),
           onMouseEnter: this.highlight.bind(this, index),
           onMouseLeave: this.unhighlight,
         });
       }
-      return child;
+
+      return modifiedChild;
     });
   };
 
@@ -188,7 +199,11 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+      const rootNode = getRootNode(this.highlighted);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
     }
   };
 
@@ -274,12 +289,8 @@ export class Menu extends React.Component<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

@@ -12,7 +12,7 @@ const render = (props = {}) => mount(<Spinner {...props} />);
 describe('Spinner', () => {
   describe('SVG animation', () => {
     it('renders default Spinner', () => {
-      render();
+      expect(render).not.toThrow();
     });
 
     it('renders correct size of default Spinner', () => {

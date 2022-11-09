@@ -23,7 +23,9 @@ const updateFile = (
   getFileUpdatedProps: (file: FileUploaderAttachedFile) => Partial<FileUploaderAttachedFile>,
 ): FileUploaderAttachedFile[] => {
   const fileIndex = files.findIndex((file) => file.id === fileId);
-  if (fileIndex === -1) return files;
+  if (fileIndex === -1) {
+    return files;
+  }
 
   const newFiles = [...files];
   const file = files[fileIndex];
@@ -42,6 +44,7 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
   const { children, onValueChange, onRemove, onAttach } = props;
 
   const [files, setFiles] = useState<FileUploaderAttachedFile[]>([]);
+  const [isMinLengthReached, setIsMinLengthReached] = useState<boolean>(false);
   const locale = useControlLocale();
 
   useEffectWithoutInitCall(() => {
@@ -96,6 +99,8 @@ export const FileUploaderControlProvider = (props: PropsWithChildren<FileUploade
         removeFile,
         setFileValidationResult,
         reset,
+        isMinLengthReached,
+        setIsMinLengthReached,
       })}
     >
       {children}

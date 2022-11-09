@@ -6,8 +6,9 @@ import { MAX_DATE, MAX_MONTH, MAX_YEAR, MIN_DATE, MIN_MONTH, MIN_YEAR } from '..
 import { Nullable } from '../../typings/utility-types';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Animation } from '../../lib/animation';
+import { animation } from '../../lib/animation';
 import { isMobile } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
 import * as CalendarUtils from './CalendarUtils';
@@ -36,6 +37,13 @@ export interface CalendarState {
   touchStart: number;
 }
 
+export const CalendarDataTids = {
+  root: 'Calendar',
+  month: 'MonthView__month',
+  headerMonth: 'MonthView__headerMonth',
+  headerYear: 'MonthView__headerYear',
+} as const;
+
 const getTodayDate = () => {
   const date = new Date();
   return {
@@ -45,11 +53,12 @@ const getTodayDate = () => {
   };
 };
 
+type DefaultProps = Required<Pick<CalendarProps, 'minDate' | 'maxDate'>>;
+
 export class Calendar extends React.Component<CalendarProps, CalendarState> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
-  public static defaultProps = {
-    holidays: [],
+  public static defaultProps: DefaultProps = {
     minDate: {
       year: MIN_YEAR,
       month: MIN_MONTH,
@@ -62,10 +71,12 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     },
   };
 
+  private getProps = createPropsGetter(Calendar.defaultProps);
+
   private theme!: Theme;
   private wheelEndTimeout: Nullable<number>;
   private root: Nullable<HTMLElement>;
-  private animation = Animation();
+  private animation = animation();
   private touchStartY: Nullable<number> = null;
 
   constructor(props: CalendarProps) {
@@ -73,8 +84,8 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
 
     const today = getTodayDate();
 
-    const initialMonth = props.initialMonth == null ? today.month : props.initialMonth;
-    const initialYear = props.initialYear == null ? today.year : props.initialYear;
+    const initialMonth = props.initialMonth ?? today.month;
+    const initialYear = props.initialYear ?? today.year;
 
     this.state = {
       scrollPosition: 0,
@@ -114,7 +125,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
       await new Promise((r) => setTimeout(r));
     }
 
-    const { minDate, maxDate } = this.props;
+    const { minDate, maxDate } = this.getProps();
 
     if (minDate && isGreater(minDate, create(32, month, year))) {
       this.scrollToMonth(minDate.month, minDate.year);
@@ -212,7 +223,7 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
     const positions = this.getMonthPositions();
     const wrapperStyle = { height: themeConfig(this.theme).WRAPPER_HEIGHT };
     return (
-      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid="Calendar">
+      <div ref={this.refRoot} className={styles.root(this.theme)} data-tid={CalendarDataTids.root}>
         <div style={wrapperStyle} className={styles.wrapper()}>
           {this.state.months
             .map<[number, MonthViewModel]>((x, i) => [positions[i], x])
@@ -244,13 +255,14 @@ export class Calendar extends React.Component<CalendarProps, CalendarState> {
   };
 
   private renderMonth([top, month]: [number, MonthViewModel]) {
+    const { minDate, maxDate } = this.getProps();
     return (
       <Month
         key={month.month + '-' + month.year}
         top={top}
         month={month}
-        maxDate={this.props.maxDate}
-        minDate={this.props.minDate}
+        maxDate={maxDate}
+        minDate={minDate}
         today={this.state.today}
         value={this.props.value}
         onDateClick={this.props.onSelect}

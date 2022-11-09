@@ -1,7 +1,12 @@
 import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateTransformer } from '../../../lib/date/InternalDateTransformer';
-import { InternalDateComponentType, InternalDateTypesOrder, InternalDateValidateCheck } from '../../../lib/date/types';
+import {
+  InputKeyResult,
+  InternalDateComponentType,
+  InternalDateTypesOrder,
+  InternalDateValidateCheck,
+} from '../../../lib/date/types';
 import { DatePickerLocale } from '../../DatePicker/locale';
 import { DateInputProps } from '../DateInput';
 
@@ -45,20 +50,22 @@ export class InternalDateMediator {
     return this;
   };
 
-  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): boolean {
+  public inputKey(key: string, type: InternalDateComponentType | null, inputMode: boolean): InputKeyResult {
     const prevValue = this.iDate.get(type);
     if (type === null) {
-      type = this.getLeftmostType();
-      this.clear(type);
+      const leftMostType = this.getLeftmostType();
+      this.clear(leftMostType);
     }
+
     if (type !== InternalDateComponentType.Year) {
       this.iDate.cutOffExcess(type);
     } else {
       this.iDate.restore(type);
     }
-    const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode);
+    const maxValue = InternalDateGetter.getDefaultMax(type, this.iDate.getComponentsLikeNumber());
+    const { nextValue, nextInputMode } = inputNumber(type, prevValue, key, inputMode, maxValue);
     this.iDate.set(type, nextValue);
-    return nextInputMode;
+    return { inputMode: nextInputMode, changed: nextValue !== prevValue };
   }
 
   public paste = (pasted: string): InternalDateMediator => {
@@ -78,11 +85,13 @@ export class InternalDateMediator {
   };
 
   public shiftDateComponent(type: InternalDateComponentType | null, step: number): boolean {
-    type = type === null ? this.getLeftmostType() : type;
+    const calculatedType = type ?? this.getLeftmostType();
+
     const iDate = this.iDate.clone();
-    const isValidRange = iDate.validate({ checks: [InternalDateValidateCheck.Range] });
     const start = iDate.getRangeStart();
     const end = iDate.getRangeEnd();
+
+    const isValidRange = iDate.validate({ checks: [InternalDateValidateCheck.Range] });
     if (!isValidRange) {
       // Удерживаем дату в заданном диапазоне
       if (start && InternalDateGetter.max([iDate, start]) === start) {
@@ -91,12 +100,13 @@ export class InternalDateMediator {
         iDate.duplicateOf(end);
       }
     } else {
-      const clone = iDate.clone().shift(type, step, { isRange: false, isLoop: true });
+      const clone = iDate.clone().shift(calculatedType, step, { isRange: false, isLoop: true, isCutFeb: true });
       if (clone.validate({ checks: [InternalDateValidateCheck.Range] })) {
         iDate.duplicateOf(clone);
       }
     }
-    const changed = !this.iDate.isEqualComponentDate(type, iDate);
+
+    const changed = !this.iDate.isEqualComponentDate(calculatedType, iDate);
     this.iDate = iDate;
     return changed;
   }

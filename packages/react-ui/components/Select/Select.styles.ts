@@ -73,28 +73,28 @@ export const styles = memoizeStyle({
 
   leftIconSmall(t: Theme) {
     return css`
-      padding-right: ${t.selectIconGapSmall};
+      margin-right: ${t.selectIconGapSmall};
       width: ${t.btnIconSizeSmall};
     `;
   },
 
   leftIconMedium(t: Theme) {
     return css`
-      padding-right: ${t.selectIconGapMedium};
+      margin-right: ${t.selectIconGapMedium};
       width: ${t.btnIconSizeMedium};
     `;
   },
 
   leftIconLarge(t: Theme) {
     return css`
-      padding-right: ${t.selectIconGapLarge};
+      margin-right: ${t.selectIconGapLarge};
       width: ${t.btnIconSizeLarge};
     `;
   },
 
   leftIconLink(t: Theme) {
     return css`
-      padding-right: ${t.btnLinkIconMarginRight};
+      margin-right: ${t.btnLinkIconMarginRight};
     `;
   },
 

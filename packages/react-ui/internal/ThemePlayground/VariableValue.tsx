@@ -3,6 +3,7 @@ import EditIcon from '@skbkontur/react-icons/Edit';
 import DeleteIcon from '@skbkontur/react-icons/Delete';
 import EventEmitter from 'eventemitter3';
 
+import { isColor } from '../../lib/styles/ColorHelpers';
 import { Input } from '../../components/Input';
 import { Gapped } from '../../components/Gapped';
 import { Theme } from '../../lib/theming/Theme';
@@ -10,6 +11,7 @@ import { Link } from '../../components/Link';
 import { Hint } from '../../components/Hint';
 import { isFunction } from '../../lib/utils';
 import { cx } from '../../lib/theming/Emotion';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Playground.styles';
 
@@ -22,7 +24,7 @@ export interface VariableValueProps {
   variable: string;
   theme: Theme;
   baseVariables: Array<keyof Theme>;
-  deprecated: boolean;
+  deprecated?: boolean;
 }
 
 export interface VariableValueState {
@@ -30,11 +32,14 @@ export interface VariableValueState {
   editing: boolean;
 }
 
+type DefaultProps = Required<Pick<VariableValueProps, 'deprecated'>>;
+
 export class VariableValue extends React.Component<VariableValueProps, VariableValueState> {
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     deprecated: false,
   };
-  public state = {
+  private getProps = createPropsGetter(VariableValue.defaultProps);
+  public state: VariableValueState = {
     value: this.props.value,
     editing: false,
   };
@@ -44,7 +49,8 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private debounceInterval: number | undefined = undefined;
 
   public render() {
-    const { variable, theme, baseVariables, deprecated } = this.props;
+    const { variable, theme, baseVariables } = this.props;
+    const deprecated = this.getProps().deprecated;
     return (
       <div className={styles.variable(theme)} ref={this.rootRef} tabIndex={0}>
         <div
@@ -119,7 +125,7 @@ export class VariableValue extends React.Component<VariableValueProps, VariableV
   private renderInput() {
     return (
       <Input
-        leftIcon={isColor(this.state.value) && this.colorIcon()}
+        leftIcon={isColorExtended(this.state.value) && this.colorIcon()}
         value={this.state.value}
         onValueChange={this.handleChange}
         onBlur={this.handleBlur}
@@ -209,14 +215,25 @@ class BaseVariableLink extends React.Component<BaseVariableLinkProps> {
   };
 }
 
-function isColor(color: string | (() => string)) {
-  if (isFunction(color)) {
-    color = color();
-  }
-  const style = new Option().style;
-  style.color = color;
+type Color = string | (() => string);
 
-  return (
-    !!color && (color.startsWith('#') || color.startsWith('rgb') || color.startsWith('hsl') || style.color === color)
-  );
+const getColorValue = (color: Color) => {
+  if (isFunction(color)) {
+    return color();
+  }
+
+  return color;
+};
+
+function isColorExtended(color: Color) {
+  const colorValue = getColorValue(color);
+
+  const style = new Option().style;
+  style.color = colorValue;
+
+  if (colorValue) {
+    return isColor(colorValue) || style.color === colorValue;
+  }
+
+  return false;
 }

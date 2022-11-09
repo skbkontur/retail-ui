@@ -11,8 +11,7 @@ storiesOf('FileUploader', module).add('required', () => <FileUploaderStory />);
 interface FileUploaderStoryState {
   value: FileUploaderAttachedFile[];
 }
-
-class FileUploaderStory extends React.Component<{}, FileUploaderStoryState> {
+class FileUploaderStory extends React.Component {
   public state: FileUploaderStoryState = {
     value: [],
   };

@@ -1,9 +1,10 @@
 import React from 'react';
 
+import { isHTMLElement } from '../../lib/SSRSafe';
+import { isNonNullable, isNullable } from '../../lib/utils';
 import { isKeyArrowDown, isKeyArrowUp, isKeyEnter } from '../../lib/events/keyboard/identifiers';
 import { ScrollContainer, ScrollContainerScrollState } from '../../components/ScrollContainer';
 import { isMenuItem, MenuItem, MenuItemProps } from '../../components/MenuItem';
-import { isMenuHeader } from '../../components/MenuHeader';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -11,9 +12,12 @@ import { Theme } from '../../lib/theming/Theme';
 import { cx } from '../../lib/theming/Emotion';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { MenuSeparator } from '../../components/MenuSeparator';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 
 import { styles } from './InternalMenu.styles';
 import { isActiveElement } from './isActiveElement';
+import { addIconPaddingIfPartOfMenu } from './addIconPaddingIfPartOfMenu';
 
 interface MenuProps {
   children?: React.ReactNode;
@@ -43,11 +47,22 @@ interface MenuState {
   scrollState: ScrollContainerScrollState;
 }
 
+export const InternalMenuDataTids = {
+  root: 'InternalMenu__root',
+} as const;
+
+type DefaultProps = Required<
+  Pick<
+    MenuProps,
+    'width' | 'maxHeight' | 'hasShadow' | 'preventWindowScroll' | 'cyclicSelection' | 'initialSelectedItemIndex'
+  >
+>;
+
 @rootNode
 export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   public static __KONTUR_REACT_UI__ = 'InternalMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     width: 'auto',
     maxHeight: 300,
     hasShadow: true,
@@ -56,9 +71,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     initialSelectedItemIndex: -1,
   };
 
+  private getProps = createPropsGetter(InternalMenu.defaultProps);
+
   public state: MenuState = {
     highlightedIndex: -1,
-    maxHeight: this.props.maxHeight || 'none',
+    maxHeight: this.getProps().maxHeight || 'none',
     scrollState: 'top',
   };
 
@@ -68,7 +85,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private setRootNode!: TSetRootNode;
   private header: Nullable<HTMLDivElement>;
   private footer: Nullable<HTMLDivElement>;
-  private getProps = createPropsGetter(InternalMenu.defaultProps);
 
   public componentDidMount() {
     this.setInitialSelection();
@@ -80,7 +96,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       this.calculateMaxHeight();
     }
 
-    if (prevProps.maxHeight !== this.props.maxHeight) {
+    if (prevProps.maxHeight !== this.getProps().maxHeight) {
       this.setState({
         maxHeight: this.props.maxHeight || 'none',
       });
@@ -110,15 +126,17 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (this.isEmpty()) {
       return null;
     }
+    const { hasShadow, width, maxHeight, preventWindowScroll } = this.getProps();
 
     return (
       <div
+        data-tid={InternalMenuDataTids.root}
         className={cx({
           [styles.root(this.theme)]: true,
-          [styles.shadow(this.theme)]: this.props.hasShadow,
+          [styles.shadow(this.theme)]: hasShadow,
         })}
         style={{
-          width: this.props.width,
+          width,
           maxHeight: this.state.maxHeight,
         }}
         onKeyDown={this.handleKeyDown}
@@ -128,53 +146,49 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
         {this.props.header ? this.renderHeader() : null}
         <ScrollContainer
           ref={this.refScrollContainer}
-          maxHeight={this.props.maxHeight}
-          preventWindowScroll={this.props.preventWindowScroll}
+          maxHeight={maxHeight}
+          preventWindowScroll={preventWindowScroll}
           onScrollStateChange={this.handleScrollStateChange}
         >
           {React.Children.map(this.props.children, (child, index) => {
-            if (typeof child === 'string' || typeof child === 'number' || child == null) {
+            if (typeof child === 'string' || typeof child === 'number' || isNullable(child)) {
               return child;
             }
             if (React.isValidElement(child) && typeof child.type === 'string') {
               return child;
             }
 
-            if (enableIconPadding && (isMenuItem(child) || isMenuHeader(child))) {
-              child = React.cloneElement(child, {
-                _enableIconPadding: true,
-              });
-            }
+            const modifiedChild = addIconPaddingIfPartOfMenu(child, enableIconPadding);
 
-            if (isActiveElement(child)) {
+            if (isActiveElement(modifiedChild)) {
               const highlight = this.state.highlightedIndex === index;
 
-              let ref = child.ref;
+              let ref = modifiedChild.ref;
               const originalRef = ref;
               if (highlight) {
                 ref = (menuItem) => this.refHighlighted(originalRef, menuItem);
               }
 
-              return React.cloneElement<MenuItemProps, MenuItem>(child, {
+              return React.cloneElement<MenuItemProps, MenuItem>(modifiedChild, {
                 ref,
-                state: highlight ? 'hover' : child.props.state,
+                state: highlight ? 'hover' : modifiedChild.props.state,
                 onClick: this.select.bind(this, index, false),
                 onMouseEnter: (event) => {
                   this.highlightItem(index);
-                  if (isMenuItem(child) && child.props.onMouseEnter) {
-                    child.props.onMouseEnter(event);
+                  if (isMenuItem(modifiedChild) && modifiedChild.props.onMouseEnter) {
+                    modifiedChild.props.onMouseEnter(event);
                   }
                 },
                 onMouseLeave: (event) => {
                   this.unhighlight();
-                  if (isMenuItem(child) && child.props.onMouseLeave) {
-                    child.props.onMouseLeave(event);
+                  if (isMenuItem(modifiedChild) && modifiedChild.props.onMouseLeave) {
+                    modifiedChild.props.onMouseLeave(event);
                   }
                 },
               });
             }
 
-            return child;
+            return modifiedChild;
           })}
         </ScrollContainer>
         {this.props.footer ? this.renderFooter() : null}
@@ -185,13 +199,16 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private renderHeader = () => {
     return (
       <div
-        ref={(el) => (this.header = el)}
         className={cx({
-          [styles.header()]: true,
-          [styles.fixedHeader()]: this.state.scrollState !== 'top',
+          [styles.wrapper()]: true,
+          [styles.headerWrapper()]: true,
         })}
+        ref={(el) => (this.header = el)}
       >
-        {this.props.header}
+        <div className={styles.contentWrapper()}>{this.props.header}</div>
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'top' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
       </div>
     );
   };
@@ -199,23 +216,38 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   private renderFooter = () => {
     return (
       <div
-        ref={(el) => (this.footer = el)}
         className={cx({
-          [styles.footer()]: true,
-          [styles.fixedFooter()]: this.state.scrollState !== 'bottom',
+          [styles.wrapper()]: true,
+          [styles.footerWrapper()]: true,
         })}
+        ref={(el) => (this.footer = el)}
       >
-        {this.props.footer}
+        <div className={styles.menuSeparatorWrapper(this.theme)}>
+          {this.state.scrollState !== 'bottom' && this.renderMenuSeparatorWithNoMargin()}
+        </div>
+        <div className={styles.contentWrapper()}>{this.props.footer}</div>
       </div>
     );
   };
 
+  private renderMenuSeparatorWithNoMargin = () => {
+    return (
+      <ThemeContext.Provider value={ThemeFactory.create({ menuSeparatorMarginY: '0' }, this.theme)}>
+        <MenuSeparator />
+      </ThemeContext.Provider>
+    );
+  };
+
   private focusOnRootElement = (): void => {
-    getRootNode(this)?.focus();
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private shouldRecalculateMaxHeight = (prevProps: MenuProps): boolean => {
-    const { maxHeight, header, footer, children } = this.props;
+    const { header, footer, children } = this.props;
+    const maxHeight = this.getProps().maxHeight;
     const prevMaxHeight = prevProps.maxHeight;
     const prevHeader = prevProps.header;
     const prevFooter = prevProps.footer;
@@ -230,7 +262,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
   };
 
   private calculateMaxHeight = () => {
-    const { maxHeight } = this.props;
+    const maxHeight = this.getProps().maxHeight;
     let parsedMaxHeight = maxHeight;
     const rootNode = getRootNode(this);
 
@@ -277,14 +309,18 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
     if (typeof originalRef === 'function') {
       originalRef(menuItem);
     } else if (typeof originalRef === 'object') {
-      // @ts-ignore see issue https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065
+      // @ts-expect-error: See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/31065.
       originalRef.current = menuItem;
     }
   }
 
   private scrollToSelected = () => {
     if (this.scrollContainer && this.highlighted) {
-      this.scrollContainer.scrollTo(getRootNode(this.highlighted));
+      const rootNode = getRootNode(this.highlighted);
+      // TODO: Remove this check once IF-647 is resolved
+      if (rootNode instanceof HTMLElement) {
+        this.scrollContainer.scrollTo(rootNode);
+      }
     }
   };
 
@@ -312,7 +348,11 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private highlightItem = (index: number): void => {
     this.setState({ highlightedIndex: index });
-    getRootNode(this)?.focus();
+
+    const rootNode = getRootNode(this);
+    if (isHTMLElement(rootNode)) {
+      rootNode?.focus();
+    }
   };
 
   private unhighlight = () => {
@@ -328,7 +368,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       let index = state.highlightedIndex;
       do {
         index += step;
-        if (!props.cyclicSelection && (index < 0 || index > children.length)) {
+        if (!this.getProps().cyclicSelection && (index < 0 || index > children.length)) {
           return null;
         }
 
@@ -357,7 +397,7 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
 
   private isEmpty() {
     const { children } = this.props;
-    return !children || !childrenToArray(children).filter(isExist).length;
+    return !children || !childrenToArray(children).filter(isNonNullable).length;
   }
 
   private handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>): void => {
@@ -387,10 +427,6 @@ export class InternalMenu extends React.PureComponent<MenuProps, MenuState> {
       this.setState({ scrollState });
     }
   };
-}
-
-function isExist(value: any): value is any {
-  return value !== null && value !== undefined;
 }
 
 function childrenToArray(children: React.ReactNode): React.ReactNode[] {

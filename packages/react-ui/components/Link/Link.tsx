@@ -10,6 +10,7 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 
 import { styles } from './Link.styles';
 
@@ -61,6 +62,13 @@ export interface LinkState {
   focusedByTab: boolean;
 }
 
+export const LinkDataTids = {
+  root: 'Link__root',
+} as const;
+
+type DefaultProps = Required<Pick<LinkProps, 'href' | 'use'>>;
+type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
+
 /**
  * Элемент ссылки из HTML.
  */
@@ -73,17 +81,19 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
     href: PropTypes.string,
 
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    icon: PropTypes.node,
 
     use: PropTypes.oneOf(['default', 'success', 'danger', 'grayed']),
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     href: '',
     use: 'default',
   };
 
-  public state = {
+  private getProps = createPropsGetter(Link.defaultProps);
+
+  public state: LinkState = {
     focusedByTab: false,
   };
 
@@ -96,7 +106,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
         {(theme) => {
           this.theme = theme;
           return (
-            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
             </CommonWrapper>
           );
@@ -105,7 +115,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   }
 
-  private renderMain = (props: CommonWrapperRestProps<LinkProps>) => {
+  private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
     const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
 
     let iconElement = null;
@@ -149,7 +159,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     };
 
     return (
-      <a {...rest} {...linkProps}>
+      <a data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {iconElement}
         {this.props.children}
         {arrow}
@@ -157,7 +167,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     );
   };
 
-  private _handleFocus = (event: React.FocusEvent<HTMLAnchorElement>) => {
+  private _handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -174,7 +184,8 @@ export class Link extends React.Component<LinkProps, LinkState> {
   };
 
   private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    const { href, onClick, disabled, loading } = this.props;
+    const { onClick, disabled, loading } = this.props;
+    const href = this.getProps().href;
     if (!href) {
       event.preventDefault();
     }

@@ -12,6 +12,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { TabsContext, TabsContextType, TabsContextDefaultValue } from './TabsContext';
 import { styles, horizontalStyles, verticalStyles, globalClasses } from './Tab.styles';
@@ -23,6 +24,10 @@ export interface TabIndicators {
   primary: boolean;
   disabled: boolean;
 }
+
+export const TabDataTids = {
+  root: 'Tab__root',
+} as const;
 
 export interface TabProps<T extends string = string> extends CommonProps {
   /**
@@ -90,6 +95,8 @@ export interface TabState {
   focusedByKeyboard: boolean;
 }
 
+type DefaultProps = Required<Pick<TabProps, 'component' | 'href'>>;
+
 /**
  * Tab element of Tabs component
  *
@@ -120,10 +127,12 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     component: 'a',
     href: '',
   };
+
+  private getProps = createPropsGetter(Tab.defaultProps);
 
   public state: TabState = {
     focusedByKeyboard: false,
@@ -182,16 +191,8 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
   public getUnderlyingNode = () => this.tabComponent;
 
   private renderMain() {
-    const {
-      children,
-      disabled,
-      error,
-      warning,
-      success,
-      primary,
-      component: Component = Tab.defaultProps.component,
-      href,
-    } = this.props;
+    const { children, disabled, error, warning, success, primary } = this.props;
+    const { component: Component, href } = this.getProps();
 
     let isActive = false;
     let isVertical = false;
@@ -206,6 +207,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Component
+          data-tid={TabDataTids.root}
           className={cx({
             [styles.root(this.theme)]: true,
             [styles.vertical(this.theme)]: !!isVertical,
@@ -233,7 +235,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     );
   }
 
-  private getId = () => this.props.id || this.props.href;
+  private getId = () => this.props.id || this.getProps().href;
 
   private refTabComponent = (instance: React.ReactElement<any>) => {
     this.tabComponent = instance;
@@ -246,8 +248,9 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
       event.preventDefault();
       return;
     }
+    const { href, component } = this.getProps();
 
-    const id = this.props.id || this.props.href;
+    const id = this.props.id || href;
     if (this.props.onClick) {
       this.props.onClick(event);
       if (event.defaultPrevented) {
@@ -257,7 +260,7 @@ export class Tab<T extends string = string> extends React.Component<TabProps<T>,
     if (typeof id === 'string') {
       this.context.switchTab(id);
     }
-    if (this.props.component === 'a' && !this.props.href) {
+    if (component === 'a' && !href) {
       event.preventDefault();
     }
   };

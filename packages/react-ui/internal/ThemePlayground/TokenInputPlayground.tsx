@@ -42,8 +42,11 @@ const tokenColors: { [key: string]: TokenColors } = {
   },
 };
 
-export class TokenInputPlayground extends React.Component<any, any> {
-  public state = { selectedItems: ['First', 'Second'] };
+interface TokenInputPlaygroundState {
+  selectedItems: string[];
+}
+export class TokenInputPlayground extends React.Component {
+  public state: TokenInputPlaygroundState = { selectedItems: ['First', 'Second'] };
 
   public render() {
     return (

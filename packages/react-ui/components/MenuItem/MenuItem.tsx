@@ -1,7 +1,10 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { isFunction, isReactUIComponent } from '../../lib/utils';
+import { Nullable } from '../../typings/utility-types';
+import { isExternalLink, isFunction, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -67,6 +70,12 @@ export interface MenuItemProps extends CommonProps {
    */
   href?: React.AnchorHTMLAttributes<HTMLAnchorElement>['href'];
   /**
+   * HTML-атрибут `rel`.
+   *
+   * Для внешних ссылок аттрибут rel по умолчанию равен "noopener noreferrer"
+   */
+  rel?: React.AnchorHTMLAttributes<HTMLAnchorElement>['rel'];
+  /**
    * Заменяет корневой элемент, на компонент переданный в проп.
    *
    * По умолчанию корневой элемент рендерится как `button`. <br />Если передан `href`, то вместо `button` рендерится `a`.
@@ -75,6 +84,11 @@ export interface MenuItemProps extends CommonProps {
 
   isMobile?: boolean;
 }
+
+export const MenuItemDataTids = {
+  root: 'MenuItem__root',
+  comment: 'MenuItem__comment',
+} as const;
 
 /**
  *
@@ -94,7 +108,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     href: PropTypes.string,
 
-    icon: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+    icon: PropTypes.node,
 
     loose: PropTypes.bool,
 
@@ -105,9 +119,14 @@ export class MenuItem extends React.Component<MenuItemProps> {
     onClick: PropTypes.func,
   };
 
+  public state = {
+    iconOffsetTop: 0,
+  };
+
   private theme!: Theme;
   private mouseEntered = false;
   private setRootNode!: TSetRootNode;
+  private rootRef: Nullable<HTMLElement> = null;
 
   public render() {
     return (
@@ -124,6 +143,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
     );
   }
 
+  public componentDidMount() {
+    if (this.rootRef) {
+      this.setState({ iconOffsetTop: window.getComputedStyle(this.rootRef).getPropertyValue('padding-top') });
+    }
+  }
+
   private renderMain = (props: CommonWrapperRestProps<MenuItemProps>) => {
     const {
       link,
@@ -136,6 +161,8 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseEnter,
       onMouseLeave,
       isMobile,
+      href,
+      rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 
@@ -143,7 +170,11 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     let iconElement = null;
     if (icon) {
-      iconElement = <div className={styles.icon(this.theme)}>{icon}</div>;
+      iconElement = (
+        <div style={{ top: this.state.iconOffsetTop }} className={cx({ [styles.icon(this.theme)]: true })}>
+          {icon}
+        </div>
+      );
     }
 
     const className = cx({
@@ -168,18 +199,28 @@ export class MenuItem extends React.Component<MenuItemProps> {
 
     return (
       <Component
+        ref={this.setRootRef}
+        data-tid={MenuItemDataTids.root}
         {...rest}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
         className={className}
+        href={href}
+        rel={href ? rel : undefined}
         tabIndex={-1}
       >
         {iconElement}
-        {content}
+        <span
+          className={cx({
+            [styles.contentMobile()]: isMobile,
+          })}
+        >
+          {content}
+        </span>
         {this.props.comment && (
           <div
-            data-tid="MenuItem__comment"
+            data-tid={MenuItemDataTids.comment}
             className={cx({
               [styles.comment(this.theme)]: true,
               [styles.commentHover(this.theme)]: hover,
@@ -206,6 +247,10 @@ export class MenuItem extends React.Component<MenuItemProps> {
     if (this.props.onMouseLeave) {
       this.props.onMouseLeave(e);
     }
+  };
+
+  private setRootRef = (element: HTMLElement) => {
+    this.rootRef = element;
   };
 
   private getComponent = () => {

@@ -1,5 +1,5 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { storiesOf } from '@storybook/react';
 import { Button } from '@skbkontur/react-ui/components/Button';
 import { Checkbox } from '@skbkontur/react-ui/components/Checkbox/Checkbox';
 
@@ -11,8 +11,7 @@ storiesOf('Checkbox', module).add('required', () => <CheckboxStory />);
 interface CheckboxStoryState {
   checked: boolean;
 }
-
-class CheckboxStory extends React.Component<{}, CheckboxStoryState> {
+class CheckboxStory extends React.Component {
   public state: CheckboxStoryState = {
     checked: false,
   };

@@ -56,7 +56,9 @@ export const useDrop = <TElement extends IElementWithListener>(props: IUseDropPr
   useEffect(() => {
     const ref = droppableRef.current;
 
-    if (!ref) return;
+    if (!ref) {
+      return;
+    }
 
     ref.addEventListener('dragenter', preventDefault);
     ref.addEventListener('dragleave', preventDefault);

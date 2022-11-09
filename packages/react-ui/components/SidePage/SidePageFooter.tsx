@@ -21,6 +21,14 @@ export interface SidePageFooterProps extends CommonProps {
   sticky?: boolean;
 }
 
+interface SidePageFooterState {
+  fixed: boolean;
+}
+
+export const SidePageFooterDataTids = {
+  root: 'SidePageFooter__root',
+} as const;
+
 /**
  * Футер сайдпейджа.
  *
@@ -28,14 +36,14 @@ export interface SidePageFooterProps extends CommonProps {
  */
 @responsiveLayout
 @rootNode
-export class SidePageFooter extends React.Component<SidePageFooterProps> {
+export class SidePageFooter extends React.Component<SidePageFooterProps, SidePageFooterState> {
   public static __KONTUR_REACT_UI__ = 'SidePageFooter';
 
   public static contextType = SidePageContext;
   public context: SidePageContextType = this.context;
   private isMobileLayout!: boolean;
 
-  public state = {
+  public state: SidePageFooterState = {
     fixed: false,
   };
 
@@ -95,7 +103,11 @@ export class SidePageFooter extends React.Component<SidePageFooterProps> {
   private renderMain() {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div style={{ height: this.getContentHeight() }} className={styles.footerWrapper()}>
+        <div
+          data-tid={SidePageFooterDataTids.root}
+          style={{ height: this.getContentHeight() }}
+          className={styles.footerWrapper()}
+        >
           <SidePageContext.Consumer>
             {({ getWidth }) => (
               <div

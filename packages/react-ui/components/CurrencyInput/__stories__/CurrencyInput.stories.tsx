@@ -2,6 +2,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 
+import { isNullable } from '../../../lib/utils';
 import { Meta, Story } from '../../../typings/stories';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { Gapped } from '../../Gapped';
@@ -12,20 +13,21 @@ import { Nullable } from '../../../typings/utility-types';
 interface CurrencyInputDemoProps {
   borderless?: boolean;
 }
-
 interface CurrencyInputDemoState {
-  value: Nullable<number>;
-  signed: boolean;
+  // Intended behavior. CurrencyInput technically can't accept strings
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  value: any;
   hideTrailingZeros: boolean;
-  digits: Nullable<number>;
+  fractionDigits: number;
+  signed: boolean;
 }
 
-class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, CurrencyInputDemoState> {
+class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps> {
   public state: CurrencyInputDemoState = {
     value: null,
     signed: false,
     hideTrailingZeros: false,
-    digits: 2,
+    fractionDigits: 2,
   };
 
   public render() {
@@ -38,6 +40,12 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <Button onClick={() => this.setState({ value: null })}>
             Set <b>null</b>
           </Button>
+          <Button onClick={() => this.setState({ value: parseInt('str') })}>
+            Set <b>NaN</b>
+          </Button>
+          <Button onClick={() => this.setState({ value: 'str' })}>
+            Set <b>str</b>
+          </Button>
           <Button onClick={this.handleRand}>
             Set <b>rand</b>
           </Button>
@@ -45,7 +53,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
         <CurrencyInput
           borderless={this.props.borderless}
           value={this.state.value}
-          fractionDigits={this.state.digits}
+          fractionDigits={this.state.fractionDigits}
           hideTrailingZeros={this.state.hideTrailingZeros}
           signed={this.state.signed}
           onValueChange={this.handleChange}
@@ -61,15 +69,9 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
           <span>trailing zeros: </span>
           <Toggle checked={this.state.hideTrailingZeros} onValueChange={this.handleHideTrailingZeros} />
         </div>
-        <input
-          type="range"
-          value={this.state.digits == null ? 15 : this.state.digits}
-          min={0}
-          max={15}
-          onChange={this.handleDigits}
-        />
+        <input type="range" value={this.state.fractionDigits ?? 15} min={0} max={15} onChange={this.handleDigits} />
         <div>
-          digits: <b>{this.formatValue(this.state.digits)}</b>
+          digits: <b>{this.formatValue(this.state.fractionDigits)}</b>
         </div>
       </Gapped>
     );
@@ -80,7 +82,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 
   private handleRand = () => {
-    const fraction = this.state.digits == null ? 4 : this.state.digits;
+    const fraction = this.state.fractionDigits ?? 4;
     const length = Math.min(15, 7 + fraction);
     const rand = Math.floor(Math.random() * Math.pow(10, length));
     const value = rand / Math.pow(10, fraction);
@@ -90,7 +92,7 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   private handleDigits = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       value: null,
-      digits: event.target.value === '15' ? null : parseInt(event.target.value, 10),
+      fractionDigits: event.target.value === '15' ? null : parseInt(event.target.value, 10),
     });
   };
 
@@ -109,17 +111,15 @@ class CurrencyInputDemo extends React.Component<CurrencyInputDemoProps, Currency
   };
 
   private formatValue = (value: Nullable<number>): string => {
-    return value == null ? 'null' : value.toString();
+    return isNullable(value) ? 'null' : value.toString();
   };
 }
 
-class Sample extends React.Component<
-  Partial<CurrencyInputProps>,
-  {
-    value: Nullable<number>;
-  }
-> {
-  public state = {
+interface SampleState {
+  value: Nullable<number>;
+}
+class Sample extends React.Component<Partial<CurrencyInputProps>> {
+  public state: SampleState = {
     value: this.props.value,
   };
 
@@ -189,7 +189,7 @@ SampleStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Focus');
       },
-      async ['Input value']() {
+      async 'Input value'() {
         await this.browser
           .actions({
             bridge: true,
@@ -206,7 +206,7 @@ SampleStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('Input value');
       },
-      async ['External focus and input']() {
+      async 'External focus and input'() {
         await this.browser
           .actions({
             bridge: true,
@@ -233,12 +233,7 @@ SampleStory.parameters = {
 };
 
 export const ManualMount = () => {
-  class ManualMounting extends React.Component<
-    {},
-    {
-      mounted: boolean;
-    }
-  > {
+  class ManualMounting extends React.Component {
     public state = {
       mounted: false,
     };

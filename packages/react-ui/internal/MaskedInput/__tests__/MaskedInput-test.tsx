@@ -16,7 +16,7 @@ describe('MaskedInput', () => {
   ])('Mask %s - emptyValue %s', (mask, emptyValue) => {
     const wrapper = mount(<MaskedInput alwaysShowMask maskChar="_" mask={mask} />);
 
-    expect(wrapper.prop('value')).toBe(undefined);
+    expect(wrapper.prop('value')).toBeUndefined();
     expect(wrapper.state('emptyValue')).toBe(emptyValue);
   });
 
@@ -43,6 +43,11 @@ describe('MaskedInput', () => {
     });
 
     expect(wrapper.state('value')).toBe(value);
+  });
+
+  it('should accept `null` as value', () => {
+    // @ts-expect-error: `Input` techinically can't accept `null` as a `value`
+    expect(() => mount(<MaskedInput value={null} mask="99:99" />)).not.toThrow();
   });
 
   it('incorrect input', () => {

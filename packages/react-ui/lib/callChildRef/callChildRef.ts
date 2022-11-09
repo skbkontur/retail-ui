@@ -13,7 +13,7 @@ export const callChildRef = (
     componentRef(instance);
   }
   if (Object.prototype.hasOwnProperty.call(componentRef, 'current')) {
-    // @ts-ignore
+    // @ts-expect-error: will be fixed in #2807
     componentRef.current = instance;
   }
 };

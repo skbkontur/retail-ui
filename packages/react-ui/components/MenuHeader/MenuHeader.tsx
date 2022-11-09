@@ -11,6 +11,10 @@ export interface MenuHeaderProps extends CommonProps {
   children: ReactNode;
 }
 
+export const MenuHeaderDataTids = {
+  root: 'MenuHeader__root',
+} as const;
+
 /**
  * `Заголовок меню` используется для того, чтобы разделить `элементы меню` на категории в рамках одного меню.
  *
@@ -24,6 +28,7 @@ function MenuHeader({ _enableIconPadding = false, children, ...rest }: MenuHeade
   return (
     <CommonWrapper {...rest}>
       <div
+        data-tid={MenuHeaderDataTids.root}
         className={cx({
           [styles.root(theme)]: true,
           [styles.withLeftPadding(theme)]: _enableIconPadding,

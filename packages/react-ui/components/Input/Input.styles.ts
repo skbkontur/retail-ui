@@ -66,6 +66,7 @@ export const styles = memoizeStyle({
 
   focus(t: Theme) {
     return css`
+      background-color: ${t.inputFocusedBg};
       border-color: ${t.inputBorderColorFocus};
       box-shadow: ${t.inputFocusShadow};
       outline: none;
@@ -374,6 +375,12 @@ export const styles = memoizeStyle({
       z-index: 2;
       text-align: center;
       box-sizing: content-box !important; // fix possible "reset.css" problem
+    `;
+  },
+
+  iconFocus(t: Theme) {
+    return css`
+      color: ${t.inputFocusedIconColor};
     `;
   },
 

@@ -3,6 +3,7 @@ import React from 'react';
 import { Nullable } from '../../typings/Types';
 import { ValidationBehaviour, ValidationLevel } from '../ValidationWrapperInternal';
 import { ValidationInfo } from '../ValidationWrapper';
+import { isNullable } from '../utils/isNullable';
 
 import { LambdaPath, PathTokensCache } from './PathHelper';
 import { ValidationWriter } from './ValidationWriter';
@@ -14,6 +15,7 @@ interface PathInfo<T> {
 }
 
 export class ValidationBuilder<TRoot, T> {
+  // eslint-disable-next-line no-useless-constructor
   constructor(
     private readonly writer: ValidationWriter<TRoot>,
     private readonly tokens: PathTokensCache,
@@ -23,7 +25,7 @@ export class ValidationBuilder<TRoot, T> {
 
   public prop<TChild>(lambdaPath: LambdaPath<T, TChild>, rule: ValidationRule<TRoot, TChild>): void {
     const info = this.getPathInfo(lambdaPath);
-    if (info == null) {
+    if (isNullable(info)) {
       return;
     }
 
@@ -33,7 +35,7 @@ export class ValidationBuilder<TRoot, T> {
 
   public array<TChild>(lambdaPath: LambdaPath<T, TChild[]>, rule: ItemValidationRule<TRoot, TChild>): void {
     const info = this.getPathInfo(lambdaPath);
-    if (info == null || !Array.isArray(info.data)) {
+    if (isNullable(info) || !Array.isArray(info.data)) {
       return;
     }
 
@@ -83,7 +85,7 @@ export class ValidationBuilder<TRoot, T> {
 
     let data: any = this.data;
     for (const part of path) {
-      if (data == null) {
+      if (isNullable(data)) {
         return null;
       }
       data = data[part];

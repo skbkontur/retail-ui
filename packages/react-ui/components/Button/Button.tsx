@@ -9,9 +9,9 @@ import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
-import { Corners } from './Corners';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -57,7 +57,7 @@ export interface ButtonProps extends CommonProps {
   children?: React.ReactNode;
 
   /** @ignore */
-  corners?: number;
+  corners?: React.CSSProperties;
 
   /**
    * Отключенное состояние кнопки.
@@ -164,20 +164,24 @@ export interface ButtonState {
   focusedByTab: boolean;
 }
 
+export const ButtonDataTids = {
+  root: 'Button__root',
+} as const;
+
+type DefaultProps = Required<Pick<ButtonProps, 'use' | 'size' | 'type'>>;
+
 @rootNode
 export class Button extends React.Component<ButtonProps, ButtonState> {
   public static __KONTUR_REACT_UI__ = 'Button';
   public static __BUTTON__ = true;
-  public static TOP_LEFT = Corners.TOP_LEFT;
-  public static TOP_RIGHT = Corners.TOP_RIGHT;
-  public static BOTTOM_RIGHT = Corners.BOTTOM_RIGHT;
-  public static BOTTOM_LEFT = Corners.BOTTOM_LEFT;
 
-  public static defaultProps = {
-    use: 'default' as ButtonUse,
-    size: 'small' as ButtonSize,
-    type: 'button' as ButtonType,
+  public static defaultProps: DefaultProps = {
+    use: 'default',
+    size: 'small',
+    type: 'button',
   };
+
+  private getProps = createPropsGetter(Button.defaultProps);
 
   public state = {
     focusedByTab: false,
@@ -228,7 +232,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
   private renderMain() {
     const {
-      corners = 0,
+      corners,
       active,
       disabled,
       borderless,
@@ -252,7 +256,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       width,
       children,
     } = this.props;
-    const use = this.props.use || Button.defaultProps.use;
+    const { use, type } = this.getProps();
     const sizeClass = this.getSizeClassName();
 
     const isFocused = this.state.focusedByTab || visuallyFocused;
@@ -261,7 +265,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       // By default the type attribute is 'submit'. IE8 will fire a click event
       // on this button if somewhere on the page user presses Enter while some
       // input is focused. So we set type to 'button' by default.
-      type: this.props.type,
+      type,
       className: cx({
         [styles.root(this.theme)]: true,
         [styles[use](this.theme)]: true,
@@ -278,20 +282,17 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [styles.noRightPadding()]: _noRightPadding,
       }),
       style: {
-        borderTopLeftRadius: corners & Corners.TOP_LEFT ? 0 : undefined,
-        borderTopRightRadius: corners & Corners.TOP_RIGHT ? 0 : undefined,
-        borderBottomRightRadius: corners & Corners.BOTTOM_RIGHT ? 0 : undefined,
-        borderBottomLeftRadius: corners & Corners.BOTTOM_LEFT ? 0 : undefined,
         textAlign: align,
+        ...corners,
       },
       disabled: disabled || loading,
-      onClick: onClick,
+      onClick,
       onFocus: this.handleFocus,
       onBlur: this.handleBlur,
-      onKeyDown: onKeyDown,
-      onMouseEnter: onMouseEnter,
-      onMouseLeave: onMouseLeave,
-      onMouseOver: onMouseOver,
+      onKeyDown,
+      onMouseEnter,
+      onMouseLeave,
+      onMouseOver,
       tabIndex: disableFocus ? -1 : 0,
       title: this.props.title,
     };
@@ -304,7 +305,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
-        width: width,
+        width,
       },
     };
 
@@ -335,7 +336,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       iconNode = (
         <span
           className={cx(styles.icon(), this.getSizeIconClassName(), {
-            [styles.iconNoRightPadding()]: !children,
+            [styles.iconNoRightMargin()]: !children,
             [styles.iconLink(this.theme)]: isLink,
           })}
         >
@@ -382,7 +383,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <span {...wrapProps}>
-          <button ref={this._ref} {...rootProps}>
+          <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
             {loadingNode}
@@ -408,7 +409,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return cx(styles.sizeLarge(this.theme), { [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge });
       case 'medium':
@@ -420,7 +421,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeIconClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return styles.iconLarge(this.theme);
       case 'medium':
@@ -432,7 +433,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeWrapClassName() {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return styles.wrapLarge(this.theme);
       case 'medium':

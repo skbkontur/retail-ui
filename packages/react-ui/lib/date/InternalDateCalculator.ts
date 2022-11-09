@@ -9,7 +9,7 @@ import {
 export class InternalDateCalculator {
   public static calcRangeStartDateComponent(
     type: InternalDateComponentType,
-    { year, month, date }: InternalDateComponents,
+    { year, month }: InternalDateComponents,
     { year: startYear, month: startMonth, date: startDate }: InternalDateComponents,
   ): InternalDateComponent {
     if (type === InternalDateComponentType.Year) {
@@ -46,9 +46,23 @@ export class InternalDateCalculator {
     if (step !== 0 && (start - value > Math.abs(step) || value - end > Math.abs(step))) {
       return step < 0 ? end : start;
     }
+
     if (isLoop) {
-      return value < start ? end : value > end ? start : value;
+      if (value < start) {
+        return end;
+      } else if (value > end) {
+        return start;
+      }
+
+      return value;
     }
-    return value < start ? start : value > end ? end : value;
+
+    if (value < start) {
+      return start;
+    } else if (value > end) {
+      return end;
+    }
+
+    return value;
   }
 }

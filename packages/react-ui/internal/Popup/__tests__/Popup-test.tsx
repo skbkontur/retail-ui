@@ -3,6 +3,7 @@ import { ComponentClass, mount, ReactWrapper } from 'enzyme';
 import { Transition } from 'react-transition-group';
 import { ReactComponentLike } from 'prop-types';
 
+import { InstanceWithRootNode } from '../../../lib/rootNode';
 import { Popup, PopupProps, PopupState } from '../Popup';
 import { delay } from '../../../lib/utils';
 import { RenderContainer } from '../../RenderContainer';
@@ -28,7 +29,10 @@ const closePopup = async (wrapper: ReactWrapper<PopupProps, PopupState, Popup>) 
     });
   });
 
-const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, PopupState, Popup> => {
+const renderWrapper = (
+  props?: Partial<PopupProps>,
+  ref?: React.Ref<Popup>,
+): ReactWrapper<PopupProps, PopupState, Popup> => {
   const anchor = document.createElement('button');
 
   anchor.id = 'test-id';
@@ -41,6 +45,7 @@ const renderWrapper = (props?: Partial<PopupProps>): ReactWrapper<PopupProps, Po
       anchorElement={anchor}
       disableAnimations
       {...props}
+      ref={ref}
     >
       Test content
     </Popup>,
@@ -73,7 +78,7 @@ describe('Popup', () => {
     await openPopup(wrapper);
 
     expect(wrapper.state('location')).not.toBeNull();
-    expect(wrapper.state('location')!.position).toBe('bottom right');
+    expect(wrapper.state('location')?.position).toBe('bottom right');
   });
 
   it('одна и та же позиция при каждом открытии', async () => {
@@ -101,7 +106,7 @@ describe('Popup', () => {
     const check = async () => {
       await openPopup(wrapper);
 
-      expect(wrapper.state('location')!.position).toBe('bottom right');
+      expect(wrapper.state('location')?.position).toBe('bottom right');
 
       await closePopup(wrapper);
     };
@@ -114,9 +119,41 @@ describe('Popup', () => {
 
     await checkLocation();
   });
+
+  describe('rootNode', () => {
+    const popupRef = React.createRef<Popup & InstanceWithRootNode>();
+
+    const wrapper = renderWrapper({ opened: false }, popupRef);
+
+    it('getRootNode is defined', () => {
+      expect(popupRef.current?.getRootNode).toBeDefined();
+    });
+
+    it('is null by default when closed', () => {
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+
+    it('is content container when opened', async () => {
+      await openPopup(wrapper);
+      const contentContainer = wrapper.find('[data-tid~="Popup__root"]').last().getDOMNode();
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeInstanceOf(HTMLElement);
+      expect(rootNode).toBe(contentContainer);
+    });
+
+    it('is null when closed', async () => {
+      await closePopup(wrapper);
+      const rootNode = popupRef.current?.getRootNode();
+      expect(popupRef.current).not.toBeNull();
+      expect(rootNode).toBeNull();
+    });
+  });
 });
 
-describe('properly renders opened/closed states ', () => {
+describe('properly renders opened/closed states', () => {
   const closedPopupTree: ReactComponentLike[] = [
     ResponsiveLayout,
     CommonWrapper,
@@ -157,7 +194,7 @@ describe('properly renders opened/closed states ', () => {
     expect(innerContainer).toBeDefined();
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
-    expect(innerContainer!.children()).toHaveLength(0);
+    expect(innerContainer?.children()).toHaveLength(0);
   });
 
   it('02 - then opened', async () => {
@@ -168,7 +205,7 @@ describe('properly renders opened/closed states ', () => {
     expect(content).toBeDefined();
     expect(content).not.toBeNull();
     expect(content).toHaveLength(1);
-    expect(content!.text()).toBe('Test content');
+    expect(content?.text()).toBe('Test content');
   });
 
   it('03 - and closed again', async () => {
@@ -178,6 +215,6 @@ describe('properly renders opened/closed states ', () => {
     const innerContainer = traverseTree(wrapper, closedPopupTree);
     expect(innerContainer).not.toBeNull();
     expect(innerContainer).toHaveLength(1);
-    expect(innerContainer!.children()).toHaveLength(0);
+    expect(innerContainer?.children()).toHaveLength(0);
   });
 });

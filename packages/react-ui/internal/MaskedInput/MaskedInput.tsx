@@ -1,16 +1,20 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import ReactInputMask, { InputState, MaskOptions } from 'react-input-mask';
 
+import { isNonNullable } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { MaskCharLowLine } from '../MaskCharLowLine';
 import { cx } from '../../lib/theming/Emotion';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './MaskedInput.styles';
 
 export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   mask: string;
-  maskChar: string | null;
+  maskChar?: string | null;
   formatChars?: { [key: string]: string };
   alwaysShowMask?: boolean;
   hasLeftIcon?: boolean;
@@ -21,16 +25,28 @@ export interface MaskedInputProps extends React.InputHTMLAttributes<HTMLInputEle
 
 interface MaskedInputState {
   value: string;
+
+  // Users can unmask value themselves. In these cases we take origin value length
+  originValue: string;
+
   emptyValue: string;
   focused: boolean;
 }
 
+type DefaultProps = Required<Pick<MaskedInputProps, 'maskChar'>>;
+
+export const MaskedInputDataTids = {
+  root: 'MaskedInput__root',
+} as const;
+
 export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInputState> {
   public static __KONTUR_REACT_UI__ = 'MaskedInput';
 
-  public static defaultProps: Partial<MaskedInputProps> = {
+  public static defaultProps: DefaultProps = {
     maskChar: '_',
   };
+
+  private getProps = createPropsGetter(MaskedInput.defaultProps);
 
   public input: HTMLInputElement | null = null;
   private theme!: Theme;
@@ -41,6 +57,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
 
     this.state = {
       value: this.getValue(props),
+      originValue: this.getValue(props),
       emptyValue: '',
       focused: false,
     };
@@ -85,20 +102,20 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
       style,
       ...inputProps
     } = this.props;
-    const { emptyValue, value } = this.state;
+    const { emptyValue, value, originValue } = this.state;
 
     const leftHelper = style?.textAlign !== 'right' && (
-      <span style={{ color: 'transparent' }}>{emptyValue.slice(0, value.length)}</span>
+      <span style={{ color: 'transparent' }}>{emptyValue.slice(0, originValue.length)}</span>
     );
     const leftClass = style?.textAlign !== 'right' && styles.inputMaskLeft();
 
     const rightHelper = emptyValue
-      .slice(value.length)
+      .slice(originValue.length)
       .split('')
       .map((_char, i) => (_char === '_' ? <MaskCharLowLine key={i} /> : _char));
 
     return (
-      <span className={styles.container()} x-ms-format-detection="none">
+      <span data-tid={MaskedInputDataTids.root} className={styles.container()} x-ms-format-detection="none">
         <ReactInputMask
           {...inputProps}
           maskChar={null}
@@ -123,9 +140,15 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
   }
 
   private getValue = (props: MaskedInputProps): string => {
-    const { value, defaultValue } = props;
+    if (isNonNullable(props.value)) {
+      return props.value.toString();
+    }
 
-    return value !== undefined ? value.toString() : defaultValue !== undefined ? defaultValue.toString() : '';
+    if (isNonNullable(props.defaultValue)) {
+      return props.defaultValue.toString();
+    }
+
+    return '';
   };
 
   private refInput = (input: HTMLInputElement | null) => {
@@ -140,7 +163,7 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     if (event.target.value === this.state.value) {
       this.handleUnexpectedInput();
     } else {
-      this.setState({ value: event.target.value });
+      this.setState({ value: event.target.value, originValue: event.target.value });
       if (this.props.onValueChange) {
         this.props.onValueChange(event.target.value);
       }
@@ -172,11 +195,12 @@ export class MaskedInput extends React.PureComponent<MaskedInputProps, MaskedInp
     userInput: string,
     options: MaskOptions & Pick<MaskedInputProps, 'mask'>,
   ) => {
-    const visibleMaskChars = new Array(options.mask.length).fill(this.props.maskChar);
+    const visibleMaskChars = new Array(options.mask.length).fill(this.getProps().maskChar);
 
     if (newState.value !== oldState.value && userInput === null) {
       this.setState({
         value: newState.value,
+        originValue: newState.value,
       });
     }
 

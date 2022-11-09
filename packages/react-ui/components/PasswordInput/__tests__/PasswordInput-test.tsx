@@ -1,63 +1,43 @@
 import React from 'react';
+import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import { mount } from 'enzyme';
 
-import { PasswordInput, PasswordInputProps } from '../PasswordInput';
-import { EyeClosedIcon, EyeOpenedIcon } from '../../../internal/icons/16px';
-import { Input } from '../../Input';
-
-const setup = (props?: PasswordInputProps) => {
-  return mount<PasswordInput>(<PasswordInput value="" {...props} />);
-};
+import { PasswordInput } from '../PasswordInput';
 
 describe('PasswordInput', () => {
-  it('renders', () => {
-    setup();
+  it('should change icon after clicking on the toggle button', () => {
+    render(<PasswordInput />);
+
+    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    const toggleButtonInitialIcon = toggleButton.innerHTML;
+
+    userEvent.click(toggleButton);
+
+    const toggleButtonUpdatedIcon = toggleButton.innerHTML;
+
+    expect(toggleButtonInitialIcon).not.toBe(toggleButtonUpdatedIcon);
   });
 
-  it('should render 1 Icon', () => {
-    const component = setup();
-    expect(component.find(`[data-tid~="PasswordInputEyeIcon"]`).children()).toHaveLength(1);
-  });
+  it('should change input type after clicking on the toggle button', () => {
+    const inputValue = 'input';
 
-  it('has Icon with 14px size', () => {
-    const component = setup();
-    expect(component.find(EyeOpenedIcon).props().size).toEqual(14);
-  });
+    render(<PasswordInput value={inputValue} />);
 
-  it('should render eye Icon', () => {
-    const component = setup();
-    expect(component.find(EyeOpenedIcon)).toHaveLength(1);
-  });
+    const input = screen.getByDisplayValue(inputValue);
 
-  it('should render password Input', () => {
-    const component = setup();
-    expect(component.find(Input).props().type).toBe('password');
-  });
+    // By default input should have type `password`
+    expect(input).toHaveAttribute('type', 'password');
 
-  it('should render eye-slash Icon after click on eye Icon', () => {
-    const component = setup();
-    component.find(EyeOpenedIcon).simulate('click');
-    expect(component.find(EyeClosedIcon)).toHaveLength(1);
-  });
+    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+    userEvent.click(toggleButton);
 
-  it('should render text Input after click on eye Icon', () => {
-    const component = setup();
-    component.find(EyeOpenedIcon).simulate('click');
-    expect(component.find(Input).props().type).toBe('text');
-  });
-
-  it('has not capsLockEnabled property in state', () => {
-    const component = setup();
-    expect(component.state().capsLockEnabled).toBeFalsy();
-  });
-
-  it('has capsLockEnabled = null if passed detectCapsLock prop', () => {
-    const component = setup({ detectCapsLock: true });
-    expect(component.state().capsLockEnabled).toBe(null);
+    // After clicking on the toggle button input should have type `text`
+    expect(input).toHaveAttribute('type', 'text');
   });
 
   it('should at first render CapsLock label then hide it', () => {
-    const component = setup({ detectCapsLock: true });
+    const component = mount(<PasswordInput value="" detectCapsLock />);
 
     component.find('input').simulate('keypress', { key: 'a', getModifierState: () => false });
     component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => true });
@@ -66,5 +46,28 @@ describe('PasswordInput', () => {
     component.find('input').simulate('keypress', { key: 'CapsLock', getModifierState: () => false });
 
     expect(component.find(`[data-tid~="PasswordInputCapsLockDetector"]`)).toHaveLength(0);
+  });
+
+  it('should focus on the input after clicking on the toggle button', () => {
+    const inputValue = 'input';
+
+    render(<PasswordInput value={inputValue} />);
+
+    const input = screen.getByDisplayValue(inputValue);
+    const toggleButton = screen.getByTestId('PasswordInputEyeIcon');
+
+    // By default input should not have focus
+    // Input should have type `password` at the moment
+    expect(input).not.toHaveFocus();
+
+    userEvent.click(toggleButton);
+    // After clicking on the toggle button input should get focus
+    // Input should have type `text` at the moment
+    expect(input).toHaveFocus();
+
+    userEvent.click(toggleButton);
+    // After re-clicking on the toggle button input should get focus again
+    // Input should have type `password` at the moment
+    expect(input).toHaveFocus();
   });
 });

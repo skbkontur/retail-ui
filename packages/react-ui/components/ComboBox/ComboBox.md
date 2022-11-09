@@ -49,6 +49,38 @@ let handleFocus = () => setError(false);
 </Tooltip>;
 ```
 
+Очистить значение в `ComboBox`'е можно с помощью пустой строки, `null` или `undefined`
+```jsx harmony
+import { Group, ComboBox, Button } from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState({ value: 2, label: 'Second' });
+
+const getItems = q => {
+  return Promise.resolve(
+    [
+      { value: 1, label: 'First' },
+      { value: 2, label: 'Second' },
+      { value: 3, label: 'Third' },
+      { value: 4, label: 'Fourth' },
+      { value: 5, label: 'Fifth' },
+      { value: 6, label: 'Sixth' },
+    ].filter(x => x.label.toLowerCase().includes(q.toLowerCase()) || x.value.toString(10) === q),
+  )
+};
+
+<Group>
+  <ComboBox
+    getItems={getItems}
+    onValueChange={setValue}
+    placeholder="Введите число"
+    value={value}
+  />
+  <Button onClick={() => setValue(null)}>Null</Button>
+  <Button onClick={() => setValue(undefined)}>Undefined</Button>
+  <Button onClick={() => setValue('')}>Пустая строка</Button>
+</Group>
+```
+
 ComboBox with popular values, complex menu items and total count message
 
 ```jsx harmony
@@ -115,7 +147,7 @@ let renderItem = item => (
 />;
 ```
 
-Переопределение renderValue и renderItem:
+Переопределение `renderValue`, `renderItem` и `itemWrapper`:
 
 ```jsx harmony
 import OkIcon from '@skbkontur/react-icons/Ok';
@@ -194,6 +226,14 @@ const customRenderItem = item => (
   </div>
 );
 
+const customItemWrapper = item => {
+  if (item.value === 3) {
+    return (props) => <div {...props} />;
+  }
+
+  return (props) => <button {...props} />
+}
+
 const customRenderValue = item => (
   <div
     style={{
@@ -229,6 +269,7 @@ const customRenderValue = item => (
     placeholder="Enter number"
     value={selected}
     renderItem={customRenderItem}
+    itemWrapper={customItemWrapper}
     renderValue={customRenderValue}
     width="400px"
   />

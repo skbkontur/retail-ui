@@ -1,7 +1,7 @@
 import { Nullable } from '../typings/utility-types';
 
 export interface InstanceWithAnchorElement {
-  getAnchorElement: () => Nullable<HTMLElement>;
+  getAnchorElement: () => Nullable<Element>;
 }
 
 export const isInstanceWithAnchorElement = (instance: unknown): instance is InstanceWithAnchorElement => {

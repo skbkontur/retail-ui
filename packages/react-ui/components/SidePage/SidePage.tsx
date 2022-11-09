@@ -2,6 +2,7 @@ import React from 'react';
 import { CSSTransition } from 'react-transition-group';
 import FocusLock from 'react-focus-lock';
 
+import { isNonNullable } from '../../lib/utils';
 import { isKeyEscape } from '../../lib/events/keyboard/identifiers';
 import * as LayoutEvents from '../../lib/LayoutEvents';
 import { stopPropagation } from '../../lib/events/stopPropagation';
@@ -16,6 +17,7 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { ResponsiveLayout } from '../ResponsiveLayout';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { SidePageBody } from './SidePageBody';
 import { SidePageContainer } from './SidePageContainer';
@@ -52,6 +54,11 @@ export interface SidePageProps extends CommonProps {
   onClose?: () => void;
 
   /**
+   * Вызывается, когда анимация открытия сайдпейджа полностью прошла
+   */
+  onOpened?: () => void;
+
+  /**
    * Показывать сайдпэйдж слева
    *
    */
@@ -66,7 +73,7 @@ export interface SidePageProps extends CommonProps {
   /**
    * Работает только при заблокированном фоне: `blockBackground = true`
    */
-  disableFocusLock: boolean;
+  disableFocusLock?: boolean;
 
   /**
    * задает отступ от края экрана
@@ -83,6 +90,13 @@ export interface SidePageState {
   hasFooter: boolean;
   hasPanel: boolean;
 }
+
+export const SidePageDataTids = {
+  root: 'SidePage__root',
+  container: 'SidePage__container',
+} as const;
+
+type DefaultProps = Required<Pick<SidePageProps, 'disableAnimations' | 'disableFocusLock' | 'offset'>>;
 
 const TRANSITION_TIMEOUT = 200;
 
@@ -121,7 +135,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
 
   public componentWillUnmount() {
     window.removeEventListener('keydown', this.handleKeyDown);
-    if (this.stackSubscription != null) {
+    if (isNonNullable(this.stackSubscription)) {
       this.stackSubscription.remove();
     }
     ModalStack.remove(this);
@@ -136,11 +150,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
     this.footer?.update();
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
     disableFocusLock: true,
     offset: 0,
   };
+
+  private getProps = createPropsGetter(SidePage.defaultProps);
 
   public render(): JSX.Element {
     return (
@@ -154,7 +170,8 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderMain() {
-    const { blockBackground, disableAnimations } = this.props;
+    const { blockBackground, onOpened } = this.props;
+    const disableAnimations = this.getProps().disableAnimations;
 
     return (
       <RenderContainer>
@@ -176,6 +193,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
                         exit: TRANSITION_TIMEOUT,
                       }}
                       nodeRef={this.rootRef}
+                      onEntered={onOpened}
                     >
                       {this.renderContainer(isMobile)}
                     </CSSTransition>
@@ -191,12 +209,13 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
   }
 
   private renderContainer(isMobile: boolean): JSX.Element {
-    const { width, blockBackground, fromLeft, disableFocusLock, offset } = this.props;
+    const { width, blockBackground, fromLeft } = this.props;
+    const { disableFocusLock, offset } = this.getProps();
 
     return (
       <ZIndex
         priority={'Sidepage'}
-        data-tid="SidePage__root"
+        data-tid={SidePageDataTids.root}
         className={cx({
           [styles.root()]: true,
           [styles.mobileRoot()]: isMobile,
@@ -217,7 +236,7 @@ export class SidePage extends React.Component<SidePageProps, SidePageState> {
         <FocusLock disabled={disableFocusLock || !blockBackground} autoFocus={false} className={styles.focusLock()}>
           <RenderLayer onClickOutside={this.handleClickOutside} active>
             <div
-              data-tid="SidePage__container"
+              data-tid={SidePageDataTids.container}
               className={cx(styles.wrapper(this.theme), {
                 [styles.wrapperLeft()]: fromLeft,
                 [styles.wrapperMarginLeft()]: this.state.hasMargin && fromLeft,

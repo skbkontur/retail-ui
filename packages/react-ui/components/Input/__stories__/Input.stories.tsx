@@ -1,9 +1,9 @@
 // TODO: Rewrite stories and enable rule (in process of functional refactoring).
 /* eslint-disable react/no-unstable-nested-components */
-import React from 'react';
+import React, { useState } from 'react';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Story } from '../../../typings/stories';
+import { CreeveyTests, Meta, Story } from '../../../typings/stories';
 import { Input, InputSize } from '../Input';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
@@ -15,7 +15,14 @@ const styles = {
   padding: '5px',
 };
 
-export default { title: 'Input' };
+export default {
+  title: 'Input',
+  parameters: {
+    creevey: {
+      skip: { tests: 'idle, focus, edit, blur', in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    },
+  },
+} as Meta;
 
 export const InputsWithDifferentStates: Story = () => (
   <div>
@@ -128,83 +135,83 @@ InputsWithDifferentStates.storyName = 'Inputs with different states';
 InputsWithDifferentStates.parameters = {
   creevey: {
     tests: {
-      async ['Warning small']() {
+      async 'Warning small'() {
         const element = await this.browser.findElement({ css: '#warning-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Warning small');
       },
-      async ['Warning large']() {
+      async 'Warning large'() {
         const element = await this.browser.findElement({ css: '#warning-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Warning large');
       },
-      async ['Error small']() {
+      async 'Error small'() {
         const element = await this.browser.findElement({ css: '#error-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Error small');
       },
-      async ['Error large']() {
+      async 'Error large'() {
         const element = await this.browser.findElement({ css: '#error-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Error large');
       },
-      async ['Disabled small']() {
+      async 'Disabled small'() {
         const element = await this.browser.findElement({ css: '#disabled-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Disabled small');
       },
-      async ['Disabled large']() {
+      async 'Disabled large'() {
         const element = await this.browser.findElement({ css: '#disabled-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Disabled large');
       },
-      async ['Disabled text small']() {
+      async 'Disabled text small'() {
         const element = await this.browser.findElement({ css: '#disabled-text-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Disabled text small');
       },
-      async ['Disabled text large']() {
+      async 'Disabled text large'() {
         const element = await this.browser.findElement({ css: '#disabled-text-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Disabled text large');
       },
-      async ['Placeholder small']() {
+      async 'Placeholder small'() {
         const element = await this.browser.findElement({ css: '#placeholder-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Placeholder small');
       },
-      async ['Placeholder large']() {
+      async 'Placeholder large'() {
         const element = await this.browser.findElement({ css: '#placeholder-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Placeholder large');
       },
-      async ['Password small']() {
+      async 'Password small'() {
         const element = await this.browser.findElement({ css: '#password-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Password small');
       },
-      async ['Password large']() {
+      async 'Password large'() {
         const element = await this.browser.findElement({ css: '#password-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Password large');
       },
-      async ['Borderless small']() {
+      async 'Borderless small'() {
         const element = await this.browser.findElement({ css: '#borderless-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Borderless small');
       },
-      async ['Borderless large']() {
+      async 'Borderless large'() {
         const element = await this.browser.findElement({ css: '#borderless-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Borderless large');
       },
-      async ['Left icon small']() {
+      async 'Left icon small'() {
         const element = await this.browser.findElement({ css: '#left-icon-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Left icon small');
       },
-      async ['Left icon large']() {
+      async 'Left icon large'() {
         const element = await this.browser.findElement({ css: '#left-icon-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Left icon large');
       },
-      async ['Right icon small']() {
+      async 'Right icon small'() {
         const element = await this.browser.findElement({ css: '#right-icon-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Right icon small');
       },
-      async ['Right icon large']() {
+      async 'Right icon large'() {
         const element = await this.browser.findElement({ css: '#right-icon-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Right icon large');
       },
-      async ['Error and Disabled large']() {
+      async 'Error and Disabled large'() {
         const element = await this.browser.findElement({ css: '#error-disabled-large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
       },
-      async ['Error and Disabled small']() {
+      async 'Error and Disabled small'() {
         const element = await this.browser.findElement({ css: '#error-disabled-small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Error and Disabled large');
       },
@@ -230,11 +237,11 @@ InputsWithDifferentSizes.storyName = 'Inputs with different sizes';
 InputsWithDifferentSizes.parameters = {
   creevey: {
     tests: {
-      async ['Plain small']() {
+      async 'Plain small'() {
         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
       },
-      async ['Focused small']() {
+      async 'Focused small'() {
         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
         await this.browser
           .actions({
@@ -244,7 +251,7 @@ InputsWithDifferentSizes.parameters = {
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
       },
-      async ['With typed text small']() {
+      async 'With typed text small'() {
         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
         await this.browser
           .actions({
@@ -252,10 +259,11 @@ InputsWithDifferentSizes.parameters = {
           })
           .click(this.browser.findElement({ css: '#small-input-wrapper input' }))
           .sendKeys('Test...')
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
       },
-      async ['With long typed text small']() {
+      async 'With long typed text small'() {
         const element = await this.browser.findElement({ css: '#small-input-wrapper' });
         await this.browser
           .actions({
@@ -266,14 +274,15 @@ InputsWithDifferentSizes.parameters = {
           .sendKeys(
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           )
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
       },
-      async ['Plain medium']() {
+      async 'Plain medium'() {
         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
       },
-      async ['Focused medium']() {
+      async 'Focused medium'() {
         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
         await this.browser
           .actions({
@@ -283,7 +292,7 @@ InputsWithDifferentSizes.parameters = {
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
       },
-      async ['With typed text medium']() {
+      async 'With typed text medium'() {
         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
         await this.browser
           .actions({
@@ -291,10 +300,11 @@ InputsWithDifferentSizes.parameters = {
           })
           .click(this.browser.findElement({ css: '#medium-input-wrapper input' }))
           .sendKeys('Test...')
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
       },
-      async ['With long typed text medium']() {
+      async 'With long typed text medium'() {
         const element = await this.browser.findElement({ css: '#medium-input-wrapper' });
         await this.browser
           .actions({
@@ -305,14 +315,15 @@ InputsWithDifferentSizes.parameters = {
           .sendKeys(
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           )
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
       },
-      async ['Plain large']() {
+      async 'Plain large'() {
         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
       },
-      async ['Focused large']() {
+      async 'Focused large'() {
         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
         await this.browser
           .actions({
@@ -322,7 +333,7 @@ InputsWithDifferentSizes.parameters = {
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('Focused');
       },
-      async ['With typed text large']() {
+      async 'With typed text large'() {
         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
         await this.browser
           .actions({
@@ -330,10 +341,11 @@ InputsWithDifferentSizes.parameters = {
           })
           .click(this.browser.findElement({ css: '#large-input-wrapper input' }))
           .sendKeys('Test...')
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With typed text');
       },
-      async ['With long typed text large']() {
+      async 'With long typed text large'() {
         const element = await this.browser.findElement({ css: '#large-input-wrapper' });
         await this.browser
           .actions({
@@ -344,6 +356,7 @@ InputsWithDifferentSizes.parameters = {
           .sendKeys(
             'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
           )
+          .pause(500)
           .perform();
         await this.expect(await element.takeScreenshot()).to.matchImage('With long typed text');
       },
@@ -443,53 +456,59 @@ export const PlaceholderAndMask = () => (
 );
 PlaceholderAndMask.storyName = 'Placeholder and Mask';
 
-export const InputWithPhoneMask: Story = () => (
+const testMaskedInput: CreeveyTests = {
+  async 'idle, focus, edit, blur'() {
+    const click = (css: string) => {
+      return this.browser
+        .actions({
+          bridge: true,
+        })
+        .click(this.browser.findElement({ css }));
+    };
+
+    const idle = await this.takeScreenshot();
+
+    await click('input').perform();
+    const focused = await this.takeScreenshot();
+
+    await click('input').sendKeys('953').perform();
+    const edited = await this.takeScreenshot();
+
+    await click('body').perform();
+    const blured = await this.takeScreenshot();
+
+    await this.expect({ idle, focused, edited, blured }).to.matchImages();
+  },
+};
+
+export const InputWithMask: Story = () => (
   <Input width="150" mask="+7 999 999-99-99" maskChar={'_'} placeholder="+7" alwaysShowMask />
 );
-InputWithPhoneMask.storyName = 'Input with phone mask';
-
-InputWithPhoneMask.parameters = {
+InputWithMask.parameters = {
   creevey: {
-    tests: {
-      async Plain() {
-        await this.expect(await this.takeScreenshot()).to.matchImage('Plain');
-      },
-      async Focused() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Focused');
-      },
-      async Editing() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('9')
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Editing');
-      },
-      async Blured() {
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'input' }))
-          .sendKeys('9')
-          .perform();
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'body' }))
-          .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('Blured');
-      },
-    },
+    tests: testMaskedInput,
+  },
+};
+
+export const InputWithMaskAndCustomUnmaskedValue: Story = () => {
+  const [value, setValue] = useState('+795');
+
+  return (
+    <Input
+      width="150"
+      mask="+7 999 999-99-99"
+      maskChar={'_'}
+      placeholder="+7"
+      alwaysShowMask
+      value={value}
+      onValueChange={(value) => setValue(value.replace(/\s/g, ''))}
+    />
+  );
+};
+
+InputWithMaskAndCustomUnmaskedValue.parameters = {
+  creevey: {
+    tests: testMaskedInput,
   },
 };
 
@@ -597,7 +616,7 @@ PrefixAndSuffixSmall.parameters = {
         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
       },
-      async ['First input focused']() {
+      async 'First input focused'() {
         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-small' });
         await this.browser
           .actions({
@@ -621,7 +640,7 @@ PrefixAndSuffixMedium.parameters = {
         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
       },
-      async ['First input focused']() {
+      async 'First input focused'() {
         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-medium' });
         await this.browser
           .actions({
@@ -645,7 +664,7 @@ PrefixAndSuffixLarge.parameters = {
         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
         await this.expect(await element.takeScreenshot()).to.matchImage('Plain');
       },
-      async ['First input focused']() {
+      async 'First input focused'() {
         const element = await this.browser.findElement({ css: '#inputWithPrefixOrSuffx-large' });
         await this.browser
           .actions({
@@ -740,7 +759,8 @@ function InputWithPrefixSuffix({ size }: { size: InputSize }) {
 }
 
 export const UncontrolledInputWithPlaceholder: Story = () => {
-  const [_, setValue] = React.useState<string>();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_value, setValue] = React.useState<string>();
   return <Input placeholder="Placeholder" onValueChange={(value) => setValue(value)} />;
 };
 UncontrolledInputWithPlaceholder.storyName = 'Uncontrolled Input with Placeholder';
@@ -758,6 +778,49 @@ UncontrolledInputWithPlaceholder.parameters = {
           .perform();
         const typed = await this.takeScreenshot();
         await this.expect({ plain, typed }).to.matchImages();
+      },
+    },
+  },
+};
+
+export const InputWithMaskSelectAll: Story = () => {
+  const inputRef = React.useRef<Input>(null);
+  const [value, setValue] = React.useState('11');
+  const selectAll = React.useCallback(() => {
+    inputRef.current?.selectAll();
+  }, [inputRef.current]);
+  return (
+    <div>
+      <Input mask="9999" maskChar={'_'} ref={inputRef} value={value} onValueChange={setValue} onFocus={selectAll} />
+    </div>
+  );
+};
+InputWithMaskSelectAll.parameters = {
+  creevey: {
+    skip: { in: /^(?!\bchrome\b)/, reason: `themes don't affect logic` },
+    tests: {
+      async PlainAndSelected() {
+        const plain = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
+          .perform();
+        const selectAllHalfFilledInput = await this.takeScreenshot();
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('1111')
+          .click(this.browser.findElement({ css: 'body' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .pause(500)
+          .perform();
+        const selectAllFilledInput = await this.takeScreenshot();
+        await this.expect({ plain, selectAllHalfFilledInput, selectAllFilledInput }).to.matchImages();
       },
     },
   },

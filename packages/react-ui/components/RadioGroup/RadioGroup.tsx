@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
-import { getRandomID } from '../../lib/utils';
+import { getRandomID, isNonNullable } from '../../lib/utils';
 import { Radio } from '../Radio';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { Nullable } from '../../typings/utility-types';
@@ -43,6 +43,12 @@ export interface RadioGroupProps<T = string | number> extends CommonProps {
    * случайное имя
    */
   name?: string;
+
+  /**
+   * Метод получения уникального ключа по элементу
+   * @param item
+   */
+  toKey?: (item: T) => string | number;
   /**
    * Дизейблит все радиокнопки
    */
@@ -81,6 +87,12 @@ export interface RadioGroupState<T> {
   activeItem?: T;
 }
 
+export const RadioGroupDataTids = {
+  root: 'RadioGroup__root',
+} as const;
+
+type DefaultProps = Required<Pick<RadioGroupProps<unknown>, 'renderItem'>>;
+
 /**
  *
  * `children` может содержать любую разметку с компонентами Radio,
@@ -108,7 +120,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     onMouseOver: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     renderItem,
   };
 
@@ -154,7 +166,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
   public renderMain() {
     const { width, onMouseLeave, onMouseOver, onMouseEnter, onBlur } = this.props;
     const style = {
-      width: width != null ? width : 'auto',
+      width: width ?? 'auto',
     };
     const handlers = {
       onMouseOver,
@@ -165,7 +177,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <FocusTrap onBlur={onBlur}>
-          <span ref={this.ref} style={style} className={styles.root()} {...handlers}>
+          <span data-tid={RadioGroupDataTids.root} ref={this.ref} style={style} className={styles.root()} {...handlers}>
             <RadioGroupContext.Provider value={this.getRadioGroupContextValue()}>
               {this.renderChildren()}
             </RadioGroupContext.Provider>
@@ -200,7 +212,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private getName = () => this.props.name || this.name;
 
-  private isControlled = () => this.props.value != null;
+  private isControlled = () => isNonNullable(this.props.value);
 
   private handleSelect = (value: T) => {
     if (!this.isControlled()) {
@@ -219,7 +231,7 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
   private renderRadio = (itemValue: T, data: React.ReactNode, index: number): JSX.Element => {
     const itemProps = {
-      key: typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : index,
+      key: this.getKeyByItem(itemValue),
       className: cx({
         [styles.item(this.theme)]: true,
         [styles.itemFirst()]: index === 0,
@@ -229,9 +241,16 @@ export class RadioGroup<T> extends React.Component<RadioGroupProps<T>, RadioGrou
 
     return (
       <span {...itemProps}>
-        <Radio value={itemValue}>{this.getProps().renderItem<T>(itemValue, data)}</Radio>
+        <Radio value={itemValue}>{this.getProps().renderItem(itemValue, data)}</Radio>
       </span>
     );
+  };
+
+  private getKeyByItem = (itemValue: T) => {
+    if (this.props.toKey) {
+      return this.props.toKey(itemValue);
+    }
+    return typeof itemValue === 'string' || typeof itemValue === 'number' ? itemValue : undefined;
   };
 
   private ref = (element: HTMLSpanElement) => {

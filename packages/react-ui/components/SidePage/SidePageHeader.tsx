@@ -25,6 +25,11 @@ export interface SidePageHeaderState {
   focusedByTab: boolean;
 }
 
+export const SidePageHeaderDataTids = {
+  root: 'SidePageHeader__root',
+  close: 'SidePage__close',
+} as const;
+
 /**
  * Шапка сайдпейджа
  *
@@ -115,7 +120,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
-        <div ref={this.wrapperRef} className={styles.headerWrapper()}>
+        <div data-tid={SidePageHeaderDataTids.root} ref={this.wrapperRef} className={styles.headerWrapper()}>
           {isStickyDesktop || isStickyMobile ? (
             <Sticky ref={this.stickyRef} side="top">
               {this.renderHeader}
@@ -179,7 +184,7 @@ export class SidePageHeader extends React.Component<SidePageHeaderProps, SidePag
           onFocus={this.handleFocus}
           onBlur={this.handleBlur}
           onClick={requestClose}
-          data-tid="SidePage__close"
+          data-tid={SidePageHeaderDataTids.close}
           tabIndex={0}
         >
           <CrossIcon />

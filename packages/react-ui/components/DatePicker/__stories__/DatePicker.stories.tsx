@@ -1,17 +1,27 @@
 import { action } from '@storybook/addon-actions';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 
+import { Nullable } from '../../../typings/utility-types';
 import { Meta, Story } from '../../../typings/stories';
 import { InternalDateOrder } from '../../../lib/date/types';
 import { Button } from '../../Button';
 import { Gapped } from '../../Gapped';
 import { Tooltip } from '../../Tooltip';
-import { DatePicker } from '../DatePicker';
+import { DatePicker, DatePickerProps } from '../DatePicker';
 import { LocaleContext, LangCodes } from '../../../lib/locale';
 import { delay, emptyHandler } from '../../../lib/utils';
 
-class DatePickerWithError extends React.Component<any, any> {
-  public state = {
+interface DatePickerWithErrorProps {
+  disabled?: boolean;
+  size?: DatePickerProps<unknown>['size'];
+}
+interface DatePickerWithErrorState {
+  tooltip: boolean;
+  value: Nullable<string>;
+  error?: boolean;
+}
+class DatePickerWithError extends React.Component<DatePickerWithErrorProps> {
+  public state: DatePickerWithErrorState = {
     value: '15.08.2014',
     error: false,
     tooltip: false,
@@ -45,7 +55,7 @@ class DatePickerWithError extends React.Component<any, any> {
             />
           </LocaleContext.Provider>
         </Tooltip>
-        <Button onClick={() => this.setState({ value: null, error: null, tooltip: false })}>Clear</Button>
+        <Button onClick={() => this.setState({ value: null, error: undefined, tooltip: false })}>Clear</Button>
         <Button onClick={() => this.setState({ value: '99.99.9999' })}>Set &quot;99.99.9999&quot;</Button>
         <Button onClick={() => this.setState({ value: '99.hello' })}>Set &quot;99.hello&quot;</Button>
         <Button onClick={() => this.setState({ value: '10.3' })}>Set &quot;10.3&quot;</Button>
@@ -113,9 +123,10 @@ WithMouseeventHandlers.parameters = {
           })
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
+        await delay(1000);
         await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
-      async ['DateSelect month']() {
+      async 'DateSelect month'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -132,9 +143,11 @@ WithMouseeventHandlers.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect month');
       },
-      async ['DateSelect year']() {
+      async 'DateSelect year'() {
         await delay(1000);
         await this.browser
           .actions({
@@ -151,6 +164,8 @@ WithMouseeventHandlers.parameters = {
             }),
           )
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('DateSelect year');
       },
     },
@@ -223,11 +238,20 @@ DatePickerLocaleProvider.parameters = { creevey: { skip: [true] } };
 
 export const DatePickerInRelativeBody: Story = () => {
   const [isRelative, toggleIsRelative] = useState(false);
+  const relativeClassName = 'relative';
+
   const onClick = useCallback(() => {
     toggleIsRelative(!isRelative);
-    document.querySelector('html')?.classList.toggle('relative');
+    document.querySelector('html')?.classList.toggle(relativeClassName);
   }, [isRelative]);
   const paddingTop = document.documentElement.clientHeight - 32 * 3;
+
+  useEffect(() => {
+    return () => {
+      document.querySelector('html')?.classList.remove(relativeClassName);
+    };
+  }, [relativeClassName]);
+
   return (
     <>
       <Button onClick={onClick}>{isRelative ? 'With' : 'Without'} relative position</Button>
@@ -249,14 +273,10 @@ DatePickerInRelativeBody.parameters = {
           .click(this.browser.findElement({ css: 'button' }))
           .click(this.browser.findElement({ css: '[data-comp-name~="DatePicker"]' }))
           .perform();
-        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
-        await this.browser
-          .actions({
-            bridge: true,
-          })
-          .click(this.browser.findElement({ css: 'button' }))
-          .perform();
+
         await delay(1000);
+
+        await this.expect(await this.takeScreenshot()).to.matchImage('opened');
       },
     },
   },

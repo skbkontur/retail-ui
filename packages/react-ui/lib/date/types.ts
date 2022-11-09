@@ -106,3 +106,8 @@ export interface InternalDateLocaleSet {
   firstDayWeek: InternalDateFirstDayWeek;
   notWorkingDays: InternalDateDayWeek[];
 }
+
+export interface InputKeyResult {
+  inputMode: boolean;
+  changed: boolean;
+}

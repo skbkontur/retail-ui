@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ReactNode, ReactPortal } from 'react';
 import PropTypes from 'prop-types';
 import invariant from 'invariant';
 
@@ -57,6 +57,10 @@ const PASS_BUTTON_PROPS = {
   onMouseLeave: true,
   onMouseOver: true,
 };
+
+export const SelectDataTids = {
+  root: 'Select__root',
+} as const;
 
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
@@ -160,9 +164,15 @@ interface FocusableReactElement extends React.ReactElement<any> {
   focus: (event?: any) => void;
 }
 
+type DefaultProps<TValue, TItem> = Required<
+  Pick<SelectProps<TValue, TItem>, 'renderValue' | 'renderItem' | 'areValuesEqual' | 'filterItem' | 'use'>
+>;
+
 @responsiveLayout
 @rootNode
 @locale('Select', SelectLocaleHelper)
+// Suggested solutions break current behavior
+// eslint-disable-next-line @typescript-eslint/ban-types
 export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps<TValue, TItem>, SelectState<TValue>> {
   public static __KONTUR_REACT_UI__ = 'Select';
 
@@ -189,7 +199,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     onKeyDown: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps<unknown, ReactNode | ReactPortal> = {
     renderValue,
     renderItem,
     areValuesEqual,
@@ -236,9 +246,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return (
-            <ThemeContext.Provider value={getSelectTheme(theme, this.props)}>{this.renderMain()}</ThemeContext.Provider>
-          );
+          return <ThemeContext.Provider value={this.theme}>{this.renderMain()}</ThemeContext.Provider>;
         }}
       </ThemeContext.Consumer>
     );
@@ -297,7 +305,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private renderMain() {
     const buttonParams = this.getDefaultButtonParams();
-    const button = this.getButton(buttonParams);
+    const button = (
+      <ThemeContext.Provider value={getSelectTheme(this.theme, this.props)}>
+        {this.getButton(buttonParams)}
+      </ThemeContext.Provider>
+    );
 
     const isMobile = this.isMobileLayout;
 
@@ -307,7 +319,11 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     };
 
     const root = (
-      <span className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })} style={style}>
+      <span
+        data-tid={SelectDataTids.root}
+        className={cx({ [styles.root()]: true, [styles.rootMobile(this.theme)]: isMobile })}
+        style={style}
+      >
         {button}
         {this.getMenuRenderer()}
       </span>
@@ -344,7 +360,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const item = this.getItemByValue(value);
 
-    if (value != null) {
+    if (isNonNullable(value)) {
       return {
         label: this.getProps().renderValue(value, item),
         isPlaceholder: false,
@@ -358,7 +374,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private getLeftIconClass(size: ButtonSize | undefined) {
-    if (this.props.use === 'link') {
+    if (this.getProps().use === 'link') {
       return styles.leftIconLink(this.theme);
     }
 
@@ -383,12 +399,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       onKeyDown: params.onKeyDown,
       active: params.opened,
     };
+    const use = this.getProps().use;
 
     const labelProps = {
       className: cx({
-        [styles.label()]: this.props.use !== 'link',
+        [styles.label()]: use !== 'link',
         [styles.placeholder(this.theme)]: params.isPlaceholder,
-        [styles.customUsePlaceholder()]: params.isPlaceholder && this.props.use !== 'default',
+        [styles.customUsePlaceholder()]: params.isPlaceholder && use !== 'default',
         [styles.placeholderDisabled(this.theme)]: params.isPlaceholder && this.props.disabled,
       }),
       style: {
@@ -396,7 +413,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
       },
     };
 
-    const useIsCustom = this.props.use !== 'default';
+    const useIsCustom = use !== 'default';
 
     return (
       <Button {...buttonProps}>
@@ -489,7 +506,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getSearch = (noMargin?: boolean) => {
     return (
-      <div className={cx({ [styles.search()]: noMargin ? false : true })}>
+      <div className={cx({ [styles.search()]: !noMargin })}>
         <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
       </div>
     );
@@ -525,7 +542,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
             comment={comment}
             isMobile={isMobile}
           >
-            {this.getProps().renderItem<TValue, TItem>(iValue, item)}
+            {this.getProps().renderItem(iValue, item)}
           </MenuItem>
         );
       },
@@ -623,7 +640,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     for (const entry of items) {
       const [value, item, comment] = normalizeEntry(entry as TItem);
 
-      if (!pattern || this.getProps().filterItem<TValue>(value, item, pattern)) {
+      if (!pattern || this.getProps().filterItem(value, item, pattern)) {
         result.push(fn(value, item, index, comment));
         ++index;
       }
@@ -650,7 +667,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
   }
 
   private areValuesEqual(value1: Nullable<TValue>, value2: Nullable<TValue>) {
-    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual<TValue>(value1, value2);
+    return isNonNullable(value1) && isNonNullable(value2) && this.getProps().areValuesEqual(value1, value2);
   }
 
   private buttonRef = (element: FocusableReactElement | null) => {
@@ -689,23 +706,41 @@ function areValuesEqual<TValue>(value1: TValue, value2: TValue) {
 function normalizeEntry(entry: any) {
   if (Array.isArray(entry)) {
     return entry;
-  } else {
-    return [entry, entry, undefined];
   }
+
+  return [entry, entry, undefined];
 }
+
+const getTextFromItem = (item: any): string => {
+  if (typeof item === 'string') {
+    return item;
+  }
+
+  if (isFunction(item)) {
+    return getTextFromItem(item());
+  }
+
+  if (React.isValidElement(item)) {
+    return reactGetTextContent(item);
+  }
+
+  if (typeof item === 'number') {
+    return item.toString(10);
+  }
+
+  return '';
+};
 
 function filterItem<TValue>(value: TValue, item: any, pattern: string) {
   if (item === Select.SEP) {
     return false;
   }
-  if (React.isValidElement(item) || (isFunction(item) && React.isValidElement((item = item())))) {
-    item = reactGetTextContent(item);
-  }
-  if (typeof item === 'number') {
-    item = item.toString(10);
-  }
-  if (typeof item !== 'string') {
+
+  const itemText = getTextFromItem(item);
+
+  if (!itemText) {
     return false;
   }
-  return item.toLowerCase().indexOf(pattern) !== -1;
+
+  return itemText.toLowerCase().indexOf(pattern) !== -1;
 }

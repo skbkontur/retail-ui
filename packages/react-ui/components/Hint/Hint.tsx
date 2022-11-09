@@ -3,7 +3,7 @@ import React from 'react';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { Theme } from '../../lib/theming/Theme';
-import { Popup, PopupPositionsType } from '../../internal/Popup';
+import { DUMMY_LOCATION, Popup, PopupPositionsType } from '../../internal/Popup';
 import { Nullable } from '../../typings/utility-types';
 import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
@@ -12,6 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './Hint.styles';
 
@@ -48,7 +49,7 @@ export interface HintProps extends CommonProps {
    *
    * **Допустимые значения**: `"top"`, `"right"`, `"bottom"`, `"left"`, `"top left"`, `"top center"`, `"top right"`, `"right top"`, `"right middle"`, `"right bottom"`, `"bottom left"`, `"bottom center"`, `"bottom right"`, `"left top"`, `"left middle"`, `"left bottom"`.
    */
-  pos: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
+  pos?: 'top' | 'right' | 'bottom' | 'left' | PopupPositionsType;
   /**
    * Текст подсказки.
    */
@@ -56,17 +57,18 @@ export interface HintProps extends CommonProps {
   /**
    * Отключает анимацию.
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
   /**
    * Явно указывает, что вложенные элементы должны быть обёрнуты в `<span/>`. <br/> Используется для корректного позиционирования тултипа при двух и более вложенных элементах.
    *
    * _Примечание_: при **двух и более** вложенных элементах обёртка будет добавлена автоматически.
    */
-  useWrapper: boolean;
+  useWrapper?: boolean;
 }
 
 export interface HintState {
   opened: boolean;
+  position: PopupPositionsType;
 }
 
 const Positions: PopupPositionsType[] = [
@@ -84,6 +86,10 @@ const Positions: PopupPositionsType[] = [
   'right bottom',
 ];
 
+type DefaultProps = Required<
+  Pick<HintProps, 'pos' | 'manual' | 'opened' | 'maxWidth' | 'disableAnimations' | 'useWrapper'>
+>;
+
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
@@ -94,7 +100,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
 
   private isMobileLayout!: boolean;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     pos: 'top',
     manual: false,
     opened: false,
@@ -103,8 +109,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     useWrapper: false,
   };
 
+  private getProps = createPropsGetter(Hint.defaultProps);
+
   public state: HintState = {
-    opened: this.props.manual ? !!this.props.opened : false,
+    opened: this.getProps().manual ? !!this.getProps().opened : false,
+    position: DUMMY_LOCATION.position,
   };
 
   private timer: Nullable<number> = null;
@@ -114,15 +123,16 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   private popupRef = React.createRef<Popup>();
 
   public componentDidUpdate(prevProps: HintProps) {
-    if (!this.props.manual) {
+    const { opened, manual } = this.getProps();
+    if (!manual) {
       return;
     }
     if (this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
     }
-    if (this.props.opened !== prevProps.opened) {
-      this.setState({ opened: !!this.props.opened });
+    if (opened !== prevProps.opened) {
+      this.setState({ opened: !!opened });
     }
   }
 
@@ -159,14 +169,15 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   public renderMobile() {
+    const manual = this.getProps().manual;
     return (
       <CommonWrapper {...this.props}>
         <Popup
           opened={this.state.opened}
           anchorElement={this.props.children}
           positions={[]}
-          onClick={!this.props.manual ? this.open : undefined}
-          mobileOnCloseRequest={!this.props.manual ? this.close : undefined}
+          onClick={!manual ? this.open : undefined}
+          mobileOnCloseRequest={!manual ? this.close : undefined}
         >
           {this.renderContent()}
         </Popup>
@@ -175,6 +186,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   public renderMain() {
+    const { disableAnimations, useWrapper } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <Popup
@@ -184,10 +196,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
           positions={this.getPositions()}
           backgroundColor={this.theme.hintBgColor}
           borderColor={HINT_BORDER_COLOR}
-          disableAnimations={this.props.disableAnimations}
+          onPositionChange={(position) => this.setState({ position })}
+          disableAnimations={disableAnimations}
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
-          useWrapper={this.props.useWrapper}
+          useWrapper={useWrapper}
           ref={this.popupRef}
         >
           {this.renderContent()}
@@ -196,7 +209,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     );
   }
 
-  public getAnchorElement = (): Nullable<HTMLElement> => {
+  public getAnchorElement = (): Nullable<Element> => {
     return this.popupRef.current?.anchorElement;
   };
 
@@ -205,10 +218,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
       return null;
     }
 
-    const { pos, maxWidth } = this.props;
+    const { maxWidth } = this.getProps();
+    const centerAlignPositions = ['top', 'top center', 'bottom', 'bottom center'];
     const className = cx({
       [styles.content(this.theme)]: true,
-      [styles.contentCenter(this.theme)]: pos === 'top' || pos === 'bottom',
+      [styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
       [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (
@@ -219,11 +233,11 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   }
 
   private getPositions = (): PopupPositionsType[] => {
-    return Positions.filter((x) => x.startsWith(this.props.pos));
+    return Positions.filter((x) => x.startsWith(this.getProps().pos));
   };
 
   private handleMouseEnter = (e: MouseEventType) => {
-    if (!this.props.manual && !this.timer) {
+    if (!this.getProps().manual && !this.timer) {
       this.timer = window.setTimeout(this.open, 400);
     }
 
@@ -233,7 +247,7 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
   };
 
   private handleMouseLeave = (e: MouseEventType) => {
-    if (!this.props.manual && this.timer) {
+    if (!this.getProps().manual && this.timer) {
       clearTimeout(this.timer);
       this.timer = null;
       this.setState({ opened: false });

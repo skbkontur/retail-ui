@@ -3,6 +3,7 @@ import React from 'react';
 import { callChildRef } from '../../lib/callChildRef/callChildRef';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isBrowser } from '../../lib/client';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { incrementZIndex, removeZIndex, upperBorder, LayerComponentName } from './ZIndexStorage';
 
@@ -14,51 +15,82 @@ export interface ZIndexProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Приращение к z-index
    */
-  delta: number;
-  priority: number | LayerComponentName;
-  style: React.CSSProperties;
+  delta?: number;
+  priority?: number | LayerComponentName;
+  style?: React.CSSProperties;
   createStackingContext?: boolean;
   coverChildren?: boolean;
   applyZIndex?: boolean;
   className?: string;
   wrapperRef?: React.Ref<HTMLDivElement> | undefined | null;
+
+  /**
+   * Явно указывает, что вложенные элементы должны быть обёрнуты в `<div/>`.
+   * Для случаев, когда необходимо задать **только** контекст для области.
+   *
+   * @default true
+   */
+  useWrapper?: boolean;
+}
+
+type DefaultProps = Required<
+  Pick<
+    ZIndexProps,
+    'delta' | 'priority' | 'style' | 'applyZIndex' | 'coverChildren' | 'createStackingContext' | 'useWrapper'
+  >
+>;
+
+interface ZIndexState {
+  zIndex: number;
 }
 
 @rootNode
-export class ZIndex extends React.Component<ZIndexProps> {
+export class ZIndex extends React.Component<ZIndexProps, ZIndexState> {
   public static __KONTUR_REACT_UI__ = 'ZIndex';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     delta: 10,
     priority: 0,
     style: {},
     applyZIndex: true,
     coverChildren: false,
     createStackingContext: false,
+    useWrapper: true,
   };
+
+  public state = {
+    zIndex: 0,
+  };
+
+  private getProps = createPropsGetter(ZIndex.defaultProps);
 
   public static propTypes = {
     delta(props: ZIndexProps) {
-      if (props.delta <= 0) {
+      if ((props.delta || ZIndex.defaultProps.delta) <= 0) {
         return new Error(`[ZIndex]: Prop 'delta' must be greater than 0, received ${props.delta}`);
       }
-      if (Math.trunc(props.delta) !== props.delta) {
+      if (Math.trunc(props.delta || ZIndex.defaultProps.delta) !== props.delta) {
         return new Error(`[ZIndex]: Prop 'delta' must be integer, received ${props.delta}`);
       }
     },
   };
 
-  private zIndex = 0;
-
   private setRootNode!: TSetRootNode;
 
   constructor(props: ZIndexProps) {
     super(props);
-    this.zIndex = incrementZIndex(props.priority, props.delta);
+    this.state.zIndex = this.increment();
+  }
+
+  public componentDidUpdate(prevProps: Readonly<ZIndexProps>) {
+    if (prevProps.priority !== this.props.priority || prevProps.delta !== this.props.delta) {
+      removeZIndex(this.state.zIndex);
+      this.setState({ zIndex: this.increment() });
+    }
   }
 
   public componentWillUnmount() {
-    removeZIndex(this.zIndex);
+    removeZIndex(this.state.zIndex);
   }
 
   public render() {
@@ -71,21 +103,22 @@ export class ZIndex extends React.Component<ZIndexProps> {
       coverChildren,
       createStackingContext,
       wrapperRef,
-      ...props
-    } = this.props;
+      useWrapper,
+      ...rest
+    } = this.getProps();
 
     const wrapperStyle: React.CSSProperties = {};
 
     return (
       <ZIndexContext.Consumer>
         {({ parentLayerZIndex, maxZIndex }) => {
-          let zIndexContexValue = { parentLayerZIndex, maxZIndex };
+          let zIndexContextValue = { parentLayerZIndex, maxZIndex };
 
           if (applyZIndex) {
             const newZIndex = this.calcZIndex(parentLayerZIndex, maxZIndex);
             wrapperStyle.zIndex = newZIndex;
 
-            zIndexContexValue = coverChildren
+            zIndexContextValue = coverChildren
               ? { parentLayerZIndex, maxZIndex: newZIndex }
               : { parentLayerZIndex: newZIndex, maxZIndex: Number.isFinite(maxZIndex) ? newZIndex : Infinity };
 
@@ -96,13 +129,15 @@ export class ZIndex extends React.Component<ZIndexProps> {
             }
           }
 
-          return (
-            <ZIndexContext.Provider value={zIndexContexValue}>
-              <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...props}>
-                {children}
-              </div>
-            </ZIndexContext.Provider>
+          const child = !useWrapper ? (
+            children
+          ) : (
+            <div style={{ ...style, ...wrapperStyle }} ref={this.wrapperRef} {...rest}>
+              {children}
+            </div>
           );
+
+          return <ZIndexContext.Provider value={zIndexContextValue}>{child}</ZIndexContext.Provider>;
         }}
       </ZIndexContext.Consumer>
     );
@@ -115,7 +150,7 @@ export class ZIndex extends React.Component<ZIndexProps> {
   };
 
   private calcZIndex(parentLayerZIndex: number, maxZIndex: number) {
-    let newZIndex = this.zIndex;
+    let newZIndex = this.state.zIndex;
 
     if (Number.isFinite(maxZIndex)) {
       const allowedValuesIntervalLength = maxZIndex - parentLayerZIndex;
@@ -127,4 +162,10 @@ export class ZIndex extends React.Component<ZIndexProps> {
 
     return newZIndex;
   }
+
+  private increment = () => {
+    const { priority, delta } = this.getProps();
+
+    return incrementZIndex(priority, delta);
+  };
 }

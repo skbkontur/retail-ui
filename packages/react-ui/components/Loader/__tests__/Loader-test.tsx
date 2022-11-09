@@ -35,13 +35,16 @@ describe('Loader', () => {
       );
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
       loader.update();
+
       expectComponentNotExistInWrapper(VeilSelector, loader);
       expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + DIFFERENCE);
       loader.update();
@@ -49,6 +52,7 @@ describe('Loader', () => {
       expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE);
       loader.update();
@@ -67,6 +71,7 @@ describe('Loader', () => {
       );
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DIFFERENCE * 3);
       loader.setProps({ active: true });
@@ -76,6 +81,7 @@ describe('Loader', () => {
       expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DIFFERENCE * 3);
       loader.setProps({ active: true });
@@ -97,6 +103,7 @@ describe('Loader', () => {
       );
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW - DIFFERENCE);
       loader.update();
@@ -104,6 +111,7 @@ describe('Loader', () => {
       expectComponentNotExistInWrapper(SpinnerSelector, loader);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + DIFFERENCE);
       loader.update();
@@ -111,6 +119,7 @@ describe('Loader', () => {
       expectComponentExistInWrapper(SpinnerSelector, loader);
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it('should show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
       await delay(DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE + DIFFERENCE);
       loader.update();
@@ -131,6 +140,7 @@ describe('Loader', () => {
         );
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('should not show spinner before DELAY_BEFORE_SPINNER_SHOW', async () => {
         expectComponentExistInWrapper(VeilSelector, loader);
         expectComponentNotExistInWrapper(SpinnerSelector, loader);
@@ -154,6 +164,7 @@ describe('Loader', () => {
         );
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('should show spinner after DELAY_BEFORE_SPINNER_SHOW', async () => {
         await delay(DELAY_BEFORE_SPINNER_SHOW);
         loader.setProps({ active: false });
@@ -163,6 +174,7 @@ describe('Loader', () => {
         expectComponentExistInWrapper(SpinnerSelector, loader);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('should show spinner DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
         await delay(DELAY_BEFORE_SPINNER_SHOW);
         loader.setProps({ active: false });
@@ -172,6 +184,7 @@ describe('Loader', () => {
         expectComponentExistInWrapper(SpinnerSelector, loader);
       });
 
+      // eslint-disable-next-line jest/expect-expect
       it('should not show spinner after DELAY_BEFORE_SPINNER_SHOW + MINIMAL_DELAY_BEFORE_SPINNER_HIDE', async () => {
         await delay(DELAY_BEFORE_SPINNER_SHOW);
         loader.setProps({ active: false });

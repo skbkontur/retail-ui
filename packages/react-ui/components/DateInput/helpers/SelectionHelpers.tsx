@@ -23,9 +23,9 @@ export const selectNodeContents = (node: HTMLElement | null, start?: number, end
     }
   }
 
-  // @ts-ignore (IE specific api)
+  // @ts-expect-error: IE-specific API.
   if (typeof document.body.createTextRange === 'function') {
-    // @ts-ignore
+    // @ts-expect-error: Read the comment above.
     const range = document.body.createTextRange();
     range.moveToElementText(node);
     if (typeof range.select === 'function') {

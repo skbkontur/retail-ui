@@ -32,6 +32,6 @@ describe('mergeRefs', () => {
 
     expect(funcRef).toHaveBeenCalledTimes(2);
     expect(funcRef).toHaveBeenCalledWith(null);
-    expect(objRef.current).toBe(null);
+    expect(objRef.current).toBeNull();
   });
 });

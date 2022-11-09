@@ -5,13 +5,8 @@ import { Input } from '@skbkontur/react-ui/components/Input';
 import { text, ValidationContainer, ValidationInfo, ValidationWrapper } from '../../src';
 import { Nullable } from '../../typings/Types';
 
-interface Example1State {
-  value1: string;
-  value2: string;
-}
-
-class Example1 extends React.Component<{}, Example1State> {
-  public state: Example1State = {
+class Example1 extends React.Component {
+  public state = {
     value1: '',
     value2: '',
   };

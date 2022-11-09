@@ -1,13 +1,17 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 import warning from 'warning';
 import debounce from 'lodash.debounce';
 
+import { isNonNullable, isNullable } from '../../lib/utils';
 import { isIE11 } from '../../lib/client';
 import { Input, InputProps } from '../Input';
 import { Nullable, Override } from '../../typings/utility-types';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { MAX_SAFE_DIGITS } from './constants';
 import { Selection, SelectionDirection, SelectionHelper } from './SelectionHelper';
@@ -21,9 +25,9 @@ export interface CurrencyInputProps
       InputProps,
       {
         /** Значение */
-        value: Nullable<number>;
+        value?: Nullable<number>;
         /** Убрать лишние нули после запятой */
-        hideTrailingZeros: boolean;
+        hideTrailingZeros?: boolean;
         /** Кол-во цифр после запятой */
         fractionDigits?: Nullable<number>;
         /** Отрицательные значения */
@@ -45,6 +49,14 @@ export interface CurrencyInputState {
   selection: Selection;
   focused: boolean;
 }
+
+export const CurrencyInputDataTids = {
+  root: 'CurrencyInput__root',
+} as const;
+
+type DefaultProps = Required<
+  Pick<CurrencyInputProps, 'align' | 'fractionDigits' | 'hideTrailingZeros' | 'value' | 'inputMode'>
+>;
 
 /**
  * Поле для денежных сумм (и других числовых значений).
@@ -70,7 +82,9 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     placeholder: PropTypes.string,
     signed: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium', 'large']),
-    value: PropTypes.number,
+    value: (props: CurrencyInputProps) => {
+      warning(isValidNumber(props.value), '[CurrencyInput]: Prop `value` is not a valid number');
+    },
     warning: PropTypes.bool,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     onBlur: PropTypes.func,
@@ -82,7 +96,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     onSubmit: PropTypes.func,
   };
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     align: 'right',
     fractionDigits: 2,
     hideTrailingZeros: false,
@@ -90,8 +104,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     inputMode: 'decimal',
   };
 
+  private getProps = createPropsGetter(CurrencyInput.defaultProps);
+
   public state: CurrencyInputState = {
-    ...this.getState(this.props.value, this.props.fractionDigits, this.props.hideTrailingZeros),
+    ...this.getState(this.getProps().value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
     focused: false,
   };
 
@@ -100,7 +116,8 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private setRootNode!: TSetRootNode;
 
   public componentDidMount(): void {
-    const { maxLength, integerDigits, fractionDigits } = this.props;
+    const { maxLength, integerDigits } = this.props;
+    const fractionDigits = this.getProps().fractionDigits;
     warning(
       maxLength === undefined,
       `[CurrencyInput]: Prop 'maxLength' has been deprecated. See 'integerDigits' and 'fractionDigits'`,
@@ -113,9 +130,15 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   }
 
   public componentDidUpdate(prevProps: CurrencyInputProps, prevState: CurrencyInputState) {
-    const { value, fractionDigits, hideTrailingZeros } = this.props;
-    if (value !== CurrencyHelper.parse(prevState.formatted) || prevProps.fractionDigits !== fractionDigits) {
+    const { value, fractionDigits, hideTrailingZeros } = this.getProps();
+    if (
+      (isValidNumber(value) && isNumeric(value) && Number(value) !== CurrencyHelper.parse(prevState.formatted)) ||
+      prevProps.fractionDigits !== fractionDigits
+    ) {
       this.setState(this.getState(value, fractionDigits, hideTrailingZeros));
+    }
+    if (isNonNullable(prevProps.value) && isNullable(value)) {
+      this.setState({ formatted: '' });
     }
     if (this.state.focused && this.input) {
       const { start, end } = this.state.selection;
@@ -137,14 +160,12 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
 
   public renderMain = (props: CommonWrapperRestProps<CurrencyInputProps>) => {
     const { fractionDigits, signed, onSubmit, integerDigits, hideTrailingZeros, ...rest } = props;
-    const placeholder =
-      this.props.placeholder == null
-        ? CurrencyHelper.format(0, { fractionDigits, hideTrailingZeros })
-        : this.props.placeholder;
 
     return (
       <Input
+        data-tid={CurrencyInputDataTids.root}
         {...rest}
+        align={this.getProps().align}
         value={this.state.formatted}
         onBlur={this.handleBlur}
         onFocus={this.handleFocus}
@@ -158,7 +179,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
         ref={this.refInput}
-        placeholder={this.state.focused ? '' : placeholder}
+        placeholder={this.state.focused ? '' : getPlaceholder(props)}
       />
     );
   };
@@ -286,6 +307,10 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
         });
         return;
       }
+      case CURRENCY_INPUT_ACTIONS.Comma: {
+        this.inputValue(selection.start, selection.end, ',');
+        return;
+      }
     }
   };
 
@@ -336,7 +361,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private inputValue = (start: number, end: number, value: string) => {
     const result = CurrencyInputHelper.safeInsert(this.state.formatted, start, end, value, {
       integerDigits: this.props.integerDigits,
-      fractionDigits: this.props.fractionDigits,
+      fractionDigits: this.getProps().fractionDigits,
       unsigned: !this.props.signed,
     });
     if (result) {
@@ -371,7 +396,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
   private handleValueChange = (value: string): void => {
     const selection = this.tempSelectionForOnChange;
     const delta = this.getOnChangeDelta(value);
-    if (delta != null && !this.inputValue(selection.start, selection.end, delta)) {
+    if (isNonNullable(delta) && !this.inputValue(selection.start, selection.end, delta)) {
       this.setState({ selection });
     }
   };
@@ -428,7 +453,7 @@ export class CurrencyInput extends React.PureComponent<CurrencyInputProps, Curre
     const value = CurrencyHelper.parse(this.state.formatted);
 
     this.setState({
-      ...this.getState(value, this.props.fractionDigits, this.props.hideTrailingZeros),
+      ...this.getState(value, this.getProps().fractionDigits, this.getProps().hideTrailingZeros),
       focused: false,
     });
 
@@ -448,8 +473,27 @@ function getInputSelectionFromEvent(input: EventTarget): Selection {
   }
 
   return {
-    start: input.selectionStart!,
-    end: input.selectionEnd!,
+    start: input.selectionStart ?? 0,
+    end: input.selectionEnd ?? 0,
     direction: input.selectionDirection as SelectionDirection,
   };
 }
+
+function isNumeric(value: unknown): value is number | string {
+  return !isNaN(parseFloat(value as string)) && isFinite(value as number);
+}
+
+function isValidNumber(value: unknown): boolean {
+  return !isNaN(Number(value));
+}
+
+const getPlaceholder = (props: CurrencyInputProps) => {
+  if (isNullable(props.placeholder)) {
+    return CurrencyHelper.format(0, {
+      fractionDigits: props.fractionDigits,
+      hideTrailingZeros: props.hideTrailingZeros,
+    });
+  }
+
+  return props.placeholder;
+};

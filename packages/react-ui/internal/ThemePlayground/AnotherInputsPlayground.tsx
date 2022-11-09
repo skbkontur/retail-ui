@@ -1,10 +1,17 @@
 import React from 'react';
 
+import { Nullable } from '../../typings/utility-types';
 import { Tooltip } from '../../components/Tooltip';
-import { DatePicker } from '../../components/DatePicker';
+import { DatePicker, DatePickerProps } from '../../components/DatePicker';
 
-export class DatePickerPlayground extends React.Component<any, any> {
-  public state = {
+interface DatePickerPlaygroundState {
+  value: Nullable<string>;
+  error: boolean;
+  tooltip: boolean;
+}
+type DatePickerPlaygroundProps = Partial<DatePickerProps<string>>;
+export class DatePickerPlayground extends React.Component<DatePickerPlaygroundProps> {
+  public state: DatePickerPlaygroundState = {
     value: '17.06.2019',
     error: false,
     tooltip: false,

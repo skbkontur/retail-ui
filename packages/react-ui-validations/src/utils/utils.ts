@@ -10,3 +10,21 @@ const isReactUITestEnv =
 export const isTestEnv = NODE_ENV === 'test' || isReactUITestEnv;
 
 export const isBrowser = typeof window !== 'undefined';
+
+export const canUseDOM = isBrowser && window.document && window.document.createElement;
+
+export function isElement(el: unknown): el is Element {
+  if (isBrowser) {
+    return el instanceof Element;
+  }
+
+  return false;
+}
+
+export function isNode(node: unknown): node is Node {
+  if (isBrowser) {
+    return node instanceof Node;
+  }
+
+  return false;
+}

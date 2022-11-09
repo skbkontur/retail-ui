@@ -7,6 +7,7 @@ import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 
 import { styles } from './Picker.styles';
+import { DatePickerDataTids } from './DatePicker';
 
 interface Props {
   maxDate?: CalendarDateShape;
@@ -35,7 +36,11 @@ export class Picker extends React.Component<Props> {
 
   private renderMain() {
     return (
-      <div className={styles.root(this.theme)} onMouseDown={(e) => e.preventDefault()}>
+      <div
+        data-tid={DatePickerDataTids.pickerRoot}
+        className={styles.root(this.theme)}
+        onMouseDown={(e) => e.preventDefault()}
+      >
         <Calendar {...this.props} />
       </div>
     );

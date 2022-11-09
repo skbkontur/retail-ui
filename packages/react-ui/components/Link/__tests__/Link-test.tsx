@@ -46,14 +46,14 @@ describe('Link', () => {
     it("doesn't get filled if there is no href", () => {
       const wrapper = render();
 
-      expect(wrapper.find('a').prop('rel')).toBe(undefined);
+      expect(wrapper.find('a').prop('rel')).toBeUndefined();
     });
 
     describe('external hrefs', () => {
       it.each([['https://example.com:8080/home'], ['http://example.com'], ['//example.com/'], ['HTTP://EXAMPLE.COM']])(
         '%s',
         (href) => {
-          const wrapper = render({ href: href });
+          const wrapper = render({ href });
 
           expect(wrapper.find('a').prop('rel')).toBe('noopener noreferrer');
         },
@@ -71,7 +71,7 @@ describe('Link', () => {
         ['page.html'],
         ['#anchor'],
       ])('%s', (href) => {
-        const wrapper = render({ href: href });
+        const wrapper = render({ href });
 
         expect(wrapper.find('a').prop('rel')).toBe('noopener');
       });

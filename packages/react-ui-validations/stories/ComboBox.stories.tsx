@@ -1,5 +1,5 @@
-import { storiesOf } from '@storybook/react';
 import React from 'react';
+import { storiesOf } from '@storybook/react';
 import { ComboBox } from '@skbkontur/react-ui/components/ComboBox/ComboBox';
 
 import { ValidationContainer, ValidationInfo, ValidationWrapper } from '../src';
@@ -10,8 +10,7 @@ storiesOf('ComboBox', module).add('required', () => <ComboBoxStory />);
 interface ComboBoxStoryState {
   selected: { value: string; label: string };
 }
-
-class ComboBoxStory extends React.Component<{}, ComboBoxStoryState> {
+class ComboBoxStory extends React.Component {
   public state: ComboBoxStoryState = {
     selected: { value: 'one', label: 'one' },
   };

@@ -32,13 +32,19 @@ const updateConfig = (config, path = PACKAGE_JSON) => {
 };
 
 const fetchPackageData = (packageName) => {
-  const stdout = execSync(`npm show ${packageName} --json`, {
-    shell: true,
-  })
-    .toString()
-    .trim();
+  let npmData = null;
 
-  const { versions: npmVersions, 'dist-tags': npmTags } = JSON.parse(stdout);
+  try {
+    npmData = execSync(`npm show ${packageName} --json`, {
+      shell: true,
+    })
+      .toString()
+      .trim();
+  } catch (e) {
+    console.log(e);
+  }
+
+  const { versions: npmVersions = [], 'dist-tags': npmTags = {} } = npmData ? JSON.parse(npmData) : {};
 
   return {
     npmVersions,

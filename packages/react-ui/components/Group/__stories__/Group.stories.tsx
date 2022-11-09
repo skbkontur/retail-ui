@@ -27,7 +27,7 @@ SimpleGroupWithInputAndButton.parameters = {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
-      async ['focused input']() {
+      async 'focused input'() {
         await this.browser
           .actions({
             bridge: true,

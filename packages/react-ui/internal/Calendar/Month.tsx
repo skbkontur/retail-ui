@@ -4,6 +4,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { DateSelect } from '../DateSelect';
 import { Nullable } from '../../typings/utility-types';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { themeConfig } from './config';
 import * as CDS from './CalendarDateShape';
@@ -25,6 +26,8 @@ interface MonthProps {
   onMonthYearChange: (month: number, year: number) => void;
   isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
+
+type DefaultProps = Required<Pick<MonthDayGridProps, 'isHoliday'>>;
 
 export class Month extends React.Component<MonthProps> {
   private theme!: Theme;
@@ -138,15 +141,17 @@ interface MonthDayGridProps {
   today?: CDS.CalendarDateShape;
   value?: Nullable<CDS.CalendarDateShape>;
   onDateClick?: (x0: CDS.CalendarDateShape) => void;
-  isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
+  isHoliday?: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => boolean;
 }
 
 class MonthDayGrid extends React.Component<MonthDayGridProps> {
   private theme!: Theme;
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     isHoliday: (day: CDS.CalendarDateShape & { isWeekend: boolean }) => day.isWeekend,
   };
+
+  private getProps = createPropsGetter(MonthDayGrid.defaultProps);
 
   public shouldComponentUpdate(nextProps: MonthDayGridProps) {
     if (!CDS.isEqual(nextProps.value, this.props.value)) {
@@ -185,7 +190,7 @@ class MonthDayGrid extends React.Component<MonthDayGridProps> {
           }}
         />
         {this.props.days.map((day) => {
-          const isWeekend = this.props.isHoliday(day);
+          const isWeekend = this.getProps().isHoliday(day);
 
           return (
             <DayCellView

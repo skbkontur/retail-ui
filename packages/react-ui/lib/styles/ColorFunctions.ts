@@ -86,7 +86,7 @@ export function contrast(colorString: string, darkString?: string, lightString?:
       ColorFunctionsCache[key] = dark.alpha < 1 ? dark.toRGBString() : dark.toHEXString();
     }
   }
-  return ColorFunctionsCache[key]!;
+  return ColorFunctionsCache[key];
 }
 
 export const red = (colorString: string) => {

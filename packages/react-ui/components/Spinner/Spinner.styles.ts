@@ -10,9 +10,9 @@ export const styles = memoizeStyle({
 
       ${!isIE11 &&
       `
-          animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-            ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-            ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite,
+          animation: ${AnimationKeyframes.spinnerCircleOffset()} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+            ${AnimationKeyframes.spinnerCircleLength()} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
+            ${AnimationKeyframes.spinnerCircleRotate()} 2s linear infinite,
             ${AnimationKeyframes.spinnerColor(t)} 6s ease-in-out infinite;
         `}
     `;
@@ -22,13 +22,13 @@ export const styles = memoizeStyle({
       stroke: ${t.spinnerDimmedColor};
     `;
   },
-  circleWithoutColorAnimation(t: Theme) {
+  circleWithoutColorAnimation() {
     return css`
       ${!isIE11 &&
       `
-          animation: ${AnimationKeyframes.spinnerCircleOffset(t)} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
-          ${AnimationKeyframes.spinnerCircleLength(t)} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
-          ${AnimationKeyframes.spinnerCircleRotate(t)} 2s linear infinite;
+          animation: ${AnimationKeyframes.spinnerCircleOffset()} 1s cubic-bezier(0.5, 0.2, 0.5, 0.8) infinite,
+          ${AnimationKeyframes.spinnerCircleLength()} 2s cubic-bezier(0.36, 0.14, 0.38, 0.69) infinite,
+          ${AnimationKeyframes.spinnerCircleRotate()} 2s linear infinite;
         `}
     `;
   },

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import { SidePage } from '../../../components/SidePage';
 import { IgnoreLayerClick } from '../IgnoreLayerClick';
@@ -6,11 +6,10 @@ import { Button } from '../../../components/Button';
 import { Toggle } from '../../../components/Toggle';
 
 interface SampleState {
-  active: boolean;
   open: boolean;
+  active: boolean;
 }
-
-class Sample extends Component<{}, SampleState> {
+class Sample extends React.Component {
   public state: SampleState = {
     active: false,
     open: false,
@@ -33,7 +32,7 @@ class Sample extends Component<{}, SampleState> {
         <Toggle
           checked={this.state.active}
           onValueChange={() =>
-            this.setState((state) => {
+            this.setState((state: SampleState) => {
               return { active: !state.active };
             })
           }

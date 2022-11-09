@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 
 import { isNonNullable } from '../../lib/utils';
@@ -14,6 +16,7 @@ import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../CommonWra
 import { cx } from '../../lib/theming/Emotion';
 import { findRenderContainer } from '../../lib/listenFocusOutside';
 import { TSetRootNode, rootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
 import { styles } from './InputLikeText.styles';
 import { HiddenInput } from './HiddenInput';
@@ -30,11 +33,20 @@ export interface InputLikeTextProps extends CommonProps, InputProps {
 
 export type InputLikeTextState = Omit<InputState, 'needsPolyfillPlaceholder'>;
 
+export const InputLikeTextDataTids = {
+  root: 'InputLikeText__root',
+  input: 'InputLikeText__input',
+} as const;
+
+type DefaultProps = Required<Pick<InputLikeTextProps, 'size'>>;
+
 @rootNode
 export class InputLikeText extends React.Component<InputLikeTextProps, InputLikeTextState> {
   public static __KONTUR_REACT_UI__ = 'InputLikeText';
 
-  public static defaultProps = { size: 'small' };
+  public static defaultProps: DefaultProps = { size: 'small' };
+
+  private getProps = createPropsGetter(InputLikeText.defaultProps);
 
   public state = { blinking: false, focused: false };
 
@@ -182,6 +194,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
 
     return (
       <span
+        data-tid={InputLikeTextDataTids.root}
         {...rest}
         className={className}
         style={{ width, textAlign: align }}
@@ -196,7 +209,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
         {leftSide}
         <span className={wrapperClass}>
           <span
-            data-tid="InputLikeText__input"
+            data-tid={InputLikeTextDataTids.input}
             className={cx(jsInputStyles.input(this.theme), {
               [styles.absolute()]: !takeContentWidth,
               [jsInputStyles.inputFocus(this.theme)]: focused,
@@ -214,7 +227,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getIconClassname(right = false) {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return right ? jsInputStyles.rightIconLarge(this.theme) : jsInputStyles.leftIconLarge(this.theme);
       case 'medium':
@@ -344,7 +357,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
     }
   };
 
-  private handleMouseDown = (e: React.MouseEvent<HTMLElement>) => {
+  private handleMouseDown = () => {
     this.frozen = true;
   };
 
@@ -464,7 +477,7 @@ export class InputLikeText extends React.Component<InputLikeTextProps, InputLike
   };
 
   private getSizeClassName = () => {
-    switch (this.props.size) {
+    switch (this.getProps().size) {
       case 'large':
         return cx({
           [jsInputStyles.sizeLarge(this.theme)]: true,

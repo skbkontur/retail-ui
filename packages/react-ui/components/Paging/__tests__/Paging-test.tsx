@@ -9,6 +9,14 @@ import { PagingLocaleHelper } from '../locale';
 import { Paging } from '../Paging';
 
 describe('Paging', () => {
+  it('should keep focus on body when the component is disabled', () => {
+    render(<Paging disabled pagesCount={3} activePage={1} onPageChange={emptyHandler} />);
+
+    userEvent.tab();
+
+    expect(document.body).toHaveFocus();
+  });
+
   it('should render correct number of links', () => {
     render(<Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />);
 
@@ -259,7 +267,7 @@ describe('Paging Locale', () => {
         <>
           <button onClick={() => setLangCode(LangCodes.ru_RU)}>{buttonText}</button>
 
-          <LocaleContext.Provider value={{ langCode: langCode }}>
+          <LocaleContext.Provider value={{ langCode }}>
             <Paging pagesCount={5} activePage={1} onPageChange={emptyHandler} />
           </LocaleContext.Provider>
         </>

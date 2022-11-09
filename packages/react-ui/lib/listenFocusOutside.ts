@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce';
 import { isBrowser, isFirefox } from './client';
 
 interface FocusOutsideEventHandler {
-  elements: HTMLElement[] | (() => HTMLElement[]);
+  elements: Element[] | (() => Element[]);
   callback: (event: Event) => void;
 }
 
@@ -36,7 +36,7 @@ if (isBrowser) {
 
 function handleNativeFocus(event: UIEvent) {
   // FIXME: not safe casting
-  const target: HTMLElement = (event.target || event.srcElement) as HTMLElement;
+  const target: Element = (event.target || event.srcElement) as Element;
 
   handlers.forEach((handler) => {
     let elements = handler.elements;
@@ -85,7 +85,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
     const nextNode = document.querySelector(`[data-render-container-id~="${newContainerId}"]`);
 
     if (!nextNode) {
-      throw Error(`Origin node for container with id ${newContainerId} was not found`);
+      throw Error(`Origin node for render container was not found`);
     }
 
     return findRenderContainer(nextNode, rootNode, nextNode);
@@ -94,7 +94,7 @@ export function findRenderContainer(node: Element, rootNode: Element, container?
   return findRenderContainer(currentNode, rootNode, container);
 }
 
-export function listen(elements: HTMLElement[] | (() => HTMLElement[]), callback: (event: Event) => void) {
+export function listen(elements: Element[] | (() => Element[]), callback: (event: Event) => void) {
   const handler = {
     elements,
     callback,

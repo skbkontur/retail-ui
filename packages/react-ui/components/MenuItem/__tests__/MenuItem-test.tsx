@@ -1,5 +1,7 @@
 import { mount } from 'enzyme';
+import { render, screen } from '@testing-library/react';
 import React from 'react';
+import userEvent from '@testing-library/user-event';
 
 import { MenuItem } from '../MenuItem';
 
@@ -11,6 +13,34 @@ describe('MenuItem', () => {
       </MenuItem>,
     );
     expect(wrapper.text()).toBe('ab');
+  });
+
+  it('without href does not has a rel attribute', () => {
+    render(<MenuItem rel={'noopener'}>Test</MenuItem>);
+    expect(screen.queryByRole('button')).not.toHaveAttribute('rel');
+  });
+
+  it('with href has a rel attribute', () => {
+    render(
+      <MenuItem href={'#'} rel={'noopener'}>
+        Test
+      </MenuItem>,
+    );
+    expect(screen.queryByRole('link')).toHaveAttribute('rel');
+  });
+
+  it('with external link has rel attribute', () => {
+    render(<MenuItem href={'https://www.google.com/'}>Test</MenuItem>);
+    expect(screen.queryByRole('link')).toHaveAttribute('rel', 'noopener noreferrer');
+  });
+
+  it('with external link can rewrite default rel attribute', () => {
+    render(
+      <MenuItem href={'https://www.google.com/'} rel={'alternate'}>
+        Test
+      </MenuItem>,
+    );
+    expect(screen.queryByRole('link')).toHaveAttribute('rel', 'alternate');
   });
 
   it('calls children function', () => {
@@ -34,24 +64,23 @@ describe('MenuItem', () => {
       </MenuItem>,
     );
 
-    expect(wrapper.contains(<span>http:test.href</span>)).toEqual(true);
+    expect(wrapper.contains(<span>http:test.href</span>)).toBe(true);
   });
 
   describe('onMouseEnter', () => {
     it('calls once', () => {
       const onMouseEnter = jest.fn();
-      const wrapper = mount(
+      render(
         <MenuItem onMouseEnter={onMouseEnter}>
           <span>MenuItem</span>
         </MenuItem>,
       );
-      const button = wrapper.find('button');
 
-      button.simulate('mouseover');
-      wrapper.find('span').simulate('mouseover');
-      button.simulate('mouseover');
+      userEvent.hover(screen.getByRole('button'));
+      userEvent.hover(screen.getByText('MenuItem'));
+      userEvent.hover(screen.getByRole('button'));
 
-      expect(onMouseEnter.mock.calls.length).toBe(1);
+      expect(onMouseEnter).toHaveBeenCalledTimes(1);
     });
 
     it('calls again after onMouseLeave', () => {
@@ -60,7 +89,7 @@ describe('MenuItem', () => {
 
       wrapper.find('button').simulate('mouseover').simulate('mouseleave').simulate('mouseover');
 
-      expect(onMouseEnter.mock.calls.length).toBe(2);
+      expect(onMouseEnter.mock.calls).toHaveLength(2);
     });
   });
 });

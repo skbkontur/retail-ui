@@ -6,7 +6,7 @@ import { ValidationContainer, ValidationWrapper, createValidator } from '../../.
 import { Nullable } from '../../../../typings/Types';
 import { Form } from '../../../Common/Form';
 
-interface State {
+interface PrimitiveTypeDemoState {
   email: string;
 }
 
@@ -15,8 +15,8 @@ const validate = createValidator<string>((b) => {
   b.invalid((x) => !/^[a-z]+@[a-z]+\.[a-z]+$/.test(x), 'Неверный формат email');
 });
 
-export default class PrimitiveTypeDemo extends React.Component<{}, State> {
-  public state: State = {
+export default class PrimitiveTypeDemo extends React.Component {
+  public state: PrimitiveTypeDemoState = {
     email: '',
   };
 

@@ -7,5 +7,9 @@ import { PasswordInputState } from './PasswordInput';
 export type PasswordInputIconProps = Pick<PasswordInputState, 'visible'>;
 
 export const PasswordInputIcon = ({ visible }: PasswordInputIconProps) => {
-  return visible ? <EyeClosedIcon size={14} /> : <EyeOpenedIcon size={14} />;
+  if (visible) {
+    return <EyeClosedIcon size={14} />;
+  }
+
+  return <EyeOpenedIcon size={14} />;
 };

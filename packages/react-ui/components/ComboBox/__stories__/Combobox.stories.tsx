@@ -20,6 +20,7 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { ThemeFactory } from '../../../lib/theming/ThemeFactory';
 import { rootNode, TSetRootNode } from '../../../lib/rootNode';
 
+// eslint-disable-next-line jest/no-mocks-import
 const { getCities } = require('../__mocks__/getCities.js');
 
 export default { title: 'ComboBox' } as Meta;
@@ -38,6 +39,8 @@ SimpleComboboxStory.parameters = {
         in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'],
         tests: ['hovered', 'selected_2', 'select_1'],
       },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered'] },
     ],
     tests: {
       async plain() {
@@ -91,7 +94,7 @@ SimpleComboboxStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('selected');
       },
-      async ['search result']() {
+      async 'search result'() {
         await this.browser
           .actions({
             bridge: true,
@@ -129,7 +132,7 @@ SimpleComboboxStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('selcted');
       },
-      async ['opened again']() {
+      async 'opened again'() {
         await this.browser
           .actions({
             bridge: true,
@@ -157,7 +160,7 @@ SimpleComboboxStory.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('opened again');
       },
-      async ['search result_0']() {
+      async 'search result_0'() {
         await this.browser
           .actions({
             bridge: true,
@@ -282,7 +285,11 @@ OpenToTop.storyName = 'open to top';
 
 OpenToTop.parameters = {
   creevey: {
-    skip: [{ in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' }],
+    skip: [
+      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hovered' },
+      // TODO @Khlutkova fix after update browsers
+      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hovered'] },
+    ],
     tests: {
       async plain() {
         const element = await this.browser.findElement({ css: '[data-tid="container"]' });
@@ -368,9 +375,12 @@ AlwaysReject.parameters = {
   },
 };
 
+interface SampleState {
+  delay: number;
+}
 export const SimpleComboboxWithDelay = () => {
   class Sample extends React.Component {
-    public state = {
+    public state: SampleState = {
       delay: 1000,
     };
     public render() {
@@ -428,7 +438,7 @@ Disabled.storyName = 'disabled';
 Disabled.parameters = { creevey: { skip: [true] } };
 
 export const WithCustomElements = () => (
-  // @ts-ignore undocumented feature
+  // @ts-expect-error: Undocumented feature.
   <TestComboBox onSearch={searchWithCustomElements} renderItem={renderValue} onUnexpectedInput={errorStrategy} />
 );
 WithCustomElements.storyName = 'with custom elements';
@@ -511,7 +521,7 @@ ToogleError.parameters = {
       async plain() {
         await this.expect(await this.takeScreenshot()).to.matchImage('plain');
       },
-      async ['with error']() {
+      async 'with error'() {
         await this.browser
           .actions({
             bridge: true,
@@ -521,7 +531,7 @@ ToogleError.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('with error');
       },
-      async ['plain again']() {
+      async 'plain again'() {
         await this.browser
           .actions({
             bridge: true,
@@ -554,10 +564,10 @@ WithExternalValue.storyName = 'with external value';
 WithExternalValue.parameters = {
   creevey: {
     tests: {
-      async ['initial value']() {
+      async 'initial value'() {
         await this.expect(await this.takeScreenshot()).to.matchImage('initial value');
       },
-      async ['reset value']() {
+      async 'reset value'() {
         await this.browser
           .actions({
             bridge: true,
@@ -566,7 +576,7 @@ WithExternalValue.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('reset value');
       },
-      async ['set value']() {
+      async 'set value'() {
         await this.browser
           .actions({
             bridge: true,
@@ -626,7 +636,7 @@ FocusFlow.parameters = {
       async before() {
         await this.expect(await this.takeScreenshot()).to.matchImage('before');
       },
-      async ['after Enter on Item']() {
+      async 'after Enter on Item'() {
         await this.browser
           .actions({
             bridge: true,
@@ -635,7 +645,7 @@ FocusFlow.parameters = {
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('after Enter on Item');
       },
-      async ['after tab to the next field']() {
+      async 'after tab to the next field'() {
         await this.browser
           .actions({
             bridge: true,
@@ -686,10 +696,10 @@ WithAddButton.storyName = 'with add button';
 WithAddButton.parameters = { creevey: { skip: [true] } };
 
 interface ComboBoxWithErrorTogglerState {
-  error: boolean;
   value: { label: number };
+  error: boolean;
 }
-class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogglerState> {
+class ComboBoxWithErrorToggler extends React.Component {
   public state: ComboBoxWithErrorTogglerState = {
     error: false,
     value: { label: 0 },
@@ -701,7 +711,7 @@ class ComboBoxWithErrorToggler extends React.Component<{}, ComboBoxWithErrorTogg
         <ComboBox error={this.state.error} value={this.state.value} getItems={() => Promise.resolve([{ label: 0 }])} />
         <Toggle
           onValueChange={(value) =>
-            this.setState((state) => ({
+            this.setState((state: ComboBoxWithErrorTogglerState) => ({
               error: value,
               value: { label: state.value.label + 1 },
             }))
@@ -803,7 +813,10 @@ interface SimpleComboboxState {
   value: Nullable<{ value: number; label: string }>;
 }
 
-type ComboboxItem = { value: number; label: string };
+interface ComboboxItem {
+  value: number;
+  label: string;
+}
 
 @rootNode
 class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps<any>, SimpleComboboxState> {
@@ -811,7 +824,7 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ...ComboBox.defaultProps,
     getItems: () => Promise.resolve([]),
   };
-  public state: SimpleComboboxState = {
+  public state = {
     value: this.props.noInitialValue ? null : { value: 1, label: 'First' },
   };
   private setRootNode!: TSetRootNode;
@@ -842,14 +855,28 @@ class SimpleCombobox extends React.Component<SimpleComboboxProps & ComboBoxProps
     ).then<ComboboxItem[]>((result) => new Promise((ok) => setTimeout(ok, this.props.delay || 0, result)));
 }
 
-type City = { Id: number; City: string };
-type ComboboxSearchResult = { foundItems: City[]; totalCount: number };
-class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems'>, {}> {
+interface ComplexComboboxItem {
+  value: number;
+  label: string;
+}
+interface City {
+  Id: number;
+  City: string;
+}
+interface ComboboxSearchResult {
+  foundItems: City[];
+  totalCount: number;
+}
+type ComplexComboboxProps = Omit<ComboBoxProps<unknown>, 'getItems'>;
+interface ComplexComboboxState {
+  value: Nullable<ComplexComboboxItem>;
+}
+class ComplexCombobox extends React.Component<ComplexComboboxProps> {
   public static defaultProps = ComboBox.defaultProps;
-  public state = {
+  public state: ComplexComboboxState = {
     value: null,
   };
-  private popularItems = [
+  private popularItems: ComplexComboboxItem[] = [
     { value: 956, label: 'Махачкала' },
     { value: 4974, label: 'Верхняя-Пышма' },
     { value: 4980, label: 'Екатеринбург' },
@@ -867,7 +894,7 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
     );
   }
 
-  private handleChange = (value: any) => this.setState({ value });
+  private handleChange = (value: ComplexComboboxItem) => this.setState({ value });
 
   private getItems = (query: string) => {
     return getCities(query)
@@ -875,22 +902,31 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
         foundItems: foundItems.map(this.mapCity),
         totalCount,
       }))
-      .then(({ foundItems, totalCount }: { foundItems: any[]; totalCount: number }) => ({
+      .then(({ foundItems, totalCount }: { foundItems: ComplexComboboxItem[]; totalCount: number }) => ({
         popularItems: query.length === 0 ? this.popularItems : [],
         itemsToShow: foundItems,
         totalCount,
       }))
-      .then(({ popularItems, itemsToShow, totalCount }: { popularItems: any; itemsToShow: any; totalCount: number }) =>
-        [].concat(
+      .then(
+        ({
           popularItems,
-          popularItems.length ? ((<MenuSeparator />) as any) : [],
           itemsToShow,
-          this.renderTotalCount(itemsToShow.length, totalCount),
-        ),
+          totalCount,
+        }: {
+          popularItems: ComplexComboboxItem[];
+          itemsToShow: ComplexComboboxItem[];
+          totalCount: number;
+        }) =>
+          ([] as unknown[]).concat(
+            popularItems,
+            popularItems.length ? ((<MenuSeparator />) as any) : [],
+            itemsToShow,
+            this.renderTotalCount(itemsToShow.length, totalCount),
+          ),
       );
   };
 
-  private renderItem = (item: any) => {
+  private renderItem = (item: ComplexComboboxItem) => {
     return item ? (
       <Gapped>
         <div style={{ width: 40 }}>{item.value}</div>
@@ -904,14 +940,17 @@ class ComplexCombobox extends React.Component<Omit<ComboBoxProps<any>, 'getItems
     label: City,
   });
 
-  private renderTotalCount = (foundCount: number, totalCount: number): any =>
-    foundCount < totalCount ? (
-      <MenuHeader>
-        Показано {foundCount} из {totalCount} найденных городов.
-      </MenuHeader>
-    ) : (
-      []
-    );
+  private renderTotalCount = (foundCount: number, totalCount: number) => {
+    if (foundCount < totalCount) {
+      return (
+        <MenuHeader>
+          Показано {foundCount} из {totalCount} найденных городов.
+        </MenuHeader>
+      );
+    }
+
+    return [];
+  };
 }
 
 function errorStrategy(setState: (state: Partial<ComboBoxState>) => void): (x: any) => void {
@@ -956,7 +995,7 @@ const items: ValueType[] = [
 ];
 
 function search(query: string) {
-  return Promise.resolve(items.filter((x) => ~x.name.toLowerCase().indexOf(query.toLowerCase())));
+  return Promise.resolve(items.filter((x) => x.name.toLowerCase().indexOf(query.toLowerCase()) !== -1));
 }
 
 let searchCount = 0;
@@ -972,7 +1011,7 @@ function searchWithRejections(query: string): Promise<ValueType[]> {
       if (searchCount % 2) {
         throw new Error();
       }
-      return items.filter((x) => ~x.name.indexOf(query.toLowerCase()));
+      return items.filter((x) => x.name.indexOf(query.toLowerCase()) !== -1);
     });
 }
 
@@ -1017,8 +1056,16 @@ function renderValue({ id, name }: ValueType): React.ReactNode {
   );
 }
 
+interface ComboBoxWithExternalValueItem {
+  value: string;
+  label: string;
+}
+interface ComboBoxWithExternalValueState {
+  value: ComboBoxWithExternalValueItem;
+  warning: boolean;
+}
 class ComboBoxWithExternalValue extends React.Component {
-  public state = {
+  public state: ComboBoxWithExternalValueState = {
     value: { value: '1', label: 'First' },
     warning: false,
   };
@@ -1074,7 +1121,7 @@ class ComboBoxWithExternalValue extends React.Component {
 
   private onChange = (value: { value: string; label: string }) => this.setState({ value, warning: false });
 
-  private onUnexpectedInput = (query: string) => {
+  private onUnexpectedInput = () => {
     this.setState({
       warning: true,
     });
@@ -1117,7 +1164,7 @@ WithTooltip.storyName = 'with tooltip';
 WithTooltip.parameters = {
   creevey: {
     tests: {
-      async ['show and hide Tooltip']() {
+      async 'show and hide Tooltip'() {
         const body = await this.browser.findElement({ css: 'body' });
 
         await this.browser

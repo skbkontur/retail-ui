@@ -8,8 +8,9 @@ import { isProductionEnv, isTestEnv } from '../../lib/currentEnvironment';
 import { PopupPositionsType } from '../../internal/Popup';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { createPropsGetter } from '../../lib/createPropsGetter';
 
-export interface DropdownMenuProps extends CommonProps {
+export interface DropdownMenuProps extends CommonProps, Pick<PopupMenuProps, 'onOpen' | 'onClose'> {
   /** Максимальная высота меню */
   menuMaxHeight?: React.CSSProperties['maxWidth'];
   /** Ширина меню */
@@ -47,14 +48,13 @@ export interface DropdownMenuProps extends CommonProps {
    */
   positions?: PopupPositionsType[];
 
-  onOpen?: () => void;
-  onClose?: () => void;
-
   /**
    * Не показывать анимацию
    */
-  disableAnimations: boolean;
+  disableAnimations?: boolean;
 }
+
+type DefaultProps = Required<Pick<DropdownMenuProps, 'disableAnimations' | 'positions'>>;
 
 /**
  * Меню, раскрывающееся по клику на переданный в `caption` элемент
@@ -63,10 +63,12 @@ export interface DropdownMenuProps extends CommonProps {
 export class DropdownMenu extends React.Component<DropdownMenuProps> {
   public static __KONTUR_REACT_UI__ = 'DropdownMenu';
 
-  public static defaultProps = {
+  public static defaultProps: DefaultProps = {
     disableAnimations: isTestEnv,
     positions: ['bottom left', 'bottom right', 'top left', 'top right'],
   };
+
+  private getProps = createPropsGetter(DropdownMenu.defaultProps);
 
   private popupMenu: Nullable<PopupMenu> = null;
   private setRootNode!: TSetRootNode;
@@ -104,6 +106,7 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
     if (!this.props.caption) {
       return null;
     }
+    const { positions, disableAnimations } = this.getProps();
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
         <PopupMenu
@@ -111,13 +114,14 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
           caption={this.props.caption}
           menuMaxHeight={this.props.menuMaxHeight}
           menuWidth={this.props.menuWidth}
-          onChangeMenuState={this.handleChangeMenuState}
           popupHasPin={false}
-          positions={this.props.positions}
-          disableAnimations={this.props.disableAnimations}
+          positions={positions}
+          disableAnimations={disableAnimations}
           header={this.props.header}
           footer={this.props.footer}
           width={this.props.width}
+          onClose={this.props.onClose}
+          onOpen={this.props.onOpen}
         >
           {this.props.children}
         </PopupMenu>
@@ -138,16 +142,4 @@ export class DropdownMenu extends React.Component<DropdownMenuProps> {
   };
 
   private refPopupMenu = (ref: Nullable<PopupMenu>) => (this.popupMenu = ref);
-
-  private handleChangeMenuState = (menuVisible: boolean) => {
-    if (menuVisible && this.props.onOpen) {
-      this.props.onOpen();
-      return;
-    }
-
-    if (!menuVisible && this.props.onClose) {
-      this.props.onClose();
-      return;
-    }
-  };
 }

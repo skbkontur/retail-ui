@@ -26,6 +26,19 @@ class Paginator3000 extends React.Component {
 <Paginator3000 />;
 ```
 
+Пейджинг в отключенном состоянии
+
+```jsx
+const [activePage, setActivePage] = React.useState(3);
+
+<Paging
+  disabled
+  onPageChange={(activePage) => setActivePage(activePage)}
+  activePage={activePage}
+  pagesCount={8}
+/>
+```
+
 #### Локали по умолчанию
 
 ```typescript static

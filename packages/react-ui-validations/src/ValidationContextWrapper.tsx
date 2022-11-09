@@ -1,7 +1,11 @@
 import React from 'react';
 
-import { ValidationWrapperInternal } from './ValidationWrapperInternal';
+import { Nullable } from '../typings/Types';
+
+import { Validation, ValidationWrapperInternal } from './ValidationWrapperInternal';
 import { ScrollOffset } from './ValidationContainer';
+import { isNullable } from './utils/isNullable';
+import { isEqual } from './ValidationHelper';
 
 export interface ValidationContextSettings {
   scrollOffset: ScrollOffset;
@@ -40,6 +44,7 @@ ValidationContext.displayName = 'ValidationContext';
 
 export class ValidationContextWrapper extends React.Component<ValidationContextWrapperProps> {
   public childWrappers: ValidationWrapperInternal[] = [];
+  private previousValidation: Array<Nullable<Validation>> = [];
 
   public getSettings(): ValidationContextSettings {
     let scrollOffset: ScrollOffset = {};
@@ -47,7 +52,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     if (typeof this.props.scrollOffset === 'number') {
       scrollOffset = { top: this.props.scrollOffset };
     } else {
-      scrollOffset = this.props.scrollOffset == null ? {} : this.props.scrollOffset;
+      scrollOffset = isNullable(this.props.scrollOffset) ? {} : this.props.scrollOffset;
     }
 
     const { top = 50, bottom = 0 } = scrollOffset;
@@ -108,13 +113,14 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     wrappersWithPosition.sort((x, y) => {
       const xPosition = x.position;
       const yPosition = y.position;
-      if (xPosition == null && yPosition == null) {
+      if (isNullable(xPosition) && isNullable(yPosition)) {
         return 0;
       }
-      if (xPosition == null) {
+
+      if (isNullable(xPosition)) {
         return 1;
       }
-      if (yPosition == null) {
+      if (isNullable(yPosition)) {
         return -1;
       }
       if (Math.sign(xPosition.x - yPosition.x) !== 0) {
@@ -126,8 +132,19 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
   }
 
   public async validate(withoutFocus: boolean): Promise<boolean> {
+    const currentValidation = this.childWrappers.map((x) => x.props.validation);
+    const validationHasNotChanged = this.validationsArraysEqual(this.previousValidation, currentValidation);
+
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
-    const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => x.hasError() || x.hasWarning());
+
+    const firstInvalid = this.getChildWrappersSortedByPosition().find((x) => {
+      const hasWarning = x.hasWarning();
+      const hasError = x.hasError();
+      if (validationHasNotChanged && hasWarning && !hasError) {
+        return false;
+      }
+      return hasError || hasWarning;
+    });
     if (firstInvalid) {
       if (!withoutFocus) {
         firstInvalid.focus();
@@ -138,6 +155,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
       this.props.onValidationUpdated(!firstInvalid);
     }
 
+    this.previousValidation = currentValidation;
     return !firstInvalid;
   }
 
@@ -148,4 +166,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
       </ValidationContext.Provider>
     );
   }
+
+  private validationsArraysEqual = (a1: Array<Nullable<Validation>>, a2: Array<Nullable<Validation>>): boolean =>
+    a1.length === a2.length && a1.every((o, idx) => isEqual(o, a2[idx]));
 }

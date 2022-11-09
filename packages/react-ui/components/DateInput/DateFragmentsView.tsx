@@ -16,7 +16,7 @@ interface DateFragmentViewProps {
   onSelectDateComponent: (type: InternalDateComponentType, e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
-export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}> {
+export class DateFragmentsView extends React.Component<DateFragmentViewProps> {
   private theme!: Theme;
   private rootNode: HTMLSpanElement | null = null;
 
@@ -71,9 +71,18 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     const { inputMode, onSelectDateComponent, selected } = this.props;
     const { type, value, length, valueWithPad } = fragment;
 
-    const valueMask = value === null || (selected === type && inputMode) ? value : valueWithPad || value;
+    const getValueMask = () => {
+      if (value === null || (selected === type && inputMode)) {
+        return value;
+      }
+
+      return valueWithPad || value;
+    };
+
+    const valueMask = getValueMask();
+
     const lengthMask = InternalDateValidator.testParseToNumber(valueMask)
-      ? Math.max(length - valueMask!.toString().length, 0)
+      ? Math.max(length - valueMask.toString().length, 0)
       : length;
 
     const handleMouseUp = (e: React.MouseEvent<HTMLSpanElement>) => {
@@ -85,7 +94,7 @@ export class DateFragmentsView extends React.Component<DateFragmentViewProps, {}
     return (
       <span key={index} data-fragment="" onMouseUp={handleMouseUp}>
         {valueMask}
-        <span className={styles.mask(this.theme)}>
+        <span data-tid="DateFragmentsView__placeholder" className={styles.mask(this.theme)}>
           {Array(lengthMask)
             .fill('')
             .map((_, i) => (

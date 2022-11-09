@@ -27,13 +27,13 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
 };
 
 export const getScrollYOffset = (element: HTMLElement, container: HTMLElement) => {
-  const elementOffset = element.offsetTop;
+  const elementTopOffset = element.offsetTop;
 
-  if (container.scrollTop > elementOffset) {
-    return elementOffset;
+  if (container.scrollTop > elementTopOffset) {
+    return elementTopOffset;
   }
 
-  const offset = elementOffset + element.scrollHeight - container.offsetHeight;
+  const offset = elementTopOffset + element.scrollHeight - container.offsetHeight;
   if (container.scrollTop < offset) {
     return offset;
   }

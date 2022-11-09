@@ -15,7 +15,6 @@ export function filterProps<
   const ret = {} as any;
   for (const key in props) {
     if (allowed[key]) {
-      // @ts-ignore
       ret[key] = props[key];
     }
   }

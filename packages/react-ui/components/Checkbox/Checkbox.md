@@ -102,3 +102,51 @@ let checkboxInstance = React.useRef(null);
   </Gapped>
 </Gapped>
 ```
+
+Пример использования неопределённого состояния чекбокса
+
+```jsx harmony
+const [checkedSiblings, setCheckedSiblings] = React.useState([]);
+const siblingCheckboxes = [1, 2];
+
+let parentCheckboxRef;
+
+React.useEffect(() => {
+  if (checkedSiblings.length === 0 || checkedSiblings.length === siblingCheckboxes.length) {
+    parentCheckboxRef.resetIndeterminate();
+  } else if (checkedSiblings.length !== 0) {
+    parentCheckboxRef.setIndeterminate();
+  }
+}, [JSON.stringify(checkedSiblings)]);
+
+<>
+  <Checkbox checked={checkedSiblings.length === siblingCheckboxes.length} ref={(el) => (parentCheckboxRef = el)}>
+    Родитель
+  </Checkbox>
+  <div style={{ display: 'flex', flexDirection: 'column', marginLeft: '20px' }}>
+    {siblingCheckboxes.map((id) => {
+      return (
+        <Checkbox
+          key={id}
+          checked={checkedSiblings.includes(id)}
+          onValueChange={() => {
+            const siblingIndex = checkedSiblings.indexOf(id);
+
+            if (siblingIndex === -1) {
+              setCheckedSiblings((prev) => [...prev, id]);
+            } else {
+              setCheckedSiblings((prev) =>
+                prev.filter((siblingId) => {
+                  return siblingId !== id;
+                }),
+              );
+            }
+          }}
+        >
+          Ребёнок ({id})
+        </Checkbox>
+      );
+    })}
+  </div>
+</>
+```

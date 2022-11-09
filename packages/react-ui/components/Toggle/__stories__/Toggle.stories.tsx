@@ -1,16 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { action } from '@storybook/addon-actions';
 
 import { Story } from '../../../typings/stories';
 import { Toggle } from '../Toggle';
 import { Gapped } from '../../Gapped';
 import { Button } from '../../Button';
-import { Checkbox } from '../../Checkbox';
+import { Checkbox, CheckboxProps } from '../../Checkbox';
 import { Tooltip } from '../../Tooltip';
 import { delay } from '../../../lib/utils';
 
-class Playground extends Component<any, any> {
-  public state = {
+interface PlaygroundState {
+  loadingActive: CheckboxProps['checked'];
+  checked: boolean;
+  loading: boolean;
+}
+class Playground extends React.Component {
+  public state: PlaygroundState = {
     checked: false,
     loadingActive: false,
     loading: false,
@@ -130,7 +135,7 @@ class Playground extends Component<any, any> {
   }
 }
 
-class Simple extends React.Component<any, any> {
+class Simple extends React.Component {
   public state = {
     checked: true,
   };
@@ -151,7 +156,7 @@ class Simple extends React.Component<any, any> {
   }
 }
 
-class SimpleChildren extends React.Component<any, any> {
+class SimpleChildren extends React.Component {
   public state = {
     checked: true,
   };
@@ -173,7 +178,7 @@ class SimpleChildren extends React.Component<any, any> {
   }
 }
 
-class SimpleChildrenLines extends React.Component<any, any> {
+class SimpleChildrenLines extends React.Component {
   public state = {
     checked: true,
   };
@@ -218,6 +223,8 @@ Plain.parameters = {
           })
           .press()
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
         await this.browser
           .actions({
@@ -233,6 +240,8 @@ Plain.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },
@@ -272,7 +281,8 @@ DisabledWithTooltip.parameters = {
           })
           .press()
           .perform();
-        await delay(100);
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('pressed');
 
         await this.browser
@@ -315,6 +325,8 @@ WithLongDescription.parameters = {
           })
           .click(this.browser.findElement({ css: 'label' }))
           .perform();
+        await delay(1000);
+
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
     },

@@ -63,6 +63,7 @@ export const styles = memoizeStyle({
       background: ${t.tokenInputDisabledBg};
       border-color: ${t.tokenInputDisabledBorderColor};
       box-shadow: none;
+      cursor: default;
     `;
   },
 

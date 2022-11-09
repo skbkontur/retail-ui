@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// @ts-ignore
 import Styled from 'react-styleguidist/lib/client/rsg-components/Styled';
 import { Spinner } from '../../../components/Spinner';
 import { Link } from '../../../components/Link';

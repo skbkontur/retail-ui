@@ -1,3 +1,5 @@
+// TODO: Enable this rule in functional components.
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import PropTypes from 'prop-types';
 
@@ -61,7 +63,13 @@ export interface CheckboxProps
 export interface CheckboxState {
   focusedByTab: boolean;
   indeterminate: boolean;
+  isShiftPressed: boolean;
 }
+
+export const CheckboxDataTids = {
+  root: 'Checkbox__root',
+} as const;
+
 @rootNode
 export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> {
   public static __KONTUR_REACT_UI__ = 'Checkbox';
@@ -81,16 +89,42 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
   public state = {
     focusedByTab: false,
     indeterminate: this.props.initialIndeterminate || false,
+    isShiftPressed: false,
   };
 
   private theme!: Theme;
   private input = React.createRef<HTMLInputElement>();
 
+  private handleShiftPress = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') {
+      this.setState(() => ({
+        isShiftPressed: true,
+      }));
+    }
+  };
+
+  private handleShiftRelease = (e: KeyboardEvent) => {
+    if (e.key === 'Shift') {
+      this.setState({
+        isShiftPressed: false,
+      });
+    }
+  };
+
   public componentDidMount = () => {
     if (this.state.indeterminate && this.input.current) {
       this.input.current.indeterminate = true;
     }
+
+    document.addEventListener('keydown', this.handleShiftPress);
+    document.addEventListener('keyup', this.handleShiftRelease);
   };
+
+  public componentWillUnmount = () => {
+    document.removeEventListener('keydown', this.handleShiftPress);
+    document.removeEventListener('keyup', this.handleShiftRelease);
+  };
+
   private setRootNode!: TSetRootNode;
 
   public componentDidUpdate(prevProps: CheckboxProps) {
@@ -175,6 +209,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
       [styles.rootChecked(this.theme)]: props.checked || isIndeterminate,
+      [styles.rootDisableTextSelect()]: this.state.isShiftPressed,
       [styles.disabled(this.theme)]: Boolean(props.disabled),
     });
 
@@ -200,7 +235,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     }
 
     const iconClass = cx({
-      [styles.icon(this.theme)]: true,
+      [styles.icon()]: true,
       [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
     });
 
@@ -222,6 +257,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     return (
       <label
+        data-tid={CheckboxDataTids.root}
         className={rootClass}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}

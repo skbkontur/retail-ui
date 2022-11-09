@@ -34,9 +34,9 @@ export function fetch(uri: string, options: { method?: 'GET' | 'POST'; body?: st
 }
 
 function createXHR() {
-  // @ts-ignore
+  // @ts-expect-error: XDomainRequest is IE-specific API, therefore it was removed from `lib.d.ts`. See: https://github.com/Microsoft/TypeScript/issues/2927.
   if (global.XDomainRequest) {
-    // @ts-ignore
+    // @ts-expect-error: Read the comment above.
     return new XDomainRequest();
   }
   return new XMLHttpRequest();

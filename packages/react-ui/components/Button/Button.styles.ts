@@ -58,7 +58,7 @@ export const styles = memoizeStyle({
         width: 0;
       }
 
-      &:active .${globalClasses.caption} {
+      &:active:enabled .${globalClasses.caption} {
         transform: translateY(1px);
       }
     `;
@@ -198,11 +198,11 @@ export const styles = memoizeStyle({
       padding: 0 !important; // override size mixin
       height: auto !important; // override size mixin
 
-      &:hover {
+      &:hover:enabled {
         color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
-      &:active {
+      &:active:enabled {
         ${activeStyles.link(t)}
       }
     `;
@@ -221,8 +221,8 @@ export const styles = memoizeStyle({
       pointer-events: none;
 
       &,
-      &:hover,
-      &:active {
+      &:hover:enabled,
+      &:active:enabled {
         color: ${t.btnLinkDisabledColor};
       }
     `;
@@ -234,9 +234,9 @@ export const styles = memoizeStyle({
       z-index: 2;
 
       &,
-      &:hover,
-      &:active,
-      &:active:hover {
+      &:hover:enabled,
+      &:active:enabled,
+      &:active:hover:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
       }
@@ -375,7 +375,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.default(t)}
       }
     `;
@@ -402,7 +402,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.primary(t)}
       }
     `;
@@ -429,7 +429,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.success(t)}
       }
     `;
@@ -456,7 +456,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.danger(t)}
       }
     `;
@@ -483,7 +483,7 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      &:active {
+      &:active:enabled {
         ${activeStyles.pay(t)}
       }
     `;
@@ -512,9 +512,9 @@ export const styles = memoizeStyle({
     return css`
       ${checkedStyles}
 
-      &:hover,
-      &:active,
-      &:hover:active {
+      &:hover:enabled,
+      &:active:enabled,
+      &:hover:active:enabled {
         ${checkedStyles}
       }
     `;
@@ -522,7 +522,7 @@ export const styles = memoizeStyle({
 
   checkedFocused(t: Theme) {
     return css`
-      &:hover {
+      &:hover:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
           0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
         border-color: ${t.btnBorderColorFocus};
@@ -626,15 +626,15 @@ export const styles = memoizeStyle({
     `;
   },
 
-  iconNoRightPadding() {
+  iconNoRightMargin() {
     return css`
-      padding-right: 0;
+      margin-right: 0;
     `;
   },
 
   iconLink(t: Theme) {
     return css`
-      padding-right: ${t.btnLinkIconMarginRight};
+      margin-right: ${t.btnLinkIconMarginRight};
     `;
   },
 
@@ -665,27 +665,27 @@ export const styles = memoizeStyle({
   iconSmall(t: Theme) {
     return css`
       width: ${t.btnIconSizeSmall};
-      padding-right: ${t.btnIconGapSmall};
+      margin-right: ${t.btnIconGapSmall};
     `;
   },
   iconMedium(t: Theme) {
     return css`
       width: ${t.btnIconSizeMedium};
-      padding-right: ${t.btnIconGapMedium};
+      margin-right: ${t.btnIconGapMedium};
     `;
   },
   iconLarge(t: Theme) {
     return css`
       width: ${t.btnIconSizeLarge};
-      padding-right: ${t.btnIconGapLarge};
+      margin-right: ${t.btnIconGapLarge};
     `;
   },
 
   borderless() {
     return css`
       &,
-      &:hover,
-      &:active {
+      &:hover:enabled,
+      &:active:enabled {
         box-shadow: none;
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
           box-shadow: none;
@@ -720,7 +720,7 @@ export const activeStyles = memoizeStyle({
   default(t: Theme) {
     return css`
       &,
-      &:hover {
+      &:hover:enabled {
         ${buttonActiveMixin(
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
@@ -736,7 +736,7 @@ export const activeStyles = memoizeStyle({
   primary(t: Theme) {
     return css`
       &,
-      &:hover {
+      &:hover:enabled {
         ${buttonActiveMixin(
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
@@ -752,7 +752,7 @@ export const activeStyles = memoizeStyle({
   success(t: Theme) {
     return css`
       &,
-      &:hover {
+      &:hover:enabled {
         ${buttonActiveMixin(
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
@@ -768,7 +768,7 @@ export const activeStyles = memoizeStyle({
   danger(t: Theme) {
     return css`
       &,
-      &:hover {
+      &:hover:enabled {
         ${buttonActiveMixin(
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
@@ -784,7 +784,7 @@ export const activeStyles = memoizeStyle({
   pay(t: Theme) {
     return css`
       &,
-      &:hover {
+      &:hover:enabled {
         ${buttonActiveMixin(
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
@@ -800,7 +800,7 @@ export const activeStyles = memoizeStyle({
   link(t: Theme) {
     return css`
       &,
-      &:hover {
+      &:hover:enabled {
         color: ${t.btnLinkActiveColor};
       }
     `;

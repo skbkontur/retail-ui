@@ -11,7 +11,7 @@ class Renderer {
       return { type, attrs: {}, content: [attrs, ...content] };
     }
     if (typeof attrs === 'object') {
-      return { type: type, attrs: attrs, content: content };
+      return { type, attrs, content };
     }
     return { type, attrs: {}, content: [attrs, ...content] };
   }

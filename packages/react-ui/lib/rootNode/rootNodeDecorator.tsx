@@ -8,18 +8,26 @@ import { getRootNode } from './getRootNode';
 
 export type TSetRootNode = (e: Nullable<React.ReactNode>) => void;
 
-export type TRootNodeSubscription = {
+export interface TRootNodeSubscription {
   remove: () => void;
-};
-
-export interface InstanceWithRootNode {
-  getRootNode: () => Nullable<HTMLElement>;
-  addRootNodeChangeListener?: (callback: (node: Nullable<HTMLElement>) => void) => TRootNodeSubscription;
 }
 
-export function rootNode<T extends new (...args: any[]) => React.Component>(Component: T) {
+export interface InstanceWithRootNode {
+  getRootNode: () => Nullable<Element>;
+  addRootNodeChangeListener?: (callback: (node: Nullable<Element>) => void) => TRootNodeSubscription;
+}
+
+interface ComponentWithDefaultRootNode {
+  defaultRootNode?: Element | null;
+}
+
+interface DecoratableClassComponent extends ComponentWithDefaultRootNode {
+  new (...args: any[]): React.Component;
+}
+
+export function rootNode<T extends DecoratableClassComponent>(Component: T) {
   const rootNode = class extends Component implements InstanceWithRootNode {
-    public rootNode: Nullable<HTMLElement> = null;
+    public rootNode: Nullable<Element> = Component.defaultRootNode;
     public rootNodeEmitter = new EventEmitter();
     public constructor(...args: any[]) {
       super(args[0]);
@@ -33,11 +41,11 @@ export function rootNode<T extends new (...args: any[]) => React.Component>(Comp
       }
     };
 
-    public getRootNode = (): Nullable<HTMLElement> => {
+    public getRootNode = (): Nullable<Element> => {
       return this.rootNode;
     };
 
-    public addRootNodeChangeListener = (callback: (node: Nullable<HTMLElement>) => void): TRootNodeSubscription => {
+    public addRootNodeChangeListener = (callback: (node: Nullable<Element>) => void): TRootNodeSubscription => {
       this.rootNodeEmitter.addListener('change', callback);
       return {
         remove: () => {
