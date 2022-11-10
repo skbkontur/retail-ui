@@ -17,7 +17,7 @@ import { styles } from './RadioGroup.styles';
 import { Prevent } from './Prevent';
 import { RadioGroupContext, RadioGroupContextType } from './RadioGroupContext';
 
-export interface RadioGroupProps<T = string | number> extends CommonProps {
+export interface RadioGroupProps<T = string | number | boolean> extends CommonProps {
   /**
    * Значение по умолчанию. Должно быть одним из значений дочерних радиокнопок
    * или значений из параметра `items`
