@@ -1,11 +1,11 @@
 import React from 'react';
 
-import {Story} from '../../../typings/stories';
-import {Switcher, SwitcherProps} from '../Switcher';
-import {Gapped} from '../../Gapped';
-import {Hint} from '../../Hint';
-import {Tooltip} from '../../Tooltip';
-import {ButtonProps} from '../../Button';
+import { Story } from '../../../typings/stories';
+import { Switcher, SwitcherProps } from '../Switcher';
+import { Gapped } from '../../Gapped';
+import { Hint } from '../../Hint';
+import { Tooltip } from '../../Tooltip';
+import { ButtonProps } from '../../Button';
 
 interface ComponentState {
   value: string;
@@ -20,27 +20,27 @@ class Component extends React.Component<SwitcherProps, ComponentState> {
   }
 
   public render() {
-    const {value, ...rest} = this.props;
+    const { value, ...rest } = this.props;
     return (
       <Switcher value={this.state.value} onValueChange={this.handleChange} caption={'Label for Switcher'} {...rest} />
     );
   }
 
   private handleChange = (value: string) => {
-    this.setState({value});
+    this.setState({ value });
   };
 }
 
-export default {title: 'Switcher'};
+export default { title: 'Switcher' };
 
 export const Horizontal: Story = () => {
-  return <Component items={['One', 'Two', 'Three']}/>;
+  return <Component items={['One', 'Two', 'Three']} />;
 };
 Horizontal.storyName = 'horizontal';
 
 Horizontal.parameters = {
   creevey: {
-    skip: [{in: ['chromeFlat8px'], tests: 'clicked'}],
+    skip: [{ in: ['chromeFlat8px'], tests: 'clicked' }],
     tests: {
       async idle() {
         await this.expect(await this.takeScreenshot()).to.matchImage('idle');
@@ -50,7 +50,7 @@ Horizontal.parameters = {
           .actions({
             bridge: true,
           })
-          .click(this.browser.findElement({css: '[data-comp-name~="Button"]'}))
+          .click(this.browser.findElement({ css: '[data-comp-name~="Button"]' }))
           .perform();
         await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
       },
@@ -59,24 +59,24 @@ Horizontal.parameters = {
 };
 
 export const Errored = () => {
-  return <Component error items={['One', 'Two', 'Three']}/>;
+  return <Component error items={['One', 'Two', 'Three']} />;
 };
 Errored.storyName = 'errored';
-Errored.parameters = {creevey: {skip: [{in: ['chromeFlat8px']}]}};
+Errored.parameters = { creevey: { skip: [{ in: ['chromeFlat8px'] }] } };
 
 export const Disabled = () => {
   return (
     <Gapped vertical>
-      <Switcher disabled value={'One'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']}/>
-      <Switcher disabled value={'Two'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']}/>
-      <Switcher disabled value={'Three'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']}/>
+      <Switcher disabled value={'One'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'Two'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
+      <Switcher disabled value={'Three'} caption={'Label for Switcher'} items={['One', 'Two', 'Three']} />
     </Gapped>
   );
 };
 
 Disabled.storyName = 'disabled';
 Disabled.parameters = {
-  creevey: {skip: [{in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark']}]},
+  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
 };
 
 const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonProps> }> = [
@@ -116,16 +116,16 @@ const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonPr
 export const WithDisabledItems = () => {
   return (
     <Gapped vertical>
-      <Component items={items}/>
-      <Component items={items} value={'one'}/>
-      <Component items={items} value={'two'}/>
+      <Component items={items} />
+      <Component items={items} value={'one'} />
+      <Component items={items} value={'two'} />
     </Gapped>
   );
 };
 
 WithDisabledItems.storyName = 'with disabled items';
 WithDisabledItems.parameters = {
-  creevey: {skip: [{in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark']}]},
+  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
 };
 
 const renderItem = (label: string, value: string, buttonProps: ButtonProps, renderDefault: () => React.ReactNode) => {
@@ -148,8 +148,8 @@ const renderItem = (label: string, value: string, buttonProps: ButtonProps, rend
 
 export const WithCustomRenderItems: Story = () => {
   return (
-    <div style={{padding: '65px 20px'}}>
-      <Component items={items} renderItem={renderItem}/>
+    <div style={{ padding: '65px 20px' }}>
+      <Component items={items} renderItem={renderItem} />
     </div>
   );
 };
@@ -172,6 +172,6 @@ WithCustomRenderItems.parameters = {
           'ie11Dark',
         ],
       },
-    ]
+    ],
   },
 };
