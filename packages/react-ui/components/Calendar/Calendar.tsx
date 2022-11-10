@@ -12,8 +12,10 @@ import { DatePickerDataTids } from '../DatePicker';
 
 import { styles } from './Calendar.styles';
 import { DatePickerLocale, DatePickerLocaleHelper } from './../DatePicker/locale';
+import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 
-export interface CalendarProps {
+export interface CalendarProps extends CommonProps {
   /**
    * Задаёт текущую дату
    *
@@ -63,11 +65,13 @@ const getTodayCalendarDate = () => {
 };
 
 @locale('DatePicker', DatePickerLocaleHelper)
+@rootNode
 export class Calendar extends React.Component<CalendarProps, State> {
   public static __KONTUR_REACT_UI__ = 'Calendar';
 
   private theme!: Theme;
   private calendar: CalendarInternal | null = null;
+  private setRootNode!: TSetRootNode;
   private readonly locale!: DatePickerLocale;
 
   constructor(props: CalendarProps) {
@@ -91,7 +95,11 @@ export class Calendar extends React.Component<CalendarProps, State> {
       <ThemeContext.Consumer>
         {(theme) => {
           this.theme = theme;
-          return this.renderMain();
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
+              {this.renderMain()}
+            </CommonWrapper>
+          );
         }}
       </ThemeContext.Consumer>
     );
