@@ -88,6 +88,8 @@ type DatePickerValue = string;
 
 export const DatePickerDataTids = {
   root: 'DatePicker__root',
+  input: 'DatePicker__input',
+  label: 'DatePicker__label',
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
@@ -288,6 +290,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
         onMouseEnter={this.props.onMouseEnter}
         onMouseLeave={this.props.onMouseLeave}
         onMouseOver={this.props.onMouseOver}
+        data-tid={DatePickerDataTids.label}
       >
         <DateInput
           {...filterProps(props, INPUT_PASS_PROPS)}
@@ -300,6 +303,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
           onBlur={this.handleBlur}
           onFocus={this.handleFocus}
           onValueChange={this.props.onValueChange}
+          data-tid={DatePickerDataTids.input}
         />
         {this.state.canUseMobileNativeDatePicker && (
           <NativeDateInput

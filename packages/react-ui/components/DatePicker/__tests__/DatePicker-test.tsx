@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { MASK_CHAR_EXEMPLAR } from '../../../internal/MaskCharLowLine';
@@ -8,7 +8,7 @@ import { InternalDate } from '../../../lib/date/InternalDate';
 import { InternalDateGetter } from '../../../lib/date/InternalDateGetter';
 import { InternalDateConstructorProps, InternalDateSeparator } from '../../../lib/date/types';
 import { defaultLangCode } from '../../../lib/locale/constants';
-import { DatePicker, DatePickerProps } from '../DatePicker';
+import { DatePicker, DatePickerDataTids, DatePickerProps } from '../DatePicker';
 import { DatePickerLocaleHelper } from '../locale';
 import { LangCodes, LocaleControls, LocaleContext } from '../../../lib/locale';
 
@@ -52,12 +52,12 @@ describe('DatePicker', () => {
   });
   it('renders', () => {
     renderDatePicker();
-    expect(screen.getByTestId('DatePicker')).toBeInTheDocument();
+    expect(screen.getByTestId(DatePickerDataTids.label)).toBeInTheDocument();
   });
 
   it('renders date select when open', () => {
     renderDatePicker();
-    screen.getByTestId('DatePicker__input').focus();
+    fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId('Calendar')).toBeInTheDocument();
   });
 
@@ -65,13 +65,13 @@ describe('DatePicker', () => {
     renderDatePicker({
       disabled: true,
     });
-    screen.getByTestId('DatePicker__input').focus();
+    fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.queryByTestId('Calendar')).not.toBeInTheDocument();
   });
 
   it('closes when become disabled', () => {
     const { rerender } = renderDatePicker();
-    screen.getByTestId('DatePicker__input').focus();
+    fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
     expect(screen.getByTestId('Calendar')).toBeInTheDocument();
 
     rerender(<DatePicker {...defaultProps} disabled />);
@@ -98,7 +98,7 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      screen.getByTestId('DatePicker__input').focus();
+      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
 
       expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
     });
@@ -108,7 +108,7 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(defaultLangCode).today;
       const today = getToday({ langCode: defaultLangCode });
 
-      screen.getByTestId('DatePicker__input').focus();
+      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
 
       expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
     });
@@ -118,7 +118,7 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB });
 
-      screen.getByTestId('DatePicker__input').focus();
+      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
 
       expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
     });
@@ -132,7 +132,7 @@ describe('DatePicker', () => {
       const expectedText = DatePickerLocaleHelper.get(LangCodes.en_GB).today;
       const today = getToday({ langCode: LangCodes.en_GB, separator: InternalDateSeparator.Dash });
 
-      screen.getByTestId('DatePicker__input').focus();
+      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
 
       expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
     });
@@ -149,8 +149,8 @@ describe('DatePicker', () => {
           <DatePicker {...defaultProps} enableTodayLink />
         </LocaleContext.Provider>,
       );
-      screen.getByTestId('DatePicker__input').focus();
-      screen.getByTestId('DatePicker__input').focus();
+      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
+      fireEvent.focus(screen.getByTestId(DatePickerDataTids.input));
 
       expect(getTextLoading()).toHaveTextContent(`${expectedText} ${today}`);
     });
