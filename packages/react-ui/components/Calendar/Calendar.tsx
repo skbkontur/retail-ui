@@ -64,6 +64,9 @@ const getTodayCalendarDate = () => {
   };
 };
 
+/**
+ * Компонент календаря из [DatePicker](https://tech.skbkontur.ru/react-ui/#/Components/DatePicker)'а
+ */
 @locale('DatePicker', DatePickerLocaleHelper)
 @rootNode
 export class Calendar extends React.Component<CalendarProps, State> {
