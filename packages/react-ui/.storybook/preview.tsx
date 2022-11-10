@@ -94,7 +94,7 @@ export const parameters: Meta['parameters'] = {
       },
       {
         kinds: /\bButton\b/,
-        stories: /^(?!playground|text\sstyles\sreset)/,
+        stories: /^(?!text\sstyles\sreset)/,
       },
       { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },
       { stories: /Mobile.*/i, in: /^((?!Mobile).)*$/i },
