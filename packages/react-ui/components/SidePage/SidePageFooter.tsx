@@ -37,8 +37,6 @@ export const SidePageFooterDataTids = {
   root: 'SidePageFooter__root',
 } as const;
 
-type DefaultProps = Required<Pick<GappedProps, 'gap'>>;
-
 /**
  * Футер сайдпейджа.
  *
@@ -55,10 +53,6 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
 
   public state: SidePageFooterState = {
     fixed: false,
-  };
-
-  public static defaultProps: DefaultProps = {
-    gap: 0,
   };
 
   private theme!: Theme;

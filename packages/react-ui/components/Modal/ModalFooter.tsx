@@ -48,7 +48,7 @@ function ModalFooter(props: ModalFooterProps) {
   const modal = useContext(ModalContext);
   const layout = useResponsiveLayout();
 
-  const { sticky = !layout.isMobile, gap = 0, panel, children } = props;
+  const { sticky = !layout.isMobile, gap, panel, children } = props;
 
   useLayoutEffect(() => {
     modal.setHasFooter?.();
