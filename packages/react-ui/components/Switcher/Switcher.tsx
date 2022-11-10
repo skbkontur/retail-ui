@@ -226,10 +226,10 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         ...commonButtonProps,
         ...customButtonProps,
       };
-      return (
-        renderItem?.(label, itemValue, buttonProps, () => this.renderDefaultItem(label, itemValue, buttonProps)) ??
-        this.renderDefaultItem(label, itemValue, buttonProps)
-      );
+
+      return renderItem
+        ? renderItem(label, itemValue, buttonProps, () => this.renderDefaultItem(label, itemValue, buttonProps))
+        : this.renderDefaultItem(label, itemValue, buttonProps);
     });
   };
 

@@ -113,25 +113,10 @@ const items: Array<{ label: string; value: string; buttonProps: Partial<ButtonPr
   },
 ];
 
-export const WithDisabledItems = () => {
-  return (
-    <Gapped vertical>
-      <Component items={items} />
-      <Component items={items} value={'one'} />
-      <Component items={items} value={'two'} />
-    </Gapped>
-  );
-};
-
-WithDisabledItems.storyName = 'with disabled items';
-WithDisabledItems.parameters = {
-  creevey: { skip: [{ in: ['chrome', 'chrome8px', 'chromeFlat8px', 'chromeDark'] }] },
-};
-
 const renderItem = (label: string, value: string, buttonProps: ButtonProps, renderDefault: () => React.ReactNode) => {
   if (value === '111') {
     return (
-      <Hint pos="bottom" text="Текст Хинта">
+      <Hint text="Текст Хинта" opened manual>
         {renderDefault()}
       </Hint>
     );
@@ -157,21 +142,6 @@ export const WithCustomRenderItems: Story = () => {
 WithCustomRenderItems.storyName = 'with custom render item';
 WithCustomRenderItems.parameters = {
   creevey: {
-    skip: [
-      {
-        in: [
-          'chromeDark',
-          'chrome8px',
-          'firefox8px',
-          'firefox',
-          'firefoxFlat8px',
-          'firefoxDark',
-          'ie118px',
-          'ie11',
-          'ie11Flat8px',
-          'ie11Dark',
-        ],
-      },
-    ],
+    skip: { in: /^(?!\bchrome\b)/ },
   },
 };
