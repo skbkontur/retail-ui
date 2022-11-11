@@ -11,7 +11,7 @@ import { Gapped, GappedProps } from '../Gapped';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
-import { isNonNullable } from 'react-ui/lib/utils';
+import { isNonNullable } from '../../lib/utils';
 
 export interface ModalFooterProps extends CommonProps {
   /**

@@ -12,7 +12,7 @@ import { Gapped, GappedProps } from '../Gapped';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
-import { isNonNullable } from 'react-ui/lib/utils';
+import { isNonNullable } from '../../lib/utils';
 
 export interface SidePageFooterProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
