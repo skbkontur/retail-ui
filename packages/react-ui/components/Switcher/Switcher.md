@@ -1,45 +1,102 @@
 ```jsx harmony
-import { Tooltip, Hint } from '@skbkontur/react-ui';
+const [value, setValue] = React.useState();
+
+<Switcher
+  caption="Switch the switcher"
+  items={['One', 'Two', 'Three']}
+  value={value}
+  onValueChange={setValue}
+/>;
+```
+
+Случай, когда `items` принимает объект типа `{ label: string, value: string }`:
+
+```jsx harmony
+const [value, setValue] = React.useState();
+const items = [
+  {
+    label: 'One',
+    value: '111',
+  },
+  {
+    label: 'Two',
+    value: '222',
+  },
+  {
+    label: 'Three',
+    value: '333',
+  }
+];
+
+<Switcher
+  caption="Switch the switcher"
+  items={items}
+  value={value}
+  onValueChange={setValue}
+/>;
+```
+
+Вариант `items` с полем `buttonProps`, который позволяет кастомизировать кнопку:
+
+```jsx harmony
 const [value, setValue] = React.useState();
 const items = [
   {
     label: 'One',
     value: '111',
     buttonProps: {
-      'data-tid': '1-1-1',
-      use:'primary',
-    },
-  },
-  {
-    label: 'Two',
-    value: '222',
-    buttonProps: {
-      'data-tid': '2-2-2',
+      'data-tid': "1-1-1",
       disabled: true,
-    },
+    }
   },
   {
     label: 'Three',
     value: '333',
     buttonProps: {
-      'data-tid': '3-3-3',
-      use:'danger',
-    },
+      'data-tid': "1-1-1",
+      use: "primary",
+    }
+  },
+  {
+    label: 'Two',
+    value: '222',
+    buttonProps: {
+      'data-tid': "1-1-1",
+      arrow: true,
+    }
   }
 ];
+
+<Switcher
+  caption="Switch the switcher"
+  items={items}
+  value={value}
+  onValueChange={setValue}
+/>;
+```
+
+Пример с методом `renderItem` для кастомизации `items`:
+
+```jsx harmony
+import {Hint, Tooltip} from '@skbkontur/react-ui';
+
+const [value, setValue] = React.useState();
+const items = ['One', 'Two', 'Three'];
+
 const renderItem = (label, value, buttonProps, renderDefault) => {
-  if (value === '111') {
-    return <Hint text="Текст Хинта">{renderDefault()}</Hint>;
+  if (value === 'One') {
+    return <Hint pos="bottom" text="Подсказка" opened manual>{renderDefault()}</Hint>;
   }
-  if (value === '333') {
+  if (value === 'Three') {
     return (
-      <Tooltip trigger='opened' render={() => '⚠️ Лучше не трогай...'}>
+      <Tooltip pos="right middle" trigger="opened" render={() => '⚠️ Лучше не трогай...'}>
         {renderDefault()}
       </Tooltip>
     );
   }
   return renderDefault();
-};
+}
+
 <Switcher
   caption="Switch the switcher"
   items={items}
