@@ -4,7 +4,6 @@ import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
 import { CreeveyTests } from 'react-ui/typings/stories';
 
-
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
@@ -15,7 +14,6 @@ export default {
 
 type ButtonState = Partial<ButtonProps>;
 
-// 	  Use	    Active	Checked (в будущем hover)
 const useStates: ButtonState[] = [
   { use: 'default' },
   { use: 'primary' },
@@ -27,7 +25,6 @@ const useStates: ButtonState[] = [
 const testingButtonUseStates: ButtonState[] = [{ use: 'default' }, { use: 'primary' }, { use: 'link' }];
 const testingLinkState: ButtonState[] = [{ use: 'link' }];
 
-// Use - checked (hover) - active
 export const Use = () => (
   <ComponentTable
     Component={Button}
@@ -39,7 +36,6 @@ export const Use = () => (
 
 const useDifferentStates: ButtonState[] = [{}, { checked: true }, { active: true }, { active: true, checked: true }];
 
-// Warning - use - size
 export const Warning = () => (
   <ComponentTable
     Component={Button}
@@ -49,7 +45,6 @@ export const Warning = () => (
   />
 );
 
-// Error - use - size
 export const Error = () => (
   <ComponentTable
     Component={Button}
@@ -59,7 +54,6 @@ export const Error = () => (
   />
 );
 
-//visuallyFocused - use - arrow, size
 export const Focused = () => (
   <ComponentTable
     Component={Button}
@@ -69,7 +63,6 @@ export const Focused = () => (
   />
 );
 
-// Arrow - default - warning - error - checked - !default  - focus - size
 export const Arrow = () => (
   <ComponentTable
     Component={Button}
@@ -119,7 +112,6 @@ const arrowDifferentSizeStates: ButtonState[] = [
   { arrow: 'left', size: 'large' },
 ];
 
-//Borderless - disabled  - loading - checked - visuallyFocused, error, warning -active,
 export const Borderless = () => (
   <ComponentTable
     Component={Button}
@@ -151,7 +143,6 @@ export const Size = () => (
 
 const sizeDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
-// Loading - checked - focused -  active
 export const Loading = () => (
   <ComponentTable
     Component={Button}
@@ -170,7 +161,6 @@ const loadingDifferentStates: ButtonState[] = [
   { visuallyFocused: true, active: true },
 ];
 
-// Narrow - size
 export const Narrow = () => (
   <ComponentTable
     Component={Button}
@@ -182,7 +172,6 @@ export const Narrow = () => (
 
 const narrowDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
 
-// Align - widht
 export const Align = () => (
   <ComponentTable
     Component={Button}
@@ -201,7 +190,6 @@ const alignDifferentStates: ButtonState[] = [
   { align: 'start' },
 ];
 
-// Link - wight - align - warning - error - focused - disabled - loading
 export const Link = () => (
   <ComponentTable
     Component={Button}
@@ -232,7 +220,6 @@ const linkDifferentStates: ButtonState[] = [
   { loading: true, size: 'large' },
 ];
 
-// Icon - size - notext - child - content
 export const Icon = () => (
   <ComponentTable
     Component={Button}
@@ -253,7 +240,6 @@ const iconDifferentStates: ButtonState[] = [
 ];
 
 
-// Disabled - active - checked (hover)- focused - loading
 export const Disabled = () => (
   <ComponentTable
     Component={Button}
@@ -269,7 +255,6 @@ const disabledDifferentStates: ButtonState[] = [
   { loading: true, icon: <OkIcon /> },
 ];
 
-// Checked - disabled - focused
 export const Checked = () => (
   <ComponentTable
     Component={Button}
@@ -286,8 +271,6 @@ const checkedDifferentStates: ButtonState[] = [
   { disabled: true, visuallyFocused: true },
 ];
 
-// Different logic states
-// Warning - error - focused - disabled - checked  - loading
 export const DifferentPrioritization = () => (
   <ComponentTable
     Component={Button}
@@ -343,7 +326,6 @@ export const IconDifferentContent = () => (
   </Gapped>
 );
 
-//Playgroud tests: hover, pressed, clicked, tabPress
 const buttonTests: CreeveyTests = {
   async idle() {
     await this.expect(await this.takeScreenshot()).to.matchImage('idle');
