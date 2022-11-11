@@ -93,7 +93,7 @@ export const parameters: Meta['parameters'] = {
           /^(?!\bButton\b|\bCheckbox\b|\bInput\b|\bRadio\b|\bTextarea\b|\bToggle\b|\bSwitcher\b|\bTokenInput\b|\bNewButtonTests\b)/,
       },
       {
-        kinds: /\bNewButtonTests\b/,
+        kinds: /\bButton\b/,
         stories: /^(?!text\sstyles\sreset)/,
       },
       { in: /Mobile.*/i, stories: /^((?!Mobile).)*$/i },

@@ -1,7 +1,9 @@
 import React from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
+import SearchIcon from '@skbkontur/react-icons/Search';
 import { CreeveyTests } from 'react-ui/typings/stories';
+
 
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
@@ -107,8 +109,6 @@ export const ArrowSize = () => (
     presetProps={{ children: 'Button' }}
   />
 );
-
-
 
 const arrowDifferentSizeStates: ButtonState[] = [
   { arrow: true },
@@ -421,3 +421,34 @@ PlaygroundDisabled.parameters = {
     tests: buttonTests,
   },
 };
+
+export const TextStylesReset = () => (
+  <div
+    style={{
+      fontWeight: 'bold',
+      fontStyle: 'italic',
+      fontVariant: 'small-caps slashed-zero',
+      fontStretch: 'expanded',
+      color: 'red',
+      lineHeight: '50px',
+      textAlign: 'right',
+      textShadow: '3px 3px 3px #333',
+      textTransform: 'uppercase',
+      letterSpacing: '5px',
+    }}
+  >
+    <Gapped>
+      <span>Inherited Styles</span>
+      <Button>
+        <SearchIcon />
+      </Button>
+      <Button>Button</Button>
+      <Button visuallyFocused>Focused</Button>
+      <Button active>Active</Button>
+      <Button checked>Checked</Button>
+      <Button disabled>Disabled</Button>
+      <Button use="link">Link</Button>
+    </Gapped>
+  </div>
+);
+TextStylesReset.storyName = 'text styles reset';
