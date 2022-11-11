@@ -451,4 +451,3 @@ export const TextStylesReset = () => (
     </Gapped>
   </div>
 );
-TextStylesReset.storyName = 'text styles reset';
