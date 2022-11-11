@@ -69,4 +69,29 @@ describe('ValidationContainer', () => {
       });
     });
   });
+
+  describe('on warning level', () => {
+    const renderValidationContainer = (
+      input: React.ReactElement,
+      props?: ValidationContainerProps,
+    ): React.RefObject<ValidationContainer> => {
+      const containerRef = React.createRef<ValidationContainer>();
+      render(
+        <ValidationContainer ref={containerRef} {...props}>
+          <ValidationWrapper validationInfo={{ message: 'warning message', level: 'warning' }}>
+            {input}
+          </ValidationWrapper>
+        </ValidationContainer>,
+      );
+      return containerRef;
+    };
+
+    it('validate form', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      const result = await containerRef.current?.validate();
+
+      expect(result).toEqual(true);
+    });
+  });
 });

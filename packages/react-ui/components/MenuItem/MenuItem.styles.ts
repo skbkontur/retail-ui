@@ -89,8 +89,12 @@ export const styles = memoizeStyle({
       display: inline-block;
       position: absolute;
       left: ${parseInt(t.menuItemPaddingX) + parseInt(t.menuItemIconLegacyMargin)}px;
-      top: ${t.menuItemPaddingY};
       transform: translateY(${t.menuItemIconLegacyShift});
+    `;
+  },
+  contentMobile() {
+    return css`
+      margin-left: 8px;
     `;
   },
 });
