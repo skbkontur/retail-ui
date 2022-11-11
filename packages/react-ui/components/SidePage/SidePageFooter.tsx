@@ -12,6 +12,7 @@ import { Gapped, GappedProps } from '../Gapped';
 
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 export interface SidePageFooterProps extends CommonProps {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
@@ -135,7 +136,7 @@ export class SidePageFooter extends React.Component<SidePageFooterProps, SidePag
                   })}
                   ref={this.refContent}
                 >
-                  {this.props.gap ? (
+                  {isNonNullable(this.props.gap) ? (
                     <Gapped vertical={this.isMobileLayout} gap={this.props.gap}>
                       {this.props.children}
                     </Gapped>

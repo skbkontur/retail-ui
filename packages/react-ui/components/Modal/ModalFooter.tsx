@@ -11,6 +11,7 @@ import { Gapped, GappedProps } from '../Gapped';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
+import { isNonNullable } from 'react-ui/lib/utils';
 
 export interface ModalFooterProps extends CommonProps {
   /**
@@ -72,7 +73,7 @@ function ModalFooter(props: ModalFooterProps) {
           [styles.mobileFooter(theme)]: layout.isMobile,
         })}
       >
-        {gap ? (
+        {isNonNullable(gap) ? (
           <Gapped vertical={layout.isMobile} gap={gap}>
             {children}
           </Gapped>
