@@ -68,7 +68,7 @@ export interface PopupHandlerProps {
   onClose?: () => void;
 }
 
-export interface PopupProps extends CommonProps, PopupHandlerProps {
+export interface PopupProps extends Omit<CommonProps, 'children'>, PopupHandlerProps {
   anchorElement: React.ReactNode | HTMLElement;
   backgroundColor?: React.CSSProperties['backgroundColor'];
   borderColor?: React.CSSProperties['borderColor'];
