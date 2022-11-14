@@ -31,17 +31,11 @@ interface MobilePopupProps {
    */
   onCloseRequest?: () => void;
   opened: boolean;
-  /**
-   * Отключает анимацию компонента
-   */
-  disableAnimations?: boolean;
 }
 
 interface MobilePopupState {
   isScrolled: boolean;
 }
-
-type DefaultProps = Required<Pick<MobilePopupProps, 'disableAnimations'>>;
 
 export const MobilePopupDataTids = {
   root: 'MobilePopup__root',
@@ -53,10 +47,6 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
 
   private contentDiv: Nullable<HTMLDivElement>;
   private theme!: Theme;
-
-  public static defaultProps: DefaultProps = {
-    disableAnimations: true,
-  };
 
   public state: MobilePopupState = {
     isScrolled: false,
@@ -76,14 +66,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
   public renderMain() {
     const content = (
       <ZIndex priority={'MobilePopup'}>
-        <Transition
-          in={this.props.opened}
-          onExited={this.props.onClose}
-          mountOnEnter
-          unmountOnExit
-          appear
-          timeout={{ appear: 0, exit: this.props.disableAnimations ? 0 : 250 }}
-        >
+        <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           {(state) => (
             <div className={jsStyles.wrapper()}>
               <RenderLayer onClickOutside={this.close}>
@@ -91,8 +74,6 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                   data-tid={MobilePopupDataTids.container}
                   className={cx({
                     [jsStyles.container(this.theme)]: true,
-                    [jsStyles.containerAnimation()]: !this.props.disableAnimations,
-                    [jsStyles.containerOpenedAnimation()]: state === 'entered' && !this.props.disableAnimations,
                   })}
                 >
                   <div
@@ -122,9 +103,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
               <div
                 className={cx({
                   [jsStyles.bg()]: true,
-                  [jsStyles.bgAnimation()]: !this.props.disableAnimations,
                   [jsStyles.bgShowed()]: state === 'entered',
-                  [jsStyles.bgShowedAnimation()]: !this.props.disableAnimations,
                 })}
               />
               <HideBodyVerticalScroll />

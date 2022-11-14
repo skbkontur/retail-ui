@@ -59,20 +59,6 @@ const styles = {
     `;
   },
 
-  containerAnimation() {
-    return css`
-      transform: translateY(100%);
-      transition: transform 0.25s;
-    `;
-  },
-
-  containerOpenedAnimation() {
-    return css`
-      transform: translateY(0%);
-      transition: transform 0.25s;
-    `;
-  },
-
   bg() {
     return css`
       position: fixed;
@@ -87,21 +73,9 @@ const styles = {
     `;
   },
 
-  bgAnimation() {
-    return css`
-      transition: opacity 0.25s;
-    `;
-  },
-
   bgShowed() {
     return css`
       opacity: 50%;
-    `;
-  },
-
-  bgShowedAnimation() {
-    return css`
-      transition: opacity 0.25s;
     `;
   },
 
