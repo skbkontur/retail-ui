@@ -39,6 +39,17 @@ export interface SwitcherProps extends CommonProps {
   size?: SwitcherSize;
 
   disabled?: boolean;
+
+  /**
+   * Функция для отрисовки элемента. Аргументы — `label`,
+   * `value`, `buttonProps`, `renderDefault`
+   */
+  renderItem?: (
+    label: string,
+    value: string,
+    buttonProps: ButtonProps,
+    renderDefault: () => React.ReactNode,
+  ) => React.ReactNode;
 }
 
 export interface SwitcherState {
@@ -70,6 +81,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
     caption: PropTypes.string,
     value: PropTypes.string,
     onValueChange: PropTypes.func,
+    renderItem: PropTypes.func,
   };
 
   public state: SwitcherState = {
@@ -196,25 +208,36 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
   };
 
   private _renderItems = () => {
-    return this.props.items.map((item, i) => {
-      const { label, value, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
+    const { items, value, size, disabled, renderItem } = this.props;
+    return items.map((item, i) => {
+      const { label, value: itemValue, buttonProps: customButtonProps } = this._extractPropsFromItem(item);
       const commonButtonProps = {
-        checked: this.props.value === value,
+        checked: value === itemValue,
         visuallyFocused: this.state.focusedIndex === i,
         onClick: () => {
-          this.selectItem(value);
+          this.selectItem(itemValue);
         },
         disableFocus: true,
-        size: this.props.size,
-        disabled: this.props.disabled,
+        size,
+        disabled,
       };
-      return (
-        <Button key={value} {...commonButtonProps} {...customButtonProps}>
-          {label}
-        </Button>
-      );
+
+      const buttonProps = {
+        ...commonButtonProps,
+        ...customButtonProps,
+      };
+
+      const renderDefault = () => this.renderDefaultItem(label, itemValue, buttonProps);
+
+      return renderItem ? renderItem(label, itemValue, buttonProps, renderDefault) : renderDefault();
     });
   };
+
+  private renderDefaultItem = (label: string, value: string, buttonProps: ButtonProps) => (
+    <Button key={value} {...buttonProps}>
+      {label}
+    </Button>
+  );
 
   private getLabelSizeClassName = (): string => {
     switch (this.props.size) {
