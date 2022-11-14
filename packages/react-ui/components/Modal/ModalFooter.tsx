@@ -8,10 +8,10 @@ import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { useResponsiveLayout } from '../ResponsiveLayout';
 import { Gapped, GappedProps } from '../Gapped';
+import { isNonNullable } from '../../lib/utils';
 
 import { styles } from './Modal.styles';
 import { ModalContext } from './ModalContext';
-import { isNonNullable } from '../../lib/utils';
 
 export interface ModalFooterProps extends CommonProps {
   /**
