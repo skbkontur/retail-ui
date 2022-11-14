@@ -38,7 +38,7 @@ const styles = {
       right: 0;
       left: 0;
       height: 100%;
-      overflow: scroll;
+      overflow: auto;
     `;
   },
 
