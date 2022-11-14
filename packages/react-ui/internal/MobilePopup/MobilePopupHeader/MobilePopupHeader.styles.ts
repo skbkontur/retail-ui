@@ -15,12 +15,6 @@ const styles = {
     `;
   },
 
-  withShadow(t: Theme) {
-    return css`
-      box-shadow: ${t.mobilePopupHeaderShadow};
-    `;
-  },
-
   container() {
     return css`
       display: flex;
