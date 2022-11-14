@@ -11,9 +11,9 @@ const debug = process.env.DEBUG_SCREENSHOTS;
 
 const capabilities = debug
   ? {
-    enableVNC: true,
-    enableVideo: true,
-  }
+      enableVNC: true,
+      enableVideo: true,
+    }
   : {};
 
 const resolverStorybookUrl = (port) => ({

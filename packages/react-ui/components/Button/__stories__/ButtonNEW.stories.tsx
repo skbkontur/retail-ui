@@ -2,8 +2,8 @@ import React from 'react';
 import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
 import SearchIcon from '@skbkontur/react-icons/Search';
-import { CreeveyTests } from 'react-ui/typings/stories';
 
+import { CreeveyTests } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
@@ -239,7 +239,6 @@ const iconDifferentStates: ButtonState[] = [
   { icon: <OkIcon />, children: 'Button', loading: true },
 ];
 
-
 export const Disabled = () => (
   <ComponentTable
     Component={Button}
@@ -249,11 +248,7 @@ export const Disabled = () => (
   />
 );
 
-const disabledDifferentStates: ButtonState[] = [
-  {},
-  { loading: true },
-  { loading: true, icon: <OkIcon /> },
-];
+const disabledDifferentStates: ButtonState[] = [{}, { loading: true }, { loading: true, icon: <OkIcon /> }];
 
 export const Checked = () => (
   <ComponentTable
