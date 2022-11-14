@@ -41,8 +41,8 @@ export interface SwitcherProps extends CommonProps {
   disabled?: boolean;
 
   /**
-   * Функция для отрисовки элемента Switcher. Аргументы — *label*,
-   * *value*, *buttonProps*, *renderDefault*
+   * Функция для отрисовки элемента. Аргументы — `label`,
+   * `value`, `buttonProps`, `renderDefault`
    */
   renderItem?: (
     label: string,
