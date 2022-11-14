@@ -89,7 +89,7 @@ const renderItem = (label, value, buttonProps, renderDefault) => {
   }
   if (value === 'Three') {
     return (
-      <Tooltip pos="right middle" trigger="opened" render={() => '⚠️ Лучше не трогай...'}>
+      <Tooltip pos="right middle" trigger="opened" render={() => 'Тултип'}>
         {renderDefault()}
       </Tooltip>
     );
