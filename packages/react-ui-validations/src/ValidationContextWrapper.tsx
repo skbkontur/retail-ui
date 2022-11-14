@@ -127,32 +127,34 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return wrappersWithPosition.map((x) => x.target);
   }
 
-  public async validate(withoutFocus: boolean, warningsWithoutFocus: boolean): Promise<boolean> {
+  public async validate(withoutFocus: boolean | 'warningsWithoutFocus' = false): Promise<boolean> {
+    const warningsWithoutFocus = withoutFocus === 'warningsWithoutFocus';
+    const withoutAnyFocus = warningsWithoutFocus ? false : withoutFocus;
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
 
     const childrenWrappersSortedByPosition = this.getChildWrappersSortedByPosition();
     const firstWarning = childrenWrappersSortedByPosition.find((x) => x.hasWarning());
     const firstError = childrenWrappersSortedByPosition.find((x) => x.hasError());
     if (firstError && !firstWarning) {
-      if (!withoutFocus) {
+      if (!withoutAnyFocus) {
         firstError.focus();
       }
     } else if (firstWarning && !firstError) {
-      if (!warningsWithoutFocus) {
+      if (!warningsWithoutFocus && !withoutAnyFocus) {
         firstWarning.focus();
       }
     } else if (firstError && firstWarning) {
-      if (!withoutFocus) {
-        firstError.focus();
+      if (!withoutAnyFocus && !warningsWithoutFocus) {
+        childrenWrappersSortedByPosition.find((x) => x.hasError() || x.hasWarning())?.focus();
       }
-      if (!warningsWithoutFocus) {
-        firstWarning.focus();
+      if (warningsWithoutFocus) {
+        firstError.focus();
       }
     }
     if (this.props.onValidationUpdated) {
-      this.props.onValidationUpdated(!firstError && !firstWarning);
+      this.props.onValidationUpdated(!firstError);
     }
-    return !firstError && !firstWarning;
+    return !firstError;
   }
 
   public render() {
