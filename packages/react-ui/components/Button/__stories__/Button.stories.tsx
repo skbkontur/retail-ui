@@ -248,6 +248,16 @@ export const Disabled = () => (
   />
 );
 
+export const MultilineTextWithLinkButton = () => (
+  <div>
+    &quot;You can&apos;t keep boogieing like this. <br />
+    You&apos;ll come <Button use="link">down</Button> <br />
+    with a fever of some sort.&quot;
+    <br />
+    <i>Leela</i>
+  </div>
+);
+
 const disabledDifferentStates: ButtonState[] = [{}, { loading: true }, { loading: true, icon: <OkIcon /> }];
 
 export const Checked = () => (
