@@ -261,7 +261,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
-  private renderInfoItem = (title: string) => {
+  private renderUtilityMessage = (title: string) => {
     return (
       <ThemeContext.Consumer>
         {(theme) => (
@@ -300,8 +300,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
-          {!this.props.value && this.renderInfoItem('Начните вводить название')}
-          {items?.length === 0 && this.props.value && this.renderInfoItem('Ничего не найдено')}
+          {!this.props.value && this.renderUtilityMessage('Начните вводить название')}
+          {items?.length === 0 && this.props.value && this.renderUtilityMessage('Ничего не найдено')}
         </Menu>
       </MobilePopup>
     );
