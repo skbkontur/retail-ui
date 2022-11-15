@@ -93,5 +93,21 @@ describe('ValidationContainer', () => {
 
       expect(result).toEqual(true);
     });
+
+    it('with autofocus', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      await containerRef.current?.validate();
+
+      expect(screen.getByRole('textbox')).toHaveFocus();
+    });
+
+    it('without autofocus', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      await containerRef.current?.validate('warningsWithoutFocus');
+
+      expect(screen.getByRole('textbox')).not.toHaveFocus();
+    });
   });
 });

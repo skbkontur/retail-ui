@@ -127,7 +127,7 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return wrappersWithPosition.map((x) => x.target);
   }
 
-  public async validate(withoutFocus: boolean | 'warningsWithoutFocus' = false): Promise<boolean> {
+  public async validate(withoutFocus: boolean | 'warningsWithoutFocus'): Promise<boolean> {
     const warningsWithoutFocus = withoutFocus === 'warningsWithoutFocus';
     const withoutAnyFocus = warningsWithoutFocus ? false : withoutFocus;
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
