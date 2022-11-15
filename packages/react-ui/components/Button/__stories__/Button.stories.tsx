@@ -1,15 +1,325 @@
 import React from 'react';
+import ArchivePack from '@skbkontur/react-icons/ArchivePack';
 import OkIcon from '@skbkontur/react-icons/Ok';
-import ArchivePackIcon from '@skbkontur/react-icons/ArchivePack';
 import SearchIcon from '@skbkontur/react-icons/Search';
 
-import { Meta, Story, CreeveyTests } from '../../../typings/stories';
-import { Button, ButtonProps } from '../Button';
+import { CreeveyTests } from '../../../typings/stories';
 import { Gapped } from '../../Gapped';
 import { ComponentTable } from '../../../internal/ComponentTable';
-import { ComponentCombinator } from '../../../internal/ComponentCombinator';
+import { Button, ButtonProps } from '../Button';
 
-export default { title: 'Button' } as Meta;
+export default {
+  title: 'NewButtonTests',
+};
+
+type ButtonState = Partial<ButtonProps>;
+
+const useStates: ButtonState[] = [
+  { use: 'default' },
+  { use: 'primary' },
+  { use: 'danger' },
+  { use: 'pay' },
+  { use: 'success' },
+  { use: 'link' },
+];
+const testingButtonUseStates: ButtonState[] = [{ use: 'default' }, { use: 'primary' }, { use: 'link' }];
+const testingLinkState: ButtonState[] = [{ use: 'link' }];
+
+export const Use = () => (
+  <ComponentTable
+    Component={Button}
+    rows={useStates.map((x) => ({ props: x }))}
+    cols={useDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+
+const useDifferentStates: ButtonState[] = [{}, { checked: true }, { active: true }, { active: true, checked: true }];
+
+export const Warning = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={sizeDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', warning: true }}
+  />
+);
+
+export const Error = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={sizeDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', error: true }}
+  />
+);
+
+export const Focused = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={sizeDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', visuallyFocused: true }}
+  />
+);
+
+export const Arrow = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: true }}
+  />
+);
+
+export const ArrowLeft = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', arrow: true }}
+  />
+);
+
+const arrowDifferentStates: ButtonState[] = [
+  { warning: true },
+  { error: true },
+  { checked: true },
+  { visuallyFocused: true },
+  { warning: true, error: true },
+  { warning: true, checked: true },
+  { warning: true, visuallyFocused: true },
+  { error: true, checked: true },
+  { error: true, visuallyFocused: true },
+  { checked: true, visuallyFocused: true },
+];
+
+export const ArrowSize = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={arrowDifferentSizeStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+
+const arrowDifferentSizeStates: ButtonState[] = [
+  { arrow: true },
+  { arrow: true, size: 'medium' },
+  { arrow: true, size: 'large' },
+  { arrow: 'left' },
+  { arrow: 'left', size: 'medium' },
+  { arrow: 'left', size: 'large' },
+];
+
+export const Borderless = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={borderlessDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', borderless: true }}
+  />
+);
+
+const borderlessDifferentStates: ButtonState[] = [
+  {},
+  { disabled: true },
+  { loading: true },
+  { checked: true },
+  { visuallyFocused: true },
+  { error: true },
+  { warning: true },
+  { active: true },
+];
+
+export const Size = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={sizeDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+
+const sizeDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+
+export const Loading = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={loadingDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', loading: true }}
+  />
+);
+
+const loadingDifferentStates: ButtonState[] = [
+  { checked: true },
+  { visuallyFocused: true },
+  { active: true },
+  { checked: true, visuallyFocused: true },
+  { checked: true, active: true },
+  { visuallyFocused: true, active: true },
+];
+
+export const Narrow = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={narrowDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', narrow: true }}
+  />
+);
+
+const narrowDifferentStates: ButtonState[] = [{ size: 'small' }, { size: 'medium' }, { size: 'large' }];
+
+export const Align = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={alignDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', width: '200px' }}
+  />
+);
+
+const alignDifferentStates: ButtonState[] = [
+  { align: 'center' },
+  { align: 'end' },
+  { align: 'justify' },
+  { align: 'left' },
+  { align: 'right' },
+  { align: 'start' },
+];
+
+export const Link = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingLinkState.map((x) => ({ props: x }))}
+    rows={linkDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', use: 'link' }}
+  />
+);
+
+const linkDifferentStates: ButtonState[] = [
+  { children: 'Default width' },
+  { width: 'auto' },
+  { width: 200 },
+  { warning: true },
+  { warning: true, size: 'medium' },
+  { warning: true, size: 'large' },
+  { error: true },
+  { error: true, size: 'medium' },
+  { error: true, size: 'large' },
+  { visuallyFocused: true },
+  { visuallyFocused: true, size: 'medium' },
+  { visuallyFocused: true, size: 'large' },
+  { disabled: true },
+  { disabled: true, size: 'medium' },
+  { disabled: true, size: 'large' },
+  { loading: true },
+  { loading: true, size: 'medium' },
+  { loading: true, size: 'large' },
+];
+
+export const Icon = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={iconDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{}}
+  />
+);
+const iconDifferentStates: ButtonState[] = [
+  { icon: <ArchivePack /> },
+  { icon: <ArchivePack />, children: 'Button' },
+  { icon: <OkIcon /> },
+  { icon: <OkIcon />, loading: true },
+  { icon: <OkIcon />, children: 'Button' },
+  { icon: <OkIcon />, children: 'Button', size: 'medium' },
+  { icon: <OkIcon />, children: 'Button', size: 'large' },
+  { icon: <OkIcon />, children: 'Button', loading: true },
+];
+
+export const Disabled = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={disabledDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', disabled: true }}
+  />
+);
+
+const disabledDifferentStates: ButtonState[] = [{}, { loading: true }, { loading: true, icon: <OkIcon /> }];
+
+export const Checked = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={checkedDifferentStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button', checked: true }}
+  />
+);
+
+const checkedDifferentStates: ButtonState[] = [
+  {},
+  { disabled: true },
+  { visuallyFocused: true },
+  { disabled: true, visuallyFocused: true },
+];
+
+export const DifferentPrioritization = () => (
+  <ComponentTable
+    Component={Button}
+    cols={testingButtonUseStates.map((x) => ({ props: x }))}
+    rows={differentPriorityStates.map((x) => ({ props: x }))}
+    presetProps={{ children: 'Button' }}
+  />
+);
+
+const differentPriorityStates: ButtonState[] = [
+  { warning: true, error: true },
+  { warning: true, visuallyFocused: true },
+  { warning: true, disabled: true },
+  { warning: true, checked: true },
+  { warning: true, loading: true },
+  { error: true, visuallyFocused: true },
+  { error: true, disabled: true },
+  { error: true, checked: true },
+  { error: true, loading: true },
+  { visuallyFocused: true, disabled: true },
+  { visuallyFocused: true, checked: true },
+  { visuallyFocused: true, loading: true },
+  { disabled: true, checked: true },
+  { disabled: true, loading: true },
+  { warning: true, error: true, visuallyFocused: true },
+  { warning: true, error: true, disabled: true },
+  { warning: true, error: true, checked: true },
+  { warning: true, error: true, loading: true },
+  { warning: true, visuallyFocused: true, disabled: true },
+  { warning: true, visuallyFocused: true, checked: true },
+  { warning: true, visuallyFocused: true, loading: true },
+  { warning: true, disabled: true, checked: true },
+  { warning: true, disabled: true, loading: true },
+  { warning: true, checked: true, loading: true },
+  { error: true, visuallyFocused: true, disabled: true },
+  { error: true, visuallyFocused: true, checked: true },
+  { error: true, visuallyFocused: true, loading: true },
+  { visuallyFocused: true, disabled: true, checked: true },
+  { visuallyFocused: true, disabled: true, loading: true },
+  { disabled: true, checked: true, loading: true },
+];
+
+export const IconDifferentContent = () => (
+  <Gapped vertical>
+    <span>Icon as children</span>
+    <Button>{<OkIcon />}</Button>
+    <Button icon={<OkIcon />} use={'primary'}>
+      Icon with long text and color
+    </Button>
+    <Button icon={<OkIcon />} width="200px">
+      With icon, fixed width and long-lon-long text
+    </Button>
+  </Gapped>
+);
 
 const buttonTests: CreeveyTests = {
   async idle() {
@@ -59,165 +369,30 @@ const buttonTests: CreeveyTests = {
         bridge: true,
       })
       .sendKeys(this.keys.TAB)
+      .pause(500)
       .perform();
     await this.expect(await this.takeScreenshot()).to.matchImage('tabPress');
   },
 };
 
-const combinationTest: CreeveyTests = {
-  async simple() {
-    const nextPageButton = () => this.browser.findElement({ css: '#next-page' });
-    const element = () => this.browser.findElement({ css: '[data-comp-name~="ComponentTable"]' });
+export const PlaygroundDefault = () => <Button>Hello</Button>;
 
-    const page1 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page2 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page3 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page4 = await element().takeScreenshot();
-    await this.browser.actions({ bridge: true }).click(nextPageButton()).perform();
-    const page5 = await element().takeScreenshot();
-
-    await this.expect({
-      'page - 1': page1,
-      'page - 2': page2,
-      'page - 3': page3,
-      'page - 4': page4,
-      'page - 5': page5,
-    }).to.matchImages();
-  },
-};
-
-export const Playground: Story = () => <Button>Hello</Button>;
-Playground.storyName = 'playground';
-
-Playground.parameters = {
+PlaygroundDefault.parameters = {
   creevey: {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
     ],
     tests: buttonTests,
   },
 };
 
-export const DifferentContent = () => (
-  <Gapped vertical>
-    <Button icon={<OkIcon />}>text with icon</Button>
-    <span>icon as children</span>
-    <Button>{<OkIcon />}</Button>
-    <span>icon as prop and without children</span>
-    <Button icon={<OkIcon />} />
-    <Button icon={<OkIcon />} use={'primary'}>
-      icon with long text and color
-    </Button>
-    <Button icon={<OkIcon />} width="200px">
-      with icon, fixed width and long-lon-long text
-    </Button>
-  </Gapped>
-);
-DifferentContent.storyName = 'different content';
+export const PlaygroundDisabled = () => <Button disabled>Hello</Button>;
 
-export const UseLink: Story = () => <Button use="link">Use Link</Button>;
-UseLink.storyName = 'use link';
-
-UseLink.parameters = {
+PlaygroundDisabled.parameters = {
   creevey: {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'pressed', 'clicked', 'tabPress'],
-      },
-    ],
-    tests: buttonTests,
-  },
-};
-
-export const UseLinkWithIcon: Story = () => (
-  <Button use="link" icon={<ArchivePackIcon />}>
-    With Icon
-  </Button>
-);
-UseLinkWithIcon.storyName = 'use link with icon';
-
-UseLinkWithIcon.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      {
-        in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'],
-        tests: ['hover', 'pressed', 'clicked', 'tabPress'],
-      },
-    ],
-    tests: buttonTests,
-  },
-};
-
-export const MultilineTextWithLinkButton: Story = () => (
-  <div>
-    &quot;You can&apos;t keep boogieing like this. <br />
-    You&apos;ll come <Button use="link">down</Button> <br />
-    with a fever of some sort.&quot;
-    <br />
-    <i>Leela</i>
-  </div>
-);
-MultilineTextWithLinkButton.storyName = 'multiline text with link button';
-
-MultilineTextWithLinkButton.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
-    tests: buttonTests,
-  },
-};
-
-export const WithError: Story = () => (
-  <Gapped>
-    <Button error>Error :(</Button>
-    <Button error use="primary">
-      Error :(
-    </Button>
-    <Button error use="link">
-      Error :(
-    </Button>
-  </Gapped>
-);
-WithError.storyName = 'with error';
-
-WithError.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-      // TODO @Khlutkova fix after update browsers
-      { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
-    ],
-    tests: buttonTests,
-  },
-};
-
-export const ArrowWithError: Story = () => (
-  <Button arrow error>
-    Arrow
-  </Button>
-);
-ArrowWithError.storyName = 'arrow with error';
-
-ArrowWithError.parameters = {
-  creevey: {
-    skip: [
-      { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
-      { in: ['chrome', 'chrome8px', 'chromeDark'], tests: ['pressed', 'clicked'] },
-      // TODO @Khlutkova fix after update browsers
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
     ],
     tests: buttonTests,
@@ -253,194 +428,3 @@ export const TextStylesReset = () => (
     </Gapped>
   </div>
 );
-TextStylesReset.storyName = 'text styles reset';
-
-export const DifferentAligns = () => (
-  <ComponentTable
-    Component={Button}
-    rows={alignStates.map((x) => ({ props: x }))}
-    cols={layoutStates.map((x) => ({ props: x }))}
-    presetProps={{ width: 200, children: 'Button' }}
-  />
-);
-DifferentAligns.storyName = 'different aligns';
-
-export const DifferentWidths: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'long-long-long text' }}
-    combinations={[widthStates, [{ props: { use: 'link' } }, { props: { use: 'default' } }]]}
-  />
-);
-DifferentWidths.storyName = 'different widths';
-
-export const DefaultCombinations: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button' }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-DefaultCombinations.storyName = 'default combinations';
-
-DefaultCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const CombinationsWithWarning: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', warning: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-CombinationsWithWarning.storyName = 'combinations with warning';
-
-CombinationsWithWarning.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const CombinationsWithError: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', error: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-CombinationsWithError.storyName = 'combinations with error';
-
-CombinationsWithError.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const CombinationsWithFocus: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', visuallyFocused: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-CombinationsWithFocus.storyName = 'combinations with focus';
-
-CombinationsWithFocus.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const LoadingCombinations: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', loading: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-LoadingCombinations.storyName = 'loading combinations';
-
-LoadingCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const DisabledCombinations: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', disabled: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-DisabledCombinations.storyName = 'disabled combinations';
-
-DisabledCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const ActiveCombinations: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', active: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-ActiveCombinations.storyName = 'active combinations';
-
-ActiveCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const CheckedCombinations: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', checked: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-CheckedCombinations.storyName = 'checked combinations';
-
-CheckedCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-export const CheckedDisabledCombinations: Story = () => (
-  <ComponentCombinator
-    Component={Button}
-    presetProps={{ children: 'Button', checked: true, disabled: true }}
-    combinations={[useStates, sizeStates, arrowStates, widthStates, contentStates, visualStates]}
-  />
-);
-CheckedDisabledCombinations.storyName = 'checked disabled combinations';
-
-CheckedDisabledCombinations.parameters = {
-  creevey: {
-    tests: combinationTest,
-  },
-};
-
-type ButtonState = Partial<ButtonProps>;
-
-const alignStates: ButtonState[] = [
-  { align: 'left' },
-  { align: 'start' },
-  { align: 'right' },
-  { align: 'end' },
-  { align: 'center' },
-  { align: 'justify' },
-];
-
-const layoutStates: ButtonState[] = [{ use: 'default' }, { arrow: true }, { arrow: 'left' }, { use: 'link' }];
-
-const sizeStates = getProps('size', ['small', 'medium', 'large']);
-
-const arrowStates = getProps('arrow', [true, 'left']);
-
-const useStates = getProps('use', ['default', 'primary', 'danger', 'pay', 'success']);
-
-const widthStates = getProps('width', [100, 'auto']);
-
-const visualStates = [{ narrow: true }, { borderless: true }, { use: 'link' as ButtonState['use'] }].map((x) => ({
-  props: x,
-}));
-
-const contentStates = [{ icon: <SearchIcon /> }, { children: 'long-long-long text' }, { children: <SearchIcon /> }].map(
-  (x) => ({ props: x }),
-);
-
-function getProps<TKey extends keyof ButtonProps>(
-  key: TKey,
-  values: Array<ButtonProps[TKey]>,
-): Array<{ props: Pick<ButtonProps, TKey> }> {
-  return values.map((x) => ({ props: { [key]: x } as Pick<ButtonProps, TKey> }));
-}
