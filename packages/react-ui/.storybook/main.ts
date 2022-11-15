@@ -10,7 +10,7 @@ module.exports = {
       },
     },
   ],
-  stories: ['../components/**/Button*.stories.tsx'],
+  stories: ['../components/**/*.stories.tsx', '../internal/**/*.stories.tsx'],
   typescript: {
     reactDocgen: 'none',
   },

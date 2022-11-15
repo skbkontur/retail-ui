@@ -9,7 +9,7 @@ import { ComponentTable } from '../../../internal/ComponentTable';
 import { Button, ButtonProps } from '../Button';
 
 export default {
-  title: 'NewButtonTests',
+  title: 'Button',
 };
 
 type ButtonState = Partial<ButtonProps>;
