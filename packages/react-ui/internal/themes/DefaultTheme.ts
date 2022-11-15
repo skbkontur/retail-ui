@@ -920,6 +920,7 @@ export class DefaultTheme {
   public static pagingDotsColor = 'gray';
   public static pagingDotsPadding = '0.375em 0.625em 0';
   public static pagingPageLinkActiveBg = 'rgba(0, 0, 0, 0.09)';
+  public static pagingPageLinkDisabledActiveBg = 'rgba(0, 0, 0, 0.04)';
   public static get pagingPageLinkActiveColor() {
     return this.textColorDefault;
   }
@@ -1686,8 +1687,9 @@ export class DefaultTheme {
   public static get switcherButtonBorderWidth() {
     return this.btnBorderWidth;
   }
+  public static switcherBtnDisabledBorderColor = 'rgba(0, 0, 0, 0.16)';
   public static get switcherButtonDisabledBorderColor() {
-    return this.btnDisabledBorderColor;
+    return this.switcherBtnDisabledBorderColor;
   }
   public static get switcherButtonCheckedDisabledShadow() {
     return this.btnCheckedDisabledShadow;

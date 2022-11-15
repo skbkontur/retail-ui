@@ -30,62 +30,62 @@ const CurrencyInputAndButton = (props: { value: unknown }): JSX.Element => {
 };
 
 describe('CurrencyInput', () => {
-  it('should mount with a number value', async () => {
+  it('should mount with a number value', () => {
     render(<CurrencyInputWithValueProp value={12} />);
     expect(screen.getByRole('textbox')).toHaveValue('12,00');
   });
 
-  it('should mount with a correct string value', async () => {
+  it('should mount with a correct string value', () => {
     render(<CurrencyInputWithValueProp value={'12'} />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,00');
   });
 
-  it('should mount with incorrect string value', async () => {
+  it('should mount with incorrect string value', () => {
     render(<CurrencyInputWithValueProp value={'str'} />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue(',00');
   });
 
-  it('should mount with NaN value', async () => {
+  it('should mount with NaN value', () => {
     render(<CurrencyInputWithValueProp value={parseInt('str')} />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue(',00');
   });
 
-  it('should mount with null value', async () => {
+  it('should mount with null value', () => {
     render(<CurrencyInputWithValueProp value={null} />);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('');
   });
 
-  it('should set a correct number value', async () => {
+  it('should set a correct number value', () => {
     render(<CurrencyInputWithState />);
     const input = screen.getByRole('textbox');
-    await userEvent.clear(input);
-    await userEvent.type(input, '123');
-    await input.blur();
+    userEvent.clear(input);
+    userEvent.type(input, '123');
+    input.blur();
     expect(input).toHaveValue('123,00');
   });
 
-  it('should not set a string value', async () => {
+  it('should not set a string value', () => {
     render(<CurrencyInputWithState />);
     const input = screen.getByRole('textbox');
-    await userEvent.clear(input);
-    await userEvent.type(input, 'str');
-    await input.blur();
+    userEvent.clear(input);
+    userEvent.type(input, 'str');
+    input.blur();
     expect(input).toHaveValue('');
   });
 
-  it('should change value with a valid number', async () => {
+  it('should change value with a valid number', () => {
     render(<CurrencyInputAndButton value={123} />);
     const button = screen.getByRole('button');
-    await userEvent.click(button);
+    userEvent.click(button);
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('123,00');
   });
 
-  it('should change value and not throw an error with a valid string', async () => {
+  it('should change value and not throw an error with a valid string', () => {
     render(<CurrencyInputAndButton value={'123'} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
@@ -93,7 +93,7 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('123,00');
   });
 
-  it('should not change value and not throw an error with an invalid string', async () => {
+  it('should not change value and not throw an error with an invalid string', () => {
     render(<CurrencyInputAndButton value={'str'} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
@@ -101,12 +101,44 @@ describe('CurrencyInput', () => {
     expect(input).toHaveValue('12,00');
   });
 
-  it('should not change value and should not throw an error with NaN', async () => {
+  it('should not change value and should not throw an error with NaN', () => {
     render(<CurrencyInputAndButton value={parseInt('str')} />);
     const button = screen.getByRole('button');
     expect(() => userEvent.click(button)).not.toThrow();
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,00');
+  });
+
+  it('should clear `value` in input when undefined passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <>
+          <button onClick={() => setValue(undefined)}>clear</button>
+          <CurrencyInput value={value} onValueChange={setValue} />
+        </>
+      );
+    };
+    render(<Comp />);
+
+    userEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
+  it('should clear `value` in input when null passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <>
+          <button onClick={() => setValue(null)}>clear</button>
+          <CurrencyInput value={value} onValueChange={setValue} />
+        </>
+      );
+    };
+    render(<Comp />);
+
+    userEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('textbox')).toHaveValue('');
   });
 
   describe.each([
@@ -117,12 +149,12 @@ describe('CurrencyInput', () => {
     ['IntlBackslash', '1,23'],
     ['NumpadDivide', '1,23'],
   ])('should applied [%s] as comma', (delimiter, expected) => {
-    test(`return: ${expected}`, async () => {
+    test(`return: ${expected}`, () => {
       render(<CurrencyInputWithState />);
       const input = screen.getByRole('textbox');
-      await userEvent.clear(input);
-      await userEvent.keyboard(`1[${delimiter}]23`, {});
-      await input.blur();
+      userEvent.clear(input);
+      userEvent.keyboard(`1[${delimiter}]23`, {});
+      input.blur();
       expect(input).toHaveValue(expected);
     });
   });
