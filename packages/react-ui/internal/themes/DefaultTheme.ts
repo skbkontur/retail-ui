@@ -1616,7 +1616,6 @@ export class DefaultTheme {
   //#region MobilePopup
   public static mobilePopupTopPadding = '80px';
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
-  public static mobilePopupHeaderShadow = '0px 0px 16px 1px rgba(0, 0, 0, 0.1)';
   public static get mobilePopupHeaderFontSize() {
     return this.fontSizeMobile;
   }
