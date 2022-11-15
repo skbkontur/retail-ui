@@ -16,7 +16,6 @@ export const stylesLayout = memoizeStyle({
   },
   aside() {
     return css`
-      height: 0;
       display: inline-flex;
       align-items: center;
     `;
@@ -24,21 +23,6 @@ export const stylesLayout = memoizeStyle({
   icon(t: Theme) {
     return css`
       color: ${t.inputIconColor};
-    `;
-  },
-  iconGapSmall(t: Theme) {
-    return css`
-      width: ${t.inputIconGapSmall};
-    `;
-  },
-  iconGapMedium(t: Theme) {
-    return css`
-      width: ${t.inputIconGapMedium};
-    `;
-  },
-  iconGapLarge(t: Theme) {
-    return css`
-      width: ${t.inputIconGapLarge};
     `;
   },
   iconFocus(t: Theme) {

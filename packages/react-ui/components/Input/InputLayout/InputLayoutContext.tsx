@@ -1,15 +1,17 @@
 import React from 'react';
 
-import { InputProps } from '../Input';
+import { InputSize } from '../Input';
 
-interface InputLayoutContextProps {
+export interface InputLayoutContextProps {
   focused: boolean;
   disabled: boolean;
-  size: InputProps['size'];
+  size: InputSize;
 }
 
-export const InputLayoutContext = React.createContext<InputLayoutContextProps>({
+export const InputLayoutContextDefault: InputLayoutContextProps = {
   focused: false,
   disabled: false,
   size: 'small',
-});
+};
+
+export const InputLayoutContext = React.createContext<InputLayoutContextProps>(InputLayoutContextDefault);

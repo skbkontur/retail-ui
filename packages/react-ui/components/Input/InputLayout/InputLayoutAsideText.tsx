@@ -19,10 +19,7 @@ export const InputLayoutAsideText: React.FunctionComponent<InputLayoutAsideTextP
 
   return (
     text && (
-      <span
-        key="text"
-        className={cx(asideClassName, stylesLayout.text(theme), disabled && stylesLayout.textDisabled(theme))}
-      >
+      <span className={cx(asideClassName, stylesLayout.text(theme), disabled && stylesLayout.textDisabled(theme))}>
         {text}
       </span>
     )

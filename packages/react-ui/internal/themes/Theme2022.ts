@@ -102,6 +102,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Input
+  public static inputIconColor = '#858585';
+  public static inputBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static get inputBorderTopColor() {
+    return this.inputBorderColor;
+  }
+
   public static inputBorderRadiusSmall = '2px';
   public static inputBorderRadiusMedium = '2px';
   public static inputBorderRadiusLarge = '2px';

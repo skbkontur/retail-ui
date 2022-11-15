@@ -20,7 +20,6 @@ import { getThemeName } from '../../lib/theming/ThemeHelpers';
 import { styles } from './Input.styles';
 import { InputLayout } from './InputLayout/InputLayout';
 import { PolyfillPlaceholder } from './InputLayout/PolyfillPlaceholder';
-import { InputLayoutContext } from './InputLayout/InputLayoutContext';
 
 export type InputSize = 'small' | 'medium' | 'large';
 export type InputAlign = 'left' | 'center' | 'right';
@@ -348,25 +347,24 @@ export class Input extends React.Component<InputProps, InputState> {
     const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
     if (isTheme2022) {
       return (
-        <InputLayoutContext.Provider value={{ disabled: Boolean(disabled), focused, size }}>
-          <InputLayout
-            leftIcon={leftIcon}
-            rightIcon={rightIcon}
-            prefix={prefix}
-            suffix={suffix}
-            labelProps={labelProps}
+        <InputLayout
+          leftIcon={leftIcon}
+          rightIcon={rightIcon}
+          prefix={prefix}
+          suffix={suffix}
+          labelProps={labelProps}
+          context={{ disabled: Boolean(disabled), focused, size }}
+        >
+          {input}
+          <PolyfillPlaceholder
+            isMaskVisible={this.isMaskVisible}
+            value={value}
+            defaultValue={this.props.defaultValue}
+            align={align}
           >
-            {input}
-            <PolyfillPlaceholder
-              isMaskVisible={this.isMaskVisible}
-              value={value}
-              defaultValue={this.props.defaultValue}
-              align={align}
-            >
-              {placeholder}
-            </PolyfillPlaceholder>
-          </InputLayout>
-        </InputLayoutContext.Provider>
+            {placeholder}
+          </PolyfillPlaceholder>
+        </InputLayout>
       );
     }
 

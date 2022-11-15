@@ -10,9 +10,10 @@ import { stylesLayout } from './InputLayout.styles';
 
 export interface InputLayoutAsideIconProps {
   icon: InputProps['leftIcon'] | InputProps['rightIcon'];
+  side: 'left' | 'right';
 }
 
-export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon = null }) => {
+export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconProps> = ({ icon, side }) => {
   const theme = React.useContext(ThemeContext);
   const { focused, disabled, size } = React.useContext(InputLayoutContext);
 
@@ -21,20 +22,33 @@ export const InputLayoutAsideIcon: React.FunctionComponent<InputLayoutAsideIconP
     medium: parseInt(theme.inputIconSizeMedium),
     large: parseInt(theme.inputIconSizeLarge),
   };
-  const asideClassName = stylesLayout.aside();
+  const gaps: Record<InputSize, number> = {
+    small: parseInt(theme.inputIconGapSmall),
+    medium: parseInt(theme.inputIconGapMedium),
+    large: parseInt(theme.inputIconGapLarge),
+  };
 
   let _icon = null;
-  if (size && icon && isElement(icon)) {
+  if (icon && isElement(icon)) {
     // We expect icon to have a `size` prop
     _icon = React.cloneElement(icon, { size: sizes[size] });
+  }
+
+  const style: React.CSSProperties = {};
+  if (side) {
+    if (side === 'right') {
+      style.marginLeft = gaps[size];
+    } else {
+      style.marginRight = gaps[size];
+    }
   }
 
   return (
     _icon && (
       <span
-        key="icon"
+        style={style}
         className={cx(
-          asideClassName,
+          stylesLayout.aside(),
           stylesLayout.icon(theme),
           focused && stylesLayout.iconFocus(theme),
           disabled && stylesLayout.iconDisabled(),
