@@ -328,11 +328,9 @@ class SidePageWithLeftPosition extends React.Component<SidePageWithLeftPositionP
             {textSample}
           </SidePage.Container>
         </SidePage.Body>
-        <SidePage.Footer panel>
-          <Gapped>
-            <Button use="primary">Ok</Button>
-            <Button onClick={this.props.close}>Cancel</Button>
-          </Gapped>
+        <SidePage.Footer gap={8} panel>
+          <Button use="primary">Ok</Button>
+          <Button onClick={this.props.close}>Cancel</Button>
         </SidePage.Footer>
       </SidePage>
     );
@@ -354,11 +352,9 @@ class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRigh
               {textSample}
             </SidePage.Container>
           </SidePage.Body>
-          <SidePage.Footer panel>
-            <Gapped>
-              <Button use="primary">Ok</Button>
-              <Button>Cancel</Button>
-            </Gapped>
+          <SidePage.Footer gap={8} panel>
+            <Button use="primary">Ok</Button>
+            <Button>Cancel</Button>
           </SidePage.Footer>
         </SidePage>
         <SidePage disableAnimations={this.props.disableAnimations} fromLeft={false}>
@@ -369,11 +365,9 @@ class LeftSidePageWithRightSidePage extends React.Component<LeftSidePageWithRigh
               {textSample}
             </SidePage.Container>
           </SidePage.Body>
-          <SidePage.Footer panel>
-            <Gapped>
-              <Button use="primary">Ok</Button>
-              <Button>Cancel</Button>
-            </Gapped>
+          <SidePage.Footer gap={8} panel>
+            <Button use="primary">Ok</Button>
+            <Button>Cancel</Button>
           </SidePage.Footer>
         </SidePage>
       </>
@@ -585,27 +579,25 @@ class WithLongTitle extends React.Component {
                   }}
                 />
               </SidePage.Body>
-              <SidePage.Footer>
-                <Gapped gap={15}>
-                  <Button
-                    onClick={() =>
-                      this.setState({
-                        title: title + title,
-                      })
-                    }
-                  >
-                    Increase Title
-                  </Button>
-                  <Button
-                    onClick={() =>
-                      this.setState({
-                        title: title.slice(title.length / 2),
-                      })
-                    }
-                  >
-                    Decrease Title
-                  </Button>
-                </Gapped>
+              <SidePage.Footer gap={15}>
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      title: title + title,
+                    })
+                  }
+                >
+                  Increase Title
+                </Button>
+                <Button
+                  onClick={() =>
+                    this.setState({
+                      title: title.slice(title.length / 2),
+                    })
+                  }
+                >
+                  Decrease Title
+                </Button>
               </SidePage.Footer>
             </SidePage>
           );
