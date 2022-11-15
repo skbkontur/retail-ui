@@ -9,7 +9,7 @@ const styles = {
       flex-direction: column;
       display: flex;
       justify-content: flex-end;
-      border-radius: 16px;
+      border-radius: ${t.mobilePopupBorderRadius};
       overflow: hidden;
       padding-bottom: 8px;
       background: ${t.menuBgDefault};
