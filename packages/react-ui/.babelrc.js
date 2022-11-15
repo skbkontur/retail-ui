@@ -12,5 +12,6 @@ module.exports = {
   plugins: [
     ['@babel/plugin-transform-runtime', { useESModules: true, version: '7.8.3' }],
     ['@babel/plugin-proposal-decorators', { legacy: true }],
+    '@emotion',
   ],
 };
