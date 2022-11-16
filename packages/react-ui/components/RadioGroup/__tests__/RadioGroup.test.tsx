@@ -255,7 +255,11 @@ describe('<RadioGroup />', () => {
 
   it('should pass generic type without type errors', () => {
     function RadioGroupGeneric<T>() {
-      return <RadioGroup<T> items={undefined} />;
+      return (
+        <RadioGroup<T>>
+          <Radio value={'str'} />
+        </RadioGroup>
+      );
     }
 
     expect(() => render(<RadioGroupGeneric />)).not.toThrow();
