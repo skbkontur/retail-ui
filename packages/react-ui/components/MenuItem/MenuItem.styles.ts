@@ -92,7 +92,7 @@ export const styles = memoizeStyle({
       transform: translateY(${t.menuItemIconLegacyShift});
     `;
   },
-  contentMobile() {
+  mobileContentWithIcon() {
     return css`
       margin-left: 8px;
     `;

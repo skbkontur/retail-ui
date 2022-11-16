@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Nullable } from '../../typings/utility-types';
-import { isExternalLink, isFunction, isReactUIComponent } from '../../lib/utils';
+import { isExternalLink, isFunction, isNonNullable, isReactUIComponent } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
@@ -213,7 +213,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         {iconElement}
         <span
           className={cx({
-            [styles.contentMobile()]: isMobile,
+            [styles.mobileContentWithIcon()]: isMobile && isNonNullable(icon),
           })}
         >
           {content}
