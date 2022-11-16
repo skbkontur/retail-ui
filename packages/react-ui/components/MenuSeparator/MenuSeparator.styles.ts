@@ -11,7 +11,7 @@ export const styles = memoizeStyle({
 
   rootMobile(t: Theme) {
     return css`
-      margin: ${t.menuSeparatorMarginY} 16px;
+      margin: ${t.mobileMenuSeparatorMarginY} ${t.mobileMenuSeparatorMarginX};
       border-radius: 1px;
     `;
   },

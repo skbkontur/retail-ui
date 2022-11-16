@@ -981,6 +981,8 @@ export class DefaultTheme {
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
+  public static mobileMenuSeparatorMarginY = '4px';
+  public static mobileMenuSeparatorMarginX = '16px';
   public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
