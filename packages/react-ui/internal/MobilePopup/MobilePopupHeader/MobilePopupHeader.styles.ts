@@ -11,7 +11,7 @@ const styles = {
 
   rootWithoutCaption() {
     return css`
-      padding: 8px 0 0;
+      padding: 8px 0 0 0;
     `;
   },
 
