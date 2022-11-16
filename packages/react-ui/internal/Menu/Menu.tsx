@@ -132,7 +132,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
               data-tid={MenuDataTids.root}
               className={cx(getAlignRightClass(this.props), {
                 [styles.root(this.theme)]: true,
-                [styles.rootMobile()]: isMobile,
+                [styles.rootMobile(this.theme)]: isMobile,
                 [styles.shadow(this.theme)]: hasShadow && !isMobile,
               })}
               style={getStyle(this.props)}
@@ -147,7 +147,7 @@ export class Menu extends React.Component<MenuProps, MenuState> {
                 <div
                   className={cx({
                     [styles.scrollContainer(this.theme)]: true,
-                    [styles.scrollContainerMobile()]: isMobile,
+                    [styles.scrollContainerMobile(this.theme)]: isMobile,
                   })}
                 >
                   {this.getChildList()}
