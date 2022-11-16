@@ -1,4 +1,3 @@
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import { InternalDate } from '../../lib/date/InternalDate';
@@ -97,56 +96,6 @@ type DefaultProps<T> = Required<Pick<DatePickerProps<T>, 'minDate' | 'maxDate' |
 @rootNode
 export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
-
-  public static propTypes = {
-    autoFocus: PropTypes.bool,
-
-    disabled: PropTypes.bool,
-
-    /**
-     * Включает кнопку сегодня в календаре
-     */
-    enableTodayLink: PropTypes.bool,
-
-    error: PropTypes.bool,
-
-    /**
-     * Максимальная дата в календаре.
-     */
-    maxDate: PropTypes.string.isRequired,
-
-    menuAlign: PropTypes.oneOf(['left', 'right']),
-
-    /**
-     * Минимальная дата в календаре.
-     */
-    minDate: PropTypes.string.isRequired,
-
-    /**
-     * Строка формата `dd.mm.yyyy`
-     */
-    value: PropTypes.string,
-
-    warning: PropTypes.bool,
-
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-
-    onBlur: PropTypes.func,
-
-    onValueChange: PropTypes.func.isRequired,
-
-    onFocus: PropTypes.func,
-
-    onKeyDown: PropTypes.func,
-
-    onMouseEnter: PropTypes.func,
-
-    onMouseLeave: PropTypes.func,
-
-    onMouseOver: PropTypes.func,
-
-    isHoliday: PropTypes.func.isRequired,
-  };
 
   public static defaultProps: DefaultProps<string> = {
     minDate: MIN_FULLDATE,
