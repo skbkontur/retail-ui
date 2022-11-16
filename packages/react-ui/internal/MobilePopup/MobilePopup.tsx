@@ -23,7 +23,6 @@ interface MobilePopupProps {
    * Компонент, закрепленный сверху меню (под холдером)
    */
   headerChildComponent?: React.ReactNode;
-  useFullHeight?: boolean;
   withoutRenderContainer?: boolean;
   /**
    * Хэндлер, вызываемый при клике по вуали или заголовку
@@ -79,9 +78,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                     data-tid={MobilePopupDataTids.root}
                     className={cx({
                       [jsStyles.root(this.theme)]: true,
-                      [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
                     })}
-                    onClick={this.props.useFullHeight ? undefined : this.close}
                   >
                     <MobilePopupHeader caption={this.props.caption}>
                       {this.props.headerChildComponent}

@@ -16,14 +16,6 @@ const styles = {
     `;
   },
 
-  rootFullHeight(t: Theme) {
-    return css`
-      background-color: ${t.bgDefault};
-      justify-content: flex-start;
-      flex-grow: 1;
-    `;
-  },
-
   wrapper() {
     return css`
       position: fixed;

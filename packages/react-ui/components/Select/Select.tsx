@@ -487,13 +487,10 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const search = this.props.search ? this.getSearch(true) : null;
     const value = this.getValue();
 
-    const isWithSearch = Boolean(search);
-
     return (
       <MobilePopup
         headerChildComponent={search}
         caption={this.props.mobileMenuHeaderText}
-        useFullHeight={isWithSearch}
         onCloseRequest={this.close}
         opened={this.state.opened}
       >

@@ -293,7 +293,6 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       <MobilePopup
         headerChildComponent={<Input {...inputProps} />}
         caption={this.props.mobileMenuHeaderText}
-        useFullHeight
         opened={this.state.isMobileOpened}
         onCloseRequest={this.handleCloseMobile}
         ref={this.refMobilePopup}
