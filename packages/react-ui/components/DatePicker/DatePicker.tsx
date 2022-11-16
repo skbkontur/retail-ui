@@ -30,7 +30,7 @@ const INPUT_PASS_PROPS = {
 
 export const MIN_WIDTH = 120;
 
-export interface DatePickerProps<T> extends CommonProps {
+export interface DatePickerProps extends CommonProps {
   autoFocus?: boolean;
   disabled?: boolean;
   enableTodayLink?: boolean;
@@ -38,11 +38,11 @@ export interface DatePickerProps<T> extends CommonProps {
    * Состояние валидации при ошибке.
    */
   error?: boolean;
-  minDate?: T;
-  maxDate?: T;
+  minDate?: string;
+  maxDate?: string;
   menuAlign?: 'left' | 'right';
   size?: 'small' | 'medium' | 'large';
-  value?: T | null;
+  value?: string | null;
   /**
    * Состояние валидации при предупреждении.
    */
@@ -54,7 +54,7 @@ export interface DatePickerProps<T> extends CommonProps {
    *
    * @param value - строка в формате `dd.mm.yyyy`.
    */
-  onValueChange: (value: T) => void;
+  onValueChange: (value: string) => void;
   onFocus?: () => void;
   onKeyDown?: (e: React.KeyboardEvent<any>) => void;
   onMouseEnter?: (e: React.MouseEvent<any>) => void;
@@ -70,12 +70,12 @@ export interface DatePickerProps<T> extends CommonProps {
   /**
    * Функция для определения праздничных дней
    * @default (_day, isWeekend) => isWeekend
-   * @param {T} day - строка в формате `dd.mm.yyyy`
+   * @param {string} day - строка в формате `dd.mm.yyyy`
    * @param {boolean} isWeekend - флаг выходного (суббота или воскресенье)
    *
    * @returns {boolean} `true` для выходного или `false` для рабочего дня
    */
-  isHoliday?: (day: T, isWeekend: boolean) => boolean;
+  isHoliday?: (day: string, isWeekend: boolean) => boolean;
 }
 
 export interface DatePickerState {
@@ -83,24 +83,22 @@ export interface DatePickerState {
   canUseMobileNativeDatePicker: boolean;
 }
 
-type DatePickerValue = string;
-
 export const DatePickerDataTids = {
   root: 'DatePicker__root',
   pickerRoot: 'Picker__root',
   pickerTodayWrapper: 'Picker__todayWrapper',
 } as const;
 
-type DefaultProps<T> = Required<Pick<DatePickerProps<T>, 'minDate' | 'maxDate' | 'isHoliday'>>;
+type DefaultProps = Required<Pick<DatePickerProps, 'minDate' | 'maxDate' | 'isHoliday'>>;
 
 @rootNode
-export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerValue>, DatePickerState> {
+export class DatePicker extends React.PureComponent<DatePickerProps, DatePickerState> {
   public static __KONTUR_REACT_UI__ = 'DatePicker';
 
-  public static defaultProps: DefaultProps<string> = {
+  public static defaultProps: DefaultProps = {
     minDate: MIN_FULLDATE,
     maxDate: MAX_FULLDATE,
-    isHoliday: (_day: DatePickerValue, isWeekend: boolean) => isWeekend,
+    isHoliday: (_day: string, isWeekend: boolean) => isWeekend,
   };
 
   private getProps = createPropsGetter(DatePicker.defaultProps);
@@ -194,7 +192,7 @@ export class DatePicker extends React.PureComponent<DatePickerProps<DatePickerVa
     );
   }
 
-  public renderMain = (props: CommonWrapperRestProps<DatePickerProps<DatePickerValue>>) => {
+  public renderMain = (props: CommonWrapperRestProps<DatePickerProps>) => {
     let picker = null;
 
     const { value } = this.props;
