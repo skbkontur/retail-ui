@@ -9,7 +9,6 @@ import { jsStyles } from './MobilePopupHeader.styles';
 
 interface MobilePopupHeaderProps {
   caption?: string;
-  onClose: () => void;
 }
 
 export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {

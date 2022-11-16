@@ -83,7 +83,7 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                     })}
                     onClick={this.props.useFullHeight ? undefined : this.close}
                   >
-                    <MobilePopupHeader caption={this.props.caption} onClose={this.close}>
+                    <MobilePopupHeader caption={this.props.caption}>
                       {this.props.headerChildComponent}
                     </MobilePopupHeader>
                     <div
