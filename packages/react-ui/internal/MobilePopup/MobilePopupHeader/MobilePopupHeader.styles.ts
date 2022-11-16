@@ -9,7 +9,7 @@ const styles = {
     `;
   },
 
-  rootNoCaption() {
+  rootWithoutCaption() {
     return css`
       padding: 8px 0 0;
     `;

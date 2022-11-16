@@ -35,7 +35,7 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
       <div
         className={cx({
           [jsStyles.root(this.theme)]: true,
-          [jsStyles.rootNoCaption()]: !caption && !children,
+          [jsStyles.rootWithoutCaption()]: !caption && !children,
         })}
         onClick={this.rootClickHandler}
       >
