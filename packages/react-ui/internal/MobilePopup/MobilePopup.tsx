@@ -1,7 +1,6 @@
 import React from 'react';
 import { Transition } from 'react-transition-group';
 
-import { isNullable } from '../../lib/utils';
 import { Theme } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Nullable } from '../../typings/utility-types';
@@ -81,7 +80,6 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
                     className={cx({
                       [jsStyles.root(this.theme)]: true,
                       [jsStyles.rootFullHeight(this.theme)]: this.props.useFullHeight,
-                      [jsStyles.rootWithChildren()]: isNullable(this.props.children),
                     })}
                     onClick={this.props.useFullHeight ? undefined : this.close}
                   >

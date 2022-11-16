@@ -24,12 +24,6 @@ const styles = {
     `;
   },
 
-  rootWithChildren() {
-    return css`
-      padding-bottom: 8px;
-    `;
-  },
-
   wrapper() {
     return css`
       position: absolute;
