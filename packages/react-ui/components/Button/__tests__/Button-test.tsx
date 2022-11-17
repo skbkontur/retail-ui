@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import React from 'react';
 
@@ -34,7 +34,7 @@ describe('Button', () => {
     screen.getByRole('button').blur();
 
     expect(onBlur).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('Handels onFocus event', () => {
     const onFocus = jest.fn();
@@ -43,21 +43,44 @@ describe('Button', () => {
     userEvent.click(screen.getByRole('button'));
 
     expect(onFocus).toHaveBeenCalledTimes(1);
-  })
+  });
 
   it('Handels onKeyDown event', () => {
     const onKeyDown = jest.fn();
     render(<Button onKeyDown={onKeyDown} />);
-    userEvent.type(screen.getByRole('button'), '{enter}')
+
+    userEvent.type(screen.getByRole('button'), '{enter}');
 
     expect(onKeyDown).toHaveBeenCalledTimes(1);
-  })
-});
+  });
 
+  it('Handels onMouseEnter event', () => {
+    const onMouseEnter = jest.fn();
+    render(<Button onMouseEnter={onMouseEnter} />);
+
+    userEvent.type(screen.getByRole('button'), '{mouseenter}');
+
+    expect(onMouseEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it('Handels onMouseOver event', () => {
+    const onMouseOver = jest.fn();
+    render(<Button onMouseOver={onMouseOver} />);
+
+    userEvent.type(screen.getByRole('button'), '{mouseover}');
+    expect(onMouseOver).toHaveBeenCalledTimes(1);
+  });
+
+  it('Handels onMouseLeave event', () => {
+    const onMouseLeave = jest.fn();
+    render(<Button onMouseLeave={onMouseLeave} />);
+
+    fireEvent.mouseLeave(screen.getByRole('button'));
+
+    expect(onMouseLeave).toHaveBeenCalledTimes(1);
+  });
+});
 
 // title	string | undefined
 // className	string | undefined
 // data-tid	string | undefined
-// onMouseEnter	MouseEventHandler<HTMLButtonElement> | undefined
-// onMouseLeave	MouseEventHandler<HTMLButtonElement> | undefined
-// onMouseOver	MouseEventHandler<HTMLButtonElement> | undefined
