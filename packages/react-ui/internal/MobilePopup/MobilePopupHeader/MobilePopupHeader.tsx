@@ -8,6 +8,9 @@ import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { jsStyles } from './MobilePopupHeader.styles';
 
 interface MobilePopupHeaderProps {
+  /**
+   * Заголовок шапки
+   */
   caption?: string;
 }
 
