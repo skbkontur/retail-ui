@@ -65,45 +65,36 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
     const content = (
       <ZIndex priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
-          {(state) => (
-            <div className={jsStyles.wrapper()}>
-              <RenderLayer onClickOutside={this.close}>
+          <div className={jsStyles.wrapper()}>
+            <RenderLayer onClickOutside={this.close}>
+              <div
+                data-tid={MobilePopupDataTids.container}
+                className={cx({
+                  [jsStyles.container(this.theme)]: true,
+                })}
+              >
                 <div
-                  data-tid={MobilePopupDataTids.container}
+                  data-tid={MobilePopupDataTids.root}
                   className={cx({
-                    [jsStyles.container(this.theme)]: true,
+                    [jsStyles.root(this.theme)]: true,
                   })}
                 >
+                  <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
                   <div
-                    data-tid={MobilePopupDataTids.root}
-                    className={cx({
-                      [jsStyles.root(this.theme)]: true,
-                    })}
+                    onClick={(e) => e.stopPropagation()}
+                    className={jsStyles.content(this.theme)}
+                    onScroll={this.handleScrollMenu}
+                    ref={this.refContent}
                   >
-                    <MobilePopupHeader caption={this.props.caption}>
-                      {this.props.headerChildComponent}
-                    </MobilePopupHeader>
-                    <div
-                      onClick={(e) => e.stopPropagation()}
-                      className={jsStyles.content(this.theme)}
-                      onScroll={this.handleScrollMenu}
-                      ref={this.refContent}
-                    >
-                      {this.props.children}
-                    </div>
+                    {this.props.children}
                   </div>
-                  <div onClick={this.close} className={jsStyles.bottomIndent()} />
                 </div>
-              </RenderLayer>
-              <div
-                className={cx({
-                  [jsStyles.bg()]: true,
-                  [jsStyles.bgShowed()]: state === 'entered',
-                })}
-              />
-              <HideBodyVerticalScroll />
-            </div>
-          )}
+                <div onClick={this.close} className={jsStyles.bottomIndent()} />
+              </div>
+            </RenderLayer>
+            <div className={jsStyles.bg()} />
+            <HideBodyVerticalScroll />
+          </div>
         </Transition>
       </ZIndex>
     );

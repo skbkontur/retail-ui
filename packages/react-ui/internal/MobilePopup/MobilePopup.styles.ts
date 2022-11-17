@@ -55,11 +55,6 @@ const styles = {
       background: #333333;
       opacity: 0%;
       pointer-events: none;
-    `;
-  },
-
-  bgShowed() {
-    return css`
       opacity: 50%;
     `;
   },
