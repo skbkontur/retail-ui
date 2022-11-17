@@ -403,6 +403,7 @@ PlaygroundDisabled.parameters = {
   creevey: {
     skip: [
       { in: ['ie11', 'ie118px', 'ie11Flat8px', 'ie11Dark'], tests: 'hover' },
+      { in: /firefox/, tests: 'tabPress', reason: 'focus goes out of page and breaks other tests' },
       { in: ['chrome8px', 'chromeFlat8px', 'chrome', 'chromeDark'], tests: ['hover', 'pressed', 'clicked'] },
     ],
     tests: buttonTests,
