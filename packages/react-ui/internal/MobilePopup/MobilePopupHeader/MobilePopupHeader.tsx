@@ -39,7 +39,6 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
           [jsStyles.root(this.theme)]: true,
           [jsStyles.rootWithoutCaption()]: !caption && !children,
         })}
-        onClick={this.rootClickHandler}
       >
         <div className={jsStyles.container()}>
           {caption && (
@@ -57,8 +56,4 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
       </div>
     );
   }
-
-  private rootClickHandler = (e: React.MouseEvent) => {
-    e.stopPropagation();
-  };
 }
