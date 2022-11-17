@@ -7,7 +7,6 @@ import { Nullable } from '../../typings/utility-types';
 import { RenderContainer } from '../RenderContainer';
 import { HideBodyVerticalScroll } from '../HideBodyVerticalScroll';
 import { ZIndex } from '../ZIndex';
-import { cx } from '../../lib/theming/Emotion';
 import { RenderLayer } from '../RenderLayer';
 
 import { jsStyles } from './MobilePopup.styles';
@@ -67,18 +66,8 @@ export class MobilePopup extends React.Component<MobilePopupProps, MobilePopupSt
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
             <RenderLayer onClickOutside={this.close}>
-              <div
-                data-tid={MobilePopupDataTids.container}
-                className={cx({
-                  [jsStyles.container(this.theme)]: true,
-                })}
-              >
-                <div
-                  data-tid={MobilePopupDataTids.root}
-                  className={cx({
-                    [jsStyles.root(this.theme)]: true,
-                  })}
-                >
+              <div data-tid={MobilePopupDataTids.container} className={jsStyles.container(this.theme)}>
+                <div data-tid={MobilePopupDataTids.root} className={jsStyles.root(this.theme)}>
                   <MobilePopupHeader caption={this.props.caption}>{this.props.headerChildComponent}</MobilePopupHeader>
                   <div
                     onClick={(e) => e.stopPropagation()}
