@@ -983,9 +983,10 @@ export class DefaultTheme {
   //menuSeparator
   public static menuSeparatorBorderColor = '#ebebeb';
   public static menuSeparatorMarginY = '2px';
+  public static menuSeparatorBorderWidth = '1px';
+  // mobileMenuSeparator
   public static mobileMenuSeparatorMarginY = '4px';
   public static mobileMenuSeparatorMarginX = '16px';
-  public static menuSeparatorBorderWidth = '1px';
   //#endregion
   //#region Toggle
   public static get toggleFontSize() {
@@ -1619,8 +1620,8 @@ export class DefaultTheme {
   //#endregion
   //#region MobilePopup
   public static mobilePopupTopPadding = '80px';
-  public static mobilePopupBorderRadius = '16px';
   public static mobilePopupHeaderPadding = '16px 16px 8px 16px';
+  public static mobilePopupBorderRadius = '16px';
   public static get mobilePopupHeaderFontSize() {
     return this.fontSizeMobile;
   }
