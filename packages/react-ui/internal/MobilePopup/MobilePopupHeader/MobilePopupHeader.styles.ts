@@ -36,24 +36,6 @@ const styles = {
       padding-bottom: 8px;
     `;
   },
-
-  closeWrapper() {
-    return css`
-      height: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    `;
-  },
-
-  closeHolder() {
-    return css`
-      background-color: rgba(0, 0, 0, 0.1);
-      height: 4px;
-      width: 10%;
-      border-radius: 4px;
-    `;
-  },
 };
 
 export const jsStyles = memoizeStyle(styles);
