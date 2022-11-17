@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
-import { ScrollOffset } from './ValidationContainer';
+import { ScrollOffset, WithoutFocusType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 
 export interface ValidationContextSettings {
@@ -127,28 +127,18 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return wrappersWithPosition.map((x) => x.target);
   }
 
-  public async validate(withoutFocus: boolean | 'warningsWithoutFocus'): Promise<boolean> {
+  public async validate(withoutFocus: WithoutFocusType): Promise<boolean> {
     const warningsWithoutFocus = withoutFocus === 'warningsWithoutFocus';
     const withoutAnyFocus = warningsWithoutFocus ? false : withoutFocus;
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
 
     const childrenWrappersSortedByPosition = this.getChildWrappersSortedByPosition();
-    const firstWarning = childrenWrappersSortedByPosition.find((x) => x.hasWarning());
     const firstError = childrenWrappersSortedByPosition.find((x) => x.hasError());
-    if (firstError && !firstWarning) {
-      if (!withoutAnyFocus) {
-        firstError.focus();
-      }
-    } else if (firstWarning && !firstError) {
-      if (!warningsWithoutFocus && !withoutAnyFocus) {
-        firstWarning.focus();
-      }
-    } else if (firstError && firstWarning) {
-      if (!withoutAnyFocus && !warningsWithoutFocus) {
-        childrenWrappersSortedByPosition.find((x) => x.hasError() || x.hasWarning())?.focus();
-      }
+    if (!withoutAnyFocus) {
       if (warningsWithoutFocus) {
-        firstError.focus();
+        firstError?.focus();
+      } else {
+        childrenWrappersSortedByPosition.find((x) => x.hasError() || x.hasWarning())?.focus();
       }
     }
     if (this.props.onValidationUpdated) {

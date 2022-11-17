@@ -4,17 +4,23 @@
 
 Контейнер, внутри которого находятся валидируемые контролы.
 
-### `submit(): Promise<void>`
+### `submit(withoutFocus?: boolean | 'warningsWithoutFocus'): Promise<void>`
 
 При вызове этой функции загораются все невалидные контролы. Необходимо для реализации
 сценария [валидации при отправке формы](https://guides.kontur.ru/principles/validation/#07).
+
 
     <ValidationContainer ref='container'>
         // ...
         <Button onClick={() => this.refs.container.submit()}>Сохранить</Button>
     </ValidationContainer>
 
-### `validate(): Promise<boolean>`
+Аргументы:
+
+- `withoutFocus`: `true` отключает автофокус невалидных контролов. `'warningsWithoutFocus'` отключает автофокус к валидациям с уровнем варнинг (`level = 'warning'`). Дефолтное значение `false`.
+
+
+### `validate(withoutFocus?: boolean | 'warningsWithoutFocus'): Promise<boolean>`
 
 При вызове этой функции загораются все невалидные контролы так же как и при вызове
 функции `submit()`. Кроме того функция возвращает признак валидности формы.
@@ -34,6 +40,11 @@
             </ValidationContainer>
         );
     }
+
+Аргументы:
+
+- `withoutFocus`: `true` отключает автофокус невалидных контролов. `'warningsWithoutFocus'` отключает автофокус к валидациям с уровнем варнинг (`level = 'warning'`). Дефолтное значение `false`.
+
 
 ### `children`
 
