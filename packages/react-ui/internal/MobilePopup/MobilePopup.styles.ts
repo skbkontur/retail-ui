@@ -34,12 +34,11 @@ const styles = {
   },
 
   container(t: Theme) {
-    const indentY = '24px';
     return css`
       position: absolute;
       top: ${t.mobilePopupTopPadding};
-      left: ${indentY};
-      width: calc(100% - ${indentY} * 2);
+      left: ${t.mobilePopupOuterIndentY};
+      width: calc(100% - ${t.mobilePopupOuterIndentY} * 2);
       z-index: 100000;
     `;
   },

@@ -1630,6 +1630,7 @@ export class DefaultTheme {
   }
   public static mobilePopupHeaderFontWeight = '500';
   public static mobilePopupHeaderChildPadding = '12px';
+  public static mobilePopupOuterIndentY = '24px';
   //#endregion
   //#region ScrollContainer
   public static scrollContainerScrollBarSize = '4px';
