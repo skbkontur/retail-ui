@@ -14,7 +14,7 @@ import { isNonNullable } from '../../lib/utils';
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
-export interface SidePageFooterProps extends CommonProps {
+export interface SidePageFooterProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   /**
    * Включает серый цвет в футере
