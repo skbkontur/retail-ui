@@ -453,7 +453,7 @@ UsingOnKeyDown.parameters = {
 };
 
 export const WithSearchAndVariousWidth: Story = () => {
-  let selectElem: Select<unknown, string> | null = null;
+  let selectElem: Select<string, string> | null = null;
   const [width, setWidth] = useState<string>();
   const changeWidth = (w: string) => {
     setWidth(w);
@@ -474,7 +474,7 @@ export const WithSearchAndVariousWidth: Story = () => {
         100%
       </Button>
       <br />
-      <Select<unknown, string> ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select<string, string> ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };

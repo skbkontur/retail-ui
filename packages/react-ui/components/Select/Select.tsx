@@ -64,6 +64,7 @@ export const SelectDataTids = {
 type SelectItem<TValue, TItem> =
   | [TValue, TItem, React.ReactNode?]
   | TItem
+  | TValue
   | React.ReactElement
   | (() => React.ReactElement);
 
