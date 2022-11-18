@@ -1835,10 +1835,6 @@ export class DefaultTheme {
   public static closeIconColor = 'rgba(0, 0, 0, 0.32)';
   public static closeIconDisabledColor = '#8b8b8b';
   public static closeIconHoverColor = 'rgba(0, 0, 0, 0.865)';
-
-  public static closeIconDarkColor = 'rgba(255, 255, 255, 0.32)';
-  public static closeIconDarkDisabledColor = '#8b8b8b';
-  public static closeIconDarkHoverColor = 'rgba(255, 255, 255, 0.865)';
   //#endregion
 }
 
