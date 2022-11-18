@@ -8,6 +8,8 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { QuestionCircleSolidIcon } from '../../internal/icons/16px/Icons2022';
 
 import { TextareaDataTids, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
@@ -41,11 +43,20 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     const renderTooltipContent = useCallback(() => help, [help]);
     const textareaValue = value ? value.toString().length : 0;
     const counterValue = length - textareaValue;
+    const helpIcon = isTheme2022(theme) ? (
+      <QuestionCircleSolidIcon
+        disableCompensation={false}
+        onMouseDown={handleHelpMouseDown}
+        color={theme.textareaCounterHelpIconColor}
+      />
+    ) : (
+      <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
+    );
     const counterHelp = isFunction(help) ? (
       help()
     ) : (
       <Tooltip pos={'right bottom'} trigger={'click'} render={renderTooltipContent} onCloseClick={onCloseHelp}>
-        <HelpDotIcon onMouseDown={handleHelpMouseDown} color={theme.textareaCounterHelpIconColor} />
+        {helpIcon}
       </Tooltip>
     );
 
