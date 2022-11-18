@@ -13,6 +13,8 @@ import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../intern
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { CheckASolidIcon, ShapeSquareIcon } from '../../internal/icons/16px/Icons2022';
 
 import { styles, globalClasses } from './Checkbox.styles';
 
@@ -205,6 +207,29 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
     } = props;
     const isIndeterminate = this.state.indeterminate;
 
+    const _isTheme2022 = isTheme2022(this.theme);
+
+    const iconClass = cx(
+      styles.icon(this.theme),
+      !_isTheme2022 && styles.iconFixPosition(),
+      !props.checked && !isIndeterminate && styles.iconUnchecked(),
+    );
+
+    const IconCheck = _isTheme2022 ? (
+      <span className={iconClass}>
+        <CheckASolidIcon size={12} />
+      </span>
+    ) : (
+      <OkIcon className={iconClass} />
+    );
+    const IconSquare = _isTheme2022 ? (
+      <span className={iconClass}>
+        <ShapeSquareIcon size={6} />
+      </span>
+    ) : (
+      <SquareIcon className={iconClass} />
+    );
+
     const rootClass = cx({
       [styles.root(this.theme)]: true,
       [styles.rootFallback()]: isIE11 || isEdge,
@@ -234,11 +259,6 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
       caption = <span className={captionClass}>{this.props.children}</span>;
     }
 
-    const iconClass = cx({
-      [styles.icon()]: true,
-      [styles.iconUnchecked()]: !props.checked && !isIndeterminate,
-    });
-
     const box = (
       <div className={cx(styles.boxWrapper(this.theme))}>
         <div
@@ -250,7 +270,7 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
             [styles.boxDisabled(this.theme)]: props.disabled,
           })}
         >
-          {(isIndeterminate && <SquareIcon className={iconClass} />) || <OkIcon className={iconClass} />}
+          {(isIndeterminate && IconSquare) || IconCheck}
         </div>
       </div>
     );

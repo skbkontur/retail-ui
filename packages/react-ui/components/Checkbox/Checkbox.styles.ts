@@ -161,17 +161,23 @@ export const styles = memoizeStyle({
     `;
   },
 
-  icon() {
+  icon(t: Theme) {
     return css`
       position: absolute;
-      top: 0px;
-      bottom: 0px;
-      right: 0px;
-      left: 0px;
+      top: ${t.checkboxIconTop};
+      bottom: 0;
+      right: 0;
+      left: ${t.checkboxIconLeft};
       display: flex;
       justify-content: center;
       align-items: center;
+      height: ${t.checkboxIconHeight};
+      width: ${t.checkboxIconWidth};
+    `;
+  },
 
+  iconFixPosition() {
+    return css`
       svg {
         margin: -12.5% 0 0 0;
       }

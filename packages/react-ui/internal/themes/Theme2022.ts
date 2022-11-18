@@ -129,8 +129,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static radioBulletSize = '6px';
 
-  public static checkboxBorderRadius = '4px';
-
   public static menuSeparatorMarginX = '8px';
 
   public static tooltipBorderRadius = '8px';
@@ -221,7 +219,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static dateInputComponentSelectedBgColor = 'highlight';
   //#endregion
 
+  //#region Checkbox
+  public static checkboxBorderRadius = '4px';
   public static checkboxCheckedBg = '#3D3D3D';
+  public static checkboxCheckedHoverBg = '#292929';
+  //#endregion
 
   public static menuBorderRadius = '8px';
   public static menuPaddingX = '4px';
