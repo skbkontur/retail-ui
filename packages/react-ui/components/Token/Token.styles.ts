@@ -26,6 +26,28 @@ export const styles = memoizeStyle({
     `;
   },
 
+  tokenIdleHover2022(t: Theme) {
+    return css`
+      box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(t.tokenDefaultIdle, '5%')} !important;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.16);
+      }
+    `;
+  },
+
+  tokenIdleError2022(t: Theme) {
+    return css`
+      box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError} !important;
+    `;
+  },
+
+  tokenIdleWarning2022(t: Theme) {
+    return css`
+      box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning} !important;
+    `;
+  },
+
   disabled(t: Theme) {
     return css`
       padding: ${t.tokenPaddingYDisabled} ${t.tokenPaddingXDisabled};

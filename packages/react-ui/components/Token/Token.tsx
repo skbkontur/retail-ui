@@ -7,6 +7,8 @@ import { Theme } from '../../lib/theming/Theme';
 import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { XIcon } from '../../internal/icons/16px/Icons2022';
 
 import { styles, colorStyles, globalClasses } from './Token.styles';
 
@@ -75,7 +77,7 @@ export class Token extends React.Component<TokenProps> {
     const {
       children,
       isActive,
-      colors,
+      colors = { idle: 'defaultIdle', active: 'defaultActive' },
       error,
       warning,
       disabled,
@@ -91,25 +93,34 @@ export class Token extends React.Component<TokenProps> {
 
     const validation = getValidation(error, warning);
 
-    const disableClassNames = cx(colorStyles.defaultDisabled(theme), {
-      [colorStyles.defaultDisabledWarning(theme)]: warning,
-      [colorStyles.defaultDisabledError(theme)]: error,
-    });
+    const icon = isTheme2022(theme) ? <XIcon /> : <CrossIcon />;
 
-    let tokenClassName = disabled ? disableClassNames : colorStyles.defaultIdle(theme, validation);
-    let activeTokenClassName = disabled ? disableClassNames : colorStyles.defaultActive(theme, validation);
+    const idleClassName = colorStyles[colors.idle](theme, validation);
+    const activeClassName = colorStyles[colors.active || colors.idle];
 
-    if (!disabled && colors) {
-      tokenClassName = colorStyles[colors.idle](theme, validation);
-
-      const activeClassName = colors.active ? colors.active : colors.idle;
-      activeTokenClassName = colorStyles[activeClassName](theme, validation);
+    let classNames = '';
+    if (isTheme2022(theme)) {
+      const isDefault = colors.idle === 'defaultIdle';
+      classNames = cx(
+        !isActive && isDefault && styles.tokenIdleHover2022(theme),
+        error && styles.tokenIdleError2022(theme),
+        warning && styles.tokenIdleWarning2022(theme),
+      );
+    } else {
+      classNames = cx(
+        warning && colorStyles.defaultDisabledWarning(theme),
+        error && colorStyles.defaultDisabledError(theme),
+      );
     }
 
-    const tokenClassNames = cx(styles.token(this.theme), tokenClassName, {
-      [activeTokenClassName]: !!isActive,
-      [styles.disabled(theme)]: !!disabled,
-    });
+    const tokenClassNames = cx(
+      styles.token(this.theme),
+      colorStyles.defaultDisabled(theme),
+      classNames,
+      idleClassName,
+      !!isActive && activeClassName(theme, validation),
+      !!disabled && styles.disabled(theme),
+    );
 
     return (
       <CommonWrapper rootNodeRef={this.setRootNode} {...this.props}>
@@ -125,7 +136,7 @@ export class Token extends React.Component<TokenProps> {
         >
           <span className={styles.text(this.theme)}>{children}</span>
           <span className={cx(styles.removeIcon(this.theme), globalClasses.removeIcon)} onClick={this.onRemoveClick}>
-            <CrossIcon />
+            {icon}
           </span>
         </div>
       </CommonWrapper>
