@@ -1,8 +1,8 @@
 import { exposeGetters } from '../../lib/theming/ThemeHelpers';
 
-import { DefaultThemeInternal } from './DefaultTheme';
+import { Theme2022Internal } from './Theme2022';
 
-export class Theme2022Dark extends (class {} as typeof DefaultThemeInternal) {
+export class Theme2022Dark extends (class {} as typeof Theme2022Internal) {
   //#region Button
   public static btnLinkColor = '#ddd';
   public static btnLinkHoverColor = '#eee';
@@ -20,5 +20,5 @@ export class Theme2022Dark extends (class {} as typeof DefaultThemeInternal) {
 
 export const Theme2022DarkInternal = Object.setPrototypeOf(
   exposeGetters(Theme2022Dark),
-  DefaultThemeInternal,
+  Theme2022Internal,
 ) as typeof Theme2022Dark;
