@@ -136,16 +136,90 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static tooltipBorderRadius = '8px';
 
   public static popupBorderRadius = '8px';
+  public static popupBoxShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
+  public static popupDropShadow = 'drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08))';
+
+  public static pickerShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
 
   public static toastBorderRadius = '8px';
 
   public static hintBorderRadius = '8px';
 
+  //#region Modal
+  public static modalWindowShadow = '0px 16px 32px 0px rgba(0, 0, 0, 0.04)';
   public static modalBorderRadius = '16px';
   public static fixedPanelShadow = 'none';
   public static modalFooterBg = '#fff';
-  public static modalFixedHeaderBorder = '1px solid #EBEBEB';
-  public static modalFixedFooterBorder = '1px solid #EBEBEB';
+  // public static modalFixedHeaderBorder = '1px solid #EBEBEB';
+  // public static modalFixedFooterBorder = '1px solid #EBEBEB';
+  public static modalFooterPaddingTop = '20px';
+  public static modalFooterPaddingBottom = '20px';
+  public static modalFixedHeaderMarginBottom = '0px';
+  public static get modalFixedHeaderPaddingBottom() {
+    return this.modalHeaderPaddingBottom;
+  }
+  public static get modalFixedFooterPaddingTop() {
+    return this.modalFooterPaddingTop;
+  }
+  public static modalFixedFooterMarginTop = '0px';
+  public static modalSeparatorBorderBottom = '1px solid #EBEBEB';
+  public static modalHeaderFontWeight = '700';
+  public static modalPaddingRight = '32px';
+  public static modalCloseButtonPadding = '32px';
+  public static modalCloseIconSize = '20px';
+  public static mobileModalCloseIconSize = '20px';
+  public static mobileModalCloseButtonRightPadding = '12px';
+  public static mobileModalCloseButtonTopPadding = '8px';
+  //#endregion
+
+  //#region Select
+  public static get selectBorderRadiusSmall() {
+    return this.inputBorderRadiusSmall;
+  }
+  public static get selectBorderRadiusMedium() {
+    return this.inputBorderRadiusMedium;
+  }
+  public static get selectBorderRadiusLarge() {
+    return this.inputBorderRadiusLarge;
+  }
+  //#endregion
+
+  //#region FileUploader
+  public static fileUploaderIconColor = '#222222';
+  public static fileUploaderDisabledIconColor = '#858585';
+  public static fileUploaderDisabledTextColor = '#858585';
+  public static fileUploaderDisabledLinkColor = '#858585';
+  public static fileUploaderAfterLinkColor = '#858585';
+  public static fileUploaderBorderRadius = '8px';
+  public static fileUploaderLinkHoverTextDecoration = 'none';
+  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
+  public static fileUploaderHoveredBorderColor = 'transparent';
+  //#endregion
+
+  //#region Toast
+  public static toastCloseSize = '12px';
+  public static toastClosePadding = '14px';
+  //#endregion
+
+  //#region Tooltip
+  public static tooltipCloseBtnPadding = '4px';
+  public static tooltipCloseBtnSide = '16px';
+  //#endregion
+
+  //#region Token
+  public static tokenRemoveIconSize = '16px';
+  public static tokenRemoveIconPaddingY = '0';
+  public static tokenRemoveIconPaddingX = '0';
+  public static tokenDefaultActive = '#323232';
+  public static tokenBorderRadius = '2px';
+
+  public static tokenMarginX = '2px';
+  //#endregion
+
+  //#region DateInput
+  //https://w3c.github.io/csswg-drafts/css-color/#valdef-system-color-highlight
+  public static dateInputComponentSelectedBgColor = 'highlight';
+  //#endregion
 
   public static checkboxCheckedBg = '#3D3D3D';
 
@@ -155,19 +229,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static menuItemHoverColor = '#222';
   public static menuItemBorderRadius = '6px';
   public static menuItemCommentColorHover = '#858585';
-
-  public static fileUploaderBorderRadius = '8px';
-  public static fileUploaderLinkHoverTextDecoration = 'none';
-  public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
+  public static menuShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
 
   public static tokenInputBorderRadius = '2px';
-  public static tokenBorderRadius = '2px';
-
-  public static tokenPaddingY = '1px';
-  public static tokenPaddingX = '3px';
-
-  public static tokenMarginY = '3px';
-  public static tokenMarginX = '2px';
 
   public static tokenInputPaddingY = '2px';
   public static tokenInputPaddingX = '2px';
