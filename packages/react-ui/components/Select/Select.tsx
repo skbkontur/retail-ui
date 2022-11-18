@@ -507,7 +507,13 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
   private getMobileSearch = () => {
     return (
-      <Input value={this.state.searchPattern} ref={this.focusInput} onValueChange={this.handleSearch} width="100%" />
+      <Input
+        autoFocus
+        value={this.state.searchPattern}
+        ref={this.focusInput}
+        onValueChange={this.handleSearch}
+        width="100%"
+      />
     );
   };
 
