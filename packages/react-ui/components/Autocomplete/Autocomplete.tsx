@@ -3,6 +3,7 @@
 import React, { KeyboardEvent } from 'react';
 import PropTypes from 'prop-types';
 
+import { isNullable } from '../../lib/utils';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
@@ -299,8 +300,11 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
       >
         <Menu ref={this.refMenu} onItemClick={this.mobilePopup?.close} disableScrollContainer maxHeight={'auto'}>
           {items && items.length > 0 && this.getItems()}
-          {!this.props.value && this.renderUtilityMessage('Начните вводить название')}
+          {!this.props.value && this.renderUtilityMessage('Начните вводить значение')}
           {items?.length === 0 && this.props.value && this.renderUtilityMessage('Ничего не найдено')}
+          {isNullable(items?.length) &&
+            this.props.value &&
+            this.renderUtilityMessage('Начните вводить или изменять значение')}
         </Menu>
       </MobilePopup>
     );
