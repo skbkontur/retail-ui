@@ -474,7 +474,7 @@ export const WithSearchAndVariousWidth: Story = () => {
         100%
       </Button>
       <br />
-      <Select<string, string> ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
+      <Select ref={(ref) => (selectElem = ref)} search width={width} items={['one', 'two', 'three']} />
     </div>
   );
 };
