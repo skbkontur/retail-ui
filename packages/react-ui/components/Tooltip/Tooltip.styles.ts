@@ -6,13 +6,13 @@ export const styles = memoizeStyle({
     return css`
       color: ${t.tooltipCloseBtnColor};
       cursor: pointer;
-      height: 8px;
+      height: ${t.tooltipCloseBtnSide};
       line-height: 0;
       padding: ${t.tooltipCloseBtnPadding};
       position: absolute;
       right: 0;
       top: 0;
-      width: 8px;
+      width: ${t.tooltipCloseBtnSide};
       box-sizing: content-box;
 
       &:hover {

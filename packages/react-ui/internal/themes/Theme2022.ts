@@ -131,8 +131,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static menuSeparatorMarginX = '8px';
 
-  public static tooltipBorderRadius = '8px';
-
   public static popupBorderRadius = '8px';
   public static popupBoxShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
   public static popupDropShadow = 'drop-shadow(0px 4px 16px rgba(0, 0, 0, 0.08))';
@@ -200,6 +198,7 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Tooltip
+  public static tooltipBorderRadius = '8px';
   public static tooltipCloseBtnPadding = '4px';
   public static tooltipCloseBtnSide = '16px';
   //#endregion
