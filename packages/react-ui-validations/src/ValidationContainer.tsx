@@ -48,18 +48,24 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
 
   private childContext: ValidationContextWrapper | null = null;
 
-  public async submit(withoutFocus: validateArgumentType = { focusMode: 'Errors' }): Promise<void> {
+  submit(withoutFocus?: boolean): Promise<void>;
+  submit(validationSettings?: ValidationSettings): Promise<void>;
+
+  public async submit(settings: validateArgumentType = { focusMode: 'Errors' }): Promise<void> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
-    await this.childContext.validate(withoutFocus);
+    await this.childContext.validate(settings);
   }
 
-  public validate(withoutFocus: validateArgumentType = { focusMode: 'Errors' }): Promise<boolean> {
+  validate(withoutFocus?: boolean): Promise<boolean>;
+  validate(validationSettings?: ValidationSettings): Promise<boolean>;
+
+  public validate(settings: validateArgumentType = { focusMode: 'Errors' }): Promise<boolean> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
-    return this.childContext.validate(withoutFocus);
+    return this.childContext.validate(settings);
   }
 
   public render() {
