@@ -117,17 +117,19 @@ const styles = {
     `;
   },
 
-  afterLinkText() {
+  afterLinkText(t: Theme) {
     return css`
       display: inline;
+      color: ${t.fileUploaderAfterLinkColor};
     `;
   },
 
-  afterLinkText_HasFiles() {
+  afterLinkText_HasFiles(t: Theme) {
     return css`
       display: flex;
       justify-content: space-between;
       flex: 1 1 auto;
+      color: ${t.fileUploaderAfterLinkColor};
     `;
   },
 
@@ -148,6 +150,7 @@ const styles = {
   hovered(t: Theme) {
     return css`
       background: ${t.fileUploaderHoveredBg};
+      border-color: ${t.fileUploaderHoveredBorderColor};
     `;
   },
 

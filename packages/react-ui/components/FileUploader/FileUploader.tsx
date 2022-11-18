@@ -20,6 +20,8 @@ import { CommonProps, CommonWrapper } from '../../internal/CommonWrapper';
 import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { NetUploadIcon } from '../../internal/icons/16px/Icons2022';
 
 import { jsStyles } from './FileUploader.styles';
 
@@ -284,6 +286,8 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const rootNodeRef = useRef(null);
 
+  const icon = isTheme2022(theme) ? <NetUploadIcon disableCompensation={false} /> : <UploadIcon />;
+
   return (
     <CommonWrapper {...props}>
       <div
@@ -308,7 +312,11 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                   </span>
                 )}
                 {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
-                <div className={hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles() : jsStyles.afterLinkText()}>
+                <div
+                  className={
+                    hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles(theme) : jsStyles.afterLinkText(theme)
+                  }
+                >
                   {hasOneFileForSingle ? (
                     <div ref={fileDivRef} className={jsStyles.singleFile()}>
                       {renderFile(files[0], <FileUploaderFile file={files[0]} size={size} />)}
@@ -316,9 +324,7 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                   ) : (
                     <>
                       {locale.orDragHere}&nbsp;
-                      <div className={uploadButtonIconClassNames}>
-                        <UploadIcon />
-                      </div>
+                      <div className={uploadButtonIconClassNames}>{icon}</div>
                     </>
                   )}
                 </div>
