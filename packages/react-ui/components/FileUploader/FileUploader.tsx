@@ -137,9 +137,9 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
   );
 
   const sizeClassName = useFileUploaderSize(size, {
-    small: cx(jsStyles.sizeSmall(theme)),
-    medium: cx(jsStyles.sizeMedium(theme)),
-    large: cx(jsStyles.sizeLarge(theme)),
+    small: jsStyles.sizeSmall(theme),
+    medium: jsStyles.sizeMedium(theme),
+    large: jsStyles.sizeLarge(theme),
   });
 
   const sizeIconClass = useFileUploaderSize(size, {
@@ -249,36 +249,31 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const [hovered, setHovered] = useState(false);
 
-  const uploadButtonClassNames = cx(jsStyles.uploadButton(theme), {
-    [jsStyles.uploadButtonFocus(theme)]: focusedByTab,
-    [jsStyles.disabled(theme)]: disabled,
-    [jsStyles.hovered(theme)]: !disabled && hovered,
-    [jsStyles.warning(theme)]: !!warning,
-    [jsStyles.error(theme)]: !!error,
-    [jsStyles.dragOver(theme)]: isDraggable && !disabled,
-    [sizeClassName]: true,
-  });
+  const uploadButtonClassNames = cx(
+    jsStyles.uploadButton(theme),
+    sizeClassName,
+    focusedByTab && jsStyles.uploadButtonFocus(theme),
+    disabled && jsStyles.disabled(theme),
+    !disabled && hovered && jsStyles.hovered(theme),
+    !!warning && jsStyles.warning(theme),
+    !!error && jsStyles.error(theme),
+    isDraggable && !disabled && jsStyles.dragOver(theme),
+  );
 
-  const uploadButtonWrapperClassNames = cx({
-    [jsStyles.windowDragOver(theme)]: isWindowDraggable && !disabled,
-  });
+  const uploadButtonWrapperClassNames = cx(isWindowDraggable && !disabled && jsStyles.windowDragOver(theme));
 
-  const uploadButtonIconClassNames = cx(jsStyles.icon(theme), {
-    [jsStyles.iconDisabled(theme)]: disabled,
-    [sizeIconClass]: true,
-  });
+  const uploadButtonIconClassNames = cx(jsStyles.icon(theme), sizeIconClass, disabled && jsStyles.iconDisabled(theme));
 
   const hasOneFile = files.length === 1;
   const hasOneFileForSingle = isSingleMode && hasOneFile && !hideFiles;
 
-  const contentClassNames = cx(jsStyles.content(), {
-    [jsStyles.contentWithFiles()]: hasOneFileForSingle,
-  });
+  const contentClassNames = cx(jsStyles.content(), hasOneFileForSingle && jsStyles.contentWithFiles());
 
-  const linkClassNames = cx(jsStyles.link(theme), {
-    [jsStyles.linkHovered(theme)]: !disabled && hovered,
-    [jsStyles.linkDisabled(theme)]: disabled,
-  });
+  const linkClassNames = cx(
+    jsStyles.link(theme),
+    !disabled && hovered && jsStyles.linkHovered(theme),
+    disabled && jsStyles.linkDisabled(theme),
+  );
 
   useEffect(() => {
     setIsLinkVisible(hasOneFileForSingle ? !isMinLengthReached : true);

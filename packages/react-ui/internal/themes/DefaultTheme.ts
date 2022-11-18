@@ -1803,7 +1803,7 @@ export class DefaultTheme {
     return this.linkColor;
   }
   public static get fileUploaderAfterLinkColor() {
-    return this.linkColor;
+    return this.fileUploaderTextColorDefault;
   }
   public static fileUploaderIconSize = '14px';
   public static fileUploaderIconColor = '#808080';
