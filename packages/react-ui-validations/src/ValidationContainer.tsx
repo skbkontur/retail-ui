@@ -11,7 +11,11 @@ export interface ScrollOffset {
   bottom?: number;
 }
 
-export type WithoutFocusType = boolean | 'warningsWithoutFocus';
+interface ValidationSettings {
+  focusMode: 'Errors' | 'ErrorsAndWarnings' | 'None';
+}
+
+export type validateArgumentType = boolean | ValidationSettings;
 
 export interface ValidationContainerProps {
   children?: React.ReactNode;
@@ -44,14 +48,14 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
 
   private childContext: ValidationContextWrapper | null = null;
 
-  public async submit(withoutFocus: WithoutFocusType = false): Promise<void> {
+  public async submit(withoutFocus: validateArgumentType = { focusMode: 'Errors' }): Promise<void> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
     await this.childContext.validate(withoutFocus);
   }
 
-  public validate(withoutFocus: WithoutFocusType = false): Promise<boolean> {
+  public validate(withoutFocus: validateArgumentType = { focusMode: 'Errors' }): Promise<boolean> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }

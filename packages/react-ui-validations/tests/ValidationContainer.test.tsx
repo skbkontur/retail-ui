@@ -97,7 +97,7 @@ describe('ValidationContainer', () => {
     it('with autofocus', async () => {
       const containerRef = renderValidationContainer(<Input />);
 
-      await containerRef.current?.validate();
+      await containerRef.current?.validate({ focusMode: 'ErrorsAndWarnings' });
 
       expect(screen.getByRole('textbox')).toHaveFocus();
     });
@@ -105,7 +105,7 @@ describe('ValidationContainer', () => {
     it('without autofocus', async () => {
       const containerRef = renderValidationContainer(<Input />);
 
-      await containerRef.current?.validate('warningsWithoutFocus');
+      await containerRef.current?.validate();
 
       expect(screen.getByRole('textbox')).not.toHaveFocus();
     });
