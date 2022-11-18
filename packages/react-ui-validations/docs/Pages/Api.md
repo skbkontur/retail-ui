@@ -4,7 +4,9 @@
 
 Контейнер, внутри которого находятся валидируемые контролы.
 
-### `submit(withoutFocus?: boolean | 'warningsWithoutFocus'): Promise<void>`
+### `submit(withoutFocus?: boolean): Promise<void>`
+либо
+### `submit(validationSettings?: { focusMode: 'Errors' | 'ErrorsAndWarnings' | 'None' }): Promise<void>`
 
 При вызове этой функции загораются все невалидные контролы. Необходимо для реализации
 сценария [валидации при отправке формы](https://guides.kontur.ru/principles/validation/#07).
@@ -17,10 +19,13 @@
 
 Аргументы:
 
-- `withoutFocus`: `true` отключает автофокус невалидных контролов. `'warningsWithoutFocus'` отключает автофокус к валидациям с уровнем варнинг (`level = 'warning'`). Дефолтное значение `false`.
+- `withoutFocus`: `true` отключает автофокус невалидных контролов.
+- `validationSettings`: `{ focusMode: 'Errors' | 'ErrorsAndWarnings' | 'None' }` - позволяет указать уровень валидации для автофокуса. Дефолтное значение -  `Error`
 
 
-### `validate(withoutFocus?: boolean | 'warningsWithoutFocus'): Promise<boolean>`
+### `validate(withoutFocus?: boolean): Promise<boolean>`
+либо
+###`validate(validationSettings?: { focusMode: 'Errors' | 'ErrorsAndWarnings' | 'None' }): Promise<boolean>`
 
 При вызове этой функции загораются все невалидные контролы так же как и при вызове
 функции `submit()`. Кроме того функция возвращает признак валидности формы.
@@ -43,8 +48,8 @@
 
 Аргументы:
 
-- `withoutFocus`: `true` отключает автофокус невалидных контролов. `'warningsWithoutFocus'` отключает автофокус к валидациям с уровнем варнинг (`level = 'warning'`). Дефолтное значение `false`.
-
+- `withoutFocus`: `true` отключает автофокус невалидных контролов.
+- `validationSettings`: `{ focusMode: 'Errors' | 'ErrorsAndWarnings' | 'None' }` - позволяет указать уровень валидации для автофокуса. Дефолтное значение -  `Error`
 
 ### `children`
 
