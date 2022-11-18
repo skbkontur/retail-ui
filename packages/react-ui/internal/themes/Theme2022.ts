@@ -137,8 +137,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static pickerShadow = '0px 4px 16px 0px rgba(0, 0, 0, 0.08)';
 
-  public static toastBorderRadius = '8px';
-
   public static hintBorderRadius = '8px';
 
   //#region Modal
@@ -193,7 +191,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Toast
-  public static toastCloseSize = '12px';
+  public static toastLinkColor = '#fff';
+  public static toastBorderRadius = '8px';
+  public static toastCloseSize = '16px';
   public static toastClosePadding = '14px';
   //#endregion
 
