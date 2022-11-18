@@ -453,6 +453,19 @@ export class DefaultTheme {
   public static get btnLinkHoverTextDecoration() {
     return this.linkHoverTextDecoration;
   }
+  public static btnLinkLineBottom = '';
+  public static get btnLinkLineBorderBottomColor() {
+    return this.linkLineBorderBottomColor;
+  }
+  public static get btnLinkLineHoverBorderBottomColor() {
+    return this.linkLineHoverBorderBottomColor;
+  }
+  public static get btnLinkLineActiveBorderBottomColor() {
+    return this.linkLineActiveBorderBottomColor;
+  }
+  public static btnLinkLineBorderBottomStyle = '';
+  public static btnLinkLineBorderBottomWidth = '0';
+
   public static get btnLinkIconMarginRight() {
     return this.linkIconMarginRight;
   }
@@ -475,6 +488,12 @@ export class DefaultTheme {
   public static get btnDisabledTextColor() {
     return this.textColorDisabledContrast;
   }
+  public static btnBacklessHoverBg = 'rgba(0, 0, 0, 0.04)';
+  public static btnBacklessActiveBg = 'rgba(0, 0, 0, 0.08)';
+
+  public static btnWithIconPaddingLeftSmall = '';
+  public static btnWithIconPaddingLeftMedium = '';
+  public static btnWithIconPaddingLeftLarge = '';
   //#endregion
   //#region Select
   public static get selectDefaultBg() {

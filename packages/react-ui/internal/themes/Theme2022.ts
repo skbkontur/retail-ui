@@ -8,14 +8,41 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static bgActive = '#141414';
 
+  //#region Button
+  public static btnCheckedBg = '#3D3D3D';
+  public static btnCheckedDisabledBg = '#ADADAD';
+  public static btnCheckedDisabledColor = '#EBEBEB';
+
+  public static btnDefaultBg = '#fff';
+  public static btnDefaultHoverBg = '#f6f6f6';
+  public static btnDefaultHoverBgStart = 'none';
+  public static btnDefaultHoverBgEnd = 'none';
+  public static btnDefaultActiveBg = '#ebebeb';
+
+  public static btnDefaultBorderColor = 'rgba(0, 0, 0, 0.16);';
+  public static btnDefaultBorderBottomColor = '';
+  public static get btnDefaultHoverBorderColor() {
+    return this.btnDefaultBorderColor;
+  }
+  public static btnDefaultHoverBorderBottomColor = '';
+  public static get btnDefaultActiveBorderColor() {
+    return this.btnDefaultBorderColor;
+  }
+  public static btnDefaultActiveBorderTopColor = '';
+
   public static btnPrimaryBg = '#3D3D3D';
-  public static btnPrimaryBorderColor = '#3D3D3D';
-
   public static btnPrimaryHoverBg = '#292929';
-  public static btnPrimaryHoverBorderColor = '#292929';
-
   public static btnPrimaryActiveBg = '#141414';
+
+  public static btnPrimaryBorderColor = '#3D3D3D';
+  public static btnPrimaryHoverBorderColor = '#292929';
   public static btnPrimaryActiveBorderColor = '#141414';
+
+  public static btnDisabledBg = 'rgba(0, 0, 0, 0.04)';
+  public static get btnDisabledTextColor() {
+    return this.textColorDisabledContrast;
+  }
+  public static btnDisabledBorderColor = 'rgba(0, 0, 0, 0.08)';
 
   public static btnBorderRadiusSmall = '8px';
   public static btnBorderRadiusMedium = '8px';
@@ -36,6 +63,25 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static btnIconGapSmall = '4px';
   public static btnIconGapMedium = '6px';
   public static btnIconGapLarge = '8px';
+
+  public static btnWithIconPaddingLeftSmall = '8px';
+  public static btnWithIconPaddingLeftMedium = '10px';
+  public static btnWithIconPaddingLeftLarge = '12px';
+
+  public static btnLinkHoverTextDecoration = 'none';
+
+  public static btnLinkLineBottom = '0';
+  public static btnLinkLineBorderBottomStyle = 'solid';
+  public static btnLinkLineBorderBottomWidth = '1px';
+
+  //#endregion
+
+  //#region Input
+  public static inputIconColor = '#858585';
+  public static inputBorderColor = 'rgba(0, 0, 0, 0.16)';
+  public static get inputBorderTopColor() {
+    return this.inputBorderColor;
+  }
 
   public static inputBorderRadiusSmall = '2px';
   public static inputBorderRadiusMedium = '2px';

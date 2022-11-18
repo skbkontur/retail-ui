@@ -17,6 +17,7 @@ export const globalClasses = prefix('button')({
   arrowHelperTop: 'arrow-helper-top',
   arrowHelperBottom: 'arrow-helper-bottom',
   caption: 'caption',
+  text: 'text',
   innerShadow: 'inner-shadow',
 });
 
@@ -57,8 +58,52 @@ export const styles = memoizeStyle({
         vertical-align: baseline;
         width: 0;
       }
+    `;
+  },
 
-      &:active:enabled .${globalClasses.caption} {
+  withArrowIconRightSmall(t: Theme) {
+    return css`
+      padding-right: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingLeftSmall} + ${t.btnWithIconPaddingLeftSmall});
+    `;
+  },
+
+  withArrowIconRightMedium(t: Theme) {
+    return css`
+      padding-right: calc(
+        ${t.btnIconSizeMedium} + ${t.btnWithIconPaddingLeftMedium} + ${t.btnWithIconPaddingLeftMedium}
+      );
+    `;
+  },
+
+  withArrowIconRightLarge(t: Theme) {
+    return css`
+      padding-right: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLeftLarge} + ${t.btnWithIconPaddingLeftLarge});
+    `;
+  },
+
+  withArrowIconLeftSmall(t: Theme) {
+    return css`
+      padding-left: calc(${t.btnIconSizeSmall} + ${t.btnWithIconPaddingLeftSmall} + ${t.btnWithIconPaddingLeftSmall});
+    `;
+  },
+
+  withArrowIconLeftMedium(t: Theme) {
+    return css`
+      padding-left: calc(
+        ${t.btnIconSizeMedium} + ${t.btnWithIconPaddingLeftMedium} + ${t.btnWithIconPaddingLeftMedium}
+      );
+    `;
+  },
+
+  withArrowIconLeftLarge(t: Theme) {
+    return css`
+      padding-left: calc(${t.btnIconSizeLarge} + ${t.btnWithIconPaddingLeftLarge} + ${t.btnWithIconPaddingLeftLarge});
+    `;
+  },
+
+  simulatedPress() {
+    return css`
+      &:active .${globalClasses.caption} {
         transform: translateY(1px);
       }
     `;
@@ -184,6 +229,24 @@ export const styles = memoizeStyle({
     `;
   },
 
+  sizeSmallWithIcon(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingLeftSmall};
+    `;
+  },
+
+  sizeMediumWithIcon(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingLeftMedium};
+    `;
+  },
+
+  sizeLargeWithIcon(t: Theme) {
+    return css`
+      padding-left: ${t.btnWithIconPaddingLeftLarge};
+    `;
+  },
+
   link(t: Theme) {
     return css`
       background: none;
@@ -198,10 +261,12 @@ export const styles = memoizeStyle({
       padding: 0 !important; // override size mixin
       height: auto !important; // override size mixin
 
-      &:hover:enabled {
+      &:hover:enabled,
+      &:active:enabled {
         color: ${t.btnLinkHoverColor};
         text-decoration: ${t.btnLinkHoverTextDecoration};
       }
+
       &:active:enabled {
         ${activeStyles.link(t)}
       }
@@ -210,8 +275,10 @@ export const styles = memoizeStyle({
 
   linkFocus(t: Theme) {
     return css`
-      color: ${t.btnLinkColor};
-      text-decoration: ${t.btnLinkHoverTextDecoration};
+      & {
+        color: ${t.btnLinkColor};
+        text-decoration: ${t.btnLinkHoverTextDecoration};
+      }
     `;
   },
 
@@ -228,17 +295,64 @@ export const styles = memoizeStyle({
     `;
   },
 
+  linkLine(t: Theme) {
+    return css`
+      & .${globalClasses.text} {
+        position: relative;
+      }
+
+      & .${globalClasses.text}:before {
+        content: '';
+        position: absolute;
+        height: 0;
+        width: 100%;
+        bottom: ${t.btnLinkLineBottom};
+        border-bottom-color: ${t.btnLinkLineBorderBottomColor};
+        border-bottom-style: ${t.btnLinkLineBorderBottomStyle};
+        border-bottom-width: ${t.btnLinkLineBorderBottomWidth};
+      }
+
+      &:hover .${globalClasses.text}:before {
+        border-bottom-color: ${t.btnLinkLineHoverBorderBottomColor};
+      }
+
+      &:active .${globalClasses.text}:before {
+        border-bottom-color: ${t.btnLinkLineActiveBorderBottomColor};
+      }
+    `;
+  },
+
+  linkLineFocus(t: Theme) {
+    return css`
+      & .${globalClasses.text}:before {
+        border-bottom-color: ${t.btnLinkLineHoverBorderBottomColor};
+      }
+    `;
+  },
+
+  linkLineDisabled(t: Theme) {
+    return css`
+      cursor: default;
+      pointer-events: none;
+      color: ${t.btnLinkDisabledColor};
+
+      & .${globalClasses.text}:before {
+        border-bottom-color: ${t.btnLinkDisabledColor};
+      }
+    `;
+  },
+
   focus(t: Theme) {
     return css`
       position: relative;
       z-index: 2;
 
-      &,
+      &:enabled,
       &:hover:enabled,
       &:active:enabled,
       &:active:hover:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
+          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
       }
     `;
   },
@@ -354,6 +468,46 @@ export const styles = memoizeStyle({
     `;
   },
 
+  arrowIconRoot() {
+    return css`
+      position: absolute;
+      height: 100%;
+      top: 0;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: content-box;
+    `;
+  },
+
+  arrowIconRootSmall(t: Theme) {
+    return css`
+      padding: 0 ${t.btnWithIconPaddingLeftSmall} 0 ${t.btnWithIconPaddingLeftSmall};
+      width: ${t.btnIconSizeSmall};
+    `;
+  },
+
+  arrowIconRootMedium(t: Theme) {
+    return css`
+      padding: 0 ${t.btnWithIconPaddingLeftMedium} 0 ${t.btnWithIconPaddingLeftMedium};
+      width: ${t.btnIconSizeMedium};
+    `;
+  },
+
+  arrowIconRootLarge(t: Theme) {
+    return css`
+      padding: 0 ${t.btnWithIconPaddingLeftLarge} 0 ${t.btnWithIconPaddingLeftLarge};
+      width: ${t.btnIconSizeLarge};
+    `;
+  },
+
+  arrowIconLeft() {
+    return css`
+      left: 0;
+    `;
+  },
+
   default(t: Theme) {
     return css`
       ${buttonUseMixin(
@@ -366,17 +520,19 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnDefaultHoverBg,
-        t.btnDefaultHoverBgStart,
-        t.btnDefaultHoverBgEnd,
-        t.btnDefaultHoverBorderColor,
-        t.btnDefaultHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      &:hover:enabled {
+        ${buttonHoverMixin(
+          t.btnDefaultHoverBg,
+          t.btnDefaultHoverBgStart,
+          t.btnDefaultHoverBgEnd,
+          t.btnDefaultHoverBorderColor,
+          t.btnDefaultHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
       &:active:enabled {
-        ${activeStyles.default(t)}
+        ${activeStyles.default(t)};
       }
     `;
   },
@@ -393,14 +549,16 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnPrimaryHoverBg,
-        t.btnPrimaryHoverBgStart,
-        t.btnPrimaryHoverBgEnd,
-        t.btnPrimaryHoverBorderColor,
-        t.btnPrimaryHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      &:hover:enabled {
+        ${buttonHoverMixin(
+          t.btnPrimaryHoverBg,
+          t.btnPrimaryHoverBgStart,
+          t.btnPrimaryHoverBgEnd,
+          t.btnPrimaryHoverBorderColor,
+          t.btnPrimaryHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
       &:active:enabled {
         ${activeStyles.primary(t)}
@@ -420,14 +578,16 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnSuccessHoverBg,
-        t.btnSuccessHoverBgStart,
-        t.btnSuccessHoverBgEnd,
-        t.btnSuccessHoverBorderColor,
-        t.btnSuccessHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      &:hover:enabled {
+        ${buttonHoverMixin(
+          t.btnSuccessHoverBg,
+          t.btnSuccessHoverBgStart,
+          t.btnSuccessHoverBgEnd,
+          t.btnSuccessHoverBorderColor,
+          t.btnSuccessHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
       &:active:enabled {
         ${activeStyles.success(t)}
@@ -447,14 +607,16 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnDangerHoverBg,
-        t.btnDangerHoverBgStart,
-        t.btnDangerHoverBgEnd,
-        t.btnDangerHoverBorderColor,
-        t.btnDangerHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      &:hover:enabled {
+        ${buttonHoverMixin(
+          t.btnDangerHoverBg,
+          t.btnDangerHoverBgStart,
+          t.btnDangerHoverBgEnd,
+          t.btnDangerHoverBorderColor,
+          t.btnDangerHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
       &:active:enabled {
         ${activeStyles.danger(t)}
@@ -474,14 +636,16 @@ export const styles = memoizeStyle({
         t.btnBorderWidth,
       )};
 
-      ${buttonHoverMixin(
-        t.btnPayHoverBg,
-        t.btnPayHoverBgStart,
-        t.btnPayHoverBgEnd,
-        t.btnPayHoverBorderColor,
-        t.btnPayHoverBorderBottomColor,
-        t.btnBorderWidth,
-      )};
+      &:hover:enabled {
+        ${buttonHoverMixin(
+          t.btnPayHoverBg,
+          t.btnPayHoverBgStart,
+          t.btnPayHoverBgEnd,
+          t.btnPayHoverBorderColor,
+          t.btnPayHoverBorderBottomColor,
+          t.btnBorderWidth,
+        )};
+      }
 
       &:active:enabled {
         ${activeStyles.pay(t)}
@@ -489,33 +653,86 @@ export const styles = memoizeStyle({
     `;
   },
 
-  checked(t: Theme) {
-    const checkedStyles = `
-      background-image: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor};
-      background-color: ${t.btnCheckedBg};
-      color: ${t.btnCheckedTextColor};
-
-      .${globalClasses.innerShadow} {
-        box-shadow: ${t.btnCheckedShadow};
-      }
-
-      .${globalClasses.arrowHelper} {
-        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-        &.${globalClasses.arrowHelperTop} {
-          background-image: ${t.btnArrowBgImageChecked};
+  text(t: Theme) {
+    return css`
+      &,
+      &:enabled,
+      &:hover:enabled {
+        box-shadow: none;
+        .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
+          box-shadow: none;
         }
       }
+
+      ${buttonUseMixin(
+        t.btnDefaultBg,
+        t.btnDefaultBgStart,
+        t.btnDefaultBgEnd,
+        t.btnDefaultTextColor,
+        t.btnDefaultBorderColor,
+        t.btnDefaultBorderBottomColor,
+        t.btnBorderWidth,
+      )};
+
+      color: ${t.btnDefaultTextColor};
+      background: transparent;
+
+      &:hover:enabled {
+        background: ${t.btnBacklessHoverBg};
+      }
+
+      &:active:enabled {
+        ${activeStyles.backless(t)}
+      }
     `;
+  },
 
+  backless(t: Theme) {
     return css`
-      ${checkedStyles}
+      ${buttonUseMixin(
+        t.btnDefaultBg,
+        t.btnDefaultBgStart,
+        t.btnDefaultBgEnd,
+        t.btnDefaultTextColor,
+        t.btnDefaultBorderColor,
+        t.btnDefaultBorderBottomColor,
+        t.btnBorderWidth,
+      )};
 
-      &:hover:enabled,
-      &:active:enabled,
-      &:hover:active:enabled {
-        ${checkedStyles}
+      color: ${t.btnDefaultTextColor};
+      background: transparent;
+
+      &:hover:enabled {
+        background: ${t.btnBacklessHoverBg};
+      }
+
+      &:active:enabled {
+        ${activeStyles.backless(t)}
+      }
+    `;
+  },
+
+  checked(t: Theme) {
+    return css`
+      &,
+      &:hover,
+      &:active {
+        background-image: none !important; // override root:hover style
+        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important; // override root:focus style
+        background-color: ${t.btnCheckedBg} !important; // override root:hover style
+        color: ${t.btnCheckedTextColor};
+
+        .${globalClasses.innerShadow} {
+          box-shadow: ${t.btnCheckedShadow};
+        }
+
+        .${globalClasses.arrowHelper} {
+          box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
+
+          &.${globalClasses.arrowHelperTop} {
+            background-image: ${t.btnArrowBgImageChecked};
+          }
+        }
       }
     `;
   },
@@ -683,12 +900,11 @@ export const styles = memoizeStyle({
 
   borderless() {
     return css`
-      &,
-      &:hover:enabled,
-      &:active:enabled {
-        box-shadow: none;
+      &:enabled,
+      &:hover:enabled {
+        box-shadow: none !important; // override root:hover style
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {
-          box-shadow: none;
+          box-shadow: none !important; // override root:hover style
         }
       }
     `;
@@ -719,8 +935,7 @@ export const styles = memoizeStyle({
 export const activeStyles = memoizeStyle({
   default(t: Theme) {
     return css`
-      &,
-      &:hover:enabled {
+      & {
         ${buttonActiveMixin(
           t.btnDefaultActiveBg,
           t.btnDefaultActiveShadow,
@@ -735,8 +950,7 @@ export const activeStyles = memoizeStyle({
 
   primary(t: Theme) {
     return css`
-      &,
-      &:hover:enabled {
+      & {
         ${buttonActiveMixin(
           t.btnPrimaryActiveBg,
           t.btnPrimaryActiveShadow,
@@ -751,8 +965,7 @@ export const activeStyles = memoizeStyle({
 
   success(t: Theme) {
     return css`
-      &,
-      &:hover:enabled {
+      & {
         ${buttonActiveMixin(
           t.btnSuccessActiveBg,
           t.btnSuccessActiveShadow,
@@ -767,8 +980,7 @@ export const activeStyles = memoizeStyle({
 
   danger(t: Theme) {
     return css`
-      &,
-      &:hover:enabled {
+      & {
         ${buttonActiveMixin(
           t.btnDangerActiveBg,
           t.btnDangerActiveShadow,
@@ -783,8 +995,7 @@ export const activeStyles = memoizeStyle({
 
   pay(t: Theme) {
     return css`
-      &,
-      &:hover:enabled {
+      & {
         ${buttonActiveMixin(
           t.btnPayActiveBg,
           t.btnPayActiveShadow,
@@ -799,9 +1010,32 @@ export const activeStyles = memoizeStyle({
 
   link(t: Theme) {
     return css`
-      &,
-      &:hover:enabled {
+      & {
         color: ${t.btnLinkActiveColor};
+      }
+    `;
+  },
+
+  text(t: Theme) {
+    return css`
+      & {
+        ${buttonActiveMixin(
+          t.btnDefaultActiveBg,
+          t.btnDefaultActiveShadow,
+          t.btnDefaultActiveBorderColor,
+          t.btnDefaultActiveBorderTopColor,
+          t.btnBorderWidth,
+          t.btnArrowBgImageActive,
+        )};
+      }
+    `;
+  },
+
+  backless(t: Theme) {
+    return css`
+      &,
+      &:hover {
+        background: ${t.btnBacklessActiveBg};
       }
     `;
   },
