@@ -36,3 +36,17 @@ export const linkUseColorsMixin = (mainColor: string, hoverColor: string, active
     }
   `;
 };
+
+export const linkUseLineColorsMixin = (mainColor: string, hoverColor: string, activeColor: string) => {
+  return `
+    border-bottom-color: ${mainColor};
+
+    &:hover {
+      border-bottom-color: ${hoverColor};
+    }
+
+    &:active {
+      border-bottom-color: ${activeColor};
+    }
+  `;
+};

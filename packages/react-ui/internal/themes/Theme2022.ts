@@ -7,7 +7,29 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Link
   public static linkColor = '#3D3D3D';
+  public static linkHoverColor = '#292929';
   public static linkActiveColor = '#141414';
+
+  public static linkSuccessColor = '#477916';
+  public static linkSuccessHoverColor = '#3A6710';
+  public static linkSuccessActiveColor = '#325A0C';
+
+  public static linkDangerColor = '#CB3D35';
+  public static linkDangerHoverColor = '#BA342E';
+  public static linkDangerActiveColor = '#A92A27';
+
+  public static linkGrayedColor = '#858585';
+  public static linkGrayedHoverColor = '#292929';
+  public static linkGrayedActiveColor = '#141414';
+
+  public static linkLineBottom = '0';
+  public static linkLineBorderBottomStyle = 'solid';
+  public static linkLineBorderBottomWidth = '1px';
+
+  public static linkDisabledColor = '#858585';
+  //#endregion Link
+
+  public static borderColorFocus = '#3d3d3d';
 
   public static bgActive = '#141414';
 

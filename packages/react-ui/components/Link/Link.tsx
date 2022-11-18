@@ -3,16 +3,18 @@ import PropTypes from 'prop-types';
 
 import { Override } from '../../typings/utility-types';
 import { keyListener } from '../../lib/events/keyListener';
-import { Theme } from '../../lib/theming/Theme';
+import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isExternalLink } from '../../lib/utils';
 import { Spinner } from '../Spinner';
-import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
+import { CommonProps, CommonWrapper, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { rootNode, TSetRootNode } from '../../lib/rootNode/rootNodeDecorator';
+import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
+import { ThemeFactory } from '../../lib/theming/ThemeFactory';
+import { getThemeName } from '../../lib/theming/ThemeHelpers';
 
-import { styles } from './Link.styles';
+import { globalClasses, styles } from './Link.styles';
 
 export interface LinkProps
   extends CommonProps,
@@ -55,6 +57,7 @@ export interface LinkProps
          * HTML-событие `onclick`.
          */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
+        theme?: ThemeIn;
       }
     > {}
 
@@ -104,7 +107,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
     return (
       <ThemeContext.Consumer>
         {(theme) => {
-          this.theme = theme;
+          this.theme = this.props.theme ? ThemeFactory.create(this.props.theme as Theme, theme) : theme;
           return (
             <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
               {this.renderMain}
@@ -117,6 +120,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
     const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
+    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
 
     let iconElement = null;
     if (icon) {
@@ -138,36 +142,38 @@ export class Link extends React.Component<LinkProps, LinkState> {
     const focused = !disabled && this.state.focusedByTab;
 
     const linkProps = {
-      className: cx({
-        [styles.root(this.theme)]: true,
-        [styles.button(this.theme)]: !!_button,
-        [styles.buttonOpened(this.theme)]: !!_buttonOpened,
-        [styles.useDefault(this.theme)]: use === 'default',
-        [styles.useSuccess(this.theme)]: use === 'success',
-        [styles.useDanger(this.theme)]: use === 'danger',
-        [styles.useGrayed(this.theme)]: use === 'grayed',
-        [styles.useGrayedFocus(this.theme)]: use === 'grayed' && focused,
-        [styles.focus(this.theme)]: focused,
-        [styles.disabled(this.theme)]: !!disabled || !!loading,
-      }),
+      className: cx(
+        this.getLinkClassName(focused, Boolean(disabled || loading)),
+        use === 'default' && styles.useDefault(this.theme),
+        use === 'success' && styles.useSuccess(this.theme),
+        use === 'danger' && styles.useDanger(this.theme),
+        use === 'grayed' && styles.useGrayed(this.theme),
+        !!_button && styles.button(this.theme),
+        !!_buttonOpened && styles.buttonOpened(this.theme),
+      ),
       href,
       rel,
-      onClick: this._handleClick,
-      onFocus: this._handleFocus,
-      onBlur: this._handleBlur,
+      onClick: this.handleClick,
+      onFocus: this.handleFocus,
+      onBlur: this.handleBlur,
       tabIndex: disabled || loading ? -1 : this.props.tabIndex,
     };
+
+    let child = this.props.children;
+    if (isTheme2022) {
+      child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
+    }
 
     return (
       <a data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {iconElement}
-        {this.props.children}
+        {child}
         {arrow}
       </a>
     );
   };
 
-  private _handleFocus = () => {
+  private handleFocus = () => {
     if (!this.props.disabled) {
       // focus event fires before keyDown eventlistener
       // so we should check tabPressed in async way
@@ -179,11 +185,11 @@ export class Link extends React.Component<LinkProps, LinkState> {
     }
   };
 
-  private _handleBlur = () => {
+  private handleBlur = () => {
     this.setState({ focusedByTab: false });
   };
 
-  private _handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+  private handleClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     const { onClick, disabled, loading } = this.props;
     const href = this.getProps().href;
     if (!href) {
@@ -193,4 +199,25 @@ export class Link extends React.Component<LinkProps, LinkState> {
       onClick(event);
     }
   };
+
+  private getLinkClassName(focused: boolean, disabled: boolean): string {
+    const { use } = this.getProps();
+    const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
+
+    return !isBorderBottom
+      ? cx(
+          styles.root(this.theme),
+          focused && styles.focus(this.theme),
+          disabled && styles.disabled(this.theme),
+          use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
+        )
+      : cx(
+          styles.lineRoot(),
+          disabled && styles.disabled(this.theme),
+          focused && use === 'default' && styles.lineFocus(this.theme),
+          focused && use === 'success' && styles.lineFocusSuccess(this.theme),
+          focused && use === 'danger' && styles.lineFocusDanger(this.theme),
+          focused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+        );
+  }
 }
