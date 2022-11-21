@@ -16,7 +16,7 @@ import { styles } from './Sticky.styles';
 
 const MAX_REFLOW_RETRIES = 5;
 
-export interface StickyProps extends CommonProps {
+export interface StickyProps extends Omit<CommonProps, 'children'> {
   side: 'top' | 'bottom';
   /**
    * Отступ в пикселях от края экрана, на сколько сдвигается элемент в залипшем состоянии

@@ -15,7 +15,7 @@ import { getDOMRect } from '../../lib/dom/getDOMRect';
 import { styles } from './SidePage.styles';
 import { SidePageContext, SidePageContextType } from './SidePageContext';
 
-export interface SidePageHeaderProps extends CommonProps {
+export interface SidePageHeaderProps extends Omit<CommonProps, 'children'> {
   children?: React.ReactNode | ((fixed: boolean) => React.ReactNode);
   sticky?: boolean;
 }
