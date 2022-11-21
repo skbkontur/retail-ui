@@ -36,23 +36,19 @@ const getLastChild = (children: React.ReactNode) => {
   return children?.[numberOfChildren - 1] as React.ReactNode;
 };
 
-const getButtonCorners = (
-  child: React.ReactNode,
-  firstChild: React.ReactNode,
-  lastChild: React.ReactNode,
-): React.CSSProperties => {
-  if (firstChild === lastChild) {
+export const getButtonCorners = (isFirstChild: boolean, isLastChild: boolean): React.CSSProperties => {
+  if (isFirstChild && isLastChild) {
     return {};
   }
 
-  if (child === firstChild) {
+  if (isFirstChild) {
     return {
       borderTopRightRadius: 0,
       borderBottomRightRadius: 0,
     };
   }
 
-  if (child === lastChild) {
+  if (isLastChild) {
     return {
       borderTopLeftRadius: 0,
       borderBottomLeftRadius: 0,
@@ -66,7 +62,7 @@ const getButtonCorners = (
 
 const passCornersIfButton = (child: React.ReactNode, firstChild: React.ReactNode, lastChild: React.ReactNode) => {
   if (isButton(child)) {
-    const corners = getButtonCorners(child, firstChild, lastChild);
+    const corners = getButtonCorners(child === firstChild, child === lastChild);
 
     return React.cloneElement(child, { corners });
   }
