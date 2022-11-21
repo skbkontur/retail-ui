@@ -28,7 +28,7 @@ export const styles = memoizeStyle({
 
   tokenIdleHover2022(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(t.tokenDefaultIdle, '5%')} !important;
+      box-shadow: 0 0 0 ${t.tokenBorderWidth} ${ColorFunctions.darken(t.tokenDefaultIdle, '5%')};
 
       &:hover {
         background: rgba(0, 0, 0, 0.16);
@@ -38,13 +38,13 @@ export const styles = memoizeStyle({
 
   tokenIdleError2022(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError} !important;
+      box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorError};
     `;
   },
 
   tokenIdleWarning2022(t: Theme) {
     return css`
-      box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning} !important;
+      box-shadow: 0 0 0 ${t.tokenOutlineWidth} ${t.tokenBorderColorWarning};
     `;
   },
 

@@ -103,23 +103,20 @@ export class Token extends React.Component<TokenProps> {
       const isDefault = colors.idle === 'defaultIdle';
       classNames = cx(
         !isActive && isDefault && styles.tokenIdleHover2022(theme),
-        error && styles.tokenIdleError2022(theme),
         warning && styles.tokenIdleWarning2022(theme),
-      );
-    } else {
-      classNames = cx(
-        warning && colorStyles.defaultDisabledWarning(theme),
-        error && colorStyles.defaultDisabledError(theme),
+        error && styles.tokenIdleError2022(theme),
       );
     }
 
     const tokenClassNames = cx(
       styles.token(this.theme),
-      colorStyles.defaultDisabled(theme),
-      classNames,
       idleClassName,
       !!isActive && activeClassName(theme, validation),
+      classNames,
       !!disabled && styles.disabled(theme),
+      !!disabled && colorStyles.defaultDisabled(theme),
+      !!disabled && warning && colorStyles.defaultDisabledWarning(theme),
+      !!disabled && error && colorStyles.defaultDisabledError(theme),
     );
 
     return (
