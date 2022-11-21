@@ -1,7 +1,11 @@
-import { css, keyframes, memoizeStyle } from '../../lib/theming/Emotion';
+import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
 import { fileUploaderSizeMixin } from './FileUploader.mixins';
+
+export const globalClasses = prefix('file-uploader')({
+  afterLinkText: 'after-link-text',
+});
 
 const styles = {
   pulse() {
@@ -167,6 +171,10 @@ const styles = {
       border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
       color: ${t.fileUploaderDisabledTextColor};
       box-shadow: none;
+
+      .${globalClasses.afterLinkText} {
+        color: ${t.fileUploaderDisabledTextColor};
+      }
     `;
   },
 

@@ -23,7 +23,7 @@ import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/us
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { NetUploadIcon } from '../../internal/icons/16px/Icons2022';
 
-import { jsStyles } from './FileUploader.styles';
+import { globalClasses, jsStyles } from './FileUploader.styles';
 
 const stopPropagation: React.ReactEventHandler = (e) => e.stopPropagation();
 
@@ -308,9 +308,10 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
                 )}
                 {isLinkVisible && String.fromCharCode(0xa0) /* &nbsp; */}
                 <div
-                  className={
-                    hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles(theme) : jsStyles.afterLinkText(theme)
-                  }
+                  className={cx(
+                    globalClasses.afterLinkText,
+                    hasOneFileForSingle ? jsStyles.afterLinkText_HasFiles(theme) : jsStyles.afterLinkText(theme),
+                  )}
                 >
                   {hasOneFileForSingle ? (
                     <div ref={fileDivRef} className={jsStyles.singleFile()}>
