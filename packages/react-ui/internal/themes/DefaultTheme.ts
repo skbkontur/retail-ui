@@ -867,7 +867,7 @@ export class DefaultTheme {
     return this.textColorInvert;
   }
   public static get mobileHintColor() {
-    return this.textColorDefault;
+    return this.hintColor;
   }
   public static get hintFontSize() {
     return this.fontSizeSmall;
