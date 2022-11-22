@@ -11,11 +11,17 @@ export interface ScrollOffset {
   bottom?: number;
 }
 
-interface ValidationSettings {
-  focusMode: 'Errors' | 'ErrorsAndWarnings' | 'None';
+export enum FocusMode {
+  'Errors',
+  'ErrorsAndWarnings',
+  'None',
 }
 
-export type validateArgumentType = boolean | ValidationSettings;
+export interface ValidationSettings {
+  focusMode: FocusMode;
+}
+
+export type ValidateArgumentType = boolean | ValidationSettings;
 
 export interface ValidationContainerProps {
   children?: React.ReactNode;
@@ -48,24 +54,28 @@ export class ValidationContainer extends React.Component<ValidationContainerProp
 
   private childContext: ValidationContextWrapper | null = null;
 
-  submit(withoutFocus?: boolean): Promise<void>;
-  submit(validationSettings?: ValidationSettings): Promise<void>;
+  public async submit(withoutFocus?: boolean): Promise<void>;
+  public async submit(validationSettings?: ValidationSettings): Promise<void>;
 
-  public async submit(settings: validateArgumentType = { focusMode: 'Errors' }): Promise<void> {
+  public async submit(
+    withoutFocusOrValidationSettings: ValidateArgumentType = { focusMode: FocusMode.Errors },
+  ): Promise<void> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
-    await this.childContext.validate(settings);
+    await this.childContext.validate(withoutFocusOrValidationSettings);
   }
 
-  validate(withoutFocus?: boolean): Promise<boolean>;
-  validate(validationSettings?: ValidationSettings): Promise<boolean>;
+  public async validate(withoutFocus?: boolean): Promise<boolean>;
+  public async validate(validationSettings?: ValidationSettings): Promise<boolean>;
 
-  public validate(settings: validateArgumentType = { focusMode: 'Errors' }): Promise<boolean> {
+  public validate(
+    withoutFocusOrValidationSettings: ValidateArgumentType = { focusMode: FocusMode.Errors },
+  ): Promise<boolean> {
     if (!this.childContext) {
       throw new Error('childContext is not defined');
     }
-    return this.childContext.validate(settings);
+    return this.childContext.validate(withoutFocusOrValidationSettings);
   }
 
   public render() {

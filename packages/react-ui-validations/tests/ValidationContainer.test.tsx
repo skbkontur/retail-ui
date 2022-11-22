@@ -13,6 +13,7 @@ import {
 
 import { ValidationContainer, ValidationContainerProps, ValidationWrapper } from '../src';
 import { smoothScrollIntoView } from '../src/smoothScrollIntoView';
+import { FocusMode } from '../src/ValidationContainer';
 
 describe('ValidationContainer', () => {
   it('renders passed children', () => {
@@ -97,7 +98,7 @@ describe('ValidationContainer', () => {
     it('with autofocus', async () => {
       const containerRef = renderValidationContainer(<Input />);
 
-      await containerRef.current?.validate({ focusMode: 'ErrorsAndWarnings' });
+      await containerRef.current?.validate({ focusMode: FocusMode.ErrorsAndWarnings });
 
       expect(screen.getByRole('textbox')).toHaveFocus();
     });
@@ -106,6 +107,14 @@ describe('ValidationContainer', () => {
       const containerRef = renderValidationContainer(<Input />);
 
       await containerRef.current?.validate();
+
+      expect(screen.getByRole('textbox')).not.toHaveFocus();
+    });
+
+    it('without autofocus', async () => {
+      const containerRef = renderValidationContainer(<Input />);
+
+      await containerRef.current?.validate(false);
 
       expect(screen.getByRole('textbox')).not.toHaveFocus();
     });
