@@ -39,7 +39,6 @@ interface ComboBoxViewProps<T> extends CommonProps {
   drawArrow?: boolean;
   placeholder?: string;
   size?: InputSize;
-  mobileSize?: InputSize;
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
@@ -286,7 +285,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
       inputMode,
     } = this.props;
 
-    const { renderValue, size, mobileSize } = this.getProps();
+    const { renderValue, size } = this.getProps();
 
     const rightIcon = this.getRightIcon();
 
@@ -309,7 +308,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
           placeholder={placeholder}
           width="100%"
           size={size}
-          mobileSize={mobileSize}
           ref={this.refInput}
           warning={warning}
           inputMode={inputMode}
@@ -329,7 +327,6 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
         warning={warning}
         placeholder={placeholder}
         size={size}
-        mobileSize={mobileSize}
         width="100%"
         ref={refInputLikeText}
       >

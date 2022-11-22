@@ -42,7 +42,6 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
   size?: InputSize;
-  mobileSize?: InputSize;
   totalCount?: number;
   value?: Nullable<T>;
   /**
@@ -251,7 +250,6 @@ export class CustomComboBox<T> extends React.PureComponent<CustomComboBoxProps<T
       drawArrow: this.props.drawArrow,
       placeholder: this.props.placeholder,
       size: this.props.size,
-      mobileSize: this.props.mobileSize,
       textValue: this.state.textValue,
       totalCount: this.props.totalCount,
       value: this.props.value,

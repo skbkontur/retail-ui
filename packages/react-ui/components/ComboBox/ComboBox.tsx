@@ -163,11 +163,6 @@ export interface ComboBoxProps<T> extends CommonProps {
   size?: InputSize;
 
   /**
-   * Размер контрола в мобильной версии компонента
-   */
-  mobileSize?: InputSize;
-
-  /**
    * Состояние валидации при предупреждении.
    */
   warning?: boolean;
