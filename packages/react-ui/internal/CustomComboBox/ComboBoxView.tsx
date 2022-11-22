@@ -2,7 +2,7 @@ import React from 'react';
 
 import { isNonNullable } from '../../lib/utils';
 import { DropdownContainer } from '../DropdownContainer';
-import { Input, InputIconType, InputProps, InputSize } from '../../components/Input';
+import { Input, InputIconType, InputProps } from '../../components/Input';
 import { InputLikeText } from '../InputLikeText';
 import { Menu } from '../Menu';
 import { MenuItemState } from '../../components/MenuItem';
@@ -38,7 +38,7 @@ interface ComboBoxViewProps<T> extends CommonProps {
   opened?: boolean;
   drawArrow?: boolean;
   placeholder?: string;
-  size?: InputSize;
+  size?: 'small' | 'medium' | 'large';
   textValue?: string;
   totalCount?: number;
   value?: Nullable<T>;
@@ -92,6 +92,7 @@ type DefaultProps<T> = Required<
     | 'requestStatus'
     | 'onClickOutside'
     | 'onFocusOutside'
+    | 'size'
     | 'width'
   >
 >;
@@ -113,6 +114,7 @@ export class ComboBoxView<T> extends React.Component<ComboBoxViewProps<T>, Combo
     onFocusOutside: () => {
       /**/
     },
+    size: 'small',
     width: 250,
   };
 

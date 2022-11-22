@@ -158,7 +158,6 @@ export interface ComboBoxProps<T> extends CommonProps {
   valueToString?: (item: T) => string;
 
   size?: 'small' | 'medium' | 'large';
-
   /**
    * Состояние валидации при предупреждении.
    */

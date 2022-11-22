@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Nullable } from '../../typings/utility-types';
-import { Input, InputIconType, InputSize } from '../../components/Input';
+import { Input, InputIconType } from '../../components/Input';
 import { Menu } from '../Menu';
 import { InputLikeText } from '../InputLikeText';
 import { MenuItemState } from '../../components/MenuItem';
@@ -41,7 +41,7 @@ export interface CustomComboBoxProps<T> extends CommonProps {
   onMouseLeave?: (e: React.MouseEvent) => void;
   onInputKeyDown?: (e: React.KeyboardEvent<HTMLElement>) => void;
   placeholder?: string;
-  size?: InputSize;
+  size?: 'small' | 'medium' | 'large';
   totalCount?: number;
   value?: Nullable<T>;
   /**
