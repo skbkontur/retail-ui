@@ -125,6 +125,12 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   //#region Textarea
   public static textareaBorderRadius = '2px';
+  public static get textareaDisabledBorderColor() {
+    return this.borderColorDisabled;
+  }
+  public static get textareaDisabledBg() {
+    return this.inputDisabledBg;
+  }
   //#endregion
 
   public static radioBulletSize = '6px';
