@@ -24,6 +24,7 @@ const styles = {
       right: 0;
       left: 0;
       overflow: auto;
+      z-index: inherit;
     `;
   },
 
