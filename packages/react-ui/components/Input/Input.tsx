@@ -104,6 +104,13 @@ export interface InputProps
          * @param value значение инпута.
          */
         onUnexpectedInput?: (value: string) => void;
+        /** @ignore */
+        corners?: Partial<
+          Pick<
+            React.CSSProperties,
+            'borderTopRightRadius' | 'borderBottomRightRadius' | 'borderBottomLeftRadius' | 'borderTopLeftRadius'
+          >
+        >;
       }
     > {}
 
@@ -296,6 +303,7 @@ export class Input extends React.Component<InputProps, InputState> {
       prefix,
       suffix,
       formatChars,
+      corners,
       ...rest
     } = props;
 
@@ -313,7 +321,7 @@ export class Input extends React.Component<InputProps, InputState> {
         [styles.warningFallback(this.theme)]: warning && (isIE11 || isEdge),
         [styles.errorFallback(this.theme)]: error && (isIE11 || isEdge),
       }),
-      style: { width },
+      style: { width, ...corners },
       onMouseEnter,
       onMouseLeave,
       onMouseOver,
