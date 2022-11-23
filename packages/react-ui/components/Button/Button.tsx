@@ -266,27 +266,53 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const isFocused = this.state.focusedByTab || visuallyFocused;
     const isLink = use === 'link';
     const _isTheme2022 = isTheme2022(this.theme);
-    const rootProps = {
-      // By default the type attribute is 'submit'. IE8 will fire a click event
-      // on this button if somewhere on the page user presses Enter while some
-      // input is focused. So we set type to 'button' by default.
-      type,
-      className: cx({
+
+    let rootClassName = '';
+    if (_isTheme2022) {
+      const trueDisabled = disabled || loading;
+      rootClassName = cx(
+        styles.root(this.theme),
+        styles[use](this.theme),
+        sizeClass,
+        narrow && styles.narrow(),
+        _noPadding && styles.noPadding(),
+        _noRightPadding && styles.noRightPadding(),
+        ...(trueDisabled
+          ? [!checked && styles.disabled(this.theme), checked && styles.checkedDisabled(this.theme)]
+          : [
+              styles.simulatedPress(),
+              active && !checked && activeStyles[use](this.theme),
+              isFocused && styles.focus(this.theme),
+              checked && styles.checked(this.theme),
+              checked && isFocused && styles.checkedFocused(this.theme),
+              borderless && !checked && !isFocused && !active && styles.borderless(),
+            ]),
+      );
+    } else {
+      rootClassName = cx({
         [styles.root(this.theme)]: true,
         [styles.simulatedPress()]: !_isTheme2022,
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
         [styles.focus(this.theme)]: isFocused,
-        [styles.checked(this.theme)]: checked && !disabled,
-        [styles.checkedFocused(this.theme)]: checked && isFocused && !disabled,
+        [styles.checked(this.theme)]: checked,
+        [styles.checkedFocused(this.theme)]: checked && isFocused,
         [styles.disabled(this.theme)]: disabled || loading,
         [styles.checkedDisabled(this.theme)]: checked && disabled,
         [styles.borderless()]: borderless && !disabled && !loading && !checked && !isFocused && !active,
         [styles.narrow()]: narrow,
         [styles.noPadding()]: _noPadding,
         [styles.noRightPadding()]: _noRightPadding,
-      }),
+      });
+    }
+
+    const rootProps = {
+      // By default the type attribute is 'submit'. IE8 will fire a click event
+      // on this button if somewhere on the page user presses Enter while some
+      // input is focused. So we set type to 'button' by default.
+      type,
+      className: rootClassName,
       style: {
         textAlign: align,
         ...corners,
@@ -318,7 +344,8 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const innerShadowNode = <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
-    if (!isFocused || isLink) {
+    const isDisabled2022 = _isTheme2022 && (disabled || loading);
+    if ((!isFocused || isLink) && !isDisabled2022) {
       outlineNode = (
         <div
           className={cx(styles.outline(), {
@@ -411,7 +438,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
             {arrowNode}
             <div
               className={cx(styles.caption(), globalClasses.caption, {
-                [styles.captionTranslated()]: active || checked,
+                [styles.captionTranslated()]: (active || checked) && !_isTheme2022,
                 [styles.captionLink()]: isLink,
                 [styles.captionDisabled()]: !checked && disabled,
               })}

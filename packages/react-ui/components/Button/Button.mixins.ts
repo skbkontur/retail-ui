@@ -81,9 +81,9 @@ export const buttonActiveMixin = (
   return css`
     &,
     &:hover {
-      background-image: none;
-      background-color: ${btnBackground};
-      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``};
+      background-image: none !important; // override :hover styles
+      background-color: ${btnBackground} !important; // override :hover styles
+      box-shadow: 0 0 0 ${borderWidth} ${borderColor}${borderTopColor ? `, 0 -${borderWidth} 0 0 ${borderTopColor}` : ``} !important; // override :hover styles
 
       .${globalClasses.innerShadow} {
         box-shadow: ${btnShadow};

@@ -347,12 +347,12 @@ export const styles = memoizeStyle({
       position: relative;
       z-index: 2;
 
-      &:enabled,
+      &,
       &:hover:enabled,
       &:active:enabled,
       &:active:hover:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
+          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
       }
     `;
   },
@@ -713,26 +713,32 @@ export const styles = memoizeStyle({
   },
 
   checked(t: Theme) {
+    const checkedStyles = `
+      background-image: none;
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor};
+      background-color: ${t.btnCheckedBg};
+      color: ${t.btnCheckedTextColor};
+
+      .${globalClasses.innerShadow} {
+        box-shadow: ${t.btnCheckedShadow};
+      }
+
+      .${globalClasses.arrowHelper} {
+        box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
+
+        &.${globalClasses.arrowHelperTop} {
+          background-image: ${t.btnArrowBgImageChecked};
+        }
+      }
+    `;
+
     return css`
-      &,
-      &:hover,
-      &:active {
-        background-image: none !important; // override root:hover style
-        box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important; // override root:focus style
-        background-color: ${t.btnCheckedBg} !important; // override root:hover style
-        color: ${t.btnCheckedTextColor};
+      ${checkedStyles}
 
-        .${globalClasses.innerShadow} {
-          box-shadow: ${t.btnCheckedShadow};
-        }
-
-        .${globalClasses.arrowHelper} {
-          box-shadow: ${t.btnBorderWidth} 0 0 ${t.btnDefaultCheckedBorderColor};
-
-          &.${globalClasses.arrowHelperTop} {
-            background-image: ${t.btnArrowBgImageChecked};
-          }
-        }
+      &:hover:enabled,
+      &:active:enabled,
+      &:hover:active:enabled {
+        ${checkedStyles}
       }
     `;
   },
