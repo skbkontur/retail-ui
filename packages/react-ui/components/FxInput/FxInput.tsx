@@ -5,13 +5,17 @@ import PropTypes from 'prop-types';
 
 import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputSize } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
 import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ThemeContext } from '../../lib/theming/ThemeContext';
+import { Theme } from '../../lib/theming/Theme';
+import { ArrowShapeDRadiusUpLeftLightIcon, MathFunctionIcon } from '../../internal/icons/16px/Icons2022';
 
 export interface FxInputProps
   extends CommonProps,
@@ -58,6 +62,7 @@ export class FxInput extends React.Component<FxInputProps> {
     value: '',
   };
 
+  private theme!: Theme;
   private input: Input | CurrencyInput | null = null;
 
   private getProps = createPropsGetter(FxInput.defaultProps);
@@ -65,9 +70,16 @@ export class FxInput extends React.Component<FxInputProps> {
 
   public render() {
     return (
-      <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
-        {this.renderMain}
-      </CommonWrapper>
+      <ThemeContext.Consumer>
+        {(theme) => {
+          this.theme = theme;
+          return (
+            <CommonWrapper rootNodeRef={this.setRootNode} {...this.getProps()}>
+              {this.renderMain}
+            </CommonWrapper>
+          );
+        }}
+      </ThemeContext.Consumer>
     );
   }
 
@@ -78,19 +90,41 @@ export class FxInput extends React.Component<FxInputProps> {
     };
 
     let button = null;
+    let iconFunction = <FunctionIcon />;
+    let iconUndo = <UndoIcon />;
+    let buttonWidth;
+
+    if (isTheme2022(this.theme)) {
+      const size = this.props.size || Input.defaultProps.size;
+
+      const buttonWidths: Record<InputSize, number> = {
+        small: 32,
+        medium: 40,
+        large: 48,
+      };
+      const iconSizes: Record<InputSize, number> = {
+        small: 16,
+        medium: 20,
+        large: 24,
+      };
+      buttonWidth = buttonWidths[size];
+      iconFunction = <MathFunctionIcon />;
+      iconUndo = <ArrowShapeDRadiusUpLeftLightIcon size={iconSizes[size]} />;
+    }
 
     if (auto) {
-      inputProps.leftIcon = <FunctionIcon />;
+      inputProps.leftIcon = iconFunction;
     } else {
       button = (
         <Button
+          width={buttonWidth}
           size={this.props.size}
           narrow
           onClick={this.props.onRestore}
           borderless={this.props.borderless}
           disabled={this.props.disabled}
         >
-          <UndoIcon />
+          {iconUndo}
         </Button>
       );
     }
@@ -102,6 +136,7 @@ export class FxInput extends React.Component<FxInputProps> {
           <CurrencyInput
             {...inputProps}
             {...rest}
+            size={this.props.size}
             width={'100%'}
             ref={this.refInput}
             value={value as CurrencyInputProps['value']}
@@ -111,6 +146,7 @@ export class FxInput extends React.Component<FxInputProps> {
           <Input
             {...inputProps}
             {...rest}
+            size={this.props.size}
             width={'100%'}
             ref={this.refInput}
             type={type}
