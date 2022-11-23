@@ -173,6 +173,9 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   //#endregion
 
   //#region Select
+  public static get selectBgDisabled() {
+    return this.inputDisabledBg;
+  }
   public static get selectBorderRadiusSmall() {
     return this.inputBorderRadiusSmall;
   }
