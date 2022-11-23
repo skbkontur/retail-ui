@@ -352,7 +352,7 @@ export const styles = memoizeStyle({
       &:active:enabled,
       &:active:hover:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
+          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important; // override root:hover style
       }
     `;
   },
