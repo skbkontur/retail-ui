@@ -79,6 +79,23 @@ describe('Button', () => {
 
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
+
+  it('Autofocus', () => {
+    render(<Button autoFocus />);
+    expect(screen.getByRole('button')).toHaveFocus();
+  });
+
+  it('Unable to focus disabled element', () => {
+    render(<Button disabled />);
+    userEvent.tab();
+    expect(screen.getByRole('button')).not.toHaveFocus();
+  });
+
+  test('Unable to focus loading element', () => {
+    render(<Button loading />);
+    userEvent.tab();
+    expect(screen.getByRole('button')).not.toHaveFocus();
+  });
 });
 
 // title	string | undefined
