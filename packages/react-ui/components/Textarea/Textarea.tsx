@@ -19,6 +19,7 @@ import { isTestEnv } from '../../lib/currentEnvironment';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter } from '../../lib/createPropsGetter';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { getTextAreaHeight } from './TextareaHelpers';
 import { styles } from './Textarea.styles';
@@ -366,6 +367,7 @@ export class Textarea extends React.Component<TextareaProps, TextareaState> {
 
     const textareaStyle = {
       resize: autoResize ? 'none' : resize,
+      ...(isTheme2022(this.theme) ? { backgroundClip: 'padding-box' } : {}),
     };
 
     let placeholderPolyfill = null;
