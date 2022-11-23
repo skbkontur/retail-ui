@@ -4,13 +4,10 @@
 
 Контейнер, внутри которого находятся валидируемые контролы.
 
-### `submit(withoutFocus?: boolean): Promise<void>`
-либо
-### `submit(validationSettings?: { focusMode: FocusMode.Errors | FocusMode.ErrorsAndWarnings | FocusMode.None }): Promise<void>`
+### `submit(): Promise<void>`
 
 При вызове этой функции загораются все невалидные контролы. Необходимо для реализации
 сценария [валидации при отправке формы](https://guides.kontur.ru/principles/validation/#07).
-
 
     <ValidationContainer ref='container'>
         // ...
@@ -19,13 +16,24 @@
 
 Аргументы:
 
-- `withoutFocus`: `true` отключает автофокус невалидных контролов.
-- `validationSettings`: `{ focusMode: FocusMode.Errors | FocusMode.ErrorsAndWarnings | FocusMode.None }` - позволяет указать уровень валидации для автофокуса. Дефолтное значение -  `FocusMode.Error`
+    submit(withoutFocus?: boolean): Promise<void>
+    submit(validationSettings: ValidationSettings): Promise<void>
 
+где
 
-### `validate(withoutFocus?: boolean): Promise<boolean>`
-либо
-###`validate(validationSettings?: { focusMode: FocusMode.Errors | FocusMode.ErrorsAndWarnings | FocusMode.None }): Promise<boolean>`
+    interface ValidationSettings {
+      focusMode: FocusMode;
+    }
+    enum FocusMode {
+      Errors,
+      ErrorsAndWarnings,
+      None,
+    }
+
+- `withoutFocus`: отключает автофокус невалидных контролов.
+- `validationSettings.focusMode` - позволяет указать уровень валидации для автофокуса. Дефолтное значение -  `FocusMode.Errors`
+
+### `validate(): Promise<boolean>`
 
 При вызове этой функции загораются все невалидные контролы так же как и при вызове
 функции `submit()`. Кроме того функция возвращает признак валидности формы.
@@ -46,10 +54,7 @@
         );
     }
 
-Аргументы:
-
-- `withoutFocus`: `true` отключает автофокус невалидных контролов.
-- `validationSettings`: `{ focusMode: FocusMode.Errors | FocusMode.ErrorsAndWarnings | FocusMode.None }` - позволяет указать уровень валидации для автофокуса. Дефолтное значение -  `FocusMode.Error`
+Аргументы аналогичны `submit()` - смотри выше.
 
 ### `children`
 
