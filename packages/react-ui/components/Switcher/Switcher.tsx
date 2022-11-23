@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { isKeyArrowHorizontal, isKeyArrowLeft, isKeyEnter } from '../../lib/events/keyboard/identifiers';
-import { Group } from '../Group';
+import { getButtonCorners, Group } from '../Group';
 import { Button, ButtonProps, ButtonSize } from '../Button';
 import { Nullable } from '../../typings/utility-types';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -220,6 +220,7 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
         disableFocus: true,
         size,
         disabled,
+        corners: getButtonCorners(i === 0, i === items.length - 1),
       };
 
       const buttonProps = {
