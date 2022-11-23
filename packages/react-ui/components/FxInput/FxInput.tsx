@@ -3,19 +3,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Button } from '../Button';
 import { Group } from '../Group';
-import { Input, InputProps, InputSize } from '../Input';
+import { Input, InputProps } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
-import { FunctionIcon, UndoIcon } from '../../internal/icons/16px';
+import { FunctionIcon } from '../../internal/icons/16px';
 import { CommonWrapper, CommonProps, CommonWrapperRestProps } from '../../internal/CommonWrapper';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowShapeDRadiusUpLeftLightIcon, MathFunctionIcon } from '../../internal/icons/16px/Icons2022';
+import { MathFunctionIcon } from '../../internal/icons/16px/Icons2022';
+
+import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
 export interface FxInputProps
   extends CommonProps,
@@ -90,42 +91,24 @@ export class FxInput extends React.Component<FxInputProps> {
     };
 
     let button = null;
+    let inputCorners: InputProps['corners'];
     let iconFunction = <FunctionIcon />;
-    let iconUndo = <UndoIcon />;
-    let buttonWidth;
 
     if (isTheme2022(this.theme)) {
-      const size = this.props.size || Input.defaultProps.size;
-
-      const buttonWidths: Record<InputSize, number> = {
-        small: 32,
-        medium: 40,
-        large: 48,
-      };
-      const iconSizes: Record<InputSize, number> = {
-        small: 16,
-        medium: 20,
-        large: 24,
-      };
-      buttonWidth = buttonWidths[size];
+      inputCorners = { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
       iconFunction = <MathFunctionIcon />;
-      iconUndo = <ArrowShapeDRadiusUpLeftLightIcon size={iconSizes[size]} />;
     }
 
     if (auto) {
       inputProps.leftIcon = iconFunction;
     } else {
       button = (
-        <Button
-          width={buttonWidth}
-          size={this.props.size}
-          narrow
-          onClick={this.props.onRestore}
-          borderless={this.props.borderless}
-          disabled={this.props.disabled}
-        >
-          {iconUndo}
-        </Button>
+        <FxInputRestoreBtn
+          size={rest.size}
+          onRestore={onRestore}
+          disabled={rest.disabled}
+          borderless={rest.borderless}
+        />
       );
     }
 
@@ -136,6 +119,7 @@ export class FxInput extends React.Component<FxInputProps> {
           <CurrencyInput
             {...inputProps}
             {...rest}
+            corners={inputCorners}
             size={this.props.size}
             width={'100%'}
             ref={this.refInput}
@@ -146,6 +130,7 @@ export class FxInput extends React.Component<FxInputProps> {
           <Input
             {...inputProps}
             {...rest}
+            corners={inputCorners}
             size={this.props.size}
             width={'100%'}
             ref={this.refInput}
