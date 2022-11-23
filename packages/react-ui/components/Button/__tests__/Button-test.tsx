@@ -5,7 +5,7 @@ import React from 'react';
 import { Button, ButtonType } from '../Button';
 
 describe('Button', () => {
-  it('Has correct label', () => {
+  it('has correct label', () => {
     render(<Button>Foo</Button>);
     expect(screen.getByRole('button')).toHaveTextContent('Foo');
   });
@@ -17,7 +17,7 @@ describe('Button', () => {
     });
   });
 
-  it('Handels click event', async () => {
+  it('handels click event', async () => {
     const onClick = jest.fn();
 
     render(<Button onClick={onClick} />);
@@ -26,7 +26,7 @@ describe('Button', () => {
     expect(onClick.mock.calls).toHaveLength(1);
   });
 
-  it('Handels onBlur event', () => {
+  it('handels onBlur event', () => {
     const onBlur = jest.fn();
     render(<Button onBlur={onBlur} />);
 
@@ -36,7 +36,7 @@ describe('Button', () => {
     expect(onBlur).toHaveBeenCalledTimes(1);
   });
 
-  it('Handels onFocus event', () => {
+  it('handels onFocus event', () => {
     const onFocus = jest.fn();
     render(<Button onFocus={onFocus} />);
 
@@ -45,7 +45,7 @@ describe('Button', () => {
     expect(onFocus).toHaveBeenCalledTimes(1);
   });
 
-  it('Handels onKeyDown event', () => {
+  it('handels onKeyDown event', () => {
     const onKeyDown = jest.fn();
     render(<Button onKeyDown={onKeyDown} />);
 
@@ -54,7 +54,7 @@ describe('Button', () => {
     expect(onKeyDown).toHaveBeenCalledTimes(1);
   });
 
-  it('Handels onMouseEnter event', () => {
+  it('handels onMouseEnter event', () => {
     const onMouseEnter = jest.fn();
     render(<Button onMouseEnter={onMouseEnter} />);
 
@@ -63,7 +63,7 @@ describe('Button', () => {
     expect(onMouseEnter).toHaveBeenCalledTimes(1);
   });
 
-  it('Handels onMouseOver event', () => {
+  it('handels onMouseOver event', () => {
     const onMouseOver = jest.fn();
     render(<Button onMouseOver={onMouseOver} />);
 
@@ -71,7 +71,7 @@ describe('Button', () => {
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it('Handels onMouseLeave event', () => {
+  it('handels onMouseLeave event', () => {
     const onMouseLeave = jest.fn();
     render(<Button onMouseLeave={onMouseLeave} />);
 
@@ -80,22 +80,33 @@ describe('Button', () => {
     expect(onMouseLeave).toHaveBeenCalledTimes(1);
   });
 
-  it('Autofocus', () => {
+  it('autofocus', () => {
     render(<Button autoFocus />);
     expect(screen.getByRole('button')).toHaveFocus();
   });
 
-  it('Unable to focus disabled element', () => {
+  it('unable to focus disabled element', () => {
     render(<Button disabled />);
     userEvent.tab();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
 
-  test('Unable to focus loading element', () => {
+  it('unable to focus loading element', () => {
     render(<Button loading />);
     userEvent.tab();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
+
+  it('has focus() method', () => {
+    const btn = new Button(Button.defaultProps);
+    expect(btn.focus).toBeInstanceOf(Function);
+  });
+
+  it('has blur() method', () => {
+    const btn = new Button(Button.defaultProps);
+    expect(btn.blur).toBeInstanceOf(Function);
+  });
+
 });
 
 // title	string | undefined
