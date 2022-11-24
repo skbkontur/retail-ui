@@ -1,5 +1,7 @@
 import { css, keyframes, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
+import * as ColorFunctions from '../../lib/styles/ColorFunctions';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { fileUploaderSizeMixin } from './FileUploader.mixins';
 
@@ -8,6 +10,19 @@ export const globalClasses = prefix('file-uploader')({
 });
 
 const styles = {
+  calcPulse(t: Theme) {
+    return keyframes`
+      0% {
+        box-shadow: 0 0 0 1px ${ColorFunctions.fade(t.inputBlinkColor, 0.6)};
+      }
+      95% {
+        box-shadow: 0 0 0 10px ${ColorFunctions.fade(t.inputBlinkColor, 0.1)};
+      }
+      100% {
+        box-shadow: 0 0 0 1px ${ColorFunctions.fade(t.inputBlinkColor, 0.0)};
+      }
+    `;
+  },
   pulse() {
     return keyframes`
         0% {
@@ -29,18 +44,19 @@ const styles = {
   },
 
   root(t: Theme) {
+    const bg = isTheme2022(t) ? '' : `background-color: ${t.fileUploaderBg}`;
     return css`
       display: inline-block;
       position: relative;
-      background-color: ${t.fileUploaderBg};
+      ${bg};
       line-height: ${t.fileUploaderLineHeight};
       font-size: ${t.fileUploaderFontSize};
       color: ${t.fileUploaderTextColorDefault};
-      position: relative;
     `;
   },
 
   uploadButton(t: Theme) {
+    const bg = isTheme2022(t) ? `background-color: ${t.fileUploaderBg}` : '';
     return css`
       width: 100%;
       display: inline-flex;
@@ -53,6 +69,7 @@ const styles = {
       cursor: pointer;
       padding: ${t.fileUploaderPaddingY} ${t.fileUploaderPaddingX};
       transition: box-shadow 0.3s ease;
+      ${bg};
     `;
   },
 
@@ -65,9 +82,9 @@ const styles = {
 
   dragOver(t: Theme) {
     return css`
-      border: 1px solid #2da4f9;
+      border: 1px solid ${t.borderColorFocus};
       border-radius: ${t.fileUploaderBorderRadius};
-      box-shadow: 0px 0px 0px 3px #2da4f9, 0px 0px 0px 8px rgba(45, 164, 249, 0.35);
+      box-shadow: 0px 0px 0px 3px rgb(149, 149, 149), 0px 0px 0px 8px rgba(61, 61, 61, 0.2);
     `;
   },
 
@@ -75,6 +92,13 @@ const styles = {
     return css`
       border-radius: ${t.fileUploaderBorderRadius};
       animation: ${styles.pulse()} 1.5s infinite;
+    `;
+  },
+
+  windowDragOver2022(t: Theme) {
+    return css`
+      border-radius: ${t.fileUploaderBorderRadius};
+      animation: ${styles.calcPulse(t)} 1.5s infinite;
     `;
   },
 
@@ -165,12 +189,14 @@ const styles = {
   },
 
   disabled(t: Theme) {
+    const bc = isTheme2022(t) ? 'background-clip: padding-box' : '';
     return css`
       cursor: default;
       background: ${t.fileUploaderDisabledBg};
       border: ${t.fileUploaderBorderWidth} solid ${t.fileUploaderDisabledBorderColor};
       color: ${t.fileUploaderDisabledTextColor};
       box-shadow: none;
+      ${bc};
 
       .${globalClasses.afterLinkText} {
         color: ${t.fileUploaderDisabledTextColor};

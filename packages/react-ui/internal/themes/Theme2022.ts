@@ -4,6 +4,8 @@ import { DefaultThemeInternal } from './DefaultTheme';
 
 export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static borderColorDisabled = 'rgba(0, 0, 0, 0.08)';
+  public static borderColorFocus = '#3d3d3d';
+  public static bgActive = '#141414';
 
   //#region Link
   public static linkColor = '#3D3D3D';
@@ -28,10 +30,6 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
 
   public static linkDisabledColor = '#858585';
   //#endregion Link
-
-  public static borderColorFocus = '#3d3d3d';
-
-  public static bgActive = '#141414';
 
   //#region Button
   public static btnCheckedBg = '#3D3D3D';
@@ -196,7 +194,11 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static fileUploaderBorderRadius = '8px';
   public static fileUploaderLinkHoverTextDecoration = 'none';
   public static fileUploaderHoveredBg = 'rgba(0, 0, 0, 0.04)';
+  public static fileUploaderDisabledBorderColor = 'rgba(0, 0, 0, 0.08)';
   public static fileUploaderHoveredBorderColor = 'transparent';
+  public static get fileUploaderDisabledBg() {
+    return this.btnDisabledBg;
+  }
   //#endregion
 
   //#region Toast

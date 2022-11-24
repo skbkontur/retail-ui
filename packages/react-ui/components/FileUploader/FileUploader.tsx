@@ -87,6 +87,7 @@ const defaultRenderFile = (file: FileUploaderAttachedFile, fileNode: React.React
 
 const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((props: _FileUploaderProps, ref) => {
   const theme = useContext(ThemeContext);
+  const _isTheme2022 = isTheme2022(theme);
 
   const {
     disabled,
@@ -260,7 +261,11 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     isDraggable && !disabled && jsStyles.dragOver(theme),
   );
 
-  const uploadButtonWrapperClassNames = cx(isWindowDraggable && !disabled && jsStyles.windowDragOver(theme));
+  const canDrop = isWindowDraggable && !disabled;
+  const uploadButtonWrapperClassNames = cx(
+    !_isTheme2022 && canDrop && jsStyles.windowDragOver(theme),
+    _isTheme2022 && canDrop && jsStyles.windowDragOver2022(theme),
+  );
 
   const uploadButtonIconClassNames = cx(jsStyles.icon(theme), sizeIconClass, disabled && jsStyles.iconDisabled(theme));
 
@@ -281,7 +286,12 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
 
   const rootNodeRef = useRef(null);
 
-  const icon = isTheme2022(theme) ? <NetUploadIcon disableCompensation={false} /> : <UploadIcon />;
+  const iconSizes: Record<FileUploaderSize, number> = {
+    small: parseInt(theme.btnIconSizeSmall),
+    medium: parseInt(theme.btnIconSizeMedium),
+    large: parseInt(theme.btnIconSizeLarge),
+  };
+  const icon = _isTheme2022 ? <NetUploadIcon disableCompensation={false} size={iconSizes[size]} /> : <UploadIcon />;
 
   return (
     <CommonWrapper {...props}>
