@@ -106,5 +106,4 @@ describe('Button', () => {
     const btn = new Button(Button.defaultProps);
     expect(btn.blur).toBeInstanceOf(Function);
   });
-
 });
