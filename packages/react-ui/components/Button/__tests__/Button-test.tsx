@@ -108,7 +108,3 @@ describe('Button', () => {
   });
 
 });
-
-// title	string | undefined
-// className	string | undefined
-// data-tid	string | undefined
