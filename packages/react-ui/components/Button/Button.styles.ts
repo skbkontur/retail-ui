@@ -247,6 +247,24 @@ export const styles = memoizeStyle({
     `;
   },
 
+  sizeSmallWithIconWithoutText(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingLeftSmall};
+    `;
+  },
+
+  sizeMediumWithIconWithoutText(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingLeftMedium};
+    `;
+  },
+
+  sizeLargeWithIconWithoutText(t: Theme) {
+    return css`
+      padding-right: ${t.btnWithIconPaddingLeftLarge};
+    `;
+  },
+
   link(t: Theme) {
     return css`
       background: none;

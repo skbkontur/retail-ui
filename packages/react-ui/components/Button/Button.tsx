@@ -483,22 +483,26 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
   }
 
   private getSizeClassName() {
+    const _isTheme2022 = isTheme2022(this.theme);
     switch (this.getProps().size) {
       case 'large':
         return cx(styles.sizeLarge(this.theme), {
           [styles.sizeLargeIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeLargeWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeLargeWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
         });
       case 'medium':
         return cx(styles.sizeMedium(this.theme), {
           [styles.sizeMediumIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeMediumWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeMediumWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
         });
       case 'small':
       default:
         return cx(styles.sizeSmall(this.theme), {
           [styles.sizeSmallIE11(this.theme)]: isIE11 || isEdge,
           [styles.sizeSmallWithIcon(this.theme)]: !!this.props.icon,
+          [styles.sizeSmallWithIconWithoutText(this.theme)]: _isTheme2022 && !!this.props.icon && !this.props.children,
         });
     }
   }
