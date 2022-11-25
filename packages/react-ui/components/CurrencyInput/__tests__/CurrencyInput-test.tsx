@@ -108,4 +108,36 @@ describe('CurrencyInput', () => {
     const input = screen.getByRole('textbox');
     expect(input).toHaveValue('12,00');
   });
+
+  it('should clear `value` in input when undefined passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <>
+          <button onClick={() => setValue(undefined)}>clear</button>
+          <CurrencyInput value={value} onValueChange={setValue} />
+        </>
+      );
+    };
+    render(<Comp />);
+
+    userEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
+
+  it('should clear `value` in input when null passed', () => {
+    const Comp = () => {
+      const [value, setValue] = useState<Nullable<number>>(12345);
+      return (
+        <>
+          <button onClick={() => setValue(null)}>clear</button>
+          <CurrencyInput value={value} onValueChange={setValue} />
+        </>
+      );
+    };
+    render(<Comp />);
+
+    userEvent.click(screen.getByRole('button'));
+    expect(screen.getByRole('textbox')).toHaveValue('');
+  });
 });
