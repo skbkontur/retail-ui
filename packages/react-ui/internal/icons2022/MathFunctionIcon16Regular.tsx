@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { BaseIcon, IconProps } from '../icons/16px/BaseIcon';
+
+import { BaseIcon, IconProps } from './BaseIcon';
 
 export const MathFunctionIcon16Regular = forwardRefAndName<SVGSVGElement, IconProps>(
   'MathFunctionIcon16Regular',

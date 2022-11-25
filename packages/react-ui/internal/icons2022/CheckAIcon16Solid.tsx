@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
-import { BaseIcon, IconProps } from '../icons/16px/BaseIcon';
+
+import { BaseIcon, IconProps } from './BaseIcon';
 
 export const CheckAIcon16Solid = forwardRefAndName<SVGSVGElement, IconProps>('CheckAIcon16Solid', (props, ref) => {
   return (
