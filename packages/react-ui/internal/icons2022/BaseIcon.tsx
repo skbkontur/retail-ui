@@ -1,5 +1,8 @@
 import React from 'react';
 
+import { ReactUIComponentWithRef } from '../../lib/forwardRefAndName';
+import { SvgIconProps } from '../icons/16px';
+
 export type IconProps = {
   ref?: React.ForwardedRef<SVGSVGElement>;
   size?: number;
@@ -7,6 +10,10 @@ export type IconProps = {
   color?: string;
   disableCompensation?: boolean;
 } & React.SVGAttributes<SVGElement>;
+
+export type BothIconType =
+  | ReactUIComponentWithRef<HTMLElement, SvgIconProps>
+  | ReactUIComponentWithRef<SVGSVGElement, IconProps>;
 
 export const BaseIcon = ({
   ref,

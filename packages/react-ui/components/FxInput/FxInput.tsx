@@ -4,7 +4,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { Group } from '../Group';
-import { Input, InputProps } from '../Input';
+import { Input, InputProps, InputSize } from '../Input';
 import { CurrencyInput, CurrencyInputProps } from '../CurrencyInput';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { Override } from '../../typings/utility-types';
@@ -14,7 +14,9 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MathFunctionIcon16Regular } from '../../internal/icons2022/MathFunctionIcon16Regular';
+import { MathFunctionIcon16Light } from '../../internal/icons2022/MathFunctionIcon16Light';
+import { MathFunctionIcon20Light } from '../../internal/icons2022/MathFunctionIcon20Light';
+import { MathFunctionIcon24Regular } from '../../internal/icons2022/MathFunctionIcon24Regular';
 
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
@@ -92,15 +94,27 @@ export class FxInput extends React.Component<FxInputProps> {
 
     let button = null;
     let inputCorners: InputProps['corners'];
-    let iconFunction = <FunctionIcon />;
+    let IconFunction = <FunctionIcon />;
 
     if (isTheme2022(this.theme)) {
-      inputCorners = { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      iconFunction = <MathFunctionIcon16Regular />;
+      inputCorners = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
+      const functionIcons = {
+        small: MathFunctionIcon16Light,
+        medium: MathFunctionIcon20Light,
+        large: MathFunctionIcon24Regular,
+      };
+      const iconSizes: Record<InputSize, number> = {
+        small: parseInt(this.theme.inputIconSizeSmall),
+        medium: parseInt(this.theme.inputIconSizeMedium),
+        large: parseInt(this.theme.inputIconSizeLarge),
+      };
+      const size = this.props.size || Input.defaultProps.size;
+      const Icon = functionIcons[size];
+      IconFunction = <Icon size={iconSizes[size]} />;
     }
 
     if (auto) {
-      inputProps.leftIcon = iconFunction;
+      inputProps.leftIcon = IconFunction;
     } else {
       button = (
         <FxInputRestoreBtn

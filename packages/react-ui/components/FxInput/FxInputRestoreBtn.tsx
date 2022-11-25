@@ -6,6 +6,8 @@ import { UndoIcon } from '../../internal/icons/16px';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
 import { ArrowShapeDRadiusUpLeftIcon16Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon16Light';
+import { ArrowShapeDRadiusUpLeftIcon20Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon20Light';
+import { ArrowShapeDRadiusUpLeftIcon24Regular } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon24Regular';
 
 import { FxInputProps } from './FxInput';
 
@@ -15,7 +17,6 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
   const theme = useContext(ThemeContext);
 
   let iconUndo = <UndoIcon />;
-  let buttonWidth = 'auto';
   let buttonCorners;
 
   if (isTheme2022(theme)) {
@@ -25,11 +26,6 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
       small: parseInt(theme.inputIconSizeSmall),
       medium: parseInt(theme.inputIconSizeMedium),
       large: parseInt(theme.inputIconSizeLarge),
-    };
-    const buttonWidths: Record<InputSize, string> = {
-      small: `${iconSizes.small * 2}px`,
-      medium: `${iconSizes.medium * 2}px`,
-      large: `${iconSizes.large * 2}px`,
     };
     const cornersSizes: Record<InputSize, React.CSSProperties> = {
       small: {
@@ -45,16 +41,32 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         borderBottomLeftRadius: theme.inputBorderRadiusLarge,
       },
     };
+    const undoIcons = {
+      small: ArrowShapeDRadiusUpLeftIcon16Light,
+      medium: ArrowShapeDRadiusUpLeftIcon20Light,
+      large: ArrowShapeDRadiusUpLeftIcon24Regular,
+    };
+    const IconIndo = undoIcons[size];
     buttonCorners = cornersSizes[size];
-    buttonWidth = buttonWidths[size];
-    iconUndo = <ArrowShapeDRadiusUpLeftIcon16Light size={iconSizes[size]} />;
+    iconUndo = <IconIndo size={iconSizes[size]} />;
   }
 
-  return (
+  return isTheme2022(theme) ? (
     <Button
-      width={buttonWidth}
       size={props.size}
-      narrow
+      onClick={props.onRestore}
+      borderless={props.borderless}
+      disabled={props.disabled}
+      corners={{
+        borderTopRightRadius: 0,
+        borderBottomRightRadius: 0,
+        ...buttonCorners,
+      }}
+      icon={iconUndo}
+    />
+  ) : (
+    <Button
+      size={props.size}
       onClick={props.onRestore}
       borderless={props.borderless}
       disabled={props.disabled}
