@@ -9,7 +9,7 @@ import { isFunction } from '../../lib/utils';
 import { Tooltip } from '../Tooltip';
 import { cx } from '../../lib/theming/Emotion';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { QuestionCircleSolidIcon } from '../../internal/icons/16px/Icons2022';
+import { QuestionCircleIcon16Solid } from '../../internal/icons2022/QuestionCircleIcon16Solid';
 
 import { TextareaDataTids, TextareaProps } from './Textarea';
 import { styles } from './Textarea.styles';
@@ -44,7 +44,7 @@ export const TextareaCounter = forwardRefAndName<TextareaCounterRef, TextareaCou
     const textareaValue = value ? value.toString().length : 0;
     const counterValue = length - textareaValue;
     const helpIcon = isTheme2022(theme) ? (
-      <QuestionCircleSolidIcon
+      <QuestionCircleIcon16Solid
         disableCompensation={false}
         onMouseDown={handleHelpMouseDown}
         color={theme.textareaCounterHelpIconColor}

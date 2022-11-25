@@ -19,7 +19,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { XIcon } from '../../internal/icons/16px/Icons2022';
+import { XIcon16Regular } from '../../internal/icons2022/XIcon16Regular';
 
 import { styles } from './Tooltip.styles';
 
@@ -274,7 +274,7 @@ export class Tooltip extends React.PureComponent<TooltipProps, TooltipState> imp
       return null;
     }
 
-    const icon = isTheme2022(this.theme) ? <XIcon /> : <CrossIcon />;
+    const icon = isTheme2022(this.theme) ? <XIcon16Regular /> : <CrossIcon />;
 
     return (
       <div className={styles.cross(this.theme)} onClick={this.handleCloseButtonClick}>

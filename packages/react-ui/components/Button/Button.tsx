@@ -12,7 +12,8 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ArrowALeftIcon, ArrowARightIcon } from '../../internal/icons/16px/Icons2022';
+import { ArrowARightIcon16Regular } from '../../internal/icons2022/ArrowARightIcon16Regular';
+import { ArrowALeftIcon16Regular } from '../../internal/icons2022/ArrowALeftIcon16Regular';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 
@@ -413,9 +414,9 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         rootProps.className = cx(rootProps.className, this.getRootWithArrowIconClassName());
         const arrowIcon =
           arrow === 'left' ? (
-            <ArrowALeftIcon size={parseInt(sizeIcon)} />
+            <ArrowALeftIcon16Regular size={parseInt(sizeIcon)} />
           ) : (
-            <ArrowARightIcon size={parseInt(sizeIcon)} />
+            <ArrowARightIcon16Regular size={parseInt(sizeIcon)} />
           );
         arrowNode = <div className={this.getArrowIconRootClassName()}>{arrowIcon}</div>;
       }

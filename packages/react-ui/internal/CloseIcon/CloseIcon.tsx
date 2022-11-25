@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Theme } from '../../lib/theming/Theme';
-import { XIcon } from '../icons/16px/Icons2022';
 import { css, cx } from '../../lib/theming/Emotion';
 import { keyListener } from '../../lib/events/keyListener';
+import { XIcon16Regular } from '../icons2022/XIcon16Regular';
 
 import { styles } from './CloseIcon.styles';
 
@@ -57,7 +57,7 @@ export const CloseIcon: React.FunctionComponent<CloseIconProps> = ({
       {...attr}
     >
       <span className={styles.root()}>
-        <XIcon size={side < size ? side : size} disableCompensation={disableCompensation} />
+        <XIcon16Regular size={side < size ? side : size} disableCompensation={disableCompensation} />
       </span>
     </button>
   );

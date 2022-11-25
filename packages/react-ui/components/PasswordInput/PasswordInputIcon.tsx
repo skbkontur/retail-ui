@@ -1,7 +1,8 @@
 import React from 'react';
 
 import { EyeClosedIcon, EyeOpenedIcon } from '../../internal/icons/16px';
-import { EyeClosedIcon as EyeClosedIcon2022, EyeOpenIcon } from '../../internal/icons/16px/Icons2022';
+import { EyeOpenIcon16Regular } from '../../internal/icons2022/EyeOpenIcon16Regular';
+import { EyeClosedIcon16Regular as EyeClosedIcon2022 } from '../../internal/icons2022/EyeClosedIcon16Regular';
 
 import { PasswordInputState } from './PasswordInput';
 
@@ -14,5 +15,5 @@ export const PasswordInputIcon = ({ visible, isTheme2022 = false }: PasswordInpu
     return isTheme2022 ? <EyeClosedIcon2022 disableCompensation={false} /> : <EyeClosedIcon size={14} />;
   }
 
-  return isTheme2022 ? <EyeOpenIcon disableCompensation={false} /> : <EyeOpenedIcon size={14} />;
+  return isTheme2022 ? <EyeOpenIcon16Regular disableCompensation={false} /> : <EyeOpenedIcon size={14} />;
 };

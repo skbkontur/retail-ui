@@ -4,8 +4,8 @@ import { Input, InputSize } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { UndoIcon } from '../../internal/icons/16px';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ArrowShapeDRadiusUpLeftLightIcon } from '../../internal/icons/16px/Icons2022';
 import { Button } from '../Button';
+import { ArrowShapeDRadiusUpLeftIcon16Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon16Light';
 
 import { FxInputProps } from './FxInput';
 
@@ -47,7 +47,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
     };
     buttonCorners = cornersSizes[size];
     buttonWidth = buttonWidths[size];
-    iconUndo = <ArrowShapeDRadiusUpLeftLightIcon size={iconSizes[size]} />;
+    iconUndo = <ArrowShapeDRadiusUpLeftIcon16Light size={iconSizes[size]} />;
   }
 
   return (

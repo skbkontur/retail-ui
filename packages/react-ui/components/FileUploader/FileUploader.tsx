@@ -21,7 +21,7 @@ import { Nullable } from '../../typings/utility-types';
 import { FileUploaderFileValidationResult } from '../../internal/FileUploaderControl/FileUploaderFileValidationResult';
 import { useFileUploaderSize } from '../../internal/FileUploaderControl/hooks/useFileUploaderSize';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { NetUploadIcon } from '../../internal/icons/16px/Icons2022';
+import { NetUploadIcon16Regular } from '../../internal/icons2022/NetUploadIcon16Regular';
 
 import { globalClasses, jsStyles } from './FileUploader.styles';
 
@@ -291,7 +291,11 @@ const _FileUploader = React.forwardRef<FileUploaderRef, _FileUploaderProps>((pro
     medium: parseInt(theme.btnIconSizeMedium),
     large: parseInt(theme.btnIconSizeLarge),
   };
-  const icon = _isTheme2022 ? <NetUploadIcon disableCompensation={false} size={iconSizes[size]} /> : <UploadIcon />;
+  const icon = _isTheme2022 ? (
+    <NetUploadIcon16Regular disableCompensation={false} size={iconSizes[size]} />
+  ) : (
+    <UploadIcon />
+  );
 
   return (
     <CommonWrapper {...props}>

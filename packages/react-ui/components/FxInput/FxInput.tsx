@@ -14,7 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MathFunctionIcon } from '../../internal/icons/16px/Icons2022';
+import { MathFunctionIcon16Regular } from '../../internal/icons2022/MathFunctionIcon16Regular';
 
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
@@ -96,7 +96,7 @@ export class FxInput extends React.Component<FxInputProps> {
 
     if (isTheme2022(this.theme)) {
       inputCorners = { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      iconFunction = <MathFunctionIcon />;
+      iconFunction = <MathFunctionIcon16Regular />;
     }
 
     if (auto) {

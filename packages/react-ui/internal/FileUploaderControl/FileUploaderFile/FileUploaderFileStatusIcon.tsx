@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 
 import { ThemeContext } from '../../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../../lib/theming/ThemeHelpers';
-import { CheckAIcon, MinusCircle, XIcon } from '../../icons/16px/Icons2022';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { FileUploaderFileStatus } from '../fileUtils';
 import { Spinner } from '../../../components/Spinner';
+import { XIcon16Regular } from '../../icons2022/XIcon16Regular';
+import { CheckAIcon16Regular } from '../../icons2022/CheckAIcon16Regular';
+import { MinusCircleIcon16Regular } from '../../icons2022/MinusCircleIcon16Regular';
 
 import { jsStyles } from './FileUploaderFile.styles';
 
@@ -29,9 +31,9 @@ export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFil
   let IconOk = <OkIcon color={theme.fileUploaderIconColor} />;
 
   if (isTheme2022(theme)) {
-    IconDelete = <XIcon disableCompensation={false} className={jsStyles.deleteIcon(theme)} />;
-    IconError = <MinusCircle disableCompensation={false} />;
-    IconOk = <CheckAIcon disableCompensation={false} color={theme.fileUploaderIconColor} />;
+    IconDelete = <XIcon16Regular disableCompensation={false} className={jsStyles.deleteIcon(theme)} />;
+    IconError = <MinusCircleIcon16Regular disableCompensation={false} />;
+    IconOk = <CheckAIcon16Regular disableCompensation={false} color={theme.fileUploaderIconColor} />;
   }
 
   if (hovered || focusedByTab) {
