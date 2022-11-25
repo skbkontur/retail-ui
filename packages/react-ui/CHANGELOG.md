@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.12.9](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.8...@skbkontur/react-ui@3.12.9) (2022-11-25)
+
+
+### Bug Fixes
+
+* **CurrencyInput:** clearing value ([#3030](https://github.com/skbkontur/retail-ui/issues/3030)) ([0307868](https://github.com/skbkontur/retail-ui/commit/030786813b8313e3f9cd581f3087147b29038aa7))
+
+
+
+
+
 ## [3.12.8](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@3.12.7...@skbkontur/react-ui@3.12.8) (2022-10-19)
 
 
