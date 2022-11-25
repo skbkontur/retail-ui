@@ -12,8 +12,12 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ArrowARightIcon16Regular } from '../../internal/icons2022/ArrowARightIcon16Regular';
-import { ArrowALeftIcon16Regular } from '../../internal/icons2022/ArrowALeftIcon16Regular';
+import { ArrowALeftIcon16Light } from '../../internal/icons2022/ArrowALeftIcon16Light';
+import { ArrowALeftIcon20Light } from '../../internal/icons2022/ArrowALeftIcon20Light';
+import { ArrowALeftIcon24Regular } from '../../internal/icons2022/ArrowALeftIcon24Regular';
+import { ArrowARightIcon16Light } from '../../internal/icons2022/ArrowARightIcon16Light';
+import { ArrowARightIcon20Light } from '../../internal/icons2022/ArrowARightIcon20Light';
+import { ArrowARightIcon24Regular } from '../../internal/icons2022/ArrowARightIcon24Regular';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
 
@@ -405,20 +409,27 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       );
 
       if (_isTheme2022) {
-        let sizeIcon = this.theme.btnIconSizeSmall;
-        if (this.props.size === 'medium') {
-          sizeIcon = this.theme.btnIconSizeMedium;
-        } else if (this.props.size === 'large') {
-          sizeIcon = this.theme.btnIconSizeLarge;
-        }
+        const arrowIcons = {
+          right: {
+            small: ArrowARightIcon16Light,
+            medium: ArrowARightIcon20Light,
+            large: ArrowARightIcon24Regular,
+          },
+          left: {
+            small: ArrowALeftIcon16Light,
+            medium: ArrowALeftIcon20Light,
+            large: ArrowALeftIcon24Regular,
+          },
+        };
+        const side = arrow === 'left' ? 'left' : 'right';
+        const size = this.props.size || Button.defaultProps.size;
         rootProps.className = cx(rootProps.className, this.getRootWithArrowIconClassName());
-        const arrowIcon =
-          arrow === 'left' ? (
-            <ArrowALeftIcon16Regular size={parseInt(sizeIcon)} />
-          ) : (
-            <ArrowARightIcon16Regular size={parseInt(sizeIcon)} />
-          );
-        arrowNode = <div className={this.getArrowIconRootClassName()}>{arrowIcon}</div>;
+        const ArrowIcon = arrowIcons[side][size];
+        arrowNode = (
+          <div className={this.getArrowIconRootClassName()}>
+            <ArrowIcon />
+          </div>
+        );
       }
     }
 
