@@ -3,8 +3,8 @@ import React from 'react';
 import { forwardRefAndName } from '../../lib/forwardRefAndName';
 import { BaseIcon, IconProps } from '../icons/16px/BaseIcon';
 
-export const ArrowARightIcon16Regular = forwardRefAndName<SVGSVGElement, IconProps>(
-  'ArrowARightIcon16Regular',
+export const ArrowARightIcon16Light = forwardRefAndName<SVGSVGElement, IconProps>(
+  'ArrowARightIcon16Light',
   (props, ref) => {
     return (
       <BaseIcon ref={ref} {...props}>

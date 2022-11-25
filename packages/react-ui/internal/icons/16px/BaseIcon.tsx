@@ -3,6 +3,7 @@ import React from 'react';
 export type IconProps = {
   ref?: React.ForwardedRef<SVGSVGElement>;
   size?: number;
+  viewBoxSize?: number;
   color?: string;
   disableCompensation?: boolean;
 } & React.SVGAttributes<SVGElement>;
@@ -10,7 +11,8 @@ export type IconProps = {
 export const BaseIcon = ({
   ref,
   color,
-  size = 16,
+  size,
+  viewBoxSize = 16,
   style,
   disableCompensation = true,
   children,
@@ -19,11 +21,11 @@ export const BaseIcon = ({
   return (
     <svg
       ref={ref}
-      width={size}
-      height={size}
+      width={size || viewBoxSize}
+      height={size || viewBoxSize}
       style={{ fill: color ?? 'currentColor', color, marginBottom: disableCompensation ? 0 : '-0.1875em', ...style }}
       xmlns="http://www.w3.org/2000/svg"
-      viewBox={`0 0 16 16`}
+      viewBox={`0 0 ${viewBoxSize} ${viewBoxSize}`}
       aria-hidden
       {...rest}
     >
