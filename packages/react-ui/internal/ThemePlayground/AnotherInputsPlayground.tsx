@@ -9,7 +9,7 @@ interface DatePickerPlaygroundState {
   error: boolean;
   tooltip: boolean;
 }
-type DatePickerPlaygroundProps = Partial<DatePickerProps<string>>;
+type DatePickerPlaygroundProps = Partial<DatePickerProps>;
 export class DatePickerPlayground extends React.Component<DatePickerPlaygroundProps> {
   public state: DatePickerPlaygroundState = {
     value: '17.06.2019',
