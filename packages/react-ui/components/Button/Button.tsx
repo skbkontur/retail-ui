@@ -278,9 +278,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
         ...(trueDisabled
-          ? [!checked && styles.disabled(this.theme), checked && styles.checkedDisabled(this.theme)]
+          ? [
+              styles.disabled(this.theme),
+              checked && styles.checkedDisabled(this.theme),
+              checked && styles.checkedDisabled2022(this.theme),
+            ]
           : [
-              styles.simulatedPress(),
               active && !checked && activeStyles[use](this.theme),
               isFocused && styles.focus(this.theme),
               checked && styles.checked(this.theme),
@@ -361,7 +364,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
 
     let loadingNode = null;
     if (loading && !icon) {
-      loadingNode = <div className={styles.loading()}>{this.getLoadingSpinner()}</div>;
+      loadingNode =
+        _isTheme2022 && !isLink ? (
+          this.getLoadingSpinner()
+        ) : (
+          <div className={styles.loading()}>{this.getLoadingSpinner()}</div>
+        );
     }
 
     let iconNode = null;

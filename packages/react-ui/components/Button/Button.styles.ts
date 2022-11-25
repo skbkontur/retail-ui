@@ -714,10 +714,10 @@ export const styles = memoizeStyle({
 
   checked(t: Theme) {
     const checkedStyles = `
-      background-image: none;
-      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor};
-      background-color: ${t.btnCheckedBg};
-      color: ${t.btnCheckedTextColor};
+      background-image: none ! important;
+      box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
+      background-color: ${t.btnCheckedBg} !important;
+      color: ${t.btnCheckedTextColor} !important;
 
       .${globalClasses.innerShadow} {
         box-shadow: ${t.btnCheckedShadow};
@@ -769,6 +769,14 @@ export const styles = memoizeStyle({
         &.${globalClasses.arrowHelperTop} {
           background-image: none;
         }
+      }
+    `;
+  },
+
+  checkedDisabled2022(t: Theme) {
+    return css`
+      svg {
+        stroke: ${t.btnCheckedDisabledColor};
       }
     `;
   },
