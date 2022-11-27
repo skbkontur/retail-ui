@@ -162,11 +162,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
       onMouseLeave,
       isMobile,
       href,
+      disabled,
       rel = this.props.href && isExternalLink(this.props.href) ? 'noopener noreferrer' : this.props.rel,
       ...rest
     } = props;
 
-    const hover = state === 'hover' && !this.props.disabled;
+    const hover = state === 'hover' && !disabled;
 
     let iconElement = null;
     if (icon) {
@@ -202,6 +203,7 @@ export class MenuItem extends React.Component<MenuItemProps> {
         ref={this.setRootRef}
         data-tid={MenuItemDataTids.root}
         {...rest}
+        disabled={disabled && !component}
         state={state}
         onMouseOver={this.handleMouseEnterFix}
         onMouseLeave={this.handleMouseLeave}
@@ -256,12 +258,12 @@ export class MenuItem extends React.Component<MenuItemProps> {
   private getComponent = () => {
     const { disabled, component, href } = this.props;
 
-    if (disabled && !component) {
-      return 'button';
-    }
-
     if (component) {
       return component;
+    }
+
+    if (disabled) {
+      return 'button';
     }
 
     if (href) {
