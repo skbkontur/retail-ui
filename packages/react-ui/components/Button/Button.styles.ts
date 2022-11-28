@@ -762,7 +762,7 @@ export const styles = memoizeStyle({
   },
 
   checked2022(t: Theme) {
-    return css`
+    const checkedStyles = `
       background-image: none !important;
       box-shadow: 0 0 0 ${t.btnBorderWidth} ${t.btnDefaultCheckedBorderColor} !important;
       background-color: ${t.btnCheckedBg} !important;
@@ -778,6 +778,16 @@ export const styles = memoizeStyle({
         &.${globalClasses.arrowHelperTop} {
           background-image: ${t.btnArrowBgImageChecked};
         }
+      }
+    `;
+
+    return css`
+      ${checkedStyles}
+
+      &:hover:enabled,
+      &:active:enabled,
+      &:hover:active:enabled {
+        ${checkedStyles}
       }
     `;
   },

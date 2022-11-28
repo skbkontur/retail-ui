@@ -5,21 +5,18 @@ import { isIE11, isEdge } from '../../lib/client';
 import { keyListener } from '../../lib/events/keyListener';
 import { Theme, ThemeIn } from '../../lib/theming/Theme';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { Spinner } from '../Spinner';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
 import { createPropsGetter } from '../../lib/createPropsGetter';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ArrowALeftIcon16Light } from '../../internal/icons2022/ArrowALeftIcon16Light';
-import { ArrowALeftIcon20Light } from '../../internal/icons2022/ArrowALeftIcon20Light';
-import { ArrowALeftIcon24Regular } from '../../internal/icons2022/ArrowALeftIcon24Regular';
-import { ArrowARightIcon16Light } from '../../internal/icons2022/ArrowARightIcon16Light';
-import { ArrowARightIcon20Light } from '../../internal/icons2022/ArrowARightIcon20Light';
-import { ArrowARightIcon24Regular } from '../../internal/icons2022/ArrowARightIcon24Regular';
+import { Link } from '../Link';
+import { Spinner } from '../Spinner';
 
 import { styles, activeStyles, globalClasses } from './Button.styles';
+import { ButtonIcon } from './ButtonIcon';
+import { useButtonArrow } from './ButtonArrow';
 
 export type ButtonSize = 'small' | 'medium' | 'large';
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -249,7 +246,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       error,
       warning,
       loading,
-      arrow,
       narrow,
       icon,
       _noPadding,
@@ -272,6 +268,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const isLink = use === 'link';
     const _isTheme2022 = isTheme2022(this.theme);
 
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const [wrapClassNameWithArrow, rootClassNameWithArrow, arrowNode] = useButtonArrow(
+      { ...this.props, isFocused: Boolean(isFocused) },
+      this.theme,
+    );
+
     let rootClassName = '';
     if (_isTheme2022) {
       const trueDisabled = disabled || loading;
@@ -282,6 +284,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         narrow && styles.narrow(),
         _noPadding && styles.noPadding(),
         _noRightPadding && styles.noRightPadding(),
+        rootClassNameWithArrow,
         ...(trueDisabled
           ? [
               styles.disabled(this.theme),
@@ -299,7 +302,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     } else {
       rootClassName = cx({
         [styles.root(this.theme)]: true,
-        [styles.simulatedPress()]: !_isTheme2022,
+        [styles.simulatedPress()]: true,
         [styles[use](this.theme)]: true,
         [activeStyles[use](this.theme)]: active,
         [sizeClass]: true,
@@ -340,8 +343,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     const wrapProps = {
       className: cx({
         [styles.wrap(this.theme)]: true,
-        [styles.wrapArrow()]: arrow === true,
-        [styles.wrapArrowLeft()]: arrow === 'left',
+        [wrapClassNameWithArrow]: true,
         [this.getSizeWrapClassName()]: true,
       }),
       style: {
@@ -349,13 +351,14 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       },
     };
 
-    const innerShadowNode = <div className={globalClasses.innerShadow} />;
+    const innerShadowNode = _isTheme2022 ? null : <div className={globalClasses.innerShadow} />;
 
     let outlineNode = null;
     const isDisabled2022 = _isTheme2022 && (disabled || loading);
     if ((!isFocused || isLink) && !isDisabled2022) {
       outlineNode = (
         <div
+          style={{ zIndex: _isTheme2022 ? -1 : undefined }}
           className={cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
@@ -367,70 +370,23 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
       );
     }
 
+    const iconNode = icon && (
+      <ButtonIcon
+        icon={icon}
+        size={this.props.size || Button.defaultProps.size}
+        hasChildren={Boolean(children)}
+        disabled={disabled || false}
+        loading={loading || false}
+        use={use}
+      />
+    );
     let loadingNode = null;
     if (loading && !icon) {
-      loadingNode =
-        _isTheme2022 && !isLink ? (
-          this.getLoadingSpinner()
-        ) : (
-          <div className={styles.loading()}>{this.getLoadingSpinner()}</div>
-        );
-    }
-
-    let iconNode = null;
-    if (icon) {
-      iconNode = (
-        <span
-          className={cx(styles.icon(), this.getSizeIconClassName(), {
-            [styles.iconNoRightMargin()]: !children,
-            [styles.iconLink(this.theme)]: isLink,
-          })}
-        >
-          {loading ? this.getLoadingSpinner() : icon}
-        </span>
-      );
-    }
-
-    let arrowNode = null;
-    if (arrow) {
-      arrowNode = (
-        <div
-          className={cx({
-            [styles.arrow()]: true,
-            [styles.arrowWarning(this.theme)]: !checked && warning && !disabled,
-            [styles.arrowError(this.theme)]: !checked && error && !disabled,
-            [styles.arrowFocus(this.theme)]: !checked && isFocused && !disabled,
-            [styles.arrowLeft()]: arrow === 'left',
-          })}
-        >
-          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperTop)} />
-          <div className={cx(globalClasses.arrowHelper, globalClasses.arrowHelperBottom)} />
+      loadingNode = (
+        <div className={styles.loading()}>
+          <Spinner caption={null} dimmed type="mini" />
         </div>
       );
-
-      if (_isTheme2022) {
-        const arrowIcons = {
-          right: {
-            small: ArrowARightIcon16Light,
-            medium: ArrowARightIcon20Light,
-            large: ArrowARightIcon24Regular,
-          },
-          left: {
-            small: ArrowALeftIcon16Light,
-            medium: ArrowALeftIcon20Light,
-            large: ArrowALeftIcon24Regular,
-          },
-        };
-        const side = arrow === 'left' ? 'left' : 'right';
-        const size = this.props.size || Button.defaultProps.size;
-        rootProps.className = cx(rootProps.className, this.getRootWithArrowIconClassName());
-        const ArrowIcon = arrowIcons[side][size];
-        arrowNode = (
-          <div className={this.getArrowIconRootClassName()}>
-            <ArrowIcon />
-          </div>
-        );
-      }
     }
 
     // Force disable all props and features, that cannot be use with Link
@@ -445,7 +401,41 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         style: { width: wrapProps.style.width },
       });
       rootProps.style.textAlign = undefined;
-      arrowNode = null;
+    }
+
+    let captionNode = (
+      <div
+        className={cx(styles.caption(), globalClasses.caption, {
+          [styles.captionTranslated()]: (active || checked) && !loading && !_isTheme2022,
+          [styles.captionLink()]: isLink,
+          [styles.captionDisabled()]: !checked && disabled,
+        })}
+      >
+        {loadingNode}
+        {iconNode}
+        <span
+          className={cx(globalClasses.text, {
+            [styles.visibilityHidden()]: !!loadingNode,
+          })}
+        >
+          {children}
+        </span>
+      </div>
+    );
+    if (isLink && _isTheme2022) {
+      captionNode = (
+        <Link
+          focused={isFocused}
+          loading={loading}
+          disabled={disabled}
+          icon={icon}
+          component="span"
+          style={{ display: 'inline-block', width: '100%' }}
+          tabIndex={-1}
+        >
+          {children}
+        </Link>
+      );
     }
 
     return (
@@ -454,32 +444,12 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           <button data-tid={ButtonDataTids.root} ref={this._ref} {...rootProps}>
             {innerShadowNode}
             {outlineNode}
-            {loadingNode}
             {arrowNode}
-            <div
-              className={cx(styles.caption(), globalClasses.caption, {
-                [styles.captionTranslated()]: (active || checked) && !_isTheme2022,
-                [styles.captionLink()]: isLink,
-                [styles.captionDisabled()]: !checked && disabled,
-              })}
-            >
-              {iconNode}
-              <span
-                className={cx(globalClasses.text, {
-                  [styles.visibilityHidden()]: !!loadingNode,
-                })}
-              >
-                {children}
-              </span>
-            </div>
+            {captionNode}
           </button>
         </span>
       </CommonWrapper>
     );
-  }
-
-  private getLoadingSpinner() {
-    return <Spinner caption={null} dimmed type="mini" />;
   }
 
   private getSizeClassName() {
@@ -507,18 +477,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     }
   }
 
-  private getSizeIconClassName() {
-    switch (this.getProps().size) {
-      case 'large':
-        return styles.iconLarge(this.theme);
-      case 'medium':
-        return styles.iconMedium(this.theme);
-      case 'small':
-      default:
-        return styles.iconSmall(this.theme);
-    }
-  }
-
   private getSizeWrapClassName() {
     switch (this.getProps().size) {
       case 'large':
@@ -543,28 +501,6 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
           [styles.linkLineFocus(this.theme)]: focused,
           [styles.linkLineDisabled(this.theme)]: disabled,
         });
-  }
-
-  private getRootWithArrowIconClassName() {
-    const { arrow, size } = this.props;
-    return cx({
-      [styles.withArrowIconRightSmall(this.theme)]: arrow !== 'left' && size === 'small',
-      [styles.withArrowIconRightMedium(this.theme)]: arrow !== 'left' && size === 'medium',
-      [styles.withArrowIconRightLarge(this.theme)]: arrow !== 'left' && size === 'large',
-      [styles.withArrowIconLeftSmall(this.theme)]: arrow === 'left' && size === 'small',
-      [styles.withArrowIconLeftMedium(this.theme)]: arrow === 'left' && size === 'medium',
-      [styles.withArrowIconLeftLarge(this.theme)]: arrow === 'left' && size === 'large',
-    });
-  }
-
-  private getArrowIconRootClassName() {
-    const { arrow, size } = this.props;
-    return cx(styles.arrowIconRoot(), {
-      [styles.arrowIconRootSmall(this.theme)]: size === 'small',
-      [styles.arrowIconRootMedium(this.theme)]: size === 'medium',
-      [styles.arrowIconRootLarge(this.theme)]: size === 'large',
-      [styles.arrowIconLeft()]: arrow === 'left',
-    });
   }
 
   private handleFocus = (e: React.FocusEvent<HTMLButtonElement>) => {
