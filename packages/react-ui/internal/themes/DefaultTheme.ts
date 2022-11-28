@@ -986,7 +986,7 @@ export class DefaultTheme {
   public static menuSeparatorBorderWidth = '1px';
   // mobileMenuSeparator
   public static mobileMenuSeparatorMarginY = '4px';
-  public static mobileMenuSeparatorMarginX = '16px';
+  public static mobileMenuSeparatorMarginX = '24px';
   //#endregion
   //#region Toggle
   public static get toggleFontSize() {
