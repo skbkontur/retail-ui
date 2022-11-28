@@ -112,5 +112,4 @@ describe('Button', () => {
     btnRef.current?.blur();
     expect(screen.getByRole('button')).not.toHaveFocus();
   });
-
 });
