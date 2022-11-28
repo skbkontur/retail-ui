@@ -37,7 +37,7 @@ export class MobilePopupHeader extends React.Component<MobilePopupHeaderProps> {
       <div
         className={cx({
           [jsStyles.root(this.theme)]: true,
-          [jsStyles.rootWithoutCaption()]: !caption && !children,
+          [jsStyles.rootWithoutContent()]: !caption && !children,
         })}
       >
         <div className={jsStyles.container()}>
