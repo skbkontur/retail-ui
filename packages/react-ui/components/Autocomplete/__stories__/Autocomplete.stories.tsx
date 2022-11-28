@@ -249,3 +249,78 @@ MobileSimple.parameters = {
   },
   creevey: { skip: [true] },
 };
+
+export const MobileHints: Story = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <UncontrolledAutocomplete source={['one', 'two', 'three']} />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileHints.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: {
+      async noInputValue() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        await delay(200);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('noInputValue');
+      },
+
+      async nothingWasFound() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('abc')
+          .perform();
+        await delay(200);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('nothingWasFound');
+      },
+
+      async updateValue() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .sendKeys('one')
+          .perform();
+        await delay(200);
+
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'button' }))
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        await delay(200);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('updateValue');
+      },
+    },
+  },
+  skip: { in: /^(?!\bchromeMobile\b)/ },
+};
