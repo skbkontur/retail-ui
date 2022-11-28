@@ -98,12 +98,19 @@ describe('Button', () => {
   });
 
   it('has focus() method', () => {
-    const btn = new Button(Button.defaultProps);
-    expect(btn.focus).toBeInstanceOf(Function);
+    const btnRef = React.createRef<Button>();
+    render(<Button ref={btnRef} />);
+    screen.getByRole('button').focus();
+    expect(screen.getByRole('button')).toHaveFocus();
   });
 
   it('has blur() method', () => {
-    const btn = new Button(Button.defaultProps);
-    expect(btn.blur).toBeInstanceOf(Function);
+    const btnRef = React.createRef<Button>();
+    render(<Button ref={btnRef} />);
+    screen.getByRole('button').focus();
+    expect(screen.getByRole('button')).toHaveFocus();
+    btnRef.current?.blur();
+    expect(screen.getByRole('button')).not.toHaveFocus();
   });
+
 });
