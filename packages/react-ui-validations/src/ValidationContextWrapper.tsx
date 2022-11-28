@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { ValidationWrapperInternal } from './ValidationWrapperInternal';
-import { ScrollOffset } from './ValidationContainer';
+import { FocusMode, ScrollOffset, ValidateArgumentType } from './ValidationContainer';
 import { isNullable } from './utils/isNullable';
 
 export interface ValidationContextSettings {
@@ -127,21 +127,32 @@ export class ValidationContextWrapper extends React.Component<ValidationContextW
     return wrappersWithPosition.map((x) => x.target);
   }
 
-  public async validate(withoutFocus: boolean): Promise<boolean> {
+  public async validate(withoutFocusOrValidationSettings: ValidateArgumentType): Promise<boolean> {
+    const focusMode = ValidationContextWrapper.getFocusMode(withoutFocusOrValidationSettings);
+
     await Promise.all(this.childWrappers.map((x) => x.processSubmit()));
 
     const childrenWrappersSortedByPosition = this.getChildWrappersSortedByPosition();
-    const firstInvalid = childrenWrappersSortedByPosition.find((x) => x.hasError() || x.hasWarning());
-    const invalid = childrenWrappersSortedByPosition.some((x) => x.hasError());
-    if (firstInvalid) {
-      if (!withoutFocus) {
-        firstInvalid.focus();
-      }
+    const firstError = childrenWrappersSortedByPosition.find((x) => x.hasError());
+    if (focusMode === FocusMode.ErrorsAndWarnings) {
+      childrenWrappersSortedByPosition.find((x) => x.hasError() || x.hasWarning())?.focus();
+    }
+    if (focusMode === FocusMode.Errors) {
+      firstError?.focus();
     }
     if (this.props.onValidationUpdated) {
-      this.props.onValidationUpdated(!firstInvalid);
+      this.props.onValidationUpdated(!firstError);
     }
-    return !invalid;
+    return !firstError;
+  }
+
+  private static getFocusMode(withoutFocusOrValidationSettings: ValidateArgumentType) {
+    if (typeof withoutFocusOrValidationSettings === 'object' && 'focusMode' in withoutFocusOrValidationSettings) {
+      return withoutFocusOrValidationSettings.focusMode;
+    } else if (!withoutFocusOrValidationSettings) {
+      return FocusMode.Errors;
+    }
+    return FocusMode.None;
   }
 
   public render() {
