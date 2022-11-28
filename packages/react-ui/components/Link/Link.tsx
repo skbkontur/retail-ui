@@ -12,7 +12,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { createPropsGetter, DefaultizedProps } from '../../lib/createPropsGetter';
 import { ThemeFactory } from '../../lib/theming/ThemeFactory';
-import { getThemeName } from '../../lib/theming/ThemeHelpers';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 
 import { globalClasses, styles } from './Link.styles';
 
@@ -58,6 +58,14 @@ export interface LinkProps
          */
         onClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
         theme?: ThemeIn;
+        /**
+         * Компонент, используемый в качестве корневого узла.
+         */
+        component?: React.ElementType | keyof React.ReactHTML;
+        /**
+         * @ignore
+         */
+        focused?: boolean;
       }
     > {}
 
@@ -69,7 +77,7 @@ export const LinkDataTids = {
   root: 'Link__root',
 } as const;
 
-type DefaultProps = Required<Pick<LinkProps, 'href' | 'use'>>;
+type DefaultProps = Required<Pick<LinkProps, 'href' | 'use' | 'component'>>;
 type DefaultizedLinkProps = DefaultizedProps<LinkProps, DefaultProps>;
 
 /**
@@ -92,6 +100,7 @@ export class Link extends React.Component<LinkProps, LinkState> {
   public static defaultProps: DefaultProps = {
     href: '',
     use: 'default',
+    component: 'a',
   };
 
   private getProps = createPropsGetter(Link.defaultProps);
@@ -119,8 +128,20 @@ export class Link extends React.Component<LinkProps, LinkState> {
   }
 
   private renderMain = (props: CommonWrapperRestProps<DefaultizedLinkProps>) => {
-    const { disabled, href, icon, use, loading, _button, _buttonOpened, rel: relOrigin, ...rest } = props;
-    const isTheme2022 = getThemeName(this.theme) === 'THEME_2022';
+    const {
+      disabled,
+      href,
+      icon,
+      use,
+      loading,
+      _button,
+      _buttonOpened,
+      rel: relOrigin,
+      component: Component,
+      focused = false,
+      ...rest
+    } = props;
+    const _isTheme2022 = isTheme2022(this.theme);
 
     let iconElement = null;
     if (icon) {
@@ -139,17 +160,17 @@ export class Link extends React.Component<LinkProps, LinkState> {
       rel = `noopener${isExternalLink(href) ? ' noreferrer' : ''}`;
     }
 
-    const focused = !disabled && this.state.focusedByTab;
+    const isFocused = !disabled && (this.state.focusedByTab || focused);
 
     const linkProps = {
       className: cx(
-        this.getLinkClassName(focused, Boolean(disabled || loading)),
         use === 'default' && styles.useDefault(this.theme),
         use === 'success' && styles.useSuccess(this.theme),
         use === 'danger' && styles.useDanger(this.theme),
         use === 'grayed' && styles.useGrayed(this.theme),
         !!_button && styles.button(this.theme),
         !!_buttonOpened && styles.buttonOpened(this.theme),
+        this.getLinkClassName(isFocused, Boolean(disabled || loading)),
       ),
       href,
       rel,
@@ -160,16 +181,16 @@ export class Link extends React.Component<LinkProps, LinkState> {
     };
 
     let child = this.props.children;
-    if (isTheme2022) {
+    if (_isTheme2022) {
       child = <span className={cx(globalClasses.text, styles.lineText(this.theme))}>{this.props.children}</span>;
     }
 
     return (
-      <a data-tid={LinkDataTids.root} {...rest} {...linkProps}>
+      <Component data-tid={LinkDataTids.root} {...rest} {...linkProps}>
         {iconElement}
         {child}
         {arrow}
-      </a>
+      </Component>
     );
   };
 
@@ -203,21 +224,22 @@ export class Link extends React.Component<LinkProps, LinkState> {
   private getLinkClassName(focused: boolean, disabled: boolean): string {
     const { use } = this.getProps();
     const isBorderBottom = parseInt(this.theme.linkLineBorderBottomWidth) > 0;
+    const isFocused = focused && !disabled;
 
     return !isBorderBottom
       ? cx(
           styles.root(this.theme),
-          focused && styles.focus(this.theme),
+          isFocused && styles.focus(this.theme),
           disabled && styles.disabled(this.theme),
           use === 'grayed' && focused && styles.useGrayedFocus(this.theme),
         )
       : cx(
           styles.lineRoot(),
           disabled && styles.disabled(this.theme),
-          focused && use === 'default' && styles.lineFocus(this.theme),
-          focused && use === 'success' && styles.lineFocusSuccess(this.theme),
-          focused && use === 'danger' && styles.lineFocusDanger(this.theme),
-          focused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
+          isFocused && use === 'default' && styles.lineFocus(this.theme),
+          isFocused && use === 'success' && styles.lineFocusSuccess(this.theme),
+          isFocused && use === 'danger' && styles.lineFocusDanger(this.theme),
+          isFocused && use === 'grayed' && styles.lineFocusGrayed(this.theme),
         );
   }
 }

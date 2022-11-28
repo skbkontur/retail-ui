@@ -1,7 +1,13 @@
 import { css, memoizeStyle, prefix } from '../../lib/theming/Emotion';
 import { Theme } from '../../lib/theming/Theme';
 
-import { linkMixin, linkDisabledMixin, linkUseColorsMixin, linkUseLineColorsMixin } from './Link.mixins';
+import {
+  linkMixin,
+  linkDisabledMixin,
+  linkUseColorsMixin,
+  linkUseLineColorsMixin,
+  linkUseLineColorsHoverMixin,
+} from './Link.mixins';
 
 export const globalClasses = prefix('link')({
   text: 'text',
@@ -25,7 +31,6 @@ export const styles = memoizeStyle({
 
   lineText(t: Theme) {
     return css`
-      //bottom: ${t.linkLineBottom};
       border-bottom-color: ${t.linkLineBorderBottomColor};
       border-bottom-style: ${t.linkLineBorderBottomStyle};
       border-bottom-width: ${t.linkLineBorderBottomWidth};
@@ -98,12 +103,9 @@ export const styles = memoizeStyle({
   useDefault(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkColor, t.linkHoverColor, t.linkActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColor, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          t.linkLineBorderBottomColor,
-          t.linkLineHoverBorderBottomColor,
-          t.linkLineActiveBorderBottomColor,
-        )};
+        ${linkUseLineColorsMixin(t.linkLineBorderBottomColor, t.linkLineActiveBorderBottomColor)};
       }
     `;
   },
@@ -111,12 +113,9 @@ export const styles = memoizeStyle({
   useSuccess(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkSuccessColor, t.linkSuccessHoverColor, t.linkSuccessActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorSuccess, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          t.linkLineBorderBottomColorSuccess,
-          t.linkLineHoverBorderBottomColorSuccess,
-          t.linkLineActiveBorderBottomColorSuccess,
-        )};
+        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorSuccess, t.linkLineActiveBorderBottomColorSuccess)};
       }
     `;
   },
@@ -124,12 +123,9 @@ export const styles = memoizeStyle({
   useDanger(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkDangerColor, t.linkDangerHoverColor, t.linkDangerActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorDanger, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          t.linkLineBorderBottomColorDanger,
-          t.linkLineHoverBorderBottomColorDanger,
-          t.linkLineActiveBorderBottomColorDanger,
-        )};
+        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorDanger, t.linkLineActiveBorderBottomColorDanger)};
       }
     `;
   },
@@ -137,12 +133,9 @@ export const styles = memoizeStyle({
   useGrayed(t: Theme) {
     return css`
       ${linkUseColorsMixin(t.linkGrayedColor, t.linkGrayedHoverColor, t.linkGrayedActiveColor)};
+      ${linkUseLineColorsHoverMixin(t.linkLineHoverBorderBottomColorGrayed, `.${globalClasses.text}`)}
       .${globalClasses.text} {
-        ${linkUseLineColorsMixin(
-          t.linkLineBorderBottomColorGrayed,
-          t.linkLineHoverBorderBottomColorGrayed,
-          t.linkLineActiveBorderBottomColorGrayed,
-        )};
+        ${linkUseLineColorsMixin(t.linkLineBorderBottomColorGrayed, t.linkLineActiveBorderBottomColorGrayed)};
       }
     `;
   },
