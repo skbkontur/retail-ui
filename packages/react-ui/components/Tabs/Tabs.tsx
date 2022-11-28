@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { emptyHandler } from '../../lib/utils';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
@@ -70,13 +69,6 @@ type DefaultProps = Required<Pick<TabsProps, 'vertical'>>;
 export class Tabs<T extends string = string> extends React.Component<TabsProps<T>> {
   public static __KONTUR_REACT_UI__ = 'Tabs';
 
-  public static propTypes = {
-    children: PropTypes.node,
-    indicatorClassName: PropTypes.string,
-    value: PropTypes.string.isRequired,
-    vertical: PropTypes.bool,
-    width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  };
   public static defaultProps: DefaultProps = {
     vertical: false,
   };

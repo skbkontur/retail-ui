@@ -1,10 +1,11 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { render } from '@testing-library/react';
 
 import { RadioGroup, RadioGroupProps } from '../RadioGroup';
 import { Radio } from '../../Radio';
 
-const render = (
+const renderRadioGroup = (
   props: Partial<RadioGroupProps<any>> & {
     children?: React.ReactElement<any>;
   },
@@ -20,13 +21,13 @@ function clickOutside() {
 describe('<RadioGroup />', () => {
   it('renders radios inside for items prop', () => {
     const items = ['one', 'two', 'three'];
-    const wrapper = render({ items });
+    const wrapper = renderRadioGroup({ items });
     expect(wrapper.find(Radio)).toHaveLength(3);
   });
 
   it('renders radios with correct labels', () => {
     const items = ['one', 'two', 'three'];
-    const radios = render({ items }).find(Radio);
+    const radios = renderRadioGroup({ items }).find(Radio);
     items.forEach((item, index) => {
       expect(radios.at(index).text()).toBe(item);
     });
@@ -34,7 +35,7 @@ describe('<RadioGroup />', () => {
 
   it('renders radios with correct values', () => {
     const items = ['one', 'two', 'three'];
-    const radios = render({ items }).find(Radio);
+    const radios = renderRadioGroup({ items }).find(Radio);
     items.forEach((item, index) => {
       expect(radios.at(index).prop('value')).toBe(item);
     });
@@ -43,7 +44,7 @@ describe('<RadioGroup />', () => {
   it('renders radios with renderItem prop', () => {
     const items = ['one', 'two', 'three'];
     const renderItem = (x: string) => x.toUpperCase();
-    const radios = render({ items, renderItem }).find(Radio);
+    const radios = renderRadioGroup({ items, renderItem }).find(Radio);
     items.forEach((item, index) => {
       expect(radios.at(index).text()).toBe(renderItem(item));
     });
@@ -51,7 +52,7 @@ describe('<RadioGroup />', () => {
 
   it('checks radio on click', () => {
     const items = ['one', 'two', 'three'];
-    const root = render({ items });
+    const root = renderRadioGroup({ items });
     root.find(Radio).at(0).find('input').simulate('change');
 
     expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
@@ -60,7 +61,7 @@ describe('<RadioGroup />', () => {
   it('calls onValueChange on radio click', () => {
     const items = ['one', 'two', 'three'];
     const onValueChange = jest.fn();
-    render({ items, onValueChange }).find(Radio).at(0).find('input').simulate('change');
+    renderRadioGroup({ items, onValueChange }).find(Radio).at(0).find('input').simulate('change');
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('one');
@@ -68,7 +69,7 @@ describe('<RadioGroup />', () => {
 
   it('disables all radios on disabled prop', () => {
     const items = ['one', 'two', 'three'];
-    const wrapper = render({ items, disabled: true });
+    const wrapper = renderRadioGroup({ items, disabled: true });
     const radios = wrapper.find(Radio);
     radios.forEach((x) => {
       expect(x.find('input').prop('disabled')).toBeTruthy();
@@ -77,7 +78,7 @@ describe('<RadioGroup />', () => {
 
   it('passes given name to all radios on name prop', () => {
     const items = ['one', 'two', 'three'];
-    const wrapper = render({ items, name: 'SupaGroup' });
+    const wrapper = renderRadioGroup({ items, name: 'SupaGroup' });
     const radios = wrapper.find(Radio);
     radios.forEach((x) => {
       expect(x.find('input').prop('name')).toBe('SupaGroup');
@@ -86,7 +87,7 @@ describe('<RadioGroup />', () => {
 
   it('activates radio with defaultValue', () => {
     const items = ['one', 'two', 'three'];
-    const wrapper = render({ items, defaultValue: 'two' });
+    const wrapper = renderRadioGroup({ items, defaultValue: 'two' });
     const radios = wrapper.find(Radio);
     expect(radios.at(1).find('input').prop('checked')).toBeTruthy();
   });
@@ -97,14 +98,14 @@ describe('<RadioGroup />', () => {
       onMouseEnter: () => undefined,
       onMouseLeave: () => undefined,
     };
-    const wrapper = render({ items: [], ...props }).first();
+    const wrapper = renderRadioGroup({ items: [], ...props }).first();
     Object.keys(props).forEach((prop) => {
       expect(wrapper.prop(prop)).toBe(props[prop as keyof typeof props]);
     });
   });
 
   it('renders children', () => {
-    const wrapper = render({ children: <span className="myDupaComponent" /> });
+    const wrapper = renderRadioGroup({ children: <span className="myDupaComponent" /> });
     expect(wrapper.find('.myDupaComponent')).toHaveLength(1);
   });
 
@@ -116,7 +117,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const root = render({ children });
+    const root = renderRadioGroup({ children });
     root.find(Radio).at(0).find('input').simulate('change');
 
     expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
@@ -131,7 +132,7 @@ describe('<RadioGroup />', () => {
       </div>
     );
     const onValueChange = jest.fn();
-    render({ children, onValueChange }).find(Radio).at(0).find('input').simulate('change');
+    renderRadioGroup({ children, onValueChange }).find(Radio).at(0).find('input').simulate('change');
     expect(onValueChange).toHaveBeenCalled();
     const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('one');
@@ -145,7 +146,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = render({ children, disabled: true });
+    const wrapper = renderRadioGroup({ children, disabled: true });
     const radios = wrapper.find(Radio);
     radios.forEach((x) => {
       expect(x.find('input').prop('disabled')).toBeTruthy();
@@ -160,7 +161,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = render({ children, name: 'SupaGroup' });
+    const wrapper = renderRadioGroup({ children, name: 'SupaGroup' });
     const radios = wrapper.find(Radio);
     radios.forEach((x) => {
       expect(x.find('input').prop('name')).toBe('SupaGroup');
@@ -175,7 +176,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = render({ children, defaultValue: 'two' });
+    const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
     const radios = wrapper.find(Radio);
     expect(radios.at(1).find('input').prop('checked')).toBeTruthy();
   });
@@ -188,7 +189,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = render({ children, defaultValue: 'two' });
+    const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
     const instance = wrapper.instance();
     expect(instance.focus).toBeInstanceOf(Function);
   });
@@ -201,7 +202,7 @@ describe('<RadioGroup />', () => {
         <Radio value="three">Hello</Radio>
       </div>
     );
-    const wrapper = render({ children, defaultValue: 'two' });
+    const wrapper = renderRadioGroup({ children, defaultValue: 'two' });
     const instance = wrapper.instance();
 
     expect(() => instance.focus()).not.toThrow();
@@ -213,7 +214,7 @@ describe('<RadioGroup />', () => {
 
   it('works with number values', () => {
     const items = [1, 2, 3, 4];
-    const root = render({ items });
+    const root = renderRadioGroup({ items });
     root.find(Radio).at(0).find('input').simulate('change');
 
     expect(root.find(Radio).at(0).find('input').prop('checked')).toBeTruthy();
@@ -250,5 +251,17 @@ describe('<RadioGroup />', () => {
 
     expect(onRadioBlur).toHaveBeenCalledTimes(2);
     expect(onBlur).toHaveBeenCalledTimes(1);
+  });
+
+  it('should pass generic type without type errors', () => {
+    function RadioGroupGeneric<T>() {
+      return (
+        <RadioGroup<T>>
+          <Radio value={'str'} />
+        </RadioGroup>
+      );
+    }
+
+    expect(() => render(<RadioGroupGeneric />)).not.toThrow();
   });
 });
