@@ -15,8 +15,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { styles } from './SpinnerIcon.styles';
 
 export interface SpinnerIconProps {
-  className: string;
-  size: 'mini' | 'normal' | 'big';
+  className?: string;
+  size: 'mini' | 'normal' | 'big' | 'small' | 'medium' | 'large';
   dimmed?: boolean;
   inline?: boolean;
   width?: number;
@@ -38,6 +38,21 @@ export const sizes = {
     size: 16,
     width: 1.5,
     radius: 6,
+  },
+  small: {
+    size: 16,
+    width: 1,
+    radius: 6,
+  },
+  medium: {
+    size: 20,
+    width: 1,
+    radius: 6,
+  },
+  large: {
+    size: 24,
+    width: 1.5,
+    radius: 8,
   },
 };
 

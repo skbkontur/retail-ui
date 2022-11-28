@@ -17,9 +17,12 @@ const types: Record<SpinnerType, SpinnerType> = {
   big: 'big',
   mini: 'mini',
   normal: 'normal',
+  small: 'small',
+  medium: 'medium',
+  large: 'large',
 };
 
-export type SpinnerType = 'mini' | 'normal' | 'big';
+export type SpinnerType = 'mini' | 'normal' | 'big' | 'small' | 'medium' | 'large';
 
 export interface SpinnerProps extends CommonProps {
   /**

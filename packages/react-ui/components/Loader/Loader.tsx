@@ -79,7 +79,7 @@ export class Loader extends React.Component<LoaderProps, LoaderState> {
   public static __KONTUR_REACT_UI__ = 'Loader';
 
   public static defaultProps: DefaultProps = {
-    type: Spinner.Types.normal,
+    type: 'normal',
     active: false,
     delayBeforeSpinnerShow: isTestEnv ? 0 : 300,
     minimalDelayBeforeSpinnerHide: isTestEnv ? 0 : 1000,
