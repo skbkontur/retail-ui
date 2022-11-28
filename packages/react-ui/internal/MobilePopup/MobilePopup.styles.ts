@@ -53,7 +53,6 @@ const styles = {
       left: 0;
       z-index: 9999;
       background: #333333;
-      opacity: 0%;
       pointer-events: none;
       opacity: 50%;
     `;
