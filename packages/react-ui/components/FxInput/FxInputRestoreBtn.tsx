@@ -5,9 +5,7 @@ import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { UndoIcon } from '../../internal/icons/16px';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
-import { ArrowShapeDRadiusUpLeftIcon16Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon16Light';
-import { ArrowShapeDRadiusUpLeftIcon20Light } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon20Light';
-import { ArrowShapeDRadiusUpLeftIcon24Regular } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon24Regular';
+import { ArrowShapeDRadiusUpLeftIcon } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon';
 
 import { FxInputProps } from './FxInput';
 
@@ -41,14 +39,8 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
         borderBottomLeftRadius: theme.inputBorderRadiusLarge,
       },
     };
-    const undoIcons = {
-      small: ArrowShapeDRadiusUpLeftIcon16Light,
-      medium: ArrowShapeDRadiusUpLeftIcon20Light,
-      large: ArrowShapeDRadiusUpLeftIcon24Regular,
-    };
-    const IconIndo = undoIcons[size];
     buttonCorners = cornersSizes[size];
-    iconUndo = <IconIndo size={iconSizes[size]} />;
+    iconUndo = <ArrowShapeDRadiusUpLeftIcon type={size} size={iconSizes[size]} />;
   }
 
   return isTheme2022(theme) ? (

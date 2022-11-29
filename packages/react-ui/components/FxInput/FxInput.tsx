@@ -14,9 +14,7 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MathFunctionIcon16Light } from '../../internal/icons2022/MathFunctionIcon16Light';
-import { MathFunctionIcon20Light } from '../../internal/icons2022/MathFunctionIcon20Light';
-import { MathFunctionIcon24Regular } from '../../internal/icons2022/MathFunctionIcon24Regular';
+import { MathFunctionIcon } from '../../internal/icons2022/MathFunctionIcon';
 
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
@@ -98,19 +96,13 @@ export class FxInput extends React.Component<FxInputProps> {
 
     if (isTheme2022(this.theme)) {
       inputCorners = auto ? {} : { borderBottomLeftRadius: 0, borderTopLeftRadius: 0 };
-      const functionIcons = {
-        small: MathFunctionIcon16Light,
-        medium: MathFunctionIcon20Light,
-        large: MathFunctionIcon24Regular,
-      };
       const iconSizes: Record<InputSize, number> = {
         small: parseInt(this.theme.inputIconSizeSmall),
         medium: parseInt(this.theme.inputIconSizeMedium),
         large: parseInt(this.theme.inputIconSizeLarge),
       };
       const size = this.props.size || Input.defaultProps.size;
-      const Icon = functionIcons[size];
-      IconFunction = <Icon size={iconSizes[size]} />;
+      IconFunction = <MathFunctionIcon type={size} size={iconSizes[size]} />;
     }
 
     if (auto) {
