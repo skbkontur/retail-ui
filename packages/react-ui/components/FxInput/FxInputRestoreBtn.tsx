@@ -67,6 +67,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
   ) : (
     <Button
       size={props.size}
+      narrow
       onClick={props.onRestore}
       borderless={props.borderless}
       disabled={props.disabled}
