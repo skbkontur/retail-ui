@@ -2,14 +2,10 @@ import React, { useContext } from 'react';
 
 import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { ArrowARightIcon16Light } from '../../internal/icons2022/ArrowARightIcon16Light';
-import { ArrowARightIcon20Light } from '../../internal/icons2022/ArrowARightIcon20Light';
-import { ArrowARightIcon24Regular } from '../../internal/icons2022/ArrowARightIcon24Regular';
-import { ArrowALeftIcon16Light } from '../../internal/icons2022/ArrowALeftIcon16Light';
-import { ArrowALeftIcon20Light } from '../../internal/icons2022/ArrowALeftIcon20Light';
-import { ArrowALeftIcon24Regular } from '../../internal/icons2022/ArrowALeftIcon24Regular';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
+import { ArrowALeftIcon } from '../../internal/icons2022/ArrowALeftIcon';
+import { ArrowARightIcon } from '../../internal/icons2022/ArrowARightIcon';
 
 import { Button, ButtonProps } from './Button';
 import { globalClasses, styles } from './Button.styles';
@@ -43,24 +39,14 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
 
   if (_isTheme2022) {
     const arrowIcons = {
-      right: {
-        small: ArrowARightIcon16Light,
-        medium: ArrowARightIcon20Light,
-        large: ArrowARightIcon24Regular,
-      },
-      left: {
-        small: ArrowALeftIcon16Light,
-        medium: ArrowALeftIcon20Light,
-        large: ArrowALeftIcon24Regular,
-      },
+      right: ArrowARightIcon,
+      left: ArrowALeftIcon,
     };
     const side = arrow === 'left' ? 'left' : 'right';
-    // const size = size || Button.defaultPreventedops.size;
-    // rootProps.className = cx(rootProps.className, this.getRootWithArrowIconClassName());
-    const ArrowIcon = arrowIcons[side][size];
+    const ArrowIcon = arrowIcons[side];
     arrowNode = (
       <div className={getArrowIconRootClassName()}>
-        <ArrowIcon />
+        <ArrowIcon type={size} />
       </div>
     );
   } else {
