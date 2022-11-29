@@ -11,7 +11,7 @@ const styles = {
       justify-content: flex-end;
       border-radius: ${t.mobilePopupBorderRadius};
       overflow: hidden;
-      padding-bottom: 8px;
+      padding-bottom: ${t.mobilePopupContainerBottomPadding};
       background: ${t.menuBgDefault};
     `;
   },
