@@ -232,6 +232,14 @@ describe('Select', () => {
     expect(input).toHaveTextContent(placeholderRegExp);
   });
 
+  it('should pass generic type without type errors', () => {
+    function SelectGeneric<T>() {
+      return <Select<T> />;
+    }
+
+    expect(() => render(<SelectGeneric />)).not.toThrow();
+  });
+
   describe('Locale', () => {
     it('render without LocaleProvider', () => {
       const wrapper = mount(<Select />);

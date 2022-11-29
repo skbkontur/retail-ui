@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.9.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.8.0...@skbkontur/react-ui@4.9.0) (2022-11-25)
+
+
+### Bug Fixes
+
+* **RadioGroup,Select,Tabs:** types inference: fix generics usage ([#3033](https://github.com/skbkontur/retail-ui/issues/3033)) ([f13cab1](https://github.com/skbkontur/retail-ui/commit/f13cab1f68f2284cc7ce9fd18ae7d50f99606e13))
+* **Switcher:** deliver `corners` to `Button` when using `renderItem` ([#3046](https://github.com/skbkontur/retail-ui/issues/3046)) ([23f6f99](https://github.com/skbkontur/retail-ui/commit/23f6f995a0fe2de0013719755d09f423c3d4200e))
+* export ColorFunctions and DimensionFunctions ([#3043](https://github.com/skbkontur/retail-ui/issues/3043)) ([b3f2c24](https://github.com/skbkontur/retail-ui/commit/b3f2c242fa07f5d7e11dad292bf34e86c932ef9d))
+
+
+### Features
+
+* **SidePage.Footer, Modal.Footer:** add prop `gap` ([#3024](https://github.com/skbkontur/retail-ui/issues/3024)) ([2bf7665](https://github.com/skbkontur/retail-ui/commit/2bf7665e9a6868de5ccfb5dc0eac5630024b5762))
+* **Switcher:** add `renderItem` prop ([#3021](https://github.com/skbkontur/retail-ui/issues/3021)) ([2e6e2a9](https://github.com/skbkontur/retail-ui/commit/2e6e2a907673482cb5678e4ae7e88bfd37b60eee))
+
+
+
+
+
 # [4.8.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.7.0...@skbkontur/react-ui@4.8.0) (2022-11-09)
 
 

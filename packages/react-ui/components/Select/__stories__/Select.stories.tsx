@@ -453,7 +453,7 @@ UsingOnKeyDown.parameters = {
 };
 
 export const WithSearchAndVariousWidth: Story = () => {
-  let selectElem: Select | null = null;
+  let selectElem: Select<string, string> | null = null;
   const [width, setWidth] = useState<string>();
   const changeWidth = (w: string) => {
     setWidth(w);
