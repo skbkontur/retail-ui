@@ -324,3 +324,43 @@ MobileHints.parameters = {
   },
   skip: { in: /^(?!\bchromeMobile\b)/ },
 };
+
+export const MobileWithTitle: Story = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <UncontrolledAutocomplete mobileMenuHeaderText="Заголовок" source={['one', 'two', 'three']} />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileWithTitle.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: {
+      async opened() {
+        await this.browser
+          .actions({
+            bridge: true,
+          })
+          .click(this.browser.findElement({ css: 'input' }))
+          .perform();
+        await delay(200);
+
+        await this.expect(await this.browser.takeScreenshot()).to.matchImage('opened');
+      },
+    },
+  },
+  skip: { in: /^(?!\bchromeMobile\b)/ },
+};
