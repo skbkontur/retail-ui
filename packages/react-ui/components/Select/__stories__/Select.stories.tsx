@@ -104,26 +104,7 @@ class SelectWithNull extends React.Component {
   }
 }
 
-export default {
-  title: 'Select',
-  decorators: [
-    (Story, context) =>
-      context.originalStoryFn !== WithMenuAlignAndVariousWidth ? (
-        <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
-          <Story />
-        </div>
-      ) : (
-        <Story />
-      ),
-  ],
-} as Meta;
-
-const selectTests: CreeveyTests = {
-  async idle() {
-    await delay(1000);
-
-    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
-  },
+const clickedTest: CreeveyTests = {
   async clicked() {
     await this.browser
       .actions({
@@ -135,6 +116,15 @@ const selectTests: CreeveyTests = {
 
     await this.expect(await this.takeScreenshot()).to.matchImage('clicked');
   },
+};
+
+const selectTests: CreeveyTests = {
+  async idle() {
+    await delay(1000);
+
+    await this.expect(await this.takeScreenshot()).to.matchImage('idle');
+  },
+  ...clickedTest,
   async 'MenuItem hover'() {
     await this.browser
       .actions({
@@ -285,6 +275,125 @@ MobileSimple.decorators = [
   ),
 ];
 MobileSimple.creevey = { skip: [true] };
+
+export const MobileWithSearch: Story = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <Select search items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileWithSearch.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+  skip: { in: /^(?!\bchromeMobile\b)/ },
+};
+
+export const MobileWithTitle: Story = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <Select
+            mobileMenuHeaderText="Заголовок"
+            items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+          />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileWithTitle.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+  skip: { in: /^(?!\bchrome\b)/ },
+};
+
+export const MobileWithTitleAndSearch: Story = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <Select
+            search
+            mobileMenuHeaderText="Заголовок"
+            items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']}
+          />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileWithTitleAndSearch.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+  skip: { in: /^(?!\bchromeMobile\b)/ },
+};
+
+export const MobileWithoutTitleAndSearch: Story = () => (
+  <ThemeContext.Consumer>
+    {(theme) => {
+      return (
+        <ThemeContext.Provider
+          value={ThemeFactory.create(
+            {
+              mobileMediaQuery: '(max-width: 576px)',
+            },
+            theme,
+          )}
+        >
+          <Select items={['One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten']} />
+        </ThemeContext.Provider>
+      );
+    }}
+  </ThemeContext.Consumer>
+);
+MobileWithoutTitleAndSearch.parameters = {
+  viewport: {
+    defaultViewport: 'iphone',
+  },
+  creevey: {
+    tests: clickedTest,
+  },
+  skip: { in: /^(?!\bchromeMobile\b)/ },
+};
 
 export const Disabled: CSFStory<JSX.Element> = () => (
   <>
@@ -615,3 +724,37 @@ WithMenuAlignAndVariousWidth.parameters = {
     },
   },
 };
+
+export default {
+  title: 'Select',
+  decorators: [
+    (Story, context) => {
+      if (
+        [MobileWithSearch, MobileWithTitle, MobileWithTitleAndSearch, MobileWithoutTitleAndSearch].includes(
+          context.originalStoryFn as Story,
+        )
+      ) {
+        return (
+          <div
+            style={{
+              width: '475px',
+              height: '100vh',
+            }}
+          >
+            <Story />
+          </div>
+        );
+      }
+
+      if (context.originalStoryFn !== WithMenuAlignAndVariousWidth) {
+        return (
+          <div className="dropdown-test-container" style={{ height: 150, width: 200, padding: 4 }}>
+            <Story />
+          </div>
+        );
+      }
+
+      return <Story />;
+    },
+  ],
+} as Meta;
