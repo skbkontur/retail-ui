@@ -61,7 +61,7 @@ export class MobilePopup extends React.Component<MobilePopupProps> {
 
   public renderMain() {
     const content = (
-      <ZIndex priority={'MobilePopup'}>
+      <ZIndex className={jsStyles.zIndex()} priority={'MobilePopup'}>
         <Transition in={this.props.opened} onExited={this.props.onClose} mountOnEnter unmountOnExit timeout={0}>
           <div className={jsStyles.wrapper()}>
             <RenderLayer onClickOutside={this.close}>

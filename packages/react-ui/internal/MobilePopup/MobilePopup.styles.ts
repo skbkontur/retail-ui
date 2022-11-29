@@ -24,7 +24,6 @@ const styles = {
       right: 0;
       left: 0;
       overflow: auto;
-      z-index: inherit;
     `;
   },
 
@@ -61,6 +60,12 @@ const styles = {
   bottomIndent() {
     return css`
       height: 80px;
+    `;
+  },
+
+  zIndex() {
+    return css`
+      position: relative;
     `;
   },
 };
