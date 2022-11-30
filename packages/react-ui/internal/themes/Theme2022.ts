@@ -183,6 +183,15 @@ export class Theme2022 extends (class {} as typeof DefaultThemeInternal) {
   public static get selectBorderRadiusLarge() {
     return this.inputBorderRadiusLarge;
   }
+  public static get selectIconGapSmall() {
+    return this.inputIconGapSmall;
+  }
+  public static get selectIconGapMedium() {
+    return this.inputIconGapMedium;
+  }
+  public static get selectIconGapLarge() {
+    return this.inputIconGapLarge;
+  }
   //#endregion
 
   //#region FileUploader

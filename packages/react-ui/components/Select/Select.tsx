@@ -30,6 +30,8 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
+import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
+import { ArrowCDownIcon } from '../../internal/icons2022/ArrowCDownIcon';
 
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
@@ -392,6 +394,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
+    const icon = isTheme2022(this.theme) ? (
+      <ArrowCDownIcon type={this.props.size} disableCompensation={false} />
+    ) : (
+      <ArrowChevronDownIcon />
+    );
+
     return (
       <Button {...buttonProps}>
         <div className={styles.selectButtonContainer()}>
@@ -404,7 +412,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
               [styles.customUseArrow()]: useIsCustom,
             })}
           >
-            <ArrowChevronDownIcon />
+            {icon}
           </div>
         </div>
       </Button>
@@ -438,10 +446,12 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
     const value = this.getValue();
     const hasFixedWidth = !!this.props.menuWidth && this.props.menuWidth !== 'auto';
 
+    const offset = isTheme2022(this.theme) ? { offsetY: 4 } : { offsetY: -1 };
+
     return (
       <DropdownContainer
         getParent={this.dropdownContainerGetParent}
-        offsetY={-1}
+        {...offset}
         align={this.props.menuAlign}
         disablePortal={this.props.disablePortal}
         hasFixedWidth={hasFixedWidth}
