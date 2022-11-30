@@ -1,4 +1,4 @@
-import { canUseDOM } from '../../lib/client';
+import { canUseDOM, isBrowser } from '../../lib/client';
 
 interface mediaQueryData {
   mql: MediaQueryList;
@@ -40,14 +40,16 @@ function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryLis
 }
 
 function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
-  const mql = window.matchMedia(mediaQuery);
-  const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
+  if (isBrowser) {
+    const mql = window.matchMedia(mediaQuery);
+    const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
-  eventListenersMap.set(mediaQuery, newMediaQueryInfo);
-  if (mql.addEventListener) {
-    mql.addEventListener('change', changeCallback);
-  } else {
-    mql.addListener(changeCallback);
+    eventListenersMap.set(mediaQuery, newMediaQueryInfo);
+    if (mql.addEventListener) {
+      mql.addEventListener('change', changeCallback);
+    } else {
+      mql.addListener(changeCallback);
+    }
   }
 }
 
@@ -81,7 +83,7 @@ export function checkMatches(mediaQuery: string) {
     return false;
   }
 
-  if (!eventListenersMap.has(mediaQuery)) {
+  if (!eventListenersMap.has(mediaQuery) && isBrowser) {
     return window.matchMedia(mediaQuery).matches;
   }
 
