@@ -794,10 +794,11 @@ export const styles = memoizeStyle({
 
   checkedFocused(t: Theme) {
     return css`
-      &:hover:enabled {
+      &:hover:enabled,
+      &:hover:active:enabled {
         box-shadow: inset 0 0 0 ${t.btnInsetWidth} ${t.btnOutlineColorFocus},
-          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus};
-        border-color: ${t.btnBorderColorFocus};
+          0 0 0 ${t.btnFocusShadowWidth} ${t.btnBorderColorFocus} !important;
+        border-color: ${t.btnBorderColorFocus} !important;
       }
     `;
   },
@@ -964,6 +965,7 @@ export const styles = memoizeStyle({
   borderless() {
     return css`
       &:enabled,
+      &:active:hover:enabled,
       &:hover:enabled {
         box-shadow: none !important; // override root:hover style
         .${globalClasses.arrowHelperTop}, .${globalClasses.arrowHelperBottom} {

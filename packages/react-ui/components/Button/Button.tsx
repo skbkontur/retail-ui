@@ -296,7 +296,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
               isFocused && styles.focus(this.theme),
               checked && styles.checked2022(this.theme),
               checked && isFocused && styles.checkedFocused(this.theme),
-              borderless && !checked && !isFocused && !active && styles.borderless(),
+              borderless && !checked && !isFocused && styles.borderless(),
             ]),
       );
     } else {
@@ -358,7 +358,7 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
     if ((!isFocused || isLink) && !isDisabled2022) {
       outlineNode = (
         <div
-          style={{ zIndex: _isTheme2022 ? -1 : undefined }}
+          style={{ zIndex: _isTheme2022 && isLink ? -1 : undefined }}
           className={cx(styles.outline(), {
             [styles.outlineWarning(this.theme)]: warning,
             [styles.outlineError(this.theme)]: error,
@@ -422,11 +422,10 @@ export class Button extends React.Component<ButtonProps, ButtonState> {
         </span>
       </div>
     );
-    if (isLink && _isTheme2022) {
+    if (_isTheme2022 && isLink && !loading) {
       captionNode = (
         <Link
           focused={isFocused}
-          loading={loading}
           disabled={disabled}
           icon={icon}
           component="span"
