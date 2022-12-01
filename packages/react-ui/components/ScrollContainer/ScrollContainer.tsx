@@ -49,6 +49,14 @@ export interface ScrollContainerProps extends CommonProps {
    * Отключение кастомного скролла
    */
   disabled?: boolean;
+  /**
+   * Смещение вертикального скроллбара
+   */
+  offsetY?: Pick<React.CSSProperties, 'top' | 'right' | 'bottom'>;
+  /**
+   * Смещение горизонтального скроллбара
+   */
+  offsetX?: Pick<React.CSSProperties, 'right' | 'bottom' | 'left'>;
 }
 
 export const ScrollContainerDataTids = {
@@ -56,7 +64,9 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
-type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
+type DefaultProps = Required<
+  Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'offsetY' | 'offsetX'>
+>;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
@@ -75,6 +85,16 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
+    offsetY: {
+      top: 1,
+      bottom: 1,
+      right: 2,
+    },
+    offsetX: {
+      bottom: 1,
+      right: 1,
+      left: 1,
+    },
   };
 
   private getProps = createPropsGetter(ScrollContainer.defaultProps);
@@ -207,6 +227,9 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
 
   private renderScrollbar = (axis: ScrollAxis) => {
     const refScrollBar = axis === 'x' ? this.refScrollBarX : this.refScrollBarY;
+    const { offsetY, offsetX } = this.getProps();
+
+    const offset = axis === 'x' ? offsetX : offsetY;
 
     return (
       <ScrollBar
@@ -214,6 +237,7 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
         ref={refScrollBar}
         invert={this.getProps().invert}
         onScrollStateChange={this.handleScrollStateChange}
+        offset={offset}
       />
     );
   };

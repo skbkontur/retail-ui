@@ -8,6 +8,7 @@ import { cx } from '../../lib/theming/Emotion';
 import { defaultScrollbarState, scrollSizeParametersNames } from './ScrollContainer.constants';
 import { styles, globalClasses } from './ScrollContainer.styles';
 import { getScrollSizeParams } from './ScrollContainer.helpers';
+import { ScrollContainerProps } from './ScrollContainer';
 
 export type ScrollAxis = 'x' | 'y';
 export type ScrollBarScrollState = 'begin' | 'middle' | 'end';
@@ -26,6 +27,7 @@ export interface ScrollBarProps {
   axis: ScrollAxis;
   className?: string;
   onScrollStateChange?: (state: ScrollBarScrollState, axis: ScrollAxis) => void;
+  offset: ScrollContainerProps['offsetY'] | ScrollContainerProps['offsetX'];
 }
 
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
@@ -71,18 +73,20 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     });
 
     const inlineStyles: React.CSSProperties = {
-      [customScrollPos]: state.pos,
-      [customScrollSize]: state.size,
+      [customScrollPos]: `${state.pos}%`,
+      [customScrollSize]: `${state.size}%`,
     };
 
     return (
-      <div
-        ref={this.refScroll}
-        style={inlineStyles}
-        className={classNames}
-        onMouseDown={this.handleScrollMouseDown}
-        data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
-      />
+      <div className={this.scrollBarContainerClassNames} style={props.offset}>
+        <div
+          ref={this.refScroll}
+          style={inlineStyles}
+          className={classNames}
+          onMouseDown={this.handleScrollMouseDown}
+          data-tid={`ScrollContainer__ScrollBar-${props.axis}`}
+        />
+      </div>
     );
   };
 
@@ -144,6 +148,16 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     return cx(styles.scrollBarY(this.theme), globalClasses.scrollbarY, {
       [styles.scrollBarYHover(this.theme)]: state.hover || state.scrolling,
     });
+  }
+
+  private get scrollBarContainerClassNames() {
+    const { axis } = this.props;
+
+    if (axis === 'x') {
+      return cx(globalClasses.scrollbarContainerX, styles.scrollBarXContainer(this.theme));
+    }
+
+    return cx(globalClasses.scrollbarContainerY, styles.scrollBarYContainer());
   }
 
   private refScroll = (element: HTMLElement | null) => {

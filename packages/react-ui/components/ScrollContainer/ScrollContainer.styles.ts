@@ -4,6 +4,8 @@ import { Theme } from '../../lib/theming/Theme';
 export const globalClasses = prefix('scroll-container')({
   scrollbarX: 'scrollbar-x',
   scrollbarY: 'scrollbar-y',
+  scrollbarContainerX: 'scrollbar-container-x',
+  scrollbarContainerY: 'scrollbar-container-y',
   inner: 'inner',
 });
 
@@ -47,38 +49,33 @@ export const styles = memoizeStyle({
     return css`
       position: absolute;
       z-index: 200;
-
-      &::after {
-        content: '';
-        display: block;
-        border-radius: 5px;
-        position: absolute;
-        background: ${t.scrollContainerScrollBarColor};
-      }
+      border-radius: 5px;
+      background: ${t.scrollContainerScrollBarColor};
     `;
   },
 
   scrollBarInvert(t: Theme) {
     return css`
-      &::after {
-        background: #ccc;
-        background: ${t.scrollContainerScrollBarInvertColor};
-      }
+      background: #ccc;
+      background: ${t.scrollContainerScrollBarInvertColor};
+    `;
+  },
+
+  scrollBarYContainer() {
+    return css`
+      position: absolute;
+      right: 2px;
+      top: 1px;
+      bottom: 1px;
+      width: 0;
     `;
   },
 
   scrollBarY(t: Theme) {
     return css`
-      right: 2px;
+      right: 0;
       transition: width 0.2s;
       width: ${t.scrollContainerScrollBarSize};
-
-      &::after {
-        bottom: 1px;
-        left: 0;
-        right: 0;
-        top: 1px;
-      }
     `;
   },
 
@@ -88,23 +85,16 @@ export const styles = memoizeStyle({
     `;
   },
 
-  scrollBarX(t: Theme) {
+  scrollBarXContainer(t: Theme) {
     return css`
+      position: absolute;
+      right: 1px;
       bottom: 1px;
-      transition: height 0.2s;
-      height: ${t.scrollContainerScrollBarSize};
+      left: 1px;
+      height: 0;
 
-      &::after {
-        bottom: 0px;
-        left: 1px;
-        right: 1px;
-        top: 0;
-      }
-
-      .${globalClasses.scrollbarY} ~ & {
-        &::after {
-          right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
-        }
+      .${globalClasses.scrollbarContainerY} ~ & {
+        right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
       }
 
       & ~ .${globalClasses.inner} {
@@ -115,6 +105,14 @@ export const styles = memoizeStyle({
           height: calc(${t.scrollContainerScrollBarHoverSize} + 2px);
         }
       }
+    `;
+  },
+
+  scrollBarX(t: Theme) {
+    return css`
+      bottom: 0;
+      transition: height 0.2s;
+      height: ${t.scrollContainerScrollBarSize};
     `;
   },
 
