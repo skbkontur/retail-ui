@@ -77,7 +77,7 @@ export const ArrowLeft = () => (
     Component={Button}
     cols={testingButtonUseStates.map((x) => ({ props: x }))}
     rows={arrowDifferentStates.map((x) => ({ props: x }))}
-    presetProps={{ children: 'Button', arrow: true }}
+    presetProps={{ children: 'Button', arrow: 'left' }}
   />
 );
 

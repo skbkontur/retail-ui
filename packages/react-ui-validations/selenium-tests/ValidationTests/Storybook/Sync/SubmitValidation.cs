@@ -165,7 +165,7 @@ namespace SKBKontur.ValidationTests.Storybook.Sync
             page.Input.SetValue("bad");
             page.SubmitButton.Click();
             page.Input.WaitWarning();
-            page.Input.WaitFocus();
+            page.Input.WaitNotFocus();
         }
     }
 }
