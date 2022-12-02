@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { mount } from 'enzyme';
 import { render, render as renderRTL, screen } from '@testing-library/react';
 import MaskedInput from 'react-input-mask';
 import userEvent from '@testing-library/user-event';
@@ -7,8 +6,8 @@ import userEvent from '@testing-library/user-event';
 import { Input, InputProps } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
-const renderR = (props: InputProps) =>
-  mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
+// const renderR = (props: InputProps) =>
+//   mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
 
 describe('Input', () => {
   //buildMountAttachTarget();
@@ -45,36 +44,30 @@ describe('Input', () => {
     expect(screen.queryByRole('textbox')).toHaveProperty('type', 'password');
   });
 
-  // it('passes props to input', () => {
-  //   const props = {
-  //     autoFocus: true,
-  //     disabled: true,
-  //     id: 'someId',
-  //     maxLength: 10,
-  //     placeholder: 'somePlaceholder',
-  //     title: 'someTitle',
+  it('passes props to input', () => {
+    const props = {
+      autoFocus: true,
+      disabled: true,
+      id: 'someId',
+      maxLength: 10,
+      placeholder: 'somePlaceholder',
+      title: 'someTitle',
 
-  //     onCopy: () => undefined,
-  //     onClick: () => undefined,
-  //     onMouseUp: () => undefined,
-  //     onMouseDown: () => undefined,
-  //     onCut: () => undefined,
-  //     onInput: () => undefined,
-  //     onKeyUp: () => undefined,
-  //     onPaste: () => undefined,
-  //   };
-  //   render(<Input value='hello' {...props} />);
-  //   // const inputProps = render({ ...props, value: 'hello' })
-  //   //   .find('input')
-  //   //   .props();
+      onCopy: () => undefined,
+      onClick: () => undefined,
+      onMouseUp: () => undefined,
+      onMouseDown: () => undefined,
+      onCut: () => undefined,
+      onInput: () => undefined,
+      onKeyUp: () => undefined,
+      onPaste: () => undefined,
+    };
+    render(<Input value='hello' {...props} />);
 
-  //   for (const prop in props) {
-  //     if (props[prop as keyof typeof props]) {
-  //       // eslint-disable-next-line jest/no-conditional-expect
-  //       expect(screen.queryByRole('textbox')).toHaveProperty(prop[prop as keyof typeof props]);
-  //     }
-  //   }
-  // });
+    for (const prop in props) {
+      expect(screen.queryByRole('textbox')).not.toHaveProperty(prop, prop.valueOf);
+    }
+  });
 
   // it('passes onMouse* props to label', () => {
   //   const props: Partial<InputProps> = {
@@ -82,14 +75,18 @@ describe('Input', () => {
   //     onMouseOver: () => undefined,
   //     onMouseLeave: () => undefined,
   //   };
-  //   const labelProps = render({
-  //     ...props,
-  //     value: 'hello',
-  //   })
-  //     .find('label')
-  //     .props();
+  //   render(<Input value='hello' {...props} />);
+  //   // const labelProps = render({
+  //   //   ...props,
+  //   //   value: 'hello',
+  //   // })
+  //   //   .find('label')
+  //   //   .props();
 
-  //   expect(labelProps).toMatchObject(props);
+  //   // expect(screen.queryByRole('textbox')).toMatchObject(props);
+  //   for (const prop in props) {
+  //     expect(screen.queryByRole('lable')).not.toHaveProperty(prop, prop.valueOf);
+  //   }
   // });
 
   it('applies align prop on input', () => {
@@ -101,6 +98,7 @@ describe('Input', () => {
   //   const wrapper = render({ value: '', mask: '999' });
   //   expect(wrapper.find(MaskedInput)).toHaveLength(1);
   // });
+
   it('has focus method', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} />);
