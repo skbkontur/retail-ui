@@ -17,8 +17,8 @@ export interface ScrollBarState {
   active: boolean;
   hover: boolean;
   scrolling: boolean;
-  size: number;
-  pos: number;
+  size: number; // in percentages
+  pos: number; // in percentages
   scrollState: ScrollBarScrollState;
 }
 
@@ -32,6 +32,7 @@ export interface ScrollBarProps {
 
 export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
   private inner: Nullable<HTMLElement>;
+  private containerRef = React.createRef<HTMLDivElement>();
   private theme!: Theme;
 
   public node: Nullable<HTMLElement>;
@@ -78,7 +79,7 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     };
 
     return (
-      <div className={this.scrollBarContainerClassNames} style={props.offset}>
+      <div ref={this.containerRef} className={this.scrollBarContainerClassNames} style={props.offset}>
         <div
           ref={this.refScroll}
           style={inlineStyles}
@@ -154,10 +155,10 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const { axis } = this.props;
 
     if (axis === 'x') {
-      return cx(globalClasses.scrollbarContainerX, styles.scrollBarXContainer(this.theme));
+      return cx(globalClasses.scrollbarContainerX, styles.scrollBarContainerX(this.theme));
     }
 
-    return cx(globalClasses.scrollbarContainerY, styles.scrollBarYContainer());
+    return cx(globalClasses.scrollbarContainerY, styles.scrollBarContainerY());
   }
 
   private refScroll = (element: HTMLElement | null) => {
@@ -185,11 +186,14 @@ export class ScrollBar extends React.Component<ScrollBarProps, ScrollBarState> {
     const state = this.state;
 
     const mouseMove = (mouseMoveEvent: MouseEvent) => {
-      if (!this.inner) {
+      if (!this.inner || !this.containerRef.current) {
         return;
       }
 
-      const ratio = (this.inner[size] - this.inner[offset]) / (this.inner[offset] - state.size);
+      const remainingScrollingContent = this.inner[size] - this.inner[offset];
+      const remainingScrollingSpace = (this.containerRef.current[offset] / 100) * (100 - state.size);
+
+      const ratio = remainingScrollingContent / remainingScrollingSpace;
       const delta = (mouseMoveEvent[coord] - initialCoord) * ratio;
 
       this.inner[pos] = initialScrollPos + delta;
