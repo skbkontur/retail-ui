@@ -1,4 +1,5 @@
-import { canUseDOM, isBrowser } from '../../lib/client';
+import { matchMediaSSRSafe } from '../../lib/SSRSafe';
+import { canUseDOM } from '../../lib/client';
 
 interface mediaQueryData {
   mql: MediaQueryList;
@@ -40,8 +41,8 @@ function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryLis
 }
 
 function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
-  if (isBrowser) {
-    const mql = window.matchMedia(mediaQuery);
+  const mql = matchMediaSSRSafe(mediaQuery);
+  if (mql) {
     const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
     eventListenersMap.set(mediaQuery, newMediaQueryInfo);
@@ -83,8 +84,8 @@ export function checkMatches(mediaQuery: string) {
     return false;
   }
 
-  if (!eventListenersMap.has(mediaQuery) && isBrowser) {
-    return window.matchMedia(mediaQuery).matches;
+  if (!eventListenersMap.has(mediaQuery)) {
+    return !!matchMediaSSRSafe(mediaQuery)?.matches;
   }
 
   const eventListener = eventListenersMap.get(mediaQuery);
