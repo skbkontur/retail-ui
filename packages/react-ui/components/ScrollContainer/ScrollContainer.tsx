@@ -24,6 +24,9 @@ export type ScrollContainerScrollStateY = 'top' | 'scroll' | 'bottom';
 export type ScrollContainerScrollState = ScrollContainerScrollStateY; // deprecated
 export type ScrollBehaviour = 'auto' | 'smooth';
 
+type OffsetCSSPropsY = 'top' | 'right' | 'bottom';
+type OffsetCSSPropsX = 'right' | 'bottom' | 'left';
+
 export interface ScrollContainerProps extends CommonProps {
   /**
    * Инвертировать цвет скроллбара
@@ -52,11 +55,11 @@ export interface ScrollContainerProps extends CommonProps {
   /**
    * Смещение вертикального скроллбара
    */
-  offsetY?: Pick<React.CSSProperties, 'top' | 'right' | 'bottom'>;
+  offsetY?: Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>;
   /**
    * Смещение горизонтального скроллбара
    */
-  offsetX?: Pick<React.CSSProperties, 'right' | 'bottom' | 'left'>;
+  offsetX?: Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>;
 }
 
 export const ScrollContainerDataTids = {
@@ -64,9 +67,7 @@ export const ScrollContainerDataTids = {
   inner: 'ScrollContainer__inner',
 } as const;
 
-type DefaultProps = Required<
-  Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll' | 'offsetY' | 'offsetX'>
->;
+type DefaultProps = Required<Pick<ScrollContainerProps, 'invert' | 'scrollBehaviour' | 'preventWindowScroll'>>;
 
 @rootNode
 export class ScrollContainer extends React.Component<ScrollContainerProps> {
@@ -85,16 +86,6 @@ export class ScrollContainer extends React.Component<ScrollContainerProps> {
     invert: false,
     scrollBehaviour: 'auto',
     preventWindowScroll: false,
-    offsetY: {
-      top: 1,
-      bottom: 1,
-      right: 2,
-    },
-    offsetX: {
-      bottom: 1,
-      right: 1,
-      left: 1,
-    },
   };
 
   private getProps = createPropsGetter(ScrollContainer.defaultProps);

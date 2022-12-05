@@ -94,7 +94,7 @@ export const styles = memoizeStyle({
       height: 0;
 
       .${globalClasses.scrollbarContainerY} ~ & {
-        right: calc(${t.scrollContainerScrollBarHoverSize} + 4px) !important;
+        margin-right: calc(${t.scrollContainerScrollBarHoverSize} + 3px) !important;
       }
 
       & ~ .${globalClasses.inner} {
