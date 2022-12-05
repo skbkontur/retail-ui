@@ -55,11 +55,11 @@ export interface ScrollContainerProps extends CommonProps {
   /**
    * Смещение вертикального скроллбара
    */
-  offsetY?: Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>;
+  offsetY?: Partial<Record<OffsetCSSPropsY, React.CSSProperties[OffsetCSSPropsY]>>;
   /**
    * Смещение горизонтального скроллбара
    */
-  offsetX?: Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>;
+  offsetX?: Partial<Record<OffsetCSSPropsX, React.CSSProperties[OffsetCSSPropsX]>>;
 }
 
 export const ScrollContainerDataTids = {

@@ -496,14 +496,12 @@ export const OffsetYAndX = () => (
   <div style={wrapperStyle}>
     <ScrollContainer
       offsetY={{
-        top: 8,
+        right: 4,
         bottom: 4,
-        right: 8,
       }}
       offsetX={{
-        left: 8,
         bottom: 4,
-        right: '12px !important',
+        right: 4,
       }}
     >
       <div style={{ width: 300 }}>
