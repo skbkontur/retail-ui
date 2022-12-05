@@ -22,6 +22,7 @@ const SvgIcon = forwardRefAndName<HTMLElement, SvgIconProps>(
           className: styles.icon(),
           fill: 'currentColor',
           focusable: 'false',
+          'aria-hidden': 'true',
         })}
       </span>
     );

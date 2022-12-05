@@ -2,7 +2,7 @@ import React from 'react';
 
 export const CloudIcon = () => {
   return (
-    <svg viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 25 18" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
       <path
         fill="currentColor"
         fillRule="evenodd"
