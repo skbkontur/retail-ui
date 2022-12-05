@@ -172,12 +172,21 @@ export class Switcher extends React.Component<SwitcherProps, SwitcherState> {
 
     if (isKeyArrowHorizontal(e)) {
       e.preventDefault();
-      const newFocusedIndex = this._getFocusedIndexByStep(isKeyArrowLeft(e), focusedIndex);
-      this._focus(newFocusedIndex);
+      this.move(isKeyArrowLeft(e));
     }
   };
 
-  private _getFocusedIndexByStep = (left: boolean, focusedIndex: number): number => {
+  private move = (left: boolean) => {
+    const selectedIndex = this.state.focusedIndex;
+
+    if (typeof selectedIndex !== 'number') {
+      return;
+    }
+    const newFocusedIndex = this._getNextFocusedIndex(left, selectedIndex);
+    this._focus(newFocusedIndex);
+  };
+
+  private _getNextFocusedIndex = (left: boolean, focusedIndex: number): number => {
     const { items, disabled } = this.props;
     if (disabled) {
       return focusedIndex;
