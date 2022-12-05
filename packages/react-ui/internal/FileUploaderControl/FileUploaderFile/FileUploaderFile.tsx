@@ -83,9 +83,11 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
   const formattedSize = useMemo(() => formatBytes(fileSize, 1), [fileSize]);
 
   useEffect(() => {
-    const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name);
+    if (setIsMinLengthReached) {
+      const truncatedName = calcTruncatedName(textHelperRef, fileNameElementRef, name);
 
-    setIsMinLengthReached((truncatedName?.length ?? 0) <= MIN_CHARS_LENGTH);
+      setIsMinLengthReached((truncatedName?.length ?? 0) <= MIN_CHARS_LENGTH);
+    }
   }, [name, isMinLengthReached]);
 
   useEffect(() => {
