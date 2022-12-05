@@ -36,6 +36,12 @@ export function isNode(node: unknown): node is Node {
   return false;
 }
 
+export function matchMediaSSRSafe(mediaQuery: string) {
+  if (isBrowser) {
+    return window.matchMedia(mediaQuery);
+  }
+}
+
 export const globalThat: typeof globalThis =
   (typeof globalThis === 'object' && globalThis) ||
   (typeof global === 'object' && global) ||
