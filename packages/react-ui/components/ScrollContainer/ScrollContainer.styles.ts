@@ -64,6 +64,9 @@ export const styles = memoizeStyle({
   scrollBarContainerY() {
     return css`
       position: absolute;
+      right: 2px;
+      top: 1px;
+      bottom: 1px;
       width: 0;
     `;
   },
@@ -85,6 +88,9 @@ export const styles = memoizeStyle({
   scrollBarContainerX(t: Theme) {
     return css`
       position: absolute;
+      right: 1px;
+      bottom: 1px;
+      left: 1px;
       height: 0;
 
       .${globalClasses.scrollbarContainerY} ~ & {
