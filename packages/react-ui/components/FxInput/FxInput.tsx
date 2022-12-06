@@ -14,8 +14,8 @@ import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { Theme } from '../../lib/theming/Theme';
-import { MathFunctionIcon } from '../../internal/icons2022/MathFunctionIcon';
 
+import { MathFunctionIcon } from './MathFunctionIcon';
 import { FxInputRestoreBtn } from './FxInputRestoreBtn';
 
 export interface FxInputProps
@@ -102,7 +102,7 @@ export class FxInput extends React.Component<FxInputProps> {
         large: parseInt(this.theme.inputIconSizeLarge),
       };
       const size = this.props.size || Input.defaultProps.size;
-      IconFunction = <MathFunctionIcon type={size} size={iconSizes[size]} />;
+      IconFunction = <MathFunctionIcon size={iconSizes[size]} />;
     }
 
     if (auto) {

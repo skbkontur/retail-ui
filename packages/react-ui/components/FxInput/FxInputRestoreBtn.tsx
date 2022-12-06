@@ -2,11 +2,10 @@ import React, { useContext } from 'react';
 
 import { Input, InputSize } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
-import { UndoIcon } from '../../internal/icons/16px';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
-import { ArrowShapeDRadiusUpLeftIcon } from '../../internal/icons2022/ArrowShapeDRadiusUpLeftIcon';
 
+import { UndoIcon } from './UndoIcon';
 import { FxInputProps } from './FxInput';
 
 type FxInputRestoreBtnProps = Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'>;
@@ -40,7 +39,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
       },
     };
     buttonCorners = cornersSizes[size];
-    iconUndo = <ArrowShapeDRadiusUpLeftIcon type={size} size={iconSizes[size]} />;
+    iconUndo = <UndoIcon size={iconSizes[size]} />;
   }
 
   return isTheme2022(theme) ? (

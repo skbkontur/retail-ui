@@ -4,8 +4,8 @@ import { forwardRefAndName } from '../../lib/forwardRefAndName';
 
 import { BaseIcon, IconProps } from './BaseIcon';
 
-export const ShapeSquareIcon16Regular = forwardRefAndName<SVGSVGElement, IconProps>(
-  'ShapeSquareIcon16Regular',
+export const ShapeSquareIcon16Solid = forwardRefAndName<SVGSVGElement, IconProps>(
+  'ShapeSquareIcon16Solid',
   (props, ref) => {
     return (
       <BaseIcon ref={ref} {...props}>

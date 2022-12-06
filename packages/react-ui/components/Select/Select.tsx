@@ -31,8 +31,8 @@ import { cx } from '../../lib/theming/Emotion';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { ArrowCDownIcon } from '../../internal/icons2022/ArrowCDownIcon';
 
+import { ArrowDownIcon } from './ArrowDownIcon';
 import { Item } from './Item';
 import { SelectLocale, SelectLocaleHelper } from './locale';
 import { styles } from './Select.styles';
@@ -394,11 +394,7 @@ export class Select<TValue = {}, TItem = {}> extends React.Component<SelectProps
 
     const useIsCustom = use !== 'default';
 
-    const icon = isTheme2022(this.theme) ? (
-      <ArrowCDownIcon type={this.props.size} disableCompensation={false} />
-    ) : (
-      <ArrowChevronDownIcon />
-    );
+    const icon = isTheme2022(this.theme) ? <ArrowDownIcon size={this.props.size} /> : <ArrowChevronDownIcon />;
 
     return (
       <Button {...buttonProps}>

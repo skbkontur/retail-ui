@@ -14,10 +14,10 @@ import { cx } from '../../lib/theming/Emotion';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { fixFirefoxModifiedClickOnLabel } from '../../lib/events/fixFirefoxModifiedClickOnLabel';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
-import { CheckAIcon16Solid } from '../../internal/icons2022/CheckAIcon16Solid';
-import { ShapeSquareIcon16Regular } from '../../internal/icons2022/ShapeSquareIcon16Regular';
 
 import { styles, globalClasses } from './Checkbox.styles';
+import { CheckedIcon } from './CheckedIcon';
+import { IndeterminateIcon } from './IndeterminateIcon';
 
 export interface CheckboxProps
   extends CommonProps,
@@ -218,14 +218,14 @@ export class Checkbox extends React.PureComponent<CheckboxProps, CheckboxState> 
 
     const IconCheck = _isTheme2022 ? (
       <span className={iconClass}>
-        <CheckAIcon16Solid size={12} />
+        <CheckedIcon size={parseInt(this.theme.checkboxBoxSize)} />
       </span>
     ) : (
       <OkIcon className={iconClass} />
     );
     const IconSquare = _isTheme2022 ? (
       <span className={iconClass}>
-        <ShapeSquareIcon16Regular size={6} />
+        <IndeterminateIcon size={parseInt(this.theme.checkboxBoxSize)} />
       </span>
     ) : (
       <SquareIcon className={iconClass} />

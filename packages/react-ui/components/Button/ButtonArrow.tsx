@@ -4,9 +4,9 @@ import { cx } from '../../lib/theming/Emotion';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Theme } from '../../lib/theming/Theme';
-import { ArrowALeftIcon } from '../../internal/icons2022/ArrowALeftIcon';
-import { ArrowARightIcon } from '../../internal/icons2022/ArrowARightIcon';
 
+import { ArrowRightIcon } from './ArrowRightIcon';
+import { ArrowLeftIcon } from './ArrowLeftIcon';
 import { Button, ButtonProps } from './Button';
 import { globalClasses, styles } from './Button.styles';
 
@@ -39,14 +39,14 @@ const ButtonArrow: React.FunctionComponent<ButtonArrowProps> = ({
 
   if (_isTheme2022) {
     const arrowIcons = {
-      right: ArrowARightIcon,
-      left: ArrowALeftIcon,
+      right: ArrowRightIcon,
+      left: ArrowLeftIcon,
     };
     const side = arrow === 'left' ? 'left' : 'right';
     const ArrowIcon = arrowIcons[side];
     arrowNode = (
       <div className={getArrowIconRootClassName()}>
-        <ArrowIcon type={size} />
+        <ArrowIcon size={size} />
       </div>
     );
   } else {
