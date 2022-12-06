@@ -39,3 +39,23 @@
 ### Пример
 
     !!DemoWithCode!!./TextValidation
+
+## Предупреждающие сообщения
+
+Помимо сообщении об ошибке можно также отобразить предупреждающее сообщение.
+
+Это можно сделать, изменив свойство `level` в пропе `validationInfo`.
+
+    <ValidationWrapper
+      validationInfo={{
+        message: 'Предупреждающее сообщение',
+        level: 'warning',
+      }}
+      renderMessage={...}
+      >
+      //...
+    </ValidationWrapper>
+
+### Пример
+
+    !!DemoWithCode!!./ValidationWithWarnings
