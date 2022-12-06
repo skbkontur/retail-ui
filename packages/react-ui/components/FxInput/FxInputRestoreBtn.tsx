@@ -4,8 +4,9 @@ import { Input, InputSize } from '../Input';
 import { ThemeContext } from '../../lib/theming/ThemeContext';
 import { isTheme2022 } from '../../lib/theming/ThemeHelpers';
 import { Button } from '../Button';
+import { UndoIcon } from '../../internal/icons/16px';
 
-import { UndoIcon } from './UndoIcon';
+import { UndoIcon as UndoIcon2022 } from './UndoIcon';
 import { FxInputProps } from './FxInput';
 
 type FxInputRestoreBtnProps = Pick<FxInputProps, 'size' | 'onRestore' | 'borderless' | 'disabled'>;
@@ -39,7 +40,7 @@ export const FxInputRestoreBtn: React.FunctionComponent<FxInputRestoreBtnProps> 
       },
     };
     buttonCorners = cornersSizes[size];
-    iconUndo = <UndoIcon size={iconSizes[size]} />;
+    iconUndo = <UndoIcon2022 size={iconSizes[size]} />;
   }
 
   return isTheme2022(theme) ? (
