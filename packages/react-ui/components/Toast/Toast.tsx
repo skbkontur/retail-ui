@@ -20,6 +20,7 @@ export interface ToastState {
   notification: Nullable<string>;
   action: Nullable<Action>;
   id: number;
+  timeOut: Nullable<number>;
 }
 
 export interface ToastProps extends CommonProps {
@@ -66,6 +67,7 @@ export class Toast extends React.Component<ToastProps, ToastState> {
       notification: null,
       action: null,
       id: 0,
+      timeOut: null,
     };
   }
 
@@ -84,21 +86,23 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   /**
    * Показывает тост с `notification` в качестве сообщения.
    * Тост автоматически скрывается через 3 или 7 секунд,
-   * в зависимости от наличия у него кнопки `action`.
+   * в зависимости от наличия у него кнопки `action`, если нет пропса `timeOut`,
+   * при его наличии существует столько, сколько передано в `timeOut`.
    *
    * @public
    * @param {string} notification
    * @param {Action} action `action` опциональный параметр формата `{ label: string, handler: function }`
    * добавляет кнопку в виде ссылки при клике на которую вызывается переданный handler
+   * @param {number} timeOut Время существования Toast в секундах
    */
-  public push(notification: string, action?: Action) {
+  public push(notification: string, action?: Action, timeOut?: number) {
     if (this.state.notification) {
       this.close();
     }
 
     safelyCall(this.props.onPush, notification, action);
 
-    this.setState(({ id }) => ({ notification, action, id: id + 1 }), this._setTimer);
+    this.setState(({ id }) => ({ notification, action, id: id + 1, timeOut }), this._setTimer);
   }
 
   /**
@@ -164,7 +168,8 @@ export class Toast extends React.Component<ToastProps, ToastState> {
   private _setTimer = () => {
     this._clearTimer();
 
-    const timeOut = this.state.action ? 7 : 3;
+    let timeOut = this.state.action ? 7 : 3;
+    timeOut = this.state.timeOut ? this.state.timeOut : timeOut;
 
     this._timeout = window.setTimeout(this.close, timeOut * 1000);
   };

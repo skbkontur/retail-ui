@@ -1,4 +1,4 @@
-Вызов статических методов
+Вызов статических методов, c кастомным timeOut'ом
 
 ```jsx harmony
 import { Button, Toast } from '@skbkontur/react-ui';
@@ -7,7 +7,7 @@ function showComplexNotification() {
   Toast.push('Successfully saved', {
     label: 'Cancel',
     handler: () => Toast.push('Canceled'),
-  });
+  }, 20);
 }
 
 <Button onClick={showComplexNotification}>Show notification</Button>;
