@@ -10,7 +10,7 @@ export const getComponentsFromPropsList = <P extends Record<string, string>>(
     // NOTE: все это ради чекбокса с фокусом, т.к. нет ни focused, ни autofocus; а ref+focus() снаружи нестабилен
     const isCheckbox = component.type === Checkbox;
     if (isCheckbox) {
-      const checkboxProps = (props as unknown) as { ref: (el: Checkbox) => void; focused?: boolean };
+      const checkboxProps = props as unknown as { ref: (el: Checkbox) => void; focused?: boolean };
       if (checkboxProps.focused) {
         checkboxProps.ref = (el) => {
           if (el) {

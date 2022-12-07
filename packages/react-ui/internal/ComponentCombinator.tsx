@@ -17,7 +17,7 @@ type DefaultProps<T, C, P> = Required<Pick<ComponentCombinatorProps<T, C, P>, 'p
 export class ComponentCombinator<
   T extends React.Component<any, any, any>,
   C extends React.ComponentType<any>,
-  P extends React.ComponentProps<C>
+  P extends React.ComponentProps<C>,
 > extends React.Component<
   ComponentCombinatorProps<C extends React.ComponentClass<P, any> ? React.ClassType<P, T, C> : C, P, StateType<C>>,
   { page: number }

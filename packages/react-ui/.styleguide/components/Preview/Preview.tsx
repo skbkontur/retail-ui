@@ -21,9 +21,8 @@ interface PreviewState {
   error: string | null;
 }
 
-const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewProps>) => (props: PreviewProps) => (
-  <Context.Consumer>{(value: any) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>
-);
+const withContext = (Wrapped: new (...args: any[]) => React.Component<PreviewProps>) => (props: PreviewProps) =>
+  <Context.Consumer>{(value: any) => <Wrapped {...props} theme={value.theme} />}</Context.Consumer>;
 
 /**
  * Измененный компонент Preview, которому был добавлен контекст
