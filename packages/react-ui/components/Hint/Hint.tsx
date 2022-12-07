@@ -9,7 +9,6 @@ import { MouseEventType } from '../../typings/event-types';
 import { isTestEnv } from '../../lib/currentEnvironment';
 import { CommonWrapper, CommonProps } from '../../internal/CommonWrapper';
 import { cx } from '../../lib/theming/Emotion';
-import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { rootNode, TSetRootNode } from '../../lib/rootNode';
 import { InstanceWithAnchorElement } from '../../lib/InstanceWithAnchorElement';
 import { createPropsGetter } from '../../lib/createPropsGetter';
@@ -93,12 +92,9 @@ type DefaultProps = Required<
 /**
  * Всплывающая подсказка, которая по умолчанию отображается при наведении на элемент. <br/> Можно задать другие условия отображения.
  */
-@responsiveLayout
 @rootNode
 export class Hint extends React.PureComponent<HintProps, HintState> implements InstanceWithAnchorElement {
   public static __KONTUR_REACT_UI__ = 'Hint';
-
-  private isMobileLayout!: boolean;
 
   public static defaultProps: DefaultProps = {
     pos: 'top',
@@ -207,7 +203,6 @@ export class Hint extends React.PureComponent<HintProps, HintState> implements I
     const className = cx({
       [styles.content(this.theme)]: true,
       [styles.contentCenter(this.theme)]: centerAlignPositions.includes(this.state.position),
-      [styles.mobileContent(this.theme)]: this.isMobileLayout,
     });
     return (
       <div className={className} style={{ maxWidth }}>
