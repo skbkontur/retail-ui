@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { HTMLProps } from '../../typings/html-props';
 import { isIE11 } from '../../lib/client';
 import { isFunction, isNullable } from '../../lib/utils';
 import { locale } from '../../lib/locale/decorators';
@@ -55,6 +56,14 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
 
   private readonly locale!: ComboBoxLocale;
 
+  private menuItemComponent = (props: HTMLProps['p']) => {
+    if (!isIE11) {
+      return <p {...props} />;
+    }
+
+    return null;
+  };
+
   public render() {
     const {
       opened,
@@ -106,12 +115,7 @@ export class ComboBoxMenu<T> extends React.Component<ComboBoxMenuProps<T>> {
           disableScrollContainer={isMobile}
           data-tid={ComboBoxMenuDataTids.failed}
         >
-          <MenuItem
-            component={!isIE11 ? (props) => <p {...props} /> : undefined}
-            disabled
-            key="message"
-            isMobile={isMobile}
-          >
+          <MenuItem component={this.menuItemComponent} disabled key="message" isMobile={isMobile}>
             <div style={{ maxWidth: 300, whiteSpace: 'normal' }}>{errorNetworkMessage}</div>
           </MenuItem>
           <MenuItem link onClick={this.getProps().repeatRequest} key="retry" isMobile={isMobile}>

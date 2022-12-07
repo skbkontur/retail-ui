@@ -21,6 +21,7 @@ import { MobilePopup } from '../../internal/MobilePopup';
 import { responsiveLayout } from '../ResponsiveLayout/decorator';
 import { getRootNode, rootNode, TSetRootNode } from '../../lib/rootNode';
 import { getDOMRect } from '../../lib/dom/getDOMRect';
+import { HTMLProps } from '../../typings/html-props';
 
 import { styles } from './Autocomplete.styles';
 
@@ -242,8 +243,15 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
 
   private renderMenu(): React.ReactNode {
     const items = this.state.items;
-    const { menuMaxHeight, hasShadow, menuWidth, width, preventWindowScroll, menuAlign, disablePortal } =
-      this.getProps();
+    const {
+      menuMaxHeight,
+      hasShadow,
+      menuWidth,
+      width,
+      preventWindowScroll,
+      menuAlign,
+      disablePortal,
+    } = this.getProps();
     const menuProps = {
       ref: this.refMenu,
       maxHeight: menuMaxHeight,
@@ -262,6 +270,8 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
     );
   }
 
+  private menuItemComponent = (props: HTMLProps['p']) => <p {...props} />;
+
   private renderUtilityMessage = (title: string) => {
     return (
       <ThemeContext.Consumer>
@@ -269,7 +279,7 @@ export class Autocomplete extends React.Component<AutocompleteProps, Autocomplet
           <ThemeContext.Provider
             value={ThemeFactory.create({ menuItemDisabledColor: theme.textColorDisabledContrast }, theme)}
           >
-            <MenuItem component={(props) => <p {...props} />} disabled isMobile>
+            <MenuItem component={this.menuItemComponent} disabled isMobile>
               {title}
             </MenuItem>
           </ThemeContext.Provider>
