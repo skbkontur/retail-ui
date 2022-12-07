@@ -197,7 +197,11 @@ export class PasswordInput extends React.PureComponent<PasswordInputProps, Passw
           onClick={this.handleToggleVisibility}
         >
           {!this.props.disabled && (
-            <PasswordInputIcon visible={this.state.visible} isTheme2022={isTheme2022(this.theme)} />
+            <PasswordInputIcon
+              size={this.props.size}
+              visible={this.state.visible}
+              isTheme2022={isTheme2022(this.theme)}
+            />
           )}
         </span>
       </span>
