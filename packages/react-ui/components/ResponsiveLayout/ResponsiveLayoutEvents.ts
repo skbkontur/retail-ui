@@ -1,3 +1,4 @@
+import { matchMediaSSRSafe } from '../../lib/SSRSafe';
 import { canUseDOM } from '../../lib/client';
 
 interface mediaQueryData {
@@ -40,14 +41,16 @@ function addCallbackToMQListener(mediaQuery: string, callback: (e: MediaQueryLis
 }
 
 function createMQListener(mediaQuery: string, callback: (e: MediaQueryListEvent) => void) {
-  const mql = window.matchMedia(mediaQuery);
-  const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
+  const mql = matchMediaSSRSafe(mediaQuery);
+  if (mql) {
+    const newMediaQueryInfo: mediaQueryData = { mql, listeners: [callback] };
 
-  eventListenersMap.set(mediaQuery, newMediaQueryInfo);
-  if (mql.addEventListener) {
-    mql.addEventListener('change', changeCallback);
-  } else {
-    mql.addListener(changeCallback);
+    eventListenersMap.set(mediaQuery, newMediaQueryInfo);
+    if (mql.addEventListener) {
+      mql.addEventListener('change', changeCallback);
+    } else {
+      mql.addListener(changeCallback);
+    }
   }
 }
 
@@ -82,7 +85,7 @@ export function checkMatches(mediaQuery: string) {
   }
 
   if (!eventListenersMap.has(mediaQuery)) {
-    return window.matchMedia(mediaQuery).matches;
+    return !!matchMediaSSRSafe(mediaQuery)?.matches;
   }
 
   const eventListener = eventListenersMap.get(mediaQuery);
