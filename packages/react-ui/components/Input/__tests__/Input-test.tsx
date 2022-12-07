@@ -8,7 +8,6 @@ import { Input, InputProps } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
 describe('<Input />', () => {
-
   it('renders with given value', () => {
     render(<Input value="Hello" />);
     expect(screen.getByRole('textbox')).toHaveValue('Hello');
@@ -287,6 +286,26 @@ describe('<Input />', () => {
     }
   });
 
+  it('passes onMouseEnter prop to label', () => {
+    const onMouseEnter = jest.fn();
+    render(<Input value="Hello" onMouseEnter={onMouseEnter} />);
+    userEvent.type(screen.getByTestId('Input__root'), '{mouseenter}');
+    expect(onMouseEnter).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes onMouseOver prop to label', () => {
+    const onMouseOver = jest.fn();
+    render(<Input value="Hello" onMouseOver={onMouseOver} />);
+    userEvent.type(screen.getByTestId('Input__root'), '{mouseover}');
+    expect(onMouseOver).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes onMouseLeave prop to label', () => {
+    const onMouseLeave = jest.fn();
+    render(<Input value="Hello" onMouseLeave={onMouseLeave} />);
+    fireEvent.mouseLeave(screen.getByTestId('Input__root'));
+    expect(onMouseLeave).toHaveBeenCalledTimes(1);
+  });
 });
 
 const renderEnzyme = (props: InputProps) =>
@@ -319,22 +338,6 @@ describe('<Input Enzyme/>', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  it('passes onMouse* props to label', () => {
-    const props: Partial<InputProps> = {
-      onMouseEnter: () => undefined,
-      onMouseOver: () => undefined,
-      onMouseLeave: () => undefined,
-    };
-    const labelProps = renderEnzyme({
-      ...props,
-      value: 'hello',
-    })
-      .find('label')
-      .props();
-
-    expect(labelProps).toMatchObject(props);
-  });
-
   // it('maskedInput calls onUnexpectedInput', () => {
   //   const unexpectedInputHandlerMock = jest.fn();
   //   const wrapper = renderEnzyme({
@@ -352,5 +355,4 @@ describe('<Input Enzyme/>', () => {
   //   typeSymbol();
   //   expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   // });
-
 });
