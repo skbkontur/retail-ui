@@ -38,7 +38,7 @@ const styles = {
       position: absolute;
       top: ${t.mobilePopupTopPadding};
       left: ${t.mobilePopupOuterIndentY};
-      width: calc(100% - ${t.mobilePopupOuterIndentY} * 2);
+      right: ${t.mobilePopupOuterIndentY};
       z-index: 100000;
     `;
   },
