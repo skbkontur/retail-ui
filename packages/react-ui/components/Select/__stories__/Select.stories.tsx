@@ -301,7 +301,6 @@ MobileWithSearch.parameters = {
   creevey: {
     tests: clickedTest,
   },
-  skip: { in: /^(?!\bchromeMobile\b)/ },
 };
 
 export const MobileWithTitle: Story = () => (
@@ -364,7 +363,6 @@ MobileWithTitleAndSearch.parameters = {
   creevey: {
     tests: clickedTest,
   },
-  skip: { in: /^(?!\bchromeMobile\b)/ },
 };
 
 export const MobileWithoutTitleAndSearch: Story = () => (
@@ -392,7 +390,6 @@ MobileWithoutTitleAndSearch.parameters = {
   creevey: {
     tests: clickedTest,
   },
-  skip: { in: /^(?!\bchromeMobile\b)/ },
 };
 
 export const Disabled: CSFStory<JSX.Element> = () => (
