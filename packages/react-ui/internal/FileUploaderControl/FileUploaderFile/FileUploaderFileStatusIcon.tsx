@@ -5,10 +5,11 @@ import { isTheme2022 } from '../../../lib/theming/ThemeHelpers';
 import { DeleteIcon, ErrorIcon, OkIcon } from '../../icons/16px';
 import { FileUploaderFileStatus } from '../fileUtils';
 import { Spinner } from '../../../components/Spinner';
-import { XIcon16Regular } from '../../icons2022/XIcon/XIcon16Regular';
-import { CheckAIcon16Regular } from '../../icons2022/CheckAIcon/CheckAIcon16Regular';
-import { MinusCircleIcon16Regular } from '../../icons2022/MinusCircleIcon/MinusCircleIcon16Regular';
+import { FileUploaderSize } from '../../../components/FileUploader';
 
+import { DeleteIcon as DeleteIcon2022 } from './DeleteIcon';
+import { ErrorIcon as ErrorIcon2022 } from './ErrorIcon';
+import { OkIcon as OkIcon2022 } from './OkIcon';
 import { jsStyles } from './FileUploaderFile.styles';
 
 interface FileUploaderFileStatusIconProps {
@@ -16,6 +17,7 @@ interface FileUploaderFileStatusIconProps {
   focusedByTab: boolean;
   isInvalid: boolean;
   status: FileUploaderFileStatus;
+  size: FileUploaderSize;
 }
 
 export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFileStatusIconProps> = ({
@@ -23,6 +25,7 @@ export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFil
   focusedByTab,
   isInvalid,
   status,
+  size,
 }) => {
   const theme = useContext(ThemeContext);
 
@@ -31,9 +34,9 @@ export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFil
   let IconOk = <OkIcon color={theme.fileUploaderIconColor} />;
 
   if (isTheme2022(theme)) {
-    IconDelete = <XIcon16Regular disableCompensation={false} className={jsStyles.deleteIcon(theme)} />;
-    IconError = <MinusCircleIcon16Regular disableCompensation={false} />;
-    IconOk = <CheckAIcon16Regular disableCompensation={false} color={theme.fileUploaderIconColor} />;
+    IconDelete = <DeleteIcon2022 size={size} className={jsStyles.deleteIcon(theme)} />;
+    IconError = <ErrorIcon2022 size={size} />;
+    IconOk = <OkIcon2022 size={size} color={theme.fileUploaderIconColor} />;
   }
 
   if (hovered || focusedByTab) {
@@ -46,7 +49,7 @@ export const FileUploaderFileStatusIcon: React.FunctionComponent<FileUploaderFil
 
   switch (status) {
     case FileUploaderFileStatus.Loading:
-      return <Spinner type="mini" dimmed caption="" />;
+      return <Spinner type={size} dimmed caption="" />;
     case FileUploaderFileStatus.Uploaded:
       return IconOk;
     default:

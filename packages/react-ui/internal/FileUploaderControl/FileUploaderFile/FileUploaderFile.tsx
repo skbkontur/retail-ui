@@ -204,6 +204,7 @@ export const FileUploaderFile = (props: FileUploaderFileProps) => {
               hovered={hovered}
               focusedByTab={focusedByTab}
               isInvalid={isInvalid}
+              size={size}
             />
           </div>
         </div>
