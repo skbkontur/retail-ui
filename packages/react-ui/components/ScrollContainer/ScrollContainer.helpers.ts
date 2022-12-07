@@ -17,6 +17,10 @@ export const getScrollSizeParams = (inner: HTMLElement, axis: 'x' | 'y') => {
   if (scrollActive) {
     scrollSize = Math.max((containerSize / contentSize) * containerSize, MIN_SCROLL_SIZE);
     scrollPos = (scrollOffset / (contentSize - containerSize)) * (containerSize - scrollSize);
+
+    // Convert pixels to percentages
+    scrollSize = containerSize && (100 / containerSize) * scrollSize;
+    scrollPos = containerSize && (100 / containerSize) * scrollPos;
   }
 
   return {

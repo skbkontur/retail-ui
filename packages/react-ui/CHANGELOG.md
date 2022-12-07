@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [4.9.1](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.9.0...@skbkontur/react-ui@4.9.1) (2022-12-06)
+
+
+### Bug Fixes
+
+* **icons:** add aria-hidden attribute ([#3048](https://github.com/skbkontur/retail-ui/issues/3048)) ([4d2f69b](https://github.com/skbkontur/retail-ui/commit/4d2f69bb08ee00a1798688985013af02d7313b35))
+* **ResponsiveLayout:** configure to work with SSR ([#3052](https://github.com/skbkontur/retail-ui/issues/3052)) ([bd36596](https://github.com/skbkontur/retail-ui/commit/bd365967948b4d5dc525bb8a30c22312b90bc0ce))
+* **ScrollContainer:** add `offsetY`/`offsetX` props to scrollbar ([#3054](https://github.com/skbkontur/retail-ui/issues/3054)) ([57a5728](https://github.com/skbkontur/retail-ui/commit/57a57288661ed96bb5380eaf040699a7391fc81b))
+* **Switcher:** fix keyboard navigation with disabled items ([#3049](https://github.com/skbkontur/retail-ui/issues/3049)) ([d314d94](https://github.com/skbkontur/retail-ui/commit/d314d94d10601039973eeb20b853cc8923e1915a))
+
+
+
+
+
 # [4.9.0](https://github.com/skbkontur/retail-ui/compare/@skbkontur/react-ui@4.8.0...@skbkontur/react-ui@4.9.0) (2022-11-25)
 
 
