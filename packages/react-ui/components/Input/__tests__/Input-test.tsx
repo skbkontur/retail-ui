@@ -7,11 +7,7 @@ import userEvent from '@testing-library/user-event';
 import { Input, InputProps } from '../Input';
 import { buildMountAttachTarget, getAttachedTarget } from '../../../lib/__tests__/testUtils';
 
-// const render = (props: InputProps) =>
-//   mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
-
 describe('<Input />', () => {
-  //buildMountAttachTarget();
 
   it('renders with given value', () => {
     render(<Input value="Hello" />);
@@ -22,9 +18,10 @@ describe('<Input />', () => {
     const onValueChange = jest.fn();
 
     render(<Input onValueChange={onValueChange} value="" />);
-    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Hello' } });
 
+    fireEvent.change(screen.getByRole('textbox'), { target: { value: 'Hello' } });
     expect(onValueChange).toHaveBeenCalledTimes(1);
+
     const [value] = onValueChange.mock.calls[0];
     expect(value).toBe('Hello');
   });
@@ -77,24 +74,6 @@ describe('<Input />', () => {
     }
   });
 
-  // it('passes onMouse* props to label', () => {
-  //   const props: Partial<InputProps> = {
-  //     onMouseEnter: () => undefined,
-  //     onMouseOver: () => undefined,
-  //     onMouseLeave: () => undefined,
-  //   };
-  //   render(<Input value='hello' {...props} />);
-
-  //   const labelProps = render({
-  //     ...props,
-  //     value: 'hello',
-  //   })
-  //     .find('label')
-  //     .props();
-
-  //   expect(labelProps).toMatchObject(props);
-  // });
-
   it('applies align prop on input', () => {
     render(<Input value="Hello" align="center" />);
 
@@ -108,7 +87,7 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).toHaveFocus();
   });
 
-  it('has blur method', () => {
+  it('blur method works', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} />);
     screen.getByRole('textbox').focus();
@@ -117,7 +96,7 @@ describe('<Input />', () => {
     expect(screen.getByRole('textbox')).not.toHaveFocus();
   });
 
-  it('has setSelectionRange method', () => {
+  it('setSelectionRange method works', () => {
     const inputRef = React.createRef<Input>();
     render(<Input ref={inputRef} value="Method works" />);
     inputRef.current?.setSelectionRange(3, 5);
@@ -143,8 +122,7 @@ describe('<Input />', () => {
 
   it('selectAllOnFocus prop works', () => {
     const value = 'Prop works';
-    const inputRef = React.createRef<Input>();
-    render(<Input ref={inputRef} value={value} selectAllOnFocus />);
+    render(<Input value={value} selectAllOnFocus />);
     userEvent.tab();
 
     expect((document.activeElement as HTMLInputElement).selectionStart).toBe(0);
@@ -160,24 +138,18 @@ describe('<Input />', () => {
     expect(Object.keys(screen.getByRole('textbox'))).not.toContain('mask');
   });
 
-  // it('call onUnexpectedInput if was passed', () => {
-  //   const unexpectedInputHandlerMock = jest.fn();
-  //   const blinkMock = jest.fn();
-  //   const wrapper = render({});
+  it('blink method works', () => {
+    const blinkMock = jest.fn();
+    const refInput = React.createRef<Input>();
+    render(<Input ref={refInput} />);
 
-  //   wrapper.instance().blink = blinkMock;
+    if (refInput.current) {
+      refInput.current.blink = blinkMock;
+    }
+    userEvent.type(screen.getByRole('textbox'), '{backspace}');
 
-  //   wrapper.instance()['handleUnexpectedInput']();
-
-  //   expect(blinkMock).toHaveBeenCalledTimes(1);
-
-  //   wrapper.setProps({ onUnexpectedInput: unexpectedInputHandlerMock });
-
-  //   wrapper.instance()['handleUnexpectedInput']();
-
-  //   expect(blinkMock).toHaveBeenCalledTimes(1);
-  //   expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  // });
+    expect(blinkMock).toHaveBeenCalledTimes(1);
+  });
 
   it('call handleUnexpectedInput on keyDown', () => {
     const unexpectedInputHandlerMock = jest.fn();
@@ -195,19 +167,6 @@ describe('<Input />', () => {
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
-
-  // it('call handleUnexpectedInput on maxLength has been reached', () => {
-  //   const unexpectedInputHandlerMock = jest.fn();
-  //   render(<Input onUnexpectedInput={unexpectedInputHandlerMock} maxLength={3} />);
-  //   const element = screen.getByRole('textbox');
-  //   userEvent.click(element);
-  //   userEvent.keyboard('H');
-  //   expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(0);
-
-  //   userEvent.keyboard('HAM');
-  //   expect(element).toHaveValue('HHA');
-  //   expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
-  // });
 
   it('should clear the value when an empty string passed', () => {
     const Comp = () => {
@@ -281,7 +240,7 @@ describe('<Input />', () => {
 
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
     userEvent.type(element, '123');
-    expect(screen.getByRole('textbox')).toHaveValue('123');
+    expect(element).toHaveValue('123');
 
     userEvent.type(element, '{backspace}');
 
@@ -303,10 +262,95 @@ describe('<Input />', () => {
     expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   });
 
-  // it('has getNode method', () => {
-  //   const inputRef = React.createRef<Input>();
-  //   render(<Input ref={inputRef} />);
-  //   const tree = inputRef.current?.getNode();
-  //   expect(tree).toMatchSnapshot();
+  it('getNode method returns input', () => {
+    const inputRef = React.createRef<Input>();
+    render(<Input ref={inputRef} />);
+    expect(inputRef.current?.getNode()).toBeInstanceOf(HTMLInputElement);
+  });
+
+  it('setSelectionRange throws error to unmounted element', () => {
+    const inputRef = React.createRef<Input>();
+    render(<Input ref={inputRef} />);
+    if (inputRef.current) {
+      //@ts-expect-error privat field
+      inputRef.current.input = null;
+    }
+    const setSelectionToNull = () => inputRef.current?.setSelectionRange(0, 3);
+
+    try {
+      setSelectionToNull();
+    } catch (error) {
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(error).toBeInstanceOf(Error);
+      // eslint-disable-next-line jest/no-conditional-expect
+      expect(error).toHaveProperty('message', 'Cannot call "setSelectionRange" on unmounted Input');
+    }
+  });
+
+});
+
+const renderEnzyme = (props: InputProps) =>
+  mount<Input, InputProps>(React.createElement(Input, props), { attachTo: getAttachedTarget() });
+
+describe('<Input Enzyme/>', () => {
+  buildMountAttachTarget();
+
+  it('call handleUnexpectedInput on maxLength has been reached', () => {
+    const unexpectedInputHandlerMock = jest.fn();
+    const wrapper = renderEnzyme({
+      value: '',
+      onUnexpectedInput: unexpectedInputHandlerMock,
+      maxLength: 3,
+    });
+    const typeSymbol = () => {
+      wrapper.find('input').simulate('keypress', {
+        key: 'A',
+      });
+    };
+
+    typeSymbol();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(0);
+
+    wrapper.setProps({ value: '123' });
+
+    typeSymbol();
+
+    expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
+  });
+
+  it('passes onMouse* props to label', () => {
+    const props: Partial<InputProps> = {
+      onMouseEnter: () => undefined,
+      onMouseOver: () => undefined,
+      onMouseLeave: () => undefined,
+    };
+    const labelProps = renderEnzyme({
+      ...props,
+      value: 'hello',
+    })
+      .find('label')
+      .props();
+
+    expect(labelProps).toMatchObject(props);
+  });
+
+  // it('maskedInput calls onUnexpectedInput', () => {
+  //   const unexpectedInputHandlerMock = jest.fn();
+  //   const wrapper = renderEnzyme({
+  //     value: '',
+  //     onUnexpectedInput: unexpectedInputHandlerMock,
+  //     mask: '(999) 999-9999',
+  //   });
+
+  //   const typeSymbol = () => {
+  //     wrapper.find('input').simulate('keypress', {
+  //       key: 'A',
+  //     });
+  //   };
+  //   wrapper.setProps({ value: '9999' });
+  //   typeSymbol();
+  //   expect(unexpectedInputHandlerMock).toHaveBeenCalledTimes(1);
   // });
+
 });
