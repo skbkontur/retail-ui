@@ -101,6 +101,8 @@ export const SpinnerIcon = ({ size, className, dimmed, inline, width, color }: S
         strokeDashoffset="0"
         strokeWidth={width || currentSize.width}
         ref={svgRef}
+        focusable="false"
+        aria-hidden="true"
       >
         <circle cx={currentSize.size / 2} cy={currentSize.size / 2} r={currentSize.radius} />
       </svg>
