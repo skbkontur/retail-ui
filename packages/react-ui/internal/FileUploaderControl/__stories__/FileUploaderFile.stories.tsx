@@ -56,7 +56,7 @@ FileUploaderFileWithValidationError.parameters = {
     },
     skip: [
       {
-        in: /^(?!\b(chrome|firefox)\b)/,
+        in: /^(?!\b(chrome)\b)/,
       },
     ],
   },
